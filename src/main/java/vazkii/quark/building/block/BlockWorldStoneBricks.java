@@ -15,8 +15,11 @@ import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import vazkii.arl.block.BlockMetaVariants;
 import vazkii.quark.base.block.IQuarkBlock;
+import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.ModuleLoader;
+import vazkii.quark.building.feature.WorldStoneBricks;
 import vazkii.quark.world.feature.Basalt;
+import vazkii.quark.world.feature.RevampStoneGen;
 
 public class BlockWorldStoneBricks extends BlockMetaVariants implements IQuarkBlock {
 
@@ -30,14 +33,28 @@ public class BlockWorldStoneBricks extends BlockMetaVariants implements IQuarkBl
 
 	@Override
 	public boolean shouldDisplayVariant(int variant) {
-		return ModuleLoader.isFeatureEnabled(Basalt.class) || variant != 3;
+		return Variants.class.getEnumConstants()[variant].isEnabled();
 	}
 
 	public enum Variants implements EnumBase {
-		STONE_GRANITE_BRICKS,
-		STONE_DIORITE_BRICKS,
-		STONE_ANDESITE_BRICKS,
-		STONE_BASALT_BRICKS;
+		
+		STONE_GRANITE_BRICKS(WorldStoneBricks.class),
+		STONE_DIORITE_BRICKS(WorldStoneBricks.class),
+		STONE_ANDESITE_BRICKS(WorldStoneBricks.class),
+		STONE_BASALT_BRICKS(Basalt.class),
+		STONE_MARBLE_BRICKS(RevampStoneGen.class),
+		STONE_LIMESTONE_BRICKS(RevampStoneGen.class);
+		
+		private Variants(Class<? extends Feature> clazz) {
+			featureLink = clazz;
+		}
+		
+		public final Class<? extends Feature> featureLink;
+
+		public boolean isEnabled() {
+			return ModuleLoader.isFeatureEnabled(featureLink);
+		}
+		
 	}
 
 }

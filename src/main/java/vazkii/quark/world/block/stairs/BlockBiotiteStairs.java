@@ -6,17 +6,17 @@
  * Quark is Open Source and distributed under the
  * CC-BY-NC-SA 3.0 License: https://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_GB
  *
- * File Created @ [20/03/2016, 18:53:51 (GMT)]
+ * File Created @ [18/04/2016, 18:20:11 (GMT)]
  */
-package vazkii.quark.world.block;
+package vazkii.quark.world.block.stairs;
 
 import vazkii.quark.base.block.BlockQuarkStairs;
-import vazkii.quark.world.feature.Basalt;
+import vazkii.quark.world.feature.Biotite;
 
-public class BlockBasaltStairs extends BlockQuarkStairs {
+public class BlockBiotiteStairs extends BlockQuarkStairs {
 
-	public BlockBasaltStairs() {
-		super("stone_basalt_stairs", Basalt.basalt.getDefaultState());
+	public BlockBiotiteStairs() {
+		super("biotite_stairs", Biotite.biotite_block.getDefaultState());
 	}
 
 }

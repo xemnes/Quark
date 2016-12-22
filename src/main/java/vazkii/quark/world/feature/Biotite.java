@@ -28,8 +28,8 @@ import vazkii.quark.base.module.Feature;
 import vazkii.quark.building.feature.VanillaWalls;
 import vazkii.quark.world.block.BlockBiotite;
 import vazkii.quark.world.block.BlockBiotiteOre;
-import vazkii.quark.world.block.BlockBiotiteSlab;
-import vazkii.quark.world.block.BlockBiotiteStairs;
+import vazkii.quark.world.block.slab.BlockBiotiteSlab;
+import vazkii.quark.world.block.stairs.BlockBiotiteStairs;
 import vazkii.quark.world.item.ItemBiotite;
 import vazkii.quark.world.world.BiotiteGenerator;
 

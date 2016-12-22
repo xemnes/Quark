@@ -6,22 +6,21 @@
  * Quark is Open Source and distributed under the
  * CC-BY-NC-SA 3.0 License: https://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_GB
  *
- * File Created @ [20/03/2016, 18:52:53 (GMT)]
+ * File Created @ [18/04/2016, 18:18:35 (GMT)]
  */
-package vazkii.quark.world.block;
+package vazkii.quark.world.block.slab;
 
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import vazkii.quark.base.block.BlockQuarkSlab;
 
-public class BlockBasaltSlab extends BlockQuarkSlab {
+public class BlockBiotiteSlab extends BlockQuarkSlab {
 
-	public BlockBasaltSlab(boolean doubleSlab) {
-		super("stone_basalt_slab", Material.ROCK, doubleSlab);
-		setHardness(1.5F);
-		setResistance(10.0F);
+	public BlockBiotiteSlab(boolean doubleSlab) {
+		super("biotite_slab", Material.ROCK, doubleSlab);
 		setSoundType(SoundType.STONE);
+		setHardness(0.8F);
 		setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
 	}
 

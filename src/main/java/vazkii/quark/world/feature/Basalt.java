@@ -25,8 +25,8 @@ import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.building.feature.VanillaWalls;
 import vazkii.quark.world.block.BlockBasalt;
-import vazkii.quark.world.block.BlockBasaltSlab;
-import vazkii.quark.world.block.BlockBasaltStairs;
+import vazkii.quark.world.block.slab.BlockBasaltSlab;
+import vazkii.quark.world.block.stairs.BlockBasaltStairs;
 import vazkii.quark.world.world.BasaltGenerator;
 
 public class Basalt extends Feature {

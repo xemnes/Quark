@@ -20,12 +20,11 @@ import vazkii.arl.block.BlockModSlab;
 import vazkii.arl.block.BlockModStairs;
 import vazkii.arl.util.RecipeHandler;
 import vazkii.quark.base.module.Feature;
-import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.building.block.BlockWorldStoneBricks;
-import vazkii.quark.building.block.BlockWorldStoneBricks.Variants;
 import vazkii.quark.building.block.slab.BlockVanillaSlab;
 import vazkii.quark.building.block.stairs.BlockVanillaStairs;
 import vazkii.quark.world.feature.Basalt;
+import vazkii.quark.world.feature.RevampStoneGen;
 
 public class WorldStoneBricks extends Feature {
 
@@ -44,11 +43,9 @@ public class WorldStoneBricks extends Feature {
 	public void preInit(FMLPreInitializationEvent event) {
 		world_stone_bricks = new BlockWorldStoneBricks();
 
-		boolean basaltEnabled = ModuleLoader.isFeatureEnabled(Basalt.class);
-
 		if(enableStairsAndSlabs) {
 			for(BlockWorldStoneBricks.Variants variant : BlockWorldStoneBricks.Variants.class.getEnumConstants()) {
-				if(variant == Variants.STONE_BASALT_BRICKS && !basaltEnabled)
+				if(!variant.isEnabled())
 					continue;
 
 				IBlockState state = world_stone_bricks.getDefaultState().withProperty(world_stone_bricks.getVariantProp(), variant);
@@ -57,7 +54,7 @@ public class WorldStoneBricks extends Feature {
 			}
 
 			for(BlockWorldStoneBricks.Variants variant : BlockWorldStoneBricks.Variants.class.getEnumConstants()) {
-				if(variant == Variants.STONE_BASALT_BRICKS && !basaltEnabled)
+				if(!variant.isEnabled())
 					continue;
 
 				IBlockState state = world_stone_bricks.getDefaultState().withProperty(world_stone_bricks.getVariantProp(), variant);
@@ -67,7 +64,7 @@ public class WorldStoneBricks extends Feature {
 		}
 
 		for(BlockWorldStoneBricks.Variants variant : BlockWorldStoneBricks.Variants.class.getEnumConstants()) {
-			if(variant == Variants.STONE_BASALT_BRICKS && !basaltEnabled)
+			if(!variant.isEnabled())
 				continue;
 
 			world_stone_bricks.getDefaultState().withProperty(world_stone_bricks.getVariantProp(), variant);
@@ -78,17 +75,25 @@ public class WorldStoneBricks extends Feature {
 
 	@Override
 	public void init(FMLInitializationEvent event) {
-		boolean basaltEnabled = ModuleLoader.isFeatureEnabled(Basalt.class);
-
 		for(int i = 0; i < 3; i++)
 			RecipeHandler.addOreDictRecipe(new ItemStack(world_stone_bricks, 4, i),
 					"SS", "SS",
 					'S', new ItemStack(Blocks.STONE, 1, i * 2 + 2));
 
-		if(basaltEnabled)
+		if(BlockWorldStoneBricks.Variants.STONE_BASALT_BRICKS.isEnabled())
 			RecipeHandler.addOreDictRecipe(new ItemStack(world_stone_bricks, 4, 3),
 					"SS", "SS",
 					'S', new ItemStack(Basalt.basalt, 1, 1));
+		
+		if(BlockWorldStoneBricks.Variants.STONE_MARBLE_BRICKS.isEnabled())
+			RecipeHandler.addOreDictRecipe(new ItemStack(world_stone_bricks, 4, 4),
+					"SS", "SS",
+					'S', new ItemStack(RevampStoneGen.marble, 1, 1));
+		
+		if(BlockWorldStoneBricks.Variants.STONE_LIMESTONE_BRICKS.isEnabled())
+			RecipeHandler.addOreDictRecipe(new ItemStack(world_stone_bricks, 4, 5),
+					"SS", "SS",
+					'S', new ItemStack(RevampStoneGen.limestone, 1, 1));
 	}
 	
 	@Override
