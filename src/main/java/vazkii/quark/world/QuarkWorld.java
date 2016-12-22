@@ -11,14 +11,11 @@
 package vazkii.quark.world;
 
 import vazkii.quark.base.module.Module;
-import vazkii.quark.content.feature.AncientTomes;
-import vazkii.quark.content.feature.ColorRunes;
-import vazkii.quark.content.feature.ExtraArrows;
-import vazkii.quark.content.feature.SlimeBucket;
 import vazkii.quark.world.feature.Basalt;
 import vazkii.quark.world.feature.Biotite;
 import vazkii.quark.world.feature.BuriedTreasure;
 import vazkii.quark.world.feature.ClayGeneration;
+import vazkii.quark.world.feature.CrystalCaves;
 import vazkii.quark.world.feature.DefaultWorldOptions;
 import vazkii.quark.world.feature.DepthMobs;
 import vazkii.quark.world.feature.MushroomsInSwamps;
@@ -44,6 +41,7 @@ public class QuarkWorld extends Module {
 		registerFeature(new PirateShips());
 		registerFeature(new Wraiths());
 		registerFeature(new RevampStoneGen());
+		registerFeature(new CrystalCaves());
 
 		registerFeature(new RealisticWorldType());
 		registerFeature(new DefaultWorldOptions());

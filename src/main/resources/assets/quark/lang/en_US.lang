@@ -246,6 +246,14 @@ tile.quark:soul_sandstone_slab.name=Soul Sandstone Slab
 tile.quark:soul_sandstone_stairs.name=Soul Sandstone Stairs
 tile.quark:soul_sandstone_wall.name=Soul Sandstone Wall
 tile.quark:iron_ladder.name=Iron Ladder
+tile.quark:crystal_white.name=White Cave Crystal
+tile.quark:crystal_red.name=Red Cave Crystal
+tile.quark:crystal_orange.name=Orange Cave Crystal
+tile.quark:crystal_yellow.name=Yellow Cave Crystal
+tile.quark:crystal_green.name=Green Cave Crystal
+tile.quark:crystal_blue.name=Blue Cave Crystal
+tile.quark:crystal_indigo.name=Indigo Cave Crystal
+tile.quark:crystal_violet.name=Violet Cave Crystal
 
 # ITEM NAMES
 item.quark:glass_shard.name=Glass Shard
