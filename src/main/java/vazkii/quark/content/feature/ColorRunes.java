@@ -8,7 +8,7 @@
  *
  * File Created @ [19/06/2016, 01:13:02 (GMT)]
  */
-package vazkii.quark.world.feature;
+package vazkii.quark.content.feature;
 
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.item.Item;
@@ -28,7 +28,7 @@ import vazkii.arl.util.ItemNBTHelper;
 import vazkii.quark.base.handler.ICustomEnchantColor;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.ModuleLoader;
-import vazkii.quark.world.item.ItemRune;
+import vazkii.quark.content.item.ItemRune;
 
 public class ColorRunes extends Feature {
 
@@ -94,12 +94,10 @@ public class ColorRunes extends Feature {
 		return true;
 	}
 
-	// Called from ASM. See ClassTransformer
 	public static void setTargetStack(ItemStack stack) {
 		targetStack = stack;
 	}
 
-	// Called from ASM. See ClassTransformer
 	public static int getColor() {
 		if(!ModuleLoader.isFeatureEnabled(ColorRunes.class) || !doesStackHaveRune(targetStack) && targetStack != null && !(targetStack.getItem() instanceof ICustomEnchantColor))
 			return 0xff8040cc;

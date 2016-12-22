@@ -65,7 +65,6 @@ public final class EmoteHandler {
 		}
 	}
 
-	// Called from ASM. See ClassTransformer
 	public static void updateEmotes(Entity e) {
 		if(e instanceof AbstractClientPlayer) {
 			AbstractClientPlayer player = (AbstractClientPlayer) e;

@@ -8,7 +8,7 @@
  *
  * File Created @ [05/06/2016, 22:57:00 (GMT)]
  */
-package vazkii.quark.world.item;
+package vazkii.quark.content.item;
 
 import java.util.List;
 

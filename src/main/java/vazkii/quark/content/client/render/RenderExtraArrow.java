@@ -8,7 +8,7 @@
  * 
  * File Created @ [17/07/2016, 04:34:07 (GMT)]
  */
-package vazkii.quark.world.client.render;
+package vazkii.quark.content.client.render;
 
 import javax.annotation.Resource;
 

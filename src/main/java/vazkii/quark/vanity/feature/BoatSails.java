@@ -98,7 +98,6 @@ public class BoatSails extends Feature {
 		return boat.getDataManager().get(BANNER_DATA).orNull();
 	}
 
-	// Called from ASM. See ClassTransformer
 	public static void dropBoatBanner(EntityBoat boat) {
 		if(!ModuleLoader.isFeatureEnabled(BoatSails.class))
 			return;

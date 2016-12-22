@@ -8,7 +8,7 @@
  *
  * File Created @ [19/06/2016, 03:03:47 (GMT)]
  */
-package vazkii.quark.world.item;
+package vazkii.quark.content.item;
 
 import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.creativetab.CreativeTabs;
@@ -20,7 +20,7 @@ import vazkii.arl.interf.IItemColorProvider;
 import vazkii.arl.item.ItemMod;
 import vazkii.quark.base.handler.ICustomEnchantColor;
 import vazkii.quark.base.item.IQuarkItem;
-import vazkii.quark.world.feature.ColorRunes;
+import vazkii.quark.content.feature.ColorRunes;
 
 public class ItemRune extends ItemMod implements IItemColorProvider, ICustomEnchantColor, IQuarkItem {
 

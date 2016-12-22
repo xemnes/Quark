@@ -8,7 +8,7 @@
  * 
  * File Created @ [17/07/2016, 03:45:23 (GMT)]
  */
-package vazkii.quark.world.feature;
+package vazkii.quark.content.feature;
 
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.dispenser.BehaviorProjectileDispense;
@@ -28,11 +28,11 @@ import vazkii.arl.util.RecipeHandler;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.lib.LibEntityIDs;
 import vazkii.quark.base.module.Feature;
-import vazkii.quark.world.client.render.RenderExtraArrow;
-import vazkii.quark.world.entity.arrow.EntityArrowEnder;
-import vazkii.quark.world.entity.arrow.EntityArrowExplosive;
-import vazkii.quark.world.entity.arrow.EntityArrowTorch;
-import vazkii.quark.world.item.ItemModArrow;
+import vazkii.quark.content.client.render.RenderExtraArrow;
+import vazkii.quark.content.entity.EntityArrowEnder;
+import vazkii.quark.content.entity.EntityArrowExplosive;
+import vazkii.quark.content.entity.EntityArrowTorch;
+import vazkii.quark.content.item.ItemModArrow;
 
 public class ExtraArrows extends Feature {
 

@@ -37,6 +37,8 @@ import net.minecraft.launchwrapper.IClassTransformer;
 import net.minecraftforge.fml.common.FMLLog;
 
 public class ClassTransformer implements IClassTransformer {
+	
+	private static final String ASM_HOOKS = "vazkii/quark/base/asm/ASMHooks";
 
 	private static final Map<String, Transformer> transformers = new HashMap();
 
@@ -53,7 +55,7 @@ public class ClassTransformer implements IClassTransformer {
 		transformers.put("net.minecraft.client.renderer.entity.RenderBoat", ClassTransformer::transformRenderBoat);
 		transformers.put("net.minecraft.entity.item.EntityBoat", ClassTransformer::transformEntityBoat);
 		
-		// For Piston Spikes
+		// For Piston Block Breakers
 		transformers.put("net.minecraft.block.BlockPistonBase", ClassTransformer::transformBlockPistonBase);
 	}
 
@@ -77,7 +79,7 @@ public class ClassTransformer implements IClassTransformer {
 					InsnList newInstructions = new InsnList();
 
 					newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 7));
-					newInstructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "vazkii/quark/vanity/client/emotes/base/EmoteHandler", "updateEmotes", "(Lnet/minecraft/entity/Entity;)V"));
+					newInstructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, ASM_HOOKS, "updateEmotes", "(Lnet/minecraft/entity/Entity;)V"));
 
 					method.instructions.insertBefore(node, newInstructions);
 					return true;
@@ -98,7 +100,7 @@ public class ClassTransformer implements IClassTransformer {
 					InsnList newInstructions = new InsnList();
 
 					newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 1));
-					newInstructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "vazkii/quark/world/feature/ColorRunes", "setTargetStack", "(Lnet/minecraft/item/ItemStack;)V"));
+					newInstructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, ASM_HOOKS, "setColorRuneTargetStack", "(Lnet/minecraft/item/ItemStack;)V"));
 
 					method.instructions.insertBefore(node, newInstructions);
 					return true;
@@ -110,7 +112,7 @@ public class ClassTransformer implements IClassTransformer {
 				}, (MethodNode method, AbstractInsnNode node) -> { // Action
 					InsnList newInstructions = new InsnList();
 
-					newInstructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "vazkii/quark/world/feature/ColorRunes", "getColor", "()I"));
+					newInstructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, ASM_HOOKS, "getRuneColor", "()I"));
 
 					method.instructions.insertBefore(node, newInstructions);
 					method.instructions.remove(node);
@@ -136,7 +138,7 @@ public class ClassTransformer implements IClassTransformer {
 					InsnList newInstructions = new InsnList();
 
 					newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 10));
-					newInstructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "vazkii/quark/world/feature/ColorRunes", "setTargetStack", "(Lnet/minecraft/item/ItemStack;)V"));
+					newInstructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, ASM_HOOKS, "setColorRuneTargetStack", "(Lnet/minecraft/item/ItemStack;)V"));
 
 					method.instructions.insert(node, newInstructions);
 					return true;
@@ -158,7 +160,7 @@ public class ClassTransformer implements IClassTransformer {
 
 						InsnList newInstructions = new InsnList();
 
-						newInstructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "vazkii/quark/world/feature/ColorRunes", "applyColor", "(FFFF)V"));
+						newInstructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, ASM_HOOKS, "applyRuneColor", "(FFFF)V"));
 
 						method.instructions.insertBefore(node, newInstructions);
 						method.instructions.remove(node);
@@ -182,7 +184,7 @@ public class ClassTransformer implements IClassTransformer {
 					InsnList newInstructions = new InsnList();
 
 					newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 0));
-					newInstructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "vazkii/quark/vanity/feature/BoatSails", "dropBoatBanner", "(Lnet/minecraft/entity/item/EntityBoat;)V"));
+					newInstructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, ASM_HOOKS, "dropBoatBanner", "(Lnet/minecraft/entity/item/EntityBoat;)V"));
 
 					method.instructions.insertBefore(node, newInstructions);
 					return true;
@@ -203,7 +205,7 @@ public class ClassTransformer implements IClassTransformer {
 
 					newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 1));
 					newInstructions.add(new VarInsnNode(Opcodes.FLOAD, 9));
-					newInstructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "vazkii/quark/vanity/client/render/BoatBannerRenderer", "renderBanner", "(Lnet/minecraft/entity/item/EntityBoat;F)V"));
+					newInstructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, ASM_HOOKS, "renderBannerOnBoat", "(Lnet/minecraft/entity/item/EntityBoat;F)V"));
 
 					method.instructions.insert(node, newInstructions);
 					return true;
@@ -227,7 +229,7 @@ public class ClassTransformer implements IClassTransformer {
 					newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 8));
 					newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 11));
 					newInstructions.add(new VarInsnNode(Opcodes.ILOAD, 4));
-					newInstructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "vazkii/quark/automation/feature/PistonSpikes", "breakStuffWithSpikes", "(Lnet/minecraft/world/World;Ljava/util/List;Ljava/util/List;Lnet/minecraft/util/EnumFacing;Z)Z"));
+					newInstructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, ASM_HOOKS, "breakStuffWithSpikes", "(Lnet/minecraft/world/World;Ljava/util/List;Ljava/util/List;Lnet/minecraft/util/EnumFacing;Z)Z"));
 					
 					// recalculate the list and array sizes
 					LabelNode label = new LabelNode();
