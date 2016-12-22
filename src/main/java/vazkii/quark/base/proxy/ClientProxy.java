@@ -10,19 +10,27 @@
  */
 package vazkii.quark.base.proxy;
 
+import java.util.List;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
+import net.minecraft.client.resources.IResourcePack;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import vazkii.arl.util.ModelHandler;
+import vazkii.quark.base.client.ResourceProxy;
+import vazkii.quark.base.lib.LibObfuscation;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.vanity.client.emotes.base.EmoteHandler;
 
 public class ClientProxy extends CommonProxy {
 
+	ResourceProxy resourceProxy;
+	
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
 		super.preInit(event);
@@ -50,5 +58,17 @@ public class ClientProxy extends CommonProxy {
 		if(player != null && player instanceof AbstractClientPlayer)
 			EmoteHandler.putEmote((AbstractClientPlayer) player, emoteName);
 	}
-
+	
+	@Override
+	public void hookResourceProxy() {
+		List<IResourcePack> packs = ReflectionHelper.getPrivateValue(Minecraft.class, Minecraft.getMinecraft(), LibObfuscation.DEFAULT_RESOURCE_PACKS);
+		resourceProxy = new ResourceProxy();
+		packs.add(resourceProxy);
+	}
+	
+	@Override
+	public void addResourceOverride(String space, String dir, String file, String ext) {
+		resourceProxy.addResource(space, dir, file, ext);
+	}
+		
 }

@@ -38,4 +38,7 @@ public final class LibObfuscation {
 	// GuardianSound
 	public static final String[] GUARDIAN = new String[] { "m", "field_174934_k", "guardian" };
 
+	// Minecraft
+	public static final String[] DEFAULT_RESOURCE_PACKS = new String[] { "aB", "field_110449_ao", "defaultResourcePacks" };
+	
 }

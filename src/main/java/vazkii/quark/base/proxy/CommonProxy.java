@@ -24,6 +24,7 @@ import vazkii.quark.base.network.MessageRegister;
 public class CommonProxy {
 
 	public void preInit(FMLPreInitializationEvent event) {
+		hookResourceProxy();
 		ModuleLoader.preInit(event);
 
 		NetworkRegistry.INSTANCE.registerGuiHandler(Quark.instance, new GuiHandler());
@@ -45,5 +46,14 @@ public class CommonProxy {
 	public void doEmote(String playerName, String emoteName) {
 		// proxy override
 	}
+	
+	public void hookResourceProxy() {
+		// proxy override
+	}
+	
+	public void addResourceOverride(String space, String dir, String file, String ext) {
+		// proxy override
+	}
 
+	
 }
