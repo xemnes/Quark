@@ -57,12 +57,13 @@ public class AncientTomes extends Feature {
 		itemQuality = loadPropInt("Item quality for loot", "", 2);
 		mergeTomeCost = loadPropInt("Cost to apply tome", "", 35);
 		applyTomeCost = loadPropInt("Cost to apply upgraded book to item", "", 35);
-		LootFunctionManager.registerFunction(new EnchantTomeFunction.Serializer());
 	}
 
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
 		ancient_tome = new ItemAncientTome();
+		
+		LootFunctionManager.registerFunction(new EnchantTomeFunction.Serializer());
 	}
 
 	@Override

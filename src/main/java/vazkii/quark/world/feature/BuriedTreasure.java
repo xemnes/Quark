@@ -36,6 +36,7 @@ import net.minecraft.world.storage.loot.functions.LootFunction;
 import net.minecraft.world.storage.loot.functions.LootFunctionManager;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import vazkii.arl.util.ItemNBTHelper;
 import vazkii.quark.base.lib.LibMisc;
@@ -57,9 +58,13 @@ public class BuriedTreasure extends Feature {
 	public void setupConfig() {
 		rarity = loadPropInt("Treasure map Rarity", "", 10);
 		quality = loadPropInt("Treasure map item quality", "This is used for the luck attribute in loot tables. It doesn't affect the loot you get from the map itself.", 2);
-		LootFunctionManager.registerFunction(new SetAsTreasureFunction.Serializer());
 	}
 
+	@Override
+	public void preInit(FMLPreInitializationEvent event) {
+		LootFunctionManager.registerFunction(new SetAsTreasureFunction.Serializer());
+	}
+	
 	@SubscribeEvent
 	public void onLootTableLoad(LootTableLoadEvent event) {
 		ResourceLocation res = event.getName();
