@@ -4,6 +4,7 @@ quarkmisc.chestButton.deposit=Depositar
 quarkmisc.chestButton.smart_deposit=Unir
 quarkmisc.chestButton.dropoff=Depositar a Cofres Cercanos
 quarkmisc.chestButton.dropoff.shift=Unir a Cofres Cercanos
+quarkmisc.chestButton.sort=Ordenar
 
 # BLOCK NAMES
 tile.quark:hardened_clay_tiles.name=Teja de Arcilla Endurecida
@@ -165,11 +166,19 @@ tile.quark:charred_nether_brick_slab.name=Losa de Ladrillos del Nether Carboniza
 tile.quark:charred_nether_brick_stairs.name=Escaleras de Ladrillos del Nether Carbonizados
 tile.quark:sandstone_smooth.name=Arenisca Pulida
 tile.quark:sandstone_bricks.name=Ladrillos de Arenisca
-tile.quark:red_sandstone_smooth.name=Arenisca Roja Pulida
+tile.quark:red_sandstone_smooth.name=Arenisca Roja Lisa
 tile.quark:red_sandstone_bricks.name=Ladrillos de Arenisca Roja
-tile.quark:sandstone_smooth_slab.name=Losa de Arenisca Pulida
+tile.quark:sandstone_bricks_stairs.name=Escaleras de Ladrillos de Arenisca
+tile.quark:red_sandstone_smooth.name=Arenisca Roja Lisa
+tile.quark:red_sandstone_bricks.name=Ladrillos de Arenisca Roja
+tile.quark:sandstone_smooth_slab.name=Losa de Arenisca Lisa
 tile.quark:sandstone_bricks_slab.name=Losa de Ladrillos de Arenisca
-tile.quark:red_sandstone_smooth_slab.name=Losa de Arenisca Roja Pulida
+tile.quark:red_sandstone_smooth_slab.name=Losa de Arenisca Roja Lisa
+tile.quark:soul_sandstone_smooth.name=Arenisca de Almas Lisa
+tile.quark:soul_sandstone_bricks.name=Ladrillos de Arenisca de Almas
+tile.quark:soul_sandstone_smooth_slab.name=Losa de Arenisca de Almas Lisa
+tile.quark:soul_sandstone_bricks_slab.name=Losa de Ladrillos de Arenisca de Almas
+tile.quark:soul_sandstone_bricks_stairs.name=Escaleras de Ladrillos de Arenisca de Almas
 tile.quark:red_sandstone_bricks_slab.name=Losa de Ladrillos de Arenisca Roja
 tile.quark:sandstone_bricks_stairs.name=Escaleras de Ladrillos de Arenisca
 tile.quark:red_sandstone_bricks_stairs.name=Escaleras de Ladrillos de Arenisca Roja
@@ -215,6 +224,13 @@ tile.quark:vertical_birch_planks.name=Madera de Abedul Vertical
 tile.quark:vertical_jungle_planks.name=Madera de Jungla Vertical
 tile.quark:vertical_acacia_planks.name=Madera de Acacia Vertical
 tile.quark:vertical_dark_oak_planks.name=Madera de Roble Oscuro Vertical
+tile.quark:soul_sandstone.name=Arenisca de Almas
+tile.quark:chiseled_soul_sandstone.name=Arenisca de Almas Cinceleada
+tile.quark:smooth_soul_sandstone.name=Arenisca de Almas Lisa
+tile.quark:soul_sandstone_slab.name=Losa de Arenisca de Almas
+tile.quark:soul_sandstone_stairs.name=Escaleras de Arenisca de Almas
+tile.quark:soul_sandstone_wall.name=Muro de Arenisca de Almas
+tile.quark:iron_ladder.name=Escaleras de Hierro
 
 # ITEM NAMES
 item.quark:glass_shard.name=Fragmento de Cristal
