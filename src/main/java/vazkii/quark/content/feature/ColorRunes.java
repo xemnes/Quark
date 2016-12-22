@@ -105,7 +105,6 @@ public class ColorRunes extends Feature {
 		return getColorFromStack(targetStack);
 	}
 
-	// Called from ASM. See ClassTransformer
 	public static void applyColor(float f1, float f2, float f3, float f4) {
 		if(!ModuleLoader.isFeatureEnabled(ColorRunes.class) || !doesStackHaveRune(targetStack)) {
 			GlStateManager.color(f1, f2, f3, f4);

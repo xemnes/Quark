@@ -16,7 +16,7 @@ import vazkii.quark.tweaks.feature.ArmedArmorStands;
 import vazkii.quark.tweaks.feature.ArrowSafeMobs;
 import vazkii.quark.tweaks.feature.AutoJumpHotkey;
 import vazkii.quark.tweaks.feature.BabyZombiesBurn;
-import vazkii.quark.tweaks.feature.BetterStoneTextures;
+import vazkii.quark.tweaks.feature.BetterVanillaTextures;
 import vazkii.quark.tweaks.feature.ChickensShedFeathers;
 import vazkii.quark.tweaks.feature.ConvertClay;
 import vazkii.quark.tweaks.feature.DeployLaddersDown;
@@ -85,7 +85,7 @@ public class QuarkTweaks extends Module {
 		registerFeature(new ImprovedMountHUD());
 		registerFeature(new FoodTooltip());
 		registerFeature(new EndermitesIntoShulkers());
-		registerFeature(new BetterStoneTextures());
+		registerFeature(new BetterVanillaTextures());
 	}
 
 }

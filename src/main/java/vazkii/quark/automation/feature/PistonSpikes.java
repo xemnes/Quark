@@ -16,7 +16,6 @@ import vazkii.quark.base.module.ModuleLoader;
 
 public class PistonSpikes extends Feature {
 
-	// Called from ASM. See ClassTransformer
 	public static boolean breakStuffWithSpikes(World world, List<BlockPos> moveList, List<BlockPos> destroyList, EnumFacing facing, boolean extending) {
 		if(!extending || !ModuleLoader.isFeatureEnabled(PistonSpikes.class))
 			return false;
