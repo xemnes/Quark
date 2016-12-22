@@ -47,7 +47,7 @@ public class AncientTomes extends Feature {
 	public static List<Enchantment> validEnchants = new ArrayList();
 	private String[] enchantNames;
 
-	int dungeonWeight, libraryWeight, itemQuality;
+	int dungeonWeight, libraryWeight, itemQuality, mergeTomeCost, applyTomeCost;
 
 	@Override
 	public void setupConfig() {
@@ -55,6 +55,8 @@ public class AncientTomes extends Feature {
 		dungeonWeight = loadPropInt("Dungeon loot weight", "", 8);
 		libraryWeight = loadPropInt("Stronghold Library loot weight", "", 12);
 		itemQuality = loadPropInt("Item quality for loot", "", 2);
+		mergeTomeCost = loadPropInt("Cost to apply tome", "", 35);
+		applyTomeCost = loadPropInt("Cost to apply upgraded book to item", "", 35);
 		LootFunctionManager.registerFunction(new EnchantTomeFunction.Serializer());
 	}
 
@@ -122,7 +124,7 @@ public class AncientTomes extends Feature {
 						EnchantmentHelper.setEnchantments(currentEnchants, out);
 
 						event.setOutput(out);
-						event.setCost(35);
+						event.setCost(applyTomeCost);
 					}
 				}
 			}
@@ -138,7 +140,7 @@ public class AncientTomes extends Feature {
 			ItemStack output = new ItemStack(Items.ENCHANTED_BOOK);
 			((ItemEnchantedBook) output.getItem()).addEnchantment(output, new EnchantmentData(ench, enchantsRight.get(ench) + 1));
 			event.setOutput(output);
-			event.setCost(35);
+			event.setCost(mergeTomeCost);
 		}
 	}
 

@@ -39,7 +39,7 @@ public class ColorRunes extends Feature {
 
 	public static Item rune;
 
-	int dungeonWeight, netherFortressWeight, jungleTempleWeight, desertTempleWeight, itemQuality;
+	int dungeonWeight, netherFortressWeight, jungleTempleWeight, desertTempleWeight, itemQuality, applyCost;
 
 	@Override
 	public void setupConfig() {
@@ -48,6 +48,7 @@ public class ColorRunes extends Feature {
 		jungleTempleWeight = loadPropInt("Jungle Temple loot weight", "", 15);
 		desertTempleWeight = loadPropInt("Desert Temple loot weight", "", 15);
 		itemQuality = loadPropInt("Item quality for loot", "", 0);
+		applyCost = loadPropInt("Cost to apply rune", "", 15);
 	}
 
 	@Override
@@ -79,7 +80,7 @@ public class ColorRunes extends Feature {
 			ItemNBTHelper.setBoolean(out, TAG_RUNE_ATTACHED, true);
 			ItemNBTHelper.setInt(out, TAG_RUNE_COLOR, right.getItemDamage());
 			event.setOutput(out);
-			event.setCost(15);
+			event.setCost(applyCost);
 		}
 	}
 
