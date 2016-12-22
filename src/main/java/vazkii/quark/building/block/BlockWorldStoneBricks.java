@@ -10,6 +10,8 @@
  */
 package vazkii.quark.building.block;
 
+import java.util.function.Supplier;
+
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
@@ -42,17 +44,23 @@ public class BlockWorldStoneBricks extends BlockMetaVariants implements IQuarkBl
 		STONE_DIORITE_BRICKS(WorldStoneBricks.class),
 		STONE_ANDESITE_BRICKS(WorldStoneBricks.class),
 		STONE_BASALT_BRICKS(Basalt.class),
-		STONE_MARBLE_BRICKS(RevampStoneGen.class),
-		STONE_LIMESTONE_BRICKS(RevampStoneGen.class);
+		STONE_MARBLE_BRICKS(RevampStoneGen.class, () -> RevampStoneGen.marble != null),
+		STONE_LIMESTONE_BRICKS(RevampStoneGen.class, () -> RevampStoneGen.limestone != null);
 		
 		private Variants(Class<? extends Feature> clazz) {
+			this(clazz, () -> true);
+		}
+		
+		private Variants(Class<? extends Feature> clazz, Supplier<Boolean> enabledCond) {
 			featureLink = clazz;
+			this.enabledCond = enabledCond;
 		}
 		
 		public final Class<? extends Feature> featureLink;
-
+		private final Supplier<Boolean> enabledCond;
+		
 		public boolean isEnabled() {
-			return ModuleLoader.isFeatureEnabled(featureLink);
+			return ModuleLoader.isFeatureEnabled(featureLink) && enabledCond.get();
 		}
 		
 	}
