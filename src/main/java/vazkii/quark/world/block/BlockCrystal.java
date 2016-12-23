@@ -23,7 +23,7 @@ public class BlockCrystal extends BlockMetaVariants implements IQuarkBlock {
 		super("crystal", Material.GLASS, Variants.class);
 		setHardness(0.3F);
 		setSoundType(SoundType.GLASS);
-		setLightLevel(1.0F);
+		setLightLevel(1.0F * 11F / 15F);
 		setCreativeTab(CreativeTabs.DECORATIONS);
 	}
 	
