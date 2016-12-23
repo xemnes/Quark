@@ -16,7 +16,7 @@ public class CrystalCaves extends Feature {
 	
 	@Override
 	public void setupConfig() {
-		crystalCaveRarity = loadPropInt("Crystal Cave Rarity", "Given this value as X, crystal caves will spawn on average 1 per X chunks", 30);
+		crystalCaveRarity = loadPropInt("Crystal Cave Rarity", "Given this value as X, crystal caves will spawn on average 1 per X chunks", 80);
 	}
 	
 	@Override
