@@ -44,8 +44,8 @@ public class BlockWorldStoneBricks extends BlockMetaVariants implements IQuarkBl
 		STONE_DIORITE_BRICKS(WorldStoneBricks.class),
 		STONE_ANDESITE_BRICKS(WorldStoneBricks.class),
 		STONE_BASALT_BRICKS(Basalt.class),
-		STONE_MARBLE_BRICKS(RevampStoneGen.class, () -> RevampStoneGen.marble != null),
-		STONE_LIMESTONE_BRICKS(RevampStoneGen.class, () -> RevampStoneGen.limestone != null);
+		STONE_MARBLE_BRICKS(RevampStoneGen.class, () -> RevampStoneGen.enableMarble),
+		STONE_LIMESTONE_BRICKS(RevampStoneGen.class, () -> RevampStoneGen.enableLimestone);
 		
 		private Variants(Class<? extends Feature> clazz) {
 			this(clazz, () -> true);

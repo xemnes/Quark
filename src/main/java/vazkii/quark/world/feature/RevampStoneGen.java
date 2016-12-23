@@ -32,8 +32,8 @@ public class RevampStoneGen extends Feature {
 
 	boolean enableStairsAndSlabs;
 	boolean enableWalls;
-	boolean enableMarble;
-	boolean enableLimestone;
+	public static boolean enableMarble;
+	public static boolean enableLimestone;
 
 	public static StoneInfo graniteInfo, dioriteInfo, andesiteInfo, marbleInfo, limestoneInfo;
 
