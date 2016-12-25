@@ -31,7 +31,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.automation.QuarkAutomation;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.building.QuarkBuilding;
-import vazkii.quark.content.QuarkContent;
 import vazkii.quark.decoration.QuarkDecoration;
 import vazkii.quark.experimental.QuarkExperimental;
 import vazkii.quark.management.QuarkManagement;
