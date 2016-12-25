@@ -25,33 +25,39 @@ import net.minecraft.util.EnumHand;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.EntityInteract;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.ModuleLoader;
 
 public class BoatSails extends Feature {
 
-	private static final DataParameter<Optional<ItemStack>> BANNER_DATA = EntityDataManager.<Optional<ItemStack>>createKey(EntityBoat.class, DataSerializers.OPTIONAL_ITEM_STACK);
+	private static DataParameter<Optional<ItemStack>> bannerData;
 	private static final String TAG_BANNER = "quark:banner";
 
+	@Override
+	public void preInit(FMLPreInitializationEvent event) {
+		bannerData = EntityDataManager.<Optional<ItemStack>>createKey(EntityBoat.class, DataSerializers.OPTIONAL_ITEM_STACK);
+	}
+	
 	@SubscribeEvent
 	public void onEntityInit(EntityConstructing event) {
 		if(event.getEntity() instanceof EntityBoat) {
 			EntityDataManager manager = event.getEntity().getDataManager();
-			manager.register(BANNER_DATA, Optional.absent());
+			manager.register(bannerData, Optional.absent());
 		}
 	}
 
 	@SubscribeEvent
 	public void preUpdate(EntityEvent.CanUpdate event) {
 		if(event.getEntity() instanceof EntityBoat && !event.getEntity().worldObj.isRemote) {
-			ItemStack dataStack = event.getEntity().getDataManager().get(BANNER_DATA).orNull();
+			ItemStack dataStack = event.getEntity().getDataManager().get(bannerData).orNull();
 
 			NBTTagCompound cmp = event.getEntity().getEntityData().getCompoundTag(TAG_BANNER);
 			ItemStack nbtStack = ItemStack.loadItemStackFromNBT(cmp);
 
 			if(dataStack != nbtStack)
-				event.getEntity().getDataManager().set(BANNER_DATA, Optional.of(nbtStack));
+				event.getEntity().getDataManager().set(bannerData, Optional.of(nbtStack));
 		}
 	}
 
@@ -75,7 +81,7 @@ public class BoatSails extends Feature {
 			if(stack != null && stack.getItem() instanceof ItemBanner) {
 				ItemStack copyStack = stack.copy();
 				player.swingArm(hand);
-				target.getDataManager().set(BANNER_DATA, Optional.of(copyStack));
+				target.getDataManager().set(bannerData, Optional.of(copyStack));
 
 				NBTTagCompound cmp = new NBTTagCompound();
 				copyStack.writeToNBT(cmp);
@@ -95,7 +101,7 @@ public class BoatSails extends Feature {
 	}
 
 	public static ItemStack getBanner(EntityBoat boat) {
-		return boat.getDataManager().get(BANNER_DATA).orNull();
+		return boat.getDataManager().get(bannerData).orNull();
 	}
 
 	public static void dropBoatBanner(EntityBoat boat) {
