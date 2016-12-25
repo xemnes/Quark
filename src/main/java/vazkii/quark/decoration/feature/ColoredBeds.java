@@ -86,11 +86,11 @@ public class ColoredBeds extends Feature {
 		}
 
 
+		ItemStack defaultStack = new ItemStack(colored_bed_item, 1, Math.min(14, defaultColor));; 
 		if(defaultColor == 14)
-			new ItemStack(Items.BED);
-		else
-			new ItemStack(colored_bed_item, 1, Math.min(14, defaultColor));
-		RecipeHandler.addOreDictRecipe(new ItemStack(colored_bed_item),
+			defaultStack = new ItemStack(Items.BED);
+			
+		RecipeHandler.addOreDictRecipe(defaultStack,
 				"WWW", "PPP",
 				'W', new ItemStack(Blocks.WOOL, 1, OreDictionary.WILDCARD_VALUE),
 				'P', "plankWood");
