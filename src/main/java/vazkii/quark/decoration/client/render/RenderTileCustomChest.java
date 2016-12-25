@@ -10,20 +10,34 @@
  */
 package vazkii.quark.decoration.client.render;
 
+import java.util.Calendar;
+
 import org.lwjgl.opengl.GL11;
 
+import net.minecraft.block.BlockChest;
 import net.minecraft.client.model.ModelChest;
 import net.minecraft.client.model.ModelLargeChest;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.util.ResourceLocation;
 import vazkii.quark.decoration.feature.VariedChests;
 import vazkii.quark.decoration.tile.TileCustomChest;
 
 public class RenderTileCustomChest extends TileEntitySpecialRenderer<TileCustomChest> {
 
+	private static final ResourceLocation TEXTURE_CHRISTMAS_DOUBLE = new ResourceLocation("textures/entity/chest/christmas_double.png");
+    private static final ResourceLocation TEXTURE_CHRISTMAS = new ResourceLocation("textures/entity/chest/christmas.png");
+	
 	private final ModelChest simpleChest = new ModelChest();
 	private final ModelChest largeChest = new ModelLargeChest();
-
+	
+	private boolean xmas;
+	
+	public RenderTileCustomChest() {
+        Calendar calendar = Calendar.getInstance();
+        xmas = calendar.get(Calendar.MONTH) + 1 == 12 && calendar.get(Calendar.DAY_OF_MONTH) >= 24 && calendar.get(Calendar.DAY_OF_MONTH) <= 26;
+	}
+	
 	@Override
 	public void renderTileEntityAt(TileCustomChest te, double x, double y, double z, float partialTicks, int destroyStage) {
 		GlStateManager.enableDepth();
@@ -50,8 +64,9 @@ public class RenderTileCustomChest extends TileEntitySpecialRenderer<TileCustomC
 					GlStateManager.scale(4.0F, 4.0F, 1.0F);
 					GlStateManager.translate(0.0625F, 0.0625F, 0.0625F);
 					GlStateManager.matrixMode(GL11.GL_MODELVIEW);
-				} else
-					bindTexture(te.chestType.nrmTex);
+				} else if(xmas)
+					bindTexture(TEXTURE_CHRISTMAS);
+				else bindTexture(te.chestType.nrmTex);
 			} else {
 				model = largeChest;
 
@@ -62,8 +77,9 @@ public class RenderTileCustomChest extends TileEntitySpecialRenderer<TileCustomC
 					GlStateManager.scale(8.0F, 4.0F, 1.0F);
 					GlStateManager.translate(0.0625F, 0.0625F, 0.0625F);
 					GlStateManager.matrixMode(GL11.GL_MODELVIEW);
-				} else
-					bindTexture(te.chestType.dblTex);
+				} else if(xmas)
+					bindTexture(TEXTURE_CHRISTMAS_DOUBLE);
+				else bindTexture(te.chestType.dblTex);
 			}
 
 			GlStateManager.pushMatrix();
