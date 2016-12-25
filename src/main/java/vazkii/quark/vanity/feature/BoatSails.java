@@ -118,4 +118,9 @@ public class BoatSails extends Feature {
 		return true;
 	}
 
+	@Override
+	public boolean requiresMinecraftRestartToEnable() {
+		return true;
+	}
+	
 }
