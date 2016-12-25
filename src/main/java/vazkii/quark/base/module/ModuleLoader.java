@@ -51,7 +51,6 @@ public final class ModuleLoader {
 		registerModule(QuarkBuilding.class);
 		registerModule(QuarkAutomation.class);
 		registerModule(QuarkManagement.class);
-		registerModule(QuarkContent.class);
 		registerModule(QuarkExperimental.class);
 	}
 

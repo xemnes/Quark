@@ -8,7 +8,7 @@
  * 
  * File Created @ [17/07/2016, 03:52:11 (GMT)]
  */
-package vazkii.quark.content.entity;
+package vazkii.quark.world.entity.arrow;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockTorch;
@@ -23,7 +23,7 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
-import vazkii.quark.content.feature.ExtraArrows;
+import vazkii.quark.world.feature.ExtraArrows;
 
 public class EntityArrowTorch extends EntityArrow {
 

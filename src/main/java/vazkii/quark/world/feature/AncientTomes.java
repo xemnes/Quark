@@ -8,7 +8,7 @@
  *
  * File Created @ [01/06/2016, 19:41:33 (GMT)]
  */
-package vazkii.quark.content.feature;
+package vazkii.quark.world.feature;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +39,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.base.module.Feature;
-import vazkii.quark.content.item.ItemAncientTome;
+import vazkii.quark.world.item.ItemAncientTome;
 
 public class AncientTomes extends Feature {
 
