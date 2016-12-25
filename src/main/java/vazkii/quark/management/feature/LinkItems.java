@@ -63,7 +63,7 @@ public class LinkItems extends Feature {
 			int treshold = ReflectionHelper.getPrivateValue(NetHandlerPlayServer.class, handler, LibObfuscation.CHAT_SPAM_TRESHOLD_COUNT);
 			treshold += 20;
 
-			if(treshold > 200 && player.getServer().getPlayerList().canSendCommands(player.getGameProfile()))
+			if(treshold > 200 && !player.getServer().getPlayerList().canSendCommands(player.getGameProfile()))
 				handler.kickPlayerFromServer("disconnect.spam");
 
 			ReflectionHelper.setPrivateValue(NetHandlerPlayServer.class, handler, treshold, LibObfuscation.CHAT_SPAM_TRESHOLD_COUNT);
