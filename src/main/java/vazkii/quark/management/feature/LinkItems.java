@@ -38,7 +38,7 @@ public class LinkItems extends Feature {
 			GuiContainer gui = (GuiContainer) event.getGui();
 
 			Slot slot = gui.getSlotUnderMouse();
-			if(slot != null && !slot.inventory.getName().equals("tmp")) { // "tmp" checks for a creative inventory
+			if(slot != null && slot.inventory != null && !"tmp".equals(slot.inventory.getName())) { // "tmp" checks for a creative inventory
 				ItemStack stack = slot.getStack();
 
 				if(stack != null)
