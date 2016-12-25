@@ -12,6 +12,7 @@ package vazkii.quark.tweaks.feature;
 
 import net.minecraft.block.BlockSkull;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntitySkull;
@@ -28,6 +29,8 @@ public class NoteBlocksMobSounds extends Feature {
 	@SubscribeEvent
 	public void noteBlockPlayed(NoteBlockEvent.Play event) {
 		BlockPos pos = event.getPos();
+		if(event.getWorld().getBlockState(pos).getBlock() != Blocks.NOTEBLOCK)
+			return;
 
 		EnumFacing[] facings = new EnumFacing[] {
 				EnumFacing.NORTH,
