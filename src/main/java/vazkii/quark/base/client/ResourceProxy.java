@@ -9,6 +9,7 @@ import java.util.Set;
 import com.google.common.collect.ImmutableSet;
 
 import net.minecraft.client.resources.AbstractResourcePack;
+import net.minecraftforge.fml.common.Loader;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.lib.LibMisc;
 
@@ -23,7 +24,8 @@ public class ResourceProxy extends AbstractResourcePack {
 	private static final Map<String, String> overrides = new HashMap();
 
 	public ResourceProxy() {
-		super(null);
+		super(Loader.instance().activeModContainer().getSource());
+		overrides.put("pack.mcmeta", "/proxypack.mcmeta");
 	}
 
 	public void addResource(String space, String dir, String file, String ext) {
