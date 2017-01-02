@@ -14,6 +14,7 @@ import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.oredict.OreDictionary;
 import vazkii.arl.util.RecipeHandler;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.building.block.BlockPolishedStone;
@@ -32,6 +33,8 @@ public class PolishedStone extends Feature {
 		RecipeHandler.addOreDictRecipe(new ItemStack(Blocks.STONE_SLAB, 6),
 				"SSS",
 				'S', new ItemStack(polished_stone));
+		
+		OreDictionary.registerOre("stonePolished", polished_stone);
 	}
 
 	@Override
