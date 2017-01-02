@@ -16,7 +16,7 @@ public final class LibObfuscation {
 	public static final String[] POTION_ITEM_CONVERSIONS = new String[] { "b", "field_185214_b", "POTION_ITEM_CONVERSIONS" };
 
 	// RenderLivingBase
-	public static final String[] LAYER_RENDERERS = new String[] { "i", "field_177097_h", "layerRenderers" };
+	public static final String[] LAYER_RENDERERS = new String[] { "h", "field_177097_h", "layerRenderers" };
 
 	// LayerArmorBase
 	public static final String[] MODEL_ARMOR = new String[] { "d", "field_177186_d", "modelArmor" };
@@ -33,7 +33,7 @@ public final class LibObfuscation {
 	public static final String[] CHAT_SPAM_TRESHOLD_COUNT = new String[] { "i", "field_147374_l", "chatSpamThresholdCount" };
 
 	// GuiMainMenu
-	public static final String[] TITLE_PANORAMA_PATHS = new String[] { "C", "field_73978_o", "TITLE_PANORAMA_PATHS" };
+	public static final String[] TITLE_PANORAMA_PATHS = new String[] { "G", "field_73978_o", "TITLE_PANORAMA_PATHS" };
 
 	// GuardianSound
 	public static final String[] GUARDIAN = new String[] { "m", "field_174934_k", "guardian" };
