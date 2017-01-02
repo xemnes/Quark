@@ -107,8 +107,6 @@ public class VariedDungeons extends Feature {
 						return; // Obstructed or exposed, can't generate here
 				}
 		
-		System.out.println("placing at " + position);
-		
 		template.addBlocksToWorld(world, position, settings);
 
 		int spawners = 0;
