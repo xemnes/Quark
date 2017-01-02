@@ -26,9 +26,8 @@
 				<button id="download-button" class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored" onclick='window.open("http://minecraft.curseforge.com/projects/quark")'>
 					<i class="material-icons">file_download</i>
 				</button>
-
-				<div class="mdl-tooltip mdl-tooltip--left" for="download-button">
-					Download
+				<div id="download-section">
+					<img src="http://cf.way2muchnoise.eu/full_quark_downloads.svg"></img> <img src="http://cf.way2muchnoise.eu/versions/quark.svg"></img>
 				</div>
 			</div>
 
@@ -49,16 +48,15 @@
 				<div class="mdl-layout__content">
 					<section class="mdl-layout__tab-panel is-active" id="module-info">
 						<div class="page-content">
-							<b>Quark</b> is a mod for Minecraft. It aims to create an experience akin to the "vanilla" experience, by having a very simple motto: <i>anything that would be added to Quark could also be added to the default game without compromising its gameplay style.</i> Quark has over 100 features to spice up your game, all of which fitting the previous motto.
+							<b>Quark</b> is a mod for Minecraft. It aims to create an experience akin to the "vanilla" experience, by having a very simple motto: <i>anything that would be added to Quark could also be added to the default game without compromising its gameplay style.</i> Quark currently has <b id="feature-counter"></b> features to spice up your game, all of which fitting the previous motto.
 							<br><br>
 							To that end, every feature added to Quark is simple and small. Hence the name of the mod, Quark, as a Quark is a very small thing. Quark is a <i>Modular</i> mod. Which means that its features are split within various modules. All of the modules can be disabled, and all the features can also be disabled individually if one wants to. Many of the features even have extra configuration options.
 							<br><br>
-							The mod features ingame configuration via the Mod Options menu. Most features can be toggled from inside the game, others require a world reload, it depends on the changes they make. Any features that add new explicit content, such as items, blocks or entities, will require a reset. For a similar reason, you can not enable a feature ingame that was disabled when you started it.
+							The mod features ingame configuration via the Mod Options menu. Most features can be toggled from inside the game, others require a world reload, it depends on the changes they make. Any features that add new explicit content, such as items, blocks or entities, will require a reset.
 							<br><br>
-							Check out the various tabs to have a look of what the mod contains. If you're on mobile you can scroll left on the tabs to see more. You can download Quark for Minecraft 1.9 or 1.10 using the download button in the header. Scroll down a bit for installation instructions and other stuff.
+							Check out the various tabs to have a look of what the mod contains. If you're on mobile you can scroll left on the tabs to see more. You can download Quark using the download button in the header. Scroll down a bit for installation instructions and other stuff.
 							<br><br>
 							<b>Note that this mod requires <a href="https://minecraft.curseforge.com/projects/autoreglib">AutoRegLib</a>, it must be installed for it to work.</b> (older versions of the mod may not require it)
-
 							<br><br>
 							<img id="main-image" src="img/main.png"></img>
 
@@ -100,6 +98,7 @@
 								<li>SanAndreasP for the chest textures and most of their code.</li>
 								<li>Darkhax for the sheep having wool feature.</li>
 								<li>ZeroLevels for the Iron Plate texture.</li>
+								<li>Noodlor for the variety dungeon structures.</li>
 								<li>/u/Soniop for the realistic world preset.</li>
 								<li>/u/Martwaza for the trapdoor textures.</li>
 								<li>/u/FelitonC and /u/origamidragon412 for the banner textures.</li>
@@ -1049,7 +1048,9 @@
 								<div class="feature-info">
 									<div class="feature-title">Firework Duplication</div>
 									<div class="feature-desc">
-										Empty Fireworks can be crafted with already made ones to duplicate them. This works like Banners, in which the origin firework will not get used up.
+										Empty Fireworks can be crafted with already made ones to duplicate them. This works like Banners, in which the origin firework will not get used up.<br><br>
+
+										Both fireworks need to have the same flight duration for this to work.
 									</div>
 								</div>
 							</div>
@@ -1324,13 +1325,17 @@
 		<button id="btt-button" class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored" onclick="window.scrollTo(0, 0)">
 			<i class="material-icons">arrow_upward</i>
 		</button>
-		<div class="mdl-tooltip mdl-tooltip--top" for="btt-button">
-			Back to Top
-		</div>
 
 		<div id="footer">
 			copyright lololol
 		</div>
+
+		<script>
+			document.addEventListener('DOMContentLoaded', function() {
+				document.getElementById('header').style['background-image'] = 'url(img/backgrounds/' + Math.floor(Math.random() * 8) + '.jpg)';
+				document.getElementById('feature-counter').innerHTML = document.getElementsByClassName('feature').length;
+			});
+		</script>
 
 		<script defer src="https://code.getmdl.io/1.2.1/material.min.js"></script>
 	</body>
