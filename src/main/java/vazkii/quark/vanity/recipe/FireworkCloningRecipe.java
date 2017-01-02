@@ -10,6 +10,8 @@
  */
 package vazkii.quark.vanity.recipe;
 
+import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
+
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemFirework;
 import net.minecraft.item.ItemStack;
@@ -24,25 +26,30 @@ public class FireworkCloningRecipe implements IRecipe {
 	public boolean matches(InventoryCrafting var1, World var2) {
 		boolean foundSource = false;
 		boolean foundTarget = false;
+		ItemStack source = ItemStack.EMPTY;
+		ItemStack target = ItemStack.EMPTY;
 
 		for(int i = 0; i < var1.getSizeInventory(); i++) {
 			ItemStack stack = var1.getStackInSlot(i);
 			if(!stack.isEmpty()) {
 				if(stack.getItem() instanceof ItemFirework) {
-					if(stack.getTagCompound() != null && stack.getTagCompound().hasKey("Fireworks")) {
+					if(stack.getTagCompound() != null && hasExplosions(stack)) {
 						if(foundSource)
 							return false;
+						source = stack;
 						foundSource = true;
 					} else {
 						if(foundTarget)
 							return false;
+						
+						target = stack;
 						foundTarget = true;
 					}
 				}  else return false;
 			}
 		}
-
-		return foundSource && foundTarget;
+		
+		return foundSource && foundTarget && getFlight(source) == getFlight(target);
 	}
 
 	@Override
@@ -53,7 +60,7 @@ public class FireworkCloningRecipe implements IRecipe {
 		for(int i = 0; i < var1.getSizeInventory(); i++) {
 			ItemStack stack = var1.getStackInSlot(i);
 			if(!stack.isEmpty()) {
-				if(stack.getTagCompound() != null && stack.getTagCompound().hasKey("Fireworks"))
+				if(hasExplosions(stack))
 					source = stack;
 				else target = stack;
 			}
@@ -87,7 +94,7 @@ public class FireworkCloningRecipe implements IRecipe {
 		NonNullList<ItemStack> remaining = NonNullList.withSize(inv.getSizeInventory(), ItemStack.EMPTY);
 		for(int i = 0; i < inv.getSizeInventory(); i++) {
 			ItemStack stack = inv.getStackInSlot(i);
-			if(!stack.isEmpty() && stack.getTagCompound() != null && stack.getTagCompound().hasKey("Fireworks")) {
+			if(!stack.isEmpty() && hasExplosions(stack)) {
 				ItemStack copy = stack.copy();
 				copy.setCount(1);
 				remaining.set(i, copy);
@@ -96,5 +103,18 @@ public class FireworkCloningRecipe implements IRecipe {
 
 		return remaining;
 	}
+	
+
+	private byte getFlight(ItemStack stack) {
+		if(!stack.hasTagCompound())
+			return 0;
+		
+		return stack.getTagCompound().getCompoundTag("Fireworks").getByte("Flight");
+	}
+	
+	private boolean hasExplosions(ItemStack stack) {
+		return stack.hasTagCompound() && stack.getTagCompound().hasKey("Fireworks") && stack.getTagCompound().getCompoundTag("Fireworks").hasKey("Explosions");
+	}
+	
 
 }
