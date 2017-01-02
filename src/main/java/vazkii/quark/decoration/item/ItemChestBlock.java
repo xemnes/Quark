@@ -23,6 +23,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -100,7 +101,7 @@ public class ItemChestBlock extends ItemModBlock implements IExtraVariantHolder 
 	}
 
 	@Override
-	public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
+	public void getSubItems(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> subItems) {
 		BlockCustomChest chest = (BlockCustomChest) Block.getBlockFromItem(itemIn);
 		for(ChestType type : VariedChests.ChestType.VALID_TYPES)
 			subItems.add(chest.setCustomType(new ItemStack(itemIn, 1), type));

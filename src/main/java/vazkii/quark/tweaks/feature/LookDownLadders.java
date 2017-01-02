@@ -10,6 +10,7 @@
  */
 package vazkii.quark.tweaks.feature;
 
+import net.minecraft.entity.MoverType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -22,7 +23,7 @@ public class LookDownLadders extends Feature {
 		if(event.getEntityLiving() instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) event.getEntityLiving();
 			if(player.isOnLadder() && !player.isSneaking() && player.moveForward == 0 && player.rotationPitch > 70)
-				player.moveEntity(0, -0.2, 0);
+				player.move(MoverType.SELF, 0, -0.2, 0);
 		}
 	}
 

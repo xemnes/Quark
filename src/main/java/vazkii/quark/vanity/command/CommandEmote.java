@@ -21,12 +21,12 @@ import vazkii.quark.base.network.message.MessageDoEmote;
 public class CommandEmote extends CommandBase {
 
 	@Override
-	public String getCommandName() {
+	public String getName() {
 		return "emote";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender p_71518_1_) {
+	public String getUsage(ICommandSender p_71518_1_) {
 		return "<emote>";
 	}
 

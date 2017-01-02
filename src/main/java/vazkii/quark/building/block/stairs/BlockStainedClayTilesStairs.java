@@ -10,7 +10,6 @@
  */
 package vazkii.quark.building.block.stairs;
 
-import vazkii.arl.block.BlockModStairs;
 import vazkii.quark.base.block.BlockQuarkStairs;
 import vazkii.quark.building.block.BlockStainedClayTiles;
 import vazkii.quark.building.feature.HardenedClayTiles;

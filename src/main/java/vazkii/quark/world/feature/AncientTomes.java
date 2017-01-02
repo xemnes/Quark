@@ -15,7 +15,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import com.google.gson.*;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSerializationContext;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
@@ -95,7 +97,7 @@ public class AncientTomes extends Feature {
 		ItemStack left = event.getLeft();
 		ItemStack right = event.getRight();
 
-		if(left != null && right != null) {
+		if(!left.isEmpty() && !right.isEmpty()) {
 			if(left.getItem() == Items.ENCHANTED_BOOK && right.getItem() == ancient_tome)
 				handleTome(left, right, event);
 			else if(right.getItem() == Items.ENCHANTED_BOOK && left.getItem() == ancient_tome)
@@ -115,7 +117,7 @@ public class AncientTomes extends Feature {
 							if(enchCompare == ench)
 								continue;
 							
-							if(!enchCompare.canApplyTogether(ench) || !ench.canApplyTogether(enchCompare)) {
+							if(!enchCompare.func_191560_c(ench)) {
 								event.setCanceled(true);
 								return;
 							}

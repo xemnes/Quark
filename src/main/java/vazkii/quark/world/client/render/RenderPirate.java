@@ -12,7 +12,7 @@ package vazkii.quark.world.client.render;
 
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderSkeleton;
-import net.minecraft.entity.monster.EntitySkeleton;
+import net.minecraft.entity.monster.AbstractSkeleton;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import vazkii.quark.world.client.layer.LayerPirateClothes;
@@ -26,12 +26,11 @@ public class RenderPirate extends RenderSkeleton {
 	public RenderPirate(RenderManager renderManagerIn) {
 		super(renderManagerIn);
 
-		layerRenderers.remove(layerRenderers.size() - 1);
 		addLayer(new LayerPirateClothes(this));
 	}
 
 	@Override
-	protected ResourceLocation getEntityTexture(EntitySkeleton entity) {
+	protected ResourceLocation getEntityTexture(AbstractSkeleton entity) {
 		return TEXTURE;
 	}
 

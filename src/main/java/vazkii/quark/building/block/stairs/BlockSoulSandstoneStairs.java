@@ -1,7 +1,6 @@
 package vazkii.quark.building.block.stairs;
 
 import vazkii.quark.base.block.BlockQuarkStairs;
-import vazkii.quark.building.feature.ReedBlock;
 import vazkii.quark.building.feature.SoulSandstone;
 
 public class BlockSoulSandstoneStairs extends BlockQuarkStairs {

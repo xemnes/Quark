@@ -87,7 +87,7 @@ public class VariedChests extends Feature {
 		List<IRecipe> recipeList = new ArrayList(CraftingManager.getInstance().getRecipeList());
 		for(IRecipe recipe : recipeList) {
 			ItemStack out = recipe.getRecipeOutput();
-			if(out != null && (out.getItem() == Item.getItemFromBlock(Blocks.CHEST) || out.getItem() == Item.getItemFromBlock(Blocks.TRAPPED_CHEST)))
+			if(!out.isEmpty() && (out.getItem() == Item.getItemFromBlock(Blocks.CHEST) || out.getItem() == Item.getItemFromBlock(Blocks.TRAPPED_CHEST)))
 				CraftingManager.getInstance().getRecipeList().remove(recipe);
 		}
 
@@ -110,7 +110,7 @@ public class VariedChests extends Feature {
 
 			if(addLogRecipe) {
 				ItemStack outFour = out.copy();
-				outFour.stackSize = 4;
+				outFour.setCount(4);
 				RecipeHandler.addOreDictRecipe(outFour,
 						"WWW", "W W", "WWW",
 						'W', new ItemStack(i > 3 ? Blocks.LOG2 : Blocks.LOG, 1, i % 4));

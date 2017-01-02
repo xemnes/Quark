@@ -91,7 +91,7 @@ public class DyableElytra extends Feature {
 	@SideOnly(Side.CLIENT)
 	public void onTooltip(ItemTooltipEvent event) {
 		ItemStack stack = event.getItemStack();
-		if(stack != null && stack.getItem() == Items.ELYTRA) {
+		if(!stack.isEmpty() && stack.getItem() == Items.ELYTRA) {
 			int color = ItemNBTHelper.getInt(stack, TAG_ELYTRA_DYE, 15);
 			EnumDyeColor dye = EnumDyeColor.byDyeDamage(color);
 			if(dye != EnumDyeColor.WHITE)

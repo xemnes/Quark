@@ -35,7 +35,7 @@ public class LayerAshenHeldItem implements LayerRenderer<EntitySkeleton> {
 		ItemStack itemstack = flag ? entitylivingbaseIn.getHeldItemOffhand() : entitylivingbaseIn.getHeldItemMainhand();
 		ItemStack itemstack1 = flag ? entitylivingbaseIn.getHeldItemMainhand() : entitylivingbaseIn.getHeldItemOffhand();
 
-		if(itemstack != null || itemstack1 != null) {
+		if(!itemstack.isEmpty() || !itemstack1.isEmpty()) {
 			GlStateManager.pushMatrix();
 
 			if(livingEntityRenderer.getMainModel().isChild) {
@@ -50,7 +50,7 @@ public class LayerAshenHeldItem implements LayerRenderer<EntitySkeleton> {
 		}
 	}
 	private void renderHeldItem(EntityLivingBase p_188358_1_, ItemStack p_188358_2_, ItemCameraTransforms.TransformType p_188358_3_, EnumHandSide handSide) {
-		if(p_188358_2_ != null) {
+		if(!p_188358_2_.isEmpty()) {
 			GlStateManager.pushMatrix();
 
 			if(p_188358_1_.isSneaking())

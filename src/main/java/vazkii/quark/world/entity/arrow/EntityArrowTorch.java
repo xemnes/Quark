@@ -48,14 +48,14 @@ public class EntityArrowTorch extends EntityArrow {
 	public void onUpdate() {
 		super.onUpdate();
 
-		if(worldObj.isRemote)
+		if(getEntityWorld().isRemote)
 			spawnPotionParticles(1);
 	}
 
 	public void spawnPotionParticles(int particleCount) {
 		if(particleCount > 0)
 			for(int i = 0; i < particleCount; i++)
-				worldObj.spawnParticle(EnumParticleTypes.FLAME, posX + (rand.nextDouble() - 0.5D) * width, posY + rand.nextDouble() * height, posZ + (rand.nextDouble() - 0.5D) * width, 0.0D, 0.0D, 0.0D, new int[0]);
+				getEntityWorld().spawnParticle(EnumParticleTypes.FLAME, posX + (rand.nextDouble() - 0.5D) * width, posY + rand.nextDouble() * height, posZ + (rand.nextDouble() - 0.5D) * width, 0.0D, 0.0D, 0.0D, new int[0]);
 	}
 
 	@Override
@@ -65,16 +65,16 @@ public class EntityArrowTorch extends EntityArrow {
 		if(isDead)
 			return;
 		
-		if(!worldObj.isRemote) {
+		if(!getEntityWorld().isRemote) {
 			BlockPos pos = raytraceResultIn.getBlockPos();
 			if(pos == null)
 				return;
 			
 			BlockPos finalPos = pos.offset(raytraceResultIn.sideHit);
-			IBlockState state = worldObj.getBlockState(finalPos);
+			IBlockState state = getEntityWorld().getBlockState(finalPos);
 			Block block = state.getBlock();
-			if((block.isAir(state, worldObj, finalPos) || block.isReplaceable(worldObj, finalPos)) && raytraceResultIn.sideHit != EnumFacing.DOWN) {
-				worldObj.setBlockState(finalPos, Blocks.TORCH.getDefaultState().withProperty(BlockTorch.FACING, raytraceResultIn.sideHit));
+			if((block.isAir(state, getEntityWorld(), finalPos) || block.isReplaceable(getEntityWorld(), finalPos)) && raytraceResultIn.sideHit != EnumFacing.DOWN) {
+				getEntityWorld().setBlockState(finalPos, Blocks.TORCH.getDefaultState().withProperty(BlockTorch.FACING, raytraceResultIn.sideHit));
 				setDead();
 			}
 		}

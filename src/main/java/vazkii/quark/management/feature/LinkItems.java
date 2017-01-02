@@ -41,7 +41,7 @@ public class LinkItems extends Feature {
 			if(slot != null && slot.inventory != null && !"tmp".equals(slot.inventory.getName())) { // "tmp" checks for a creative inventory
 				ItemStack stack = slot.getStack();
 
-				if(stack != null)
+				if(!stack.isEmpty())
 					NetworkHandler.INSTANCE.sendToServer(new MessageLinkItem(stack));
 			}
 		}
@@ -51,20 +51,20 @@ public class LinkItems extends Feature {
 		if(!ModuleLoader.isFeatureEnabled(LinkItems.class))
 			return;
 
-		if(item != null && player instanceof EntityPlayerMP) {
+		if(!item.isEmpty() && player instanceof EntityPlayerMP) {
 			ITextComponent comp = new TextComponentString("<");
 			comp.appendSibling(player.getDisplayName());
 			comp.appendSibling(new TextComponentString("> "));
 			comp.appendSibling(item.getTextComponent());
 
-			player.getServer().getPlayerList().sendChatMsgImpl(comp, false);
+			player.getServer().getPlayerList().sendMessage(comp, false);
 
 			NetHandlerPlayServer handler = ((EntityPlayerMP) player).connection;
 			int treshold = ReflectionHelper.getPrivateValue(NetHandlerPlayServer.class, handler, LibObfuscation.CHAT_SPAM_TRESHOLD_COUNT);
 			treshold += 20;
 
 			if(treshold > 200 && !player.getServer().getPlayerList().canSendCommands(player.getGameProfile()))
-				handler.kickPlayerFromServer("disconnect.spam");
+				handler.disconnect("disconnect.spam");
 
 			ReflectionHelper.setPrivateValue(NetHandlerPlayServer.class, handler, treshold, LibObfuscation.CHAT_SPAM_TRESHOLD_COUNT);
 		}

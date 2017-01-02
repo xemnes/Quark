@@ -7,7 +7,6 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderTooltipEvent;
 import net.minecraftforge.event.AnvilUpdateEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
@@ -25,7 +24,7 @@ public class DyeItemNames extends Feature {
 	@SideOnly(Side.CLIENT)
 	public void makeTooltip(ItemTooltipEvent event) {
 		ItemStack stack = event.getItemStack(); 
-		if(stack != null && stack.hasTagCompound() && ItemNBTHelper.getInt(stack, TAG_DYE, -1) != -1) {
+		if(!stack.isEmpty() && stack.hasTagCompound() && ItemNBTHelper.getInt(stack, TAG_DYE, -1) != -1) {
 			FontRenderer font = Minecraft.getMinecraft().fontRendererObj; 
 			int len = font.getStringWidth(stack.getDisplayName());
 			String spaces = "";
@@ -40,7 +39,7 @@ public class DyeItemNames extends Feature {
 	@SideOnly(Side.CLIENT)
 	public void renderTooltip(RenderTooltipEvent.PostText event) {
 		ItemStack stack = event.getStack(); 
-		if(stack != null && stack.hasTagCompound()) {
+		if(stack != null && !stack.isEmpty() && stack.hasTagCompound()) {
 			int dye = ItemNBTHelper.getInt(stack, TAG_DYE, -1);
 			if(dye != -1) {
 				int rgb = ItemDye.DYE_COLORS[Math.min(15, dye)];
@@ -55,7 +54,7 @@ public class DyeItemNames extends Feature {
 		ItemStack left = event.getLeft();
 		ItemStack right = event.getRight();
 
-		if (left != null && right != null && right.getItem() == Items.DYE) {
+		if (!left.isEmpty() && !right.isEmpty() && right.getItem() == Items.DYE) {
 			ItemStack out = left.copy();
 			ItemNBTHelper.setInt(out, TAG_DYE, right.getItemDamage());
 			event.setOutput(out);

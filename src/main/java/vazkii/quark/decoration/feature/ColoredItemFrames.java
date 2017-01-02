@@ -13,6 +13,7 @@ package vazkii.quark.decoration.feature;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
@@ -35,7 +36,8 @@ public class ColoredItemFrames extends Feature {
 	public void preInit(FMLPreInitializationEvent event) {
 		colored_item_frame = new ItemColoredItemFrame();
 
-		EntityRegistry.registerModEntity(EntityColoredItemFrame.class, "quark:colored_item_frame", LibEntityIDs.COLORED_ITEM_FRAME, Quark.instance, 256, 64, false);
+		String coloredItemFrameName = "quark:colored_item_frame";
+		EntityRegistry.registerModEntity(new ResourceLocation(coloredItemFrameName), EntityColoredItemFrame.class, coloredItemFrameName, LibEntityIDs.COLORED_ITEM_FRAME, Quark.instance, 256, 64, false);
 
 		for(int i = 0; i < 16; i++)
 			RecipeHandler.addShapelessOreDictRecipe(new ItemStack(colored_item_frame, 1, i), new ItemStack(Items.ITEM_FRAME), LibMisc.OREDICT_DYES.get(15 - i));

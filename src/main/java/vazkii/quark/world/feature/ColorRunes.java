@@ -75,7 +75,7 @@ public class ColorRunes extends Feature {
 		ItemStack left = event.getLeft();
 		ItemStack right = event.getRight();
 
-		if (left != null && right != null && left.isItemEnchanted() && right.getItem() == rune) {
+		if(!left.isEmpty() && !right.isEmpty() && left.isItemEnchanted() && right.getItem() == rune) {
 			ItemStack out = left.copy();
 			ItemNBTHelper.setBoolean(out, TAG_RUNE_ATTACHED, true);
 			ItemNBTHelper.setInt(out, TAG_RUNE_COLOR, right.getItemDamage());
@@ -99,7 +99,7 @@ public class ColorRunes extends Feature {
 	}
 
 	public static int getColor() {
-		if(!ModuleLoader.isFeatureEnabled(ColorRunes.class) || !doesStackHaveRune(targetStack) && targetStack != null && !(targetStack.getItem() instanceof ICustomEnchantColor))
+		if(!ModuleLoader.isFeatureEnabled(ColorRunes.class) || !doesStackHaveRune(targetStack) && !targetStack.isEmpty() && !(targetStack.getItem() instanceof ICustomEnchantColor))
 			return 0xff8040cc;
 
 		return getColorFromStack(targetStack);
@@ -120,7 +120,7 @@ public class ColorRunes extends Feature {
 	}
 
 	public static int getColorFromStack(ItemStack stack) {
-		if(stack == null)
+		if(stack.isEmpty())
 			return 0xFFFFFF;
 
 		int retColor = 0xFFFFFF;
@@ -155,7 +155,7 @@ public class ColorRunes extends Feature {
 	}
 
 	public static boolean doesStackHaveRune(ItemStack stack) {
-		return stack != null && stack.hasTagCompound() && ItemNBTHelper.getBoolean(stack, TAG_RUNE_ATTACHED, false);
+		return !stack.isEmpty() && stack.hasTagCompound() && ItemNBTHelper.getBoolean(stack, TAG_RUNE_ATTACHED, false);
 	}
 
 }

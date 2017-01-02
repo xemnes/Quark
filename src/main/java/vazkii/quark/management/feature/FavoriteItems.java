@@ -62,10 +62,10 @@ public class FavoriteItems extends Feature {
 				if(inv instanceof InventoryPlayer) {
 					int index = slot.getSlotIndex();
 
-					if(Minecraft.getMinecraft().thePlayer.capabilities.isCreativeMode && index >= 36)
+					if(Minecraft.getMinecraft().player.capabilities.isCreativeMode && index >= 36)
 						index -= 36; // Creative mode messes with the indexes for some reason
 
-					if(index < ((InventoryPlayer) inv).mainInventory.length) {
+					if(index < ((InventoryPlayer) inv).mainInventory.size()) {
 						NetworkHandler.INSTANCE.sendToServer(new MessageFavoriteItem(index));
 						event.setCanceled(true);
 					}
@@ -92,7 +92,7 @@ public class FavoriteItems extends Feature {
 				ItemStack stack = s.getStack();
 				if(isItemFavorited(stack)) {
 					Minecraft.getMinecraft().renderEngine.bindTexture(GuiButtonChest.chest_icons);
-					guiInv.drawTexturedModalRect(guiLeft + s.xDisplayPosition, guiTop + s.yDisplayPosition, 96, 0, 16, 16);
+					guiInv.drawTexturedModalRect(guiLeft + s.xPos, guiTop + s.yPos, 96, 0, 16, 16);
 				}
 			}
 			GlStateManager.popMatrix();
@@ -112,7 +112,7 @@ public class FavoriteItems extends Feature {
 			return;
 
 		ItemStack stack = player.inventory.getStackInSlot(slot);
-		if(stack != null) {
+		if(!stack.isEmpty()) {
 			if(isItemFavorited(stack)) {
 				NBTTagCompound cmp = stack.getTagCompound();
 				cmp.removeTag(TAG_FAVORITE_ITEM);
@@ -123,7 +123,7 @@ public class FavoriteItems extends Feature {
 	}
 
 	public static boolean isItemFavorited(ItemStack stack) {
-		if(stack == null || !stack.hasTagCompound() || !ModuleLoader.isFeatureEnabled(FavoriteItems.class))
+		if(stack.isEmpty() || !stack.hasTagCompound() || !ModuleLoader.isFeatureEnabled(FavoriteItems.class))
 			return false;
 
 		return ItemNBTHelper.getBoolean(stack, TAG_FAVORITE_ITEM, false);

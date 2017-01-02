@@ -17,7 +17,7 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderSkeleton;
 import net.minecraft.client.renderer.entity.layers.LayerHeldItem;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
-import net.minecraft.entity.monster.EntitySkeleton;
+import net.minecraft.entity.monster.AbstractSkeleton;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import vazkii.quark.world.client.layer.LayerAshenClothes;
@@ -37,7 +37,6 @@ public class RenderAshen extends RenderSkeleton {
 			if(layer instanceof LayerHeldItem)
 				removals.add(layer);
 
-		layerRenderers.remove(layerRenderers.size() - 1);
 		layerRenderers.removeAll(removals);
 
 		addLayer(new LayerAshenHeldItem(this));
@@ -45,7 +44,7 @@ public class RenderAshen extends RenderSkeleton {
 	}
 
 	@Override
-	protected ResourceLocation getEntityTexture(EntitySkeleton entity) {
+	protected ResourceLocation getEntityTexture(AbstractSkeleton entity) {
 		return TEXTURE;
 	}
 

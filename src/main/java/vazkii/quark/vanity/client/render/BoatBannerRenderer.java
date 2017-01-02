@@ -28,8 +28,8 @@ public class BoatBannerRenderer {
 			return;
 
 		ItemStack banner = BoatSails.getBanner(boat);
-		if(banner != null) {
-			BANNER_TE.setItemValues(banner);
+		if(!banner.isEmpty()) {
+			BANNER_TE.setItemValues(banner, true);
 			GlStateManager.pushMatrix();
 			GlStateManager.rotate(180F, 1F, 0F, 0F);
 			GlStateManager.rotate(90F, 0F, 1F, 0F);

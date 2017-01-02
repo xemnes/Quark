@@ -23,7 +23,7 @@ public class KnockOnDoors extends Feature {
 
 	@SubscribeEvent
 	public void leftClick(PlayerInteractEvent.LeftClickBlock event) {
-		if(event.getEntityPlayer().getHeldItemMainhand() == null) {
+		if(event.getEntityPlayer().getHeldItemMainhand().isEmpty()) {
 			IBlockState state = event.getWorld().getBlockState(event.getPos());
 			Block block = state.getBlock();
 			if(block instanceof BlockDoor && state.getMaterial() == Material.WOOD)

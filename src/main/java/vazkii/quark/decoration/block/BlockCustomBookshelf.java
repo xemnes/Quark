@@ -23,10 +23,7 @@ import net.minecraft.item.Item;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import vazkii.arl.block.BlockMetaVariants;
-import vazkii.arl.block.BlockMod;
-import vazkii.arl.block.BlockMetaVariants.EnumBase;
 import vazkii.quark.base.block.IQuarkBlock;
-import vazkii.quark.building.block.BlockCarvedWood.Variants;
 
 public class BlockCustomBookshelf extends BlockMetaVariants implements IQuarkBlock {
 

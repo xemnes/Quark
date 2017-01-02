@@ -14,7 +14,7 @@ public class FoodTooltip extends Feature {
 
 	@SubscribeEvent
 	public void makeTooltip(ItemTooltipEvent event) {
-		if(event.getItemStack() != null && event.getItemStack().getItem() instanceof ItemFood) {
+		if(!event.getItemStack().isEmpty() && event.getItemStack().getItem() instanceof ItemFood) {
 			int pips = ((ItemFood) event.getItemStack().getItem()).getHealAmount(event.getItemStack());
 			int len = (int) Math.ceil((double) pips / 2);
 			

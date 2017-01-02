@@ -15,6 +15,7 @@ import net.minecraft.item.ItemFirework;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 
 public class FireworkCloningRecipe implements IRecipe {
@@ -26,7 +27,7 @@ public class FireworkCloningRecipe implements IRecipe {
 
 		for(int i = 0; i < var1.getSizeInventory(); i++) {
 			ItemStack stack = var1.getStackInSlot(i);
-			if(stack != null) {
+			if(!stack.isEmpty()) {
 				if(stack.getItem() instanceof ItemFirework) {
 					if(stack.getTagCompound() != null && stack.getTagCompound().hasKey("Fireworks")) {
 						if(foundSource)
@@ -46,29 +47,29 @@ public class FireworkCloningRecipe implements IRecipe {
 
 	@Override
 	public ItemStack getCraftingResult(InventoryCrafting var1) {
-		ItemStack source = null;
-		ItemStack target = null;
+		ItemStack source = ItemStack.EMPTY;
+		ItemStack target = ItemStack.EMPTY;
 
 		for(int i = 0; i < var1.getSizeInventory(); i++) {
 			ItemStack stack = var1.getStackInSlot(i);
-			if(stack != null) {
+			if(!stack.isEmpty()) {
 				if(stack.getTagCompound() != null && stack.getTagCompound().hasKey("Fireworks"))
 					source = stack;
 				else target = stack;
 			}
 		}
 		
-		if(source != null && target != null) {
+		if(!source.isEmpty() && !target.isEmpty()) {
 			ItemStack copy = target.copy();
 			NBTTagCompound cmp = new NBTTagCompound();
 			cmp.setTag("Fireworks", source.getTagCompound().getTag("Fireworks"));
 			copy.setTagCompound(cmp);
-			copy.stackSize = 1;
+			copy.setCount(1);
 
 			return copy;
 		}
 
-		return null;
+		return ItemStack.EMPTY;
 	}
 
 	@Override
@@ -78,18 +79,18 @@ public class FireworkCloningRecipe implements IRecipe {
 
 	@Override
 	public ItemStack getRecipeOutput() {
-		return null;
+		return ItemStack.EMPTY;
 	}
 
 	@Override
-	public ItemStack[] getRemainingItems(InventoryCrafting inv) {
-		ItemStack[] remaining = new ItemStack[inv.getSizeInventory()];
+	public NonNullList<ItemStack> getRemainingItems(InventoryCrafting inv) {
+		NonNullList<ItemStack> remaining = NonNullList.withSize(inv.getSizeInventory(), ItemStack.EMPTY);
 		for(int i = 0; i < inv.getSizeInventory(); i++) {
 			ItemStack stack = inv.getStackInSlot(i);
-			if(stack != null && stack.getTagCompound() != null && stack.getTagCompound().hasKey("Fireworks")) {
+			if(!stack.isEmpty() && stack.getTagCompound() != null && stack.getTagCompound().hasKey("Fireworks")) {
 				ItemStack copy = stack.copy();
-				copy.stackSize = 1;
-				remaining[i] = copy;
+				copy.setCount(1);
+				remaining.set(i, copy);
 			}
 		}
 

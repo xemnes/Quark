@@ -1,7 +1,6 @@
 package vazkii.quark.management.feature;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.gui.inventory.GuiContainerCreative;
 import net.minecraft.client.gui.inventory.GuiInventory;
@@ -38,12 +37,12 @@ public class InventorySorting extends Feature {
 			for(Slot s : container.inventorySlots)
 				if(creativeInv != null || s instanceof SlotCrafting) {
 					if(creativeInv == null)
-						event.getButtonList().add(new GuiButtonChest(guiInv, Action.SORT, 13212, guiLeft + s.xDisplayPosition - 20, guiTop + s.yDisplayPosition + 30));
+						event.getButtonList().add(new GuiButtonChest(guiInv, Action.SORT, 13212, guiLeft + s.xPos - 20, guiTop + s.yPos + 30));
 					else {
 						if(s.getSlotIndex() != 15)
 							continue;
 
-						event.getButtonList().add(new GuiButtonChest<GuiContainerCreative>(creativeInv, Action.SORT, 13212, guiLeft + s.xDisplayPosition + 8, guiTop + s.yDisplayPosition - 20,
+						event.getButtonList().add(new GuiButtonChest<GuiContainerCreative>(creativeInv, Action.SORT, 13212, guiLeft + s.xPos + 8, guiTop + s.yPos - 20,
 								(gui) -> gui.getSelectedTabIndex() == CreativeTabs.INVENTORY.getTabIndex()));
 					}
 
@@ -57,7 +56,7 @@ public class InventorySorting extends Feature {
 	public void performAction(GuiScreenEvent.ActionPerformedEvent.Pre event) {
 		if(event.getButton() instanceof GuiButtonChest && ((GuiButtonChest) event.getButton()).action == Action.SORT) {
 			NetworkHandler.INSTANCE.sendToServer(new MessageSortInventory());
-			SortingHandler.sortInventory(Minecraft.getMinecraft().thePlayer);
+			SortingHandler.sortInventory(Minecraft.getMinecraft().player);
 			event.setCanceled(true);
 		}
 	}

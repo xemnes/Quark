@@ -14,7 +14,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.EntityZombie;
-import net.minecraft.entity.monster.ZombieType;
 import net.minecraft.init.MobEffects;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
@@ -47,16 +46,6 @@ public class EntityDweller extends EntityZombie {
 	@Override
 	protected void setEquipmentBasedOnDifficulty(DifficultyInstance difficulty) {
 		// NO-OP
-	}
-
-	@Override
-	public ZombieType func_189777_di() {
-		return ZombieType.NORMAL;
-	}
-
-	@Override
-	public boolean isVillager() {
-		return false;
 	}
 
 	@Override

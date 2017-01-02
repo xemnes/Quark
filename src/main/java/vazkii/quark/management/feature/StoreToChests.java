@@ -52,7 +52,7 @@ public class StoreToChests extends Feature {
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void initGui(GuiScreenEvent.InitGuiEvent.Post event) {
-		if(Minecraft.getMinecraft().theWorld == null)
+		if(Minecraft.getMinecraft().world == null)
 			clientDisabled = false;
 
 		if(event.getGui() instanceof GuiInventory || event.getGui() instanceof GuiContainerCreative) {
@@ -71,12 +71,12 @@ public class StoreToChests extends Feature {
 			for(Slot s : container.inventorySlots)
 				if(creativeInv != null || s instanceof SlotCrafting) {
 					if(creativeInv == null)
-						event.getButtonList().add(new GuiButtonChest(guiInv, Action.DROPOFF, 13211, guiLeft + s.xDisplayPosition, guiTop + s.yDisplayPosition + 30));
+						event.getButtonList().add(new GuiButtonChest(guiInv, Action.DROPOFF, 13211, guiLeft + s.xPos, guiTop + s.yPos + 30));
 					else {
 						if(s.getSlotIndex() != 15)
 							continue;
 
-						event.getButtonList().add(new GuiButtonChest<GuiContainerCreative>(creativeInv, Action.DROPOFF, 13211, guiLeft + s.xDisplayPosition + 28, guiTop + s.yDisplayPosition - 20,
+						event.getButtonList().add(new GuiButtonChest<GuiContainerCreative>(creativeInv, Action.DROPOFF, 13211, guiLeft + s.xPos + 28, guiTop + s.yPos - 20,
 								(gui) -> gui.getSelectedTabIndex() == CreativeTabs.INVENTORY.getTabIndex()));
 					}
 

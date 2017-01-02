@@ -40,7 +40,7 @@ public class DoubleDoors extends Feature {
 		IBlockState other = event.getWorld().getBlockState(pos).getActualState(event.getWorld(), pos);
 
 		if(other.getBlock() == (BlockDoor) block && other.getValue(BlockDoor.FACING) == direction && other.getValue(BlockDoor.OPEN) == isOpen && other.getValue(BlockDoor.HINGE) != isMirrored)
-			((BlockDoor) block).onBlockActivated(event.getWorld(), pos, other, event.getEntityPlayer(), event.getHand(), event.getItemStack(), event.getFace(), 0, 0, 0);
+			((BlockDoor) block).onBlockActivated(event.getWorld(), pos, other, event.getEntityPlayer(), event.getHand(), event.getFace(), 0, 0, 0);
 	}
 
 	@Override

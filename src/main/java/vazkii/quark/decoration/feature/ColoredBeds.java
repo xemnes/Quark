@@ -69,7 +69,7 @@ public class ColoredBeds extends Feature {
 		List<IRecipe> recipeList = new ArrayList(CraftingManager.getInstance().getRecipeList());
 		for(IRecipe recipe : recipeList) {
 			ItemStack out = recipe.getRecipeOutput();
-			if(out != null && out.getItem() == Items.BED)
+			if(!out.isEmpty() && out.getItem() == Items.BED)
 				CraftingManager.getInstance().getRecipeList().remove(recipe);
 		}
 

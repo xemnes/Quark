@@ -47,7 +47,7 @@ public class EntityArrowEnder extends EntityArrow {
 	public void onUpdate() {
 		super.onUpdate();
 
-		if(worldObj.isRemote)
+		if(getEntityWorld().isRemote)
 			if(inGround) {
 				if(timeInGround % 5 == 0)
 					spawnPotionParticles(1);
@@ -57,7 +57,7 @@ public class EntityArrowEnder extends EntityArrow {
 	public void spawnPotionParticles(int particleCount) {
 		if(particleCount > 0)
 			for(int i = 0; i < particleCount; i++)
-				worldObj.spawnParticle(EnumParticleTypes.PORTAL, posX + (rand.nextDouble() - 0.5D) * width, posY + rand.nextDouble() * height, posZ + (rand.nextDouble() - 0.5D) * width, 0.0D, 0.0D, 0.0D, new int[0]);
+				getEntityWorld().spawnParticle(EnumParticleTypes.PORTAL, posX + (rand.nextDouble() - 0.5D) * width, posY + rand.nextDouble() * height, posZ + (rand.nextDouble() - 0.5D) * width, 0.0D, 0.0D, 0.0D, new int[0]);
 	}
 
 	@Override
@@ -68,13 +68,13 @@ public class EntityArrowEnder extends EntityArrow {
 			if(shootingEntity instanceof EntityPlayerMP) {
 				EntityPlayerMP entityplayermp = (EntityPlayerMP)shootingEntity;
 
-				if(entityplayermp.connection.getNetworkManager().isChannelOpen() && entityplayermp.worldObj == worldObj && !entityplayermp.isPlayerSleeping()) {
+				if(entityplayermp.connection.getNetworkManager().isChannelOpen() && entityplayermp.getEntityWorld() == getEntityWorld() && !entityplayermp.isPlayerSleeping()) {
 					EnderTeleportEvent event = new EnderTeleportEvent(entityplayermp, posX, posY, posZ, 5.0F);
-					if(!MinecraftForge.EVENT_BUS.post(event) && rand.nextFloat() < 0.025F && worldObj.getGameRules().getBoolean("doMobSpawning")) {
-						EntityEndermite entityendermite = new EntityEndermite(worldObj);
+					if(!MinecraftForge.EVENT_BUS.post(event) && rand.nextFloat() < 0.025F && getEntityWorld().getGameRules().getBoolean("doMobSpawning")) {
+						EntityEndermite entityendermite = new EntityEndermite(getEntityWorld());
 						entityendermite.setSpawnedByPlayer(true);
 						entityendermite.setLocationAndAngles(shootingEntity.posX, shootingEntity.posY, shootingEntity.posZ, shootingEntity.rotationYaw, shootingEntity.rotationPitch);
-						worldObj.spawnEntityInWorld(entityendermite);
+						getEntityWorld().spawnEntity(entityendermite);
 					}
 
 					if(shootingEntity.isRiding())
@@ -82,7 +82,7 @@ public class EntityArrowEnder extends EntityArrow {
 
 					shootingEntity.setPositionAndUpdate(event.getTargetX(), event.getTargetY(), event.getTargetZ());
 					shootingEntity.fallDistance = 0.0F;
-					shootingEntity.attackEntityFrom(DamageSource.fall, event.getAttackDamage());
+					shootingEntity.attackEntityFrom(DamageSource.FALL, event.getAttackDamage());
 				}
 			} else {
 				shootingEntity.setPositionAndUpdate(this.posX, this.posY, this.posZ);
@@ -91,7 +91,7 @@ public class EntityArrowEnder extends EntityArrow {
 
 			// Full copypasta from EntityEnderPearl
 			for(int i = 0; i < 32; ++i)
-				this.worldObj.spawnParticle(EnumParticleTypes.PORTAL, this.posX, this.posY + this.rand.nextDouble() * 2.0D, this.posZ, this.rand.nextGaussian(), 0.0D, this.rand.nextGaussian(), new int[0]);
+				this.getEntityWorld().spawnParticle(EnumParticleTypes.PORTAL, this.posX, this.posY + this.rand.nextDouble() * 2.0D, this.posZ, this.rand.nextGaussian(), 0.0D, this.rand.nextGaussian(), new int[0]);
 
 			setDead();
 		}

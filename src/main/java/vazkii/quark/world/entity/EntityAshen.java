@@ -13,7 +13,6 @@ package vazkii.quark.world.entity;
 import com.google.common.collect.ImmutableSet;
 
 import net.minecraft.entity.monster.EntitySkeleton;
-import net.minecraft.entity.monster.SkeletonType;
 import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
@@ -46,11 +45,6 @@ public class EntityAshen extends EntitySkeleton {
 			return getCustomNameTag();
 
 		return I18n.translateToLocal("entity.Quark.ashen.name");
-	}
-
-	@Override
-	public SkeletonType func_189771_df() {
-		return SkeletonType.NORMAL;
 	}
 
 	@Override

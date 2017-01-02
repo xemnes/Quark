@@ -29,7 +29,7 @@ public class DropoffGamerule {
 
 	@SubscribeEvent
 	public void login(PlayerLoggedInEvent event) {
-		if(!event.player.worldObj.getGameRules().getBoolean(StoreToChests.GAME_RULE))
+		if(!event.player.getEntityWorld().getGameRules().getBoolean(StoreToChests.GAME_RULE))
 			DropoffHandler.disableClientDropoff(event.player);
 	}
 

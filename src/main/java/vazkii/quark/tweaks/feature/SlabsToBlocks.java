@@ -46,11 +46,11 @@ public class SlabsToBlocks extends Feature {
 				else recipeItems = ((ShapedOreRecipe) recipe).getInput();
 
 				ItemStack output = recipe.getRecipeOutput();
-				if(output != null && output.stackSize == originalSize) {
+				if(!output.isEmpty() && output.getCount() == originalSize) {
 					Item outputItem = output.getItem();
 					Block outputBlock = Block.getBlockFromItem(outputItem);
 					if(outputBlock != null && outputBlock instanceof BlockSlab) {
-						ItemStack outStack = null;
+						ItemStack outStack = ItemStack.EMPTY;
 						int inputItems = 0;
 
 						for(Object recipeItem2 : recipeItems) {
@@ -63,19 +63,19 @@ public class SlabsToBlocks extends Feature {
 
 							if(recipeItem != null) {
 								ItemStack recipeStack = (ItemStack) recipeItem;
-								if(outStack == null)
+								if(outStack.isEmpty())
 									outStack = recipeStack;
 								
 								if(ItemStack.areItemsEqual(outStack, recipeStack))
 									inputItems++;
 								else {
-									outStack = null;
+									outStack = ItemStack.EMPTY;
 									break;
 								}
 							}
 						}
 
-						if(outStack != null && inputItems == 3) {
+						if(!outStack.isEmpty() && inputItems == 3) {
 							ItemStack outCopy = outStack.copy();
 							if(outCopy.getItemDamage() == OreDictionary.WILDCARD_VALUE)
 								outCopy.setItemDamage(0);

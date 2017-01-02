@@ -16,7 +16,7 @@ public class ImprovedMountHUD extends Feature {
 	public void onRenderHUD(RenderGameOverlayEvent.Pre event) {
 		if(event.getType() == ElementType.ALL) {
 			Minecraft mc = Minecraft.getMinecraft();
-			Entity riding = mc.thePlayer.getRidingEntity();
+			Entity riding = mc.player.getRidingEntity();
 			
 			if(riding != null) {
 				GuiIngameForge.renderFood = true;

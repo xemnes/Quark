@@ -10,8 +10,6 @@
  */
 package vazkii.quark.world.item;
 
-import java.util.List;
-
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -23,6 +21,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -47,15 +46,15 @@ public class ItemSlimeBucket extends ItemMod implements IQuarkItem {
 	}
 
 	@Override
-	public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
+	public void getSubItems(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> subItems) {
 		subItems.add(new ItemStack(itemIn));
 	}
 
 	@Override
 	public void onUpdate(ItemStack stack, World world, Entity entity, int something, boolean somethingelse) {
 		if(!world.isRemote) {
-			int x = MathHelper.floor_double(entity.posX);
-			int z = MathHelper.floor_double(entity.posZ);
+			int x = MathHelper.floor(entity.posX);
+			int z = MathHelper.floor(entity.posZ);
 			boolean slime = isSlimeChunk(world, x, z);
 			int meta = stack.getItemDamage();
 			int newMeta = slime ? 1 : 0;
@@ -65,7 +64,7 @@ public class ItemSlimeBucket extends ItemMod implements IQuarkItem {
 	}
 
 	@Override
-	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+	public EnumActionResult onItemUse(EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		double x = pos.getX() + 0.5 + facing.getFrontOffsetX();
 		double y = pos.getY() + 0.5 + facing.getFrontOffsetY();
 		double z = pos.getZ() + 0.5 + facing.getFrontOffsetZ();
@@ -77,7 +76,7 @@ public class ItemSlimeBucket extends ItemMod implements IQuarkItem {
 			slime.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(1.0);
 			slime.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.3);
 			slime.setHealth(slime.getMaxHealth());
-			worldIn.spawnEntityInWorld(slime);
+			worldIn.spawnEntity(slime);
 			playerIn.swingArm(hand);
 		}
 

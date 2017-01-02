@@ -18,6 +18,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biome.SpawnListEntry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
@@ -54,12 +55,14 @@ public class DepthMobs extends Feature {
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
 		if(enableDweller) {
-			EntityRegistry.registerModEntity(EntityDweller.class, "dweller", LibEntityIDs.DWELLER, Quark.instance, 80, 3, true, 0x4a5944, 0x3f2020);
+			String dwellerName = "quark:dweller";
+			EntityRegistry.registerModEntity(new ResourceLocation(dwellerName), EntityDweller.class, dwellerName, LibEntityIDs.DWELLER, Quark.instance, 80, 3, true, 0x4a5944, 0x3f2020);
 			EntityRegistry.addSpawn(EntityDweller.class, dwellerWeight, dwellerMinPack, dwellerMaxPack, EnumCreatureType.MONSTER, getBiomesWithMob(EntityZombie.class));
 		}
 
 		if(enableAshen) {
-			EntityRegistry.registerModEntity(EntityAshen.class, "ashen", LibEntityIDs.ASHEN, Quark.instance, 80, 3, true, 0x838376, 0x533d3c);
+			String ashenName = "quark:ashen";
+			EntityRegistry.registerModEntity(new ResourceLocation(ashenName), EntityAshen.class, ashenName, LibEntityIDs.ASHEN, Quark.instance, 80, 3, true, 0x838376, 0x533d3c);
 			EntityRegistry.addSpawn(EntityAshen.class, ashenWeight, ashenMinPack, ashenMaxPack, EnumCreatureType.MONSTER, getBiomesWithMob(EntitySkeleton.class));
 		}
 	}

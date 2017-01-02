@@ -163,39 +163,39 @@ public class PanoramaMaker extends Feature {
 					mc.gameSettings.hideGUI = true;
 					currentWidth = mc.displayWidth;
 					currentHeight = mc.displayHeight;
-					rotationYaw = mc.thePlayer.rotationYaw;
-					rotationPitch = mc.thePlayer.rotationPitch;
+					rotationYaw = mc.player.rotationYaw;
+					rotationPitch = mc.player.rotationPitch;
 					mc.resize(256, 256);
 				}
 
 				switch(panoramaStep) {
 				case 1:
-					mc.thePlayer.rotationYaw = 180;
-					mc.thePlayer.rotationPitch = 0;
+					mc.player.rotationYaw = 180;
+					mc.player.rotationPitch = 0;
 					break;
 				case 2:
-					mc.thePlayer.rotationYaw = -90;
-					mc.thePlayer.rotationPitch = 0;
+					mc.player.rotationYaw = -90;
+					mc.player.rotationPitch = 0;
 					break;
 				case 3:
-					mc.thePlayer.rotationYaw = 0;
-					mc.thePlayer.rotationPitch = 0;
+					mc.player.rotationYaw = 0;
+					mc.player.rotationPitch = 0;
 					break;
 				case 4:
-					mc.thePlayer.rotationYaw = 90;
-					mc.thePlayer.rotationPitch = 0;
+					mc.player.rotationYaw = 90;
+					mc.player.rotationPitch = 0;
 					break;
 				case 5:
-					mc.thePlayer.rotationYaw = 180;
-					mc.thePlayer.rotationPitch = -90;
+					mc.player.rotationYaw = 180;
+					mc.player.rotationPitch = -90;
 					break;
 				case 6:
-					mc.thePlayer.rotationYaw = 180;
-					mc.thePlayer.rotationPitch = 90;
+					mc.player.rotationYaw = 180;
+					mc.player.rotationPitch = 90;
 					break;
 				}
-				mc.thePlayer.prevRotationYaw = mc.thePlayer.rotationYaw;
-				mc.thePlayer.prevRotationPitch = mc.thePlayer.rotationPitch;
+				mc.player.prevRotationYaw = mc.player.rotationYaw;
+				mc.player.prevRotationPitch = mc.player.rotationPitch;
 			} else {
 				if(panoramaStep > 0)
 					saveScreenshot(currentDir, "panorama_" + (panoramaStep - 1) + ".png", mc.displayWidth, mc.displayHeight, mc.getFramebuffer());
@@ -204,10 +204,10 @@ public class PanoramaMaker extends Feature {
 					mc.gameSettings.hideGUI = false;
 					takingPanorama = false;
 
-					mc.thePlayer.rotationYaw = rotationYaw;
-					mc.thePlayer.rotationPitch = rotationYaw;
-					mc.thePlayer.prevRotationYaw = mc.thePlayer.rotationYaw;
-					mc.thePlayer.prevRotationPitch = mc.thePlayer.rotationPitch;
+					mc.player.rotationYaw = rotationYaw;
+					mc.player.rotationPitch = rotationYaw;
+					mc.player.prevRotationYaw = mc.player.rotationYaw;
+					mc.player.prevRotationPitch = mc.player.rotationPitch;
 
 					mc.resize(currentWidth, currentHeight);
 				}

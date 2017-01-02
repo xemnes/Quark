@@ -46,7 +46,7 @@ public final class SortingHandler {
 	private static final Comparator<ItemStack> FALLBACK_COMPARATOR = jointComparator(
 			(ItemStack s1, ItemStack s2) -> Item.getIdFromItem(s1.getItem()) - Item.getIdFromItem(s2.getItem()),
 			SortingHandler::damageCompare,
-			(ItemStack s1, ItemStack s2) -> s2.stackSize - s1.stackSize,
+			(ItemStack s1, ItemStack s2) -> s2.getCount() - s1.getCount(),
 			(ItemStack s1, ItemStack s2) -> s2.getDisplayName().compareTo(s1.getDisplayName()),
 			(ItemStack s1, ItemStack s2) -> s2.hashCode() - s1.hashCode());
 
@@ -108,7 +108,7 @@ public final class SortingHandler {
 
 		for(int i = iStart; i < iEnd; i++) {
 			ItemStack stackAt = handler.getStackInSlot(i);
-			if(stackAt != null)
+			if(!stackAt.isEmpty())
 				stacks.add(stackAt.copy());
 		}
 
@@ -117,11 +117,11 @@ public final class SortingHandler {
 		
 		for(int i = iStart; i < iEnd; i++) {
 			int j = i - iStart;
-			ItemStack stack = j >= stacks.size() ? null : stacks.get(j);
+			ItemStack stack = j >= stacks.size() ? ItemStack.EMPTY : stacks.get(j);
 
 			handler.extractItem(i, 64, false);
 
-			if(stack != null)
+			if(!stack.isEmpty())
 				handler.insertItem(i, stack, false);
 		}
 	}
@@ -129,34 +129,34 @@ public final class SortingHandler {
 	private static void mergeStacks(List<ItemStack> list) {
 		for(int i = 0; i < list.size(); i++) {
 			ItemStack set = mergeStackWithOthers(list, i);
-			if(set == null)
+			if(set.isEmpty())
 				list.remove(i);
 			else list.set(i, set);
 		}
 		
-		list.removeIf((ItemStack stack) -> stack == null || stack.stackSize == 0);
+		list.removeIf((ItemStack stack) -> stack.isEmpty() || stack.getCount() == 0);
 	}
 	
 	private static ItemStack mergeStackWithOthers(List<ItemStack> list, int index) {
 		ItemStack stack = list.get(index);
-		if(stack == null)
-			return null;
+		if(stack.isEmpty())
+			return stack;
 		
 		for(int i = 0; i < list.size(); i++) {
 			if(i == index)
 				continue;
 			
 			ItemStack stackAt = list.get(i);
-			if(stackAt == null)
+			if(stackAt.isEmpty())
 				continue;
 			
-			if(stackAt.stackSize < stackAt.getMaxStackSize() && ItemStack.areItemsEqual(stack, stackAt) && ItemStack.areItemStackTagsEqual(stack, stackAt)) {
-				int setSize = stackAt.stackSize + stack.stackSize;
+			if(stackAt.getCount() < stackAt.getMaxStackSize() && ItemStack.areItemsEqual(stack, stackAt) && ItemStack.areItemStackTagsEqual(stack, stackAt)) {
+				int setSize = stackAt.getCount() + stack.getCount();
 				int carryover = Math.max(0, setSize - stackAt.getMaxStackSize());
-				stackAt.stackSize = carryover;
-				stack.stackSize = setSize - carryover;
+				stackAt.setCount(carryover);
+				stack.setCount(setSize - carryover);
 				
-				if(stack.stackSize == stack.getMaxStackSize())
+				if(stack.getCount() == stack.getMaxStackSize())
 					return stack;
 			}
 		}
@@ -171,9 +171,9 @@ public final class SortingHandler {
 	private static int stackCompare(ItemStack stack1, ItemStack stack2) {
 		if(stack1 == stack2)
 			return 0;
-		if(stack1 == null)
+		if(stack1.isEmpty())
 			return -1;
-		if(stack2 == null)
+		if(stack2.isEmpty())
 			return 1;
 
 		ItemType type1 = getType(stack1);
@@ -194,7 +194,7 @@ public final class SortingHandler {
 	}
 
 	private static Predicate<ItemStack> classPred(Class<? extends Item> clazz) {
-		return (ItemStack s) -> s != null && s.getItem() != null && clazz.isInstance(s.getItem());
+		return (ItemStack s) -> !s.isEmpty() && clazz.isInstance(s.getItem());
 	}
 	
 	private static Predicate<ItemStack> negClassPred(Class<? extends Item> clazz) {
@@ -203,7 +203,7 @@ public final class SortingHandler {
 	}
 
 	private static Predicate<ItemStack> itemPred(List<Item> list) {
-		return (ItemStack s) -> s != null && s.getItem() != null && list.contains(s.getItem());
+		return (ItemStack s) -> !s.isEmpty() && list.contains(s.getItem());
 	}
 
 	public static Comparator<ItemStack> jointComparator(Comparator<ItemStack> finalComparator, Comparator<ItemStack>[] otherComparators) {

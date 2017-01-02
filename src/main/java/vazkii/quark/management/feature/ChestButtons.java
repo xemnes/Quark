@@ -53,7 +53,7 @@ public class ChestButtons extends Feature {
 		if(event.getGui() instanceof GuiContainer) {
 			GuiContainer guiInv = (GuiContainer) event.getGui();
 			Container container = guiInv.inventorySlots;
-			EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+			EntityPlayer player = Minecraft.getMinecraft().player;
 
 			boolean accept = guiInv instanceof GuiChest;
 
@@ -74,13 +74,13 @@ public class ChestButtons extends Feature {
 			for(Slot s : container.inventorySlots)
 				if(s.inventory == player.inventory && s.getSlotIndex() == 9) {
 					if(sort && ModuleLoader.isFeatureEnabled(InventorySorting.class))
-						event.getButtonList().add(new GuiButtonChest(guiInv, Action.SORT, 13210, guiLeft + xShift, guiTop + s.yDisplayPosition - 60 + yShift));
+						event.getButtonList().add(new GuiButtonChest(guiInv, Action.SORT, 13210, guiLeft + xShift, guiTop + s.yPos - 60 + yShift));
 					if(restock)
-						event.getButtonList().add(new GuiButtonChest(guiInv, Action.RESTOCK, 13211, guiLeft + xShift, guiTop + s.yDisplayPosition - 40 + yShift));
+						event.getButtonList().add(new GuiButtonChest(guiInv, Action.RESTOCK, 13211, guiLeft + xShift, guiTop + s.yPos - 40 + yShift));
 					if(deposit)
-						event.getButtonList().add(new GuiButtonChest(guiInv, Action.DEPOSIT, 13212, guiLeft + xShift, guiTop + s.yDisplayPosition + 18 + yShift));
+						event.getButtonList().add(new GuiButtonChest(guiInv, Action.DEPOSIT, 13212, guiLeft + xShift, guiTop + s.yPos + 18 + yShift));
 					if(smartDeposit)
-						event.getButtonList().add(new GuiButtonChest(guiInv, Action.SMART_DEPOSIT, 13213, guiLeft + xShift, guiTop + s.yDisplayPosition + 36 + yShift));
+						event.getButtonList().add(new GuiButtonChest(guiInv, Action.SMART_DEPOSIT, 13213, guiLeft + xShift, guiTop + s.yPos + 36 + yShift));
 					
 					break;
 				}

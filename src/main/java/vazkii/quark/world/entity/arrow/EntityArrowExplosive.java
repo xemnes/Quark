@@ -12,16 +12,11 @@ package vazkii.quark.world.entity.arrow;
 
 import net.minecraft.dispenser.IPosition;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.EntityEndermite;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.EnderTeleportEvent;
 import vazkii.quark.world.feature.ExtraArrows;
 
 public class EntityArrowExplosive extends EntityArrow {
@@ -47,22 +42,22 @@ public class EntityArrowExplosive extends EntityArrow {
 	public void onUpdate() {
 		super.onUpdate();
 
-		if(worldObj.isRemote)
+		if(getEntityWorld().isRemote)
 			spawnPotionParticles(4);
 	}
 
 	public void spawnPotionParticles(int particleCount) {
 		if(particleCount > 0)
 			for(int i = 0; i < particleCount; i++)
-				worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, posX + (rand.nextDouble() - 0.5D) * width, posY + rand.nextDouble() * height, posZ + (rand.nextDouble() - 0.5D) * width, 0.0D, 0.0D, 0.0D, new int[0]);
+				getEntityWorld().spawnParticle(EnumParticleTypes.SMOKE_NORMAL, posX + (rand.nextDouble() - 0.5D) * width, posY + rand.nextDouble() * height, posZ + (rand.nextDouble() - 0.5D) * width, 0.0D, 0.0D, 0.0D, new int[0]);
 	}
 
 	@Override
 	protected void onHit(RayTraceResult raytraceResultIn) {
 		super.onHit(raytraceResultIn);
 
-		if(!worldObj.isRemote)
-			worldObj.createExplosion(this, posX, posY, posZ, (float) ExtraArrows.explosiveArrowPower, ExtraArrows.explosiveArrowDestroysBlocks);
+		if(!getEntityWorld().isRemote)
+			getEntityWorld().createExplosion(this, posX, posY, posZ, (float) ExtraArrows.explosiveArrowPower, ExtraArrows.explosiveArrowDestroysBlocks);
 		setDead();
 	}
 

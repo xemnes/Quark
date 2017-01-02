@@ -44,7 +44,7 @@ public final class DropoffHandler {
 		if(!ModuleLoader.isFeatureEnabled(useContainer ? ChestButtons.class : StoreToChests.class))
 			return;
 
-		if(!useContainer && !player.worldObj.getWorldInfo().getGameRulesInstance().getBoolean(StoreToChests.GAME_RULE)) {
+		if(!useContainer && !player.getEntityWorld().getWorldInfo().getGameRulesInstance().getBoolean(StoreToChests.GAME_RULE)) {
 			disableClientDropoff(player);
 			return;
 		}
@@ -88,7 +88,7 @@ public final class DropoffHandler {
 		}
 
 		if(te instanceof IInventory)
-			accept = accept && ((IInventory) te).isUseableByPlayer(player);
+			accept = accept && ((IInventory) te).isUsableByPlayer(player);
 
 		return accept;
 	}
@@ -100,7 +100,7 @@ public final class DropoffHandler {
 			accept = (name.contains("chest") || te instanceof TileEntityChest) && !name.contains("void") && !name.contains("trash");
 		}
 
-		accept = accept && te != null && te.isUseableByPlayer(player);
+		accept = accept && te != null && te.isUsableByPlayer(player);
 
 		return accept;
 	}
@@ -187,7 +187,7 @@ public final class DropoffHandler {
 		}
 
 		public void findHandler(BlockPos pos) {
-			IItemHandler handler = getInventory(player, player.worldObj, pos);
+			IItemHandler handler = getInventory(player, player.getEntityWorld(), pos);
 			if(handler != null)
 				itemHandlers.add(Pair.of(handler, player.getDistanceSq(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5)));
 		}
@@ -195,7 +195,7 @@ public final class DropoffHandler {
 		public void dropoff(DropoffPredicate pred) {
 			InventoryPlayer inv = player.inventory;
 
-			for(int i = InventoryPlayer.getHotbarSize(); i < inv.mainInventory.length; i++) {
+			for(int i = InventoryPlayer.getHotbarSize(); i < inv.mainInventory.size(); i++) {
 				ItemStack stackAt = inv.getStackInSlot(i);
 
 				if(stackAt != null && !FavoriteItems.isItemFavorited(stackAt)) {
@@ -224,7 +224,7 @@ public final class DropoffHandler {
 				if(retStack != null)
 					retStack = retStack.copy();
 
-				if(retStack == null || retStack.stackSize == 0)
+				if(retStack == null || retStack.getCount() == 0)
 					return null;
 
 				return retStack;

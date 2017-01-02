@@ -32,7 +32,7 @@ public class SnowGolemPlayerHeads extends Feature {
 			if(!snowman.isPumpkinEquipped()) { // for some reason isPumpkinEquipped is backwards
 				ItemStack stack = new ItemStack(Items.SKULL, 1, 3);
 				ItemNBTHelper.setString(stack, "SkullOwner", e.getCustomNameTag());
-				event.getDrops().add(new EntityItem(e.worldObj, e.posX, e.posY, e.posZ, stack));
+				event.getDrops().add(new EntityItem(e.getEntityWorld(), e.posX, e.posY, e.posZ, stack));
 			}
 		}
 	}

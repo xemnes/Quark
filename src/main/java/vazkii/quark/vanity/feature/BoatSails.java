@@ -32,32 +32,32 @@ import vazkii.quark.base.module.ModuleLoader;
 
 public class BoatSails extends Feature {
 
-	private static DataParameter<Optional<ItemStack>> bannerData;
+	private static DataParameter<ItemStack> bannerData;
 	private static final String TAG_BANNER = "quark:banner";
 
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
-		bannerData = EntityDataManager.<Optional<ItemStack>>createKey(EntityBoat.class, DataSerializers.OPTIONAL_ITEM_STACK);
+		bannerData = EntityDataManager.<ItemStack>createKey(EntityBoat.class, DataSerializers.OPTIONAL_ITEM_STACK);
 	}
 	
 	@SubscribeEvent
 	public void onEntityInit(EntityConstructing event) {
 		if(event.getEntity() instanceof EntityBoat) {
 			EntityDataManager manager = event.getEntity().getDataManager();
-			manager.register(bannerData, Optional.absent());
+			manager.register(bannerData, ItemStack.EMPTY);
 		}
 	}
 
 	@SubscribeEvent
 	public void preUpdate(EntityEvent.CanUpdate event) {
-		if(event.getEntity() instanceof EntityBoat && !event.getEntity().worldObj.isRemote) {
-			ItemStack dataStack = event.getEntity().getDataManager().get(bannerData).orNull();
+		if(event.getEntity() instanceof EntityBoat && !event.getEntity().getEntityWorld().isRemote) {
+			ItemStack dataStack = event.getEntity().getDataManager().get(bannerData);
 
 			NBTTagCompound cmp = event.getEntity().getEntityData().getCompoundTag(TAG_BANNER);
-			ItemStack nbtStack = ItemStack.loadItemStackFromNBT(cmp);
+			ItemStack nbtStack = new ItemStack(cmp);
 
 			if(dataStack != nbtStack)
-				event.getEntity().getDataManager().set(bannerData, Optional.of(nbtStack));
+				event.getEntity().getDataManager().set(bannerData, nbtStack);
 		}
 	}
 
@@ -68,20 +68,20 @@ public class BoatSails extends Feature {
 
 		if(target instanceof EntityBoat && !target.getPassengers().contains(player)) {
 			ItemStack banner = getBanner((EntityBoat) target);
-			if(banner != null)
+			if(!banner.isEmpty())
 				return;
 
 			EnumHand hand = EnumHand.MAIN_HAND;
 			ItemStack stack = player.getHeldItemMainhand();
-			if(stack == null || !(stack.getItem() instanceof ItemBanner)) {
+			if(stack.isEmpty() || !(stack.getItem() instanceof ItemBanner)) {
 				stack = player.getHeldItemOffhand();
 				hand = EnumHand.OFF_HAND;
 			}
 
-			if(stack != null && stack.getItem() instanceof ItemBanner) {
+			if(!stack.isEmpty() && stack.getItem() instanceof ItemBanner) {
 				ItemStack copyStack = stack.copy();
 				player.swingArm(hand);
-				target.getDataManager().set(bannerData, Optional.of(copyStack));
+				target.getDataManager().set(bannerData, copyStack);
 
 				NBTTagCompound cmp = new NBTTagCompound();
 				copyStack.writeToNBT(cmp);
@@ -90,10 +90,10 @@ public class BoatSails extends Feature {
 				if(!event.getWorld().isRemote) {
 					event.setCanceled(true);
 					if(!player.capabilities.isCreativeMode) {
-						stack.stackSize--;
+						stack.shrink(1);
 
-						if(stack.stackSize <= 0)
-							player.setHeldItem(hand, (ItemStack)null);
+						if(stack.getCount() <= 0)
+							player.setHeldItem(hand, ItemStack.EMPTY);
 					}
 				}
 			}
@@ -101,7 +101,7 @@ public class BoatSails extends Feature {
 	}
 
 	public static ItemStack getBanner(EntityBoat boat) {
-		return boat.getDataManager().get(bannerData).orNull();
+		return boat.getDataManager().get(bannerData);
 	}
 
 	public static void dropBoatBanner(EntityBoat boat) {
@@ -109,7 +109,7 @@ public class BoatSails extends Feature {
 			return;
 
 		ItemStack banner = getBanner(boat);
-		if(banner != null)
+		if(!banner.isEmpty())
 			boat.entityDropItem(banner, 0F);
 	}
 

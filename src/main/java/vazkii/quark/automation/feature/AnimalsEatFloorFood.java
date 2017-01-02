@@ -17,16 +17,16 @@ public class AnimalsEatFloorFood extends Feature {
 			EntityAnimal animal = (EntityAnimal) event.getEntityLiving();
 			if(animal.getGrowingAge() == 0 && !animal.isInLove()) {
 				double range = 2;
-				List<EntityItem> nearbyFood = animal.worldObj.getEntitiesWithinAABB(EntityItem.class, animal.getEntityBoundingBox().expand(range, 0, range),
-						(EntityItem i) -> i.getEntityItem() != null && !i.isDead && animal.isBreedingItem(i.getEntityItem()));
+				List<EntityItem> nearbyFood = animal.getEntityWorld().getEntitiesWithinAABB(EntityItem.class, animal.getEntityBoundingBox().expand(range, 0, range),
+						(EntityItem i) -> !i.getEntityItem().isEmpty() && !i.isDead && animal.isBreedingItem(i.getEntityItem()));
 				
 				if(!nearbyFood.isEmpty()) {
 					EntityItem e = nearbyFood.get(0);
 					
 					ItemStack stack = e.getEntityItem();
-					stack.stackSize--;
+					stack.shrink(1);;
 					e.setEntityItemStack(stack);
-					if(stack.stackSize == 0)
+					if(stack.isEmpty())
 						e.setDead();
 					
 					animal.setInLove(null);

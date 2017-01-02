@@ -19,7 +19,9 @@ import net.minecraft.init.MobEffects;
 import net.minecraft.item.Item;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
@@ -30,6 +32,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.lib.LibEntityIDs;
+import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.potion.PotionMod;
 import vazkii.quark.world.client.render.RenderWraith;
@@ -65,8 +68,9 @@ public class Wraiths extends Feature {
 		if(enableCurse)
 			curse = new PotionMod("curse", true, 0x000000, 0);
 
-		EntityRegistry.registerModEntity(EntityWraith.class, "wraith", LibEntityIDs.WRAITH, Quark.instance, 80, 3, true, 0xececec, 0xbdbdbd);
-		EntityRegistry.addSpawn(EntityWraith.class, weight, min, max, EnumCreatureType.MONSTER, BiomeDictionary.getBiomesForType(Type.NETHER));
+		String wraithName = "quark:wraith";
+		EntityRegistry.registerModEntity(new ResourceLocation(wraithName), EntityWraith.class, wraithName, LibEntityIDs.WRAITH, Quark.instance, 80, 3, true, 0xececec, 0xbdbdbd);
+		EntityRegistry.addSpawn(EntityWraith.class, weight, min, max, EnumCreatureType.MONSTER, BiomeDictionary.getBiomes(Type.NETHER).toArray(new Biome[0]));
 	}
 
 	@Override

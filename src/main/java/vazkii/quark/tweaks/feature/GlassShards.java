@@ -48,7 +48,7 @@ public class GlassShards extends Feature {
 			if(block == Blocks.STAINED_GLASS)
 				meta = block.getMetaFromState(event.getState()) + 1;
 
-			int quantity = MathHelper.clamp_int(2 + event.getWorld().rand.nextInt(3) + event.getWorld().rand.nextInt(event.getFortuneLevel() + 1), 1, 4);
+			int quantity = MathHelper.clamp(2 + event.getWorld().rand.nextInt(3) + event.getWorld().rand.nextInt(event.getFortuneLevel() + 1), 1, 4);
 
 			event.getDrops().add(new ItemStack(glass_shard, quantity, meta));
 		}

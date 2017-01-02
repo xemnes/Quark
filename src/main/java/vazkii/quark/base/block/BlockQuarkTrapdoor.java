@@ -20,7 +20,6 @@ import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import vazkii.arl.interf.IModBlock;
 import vazkii.arl.item.ItemModBlock;
 import vazkii.quark.base.lib.LibMisc;
 

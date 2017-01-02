@@ -48,7 +48,7 @@ public class SitInStairs extends Feature {
 
 		ItemStack stack1 = player.getHeldItemMainhand();
 		ItemStack stack2 = player.getHeldItemOffhand();
-		if(stack1 != null || stack2 != null)
+		if(!stack1.isEmpty() || !stack2.isEmpty())
 			return;
 
 		if(state.getBlock() instanceof BlockStairs && state.getValue(BlockStairs.HALF) == EnumHalf.BOTTOM && !state.getBlock().isSideSolid(state, world, pos, event.getFace()) && canBeAbove(world, pos)) {
@@ -56,7 +56,7 @@ public class SitInStairs extends Feature {
 
 			if(seats.isEmpty()) {
 				Seat seat = new Seat(world, pos);
-				world.spawnEntityInWorld(seat);
+				world.spawnEntity(seat);
 				event.getEntityPlayer().startRiding(seat);
 			}
 		}
@@ -93,7 +93,7 @@ public class SitInStairs extends Feature {
 			super.onUpdate();
 
 			BlockPos pos = getPosition();
-			if(pos != null && !(worldObj.getBlockState(pos).getBlock() instanceof BlockStairs) || !canBeAbove(worldObj, pos)) {
+			if(pos != null && !(getEntityWorld().getBlockState(pos).getBlock() instanceof BlockStairs) || !canBeAbove(getEntityWorld(), pos)) {
 				setDead();
 				return;
 			}

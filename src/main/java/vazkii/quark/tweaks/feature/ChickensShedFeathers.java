@@ -34,30 +34,30 @@ public class ChickensShedFeathers extends Feature {
 
 	@SubscribeEvent
 	public void onLivingUpdate(LivingUpdateEvent event) {
-		if(event.getEntity().worldObj.isRemote || !(event.getEntity() instanceof EntityChicken))
+		if(event.getEntity().getEntityWorld().isRemote || !(event.getEntity() instanceof EntityChicken))
 			return;
 
 		EntityChicken chicken = (EntityChicken) event.getEntity();
-		if((chicksDropFeathers || !chicken.isChild()) && chicken.worldObj.rand.nextInt(dropFreq) == 0)
+		if((chicksDropFeathers || !chicken.isChild()) && chicken.getEntityWorld().rand.nextInt(dropFreq) == 0)
 			chicken.dropItem(Items.FEATHER, 1);
 	}
 
 	@SubscribeEvent
 	public void onLivingDrops(LivingDropsEvent event) {
-		if(!dropAtLeastOne || event.getEntity().worldObj.isRemote || !(event.getEntity() instanceof EntityChicken) || !((EntityChicken)event.getEntity()).isChild() && !chicksDropFeathers)
+		if(!dropAtLeastOne || event.getEntity().getEntityWorld().isRemote || !(event.getEntity() instanceof EntityChicken) || !((EntityChicken)event.getEntity()).isChild() && !chicksDropFeathers)
 			return;
 
 		EntityChicken chicken = (EntityChicken) event.getEntity();
 		boolean hasFeather = false;
 
 		for(EntityItem item : event.getDrops())
-			if(item != null && item.getEntityItem().getItem().equals(Items.FEATHER)) {
+			if(!item.getEntityItem().isEmpty() && item.getEntityItem().getItem().equals(Items.FEATHER)) {
 				hasFeather = true;
 				break;
 			}
 
 		if(!hasFeather)
-			event.getDrops().add(new EntityItem(event.getEntity().worldObj, chicken.posX, chicken.posY, chicken.posZ, new ItemStack(Items.FEATHER, 1)));
+			event.getDrops().add(new EntityItem(event.getEntity().getEntityWorld(), chicken.posX, chicken.posY, chicken.posZ, new ItemStack(Items.FEATHER, 1)));
 	}
 
 	@Override

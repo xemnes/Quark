@@ -1,7 +1,6 @@
 package vazkii.quark.world.block.stairs;
 
 import vazkii.quark.base.block.BlockQuarkStairs;
-import vazkii.quark.world.feature.Basalt;
 import vazkii.quark.world.feature.RevampStoneGen;
 
 public class BlockMarbleStairs extends BlockQuarkStairs {

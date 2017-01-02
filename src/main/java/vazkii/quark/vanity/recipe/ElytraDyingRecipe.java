@@ -15,6 +15,7 @@ import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemElytra;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 import vazkii.arl.util.ItemNBTHelper;
@@ -29,7 +30,7 @@ public class ElytraDyingRecipe implements IRecipe {
 
 		for(int i = 0; i < var1.getSizeInventory(); i++) {
 			ItemStack stack = var1.getStackInSlot(i);
-			if(stack != null) {
+			if(!stack.isEmpty()) {
 				if(stack.getItem() instanceof ItemElytra) {
 					if(foundTarget)
 						return false;
@@ -48,24 +49,24 @@ public class ElytraDyingRecipe implements IRecipe {
 	@Override
 	public ItemStack getCraftingResult(InventoryCrafting var1) {
 		int source = -1;
-		ItemStack target = null;
+		ItemStack target = ItemStack.EMPTY;
 
 		for(int i = 0; i < var1.getSizeInventory(); i++) {
 			ItemStack stack = var1.getStackInSlot(i);
-			if(stack != null) {
+			if(!stack.isEmpty()) {
 				if(stack.getItem() instanceof ItemDye)
 					source = stack.getItemDamage();
 				else target = stack;
 			}
 		}
 
-		if(target != null) {
+		if(!target.isEmpty()) {
 			ItemStack copy = target.copy();
 			ItemNBTHelper.setInt(copy, DyableElytra.TAG_ELYTRA_DYE, source);
 			return copy;
 		}
 
-		return null;
+		return ItemStack.EMPTY;
 	}
 
 	@Override
@@ -75,11 +76,11 @@ public class ElytraDyingRecipe implements IRecipe {
 
 	@Override
 	public ItemStack getRecipeOutput() {
-		return null;
+		return ItemStack.EMPTY;
 	}
 
 	@Override
-	public ItemStack[] getRemainingItems(InventoryCrafting inv) {
+	public NonNullList<ItemStack> getRemainingItems(InventoryCrafting inv) {
 		return ForgeHooks.defaultRecipeGetRemainingItems(inv);
 	}
 

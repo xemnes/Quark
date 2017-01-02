@@ -63,7 +63,8 @@ public class ItemColoredItemFrame extends ItemMod implements IItemColorProvider,
 	}
 
 	@Override
-	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+	public EnumActionResult onItemUse(EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+		ItemStack stack = playerIn.getActiveItemStack();
 		BlockPos blockpos = pos.offset(facing);
 
 		if(facing != EnumFacing.DOWN && facing != EnumFacing.UP && playerIn.canPlayerEdit(blockpos, facing, stack)) {
@@ -72,10 +73,10 @@ public class ItemColoredItemFrame extends ItemMod implements IItemColorProvider,
 			if(entityhanging != null && entityhanging.onValidSurface()) {
 				if(!worldIn.isRemote) {
 					entityhanging.playPlaceSound();
-					worldIn.spawnEntityInWorld(entityhanging);
+					worldIn.spawnEntity(entityhanging);
 				}
 
-				--stack.stackSize;
+				stack.shrink(1);
 			}
 
 			return EnumActionResult.SUCCESS;

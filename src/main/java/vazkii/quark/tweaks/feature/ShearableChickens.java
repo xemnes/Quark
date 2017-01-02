@@ -36,16 +36,16 @@ public class ShearableChickens extends Feature {
 		Entity target = event.getTarget();
 		if(target instanceof EntityChicken && !target.isDead && ((EntityChicken) target).hurtTime == 0) {
 			ItemStack stack = event.getEntityPlayer().getHeldItemMainhand();
-			if(stack == null || !(stack.getItem() instanceof ItemShears))
+			if(stack.isEmpty() || !(stack.getItem() instanceof ItemShears))
 				stack = event.getEntityPlayer().getHeldItemOffhand();
 
-			if(stack != null && stack.getItem() instanceof ItemShears) {
+			if(!stack.isEmpty() && stack.getItem() instanceof ItemShears) {
 				if(!event.getWorld().isRemote) {
-					EntityItem item = new EntityItem(event.getEntity().worldObj, target.posX, target.posY, target.posZ, new ItemStack(Items.FEATHER, 1));
-					event.getWorld().spawnEntityInWorld(item);
+					EntityItem item = new EntityItem(event.getEntity().getEntityWorld(), target.posX, target.posY, target.posZ, new ItemStack(Items.FEATHER, 1));
+					event.getWorld().spawnEntity(item);
 				}
 
-				target.attackEntityFrom(DamageSource.generic, 1);
+				target.attackEntityFrom(DamageSource.GENERIC, 1);
 				target.getEntityData().setBoolean(TAG_SHEARED, true);
 				stack.damageItem(1, event.getEntityPlayer());
 			}

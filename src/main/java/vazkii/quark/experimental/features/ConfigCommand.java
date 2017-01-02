@@ -13,7 +13,6 @@ package vazkii.quark.experimental.features;
 import java.io.File;
 
 import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.common.config.Property;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import vazkii.quark.base.module.Feature;

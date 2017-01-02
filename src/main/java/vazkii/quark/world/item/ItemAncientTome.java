@@ -10,12 +10,11 @@
  */
 package vazkii.quark.world.item;
 
-import java.util.List;
-
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import vazkii.arl.item.ItemMod;
 import vazkii.quark.base.item.IQuarkItem;
 import vazkii.quark.world.feature.AncientTomes;
@@ -29,7 +28,7 @@ public class ItemAncientTome extends ItemMod implements IQuarkItem {
 	}
 
 	@Override
-	public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
+	public void getSubItems(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> subItems) {
 		for(Enchantment e : AncientTomes.validEnchants) {
 			ItemStack stack = new ItemStack(itemIn);
 			stack.addEnchantment(e, e.getMaxLevel());

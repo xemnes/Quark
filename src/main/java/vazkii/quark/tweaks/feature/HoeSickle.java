@@ -28,7 +28,7 @@ public class HoeSickle extends Feature {
 	@SubscribeEvent
 	public void onBlockBroken(BlockEvent.BreakEvent event) {
 		ItemStack stack = event.getPlayer().getHeldItemMainhand();
-		if(stack != null && stack.getItem() instanceof ItemHoe && canHarvest(event.getState())) {
+		if(!stack.isEmpty() && stack.getItem() instanceof ItemHoe && canHarvest(event.getState())) {
 			World world = event.getWorld();
 			EntityPlayer player = event.getPlayer();
 			BlockPos basePos = event.getPos();

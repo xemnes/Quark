@@ -11,7 +11,6 @@
 package vazkii.quark.world.entity;
 
 import net.minecraft.entity.monster.EntitySkeleton;
-import net.minecraft.entity.monster.SkeletonType;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
@@ -43,11 +42,6 @@ public class EntityPirate extends EntitySkeleton {
 	protected void setEquipmentBasedOnDifficulty(DifficultyInstance difficulty) {
 		setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.IRON_SWORD));
 		setItemStackToSlot(EntityEquipmentSlot.HEAD, new ItemStack(PirateShips.pirate_hat));
-	}
-
-	@Override
-	public SkeletonType func_189771_df() {
-		return SkeletonType.NORMAL;
 	}
 
 }

@@ -40,18 +40,18 @@ public class SlimeBucket extends Feature {
 				EntityPlayer player = event.getEntityPlayer();
 				EnumHand hand = EnumHand.MAIN_HAND;
 				ItemStack stack = player.getHeldItemMainhand();
-				if(stack == null || stack.getItem() != Items.BUCKET) {
+				if(stack.isEmpty() || stack.getItem() != Items.BUCKET) {
 					stack = player.getHeldItemOffhand();
 					hand = EnumHand.OFF_HAND;
 				}
 
-				if(stack != null && stack.getItem() == Items.BUCKET) {
+				if(!stack.isEmpty() && stack.getItem() == Items.BUCKET) {
 					ItemStack outStack = new ItemStack(slime_bucket);
-					if(stack.stackSize == 1)
+					if(stack.getCount() == 1)
 						player.setHeldItem(hand, outStack);
 					else {
-						stack.stackSize--;
-						if(stack.stackSize == 0)
+						stack.shrink(1);
+						if(stack.getCount() == 0)
 							player.setHeldItem(hand, outStack);
 						else if(!player.inventory.addItemStackToInventory(outStack))
 							player.dropItem(outStack, false);

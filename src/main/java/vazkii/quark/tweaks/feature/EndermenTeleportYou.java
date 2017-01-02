@@ -35,13 +35,13 @@ public class EndermenTeleportYou extends Feature {
 
 	@SubscribeEvent
 	public void onUpdate(LivingUpdateEvent event) {
-		if(event.getEntityLiving() instanceof EntityEnderman && event.getEntityLiving().worldObj.getDifficulty().getDifficultyId() >= minimumDifficulty) {
+		if(event.getEntityLiving() instanceof EntityEnderman && event.getEntityLiving().getEntityWorld().getDifficulty().getDifficultyId() >= minimumDifficulty) {
 			EntityEnderman entity = (EntityEnderman) event.getEntityLiving();
 
 			BlockPos ourPos = entity.getPosition().up(2);
-			IBlockState ourState = entity.worldObj.getBlockState(ourPos);
+			IBlockState ourState = entity.getEntityWorld().getBlockState(ourPos);
 			Block ourBlock = ourState.getBlock();
-			if(ourBlock.getCollisionBoundingBox(ourState, entity.worldObj, ourPos) != null)
+			if(ourBlock.getCollisionBoundingBox(ourState, entity.getEntityWorld(), ourPos) != null)
 				return;
 
 			EntityLivingBase target = entity.getAttackTarget();
@@ -50,17 +50,17 @@ public class EndermenTeleportYou extends Feature {
 				if(pos.getDistance(ourPos.getX(), ourPos.getY(), ourPos.getZ()) > 5)
 					return;
 
-				IBlockState state = entity.worldObj.getBlockState(pos);
+				IBlockState state = entity.getEntityWorld().getBlockState(pos);
 				Block block = state.getBlock();
 
-				if(block.getCollisionBoundingBox(state, entity.worldObj, pos) != null) {
+				if(block.getCollisionBoundingBox(state, entity.getEntityWorld(), pos) != null) {
 					for(int i = 0; i < 16; i++)
 						if(target.attemptTeleport(entity.posX + (Math.random() - 0.5) * 2, entity.posY + 0.5, entity.posZ + (Math.random() - 0.5) * 2))
 							break;
 
 					target.addPotionEffect(new PotionEffect(MobEffects.BLINDNESS, 30, 0));
-					target.worldObj.playSound(null, entity.posX, entity.posY, entity.posZ, SoundEvents.ENTITY_ENDERMEN_SCREAM, SoundCategory.HOSTILE, 1F, 1F);
-					target.worldObj.playSound(null, entity.posX, entity.posY, entity.posZ, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.HOSTILE, 1F, 1F);
+					target.getEntityWorld().playSound(null, entity.posX, entity.posY, entity.posZ, SoundEvents.ENTITY_ENDERMEN_SCREAM, SoundCategory.HOSTILE, 1F, 1F);
+					target.getEntityWorld().playSound(null, entity.posX, entity.posY, entity.posZ, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.HOSTILE, 1F, 1F);
 				}
 			}
 		}

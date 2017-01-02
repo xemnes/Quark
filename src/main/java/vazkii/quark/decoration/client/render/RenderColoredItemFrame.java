@@ -65,13 +65,10 @@ public class RenderColoredItemFrame extends Render<EntityColoredItemFrame> {
 
 		IBakedModel ibakedmodel1, ibakedmodel2;
 
-		if (entity.getDisplayedItem() != null && entity.getDisplayedItem().getItem() == Items.FILLED_MAP)
-		{
+		if(!entity.getDisplayedItem().isEmpty() && entity.getDisplayedItem().getItem() == Items.FILLED_MAP) {
 			ibakedmodel1 = modelmanager.getModel(vazkii.arl.util.ModelHandler.resourceLocations.get("colored_item_frame_map_wood"));
 			ibakedmodel2 = modelmanager.getModel(vazkii.arl.util.ModelHandler.resourceLocations.get("colored_item_frame_map"));
-		}
-		else
-		{
+		} else {
 			ibakedmodel1 = modelmanager.getModel(vazkii.arl.util.ModelHandler.resourceLocations.get("colored_item_frame_wood"));
 			ibakedmodel2 = modelmanager.getModel(vazkii.arl.util.ModelHandler.resourceLocations.get("colored_item_frame_normal"));
 		}
@@ -79,8 +76,7 @@ public class RenderColoredItemFrame extends Render<EntityColoredItemFrame> {
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(-0.5F, -0.5F, -0.5F);
 
-		if (renderOutlines)
-		{
+		if(renderOutlines) {
 			GlStateManager.enableColorMaterial();
 			GlStateManager.enableOutlineMode(getTeamColor(entity));
 		}
@@ -94,8 +90,7 @@ public class RenderColoredItemFrame extends Render<EntityColoredItemFrame> {
 
 		blockrendererdispatcher.getBlockModelRenderer().renderModelBrightnessColor(ibakedmodel2, 1.0F, r, g, b);
 
-		if (renderOutlines)
-		{
+		if(renderOutlines) {
 			GlStateManager.disableOutlineMode();
 			GlStateManager.disableColorMaterial();
 		}
@@ -115,49 +110,39 @@ public class RenderColoredItemFrame extends Render<EntityColoredItemFrame> {
 	private void renderItem(EntityColoredItemFrame itemFrame) {
 		ItemStack itemstack = itemFrame.getDisplayedItem();
 
-		if (itemstack != null)
-		{
-			EntityItem entityitem = new EntityItem(itemFrame.worldObj, 0.0D, 0.0D, 0.0D, itemstack);
+		if(!itemstack.isEmpty()) {
+			EntityItem entityitem = new EntityItem(itemFrame.getEntityWorld(), 0.0D, 0.0D, 0.0D, itemstack);
 			Item item = entityitem.getEntityItem().getItem();
-			entityitem.getEntityItem().stackSize = 1;
+			entityitem.getEntityItem().setCount(1);
 			entityitem.hoverStart = 0.0F;
 			GlStateManager.pushMatrix();
 			GlStateManager.disableLighting();
 			int i = itemFrame.getRotation();
 
-			if (item instanceof net.minecraft.item.ItemMap)
-			{
+			if(item instanceof net.minecraft.item.ItemMap)
 				i = i % 4 * 2;
-			}
 
 			GlStateManager.rotate(i * 360.0F / 8.0F, 0.0F, 0.0F, 1.0F);
 
 			//            net.minecraftforge.client.event.RenderItemInFrameEvent event = new net.minecraftforge.client.event.RenderItemInFrameEvent(itemFrame, this);
 			//            if (!net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(event))
 			//            {
-			if (item instanceof net.minecraft.item.ItemMap)
-			{
+			if(item instanceof net.minecraft.item.ItemMap) {
 				renderManager.renderEngine.bindTexture(MAP_BACKGROUND_TEXTURES);
 				GlStateManager.rotate(180.0F, 0.0F, 0.0F, 1.0F);
 				float f = 0.0078125F;
 				GlStateManager.scale(f, f, f);
 				GlStateManager.translate(-64.0F, -64.0F, 0.0F);
-				MapData mapdata = Items.FILLED_MAP.getMapData(entityitem.getEntityItem(), itemFrame.worldObj);
+				MapData mapdata = Items.FILLED_MAP.getMapData(entityitem.getEntityItem(), itemFrame.getEntityWorld());
 				GlStateManager.translate(0.0F, 0.0F, -1.0F);
 
-				if (mapdata != null)
-				{
+				if(mapdata != null)
 					mc.entityRenderer.getMapItemRenderer().renderMap(mapdata, true);
-				}
-			}
-			else
-			{
+			} else {
 				GlStateManager.scale(0.5F, 0.5F, 0.5F);
 
-				if (!itemRenderer.shouldRenderItemIn3D(entityitem.getEntityItem()) || item instanceof ItemSkull)
-				{
+				if(!itemRenderer.shouldRenderItemIn3D(entityitem.getEntityItem()) || item instanceof ItemSkull)
 					GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
-				}
 
 				GlStateManager.pushAttrib();
 				RenderHelper.enableStandardItemLighting();
@@ -174,13 +159,11 @@ public class RenderColoredItemFrame extends Render<EntityColoredItemFrame> {
 
 	@Override
 	protected void renderName(EntityColoredItemFrame entity, double x, double y, double z) {
-		if (Minecraft.isGuiEnabled() && entity.getDisplayedItem() != null && entity.getDisplayedItem().hasDisplayName() && renderManager.pointedEntity == entity)
-		{
+		if(Minecraft.isGuiEnabled() && !entity.getDisplayedItem().isEmpty() && entity.getDisplayedItem().hasDisplayName() && renderManager.pointedEntity == entity) {
 			double d0 = entity.getDistanceSqToEntity(renderManager.renderViewEntity);
 			float f = entity.isSneaking() ? 32.0F : 64.0F;
 
-			if (d0 < f * f)
-			{
+			if(d0 < f * f) {
 				String s = entity.getDisplayedItem().getDisplayName();
 				renderLivingLabel(entity, s, x, y, z, 64);
 			}

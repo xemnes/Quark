@@ -14,7 +14,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.EntityZombie;
-import net.minecraft.entity.monster.ZombieType;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
@@ -50,7 +49,7 @@ public class EntityWraith extends EntityZombie {
 		{ SoundEvents.ENTITY_CAT_AMBIENT, SoundEvents.ENTITY_CAT_HURT, SoundEvents.ENTITY_CAT_DEATH },
 		{ SoundEvents.ENTITY_WOLF_AMBIENT, SoundEvents.ENTITY_WOLF_HURT, SoundEvents.ENTITY_WOLF_DEATH },
 		{ SoundEvents.ENTITY_VILLAGER_AMBIENT, SoundEvents.ENTITY_VILLAGER_HURT, SoundEvents.ENTITY_VILLAGER_DEATH },
-		{ SoundEvents.field_190026_er, SoundEvents.field_190029_eu, SoundEvents.field_190028_et }, // Polar bear
+		{ SoundEvents.ENTITY_POLAR_BEAR_AMBIENT, SoundEvents.ENTITY_POLAR_BEAR_HURT, SoundEvents.ENTITY_POLAR_BEAR_DEATH }, // Polar bear
 		{ SoundEvents.ENTITY_ZOMBIE_AMBIENT, SoundEvents.ENTITY_ZOMBIE_HURT, SoundEvents.ENTITY_ENDERMEN_DEATH },
 		{ SoundEvents.ENTITY_SKELETON_AMBIENT, SoundEvents.ENTITY_SKELETON_HURT, SoundEvents.ENTITY_SKELETON_DEATH },
 		{ SoundEvents.ENTITY_SPIDER_AMBIENT, SoundEvents.ENTITY_SPIDER_HURT, SoundEvents.ENTITY_SPIDER_DEATH },
@@ -58,7 +57,8 @@ public class EntityWraith extends EntityZombie {
 		{ SoundEvents.ENTITY_ENDERMEN_AMBIENT, SoundEvents.ENTITY_ENDERMEN_HURT, SoundEvents.ENTITY_ENDERMEN_DEATH },
 		{ SoundEvents.ENTITY_ZOMBIE_PIG_AMBIENT, SoundEvents.ENTITY_ZOMBIE_PIG_HURT, SoundEvents.ENTITY_ZOMBIE_PIG_DEATH },
 		{ SoundEvents.ENTITY_WITCH_AMBIENT, SoundEvents.ENTITY_WITCH_HURT, SoundEvents.ENTITY_WITCH_DEATH },
-		{ SoundEvents.ENTITY_BLAZE_AMBIENT, SoundEvents.ENTITY_BLAZE_HURT, SoundEvents.ENTITY_BLAZE_DEATH }
+		{ SoundEvents.ENTITY_BLAZE_AMBIENT, SoundEvents.ENTITY_BLAZE_HURT, SoundEvents.ENTITY_BLAZE_DEATH },
+		{ SoundEvents.ENTITY_LLAMA_AMBIENT, SoundEvents.ENTITY_LLAMA_HURT, SoundEvents.ENTITY_LLAMA_DEATH }
 	};
 
 	public EntityWraith(World worldIn) {
@@ -139,7 +139,7 @@ public class EntityWraith extends EntityZombie {
 		double x = aabb.minX + Math.random() * (aabb.maxX - aabb.minX);
 		double y = aabb.minY + Math.random() * (aabb.maxY - aabb.minY);
 		double z = aabb.minZ + Math.random() * (aabb.maxZ - aabb.minZ);
-		worldObj.spawnParticle(EnumParticleTypes.TOWN_AURA, x, y, z, 0, 0, 0);
+		getEntityWorld().spawnParticle(EnumParticleTypes.TOWN_AURA, x, y, z, 0, 0, 0);
 	}
 
 
@@ -163,7 +163,7 @@ public class EntityWraith extends EntityZombie {
 
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount) {
-		if(source == DamageSource.fall)
+		if(source == DamageSource.FALL)
 			return false;
 
 		return super.attackEntityFrom(source, amount);
@@ -191,17 +191,7 @@ public class EntityWraith extends EntityZombie {
 	@Override
 	public boolean getCanSpawnHere() {
 		BlockPos blockpos = new BlockPos(posX, getEntityBoundingBox().minY - 1, posZ);
-		return super.getCanSpawnHere() && worldObj.getBlockState(blockpos).getBlock() == Blocks.SOUL_SAND;
-	}
-
-	@Override
-	public ZombieType func_189777_di() {
-		return ZombieType.NORMAL;
-	}
-
-	@Override
-	public boolean isVillager() {
-		return false;
+		return super.getCanSpawnHere() && getEntityWorld().getBlockState(blockpos).getBlock() == Blocks.SOUL_SAND;
 	}
 
 }

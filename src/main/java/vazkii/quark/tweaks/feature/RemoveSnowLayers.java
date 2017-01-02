@@ -42,7 +42,7 @@ public class RemoveSnowLayers extends Feature {
 
 		ItemStack stack = event.getEntityPlayer().getHeldItem(event.getHand());
 
-		if(stack != null && stack.getItem() instanceof ItemSpade) {
+		if(!stack.isEmpty() && stack.getItem() instanceof ItemSpade) {
 			if(state.getBlock() == Blocks.SNOW)
 				world.setBlockState(pos, Blocks.SNOW_LAYER.getDefaultState().withProperty(BlockSnow.LAYERS, 7));
 			else {

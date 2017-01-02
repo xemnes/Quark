@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 
-import net.minecraft.block.BlockChest;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -14,7 +13,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntityMobSpawner;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
@@ -26,9 +24,8 @@ import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraftforge.common.DungeonHooks;
 import net.minecraftforge.event.terraingen.PopulateChunkEvent;
 import net.minecraftforge.event.terraingen.PopulateChunkEvent.Populate.EventType;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.eventhandler.Event.Result;
-import vazkii.quark.base.lib.LibMisc;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import vazkii.quark.base.module.Feature;
 
 public class VariedDungeons extends Feature {
@@ -93,7 +90,7 @@ public class VariedDungeons extends Feature {
 		int dungeonType = rand.nextInt(10);
 		
 		MinecraftServer server = world.getMinecraftServer();
-		Template template = world.getStructureTemplateManager().func_189942_b(server, new ResourceLocation("quark", "dungeon_" + dungeonType));
+		Template template = world.getStructureTemplateManager().getTemplate(server, new ResourceLocation("quark", "dungeon_" + dungeonType));
 		PlacementSettings settings = new PlacementSettings();
 		settings.setRotation(Rotation.values()[rand.nextInt(Rotation.values().length)]);
 		
@@ -125,7 +122,7 @@ public class VariedDungeons extends Feature {
 	            TileEntity tile = world.getTileEntity(pos);
 
 	            if(tile instanceof TileEntityMobSpawner)
-	                ((TileEntityMobSpawner) tile).getSpawnerBaseLogic().setEntityName(DungeonHooks.getRandomDungeonMob(rand));
+	                ((TileEntityMobSpawner) tile).getSpawnerBaseLogic().setEntityId(DungeonHooks.getRandomDungeonMob(rand));
 			}
 			else if(data.equals("chest"))
 				chests.add(pos);

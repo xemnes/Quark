@@ -12,7 +12,6 @@ package vazkii.quark.building.block.stairs;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
-import vazkii.arl.block.BlockModStairs;
 import vazkii.quark.base.block.BlockQuarkStairs;
 
 public class BlockVanillaStairs extends BlockQuarkStairs {

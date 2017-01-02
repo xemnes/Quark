@@ -37,10 +37,10 @@ public class FToSwitchItems extends Feature {
 				if(inv instanceof InventoryPlayer) {
 					int index = slot.getSlotIndex();
 
-					if(Minecraft.getMinecraft().thePlayer.capabilities.isCreativeMode && index >= 36)
+					if(Minecraft.getMinecraft().player.capabilities.isCreativeMode && index >= 36)
 						index -= 36; // Creative mode messes with the indexes for some reason
 
-					if(index < ((InventoryPlayer) inv).mainInventory.length)
+					if(index < ((InventoryPlayer) inv).mainInventory.size())
 						NetworkHandler.INSTANCE.sendToServer(new MessageSwapItems(index));
 				}
 			}
@@ -48,7 +48,7 @@ public class FToSwitchItems extends Feature {
 	}
 
 	public static void switchItems(EntityPlayer player, int slot) {
-		if(!ModuleLoader.isFeatureEnabled(FToSwitchItems.class) || slot >= player.inventory.mainInventory.length)
+		if(!ModuleLoader.isFeatureEnabled(FToSwitchItems.class) || slot >= player.inventory.mainInventory.size())
 			return;
 
 		int offHandSlot = player.inventory.getSizeInventory() - 1;

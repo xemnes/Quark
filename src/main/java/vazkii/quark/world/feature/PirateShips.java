@@ -47,7 +47,8 @@ public class PirateShips extends Feature {
 		if(onlyHat)
 			return;
 		
-		EntityRegistry.registerModEntity(EntityPirate.class, "pirate", LibEntityIDs.PIRATE, Quark.instance, 80, 3, true, 0x4d1d14, 0xac9617);
+		String pirateName = "quark:pirate";
+		EntityRegistry.registerModEntity(new ResourceLocation(pirateName), EntityPirate.class, pirateName, LibEntityIDs.PIRATE, Quark.instance, 80, 3, true, 0x4d1d14, 0xac9617);
 
 		GameRegistry.registerWorldGenerator(new PirateShipGenerator(), 0);
 	}

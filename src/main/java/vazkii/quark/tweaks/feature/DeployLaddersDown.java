@@ -43,7 +43,7 @@ public class DeployLaddersDown extends Feature {
 		if(ModuleLoader.isFeatureEnabled(IronLadders.class))
 			items.add(Item.getItemFromBlock(IronLadders.iron_ladder));
 		
-		if(stack != null && items.contains(stack.getItem())) {
+		if(!stack.isEmpty() && items.contains(stack.getItem())) {
 			Block block = Block.getBlockFromItem(stack.getItem());
 			World world = event.getWorld();
 			BlockPos pos = event.getPos();
@@ -67,10 +67,10 @@ public class DeployLaddersDown extends Feature {
 								player.swingArm(hand);
 							
 							if(!player.capabilities.isCreativeMode) {
-								stack.stackSize--;
-
-								if(stack.stackSize <= 0)
-									player.setHeldItem(hand, (ItemStack)null);
+								stack.shrink(1);
+								
+								if(stack.getCount() <= 0)
+									player.setHeldItem(hand, ItemStack.EMPTY);
 							}
 						}
 					}

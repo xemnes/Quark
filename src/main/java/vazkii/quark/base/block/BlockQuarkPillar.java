@@ -92,14 +92,14 @@ public class BlockQuarkPillar extends BlockMod implements IQuarkBlock {
 		return new BlockStateContainer(this, new IProperty[] { BlockRotatedPillar.AXIS });
 	}
 
-	@Override
-	protected ItemStack createStackedBlock(IBlockState state) {
-		return new ItemStack(Item.getItemFromBlock(this));
-	}
+//	@Override
+//	protected ItemStack createStackedBlock(IBlockState state) {
+//		return new ItemStack(Item.getItemFromBlock(this));
+//	} TODO is this ok?
 
 	@Override
-	public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
-		return super.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer).withProperty(BlockRotatedPillar.AXIS, facing.getAxis());
+	public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
+		return super.getStateForPlacement(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer).withProperty(BlockRotatedPillar.AXIS, facing.getAxis());
 	}
 
 }

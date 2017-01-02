@@ -59,7 +59,7 @@ public class EntityColoredItemFrame extends EntityItemFrame implements IEntityAd
 			return;
 		}
 
-		if(worldObj.getGameRules().getBoolean("doEntityDrops")) {
+		if(getEntityWorld().getGameRules().getBoolean("doEntityDrops")) {
 			ItemStack itemstack = getDisplayedItem();
 
 			if(entityIn instanceof EntityPlayer) {
@@ -76,9 +76,9 @@ public class EntityColoredItemFrame extends EntityItemFrame implements IEntityAd
 	}
 
 	private void removeFrameFromMap(ItemStack stack) {
-		if(stack != null) {
+		if(!stack.isEmpty()) {
 			if(stack.getItem() instanceof ItemMap) {
-				MapData mapdata = ((ItemMap) stack.getItem()).getMapData(stack, worldObj);
+				MapData mapdata = ((ItemMap) stack.getItem()).getMapData(stack, getEntityWorld());
 				mapdata.mapDecorations.remove("frame-" + getEntityId());
 			}
 

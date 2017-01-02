@@ -22,7 +22,6 @@ import net.minecraft.command.SyntaxErrorException;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.dedicated.DedicatedServer;
 import vazkii.arl.network.NetworkHandler;
 import vazkii.quark.base.network.message.MessageChangeConfig;
 import vazkii.quark.experimental.features.ConfigCommand;
@@ -32,12 +31,12 @@ public class CommandConfig extends CommandBase {
 	private static final Pattern TOKENIZER = Pattern.compile("[^\\s\"']+|\"([^\"]*)\"|'([^']*)'");
 	
 	@Override
-	public String getCommandName() {
+	public String getName() {
 		return "quarkconfig";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender p_71518_1_) {
+	public String getUsage(ICommandSender p_71518_1_) {
 		return "<module> <category> <key> <value> [save?] [player]";
 	}
 

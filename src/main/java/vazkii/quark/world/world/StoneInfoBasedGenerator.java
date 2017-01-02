@@ -11,7 +11,6 @@ import net.minecraft.world.chunk.IChunkGenerator;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.fml.common.IWorldGenerator;
-import vazkii.quark.world.feature.Basalt;
 import vazkii.quark.world.feature.RevampStoneGen.StoneInfo;
 
 public class StoneInfoBasedGenerator implements IWorldGenerator {

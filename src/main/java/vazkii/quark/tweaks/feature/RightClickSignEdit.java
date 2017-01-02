@@ -36,7 +36,7 @@ public class RightClickSignEdit extends Feature {
 			return;	
 		}
 		TileEntity tile = event.getWorld().getTileEntity(event.getPos());
-		if(tile instanceof TileEntitySign && (!emptyHand || event.getEntityPlayer().getHeldItemMainhand() == null) && event.getEntityPlayer().capabilities.allowEdit && !event.getEntity().isSneaking()) {
+		if(tile instanceof TileEntitySign && (!emptyHand || event.getEntityPlayer().getHeldItemMainhand().isEmpty()) && event.getEntityPlayer().capabilities.allowEdit && !event.getEntity().isSneaking()) {
 			TileEntitySign sign = (TileEntitySign) tile;
 			sign.setPlayer(event.getEntityPlayer());
 			ReflectionHelper.setPrivateValue(TileEntitySign.class, sign, true, LibObfuscation.IS_EDITABLE);

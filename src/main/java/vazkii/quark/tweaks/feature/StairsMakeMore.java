@@ -44,11 +44,11 @@ public class StairsMakeMore extends Feature {
 		List<IRecipe> recipeList = new ArrayList(CraftingManager.getInstance().getRecipeList());
 		for(IRecipe recipe : recipeList) {
 			ItemStack output = recipe.getRecipeOutput();
-			if(output != null && output.stackSize == originalSize) {
+			if(!output.isEmpty() && output.getCount() == originalSize) {
 				Item outputItem = output.getItem();
 				Block outputBlock = Block.getBlockFromItem(outputItem);
 				if(outputBlock != null && outputBlock instanceof BlockStairs) {
-					output.stackSize = targetSize;
+					output.setCount(targetSize);
 
 					if(recipe instanceof ShapedRecipes || recipe instanceof ShapedOreRecipe) {
 						Object[] recipeItems;
@@ -56,7 +56,7 @@ public class StairsMakeMore extends Feature {
 							recipeItems = ((ShapedRecipes) recipe).recipeItems;
 						else recipeItems = ((ShapedOreRecipe) recipe).getInput();
 
-						ItemStack outStack = null;
+						ItemStack outStack = ItemStack.EMPTY;
 						int inputItems = 0;
 
 						for(Object recipeItem2 : recipeItems) {
@@ -69,24 +69,24 @@ public class StairsMakeMore extends Feature {
 
 							if(recipeItem != null) {
 								ItemStack recipeStack = (ItemStack) recipeItem;
-								if(outStack == null)
+								if(outStack.isEmpty())
 									outStack = recipeStack;
 								
 								if(ItemStack.areItemsEqual(outStack, recipeStack))
 									inputItems++;
 								else {
-									outStack = null;
+									outStack = ItemStack.EMPTY;
 									break;
 								}
 							}
 						}
 
-						if(reversionRecipe && outStack != null && inputItems == 6) {
+						if(reversionRecipe && !outStack.isEmpty() && inputItems == 6) {
 							ItemStack outCopy = outStack.copy();
 							if(outCopy.getItemDamage() == OreDictionary.WILDCARD_VALUE)
 								outCopy.setItemDamage(0);
 
-							outCopy.stackSize = 24 / targetSize;
+							outCopy.setCount(24 / targetSize);
 							ItemStack in = output.copy();
 							RecipeHandler.addShapelessOreDictRecipe(outCopy, in, in, in, in);
 						}

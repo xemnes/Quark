@@ -30,7 +30,7 @@ public class ResourceProxy extends AbstractResourcePack {
 
 	public void addResource(String space, String dir, String file, String ext) {
 		String bare = String.format(BARE_FORMAT, MINECRAFT, space, dir, file, ext);
-		String override = String.format(OVERRIDE_FORMAT, LibMisc.RESOURCE_NAMESPACE, space, dir, file, ext);
+		String override = String.format(OVERRIDE_FORMAT, LibMisc.MOD_ID, space, dir, file, ext);
 		overrides.put(bare, override);
 	}
 

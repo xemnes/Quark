@@ -37,7 +37,7 @@ public class MushroomsInSwamps extends Feature {
 	@SubscribeEvent
 	public void decorate(DecorateBiomeEvent.Decorate event) {
 		World world = event.getWorld();
-		Biome biome = world.getBiomeGenForCoords(event.getPos());
+		Biome biome = world.getBiome(event.getPos());
 		Random rand = event.getRand();
 
 		if((biome == Biomes.SWAMPLAND || biome == Biomes.MUTATED_SWAMPLAND) && event.getType() == EventType.BIG_SHROOM) {

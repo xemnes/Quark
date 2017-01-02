@@ -10,8 +10,6 @@
  */
 package vazkii.quark.world.client.render;
 
-import javax.annotation.Resource;
-
 import net.minecraft.client.renderer.entity.RenderArrow;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;

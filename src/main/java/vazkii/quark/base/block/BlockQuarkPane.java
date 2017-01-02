@@ -50,7 +50,7 @@ public class BlockQuarkPane extends BlockMod implements IQuarkBlock {
 	// COPYPASTA
 
 	@Override
-	public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB p_185477_4_, List<AxisAlignedBB> p_185477_5_, Entity p_185477_6_) {
+	public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB p_185477_4_, List<AxisAlignedBB> p_185477_5_, Entity p_185477_6_, boolean something) {
 		state = getActualState(state, worldIn, pos);
 		addCollisionBoxToList(pos, p_185477_4_, p_185477_5_, field_185730_f[0]);
 

@@ -1,11 +1,5 @@
 package vazkii.quark.tweaks.feature;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Set;
-
-import net.minecraft.client.resources.AbstractResourcePack;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.module.Feature;

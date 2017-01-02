@@ -21,9 +21,6 @@ import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.datafix.DataFixer;
-import net.minecraft.util.datafix.FixTypes;
-import net.minecraft.util.datafix.walkers.ItemStackDataLists;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -108,7 +105,7 @@ public class TileCustomChest extends TileEntityChest {
 		BlockPos blockpos = pos.offset(side);
 
 		if(isChestAt(blockpos)) {
-			TileEntity tileentity = worldObj.getTileEntity(blockpos);
+			TileEntity tileentity = getWorld().getTileEntity(blockpos);
 
 			if(tileentity instanceof TileCustomChest) {
 				TileCustomChest tileentitychest = (TileCustomChest)tileentity;
@@ -121,11 +118,11 @@ public class TileCustomChest extends TileEntityChest {
 	}
 
 	private boolean isChestAt(BlockPos posIn) {
-		if(worldObj == null) {
+		if(getWorld() == null) {
 			return false;
 		} else {
-			Block block = worldObj.getBlockState(posIn).getBlock();
-			TileEntity te = worldObj.getTileEntity(posIn);
+			Block block = getWorld().getBlockState(posIn).getBlock();
+			TileEntity te = getWorld().getTileEntity(posIn);
 			return block instanceof BlockChest && ((BlockChest) block).chestType == getChestType() && te instanceof TileCustomChest && ((TileCustomChest) te).chestType == chestType;
 		}
 	}

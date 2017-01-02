@@ -16,7 +16,9 @@ import java.util.Map;
 import java.util.Random;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.gson.*;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSerializationContext;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -82,12 +84,12 @@ public class BuriedTreasure extends Feature {
 			EntityPlayer player = (EntityPlayer) event.getEntity();
 			for(int i = 0; i < player.inventory.getSizeInventory(); i++) {
 				ItemStack stack = player.inventory.getStackInSlot(i);
-				if(stack != null && stack.hasTagCompound()) {
+				if(!stack.isEmpty() && stack.hasTagCompound()) {
 					if(ItemNBTHelper.getBoolean(stack, TAG_TREASURE_MAP_DELEGATE, false))
-						makeMap(stack, player.worldObj, player.getPosition());
+						makeMap(stack, player.getEntityWorld(), player.getPosition());
 
 					if(ItemNBTHelper.getBoolean(stack, TAG_TREASURE_MAP, false)) {
-						MapData data = (MapData) player.worldObj.loadItemData(MapData.class, "map_" + stack.getItemDamage());
+						MapData data = (MapData) player.getEntityWorld().loadData(MapData.class, "map_" + stack.getItemDamage());
 						if(data != null) {
 							int w = 128;
 							byte[] colors = data.colors;
@@ -138,7 +140,7 @@ public class BuriedTreasure extends Feature {
 
 		String s = "map_" + itemstack.getMetadata();
 		MapData mapdata = new MapData(s);
-		world.setItemData(s, mapdata);
+		world.setData(s, mapdata);
 		mapdata.scale = 1;
 		mapdata.xCenter = treasurePos.getX();
 		mapdata.zCenter = treasurePos.getZ();

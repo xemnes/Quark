@@ -26,7 +26,7 @@ public class AIFormShulker extends EntityAIWander
 	
 	@Override
 	public boolean shouldExecute() {
-		if(!endermite.worldObj.getGameRules().getBoolean("mobGriefing"))
+		if(!endermite.getEntityWorld().getGameRules().getBoolean("mobGriefing"))
 			return false;
 		else if(endermite.getAttackTarget() != null)
 			return false;
@@ -38,7 +38,7 @@ public class AIFormShulker extends EntityAIWander
 			if(random.nextInt(EndermitesIntoShulkers.chance) == 0) {
 				facing = EnumFacing.random(random);
 				BlockPos blockpos = (new BlockPos(endermite.posX, endermite.posY + 0.5D, endermite.posZ)).offset(facing);
-				IBlockState iblockstate = endermite.worldObj.getBlockState(blockpos);
+				IBlockState iblockstate = endermite.getEntityWorld().getBlockState(blockpos);
 
 				if(iblockstate.getBlock() == Blocks.PURPUR_BLOCK) {
 					doMerge = true;
@@ -61,7 +61,7 @@ public class AIFormShulker extends EntityAIWander
 		if(!doMerge)
 			super.startExecuting();
 		else {
-			World world = endermite.worldObj;
+			World world = endermite.getEntityWorld();
 			BlockPos blockpos = (new BlockPos(endermite.posX, endermite.posY + 0.5D, endermite.posZ)).offset(facing);
 			IBlockState iblockstate = world.getBlockState(blockpos);
 
@@ -73,7 +73,7 @@ public class AIFormShulker extends EntityAIWander
 				EntityShulker shulker = new EntityShulker(world);
 				shulker.setAttachmentPos(blockpos);
 				shulker.setPosition(blockpos.getX() + 0.5, blockpos.getY() + 0.5, blockpos.getZ() + 0.5);
-				world.spawnEntityInWorld(shulker);
+				world.spawnEntity(shulker);
 			}
 		}
 	}

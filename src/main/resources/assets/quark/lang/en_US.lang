@@ -333,11 +333,11 @@ item.quark:arrow_explosive.name=Explosive Arrow
 item.quark:arrow_torch.name=Torch Arrow
 
 # ENTITY NAMES
-entity.Quark.quark:colored_item_frame.name=Colored Item Frame
-entity.Quark.dweller.name=Dweller
-entity.Quark.ashen.name=Ashen
-entity.Quark.pirate.name=Pirate
-entity.Quark.wraith.name=Wraith
+entity.quark:colored_item_frame.name=Colored Item Frame
+entity.quark:dweller.name=Dweller
+entity.quark:ashen.name=Ashen
+entity.quark:pirate.name=Pirate
+entity.quark:wraith.name=Wraith
 
 # POTION NAMES
 quark.potion.curse.name=Curse

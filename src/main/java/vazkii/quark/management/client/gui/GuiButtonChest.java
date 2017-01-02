@@ -10,8 +10,9 @@
  */
 package vazkii.quark.management.client.gui;
 
+import java.util.Arrays;
+
 import com.google.common.base.Predicate;
-import com.google.common.collect.ImmutableSet;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -19,7 +20,6 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.translation.I18n;
-import java.util.Arrays;
 import vazkii.arl.util.RenderHelper;
 import vazkii.quark.management.feature.FavoriteItems;
 import vazkii.quark.management.feature.StoreToChests;

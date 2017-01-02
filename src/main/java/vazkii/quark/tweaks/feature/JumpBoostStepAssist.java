@@ -71,7 +71,7 @@ public class JumpBoostStepAssist extends Feature {
 	}
 
 	public static String playerStr(EntityPlayer player) {
-		return player.getGameProfile().getName() + ":" + player.worldObj.isRemote;
+		return player.getGameProfile().getName() + ":" + player.getEntityWorld().isRemote;
 	}
 
 	@Override

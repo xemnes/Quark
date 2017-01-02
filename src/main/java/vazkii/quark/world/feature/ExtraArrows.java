@@ -20,6 +20,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -58,22 +59,25 @@ public class ExtraArrows extends Feature {
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
 		if(enableEnder) {
+			String enderArrowName = "quark:arrow_ender";
 			arrow_ender = new ItemModArrow("arrow_ender", (World worldIn, ItemStack stack, EntityLivingBase shooter) -> new EntityArrowEnder(worldIn, shooter));
-			EntityRegistry.registerModEntity(EntityArrowEnder.class, "quark:arrow_ender", LibEntityIDs.ARROW_ENDER, Quark.instance, 64, 10, true);
+			EntityRegistry.registerModEntity(new ResourceLocation(enderArrowName), EntityArrowEnder.class, enderArrowName, LibEntityIDs.ARROW_ENDER, Quark.instance, 64, 10, true);
 			BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(arrow_ender, new ArrowBehaviour((World world, IPosition pos) -> new EntityArrowEnder(world, pos)));
 			RecipeHandler.addShapelessOreDictRecipe(new ItemStack(arrow_ender), new ItemStack(Items.ARROW), new ItemStack(Items.ENDER_PEARL));
 		}
 		
 		if(enableExplosive) {
+			String explosiveArrowName = "quark:arrow_explosive";
 			arrow_explosive = new ItemModArrow("arrow_explosive", (World worldIn, ItemStack stack, EntityLivingBase shooter) -> new EntityArrowExplosive(worldIn, shooter));
-			EntityRegistry.registerModEntity(EntityArrowExplosive.class, "quark:arrow_explosive", LibEntityIDs.ARROW_EXPLOSIVE, Quark.instance, 64, 10, true);
+			EntityRegistry.registerModEntity(new ResourceLocation(explosiveArrowName), EntityArrowExplosive.class, explosiveArrowName, LibEntityIDs.ARROW_EXPLOSIVE, Quark.instance, 64, 10, true);
 			BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(arrow_explosive, new ArrowBehaviour((World world, IPosition pos) -> new EntityArrowExplosive(world, pos)));
 			RecipeHandler.addShapelessOreDictRecipe(new ItemStack(arrow_explosive), new ItemStack(Items.ARROW), new ItemStack(Items.GUNPOWDER), new ItemStack(Items.GUNPOWDER));
 		}
 		
 		if(enableTorch) {
+			String torchArrowName = "quark:arrow_torch";
 			arrow_torch = new ItemModArrow("arrow_torch", (World worldIn, ItemStack stack, EntityLivingBase shooter) -> new EntityArrowTorch(worldIn, shooter));
-			EntityRegistry.registerModEntity(EntityArrowTorch.class, "quark:arrow_torch", LibEntityIDs.ARROW_TORCH, Quark.instance, 64, 10, true);
+			EntityRegistry.registerModEntity(new ResourceLocation(torchArrowName), EntityArrowTorch.class, torchArrowName, LibEntityIDs.ARROW_TORCH, Quark.instance, 64, 10, true);
 			BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(arrow_torch, new ArrowBehaviour((World world, IPosition pos) -> new EntityArrowTorch(world, pos)));
 			RecipeHandler.addShapelessOreDictRecipe(new ItemStack(arrow_torch), new ItemStack(Items.ARROW), new ItemStack(Blocks.TORCH));
 		}

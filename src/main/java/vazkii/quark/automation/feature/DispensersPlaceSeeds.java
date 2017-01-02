@@ -61,13 +61,13 @@ public class DispensersPlaceSeeds extends Feature {
 
 		@Override
 		public ItemStack dispenseStack(IBlockSource par1IBlockSource, ItemStack par2ItemStack) {
-			EnumFacing facing = par1IBlockSource.func_189992_e().getValue(BlockDispenser.FACING);
+			EnumFacing facing = par1IBlockSource.getBlockState().getValue(BlockDispenser.FACING);
 			BlockPos pos = par1IBlockSource.getBlockPos().offset(facing);
 			World world = par1IBlockSource.getWorld();
 
 			if(world.isAirBlock(pos) && block.canPlaceBlockAt(world, pos)) {
 				world.setBlockState(pos, block.getDefaultState());
-				par2ItemStack.stackSize--;
+				par2ItemStack.shrink(1);
 				return par2ItemStack;
 			}
 
@@ -87,7 +87,7 @@ public class DispensersPlaceSeeds extends Feature {
 		public ItemStack dispenseStack(IBlockSource par1IBlockSource, ItemStack par2ItemStack) {
 			if(par2ItemStack.getItemDamage() == EnumDyeColor.BROWN.getDyeDamage()) {
 				Block block = Blocks.COCOA;
-				EnumFacing facing = par1IBlockSource.func_189992_e().getValue(BlockDispenser.FACING);
+				EnumFacing facing = par1IBlockSource.getBlockState().getValue(BlockDispenser.FACING);
 				BlockPos pos = par1IBlockSource.getBlockPos().offset(facing);
 				World world = par1IBlockSource.getWorld();
 
@@ -95,7 +95,7 @@ public class DispensersPlaceSeeds extends Feature {
 				IBlockState logState = world.getBlockState(logPos);
 				if(logState.getBlock() == Blocks.LOG && logState.getValue(BlockOldLog.VARIANT) == BlockPlanks.EnumType.JUNGLE && world.isAirBlock(pos) && block.canPlaceBlockAt(world, pos)) {
 					world.setBlockState(pos, block.getDefaultState().withProperty(BlockHorizontal.FACING, facing));
-					par2ItemStack.stackSize--;
+					par2ItemStack.shrink(1);
 					return par2ItemStack;
 				}
 			}

@@ -33,18 +33,19 @@ public class ItemSoulBead extends ItemMod implements IQuarkItem {
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand) {
+		ItemStack stack = playerIn.getActiveItemStack();
 		if(Wraiths.enableCurse) {
 			PotionEffect effect = new PotionEffect(Wraiths.curse, Wraiths.curseTime, 0, true, true);
 			effect.setCurativeItems(Collections.emptyList());
 			playerIn.addPotionEffect(effect);
 
 			worldIn.playSound(null, playerIn.posX, playerIn.posY, playerIn.posZ, SoundEvents.ENTITY_BLAZE_AMBIENT, SoundCategory.PLAYERS, 0.5F, 1F);
-			playerIn.renderBrokenItemStack(itemStackIn);
-			itemStackIn.stackSize--;
+			playerIn.renderBrokenItemStack(stack);
+			stack.shrink(1);
 		}
 
-		return super.onItemRightClick(itemStackIn, worldIn, playerIn, hand);
+		return super.onItemRightClick(worldIn, playerIn, hand);
 	}
 
 }

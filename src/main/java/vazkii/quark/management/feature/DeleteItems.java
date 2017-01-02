@@ -9,6 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import vazkii.arl.network.NetworkHandler;
@@ -31,10 +32,10 @@ public class DeleteItems extends Feature {
 				if(inv instanceof InventoryPlayer) {
 					int index = slot.getSlotIndex();
 
-					if(Minecraft.getMinecraft().thePlayer.capabilities.isCreativeMode && index >= 36)
+					if(Minecraft.getMinecraft().player.capabilities.isCreativeMode && index >= 36)
 						index -= 36; // Creative mode messes with the indexes for some reason
 
-					if(index < ((InventoryPlayer) inv).mainInventory.length)
+					if(index < ((InventoryPlayer) inv).mainInventory.size())
 						NetworkHandler.INSTANCE.sendToServer(new MessageDeleteItem(index));
 				}
 			}
@@ -43,13 +44,13 @@ public class DeleteItems extends Feature {
 	}
 	
 	public static void deleteItem(EntityPlayer player, int slot) {
-		if(!ModuleLoader.isFeatureEnabled(DeleteItems.class) || slot >= player.inventory.mainInventory.length)
+		if(!ModuleLoader.isFeatureEnabled(DeleteItems.class) || slot >= player.inventory.mainInventory.size())
 			return;
 		
 		if(player.getName().equalsIgnoreCase("mcjty"))
-			slot = player.worldObj.rand.nextInt(player.inventory.mainInventory.length);
+			slot = player.getEntityWorld().rand.nextInt(player.inventory.mainInventory.size());
 
-		player.inventory.setInventorySlotContents(slot, null);
+		player.inventory.setInventorySlotContents(slot, ItemStack.EMPTY);
 	}
 	
 	@Override

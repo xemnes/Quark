@@ -33,12 +33,12 @@ public class TileEnderWatcher extends TileMod implements ITickable {
 
 	@Override
 	public void update() {
-		if(worldObj.isRemote)
+		if(getWorld().isRemote)
 			return;
 
-		boolean wasLooking = worldObj.getBlockState(getPos()).getValue(BlockEnderWatcher.WATCHED);
+		boolean wasLooking = getWorld().getBlockState(getPos()).getValue(BlockEnderWatcher.WATCHED);
 		int range = 80;
-		List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(pos.add(-range, -range, -range), pos.add(range, range, range)));
+		List<EntityPlayer> players = getWorld().getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(pos.add(-range, -range, -range), pos.add(range, range, range)));
 
 		boolean looking = false;
 		for(EntityPlayer player : players) {
@@ -46,22 +46,22 @@ public class TileEnderWatcher extends TileMod implements ITickable {
 			if(helm != null && helm.getItem() == Item.getItemFromBlock(Blocks.PUMPKIN))
 				continue;
 
-			RayTraceResult pos = raytraceFromEntity(worldObj, player, true, 64);
+			RayTraceResult pos = raytraceFromEntity(getWorld(), player, true, 64);
 			if(pos != null && pos.getBlockPos() != null && pos.getBlockPos().equals(getPos())) {
 				looking = true;
 				break;
 			}
 		}
 
-		if(looking != wasLooking && !worldObj.isRemote)
-			worldObj.setBlockState(getPos(), worldObj.getBlockState(getPos()).withProperty(BlockEnderWatcher.WATCHED, looking), 1 | 2);
+		if(looking != wasLooking && !getWorld().isRemote)
+			getWorld().setBlockState(getPos(), getWorld().getBlockState(getPos()).withProperty(BlockEnderWatcher.WATCHED, looking), 1 | 2);
 
 		if(looking) {
 			double x = getPos().getX() - 0.1 + Math.random() * 1.2;
 			double y = getPos().getY() - 0.1 + Math.random() * 1.2;
 			double z = getPos().getZ() - 0.1 + Math.random() * 1.2;
 
-			((WorldServer) worldObj).spawnParticle(EnumParticleTypes.REDSTONE, false, x, y, z, 0, 1.0D, 0.0D, 0.0D, 1.0D);
+			((WorldServer) getWorld()).spawnParticle(EnumParticleTypes.REDSTONE, false, x, y, z, 0, 1.0D, 0.0D, 0.0D, 1.0D);
 		}
 	}
 

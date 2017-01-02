@@ -16,13 +16,12 @@ import java.util.List;
 public final class LibMisc {
 
 	// Mod Constants
-	public static final String MOD_ID = "Quark";
+	public static final String MOD_ID = "quark";
 	public static final String MOD_NAME = MOD_ID;
 	public static final String BUILD = "GRADLE:BUILD";
 	public static final String VERSION = "GRADLE:VERSION-" + BUILD;
-	public static final String DEPENDENCIES = "required-after:Forge@[12.17.0.1909,);required-before:AutoRegLib;";
-	public static final String RESOURCE_NAMESPACE = MOD_ID.toLowerCase();
-	public static final String PREFIX_MOD = RESOURCE_NAMESPACE + ":";
+	public static final String DEPENDENCIES = "required-before:autoreglib;";
+	public static final String PREFIX_MOD = MOD_ID + ":";
 
 	// Proxy Constants
 	public static final String PROXY_COMMON = "vazkii.quark.base.proxy.CommonProxy";

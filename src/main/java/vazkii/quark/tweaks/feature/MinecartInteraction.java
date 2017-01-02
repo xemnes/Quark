@@ -45,14 +45,14 @@ public class MinecartInteraction extends Feature {
 
 	@Override
 	public void init(FMLInitializationEvent event) {
-		inserters.put(Item.getItemFromBlock(Blocks.CHEST), (EntityMinecartEmpty e) -> new EntityMinecartChest(e.worldObj, e.posX, e.posY, e.posZ));
-		inserters.put(Item.getItemFromBlock(Blocks.TNT), (EntityMinecartEmpty e) -> new EntityMinecartTNT(e.worldObj, e.posX, e.posY, e.posZ));
-		inserters.put(Item.getItemFromBlock(Blocks.FURNACE), (EntityMinecartEmpty e) -> new EntityMinecartFurnace(e.worldObj, e.posX, e.posY, e.posZ));
-		inserters.put(Item.getItemFromBlock(Blocks.HOPPER), (EntityMinecartEmpty e) -> new EntityMinecartHopper(e.worldObj, e.posX, e.posY, e.posZ));
+		inserters.put(Item.getItemFromBlock(Blocks.CHEST), (EntityMinecartEmpty e) -> new EntityMinecartChest(e.getEntityWorld(), e.posX, e.posY, e.posZ));
+		inserters.put(Item.getItemFromBlock(Blocks.TNT), (EntityMinecartEmpty e) -> new EntityMinecartTNT(e.getEntityWorld(), e.posX, e.posY, e.posZ));
+		inserters.put(Item.getItemFromBlock(Blocks.FURNACE), (EntityMinecartEmpty e) -> new EntityMinecartFurnace(e.getEntityWorld(), e.posX, e.posY, e.posZ));
+		inserters.put(Item.getItemFromBlock(Blocks.HOPPER), (EntityMinecartEmpty e) -> new EntityMinecartHopper(e.getEntityWorld(), e.posX, e.posY, e.posZ));
 
 		if(enableCommandAndSpawner) {
-			inserters.put(Item.getItemFromBlock(Blocks.COMMAND_BLOCK), (EntityMinecartEmpty e) -> new EntityMinecartCommandBlock(e.worldObj, e.posX, e.posY, e.posZ));
-			inserters.put(Item.getItemFromBlock(Blocks.MOB_SPAWNER), (EntityMinecartEmpty e) -> new EntityMinecartMobSpawner(e.worldObj, e.posX, e.posY, e.posZ));
+			inserters.put(Item.getItemFromBlock(Blocks.COMMAND_BLOCK), (EntityMinecartEmpty e) -> new EntityMinecartCommandBlock(e.getEntityWorld(), e.posX, e.posY, e.posZ));
+			inserters.put(Item.getItemFromBlock(Blocks.MOB_SPAWNER), (EntityMinecartEmpty e) -> new EntityMinecartMobSpawner(e.getEntityWorld(), e.posX, e.posY, e.posZ));
 		}
 	}
 
@@ -63,25 +63,25 @@ public class MinecartInteraction extends Feature {
 			EntityPlayer player = event.getEntityPlayer();
 			EnumHand hand = EnumHand.MAIN_HAND;
 			ItemStack stack = player.getHeldItemMainhand();
-			if(stack == null || !inserters.containsKey(stack.getItem())) {
+			if(stack.isEmpty() || !inserters.containsKey(stack.getItem())) {
 				stack = player.getHeldItemOffhand();
 				hand = EnumHand.OFF_HAND;
 			}
 
-			if(stack != null && inserters.containsKey(stack.getItem())) {
+			if(!stack.isEmpty() && inserters.containsKey(stack.getItem())) {
 				player.swingArm(hand);
 
 				if(!event.getWorld().isRemote) {
 					target.setDead();
-					event.getWorld().spawnEntityInWorld(inserters.get(stack.getItem()).apply((EntityMinecartEmpty) target));
+					event.getWorld().spawnEntity(inserters.get(stack.getItem()).apply((EntityMinecartEmpty) target));
 
 
 					event.setCanceled(true);
 					if(!player.capabilities.isCreativeMode) {
-						stack.stackSize--;
+						stack.shrink(1);
 
-						if(stack.stackSize <= 0)
-							player.setHeldItem(hand, (ItemStack)null);
+						if(stack.getCount() <= 0)
+							player.setHeldItem(hand, ItemStack.EMPTY);
 					}
 				}
 			}

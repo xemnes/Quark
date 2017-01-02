@@ -24,7 +24,6 @@ import net.minecraftforge.oredict.OreDictionary;
 import vazkii.arl.block.BlockMod;
 import vazkii.arl.util.RecipeHandler;
 import vazkii.quark.base.module.Feature;
-import vazkii.quark.building.block.BlockCarvedWood;
 import vazkii.quark.decoration.block.BlockCustomBookshelf;
 
 public class VariedBookshelves extends Feature {
@@ -48,7 +47,7 @@ public class VariedBookshelves extends Feature {
 		List<IRecipe> recipeList = new ArrayList(CraftingManager.getInstance().getRecipeList());
 		for(IRecipe recipe : recipeList) {
 			ItemStack out = recipe.getRecipeOutput();
-			if(out != null && (out.getItem() == Item.getItemFromBlock(Blocks.BOOKSHELF)))
+			if(!out.isEmpty() && (out.getItem() == Item.getItemFromBlock(Blocks.BOOKSHELF)))
 				CraftingManager.getInstance().getRecipeList().remove(recipe);
 		}
 		

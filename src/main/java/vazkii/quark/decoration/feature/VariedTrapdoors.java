@@ -63,7 +63,7 @@ public class VariedTrapdoors extends Feature {
 		List<IRecipe> recipeList = new ArrayList(CraftingManager.getInstance().getRecipeList());
 		for(IRecipe recipe : recipeList) {
 			ItemStack out = recipe.getRecipeOutput();
-			if(out != null && out.getItem() == Item.getItemFromBlock(Blocks.TRAPDOOR))
+			if(!out.isEmpty() && out.getItem() == Item.getItemFromBlock(Blocks.TRAPDOOR))
 				CraftingManager.getInstance().getRecipeList().remove(recipe);
 		}
 

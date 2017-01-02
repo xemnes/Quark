@@ -126,7 +126,7 @@ public class EmoteSystem extends Feature {
 			emotesVisible = !emotesVisible;
 		} else if(button instanceof GuiButtonEmote) {
 			String emote = ((GuiButtonEmote) button).emote;
-			Minecraft.getMinecraft().thePlayer.sendChatMessage("/emote " + emote);
+			Minecraft.getMinecraft().player.sendChatMessage("/emote " + emote);
 		}
 	}
 
@@ -138,7 +138,7 @@ public class EmoteSystem extends Feature {
 			for(KeyBinding key : EmoteKeybinds.emoteKeys.keySet())
 				if(key.isKeyDown()) {
 					String emote = EmoteKeybinds.emoteKeys.get(key);
-					mc.thePlayer.sendChatMessage("/emote " + emote);
+					mc.player.sendChatMessage("/emote " + emote);
 					return;
 				}
 		}

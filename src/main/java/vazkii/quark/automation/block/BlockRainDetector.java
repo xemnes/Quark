@@ -57,7 +57,7 @@ public class BlockRainDetector extends BlockModContainer implements IQuarkBlock 
 	}
 
 	public void updatePower(World worldIn, BlockPos pos) {
-		if (!worldIn.provider.getHasNoSky()) {
+		if (!worldIn.provider.hasNoSky()) {
 			IBlockState iblockstate = worldIn.getBlockState(pos);
 			boolean raining = worldIn.isRaining();
 			worldIn.getCelestialAngleRadians(1.0F);
@@ -71,7 +71,7 @@ public class BlockRainDetector extends BlockModContainer implements IQuarkBlock 
 	}
 
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 		if(playerIn.isAllowEdit()) {
 			if(worldIn.isRemote)
 				return true;
@@ -81,7 +81,7 @@ public class BlockRainDetector extends BlockModContainer implements IQuarkBlock 
 
 				return true;
 			}
-		} else return super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ);
+		} else return super.onBlockActivated(worldIn, pos, state, playerIn, hand, side, hitX, hitY, hitZ);
 	}
 
 	@Override

@@ -10,7 +10,6 @@
  */
 package vazkii.quark.world.world;
 
-import java.util.Arrays;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
@@ -37,11 +36,8 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkGenerator;
 import net.minecraft.world.chunk.IChunkProvider;
-import net.minecraft.world.gen.structure.StructureBoundingBox;
 import net.minecraft.world.gen.structure.template.PlacementSettings;
 import net.minecraft.world.gen.structure.template.Template;
-import net.minecraftforge.common.BiomeDictionary;
-import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.fml.common.IWorldGenerator;
 import vazkii.quark.world.entity.EntityPirate;
 import vazkii.quark.world.feature.PirateShips;
@@ -74,7 +70,7 @@ public class PirateShipGenerator implements IWorldGenerator {
 
 	public static void generateShipAt(WorldServer world, Random random, BlockPos pos) {
 		MinecraftServer server = world.getMinecraftServer();
-		Template template = world.getStructureTemplateManager().func_189942_b(server, PirateShips.SHIP_STRUCTURE);
+		Template template = world.getStructureTemplateManager().getTemplate(server, PirateShips.SHIP_STRUCTURE);
 		PlacementSettings settings = new PlacementSettings();
 		settings.setRotation(Rotation.values()[random.nextInt(Rotation.values().length)]);
 		
@@ -106,21 +102,21 @@ public class PirateShipGenerator implements IWorldGenerator {
 				pirate.setItemStackToSlot(EntityEquipmentSlot.CHEST, new ItemStack(Items.IRON_CHESTPLATE));
 				pirate.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.DIAMOND_SWORD));
 				pirate.setItemStackToSlot(EntityEquipmentSlot.HEAD, new ItemStack(PirateShips.pirate_hat));
-				world.spawnEntityInWorld(pirate);
+				world.spawnEntity(pirate);
 				break;
 			case "bow_pirate":
 				pirate = new EntityPirate(world);
 				pirate.setPosition(dataPos.getX() + 0.5, dataPos.getY(), dataPos.getZ() + 0.5);
 				pirate.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.BOW));
 				pirate.setItemStackToSlot(EntityEquipmentSlot.HEAD, new ItemStack(PirateShips.pirate_hat));
-				world.spawnEntityInWorld(pirate);
+				world.spawnEntity(pirate);
 				break;
 			case "sword_pirate":
 				pirate = new EntityPirate(world);
 				pirate.setPosition(dataPos.getX() + 0.5, dataPos.getY(), dataPos.getZ() + 0.5);
 				pirate.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.IRON_SWORD));
 				pirate.setItemStackToSlot(EntityEquipmentSlot.HEAD, new ItemStack(PirateShips.pirate_hat));
-				world.spawnEntityInWorld(pirate);
+				world.spawnEntity(pirate);
 				break;
 			case "booty":
 				float chance = tokens.length == 3 ? 1F : 0.75F;

@@ -47,7 +47,7 @@ public class VanillaStairsAndSlabs extends Feature {
 		add("prismarine", Blocks.PRISMARINE, 0, prismarine);
 		add("prismarine_bricks", Blocks.PRISMARINE, 1, prismarineBricks);
 		add("prismarine_dark", Blocks.PRISMARINE, 2, darkPrismarine);
-		add("red_nether_brick", Blocks.field_189879_dh, 0, redNetherBricks);
+		add("red_nether_brick", Blocks.RED_NETHER_BRICK, 0, redNetherBricks);
 	}
 
 	public void add(String name, Block block, int meta, boolean doit) {

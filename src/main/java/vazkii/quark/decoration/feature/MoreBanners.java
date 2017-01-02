@@ -12,7 +12,7 @@ package vazkii.quark.decoration.feature;
 
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntityBanner;
+import net.minecraft.tileentity.BannerPattern;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import vazkii.quark.base.module.Feature;
@@ -43,7 +43,7 @@ public class MoreBanners extends Feature {
 
 		name = "quark_" + name;
 		id = "q_" + id;
-		EnumHelper.addEnum(TileEntityBanner.EnumBannerPattern.class, name.toUpperCase(), new Class[] { String.class, String.class, ItemStack.class }, new Object[] { name, id, craftingItem });
+		EnumHelper.addEnum(BannerPattern.class, name.toUpperCase(), new Class[] { String.class, String.class, ItemStack.class }, new Object[] { name, id, craftingItem });
 	}
 	
 	@Override

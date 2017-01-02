@@ -16,7 +16,6 @@ import vazkii.arl.block.BlockMetaVariants;
 import vazkii.quark.base.block.IQuarkBlock;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.building.feature.SoulSandstone;
-import vazkii.quark.world.feature.Basalt;
 
 public class BlockNewSandstone extends BlockMetaVariants implements IQuarkBlock {
 

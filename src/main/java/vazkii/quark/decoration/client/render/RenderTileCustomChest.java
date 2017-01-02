@@ -14,7 +14,6 @@ import java.util.Calendar;
 
 import org.lwjgl.opengl.GL11;
 
-import net.minecraft.block.BlockChest;
 import net.minecraft.client.model.ModelChest;
 import net.minecraft.client.model.ModelLargeChest;
 import net.minecraft.client.renderer.GlStateManager;
@@ -45,7 +44,7 @@ public class RenderTileCustomChest extends TileEntitySpecialRenderer<TileCustomC
 		GlStateManager.depthMask(true);
 		int meta;
 
-		if(te.hasWorldObj()) {
+		if(te.hasWorld()) {
 			meta = te.getBlockMetadata();
 			te.checkForAdjacentChests();
 		} else

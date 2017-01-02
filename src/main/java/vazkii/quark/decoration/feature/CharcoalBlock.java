@@ -38,7 +38,7 @@ public class CharcoalBlock extends Feature {
 
 			@Override
 			public int getBurnTime(ItemStack stack) {
-				return stack != null && stack.getItem() == Item.getItemFromBlock(charcoal_block) ? 16000 : 0;
+				return !stack.isEmpty() && stack.getItem() == Item.getItemFromBlock(charcoal_block) ? 16000 : 0;
 			}
 
 		});
