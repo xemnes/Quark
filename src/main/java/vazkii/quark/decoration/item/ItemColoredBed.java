@@ -61,7 +61,7 @@ public class ItemColoredBed extends ItemMod implements IItemColorProvider, IQuar
 
 	@Override
 	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		ItemStack stack = player.getActiveItemStack();
+		ItemStack stack = player.getHeldItem(hand);
 		if(worldIn.isRemote)
 			return EnumActionResult.SUCCESS;
 		else if(facing != EnumFacing.UP)

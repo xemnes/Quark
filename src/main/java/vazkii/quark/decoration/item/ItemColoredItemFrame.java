@@ -64,7 +64,7 @@ public class ItemColoredItemFrame extends ItemMod implements IItemColorProvider,
 
 	@Override
 	public EnumActionResult onItemUse(EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		ItemStack stack = playerIn.getActiveItemStack();
+		ItemStack stack = playerIn.getHeldItem(hand);
 		BlockPos blockpos = pos.offset(facing);
 
 		if(facing != EnumFacing.DOWN && facing != EnumFacing.UP && playerIn.canPlayerEdit(blockpos, facing, stack)) {
