@@ -188,9 +188,10 @@ public class ClassTransformer implements IClassTransformer {
 
 	private static byte[] transformEntityBoat(byte[] basicClass) {
 		log("Transforming EntityBoat");
-		MethodSignature sig = new MethodSignature("attackEntityFrom", "func_76986_a", "a", "(Lnet/minecraft/util/DamageSource;F)Z");
-
-		return transform(basicClass, Pair.of(sig, combine(
+		MethodSignature sig1 = new MethodSignature("attackEntityFrom", "func_76986_a", "a", "(Lnet/minecraft/util/DamageSource;F)Z");
+		MethodSignature sig2 = new MethodSignature("onUpdate", "func_70071_h_", "A", "()V");
+		
+		byte[] transClass = transform(basicClass, Pair.of(sig1, combine(
 				(AbstractInsnNode node) -> { // Filter
 					return node.getOpcode() == Opcodes.POP;
 				},
@@ -203,6 +204,22 @@ public class ClassTransformer implements IClassTransformer {
 					method.instructions.insertBefore(node, newInstructions);
 					return true;
 				})));
+		
+		transClass = transform(transClass, Pair.of(sig2, combine(
+				(AbstractInsnNode node) -> { // Filter
+					return true;
+				},
+				(MethodNode method, AbstractInsnNode node) -> { // Action
+					InsnList newInstructions = new InsnList();
+
+					newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 0));
+					newInstructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, ASM_HOOKS, "onBoatUpdate", "(Lnet/minecraft/entity/item/EntityBoat;)V"));
+
+					method.instructions.insertBefore(node, newInstructions);
+					return true;
+				})));
+		
+		return transClass;
 	}
 
 	private static byte[] transformRenderBoat(byte[] basicClass) {

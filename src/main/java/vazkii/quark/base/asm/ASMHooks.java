@@ -40,6 +40,10 @@ public final class ASMHooks {
 	
 	// ===== BOAT SAILS ===== //
 	
+	public static void onBoatUpdate(EntityBoat boat) {
+		BoatSails.onBoatUpdate(boat);
+	}
+	
 	public static void dropBoatBanner(EntityBoat boat) {
 		BoatSails.dropBoatBanner(boat);
 	}

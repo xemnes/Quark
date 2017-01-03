@@ -49,19 +49,6 @@ public class BoatSails extends Feature {
 	}
 
 	@SubscribeEvent
-	public void preUpdate(EntityEvent.CanUpdate event) {
-		if(event.getEntity() instanceof EntityBoat && !event.getEntity().getEntityWorld().isRemote) {
-			ItemStack dataStack = event.getEntity().getDataManager().get(bannerData);
-
-			NBTTagCompound cmp = event.getEntity().getEntityData().getCompoundTag(TAG_BANNER);
-			ItemStack nbtStack = new ItemStack(cmp);
-
-			if(dataStack != nbtStack)
-				event.getEntity().getDataManager().set(bannerData, nbtStack);
-		}
-	}
-
-	@SubscribeEvent
 	public void onEntityInteract(EntityInteract event) {
 		Entity target = event.getTarget();
 		EntityPlayer player = event.getEntityPlayer();
@@ -102,6 +89,19 @@ public class BoatSails extends Feature {
 
 	public static ItemStack getBanner(EntityBoat boat) {
 		return boat.getDataManager().get(bannerData);
+	}
+	
+	public static void onBoatUpdate(EntityBoat boat) {
+		if(boat.getEntityWorld().isRemote)
+			return;
+		
+		ItemStack dataStack = boat.getDataManager().get(bannerData);
+
+		NBTTagCompound cmp = boat.getEntityData().getCompoundTag(TAG_BANNER);
+		ItemStack nbtStack = new ItemStack(cmp);
+
+		if(dataStack != nbtStack)
+			boat.getDataManager().set(bannerData, nbtStack);
 	}
 
 	public static void dropBoatBanner(EntityBoat boat) {

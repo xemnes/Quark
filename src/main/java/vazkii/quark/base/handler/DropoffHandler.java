@@ -139,7 +139,7 @@ public final class DropoffHandler {
 				int slots = handler.getSlots();
 				for(int i = 0; i < slots; i++) {
 					ItemStack stackAt = handler.getStackInSlot(i);
-					if(stackAt == null)
+					if(stackAt.isEmpty())
 						continue;
 
 					boolean itemEqual = stack.getItem() == stackAt.getItem();
@@ -198,7 +198,7 @@ public final class DropoffHandler {
 			for(int i = InventoryPlayer.getHotbarSize(); i < inv.mainInventory.size(); i++) {
 				ItemStack stackAt = inv.getStackInSlot(i);
 
-				if(stackAt != null && !FavoriteItems.isItemFavorited(stackAt)) {
+				if(!stackAt.isEmpty() && !FavoriteItems.isItemFavorited(stackAt)) {
 					ItemStack ret = insert(stackAt, pred);
 					if(!ItemStack.areItemsEqual(stackAt, ret))
 						inv.setInventorySlotContents(i, ret);
@@ -212,7 +212,7 @@ public final class DropoffHandler {
 				IItemHandler handler = pair.getLeft();
 				ret = insertInHandler(handler, stack, pred);
 				if(ret == null)
-					return null;
+					return ItemStack.EMPTY;
 			}
 
 			return ret;
@@ -221,11 +221,11 @@ public final class DropoffHandler {
 		public ItemStack insertInHandler(IItemHandler handler, final ItemStack stack, DropoffPredicate pred) {
 			if(pred.apply(stack, handler)) {
 				ItemStack retStack = ItemHandlerHelper.insertItemStacked(handler, stack, false);
-				if(retStack != null)
+				if(!retStack.isEmpty())
 					retStack = retStack.copy();
 
-				if(retStack == null || retStack.getCount() == 0)
-					return null;
+				if(retStack.isEmpty() || retStack.getCount() == 0)
+					return ItemStack.EMPTY;
 
 				return retStack;
 			}
@@ -249,7 +249,7 @@ public final class DropoffHandler {
 			for(int i = inv.getSlots() - 1; i >= 0; i--) {
 				ItemStack stackAt = inv.getStackInSlot(i);
 
-				if(stackAt != null) {
+				if(!stackAt.isEmpty()) {
 					ItemStack copy = stackAt.copy();
 					ItemStack ret = insertInHandler(playerInv, stackAt, pred);
 
@@ -270,7 +270,7 @@ public final class DropoffHandler {
 
 		@Override
 		public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
-			if(stack != null)
+			if(!stack.isEmpty())
 				stack = stack.copy();
 
 			return super.insertItem(slot, stack, simulate);
