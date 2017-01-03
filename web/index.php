@@ -1195,7 +1195,7 @@
 								<div class="feature-info">
 									<div class="feature-title">Dungeon Variety</div>
 									<div class="feature-desc">
-										The Dungeon generator is replaced a random pick from Noodlor's Dank Dungeons, they still contain the same spawners and the same loot, but are now varied.<br><br>
+										The Dungeon generator is suplemented by a random pick from Noodlor's Dank Dungeons, they still contain the same spawners and the same loot, but have new styles. The vanilla dungeons will still spawn.<br><br>
 
 										You can find the entire original album <a href="https://imgur.com/a/JanPA">here</a> (emeralds replaced with cobblestone for Quark).
 									</div>
