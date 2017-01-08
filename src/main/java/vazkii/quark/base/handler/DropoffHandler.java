@@ -210,8 +210,8 @@ public final class DropoffHandler {
 			ItemStack ret = stack.copy();
 			for(Pair<IItemHandler, Double> pair : itemHandlers) {
 				IItemHandler handler = pair.getLeft();
-				ret = insertInHandler(handler, stack, pred);
-				if(ret == null)
+				ret = insertInHandler(handler, ret, pred);
+				if(ret.isEmpty())
 					return ItemStack.EMPTY;
 			}
 
@@ -223,9 +223,8 @@ public final class DropoffHandler {
 				ItemStack retStack = ItemHandlerHelper.insertItemStacked(handler, stack, false);
 				if(!retStack.isEmpty())
 					retStack = retStack.copy();
-
-				if(retStack.isEmpty() || retStack.getCount() == 0)
-					return ItemStack.EMPTY;
+				else 
+					return retStack;
 
 				return retStack;
 			}
@@ -270,7 +269,7 @@ public final class DropoffHandler {
 
 		@Override
 		public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
-			if(!stack.isEmpty())
+			if(stack.isEmpty())
 				stack = stack.copy();
 
 			return super.insertItem(slot, stack, simulate);
