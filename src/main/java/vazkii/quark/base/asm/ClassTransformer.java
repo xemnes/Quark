@@ -41,16 +41,16 @@ public class ClassTransformer implements IClassTransformer {
 	private static final String ASM_HOOKS = "vazkii/quark/base/asm/ASMHooks";
 
 	public static final ClassnameMap CLASS_MAPPINGS = new ClassnameMap(
-		"net/minecraft/entity/Entity", "sm",
-		"net/minecraft/item/ItemStack", "afi",
-		"net/minecraft/client/renderer/block/model/IBakedModel", "cbe",
-		"net/minecraft/entity/EntityLivingBase", "sv",
-		"net/minecraft/inventory/EntityEquipmentSlot", "sr",
-		"net/minecraft/client/renderer/entity/RenderLivingBase", "bvi",
-		"net/minecraft/client/model/ModelBase", "blt",
-		"net/minecraft/util/DamageSource", "rx",
-		"net/minecraft/entity/item/EntityBoat", "abw",
-		"net/minecraft/world/World", "ajq",
+		"net/minecraft/entity/Entity", "sn",
+		"net/minecraft/item/ItemStack", "afj",
+		"net/minecraft/client/renderer/block/model/IBakedModel", "cbh",
+		"net/minecraft/entity/EntityLivingBase", "sw",
+		"net/minecraft/inventory/EntityEquipmentSlot", "ss",
+		"net/minecraft/client/renderer/entity/RenderLivingBase", "bvl",
+		"net/minecraft/client/model/ModelBase", "blv",
+		"net/minecraft/util/DamageSource", "ry",
+		"net/minecraft/entity/item/EntityBoat", "abx",
+		"net/minecraft/world/World", "ajs",
 		"net/minecraft/util/math/BlockPos", "co",
 		"net/minecraft/util/EnumFacing", "cv"
 	);
@@ -60,7 +60,6 @@ public class ClassTransformer implements IClassTransformer {
 	static {
 		// For Emotes
 		transformers.put("net.minecraft.client.model.ModelBiped", ClassTransformer::transformModelBiped);
-		transformers.put("micdoodle8.mods.galacticraft.core.client.model.ModelPlayerGC", ClassTransformer::transformModelBiped);
 
 		// For Color Runes
 		transformers.put("net.minecraft.client.renderer.RenderItem", ClassTransformer::transformRenderItem);
@@ -189,7 +188,7 @@ public class ClassTransformer implements IClassTransformer {
 	private static byte[] transformEntityBoat(byte[] basicClass) {
 		log("Transforming EntityBoat");
 		MethodSignature sig1 = new MethodSignature("attackEntityFrom", "func_76986_a", "a", "(Lnet/minecraft/util/DamageSource;F)Z");
-		MethodSignature sig2 = new MethodSignature("onUpdate", "func_70071_h_", "A", "()V");
+		MethodSignature sig2 = new MethodSignature("onUpdate", "func_70071_h_", "A_", "()V");
 		
 		byte[] transClass = transform(basicClass, Pair.of(sig1, combine(
 				(AbstractInsnNode node) -> { // Filter
@@ -320,7 +319,7 @@ public class ClassTransformer implements IClassTransformer {
 			funcName = sig.srgName;
 
 		for(MethodNode method : node.methods) {
-			if((method.name.equals(funcName)|| method.name.equals(sig.obfName)) && (method.desc.equals(sig.funcDesc) || method.desc.equals(sig.obfDesc))) {
+			if((method.name.equals(funcName)|| method.name.equals(sig.obfName) || method.name.equals(sig.srgName)) && (method.desc.equals(sig.funcDesc) || method.desc.equals(sig.obfDesc))) {
 				log("Located Method, patching...");
 
 				boolean finish = pred.test(method);
