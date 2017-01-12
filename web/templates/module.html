@@ -1,0 +1,43 @@
+<div class="page-content">
+	<div class="module-info">
+		<div class="module-title">{{name}}</div>
+		<div class="module-desc">{{description}}</div>
+	</div>
+
+	{{#features}}
+		<div id="{{anchor}}-fake" class="card feature-card">
+			<img class="feature-image" src="img/modules/{{module_key}}/{{image}}"></img> 
+			<div class="feature-info">
+				<div class="feature-title">{{name}}</div>
+				<div class="feature-desc">{{{description}}}</div>
+
+				<div class="feature-versions">
+					{{#versions}}
+						<div class="version-display {{^enabled}}version-display-off{{/enabled}}">
+							{{name}}
+						</div>
+					{{/versions}}
+
+					{{#overlap}}
+						<div class="version-display version-display-off version-display-overlap" title="This feature disables itself if the {{.}} mod is loaded to prevent content overlap.">
+							{{.}} <span class="material-icons">info</span>
+						</div>
+					{{/overlap}}
+				</div>
+			</div>
+
+			<div class="hyperlink-button-container {{#has_album}}with-album{{/has_album}}">
+				{{#has_album}}
+					<a href="{{album}}"><button class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored album-button">
+						<i class="material-icons">photo_library</i>
+					</button></a>
+				{{/has_album}}
+
+				<a href="#{{anchor}}"><button class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored hyperlink-button">
+					<i class="material-icons">bookmark</i>
+				</button></a>
+			</div>
+		</div>
+	{{/features}}
+
+</div>
