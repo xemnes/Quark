@@ -32,6 +32,7 @@ import vazkii.quark.tweaks.feature.JumpBoostStepAssist;
 import vazkii.quark.tweaks.feature.KnockOnDoors;
 import vazkii.quark.tweaks.feature.LessIntrusiveShields;
 import vazkii.quark.tweaks.feature.LookDownLadders;
+import vazkii.quark.tweaks.feature.MapTooltip;
 import vazkii.quark.tweaks.feature.MinecartInteraction;
 import vazkii.quark.tweaks.feature.NoPotionShift;
 import vazkii.quark.tweaks.feature.RemoveSnowLayers;
@@ -80,6 +81,7 @@ public class QuarkTweaks extends Module {
 		registerFeature(new FoodTooltip());
 		registerFeature(new BetterVanillaTextures());
 		registerFeature(new VillagerPursueEmeralds(), "Villagers chase players holding Emerald Blocks");
+		registerFeature(new MapTooltip());
 	}
 
 }
