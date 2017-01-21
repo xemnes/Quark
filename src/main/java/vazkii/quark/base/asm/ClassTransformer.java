@@ -255,11 +255,12 @@ public class ClassTransformer implements IClassTransformer {
 					InsnList newInstructions = new InsnList();
 
 					newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 1));
+					newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 2));
 					newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 6));
 					newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 8));
 					newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 11));
 					newInstructions.add(new VarInsnNode(Opcodes.ILOAD, 4));
-					newInstructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, ASM_HOOKS, "breakStuffWithSpikes", "(Lnet/minecraft/world/World;Ljava/util/List;Ljava/util/List;Lnet/minecraft/util/EnumFacing;Z)Z"));
+					newInstructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, ASM_HOOKS, "breakStuffWithSpikes", "(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Ljava/util/List;Ljava/util/List;Lnet/minecraft/util/EnumFacing;Z)Z"));
 					
 					// recalculate the list and array sizes
 					LabelNode label = new LabelNode();

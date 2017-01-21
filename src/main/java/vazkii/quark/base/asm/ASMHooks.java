@@ -55,8 +55,8 @@ public final class ASMHooks {
 
 	// ===== PISTON BLOCK BREAKERS ===== //
 	
-	public static boolean breakStuffWithSpikes(World world, List<BlockPos> moveList, List<BlockPos> destroyList, EnumFacing facing, boolean extending) {
-		return PistonSpikes.breakStuffWithSpikes(world, moveList, destroyList, facing, extending);
+	public static boolean breakStuffWithSpikes(World world, BlockPos sourcePos, List<BlockPos> moveList, List<BlockPos> destroyList, EnumFacing facing, boolean extending) {
+		return PistonSpikes.breakStuffWithSpikes(world, sourcePos, moveList, destroyList, facing, extending);
 	}	
 	
 }

@@ -15,27 +15,27 @@ import vazkii.quark.base.module.ModuleLoader;
 
 public class PistonSpikes extends Feature {
 
-	public static boolean breakStuffWithSpikes(World world, List<BlockPos> moveList, List<BlockPos> destroyList, EnumFacing facing, boolean extending) {
+	public static boolean breakStuffWithSpikes(World world, BlockPos sourcePos, List<BlockPos> moveList, List<BlockPos> destroyList, EnumFacing facing, boolean extending) {
 		if(!extending || !ModuleLoader.isFeatureEnabled(PistonSpikes.class))
 			return false;
 		
 		boolean did = false;
 		List<BlockPos> newMoveList = new ArrayList(moveList);
 		List<BlockPos> newDestroyList = new ArrayList(destroyList);
+		EnumFacing oppositeFacing = facing.getOpposite();
 		
 		for(BlockPos pos : moveList) {
 			IBlockState state = world.getBlockState(pos);
 			if(state.getBlock() == Blocks.END_ROD && state.getValue(BlockDirectional.FACING) == facing) {
-				BlockPos off = pos.offset(facing.getOpposite());
+				BlockPos off = pos.offset(oppositeFacing);
+				if(off != sourcePos)
+					continue;
 				
 				for(int i = 0; i < 14; i++) {
 					IBlockState stateAt = world.getBlockState(off);
 					Block blockAt = stateAt.getBlock();
 					if(blockAt.isAir(stateAt, world, off))
 						break;
-					
-					if(i == 0 && blockAt != Blocks.PISTON && blockAt != Blocks.STICKY_PISTON)
-						return false;
 					
 					if(blockAt == Blocks.SLIME_BLOCK)
 						return false;
