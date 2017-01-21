@@ -8,7 +8,7 @@
  * 
  * File Created @ [17/07/2016, 03:52:03 (GMT)]
  */
-package vazkii.quark.world.entity.arrow;
+package vazkii.quark.misc.entity;
 
 import net.minecraft.dispenser.IPosition;
 import net.minecraft.entity.EntityLivingBase;
@@ -17,7 +17,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
-import vazkii.quark.world.feature.ExtraArrows;
+import vazkii.quark.misc.feature.ExtraArrows;
 
 public class EntityArrowExplosive extends EntityArrow {
 

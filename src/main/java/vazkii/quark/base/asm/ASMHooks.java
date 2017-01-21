@@ -11,10 +11,10 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.automation.feature.PistonSpikes;
+import vazkii.quark.misc.feature.ColorRunes;
 import vazkii.quark.vanity.client.emotes.base.EmoteHandler;
 import vazkii.quark.vanity.client.render.BoatBannerRenderer;
 import vazkii.quark.vanity.feature.BoatSails;
-import vazkii.quark.world.feature.ColorRunes;
 
 public final class ASMHooks {
 

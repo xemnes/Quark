@@ -8,7 +8,7 @@
  *
  * File Created @ [05/06/2016, 23:09:58 (GMT)]
  */
-package vazkii.quark.world.feature;
+package vazkii.quark.misc.feature;
 
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.monster.EntitySlime;
@@ -21,7 +21,7 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import vazkii.quark.base.module.Feature;
-import vazkii.quark.world.item.ItemSlimeBucket;
+import vazkii.quark.misc.item.ItemSlimeBucket;
 
 public class SlimeBucket extends Feature {
 

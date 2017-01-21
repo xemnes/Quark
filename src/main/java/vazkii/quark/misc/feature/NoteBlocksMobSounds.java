@@ -8,7 +8,7 @@
  *
  * File Created @ [27/03/2016, 06:02:47 (GMT)]
  */
-package vazkii.quark.tweaks.feature;
+package vazkii.quark.misc.feature;
 
 import net.minecraft.block.BlockSkull;
 import net.minecraft.block.state.IBlockState;

@@ -8,7 +8,7 @@
  * 
  * File Created @ [17/07/2016, 04:34:07 (GMT)]
  */
-package vazkii.quark.world.client.render;
+package vazkii.quark.misc.client.render;
 
 import net.minecraft.client.renderer.entity.RenderArrow;
 import net.minecraft.client.renderer.entity.RenderManager;

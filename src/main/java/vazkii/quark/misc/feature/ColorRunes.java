@@ -8,7 +8,7 @@
  *
  * File Created @ [19/06/2016, 01:13:02 (GMT)]
  */
-package vazkii.quark.world.feature;
+package vazkii.quark.misc.feature;
 
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.item.Item;
@@ -28,7 +28,7 @@ import vazkii.arl.util.ItemNBTHelper;
 import vazkii.quark.base.handler.ICustomEnchantColor;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.ModuleLoader;
-import vazkii.quark.world.item.ItemRune;
+import vazkii.quark.misc.item.ItemRune;
 
 public class ColorRunes extends Feature {
 

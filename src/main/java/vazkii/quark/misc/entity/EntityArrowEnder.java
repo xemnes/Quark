@@ -8,7 +8,7 @@
  * 
  * File Created @ [17/07/2016, 03:52:18 (GMT)]
  */
-package vazkii.quark.world.entity.arrow;
+package vazkii.quark.misc.entity;
 
 import net.minecraft.dispenser.IPosition;
 import net.minecraft.entity.EntityLivingBase;
@@ -22,7 +22,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.EnderTeleportEvent;
-import vazkii.quark.world.feature.ExtraArrows;
+import vazkii.quark.misc.feature.ExtraArrows;
 
 public class EntityArrowEnder extends EntityArrow {
 

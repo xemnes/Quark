@@ -8,7 +8,7 @@
  * 
  * File Created @ [17/07/2016, 03:48:20 (GMT)]
  */
-package vazkii.quark.world.item;
+package vazkii.quark.misc.item;
 
 import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.entity.EntityLivingBase;

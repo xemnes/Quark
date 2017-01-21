@@ -8,6 +8,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import vazkii.arl.util.RecipeHandler;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.ModuleLoader;
+import vazkii.quark.misc.feature.ColorRunes;
 import vazkii.quark.world.block.BlockCrystal;
 import vazkii.quark.world.world.CrystalCaveGenerator;
 

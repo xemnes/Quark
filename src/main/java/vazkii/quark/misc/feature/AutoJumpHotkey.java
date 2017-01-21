@@ -8,7 +8,7 @@
  *
  * File Created @ [06/07/2016, 17:13:46 (GMT)]
  */
-package vazkii.quark.tweaks.feature;
+package vazkii.quark.misc.feature;
 
 import org.lwjgl.opengl.GL11;
 

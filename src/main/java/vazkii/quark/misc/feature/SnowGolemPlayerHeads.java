@@ -8,7 +8,7 @@
  *
  * File Created @ [25/03/2016, 21:13:18 (GMT)]
  */
-package vazkii.quark.tweaks.feature;
+package vazkii.quark.misc.feature;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;

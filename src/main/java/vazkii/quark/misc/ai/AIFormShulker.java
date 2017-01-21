@@ -1,4 +1,4 @@
-package vazkii.quark.tweaks.ai;
+package vazkii.quark.misc.ai;
 
 import java.util.Random;
 
@@ -10,7 +10,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import vazkii.quark.tweaks.feature.EndermitesIntoShulkers;
+import vazkii.quark.misc.feature.EndermitesIntoShulkers;
 
 public class AIFormShulker extends EntityAIWander
 {

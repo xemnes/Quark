@@ -11,23 +11,19 @@
 package vazkii.quark.world;
 
 import vazkii.quark.base.module.Module;
-import vazkii.quark.world.feature.AncientTomes;
 import vazkii.quark.world.feature.Basalt;
 import vazkii.quark.world.feature.Biotite;
 import vazkii.quark.world.feature.BuriedTreasure;
 import vazkii.quark.world.feature.ClayGeneration;
-import vazkii.quark.world.feature.ColorRunes;
 import vazkii.quark.world.feature.CrystalCaves;
 import vazkii.quark.world.feature.DefaultWorldOptions;
 import vazkii.quark.world.feature.DepthMobs;
-import vazkii.quark.world.feature.ExtraArrows;
 import vazkii.quark.world.feature.MushroomsInSwamps;
 import vazkii.quark.world.feature.NaturalBlazesInNether;
 import vazkii.quark.world.feature.OceanGuardians;
 import vazkii.quark.world.feature.PirateShips;
 import vazkii.quark.world.feature.RealisticWorldType;
 import vazkii.quark.world.feature.RevampStoneGen;
-import vazkii.quark.world.feature.SlimeBucket;
 import vazkii.quark.world.feature.VariedDungeons;
 import vazkii.quark.world.feature.Wraiths;
 
@@ -48,12 +44,6 @@ public class QuarkWorld extends Module {
 		registerFeature(new RevampStoneGen());
 		registerFeature(new CrystalCaves());
 		registerFeature(new VariedDungeons());
-		
-		// future content module
-		registerFeature(new AncientTomes());
-		registerFeature(new SlimeBucket());
-		registerFeature(new ColorRunes());
-		registerFeature(new ExtraArrows());
 
 		registerFeature(new RealisticWorldType());
 		registerFeature(new DefaultWorldOptions());

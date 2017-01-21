@@ -1,11 +1,11 @@
-package vazkii.quark.tweaks.feature;
+package vazkii.quark.misc.feature;
 
 import net.minecraft.entity.ai.EntityAITasks.EntityAITaskEntry;
 import net.minecraft.entity.monster.EntityEndermite;
 import net.minecraftforge.event.entity.EntityEvent.EnteringChunk;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import vazkii.quark.base.module.Feature;
-import vazkii.quark.tweaks.ai.AIFormShulker;
+import vazkii.quark.misc.ai.AIFormShulker;
 
 public class EndermitesIntoShulkers extends Feature {
 

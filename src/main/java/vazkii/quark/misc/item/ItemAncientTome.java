@@ -8,7 +8,7 @@
  *
  * File Created @ [01/06/2016, 19:43:18 (GMT)]
  */
-package vazkii.quark.world.item;
+package vazkii.quark.misc.item;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.Enchantment;
@@ -17,7 +17,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import vazkii.arl.item.ItemMod;
 import vazkii.quark.base.item.IQuarkItem;
-import vazkii.quark.world.feature.AncientTomes;
+import vazkii.quark.misc.feature.AncientTomes;
 
 public class ItemAncientTome extends ItemMod implements IQuarkItem {
 
