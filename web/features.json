@@ -473,9 +473,21 @@
 			},
 			{
 				"name":"Texture Changes",
-				"description":"Quark generates a \"low priority resource pack\", changing the 1.8 stones, bricks, glass, and pupkin face textures to less rough or more sensible variants.<br>Each of these can be turned off individually, and will be overriden by any other resource pack you load on top.",
+				"description":"Quark generates a \"low priority resource pack\", changing some textures to less rough or more sensible variants. Each of these can be turned off individually, and will be overriden by any other resource pack you load on top. The current changes are as follows:<ul><li>1.8 Stones</li><li>Bricks</li><li>Glass</li><li>Pumpkin Face <i>(disabled by default)</i></li></ul>",
 				"image":"texture-changes.jpg",
 				"introduced":10
+			},
+			{
+				"name":"Map Tooltip",
+				"description":"Hovering over a filled map in an inventory renders that map above the tooltip.",
+				"image":"map-tooltip.jpg",
+				"introduced":11
+			},
+			{
+				"name":"Villagers follow Emerald Blocks",
+				"description":"Holding an Emerald Block causes nearby villagers to follow the player, much like animals do for food items.",
+				"image":"villager-emeralds.jpg",
+				"introduced":11
 			}
 		]
 	},
