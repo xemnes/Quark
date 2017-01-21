@@ -10,8 +10,6 @@
  */
 package vazkii.quark.vanity.recipe;
 
-import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
-
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemFirework;
 import net.minecraft.item.ItemStack;
