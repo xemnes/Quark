@@ -40,14 +40,6 @@ public class EntityAshen extends EntitySkeleton {
 	}
 
 	@Override
-	public String getName() {
-		if(hasCustomName())
-			return getCustomNameTag();
-
-		return I18n.translateToLocal("entity.Quark.ashen.name");
-	}
-
-	@Override
 	public boolean getCanSpawnHere() {
 		return super.getCanSpawnHere() && posY < DepthMobs.upperBound;
 	}

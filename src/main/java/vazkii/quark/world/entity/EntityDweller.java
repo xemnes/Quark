@@ -11,6 +11,7 @@
 package vazkii.quark.world.entity;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityList;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.EntityZombie;
@@ -33,14 +34,6 @@ public class EntityDweller extends EntityZombie {
 		super.applyEntityAttributes();
 		getEntityAttribute(SPAWN_REINFORCEMENTS_CHANCE).setBaseValue(0);
 		getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(3);
-	}
-
-	@Override
-	public String getName() {
-		if(hasCustomName())
-			return getCustomNameTag();
-
-		return I18n.translateToLocal("entity.Quark.dweller.name");
 	}
 
 	@Override

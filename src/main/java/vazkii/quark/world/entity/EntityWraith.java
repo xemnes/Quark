@@ -83,14 +83,6 @@ public class EntityWraith extends EntityZombie {
 	}
 
 	@Override
-	public String getName() {
-		if(hasCustomName())
-			return getCustomNameTag();
-
-		return I18n.translateToLocal("entity.Quark.wraith.name");
-	}
-
-	@Override
 	protected void setEquipmentBasedOnDifficulty(DifficultyInstance difficulty) {
 		// NO-OP
 	}

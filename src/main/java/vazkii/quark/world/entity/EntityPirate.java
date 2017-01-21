@@ -26,14 +26,6 @@ public class EntityPirate extends EntitySkeleton {
 	}
 
 	@Override
-	public String getName() {
-		if(hasCustomName())
-			return getCustomNameTag();
-
-		return I18n.translateToLocal("entity.Quark.pirate.name");
-	}
-
-	@Override
 	protected boolean canDespawn() {
 		return false;
 	}
