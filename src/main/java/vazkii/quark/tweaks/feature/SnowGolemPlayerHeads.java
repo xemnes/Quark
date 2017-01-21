@@ -29,7 +29,7 @@ public class SnowGolemPlayerHeads extends Feature {
 
 		if(e.hasCustomName() && e instanceof EntitySnowman && event.getSource().getEntity() != null && event.getSource().getEntity() instanceof EntityWitch) {
 			EntitySnowman snowman = (EntitySnowman) e;
-			if(!snowman.isPumpkinEquipped()) { // for some reason isPumpkinEquipped is backwards
+			if(snowman.isPumpkinEquipped()) { 
 				ItemStack stack = new ItemStack(Items.SKULL, 1, 3);
 				ItemNBTHelper.setString(stack, "SkullOwner", e.getCustomNameTag());
 				event.getDrops().add(new EntityItem(e.getEntityWorld(), e.posX, e.posY, e.posZ, stack));
