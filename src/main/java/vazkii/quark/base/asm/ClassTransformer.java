@@ -223,7 +223,7 @@ public class ClassTransformer implements IClassTransformer {
 
 	private static byte[] transformRenderBoat(byte[] basicClass) {
 		log("Transforming RenderBoat");
-		MethodSignature sig = new MethodSignature("doRender", "func_76986_a", "a", "(Lnet/minecraft/entity/item/EntityBoat;DDDFF)V");
+		MethodSignature sig = new MethodSignature("doRender", "func_188300_b", "b", "(Lnet/minecraft/entity/item/EntityBoat;DDDFF)V");
 
 		return transform(basicClass, Pair.of(sig, combine(
 				(AbstractInsnNode node) -> { // Filter
