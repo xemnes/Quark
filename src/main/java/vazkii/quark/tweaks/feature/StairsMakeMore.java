@@ -67,7 +67,7 @@ public class StairsMakeMore extends Feature {
 									recipeItem = ores.get(0);
 							}
 
-							if(recipeItem != null) {
+							if(recipeItem != null && recipeItem instanceof ItemStack && !((ItemStack) recipeItem).isEmpty()) {
 								ItemStack recipeStack = (ItemStack) recipeItem;
 								if(outStack.isEmpty())
 									outStack = recipeStack;
