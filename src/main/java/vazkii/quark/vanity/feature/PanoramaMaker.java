@@ -49,6 +49,7 @@ public class PanoramaMaker extends Feature {
 	private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss");
 
 	File panoramaDir;
+	File fullresPanoramaDir;
 	File currentDir;
 	float rotationYaw, rotationPitch;
 	int panoramaStep;
@@ -57,10 +58,14 @@ public class PanoramaMaker extends Feature {
 	boolean overridenOnce;
 
 	boolean overrideMainMenu;
+	int panoramaSize;
+	boolean fullscreen;
 
 	@Override
 	public void setupConfig() {
 		overrideMainMenu = loadPropBool("Use panorama screenshots on main menu", "", true);
+		fullscreen = loadPropBool("Fullres screenshots", "Take panorama screenshots without changing the render size", false);
+		panoramaSize = loadPropInt("Panorama Picture Resolution", "", 256);
 	}
 
 	@SubscribeEvent
@@ -68,6 +73,7 @@ public class PanoramaMaker extends Feature {
 		if(overrideMainMenu && !overridenOnce && event.getGui() instanceof GuiMainMenu) {
 			File mcDir = ModuleLoader.configFile.getParentFile().getParentFile();
 			File panoramasDir = new File(mcDir, "/screenshots/panoramas");
+			
 			List<File[]> validFiles = new ArrayList();
 
 			ImmutableSet<String> set = ImmutableSet.of("panorama_0.png", "panorama_1.png", "panorama_2.png", "panorama_3.png", "panorama_4.png", "panorama_5.png");
@@ -78,7 +84,7 @@ public class PanoramaMaker extends Feature {
 				File mainMenu = new File(panoramasDir, "main_menu");
 				if(mainMenu.exists())
 					subDirs = new File[] { mainMenu };
-				else subDirs = panoramasDir.listFiles((File f) -> f.isDirectory());
+				else subDirs = panoramasDir.listFiles((File f) -> f.isDirectory() && !f.getName().endsWith("fullres"));
 
 				for(File f : subDirs)
 					if(set.stream().allMatch((String s) -> new File(f, s).exists()))
@@ -95,7 +101,8 @@ public class PanoramaMaker extends Feature {
 				for(int i = 0; i < resources.length; i++) {
 					File f = files[i];
 					try {
-						DynamicTexture tex = new DynamicTexture(ImageIO.read(f));
+						BufferedImage img = ImageIO.read(f);
+						DynamicTexture tex = new DynamicTexture(img);
 						String name = "quark:" + f.getName();
 
 						resources[i] = mc.getTextureManager().getDynamicTextureLocation(name, tex);
@@ -142,9 +149,15 @@ public class PanoramaMaker extends Feature {
 			int i = 0;
 			String ts = getTimestamp();
 			do {
-				if(i == 0)
-					currentDir = new File(panoramaDir, ts);
-				else currentDir = new File(panoramaDir, ts + "_" + i);
+				if(fullscreen) {
+					if(i == 0)
+						currentDir = new File(panoramaDir + "_fullres", ts);
+					else currentDir = new File(panoramaDir, ts + "_" + i + "_fullres");
+				} else {
+					if(i == 0)
+						currentDir = new File(panoramaDir, ts);
+					else currentDir = new File(panoramaDir, ts + "_" + i);
+				}
 			} while(currentDir.exists());
 
 			currentDir.mkdirs();
@@ -165,7 +178,9 @@ public class PanoramaMaker extends Feature {
 					currentHeight = mc.displayHeight;
 					rotationYaw = mc.player.rotationYaw;
 					rotationPitch = mc.player.rotationPitch;
-					mc.resize(256, 256);
+					
+					if(!fullscreen)
+						mc.resize(panoramaSize, panoramaSize);
 				}
 
 				switch(panoramaStep) {
