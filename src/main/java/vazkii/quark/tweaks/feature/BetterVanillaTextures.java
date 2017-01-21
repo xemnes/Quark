@@ -15,7 +15,7 @@ public class BetterVanillaTextures extends Feature {
 		diorite = loadPropBool("Override Diorite", "", true);
 		bricks = loadPropBool("Override Bricks", "", true);
 		glass = loadPropBool("Override Glass", "", true);
-		pumpkinFace = loadPropBool("Override Pumpkin Face", "", true);
+		pumpkinFace = loadPropBool("Override Pumpkin Front Face", "", false);
 	}
 	
 	@Override
