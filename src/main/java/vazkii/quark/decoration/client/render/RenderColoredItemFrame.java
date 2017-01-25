@@ -141,16 +141,12 @@ public class RenderColoredItemFrame extends Render<EntityColoredItemFrame> {
 			} else {
 				GlStateManager.scale(0.5F, 0.5F, 0.5F);
 
-				if(!itemRenderer.shouldRenderItemIn3D(entityitem.getEntityItem()) || item instanceof ItemSkull)
-					GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
-
 				GlStateManager.pushAttrib();
 				RenderHelper.enableStandardItemLighting();
 				itemRenderer.renderItem(entityitem.getEntityItem(), ItemCameraTransforms.TransformType.FIXED);
 				RenderHelper.disableStandardItemLighting();
 				GlStateManager.popAttrib();
 			}
-			//            }
 
 			GlStateManager.enableLighting();
 			GlStateManager.popMatrix();
