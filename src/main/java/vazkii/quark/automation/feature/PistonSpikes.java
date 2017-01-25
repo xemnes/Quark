@@ -28,7 +28,8 @@ public class PistonSpikes extends Feature {
 			IBlockState state = world.getBlockState(pos);
 			if(state.getBlock() == Blocks.END_ROD && state.getValue(BlockDirectional.FACING) == facing) {
 				BlockPos off = pos.offset(oppositeFacing);
-				if(off != sourcePos)
+
+				if(!off.equals(sourcePos))
 					continue;
 				
 				for(int i = 0; i < 14; i++) {
