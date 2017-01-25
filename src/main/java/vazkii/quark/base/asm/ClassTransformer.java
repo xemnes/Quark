@@ -227,7 +227,7 @@ public class ClassTransformer implements IClassTransformer {
 
 		return transform(basicClass, Pair.of(sig, combine(
 				(AbstractInsnNode node) -> { // Filter
-					return node.getOpcode() == Opcodes.INVOKEVIRTUAL && (((MethodInsnNode) node).desc.equals("(Lnet/minecraft/entity/Entity;FFFFFF)V") || ((MethodInsnNode) node).desc.equals("(Lsm;FFFFFF)V"));
+					return node.getOpcode() == Opcodes.INVOKEVIRTUAL && checkDesc(((MethodInsnNode) node).desc, "(Lnet/minecraft/entity/Entity;FFFFFF)V");
 				},
 				(MethodNode method, AbstractInsnNode node) -> { // Action
 					log("Patching " + method + " in node " + node);
@@ -356,6 +356,10 @@ public class ClassTransformer implements IClassTransformer {
 	private static void log(String str) {
 		FMLLog.info("[Quark ASM] %s", str);
 	}
+	
+	private static boolean checkDesc(String desc, String expected) {
+		return desc.equals(expected) || desc.equals(MethodSignature.obfuscate(expected));
+	}
 
 	private static class MethodSignature {
 		String funcName, srgName, obfName, funcDesc, obfDesc;
@@ -373,7 +377,7 @@ public class ClassTransformer implements IClassTransformer {
 			return "Names [" + funcName + ", " + srgName + ", " + obfName + "] Descriptor " + funcDesc + " / " + obfDesc;
 		}
 		
-		private String obfuscate(String desc) {
+		private static String obfuscate(String desc) {
 			for(String s : CLASS_MAPPINGS.keySet())
 				if(desc.contains(s))
 					desc = desc.replaceAll(s, CLASS_MAPPINGS.get(s));
