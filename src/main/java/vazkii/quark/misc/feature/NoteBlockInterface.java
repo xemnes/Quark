@@ -14,10 +14,12 @@ import vazkii.quark.base.module.Feature;
 
 public class NoteBlockInterface extends Feature {
 
+	public static String keyboardLayout;
 	boolean emptyHand;
 
 	@Override
 	public void setupConfig() {
+		keyboardLayout = loadPropString("Keyboard Layout", "Keyboard layout to use for the piano\nAccepted values are: qwerty, azerty, dvorak", "qwerty");
 		emptyHand = loadPropBool("Requires Empty Hands", "", false);
 	}
 

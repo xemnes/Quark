@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.lwjgl.input.Keyboard;
+
 import com.google.common.collect.Lists;
 
 import net.minecraft.block.material.Material;
@@ -24,6 +26,7 @@ import scala.actors.threadpool.Arrays;
 import vazkii.arl.network.NetworkHandler;
 import vazkii.quark.base.network.MessageRegister;
 import vazkii.quark.base.network.message.MessageTuneNoteBlock;
+import vazkii.quark.misc.feature.NoteBlockInterface;
 
 public class GuiNoteBlock extends GuiScreen {
 
@@ -41,6 +44,24 @@ public class GuiNoteBlock extends GuiScreen {
 			"E", "F", "F#", "G", "G#", 
 			"A", "A#", "B", "C", "C#", 
 			"D", "D#", "E", "F", "F#"
+	};
+	
+	private static final int[] KEY_BINDS_QWERTY = new int[] {
+		Keyboard.KEY_Q, Keyboard.KEY_W, Keyboard.KEY_E, Keyboard.KEY_R, Keyboard.KEY_T, Keyboard.KEY_Y, Keyboard.KEY_U, Keyboard.KEY_I, Keyboard.KEY_O,
+		Keyboard.KEY_A, Keyboard.KEY_S, Keyboard.KEY_D, Keyboard.KEY_F, Keyboard.KEY_G, Keyboard.KEY_H, Keyboard.KEY_J, Keyboard.KEY_K, Keyboard.KEY_L,
+		Keyboard.KEY_Z, Keyboard.KEY_X, Keyboard.KEY_C, Keyboard.KEY_V, Keyboard.KEY_B, Keyboard.KEY_N, Keyboard.KEY_M
+	};
+	
+	private static final int[] KEY_BINDS_AZERTY = new int[] {
+		Keyboard.KEY_A, Keyboard.KEY_Z, Keyboard.KEY_E, Keyboard.KEY_R, Keyboard.KEY_T, Keyboard.KEY_Y, Keyboard.KEY_U, Keyboard.KEY_I, Keyboard.KEY_O, Keyboard.KEY_P, 
+		Keyboard.KEY_Q, Keyboard.KEY_S, Keyboard.KEY_D, Keyboard.KEY_F, Keyboard.KEY_G, Keyboard.KEY_H, Keyboard.KEY_J, Keyboard.KEY_K, Keyboard.KEY_L, Keyboard.KEY_M,
+		Keyboard.KEY_W, Keyboard.KEY_X, Keyboard.KEY_C, Keyboard.KEY_V, Keyboard.KEY_B
+	};
+	
+	private static final int[] KEY_BINDS_DVORAK = new int[] {
+		Keyboard.KEY_P, Keyboard.KEY_Y, Keyboard.KEY_F, Keyboard.KEY_G, Keyboard.KEY_C, Keyboard.KEY_R, Keyboard.KEY_L,
+		Keyboard.KEY_O, Keyboard.KEY_E, Keyboard.KEY_U, Keyboard.KEY_I, Keyboard.KEY_D, Keyboard.KEY_H, Keyboard.KEY_T, Keyboard.KEY_N, Keyboard.KEY_S, 
+		Keyboard.KEY_Q, Keyboard.KEY_J, Keyboard.KEY_K, Keyboard.KEY_X, Keyboard.KEY_B, Keyboard.KEY_M, Keyboard.KEY_W, Keyboard.KEY_V, Keyboard.KEY_Z
 	};
 	
 	private List<Key> whiteKeys = new ArrayList();
@@ -128,8 +149,14 @@ public class GuiNoteBlock extends GuiScreen {
 				hoveredKey = k;
 		}
 
+		mc.renderEngine.bindTexture(noteblockResource);
+		float scale = 2F;
+		GlStateManager.scale(scale, scale, scale);
+		drawModalRectWithCustomSizedTexture(4, 30, getNote() * 16, panelHeight, 16, 16, TEXTURE_WIDTH, TEXTURE_HEIGHT);
+		GlStateManager.scale(1 / scale, 1 / scale, 1 / scale);
+
+		scale = 1.8F;
 		RenderHelper.enableGUIStandardItemLighting();
-		float scale = 1.8F;
 		GlStateManager.translate(9, 9, 0);
 		GlStateManager.scale(scale, scale, scale);
 		mc.getRenderItem().renderItemAndEffectIntoGUI(new ItemStack(Blocks.NOTEBLOCK), 0, 0);
@@ -150,6 +177,22 @@ public class GuiNoteBlock extends GuiScreen {
 			else if(hoversNoteBlock)
 				NetworkHandler.INSTANCE.sendToServer(new MessageTuneNoteBlock(noteBlock, true, (byte) 0));
 	}
+	
+	@Override
+	protected void keyTyped(char typedChar, int keyCode) throws IOException {
+		super.keyTyped(typedChar, keyCode);
+		
+		for(Key k : whiteKeys)
+			play(k, keyCode);
+		for(Key k : blackKeys)
+			play(k, keyCode);
+	}
+	
+	private void play(Key k, int code) {
+		int expected = getKey(k.clicks);
+		if(expected == code)
+			NetworkHandler.INSTANCE.sendToServer(new MessageTuneNoteBlock(noteBlock, false, k.clicks));
+	}
 
 	private int getNote() {
 		Material material = noteBlock.getWorld().getBlockState(noteBlock.getPos().down()).getMaterial();
@@ -167,6 +210,16 @@ public class GuiNoteBlock extends GuiScreen {
 			return 4;
 		
 		return 0;
+	}
+	
+	private static int getKey(int index) {
+		int[] keys = KEY_BINDS_QWERTY;
+		if(NoteBlockInterface.keyboardLayout.equalsIgnoreCase("azerty"))
+			keys = KEY_BINDS_AZERTY;
+		else if(NoteBlockInterface.keyboardLayout.equalsIgnoreCase("dvorak"))
+			keys = KEY_BINDS_DVORAK;
+		
+		return keys[index];
 	}
 	
 	@Override
@@ -224,7 +277,7 @@ public class GuiNoteBlock extends GuiScreen {
 
 		@Override
 		boolean renderKey(Minecraft mc, boolean canHover, CoordinateHolder c) {
-			boolean hovered = canHover && isHovered(c);
+			boolean hovered = (canHover && isHovered(c)) || Keyboard.isKeyDown(getKey(clicks));
 			int u = 320 + w * type;
 			int v = hovered ? h : 0;
 			drawModalRectWithCustomSizedTexture(c.baseX + x, c.baseY + y, u, v, w, h, TEXTURE_WIDTH, TEXTURE_HEIGHT);
@@ -245,7 +298,7 @@ public class GuiNoteBlock extends GuiScreen {
 
 		@Override
 		boolean renderKey(Minecraft mc, boolean canHover, CoordinateHolder c) {
-			boolean hovered = canHover && isHovered(c);
+			boolean hovered = (canHover && isHovered(c)) || Keyboard.isKeyDown(getKey(clicks));
 			int u = 374;
 			int v = hovered ? h : 0;
 			drawModalRectWithCustomSizedTexture(c.baseX + x, c.baseY + y, u, v, w, h, TEXTURE_WIDTH, TEXTURE_HEIGHT);
