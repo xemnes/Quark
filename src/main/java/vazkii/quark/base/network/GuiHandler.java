@@ -12,11 +12,13 @@ package vazkii.quark.base.network;
 
 import net.minecraft.client.gui.inventory.GuiEditSign;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.tileentity.TileEntityNote;
 import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 import vazkii.quark.base.lib.LibGuiIDs;
+import vazkii.quark.misc.client.gui.GuiNoteBlock;
 
 public class GuiHandler implements IGuiHandler {
 
@@ -29,6 +31,7 @@ public class GuiHandler implements IGuiHandler {
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		switch(ID) {
 		case LibGuiIDs.SIGN: return new GuiEditSign((TileEntitySign) world.getTileEntity(new BlockPos(x, y, z)));
+		case LibGuiIDs.NOTE_BLOCK: return new GuiNoteBlock((TileEntityNote) world.getTileEntity(new BlockPos(x, y, z)));
 		}
 		return null;
 	}
