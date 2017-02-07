@@ -10,6 +10,8 @@
  */
 package vazkii.quark.base.asm;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -32,6 +34,9 @@ import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 import org.objectweb.asm.tree.TypeInsnNode;
 import org.objectweb.asm.tree.VarInsnNode;
+import org.objectweb.asm.util.Printer;
+import org.objectweb.asm.util.Textifier;
+import org.objectweb.asm.util.TraceMethodVisitor;
 
 import net.minecraft.launchwrapper.IClassTransformer;
 import net.minecraftforge.fml.common.FMLLog;
@@ -227,10 +232,10 @@ public class ClassTransformer implements IClassTransformer {
 
 		return transform(basicClass, Pair.of(sig, combine(
 				(AbstractInsnNode node) -> { // Filter
-					return node.getOpcode() == Opcodes.INVOKEVIRTUAL && checkDesc(((MethodInsnNode) node).desc, "(Lnet/minecraft/entity/Entity;FFFFFF)V");
+					return (node.getOpcode() == Opcodes.INVOKEVIRTUAL || node.getOpcode() == Opcodes.INVOKEINTERFACE)
+							&& checkDesc(((MethodInsnNode) node).desc, "(Lnet/minecraft/entity/Entity;FFFFFF)V");
 				},
 				(MethodNode method, AbstractInsnNode node) -> { // Action
-					log("Patching " + method + " in node " + node);
 					InsnList newInstructions = new InsnList();
 
 					newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 1));
@@ -355,6 +360,19 @@ public class ClassTransformer implements IClassTransformer {
 
 	private static void log(String str) {
 		FMLLog.info("[Quark ASM] %s", str);
+	}
+	
+	private static void prettyPrint(AbstractInsnNode node) {
+		Printer printer = new Textifier();
+		
+		TraceMethodVisitor visitor = new TraceMethodVisitor(printer);
+		node.accept(visitor);
+
+		StringWriter sw = new StringWriter();
+		printer.print(new PrintWriter(sw));
+		printer.getText().clear();
+
+		log(sw.toString().replaceAll("\n", ""));
 	}
 	
 	private static boolean checkDesc(String desc, String expected) {
