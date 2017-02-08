@@ -27,6 +27,7 @@ import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.InsnNode;
+import org.objectweb.asm.tree.IntInsnNode;
 import org.objectweb.asm.tree.JumpInsnNode;
 import org.objectweb.asm.tree.LabelNode;
 import org.objectweb.asm.tree.LdcInsnNode;
@@ -42,7 +43,7 @@ import net.minecraft.launchwrapper.IClassTransformer;
 import net.minecraftforge.fml.common.FMLLog;
 
 public class ClassTransformer implements IClassTransformer {
-	
+
 	private static final String ASM_HOOKS = "vazkii/quark/base/asm/ASMHooks";
 
 	public static final ClassnameMap CLASS_MAPPINGS = new ClassnameMap(
@@ -57,9 +58,10 @@ public class ClassTransformer implements IClassTransformer {
 		"net/minecraft/entity/item/EntityBoat", "abx",
 		"net/minecraft/world/World", "ajs",
 		"net/minecraft/util/math/BlockPos", "co",
-		"net/minecraft/util/EnumFacing", "cv"
+		"net/minecraft/util/EnumFacing", "cv",
+		"net/minecraft/entity/player/EntityPlayer", "aay"
 	);
-	
+
 	private static final Map<String, Transformer> transformers = new HashMap();
 
 	static {
@@ -73,9 +75,12 @@ public class ClassTransformer implements IClassTransformer {
 		// For Boat Sails
 		transformers.put("net.minecraft.client.renderer.entity.RenderBoat", ClassTransformer::transformRenderBoat);
 		transformers.put("net.minecraft.entity.item.EntityBoat", ClassTransformer::transformEntityBoat);
-		
+
 		// For Piston Block Breakers
 		transformers.put("net.minecraft.block.BlockPistonBase", ClassTransformer::transformBlockPistonBase);
+
+		// For Better Craft Shifting
+		transformers.put("net.minecraft.inventory.ContainerWorkbench", ClassTransformer::transformContainerWorkbench);
 	}
 
 	@Override
@@ -194,7 +199,7 @@ public class ClassTransformer implements IClassTransformer {
 		log("Transforming EntityBoat");
 		MethodSignature sig1 = new MethodSignature("attackEntityFrom", "func_76986_a", "a", "(Lnet/minecraft/util/DamageSource;F)Z");
 		MethodSignature sig2 = new MethodSignature("onUpdate", "func_70071_h_", "A_", "()V");
-		
+
 		byte[] transClass = transform(basicClass, Pair.of(sig1, combine(
 				(AbstractInsnNode node) -> { // Filter
 					return node.getOpcode() == Opcodes.POP;
@@ -208,7 +213,7 @@ public class ClassTransformer implements IClassTransformer {
 					method.instructions.insertBefore(node, newInstructions);
 					return true;
 				})));
-		
+
 		transClass = transform(transClass, Pair.of(sig2, combine(
 				(AbstractInsnNode node) -> { // Filter
 					return true;
@@ -222,7 +227,7 @@ public class ClassTransformer implements IClassTransformer {
 					method.instructions.insertBefore(node, newInstructions);
 					return true;
 				})));
-		
+
 		return transClass;
 	}
 
@@ -246,7 +251,7 @@ public class ClassTransformer implements IClassTransformer {
 					return true;
 				})));
 	}
-	
+
 	private static byte[] transformBlockPistonBase(byte[] basicClass) {
 		log("Transforming BlockPistonBase");
 		MethodSignature sig = new MethodSignature("doMove", "func_176319_a", "a", "(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/EnumFacing;Z)Z");
@@ -256,7 +261,6 @@ public class ClassTransformer implements IClassTransformer {
 					return node.getOpcode() == Opcodes.ASTORE && ((VarInsnNode) node).var == 11;
 				},
 				(MethodNode method, AbstractInsnNode node) -> { // Action
-					log("Patching " + method + " in node " + node);
 					InsnList newInstructions = new InsnList();
 
 					newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 1));
@@ -266,11 +270,11 @@ public class ClassTransformer implements IClassTransformer {
 					newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 11));
 					newInstructions.add(new VarInsnNode(Opcodes.ILOAD, 4));
 					newInstructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, ASM_HOOKS, "breakStuffWithSpikes", "(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Ljava/util/List;Ljava/util/List;Lnet/minecraft/util/EnumFacing;Z)Z"));
-					
+
 					// recalculate the list and array sizes
 					LabelNode label = new LabelNode();
 					newInstructions.add(new JumpInsnNode(Opcodes.IFEQ, label));
-					
+
 					newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 6));
 					newInstructions.add(new MethodInsnNode(Opcodes.INVOKEINTERFACE, "java/util/List", "size", "()I"));
 					newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 8));
@@ -278,7 +282,7 @@ public class ClassTransformer implements IClassTransformer {
 					newInstructions.add(new InsnNode(Opcodes.IADD));
 					newInstructions.add(new VarInsnNode(Opcodes.ISTORE, 9));
 					newInstructions.add(new VarInsnNode(Opcodes.ILOAD, 9));
-					
+
 					AbstractInsnNode newNode = node.getPrevious();
 					while(true) {
 						if(newNode.getOpcode() == Opcodes.ANEWARRAY) {
@@ -287,12 +291,36 @@ public class ClassTransformer implements IClassTransformer {
 						}
 						newNode = newNode.getPrevious();
 					}
-					
+
 					newInstructions.add(new VarInsnNode(Opcodes.ASTORE, 10));
 					newInstructions.add(label);
 
 					method.instructions.insert(node, newInstructions);
 					return true;
+				})));
+	}
+
+	static int bipushCount = 0;
+	private static byte[] transformContainerWorkbench(byte[] basicClass) {
+		log("Transforming ContainerWorkbench");
+		MethodSignature sig = new MethodSignature("transferStackInSlot", "func_82846_b", "b", "(Lnet/minecraft/entity/player/EntityPlayer;I)Lnet/minecraft/item/ItemStack;");
+
+		bipushCount = 0;
+		return transform(basicClass, Pair.of(sig, combine(
+				(AbstractInsnNode node) -> { // Filte
+					return node.getOpcode() == Opcodes.BIPUSH;
+				},
+				(MethodNode method, AbstractInsnNode node) -> { // Action
+					InsnList newInstructions = new InsnList();
+					bipushCount++;
+					if(bipushCount != 5 && bipushCount != 6)
+						return false;
+
+					log("Adding invokestatic to " + ((IntInsnNode) node).operand + "/" + bipushCount);
+					newInstructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, ASM_HOOKS, "getInventoryBoundary", "(I)I"));
+
+					method.instructions.insert(node, newInstructions);
+					return bipushCount == 6;
 				})));
 	}
 
@@ -361,10 +389,10 @@ public class ClassTransformer implements IClassTransformer {
 	private static void log(String str) {
 		FMLLog.info("[Quark ASM] %s", str);
 	}
-	
+
 	private static void prettyPrint(AbstractInsnNode node) {
 		Printer printer = new Textifier();
-		
+
 		TraceMethodVisitor visitor = new TraceMethodVisitor(printer);
 		node.accept(visitor);
 
@@ -374,7 +402,7 @@ public class ClassTransformer implements IClassTransformer {
 
 		log(sw.toString().replaceAll("\n", ""));
 	}
-	
+
 	private static boolean checkDesc(String desc, String expected) {
 		return desc.equals(expected) || desc.equals(MethodSignature.obfuscate(expected));
 	}
@@ -394,12 +422,12 @@ public class ClassTransformer implements IClassTransformer {
 		public String toString() {
 			return "Names [" + funcName + ", " + srgName + ", " + obfName + "] Descriptor " + funcDesc + " / " + obfDesc;
 		}
-		
+
 		private static String obfuscate(String desc) {
 			for(String s : CLASS_MAPPINGS.keySet())
 				if(desc.contains(s))
 					desc = desc.replaceAll(s, CLASS_MAPPINGS.get(s));
-			
+
 			return desc;
 		}
 
