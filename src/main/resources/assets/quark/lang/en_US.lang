@@ -332,6 +332,7 @@ item.quark:colored_bed_item_yellow.name=Yellow Bed
 item.quark:arrow_ender.name=Ender Arrow
 item.quark:arrow_explosive.name=Explosive Arrow
 item.quark:arrow_torch.name=Torch Arrow
+item.quark:soul_powder.name=Soul Powder
 
 # ENTITY NAMES
 entity.quark:colored_item_frame.name=Colored Item Frame
