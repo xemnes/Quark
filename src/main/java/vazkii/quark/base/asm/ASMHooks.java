@@ -11,6 +11,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.automation.feature.PistonSpikes;
+import vazkii.quark.management.feature.BetterCraftShifting;
 import vazkii.quark.misc.feature.ColorRunes;
 import vazkii.quark.vanity.client.emotes.base.EmoteHandler;
 import vazkii.quark.vanity.client.render.BoatBannerRenderer;
@@ -58,6 +59,12 @@ public final class ASMHooks {
 	public static boolean breakStuffWithSpikes(World world, BlockPos sourcePos, List<BlockPos> moveList, List<BlockPos> destroyList, EnumFacing facing, boolean extending) {
 		return PistonSpikes.breakStuffWithSpikes(world, sourcePos, moveList, destroyList, facing, extending);
 	}	
+	
+	// ===== BETTER CRAFT SHIFTING ===== //
+	
+	public static int getInventoryBoundary(int curr) {
+		return BetterCraftShifting.getInventoryBoundary(curr);
+	}
 	
 }
 
