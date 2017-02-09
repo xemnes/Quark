@@ -14,6 +14,7 @@ import vazkii.quark.base.module.Module;
 import vazkii.quark.building.feature.BarkBlocks;
 import vazkii.quark.building.feature.CarvedWood;
 import vazkii.quark.building.feature.CharredNetherBricks;
+import vazkii.quark.building.feature.DuskboundBlocks;
 import vazkii.quark.building.feature.HardenedClayTiles;
 import vazkii.quark.building.feature.IronPlates;
 import vazkii.quark.building.feature.MidoriBlocks;
@@ -54,6 +55,7 @@ public class QuarkBuilding extends Module {
 		registerFeature(new SoulSandstone());
 		registerFeature(new StainedPlanks());
 		registerFeature(new PolishedNetherrack());
+		registerFeature(new DuskboundBlocks());
 	}
 
 }
