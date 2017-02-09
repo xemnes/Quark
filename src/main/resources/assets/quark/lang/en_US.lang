@@ -319,6 +319,11 @@ tile.quark:vertical_stained_planks_red.name=Vertical Red Stained Planks
 tile.quark:vertical_stained_planks_silver.name=Vertical Light Gray Stained Planks
 tile.quark:vertical_stained_planks_white.name=Vertical White Stained Planks
 tile.quark:vertical_stained_planks_yellow.name=Vertical Yellow Stained Planks
+tile.quark:polished_netherrack.name=Netherwrought Stone
+tile.quark:polished_netherrack_bricks.name=Netherwrought Bricks
+tile.quark:polished_netherrack_bricks_slab.name=Netherwrought Brick Slab
+tile.quark:polished_netherrack_bricks_stairs.name=Netherwrought Brick Stairs
+tile.quark:polished_netherrack_bricks_wall.name=Netherwrought Brick Wall
 
 # ITEM NAMES
 item.quark:glass_shard.name=Glass Shard
@@ -511,3 +516,4 @@ item.banner.quark_shield.lightBlue=Light Blue Shield
 item.banner.quark_shield.magenta=Magenta Shield
 item.banner.quark_shield.orange=Orange Shield
 item.banner.quark_shield.white=White Shield
+

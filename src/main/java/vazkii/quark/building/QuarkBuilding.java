@@ -18,6 +18,7 @@ import vazkii.quark.building.feature.HardenedClayTiles;
 import vazkii.quark.building.feature.IronPlates;
 import vazkii.quark.building.feature.MidoriBlocks;
 import vazkii.quark.building.feature.MoreSandstone;
+import vazkii.quark.building.feature.PolishedNetherrack;
 import vazkii.quark.building.feature.PolishedStone;
 import vazkii.quark.building.feature.ReedBlock;
 import vazkii.quark.building.feature.SandyBricks;
@@ -52,6 +53,7 @@ public class QuarkBuilding extends Module {
 		registerFeature(new VerticalWoodPlanks());
 		registerFeature(new SoulSandstone());
 		registerFeature(new StainedPlanks());
+		registerFeature(new PolishedNetherrack());
 	}
 
 }
