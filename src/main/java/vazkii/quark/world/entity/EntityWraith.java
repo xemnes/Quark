@@ -48,7 +48,7 @@ public class EntityWraith extends EntityZombie {
 		{ SoundEvents.ENTITY_CAT_AMBIENT, SoundEvents.ENTITY_CAT_HURT, SoundEvents.ENTITY_CAT_DEATH },
 		{ SoundEvents.ENTITY_WOLF_AMBIENT, SoundEvents.ENTITY_WOLF_HURT, SoundEvents.ENTITY_WOLF_DEATH },
 		{ SoundEvents.ENTITY_VILLAGER_AMBIENT, SoundEvents.ENTITY_VILLAGER_HURT, SoundEvents.ENTITY_VILLAGER_DEATH },
-		{ SoundEvents.ENTITY_POLAR_BEAR_AMBIENT, SoundEvents.ENTITY_POLAR_BEAR_HURT, SoundEvents.ENTITY_POLAR_BEAR_DEATH }, // Polar bear
+		{ SoundEvents.ENTITY_POLAR_BEAR_AMBIENT, SoundEvents.ENTITY_POLAR_BEAR_HURT, SoundEvents.ENTITY_POLAR_BEAR_DEATH },
 		{ SoundEvents.ENTITY_ZOMBIE_AMBIENT, SoundEvents.ENTITY_ZOMBIE_HURT, SoundEvents.ENTITY_ENDERMEN_DEATH },
 		{ SoundEvents.ENTITY_SKELETON_AMBIENT, SoundEvents.ENTITY_SKELETON_HURT, SoundEvents.ENTITY_SKELETON_DEATH },
 		{ SoundEvents.ENTITY_SPIDER_AMBIENT, SoundEvents.ENTITY_SPIDER_HURT, SoundEvents.ENTITY_SPIDER_DEATH },
@@ -79,6 +79,7 @@ public class EntityWraith extends EntityZombie {
 		getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(0);
 		getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.28);
 		getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(1);
+        getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(40);
 	}
 
 	@Override

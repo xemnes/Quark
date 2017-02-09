@@ -11,6 +11,7 @@ import vazkii.quark.misc.feature.NoteBlocksMobSounds;
 import vazkii.quark.misc.feature.PanoramaMaker;
 import vazkii.quark.misc.feature.SlimeBucket;
 import vazkii.quark.misc.feature.SnowGolemPlayerHeads;
+import vazkii.quark.misc.feature.SoulPowder;
 
 public class QuarkMisc extends Module {
 
@@ -26,6 +27,7 @@ public class QuarkMisc extends Module {
 		registerFeature(new SlimeBucket());
 		registerFeature(new SnowGolemPlayerHeads(), "Named snow golems with pumpkins drop player heads if killed by a witch");
 		registerFeature(new NoteBlockInterface());
+		registerFeature(new SoulPowder());
 	}
 	
 }
