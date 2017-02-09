@@ -35,10 +35,10 @@ public class PolishedNetherrack extends Feature {
 		}
 		VanillaWalls.add("polished_netherrack_bricks", polished_netherrack, 1, enableWalls);
 		
-		RecipeHandler.addShapelessOreDictRecipe(new ItemStack(polished_netherrack), 
+		RecipeHandler.addOreDictRecipe(new ItemStack(polished_netherrack), 
 				"RR", "RR",
 				'R', new ItemStack(Blocks.NETHERRACK));
-		RecipeHandler.addShapelessOreDictRecipe(new ItemStack(polished_netherrack, 4, 1), 
+		RecipeHandler.addOreDictRecipe(new ItemStack(polished_netherrack, 4, 1), 
 				"RR", "RR",
 				'R', new ItemStack(polished_netherrack));
 	}
