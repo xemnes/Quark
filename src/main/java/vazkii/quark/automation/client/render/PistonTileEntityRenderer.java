@@ -29,14 +29,16 @@ public class PistonTileEntityRenderer {
 		Minecraft mc = Minecraft.getMinecraft();
 		BlockRendererDispatcher blockRenderer = mc.getBlockRendererDispatcher();
 		Block block = state.getBlock();
+		String id = Block.REGISTRY.getNameForObject(block).toString();
 
-		EnumBlockRenderType type = block.getRenderType(state); 
-		renderTE: 
+		boolean executedTERender = false;
+		EnumBlockRenderType type = block.getRenderType(state);
+		renderTE: {
 			try {
 				TileEntity tile = PistonsMoveTEs.getMovement(world, pos);
-				if(tile == null)
+				if(tile == null || PistonsMoveTEs.blacklist.contains(id))
 					break renderTE;
-				
+
 				GlStateManager.pushMatrix();
 				tile.setWorld(world);
 
@@ -85,13 +87,18 @@ public class PistonTileEntityRenderer {
 				RenderHelper.disableStandardItemLighting();
 				GlStateManager.popMatrix();
 				
-		    	if(type == EnumBlockRenderType.ENTITYBLOCK_ANIMATED || type == EnumBlockRenderType.INVISIBLE)
-		    		return false;
-			} catch(Throwable e) { 
-				return blockRenderer.getBlockModelRenderer().renderModel(world, blockRenderer.getModelForState(Blocks.PLANKS.getDefaultState()), state, pos, buffer, checkSides);
+				executedTERender = true;
+			} catch(Throwable e) {
+				new RuntimeException(id + " can't be rendered for piston TE moving", e).printStackTrace();
+				PistonsMoveTEs.blacklist.add(id);
 			}
-		
+		}
+
 		mc.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+		
+		if(type == EnumBlockRenderType.ENTITYBLOCK_ANIMATED || type == EnumBlockRenderType.INVISIBLE)
+			return !executedTERender && blockRenderer.getBlockModelRenderer().renderModel(world, blockRenderer.getModelForState(Blocks.PLANKS.getDefaultState()), state, pos, buffer, checkSides);
+
 		return blockRenderer.getBlockModelRenderer().renderModel(world, blockRenderer.getModelForState(state), state, pos, buffer, checkSides);
 	}
 

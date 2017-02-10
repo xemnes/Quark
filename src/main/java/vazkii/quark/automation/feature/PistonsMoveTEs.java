@@ -1,5 +1,6 @@
 package vazkii.quark.automation.feature;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,12 +12,23 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import scala.actors.threadpool.Arrays;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.ModuleLoader;
 
 public class PistonsMoveTEs extends Feature {
 
 	private static WeakHashMap<World, Map<BlockPos, TileEntity>> movements = new WeakHashMap();
+	
+	public static List<String> blacklist;
+	
+	@Override
+	public void setupConfig() {
+		String[] blacklistArray = loadPropStringList("Tile Entity Render Blacklist", "Some mod blocks with complex renders will break everything if moved. Add them here if you find any.", 
+				new String[] { "psi:programmer" });
+		
+		blacklist = new ArrayList(Arrays.asList(blacklistArray));
+	}
 	
 	// This is called from injected code and subsequently flipped, so to make it move, we return false
 	public static boolean shouldMoveTE(boolean te) {
