@@ -2,6 +2,7 @@ package vazkii.quark.base.asm;
 
 import java.util.List;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.item.ItemStack;
@@ -11,6 +12,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.automation.feature.PistonSpikes;
+import vazkii.quark.automation.feature.PistonsMoveTEs;
 import vazkii.quark.management.feature.BetterCraftShifting;
 import vazkii.quark.misc.feature.ColorRunes;
 import vazkii.quark.vanity.client.emotes.base.EmoteHandler;
@@ -54,16 +56,28 @@ public final class ASMHooks {
 		BoatBannerRenderer.renderBanner(boat, pticks);
 	}
 
-	// ===== PISTON BLOCK BREAKERS ===== //
+	// ===== PISTON BLOCK BREAKERS & PISTONS MOVE TES ===== //
 	
 	public static boolean breakStuffWithSpikes(World world, BlockPos sourcePos, List<BlockPos> moveList, List<BlockPos> destroyList, EnumFacing facing, boolean extending) {
-		return PistonSpikes.breakStuffWithSpikes(world, sourcePos, moveList, destroyList, facing, extending);
+		boolean res = PistonSpikes.breakStuffWithSpikes(world, sourcePos, moveList, destroyList, facing, extending); 
+		PistonsMoveTEs.detachTileEntities(world, sourcePos, moveList, destroyList, facing, extending);
+		return res;
 	}	
 	
 	// ===== BETTER CRAFT SHIFTING ===== //
 	
 	public static int getInventoryBoundary(int curr) {
 		return BetterCraftShifting.getInventoryBoundary(curr);
+	}
+	
+	// ===== PISTONS MOVE TES ===== //
+	
+	public static boolean shouldPistonMoveTE(boolean te) {
+		return PistonsMoveTEs.shouldMoveTE(te);
+	}
+	
+	public static boolean setPistonBlock(World world, BlockPos pos, IBlockState state, int flags) {
+		return PistonsMoveTEs.setPistonBlock(world, pos, state, flags);
 	}
 	
 }

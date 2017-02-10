@@ -59,7 +59,8 @@ public class ClassTransformer implements IClassTransformer {
 		"net/minecraft/world/World", "ajs",
 		"net/minecraft/util/math/BlockPos", "co",
 		"net/minecraft/util/EnumFacing", "cv",
-		"net/minecraft/entity/player/EntityPlayer", "aay"
+		"net/minecraft/entity/player/EntityPlayer", "aay",
+		"net/minecraft/block/state/IBlockState", "atl"
 	);
 
 	private static final Map<String, Transformer> transformers = new HashMap();
@@ -76,11 +77,14 @@ public class ClassTransformer implements IClassTransformer {
 		transformers.put("net.minecraft.client.renderer.entity.RenderBoat", ClassTransformer::transformRenderBoat);
 		transformers.put("net.minecraft.entity.item.EntityBoat", ClassTransformer::transformEntityBoat);
 
-		// For Piston Block Breakers
+		// For Piston Block Breakers and Pistons Move TEs
 		transformers.put("net.minecraft.block.BlockPistonBase", ClassTransformer::transformBlockPistonBase);
 
 		// For Better Craft Shifting
 		transformers.put("net.minecraft.inventory.ContainerWorkbench", ClassTransformer::transformContainerWorkbench);
+
+		// For Pistons Move TEs
+		transformers.put("net.minecraft.tileentity.TileEntityPiston", ClassTransformer::transformTileEntityPiston);
 	}
 
 	@Override
@@ -254,9 +258,10 @@ public class ClassTransformer implements IClassTransformer {
 
 	private static byte[] transformBlockPistonBase(byte[] basicClass) {
 		log("Transforming BlockPistonBase");
-		MethodSignature sig = new MethodSignature("doMove", "func_176319_a", "a", "(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/EnumFacing;Z)Z");
+		MethodSignature sig1 = new MethodSignature("doMove", "func_176319_a", "a", "(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/EnumFacing;Z)Z");
+		MethodSignature sig2 = new MethodSignature("canPush", "func_185646_a", "a", "(Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/EnumFacing;Z)Z");
 
-		return transform(basicClass, Pair.of(sig, combine(
+		byte[] transClass = transform(basicClass, Pair.of(sig1, combine(
 				(AbstractInsnNode node) -> { // Filter
 					return node.getOpcode() == Opcodes.ASTORE && ((VarInsnNode) node).var == 11;
 				},
@@ -298,6 +303,21 @@ public class ClassTransformer implements IClassTransformer {
 					method.instructions.insert(node, newInstructions);
 					return true;
 				})));
+
+		transClass = transform(transClass, Pair.of(sig2, combine(
+				(AbstractInsnNode node) -> { // Filter
+					return node.getOpcode() == Opcodes.INVOKEVIRTUAL && ((MethodInsnNode) node).name.equals("hasTileEntity");
+				},
+				(MethodNode method, AbstractInsnNode node) -> { // Action
+					InsnList newInstructions = new InsnList();
+
+					newInstructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, ASM_HOOKS, "shouldPistonMoveTE", "(Z)Z"));
+
+					method.instructions.insert(node, newInstructions);
+					return true;
+				})));
+
+		return transClass;
 	}
 
 	static int bipushCount = 0;
@@ -322,6 +342,30 @@ public class ClassTransformer implements IClassTransformer {
 					method.instructions.insert(node, newInstructions);
 					return bipushCount == 6;
 				})));
+	}
+
+	private static byte[] transformTileEntityPiston(byte[] basicClass) {
+		log("Transforming TileEntityPiston");
+		MethodSignature sig1 = new MethodSignature("clearPistonTileEntity", "func_145866_f", "i", "()V");
+		MethodSignature sig2 = new MethodSignature("update", "func_73660_a", "F_", "()V");
+
+		MethodAction action = combine(
+				(AbstractInsnNode node) -> { // Filter
+					return node.getOpcode() == Opcodes.INVOKEVIRTUAL && checkDesc(((MethodInsnNode) node).desc, "(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/state/IBlockState;I)Z");
+				},
+				(MethodNode method, AbstractInsnNode node) -> { // Action
+					InsnList newInstructions = new InsnList();
+
+					newInstructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, ASM_HOOKS, "setPistonBlock", "(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/state/IBlockState;I)Z"));
+
+					method.instructions.insert(node, newInstructions);
+					method.instructions.remove(node);
+
+					return true;
+				});
+
+		byte[] transClass = transform(basicClass, Pair.of(sig1, action));
+		return transform(transClass, Pair.of(sig2, action));
 	}
 
 	// BOILERPLATE BELOW ==========================================================================================================================================
