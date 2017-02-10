@@ -18,7 +18,6 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.oredict.OreDictionary;
 import vazkii.arl.util.RecipeHandler;
 import vazkii.quark.base.module.Feature;
-import vazkii.quark.building.feature.WorldStoneBricks;
 import vazkii.quark.world.feature.RevampStoneGen;
 
 public class ImprovedStoneToolCrafting extends Feature {
@@ -38,8 +37,8 @@ public class ImprovedStoneToolCrafting extends Feature {
 		if(RevampStoneGen.enableMarble)
 			OreDictionary.registerOre(mat, new ItemStack(RevampStoneGen.marble));
 		
-		String[][] patterns = new String[][] {{"XXX", " # ", " # "}, {"X", "#", "#"}, {"XX", "X#", " #"}, {"XX", " #", " #"}};
-		Item[] items = new Item[] { Items.STONE_PICKAXE, Items.STONE_SHOVEL, Items.STONE_AXE, Items.STONE_HOE };
+		String[][] patterns = new String[][] {{"XXX", " # ", " # "}, {"X", "#", "#"}, {"XX", "X#", " #"}, {"XX", " #", " #"}, {"X", "#", "#"}};
+		Item[] items = new Item[] { Items.STONE_PICKAXE, Items.STONE_SHOVEL, Items.STONE_AXE, Items.STONE_HOE, Items.STONE_SWORD };
 
 		for(int i = 0; i < patterns.length; i++)
 			RecipeHandler.addOreDictRecipe(new ItemStack(items[i]),
