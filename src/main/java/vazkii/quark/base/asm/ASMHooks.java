@@ -74,8 +74,8 @@ public final class ASMHooks {
 	
 	// ===== PISTONS MOVE TES ===== //
 	
-	public static boolean shouldPistonMoveTE(boolean te) {
-		return PistonsMoveTEs.shouldMoveTE(te);
+	public static boolean shouldPistonMoveTE(boolean te, IBlockState state) {
+		return PistonsMoveTEs.shouldMoveTE(te, state);
 	}
 	
 	public static boolean setPistonBlock(World world, BlockPos pos, IBlockState state, int flags) {

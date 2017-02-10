@@ -20,22 +20,26 @@ public class PistonsMoveTEs extends Feature {
 
 	private static WeakHashMap<World, Map<BlockPos, TileEntity>> movements = new WeakHashMap();
 	
-	public static List<String> blacklist;
+	public static List<String> renderBlacklist;
+	public static List<String> movementBlacklist;
 	
 	@Override
 	public void setupConfig() {
-		String[] blacklistArray = loadPropStringList("Tile Entity Render Blacklist", "Some mod blocks with complex renders will break everything if moved. Add them here if you find any.", 
+		String[] renderBlacklistArray = loadPropStringList("Tile Entity Render Blacklist", "Some mod blocks with complex renders will break everything if moved. Add them here if you find any.", 
 				new String[] { "psi:programmer" });
+		String[] movementBlacklistArray = loadPropStringList("Tile Entity Movement Blacklist", "Blocks with Tile Entities that pistons should not be able to move.", 
+				new String[] { "minecraft:mob_spawner" });
 		
-		blacklist = new ArrayList(Arrays.asList(blacklistArray));
+		renderBlacklist = new ArrayList(Arrays.asList(renderBlacklistArray));
+		movementBlacklist = new ArrayList(Arrays.asList(movementBlacklistArray));
 	}
 	
 	// This is called from injected code and subsequently flipped, so to make it move, we return false
-	public static boolean shouldMoveTE(boolean te) {
+	public static boolean shouldMoveTE(boolean te, IBlockState state) {
 		if(!ModuleLoader.isFeatureEnabled(PistonsMoveTEs.class))
 			return te;
 		
-		return false;
+		return PistonsMoveTEs.movementBlacklist.contains(Block.REGISTRY.getNameForObject(state.getBlock()).toString());
 	}
 	
 	public static void detachTileEntities(World world, BlockPos sourcePos, List<BlockPos> moveList, List<BlockPos> destroyList, EnumFacing facing, boolean extending) {
@@ -128,3 +132,4 @@ public class PistonsMoveTEs extends Feature {
 	}
 	
 }
+

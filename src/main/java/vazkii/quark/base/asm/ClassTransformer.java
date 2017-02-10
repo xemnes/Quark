@@ -313,7 +313,8 @@ public class ClassTransformer implements IClassTransformer {
 				(MethodNode method, AbstractInsnNode node) -> { // Action
 					InsnList newInstructions = new InsnList();
 
-					newInstructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, ASM_HOOKS, "shouldPistonMoveTE", "(Z)Z"));
+					newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 0));
+					newInstructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, ASM_HOOKS, "shouldPistonMoveTE", "(ZLnet/minecraft/block/state/IBlockState;)Z"));
 
 					method.instructions.insert(node, newInstructions);
 					return true;

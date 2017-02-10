@@ -36,7 +36,7 @@ public class PistonTileEntityRenderer {
 		renderTE: {
 			try {
 				TileEntity tile = PistonsMoveTEs.getMovement(world, pos);
-				if(tile == null || PistonsMoveTEs.blacklist.contains(id))
+				if(tile == null || PistonsMoveTEs.renderBlacklist.contains(id))
 					break renderTE;
 
 				GlStateManager.pushMatrix();
@@ -90,7 +90,7 @@ public class PistonTileEntityRenderer {
 				executedTERender = true;
 			} catch(Throwable e) {
 				new RuntimeException(id + " can't be rendered for piston TE moving", e).printStackTrace();
-				PistonsMoveTEs.blacklist.add(id);
+				PistonsMoveTEs.renderBlacklist.add(id);
 			}
 		}
 
