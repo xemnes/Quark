@@ -2,7 +2,6 @@ package vazkii.quark.building.block.stairs;
 
 import vazkii.quark.base.block.BlockQuarkStairs;
 import vazkii.quark.building.block.BlockStainedPlanks;
-import vazkii.quark.building.feature.HardenedClayTiles;
 import vazkii.quark.building.feature.StainedPlanks;
 
 public class BlockStainedPlanksStairs extends BlockQuarkStairs {

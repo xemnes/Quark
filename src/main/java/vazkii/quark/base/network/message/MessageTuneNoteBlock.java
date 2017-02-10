@@ -1,10 +1,6 @@
 package vazkii.quark.base.network.message;
 
-import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntityNote;
-import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import vazkii.arl.network.TileEntityMessage;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.misc.feature.NoteBlockInterface;

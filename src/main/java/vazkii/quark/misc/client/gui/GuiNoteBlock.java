@@ -7,11 +7,8 @@ import java.util.List;
 
 import org.lwjgl.input.Keyboard;
 
-import com.google.common.collect.Lists;
-
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
@@ -26,7 +23,6 @@ import net.minecraft.util.SoundEvent;
 import scala.actors.threadpool.Arrays;
 import vazkii.arl.network.NetworkHandler;
 import vazkii.quark.base.module.ModuleLoader;
-import vazkii.quark.base.network.MessageRegister;
 import vazkii.quark.base.network.message.MessageTuneNoteBlock;
 import vazkii.quark.misc.feature.NoteBlockInterface;
 import vazkii.quark.misc.feature.NoteBlocksMobSounds;

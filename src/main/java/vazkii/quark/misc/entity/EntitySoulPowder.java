@@ -13,7 +13,6 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import vazkii.quark.world.entity.EntityWraith;
 
 public class EntitySoulPowder extends Entity {
 

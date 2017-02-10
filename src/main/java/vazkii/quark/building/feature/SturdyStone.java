@@ -1,7 +1,6 @@
 package vazkii.quark.building.feature;
 
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import vazkii.arl.util.RecipeHandler;
