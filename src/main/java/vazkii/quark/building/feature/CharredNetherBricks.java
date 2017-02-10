@@ -38,7 +38,7 @@ public class CharredNetherBricks extends Feature {
 	public void preInit(FMLPreInitializationEvent event) {
 		charred_nether_bricks = new BlockCharredNetherBricks();
 
-		RecipeHandler.addShapelessOreDictRecipe(new ItemStack(charred_nether_bricks), new ItemStack(Blocks.NETHER_BRICK), new ItemStack(Items.FIRE_CHARGE));
+		RecipeHandler.addShapelessOreDictRecipe(new ItemStack(charred_nether_bricks, 3), new ItemStack(Blocks.NETHER_BRICK), new ItemStack(Blocks.NETHER_BRICK), new ItemStack(Blocks.NETHER_BRICK), new ItemStack(Items.FIRE_CHARGE));
 
 		if(enableStairsAndSlabs) {
 			BlockModStairs.initStairs(charred_nether_bricks, 0, new BlockCharredNetherBrickStairs());
