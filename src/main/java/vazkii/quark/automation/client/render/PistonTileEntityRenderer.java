@@ -1,0 +1,98 @@
+package vazkii.quark.automation.client.render;
+
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockDirectional;
+import net.minecraft.block.BlockHorizontal;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.BlockRendererDispatcher;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.VertexBuffer;
+import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
+import net.minecraft.init.Blocks;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityChest;
+import net.minecraft.util.EnumBlockRenderType;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
+import vazkii.quark.automation.feature.PistonsMoveTEs;
+import vazkii.quark.base.lib.LibObfuscation;
+
+public class PistonTileEntityRenderer {
+
+	public static boolean renderPistonBlock(BlockPos pos, IBlockState state, VertexBuffer buffer, World world, boolean checkSides) {
+		Minecraft mc = Minecraft.getMinecraft();
+		BlockRendererDispatcher blockRenderer = mc.getBlockRendererDispatcher();
+		Block block = state.getBlock();
+
+		EnumBlockRenderType type = block.getRenderType(state); 
+		renderTE: 
+			try {
+				TileEntity tile = PistonsMoveTEs.getMovement(world, pos);
+				if(tile == null)
+					break renderTE;
+				
+				GlStateManager.pushMatrix();
+				tile.setWorld(world);
+
+				if(tile instanceof TileEntityChest) {
+					TileEntityChest chest = (TileEntityChest) tile;
+					chest.adjacentChestXPos = null;
+					chest.adjacentChestXNeg = null;
+					chest.adjacentChestZPos = null;
+					chest.adjacentChestZNeg = null;
+				}
+
+				double x = (double) ReflectionHelper.getPrivateValue(VertexBuffer.class, buffer, LibObfuscation.X_OFFSET) + pos.getX();
+				double y = (double) ReflectionHelper.getPrivateValue(VertexBuffer.class, buffer, LibObfuscation.Y_OFFSET) + pos.getY();
+				double z = (double) ReflectionHelper.getPrivateValue(VertexBuffer.class, buffer, LibObfuscation.Z_OFFSET) + pos.getZ();
+				GlStateManager.translate(x, y, z);
+
+				EnumFacing facing = null;
+
+				if(state.getPropertyKeys().contains(BlockHorizontal.FACING))
+					facing = state.getValue(BlockHorizontal.FACING);
+				else if(state.getPropertyKeys().contains(BlockDirectional.FACING))
+					facing = state.getValue(BlockDirectional.FACING);
+
+				if(facing != null) {
+					float rotation = 0;
+					switch(facing) {
+					case NORTH: 
+						rotation = 180F;
+						break;
+					case EAST:
+						rotation = 90F;
+						break;
+					case WEST:
+						rotation = -90F;
+						break;
+					default: break;
+					}
+
+					GlStateManager.translate(0.5, 0.5, 0.5);
+					GlStateManager.rotate(rotation, 0, 1, 0);
+					GlStateManager.translate(-0.5, -0.5, -0.5);
+				}
+
+				RenderHelper.enableStandardItemLighting();
+				TileEntityRendererDispatcher.instance.renderTileEntityAt(tile, 0, 0, 0, 0);
+				RenderHelper.disableStandardItemLighting();
+				GlStateManager.popMatrix();
+				
+		    	if(type == EnumBlockRenderType.ENTITYBLOCK_ANIMATED || type == EnumBlockRenderType.INVISIBLE)
+		    		return false;
+			} catch(Throwable e) { 
+				return blockRenderer.getBlockModelRenderer().renderModel(world, blockRenderer.getModelForState(Blocks.PLANKS.getDefaultState()), state, pos, buffer, checkSides);
+			}
+		
+		mc.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+		return blockRenderer.getBlockModelRenderer().renderModel(world, blockRenderer.getModelForState(state), state, pos, buffer, checkSides);
+	}
+
+}

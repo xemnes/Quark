@@ -57,7 +57,6 @@ public class PistonsMoveTEs extends Feature {
 			
 			world.setBlockToAir(pos);
 			if(!block.canPlaceBlockAt(world, pos)) {
-				System.out.println(world.getBlockState(pos).getBlock());
 				world.setBlockState(pos, state, flags);
 				world.setTileEntity(pos, tile);
 				block.dropBlockAsItem(world, pos, state, 0);
@@ -89,7 +88,11 @@ public class PistonsMoveTEs extends Feature {
 		movements.get(world).put(pos, tile);
 	}
 	
-	private static TileEntity getAndClearMovement(World world, BlockPos pos) {
+	public static TileEntity getMovement(World world, BlockPos pos) {
+		return getMovement(world, pos, false);
+	}
+	
+	private static TileEntity getMovement(World world, BlockPos pos, boolean remove) {
 		if(!movements.containsKey(world))
 			return null;
 		
@@ -97,11 +100,18 @@ public class PistonsMoveTEs extends Feature {
 		if(!worldMovements.containsKey(pos))
 			return null;
 		
-		TileEntity tile = worldMovements.get(pos);
+		TileEntity ret = worldMovements.get(pos);
+		if(remove)
+			worldMovements.remove(pos);
+		
+		return ret; 
+	}
+	
+	private static TileEntity getAndClearMovement(World world, BlockPos pos) {
+		TileEntity tile = getMovement(world, pos, true);
 		if(tile != null)
 			tile.validate();
 		
-		worldMovements.remove(pos);
 		return tile;
 	}
 	

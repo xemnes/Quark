@@ -3,6 +3,7 @@ package vazkii.quark.base.asm;
 import java.util.List;
 
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.item.ItemStack;
@@ -11,6 +12,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import vazkii.quark.automation.client.render.PistonTileEntityRenderer;
 import vazkii.quark.automation.feature.PistonSpikes;
 import vazkii.quark.automation.feature.PistonsMoveTEs;
 import vazkii.quark.management.feature.BetterCraftShifting;
@@ -78,6 +80,11 @@ public final class ASMHooks {
 	
 	public static boolean setPistonBlock(World world, BlockPos pos, IBlockState state, int flags) {
 		return PistonsMoveTEs.setPistonBlock(world, pos, state, flags);
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public static boolean renderPistonBlock(BlockPos pos, IBlockState state, VertexBuffer buffer, World world, boolean checkSides) {
+		return PistonTileEntityRenderer.renderPistonBlock(pos, state, buffer, world, checkSides);
 	}
 	
 }

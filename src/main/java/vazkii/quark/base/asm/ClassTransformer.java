@@ -60,7 +60,8 @@ public class ClassTransformer implements IClassTransformer {
 		"net/minecraft/util/math/BlockPos", "co",
 		"net/minecraft/util/EnumFacing", "cv",
 		"net/minecraft/entity/player/EntityPlayer", "aay",
-		"net/minecraft/block/state/IBlockState", "atl"
+		"net/minecraft/block/state/IBlockState", "atl",
+		"net/minecraft/client/renderer/VertexBuffer", "bpy"
 	);
 
 	private static final Map<String, Transformer> transformers = new HashMap();
@@ -85,6 +86,7 @@ public class ClassTransformer implements IClassTransformer {
 
 		// For Pistons Move TEs
 		transformers.put("net.minecraft.tileentity.TileEntityPiston", ClassTransformer::transformTileEntityPiston);
+		transformers.put("net.minecraft.client.renderer.tileentity.TileEntityPistonRenderer", ClassTransformer::transformTileEntityPistonRenderer);
 	}
 
 	@Override
@@ -342,7 +344,7 @@ public class ClassTransformer implements IClassTransformer {
 					method.instructions.insert(node, newInstructions);
 					return bipushCount == 6;
 				})));
-	}
+		}
 
 	private static byte[] transformTileEntityPiston(byte[] basicClass) {
 		log("Transforming TileEntityPiston");
@@ -366,6 +368,28 @@ public class ClassTransformer implements IClassTransformer {
 
 		byte[] transClass = transform(basicClass, Pair.of(sig1, action));
 		return transform(transClass, Pair.of(sig2, action));
+	}
+	
+	private static byte[] transformTileEntityPistonRenderer(byte[] basicClass) {
+		log("Transforming TileEntityPistonRenderer");
+		MethodSignature sig = new MethodSignature("renderStateModel", "func_188186_a", "a", "(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/client/renderer/VertexBuffer;Lnet/minecraft/world/World;Z)Z");
+
+		return transform(basicClass, Pair.of(sig, combine(
+				(AbstractInsnNode node) -> { // Filter
+					return true;
+				},
+				(MethodNode method, AbstractInsnNode node) -> { // Action
+					InsnList newInstructions = new InsnList();
+
+					for(int i = 1; i <= 4; i++)
+						newInstructions.add(new VarInsnNode(Opcodes.ALOAD, i));
+					newInstructions.add(new VarInsnNode(Opcodes.ILOAD, 5));
+					newInstructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, ASM_HOOKS, "renderPistonBlock", "(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/client/renderer/VertexBuffer;Lnet/minecraft/world/World;Z)Z"));
+					newInstructions.add(new InsnNode(Opcodes.IRETURN));
+					
+					method.instructions = newInstructions;
+					return true;
+				})));
 	}
 
 	// BOILERPLATE BELOW ==========================================================================================================================================
