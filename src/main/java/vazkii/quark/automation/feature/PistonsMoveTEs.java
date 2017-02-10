@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -41,11 +42,42 @@ public class PistonsMoveTEs extends Feature {
 	}
 	
 	public static boolean setPistonBlock(World world, BlockPos pos, IBlockState state, int flags) {
-		world.setBlockState(pos, state, flags);
+		if(!ModuleLoader.isFeatureEnabled(PistonsMoveTEs.class)) {
+			world.setBlockState(pos, state, flags);
+			return false;
+		}
 		
+		Block block = state.getBlock();
 		TileEntity tile = getAndClearMovement(world, pos);
-		if(tile != null)
-			world.setTileEntity(pos, tile);
+		boolean destroyed = false;
+		
+		if(tile != null) {
+			IBlockState currState = world.getBlockState(pos);
+			TileEntity currTile = world.getTileEntity(pos);
+			
+			world.setBlockToAir(pos);
+			if(!block.canPlaceBlockAt(world, pos)) {
+				System.out.println(world.getBlockState(pos).getBlock());
+				world.setBlockState(pos, state, flags);
+				world.setTileEntity(pos, tile);
+				block.dropBlockAsItem(world, pos, state, 0);
+				world.setBlockToAir(pos);
+				destroyed = true;
+			}
+			
+			if(!destroyed) {
+				world.setBlockState(pos, currState);
+				world.setTileEntity(pos, currTile);
+			}
+		}
+		
+		if(!destroyed) {
+			world.setBlockState(pos, state, flags);
+			if(tile != null) {
+				world.setTileEntity(pos, tile);
+				tile.updateContainingBlockInfo();
+			}
+		}
 		
 		return false; // the value is popped, doesn't matter what we return
 	}
@@ -66,10 +98,8 @@ public class PistonsMoveTEs extends Feature {
 			return null;
 		
 		TileEntity tile = worldMovements.get(pos);
-		if(tile != null) {
-			tile.setPos(pos);
+		if(tile != null)
 			tile.validate();
-		}
 		
 		worldMovements.remove(pos);
 		return tile;
