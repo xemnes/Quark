@@ -20,11 +20,19 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.event.world.NoteBlockEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import vazkii.quark.base.module.Feature;
 
 public class NoteBlocksMobSounds extends Feature {
+
+	public static final EnumFacing[] SKULL_SERACH_FACINGS = new EnumFacing[] {
+			EnumFacing.NORTH,
+			EnumFacing.SOUTH,
+			EnumFacing.EAST,
+			EnumFacing.WEST
+	};
 
 	@SubscribeEvent
 	public void noteBlockPlayed(NoteBlockEvent.Play event) {
@@ -32,20 +40,42 @@ public class NoteBlocksMobSounds extends Feature {
 		if(event.getWorld().getBlockState(pos).getBlock() != Blocks.NOTEBLOCK)
 			return;
 
-		EnumFacing[] facings = new EnumFacing[] {
-				EnumFacing.NORTH,
-				EnumFacing.SOUTH,
-				EnumFacing.EAST,
-				EnumFacing.WEST
-		};
+		int type = getSkullType(event.getWorld(), pos);
+		if(type != -1 && type != 3) {
+			event.setCanceled(true);
 
+			SoundEvent sound = null;
+			switch(type) {
+			case 0:
+			case 1:
+				sound = SoundEvents.ENTITY_SKELETON_AMBIENT;
+				break;
+			case 2:
+				sound = SoundEvents.ENTITY_ZOMBIE_AMBIENT;
+				break;
+			case 4:
+				sound = SoundEvents.ENTITY_CREEPER_PRIMED;
+				break;
+			case 5:
+				sound = SoundEvents.ENTITY_ENDERDRAGON_AMBIENT;
+				break;
+			}
+
+			if(sound != null) {
+				float pitch = (float) Math.pow(2.0, (event.getVanillaNoteId() - 12) / 12.0);
+				event.getWorld().playSound(null, pos.getX() + 0.5, pos.getY() + 1.5, pos.getZ() + 0.5, sound, SoundCategory.BLOCKS, 1F, pitch);
+			}
+		}
+	}
+
+	public static int getSkullType(World world, BlockPos pos) {
 		TileEntity tile = null;
 		boolean can = false;
-		for(EnumFacing face : facings) {
+		for(EnumFacing face : SKULL_SERACH_FACINGS) {
 			BlockPos apos = pos.offset(face);
-			tile = event.getWorld().getTileEntity(apos);
+			tile = world.getTileEntity(apos);
 			if(tile != null && tile instanceof TileEntitySkull) {
-				IBlockState state = event.getWorld().getBlockState(apos);
+				IBlockState state = world.getBlockState(apos);
 				if(state.getValue(BlockSkull.FACING) == face) {
 					can = true;
 					break;
@@ -55,30 +85,10 @@ public class NoteBlocksMobSounds extends Feature {
 
 		if(can && tile != null) {
 			int type = ((TileEntitySkull) tile).getSkullType();
-			if(type != 3) {
-				event.setCanceled(true);
-
-				SoundEvent sound = null;
-				switch(type) {
-				case 0:
-				case 1:
-					sound = SoundEvents.ENTITY_SKELETON_AMBIENT;
-					break;
-				case 2:
-					sound = SoundEvents.ENTITY_ZOMBIE_AMBIENT;
-					break;
-				case 4:
-					sound = SoundEvents.ENTITY_CREEPER_PRIMED;
-					break;
-				case 5:
-					sound = SoundEvents.ENTITY_ENDERDRAGON_AMBIENT;
-					break;
-				}
-
-				if(sound != null)
-					event.getWorld().playSound(null, pos.getX() + 0.5, pos.getY() + 1.5, pos.getZ() + 0.5, sound, SoundCategory.BLOCKS, 1F, 1F);
-			}
+			return type;
 		}
+
+		return -1;
 	}
 
 	@Override

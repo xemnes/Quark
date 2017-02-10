@@ -17,6 +17,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityNote;
@@ -24,9 +25,11 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import scala.actors.threadpool.Arrays;
 import vazkii.arl.network.NetworkHandler;
+import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.base.network.MessageRegister;
 import vazkii.quark.base.network.message.MessageTuneNoteBlock;
 import vazkii.quark.misc.feature.NoteBlockInterface;
+import vazkii.quark.misc.feature.NoteBlocksMobSounds;
 
 public class GuiNoteBlock extends GuiScreen {
 
@@ -152,7 +155,13 @@ public class GuiNoteBlock extends GuiScreen {
 		mc.renderEngine.bindTexture(noteblockResource);
 		float scale = 2F;
 		GlStateManager.scale(scale, scale, scale);
-		drawModalRectWithCustomSizedTexture(4, 30, getNote() * 16, panelHeight, 16, 16, TEXTURE_WIDTH, TEXTURE_HEIGHT);
+		
+		ItemStack head = getHead();
+		if(!head.isEmpty()) {
+			RenderHelper.enableGUIStandardItemLighting();
+			mc.getRenderItem().renderItemAndEffectIntoGUI(head, 4, 30);
+		} else drawModalRectWithCustomSizedTexture(4, 30, getNote() * 16, panelHeight, 16, 16, TEXTURE_WIDTH, TEXTURE_HEIGHT);
+		
 		GlStateManager.scale(1 / scale, 1 / scale, 1 / scale);
 
 		scale = 1.8F;
@@ -210,6 +219,18 @@ public class GuiNoteBlock extends GuiScreen {
 			return 4;
 		
 		return 0;
+	}
+	
+	private ItemStack getHead() {
+		if(!ModuleLoader.isFeatureEnabled(NoteBlocksMobSounds.class))
+			return ItemStack.EMPTY;
+		
+		int type = NoteBlocksMobSounds.getSkullType(noteBlock.getWorld(), noteBlock.getPos());
+		if(type != -1 && type != 3) {
+			return new ItemStack(Items.SKULL, 1, type);
+		}
+		
+		return ItemStack.EMPTY;
 	}
 	
 	private static int getKey(int index) {
