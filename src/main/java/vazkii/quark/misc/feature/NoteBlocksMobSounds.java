@@ -47,8 +47,10 @@ public class NoteBlocksMobSounds extends Feature {
 			SoundEvent sound = null;
 			switch(type) {
 			case 0:
-			case 1:
 				sound = SoundEvents.ENTITY_SKELETON_AMBIENT;
+				break;
+			case 1:
+				sound = SoundEvents.ENTITY_WITHER_SKELETON_AMBIENT;
 				break;
 			case 2:
 				sound = SoundEvents.ENTITY_ZOMBIE_AMBIENT;
