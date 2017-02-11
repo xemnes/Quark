@@ -106,12 +106,15 @@
 								<li>Darkhax for the sheep having wool feature.</li>
 								<li>ZeroLevels for the Iron Plate texture.</li>
 								<li>Noodlor for the variety dungeon structures.</li>
+								<li>Xisumavoid for the sticky piston side texture.</li>
 								<li>/u/Soniop for the realistic world preset.</li>
 								<li>/u/Martwaza for the trapdoor textures.</li>
 								<li>/u/FelitonC and /u/origamidragon412 for the banner textures.</li>
 								<li>/u/kopasz7 for the Midori block textures.</li>
 								<li>/u/robotthunder500 for the Bookshelf textures.</li>
 								<li>/u/darwinpatrick for the Soul Sandstone textures.</li>
+								<li>/u/Nyodex for the original Duskbound Block idea and textures.</li>
+								<li>/u/MushirMickeyJoe for recreation of the pocket edition piston model.</li>
 								<li>The creators of all the awesome suggestions I found in /r/MinecraftSuggestions that I implemented here.</li>
 							</ul>
 							<hr>

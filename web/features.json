@@ -41,6 +41,12 @@
 				"description":"The Weather Sensor is crafted with Purpur Slabs, Biotite (from the World module, or Obsidian if not enabled) and Glass. It works like a Daylight Sensor, but it emits a full redstone signal if it's raining or snowing.<br><br>Right clicking it inverts its output.",
 				"image":"weather-sensor.jpg",
 				"introduced":9
+			},
+			{
+				"name":"Pistons move Tile Entities",
+				"description":"Pistons are allowed to move Tile Entities (blocks with extra data attached, like Chests or Furnaces).<br>Attempting to move a block to an invalid position will cause it to break and drop its contents (e.g. trying to create a triple chest).<br>Monster Spawners can't be moved this way.<br><br>For a block that pistons can't move, now that furnaces can't be used, look into Sturdy Stone in the Building module.",
+				"image":"pistons-move-tes.jpg",
+				"introduced":11
 			}
 		]
 	},
@@ -67,7 +73,7 @@
 				"introduced":9
 			},
 			{
-				"name":"Hardened Clay Tiles",
+				"name":"Clay Shingles",
 				"description":"\"Tile\" style blocks for Hardened Clay and all colors of Stained Clay. They can all be turned into stairs and slabs, and look great for roofs.<br><br>4 Blocks are crafted with a 2x2 of the respective Hardened/Stained Clay block.",
 				"image":"clay-tiles.jpg",
 				"introduced":9
@@ -140,9 +146,33 @@
 			},
 			{
 				"name":"Vertical Wooden Planks",
-				"description":"Putting 3 wooden planks in a vertical line creates 3 Vertical Wooden Planks. Doing the same reverts it.",
+				"description":"Putting 3 wooden planks in a vertical line creates 3 Vertical Wooden Planks. Doing the same reverts it.<br><br>If Stained Wooden Planks is enabled, vertical versions of those are also added.",
 				"image":"vertical-planks.jpg",
 				"introduced":10
+			},
+			{
+			"name":"Duskbound Blocks",
+				"description":"Purple looking blocks made from Purpur and Obsidian, fully featured with stair, slab and wall variants.<br><br>Also includes Duskbound Lamps, made with Duskbound Blocks and Ender Pearls.",
+				"image":"duskbound-blocks.jpg",
+				"introduced":11
+			},
+			{
+				"name":"Netherwrought Stone",
+				"description":"A red block for nether-ish style building, made with 4 Netherrack, with a chaotic textured brick variant. Includes stair, slab and wall variants.",
+				"image":"netherwrought-stone.jpg",
+				"introduced":11
+			},
+			{
+				"name":"Stained Wooden Planks",
+				"description":"Dyed Wooden Planks of all 16 colors, featuring a pastel color palette so you can actually build with them without making your eyes hurt! All include stair and slab variants.",
+				"image":"stained-wood.jpg",
+				"introduced":11
+			},
+			{
+				"name":"Sturdy Stone",
+				"description":"A hard stone block made with 4 Stone and 4 Cobblestone (outputs 4). The block has the Furnace Texture, and can not be moved by Pistons.",
+				"image":"sturdy-stone.jpg",
+				"introduced":11
 			}
 		]
 	},
@@ -236,7 +266,7 @@
 		"features":[
 			{
 				"name":"Chest Buttons",
-				"description":"Four buttons are added to Chest interfaces. From top to bottom, they do the following:<ul><li>(not pictured) Sort the chest, if the Sorting Button feature is enabled.</li><li>Extract all items from the chest that you have at least one of in your inventory.</li><li>Deposit your entire inventory (not hotbar, armor or off-hand) in the chest.</li><li>Same as the previous, but in \"smart\" mode.</li></ul>",
+				"description":"Four buttons are added to Chest interfaces. From top to bottom, they do the following:<ul><li>(not pictured) Sort the chest, if the Sorting Button feature is enabled.</li><li>Extract all items from the chest that you have at least one of in your inventory.</li><li>Deposit your entire inventory (not hotbar, armor or off-hand) in the chest.</li><li>Same as the previous, but only for items that the chest has at least one of inside.</li></ul>",
 				"image":"chest-buttons.jpg",
 				"introduced":9
 			},
@@ -276,6 +306,12 @@
 				"image":"sorting-button.jpg",
 				"introduced":10,
 				"overlap": ["InvTweaks", "InventorySorter"]
+			},
+			{
+				"name":"Better Crafting Shift-Clicking",
+				"description":"Shift-clicking an item in your inventory in the crafting table interface will move it to the crafting grid, and not the hotbar.",
+				"image":"better-craft-shifting.jpg",
+				"introduced":11
 			}
 		]
 	},
@@ -345,8 +381,8 @@
 				"introduced":9
 			},
 			{
-				"name":"Flint Tool Crafting",
-				"description":"Stone Tools can be crafted with Flint. The standard cobblestone recipe is untouched.",
+				"name":"Better Stone Tool Crafting",
+				"description":"Stone Tools can be crafted with all stone types, as well as flint. (Only flint is available on versions older than 1.11)",
 				"image":"flint-tools.jpg",
 				"introduced":9
 			},
@@ -473,7 +509,7 @@
 			},
 			{
 				"name":"Texture Changes",
-				"description":"Quark generates a \"low priority resource pack\", changing some textures to less rough or more sensible variants. Each of these can be turned off individually, and will be overriden by any other resource pack you load on top. The current changes are as follows:<ul><li>1.8 Stones</li><li>Bricks</li><li>Glass</li><li>Pumpkin Face <i>(disabled by default)</i></li></ul>",
+				"description":"Quark generates a \"low priority resource pack\", changing some textures to less rough or more sensible variants. Each of these can be turned off individually, and will be overriden by any other resource pack you load on top. The current changes are as follows:<ul><li>1.8 Stones (smoother texture)</li><li>Bricks (some color variance)</li><li>Glass (less spots)</li><li>Pistons (model swap to look like the pocket edition ones, sticky piston sides, 1.11 only)</li><li>Pumpkin (disables the face, off by default)</li></ul>",
 				"image":"texture-changes.jpg",
 				"introduced":10
 			},
@@ -662,7 +698,7 @@
 			},
 			{
 				"name":"Monster Note Blocks",
-				"description":"Note Blocks with heads attached to their side will emit the respective mob's sound instead of a note.",
+				"description":"Note Blocks with heads attached to their side will emit the respective mob's sound instead of a note.<br><br>The mob sound's pitch is based on the note block pitch.",
 				"image":"note-blocks.jpg",
 				"introduced":9
 			},
@@ -695,6 +731,18 @@
 				"description":"Three new arrows are added:<ul><li>Ender Arrow: Crafted with an Arrow and an Ender Pearl, works like an ender pearl, but goes farther, since it's an arrow, yay.</li><li>Explosive Arrow: Crafed with an Arrow and two pieces of Gunpowder, explodes where it hits.</li><li>Torch Arrow: Crafted with an arrow and a Torch, places a torch where it hits. If it can't, it stays there so it can be picked up.</li></ul>These can all be fired from dispensers, and will get used up even if the bow shooting them has Infinity.",
 				"image":"extra-arrows.jpg",
 				"introduced":10
+			},
+			{
+				"name":"Soul Powder",
+				"description":"Soul Powder is crafted with 3 Soul Sand and a Soul Bead (from the Wraiths feature, or a Magma Cream, if it's disabled).<br><br>When right clicked it'll create a spirit, which will fly in the direction of the nearest nether fortress.",
+				"image":"soul-powder.jpg",
+				"introduced":11
+			},
+			{
+				"name":"Note Block Interface",
+				"description":"Note Blocks get an interface when right clicked. A piano button layout shows up where you can set the note that the block will play. If you prefer the vanilla clicks system, you can click the note block icon to mimic that behaviour, and each note button has the amount of clicks needed under the note name.<br><br>Other players will hear you using the interface, and the piano keys are all keybound, so you can use it to play songs ingame, if you want to!",
+				"image":"note-block-gui.jpg",
+				"introduced":11
 			}
 		]
 	}
