@@ -3,6 +3,7 @@ package vazkii.quark.misc.client.gui;
 import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.lwjgl.input.Keyboard;
@@ -20,7 +21,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityNote;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
-import scala.actors.threadpool.Arrays;
 import vazkii.arl.network.NetworkHandler;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.base.network.message.MessageTuneNoteBlock;
