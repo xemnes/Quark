@@ -88,10 +88,11 @@ public class PistonsMoveTEs extends Feature {
 		
 		if(!destroyed) {
 			world.setBlockState(pos, state, flags);
-			if(tile != null) {
+			if(tile != null && !world.isRemote) {
 				world.setTileEntity(pos, tile);
 				tile.updateContainingBlockInfo();
 			}
+			world.notifyNeighborsOfStateChange(pos, block, true);
 		}
 		
 		return false; // the value is popped, doesn't matter what we return
