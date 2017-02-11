@@ -22,6 +22,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -60,6 +61,7 @@ public class DeployLaddersDown extends Feature {
 						EnumFacing facing = copyState.getValue(BlockLadder.FACING);
 						if(block.canPlaceBlockOnSide(world, posDown, facing)) {
 							world.setBlockState(posDown, copyState);
+							world.playSound(null, posDown.getX(), posDown.getY(), posDown.getZ(), Blocks.LADDER.getSoundType().getPlaceSound(), SoundCategory.BLOCKS, 1F, 1F);
 
 							event.setCanceled(true);
 							
