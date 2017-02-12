@@ -30,8 +30,8 @@ public class PolishedNetherrack extends Feature {
 		polished_netherrack = new BlockPolishedNetherrack();
 
 		if(enableStairsAndSlabs) {
-			BlockModStairs.initStairs(polished_netherrack, 0, new BlockPolishedNetherrackBricksStairs());
-			BlockModSlab.initSlab(polished_netherrack, 0, new BlockPolishedNetherrackBricksSlab(false), new BlockPolishedNetherrackBricksSlab(true));
+			BlockModStairs.initStairs(polished_netherrack, 1, new BlockPolishedNetherrackBricksStairs());
+			BlockModSlab.initSlab(polished_netherrack, 1, new BlockPolishedNetherrackBricksSlab(false), new BlockPolishedNetherrackBricksSlab(true));
 		}
 		VanillaWalls.add("polished_netherrack_bricks", polished_netherrack, 1, enableWalls);
 		
