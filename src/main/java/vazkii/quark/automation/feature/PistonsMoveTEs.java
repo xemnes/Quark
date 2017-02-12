@@ -7,31 +7,58 @@ import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
 
+import org.apache.commons.lang3.tuple.Pair;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
+import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.ModuleLoader;
 
 public class PistonsMoveTEs extends Feature {
 
 	private static WeakHashMap<World, Map<BlockPos, TileEntity>> movements = new WeakHashMap();
-	
+	private static WeakHashMap<World, List<Pair<BlockPos, TileEntity>>> delayedUpdates = new WeakHashMap();
+
 	public static List<String> renderBlacklist;
 	public static List<String> movementBlacklist;
-	
+	public static List<String> delayedUpdateList;
+
 	@Override
 	public void setupConfig() {
 		String[] renderBlacklistArray = loadPropStringList("Tile Entity Render Blacklist", "Some mod blocks with complex renders will break everything if moved. Add them here if you find any.", 
 				new String[] { "psi:programmer" });
 		String[] movementBlacklistArray = loadPropStringList("Tile Entity Movement Blacklist", "Blocks with Tile Entities that pistons should not be able to move.", 
 				new String[] { "minecraft:mob_spawner" });
+		String[] delayedUpdateListArray = loadPropStringList("Delayed Update List", "List of blocks whose tile entity update should be delayed by one tick after placed to prevent corruption.", 
+				new String[] { "minecraft:dispenser", "minecraft:dropper" });
 		
 		renderBlacklist = new ArrayList(Arrays.asList(renderBlacklistArray));
 		movementBlacklist = new ArrayList(Arrays.asList(movementBlacklistArray));
+		delayedUpdateList = new ArrayList(Arrays.asList(delayedUpdateListArray));
+	}
+	
+	@SubscribeEvent
+	public void onWorldTick(WorldTickEvent event) {
+		if(!delayedUpdates.containsKey(event.world) || event.phase == Phase.START)
+			return;
+		
+		List<Pair<BlockPos, TileEntity>> delays = delayedUpdates.get(event.world);
+		if(delays.isEmpty())
+			return;
+		
+		for(Pair<BlockPos, TileEntity> delay : delays) {
+			event.world.setTileEntity(delay.getLeft(), delay.getRight());
+			delay.getRight().updateContainingBlockInfo();
+		}
+		
+		delays.clear();
 	}
 	
 	// This is called from injected code and subsequently flipped, so to make it move, we return false
@@ -89,8 +116,12 @@ public class PistonsMoveTEs extends Feature {
 		if(!destroyed) {
 			world.setBlockState(pos, state, flags);
 			if(tile != null && !world.isRemote) {
-				world.setTileEntity(pos, tile);
-				tile.updateContainingBlockInfo();
+				if(delayedUpdateList.contains(Block.REGISTRY.getNameForObject(block).toString()))
+					registerDelayedUpdate(world, pos, tile);
+				else {
+					world.setTileEntity(pos, tile);
+					tile.updateContainingBlockInfo();
+				}
 			}
 			world.notifyNeighborsOfStateChange(pos, block, true);
 		}
@@ -130,6 +161,18 @@ public class PistonsMoveTEs extends Feature {
 			tile.validate();
 		
 		return tile;
+	}
+	
+	private static void registerDelayedUpdate(World world, BlockPos pos, TileEntity tile) {
+		if(!delayedUpdates.containsKey(world))
+			delayedUpdates.put(world, new ArrayList());
+		
+		delayedUpdates.get(world).add(Pair.of(pos, tile));
+	}
+	
+	@Override
+	public boolean hasSubscriptions() {
+		return true;
 	}
 	
 }
