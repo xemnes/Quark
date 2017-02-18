@@ -11,7 +11,13 @@ $(function() {
 });
 
 $('#btt-button').click(function() {
-	scrollTo(null, 0);
+	scrollToPos(0);
+});
+
+$('.module-button').click(function() {
+	$('#module-' + $(this).attr('data-module')).find('.lazyload-image').each(function(i) {
+		$(this).trigger('openmodule');
+	});
 });
 
 function loadFeatures(obj) {
@@ -48,6 +54,12 @@ function loadFeatures(obj) {
 		}
 
 		$('#feature-counter').html($(document).find('.feature-card').length);
+		$(document).find('.lazyload-image').each(function(i) {
+			$(this).lazyload({
+				event: 'openmodule',
+				effect: 'fadeIn'
+			});
+		});
 
 		scrollToHash();
 	});
@@ -77,7 +89,11 @@ function scrollTo(element, off) {
 	if(element != null)
 		top = element.position().top + off;
 
+	scrollToPos(top);
+}
+
+function scrollToPos(pos) {
 	$('html, body').animate({
-		scrollTop: top
+		scrollTop: pos
 	}, 600);
 }

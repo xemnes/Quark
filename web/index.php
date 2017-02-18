@@ -40,15 +40,15 @@
 			<div id="contents" class="mdl-layout mdl-js-layout mdl-layout--transparent">
 				<header class="mdl-layout__header mdl-layout__header--transparent">
 					<div class="mdl-layout__tab-bar mdl-js-ripple-effect mdl-layout--fixed-tabs mdl-layout__header--transparent">
-						<a href="#module-info" data-module="info" class="mdl-layout__tab is-active">Info</a>
-						<a href="#module-automation" data-module="automation" class="mdl-layout__tab">Automation</a>
-						<a href="#module-building" data-module="building" class="mdl-layout__tab">Building</a>
-						<a href="#module-decoration" data-module="decoration" class="mdl-layout__tab">Decoration</a>
-						<a href="#module-management" data-module="management" class="mdl-layout__tab">Management</a>
-						<a href="#module-tweaks" data-module="tweaks" class="mdl-layout__tab">Tweaks</a>
-						<a href="#module-vanity" data-module="vanity" class="mdl-layout__tab">Vanity</a>
-						<a href="#module-world" data-module="world" class="mdl-layout__tab">World</a>
-						<a href="#module-misc" data-module="misc" class="mdl-layout__tab">Misc</a>
+						<a href="#module-info" data-module="info" class="mdl-layout__tab module-button is-active">Info</a>
+						<a href="#module-automation" data-module="automation" class="mdl-layout__tab module-button">Automation</a>
+						<a href="#module-building" data-module="building" class="mdl-layout__tab module-button">Building</a>
+						<a href="#module-decoration" data-module="decoration" class="mdl-layout__tab module-button">Decoration</a>
+						<a href="#module-management" data-module="management" class="mdl-layout__tab module-button">Management</a>
+						<a href="#module-tweaks" data-module="tweaks" class="mdl-layout__tab module-button">Tweaks</a>
+						<a href="#module-vanity" data-module="vanity" class="mdl-layout__tab module-button">Vanity</a>
+						<a href="#module-world" data-module="world" class="mdl-layout__tab module-button">World</a>
+						<a href="#module-misc" data-module="misc" class="mdl-layout__tab module-button">Misc</a>
 					</div>
 				</header>
 
@@ -157,8 +157,10 @@
 		</div>
 
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.1.3/mustache.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/material-design-lite/1.3.0/material.min.js"></script>
 		<script src="quark.js"></script>
 	</body>
 </html>
+
