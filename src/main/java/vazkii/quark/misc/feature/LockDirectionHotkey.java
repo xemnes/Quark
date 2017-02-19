@@ -11,6 +11,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirectional;
 import net.minecraft.block.BlockHorizontal;
+import net.minecraft.block.BlockLog;
 import net.minecraft.block.BlockRotatedPillar;
 import net.minecraft.block.BlockSlab;
 import net.minecraft.block.BlockStairs;
@@ -77,7 +78,8 @@ public class LockDirectionHotkey extends Feature {
 				setState = state.withProperty(BlockHorizontal.FACING, profile.facing.getOpposite());
 			else if(props.containsKey(BlockRotatedPillar.AXIS))
 				setState = state.withProperty(BlockRotatedPillar.AXIS, profile.facing.getAxis());
-			
+			else if(props.containsKey(BlockLog.LOG_AXIS))
+				setState = state.withProperty(BlockLog.LOG_AXIS, BlockLog.EnumAxis.fromFacingAxis(profile.facing.getAxis()));
 			if(profile.half != -1) {
 				if(block instanceof BlockStairs) {
 					setState = setState.withProperty(BlockStairs.HALF, profile.half == 1 ? BlockStairs.EnumHalf.TOP : BlockStairs.EnumHalf.BOTTOM)
