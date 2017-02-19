@@ -419,9 +419,23 @@ entity.quark:wraith.name=Wraith
 # POTION NAMES
 quark.potion.curse.name=Curse
 
+# KEYBINDS
+quark.gui.keygroup=Quark Keybinds
+quark.keybind.emote.wave=Emote: Wave
+quark.keybind.emote.yes=Emote: Yes
+quark.keybind.emote.no=Emote: No
+quark.keybind.emote.cheer=Emote: Cheer
+quark.keybind.emote.clap=Emote: Clap
+quark.keybind.emote.salute=Emote: Salute
+quark.keybind.emote.facepalm=Emote: Facepalm
+quark.keybind.emote.shrug=Emote: Shrug
+quark.keybind.emote.point=Emote: Point
+quark.keybind.emote.headbang=Emote: Headbang
+quark.keybind.lockBuilding=Lock Orientation
+quark.keybind.toggleAutojump=Toggle Autojump
+
 # GUI STUFF
 quark.gui.emotes=Emotes
-quark.gui.emotesKeygroup=Quark Emotes
 quark.gui.favorited=Favorited
 quark.emote.wave=Wave
 quark.emote.yes=Yes
@@ -452,7 +466,6 @@ quark.dye.red=Red
 quark.dye.black=Black
 generator.quark_realistic=Realistic
 generator.quark_realistic.info=[Quark] Realistic World Type by /u/Soniop
-quark.keybind.toggleAutojump=Toggle Autojump
 
 # BANNER NAMES
 item.banner.quark_dragon.black=Black Dragon
