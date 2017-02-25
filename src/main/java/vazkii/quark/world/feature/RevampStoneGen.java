@@ -27,6 +27,7 @@ import vazkii.arl.block.BlockMod;
 import vazkii.arl.block.BlockModSlab;
 import vazkii.arl.block.BlockModStairs;
 import vazkii.arl.util.RecipeHandler;
+import vazkii.quark.base.handler.BiomeTypeConfigHandler;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.building.feature.VanillaWalls;
@@ -135,30 +136,9 @@ public class RevampStoneGen extends Feature {
 			generators.add(new StoneInfoBasedGenerator(() -> limestoneInfo, limestone.getDefaultState(), "limestone"));
 		
 		if(outputCSV)
-			debugGeneration();
+			BiomeTypeConfigHandler.debugStoneGeneration(generators);
 	}
 	
-	private void debugGeneration() {
-		System.out.println("### OUTPUTTING BIOME CSV DATA ###");
-		System.out.print("sep=;\nBiome");
-		for(StoneInfoBasedGenerator gen : generators)
-			System.out.print(";" + WordUtils.capitalize(gen.name));
-		System.out.print(";Biome Type");
-		System.out.println();
-		for(ResourceLocation r : Biome.REGISTRY.getKeys()) {
-			Biome b = Biome.REGISTRY.getObject(r);
-			System.out.print(b.getBiomeName());
-			for(StoneInfoBasedGenerator gen : generators) {
-				if(gen.canGenerateInBiome(b))
-					System.out.print(";yes");
-				else System.out.print(";no");
-			}
-			System.out.print(";" + (b.isMutation() ? "mutation" : "normal"));
-			System.out.println();
-		}
-		System.out.println("### DONE ###");
-	}
-
 	@SubscribeEvent
 	public void onOreGenerate(OreGenEvent.GenerateMinable event) {
 		switch(event.getType()) {
@@ -215,12 +195,7 @@ public class RevampStoneGen extends Feature {
 			this.lowerBound = ModuleLoader.config.getInt("Y Level Min", category, lowerBound, 0, 255, "");
 			clustersRarityPerChunk = ModuleLoader.config.getBoolean("Invert Cluster Rarity", category, false, "Setting this to true will make the 'Cluster Rarity' feature be X per chunk rather than 1 per X chunks");
 			
-			String[] defaultBiomes = Arrays.stream(biomes).<String>map(b -> b.getName()).toArray(i -> new String[i]);
-			String[] readBiomes = ModuleLoader.config.getStringList("Allowed Biome Types", category, defaultBiomes, 
-					"Biome Type List: https://github.com/MinecraftForge/MinecraftForge/blob/1.11.x/src/main/java/net/minecraftforge/common/BiomeDictionary.java#L44-L90\n"
-					+ "Types per Biome: https://github.com/MinecraftForge/MinecraftForge/blob/1.11.x/src/main/java/net/minecraftforge/common/BiomeDictionary.java#L402-L463");
-			
-			allowedBiomes = Arrays.stream(readBiomes).map(s -> BiomeDictionary.Type.getType(s)).collect(Collectors.toList());
+			allowedBiomes = BiomeTypeConfigHandler.parseBiomeTypeArrayConfig("Allowed Biomes Types", category, biomes);
 		}
 	}
 
