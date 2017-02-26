@@ -20,6 +20,7 @@ import vazkii.quark.world.world.underground.UndergroundBiomeLush;
 import vazkii.quark.world.world.underground.UndergroundBiomePrismarine;
 import vazkii.quark.world.world.underground.UndergroundBiomeSandstone;
 import vazkii.quark.world.world.underground.UndergroundBiomeSlime;
+import vazkii.quark.world.world.underground.UndergroundBiomeSpiderNest;
 
 public class UndergroundBiomes extends Feature {
 
@@ -32,6 +33,7 @@ public class UndergroundBiomes extends Feature {
 		biomes.add(loadUndergrondBiomeInfo("Sandstone", new UndergroundBiomeSandstone(), 80, Type.SANDY));
 		biomes.add(loadUndergrondBiomeInfo("Slime", new UndergroundBiomeSlime(), 120, Type.SWAMP));
 		biomes.add(loadUndergrondBiomeInfo("Prismarine", new UndergroundBiomePrismarine(), 100, Type.OCEAN));
+		biomes.add(loadUndergrondBiomeInfo("Spider", new UndergroundBiomeSpiderNest(), 80, Type.PLAINS));
 	}
 	
 	@SubscribeEvent
