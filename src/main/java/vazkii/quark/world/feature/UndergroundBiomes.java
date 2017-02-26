@@ -21,6 +21,7 @@ import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.world.block.BlockBiomeCobblestone;
 import vazkii.quark.world.world.underground.UndergroundBiome;
 import vazkii.quark.world.world.underground.UndergroundBiomeIcy;
+import vazkii.quark.world.world.underground.UndergroundBiomeLava;
 import vazkii.quark.world.world.underground.UndergroundBiomeLush;
 import vazkii.quark.world.world.underground.UndergroundBiomeOvergrown;
 import vazkii.quark.world.world.underground.UndergroundBiomePrismarine;
@@ -52,6 +53,7 @@ public class UndergroundBiomes extends Feature {
 		biomes.add(loadUndergrondBiomeInfo("Spider", new UndergroundBiomeSpiderNest(), 160, Type.PLAINS));
 		biomes.add(loadUndergrondBiomeInfo("Overgrown", new UndergroundBiomeOvergrown(), 160, Type.FOREST));
 		biomes.add(loadUndergrondBiomeInfo("Icy", new UndergroundBiomeIcy(), 160, Type.COLD));
+		biomes.add(loadUndergrondBiomeInfo("Lava", new UndergroundBiomeLava(), 160, Type.MESA));
 	}
 	
 	@Override
@@ -81,8 +83,8 @@ public class UndergroundBiomes extends Feature {
 					int radiusY = biomeInfo.minYSize + rand.nextInt(biomeInfo.yVariation);
 					int radiusZ = biomeInfo.minZSize + rand.nextInt(biomeInfo.zVariation);
 					
-					biomeInfo.biome.apply(world, spawnPos, radiusX, radiusY, radiusZ);
-					return;
+					if(biomeInfo.biome.apply(world, spawnPos, radiusX, radiusY, radiusZ))
+						return;
 				}
 			}
 		}

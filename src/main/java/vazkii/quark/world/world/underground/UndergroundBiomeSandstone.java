@@ -5,16 +5,25 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.BiomeDictionary;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.ModuleLoader;
 
 public class UndergroundBiomeSandstone extends BasicUndergroundBiome {
 
 	int stalactiteChance, chiseledSandstoneChance, deadBushChance;
-	boolean enableSand;
+	boolean enableSand, allowGenInMesa;
 	
 	public UndergroundBiomeSandstone() {
 		super(Blocks.SANDSTONE.getDefaultState(), Blocks.SANDSTONE.getDefaultState(), Blocks.SANDSTONE.getDefaultState());
+	}
+	
+	@Override
+	public boolean apply(World world, BlockPos center, int radiusX, int radiusY, int radiusZ) {
+		if(!allowGenInMesa && BiomeDictionary.hasType(world.getBiome(center), BiomeDictionary.Type.MESA))
+			return false;
+				
+		return super.apply(world, center, radiusX, radiusY, radiusZ);
 	}
 	
 	@Override
@@ -47,6 +56,7 @@ public class UndergroundBiomeSandstone extends BasicUndergroundBiome {
 		chiseledSandstoneChance = ModuleLoader.config.getInt("Chiseled Sandstone Chance", category, 10, 0, Integer.MAX_VALUE, "The higher, the less chiseled sandstone will spawn");
 		deadBushChance = ModuleLoader.config.getInt("Dead Bush Chance", category, 20, 0, Integer.MAX_VALUE, "The higher, the less dead bushes will spawn");
 		enableSand = ModuleLoader.config.getBoolean("Enable Sand Floors", category, true, "");
+		allowGenInMesa = ModuleLoader.config.getBoolean("Allow in Mesa biomes", category, false, "");
 	}
 	
 }

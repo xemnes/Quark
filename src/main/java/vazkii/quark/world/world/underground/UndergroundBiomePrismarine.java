@@ -25,7 +25,7 @@ public class UndergroundBiomePrismarine extends BasicUndergroundBiome {
 	
 	@Override
 	public void fillFloor(World world, BlockPos pos, IBlockState state) {
-		if(waterChance > 0 && !isWall(world, pos, state) && world.rand.nextInt(waterChance) == 0)
+		if(waterChance > 0 && !isBorder(world, pos, state) && world.rand.nextInt(waterChance) == 0)
 			world.setBlockState(pos, Blocks.WATER.getDefaultState());
 		else super.fillFloor(world, pos, state);
 	}

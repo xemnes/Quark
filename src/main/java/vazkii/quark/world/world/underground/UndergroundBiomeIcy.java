@@ -55,6 +55,5 @@ public class UndergroundBiomeIcy extends BasicUndergroundBiome {
 		stalagmiteChance = ModuleLoader.config.getInt("Stalagmite Chance", category, 60, 0, Integer.MAX_VALUE, "The higher, the less stalagmites will spawn");
 		usePackedIce = ModuleLoader.config.getBoolean("Use Packed Ice", category, true, "");
 	}
-	
 
 }

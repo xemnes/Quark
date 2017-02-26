@@ -34,7 +34,7 @@ public abstract class UndergroundBiome {
 
 	List<BlockPos> floorList, ceilingList, wallList, insideList;
 
-	public void apply(World world, BlockPos center, int radiusX, int radiusY, int radiusZ) {
+	public boolean apply(World world, BlockPos center, int radiusX, int radiusY, int radiusZ) {
 		int centerX = center.getX();
 		int centerY = center.getY();
 		int centerZ = center.getZ();
@@ -65,6 +65,8 @@ public abstract class UndergroundBiome {
 		ceilingList.forEach(pos -> finalCeilingPass(world, pos));
 		wallList.forEach(pos -> finalWallPass(world, pos));
 		insideList.forEach(pos -> finalInsidePass(world, pos));
+		
+		return true;
 	}
 
 	public void fill(World world, BlockPos pos) {
@@ -132,6 +134,10 @@ public abstract class UndergroundBiome {
 		if(!state.isFullBlock() || !STONE_PREDICATE.apply(state))
 			return false;
 
+		return isBorder(world, pos, state);
+	}
+	
+	boolean isBorder(World world, BlockPos pos, IBlockState state) {
 		for(EnumFacing facing : EnumFacing.HORIZONTALS) {
 			BlockPos offsetPos = pos.offset(facing);
 			if(world.isAirBlock(offsetPos) || state.getBlock().isReplaceable(world, offsetPos))
