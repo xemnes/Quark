@@ -32,7 +32,7 @@ public class UndergroundBiomeLush extends BasicUndergroundBiome {
 	@Override
 	public void setupConfig(String category) {
 		grassChance = ModuleLoader.config.getInt("Grass Chance", category, 20, 0, Integer.MAX_VALUE, "The higher, the less grass will spawn");
-		shrubChance = ModuleLoader.config.getInt("Shrub Chance", category, 20, 0, Integer.MAX_VALUE, "The higher, the less shrubs will spawn");
+		shrubChance = ModuleLoader.config.getInt("Shrub Chance", category, 100, 0, Integer.MAX_VALUE, "The higher, the less shrubs will spawn");
 	}
 
 }

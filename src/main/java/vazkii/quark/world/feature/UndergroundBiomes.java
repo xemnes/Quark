@@ -85,8 +85,8 @@ public class UndergroundBiomes extends Feature {
 			this.types = BiomeTypeConfigHandler.parseBiomeTypeArrayConfig("Allowed Biome Types", category, biomes);
 			this.rarity = ModuleLoader.config.getInt("Rarity", category, rarity, 0, Integer.MAX_VALUE, "This biome will spawn in 1 of X valid chunks");
 			
-			minY = ModuleLoader.config.getInt("Minimum Y Level", category, 10, 0, Integer.MAX_VALUE, "");
-			maxY = ModuleLoader.config.getInt("Maximum Y Level", category, 40, 0, Integer.MAX_VALUE, "");
+			minY = ModuleLoader.config.getInt("Minimum Y Level", category, 10, 0, 255, "");
+			maxY = ModuleLoader.config.getInt("Maximum Y Level", category, 40, 0, 255, "");
 			
 			String sizeCategory = category + ".size";
 			
