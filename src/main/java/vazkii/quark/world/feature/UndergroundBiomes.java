@@ -15,9 +15,9 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import vazkii.quark.base.handler.BiomeTypeConfigHandler;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.ModuleLoader;
-import vazkii.quark.world.feature.RevampStoneGen.StoneInfo;
 import vazkii.quark.world.world.underground.UndergroundBiome;
 import vazkii.quark.world.world.underground.UndergroundBiomeLush;
+import vazkii.quark.world.world.underground.UndergroundBiomeSandstone;
 
 public class UndergroundBiomes extends Feature {
 
@@ -27,6 +27,7 @@ public class UndergroundBiomes extends Feature {
 	public void setupConfig() {
 		biomes = new ArrayList();
 		biomes.add(loadUndergrondBiomeInfo("Lush", new UndergroundBiomeLush(), 50, Type.JUNGLE));
+		biomes.add(loadUndergrondBiomeInfo("Sandstone", new UndergroundBiomeSandstone(), 50, Type.SANDY));
 	}
 	
 	@SubscribeEvent
