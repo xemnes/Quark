@@ -32,4 +32,9 @@ public class BasicUndergroundBiome extends UndergroundBiome {
 			world.setBlockState(pos, wallState, 2);
 	}
 
+	@Override
+	public void fillInside(World world, BlockPos pos, IBlockState state) {
+		// NO-OP
+	}
+
 }
