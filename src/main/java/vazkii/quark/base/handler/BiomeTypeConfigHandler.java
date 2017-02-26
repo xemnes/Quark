@@ -2,6 +2,7 @@ package vazkii.quark.base.handler;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.text.WordUtils;
@@ -21,6 +22,16 @@ public final class BiomeTypeConfigHandler {
 				+ "Types per Biome: https://github.com/MinecraftForge/MinecraftForge/blob/1.11.x/src/main/java/net/minecraftforge/common/BiomeDictionary.java#L402-L463");
 		
 		return Arrays.stream(readBiomes).map(s -> BiomeDictionary.Type.getType(s)).collect(Collectors.toList());
+	}
+	
+	public static boolean biomeTypeIntersectCheck(Iterable<BiomeDictionary.Type> biomeItr, Biome b) {
+		Set<BiomeDictionary.Type> currentTypes = BiomeDictionary.getTypes(b);
+
+			for(BiomeDictionary.Type type : biomeItr)
+				if(currentTypes.contains(type))
+					return true;
+
+			return false;
 	}
 	
 	public static void debugStoneGeneration(Iterable<StoneInfoBasedGenerator> generators) {

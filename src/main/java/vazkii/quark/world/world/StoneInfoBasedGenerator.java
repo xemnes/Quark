@@ -11,6 +11,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.common.BiomeDictionary;
+import vazkii.quark.base.handler.BiomeTypeConfigHandler;
 import vazkii.quark.world.feature.RevampStoneGen;
 import vazkii.quark.world.feature.RevampStoneGen.StoneInfo;
 
@@ -80,13 +81,9 @@ public class StoneInfoBasedGenerator {
 	}
 	
 	public boolean canGenerateInBiome(StoneInfo info, Biome b) {
-		Set<BiomeDictionary.Type> currentTypes = BiomeDictionary.getTypes(b);
-
-			for(BiomeDictionary.Type type : info.allowedBiomes)
-				if(currentTypes.contains(type))
-					return true;
-
-			return false;
+		return BiomeTypeConfigHandler.biomeTypeIntersectCheck(info.allowedBiomes, b);
 	}
+	
+
 
 }
