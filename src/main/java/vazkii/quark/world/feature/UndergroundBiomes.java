@@ -126,17 +126,15 @@ public class UndergroundBiomes extends Feature {
 			minY = ModuleLoader.config.getInt("Minimum Y Level", category, 10, 0, 255, "");
 			maxY = ModuleLoader.config.getInt("Maximum Y Level", category, 40, 0, 255, "");
 			
-			String sizeCategory = category + ".size";
+			minXSize = ModuleLoader.config.getInt("X Minimum", category, 26, 0, Integer.MAX_VALUE, "");
+			minYSize = ModuleLoader.config.getInt("Y Minimum", category, 12, 0, Integer.MAX_VALUE, "");
+			minZSize = ModuleLoader.config.getInt("Z Minimum", category, 26, 0, Integer.MAX_VALUE, "");
 			
-			minXSize = ModuleLoader.config.getInt("X Minimum", sizeCategory, 26, 0, Integer.MAX_VALUE, "");
-			minYSize = ModuleLoader.config.getInt("Y Minimum", sizeCategory, 12, 0, Integer.MAX_VALUE, "");
-			minZSize = ModuleLoader.config.getInt("Z Minimum", sizeCategory, 26, 0, Integer.MAX_VALUE, "");
+			xVariation = ModuleLoader.config.getInt("X Variation", category, 14, 0, Integer.MAX_VALUE, "");
+			yVariation = ModuleLoader.config.getInt("Y Variation", category, 6, 0, Integer.MAX_VALUE, "");
+			zVariation = ModuleLoader.config.getInt("Z Variation", category, 14, 0, Integer.MAX_VALUE, "");
 			
-			xVariation = ModuleLoader.config.getInt("X Variation", sizeCategory, 14, 0, Integer.MAX_VALUE, "");
-			yVariation = ModuleLoader.config.getInt("Y Variation", sizeCategory, 6, 0, Integer.MAX_VALUE, "");
-			zVariation = ModuleLoader.config.getInt("Z Variation", sizeCategory, 14, 0, Integer.MAX_VALUE, "");
-			
-			biome.setupConfig(category + ".specific");
+			biome.setupConfig(category);
 		}
 
 		
