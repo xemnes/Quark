@@ -56,7 +56,6 @@ public class UndergroundBiomes extends Feature {
 					int radiusY = minYSize + rand.nextInt(yVariation);
 					int radiusZ = minZSize + rand.nextInt(zVariation);
 					
-					System.out.println("SPAWNING AT " + spawnPos);
 					biomeInfo.biome.apply(world, spawnPos, radiusX, radiusY, radiusZ);
 					return;
 				}
@@ -91,8 +90,10 @@ public class UndergroundBiomes extends Feature {
 		private UndergroundBiomeInfo(String category, UndergroundBiome biome, int rarity, BiomeDictionary.Type... biomes) {
 			this.enabled = ModuleLoader.config.getBoolean("Enabled", category, true, "");
 			this.biome = biome;
-			this.types = BiomeTypeConfigHandler.parseBiomeTypeArrayConfig("Allowed Biomes Types", category, biomes);
+			this.types = BiomeTypeConfigHandler.parseBiomeTypeArrayConfig("Allowed Biome Types", category, biomes);
 			this.rarity = ModuleLoader.config.getInt("Rarity", category, rarity, 0, Integer.MAX_VALUE, "This biome will spawn in 1 of X valid chunks");
+			
+			biome.setupConfig(category);
 		}
 
 		

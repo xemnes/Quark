@@ -64,9 +64,21 @@ public abstract class UndergroundBiome {
 	public abstract void fillCeiling(World world, BlockPos pos, IBlockState state);
 	public abstract void fillWall(World world, BlockPos pos, IBlockState state);
 	
-	public void finalFloorPass(World world, BlockPos pos) {}
-	public void finalCeilingPass(World world, BlockPos pos) {}
-	public void finalWallPass(World world, BlockPos pos) {}
+	public void finalFloorPass(World world, BlockPos pos) {
+		// NO-OP
+	}
+	
+	public void finalCeilingPass(World world, BlockPos pos) {
+		// NO-OP
+	}
+	
+	public void finalWallPass(World world, BlockPos pos) {
+		// NO-OP
+	}
+	
+	public void setupConfig(String category) {
+		// NO-OP
+	}
 
 	boolean isFloor(World world, BlockPos pos, IBlockState state) {
 		if(!state.isFullBlock())

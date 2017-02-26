@@ -161,6 +161,11 @@ public class LockDirectionHotkey extends Feature {
 		return true;
 	}
 	
+	@Override
+	public boolean requiresMinecraftRestartToEnable() {
+		return true;
+	}
+	
 	public static class LockProfile {
 		
 		EnumFacing facing;
