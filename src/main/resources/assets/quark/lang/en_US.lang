@@ -330,8 +330,8 @@ tile.quark:duskbound_block_stairs.name=Duskbound Stairs
 tile.quark:duskbound_block_wall.name=Duskbound Wall
 tile.quark:duskbound_lantern.name=Duskbound Lantern
 tile.quark:sturdy_stone.name=Sturdy Stone
-tile.quark:fire_stone.name=Firestone
-tile.quark:icy_stone.name=Froststone
+tile.quark:fire_stone.name=Brimstone
+tile.quark:icy_stone.name=Permafrost
 
 # ITEM NAMES
 item.quark:glass_shard.name=Glass Shard
