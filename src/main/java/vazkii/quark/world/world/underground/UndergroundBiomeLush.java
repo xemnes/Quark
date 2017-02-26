@@ -24,10 +24,10 @@ public class UndergroundBiomeLush extends BasicUndergroundBiome {
 
 	@Override
 	public void finalFloorPass(World world, BlockPos pos) {
-		if(world.rand.nextInt(grassChance) == 0)
+		if(grassChance > 0 && world.rand.nextInt(grassChance) == 0)
 			ItemDye.applyBonemeal(new ItemStack(Items.DYE, 1, 14), world, pos);
 
-		if(world.rand.nextInt(shrubChance) == 0)
+		if(shrubChance > 0 && world.rand.nextInt(shrubChance) == 0)
 			shrubGen.generate(world, world.rand, pos.up());
 	}
 
@@ -36,7 +36,7 @@ public class UndergroundBiomeLush extends BasicUndergroundBiome {
 		for(EnumFacing facing : EnumFacing.HORIZONTALS) {
 			BlockPos off = pos.offset(facing);
 			BlockPos up = off.up();
-			if(isCeiling(world, up, world.getBlockState(up)) && world.rand.nextInt(vineChance) == 0) {
+			if(vineChance > 0 && isCeiling(world, up, world.getBlockState(up)) && world.rand.nextInt(vineChance) == 0) {
 				IBlockState stateAt = world.getBlockState(off); 
 				boolean did = false;
 				while(stateAt.getBlock().isAir(stateAt, world, off)) {

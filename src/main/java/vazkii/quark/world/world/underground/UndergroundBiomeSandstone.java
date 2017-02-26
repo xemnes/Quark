@@ -19,7 +19,7 @@ public class UndergroundBiomeSandstone extends BasicUndergroundBiome {
 	
 	@Override
 	public void fillCeiling(World world, BlockPos pos, IBlockState state) {
-		if(world.rand.nextInt(stalactiteChance) == 0)
+		if(stalactiteChance > 0 && world.rand.nextInt(stalactiteChance) == 0)
 			world.setBlockState(pos.down(), ceilingState, 2);
 		
 		super.fillCeiling(world, pos, state);
@@ -29,14 +29,14 @@ public class UndergroundBiomeSandstone extends BasicUndergroundBiome {
 	public void fillFloor(World world, BlockPos pos, IBlockState state) {
 		if(enableSand && world.rand.nextBoolean()) {
 			world.setBlockState(pos, Blocks.SAND.getDefaultState(), 2);
-			if(world.rand.nextInt(deadBushChance) == 0)
+			if(deadBushChance > 0 && world.rand.nextInt(deadBushChance) == 0)
 				world.setBlockState(pos.up(), Blocks.DEADBUSH.getDefaultState(), 2);
 		} else super.fillFloor(world, pos, state);
 	}
 	
 	@Override
 	public void fillWall(World world, BlockPos pos, IBlockState state) {
-		if(world.rand.nextInt(chiseledSandstoneChance) == 0)
+		if(chiseledSandstoneChance > 0 && world.rand.nextInt(chiseledSandstoneChance) == 0)
 			world.setBlockState(pos, wallState.withProperty(BlockSandStone.TYPE, BlockSandStone.EnumType.CHISELED), 2);
 		else super.fillWall(world, pos, state);
 	}

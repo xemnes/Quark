@@ -13,6 +13,7 @@ import vazkii.quark.base.module.ModuleLoader;
 public class UndergroundBiomeSlime extends BasicUndergroundBiome {
 
 	int slimeBlockChance;
+	boolean waterFloor;
 	
 	public UndergroundBiomeSlime() {
 		super(Blocks.WATER.getDefaultState(), null, null);
@@ -42,15 +43,18 @@ public class UndergroundBiomeSlime extends BasicUndergroundBiome {
 
 	@Override
 	public void fillFloor(World world, BlockPos pos, IBlockState state) {
-		world.setBlockState(pos, floorState, 3);
+		if(waterFloor)
+			world.setBlockState(pos, floorState, 3);
+		else fillCeiling(world, pos, state);
 		
-		if(world.rand.nextInt(slimeBlockChance) == 0)
+		if(slimeBlockChance > 0 && world.rand.nextInt(slimeBlockChance) == 0)
 			world.setBlockState(pos, Blocks.SLIME_BLOCK.getDefaultState());
 	}
 	
 	@Override
 	public void setupConfig(String category) {
 		slimeBlockChance = ModuleLoader.config.getInt("Slime Block Chance", category, 12, 0, Integer.MAX_VALUE, "The higher, the less slime blocks will spawn");
+		waterFloor = ModuleLoader.config.getBoolean("Enable Water Floor", category, true, "");
 	}
 	
 	
