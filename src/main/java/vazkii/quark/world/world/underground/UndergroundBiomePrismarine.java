@@ -9,7 +9,7 @@ import vazkii.quark.base.module.ModuleLoader;
 
 public class UndergroundBiomePrismarine extends BasicUndergroundBiome {
 
-	int seaLanternChance;
+	int seaLanternChance, waterChance;
 	
 	public UndergroundBiomePrismarine() {
 		super(Blocks.PRISMARINE.getDefaultState(), Blocks.PRISMARINE.getDefaultState(), Blocks.PRISMARINE.getDefaultState());
@@ -24,8 +24,16 @@ public class UndergroundBiomePrismarine extends BasicUndergroundBiome {
 	}
 	
 	@Override
+	public void fillFloor(World world, BlockPos pos, IBlockState state) {
+		if(waterChance > 0 && !isWall(world, pos, state) && world.rand.nextInt(waterChance) == 0)
+			world.setBlockState(pos, Blocks.WATER.getDefaultState());
+		else super.fillFloor(world, pos, state);
+	}
+	
+	@Override
 	public void setupConfig(String category) {
-		seaLanternChance = ModuleLoader.config.getInt("Sea Lantern Chance", category, 20, 0, Integer.MAX_VALUE, "The higher, the less sea lanterns will spawn");
+		seaLanternChance = ModuleLoader.config.getInt("Sea Lantern Chance", category, 120, 0, Integer.MAX_VALUE, "The higher, the less sea lanterns will spawn");
+		waterChance = ModuleLoader.config.getInt("Water Chance", category, 4, 0, Integer.MAX_VALUE, "The higher, the less water will spawn");
 	}
 	
 	
