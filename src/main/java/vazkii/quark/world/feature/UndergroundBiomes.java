@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
@@ -11,11 +12,15 @@ import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.event.terraingen.OreGenEvent;
 import net.minecraftforge.event.terraingen.OreGenEvent.GenerateMinable.EventType;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import vazkii.arl.block.BlockMod;
 import vazkii.quark.base.handler.BiomeTypeConfigHandler;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.ModuleLoader;
+import vazkii.quark.world.block.BlockBiomeCobblestone;
 import vazkii.quark.world.world.underground.UndergroundBiome;
+import vazkii.quark.world.world.underground.UndergroundBiomeIcy;
 import vazkii.quark.world.world.underground.UndergroundBiomeLush;
 import vazkii.quark.world.world.underground.UndergroundBiomeOvergrown;
 import vazkii.quark.world.world.underground.UndergroundBiomePrismarine;
@@ -27,15 +32,37 @@ public class UndergroundBiomes extends Feature {
 
 	public static List<UndergroundBiomeInfo> biomes;
 	
+	public static BlockMod biome_cobblestone;
+	
+	public static IBlockState firestoneState, icystoneState;
+	
+	public static boolean firestoneEnabled, icystoneEnabled;
+	
 	@Override
 	public void setupConfig() {
 		biomes = new ArrayList();
+		
+		firestoneEnabled = loadPropBool("Enable Firestone", "", true);
+		icystoneEnabled = loadPropBool("Enable Froststone", "", true);
+		
 		biomes.add(loadUndergrondBiomeInfo("Lush", new UndergroundBiomeLush(), 160, Type.JUNGLE));
 		biomes.add(loadUndergrondBiomeInfo("Sandstone", new UndergroundBiomeSandstone(), 160, Type.SANDY));
 		biomes.add(loadUndergrondBiomeInfo("Slime", new UndergroundBiomeSlime(), 240, Type.SWAMP));
 		biomes.add(loadUndergrondBiomeInfo("Prismarine", new UndergroundBiomePrismarine(), 200, Type.OCEAN));
 		biomes.add(loadUndergrondBiomeInfo("Spider", new UndergroundBiomeSpiderNest(), 160, Type.PLAINS));
 		biomes.add(loadUndergrondBiomeInfo("Overgrown", new UndergroundBiomeOvergrown(), 160, Type.FOREST));
+		biomes.add(loadUndergrondBiomeInfo("Icy", new UndergroundBiomeIcy(), 160, Type.COLD));
+	}
+	
+	@Override
+	public void preInit(FMLPreInitializationEvent event) {
+		if(firestoneEnabled || icystoneEnabled)
+			biome_cobblestone = new BlockBiomeCobblestone();
+		
+		if(firestoneEnabled)
+			firestoneState = biome_cobblestone.getDefaultState().withProperty(biome_cobblestone.getVariantProp(), BlockBiomeCobblestone.Variants.FIRE_STONE);
+		if(icystoneEnabled)
+			icystoneState = biome_cobblestone.getDefaultState().withProperty(biome_cobblestone.getVariantProp(), BlockBiomeCobblestone.Variants.ICY_STONE);
 	}
 	
 	@SubscribeEvent
@@ -114,4 +141,3 @@ public class UndergroundBiomes extends Feature {
 	}
 	
 }
-

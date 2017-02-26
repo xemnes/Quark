@@ -81,7 +81,7 @@ public abstract class UndergroundBiome {
 		} else if(isWall(world, pos, state)) {
 			wallList.add(pos);
 			fillWall(world, pos, state);
-		} else {
+		} else if(isInside(world, pos, state)) {
 			insideList.add(pos);
 			fillInside(world, pos, state);
 		}
@@ -116,25 +116,33 @@ public abstract class UndergroundBiome {
 		if(!state.isFullBlock())
 			return false;
 
-		return world.isAirBlock(pos.up());
+		BlockPos upPos = pos.up();
+		return world.isAirBlock(upPos) || world.getBlockState(upPos).getBlock().isReplaceable(world, upPos);
 	}
 
 	boolean isCeiling(World world, BlockPos pos, IBlockState state) {
 		if(!state.isFullBlock())
 			return false;
 
-		return world.isAirBlock(pos.down());
+		BlockPos downPos = pos.down();
+		return world.isAirBlock(downPos) || world.getBlockState(downPos).getBlock().isReplaceable(world, downPos);
 	}
 
 	boolean isWall(World world, BlockPos pos, IBlockState state) {
 		if(!state.isFullBlock() || !STONE_PREDICATE.apply(state))
 			return false;
 
-		for(EnumFacing facing : EnumFacing.HORIZONTALS)
-			if(world.isAirBlock(pos.offset(facing)))
+		for(EnumFacing facing : EnumFacing.HORIZONTALS) {
+			BlockPos offsetPos = pos.offset(facing);
+			if(world.isAirBlock(offsetPos) || state.getBlock().isReplaceable(world, offsetPos))
 				return true;
+		}
 
 		return false;
+	}
+	
+	boolean isInside(World world, BlockPos pos, IBlockState state) {
+		return STONE_PREDICATE.apply(state);
 	}
 
 }

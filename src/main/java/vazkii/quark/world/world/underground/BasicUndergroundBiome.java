@@ -7,11 +7,17 @@ import net.minecraft.world.World;
 public class BasicUndergroundBiome extends UndergroundBiome {
 
 	IBlockState floorState, ceilingState, wallState;
+	boolean mimicInside;
 	
 	public BasicUndergroundBiome(IBlockState floorState, IBlockState ceilingState, IBlockState wallState) {
+		this(floorState, ceilingState, wallState, false);
+	}
+	
+	public BasicUndergroundBiome(IBlockState floorState, IBlockState ceilingState, IBlockState wallState, boolean mimicInside) {
 		this.floorState = floorState;
 		this.ceilingState = ceilingState;
 		this.wallState = wallState;
+		this.mimicInside = mimicInside;
 	}
 	
 	@Override
@@ -34,7 +40,8 @@ public class BasicUndergroundBiome extends UndergroundBiome {
 
 	@Override
 	public void fillInside(World world, BlockPos pos, IBlockState state) {
-		// NO-OP
+		if(mimicInside)
+			fillWall(world, pos, state);
 	}
 
 }
