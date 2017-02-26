@@ -26,8 +26,8 @@ public class UndergroundBiomes extends Feature {
 	@Override
 	public void setupConfig() {
 		biomes = new ArrayList();
-		biomes.add(loadUndergrondBiomeInfo("Lush", new UndergroundBiomeLush(), 50, Type.JUNGLE));
-		biomes.add(loadUndergrondBiomeInfo("Sandstone", new UndergroundBiomeSandstone(), 50, Type.SANDY));
+		biomes.add(loadUndergrondBiomeInfo("Lush", new UndergroundBiomeLush(), 80, Type.JUNGLE));
+		biomes.add(loadUndergrondBiomeInfo("Sandstone", new UndergroundBiomeSandstone(), 80, Type.SANDY));
 	}
 	
 	@SubscribeEvent
