@@ -10,7 +10,7 @@ import vazkii.quark.base.module.ModuleLoader;
 
 public class UndergroundBiomeSandstone extends BasicUndergroundBiome {
 
-	int stalactiteChance, chiseledSandstoneChance;
+	int stalactiteChance, chiseledSandstoneChance, deadBushChance;
 	boolean enableSand;
 	
 	public UndergroundBiomeSandstone() {
@@ -27,9 +27,11 @@ public class UndergroundBiomeSandstone extends BasicUndergroundBiome {
 	
 	@Override
 	public void fillFloor(World world, BlockPos pos, IBlockState state) {
-		if(enableSand && world.rand.nextBoolean())
+		if(enableSand && world.rand.nextBoolean()) {
 			world.setBlockState(pos, Blocks.SAND.getDefaultState(), 2);
-		else super.fillFloor(world, pos, state);
+			if(world.rand.nextInt(deadBushChance) == 0)
+				world.setBlockState(pos.up(), Blocks.DEADBUSH.getDefaultState(), 2);
+		} else super.fillFloor(world, pos, state);
 	}
 	
 	@Override
@@ -43,6 +45,7 @@ public class UndergroundBiomeSandstone extends BasicUndergroundBiome {
 	public void setupConfig(String category) {
 		stalactiteChance = ModuleLoader.config.getInt("Stalactite Chance", category, 10, 0, Integer.MAX_VALUE, "The higher, the less stalactites will spawn");
 		chiseledSandstoneChance = ModuleLoader.config.getInt("Chiseled Sandstone Chance", category, 10, 0, Integer.MAX_VALUE, "The higher, the less chiseled sandstone will spawn");
+		deadBushChance = ModuleLoader.config.getInt("Dead Bush Chance", category, 20, 0, Integer.MAX_VALUE, "The higher, the less dead bushes will spawn");
 		enableSand = ModuleLoader.config.getBoolean("Enable Sand Floors", category, true, "");
 	}
 	
