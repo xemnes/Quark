@@ -17,12 +17,13 @@ import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.world.world.underground.UndergroundBiome;
 import vazkii.quark.world.world.underground.UndergroundBiomeLush;
+import vazkii.quark.world.world.underground.UndergroundBiomePrismarine;
 import vazkii.quark.world.world.underground.UndergroundBiomeSandstone;
 import vazkii.quark.world.world.underground.UndergroundBiomeSlime;
 
 public class UndergroundBiomes extends Feature {
 
-	public List<UndergroundBiomeInfo> biomes;
+	public static List<UndergroundBiomeInfo> biomes;
 	
 	@Override
 	public void setupConfig() {
@@ -30,6 +31,7 @@ public class UndergroundBiomes extends Feature {
 		biomes.add(loadUndergrondBiomeInfo("Lush", new UndergroundBiomeLush(), 80, Type.JUNGLE));
 		biomes.add(loadUndergrondBiomeInfo("Sandstone", new UndergroundBiomeSandstone(), 80, Type.SANDY));
 		biomes.add(loadUndergrondBiomeInfo("Slime", new UndergroundBiomeSlime(), 120, Type.SWAMP));
+		biomes.add(loadUndergrondBiomeInfo("Prismarine", new UndergroundBiomePrismarine(), 100, Type.OCEAN));
 	}
 	
 	@SubscribeEvent
@@ -78,9 +80,9 @@ public class UndergroundBiomes extends Feature {
 		public final UndergroundBiome biome;
 		public final List<BiomeDictionary.Type> types;
 		public final int rarity;
-		int minXSize, minYSize, minZSize;
-		int xVariation, yVariation, zVariation;
-		int minY, maxY;
+		public final int minXSize, minYSize, minZSize;
+		public final int xVariation, yVariation, zVariation;
+		public final int minY, maxY;
 		
 		private UndergroundBiomeInfo(String category, UndergroundBiome biome, int rarity, BiomeDictionary.Type... biomes) {
 			this.enabled = ModuleLoader.config.getBoolean("Enabled", category, true, "");
