@@ -18,6 +18,7 @@ import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.world.world.underground.UndergroundBiome;
 import vazkii.quark.world.world.underground.UndergroundBiomeLush;
 import vazkii.quark.world.world.underground.UndergroundBiomeSandstone;
+import vazkii.quark.world.world.underground.UndergroundBiomeSlime;
 
 public class UndergroundBiomes extends Feature {
 
@@ -28,6 +29,7 @@ public class UndergroundBiomes extends Feature {
 		biomes = new ArrayList();
 		biomes.add(loadUndergrondBiomeInfo("Lush", new UndergroundBiomeLush(), 80, Type.JUNGLE));
 		biomes.add(loadUndergrondBiomeInfo("Sandstone", new UndergroundBiomeSandstone(), 80, Type.SANDY));
+		biomes.add(loadUndergrondBiomeInfo("Slime", new UndergroundBiomeSlime(), 120, Type.SWAMP));
 	}
 	
 	@SubscribeEvent
