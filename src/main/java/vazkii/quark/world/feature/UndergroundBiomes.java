@@ -17,6 +17,7 @@ import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.world.world.underground.UndergroundBiome;
 import vazkii.quark.world.world.underground.UndergroundBiomeLush;
+import vazkii.quark.world.world.underground.UndergroundBiomeOvergrown;
 import vazkii.quark.world.world.underground.UndergroundBiomePrismarine;
 import vazkii.quark.world.world.underground.UndergroundBiomeSandstone;
 import vazkii.quark.world.world.underground.UndergroundBiomeSlime;
@@ -34,6 +35,7 @@ public class UndergroundBiomes extends Feature {
 		biomes.add(loadUndergrondBiomeInfo("Slime", new UndergroundBiomeSlime(), 120, Type.SWAMP));
 		biomes.add(loadUndergrondBiomeInfo("Prismarine", new UndergroundBiomePrismarine(), 100, Type.OCEAN));
 		biomes.add(loadUndergrondBiomeInfo("Spider", new UndergroundBiomeSpiderNest(), 80, Type.PLAINS));
+		biomes.add(loadUndergrondBiomeInfo("Overgrown", new UndergroundBiomeOvergrown(), 80, Type.FOREST));
 	}
 	
 	@SubscribeEvent
