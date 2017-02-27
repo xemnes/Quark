@@ -4,7 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
@@ -14,12 +18,17 @@ import net.minecraftforge.event.terraingen.OreGenEvent;
 import net.minecraftforge.event.terraingen.OreGenEvent.GenerateMinable.EventType;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.oredict.OreDictionary;
 import vazkii.arl.block.BlockMod;
+import vazkii.arl.util.RecipeHandler;
 import vazkii.quark.base.handler.BiomeTypeConfigHandler;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.world.block.BlockBiomeCobblestone;
+import vazkii.quark.world.block.BlockGlowcelium;
+import vazkii.quark.world.block.BlockGlowshroom;
 import vazkii.quark.world.world.underground.UndergroundBiome;
+import vazkii.quark.world.world.underground.UndergroundBiomeGlowshroom;
 import vazkii.quark.world.world.underground.UndergroundBiomeIcy;
 import vazkii.quark.world.world.underground.UndergroundBiomeLava;
 import vazkii.quark.world.world.underground.UndergroundBiomeLush;
@@ -34,10 +43,14 @@ public class UndergroundBiomes extends Feature {
 	public static List<UndergroundBiomeInfo> biomes;
 	
 	public static BlockMod biome_cobblestone;
+	public static BlockMod glowcelium;
+	public static Block glowshroom;
+	
+	public static int glowshroomGrowthRate;
 	
 	public static IBlockState firestoneState, icystoneState;
 	
-	public static boolean firestoneEnabled, icystoneEnabled;
+	public static boolean firestoneEnabled, icystoneEnabled, glowceliumEnabled;
 	
 	@Override
 	public void setupConfig() {
@@ -45,6 +58,9 @@ public class UndergroundBiomes extends Feature {
 		
 		firestoneEnabled = loadPropBool("Enable Firestone", "", true);
 		icystoneEnabled = loadPropBool("Enable Froststone", "", true);
+		glowceliumEnabled = loadPropBool("Enable Glowcelium and Glowshrooms", "", true);
+		
+		glowshroomGrowthRate = loadPropInt("Glowshroom Growth Rate", "The smaller, the faster glowshrooms will spread. Vanilla mushroom speed is 25.", 30);
 		
 		biomes.add(loadUndergrondBiomeInfo("Lush", new UndergroundBiomeLush(), 160, Type.JUNGLE));
 		biomes.add(loadUndergrondBiomeInfo("Sandstone", new UndergroundBiomeSandstone(), 160, Type.SANDY));
@@ -54,12 +70,24 @@ public class UndergroundBiomes extends Feature {
 		biomes.add(loadUndergrondBiomeInfo("Overgrown", new UndergroundBiomeOvergrown(), 160, Type.FOREST));
 		biomes.add(loadUndergrondBiomeInfo("Icy", new UndergroundBiomeIcy(), 160, Type.COLD));
 		biomes.add(loadUndergrondBiomeInfo("Lava", new UndergroundBiomeLava(), 160, Type.MESA));
+		biomes.add(loadUndergrondBiomeInfo("Glowshroom", new UndergroundBiomeGlowshroom(), 160, Type.MOUNTAIN, Type.MUSHROOM));
 	}
 	
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
 		if(firestoneEnabled || icystoneEnabled)
 			biome_cobblestone = new BlockBiomeCobblestone();
+		
+		if(glowceliumEnabled) {
+			glowcelium = new BlockGlowcelium();
+			glowshroom = new BlockGlowshroom();
+			
+			OreDictionary.registerOre("mushroomAny", Blocks.RED_MUSHROOM);
+			OreDictionary.registerOre("mushroomAny", Blocks.BROWN_MUSHROOM);	
+			OreDictionary.registerOre("mushroomAny", glowshroom);
+			
+			RecipeHandler.addShapelessOreDictRecipe(new ItemStack(Items.MUSHROOM_STEW), "mushroomAny", "mushroomAny");
+		}
 		
 		if(firestoneEnabled)
 			firestoneState = biome_cobblestone.getDefaultState().withProperty(biome_cobblestone.getVariantProp(), BlockBiomeCobblestone.Variants.FIRE_STONE);

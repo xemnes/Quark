@@ -332,6 +332,8 @@ tile.quark:duskbound_lantern.name=Duskbound Lantern
 tile.quark:sturdy_stone.name=Sturdy Stone
 tile.quark:fire_stone.name=Brimstone
 tile.quark:icy_stone.name=Permafrost
+tile.quark:glowcelium.name=Glowcelium
+tile.quark:glowshroom.name=Glowshroom
 
 # ITEM NAMES
 item.quark:glass_shard.name=Glass Shard
