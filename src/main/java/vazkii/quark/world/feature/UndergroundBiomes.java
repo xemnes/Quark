@@ -162,7 +162,7 @@ public class UndergroundBiomes extends Feature {
 			yVariation = ModuleLoader.config.getInt("Y Variation", category, 6, 0, Integer.MAX_VALUE, "");
 			zVariation = ModuleLoader.config.getInt("Z Variation", category, 14, 0, Integer.MAX_VALUE, "");
 			
-			biome.setupConfig(category);
+			biome.setupBaseConfig(category);
 		}
 
 		
