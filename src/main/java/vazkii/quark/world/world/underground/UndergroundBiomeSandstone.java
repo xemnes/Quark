@@ -3,13 +3,11 @@ package vazkii.quark.world.world.underground;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.logging.log4j.core.net.Facility;
-
 import net.minecraft.block.BlockChest;
 import net.minecraft.block.BlockSandStone;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityList;
-import net.minecraft.entity.monster.EntityHusk;
+import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.init.Blocks;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
@@ -17,18 +15,14 @@ import net.minecraft.tileentity.TileEntityLockableLoot;
 import net.minecraft.tileentity.TileEntityMobSpawner;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.gen.structure.template.PlacementSettings;
 import net.minecraft.world.gen.structure.template.Template;
-import net.minecraft.world.storage.loot.LootTable;
 import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraftforge.common.BiomeDictionary;
-import net.minecraftforge.common.DungeonHooks;
 import vazkii.quark.base.module.ModuleLoader;
-import vazkii.quark.world.feature.PirateShips;
 
 public class UndergroundBiomeSandstone extends BasicUndergroundBiome {
 
@@ -121,7 +115,7 @@ public class UndergroundBiomeSandstone extends BasicUndergroundBiome {
 	            TileEntity spawner = world.getTileEntity(dataPos);
 
 	            if(spawner instanceof TileEntityMobSpawner)
-	                ((TileEntityMobSpawner) spawner).getSpawnerBaseLogic().setEntityId(EntityList.getKey(EntityHusk.class));
+	                ((TileEntityMobSpawner) spawner).getSpawnerBaseLogic().setEntityId(EntityList.getKey(EntityZombie.class));
 	            break;
 			case "chest":
 				IBlockState chestState = Blocks.CHEST.getDefaultState().withProperty(BlockChest.FACING, EnumFacing.WEST);
