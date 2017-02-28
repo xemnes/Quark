@@ -135,7 +135,7 @@ public class LockDirectionHotkey extends Feature {
 			GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 			GlStateManager.color(1F, 1F, 1F, 0.5F);
 			
-			mc.renderEngine.bindTexture(GuiButtonChest.chest_icons);
+			mc.renderEngine.bindTexture(GuiButtonChest.GENERAL_ICONS_RESOURCE);
 			
 			int x = event.getResolution().getScaledWidth() / 2 + 20;
 			int y = event.getResolution().getScaledHeight() / 2 - 8;
