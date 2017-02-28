@@ -20,6 +20,8 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.oredict.OreDictionary;
 import vazkii.arl.block.BlockMod;
+import vazkii.arl.block.BlockModSlab;
+import vazkii.arl.block.BlockModStairs;
 import vazkii.arl.util.RecipeHandler;
 import vazkii.quark.base.handler.BiomeTypeConfigHandler;
 import vazkii.quark.base.module.Feature;
@@ -27,6 +29,10 @@ import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.world.block.BlockBiomeCobblestone;
 import vazkii.quark.world.block.BlockGlowcelium;
 import vazkii.quark.world.block.BlockGlowshroom;
+import vazkii.quark.world.block.slab.BlockFireStoneSlab;
+import vazkii.quark.world.block.slab.BlockIcyStoneSlab;
+import vazkii.quark.world.block.stairs.BlockFireStoneStairs;
+import vazkii.quark.world.block.stairs.BlockIcyStoneStairs;
 import vazkii.quark.world.world.underground.UndergroundBiome;
 import vazkii.quark.world.world.underground.UndergroundBiomeGlowshroom;
 import vazkii.quark.world.world.underground.UndergroundBiomeIcy;
@@ -51,6 +57,7 @@ public class UndergroundBiomes extends Feature {
 	public static IBlockState firestoneState, icystoneState;
 	
 	public static boolean firestoneEnabled, icystoneEnabled, glowceliumEnabled;
+	boolean enableStairsAndSlabs;
 	
 	@Override
 	public void setupConfig() {
@@ -59,6 +66,7 @@ public class UndergroundBiomes extends Feature {
 		firestoneEnabled = loadPropBool("Enable Firestone", "", true);
 		icystoneEnabled = loadPropBool("Enable Froststone", "", true);
 		glowceliumEnabled = loadPropBool("Enable Glowcelium and Glowshrooms", "", true);
+		enableStairsAndSlabs = loadPropBool("Enable stairs and slabs", "", true);
 		
 		glowshroomGrowthRate = loadPropInt("Glowshroom Growth Rate", "The smaller, the faster glowshrooms will spread. Vanilla mushroom speed is 25.", 30);
 		
@@ -77,6 +85,18 @@ public class UndergroundBiomes extends Feature {
 	public void preInit(FMLPreInitializationEvent event) {
 		if(firestoneEnabled || icystoneEnabled)
 			biome_cobblestone = new BlockBiomeCobblestone();
+		
+		if(enableStairsAndSlabs) {
+			if(firestoneEnabled) {
+				BlockModSlab.initSlab(biome_cobblestone, 0, new BlockFireStoneSlab(false), new BlockFireStoneSlab(true));
+				BlockModStairs.initStairs(biome_cobblestone, 0, new BlockFireStoneStairs());
+			}
+			
+			if(icystoneEnabled) {
+				BlockModSlab.initSlab(biome_cobblestone, 1, new BlockIcyStoneSlab(false), new BlockIcyStoneSlab(true));
+				BlockModStairs.initStairs(biome_cobblestone, 1, new BlockIcyStoneStairs());
+			}
+		}
 		
 		if(glowceliumEnabled) {
 			glowcelium = new BlockGlowcelium();

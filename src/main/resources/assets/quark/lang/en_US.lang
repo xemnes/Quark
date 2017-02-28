@@ -334,6 +334,10 @@ tile.quark:fire_stone.name=Brimstone
 tile.quark:icy_stone.name=Permafrost
 tile.quark:glowcelium.name=Glowcelium
 tile.quark:glowshroom.name=Glowshroom
+tile.quark:fire_stone_slab.name=Brimstone Slab
+tile.quark:icy_stone_slab.name=Permafrost Slab
+tile.quark:fire_stone_stairs.name=Brimstone Stairs
+tile.quark:icy_stone_stairs.name=Permafrost Stairs
 
 # ITEM NAMES
 item.quark:glass_shard.name=Glass Shard
