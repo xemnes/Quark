@@ -82,7 +82,6 @@ public class UndergroundBiomeSandstone extends BasicUndergroundBiome {
 		if(side == null)
 			side = EnumFacing.NORTH;
 		
-		System.out.println(side);
 		switch(side) {
 		case NORTH:
 			pos = pos.add(3, -7, 6);

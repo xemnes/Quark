@@ -74,9 +74,6 @@ public abstract class UndergroundBiome {
 			while(times < maxDungeons && world.rand.nextInt(dungeonChance) == 0)
 				times++;
 
-			// DEBUG
-			times = 1;
-			
 			List<BlockPos> candidates = new ArrayList(wallList);
 			candidates.removeIf(pos -> isWall(world, pos.down(), world.getBlockState(pos.down())));
 			
@@ -148,9 +145,10 @@ public abstract class UndergroundBiome {
 	
 	public final void setupBaseConfig(String category) {
 		if(hasDungeon()) {
-			dungeonChance = ModuleLoader.config.getInt("Dungeon Chance", category, 2, 0, Integer.MAX_VALUE, "The chance that dungeons will spawn in this biome. 1 is 100%, 2 is 50%, the higher, the less dungeons will spawn.");
-			maxDungeons = ModuleLoader.config.getInt("Max Dungeons", category, 2, 0, Integer.MAX_VALUE, "The max amount of dungeons that can spawn.");
-			minDungeons = ModuleLoader.config.getInt("Min Dungeons", category, 0, 0, Integer.MAX_VALUE, "The minimum amount of dungeons that will spawn.");
+			int[] settings = getDefaultDungeonSettings();
+			dungeonChance = ModuleLoader.config.getInt("Dungeon Chance", category, settings[0], 0, Integer.MAX_VALUE, "The chance that dungeons will spawn in this biome. 1 is 100%, 2 is 50%, the higher, the less dungeons will spawn.");
+			maxDungeons = ModuleLoader.config.getInt("Max Dungeons", category, settings[1], 0, Integer.MAX_VALUE, "The max amount of dungeons that can spawn.");
+			minDungeons = ModuleLoader.config.getInt("Min Dungeons", category, settings[2], 0, Integer.MAX_VALUE, "The minimum amount of dungeons that will spawn.");
 		}
 		
 		setupConfig(category);
@@ -167,7 +165,16 @@ public abstract class UndergroundBiome {
 	public int getDungeonDistance() {
 		return 0;
 	}
-
+	
+	/**
+	 * 0: Dungeon Chance
+	 * 1: Max Dungeons
+	 * 2: Min Dungeons 
+	 */
+	public int[] getDefaultDungeonSettings() {
+		return new int[] { 2, 2, 0 };
+	}
+ 
 	public void spawnDungeon(WorldServer world, BlockPos pos, EnumFacing face) {
 		// NO-OP
 	}
