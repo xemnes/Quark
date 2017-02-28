@@ -127,8 +127,6 @@ public class UndergroundBiomeSandstone extends BasicUndergroundBiome {
 				break;
 			}
 		}
-		
-		world.setBlockState(pos, Blocks.DIAMOND_BLOCK.getDefaultState());
 	}
 	
 	@Override
