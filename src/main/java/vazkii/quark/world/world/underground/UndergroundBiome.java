@@ -75,7 +75,11 @@ public abstract class UndergroundBiome {
 				times++;
 
 			List<BlockPos> candidates = new ArrayList(wallList);
-			candidates.removeIf(pos -> isWall(world, pos.down(), world.getBlockState(pos.down())));
+			candidates.removeIf(pos -> {
+				BlockPos down = pos.down();
+				IBlockState state = world.getBlockState(down);
+				return isWall(world, down, state) || state.getBlock().isAir(state, world, down);
+			});
 			
 			List<BlockPos> currentDungeons = new ArrayList();
 			for(int i = 0; i < times; i++) {
