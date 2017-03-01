@@ -13,6 +13,7 @@ package vazkii.quark.management;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.management.feature.BetterCraftShifting;
 import vazkii.quark.management.feature.ChestButtons;
+import vazkii.quark.management.feature.CraftingButtons;
 import vazkii.quark.management.feature.DeleteItems;
 import vazkii.quark.management.feature.FToSwitchItems;
 import vazkii.quark.management.feature.FavoriteItems;
@@ -32,6 +33,7 @@ public class QuarkManagement extends Module {
 		registerFeature(new DeleteItems(), "Press Ctrl-DELETE in the inventory to delete an item");
 		registerFeature(new InventorySorting());
 		registerFeature(new BetterCraftShifting());
+//		registerFeature(new CraftingButtons()); TODO complete later
 	}
 
 }
