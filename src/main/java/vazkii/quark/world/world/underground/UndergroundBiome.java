@@ -1,7 +1,9 @@
 package vazkii.quark.world.world.underground;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.google.common.base.Predicate;
 
@@ -35,7 +37,8 @@ public abstract class UndergroundBiome {
 		return false;
 	};
 
-	List<BlockPos> floorList, ceilingList, wallList, insideList;
+	List<BlockPos> floorList, ceilingList, insideList;
+	Map<BlockPos, EnumFacing> wallMap;
 
 	public boolean apply(World world, BlockPos center, int radiusX, int radiusY, int radiusZ) {
 		int centerX = center.getX();
@@ -48,9 +51,9 @@ public abstract class UndergroundBiome {
 
 		floorList = new ArrayList();
 		ceilingList = new ArrayList();
-		wallList = new ArrayList();
 		insideList = new ArrayList();
-
+		wallMap = new HashMap();
+		
 		for(int x = -radiusX; x < radiusX + 1; x++)
 			for(int y = -radiusY; y < radiusY + 1; y++)
 				for(int z = -radiusZ; z < radiusZ + 1; z++) {
@@ -66,7 +69,7 @@ public abstract class UndergroundBiome {
 
 		floorList.forEach(pos -> finalFloorPass(world, pos));
 		ceilingList.forEach(pos -> finalCeilingPass(world, pos));
-		wallList.forEach(pos -> finalWallPass(world, pos));
+		wallMap.keySet().forEach(pos -> finalWallPass(world, pos));
 		insideList.forEach(pos -> finalInsidePass(world, pos));
 		
 		if(hasDungeon() && world instanceof WorldServer) {
@@ -74,7 +77,7 @@ public abstract class UndergroundBiome {
 			while(times < maxDungeons && world.rand.nextInt(dungeonChance) == 0)
 				times++;
 
-			List<BlockPos> candidates = new ArrayList(wallList);
+			List<BlockPos> candidates = new ArrayList(wallMap.keySet());
 			candidates.removeIf(pos -> {
 				BlockPos down = pos.down();
 				IBlockState state = world.getBlockState(down);
@@ -98,7 +101,9 @@ public abstract class UndergroundBiome {
 				currentDungeons.add(pos);
 				candidates.remove(pos);
 				
-				spawnDungeon((WorldServer) world, pos, getBorderSide(world, pos));
+				EnumFacing border = wallMap.get(pos);
+				if(border != null)
+					spawnDungeon((WorldServer) world, pos, border);
 			}
 			
 		}
@@ -118,7 +123,7 @@ public abstract class UndergroundBiome {
 			ceilingList.add(pos);
 			fillCeiling(world, pos, state);
 		} else if(isWall(world, pos, state)) {
-			wallList.add(pos);
+			wallMap.put(pos, getBorderSide(world, pos));
 			fillWall(world, pos, state);
 		} else if(isInside(world, pos, state)) {
 			insideList.add(pos);
