@@ -106,7 +106,7 @@ public class UndergroundBiomes extends Feature {
 			OreDictionary.registerOre("mushroomAny", Blocks.BROWN_MUSHROOM);	
 			OreDictionary.registerOre("mushroomAny", glowshroom);
 			
-			RecipeHandler.addShapelessOreDictRecipe(new ItemStack(Items.MUSHROOM_STEW), "mushroomAny", "mushroomAny");
+			RecipeHandler.addShapelessOreDictRecipe(new ItemStack(Items.MUSHROOM_STEW), "mushroomAny", "mushroomAny", new ItemStack(Items.BOWL));
 		}
 		
 		if(firestoneEnabled)
