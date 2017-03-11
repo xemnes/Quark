@@ -68,15 +68,15 @@ public class LockDirectionHotkey extends Feature {
 		String name = event.getPlayer().getName();
 		if(lockProfiles.containsKey(name)) {
 			LockProfile profile = lockProfiles.get(name);
-			setBlockRotated(world, state, pos, profile.facing.getOpposite(), profile.half);
+			setBlockRotated(world, state, pos, profile.facing.getOpposite(), true, profile.half);
 		}
 	}
 	
 	public static void setBlockRotated(World world, IBlockState state, BlockPos pos, EnumFacing face) {
-		setBlockRotated(world, state, pos, face, -1);
+		setBlockRotated(world, state, pos, face, false, -1);
 	}
 
-	public static void setBlockRotated(World world, IBlockState state, BlockPos pos, EnumFacing face, int half) {
+	public static void setBlockRotated(World world, IBlockState state, BlockPos pos, EnumFacing face, boolean stateCheck, int half) {
 		IBlockState setState = state;
 		ImmutableMap<IProperty<?>, Comparable<?>> props = state.getProperties(); 
 		Block block = state.getBlock();
@@ -103,7 +103,7 @@ public class LockDirectionHotkey extends Feature {
 				setState = setState.withProperty(BlockSlab.HALF, half == 1 ? BlockSlab.EnumBlockHalf.TOP : BlockSlab.EnumBlockHalf.BOTTOM);
 		}
 		
-		if(setState != state)
+		if(!stateCheck || setState != state)
 			world.setBlockState(pos, setState);
 	}
 	
