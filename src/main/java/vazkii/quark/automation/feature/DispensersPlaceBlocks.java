@@ -1,21 +1,11 @@
 package vazkii.quark.automation.feature;
 
-import java.util.Collection;
+import java.util.Arrays;
 import java.util.List;
 
-import com.google.common.collect.ImmutableSet;
-
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockDirectional;
 import net.minecraft.block.BlockDispenser;
-import net.minecraft.block.BlockHorizontal;
-import net.minecraft.block.BlockLog;
-import net.minecraft.block.BlockLog.EnumAxis;
-import net.minecraft.block.BlockQuartz;
-import net.minecraft.block.BlockRotatedPillar;
-import net.minecraft.block.BlockStairs;
 import net.minecraft.block.SoundType;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.dispenser.BehaviorDefaultDispenseItem;
 import net.minecraft.dispenser.IBlockSource;
@@ -28,9 +18,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import scala.actors.threadpool.Arrays;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.misc.feature.LockDirectionHotkey;
 
