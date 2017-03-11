@@ -83,9 +83,11 @@ public class LockDirectionHotkey extends Feature {
 		
 		if(props.containsKey(BlockDirectional.FACING))
 			setState = state.withProperty(BlockDirectional.FACING, face);
-		else if(props.containsKey(BlockHorizontal.FACING) && face.getAxis() != Axis.Y)
-			setState = state.withProperty(BlockHorizontal.FACING, face);
-		else if(props.containsKey(BlockRotatedPillar.AXIS))
+		else if(props.containsKey(BlockHorizontal.FACING) && face.getAxis() != Axis.Y) {
+			if(block instanceof BlockStairs)
+				setState = state.withProperty(BlockHorizontal.FACING, face.getOpposite());
+			else setState = state.withProperty(BlockHorizontal.FACING, face);
+		} else if(props.containsKey(BlockRotatedPillar.AXIS))
 			setState = state.withProperty(BlockRotatedPillar.AXIS, face.getAxis());
 		else if(props.containsKey(BlockLog.LOG_AXIS))
 			setState = state.withProperty(BlockLog.LOG_AXIS, BlockLog.EnumAxis.fromFacingAxis(face.getAxis()));
@@ -96,10 +98,9 @@ public class LockDirectionHotkey extends Feature {
 		}
 			
 		if(half != -1) {
-			if(block instanceof BlockStairs) {
-				setState = setState.withProperty(BlockStairs.HALF, half == 1 ? BlockStairs.EnumHalf.TOP : BlockStairs.EnumHalf.BOTTOM)
-						.withProperty(BlockHorizontal.FACING, face.getOpposite());
-			} else if(block instanceof BlockSlab)
+			if(block instanceof BlockStairs)
+				setState = setState.withProperty(BlockStairs.HALF, half == 1 ? BlockStairs.EnumHalf.TOP : BlockStairs.EnumHalf.BOTTOM);
+			else if(block instanceof BlockSlab)
 				setState = setState.withProperty(BlockSlab.HALF, half == 1 ? BlockSlab.EnumBlockHalf.TOP : BlockSlab.EnumBlockHalf.BOTTOM);
 		}
 		
