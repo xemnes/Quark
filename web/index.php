@@ -120,7 +120,7 @@
 							<hr>
 							<b>Contact and Donations</b>
 							<ul>
-								<li><a href="https://www.reddit.com/r/minecraftsuggestions">Minecraft Suggestions Subreddit</a> <i>(suggest here, tag /u/vazkii in a comment if you want it in quark)</i></li>
+								<li><a href="https://www.reddit.com/r/quarkmod">Quark Subreddit</a> <i>(suggestions should go here, make sure to read the sticky!)</i></li>
 								<li><a href="https://github.com/Vazkii/Quark/issues">Issues</a> <i>(report your bugs here)</i></li>
 								<li><a href="https://github.com/Vazkii/Quark">Source Code</a></li>
 								<li><a href="https://github.com/Vazkii/Quark/blob/master/modders.md">APIs for Modders</a></li>
