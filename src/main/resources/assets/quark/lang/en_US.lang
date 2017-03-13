@@ -445,6 +445,7 @@ quark.keybind.emote.point=Emote: Point
 quark.keybind.emote.headbang=Emote: Headbang
 quark.keybind.lockBuilding=Lock Orientation
 quark.keybind.toggleAutojump=Toggle Autojump
+quark.keybind.changeHotbar=Change Hotbar
 
 # GUI STUFF
 quark.gui.emotes=Emotes
