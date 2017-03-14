@@ -134,6 +134,7 @@ public class ChangeHotbarKeybind extends Feature {
 	}
 
 	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
 	public void onTick(ClientTickEvent event) {
 		if(event.phase == Phase.END) {
 			EntityPlayer player = Minecraft.getMinecraft().player;
@@ -160,7 +161,7 @@ public class ChangeHotbarKeybind extends Feature {
 
 	@Override
 	public boolean hasSubscriptions() {
-		return true;
+		return isClient();
 	}
 
 	@Override
