@@ -61,27 +61,20 @@ public class FlatItemFrames extends Feature {
 		World world = event.getWorld();
 		EntityPlayer player = event.getEntityPlayer();
 
-		if(event.getSide() == Side.CLIENT)
-			return;
-
-		if(!player.canPlayerEdit(blockpos, facing, itemstack))
-			return;
-
-		if(facing.getAxis() != EnumFacing.Axis.Y)
-			return;
-
-		if(itemstack.getItem() != Items.ITEM_FRAME)
+		if(!player.canPlayerEdit(blockpos, facing, itemstack) || facing.getAxis() != EnumFacing.Axis.Y || itemstack.getItem() != Items.ITEM_FRAME)
 			return;
 
 		EntityHanging entityhanging = new EntityFlatItemFrame(world, blockpos, facing);
 
 		if(entityhanging != null && entityhanging.onValidSurface()) {
-			entityhanging.playPlaceSound();
-			world.spawnEntity(entityhanging);
-			event.setCanceled(true);
+			if(!event.getWorld().isRemote) {
+				entityhanging.playPlaceSound();
+				world.spawnEntity(entityhanging);
+				event.setCanceled(true);
 
-			if (!player.capabilities.isCreativeMode)
-				itemstack.shrink(1);
+				if(!player.capabilities.isCreativeMode)
+					itemstack.shrink(1);
+			} else player.swingArm(event.getHand());
 		}
 	}
 
