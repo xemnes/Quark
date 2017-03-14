@@ -33,7 +33,7 @@ public class ModKeybinds {
 	}
 	
 	public static void initChangeHotbarKey() {
-		changeHotbarKey = init("changeHotbar", Keyboard.KEY_C);
+		changeHotbarKey = init("changeHotbar", Keyboard.KEY_X);
 	}
 	
 	public static KeyBinding init(String s, int key) {
