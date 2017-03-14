@@ -48,11 +48,6 @@ public class FlatItemFrames extends Feature {
 		RenderingRegistry.registerEntityRenderingHandler(EntityFlatItemFrame.class, RenderFlatItemFrame.FACTORY);
 	}
 	
-	@Override
-	public boolean requiresMinecraftRestartToEnable() {
-		return true;
-    }
-
 	@SubscribeEvent
 	public void onPlayerInteract(PlayerInteractEvent.RightClickBlock event) {
 		ItemStack itemstack = event.getItemStack();
@@ -81,5 +76,15 @@ public class FlatItemFrames extends Feature {
 	@Override
 	public boolean hasSubscriptions() {
 		return true;
+	}
+	
+	@Override
+	public boolean requiresMinecraftRestartToEnable() {
+		return true;
+    }
+	
+	@Override
+	public String[] getIncompatibleMods() {
+		return new String[] { "strait" };
 	}
 }
