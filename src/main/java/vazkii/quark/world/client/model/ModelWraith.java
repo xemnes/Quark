@@ -45,7 +45,36 @@ public class ModelWraith extends ModelBase {
     	GlStateManager.enableBlend();
 		GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		
-		GlStateManager.color(1F, 1F, 1F, 0.7F + (float) Math.sin(time / 20)  * 0.3F); 
+		float r = 1F;
+		float g = 1F;
+		float b = 1F;
+		float mute = 0.5F;
+		if(rng.nextInt(80) == 0)
+			switch(rng.nextInt(6)) {
+			case 0:
+				g = mute;
+				b = mute;
+				break;
+			case 1:
+				r = mute;
+				b = mute;
+				break;
+			case 2:
+				r = mute;
+				g = mute;
+				break;
+			case 3:
+				r = mute;
+				break;
+			case 4:
+				g = mute;
+				break;
+			case 5:
+				b = mute;
+				break;
+			}
+		
+		GlStateManager.color(r, g, b, 0.7F + (float) Math.sin(time / 20)  * 0.3F); 
     	
         body.render(f5);
         arml.render(f5);
