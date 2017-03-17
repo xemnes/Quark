@@ -60,7 +60,7 @@ public class ColoredBeds extends Feature {
 
 		colored_bed_item = new ItemColoredBed();
 		
-		OreDictionary.registerOre("bed", new ItemStack(colored_bed_item, OreDictionary.WILDCARD_VALUE));
+		OreDictionary.registerOre("bed", new ItemStack(colored_bed_item, 1, OreDictionary.WILDCARD_VALUE));
 		OreDictionary.registerOre("bed", Items.BED);
 		for(Block b : colored_bed_blocks)
 			OreDictionary.registerOre("blockBed", b);
