@@ -65,10 +65,14 @@ public class InventorySorting extends Feature {
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void performAction(GuiScreenEvent.ActionPerformedEvent.Pre event) {
-		if(event.getButton() instanceof GuiButtonChest && ((GuiButtonChest) event.getButton()).action == Action.SORT) {
-			NetworkHandler.INSTANCE.sendToServer(new MessageSortInventory());
-			SortingHandler.sortInventory(Minecraft.getMinecraft().player);
-			event.setCanceled(true);
+		if(event.getButton() instanceof GuiButtonChest) {
+			Action a = ((GuiButtonChest) event.getButton()).action;
+			if(a.isSortAction()) {
+				boolean forcePlayer = a == Action.SORT_PLAYER;
+				NetworkHandler.INSTANCE.sendToServer(new MessageSortInventory(forcePlayer));
+				SortingHandler.sortInventory(Minecraft.getMinecraft().player, forcePlayer);
+				event.setCanceled(true);
+			}
 		}
 	}
 	
