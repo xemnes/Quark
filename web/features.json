@@ -301,7 +301,8 @@
 				"name":"F to Switch",
 				"description":"Pressing F on an item in the inventory swaps it with your off-hand item, just as if you'd pressed F outside of the inventory. This uses the same keybind used for that purpose.",
 				"image":"f-swap.jpg",
-				"introduced":9
+				"introduced":9,
+				"overlap": ["VisibleArmorSlots"]
 			},
 			{
 				"name":"Favorite Items",
