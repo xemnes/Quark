@@ -40,9 +40,9 @@ public class ChestButtons extends Feature {
 	public void setupConfig() {
 		deposit = loadButtonInfo("deposit", "", -18, -50);
 		smartDeposit = loadButtonInfo("smart_deposit", "", -18, -30);
-		restock = loadButtonInfo("restock", "", -18, 40);
+		restock = loadButtonInfo("restock", "", -18, 35);
 		sort = loadButtonInfo("sort", "The Sort button is only available if the Inventory Sorting feature is enable", -18, -70);
-		sortPlayer = loadButtonInfo("sort_player", "The Sort button is only available if the Inventory Sorting feature is enable", -18, 20);
+		sortPlayer = loadButtonInfo("sort_player", "The Sort button is only available if the Inventory Sorting feature is enable", -18, 15);
 	}
 	
 	private ButtonInfo loadButtonInfo(String name, String comment, int xShift, int yShift) {
