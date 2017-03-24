@@ -10,19 +10,25 @@
  */
 package vazkii.quark.management.feature;
 
+import com.google.common.base.Predicate;
+
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiChest;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraftforge.client.event.GuiScreenEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.arl.network.NetworkHandler;
+import vazkii.quark.base.client.ModKeybinds;
 import vazkii.quark.base.handler.DropoffHandler;
 import vazkii.quark.base.lib.LibObfuscation;
 import vazkii.quark.base.module.Feature;
@@ -55,6 +61,12 @@ public class ChestButtons extends Feature {
 		return info;
 	}
 	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void preInitClient(FMLPreInitializationEvent event) {
+		ModKeybinds.initChestKeys();
+	}
+	
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void initGui(GuiScreenEvent.InitGuiEvent.Post event) {
@@ -81,25 +93,36 @@ public class ChestButtons extends Feature {
 
 			for(Slot s : container.inventorySlots)
 				if(s.inventory == player.inventory && s.getSlotIndex() == 9) {
-					if(restock.enabled)
-						event.getButtonList().add(new GuiButtonChest(guiInv, Action.RESTOCK, 13211, guiLeft + restock.xShift, guiTop + s.yPos + restock.yShift));
-					if(deposit.enabled)
-						event.getButtonList().add(new GuiButtonChest(guiInv, Action.DEPOSIT, 13212, guiLeft + deposit.xShift, guiTop + s.yPos + deposit.yShift));
-					if(smartDeposit.enabled)
-						event.getButtonList().add(new GuiButtonChest(guiInv, Action.SMART_DEPOSIT, 13213, guiLeft + smartDeposit.xShift, guiTop + s.yPos + smartDeposit.yShift));
+					addButtonAndKeybind(event, restock, Action.RESTOCK, guiInv, 13211, guiLeft, guiTop, s, ModKeybinds.chestRestockKey);
+					addButtonAndKeybind(event, deposit, Action.DEPOSIT, guiInv, 13212, guiLeft, guiTop, s, ModKeybinds.chestDropoffKey);
+					addButtonAndKeybind(event, smartDeposit, Action.SMART_DEPOSIT, guiInv, 13213, guiLeft, guiTop, s, ModKeybinds.chestMergeKey);
 					
 					if(ModuleLoader.isFeatureEnabled(InventorySorting.class)) {
-						if(sort.enabled)
-							event.getButtonList().add(new GuiButtonChest(guiInv, Action.SORT, 13214, guiLeft + sort.xShift, guiTop + s.yPos + sort.yShift));
-						if(sortPlayer.enabled)
-							event.getButtonList().add(new GuiButtonChest(guiInv, Action.SORT_PLAYER, 13215, guiLeft + sortPlayer.xShift, guiTop + s.yPos + sortPlayer.yShift));
+						addButtonAndKeybind(event, sort, Action.SORT, guiInv, 13214, guiLeft, guiTop, s, ModKeybinds.chestSortKey);
+						addButtonAndKeybind(event, sort, Action.SORT_PLAYER, guiInv, 13215, guiLeft, guiTop, s, ModKeybinds.playerSortKey);
 					}
 					
 					break;
 				}
 		}
 	}
+	
+	public static void addButtonAndKeybind(GuiScreenEvent.InitGuiEvent.Post event, ButtonInfo info, Action action, GuiContainer guiInv, int index, int guiLeft, int guiTop, Slot s, KeyBinding kb) {
+		if(info.enabled)
+			addButtonAndKeybind(event, action, guiInv, index, guiLeft + info.xShift, guiTop + s.yPos + info.yShift, s, kb);
+	}
 
+	public static void addButtonAndKeybind(GuiScreenEvent.InitGuiEvent.Post event, Action action, GuiContainer guiInv, int index, int x, int y, Slot s, KeyBinding kb) {
+		addButtonAndKeybind(event, action, guiInv, index, x, y, s, kb, null);
+	}
+
+	public static <T extends GuiScreen>void addButtonAndKeybind(GuiScreenEvent.InitGuiEvent.Post event, Action action, GuiContainer guiInv, int index, int x, int y, Slot s, KeyBinding kb, Predicate<T> pred) {
+		GuiButtonChest button = new GuiButtonChest(guiInv, action, index, x, y, pred);
+		event.getButtonList().add(button);
+		if(kb != null)
+			ModKeybinds.keybindButton(kb, button);
+	}
+	
 	@SuppressWarnings("incomplete-switch")
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
@@ -128,6 +151,11 @@ public class ChestButtons extends Feature {
 	@Override
 	public boolean hasSubscriptions() {
 		return isClient();
+	}
+	
+	@Override
+	public boolean requiresMinecraftRestartToEnable() {
+		return true;
 	}
 	
 	private static class ButtonInfo {
