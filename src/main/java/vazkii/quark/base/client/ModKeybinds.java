@@ -74,7 +74,6 @@ public class ModKeybinds {
 	}
 
 	public static void keybindButton(KeyBinding key, IParentedGui ipg) {
-		System.out.println("putting " + ipg + " into " + key);
 		if(key != null)
 			keyboundButtons.put(key, ipg);
 	}
