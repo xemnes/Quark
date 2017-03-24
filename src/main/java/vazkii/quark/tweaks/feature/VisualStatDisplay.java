@@ -60,9 +60,8 @@ public class VisualStatDisplay extends Feature {
 				}
 			}
 
-			if(clearedAny) {
+			if(clearedAny)
 				tooltip.add(1, "");
-			}
 		}
 	}
 
