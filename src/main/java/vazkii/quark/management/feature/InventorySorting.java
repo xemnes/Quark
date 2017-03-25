@@ -48,6 +48,9 @@ public class InventorySorting extends Feature {
 			GuiContainerCreative creativeInv = null;
 			if(guiInv instanceof GuiContainerCreative)
 				creativeInv = (GuiContainerCreative) guiInv;
+			
+			if(creativeInv == null && Minecraft.getMinecraft().player.capabilities.isCreativeMode)
+				return;
 
 			int guiLeft = (guiInv.width - 176) / 2;
 			int guiTop = (guiInv.height - 166) / 2;
