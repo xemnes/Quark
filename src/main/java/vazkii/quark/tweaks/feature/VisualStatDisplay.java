@@ -27,12 +27,15 @@ import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.client.event.RenderTooltipEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.management.client.gui.GuiButtonChest;
 
 public class VisualStatDisplay extends Feature {
 
 	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
 	public void makeTooltip(ItemTooltipEvent event) {
 		ItemStack stack = event.getItemStack();
 
@@ -66,6 +69,7 @@ public class VisualStatDisplay extends Feature {
 	}
 
 	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
 	public void renderTooltip(RenderTooltipEvent.PostText event) {
 		ItemStack stack = event.getStack();
 		if(!GuiScreen.isShiftKeyDown() && stack != null && isAttributeStrippable(stack)) {

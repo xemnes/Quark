@@ -107,15 +107,18 @@ public class ChestButtons extends Feature {
 		}
 	}
 	
+	@SideOnly(Side.CLIENT)
 	public static void addButtonAndKeybind(GuiScreenEvent.InitGuiEvent.Post event, ButtonInfo info, Action action, GuiContainer guiInv, int index, int guiLeft, int guiTop, Slot s, KeyBinding kb) {
 		if(info.enabled)
 			addButtonAndKeybind(event, action, guiInv, index, guiLeft + info.xShift, guiTop + s.yPos + info.yShift, s, kb);
 	}
 
+	@SideOnly(Side.CLIENT)
 	public static void addButtonAndKeybind(GuiScreenEvent.InitGuiEvent.Post event, Action action, GuiContainer guiInv, int index, int x, int y, Slot s, KeyBinding kb) {
 		addButtonAndKeybind(event, action, guiInv, index, x, y, s, kb, null);
 	}
 
+	@SideOnly(Side.CLIENT)
 	public static <T extends GuiScreen>void addButtonAndKeybind(GuiScreenEvent.InitGuiEvent.Post event, Action action, GuiContainer guiInv, int index, int x, int y, Slot s, KeyBinding kb, Predicate<T> pred) {
 		GuiButtonChest button = new GuiButtonChest(guiInv, action, index, x, y, pred);
 		event.getButtonList().add(button);
