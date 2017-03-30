@@ -109,12 +109,14 @@ public class FavoriteItems extends Feature {
 //	}
 
 	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
 	public void makeTooltip(ItemTooltipEvent event) {
 		if(isItemFavorited(event.getItemStack()))
 			event.getToolTip().set(0, "   " + event.getToolTip().get(0));
 	}
 
 	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
 	public void renderTooltip(RenderTooltipEvent.PostText event) {
 		ItemStack stack = event.getStack();
 		if(isItemFavorited(event.getStack())) {
