@@ -138,6 +138,11 @@ public class VariedChests extends Feature {
 				"I I", "ICI", " I ",
 				'I', Items.IRON_INGOT,
 				'C', "chestWood");
+		
+		RecipeHandler.addOreDictRecipe(new ItemStack(Blocks.PURPLE_SHULKER_BOX), 
+				"S", "C", "S",
+				'S', new ItemStack(Items.SHULKER_SHELL),
+				'C', "chest");
 	}
 	
 	@Override
