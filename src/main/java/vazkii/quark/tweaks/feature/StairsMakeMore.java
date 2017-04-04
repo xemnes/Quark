@@ -17,6 +17,7 @@ import java.util.Map;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockStairs;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -31,7 +32,7 @@ import vazkii.quark.base.module.Feature;
 
 public class StairsMakeMore extends Feature {
 
-	public static Map<Block, ItemStack> stairs = new HashMap();
+	public static Map<IBlockState, ItemStack> stairs = new HashMap();
 	
 	int targetSize;
 	int originalSize;
@@ -97,7 +98,7 @@ public class StairsMakeMore extends Feature {
 							ItemStack in = output.copy();
 							if(in.getItem() instanceof ItemBlock && outCopy.getItem() instanceof ItemBlock) {
 								Block block = Block.getBlockFromItem(outCopy.getItem());
-								stairs.put(block, in);
+								stairs.put(block.getStateFromMeta(outCopy.getItemDamage()), in);
 							}
 							
 							RecipeHandler.addShapelessOreDictRecipe(outCopy, in, in, in, in);
@@ -111,11 +112,11 @@ public class StairsMakeMore extends Feature {
 	@Override
 	public void finalInit(FMLPostInitializationEvent event) {
 		if(enableSlabToStair && !stairs.isEmpty() && !SlabsToBlocks.slabs.isEmpty())
-			for(Block b : stairs.keySet()) 				
-				if(SlabsToBlocks.slabs.containsKey(b)) {
-					ItemStack stair = stairs.get(b);
+			for(IBlockState state : stairs.keySet()) 			
+				if(SlabsToBlocks.slabs.containsKey(state)) {
+					ItemStack stair = stairs.get(state);
 					ItemStack actualStair = new ItemStack(stair.getItem(), stair.getCount() / 2, stair.getItemDamage());
-					ItemStack slab = SlabsToBlocks.slabs.get(b);
+					ItemStack slab = SlabsToBlocks.slabs.get(state);
 					
 					RecipeHandler.addOreDictRecipe(actualStair, 
 							"S  ", "SS ", "SSS",

@@ -17,6 +17,7 @@ import java.util.Map;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSlab;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -31,7 +32,7 @@ import vazkii.quark.base.module.Feature;
 
 public class SlabsToBlocks extends Feature {
 
-	public static Map<Block, ItemStack> slabs = new HashMap();
+	public static Map<IBlockState, ItemStack> slabs = new HashMap();
 	
 	int originalSize;
 
@@ -88,7 +89,7 @@ public class SlabsToBlocks extends Feature {
 							ItemStack in = output.copy();
 							if(in.getItem() instanceof ItemBlock && outCopy.getItem() instanceof ItemBlock) {
 								Block block = Block.getBlockFromItem(outCopy.getItem());
-								slabs.put(block, in);
+								slabs.put(block.getStateFromMeta(outCopy.getItemDamage()), in);
 							}
 							
 							RecipeHandler.addShapelessOreDictRecipe(outCopy, in, in);
