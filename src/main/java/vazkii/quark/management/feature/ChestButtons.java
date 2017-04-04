@@ -10,6 +10,11 @@
  */
 package vazkii.quark.management.feature;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.logging.log4j.Level;
+
 import com.google.common.base.Predicate;
 
 import net.minecraft.client.Minecraft;
@@ -22,11 +27,13 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraftforge.client.event.GuiScreenEvent;
+import net.minecraftforge.fml.common.FMLLog;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import scala.actors.threadpool.Arrays;
 import vazkii.arl.network.NetworkHandler;
 import vazkii.quark.base.client.ModKeybinds;
 import vazkii.quark.base.handler.DropoffHandler;
@@ -42,6 +49,9 @@ public class ChestButtons extends Feature {
 
 	ButtonInfo deposit, smartDeposit, restock, sort, sortPlayer;
 	
+	boolean debugClassnames;
+	List<String> classnames;
+	
 	@Override
 	public void setupConfig() {
 		deposit = loadButtonInfo("deposit", "", -18, -50);
@@ -49,6 +59,10 @@ public class ChestButtons extends Feature {
 		restock = loadButtonInfo("restock", "", -18, 35);
 		sort = loadButtonInfo("sort", "The Sort button is only available if the Inventory Sorting feature is enable", -18, -70);
 		sortPlayer = loadButtonInfo("sort_player", "The Sort button is only available if the Inventory Sorting feature is enable", -18, 15);
+		
+		debugClassnames = loadPropBool("Debug Classnames", "Set this to true to print out the names of all GUIs you open to the log. This is used to fill in the \"Forced GUIs\" list.", false);
+		String[] classnamesArr = loadPropStringList("Forced GUIs", "GUIs in which the chest buttons should be forced to show up. Use the \"Debug Classnames\" option to find the names.", new String[0]);
+		classnames = new ArrayList(Arrays.asList(classnamesArr));
 	}
 	
 	private ButtonInfo loadButtonInfo(String name, String comment, int xShift, int yShift) {
@@ -75,15 +89,19 @@ public class ChestButtons extends Feature {
 			Container container = guiInv.inventorySlots;
 			EntityPlayer player = Minecraft.getMinecraft().player;
 
-			boolean accept = guiInv instanceof GuiChest;
-
-			for(Slot s : container.inventorySlots) {
-				IInventory inv = s.inventory;
-				if(inv != null && DropoffHandler.isValidChest(player, inv)) {
-					accept = true;
-					break;
+			if(debugClassnames)
+				FMLLog.log(Level.INFO, "[Quark] Opening GUI %s", guiInv.getClass().getName());
+			
+			boolean accept = guiInv instanceof GuiChest || classnames.contains(guiInv.getClass().getName());
+			
+			if(!accept)
+				for(Slot s : container.inventorySlots) {
+					IInventory inv = s.inventory;
+					if(inv != null && DropoffHandler.isValidChest(player, inv)) {
+						accept = true;
+						break;
+					}
 				}
-			}
 
 			if(!accept)
 				return;
