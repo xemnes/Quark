@@ -48,6 +48,9 @@ public class VisualStatDisplay extends Feature {
 				if(!slotAttributes.isEmpty()) {
 					String slotDesc = I18n.translateToLocal("item.modifiers." + slot.getName());
 					int index = tooltip.indexOf(slotDesc) - 1;
+					if(index < 0)
+						continue;
+					
 					tooltip.remove(index); // Remove twice to clear the empty space
 					tooltip.remove(index);
 				}
