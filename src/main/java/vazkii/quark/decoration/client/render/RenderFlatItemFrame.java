@@ -147,7 +147,7 @@ public class RenderFlatItemFrame extends RenderItemFrame {
 					if(mapdata != null)
 						mc.entityRenderer.getMapItemRenderer().renderMap(mapdata, true);
 				} else {
-					GlStateManager.scale(0.5F, 0.5F, 0.5F);
+					transformItem();
 
 					GlStateManager.pushAttrib();
 					RenderHelper.enableStandardItemLighting();
@@ -160,6 +160,10 @@ public class RenderFlatItemFrame extends RenderItemFrame {
 			GlStateManager.enableLighting();
 			GlStateManager.popMatrix();
 		}
+	}
+	
+	protected void transformItem() {
+		GlStateManager.scale(0.5F, 0.5F, 0.5F);
 	}
 
 	@Override
