@@ -346,6 +346,22 @@ tile.quark:icy_stone_slab.name=Permafrost Slab
 tile.quark:fire_stone_stairs.name=Brimstone Stairs
 tile.quark:icy_stone_stairs.name=Permafrost Stairs
 tile.quark:iron_rod.name=Iron Rod
+tile.quark:wool_quilted_black.name=Black Quilted Wool
+tile.quark:wool_quilted_blue.name=Blue Quilted Wool
+tile.quark:wool_quilted_brown.name=Brown Quilted Wool
+tile.quark:wool_quilted_cyan.name=Cyan Quilted Wool
+tile.quark:wool_quilted_gray.name=Gray Quilted Wool
+tile.quark:wool_quilted_green.name=Green Quilted Wool
+tile.quark:wool_quilted_light_blue.name=Light Blue Quilted Wool
+tile.quark:wool_quilted_lime.name=Lime Quilted Wool
+tile.quark:wool_quilted_magenta.name=Magenta Quilted Wool
+tile.quark:wool_quilted_orange.name=Orange Quilted Wool
+tile.quark:wool_quilted_pink.name=Pink Quilted Wool
+tile.quark:wool_quilted_purple.name=Purple Quilted Wool
+tile.quark:wool_quilted_red.name=Red Quilted Wool
+tile.quark:wool_quilted_silver.name=Light Gray Quilted Wool
+tile.quark:wool_quilted_white.name=White Quilted Wool
+tile.quark:wool_quilted_yellow.name=Yellow Quilted Wool
 
 # ITEM NAMES
 item.quark:glass_shard.name=Glass Shard
