@@ -226,6 +226,7 @@ tile.quark:custom_chest_jungle_trap.name=Jungle Trapped Chest
 tile.quark:custom_chest_acacia_trap.name=Acacia Trapped Chest
 tile.quark:custom_chest_dark_oak_trap.name=Dark Oak Trapped Chest
 tile.quark:iron_plate.name=Iron Plate
+tile.quark:rusty_iron_plate.name=Rusty Iron Plate
 tile.quark:iron_plate_slab.name=Iron Plate Slab
 tile.quark:iron_plate_stairs.name=Iron Plate Stairs
 tile.quark:oak_leaf_carpet.name=Oak Leaf Carpet
