@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ModelManager;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.item.EntityItemFrame;
+import net.minecraft.item.ItemShield;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import vazkii.arl.util.ModelHandler;
@@ -33,8 +34,16 @@ public class RenderGlassItemFrame extends RenderFlatItemFrame {
 	
 	@Override
 	protected void transformItem(EntityItemFrame frame, ItemStack stack) {
-		GlStateManager.translate(0F, 0F, 0.05F);
-		GlStateManager.scale(1.5F, 1.5F, 1.5F);
+		float s = 1.5F;
+		if(stack.getItem() instanceof ItemShield) {
+			s = 4F;
+			GlStateManager.translate(-0.25F, 0F, 0.2F);
+			GlStateManager.scale(s, s, s);
+		} else {
+			GlStateManager.translate(0F, 0F, 0.05F);
+			GlStateManager.scale(s, s, s);
+		}
+		
 		super.transformItem(frame, stack);
 	}
 
