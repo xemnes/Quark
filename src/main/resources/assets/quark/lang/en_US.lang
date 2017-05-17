@@ -362,6 +362,22 @@ tile.quark:wool_quilted_red.name=Red Quilted Wool
 tile.quark:wool_quilted_silver.name=Light Gray Quilted Wool
 tile.quark:wool_quilted_white.name=White Quilted Wool
 tile.quark:wool_quilted_yellow.name=Yellow Quilted Wool
+tile.quark:colored_flowerpot_black.name=Black Flower Pot
+tile.quark:colored_flowerpot_blue.name=Blue Flower Pot
+tile.quark:colored_flowerpot_brown.name=Brown Flower Pot
+tile.quark:colored_flowerpot_cyan.name=Cyan Flower Pot
+tile.quark:colored_flowerpot_gray.name=Gray Flower Pot
+tile.quark:colored_flowerpot_green.name=Green Flower Pot
+tile.quark:colored_flowerpot_light_blue.name=Light Blue Flower Pot
+tile.quark:colored_flowerpot_lime.name=Lime Flower Pot
+tile.quark:colored_flowerpot_magenta.name=Magenta Flower Pot
+tile.quark:colored_flowerpot_orange.name=Orange Flower Pot
+tile.quark:colored_flowerpot_pink.name=Pink Flower Pot
+tile.quark:colored_flowerpot_purple.name=Purple Flower Pot
+tile.quark:colored_flowerpot_silver.name=Light Gray Flower Pot
+tile.quark:colored_flowerpot_white.name=White Flower Pot
+tile.quark:colored_flowerpot_yellow.name=Yellow Flower Pot
+tile.quark:colored_flowerpot_red.name=Red Flower Pot
 
 # ITEM NAMES
 item.quark:glass_shard.name=Glass Shard
