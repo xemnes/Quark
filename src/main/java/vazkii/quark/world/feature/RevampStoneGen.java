@@ -28,6 +28,7 @@ import vazkii.arl.block.BlockModSlab;
 import vazkii.arl.block.BlockModStairs;
 import vazkii.arl.util.RecipeHandler;
 import vazkii.quark.base.handler.BiomeTypeConfigHandler;
+import vazkii.quark.base.handler.DimensionConfig;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.building.feature.VanillaWalls;
@@ -185,6 +186,7 @@ public class RevampStoneGen extends Feature {
 		public final int clusterSize, clusterRarity, upperBound, lowerBound;
 		public final boolean clustersRarityPerChunk;
 		
+		public final DimensionConfig dims;
 		public final List<BiomeDictionary.Type> allowedBiomes;
 
 		private StoneInfo(String category, int clusterSize, int clusterRarity, int upperBound, int lowerBound, boolean enabled, BiomeDictionary.Type... biomes) {
@@ -195,6 +197,7 @@ public class RevampStoneGen extends Feature {
 			this.lowerBound = ModuleLoader.config.getInt("Y Level Min", category, lowerBound, 0, 255, "");
 			clustersRarityPerChunk = ModuleLoader.config.getBoolean("Invert Cluster Rarity", category, false, "Setting this to true will make the 'Cluster Rarity' feature be X per chunk rather than 1 per X chunks");
 			
+			dims = new DimensionConfig(category);
 			allowedBiomes = BiomeTypeConfigHandler.parseBiomeTypeArrayConfig("Allowed Biome Types", category, biomes);
 		}
 	}
