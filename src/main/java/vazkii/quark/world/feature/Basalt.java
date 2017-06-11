@@ -48,7 +48,7 @@ public class Basalt extends Feature {
 		clusterCountOverworld = loadPropInt("Overworld cluster count", "", 10);
 		enableStairsAndSlabs = loadPropBool("Enable stairs and slabs", "", true);
 		enableWalls = loadPropBool("Enable walls", "", true);
-		dims = new DimensionConfig(configCategory, false, "1");
+		dims = new DimensionConfig(configCategory, false, "-1");
 	}
 
 	@Override
