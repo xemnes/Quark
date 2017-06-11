@@ -4,6 +4,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.oredict.OreDictionary;
 import vazkii.arl.block.BlockMod;
 import vazkii.arl.block.BlockModSlab;
 import vazkii.arl.block.BlockModStairs;
@@ -34,7 +35,7 @@ public class SoulSandstone extends Feature {
 		RecipeHandler.addOreDictRecipe(new ItemStack(soul_sandstone),
 				"SS", "SS",
 				'S', new ItemStack(Blocks.SOUL_SAND));
-		RecipeHandler.addOreDictRecipe(new ItemStack(soul_sandstone, 4, 1),
+		RecipeHandler.addOreDictRecipe(new ItemStack(soul_sandstone, 4, 2),
 				"SS", "SS",
 				'S', new ItemStack(soul_sandstone, 1, 0));
 
@@ -42,9 +43,9 @@ public class SoulSandstone extends Feature {
 
 		String slabName = "_slab";
 		BlockQuarkSlab halfSlab = new BlockSoulSandstoneSlab(false);
-		BlockModSlab.initSlab(soul_sandstone, 0, halfSlab, new BlockSoulSandstoneSlab(true));
+		BlockModSlab.initSlab(soul_sandstone, OreDictionary.WILDCARD_VALUE, halfSlab, new BlockSoulSandstoneSlab(true));
 		
-		RecipeHandler.addOreDictRecipe(new ItemStack(soul_sandstone, 1, 2),
+		RecipeHandler.addOreDictRecipe(new ItemStack(soul_sandstone, 1, 1),
 				"S", "S",
 				'S', new ItemStack(halfSlab, 1, 0));
 		
