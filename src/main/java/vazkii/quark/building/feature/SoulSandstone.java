@@ -25,7 +25,7 @@ public class SoulSandstone extends Feature {
 
 	@Override
 	public void setupConfig() {
-		enableStairs = loadPropBool("Enable stairs", "", true) && GlobalConfig.enableVariants;
+		enableStairs = loadPropBool("Enable stairs", "", true);
 		enableWalls = loadPropBool("Enable walls", "", true) && GlobalConfig.enableVariants;
 	}
 
