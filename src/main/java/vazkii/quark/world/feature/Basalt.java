@@ -23,6 +23,7 @@ import vazkii.arl.block.BlockModStairs;
 import vazkii.arl.util.RecipeHandler;
 import vazkii.quark.base.handler.DimensionConfig;
 import vazkii.quark.base.module.Feature;
+import vazkii.quark.base.module.GlobalConfig;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.building.feature.VanillaWalls;
 import vazkii.quark.world.block.BlockBasalt;
@@ -46,8 +47,8 @@ public class Basalt extends Feature {
 		clusterSizeOverworld = loadPropInt("Overworld cluster size", "", 33);
 		clusterCountNether = loadPropInt("Nether cluster count", "", 1);
 		clusterCountOverworld = loadPropInt("Overworld cluster count", "", 10);
-		enableStairsAndSlabs = loadPropBool("Enable stairs and slabs", "", true);
-		enableWalls = loadPropBool("Enable walls", "", true);
+		enableStairsAndSlabs = loadPropBool("Enable stairs and slabs", "", true) && GlobalConfig.enableVariants;
+		enableWalls = loadPropBool("Enable walls", "", true) && GlobalConfig.enableVariants;
 		dims = new DimensionConfig(configCategory, false, "-1");
 	}
 

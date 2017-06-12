@@ -18,6 +18,7 @@ import vazkii.arl.block.BlockModSlab;
 import vazkii.arl.block.BlockModStairs;
 import vazkii.arl.util.RecipeHandler;
 import vazkii.quark.base.module.Feature;
+import vazkii.quark.base.module.GlobalConfig;
 import vazkii.quark.building.block.BlockBark;
 import vazkii.quark.building.block.slab.BlockBarkSlab;
 import vazkii.quark.building.block.stairs.BlockBarkStairs;
@@ -30,8 +31,8 @@ public class BarkBlocks extends Feature {
 
 	@Override
 	public void setupConfig() {
-		enableWalls = loadPropBool("Enable walls", "", true);
-		enableStairsAndSlabs = loadPropBool("Enable stairs and slabs", "", true);
+		enableWalls = loadPropBool("Enable walls", "", true) && GlobalConfig.enableVariants;
+		enableStairsAndSlabs = loadPropBool("Enable stairs and slabs", "", true) && GlobalConfig.enableVariants;
 	}
 
 	@Override

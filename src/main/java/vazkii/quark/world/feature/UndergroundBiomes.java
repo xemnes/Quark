@@ -26,6 +26,7 @@ import vazkii.arl.util.RecipeHandler;
 import vazkii.quark.base.handler.BiomeTypeConfigHandler;
 import vazkii.quark.base.handler.DimensionConfig;
 import vazkii.quark.base.module.Feature;
+import vazkii.quark.base.module.GlobalConfig;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.world.block.BlockBiomeCobblestone;
 import vazkii.quark.world.block.BlockGlowcelium;
@@ -67,7 +68,7 @@ public class UndergroundBiomes extends Feature {
 		firestoneEnabled = loadPropBool("Enable Firestone", "", true);
 		icystoneEnabled = loadPropBool("Enable Froststone", "", true);
 		glowceliumEnabled = loadPropBool("Enable Glowcelium and Glowshrooms", "", true);
-		enableStairsAndSlabs = loadPropBool("Enable stairs and slabs", "", true);
+		enableStairsAndSlabs = loadPropBool("Enable stairs and slabs", "", true)  && GlobalConfig.enableVariants;
 		
 		glowshroomGrowthRate = loadPropInt("Glowshroom Growth Rate", "The smaller, the faster glowshrooms will spread. Vanilla mushroom speed is 25.", 30);
 		

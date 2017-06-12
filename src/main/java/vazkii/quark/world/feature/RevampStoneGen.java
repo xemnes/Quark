@@ -1,20 +1,14 @@
 package vazkii.quark.world.feature;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
-
-import org.apache.commons.lang3.text.WordUtils;
 
 import net.minecraft.block.BlockStone;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
@@ -30,6 +24,7 @@ import vazkii.arl.util.RecipeHandler;
 import vazkii.quark.base.handler.BiomeTypeConfigHandler;
 import vazkii.quark.base.handler.DimensionConfig;
 import vazkii.quark.base.module.Feature;
+import vazkii.quark.base.module.GlobalConfig;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.building.feature.VanillaWalls;
 import vazkii.quark.world.block.BlockLimestone;
@@ -58,8 +53,8 @@ public class RevampStoneGen extends Feature {
 
 	@Override
 	public void setupConfig() {
-		enableStairsAndSlabs = loadPropBool("Enable stairs and slabs", "", true);
-		enableWalls = loadPropBool("Enable walls", "", true);
+		enableStairsAndSlabs = loadPropBool("Enable stairs and slabs", "", true) && GlobalConfig.enableVariants;
+		enableWalls = loadPropBool("Enable walls", "", true) && GlobalConfig.enableVariants;
 		enableMarble = loadPropBool("Enable Marble", "", true);
 		enableLimestone = loadPropBool("Enable Limestone", "", true);
 		generateBasedOnBiomes = loadPropBool("Generate Based on Biomes", "Note: The stone rarity values are tuned based on this being true. If you turn it off, also change the stones' rarity (around 50 is fine).", true);

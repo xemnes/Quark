@@ -11,6 +11,7 @@ import vazkii.arl.block.BlockModStairs;
 import vazkii.arl.util.RecipeHandler;
 import vazkii.quark.base.block.BlockQuarkSlab;
 import vazkii.quark.base.module.Feature;
+import vazkii.quark.base.module.GlobalConfig;
 import vazkii.quark.building.block.BlockSoulSandstone;
 import vazkii.quark.building.block.slab.BlockSoulSandstoneSlab;
 import vazkii.quark.building.block.stairs.BlockSoulSandstoneStairs;
@@ -24,8 +25,8 @@ public class SoulSandstone extends Feature {
 
 	@Override
 	public void setupConfig() {
-		enableStairs = loadPropBool("Enable stairs", "", true);
-		enableWalls = loadPropBool("Enable walls", "", true);
+		enableStairs = loadPropBool("Enable stairs", "", true) && GlobalConfig.enableVariants;
+		enableWalls = loadPropBool("Enable walls", "", true) && GlobalConfig.enableVariants;
 	}
 
 	@Override
