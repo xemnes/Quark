@@ -14,6 +14,7 @@ import vazkii.quark.base.module.Module;
 import vazkii.quark.tweaks.feature.AngryCreepers;
 import vazkii.quark.tweaks.feature.ArmedArmorStands;
 import vazkii.quark.tweaks.feature.ArrowSafeMobs;
+import vazkii.quark.tweaks.feature.AutomaticRecipeUnlock;
 import vazkii.quark.tweaks.feature.BabyZombiesBurn;
 import vazkii.quark.tweaks.feature.BetterVanillaTextures;
 import vazkii.quark.tweaks.feature.ChickensShedFeathers;
@@ -92,6 +93,7 @@ public class QuarkTweaks extends Module {
 		registerFeature(new QuickArmorSwapping());
 		registerFeature(new VisualStatDisplay());
 		registerFeature(new RandomAnimalTextures());
+		registerFeature(new AutomaticRecipeUnlock());
 	}
 
 }
