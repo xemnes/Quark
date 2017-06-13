@@ -47,25 +47,27 @@ public class ClassTransformer implements IClassTransformer {
 	private static final String ASM_HOOKS = "vazkii/quark/base/asm/ASMHooks";
 
 	public static final ClassnameMap CLASS_MAPPINGS = new ClassnameMap(
-		"net/minecraft/entity/Entity", "sn",
-		"net/minecraft/item/ItemStack", "afj",
-		"net/minecraft/client/renderer/block/model/IBakedModel", "cbh",
-		"net/minecraft/entity/EntityLivingBase", "sw",
-		"net/minecraft/inventory/EntityEquipmentSlot", "ss",
-		"net/minecraft/client/renderer/entity/RenderLivingBase", "bvl",
-		"net/minecraft/client/model/ModelBase", "blv",
-		"net/minecraft/util/DamageSource", "ry",
-		"net/minecraft/entity/item/EntityBoat", "abx",
-		"net/minecraft/world/World", "ajs",
-		"net/minecraft/util/math/BlockPos", "co",
-		"net/minecraft/util/EnumFacing", "cv",
-		"net/minecraft/entity/player/EntityPlayer", "aay",
-		"net/minecraft/block/state/IBlockState", "atl",
-		"net/minecraft/client/renderer/VertexBuffer", "bpy"
+		"net/minecraft/entity/Entity", "ve",
+		"net/minecraft/item/ItemStack", "ain",
+		"net/minecraft/client/renderer/block/model/IBakedModel", "cfw",
+		"net/minecraft/entity/EntityLivingBase", "vn",
+		"net/minecraft/inventory/EntityEquipmentSlot", "vj",
+		"net/minecraft/client/renderer/entity/RenderLivingBase", "bzy",
+		"net/minecraft/client/model/ModelBase", "bqd",
+		"net/minecraft/util/DamageSource", "up",
+		"net/minecraft/entity/item/EntityBoat", "afb",
+		"net/minecraft/world/World", "ams",
+		"net/minecraft/util/math/BlockPos", "et",
+		"net/minecraft/util/EnumFacing", "fa",
+		"net/minecraft/entity/player/EntityPlayer", "aeb",
+		"net/minecraft/block/state/IBlockState", "awr",
+		"net/minecraft/client/renderer/BufferBuilder", "bui"
 	);
 
 	private static final Map<String, Transformer> transformers = new HashMap();
 
+	// TODO verify all ASM hooks and obf mappings 
+	
 	static {
 		// For Emotes
 		transformers.put("net.minecraft.client.model.ModelBiped", ClassTransformer::transformModelBiped);
@@ -119,7 +121,7 @@ public class ClassTransformer implements IClassTransformer {
 	private static byte[] transformRenderItem(byte[] basicClass) {
 		log("Transforming RenderItem");
 		MethodSignature sig1 = new MethodSignature("renderItem", "func_180454_a", "a", "(Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/renderer/block/model/IBakedModel;)V");
-		MethodSignature sig2 = new MethodSignature("renderEffect", "func_180451_a", "a", "(Lnet/minecraft/client/renderer/block/model/IBakedModel;)V");
+		MethodSignature sig2 = new MethodSignature("renderEffect", "func_191966_a", "a", "(Lnet/minecraft/client/renderer/block/model/IBakedModel;)V");
 
 		byte[] transClass = basicClass;
 
@@ -201,8 +203,8 @@ public class ClassTransformer implements IClassTransformer {
 
 	private static byte[] transformEntityBoat(byte[] basicClass) {
 		log("Transforming EntityBoat");
-		MethodSignature sig1 = new MethodSignature("attackEntityFrom", "func_76986_a", "a", "(Lnet/minecraft/util/DamageSource;F)Z");
-		MethodSignature sig2 = new MethodSignature("onUpdate", "func_70071_h_", "A_", "()V");
+		MethodSignature sig1 = new MethodSignature("attackEntityFrom", "func_70097_a", "a", "(Lnet/minecraft/util/DamageSource;F)Z"); 
+		MethodSignature sig2 = new MethodSignature("onUpdate", "func_70071_h_", "B_", "()V");
 
 		byte[] transClass = transform(basicClass, Pair.of(sig1, combine(
 				(AbstractInsnNode node) -> { // Filter
@@ -347,8 +349,8 @@ public class ClassTransformer implements IClassTransformer {
 
 	private static byte[] transformTileEntityPiston(byte[] basicClass) {
 		log("Transforming TileEntityPiston");
-		MethodSignature sig1 = new MethodSignature("clearPistonTileEntity", "func_145866_f", "i", "()V");
-		MethodSignature sig2 = new MethodSignature("update", "func_73660_a", "F_", "()V");
+		MethodSignature sig1 = new MethodSignature("clearPistonTileEntity", "func_145866_f", "j", "()V");
+		MethodSignature sig2 = new MethodSignature("update", "func_73660_a", "e", "()V");
 
 		MethodAction action = combine(
 				(AbstractInsnNode node) -> { // Filter
@@ -371,7 +373,7 @@ public class ClassTransformer implements IClassTransformer {
 	
 	private static byte[] transformTileEntityPistonRenderer(byte[] basicClass) {
 		log("Transforming TileEntityPistonRenderer");
-		MethodSignature sig = new MethodSignature("renderStateModel", "func_188186_a", "a", "(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/client/renderer/VertexBuffer;Lnet/minecraft/world/World;Z)Z");
+		MethodSignature sig = new MethodSignature("renderStateModel", "func_188186_a", "a", "(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/client/renderer/BufferBuilder;Lnet/minecraft/world/World;Z)Z");
 
 		return transform(basicClass, Pair.of(sig, combine(
 				(AbstractInsnNode node) -> { // Filter
@@ -383,7 +385,7 @@ public class ClassTransformer implements IClassTransformer {
 					for(int i = 1; i <= 4; i++)
 						newInstructions.add(new VarInsnNode(Opcodes.ALOAD, i));
 					newInstructions.add(new VarInsnNode(Opcodes.ILOAD, 5));
-					newInstructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, ASM_HOOKS, "renderPistonBlock", "(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/client/renderer/VertexBuffer;Lnet/minecraft/world/World;Z)Z"));
+					newInstructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, ASM_HOOKS, "renderPistonBlock", "(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/client/renderer/BufferBuilder;Lnet/minecraft/world/World;Z)Z"));
 					newInstructions.add(new InsnNode(Opcodes.IRETURN));
 					
 					method.instructions = newInstructions;

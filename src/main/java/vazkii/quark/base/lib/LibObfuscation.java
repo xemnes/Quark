@@ -24,7 +24,7 @@ public final class LibObfuscation {
 
 	// GuiContainer
 	public static final String[] GUI_LEFT = new String[] { "i", "field_147003_i", "guiLeft" };
-	public static final String[] GUI_TOP = new String[] { "r", "field_147009_r", "guiTop" };
+	public static final String[] GUI_TOP = new String[] { "s", "field_147009_r", "guiTop" };
 
 	// TileEntitySign
 	public static final String[] IS_EDITABLE = new String[] { "g", "field_145916_j", "isEditable" };
@@ -33,21 +33,21 @@ public final class LibObfuscation {
 	public static final String[] CHAT_SPAM_TRESHOLD_COUNT = new String[] { "i", "field_147374_l", "chatSpamThresholdCount" };
 
 	// GuiMainMenu
-	public static final String[] TITLE_PANORAMA_PATHS = new String[] { "G", "field_73978_o", "TITLE_PANORAMA_PATHS" };
+	public static final String[] TITLE_PANORAMA_PATHS = new String[] { "H", "field_73978_o", "TITLE_PANORAMA_PATHS" };
 
 	// GuardianSound
 	public static final String[] GUARDIAN = new String[] { "m", "field_174934_k", "guardian" };
 
 	// Minecraft
-	public static final String[] DEFAULT_RESOURCE_PACKS = new String[] { "aB", "field_110449_ao", "defaultResourcePacks" };
+	public static final String[] DEFAULT_RESOURCE_PACKS = new String[] { "aD", "field_110449_ao", "defaultResourcePacks" };
 
-	// VertexBuffer
+	// BufferBuilder
 	public static final String[] X_OFFSET = new String[] { "k", "field_179004_l", "xOffset" };
 	public static final String[] Y_OFFSET = new String[] { "l", "field_179005_m", "yOffset" };
 	public static final String[] Z_OFFSET = new String[] { "m", "field_179002_n", "zOffset" };
 	
 	// GuiCreateWorld
-	public static final String[] SELECTED_INDEX = new String[] { "L", "field_146331_K", "selectedIndex" };
+	public static final String[] SELECTED_INDEX = new String[] { "M", "field_146331_K", "selectedIndex" };
 	
 	// GuiScreen
 	public static final String[] BUTTON_LIST = new String[] { "n", "field_146292_n", "buttonList" };
