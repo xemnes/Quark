@@ -52,4 +52,7 @@ public final class LibObfuscation {
 	// GuiScreen
 	public static final String[] BUTTON_LIST = new String[] { "n", "field_146292_n", "buttonList" };
 	
+	// ItemTool
+	public static final String[] TOOL_MATERIAL = new String[] { "d", "field_77862_b", "toolMaterial" };
+	
 }
