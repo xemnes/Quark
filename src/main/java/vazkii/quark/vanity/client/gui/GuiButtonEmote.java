@@ -28,8 +28,8 @@ public class GuiButtonEmote extends GuiButtonTranslucent {
 	}
 
 	@Override
-	public void drawButton(Minecraft mc, int mouseX, int mouseY) {
-		super.drawButton(mc, mouseX, mouseY);
+	public void func_191745_a(Minecraft mc, int mouseX, int mouseY, float pticks) {
+		super.func_191745_a(mc, mouseX, mouseY, pticks);
 
 		if(visible) {
 			GlStateManager.pushMatrix();

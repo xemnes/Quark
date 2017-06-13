@@ -33,7 +33,6 @@ public class QuarkManagement extends Module {
 		registerFeature(new DeleteItems(), "Press Ctrl-DELETE in the inventory to delete an item");
 		registerFeature(new InventorySorting());
 		registerFeature(new BetterCraftShifting());
-//		registerFeature(new CraftingButtons()); TODO complete later
 		registerFeature(new ChangeHotbarKeybind());
 	}
 

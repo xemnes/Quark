@@ -78,11 +78,6 @@ public class FireworkCloningRecipe implements IRecipe {
 	}
 
 	@Override
-	public int getRecipeSize() {
-		return 10;
-	}
-
-	@Override
 	public ItemStack getRecipeOutput() {
 		return ItemStack.EMPTY;
 	}
@@ -112,6 +107,11 @@ public class FireworkCloningRecipe implements IRecipe {
 	
 	private boolean hasExplosions(ItemStack stack) {
 		return stack.hasTagCompound() && stack.getTagCompound().hasKey("Fireworks") && stack.getTagCompound().getCompoundTag("Fireworks").hasKey("Explosions");
+	}
+
+	@Override
+	public boolean func_194133_a(int p_194133_1_, int p_194133_2_) {
+		return false; // TODO what is this?
 	}
 	
 

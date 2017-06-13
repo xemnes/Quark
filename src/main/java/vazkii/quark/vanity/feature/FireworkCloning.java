@@ -10,9 +10,8 @@
  */
 package vazkii.quark.vanity.feature;
 
+import net.minecraft.item.crafting.CraftingManager;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.oredict.RecipeSorter;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.vanity.recipe.FireworkCloningRecipe;
 
@@ -20,8 +19,7 @@ public class FireworkCloning extends Feature {
 
 	@Override
 	public void init(FMLInitializationEvent event) {
-		GameRegistry.addRecipe(new FireworkCloningRecipe());
-		RecipeSorter.register("quark:fireworkCloning", FireworkCloningRecipe.class, RecipeSorter.Category.SHAPELESS, "");
+		CraftingManager.func_193379_a("quark:fireworkCloning", new FireworkCloningRecipe());
 	}
 
 	@Override

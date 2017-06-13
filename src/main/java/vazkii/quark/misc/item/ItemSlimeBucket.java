@@ -46,8 +46,9 @@ public class ItemSlimeBucket extends ItemMod implements IQuarkItem {
 	}
 
 	@Override
-	public void getSubItems(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> subItems) {
-		subItems.add(new ItemStack(itemIn));
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> subItems) {
+		if(func_194125_a(tab))
+			subItems.add(new ItemStack(this));
 	}
 
 	@Override

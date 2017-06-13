@@ -6,11 +6,12 @@ import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockRendererDispatcher;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
+import net.minecraft.client.renderer.vertex.VertexBuffer;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
@@ -24,7 +25,7 @@ import vazkii.quark.base.lib.LibObfuscation;
 
 public class PistonTileEntityRenderer {
 
-	public static boolean renderPistonBlock(BlockPos pos, IBlockState state, VertexBuffer buffer, World world, boolean checkSides) {
+	public static boolean renderPistonBlock(BlockPos pos, IBlockState state, BufferBuilder buffer, World world, boolean checkSides) {
 		Minecraft mc = Minecraft.getMinecraft();
 		BlockRendererDispatcher blockRenderer = mc.getBlockRendererDispatcher();
 		Block block = state.getBlock();
@@ -49,9 +50,9 @@ public class PistonTileEntityRenderer {
 					chest.adjacentChestZNeg = null;
 				}
 
-				double x = (double) ReflectionHelper.getPrivateValue(VertexBuffer.class, buffer, LibObfuscation.X_OFFSET) + pos.getX();
-				double y = (double) ReflectionHelper.getPrivateValue(VertexBuffer.class, buffer, LibObfuscation.Y_OFFSET) + pos.getY();
-				double z = (double) ReflectionHelper.getPrivateValue(VertexBuffer.class, buffer, LibObfuscation.Z_OFFSET) + pos.getZ();
+				double x = (double) ReflectionHelper.getPrivateValue(BufferBuilder.class, buffer, LibObfuscation.X_OFFSET) + pos.getX();
+				double y = (double) ReflectionHelper.getPrivateValue(BufferBuilder.class, buffer, LibObfuscation.Y_OFFSET) + pos.getY();
+				double z = (double) ReflectionHelper.getPrivateValue(BufferBuilder.class, buffer, LibObfuscation.Z_OFFSET) + pos.getZ();
 				GlStateManager.translate(x, y, z);
 
 				EnumFacing facing = null;

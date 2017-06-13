@@ -70,11 +70,6 @@ public class ElytraDyingRecipe implements IRecipe {
 	}
 
 	@Override
-	public int getRecipeSize() {
-		return 10;
-	}
-
-	@Override
 	public ItemStack getRecipeOutput() {
 		return ItemStack.EMPTY;
 	}
@@ -82,6 +77,11 @@ public class ElytraDyingRecipe implements IRecipe {
 	@Override
 	public NonNullList<ItemStack> getRemainingItems(InventoryCrafting inv) {
 		return ForgeHooks.defaultRecipeGetRemainingItems(inv);
+	}
+
+	@Override
+	public boolean func_194133_a(int p_194133_1_, int p_194133_2_) {
+		return false; // TODO what is this?
 	}
 
 }

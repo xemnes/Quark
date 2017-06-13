@@ -13,7 +13,6 @@ package vazkii.quark.decoration;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.decoration.feature.BlazeLantern;
 import vazkii.quark.decoration.feature.CharcoalBlock;
-import vazkii.quark.decoration.feature.ColoredBeds;
 import vazkii.quark.decoration.feature.ColoredFlowerPots;
 import vazkii.quark.decoration.feature.ColoredItemFrames;
 import vazkii.quark.decoration.feature.FlatItemFrames;
@@ -42,7 +41,6 @@ public class QuarkDecoration extends Module {
 		registerFeature(new CharcoalBlock());
 		registerFeature(new VariedChests());
 		registerFeature(new LeafCarpets());
-		registerFeature(new ColoredBeds());
 		registerFeature(new VariedBookshelves());
 		registerFeature(new IronLadders());
 		registerFeature(new FlatItemFrames());

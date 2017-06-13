@@ -25,6 +25,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.CraftingManager;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -46,8 +47,7 @@ public class DyableElytra extends Feature {
 
 	@Override
 	public void init(FMLInitializationEvent event) {
-		GameRegistry.addRecipe(new ElytraDyingRecipe());
-		RecipeSorter.register("quark:elytraDying", ElytraDyingRecipe.class, RecipeSorter.Category.SHAPELESS, "");
+		CraftingManager.func_193379_a("quark:elytraDying", new ElytraDyingRecipe());
 	}
 
 	@Override

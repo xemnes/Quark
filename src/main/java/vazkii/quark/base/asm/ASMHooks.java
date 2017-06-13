@@ -3,7 +3,7 @@ package vazkii.quark.base.asm;
 import java.util.List;
 
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.renderer.VertexBuffer;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.item.ItemStack;
@@ -83,7 +83,7 @@ public final class ASMHooks {
 	}
 	
 	@SideOnly(Side.CLIENT)
-	public static boolean renderPistonBlock(BlockPos pos, IBlockState state, VertexBuffer buffer, World world, boolean checkSides) {
+	public static boolean renderPistonBlock(BlockPos pos, IBlockState state, BufferBuilder buffer, World world, boolean checkSides) {
 		return PistonTileEntityRenderer.renderPistonBlock(pos, state, buffer, world, checkSides);
 	}
 	

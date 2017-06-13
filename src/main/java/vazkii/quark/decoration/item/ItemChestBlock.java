@@ -101,10 +101,11 @@ public class ItemChestBlock extends ItemModBlock implements IExtraVariantHolder 
 	}
 
 	@Override
-	public void getSubItems(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> subItems) {
-		BlockCustomChest chest = (BlockCustomChest) Block.getBlockFromItem(itemIn);
-		for(ChestType type : VariedChests.ChestType.VALID_TYPES)
-			subItems.add(chest.setCustomType(new ItemStack(itemIn, 1), type));
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> subItems) {
+		BlockCustomChest chest = (BlockCustomChest) Block.getBlockFromItem(this);
+		if(func_194125_a(tab))
+			for(ChestType type : VariedChests.ChestType.VALID_TYPES)
+				subItems.add(chest.setCustomType(new ItemStack(this, 1), type));
 	}
 
 	@Override

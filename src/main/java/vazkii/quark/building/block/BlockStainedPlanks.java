@@ -4,6 +4,7 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import vazkii.arl.block.BlockMetaVariants;
+import vazkii.arl.interf.IRecipeGrouped;
 import vazkii.quark.base.block.IQuarkBlock;
 
 public class BlockStainedPlanks extends BlockMetaVariants implements IQuarkBlock {

@@ -21,6 +21,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
@@ -64,7 +65,7 @@ public class LinkItems extends Feature {
 			treshold += 20;
 
 			if(treshold > 200 && !player.getServer().getPlayerList().canSendCommands(player.getGameProfile()))
-				handler.disconnect("disconnect.spam");
+				handler.onDisconnect(new TextComponentTranslation("disconnect.spam"));
 
 			ReflectionHelper.setPrivateValue(NetHandlerPlayServer.class, handler, treshold, LibObfuscation.CHAT_SPAM_TRESHOLD_COUNT);
 		}

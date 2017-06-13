@@ -93,7 +93,7 @@ public class EntityWraith extends EntityZombie {
 	}
 
 	@Override
-	protected SoundEvent getHurtSound() {
+	protected SoundEvent getHurtSound(DamageSource p_184601_1_) {
 		return getSoundForIndex(1);
 	}
 

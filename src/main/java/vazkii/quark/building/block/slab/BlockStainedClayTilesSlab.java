@@ -15,10 +15,13 @@ import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
+import vazkii.arl.interf.IRecipeGrouped;
 import vazkii.quark.base.block.BlockQuarkSlab;
 import vazkii.quark.building.block.BlockStainedClayTiles;
 
-public class BlockStainedClayTilesSlab extends BlockQuarkSlab {
+public class BlockStainedClayTilesSlab extends BlockQuarkSlab implements IRecipeGrouped {
 
 	public BlockStainedClayTilesSlab(BlockStainedClayTiles.Variants variant, boolean doubleSlab) {
 		super(variant.getName() + "_slab", Material.ROCK, doubleSlab);
@@ -29,8 +32,13 @@ public class BlockStainedClayTilesSlab extends BlockQuarkSlab {
 	}
 
 	@Override
-	public MapColor getMapColor(IBlockState state) {
+	public MapColor getMapColor(IBlockState state, IBlockAccess world, BlockPos pos) {
 		return MapColor.ADOBE;
+	}
+	
+	@Override
+	public String getRecipeGroup() {
+		return "stained_clay_tiles_slab";
 	}
 
 }

@@ -26,11 +26,12 @@ import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import vazkii.arl.interf.IBlockColorProvider;
+import vazkii.arl.interf.IRecipeGrouped;
 import vazkii.arl.item.ItemModBlock;
 import vazkii.quark.base.block.IQuarkBlock;
 import vazkii.quark.base.lib.LibMisc;
 
-public class BlockColoredFlowerPot extends BlockFlowerPot implements IQuarkBlock, IBlockColorProvider {
+public class BlockColoredFlowerPot extends BlockFlowerPot implements IQuarkBlock, IBlockColorProvider, IRecipeGrouped {
 
 	private final String[] variants;
 	private final String bareName;
@@ -118,6 +119,11 @@ public class BlockColoredFlowerPot extends BlockFlowerPot implements IQuarkBlock
 	@Override
 	public IBlockColor getBlockColor() {
 		return (state, world, pos, i) -> Minecraft.getMinecraft().getBlockColors().colorMultiplier(Blocks.FLOWER_POT.getDefaultState(), world, pos, i);
+	}
+	
+	@Override
+	public String getRecipeGroup() {
+		return "colored_flower_pot";
 	}
 
 }

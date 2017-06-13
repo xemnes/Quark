@@ -1,18 +1,13 @@
 package vazkii.quark.tweaks.feature;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemMap;
-import net.minecraft.item.ItemShulkerBox;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.storage.MapData;
@@ -22,7 +17,6 @@ import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import vazkii.arl.util.ItemNBTHelper;
 import vazkii.quark.base.module.Feature;
 
 public class MapTooltip extends Feature {
@@ -53,7 +47,7 @@ public class MapTooltip extends Feature {
 			GlStateManager.disableLighting();
 			mc.getTextureManager().bindTexture(RES_MAP_BACKGROUND);
 			Tessellator tessellator = Tessellator.getInstance();
-			VertexBuffer vertexbuffer = tessellator.getBuffer();
+			BufferBuilder vertexbuffer = tessellator.getBuffer();
 
 			int pad = 7;
 			float size = 135;

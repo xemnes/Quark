@@ -28,7 +28,7 @@ public class BabyZombiesBurn extends Feature {
 			EntityZombie zombie = (EntityZombie) event.getEntity();
 
 			if(zombie.getEntityWorld().isDaytime() && !zombie.getEntityWorld().isRemote && zombie.isChild()) {
-				float f = zombie.getBrightness(1.0F);
+				float f = zombie.getBrightness();
 				BlockPos blockpos = zombie.getRidingEntity() instanceof EntityBoat ? new BlockPos(zombie.posX, Math.round(zombie.posY), zombie.posZ).up() : new BlockPos(zombie.posX, Math.round(zombie.posY), zombie.posZ);
 
 				if(f > 0.5F && zombie.getEntityWorld().rand.nextFloat() * 30.0F < (f - 0.4F) * 2.0F && zombie.getEntityWorld().canSeeSky(blockpos)) {

@@ -305,7 +305,9 @@ public final class SortingHandler {
 	}
 	
 	private static int toolPowerCompare(ItemStack stack1, ItemStack stack2) {
-		return (int) (((ItemTool) stack2.getItem()).getToolMaterial().getEfficiencyOnProperMaterial() * 100 - ((ItemTool) stack1.getItem()).getToolMaterial().getEfficiencyOnProperMaterial() * 100);
+		// TODO reflect into here
+		return 0;
+//		return (int) (((ItemTool) stack2.getItem()).getToolMaterial().getEfficiencyOnProperMaterial() * 100 - ((ItemTool) stack1.getItem()).getToolMaterial().getEfficiencyOnProperMaterial() * 100);
 	}
 	
 	private static int swordPowerCompare(ItemStack stack1, ItemStack stack2) {

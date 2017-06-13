@@ -19,6 +19,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.oredict.OreDictionary;
@@ -60,11 +61,12 @@ public class VariedTrapdoors extends Feature {
 
 	@Override
 	public void init(FMLInitializationEvent event) {
-		List<IRecipe> recipeList = new ArrayList(CraftingManager.getInstance().getRecipeList());
-		for(IRecipe recipe : recipeList) {
+		List<ResourceLocation> recipeList = new ArrayList(CraftingManager.field_193380_a.getKeys());
+		for(ResourceLocation res : recipeList) {
+			IRecipe recipe = CraftingManager.field_193380_a.getObject(res);
 			ItemStack out = recipe.getRecipeOutput();
-			if(!out.isEmpty() && out.getItem() == Item.getItemFromBlock(Blocks.TRAPDOOR))
-				CraftingManager.getInstance().getRecipeList().remove(recipe);
+			if(!out.isEmpty() && out.getItem() == Item.getItemFromBlock(Blocks.TRAPDOOR));
+//				CraftingManager.getInstance().getRecipeList().remove(recipe); TODO remove recipes
 		}
 
 		RecipeHandler.addOreDictRecipe(new ItemStack(Blocks.TRAPDOOR, recipeOutput),

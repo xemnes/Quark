@@ -88,11 +88,12 @@ public class VariedChests extends Feature {
 			Blocks.TRAPPED_CHEST.setUnlocalizedName("oak_chest_trap");
 		}
 
-		List<IRecipe> recipeList = new ArrayList(CraftingManager.getInstance().getRecipeList());
-		for(IRecipe recipe : recipeList) {
+		List<ResourceLocation> recipeList = new ArrayList(CraftingManager.field_193380_a.getKeys());
+		for(ResourceLocation res : recipeList) {
+			IRecipe recipe = CraftingManager.field_193380_a.getObject(res);
 			ItemStack out = recipe.getRecipeOutput();
-			if(!out.isEmpty() && (out.getItem() == Item.getItemFromBlock(Blocks.CHEST) || out.getItem() == Item.getItemFromBlock(Blocks.TRAPPED_CHEST)))
-				CraftingManager.getInstance().getRecipeList().remove(recipe);
+			if(!out.isEmpty() && (out.getItem() == Item.getItemFromBlock(Blocks.CHEST) || out.getItem() == Item.getItemFromBlock(Blocks.TRAPPED_CHEST)));
+//				CraftingManager.getInstance().getRecipeList().remove(recipe); TODO remove recipes
 		}
 
 		RecipeHandler.addOreDictRecipe(new ItemStack(Blocks.CHEST),

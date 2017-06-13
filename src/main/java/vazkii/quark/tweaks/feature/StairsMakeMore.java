@@ -23,7 +23,10 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.ShapedRecipes;
+import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
@@ -49,8 +52,9 @@ public class StairsMakeMore extends Feature {
 
 	@Override
 	public void postInit(FMLPostInitializationEvent event) {
-		List<IRecipe> recipeList = new ArrayList(CraftingManager.getInstance().getRecipeList());
-		for(IRecipe recipe : recipeList) {
+		List<ResourceLocation> recipeList = new ArrayList(CraftingManager.field_193380_a.getKeys());
+		for(ResourceLocation res : recipeList) {
+			IRecipe recipe = CraftingManager.field_193380_a.getObject(res);
 			ItemStack output = recipe.getRecipeOutput();
 			if(!output.isEmpty() && output.getCount() == originalSize) {
 				Item outputItem = output.getItem();
@@ -59,10 +63,10 @@ public class StairsMakeMore extends Feature {
 					output.setCount(targetSize);
 
 					if(recipe instanceof ShapedRecipes || recipe instanceof ShapedOreRecipe) {
-						Object[] recipeItems;
+						NonNullList<Ingredient> recipeItems;
 						if(recipe instanceof ShapedRecipes)
 							recipeItems = ((ShapedRecipes) recipe).recipeItems;
-						else recipeItems = ((ShapedOreRecipe) recipe).getInput();
+						else recipeItems = ((ShapedOreRecipe) recipe).func_192400_c();
 
 						ItemStack outStack = ItemStack.EMPTY;
 						int inputItems = 0;

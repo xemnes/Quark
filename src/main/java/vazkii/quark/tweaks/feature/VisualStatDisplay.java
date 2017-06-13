@@ -164,6 +164,9 @@ public class VisualStatDisplay extends Feature {
 	}
 
 	private double getAttribute(EntityPlayer player, ItemStack stack, Multimap<String, AttributeModifier> map, String key) {
+		if(player == null) // apparently this can happen
+			return 0;
+		
 		Collection<AttributeModifier> collection = map.get(key);
 		if(collection.isEmpty())
 			return 0;

@@ -52,7 +52,7 @@ public class GuiButtonChest<T extends GuiScreen> extends GuiButton implements IP
 	}
 
 	@Override
-	public void drawButton(Minecraft par1Minecraft, int par2, int par3) {
+	public void func_191745_a(Minecraft par1Minecraft, int par2, int par3, float pticks) {
 		if(enabledPredicate != null)
 			enabled = enabledPredicate.apply(parent);
 
