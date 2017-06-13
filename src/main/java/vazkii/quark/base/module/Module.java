@@ -127,6 +127,10 @@ public class Module {
 	public void preInit(FMLPreInitializationEvent event) {
 		forEachEnabled(feature -> feature.preInit(event));
 	}
+	
+	public void postPreInit(FMLPreInitializationEvent event) {
+		forEachEnabled(feature -> feature.postPreInit(event));
+	}
 
 	public void init(FMLInitializationEvent event) {
 		forEachEnabled(feature -> feature.init(event));

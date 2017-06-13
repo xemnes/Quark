@@ -40,7 +40,7 @@ public class VerticalWoodPlanks extends Feature {
 	}
 
 	@Override
-	public void init(FMLInitializationEvent event) {
+	public void postPreInit(FMLPreInitializationEvent event) {		
 		if(ModuleLoader.isFeatureEnabled(StainedPlanks.class))
 			for(int i = 0; i < 16; i++) {
 				RecipeHandler.addOreDictRecipe(new ItemStack(vertical_stained_planks, 3, i),

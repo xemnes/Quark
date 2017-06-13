@@ -57,8 +57,7 @@ public class ColorRunes extends Feature {
 	}
 
 	@Override
-	public void preInit(FMLPreInitializationEvent event) {
-		rune = new ItemRune();
+	public void postPreInit(FMLPreInitializationEvent event) {		rune = new ItemRune();
 		
 		if(enableRainbowRuneCrafting) {
 			RecipeHandler.addOreDictRecipe(new ItemStack(rune, 7, 16), 

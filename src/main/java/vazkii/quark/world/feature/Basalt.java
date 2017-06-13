@@ -13,7 +13,6 @@ package vazkii.quark.world.feature;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
@@ -73,8 +72,8 @@ public class Basalt extends Feature {
 	}
 
 	@Override
-	public void init(FMLInitializationEvent event) {
-		ItemStack blackItem = new ItemStack(Items.COAL);
+	public void postPreInit(FMLPreInitializationEvent event) {
+		ItemStack blackItem = new ItemStack(Items.COAL); 
 		if(ModuleLoader.isFeatureEnabled(Biotite.class))
 			blackItem = new ItemStack(Biotite.biotite);
 

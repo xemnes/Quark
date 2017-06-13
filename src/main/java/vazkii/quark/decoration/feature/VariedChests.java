@@ -85,7 +85,7 @@ public class VariedChests extends Feature {
 	}
 
 	@Override
-	public void init(FMLInitializationEvent event) {
+	public void postPreInit(FMLPreInitializationEvent event) {		
 		if(renameVanillaChests) {
 			Blocks.CHEST.setUnlocalizedName("oak_chest");
 			Blocks.TRAPPED_CHEST.setUnlocalizedName("oak_chest_trap");

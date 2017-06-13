@@ -78,6 +78,7 @@ public final class ModuleLoader {
 		forEachModule(module -> FMLLog.info("[Quark] Module " + module.name + " is " + (module.enabled ? "enabled" : "disabled")));
 
 		forEachEnabled(module -> module.preInit(event));
+		forEachEnabled(module -> module.postPreInit(event));
 	}
 
 	public static void init(FMLInitializationEvent event) {

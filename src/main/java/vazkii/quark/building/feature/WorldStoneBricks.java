@@ -75,7 +75,7 @@ public class WorldStoneBricks extends Feature {
 	}
 
 	@Override
-	public void init(FMLInitializationEvent event) {
+	public void postPreInit(FMLPreInitializationEvent event) {		
 		for(int i = 0; i < 3; i++)
 			RecipeHandler.addOreDictRecipe(new ItemStack(world_stone_bricks, 4, i),
 					"SS", "SS",

@@ -36,7 +36,7 @@ public class EnderWatcher extends Feature {
 	}
 
 	@Override
-	public void init(FMLInitializationEvent event) {
+	public void postPreInit(FMLPreInitializationEvent event) {		
 		RecipeHandler.addOreDictRecipe(new ItemStack(ender_watcher),
 				"BRB", "RER", "BRB",
 				'R', new ItemStack(Items.REDSTONE),

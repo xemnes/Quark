@@ -63,7 +63,7 @@ public class VariedTrapdoors extends Feature {
 	}
 
 	@Override
-	public void init(FMLInitializationEvent event) {
+	public void postPreInit(FMLPreInitializationEvent event) {		
 		List<ResourceLocation> recipeList = new ArrayList(CraftingManager.field_193380_a.getKeys());
 		for(ResourceLocation res : recipeList) {
 			IRecipe recipe = CraftingManager.field_193380_a.getObject(res);

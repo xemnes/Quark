@@ -15,6 +15,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.oredict.OreDictionary;
 import vazkii.arl.util.RecipeHandler;
 import vazkii.quark.base.module.Feature;
@@ -22,20 +23,18 @@ import vazkii.quark.world.feature.RevampStoneGen;
 
 public class ImprovedStoneToolCrafting extends Feature {
 
+	String mat = "materialStoneTool";
+	
 	@Override
-	public void init(FMLInitializationEvent event) {
-		String mat = "stoneToolMaterial";
+	public void preInit(FMLPreInitializationEvent event) {
+		super.preInit(event);
+		
 		OreDictionary.registerOre(mat, new ItemStack(Items.FLINT));
 		OreDictionary.registerOre(mat, new ItemStack(Blocks.STONE));
 		OreDictionary.registerOre(mat, new ItemStack(Blocks.STONE, 1, 1));
 		OreDictionary.registerOre(mat, new ItemStack(Blocks.STONE, 1, 3));
 		OreDictionary.registerOre(mat, new ItemStack(Blocks.STONE, 1, 5));
 		OreDictionary.registerOre(mat, new ItemStack(Blocks.COBBLESTONE));
-		
-		if(RevampStoneGen.enableLimestone)
-			OreDictionary.registerOre(mat, new ItemStack(RevampStoneGen.limestone));
-		if(RevampStoneGen.enableMarble)
-			OreDictionary.registerOre(mat, new ItemStack(RevampStoneGen.marble));
 		
 		String[][] patterns = new String[][] {{"XXX", " # ", " # "}, {"X", "#", "#"}, {"XX", "X#", " #"}, {"XX", " #", " #"}, {"X", "X", "#"}};
 		Item[] items = new Item[] { Items.STONE_PICKAXE, Items.STONE_SHOVEL, Items.STONE_AXE, Items.STONE_HOE, Items.STONE_SWORD };
@@ -45,6 +44,14 @@ public class ImprovedStoneToolCrafting extends Feature {
 					patterns[i][0], patterns[i][1], patterns[i][2],
 					'X', mat,
 					'#', new ItemStack(Items.STICK));
+	}
+	
+	@Override
+	public void init(FMLInitializationEvent event) {
+		if(RevampStoneGen.enableLimestone)
+			OreDictionary.registerOre(mat, new ItemStack(RevampStoneGen.limestone));
+		if(RevampStoneGen.enableMarble)
+			OreDictionary.registerOre(mat, new ItemStack(RevampStoneGen.marble));
 	}
 
 	@Override

@@ -56,6 +56,10 @@ public class Feature {
 	public void preInit(FMLPreInitializationEvent event) {
 		// NO-OP
 	}
+	
+	public void postPreInit(FMLPreInitializationEvent event) {
+		// NO-OP
+	}
 
 	public void init(FMLInitializationEvent event) {
 		// NO-OP
