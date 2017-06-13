@@ -23,6 +23,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.item.crafting.ShapedRecipes;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -92,8 +95,15 @@ public class VariedChests extends Feature {
 		for(ResourceLocation res : recipeList) {
 			IRecipe recipe = CraftingManager.field_193380_a.getObject(res);
 			ItemStack out = recipe.getRecipeOutput();
-			if(!out.isEmpty() && (out.getItem() == Item.getItemFromBlock(Blocks.CHEST) || out.getItem() == Item.getItemFromBlock(Blocks.TRAPPED_CHEST)));
-//				CraftingManager.getInstance().getRecipeList().remove(recipe); TODO remove recipes
+			if(recipe instanceof ShapedRecipes && !out.isEmpty() && (out.getItem() == Item.getItemFromBlock(Blocks.CHEST) || out.getItem() == Item.getItemFromBlock(Blocks.TRAPPED_CHEST))) {
+				ShapedRecipes shaped = (ShapedRecipes) recipe;
+				NonNullList<Ingredient> ingredients = shaped.recipeItems;
+				for(int i = 0; i < ingredients.size(); i++) {
+					Ingredient ingr = ingredients.get(i);
+					if(ingr.apply(new ItemStack(Blocks.PLANKS)))
+						ingredients.set(i, Ingredient.func_193369_a(new ItemStack(Blocks.PLANKS, 1, 0)));
+				}
+			}
 		}
 
 		RecipeHandler.addOreDictRecipe(new ItemStack(Blocks.CHEST),
