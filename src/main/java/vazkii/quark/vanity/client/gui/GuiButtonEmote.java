@@ -23,7 +23,7 @@ public class GuiButtonEmote extends GuiButtonTranslucent {
 	public final EmoteDescriptor desc;
 
 	public GuiButtonEmote(int buttonId, int x, int y, EmoteDescriptor desc) {
-		super(buttonId, x, y, 100, 18, I18n.format("quark.emote." + desc.getUnlocalizedName()));
+		super(buttonId, x, y, 100, 18, I18n.format(desc.getUnlocalizedName()));
 		this.desc = desc;
 	}
 

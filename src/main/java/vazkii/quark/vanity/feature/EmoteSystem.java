@@ -170,15 +170,13 @@ public class EmoteSystem extends Feature {
 					transparency = (emote.totalTime - emote.timeDone) / tween;
 
 				GlStateManager.pushMatrix();
+				GlStateManager.disableLighting();
 				GlStateManager.enableBlend();
 				GlStateManager.disableAlpha();
 
 				GlStateManager.color(1F, 1F, 1F, transparency);
 				mc.getTextureManager().bindTexture(resource);
 				GuiScreen.drawModalRectWithCustomSizedTexture(x, y, 0, 0, 32, 32, 32, 32);
-				GlStateManager.color(0F, 0F, 0F);
-				mc.getRenderManager().renderEntityStatic(mc.player, 0, true);
-				
 				GlStateManager.enableBlend();
 
 				String name = I18n.format(emote.desc.getUnlocalizedName());
