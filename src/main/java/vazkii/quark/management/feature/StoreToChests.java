@@ -81,6 +81,8 @@ public class StoreToChests extends Feature {
 			if(creativeInv == null && Minecraft.getMinecraft().player.capabilities.isCreativeMode)
 				return;
 			
+			ChestButtons.chestButtons.clear();
+
 			int guiLeft = (guiInv.width - 176) / 2;
 			int guiTop = (guiInv.height - 166) / 2;
 

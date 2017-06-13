@@ -18,9 +18,11 @@ import org.apache.logging.log4j.Level;
 import com.google.common.base.Predicate;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiChest;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.gui.inventory.GuiShulkerBox;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
@@ -31,6 +33,7 @@ import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.fml.common.FMLLog;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -53,6 +56,8 @@ public class ChestButtons extends Feature {
 	
 	boolean debugClassnames;
 	List<String> classnames;
+	
+	static List<GuiButtonChest> chestButtons = new ArrayList();
 	
 	@Override
 	public void setupConfig() {
@@ -108,6 +113,8 @@ public class ChestButtons extends Feature {
 			if(!accept)
 				return;
 
+			chestButtons.clear();
+			
 			int guiLeft = ReflectionHelper.getPrivateValue(GuiContainer.class, guiInv, LibObfuscation.GUI_LEFT);
 			int guiTop = ReflectionHelper.getPrivateValue(GuiContainer.class, guiInv, LibObfuscation.GUI_TOP);
 
@@ -140,11 +147,15 @@ public class ChestButtons extends Feature {
 
 	@SideOnly(Side.CLIENT)
 	public static <T extends GuiScreen>void addButtonAndKeybind(GuiScreenEvent.InitGuiEvent.Post event, Action action, GuiContainer guiInv, int index, int x, int y, Slot s, KeyBinding kb, Predicate<T> pred) {
+		int left = guiInv.getGuiLeft();
+		int top = guiInv.getGuiTop();
+		
 		GuiButtonChest button;
 		if(guiInv instanceof GuiShulkerBox)
 			button = new GuiButtonShulker((GuiShulkerBox) guiInv, action, index, x, y);
-		else button = new GuiButtonChest(guiInv, action, index, x, y, pred);
+		else button = new GuiButtonChest(guiInv, action, index, x, y, left, top, pred);
 		
+		chestButtons.add(button);
 		event.getButtonList().add(button);
 		if(kb != null)
 			ModKeybinds.keybindButton(kb, button);
@@ -171,6 +182,19 @@ public class ChestButtons extends Feature {
 				NetworkHandler.INSTANCE.sendToServer(new MessageRestock());
 				event.setCanceled(true);
 				break;
+			}
+		}
+	}
+	
+	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
+	public void update(ClientTickEvent event) {
+		GuiScreen gui = Minecraft.getMinecraft().currentScreen;
+		if(gui instanceof GuiInventory) {
+			GuiInventory inv = (GuiInventory) gui;
+			for(GuiButtonChest b : chestButtons) {
+				b.xPosition = inv.getGuiLeft() + b.shiftX;
+				b.yPosition = inv.getGuiTop() + b.shiftY;
 			}
 		}
 	}

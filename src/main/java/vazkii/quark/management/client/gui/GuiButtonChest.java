@@ -37,17 +37,21 @@ public class GuiButtonChest<T extends GuiScreen> extends GuiButton implements IP
 	public static ResourceLocation GENERAL_ICONS_RESOURCE = new ResourceLocation("quark", "textures/misc/general_icons.png");
 	public final Action action;
 	public final T parent;
-
+	
+	public final int shiftX, shiftY;
+	
 	Predicate<T> enabledPredicate = null;
 
-	public GuiButtonChest(T parent, Action action, int id, int par2, int par3) {
+	public GuiButtonChest(T parent, Action action, int id, int par2, int par3, int left, int top) {
 		super(id, par2, par3, 16, 16, "");
 		this.action = action;
 		this.parent = parent;
+		this.shiftX = par2 - left;
+		this.shiftY = par3 - top;
 	}
 
-	public GuiButtonChest(T parent, Action action, int id, int par2, int par3, Predicate<T> enabledPredicate) {
-		this(parent, action, id, par2, par3);
+	public GuiButtonChest(T parent, Action action, int id, int par2, int par3, int left, int top, Predicate<T> enabledPredicate) {
+		this(parent, action, id, par2, par3, left, top);
 		this.enabledPredicate = enabledPredicate;
 	}
 
