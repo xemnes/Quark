@@ -19,6 +19,7 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
+import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemArrow;
 import net.minecraft.item.ItemAxe;
@@ -36,8 +37,10 @@ import net.minecraft.item.ItemTool;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.potion.PotionUtils;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
+import vazkii.quark.base.lib.LibObfuscation;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.management.feature.InventorySorting;
 
@@ -305,9 +308,9 @@ public final class SortingHandler {
 	}
 	
 	private static int toolPowerCompare(ItemStack stack1, ItemStack stack2) {
-		// TODO reflect into here
-		return 0;
-//		return (int) (((ItemTool) stack2.getItem()).getToolMaterial().getEfficiencyOnProperMaterial() * 100 - ((ItemTool) stack1.getItem()).getToolMaterial().getEfficiencyOnProperMaterial() * 100);
+		ToolMaterial mat1 = ReflectionHelper.getPrivateValue(ItemTool.class, (ItemTool) stack1.getItem(), LibObfuscation.TOOL_MATERIAL);
+		ToolMaterial mat2 = ReflectionHelper.getPrivateValue(ItemTool.class, (ItemTool) stack2.getItem(), LibObfuscation.TOOL_MATERIAL);
+		return (int) (mat2.getEfficiencyOnProperMaterial() * 100 - mat1.getEfficiencyOnProperMaterial() * 100);
 	}
 	
 	private static int swordPowerCompare(ItemStack stack1, ItemStack stack2) {
