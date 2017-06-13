@@ -27,8 +27,6 @@ import vazkii.quark.base.network.MessageRegister;
 public class CommonProxy {
 
 	public void preInit(FMLPreInitializationEvent event) {
-		RecipeHandler.setNamespace(LibMisc.MOD_ID);
-		
 		hookResourceProxy();
 		ModuleLoader.preInit(event);
 
