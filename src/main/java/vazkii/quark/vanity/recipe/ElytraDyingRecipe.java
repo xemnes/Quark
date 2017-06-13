@@ -81,7 +81,7 @@ public class ElytraDyingRecipe implements IRecipe {
 
 	@Override
 	public boolean func_194133_a(int p_194133_1_, int p_194133_2_) {
-		return false; // TODO what is this?
+		return false;
 	}
 
 }
