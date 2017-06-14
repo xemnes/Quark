@@ -28,8 +28,10 @@ public class RandomAnimalTextures extends Feature {
 
 	private static ListMultimap<RandomTextureType, ResourceLocation> textures;
 	
-	private static final int COW_COUNT = 4;
+	private static final int COW_COUNT = 10;
 	private static final int PIG_COUNT = 4;
+	private static final int CHICKEN_COUNT = 6;
+	private static final int CHICK_COUNT = 3;
 
 	public static boolean enableCow, enablePig, enableChicken, enableChick;
 	
@@ -46,10 +48,10 @@ public class RandomAnimalTextures extends Feature {
 	public void preInitClient(FMLPreInitializationEvent event) {
 		textures = Multimaps.newListMultimap(new EnumMap(RandomTextureType.class), () -> new ArrayList());
 		
-		registerTextures(RandomTextureType.COW, 4, new ResourceLocation("textures/entity/cow/cow.png"));
-		registerTextures(RandomTextureType.PIG, 4, new ResourceLocation("textures/entity/pig/pig.png"));
-		registerTextures(RandomTextureType.CHICKEN, 4, new ResourceLocation("textures/entity/chicken.png"));
-		registerTextures(RandomTextureType.CHICK, 3, null);
+		registerTextures(RandomTextureType.COW, COW_COUNT, new ResourceLocation("textures/entity/cow/cow.png"));
+		registerTextures(RandomTextureType.PIG, PIG_COUNT, new ResourceLocation("textures/entity/pig/pig.png"));
+		registerTextures(RandomTextureType.CHICKEN, CHICKEN_COUNT, new ResourceLocation("textures/entity/chicken.png"));
+		registerTextures(RandomTextureType.CHICK, CHICK_COUNT, null);
 
 		registerOverride(EntityCow.class, RenderCowRandom.factory(), enableCow);
 		registerOverride(EntityPig.class, RenderPigRandom.factory(), enablePig);
