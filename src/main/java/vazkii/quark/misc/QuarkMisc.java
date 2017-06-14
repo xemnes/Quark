@@ -3,6 +3,7 @@ package vazkii.quark.misc;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.misc.feature.AncientTomes;
 import vazkii.quark.misc.feature.AutoJumpHotkey;
+import vazkii.quark.misc.feature.AutomaticToolRestock;
 import vazkii.quark.misc.feature.ColorRunes;
 import vazkii.quark.misc.feature.EndermitesIntoShulkers;
 import vazkii.quark.misc.feature.ExtraArrows;
@@ -30,6 +31,7 @@ public class QuarkMisc extends Module {
 		registerFeature(new NoteBlockInterface());
 		registerFeature(new SoulPowder());
 		registerFeature(new LockDirectionHotkey());
+		registerFeature(new AutomaticToolRestock());
 	}
 	
 }
