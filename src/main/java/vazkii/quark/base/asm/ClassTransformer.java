@@ -39,7 +39,11 @@ import org.objectweb.asm.util.Printer;
 import org.objectweb.asm.util.Textifier;
 import org.objectweb.asm.util.TraceMethodVisitor;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.launchwrapper.IClassTransformer;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLLog;
 
 public class ClassTransformer implements IClassTransformer {
@@ -261,8 +265,9 @@ public class ClassTransformer implements IClassTransformer {
 	private static byte[] transformBlockPistonBase(byte[] basicClass) {
 		log("Transforming BlockPistonBase");
 		MethodSignature sig1 = new MethodSignature("doMove", "func_176319_a", "a", "(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/EnumFacing;Z)Z");
-		MethodSignature sig2 = new MethodSignature("canPush", "func_185646_a", "a", "(Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/EnumFacing;Z)Z");
-
+		MethodSignature sig2 = new MethodSignature("canPush", "func_185646_a", "a", "(Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/EnumFacing;ZLnet/minecraft/util/EnumFacing;)Z");
+		
+		
 		byte[] transClass = transform(basicClass, Pair.of(sig1, combine(
 				(AbstractInsnNode node) -> { // Filter
 					return node.getOpcode() == Opcodes.ASTORE && ((VarInsnNode) node).var == 11;
@@ -432,6 +437,7 @@ public class ClassTransformer implements IClassTransformer {
 			}
 		}
 
+		log("Failed to locate the method!");
 		return false;
 	}
 
