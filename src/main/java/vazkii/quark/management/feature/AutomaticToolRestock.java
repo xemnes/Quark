@@ -1,4 +1,4 @@
-package vazkii.quark.misc.feature;
+package vazkii.quark.management.feature;
 
 import java.util.ArrayList;
 import java.util.HashSet;
