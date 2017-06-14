@@ -5,7 +5,7 @@
 	</div>
 
 	{{#features}}
-		<div id="{{anchor}}-fake" class="card feature-card">
+		<div id="{{anchor}}-fake" class="card feature-card {{#is_in_vanilla}}in-vanilla{{/is_in_vanilla}}">
 			<img class="feature-image lazyload-image" data-original="img/modules/{{module_key}}/{{image}}"></img> 
 			<div class="feature-info">
 				<div class="feature-title">{{name}}</div>
@@ -15,6 +15,12 @@
 								<i class="material-icons">favorite</i> This feature was kindly contributed to Quark by <b>{{contributor}}</b>.
 							</div>
 						{{/was_contributed}}
+
+						{{#is_in_vanilla}}
+							<div class="vanilla-info">
+								<i class="material-icons">star</i> This feature was added to vanilla, and removed from Quark, in <b>{{implement_version}}</b>.
+							</div>
+						{{/is_in_vanilla}}
 
 						{{{description}}}
 				</div>

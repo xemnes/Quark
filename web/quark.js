@@ -1,4 +1,4 @@
-const versions = [ 11, 10, 9 ];
+const versions = [ 12, 11, 10, 9 ];
 
 $(function() {
 	$('#header').css('background-image', 'url(img/backgrounds/' + Math.floor(Math.random() * 8) + '.jpg)');
@@ -27,19 +27,26 @@ function loadFeatures(obj) {
 			moduleData.module_key = module;
 
 			for(i in moduleData.features) {
-				feature = moduleData.features[i];
-				feature.id = feature.name.toLowerCase().replace(/\s/g, '-');
-				feature.has_album = feature.album != null;
-				feature.was_contributed = feature.contributor != null;
-				feature.anchor = encodeURIComponent(module + '-' + feature.id);
+				var feature = moduleData.features[i];
 
 				var versionData = [];
 				var first = feature.introduced;
+				var last = feature.added_to_vanilla;
+
+				feature.id = feature.name.toLowerCase().replace(/\s/g, '-');
+				feature.has_album = feature.album != null;
+				feature.was_contributed = feature.contributor != null;
+				feature.is_in_vanilla = last != null;
+				feature.anchor = encodeURIComponent(module + '-' + feature.id);
+
+				if(last != null)
+					feature.implement_version = "Minecraft 1." + last;
+
 				for(j in versions) {
 					var ver = versions[j];
 					versionData.push({
 						'name': '1.' + ver,
-						'enabled': (ver >= first)
+						'enabled': ((ver >= first) && (last == null || ver < last))
 					});
 				}
 
@@ -54,7 +61,7 @@ function loadFeatures(obj) {
 			$(id).html(Mustache.to_html(data, moduleData));
 		}
 
-		$('#feature-counter').html($(document).find('.feature-card').length);
+		$('#feature-counter').html($(document).find('.feature-card:not(.in-vanilla)').length);
 		$(document).find('.lazyload-image').each(function(i) {
 			$(this).lazyload({
 				event: 'openmodule',

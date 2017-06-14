@@ -211,7 +211,7 @@ a {
 	font-size: 12px;
 }
 
-.contributor-info {
+.contributor-info, .vanilla-info {
 	position: relative;
 	display: block;
 	height: 0px;
@@ -219,11 +219,16 @@ a {
 	font-size: 16px;
 }
 
-.contributor-info > .material-icons {
+.contributor-info > .material-icons, .vanilla-info > .material-icons {
 	position: relative;
 	top: 3px;
 	font-size: 20px;
 	margin-right: 5px;
+	color: #b30000;
+}
+
+.vanilla-info > .material-icons {
+	color: gold;
 }
 
 #main-image {

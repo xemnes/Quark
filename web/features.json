@@ -234,7 +234,8 @@
 				"name":"Colored Beds",
 				"description":"Beds made with different types of wool will have that wool color. If you mix wool types you'll get a white bed instead.",
 				"image":"colored-beds.jpg",
-				"introduced":10
+				"introduced":10,
+				"added_to_vanilla":12
 			},
 			{
 				"name":"Colored Item Frames",
@@ -359,6 +360,12 @@
 				"description":"Pressing the X key (rebindable) will show your entire inventory above your hotbar. You can then press 1, 2, or 3, to switch that respective inventory row with your hotbar. Pressing X again will hide the 3 additional rows with no change.",
 				"image":"hotbar-changer.jpg",
 				"introduced":11
+			},
+			{
+				"name":"Auto Tool Restock",
+				"description":"If you break a tool and have a replacement in your inventory, the replacement will be instantly moved to your hotbar, so you can continue doing what you were doing.<br><br>This also understands important enchantments, so if you were mining with a silk touch pick, it'll try to find a silk touch pick before trying anything else. It also gives priority to tools of the same material.",
+				"image":"auto-tool-restock.jpg",
+				"introduced":12
 			}
 		]
 	},
@@ -429,7 +436,7 @@
 			},
 			{
 				"name":"Better Stone Tool Crafting",
-				"description":"Stone Tools can be crafted with all stone types, as well as flint. (Only flint is available on versions older than 1.11)",
+				"description":"Stone Tools can be crafted with all stone types, as well as flint. (Only flint is available on versions prior to 1.11)",
 				"image":"flint-tools.jpg",
 				"introduced":9
 			},
@@ -599,6 +606,18 @@
 				"description":"Tool, Sword, and Armor stats are displayed with icons rather than the current text format. Holding shift shows the vanila format.",
 				"image":"visual-stats.jpg",
 				"introduced":11
+			},
+			{
+				"name":"Random Animal Textures",
+				"description":"Cows, Pigs, and Chicken will now have randomized textures from a small pool of variants. Also, baby chickens will have their own unique textures until they grow up.",
+				"image":"random-animal-textures.jpg",
+				"introduced":11
+			},
+			{
+				"name":"Automatic Recipe Unlock",
+				"description":"Every single recipe is unlocked and displayed in the recipe book as soon as you load a world.<br><br>If new recipes are added to the game via new mods added or updated, those will be unlocked when you get back in.<br><br>This feature is an exception to the general quark theme, but since you are using mods, it's fair to assume you don't need the game to dripfeed you recipes.",
+				"image":"unlock-all-recipes.jpg",
+				"introduced":12
 			}
 		]
 	},
