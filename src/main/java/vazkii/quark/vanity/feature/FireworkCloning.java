@@ -10,8 +10,9 @@
  */
 package vazkii.quark.vanity.feature;
 
-import net.minecraft.item.crafting.CraftingManager;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import vazkii.arl.util.RecipeHandler;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.vanity.recipe.FireworkCloningRecipe;
 
@@ -19,7 +20,7 @@ public class FireworkCloning extends Feature {
 
 	@Override
 	public void init(FMLInitializationEvent event) {
-		CraftingManager.func_193379_a("quark:fireworkCloning", new FireworkCloningRecipe());
+		RecipeHandler.addRecipe(new ResourceLocation("quark:fireworkCloning"), new FireworkCloningRecipe());
 	}
 
 	@Override
