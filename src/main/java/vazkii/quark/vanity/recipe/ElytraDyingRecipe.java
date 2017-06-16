@@ -10,22 +10,25 @@
  */
 package vazkii.quark.vanity.recipe;
 
+import net.minecraft.init.Items;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemElytra;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 import vazkii.arl.recipe.ModRecipe;
 import vazkii.arl.util.ItemNBTHelper;
+import vazkii.quark.misc.feature.EnderdragonScales;
 import vazkii.quark.vanity.feature.DyableElytra;
 
 public class ElytraDyingRecipe extends ModRecipe {
-
+	
 	public ElytraDyingRecipe() {
-		super(new ResourceLocation("quark", "elytraDying"));
+		super(new ResourceLocation("quark", "elytra_dying"));
 	}
 	
 	@Override
@@ -76,7 +79,7 @@ public class ElytraDyingRecipe extends ModRecipe {
 
 	@Override
 	public ItemStack getRecipeOutput() {
-		return ItemStack.EMPTY;
+		return new ItemStack(Items.ELYTRA);
 	}
 
 	@Override
@@ -86,7 +89,19 @@ public class ElytraDyingRecipe extends ModRecipe {
 
 	@Override
 	public boolean func_194133_a(int p_194133_1_, int p_194133_2_) {
-		return false;
+		return true;
+	}
+	
+	@Override
+	public NonNullList<Ingredient> func_192400_c() {
+		NonNullList<Ingredient> list = NonNullList.withSize(2, Ingredient.field_193370_a);
+		list.set(0, Ingredient.func_193369_a(new ItemStack(Items.ELYTRA)));
+		
+		ItemStack[] stacks = new ItemStack[16];
+		for(int i = 0; i < 16; i++)
+			stacks[i] = new ItemStack(Items.DYE, 1, i);
+		list.set(1, Ingredient.func_193369_a(stacks));
+		return list;
 	}
 
 }

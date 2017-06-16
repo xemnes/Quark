@@ -25,15 +25,13 @@ import net.minecraft.init.Items;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import vazkii.arl.recipe.RecipeHandler;
 import vazkii.arl.util.ItemNBTHelper;
 import vazkii.quark.base.lib.LibObfuscation;
 import vazkii.quark.base.module.Feature;
@@ -45,7 +43,7 @@ public class DyableElytra extends Feature {
 	public static final String TAG_ELYTRA_DYE = "quark:elytraDye";
 
 	@Override
-	public void init(FMLInitializationEvent event) {
+	public void preInit(FMLPreInitializationEvent event) {
 		new ElytraDyingRecipe();
 	}
 

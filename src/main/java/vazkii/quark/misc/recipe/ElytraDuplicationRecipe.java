@@ -65,7 +65,15 @@ public class ElytraDuplicationRecipe extends ModRecipe {
 
 	@Override
 	public boolean func_194133_a(int p_194133_1_, int p_194133_2_) {
-		return false;
+		return true;
+	}
+	
+	@Override
+	public NonNullList<Ingredient> func_192400_c() {
+		NonNullList<Ingredient> list = NonNullList.withSize(2, Ingredient.field_193370_a);
+		list.set(0, Ingredient.func_193369_a(new ItemStack(Items.ELYTRA)));
+		list.set(1, Ingredient.func_193369_a(new ItemStack(EnderdragonScales.enderdragonScale)));
+		return list;
 	}
 	
 }

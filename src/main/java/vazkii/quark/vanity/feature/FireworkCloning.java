@@ -10,14 +10,14 @@
  */
 package vazkii.quark.vanity.feature;
 
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.vanity.recipe.FireworkCloningRecipe;
 
 public class FireworkCloning extends Feature {
 
 	@Override
-	public void init(FMLInitializationEvent event) {
+	public void preInit(FMLPreInitializationEvent event) {
 		new FireworkCloningRecipe();
 	}
 

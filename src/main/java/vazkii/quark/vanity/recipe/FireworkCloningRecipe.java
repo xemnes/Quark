@@ -10,19 +10,22 @@
  */
 package vazkii.quark.vanity.recipe;
 
+import net.minecraft.init.Items;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemFirework;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import vazkii.arl.recipe.ModRecipe;
+import vazkii.quark.misc.feature.EnderdragonScales;
 
 public class FireworkCloningRecipe extends ModRecipe {
 	
 	public FireworkCloningRecipe() {
-		super(new ResourceLocation("quark", "fireworkCloning"));
+		super(new ResourceLocation("quark", "firework_cloning"));
 	}
 
 	@Override
@@ -84,7 +87,7 @@ public class FireworkCloningRecipe extends ModRecipe {
 
 	@Override
 	public ItemStack getRecipeOutput() {
-		return ItemStack.EMPTY;
+		return new ItemStack(Items.FIREWORKS);
 	}
 
 	@Override
@@ -116,8 +119,15 @@ public class FireworkCloningRecipe extends ModRecipe {
 
 	@Override
 	public boolean func_194133_a(int p_194133_1_, int p_194133_2_) {
-		return false;
+		return true;
 	}
 	
+	@Override
+	public NonNullList<Ingredient> func_192400_c() {
+		NonNullList<Ingredient> list = NonNullList.withSize(2, Ingredient.field_193370_a);
+		list.set(0, Ingredient.func_193369_a(new ItemStack(Items.FIREWORKS)));
+		list.set(1, Ingredient.func_193369_a(new ItemStack(Items.FIREWORKS)));
+		return list;
+	}
 
 }
