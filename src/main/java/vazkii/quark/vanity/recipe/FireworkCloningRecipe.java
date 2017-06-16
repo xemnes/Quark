@@ -13,12 +13,17 @@ package vazkii.quark.vanity.recipe;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemFirework;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import vazkii.arl.recipe.ModRecipe;
 
-public class FireworkCloningRecipe implements IRecipe {
+public class FireworkCloningRecipe extends ModRecipe {
+	
+	public FireworkCloningRecipe() {
+		super(new ResourceLocation("quark", "fireworkCloning"));
+	}
 
 	@Override
 	public boolean matches(InventoryCrafting var1, World var2) {

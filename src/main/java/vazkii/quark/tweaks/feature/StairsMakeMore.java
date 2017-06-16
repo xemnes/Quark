@@ -30,7 +30,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
-import vazkii.arl.util.RecipeHandler;
+import vazkii.arl.recipe.RecipeHandler;
 import vazkii.quark.base.module.Feature;
 
 public class StairsMakeMore extends Feature {

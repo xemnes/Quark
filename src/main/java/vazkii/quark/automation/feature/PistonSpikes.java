@@ -12,7 +12,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import vazkii.arl.util.RecipeHandler;
+import vazkii.arl.recipe.RecipeHandler;
 import vazkii.quark.automation.block.BlockIronRod;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.ModuleLoader;

@@ -29,7 +29,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.arl.block.BlockMod;
-import vazkii.arl.util.RecipeHandler;
+import vazkii.arl.recipe.RecipeHandler;
 
 public class BlockQuarkWall extends BlockMod implements IQuarkBlock {
 
@@ -142,7 +142,7 @@ public class BlockQuarkWall extends BlockMod implements IQuarkBlock {
 	}
 
 	public static void initWall(Block base, int meta, Block block) {
-		RecipeHandler.addOreDictRecipe(new ItemStack(block, 6),
+		RecipeHandler.addOreDictRecipe(new ItemStack(block, 6, meta),
 				"BBB", "BBB",
 				'B', new ItemStack(base, 1, meta));
 	}

@@ -25,8 +25,8 @@ import net.minecraftforge.event.AnvilUpdateEvent;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import vazkii.arl.recipe.RecipeHandler;
 import vazkii.arl.util.ItemNBTHelper;
-import vazkii.arl.util.RecipeHandler;
 import vazkii.quark.base.handler.ICustomEnchantColor;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.ModuleLoader;
@@ -57,7 +57,7 @@ public class ColorRunes extends Feature {
 	}
 
 	@Override
-	public void postPreInit(FMLPreInitializationEvent event) {		
+	public void preInit(FMLPreInitializationEvent event) {		
 		rune = new ItemRune();
 		
 		if(enableRainbowRuneCrafting) {

@@ -33,8 +33,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import vazkii.arl.recipe.RecipeHandler;
 import vazkii.arl.util.ItemNBTHelper;
-import vazkii.arl.util.RecipeHandler;
 import vazkii.quark.base.lib.LibObfuscation;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.vanity.client.layer.LayerBetterElytra;
@@ -46,7 +46,7 @@ public class DyableElytra extends Feature {
 
 	@Override
 	public void init(FMLInitializationEvent event) {
-		RecipeHandler.addRecipe(new ResourceLocation("quark:elytraDying"), new ElytraDyingRecipe());
+		new ElytraDyingRecipe();
 	}
 
 	@Override

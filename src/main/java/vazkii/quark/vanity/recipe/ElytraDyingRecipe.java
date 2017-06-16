@@ -14,15 +14,20 @@ import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemElytra;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
+import vazkii.arl.recipe.ModRecipe;
 import vazkii.arl.util.ItemNBTHelper;
 import vazkii.quark.vanity.feature.DyableElytra;
 
-public class ElytraDyingRecipe implements IRecipe {
+public class ElytraDyingRecipe extends ModRecipe {
 
+	public ElytraDyingRecipe() {
+		super(new ResourceLocation("quark", "elytraDying"));
+	}
+	
 	@Override
 	public boolean matches(InventoryCrafting var1, World var2) {
 		boolean foundSource = false;

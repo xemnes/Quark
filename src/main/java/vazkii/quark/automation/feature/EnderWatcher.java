@@ -16,7 +16,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import vazkii.arl.util.RecipeHandler;
+import vazkii.arl.recipe.RecipeHandler;
 import vazkii.quark.automation.block.BlockEnderWatcher;
 import vazkii.quark.automation.tile.TileEnderWatcher;
 import vazkii.quark.base.handler.ModIntegrationHandler;
