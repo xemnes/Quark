@@ -142,7 +142,7 @@ public class BlockQuarkWall extends BlockMod implements IQuarkBlock {
 	}
 
 	public static void initWall(Block base, int meta, Block block) {
-		RecipeHandler.addOreDictRecipe(new ItemStack(block, 6, meta),
+		RecipeHandler.addOreDictRecipe(new ItemStack(block, 6),
 				"BBB", "BBB",
 				'B', new ItemStack(base, 1, meta));
 	}
