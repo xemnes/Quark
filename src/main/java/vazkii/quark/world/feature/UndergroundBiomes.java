@@ -101,9 +101,9 @@ public class UndergroundBiomes extends Feature {
 				BlockModStairs.initStairs(biome_cobblestone, 1, new BlockIcyStoneStairs());
 			}
 		}
-		
-		VanillaWalls.add("icy_stone", biome_cobblestone, 0, enableWalls && icystoneEnabled);
-		VanillaWalls.add("fire_stone", biome_cobblestone, 1, enableWalls && firestoneEnabled);
+
+		VanillaWalls.add("fire_stone", biome_cobblestone, 0, enableWalls && firestoneEnabled);
+		VanillaWalls.add("icy_stone", biome_cobblestone, 1, enableWalls && icystoneEnabled);
 
 		if(glowceliumEnabled) {
 			glowcelium = new BlockGlowcelium();
