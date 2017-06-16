@@ -43,11 +43,11 @@ public class GuiButtonChest<T extends GuiScreen> extends GuiButton implements IP
 	Predicate<T> enabledPredicate = null;
 
 	public GuiButtonChest(T parent, Action action, int id, int par2, int par3, int left, int top) {
-		super(id, par2, par3, 16, 16, "");
+		super(id, par2 + left, par3 + top, 16, 16, "");
 		this.action = action;
 		this.parent = parent;
-		this.shiftX = par2 - left;
-		this.shiftY = par3 - top;
+		this.shiftX = par2;
+		this.shiftY = par3;
 	}
 
 	public GuiButtonChest(T parent, Action action, int id, int par2, int par3, int left, int top, Predicate<T> enabledPredicate) {

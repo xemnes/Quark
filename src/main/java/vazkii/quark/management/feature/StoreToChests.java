@@ -10,6 +10,9 @@
  */
 package vazkii.quark.management.feature;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -23,6 +26,7 @@ import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.arl.network.NetworkHandler;
@@ -82,20 +86,20 @@ public class StoreToChests extends Feature {
 				return;
 			
 			ChestButtons.chestButtons.clear();
-
-			int guiLeft = (guiInv.width - 176) / 2;
-			int guiTop = (guiInv.height - 166) / 2;
+			
+			int left = guiInv.getGuiLeft();
+			int top = guiInv.getGuiTop();
 
 			Container container = guiInv.inventorySlots;
 			for(Slot s : container.inventorySlots)
 				if(creativeInv != null || s instanceof SlotCrafting) {
 					if(creativeInv == null)
-						ChestButtons.addButtonAndKeybind(event, Action.DROPOFF, guiInv, 13211, guiLeft + s.xPos + xPos, guiTop + s.yPos + yPos, s, ModKeybinds.dropoffKey);
+						ChestButtons.addButtonAndKeybind(event, Action.DROPOFF, guiInv, 13211, s.xPos + xPos, s.yPos + yPos, s, ModKeybinds.dropoffKey);
 					else {
 						if(s.getSlotIndex() != 15)
 							continue;
 						
-						ChestButtons.<GuiContainerCreative>addButtonAndKeybind(event, Action.DROPOFF, guiInv, 13211, guiLeft + s.xPos + xPosC, guiTop + s.yPos + yPosC, s, ModKeybinds.dropoffKey,
+						ChestButtons.<GuiContainerCreative>addButtonAndKeybind(event, Action.DROPOFF, guiInv, 13211, s.xPos + xPosC, s.yPos + yPosC, s, ModKeybinds.dropoffKey,
 								(gui) -> gui.getSelectedTabIndex() == CreativeTabs.INVENTORY.getTabIndex());
 					}
 
@@ -111,6 +115,20 @@ public class StoreToChests extends Feature {
 			boolean smart = GuiScreen.isShiftKeyDown() != StoreToChests.invert;
 			NetworkHandler.INSTANCE.sendToServer(new MessageDropoff(smart, false));
 			event.setCanceled(true);
+		}
+	}
+	
+	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
+	public void update(ClientTickEvent event) {
+		GuiScreen gui = Minecraft.getMinecraft().currentScreen;
+		if(gui instanceof GuiInventory) {
+			GuiInventory inv = (GuiInventory) gui;
+			for(GuiButtonChest b : ChestButtons.chestButtons) {
+				boolean recipeBookOpen = Minecraft.getMinecraft().player.func_192035_E().func_192812_b();
+				b.xPosition = inv.getGuiLeft() + b.shiftX;
+				b.yPosition = inv.getGuiTop() + b.shiftY;
+			}
 		}
 	}
 

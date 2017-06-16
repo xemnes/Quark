@@ -52,19 +52,16 @@ public class InventorySorting extends Feature {
 			if(creativeInv == null && Minecraft.getMinecraft().player.capabilities.isCreativeMode)
 				return;
 
-			int guiLeft = (guiInv.width - 176) / 2;
-			int guiTop = (guiInv.height - 166) / 2;
-
 			Container container = guiInv.inventorySlots;
 			for(Slot s : container.inventorySlots)
 				if(creativeInv != null || s instanceof SlotCrafting) {
 					if(creativeInv == null)
-						ChestButtons.addButtonAndKeybind(event, Action.SORT, guiInv, 13212, guiLeft + s.xPos + xPos, guiTop + s.yPos + yPos, s, ModKeybinds.playerSortKey);
+						ChestButtons.addButtonAndKeybind(event, Action.SORT, guiInv, 13212, s.xPos + xPos, s.yPos + yPos, s, ModKeybinds.playerSortKey);
 					else {
 						if(s.getSlotIndex() != 15)
 							continue;
 
-						ChestButtons.<GuiContainerCreative>addButtonAndKeybind(event, Action.SORT, guiInv, 132112, guiLeft + s.xPos + xPosC, guiTop + s.yPos + yPosC, s, ModKeybinds.playerSortKey,
+						ChestButtons.<GuiContainerCreative>addButtonAndKeybind(event, Action.SORT, guiInv, 132112, s.xPos + xPosC, s.yPos + yPosC, s, ModKeybinds.playerSortKey,
 								(gui) -> gui.getSelectedTabIndex() == CreativeTabs.INVENTORY.getTabIndex());
 					}
 

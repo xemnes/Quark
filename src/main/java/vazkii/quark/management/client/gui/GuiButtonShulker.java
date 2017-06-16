@@ -18,8 +18,8 @@ import net.minecraft.util.math.BlockPos;
 
 public class GuiButtonShulker extends GuiButtonChest<GuiShulkerBox> {
 
-	public GuiButtonShulker(GuiShulkerBox parent, Action action, int id, int par2, int par3) {
-		super(parent, action, id, par2, par3, 0, 0);
+	public GuiButtonShulker(GuiShulkerBox parent, Action action, int id, int par2, int par3, int left, int top) {
+		super(parent, action, id, par2, par3, left, top);
 	}
 
 	@Override

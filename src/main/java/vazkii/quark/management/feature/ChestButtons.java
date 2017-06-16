@@ -137,7 +137,7 @@ public class ChestButtons extends Feature {
 	@SideOnly(Side.CLIENT)
 	public static void addButtonAndKeybind(GuiScreenEvent.InitGuiEvent.Post event, ButtonInfo info, Action action, GuiContainer guiInv, int index, int guiLeft, int guiTop, Slot s, KeyBinding kb) {
 		if(info.enabled)
-			addButtonAndKeybind(event, action, guiInv, index, guiLeft + info.xShift, guiTop + s.yPos + info.yShift, s, kb);
+			addButtonAndKeybind(event, action, guiInv, index, info.xShift, s.yPos + info.yShift, s, kb);
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -152,7 +152,7 @@ public class ChestButtons extends Feature {
 		
 		GuiButtonChest button;
 		if(guiInv instanceof GuiShulkerBox)
-			button = new GuiButtonShulker((GuiShulkerBox) guiInv, action, index, x, y);
+			button = new GuiButtonShulker((GuiShulkerBox) guiInv, action, index, x, y, left, top);
 		else button = new GuiButtonChest(guiInv, action, index, x, y, left, top, pred);
 		
 		chestButtons.add(button);
@@ -186,19 +186,6 @@ public class ChestButtons extends Feature {
 		}
 	}
 	
-	@SubscribeEvent
-	@SideOnly(Side.CLIENT)
-	public void update(ClientTickEvent event) {
-		GuiScreen gui = Minecraft.getMinecraft().currentScreen;
-		if(gui instanceof GuiInventory) {
-			GuiInventory inv = (GuiInventory) gui;
-			for(GuiButtonChest b : chestButtons) {
-				b.xPosition = inv.getGuiLeft() + b.shiftX;
-				b.yPosition = inv.getGuiTop() + b.shiftY;
-			}
-		}
-	}
-
 	@Override
 	public boolean hasSubscriptions() {
 		return isClient();
