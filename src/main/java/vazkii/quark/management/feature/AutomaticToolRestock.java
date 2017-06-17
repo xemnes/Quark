@@ -126,6 +126,11 @@ public class AutomaticToolRestock extends Feature {
 	public boolean hasSubscriptions() {
 		return true;
 	}
+	
+	@Override
+	public String[] getIncompatibleMods() {
+		return new String[] { "invtweaks" };
+	}
 
 	private String[] generateDefaultEnchantmentList() {
 		Enchantment[] enchants = new Enchantment[] {
