@@ -168,7 +168,6 @@ public class GuiNoteBlock extends GuiScreen {
 
 		GlStateManager.popMatrix();
 
-		mc.fontRendererObj.drawString(""+noteBlock.note, 0, 0, 0xFFFFFF);
 		if(hoversNoteBlock)
 			vazkii.arl.util.RenderHelper.renderTooltip(mouseX, mouseY, Arrays.asList(new String[] { I18n.format("quarkmisc.incrementNote") }));
 	}
