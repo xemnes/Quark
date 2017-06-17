@@ -365,7 +365,8 @@
 				"name":"Auto Tool Restock",
 				"description":"If you break a tool and have a replacement in your inventory, the replacement will be instantly moved to your hotbar, so you can continue doing what you were doing.<br><br>This also understands important enchantments, so if you were mining with a silk touch pick, it'll try to find a silk touch pick before trying anything else. It also gives priority to tools of the same material.",
 				"image":"auto-tool-restock.jpg",
-				"introduced":12
+				"introduced":12,
+				"overlap": ["InvTweaks"]
 			}
 		]
 	},
@@ -850,6 +851,12 @@
 				"description":"Pressing the L key (rebindable) will lock a rotation, and optionally a block half, if you're looking at a block. Any further blocks placed are changed to that direction, regardless of how you were facing when placing them. This can be very useful for building with blocks that have awkward rotation methods, such as stairs or pistons.<br><br>To unlock the rotation press the key again while looking in the same direction you locked in.",
 				"image":"lock-rotation.jpg",
 				"introduced":11
+			},
+			{
+				"name":"Dragon Scales",
+				"description":"When an Enderdragon that was spawned by the player (the natural spawned one does not count!) is killed, it will drop a Dragon Scale.<br>The scale can be combined with an Elytra to mold it, creating a new one. The old Elytra stays behind untouched.",
+				"image":"dragon-scale.jpg",
+				"introduced":12
 			}
 		]
 	}
