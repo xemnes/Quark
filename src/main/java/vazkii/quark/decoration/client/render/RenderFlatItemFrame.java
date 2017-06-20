@@ -147,19 +147,23 @@ public class RenderFlatItemFrame extends RenderItemFrame {
 						mc.entityRenderer.getMapItemRenderer().renderMap(mapdata, true);
 				} else {
 					ItemStack stack = entityitem.getEntityItem();
-					transformItem(itemFrame, stack);
-
-					GlStateManager.pushAttrib();
-					RenderHelper.enableStandardItemLighting();
-					itemRenderer.renderItem(stack, ItemCameraTransforms.TransformType.FIXED);
-					RenderHelper.disableStandardItemLighting();
-					GlStateManager.popAttrib();
+					renderItemStack(itemFrame, stack);
 				}
 			}
 
 			GlStateManager.enableLighting();
 			GlStateManager.popMatrix();
 		}
+	}
+	
+	protected void renderItemStack(EntityItemFrame itemFrame, ItemStack stack) {
+		transformItem(itemFrame, stack);
+
+		GlStateManager.pushAttrib();
+		RenderHelper.enableStandardItemLighting();
+		itemRenderer.renderItem(stack, ItemCameraTransforms.TransformType.FIXED);
+		RenderHelper.disableStandardItemLighting();
+		GlStateManager.popAttrib();
 	}
 	
 	protected void transformItem(EntityItemFrame frame, ItemStack stack) {

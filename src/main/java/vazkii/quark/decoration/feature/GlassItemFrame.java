@@ -29,7 +29,7 @@ public class GlassItemFrame extends Feature {
 		String glassItemFrameName = "quark:glass_item_frame";
 		EntityRegistry.registerModEntity(new ResourceLocation(glassItemFrameName), EntityGlassItemFrame.class, glassItemFrameName, LibEntityIDs.GLASS_ITEM_FRAME, Quark.instance, 256, 64, false);
 
-		RecipeHandler.addOreDictRecipe(new ItemStack(glass_item_frame), 
+		RecipeHandler.addOreDictRecipe(new ItemStack(glass_item_frame, 2), 
 				"GGG", "GFG", "GGG",
 				'G', new ItemStack(Blocks.GLASS_PANE),
 				'F', new ItemStack(Items.ITEM_FRAME));
