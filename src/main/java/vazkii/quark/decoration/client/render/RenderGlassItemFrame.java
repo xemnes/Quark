@@ -58,7 +58,7 @@ public class RenderGlassItemFrame extends RenderFlatItemFrame {
 			
 			GlStateManager.pushMatrix();
 			GlStateManager.rotate(180, 0F, 0F, 1F);
-			GlStateManager.translate(-0.5F, -0.5F, 0.062F);
+			GlStateManager.translate(-0.5F, -0.5F, 0.058F);
 			vertexbuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
 			vertexbuffer.pos(0, 1, 0).tex(u + 0, v + h).endVertex();
 			vertexbuffer.pos(1, 1, 0).tex(u + w, v + h).endVertex();
