@@ -63,15 +63,13 @@ public class SlabsToBlocks extends Feature {
 						ItemStack outStack = ItemStack.EMPTY;
 						int inputItems = 0;
 
-						for(Object recipeItem2 : recipeItems) {
-							Object recipeItem = recipeItem2;
-							if(recipeItem instanceof List) {
-								List<ItemStack> ores = (List<ItemStack>) recipeItem;
-								if(!ores.isEmpty())
-									recipeItem = ores.get(0);
-							}
-
-							if(recipeItem != null && recipeItem instanceof ItemStack && !((ItemStack) recipeItem).isEmpty()) {
+						for(Ingredient ingredient : recipeItems) {
+							ItemStack recipeItem = ItemStack.EMPTY;
+							ItemStack[] matches = ingredient.func_193365_a();
+							if(matches.length > 0)
+								recipeItem = matches[0];
+							
+							if(recipeItem != null && !((ItemStack) recipeItem).isEmpty()) {
 								ItemStack recipeStack = (ItemStack) recipeItem;
 								if(outStack.isEmpty())
 									outStack = recipeStack;

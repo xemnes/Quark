@@ -18,6 +18,7 @@ import java.util.Map;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockStairs;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -71,15 +72,13 @@ public class StairsMakeMore extends Feature {
 						ItemStack outStack = ItemStack.EMPTY;
 						int inputItems = 0;
 
-						for(Object recipeItem2 : recipeItems) {
-							Object recipeItem = recipeItem2;
-							if(recipeItem instanceof List) {
-								List<ItemStack> ores = (List<ItemStack>) recipeItem;
-								if(!ores.isEmpty())
-									recipeItem = ores.get(0);
-							}
-
-							if(recipeItem != null && recipeItem instanceof ItemStack && !((ItemStack) recipeItem).isEmpty()) {
+						for(Ingredient ingredient : recipeItems) {
+							ItemStack recipeItem = ItemStack.EMPTY;
+							ItemStack[] matches = ingredient.func_193365_a();
+							if(matches.length > 0)
+								recipeItem = matches[0];
+							
+							if(recipeItem != null && !((ItemStack) recipeItem).isEmpty()) {
 								ItemStack recipeStack = (ItemStack) recipeItem;
 								if(outStack.isEmpty())
 									outStack = recipeStack;
@@ -93,7 +92,7 @@ public class StairsMakeMore extends Feature {
 							}
 						}
 
-						if(reversionRecipe && !outStack.isEmpty() && inputItems == 6) {
+						if(!outStack.isEmpty() && inputItems == 6) {
 							ItemStack outCopy = outStack.copy();
 							if(outCopy.getItemDamage() == OreDictionary.WILDCARD_VALUE)
 								outCopy.setItemDamage(0);
@@ -106,7 +105,8 @@ public class StairsMakeMore extends Feature {
 								stairs.put(block.getStateFromMeta(outCopy.getItemDamage()), in);
 							}
 							
-							RecipeHandler.addShapelessOreDictRecipe(outCopy, in, in, in, in);
+							if(reversionRecipe)
+								RecipeHandler.addShapelessOreDictRecipe(outCopy, in, in, in, in);
 						}
 					}
 				}
@@ -119,13 +119,15 @@ public class StairsMakeMore extends Feature {
 		if(enableSlabToStair && !stairs.isEmpty() && !SlabsToBlocks.slabs.isEmpty())
 			for(IBlockState state : stairs.keySet()) 			
 				if(SlabsToBlocks.slabs.containsKey(state)) {
-					ItemStack stair = stairs.get(state);
-					ItemStack actualStair = new ItemStack(stair.getItem(), stair.getCount() / 2, stair.getItemDamage());
-					ItemStack slab = SlabsToBlocks.slabs.get(state);
-					
-					RecipeHandler.addOreDictRecipe(actualStair, 
-							"S  ", "SS ", "SSS",
-							'S', slab);
+					ItemStack stair = stairs.get(state).copy();
+					if(!stair.isEmpty()) {
+						stair.setCount(targetSize / 2);
+						ItemStack slab = SlabsToBlocks.slabs.get(state);
+						
+						RecipeHandler.addOreDictRecipe(stair, 
+								"S  ", "SS ", "SSS",
+								'S', slab);
+					}
 				}
 	}
 	
