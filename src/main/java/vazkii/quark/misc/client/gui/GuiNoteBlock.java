@@ -8,7 +8,9 @@ import java.util.List;
 
 import org.lwjgl.input.Keyboard;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
@@ -21,6 +23,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityNote;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import vazkii.arl.network.NetworkHandler;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.base.network.message.MessageTuneNoteBlock;
@@ -199,23 +203,34 @@ public class GuiNoteBlock extends GuiScreen {
 	}
 
 	private int getNote() {
-		Material material = noteBlock.getWorld().getBlockState(noteBlock.getPos().down()).getMaterial();
+		IBlockState state = noteBlock.getWorld().getBlockState(noteBlock.getPos().down());
+		Material material = state.getMaterial();
+		Block block = state.getBlock();
 
-		if(material == Material.ROCK)
-			return 1;
-
-		if(material == Material.SAND)
-			return 2;
-
-		if (material == Material.GLASS)
-			return 3;
-
-		if (material == Material.WOOD)
-			return 4;
+		int note = 0;
 		
-		return 0;
+		if(material == Material.ROCK)
+			note = 1;
+		else if(material == Material.SAND)
+			note = 2;
+		else if(material == Material.GLASS)
+			note = 3;
+		else if(material == Material.WOOD)
+			note = 4;
+
+        if(block == Blocks.CLAY)
+            note = 5;
+        else if(block == Blocks.GOLD_BLOCK)
+            note = 6;
+        else if(block == Blocks.WOOL)
+            note = 7;
+        else if(block == Blocks.PACKED_ICE)
+            note = 8;
+        else if(block == Blocks.BONE_BLOCK)
+            note = 9;
+		
+		return note;
 	}
-	
 	private ItemStack getHead() {
 		if(!ModuleLoader.isFeatureEnabled(NoteBlocksMobSounds.class))
 			return ItemStack.EMPTY;
