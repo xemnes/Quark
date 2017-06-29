@@ -3,7 +3,7 @@ package vazkii.quark.tweaks.feature;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.passive.EntityHorse;
+import net.minecraft.entity.passive.AbstractHorse;
 import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
@@ -20,8 +20,8 @@ public class ImprovedMountHUD extends Feature {
 			
 			if(riding != null) {
 				GuiIngameForge.renderFood = true;
-				if(riding instanceof EntityHorse)
-					GuiIngameForge.renderJumpBar = GameSettings.isKeyDown(mc.gameSettings.keyBindJump);
+				if(riding instanceof AbstractHorse)
+					GuiIngameForge.renderJumpBar = GameSettings.isKeyDown(mc.gameSettings.keyBindJump) && mc.currentScreen == null;
 			}
 		}
 	}
