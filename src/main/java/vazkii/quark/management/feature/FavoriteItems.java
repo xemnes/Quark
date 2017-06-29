@@ -56,12 +56,9 @@ public class FavoriteItems extends Feature {
 		ItemStack copy = stack.copy();
 		ItemNBTHelper.setBoolean(copy, TAG_FAVORITE_ITEM, true);
 		
-		System.out.println("doing it " + copy);
 		if(stack.isStackable()) {
 			for(ItemStack other : event.getEntityPlayer().inventory.mainInventory) {
-				System.out.println(copy + " vs " + other);
 				if(ItemStack.areItemsEqual(copy, other) && ItemStack.areItemStackTagsEqual(copy, other)) {
-					System.out.println("MATCH");
 					if(!ItemStack.areItemStackTagsEqual(stack, copy)) {
 						event.getItem().setItem(copy);
 						event.setCanceled(true);
