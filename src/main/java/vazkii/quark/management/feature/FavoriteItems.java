@@ -27,7 +27,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.RenderTooltipEvent;
+import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.fml.common.eventhandler.Event.Result;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
@@ -48,6 +50,28 @@ public class FavoriteItems extends Feature {
 	public static boolean hovering;
 	boolean mouseDown = false;
 
+	@SubscribeEvent
+	public void itemPickedUp(EntityItemPickupEvent event) {
+		ItemStack stack = event.getItem().getItem();
+		ItemStack copy = stack.copy();
+		ItemNBTHelper.setBoolean(copy, TAG_FAVORITE_ITEM, true);
+		
+		System.out.println("doing it " + copy);
+		if(stack.isStackable()) {
+			for(ItemStack other : event.getEntityPlayer().inventory.mainInventory) {
+				System.out.println(copy + " vs " + other);
+				if(ItemStack.areItemsEqual(copy, other) && ItemStack.areItemStackTagsEqual(copy, other)) {
+					System.out.println("MATCH");
+					if(!ItemStack.areItemStackTagsEqual(stack, copy)) {
+						event.getItem().setItem(copy);
+						event.setCanceled(true);
+					}
+					return;
+				}
+			}
+		}
+	}
+	
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	@SideOnly(Side.CLIENT)
 	public void mouseEvent(GuiScreenEvent.MouseInputEvent.Pre event) {
@@ -101,12 +125,6 @@ public class FavoriteItems extends Feature {
 
 		hovering = false;
 	}
-
-//	@SubscribeEvent
-//	public void onTooltip(ItemTooltipEvent event) {
-//		if(isItemFavorited(event.getItemStack()))
-//			event.getToolTip().add(TextFormatting.GREEN + I18n.translateToLocal("quark.gui.favorited"));
-//	}
 
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
