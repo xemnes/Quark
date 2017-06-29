@@ -40,6 +40,8 @@ import net.minecraft.potion.PotionUtils;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
+import vazkii.quark.api.ICustomEnchantColor;
+import vazkii.quark.api.ICustomSorting;
 import vazkii.quark.base.lib.LibObfuscation;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.management.feature.InventorySorting;
@@ -178,7 +180,14 @@ public final class SortingHandler {
 			return -1;
 		if(stack2.isEmpty())
 			return 1;
-
+		
+		if(stack1.getItem() instanceof ICustomSorting && stack2.getItem() instanceof ICustomSorting) {
+			ICustomSorting sort1 = (ICustomSorting) stack1.getItem();
+			ICustomSorting sort2 = (ICustomSorting) stack2.getItem();
+			if(sort1.getSortingCategory().equals(sort2.getSortingCategory()))
+				return sort1.getItemComparator().compare(stack1, stack2);
+		}
+		
 		ItemType type1 = getType(stack1);
 		ItemType type2 = getType(stack2);
 		

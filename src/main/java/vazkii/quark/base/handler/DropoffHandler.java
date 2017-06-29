@@ -32,6 +32,7 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import vazkii.arl.network.NetworkHandler;
+import vazkii.quark.api.IDropoffManager;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.base.network.message.MessageDisableDropoffClient;
 import vazkii.quark.management.feature.ChestButtons;
@@ -81,7 +82,7 @@ public final class DropoffHandler {
 
 
 	public static boolean isValidChest(EntityPlayer player, TileEntity te) {
-		boolean accept = te instanceof IDropoffManager && ((IDropoffManager) te).acceptsDropoff();
+		boolean accept = te instanceof IDropoffManager && ((IDropoffManager) te).acceptsDropoff(player);
 		if(!accept) {
 			String name = te.getClass().getSimpleName().toLowerCase();
 			accept = (name.contains("chest") || te instanceof TileEntityChest) && !name.contains("void") && !name.contains("trash");
@@ -94,7 +95,7 @@ public final class DropoffHandler {
 	}
 
 	public static boolean isValidChest(EntityPlayer player, IInventory te) {
-		boolean accept = te instanceof IDropoffManager && ((IDropoffManager) te).acceptsDropoff();
+		boolean accept = te instanceof IDropoffManager && ((IDropoffManager) te).acceptsDropoff(player);
 		if(!accept) {
 			String name = te.getClass().getSimpleName().toLowerCase();
 			accept = (name.contains("chest") || te instanceof TileEntityChest) && !name.contains("void") && !name.contains("trash");

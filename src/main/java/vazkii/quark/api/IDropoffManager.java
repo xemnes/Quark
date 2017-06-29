@@ -8,11 +8,16 @@
  *
  * File Created @ [28/03/2016, 17:05:38 (GMT)]
  */
-package vazkii.quark.base.handler;
+package vazkii.quark.api;
 
-// API class, for modders
+import net.minecraft.entity.player.EntityPlayer;
+
+/**
+ * Implement on a TileEntity to allow it to receive dropoff, and to have
+ * chest buttons on the client. 
+ */
 public interface IDropoffManager {
 
-	public boolean acceptsDropoff();
-
+	public boolean acceptsDropoff(EntityPlayer player);
+	
 }

@@ -27,7 +27,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import vazkii.arl.recipe.RecipeHandler;
 import vazkii.arl.util.ItemNBTHelper;
 import vazkii.arl.util.ProxyRegistry;
-import vazkii.quark.base.handler.ICustomEnchantColor;
+import vazkii.quark.api.ICustomEnchantColor;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.misc.item.ItemRune;

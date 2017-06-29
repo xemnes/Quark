@@ -8,11 +8,13 @@
  *
  * File Created @ [19/06/2016, 03:39:21 (GMT)]
  */
-package vazkii.quark.base.handler;
+package vazkii.quark.api;
 
 import net.minecraft.item.ItemStack;
 
-//API class, for modders
+/**
+ * Implement on an Item to allow it to have a custom glint color.
+ */
 public interface ICustomEnchantColor {
 
 	public int getEnchantEffectColor(ItemStack stack);
