@@ -1,6 +1,7 @@
 package vazkii.quark.management.feature;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -12,7 +13,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Enchantments;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
+import net.minecraft.item.ItemBow;
+import net.minecraft.item.ItemFishingRod;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemSword;
 import net.minecraft.item.ItemTool;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
@@ -67,20 +71,33 @@ public class AutomaticToolRestock extends Feature {
 			if(findReplacement(player, currSlot, itemPredicate))
 				return;
 
-			if(item instanceof ItemTool && enableLooseMatching) {
-				ItemTool tool = (ItemTool) item;
-				Set<String> classes = tool.getToolClasses(stack);
-
-				Predicate<ItemStack> toolPredicate = (other) -> 
-					other.getItem() instanceof ItemTool && 
-					!(new HashSet(((ItemTool) other.getItem()).getToolClasses(other))).retainAll(classes);
+			if(enableLooseMatching) {
+				Set<String> classes = getItemClasses(stack);
 				
-				if(enableEnchantMatching && findReplacement(player, currSlot, toolPredicate.and(enchantmentPredicate)))
-					return;
+				if(!classes.isEmpty()) {
+					Predicate<ItemStack> toolPredicate = (other) -> getItemClasses(other).retainAll(classes);
 
-				findReplacement(player, currSlot, toolPredicate);
+					if(enableEnchantMatching && findReplacement(player, currSlot, toolPredicate.and(enchantmentPredicate)))
+						return;
+
+					findReplacement(player, currSlot, toolPredicate);
+				}
 			}
 		}
+	}
+
+	private Set<String> getItemClasses(ItemStack stack) {
+		Item item = stack.getItem();
+		if(item instanceof ItemTool)
+			return new HashSet(((ItemTool) item).getToolClasses(stack));
+		else if(item instanceof ItemSword)
+			return new HashSet(Arrays.asList("sword"));
+		else if(item instanceof ItemBow)
+			return new HashSet(Arrays.asList("bow"));
+		else if(item instanceof ItemFishingRod)
+			return new HashSet(Arrays.asList("fishing_rod"));
+		
+		return new HashSet();
 	}
 
 	private boolean findReplacement(EntityPlayer player, int currSlot, Predicate<ItemStack> match) {
@@ -90,9 +107,6 @@ public class AutomaticToolRestock extends Feature {
 
 			ItemStack stackAt = player.inventory.getStackInSlot(i);
 			if(match.test(stackAt)) {
-				StackTraceElement[] trace = Thread.currentThread().getStackTrace();
-				for(StackTraceElement e : trace)
-					System.out.println(e);
 				switchItems(player, i, currSlot);
 				return true;
 			}
@@ -126,7 +140,7 @@ public class AutomaticToolRestock extends Feature {
 	public boolean hasSubscriptions() {
 		return true;
 	}
-	
+
 	@Override
 	public String[] getIncompatibleMods() {
 		return new String[] { "invtweaks" };
