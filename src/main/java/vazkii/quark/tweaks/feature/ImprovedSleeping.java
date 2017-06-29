@@ -49,16 +49,18 @@ public class ImprovedSleeping extends Feature {
 		if(!enableAfk)
 			return;
 
-		if(afk) {
-			player.getEntityData().setBoolean(TAG_AFK, true);
-			TextComponentTranslation text = new TextComponentTranslation("quarkmisc.nowAfk");
-			text.getStyle().setColor(TextFormatting.AQUA);
-			player.sendMessage(text);
-		} else {
-			player.getEntityData().setBoolean(TAG_AFK, false);
-			TextComponentTranslation text = new TextComponentTranslation("quarkmisc.leftAfk");
-			text.getStyle().setColor(TextFormatting.AQUA);
-			player.sendMessage(text);
+		if(player.world.playerEntities.size() != 1) {
+			if(afk) {
+				player.getEntityData().setBoolean(TAG_AFK, true);
+				TextComponentTranslation text = new TextComponentTranslation("quarkmisc.nowAfk");
+				text.getStyle().setColor(TextFormatting.AQUA);
+				player.sendMessage(text);
+			} else {
+				player.getEntityData().setBoolean(TAG_AFK, false);
+				TextComponentTranslation text = new TextComponentTranslation("quarkmisc.leftAfk");
+				text.getStyle().setColor(TextFormatting.AQUA);
+				player.sendMessage(text);
+			}
 		}
 	}
 
@@ -122,7 +124,7 @@ public class ImprovedSleeping extends Feature {
 			}
 		sleepingPlayers = newSleepingPlayers;
 
-		if(!sleeper.isEmpty()) {
+		if(!sleeper.isEmpty() && world.playerEntities.size() != 1) {
 			Pair<Integer, Integer> counts = getPlayerCounts(world);
 			int legitPlayers = counts.getLeft();
 			int sleepingPlayers = counts.getRight();
