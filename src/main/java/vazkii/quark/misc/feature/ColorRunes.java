@@ -42,7 +42,7 @@ public class ColorRunes extends Feature {
 	public static Item rune;
 
 	int dungeonWeight, netherFortressWeight, jungleTempleWeight, desertTempleWeight, itemQuality, applyCost;
-	boolean enableRainbowRuneCrafting, enableRainbowRuneChests;
+	boolean enableRainbowRuneCrafting, enableRainbowRuneChests, stackable;
 	
 	@Override
 	public void setupConfig() {
@@ -54,11 +54,12 @@ public class ColorRunes extends Feature {
 		applyCost = loadPropInt("Cost to apply rune", "", 15);
 		enableRainbowRuneCrafting = loadPropBool("Enable Rainbow Rune Crafting", "", true);
 		enableRainbowRuneChests = loadPropBool("Enable Rainbow Rune in Chests", "", false);
+		stackable = loadPropBool("Stackable Runes", "", true);
 	}
 
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {		
-		rune = new ItemRune();
+		rune = new ItemRune(stackable);
 		
 		if(enableRainbowRuneCrafting) {
 			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(rune, 7, 16), 

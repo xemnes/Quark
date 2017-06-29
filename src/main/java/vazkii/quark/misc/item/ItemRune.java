@@ -47,9 +47,10 @@ public class ItemRune extends ItemMod implements IItemColorProvider, ICustomEnch
 			"rune_rainbow"
 	};
 
-	public ItemRune() {
+	public ItemRune(boolean stack) {
 		super("rune", VARIANTS);
-		setMaxStackSize(1);
+		if(!stack)
+			setMaxStackSize(1);
 		setCreativeTab(CreativeTabs.MISC);
 	}
 
