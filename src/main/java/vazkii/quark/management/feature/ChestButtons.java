@@ -126,7 +126,7 @@ public class ChestButtons extends Feature {
 					
 					if(ModuleLoader.isFeatureEnabled(InventorySorting.class)) {
 						addButtonAndKeybind(event, sort, Action.SORT, guiInv, 13214, guiLeft, guiTop, s, ModKeybinds.chestSortKey);
-						addButtonAndKeybind(event, sort, Action.SORT_PLAYER, guiInv, 13215, guiLeft, guiTop, s, ModKeybinds.playerSortKey);
+						addButtonAndKeybind(event, sortPlayer, Action.SORT_PLAYER, guiInv, 13215, guiLeft, guiTop, s, ModKeybinds.playerSortKey);
 					}
 					
 					break;
