@@ -619,6 +619,12 @@
 				"description":"Every single recipe is unlocked and displayed in the recipe book as soon as you load a world.<br><br>If new recipes are added to the game via new mods added or updated, those will be unlocked when you get back in.<br><br>This feature is an exception to the general quark theme, but since you are using mods, it's fair to assume you don't need the game to dripfeed you recipes.",
 				"image":"unlock-all-recipes.jpg",
 				"introduced":12
+			},
+			{
+				"name":"Improved Sleeping",
+				"description":"Some tweaks are made to sleeping:<ul><li>If a player does not input any keystrokes or mouse clicks for 2 minutes, they'll be marked as AFK. AFK players do not count towards the sleep vote.</li><li>When a player enters a bed, that action and the amount of players sleeping is broadcasted to the server.</li><li>A percentage of players required for the day to turn over can be configured, defaulting to 100%.</li></ul>",
+				"image":"improved-sleeping.jpg",
+				"introduced":12
 			}
 		]
 	},
