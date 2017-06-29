@@ -23,10 +23,12 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.oredict.OreDictionary;
 import vazkii.arl.block.BlockMod;
 import vazkii.arl.recipe.RecipeHandler;
+import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.decoration.block.BlockCustomBookshelf;
 
@@ -57,30 +59,33 @@ public class VariedBookshelves extends Feature {
 				NonNullList<Ingredient> ingredients = shaped.recipeItems;
 				for(int i = 0; i < ingredients.size(); i++) {
 					Ingredient ingr = ingredients.get(i);
-					if(ingr.apply(new ItemStack(Blocks.PLANKS)))
-						ingredients.set(i, Ingredient.fromStacks(new ItemStack(Blocks.PLANKS, 1, 0)));
+					if(ingr.apply(ProxyRegistry.newStack(Blocks.PLANKS)))
+						ingredients.set(i, Ingredient.fromStacks(ProxyRegistry.newStack(Blocks.PLANKS, 1, 0)));
 				}
 			}
 		}
 		
 		for(int i = 0; i < 5; i++)
-			RecipeHandler.addOreDictRecipe(new ItemStack(custom_bookshelf, 1, i),
+			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(custom_bookshelf, 1, i),
 					"WWW", "BBB", "WWW",
-					'W', new ItemStack(Blocks.PLANKS, 1, i + 1),
-					'B', new ItemStack(Items.BOOK));
+					'W', ProxyRegistry.newStack(Blocks.PLANKS, 1, i + 1),
+					'B', ProxyRegistry.newStack(Items.BOOK));
 		
-		RecipeHandler.addOreDictRecipe(new ItemStack(Blocks.BOOKSHELF),
+		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(Blocks.BOOKSHELF),
 				"WWW", "BBB", "WWW",
 				'W', "plankWood",
-				'B', new ItemStack(Items.BOOK));
+				'B', ProxyRegistry.newStack(Items.BOOK));
+	}
+
+	@Override
+	public void init(FMLInitializationEvent event) {
+		OreDictionary.registerOre("bookshelf", ProxyRegistry.newStack(custom_bookshelf, 1, OreDictionary.WILDCARD_VALUE));
 		
-		OreDictionary.registerOre("bookshelf", new ItemStack(custom_bookshelf, 1, OreDictionary.WILDCARD_VALUE));
-		
-		OreDictionary.registerOre("bookshelfSpruce", new ItemStack(custom_bookshelf, 1, 0));
-		OreDictionary.registerOre("bookshelfBirch", new ItemStack(custom_bookshelf, 1, 1));
-		OreDictionary.registerOre("bookshelfJungle", new ItemStack(custom_bookshelf, 1, 2));
-		OreDictionary.registerOre("bookshelfAcacia", new ItemStack(custom_bookshelf, 1, 3));
-		OreDictionary.registerOre("bookshelfDarkOak", new ItemStack(custom_bookshelf, 1, 4));
+		OreDictionary.registerOre("bookshelfSpruce", ProxyRegistry.newStack(custom_bookshelf, 1, 0));
+		OreDictionary.registerOre("bookshelfBirch", ProxyRegistry.newStack(custom_bookshelf, 1, 1));
+		OreDictionary.registerOre("bookshelfJungle", ProxyRegistry.newStack(custom_bookshelf, 1, 2));
+		OreDictionary.registerOre("bookshelfAcacia", ProxyRegistry.newStack(custom_bookshelf, 1, 3));
+		OreDictionary.registerOre("bookshelfDarkOak", ProxyRegistry.newStack(custom_bookshelf, 1, 4));
 	}
 	
 	@Override

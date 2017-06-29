@@ -19,7 +19,6 @@ public class ItemBiotite extends ItemMod implements IQuarkItem {
 
 	public ItemBiotite() {
 		super("biotite");
-		OreDictionary.registerOre("gemEnderBiotite", this);
 		setCreativeTab(CreativeTabs.MATERIALS);
 	}
 

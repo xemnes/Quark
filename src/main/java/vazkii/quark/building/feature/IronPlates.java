@@ -12,11 +12,11 @@ package vazkii.quark.building.feature;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import vazkii.arl.block.BlockModSlab;
 import vazkii.arl.block.BlockModStairs;
 import vazkii.arl.recipe.RecipeHandler;
+import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.GlobalConfig;
 import vazkii.quark.building.block.BlockIronPlate;
@@ -43,19 +43,19 @@ public class IronPlates extends Feature {
 			BlockModSlab.initSlab(iron_plate, 0, new BlockIronPlateSlab(false), new BlockIronPlateSlab(true));
 		}
 
-		RecipeHandler.addOreDictRecipe(new ItemStack(iron_plate, 24),
+		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(iron_plate, 24),
 				"III", "I I", "III",
 				'I', "ingotIron");
 		
-		RecipeHandler.addOreDictRecipe(new ItemStack(iron_plate, 24, 1),
+		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(iron_plate, 24, 1),
 				"III", "IBI", "III",
 				'I', "ingotIron",
-				'B', new ItemStack(Items.WATER_BUCKET));
+				'B', ProxyRegistry.newStack(Items.WATER_BUCKET));
 		
-		RecipeHandler.addOreDictRecipe(new ItemStack(iron_plate, 8, 1),
+		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(iron_plate, 8, 1),
 				"III", "IBI", "III",
-				'I', new ItemStack(iron_plate),
-				'B', new ItemStack(Items.WATER_BUCKET));
+				'I', ProxyRegistry.newStack(iron_plate),
+				'B', ProxyRegistry.newStack(Items.WATER_BUCKET));
 	}
 	
 	@Override

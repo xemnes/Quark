@@ -12,11 +12,11 @@ package vazkii.quark.building.feature;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import vazkii.arl.block.BlockModSlab;
 import vazkii.arl.block.BlockModStairs;
 import vazkii.arl.recipe.RecipeHandler;
+import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.GlobalConfig;
 import vazkii.quark.building.block.BlockThatch;
@@ -45,10 +45,10 @@ public class Thatch extends Feature {
 			BlockModSlab.initSlab(thatch, 0, new BlockThatchSlab(false), new BlockThatchSlab(true));
 		}
 
-		RecipeHandler.addOreDictRecipe(new ItemStack(thatch),
+		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(thatch),
 				"WW", "WW",
-				'W', new ItemStack(Items.WHEAT));
-		RecipeHandler.addShapelessOreDictRecipe(new ItemStack(Items.WHEAT, 4), new ItemStack(thatch));
+				'W', ProxyRegistry.newStack(Items.WHEAT));
+		RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(Items.WHEAT, 4), ProxyRegistry.newStack(thatch));
 	}
 	
 	@Override

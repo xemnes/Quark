@@ -13,12 +13,14 @@ package vazkii.quark.tweaks.feature;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.oredict.OreDictionary;
 import vazkii.arl.recipe.RecipeHandler;
+import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.tweaks.item.ItemGlassShard;
 
@@ -30,14 +32,19 @@ public class GlassShards extends Feature {
 	public void preInit(FMLPreInitializationEvent event) {
 		glass_shard = new ItemGlassShard();
 
-		RecipeHandler.addOreDictRecipe(new ItemStack(Blocks.GLASS),
+		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(Blocks.GLASS),
 				"SS", "SS",
-				'S', new ItemStack(glass_shard, 1, 0));
+				'S', ProxyRegistry.newStack(glass_shard, 1, 0));
 
 		for(int i = 0; i < 16; i++)
-			RecipeHandler.addOreDictRecipe(new ItemStack(Blocks.STAINED_GLASS, 1, i),
+			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(Blocks.STAINED_GLASS, 1, i),
 					"SS", "SS",
-					'S', new ItemStack(glass_shard, 1, i + 1));
+					'S', ProxyRegistry.newStack(glass_shard, 1, i + 1));
+	}
+	
+	@Override
+	public void init(FMLInitializationEvent event) {
+		OreDictionary.registerOre("shardGlass", glass_shard);
 	}
 
 	@SubscribeEvent
@@ -50,7 +57,7 @@ public class GlassShards extends Feature {
 
 			int quantity = MathHelper.clamp(2 + event.getWorld().rand.nextInt(3) + event.getWorld().rand.nextInt(event.getFortuneLevel() + 1), 1, 4);
 
-			event.getDrops().add(new ItemStack(glass_shard, quantity, meta));
+			event.getDrops().add(ProxyRegistry.newStack(glass_shard, quantity, meta));
 		}
 	}
 

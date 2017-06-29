@@ -12,10 +12,11 @@ package vazkii.quark.building.feature;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.oredict.OreDictionary;
 import vazkii.arl.recipe.RecipeHandler;
+import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.building.block.BlockPolishedStone;
 
@@ -27,16 +28,19 @@ public class PolishedStone extends Feature {
 	public void preInit(FMLPreInitializationEvent event) {
 		polished_stone = new BlockPolishedStone();
 
-		RecipeHandler.addOreDictRecipe(new ItemStack(polished_stone, 2),
+		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(polished_stone, 2),
 				"SS", "SS",
-				'S', new ItemStack(Blocks.STONE_SLAB));
-		RecipeHandler.addOreDictRecipe(new ItemStack(Blocks.STONE_SLAB, 6),
+				'S', ProxyRegistry.newStack(Blocks.STONE_SLAB));
+		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(Blocks.STONE_SLAB, 6),
 				"SSS",
-				'S', new ItemStack(polished_stone));
-		
-		OreDictionary.registerOre("stonePolished", polished_stone);
+				'S', ProxyRegistry.newStack(polished_stone));
 	}
 
+	@Override
+	public void init(FMLInitializationEvent event) {
+		OreDictionary.registerOre("stonePolished", polished_stone);
+	}
+	
 	@Override
 	public boolean requiresMinecraftRestartToEnable() {
 		return true;

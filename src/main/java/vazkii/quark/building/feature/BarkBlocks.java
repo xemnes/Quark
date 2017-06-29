@@ -17,6 +17,7 @@ import vazkii.arl.block.BlockMod;
 import vazkii.arl.block.BlockModSlab;
 import vazkii.arl.block.BlockModStairs;
 import vazkii.arl.recipe.RecipeHandler;
+import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.GlobalConfig;
 import vazkii.quark.building.block.BlockBark;
@@ -40,12 +41,12 @@ public class BarkBlocks extends Feature {
 		bark = new BlockBark();
 
 		for(int i = 0; i < 6; i++) {
-			ItemStack log = new ItemStack(i > 3 ? Blocks.LOG2 : Blocks.LOG, 1, i % 4);
+			ItemStack log = ProxyRegistry.newStack(i > 3 ? Blocks.LOG2 : Blocks.LOG, 1, i % 4);
 
-			RecipeHandler.addOreDictRecipe(new ItemStack(bark, 4, i),
+			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(bark, 4, i),
 					"WW", "WW",
 					'W', log);
-			RecipeHandler.addShapelessOreDictRecipe(log, new ItemStack(bark, 1, i));
+			RecipeHandler.addShapelessOreDictRecipe(log, ProxyRegistry.newStack(bark, 1, i));
 		}
 
 		for(BlockBark.Variants variant : BlockBark.Variants.class.getEnumConstants()) {

@@ -12,9 +12,9 @@ package vazkii.quark.decoration.feature;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import vazkii.arl.recipe.RecipeHandler;
+import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.decoration.block.BlockLitLamp;
 
@@ -26,7 +26,7 @@ public class LitLamp extends Feature {
 	public void preInit(FMLPreInitializationEvent event) {
 		lit_lamp = new BlockLitLamp();
 
-		RecipeHandler.addShapelessOreDictRecipe(new ItemStack(lit_lamp), new ItemStack(Blocks.REDSTONE_LAMP), new ItemStack(Blocks.REDSTONE_TORCH));
+		RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(lit_lamp), ProxyRegistry.newStack(Blocks.REDSTONE_LAMP), ProxyRegistry.newStack(Blocks.REDSTONE_TORCH));
 	}
 	
 	@Override

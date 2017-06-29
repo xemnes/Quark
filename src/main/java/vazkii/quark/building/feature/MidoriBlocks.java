@@ -12,11 +12,11 @@ package vazkii.quark.building.feature;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import vazkii.arl.block.BlockModSlab;
 import vazkii.arl.block.BlockModStairs;
 import vazkii.arl.recipe.RecipeHandler;
+import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.GlobalConfig;
 import vazkii.quark.building.block.BlockMidori;
@@ -47,12 +47,12 @@ public class MidoriBlocks extends Feature {
 
 		VanillaWalls.add("midori_block", midori_block, 0, enableWalls);
 
-		RecipeHandler.addOreDictRecipe(new ItemStack(midori_block, 4),
+		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(midori_block, 4),
 				"GG", "GG",
-				'G', new ItemStack(Items.DYE, 1, 2));
-		RecipeHandler.addOreDictRecipe(new ItemStack(midori_pillar),
+				'G', ProxyRegistry.newStack(Items.DYE, 1, 2));
+		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(midori_pillar),
 				"S", "S",
-				'S', new ItemStack(slab));
+				'S', ProxyRegistry.newStack(slab));
 	}
 
 	@Override

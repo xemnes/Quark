@@ -1,12 +1,13 @@
 package vazkii.quark.building.feature;
 
-import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.oredict.OreDictionary;
 import vazkii.arl.block.BlockMod;
 import vazkii.arl.block.BlockModSlab;
 import vazkii.arl.block.BlockModStairs;
 import vazkii.arl.recipe.RecipeHandler;
+import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.GlobalConfig;
@@ -35,16 +36,19 @@ public class StainedPlanks extends Feature {
 			for(BlockStainedPlanks.Variants variant : BlockStainedPlanks.Variants.class.getEnumConstants())
 				BlockModSlab.initSlab(stained_planks, variant.ordinal(), new BlockStainedPlanksSlab(variant, false), new BlockStainedPlanksSlab(variant, true));
 		}
-
-		OreDictionary.registerOre("plankWood", new ItemStack(stained_planks, 1, OreDictionary.WILDCARD_VALUE));
-		OreDictionary.registerOre("plankStained", new ItemStack(stained_planks, 1, OreDictionary.WILDCARD_VALUE));
 		
 		for(int i = 0; i < 16; i++) {
-			RecipeHandler.addOreDictRecipe(new ItemStack(stained_planks, 8, i),
+			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(stained_planks, 8, i),
 					"BBB", "BDB", "BBB",
 					'B', "plankWood",
 					'D', LibMisc.OREDICT_DYES.get(15 - i));
 		}
+	}
+	
+	@Override
+	public void init(FMLInitializationEvent event) {
+		OreDictionary.registerOre("plankWood", ProxyRegistry.newStack(stained_planks, 1, OreDictionary.WILDCARD_VALUE));
+		OreDictionary.registerOre("plankStained", ProxyRegistry.newStack(stained_planks, 1, OreDictionary.WILDCARD_VALUE));
 	}
 
 	@Override

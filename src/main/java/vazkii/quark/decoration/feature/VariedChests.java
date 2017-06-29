@@ -35,6 +35,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 import vazkii.arl.recipe.RecipeHandler;
+import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.handler.ModIntegrationHandler;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.base.module.Feature;
@@ -71,11 +72,6 @@ public class VariedChests extends Feature {
 		
 		ModIntegrationHandler.addCharsetCarry(custom_chest);
 		ModIntegrationHandler.addCharsetCarry(custom_chest_trap);
-
-		OreDictionary.registerOre("chest", new ItemStack(custom_chest, 1, OreDictionary.WILDCARD_VALUE));
-		OreDictionary.registerOre("chest", new ItemStack(custom_chest_trap, 1, OreDictionary.WILDCARD_VALUE));
-		OreDictionary.registerOre("chestWood", new ItemStack(custom_chest, 1, OreDictionary.WILDCARD_VALUE));
-		OreDictionary.registerOre("chestTrapped", new ItemStack(custom_chest_trap, 1, OreDictionary.WILDCARD_VALUE));
 	}
 
 	@Override
@@ -100,60 +96,68 @@ public class VariedChests extends Feature {
 				NonNullList<Ingredient> ingredients = shaped.recipeItems;
 				for(int i = 0; i < ingredients.size(); i++) {
 					Ingredient ingr = ingredients.get(i);
-					if(ingr.apply(new ItemStack(Blocks.PLANKS)))
-						ingredients.set(i, Ingredient.fromStacks(new ItemStack(Blocks.PLANKS, 1, 0)));
+					if(ingr.apply(ProxyRegistry.newStack(Blocks.PLANKS)))
+						ingredients.set(i, Ingredient.fromStacks(ProxyRegistry.newStack(Blocks.PLANKS, 1, 0)));
 				}
 			}
 		}
 
-		RecipeHandler.addOreDictRecipe(new ItemStack(Blocks.CHEST),
+		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(Blocks.CHEST),
 				"WWW", "W W", "WWW",
-				'W', new ItemStack(Blocks.PLANKS));
+				'W', ProxyRegistry.newStack(Blocks.PLANKS));
 		if(addLogRecipe)
-			RecipeHandler.addOreDictRecipe(new ItemStack(Blocks.CHEST, 4),
+			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(Blocks.CHEST, 4),
 					"WWW", "W W", "WWW",
-					'W', new ItemStack(Blocks.LOG));
+					'W', ProxyRegistry.newStack(Blocks.LOG));
 
 		int i = 1;
 		for(ChestType type : ChestType.VALID_TYPES) {
-			ItemStack out = new ItemStack(custom_chest);
+			ItemStack out = ProxyRegistry.newStack(custom_chest);
 			custom_chest.setCustomType(out, type);
 
 			RecipeHandler.addOreDictRecipe(out.copy(),
 					"WWW", "W W", "WWW",
-					'W', new ItemStack(Blocks.PLANKS, 1, i));
+					'W', ProxyRegistry.newStack(Blocks.PLANKS, 1, i));
 
 			if(addLogRecipe) {
 				ItemStack outFour = out.copy();
 				outFour.setCount(4);
 				RecipeHandler.addOreDictRecipe(outFour,
 						"WWW", "W W", "WWW",
-						'W', new ItemStack(i > 3 ? Blocks.LOG2 : Blocks.LOG, 1, i % 4));
+						'W', ProxyRegistry.newStack(i > 3 ? Blocks.LOG2 : Blocks.LOG, 1, i % 4));
 			}
 
-			ItemStack outTrap = new ItemStack(custom_chest_trap);
+			ItemStack outTrap = ProxyRegistry.newStack(custom_chest_trap);
 			custom_chest.setCustomType(outTrap, type);
 
-			RecipeHandler.addShapelessOreDictRecipe(outTrap, out.copy(), new ItemStack(Blocks.TRIPWIRE_HOOK));
+			RecipeHandler.addShapelessOreDictRecipe(outTrap, out.copy(), ProxyRegistry.newStack(Blocks.TRIPWIRE_HOOK));
 			i++;
 		}
 
 		// Low priority ore dictionary recipes
-		RecipeHandler.addOreDictRecipe(new ItemStack(Blocks.CHEST),
+		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(Blocks.CHEST),
 				"WWW", "W W", "WWW",
 				'W', "plankWood");
-		RecipeHandler.addShapelessOreDictRecipe(new ItemStack(Blocks.TRAPPED_CHEST), "chestWood", new ItemStack(Blocks.TRIPWIRE_HOOK));
+		RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(Blocks.TRAPPED_CHEST), "chestWood", ProxyRegistry.newStack(Blocks.TRIPWIRE_HOOK));
 
 		// Vanilla recipe replacement
-		RecipeHandler.addOreDictRecipe(new ItemStack(Blocks.HOPPER),
+		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(Blocks.HOPPER),
 				"I I", "ICI", " I ",
 				'I', Items.IRON_INGOT,
 				'C', "chestWood");
 		
-		RecipeHandler.addOreDictRecipe(new ItemStack(Blocks.PURPLE_SHULKER_BOX), 
+		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(Blocks.PURPLE_SHULKER_BOX), 
 				"S", "C", "S",
-				'S', new ItemStack(Items.SHULKER_SHELL),
+				'S', ProxyRegistry.newStack(Items.SHULKER_SHELL),
 				'C', "chest");
+	}
+	
+	@Override
+	public void init(FMLInitializationEvent event) {
+		OreDictionary.registerOre("chest", ProxyRegistry.newStack(custom_chest, 1, OreDictionary.WILDCARD_VALUE));
+		OreDictionary.registerOre("chest", ProxyRegistry.newStack(custom_chest_trap, 1, OreDictionary.WILDCARD_VALUE));
+		OreDictionary.registerOre("chestWood", ProxyRegistry.newStack(custom_chest, 1, OreDictionary.WILDCARD_VALUE));
+		OreDictionary.registerOre("chestTrapped", ProxyRegistry.newStack(custom_chest_trap, 1, OreDictionary.WILDCARD_VALUE));
 	}
 	
 	@Override

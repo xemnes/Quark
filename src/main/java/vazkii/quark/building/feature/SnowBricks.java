@@ -12,11 +12,11 @@ package vazkii.quark.building.feature;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import vazkii.arl.block.BlockModSlab;
 import vazkii.arl.block.BlockModStairs;
 import vazkii.arl.recipe.RecipeHandler;
+import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.GlobalConfig;
 import vazkii.quark.building.block.BlockSnowBricks;
@@ -47,9 +47,9 @@ public class SnowBricks extends Feature {
 		}
 		VanillaWalls.add("snow_bricks", snow_bricks, 0, enableWalls, (name, state) -> new BlockSnowBricksWall(name, state));
 
-		RecipeHandler.addOreDictRecipe(new ItemStack(snow_bricks, 4),
+		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(snow_bricks, 4),
 				"SS", "SS",
-				'S', new ItemStack(Blocks.SNOW));
+				'S', ProxyRegistry.newStack(Blocks.SNOW));
 	}
 	
 	@Override

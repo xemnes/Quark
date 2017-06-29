@@ -16,6 +16,7 @@ import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.event.terraingen.OreGenEvent;
 import net.minecraftforge.event.terraingen.OreGenEvent.GenerateMinable.EventType;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.oredict.OreDictionary;
@@ -109,10 +110,6 @@ public class UndergroundBiomes extends Feature {
 			glowcelium = new BlockGlowcelium();
 			glowshroom = new BlockGlowshroom();
 			
-			OreDictionary.registerOre("mushroomAny", Blocks.RED_MUSHROOM);
-			OreDictionary.registerOre("mushroomAny", Blocks.BROWN_MUSHROOM);	
-			OreDictionary.registerOre("mushroomAny", glowshroom);
-			
 			RecipeHandler.addShapelessOreDictRecipe(new ItemStack(Items.MUSHROOM_STEW), "mushroomAny", "mushroomAny", new ItemStack(Items.BOWL));
 		}
 		
@@ -120,6 +117,15 @@ public class UndergroundBiomes extends Feature {
 			firestoneState = biome_cobblestone.getDefaultState().withProperty(biome_cobblestone.getVariantProp(), BlockBiomeCobblestone.Variants.FIRE_STONE);
 		if(icystoneEnabled)
 			icystoneState = biome_cobblestone.getDefaultState().withProperty(biome_cobblestone.getVariantProp(), BlockBiomeCobblestone.Variants.ICY_STONE);
+	}
+	
+	@Override
+	public void init(FMLInitializationEvent event) {
+		if(glowceliumEnabled) {
+			OreDictionary.registerOre("mushroomAny", Blocks.RED_MUSHROOM);
+			OreDictionary.registerOre("mushroomAny", Blocks.BROWN_MUSHROOM);	
+			OreDictionary.registerOre("mushroomAny", glowshroom);
+		}
 	}
 	
 	@SubscribeEvent

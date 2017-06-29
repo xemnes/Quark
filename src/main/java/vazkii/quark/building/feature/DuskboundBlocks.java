@@ -3,11 +3,11 @@ package vazkii.quark.building.feature;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import vazkii.arl.block.BlockModSlab;
 import vazkii.arl.block.BlockModStairs;
 import vazkii.arl.recipe.RecipeHandler;
+import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.GlobalConfig;
 import vazkii.quark.building.block.BlockDuskbound;
@@ -41,14 +41,14 @@ public class DuskboundBlocks extends Feature {
 		
 		VanillaWalls.add("duskbound_block", duskbound_block, 0, enableWalls);
 		
-		RecipeHandler.addOreDictRecipe(new ItemStack(duskbound_block, 16), 
+		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(duskbound_block, 16), 
 				"PPP", "POP", "PPP",
-				'P', new ItemStack(Blocks.PURPUR_BLOCK),
-				'O', new ItemStack(Blocks.OBSIDIAN));
-		RecipeHandler.addOreDictRecipe(new ItemStack(duskbound_lantern, 4), 
+				'P', ProxyRegistry.newStack(Blocks.PURPUR_BLOCK),
+				'O', ProxyRegistry.newStack(Blocks.OBSIDIAN));
+		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(duskbound_lantern, 4), 
 				"DDD", "DED", "DDD",
-				'D', new ItemStack(duskbound_block),
-				'E', new ItemStack(Items.ENDER_PEARL));
+				'D', ProxyRegistry.newStack(duskbound_block),
+				'E', ProxyRegistry.newStack(Items.ENDER_PEARL));
 	}
 	
 	@Override

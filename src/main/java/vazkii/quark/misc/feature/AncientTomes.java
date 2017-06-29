@@ -39,6 +39,7 @@ import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.misc.item.ItemAncientTome;
@@ -143,7 +144,7 @@ public class AncientTomes extends Feature {
 		
 		if(enchantsLeft.equals(enchantsRight)) {
 			Enchantment ench = enchantsRight.keySet().iterator().next();
-			ItemStack output = new ItemStack(Items.ENCHANTED_BOOK);
+			ItemStack output = ProxyRegistry.newStack(Items.ENCHANTED_BOOK);
 			((ItemEnchantedBook) output.getItem()).addEnchantment(output, new EnchantmentData(ench, enchantsRight.get(ench) + 1));
 			event.setOutput(output);
 			event.setCost(mergeTomeCost);

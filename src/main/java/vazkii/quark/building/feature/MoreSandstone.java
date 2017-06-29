@@ -12,13 +12,12 @@ package vazkii.quark.building.feature;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import vazkii.arl.block.BlockMod;
 import vazkii.arl.block.BlockModSlab;
 import vazkii.arl.block.BlockModStairs;
 import vazkii.arl.recipe.RecipeHandler;
+import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.GlobalConfig;
 import vazkii.quark.base.module.ModuleLoader;
@@ -41,18 +40,18 @@ public class MoreSandstone extends Feature {
 	public void preInit(FMLPreInitializationEvent event) {
 		sandstone_new = new BlockNewSandstone();
 		
-		RecipeHandler.addOreDictRecipe(new ItemStack(sandstone_new, 8, 0),
+		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(sandstone_new, 8, 0),
 				"SSS", "S S", "SSS",
-				'S', new ItemStack(Blocks.SANDSTONE));
-		RecipeHandler.addOreDictRecipe(new ItemStack(sandstone_new, 4, 1),
+				'S', ProxyRegistry.newStack(Blocks.SANDSTONE));
+		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(sandstone_new, 4, 1),
 				"SS", "SS",
-				'S', new ItemStack(sandstone_new, 1, 0));
-		RecipeHandler.addOreDictRecipe(new ItemStack(sandstone_new, 8, 2),
+				'S', ProxyRegistry.newStack(sandstone_new, 1, 0));
+		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(sandstone_new, 8, 2),
 				"SSS", "S S", "SSS",
-				'S', new ItemStack(Blocks.RED_SANDSTONE));
-		RecipeHandler.addOreDictRecipe(new ItemStack(sandstone_new, 4, 3),
+				'S', ProxyRegistry.newStack(Blocks.RED_SANDSTONE));
+		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(sandstone_new, 4, 3),
 				"SS", "SS",
-				'S', new ItemStack(sandstone_new, 1, 2));
+				'S', ProxyRegistry.newStack(sandstone_new, 1, 2));
 
 		if(enableStairsAndSlabs) {
 			boolean soulSandstone = ModuleLoader.isFeatureEnabled(SoulSandstone.class);
@@ -84,12 +83,12 @@ public class MoreSandstone extends Feature {
 	@Override
 	public void postPreInit(FMLPreInitializationEvent event) {		
 		if(ModuleLoader.isFeatureEnabled(SoulSandstone.class)) {
-			RecipeHandler.addOreDictRecipe(new ItemStack(sandstone_new, 8, 4),
+			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(sandstone_new, 8, 4),
 					"SSS", "S S", "SSS",
-					'S', new ItemStack(SoulSandstone.soul_sandstone));
-			RecipeHandler.addOreDictRecipe(new ItemStack(sandstone_new, 4, 5),
+					'S', ProxyRegistry.newStack(SoulSandstone.soul_sandstone));
+			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(sandstone_new, 4, 5),
 					"SS", "SS",
-					'S', new ItemStack(sandstone_new, 1, 4));
+					'S', ProxyRegistry.newStack(sandstone_new, 1, 4));
 		}
 	}
 	

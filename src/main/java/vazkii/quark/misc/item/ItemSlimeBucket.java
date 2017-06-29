@@ -42,7 +42,6 @@ public class ItemSlimeBucket extends ItemMod implements IQuarkItem {
 		setMaxStackSize(1);
 		setCreativeTab(CreativeTabs.MISC);
 		setContainerItem(Items.BUCKET);
-		OreDictionary.registerOre("slimeball", this);
 	}
 
 	@Override

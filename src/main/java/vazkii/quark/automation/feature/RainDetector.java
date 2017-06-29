@@ -12,9 +12,9 @@ package vazkii.quark.automation.feature;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import vazkii.arl.recipe.RecipeHandler;
+import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.automation.block.BlockRainDetector;
 import vazkii.quark.automation.tile.TileRainDetector;
 import vazkii.quark.base.handler.ModIntegrationHandler;
@@ -32,11 +32,11 @@ public class RainDetector extends Feature {
 		registerTile(TileRainDetector.class, "rain_detector");
 		ModIntegrationHandler.addCharsetCarry(rain_detector);
 
-		RecipeHandler.addOreDictRecipe(new ItemStack(rain_detector),
+		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(rain_detector),
 				"GGG", "BBB", "PPP",
-				'G', new ItemStack(Blocks.GLASS),
-				'B', ModuleLoader.isFeatureEnabled(Biotite.class) ? "gemEnderBiotite" : new ItemStack(Blocks.OBSIDIAN),
-						'P', new ItemStack(Blocks.PURPUR_SLAB));
+				'G', ProxyRegistry.newStack(Blocks.GLASS),
+				'B', ModuleLoader.isFeatureEnabled(Biotite.class) ? "gemEnderBiotite" : ProxyRegistry.newStack(Blocks.OBSIDIAN),
+						'P', ProxyRegistry.newStack(Blocks.PURPUR_SLAB));
 	}
 
 }

@@ -14,6 +14,7 @@ import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import vazkii.arl.recipe.RecipeHandler;
+import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.decoration.block.BlockLeafCarpet;
 import vazkii.quark.decoration.block.BlockLeafCarpet.Variants;
@@ -29,7 +30,7 @@ public class LeafCarpets extends Feature {
 		Variants[] variants = Variants.class.getEnumConstants();
 		for(int i = 0; i < variants.length; i++) {
 			ItemStack stack = variants[i].baseStack;
-			RecipeHandler.addOreDictRecipe(new ItemStack(leaf_carpet, 3, i),
+			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(leaf_carpet, 3, i),
 					"LL",
 					'L', stack.copy());
 		}

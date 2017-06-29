@@ -12,11 +12,11 @@ package vazkii.quark.building.feature;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import vazkii.arl.block.BlockModSlab;
 import vazkii.arl.block.BlockModStairs;
 import vazkii.arl.recipe.RecipeHandler;
+import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.GlobalConfig;
 import vazkii.quark.building.block.BlockReed;
@@ -46,10 +46,10 @@ public class ReedBlock extends Feature {
 		}
 		VanillaWalls.add("reed_block", reed_block, 0, enableWalls);
 
-		RecipeHandler.addOreDictRecipe(new ItemStack(reed_block),
+		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(reed_block),
 				"RRR", "RRR", "RRR",
-				'R', new ItemStack(Items.REEDS));
-		RecipeHandler.addShapelessOreDictRecipe(new ItemStack(Items.REEDS, 9), new ItemStack(reed_block));
+				'R', ProxyRegistry.newStack(Items.REEDS));
+		RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(Items.REEDS, 9), ProxyRegistry.newStack(reed_block));
 	}
 
 	@Override

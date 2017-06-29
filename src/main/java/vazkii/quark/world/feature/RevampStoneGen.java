@@ -6,13 +6,13 @@ import java.util.List;
 import net.minecraft.block.BlockStone;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.event.terraingen.OreGenEvent;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.Event.Result;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -21,6 +21,7 @@ import vazkii.arl.block.BlockMod;
 import vazkii.arl.block.BlockModSlab;
 import vazkii.arl.block.BlockModStairs;
 import vazkii.arl.recipe.RecipeHandler;
+import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.handler.BiomeTypeConfigHandler;
 import vazkii.quark.base.handler.DimensionConfig;
 import vazkii.quark.base.module.Feature;
@@ -91,12 +92,9 @@ public class RevampStoneGen extends Feature {
 
 			VanillaWalls.add("marble", marble, 0, enableWalls);
 
-			OreDictionary.registerOre("stoneMarble", new ItemStack(marble, 1, 0));
-			OreDictionary.registerOre("stoneMarblePolished", new ItemStack(marble, 1, 1));
-
-			RecipeHandler.addOreDictRecipe(new ItemStack(marble, 4, 1),
+			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(marble, 4, 1),
 					"BB", "BB",
-					'B', new ItemStack(marble, 1, 0));
+					'B', ProxyRegistry.newStack(marble, 1, 0));
 		}
 
 		if(enableLimestone) {
@@ -108,12 +106,10 @@ public class RevampStoneGen extends Feature {
 			}
 
 			VanillaWalls.add("limestone", limestone, 0, enableWalls);
-			OreDictionary.registerOre("stoneLimestone", new ItemStack(limestone, 1, 0));
-			OreDictionary.registerOre("stoneLimestonePolished", new ItemStack(limestone, 1, 1));
 
-			RecipeHandler.addOreDictRecipe(new ItemStack(limestone, 4, 1),
+			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(limestone, 4, 1),
 					"BB", "BB",
-					'B', new ItemStack(limestone, 1, 0));
+					'B', ProxyRegistry.newStack(limestone, 1, 0));
 		}
 
 		IBlockState graniteState = Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.GRANITE);
@@ -133,6 +129,19 @@ public class RevampStoneGen extends Feature {
 		
 		if(outputCSV)
 			BiomeTypeConfigHandler.debugStoneGeneration(generators);
+	}
+	
+	@Override
+	public void init(FMLInitializationEvent event) {
+		if(enableMarble) {
+			OreDictionary.registerOre("stoneMarble", ProxyRegistry.newStack(marble, 1, 0));
+			OreDictionary.registerOre("stoneMarblePolished", ProxyRegistry.newStack(marble, 1, 1));
+		}
+		
+		if(enableLimestone) {
+			OreDictionary.registerOre("stoneLimestone", ProxyRegistry.newStack(limestone, 1, 0));
+			OreDictionary.registerOre("stoneLimestonePolished", ProxyRegistry.newStack(limestone, 1, 1));
+		}
 	}
 	
 	@SubscribeEvent

@@ -12,11 +12,11 @@ package vazkii.quark.building.feature;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import vazkii.arl.block.BlockModSlab;
 import vazkii.arl.block.BlockModStairs;
 import vazkii.arl.recipe.RecipeHandler;
+import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.GlobalConfig;
 import vazkii.quark.building.block.BlockSandyBricks;
@@ -46,7 +46,7 @@ public class SandyBricks extends Feature {
 		}
 		VanillaWalls.add("sandy_bricks", sandy_bricks, 0, enableWalls);
 
-		RecipeHandler.addShapelessOreDictRecipe(new ItemStack(sandy_bricks), new ItemStack(Blocks.BRICK_BLOCK), new ItemStack(Blocks.SAND));
+		RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(sandy_bricks), ProxyRegistry.newStack(Blocks.BRICK_BLOCK), ProxyRegistry.newStack(Blocks.SAND));
 	}
 
 	@Override

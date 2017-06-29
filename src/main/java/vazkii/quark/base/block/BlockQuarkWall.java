@@ -21,7 +21,6 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -30,6 +29,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.arl.block.BlockMod;
 import vazkii.arl.recipe.RecipeHandler;
+import vazkii.arl.util.ProxyRegistry;
 
 public class BlockQuarkWall extends BlockMod implements IQuarkBlock {
 
@@ -142,9 +142,9 @@ public class BlockQuarkWall extends BlockMod implements IQuarkBlock {
 	}
 
 	public static void initWall(Block base, int meta, Block block) {
-		RecipeHandler.addOreDictRecipe(new ItemStack(block, 6),
+		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(block, 6),
 				"BBB", "BBB",
-				'B', new ItemStack(base, 1, meta));
+				'B', ProxyRegistry.newStack(base, 1, meta));
 	}
 
 }

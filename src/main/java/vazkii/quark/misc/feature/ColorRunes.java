@@ -13,7 +13,6 @@ package vazkii.quark.misc.feature;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.storage.loot.LootEntryItem;
 import net.minecraft.world.storage.loot.LootTableList;
@@ -27,6 +26,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import vazkii.arl.recipe.RecipeHandler;
 import vazkii.arl.util.ItemNBTHelper;
+import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.handler.ICustomEnchantColor;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.ModuleLoader;
@@ -61,17 +61,17 @@ public class ColorRunes extends Feature {
 		rune = new ItemRune();
 		
 		if(enableRainbowRuneCrafting) {
-			RecipeHandler.addOreDictRecipe(new ItemStack(rune, 7, 16), 
+			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(rune, 7, 16), 
 					"345", "2G6", "1W7",
-					'G', new ItemStack(Blocks.GLASS),
-					'W', new ItemStack(rune, 1, 0),
-					'1', new ItemStack(rune, 1, 14),
-					'2', new ItemStack(rune, 1, 1),
-					'3', new ItemStack(rune, 1, 4),
-					'4', new ItemStack(rune, 1, 5),
-					'5', new ItemStack(rune, 1, 3),
-					'6', new ItemStack(rune, 1, 11),
-					'7', new ItemStack(rune, 1, 2));
+					'G', ProxyRegistry.newStack(Blocks.GLASS),
+					'W', ProxyRegistry.newStack(rune, 1, 0),
+					'1', ProxyRegistry.newStack(rune, 1, 14),
+					'2', ProxyRegistry.newStack(rune, 1, 1),
+					'3', ProxyRegistry.newStack(rune, 1, 4),
+					'4', ProxyRegistry.newStack(rune, 1, 5),
+					'5', ProxyRegistry.newStack(rune, 1, 3),
+					'6', ProxyRegistry.newStack(rune, 1, 11),
+					'7', ProxyRegistry.newStack(rune, 1, 2));
 		}
 	}
 	

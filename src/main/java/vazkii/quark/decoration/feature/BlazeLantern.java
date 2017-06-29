@@ -11,10 +11,10 @@
 package vazkii.quark.decoration.feature;
 
 import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import vazkii.arl.block.BlockMod;
 import vazkii.arl.recipe.RecipeHandler;
+import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.decoration.block.BlockBlazeLantern;
 
@@ -26,10 +26,10 @@ public class BlazeLantern extends Feature {
 	public void preInit(FMLPreInitializationEvent event) {
 		blaze_lantern = new BlockBlazeLantern();
 
-		RecipeHandler.addOreDictRecipe(new ItemStack(blaze_lantern),
+		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(blaze_lantern),
 				"BPB", "PPP", "BPB",
-				'B', new ItemStack(Items.BLAZE_ROD),
-				'P', new ItemStack(Items.BLAZE_POWDER));
+				'B', ProxyRegistry.newStack(Items.BLAZE_ROD),
+				'P', ProxyRegistry.newStack(Items.BLAZE_POWDER));
 	}
 	
 	@Override

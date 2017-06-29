@@ -19,8 +19,11 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.oredict.OreDictionary;
+import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.misc.item.ItemSlimeBucket;
 
@@ -33,6 +36,11 @@ public class SlimeBucket extends Feature {
 		slime_bucket = new ItemSlimeBucket();
 	}
 
+	@Override
+	public void init(FMLInitializationEvent event) {
+		OreDictionary.registerOre("slimeball", slime_bucket);
+	}
+	
 	@SubscribeEvent
 	public void entityInteract(PlayerInteractEvent.EntityInteract event) {
 		if(event.getTarget() != null) {
@@ -47,7 +55,7 @@ public class SlimeBucket extends Feature {
 				}
 
 				if(!stack.isEmpty() && stack.getItem() == Items.BUCKET) {
-					ItemStack outStack = new ItemStack(slime_bucket);
+					ItemStack outStack = ProxyRegistry.newStack(slime_bucket);
 					if(stack.getCount() == 1)
 						player.setHeldItem(hand, outStack);
 					else {

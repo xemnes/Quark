@@ -11,10 +11,10 @@
 package vazkii.quark.building.feature;
 
 import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import vazkii.arl.block.BlockMod;
 import vazkii.arl.recipe.RecipeHandler;
+import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.building.block.BlockCarvedWood;
 
@@ -27,9 +27,9 @@ public class CarvedWood extends Feature {
 		carvedWood = new BlockCarvedWood();
 
 		for(int i = 0; i < 6; i++)
-			RecipeHandler.addOreDictRecipe(new ItemStack(carvedWood, 2, i),
+			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(carvedWood, 2, i),
 					"WW", "WW",
-					'W', new ItemStack(Blocks.WOODEN_SLAB, 1, i));
+					'W', ProxyRegistry.newStack(Blocks.WOODEN_SLAB, 1, i));
 	}
 	
 	@Override

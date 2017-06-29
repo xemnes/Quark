@@ -7,12 +7,12 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirectional;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import vazkii.arl.recipe.RecipeHandler;
+import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.automation.block.BlockIronRod;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.ModuleLoader;
@@ -32,7 +32,7 @@ public class PistonSpikes extends Feature {
 	public void preInit(FMLPreInitializationEvent event) {
 		iron_rod = new BlockIronRod();
 		
-		RecipeHandler.addOreDictRecipe(new ItemStack(iron_rod), 
+		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(iron_rod), 
 				"I", "I", "R",
 				'I', "ingotIron",
 				'R', (ezRecipe ? "ingotIron" : Blocks.END_ROD));

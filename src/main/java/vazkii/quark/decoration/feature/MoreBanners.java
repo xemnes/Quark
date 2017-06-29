@@ -15,6 +15,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.BannerPattern;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.module.Feature;
 
 public class MoreBanners extends Feature {
@@ -31,10 +32,10 @@ public class MoreBanners extends Feature {
 
 	@Override
 	public void init(FMLInitializationEvent event) {
-		addPattern(dragon, "dragon", "dr", new ItemStack(Items.SKULL, 1, 5));
-		addPattern(eye, "eye", "ey", new ItemStack(Items.ENDER_EYE));
-		addPattern(shield, "shield", "sh", new ItemStack(Items.IRON_CHESTPLATE));
-		addPattern(sword, "sword", "sw", new ItemStack(Items.IRON_SWORD));
+		addPattern(dragon, "dragon", "dr", ProxyRegistry.newStack(Items.SKULL, 1, 5));
+		addPattern(eye, "eye", "ey", ProxyRegistry.newStack(Items.ENDER_EYE));
+		addPattern(shield, "shield", "sh", ProxyRegistry.newStack(Items.IRON_CHESTPLATE));
+		addPattern(sword, "sword", "sw", ProxyRegistry.newStack(Items.IRON_SWORD));
 	}
 
 	public static void addPattern(boolean doit, String name, String id, ItemStack craftingItem) {

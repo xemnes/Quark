@@ -12,9 +12,9 @@ package vazkii.quark.decoration.feature;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import vazkii.arl.recipe.RecipeHandler;
+import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.decoration.block.BlockPaperWall;
 
@@ -26,10 +26,10 @@ public class PaperWall extends Feature {
 	public void preInit(FMLPreInitializationEvent event) {
 		paper_wall = new BlockPaperWall();
 
-		RecipeHandler.addOreDictRecipe(new ItemStack(paper_wall, 6),
+		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(paper_wall, 6),
 				"SSS", "PPP", "SSS",
-				'S', new ItemStack(Items.STICK),
-				'P', new ItemStack(Items.PAPER));
+				'S', ProxyRegistry.newStack(Items.STICK),
+				'P', ProxyRegistry.newStack(Items.PAPER));
 	}
 
 	@Override

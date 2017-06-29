@@ -21,9 +21,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
-import vazkii.arl.util.ModelHandler;
 import vazkii.quark.base.client.ClientTicker;
 import vazkii.quark.base.client.ResourceProxy;
 import vazkii.quark.base.lib.LibObfuscation;
@@ -38,14 +36,12 @@ public class ClientProxy extends CommonProxy {
 	public void preInit(FMLPreInitializationEvent event) {
 		super.preInit(event);
 		ModuleLoader.preInitClient(event);
-		ModelHandler.preInit();
 	}
 
 	@Override
 	public void init(FMLInitializationEvent event) {
 		super.init(event);
 		ModuleLoader.initClient(event);
-		ModelHandler.init();
 		MinecraftForge.EVENT_BUS.register(ClientTicker.class);
 	}
 

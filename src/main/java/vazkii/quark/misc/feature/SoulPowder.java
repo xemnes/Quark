@@ -3,12 +3,12 @@ package vazkii.quark.misc.feature;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import vazkii.arl.recipe.RecipeHandler;
+import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.lib.LibEntityIDs;
 import vazkii.quark.base.module.Feature;
@@ -32,8 +32,8 @@ public class SoulPowder extends Feature {
 	@Override
 	public void init(FMLInitializationEvent event) {
 		if(ModuleLoader.isFeatureEnabled(Wraiths.class))
-			RecipeHandler.addShapelessOreDictRecipe(new ItemStack(soul_powder), new ItemStack(Wraiths.soul_bead), new ItemStack(Blocks.SOUL_SAND), new ItemStack(Blocks.SOUL_SAND), new ItemStack(Blocks.SOUL_SAND));
-		else RecipeHandler.addShapelessOreDictRecipe(new ItemStack(soul_powder), new ItemStack(Items.MAGMA_CREAM), new ItemStack(Blocks.SOUL_SAND), new ItemStack(Blocks.SOUL_SAND), new ItemStack(Blocks.SOUL_SAND));
+			RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(soul_powder), ProxyRegistry.newStack(Wraiths.soul_bead), ProxyRegistry.newStack(Blocks.SOUL_SAND), ProxyRegistry.newStack(Blocks.SOUL_SAND), ProxyRegistry.newStack(Blocks.SOUL_SAND));
+		else RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(soul_powder), ProxyRegistry.newStack(Items.MAGMA_CREAM), ProxyRegistry.newStack(Blocks.SOUL_SAND), ProxyRegistry.newStack(Blocks.SOUL_SAND), ProxyRegistry.newStack(Blocks.SOUL_SAND));
 	}
 	
 }

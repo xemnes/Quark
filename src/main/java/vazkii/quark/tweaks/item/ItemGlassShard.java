@@ -40,7 +40,6 @@ public class ItemGlassShard extends ItemMod implements IQuarkItem {
 	public ItemGlassShard() {
 		super("glass_shards", VARIANTS);
 		setCreativeTab(CreativeTabs.MATERIALS);
-		OreDictionary.registerOre("shardGlass", this);
 	}
 
 }

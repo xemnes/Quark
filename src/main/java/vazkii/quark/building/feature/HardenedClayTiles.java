@@ -11,12 +11,12 @@
 package vazkii.quark.building.feature;
 
 import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import vazkii.arl.block.BlockMod;
 import vazkii.arl.block.BlockModSlab;
 import vazkii.arl.block.BlockModStairs;
 import vazkii.arl.recipe.RecipeHandler;
+import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.GlobalConfig;
@@ -50,9 +50,9 @@ public class HardenedClayTiles extends Feature {
 			BlockModSlab.initSlab(hardened_clay_tiles, 0, new BlockHardenedClayTilesSlab(false), new BlockHardenedClayTilesSlab(true));
 		}
 
-		RecipeHandler.addOreDictRecipe(new ItemStack(hardened_clay_tiles, 4, 0),
+		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(hardened_clay_tiles, 4, 0),
 				"BB", "BB",
-				'B', new ItemStack(Blocks.HARDENED_CLAY));
+				'B', ProxyRegistry.newStack(Blocks.HARDENED_CLAY));
 
 		if(enableStainedClay) {
 			stained_clay_tiles = new BlockStainedClayTiles();
@@ -65,12 +65,12 @@ public class HardenedClayTiles extends Feature {
 			}
 
 			for(int i = 0; i < 16; i++) {
-				RecipeHandler.addOreDictRecipe(new ItemStack(stained_clay_tiles, 4, i),
+				RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(stained_clay_tiles, 4, i),
 						"BB", "BB",
-						'B', new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, i));
-				RecipeHandler.addOreDictRecipe(new ItemStack(stained_clay_tiles, 8, i),
+						'B', ProxyRegistry.newStack(Blocks.STAINED_HARDENED_CLAY, 1, i));
+				RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(stained_clay_tiles, 8, i),
 						"BBB", "BDB", "BBB",
-						'B', new ItemStack(hardened_clay_tiles, 1),
+						'B', ProxyRegistry.newStack(hardened_clay_tiles, 1),
 						'D', LibMisc.OREDICT_DYES.get(15 - i));
 			}
 		}

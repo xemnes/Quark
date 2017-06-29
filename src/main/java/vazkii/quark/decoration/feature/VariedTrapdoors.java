@@ -27,6 +27,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.oredict.OreDictionary;
 import vazkii.arl.recipe.RecipeHandler;
+import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.block.BlockQuarkTrapdoor;
 import vazkii.quark.base.module.Feature;
 
@@ -54,12 +55,6 @@ public class VariedTrapdoors extends Feature {
 		jungle_trapdoor = new BlockQuarkTrapdoor("jungle_trapdoor");
 		acacia_trapdoor = new BlockQuarkTrapdoor("acacia_trapdoor");
 		dark_oak_trapdoor = new BlockQuarkTrapdoor("dark_oak_trapdoor");
-
-		OreDictionary.registerOre("trapdoorWood", spruce_trapdoor);
-		OreDictionary.registerOre("trapdoorWood", birch_trapdoor);
-		OreDictionary.registerOre("trapdoorWood", jungle_trapdoor);
-		OreDictionary.registerOre("trapdoorWood", acacia_trapdoor);
-		OreDictionary.registerOre("trapdoorWood", dark_oak_trapdoor);
 	}
 
 	@Override
@@ -73,39 +68,48 @@ public class VariedTrapdoors extends Feature {
 				NonNullList<Ingredient> ingredients = shaped.recipeItems;
 				for(int i = 0; i < ingredients.size(); i++) {
 					Ingredient ingr = ingredients.get(i);
-					if(ingr.apply(new ItemStack(Blocks.PLANKS)))
-						ingredients.set(i, Ingredient.fromStacks(new ItemStack(Blocks.PLANKS, 1, 0)));
+					if(ingr.apply(ProxyRegistry.newStack(Blocks.PLANKS)))
+						ingredients.set(i, Ingredient.fromStacks(ProxyRegistry.newStack(Blocks.PLANKS, 1, 0)));
 				}
 			}
 		}
 
-		RecipeHandler.addOreDictRecipe(new ItemStack(Blocks.TRAPDOOR, recipeOutput),
+		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(Blocks.TRAPDOOR, recipeOutput),
 				"WWW", "WWW",
-				'W', new ItemStack(Blocks.PLANKS));
+				'W', ProxyRegistry.newStack(Blocks.PLANKS));
 
-		RecipeHandler.addOreDictRecipe(new ItemStack(spruce_trapdoor, recipeOutput),
+		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(spruce_trapdoor, recipeOutput),
 				"WWW", "WWW",
-				'W', new ItemStack(Blocks.PLANKS, 1, 1));
-		RecipeHandler.addOreDictRecipe(new ItemStack(birch_trapdoor, recipeOutput),
+				'W', ProxyRegistry.newStack(Blocks.PLANKS, 1, 1));
+		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(birch_trapdoor, recipeOutput),
 				"WWW", "WWW",
-				'W', new ItemStack(Blocks.PLANKS, 1, 2));
-		RecipeHandler.addOreDictRecipe(new ItemStack(jungle_trapdoor, recipeOutput),
+				'W', ProxyRegistry.newStack(Blocks.PLANKS, 1, 2));
+		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(jungle_trapdoor, recipeOutput),
 				"WWW", "WWW",
-				'W', new ItemStack(Blocks.PLANKS, 1, 3));
-		RecipeHandler.addOreDictRecipe(new ItemStack(acacia_trapdoor, recipeOutput),
+				'W', ProxyRegistry.newStack(Blocks.PLANKS, 1, 3));
+		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(acacia_trapdoor, recipeOutput),
 				"WWW", "WWW",
-				'W', new ItemStack(Blocks.PLANKS, 1, 4));
-		RecipeHandler.addOreDictRecipe(new ItemStack(dark_oak_trapdoor, recipeOutput),
+				'W', ProxyRegistry.newStack(Blocks.PLANKS, 1, 4));
+		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(dark_oak_trapdoor, recipeOutput),
 				"WWW", "WWW",
-				'W', new ItemStack(Blocks.PLANKS, 1, 5));
+				'W', ProxyRegistry.newStack(Blocks.PLANKS, 1, 5));
 
 		if(renameVanillaTrapdoor)
 			Blocks.TRAPDOOR.setUnlocalizedName("oak_trapdoor");
 
 		// Low priority ore dictionary recipe
-		RecipeHandler.addOreDictRecipe(new ItemStack(Blocks.TRAPDOOR, recipeOutput),
+		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(Blocks.TRAPDOOR, recipeOutput),
 				"WWW", "WWW",
 				'W', "plankWood");
+	}
+	
+	@Override
+	public void init(FMLInitializationEvent event) {
+		OreDictionary.registerOre("trapdoorWood", spruce_trapdoor);
+		OreDictionary.registerOre("trapdoorWood", birch_trapdoor);
+		OreDictionary.registerOre("trapdoorWood", jungle_trapdoor);
+		OreDictionary.registerOre("trapdoorWood", acacia_trapdoor);
+		OreDictionary.registerOre("trapdoorWood", dark_oak_trapdoor);
 	}
 	
 	@Override

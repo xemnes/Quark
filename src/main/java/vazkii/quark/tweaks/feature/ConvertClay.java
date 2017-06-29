@@ -12,16 +12,16 @@ package vazkii.quark.tweaks.feature;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import vazkii.arl.recipe.RecipeHandler;
+import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.module.Feature;
 
 public class ConvertClay extends Feature {
 
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
-		RecipeHandler.addShapelessOreDictRecipe(new ItemStack(Items.CLAY_BALL, 4), new ItemStack(Blocks.CLAY));
+		RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(Items.CLAY_BALL, 4), ProxyRegistry.newStack(Blocks.CLAY));
 	}
 	
 	@Override

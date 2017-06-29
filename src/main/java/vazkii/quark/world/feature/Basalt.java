@@ -13,6 +13,7 @@ package vazkii.quark.world.feature;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
@@ -20,6 +21,7 @@ import vazkii.arl.block.BlockMod;
 import vazkii.arl.block.BlockModSlab;
 import vazkii.arl.block.BlockModStairs;
 import vazkii.arl.recipe.RecipeHandler;
+import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.handler.DimensionConfig;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.GlobalConfig;
@@ -61,27 +63,30 @@ public class Basalt extends Feature {
 		}
 		VanillaWalls.add("basalt", basalt, 0, enableWalls);
 
-		OreDictionary.registerOre("stoneBasalt", new ItemStack(basalt, 1, 0));
-		OreDictionary.registerOre("stoneBasaltPolished", new ItemStack(basalt, 1, 1));
-
-		RecipeHandler.addOreDictRecipe(new ItemStack(basalt, 4, 1),
+		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(basalt, 4, 1),
 				"BB", "BB",
-				'B', new ItemStack(basalt, 1, 0));
+				'B', ProxyRegistry.newStack(basalt, 1, 0));
 
 		GameRegistry.registerWorldGenerator(new BasaltGenerator(dims, clusterSizeOverworld, clusterSizeNether, clusterCountOverworld, clusterCountNether), 0);
+	}
+	
+	@Override
+	public void init(FMLInitializationEvent event) {
+		OreDictionary.registerOre("stoneBasalt", ProxyRegistry.newStack(basalt, 1, 0));
+		OreDictionary.registerOre("stoneBasaltPolished", ProxyRegistry.newStack(basalt, 1, 1));
 	}
 
 	@Override
 	public void postPreInit(FMLPreInitializationEvent event) {
-		ItemStack blackItem = new ItemStack(Items.COAL); 
+		ItemStack blackItem = ProxyRegistry.newStack(Items.COAL); 
 		if(ModuleLoader.isFeatureEnabled(Biotite.class))
-			blackItem = new ItemStack(Biotite.biotite);
+			blackItem = ProxyRegistry.newStack(Biotite.biotite);
 
-		RecipeHandler.addOreDictRecipe(new ItemStack(basalt, 4, 0),
+		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(basalt, 4, 0),
 				"BI", "IB",
-				'B', new ItemStack(Blocks.COBBLESTONE, 1, 0),
+				'B', ProxyRegistry.newStack(Blocks.COBBLESTONE, 1, 0),
 				'I', blackItem);
-		RecipeHandler.addShapelessOreDictRecipe(new ItemStack(Blocks.STONE, 1, 5), new ItemStack(basalt), new ItemStack(Items.QUARTZ));
+		RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(Blocks.STONE, 1, 5), ProxyRegistry.newStack(basalt), ProxyRegistry.newStack(Items.QUARTZ));
 	}
 
 	@Override

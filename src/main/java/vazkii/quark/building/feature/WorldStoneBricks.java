@@ -12,13 +12,12 @@ package vazkii.quark.building.feature;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import vazkii.arl.block.BlockMod;
 import vazkii.arl.block.BlockModSlab;
 import vazkii.arl.block.BlockModStairs;
 import vazkii.arl.recipe.RecipeHandler;
+import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.GlobalConfig;
 import vazkii.quark.building.block.BlockWorldStoneBricks;
@@ -77,24 +76,24 @@ public class WorldStoneBricks extends Feature {
 	@Override
 	public void postPreInit(FMLPreInitializationEvent event) {		
 		for(int i = 0; i < 3; i++)
-			RecipeHandler.addOreDictRecipe(new ItemStack(world_stone_bricks, 4, i),
+			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(world_stone_bricks, 4, i),
 					"SS", "SS",
-					'S', new ItemStack(Blocks.STONE, 1, i * 2 + 2));
+					'S', ProxyRegistry.newStack(Blocks.STONE, 1, i * 2 + 2));
 
 		if(BlockWorldStoneBricks.Variants.STONE_BASALT_BRICKS.isEnabled())
-			RecipeHandler.addOreDictRecipe(new ItemStack(world_stone_bricks, 4, 3),
+			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(world_stone_bricks, 4, 3),
 					"SS", "SS",
-					'S', new ItemStack(Basalt.basalt, 1, 1));
+					'S', ProxyRegistry.newStack(Basalt.basalt, 1, 1));
 		
 		if(BlockWorldStoneBricks.Variants.STONE_MARBLE_BRICKS.isEnabled())
-			RecipeHandler.addOreDictRecipe(new ItemStack(world_stone_bricks, 4, 4),
+			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(world_stone_bricks, 4, 4),
 					"SS", "SS",
-					'S', new ItemStack(RevampStoneGen.marble, 1, 1));
+					'S', ProxyRegistry.newStack(RevampStoneGen.marble, 1, 1));
 		
 		if(BlockWorldStoneBricks.Variants.STONE_LIMESTONE_BRICKS.isEnabled())
-			RecipeHandler.addOreDictRecipe(new ItemStack(world_stone_bricks, 4, 5),
+			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(world_stone_bricks, 4, 5),
 					"SS", "SS",
-					'S', new ItemStack(RevampStoneGen.limestone, 1, 1));
+					'S', ProxyRegistry.newStack(RevampStoneGen.limestone, 1, 1));
 	}
 	
 	@Override

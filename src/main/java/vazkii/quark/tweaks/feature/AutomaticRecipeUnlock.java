@@ -2,7 +2,6 @@ package vazkii.quark.tweaks.feature;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;

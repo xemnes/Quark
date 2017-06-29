@@ -15,15 +15,17 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.entity.boss.EntityDragon;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.oredict.OreDictionary;
 import vazkii.arl.block.BlockModSlab;
 import vazkii.arl.block.BlockModStairs;
 import vazkii.arl.recipe.RecipeHandler;
+import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.GlobalConfig;
 import vazkii.quark.building.feature.VanillaWalls;
@@ -72,21 +74,26 @@ public class Biotite extends Feature {
 
 		VanillaWalls.add("biotite", biotite_block, 0, enableWalls);
 
-		RecipeHandler.addOreDictRecipe(new ItemStack(biotite_block),
+		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(biotite_block),
 				"BB", "BB",
-				'B', new ItemStack(biotite));
+				'B', ProxyRegistry.newStack(biotite));
 
-		RecipeHandler.addOreDictRecipe(new ItemStack(biotite_block, 2, 1),
+		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(biotite_block, 2, 1),
 				"B", "B",
-				'B', new ItemStack(singleSlab));
+				'B', ProxyRegistry.newStack(singleSlab));
 
-		RecipeHandler.addOreDictRecipe(new ItemStack(biotite_block, 2, 2),
+		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(biotite_block, 2, 2),
 				"B", "B",
-				'B', new ItemStack(biotite_block));
+				'B', ProxyRegistry.newStack(biotite_block));
 
 		GameRegistry.registerWorldGenerator(new BiotiteGenerator(clusterSize, clusterCount), 0);
 	}
 
+	@Override
+	public void init(FMLInitializationEvent event) {
+		OreDictionary.registerOre("gemEnderBiotite", biotite);
+	}
+	
 	@SubscribeEvent
 	public void onEntityTick(LivingUpdateEvent event) {
 		if(generateByDragon && event.getEntityLiving() instanceof EntityDragon && !event.getEntity().getEntityWorld().isRemote) {

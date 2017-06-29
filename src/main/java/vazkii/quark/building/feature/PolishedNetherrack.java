@@ -1,12 +1,12 @@
 package vazkii.quark.building.feature;
 
 import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import vazkii.arl.block.BlockMod;
 import vazkii.arl.block.BlockModSlab;
 import vazkii.arl.block.BlockModStairs;
 import vazkii.arl.recipe.RecipeHandler;
+import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.GlobalConfig;
 import vazkii.quark.building.block.BlockPolishedNetherrack;
@@ -36,12 +36,12 @@ public class PolishedNetherrack extends Feature {
 		}
 		VanillaWalls.add("polished_netherrack_bricks", polished_netherrack, 1, enableWalls);
 		
-		RecipeHandler.addOreDictRecipe(new ItemStack(polished_netherrack), 
+		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(polished_netherrack), 
 				"RR", "RR",
-				'R', new ItemStack(Blocks.NETHERRACK));
-		RecipeHandler.addOreDictRecipe(new ItemStack(polished_netherrack, 4, 1), 
+				'R', ProxyRegistry.newStack(Blocks.NETHERRACK));
+		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(polished_netherrack, 4, 1), 
 				"RR", "RR",
-				'R', new ItemStack(polished_netherrack));
+				'R', ProxyRegistry.newStack(polished_netherrack));
 	}
 
 	@Override
