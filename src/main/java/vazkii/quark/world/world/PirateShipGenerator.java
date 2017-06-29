@@ -18,6 +18,7 @@ import net.minecraft.block.BlockChest;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.passive.EntityParrot;
 import net.minecraft.init.Biomes;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -109,7 +110,13 @@ public class PirateShipGenerator implements IWorldGenerator {
 				pirate.setItemStackToSlot(EntityEquipmentSlot.CHEST, new ItemStack(Items.IRON_CHESTPLATE));
 				pirate.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.DIAMOND_SWORD));
 				pirate.setItemStackToSlot(EntityEquipmentSlot.HEAD, new ItemStack(PirateShips.pirate_hat));
+				
+				EntityParrot parrot = new EntityParrot(world);
+				pirate.setPosition(dataPos.getX() + 0.5, dataPos.getY(), dataPos.getZ() + 0.5);
+				
 				world.spawnEntity(pirate);
+				world.spawnEntity(parrot);
+				parrot.startRiding(pirate);
 				break;
 			case "bow_pirate":
 				pirate = new EntityPirate(world);
@@ -128,8 +135,10 @@ public class PirateShipGenerator implements IWorldGenerator {
 			case "booty":
 				float chance = tokens.length == 3 ? 1F : 0.75F;
 
-				if(random.nextFloat() > chance)
+				if(random.nextFloat() > chance) {
+					world.setBlockState(dataPos, Blocks.AIR.getDefaultState());
 					break;
+				}
 
 				String chestOrientation = tokens[1];
 				EnumFacing chestFacing = settings.getRotation().rotate(EnumFacing.byName(chestOrientation));
@@ -148,7 +157,7 @@ public class PirateShipGenerator implements IWorldGenerator {
 
 				TileEntityDispenser dispenser = (TileEntityDispenser) world.getTileEntity(dataPos);
 				if(dispenser != null)
-					dispenser.setInventorySlotContents(random.nextInt(9), new ItemStack(Items.FIRE_CHARGE, 5 + random.nextInt(20)));
+					dispenser.setInventorySlotContents(random.nextInt(9), new ItemStack(Items.FIRE_CHARGE, 2 + random.nextInt(4)));
 				break;
 			}
 		}

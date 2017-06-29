@@ -39,7 +39,7 @@ public class PirateShips extends Feature {
 	@Override
 	public void setupConfig() {
 		onlyHat = loadPropBool("Only hat", "Disables the pirate mob and generator, only adds the hat", false);
-		rarity = loadPropInt("Pirate Ship Rarity", "Given this value as X, 1 ship will spawn in X ocean biome chunks", 1600);
+		rarity = loadPropInt("Pirate Ship Rarity", "Given this value as X, 1 ship will spawn in X ocean biome chunks", 4000);
 		dims = new DimensionConfig(configCategory);
 	}
 

@@ -10,16 +10,24 @@
  */
 package vazkii.quark.world.entity;
 
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.EntitySkeleton;
+import net.minecraft.entity.passive.EntityParrot;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 import vazkii.quark.world.feature.PirateShips;
 
 public class EntityPirate extends EntitySkeleton {
 
+	private static final String TAG_CAPTAIN = "captain";
+	
+	boolean captain;
+	
 	public EntityPirate(World worldIn) {
 		super(worldIn);
 	}
@@ -28,12 +36,56 @@ public class EntityPirate extends EntitySkeleton {
 	protected boolean canDespawn() {
 		return false;
 	}
+	
+	public void setCaptain(boolean captain) {
+		this.captain = captain;
+	}
+	
+	public boolean isCaptain() {
+		return captain;
+	}
+	
+	@Override
+	public void writeEntityToNBT(NBTTagCompound compound) {
+		super.writeEntityToNBT(compound);
+		compound.setBoolean(TAG_CAPTAIN, captain);
+	}
+	
+	@Override
+	public void readEntityFromNBT(NBTTagCompound compound) {
+		super.readEntityFromNBT(compound);
+		captain = compound.getBoolean(TAG_CAPTAIN);
+	}
 
 	@Override
 	protected void setEquipmentBasedOnDifficulty(DifficultyInstance difficulty) {
 		setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.IRON_SWORD));
 		setItemStackToSlot(EntityEquipmentSlot.HEAD, new ItemStack(PirateShips.pirate_hat));
 	}
-
+	
+	@Override
+    public void updatePassenger(Entity passenger) {
+        if(isPassenger(passenger) && passenger instanceof EntityParrot) {
+        	EntityParrot parrot = (EntityParrot) passenger;
+        	parrot.flap = -1;
+        	parrot.rotationPitch = 0;
+        	
+        	float rotation = rotationYaw;
+        	float radius = 0.5F;
+        	float x = (float) Math.cos(rotation * 0.017453292F) * radius;
+        	float z = (float) Math.sin(rotation * 0.017453292F) * radius;
+        	
+        	parrot.setPosition(posX + x, posY + getMountedYOffset(), posZ + z);
+        }
+    }
+	
+	@Override
+    protected void applyEntityAttributes() {
+        super.applyEntityAttributes();
+        
+        if(captain)
+            getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(60);
+    }
+	
 }
 
