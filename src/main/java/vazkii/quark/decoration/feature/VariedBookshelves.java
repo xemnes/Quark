@@ -79,8 +79,10 @@ public class VariedBookshelves extends Feature {
 
 	@Override
 	public void init(FMLInitializationEvent event) {
+		OreDictionary.registerOre("bookshelf", Blocks.BOOKSHELF);
 		OreDictionary.registerOre("bookshelf", ProxyRegistry.newStack(custom_bookshelf, 1, OreDictionary.WILDCARD_VALUE));
 		
+		OreDictionary.registerOre("bookshelfOak", Blocks.BOOKSHELF);
 		OreDictionary.registerOre("bookshelfSpruce", ProxyRegistry.newStack(custom_bookshelf, 1, 0));
 		OreDictionary.registerOre("bookshelfBirch", ProxyRegistry.newStack(custom_bookshelf, 1, 1));
 		OreDictionary.registerOre("bookshelfJungle", ProxyRegistry.newStack(custom_bookshelf, 1, 2));

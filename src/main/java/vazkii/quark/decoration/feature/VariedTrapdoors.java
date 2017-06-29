@@ -105,6 +105,7 @@ public class VariedTrapdoors extends Feature {
 	
 	@Override
 	public void init(FMLInitializationEvent event) {
+		OreDictionary.registerOre("trapdoorWood", Blocks.TRAPDOOR);
 		OreDictionary.registerOre("trapdoorWood", spruce_trapdoor);
 		OreDictionary.registerOre("trapdoorWood", birch_trapdoor);
 		OreDictionary.registerOre("trapdoorWood", jungle_trapdoor);

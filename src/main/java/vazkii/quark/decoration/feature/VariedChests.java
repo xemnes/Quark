@@ -156,8 +156,14 @@ public class VariedChests extends Feature {
 	public void init(FMLInitializationEvent event) {
 		OreDictionary.registerOre("chest", ProxyRegistry.newStack(custom_chest, 1, OreDictionary.WILDCARD_VALUE));
 		OreDictionary.registerOre("chest", ProxyRegistry.newStack(custom_chest_trap, 1, OreDictionary.WILDCARD_VALUE));
+		OreDictionary.registerOre("chest", Blocks.CHEST);
+		OreDictionary.registerOre("chest", Blocks.TRAPPED_CHEST);
+		
 		OreDictionary.registerOre("chestWood", ProxyRegistry.newStack(custom_chest, 1, OreDictionary.WILDCARD_VALUE));
+		OreDictionary.registerOre("chestWood", Blocks.CHEST);
+		
 		OreDictionary.registerOre("chestTrapped", ProxyRegistry.newStack(custom_chest_trap, 1, OreDictionary.WILDCARD_VALUE));
+		OreDictionary.registerOre("chestTrapped", Blocks.TRAPPED_CHEST);
 	}
 	
 	@Override
