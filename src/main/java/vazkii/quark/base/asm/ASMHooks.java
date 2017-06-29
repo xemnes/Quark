@@ -17,6 +17,8 @@ import vazkii.quark.automation.feature.PistonSpikes;
 import vazkii.quark.automation.feature.PistonsMoveTEs;
 import vazkii.quark.management.feature.BetterCraftShifting;
 import vazkii.quark.misc.feature.ColorRunes;
+import vazkii.quark.tweaks.feature.ImprovedMountHUD;
+import vazkii.quark.tweaks.feature.ImprovedSleeping;
 import vazkii.quark.vanity.client.emotes.base.EmoteHandler;
 import vazkii.quark.vanity.client.render.BoatBannerRenderer;
 import vazkii.quark.vanity.feature.BoatSails;
@@ -85,6 +87,12 @@ public final class ASMHooks {
 	@SideOnly(Side.CLIENT)
 	public static boolean renderPistonBlock(BlockPos pos, IBlockState state, BufferBuilder buffer, World world, boolean checkSides) {
 		return PistonTileEntityRenderer.renderPistonBlock(pos, state, buffer, world, checkSides);
+	}
+	
+	// ===== IMPROVED SLEEPING ===== //
+
+	public static boolean isEveryoneAsleep(World world) {
+		return ImprovedSleeping.isEveryoneAsleep(world);
 	}
 	
 }

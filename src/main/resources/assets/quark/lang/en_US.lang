@@ -12,6 +12,9 @@ quarkmisc.craftButton.balance=Balance Grid
 quarkmisc.shulkerBoxShift=Hold Shift to see contents
 quarkmisc.mapShift=Hold Shift to see the map
 quarkmisc.keyboundButton=%sPress %s
+quarkmisc.nowAfk=You are now AFK (Away From Keyboard).
+quarkmisc.leftAfk=You are no longer AFK.
+quarkmisc.personSleeping=%s is now sleeping. (%d/%d)
 
 # BLOCK NAMES
 tile.quark:hardened_clay_tiles.name=Terracotta Shingles

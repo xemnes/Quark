@@ -91,6 +91,9 @@ public class ClassTransformer implements IClassTransformer {
 		// For Pistons Move TEs
 		transformers.put("net.minecraft.tileentity.TileEntityPiston", ClassTransformer::transformTileEntityPiston);
 		transformers.put("net.minecraft.client.renderer.tileentity.TileEntityPistonRenderer", ClassTransformer::transformTileEntityPistonRenderer);
+		
+		// For Imrpoved Sleeping
+		transformers.put("net.minecraft.world.WorldServer", ClassTransformer::transformWorldServer);
 	}
 
 	@Override
@@ -389,6 +392,26 @@ public class ClassTransformer implements IClassTransformer {
 						newInstructions.add(new VarInsnNode(Opcodes.ALOAD, i));
 					newInstructions.add(new VarInsnNode(Opcodes.ILOAD, 5));
 					newInstructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, ASM_HOOKS, "renderPistonBlock", "(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/client/renderer/BufferBuilder;Lnet/minecraft/world/World;Z)Z"));
+					newInstructions.add(new InsnNode(Opcodes.IRETURN));
+					
+					method.instructions = newInstructions;
+					return true;
+				})));
+	}
+	
+	private static byte[] transformWorldServer(byte[] basicClass) {
+		log("Transforming WorldServer");
+		MethodSignature sig = new MethodSignature("areAllPlayersAsleep", "func_73056_e", "g", "()Z");
+
+		return transform(basicClass, Pair.of(sig, combine(
+				(AbstractInsnNode node) -> { // Filter
+					return true;
+				},
+				(MethodNode method, AbstractInsnNode node) -> { // Action
+					InsnList newInstructions = new InsnList();
+
+					newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 0));
+					newInstructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, ASM_HOOKS, "isEveryoneAsleep", "(Lnet/minecraft/world/World;)Z"));
 					newInstructions.add(new InsnNode(Opcodes.IRETURN));
 					
 					method.instructions = newInstructions;

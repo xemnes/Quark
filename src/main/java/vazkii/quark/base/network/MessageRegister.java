@@ -26,6 +26,7 @@ import vazkii.quark.base.network.message.MessageSetLockProfile;
 import vazkii.quark.base.network.message.MessageSortInventory;
 import vazkii.quark.base.network.message.MessageSwapItems;
 import vazkii.quark.base.network.message.MessageTuneNoteBlock;
+import vazkii.quark.base.network.message.MessageUpdateAfk;
 import vazkii.quark.misc.feature.LockDirectionHotkey.LockProfile;
 
 public class MessageRegister {
@@ -44,6 +45,7 @@ public class MessageRegister {
 		NetworkHandler.register(MessageTuneNoteBlock.class, Side.SERVER);
 		NetworkHandler.register(MessageSetLockProfile.class, Side.SERVER);
 		NetworkHandler.register(MessageChangeHotbar.class, Side.SERVER);
+		NetworkHandler.register(MessageUpdateAfk.class, Side.SERVER);
 
 		NetworkMessage.mapHandler(LockProfile.class, LockProfile::readProfile, LockProfile::writeProfile);
 	}
