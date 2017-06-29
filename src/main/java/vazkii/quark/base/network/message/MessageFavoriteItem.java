@@ -27,7 +27,7 @@ public class MessageFavoriteItem extends NetworkMessage {
 
 	@Override
 	public IMessage handleMessage(MessageContext context) {
-		FavoriteItems.favoriteItem(context.getServerHandler().playerEntity, index);
+		FavoriteItems.favoriteItem(context.getServerHandler().player, index);
 		return null;
 	}
 

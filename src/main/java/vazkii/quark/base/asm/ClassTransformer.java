@@ -70,8 +70,6 @@ public class ClassTransformer implements IClassTransformer {
 
 	private static final Map<String, Transformer> transformers = new HashMap();
 
-	// TODO verify all ASM hooks and obf mappings 
-	
 	static {
 		// For Emotes
 		transformers.put("net.minecraft.client.model.ModelBiped", ClassTransformer::transformModelBiped);

@@ -51,7 +51,7 @@ public class ChickensShedFeathers extends Feature {
 		boolean hasFeather = false;
 
 		for(EntityItem item : event.getDrops())
-			if(!item.getEntityItem().isEmpty() && item.getEntityItem().getItem().equals(Items.FEATHER)) {
+			if(!item.getItem().isEmpty() && item.getItem().getItem().equals(Items.FEATHER)) {
 				hasFeather = true;
 				break;
 			}

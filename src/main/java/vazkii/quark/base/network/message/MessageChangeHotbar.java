@@ -19,7 +19,7 @@ public class MessageChangeHotbar extends NetworkMessage<MessageChangeHotbar> {
 	
 	@Override
 	public IMessage handleMessage(MessageContext context) {
-		EntityPlayer player = context.getServerHandler().playerEntity;
+		EntityPlayer player = context.getServerHandler().player;
 		
 		if(bar > 0 && bar <= 3)
 			for(int i = 0; i < 9; i++)

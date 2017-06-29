@@ -22,12 +22,7 @@ public class WorldTypeRealistic extends WorldType {
 	public WorldTypeRealistic(String name) {
 		super(name);
 	}
-
-	@Override
-	public boolean showWorldInfoNotice() {
-		return true;
-	}
-
+	
 	@Override
 	public float getCloudHeight() {
 		return 260F;

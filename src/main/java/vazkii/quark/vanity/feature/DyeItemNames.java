@@ -25,7 +25,7 @@ public class DyeItemNames extends Feature {
 	public void makeTooltip(ItemTooltipEvent event) {
 		ItemStack stack = event.getItemStack(); 
 		if(!stack.isEmpty() && stack.hasTagCompound() && ItemNBTHelper.getInt(stack, TAG_DYE, -1) != -1) {
-			FontRenderer font = Minecraft.getMinecraft().fontRendererObj; 
+			FontRenderer font = Minecraft.getMinecraft().fontRenderer; 
 			int len = font.getStringWidth(stack.getDisplayName());
 			String spaces = "";
 			while(font.getStringWidth(spaces) < len)
@@ -44,7 +44,7 @@ public class DyeItemNames extends Feature {
 			if(dye != -1) {
 				int rgb = ItemDye.DYE_COLORS[Math.min(15, dye)];
 				Color color = new Color(rgb);
-				Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow(stack.getDisplayName(), event.getX(), event.getY(), color.getRGB());
+				Minecraft.getMinecraft().fontRenderer.drawStringWithShadow(stack.getDisplayName(), event.getX(), event.getY(), color.getRGB());
 			}
 		}
 	}

@@ -89,7 +89,7 @@ public class EndermenAntiCheese extends Feature {
 			return;
 
 		Vec3d look = entity.getLookVec();
-		pos = pos.add((int) (look.xCoord * 1.2), 0, (int) (look.zCoord * 1.2));
+		pos = pos.add((int) (look.x * 1.2), 0, (int) (look.z * 1.2));
 		entity.swingArm(EnumHand.MAIN_HAND);
 		
 		IBlockState state = entity.world.getBlockState(pos);

@@ -115,7 +115,7 @@ public class ChangeHotbarKeybind extends Feature {
 			}
 
 			for(int i = 0; i < 3; i++)
-				mc.fontRendererObj.drawStringWithShadow(TextFormatting.BOLD + Integer.toString(i + 1), xStart - 9, yStart + i * 21 + 7, 0xFFFFFF);
+				mc.fontRenderer.drawStringWithShadow(TextFormatting.BOLD + Integer.toString(i + 1), xStart - 9, yStart + i * 21 + 7, 0xFFFFFF);
 
 			RenderHelper.enableGUIStandardItemLighting();
 
@@ -126,7 +126,7 @@ public class ChangeHotbarKeybind extends Feature {
 				int y = (i / 9) * 21 + 3;
 
 				render.renderItemAndEffectIntoGUI(invStack, x, y);
-				render.renderItemOverlays(mc.fontRendererObj, invStack, x, y);
+				render.renderItemOverlays(mc.fontRenderer, invStack, x, y);
 			}
 			RenderHelper.disableStandardItemLighting();
 

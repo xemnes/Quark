@@ -50,8 +50,8 @@ public class RealisticWorldType extends Feature {
 		if(makeRealisticDefault && event.getGui() instanceof GuiCreateWorld) {
 			GuiCreateWorld create = (GuiCreateWorld) event.getGui();
 			int index = ReflectionHelper.getPrivateValue(GuiCreateWorld.class, create, LibObfuscation.SELECTED_INDEX);
-			if(index == WorldType.DEFAULT.getWorldTypeID())
-				ReflectionHelper.setPrivateValue(GuiCreateWorld.class, create, realistic.getWorldTypeID(), LibObfuscation.SELECTED_INDEX);
+			if(index == WorldType.DEFAULT.getId())
+				ReflectionHelper.setPrivateValue(GuiCreateWorld.class, create, realistic.getId(), LibObfuscation.SELECTED_INDEX);
 		}
 	}
 	

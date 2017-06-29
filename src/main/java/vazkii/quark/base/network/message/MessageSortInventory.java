@@ -17,7 +17,7 @@ public class MessageSortInventory extends NetworkMessage {
 	
 	@Override
 	public IMessage handleMessage(MessageContext context) {
-		SortingHandler.sortInventory(context.getServerHandler().playerEntity, forcePlayer);
+		SortingHandler.sortInventory(context.getServerHandler().player, forcePlayer);
 		return null;
 	}
 

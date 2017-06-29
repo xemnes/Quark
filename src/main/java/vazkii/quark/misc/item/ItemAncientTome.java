@@ -29,7 +29,7 @@ public class ItemAncientTome extends ItemMod implements IQuarkItem {
 
 	@Override
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> subItems) {
-		if(func_194125_a(tab))
+		if(isInCreativeTab(tab))
 			for(Enchantment e : AncientTomes.validEnchants) {
 				ItemStack stack = new ItemStack(this);
 				stack.addEnchantment(e, e.getMaxLevel());

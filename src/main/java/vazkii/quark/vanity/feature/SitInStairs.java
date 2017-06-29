@@ -41,7 +41,7 @@ public class SitInStairs extends Feature {
 		
 		Vec3d vec = new Vec3d(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
 		double maxDist = 2;
-		if((vec.xCoord - player.posX) * (vec.xCoord - player.posX) + (vec.yCoord - player.posY) * (vec.yCoord - player.posY) + (vec.zCoord - player.posZ) * (vec.zCoord - player.posZ) > maxDist * maxDist)
+		if((vec.x - player.posX) * (vec.x - player.posX) + (vec.y - player.posY) * (vec.y - player.posY) + (vec.z - player.posZ) * (vec.z - player.posZ) > maxDist * maxDist)
 			return;
 		
 		IBlockState state = world.getBlockState(pos);

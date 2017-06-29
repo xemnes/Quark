@@ -19,9 +19,9 @@ import net.minecraft.item.ItemArrow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import vazkii.arl.interf.IVariantHolder;
 import vazkii.arl.item.ItemMod;
+import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.item.IQuarkItem;
 import vazkii.quark.base.lib.LibMisc;
 
@@ -54,7 +54,8 @@ public class ItemModArrow extends ItemArrow implements IVariantHolder, IQuarkIte
 	@Override
 	public Item setUnlocalizedName(String name) {
 		super.setUnlocalizedName(name);
-		GameRegistry.register(this, new ResourceLocation(LibMisc.PREFIX_MOD + name));
+		setRegistryName(new ResourceLocation(LibMisc.PREFIX_MOD + name));
+		ProxyRegistry.register(this);
 
 		return this;
 	}

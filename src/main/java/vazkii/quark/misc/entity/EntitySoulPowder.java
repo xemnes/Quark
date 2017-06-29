@@ -56,9 +56,9 @@ public class EntitySoulPowder extends Entity {
 			particles = (maxLiveTime - liveTicks);
 		
 		Vec3d vec = new Vec3d((double) dataManager.get(TARGET_X), posY, (double) dataManager.get(TARGET_Z)).subtract(posX, posY, posZ).normalize().scale(scale);
-		double bpx = posX + vec.xCoord * liveTicks + Math.cos(trigArg) * rotateSpread;
-		double bpy = posY + vec.yCoord * liveTicks + liveTicks * rise;
-		double bpz = posZ + vec.zCoord * liveTicks + Math.sin(trigArg) * rotateSpread;
+		double bpx = posX + vec.x * liveTicks + Math.cos(trigArg) * rotateSpread;
+		double bpy = posY + vec.y * liveTicks + liveTicks * rise;
+		double bpz = posZ + vec.z * liveTicks + Math.sin(trigArg) * rotateSpread;
 		
 		for(int i = 0; i < particles; i++) {
 			double px = bpx + (Math.random() - 0.5) * posSpread;

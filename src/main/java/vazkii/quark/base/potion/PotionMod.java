@@ -13,9 +13,9 @@ package vazkii.quark.base.potion;
 import net.minecraft.client.Minecraft;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.lib.LibMisc;
 
 public class PotionMod extends Potion {
@@ -28,7 +28,8 @@ public class PotionMod extends Potion {
 		super(badEffect, color);
 		setIconIndex(iconIndex % 8, iconIndex / 8);
 		setPotionName(name);
-		GameRegistry.register(this, new ResourceLocation(LibMisc.PREFIX_MOD + name));
+		setRegistryName(new ResourceLocation(LibMisc.PREFIX_MOD + name));
+		ProxyRegistry.register(this);
 		bareName = name;
 	}
 

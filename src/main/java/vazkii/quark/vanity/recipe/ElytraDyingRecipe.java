@@ -88,19 +88,18 @@ public class ElytraDyingRecipe extends ModRecipe {
 	}
 
 	@Override
-	public boolean func_194133_a(int p_194133_1_, int p_194133_2_) {
+	public boolean canFit(int x, int y) {
 		return true;
 	}
 	
-	@Override
-	public NonNullList<Ingredient> func_192400_c() {
-		NonNullList<Ingredient> list = NonNullList.withSize(2, Ingredient.field_193370_a);
-		list.set(0, Ingredient.func_193369_a(new ItemStack(Items.ELYTRA)));
+	public NonNullList<Ingredient> getIngredients() {
+		NonNullList<Ingredient> list = NonNullList.withSize(2, Ingredient.EMPTY);
+		list.set(0, Ingredient.fromStacks(new ItemStack(Items.ELYTRA)));
 		
 		ItemStack[] stacks = new ItemStack[16];
 		for(int i = 0; i < 16; i++)
 			stacks[i] = new ItemStack(Items.DYE, 1, i);
-		list.set(1, Ingredient.func_193369_a(stacks));
+		list.set(1, Ingredient.fromStacks(stacks));
 		return list;
 	}
 

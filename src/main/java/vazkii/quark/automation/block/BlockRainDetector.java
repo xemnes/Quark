@@ -56,7 +56,7 @@ public class BlockRainDetector extends BlockModContainer implements IQuarkBlock 
 	}
 
 	public void updatePower(World worldIn, BlockPos pos) {
-		if (!worldIn.provider.hasNoSky()) {
+		if (!worldIn.provider.hasSkyLight()) { // TODO does this work?
 			IBlockState iblockstate = worldIn.getBlockState(pos);
 			boolean raining = worldIn.isRaining();
 			worldIn.getCelestialAngleRadians(1.0F);

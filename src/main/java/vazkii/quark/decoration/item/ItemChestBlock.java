@@ -19,11 +19,11 @@ import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -38,8 +38,8 @@ import vazkii.quark.decoration.tile.TileCustomChest;
 
 public class ItemChestBlock extends ItemModBlock implements IExtraVariantHolder {
 
-	public ItemChestBlock(Block block) {
-		super(block);
+	public ItemChestBlock(Block block, ResourceLocation res) {
+		super(block, res);
 		setHasSubtypes(true);
 	}
 
@@ -103,7 +103,7 @@ public class ItemChestBlock extends ItemModBlock implements IExtraVariantHolder 
 	@Override
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> subItems) {
 		BlockCustomChest chest = (BlockCustomChest) Block.getBlockFromItem(this);
-		if(func_194125_a(tab))
+		if(isInCreativeTab(tab))
 			for(ChestType type : VariedChests.ChestType.VALID_TYPES)
 				subItems.add(chest.setCustomType(new ItemStack(this, 1), type));
 	}

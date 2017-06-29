@@ -17,7 +17,7 @@ public class MessageDeleteItem extends NetworkMessage<MessageDeleteItem> {
 	
 	@Override
 	public IMessage handleMessage(MessageContext context) {
-		DeleteItems.deleteItem(context.getServerHandler().playerEntity, slot);
+		DeleteItems.deleteItem(context.getServerHandler().player, slot);
 		return null;
 	}
 	

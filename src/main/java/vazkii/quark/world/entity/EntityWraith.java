@@ -145,9 +145,9 @@ public class EntityWraith extends EntityZombie {
 			double dx = posX - entityIn.posX;
 			double dz = posZ - entityIn.posZ;
 			Vec3d vec = new Vec3d(dx, 0, dz).normalize().addVector(0, 0.5, 0).normalize().scale(0.85);
-			motionX = vec.xCoord;
-			motionY = vec.yCoord;
-			motionZ = vec.zCoord;
+			motionX = vec.x;
+			motionY = vec.y;
+			motionZ = vec.z;
 		}
 
 		return did;

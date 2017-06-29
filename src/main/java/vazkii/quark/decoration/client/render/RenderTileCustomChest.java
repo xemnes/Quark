@@ -41,7 +41,7 @@ public class RenderTileCustomChest extends TileEntitySpecialRenderer<TileCustomC
 	}
 	
 	@Override
-	public void func_192841_a(TileCustomChest te, double x, double y, double z, float partialTicks, int destroyStage, float something) {
+	public void render(TileCustomChest te, double x, double y, double z, float partialTicks, int destroyStage, float something) {
 		GlStateManager.enableDepth();
 		GlStateManager.depthFunc(GL11.GL_LEQUAL);
 		GlStateManager.depthMask(true);

@@ -46,14 +46,14 @@ public class SlabsToBlocks extends Feature {
 
 	@Override
 	public void postInit(FMLPostInitializationEvent event) {
-		List<ResourceLocation> recipeList = new ArrayList(CraftingManager.field_193380_a.getKeys());
+		List<ResourceLocation> recipeList = new ArrayList(CraftingManager.REGISTRY.getKeys());
 		for(ResourceLocation res : recipeList) {
-			IRecipe recipe = CraftingManager.field_193380_a.getObject(res);
+			IRecipe recipe = CraftingManager.REGISTRY.getObject(res);
 			if(recipe instanceof ShapedRecipes || recipe instanceof ShapedOreRecipe) {
 				NonNullList<Ingredient> recipeItems;
 				if(recipe instanceof ShapedRecipes)
 					recipeItems = ((ShapedRecipes) recipe).recipeItems;
-				else recipeItems = ((ShapedOreRecipe) recipe).func_192400_c();
+				else recipeItems = ((ShapedOreRecipe) recipe).getIngredients();
 
 				ItemStack output = recipe.getRecipeOutput();
 				if(!output.isEmpty() && output.getCount() == originalSize) {
@@ -65,7 +65,7 @@ public class SlabsToBlocks extends Feature {
 
 						for(Ingredient ingredient : recipeItems) {
 							ItemStack recipeItem = ItemStack.EMPTY;
-							ItemStack[] matches = ingredient.func_193365_a();
+							ItemStack[] matches = ingredient.getMatchingStacks();
 							if(matches.length > 0)
 								recipeItem = matches[0];
 							

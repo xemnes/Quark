@@ -50,7 +50,7 @@ public class WitchHat extends Feature {
 
 	@SubscribeEvent
 	public void onDamage(LivingHurtEvent event) {
-		if(halveDamage && event.getSource().getEntity() != null && event.getSource().getEntity() instanceof EntityWitch) {
+		if(halveDamage && event.getSource().getTrueSource() != null && event.getSource().getTrueSource() instanceof EntityWitch) {
 			ItemStack hat = event.getEntityLiving().getItemStackFromSlot(EntityEquipmentSlot.HEAD);
 			if(!hat.isEmpty() && hat.getItem() == witch_hat)
 				event.setAmount(event.getAmount() / 2);

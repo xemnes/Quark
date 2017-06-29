@@ -27,7 +27,7 @@ public class SnowGolemPlayerHeads extends Feature {
 	public void onDrops(LivingDropsEvent event) {
 		Entity e = event.getEntity();
 
-		if(e.hasCustomName() && e instanceof EntitySnowman && event.getSource().getEntity() != null && event.getSource().getEntity() instanceof EntityWitch) {
+		if(e.hasCustomName() && e instanceof EntitySnowman && event.getSource().getTrueSource() != null && event.getSource().getTrueSource() instanceof EntityWitch) {
 			EntitySnowman snowman = (EntitySnowman) e;
 			if(snowman.isPumpkinEquipped()) { 
 				ItemStack stack = new ItemStack(Items.SKULL, 1, 3);

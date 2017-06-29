@@ -56,12 +56,12 @@ public class GuiButtonChest<T extends GuiScreen> extends GuiButton implements IP
 	}
 
 	@Override
-	public void func_191745_a(Minecraft par1Minecraft, int par2, int par3, float pticks) {
+	public void drawButton(Minecraft par1Minecraft, int par2, int par3, float pticks) {
 		if(enabledPredicate != null)
 			enabled = enabledPredicate.apply(parent);
 
 		if(enabled) {
-			hovered = par2 >= xPosition && par3 >= yPosition && par2 < xPosition + width && par3 < yPosition + height;
+			hovered = par2 >= x && par3 >= y && par2 < x + width && par3 < y + height;
 			int k = getHoverState(hovered);
 
 			int u = 0;
@@ -112,7 +112,7 @@ public class GuiButtonChest<T extends GuiScreen> extends GuiButton implements IP
 				if(action == Action.DROPOFF && (GuiScreen.isShiftKeyDown() != StoreToChests.invert))
 					tooltip = I18n.translateToLocal("quarkmisc.chestButton." + action.name().toLowerCase() + ".shift");
 					else tooltip = I18n.translateToLocal("quarkmisc.chestButton." + action.name().toLowerCase());
-				int len = Minecraft.getMinecraft().fontRendererObj.getStringWidth(tooltip);
+				int len = Minecraft.getMinecraft().fontRenderer.getStringWidth(tooltip);
 				
 				int tooltipShift = action == Action.DROPOFF ? 0 : -len - 24;
 				
@@ -126,7 +126,7 @@ public class GuiButtonChest<T extends GuiScreen> extends GuiButton implements IP
 						tooltipList.add(press);
 						
 						if(action != Action.DROPOFF) {
-							int len2 = Minecraft.getMinecraft().fontRendererObj.getStringWidth(press);
+							int len2 = Minecraft.getMinecraft().fontRenderer.getStringWidth(press);
 							if(len2 > len)
 								tooltipShift = -len2 - 24;
 						}
@@ -140,7 +140,7 @@ public class GuiButtonChest<T extends GuiScreen> extends GuiButton implements IP
 	}
 	
 	protected void drawIcon(int u, int v) {
-		drawTexturedModalRect(xPosition, yPosition, u, v, 16, 16);
+		drawTexturedModalRect(x, y, u, v, 16, 16);
 	}
 	
 	@Override

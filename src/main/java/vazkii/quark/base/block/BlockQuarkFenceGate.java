@@ -19,8 +19,8 @@ import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import vazkii.arl.item.ItemModBlock;
+import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.lib.LibMisc;
 
 public class BlockQuarkFenceGate extends BlockFenceGate implements IQuarkBlock {
@@ -44,8 +44,8 @@ public class BlockQuarkFenceGate extends BlockFenceGate implements IQuarkBlock {
 	public Block setUnlocalizedName(String name) {
 		super.setUnlocalizedName(name);
 		setRegistryName(LibMisc.PREFIX_MOD + name);
-		GameRegistry.register(this);
-		GameRegistry.register(new ItemModBlock(this), new ResourceLocation(LibMisc.PREFIX_MOD + name));
+		ProxyRegistry.register(this);
+		ProxyRegistry.register(new ItemModBlock(this, new ResourceLocation(LibMisc.PREFIX_MOD + name)));
 		return this;
 	}
 

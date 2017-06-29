@@ -40,9 +40,9 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.ILockableContainer;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.block.IQuarkBlock;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.decoration.feature.VariedChests;
@@ -69,8 +69,8 @@ public class BlockCustomChest extends BlockChest implements IQuarkBlock {
 	public Block setUnlocalizedName(String name) {
 		super.setUnlocalizedName(name);
 		setRegistryName(LibMisc.PREFIX_MOD + name);
-		GameRegistry.register(this);
-		GameRegistry.register(new ItemChestBlock(this), new ResourceLocation(LibMisc.PREFIX_MOD + name));
+		ProxyRegistry.register(this);
+		ProxyRegistry.register(new ItemChestBlock(this, new ResourceLocation(LibMisc.PREFIX_MOD + name)));
 
 		return this;
 	}

@@ -122,7 +122,7 @@ public class LockDirectionHotkey extends Feature {
 			LockProfile newProfile;
 			RayTraceResult result = mc.objectMouseOver;
 			if(result.typeOfHit == Type.BLOCK) {
-				int half = (int) ((result.hitVec.yCoord - (int) result.hitVec.yCoord) * 2);
+				int half = (int) ((result.hitVec.y - (int) result.hitVec.y) * 2);
 				if(result.sideHit.getAxis() == Axis.Y)
 					half = -1;
 				
@@ -130,7 +130,7 @@ public class LockDirectionHotkey extends Feature {
 
 			} else {
 				Vec3d look = mc.player.getLookVec();
-				newProfile = new LockProfile(EnumFacing.getFacingFromVector((float) look.xCoord, (float) look.yCoord, (float) look.zCoord), -1);
+				newProfile = new LockProfile(EnumFacing.getFacingFromVector((float) look.x, (float) look.y, (float) look.z), -1);
 			}
 			
 			if(clientProfile != null && clientProfile.equals(newProfile))

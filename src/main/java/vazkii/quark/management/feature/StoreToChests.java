@@ -125,9 +125,9 @@ public class StoreToChests extends Feature {
 		if(gui instanceof GuiInventory) {
 			GuiInventory inv = (GuiInventory) gui;
 			for(GuiButtonChest b : ChestButtons.chestButtons) {
-				boolean recipeBookOpen = Minecraft.getMinecraft().player.func_192035_E().func_192812_b();
-				b.xPosition = inv.getGuiLeft() + b.shiftX;
-				b.yPosition = inv.getGuiTop() + b.shiftY;
+				boolean recipeBookOpen = Minecraft.getMinecraft().player.getRecipeBook().isGuiOpen();
+				b.x = inv.getGuiLeft() + b.shiftX;
+				b.y = inv.getGuiTop() + b.shiftY;
 			}
 		}
 	}

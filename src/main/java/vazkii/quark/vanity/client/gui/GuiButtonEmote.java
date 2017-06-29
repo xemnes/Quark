@@ -28,15 +28,15 @@ public class GuiButtonEmote extends GuiButtonTranslucent {
 	}
 
 	@Override
-	public void func_191745_a(Minecraft mc, int mouseX, int mouseY, float pticks) {
-		super.func_191745_a(mc, mouseX, mouseY, pticks);
+	public void drawButton(Minecraft mc, int mouseX, int mouseY, float pticks) {
+		super.drawButton(mc, mouseX, mouseY, pticks);
 
 		if(visible) {
 			GlStateManager.pushMatrix();
 			GlStateManager.scale(0.5, 0.5, 0.5);
 			GlStateManager.color(1F, 1F, 1F);
 			mc.getTextureManager().bindTexture(desc.texture);
-			drawTexturedModalRect((xPosition + 9) * 2, (yPosition + 2) * 2, 32, 32);
+			drawTexturedModalRect((x + 9) * 2, (y + 2) * 2, 32, 32);
 			GlStateManager.popMatrix();
 		}
 	}

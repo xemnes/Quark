@@ -55,7 +55,7 @@ public class ShearableChickens extends Feature {
 	@SubscribeEvent
 	public void onEntityDrops(LivingDropsEvent event) {
 		if(event.getEntity().getEntityData().getBoolean(TAG_SHEARED))
-			event.getDrops().removeIf((EntityItem e) -> e.getEntityItem().getItem() == Items.FEATHER);
+			event.getDrops().removeIf((EntityItem e) -> e.getItem().getItem() == Items.FEATHER);
 	}
 
 }

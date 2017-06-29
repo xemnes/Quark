@@ -27,7 +27,7 @@ public class MessageSwapItems extends NetworkMessage {
 
 	@Override
 	public IMessage handleMessage(MessageContext context) {
-		FToSwitchItems.switchItems(context.getServerHandler().playerEntity, index);
+		FToSwitchItems.switchItems(context.getServerHandler().player, index);
 		return null;
 	}
 

@@ -64,9 +64,9 @@ public class VariedTrapdoors extends Feature {
 
 	@Override
 	public void postPreInit(FMLPreInitializationEvent event) {		
-		List<ResourceLocation> recipeList = new ArrayList(CraftingManager.field_193380_a.getKeys());
+		List<ResourceLocation> recipeList = new ArrayList(CraftingManager.REGISTRY.getKeys());
 		for(ResourceLocation res : recipeList) {
-			IRecipe recipe = CraftingManager.field_193380_a.getObject(res);
+			IRecipe recipe = CraftingManager.REGISTRY.getObject(res);
 			ItemStack out = recipe.getRecipeOutput();
 			if(recipe instanceof ShapedRecipes && !out.isEmpty() && (out.getItem() == Item.getItemFromBlock(Blocks.TRAPDOOR))) {
 				ShapedRecipes shaped = (ShapedRecipes) recipe;
@@ -74,7 +74,7 @@ public class VariedTrapdoors extends Feature {
 				for(int i = 0; i < ingredients.size(); i++) {
 					Ingredient ingr = ingredients.get(i);
 					if(ingr.apply(new ItemStack(Blocks.PLANKS)))
-						ingredients.set(i, Ingredient.func_193369_a(new ItemStack(Blocks.PLANKS, 1, 0)));
+						ingredients.set(i, Ingredient.fromStacks(new ItemStack(Blocks.PLANKS, 1, 0)));
 				}
 			}
 		}

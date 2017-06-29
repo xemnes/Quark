@@ -180,7 +180,7 @@ public class EmoteSystem extends Feature {
 				GlStateManager.enableBlend();
 
 				String name = I18n.format(emote.desc.getUnlocalizedName());
-				mc.fontRendererObj.drawStringWithShadow(name, res.getScaledWidth() / 2 - mc.fontRendererObj.getStringWidth(name) / 2, y + 34, 0xFFFFFF + (((int) (transparency * 255F)) << 24));
+				mc.fontRenderer.drawStringWithShadow(name, res.getScaledWidth() / 2 - mc.fontRenderer.getStringWidth(name) / 2, y + 34, 0xFFFFFF + (((int) (transparency * 255F)) << 24));
 				GlStateManager.popMatrix();
 			}
 		}

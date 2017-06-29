@@ -29,7 +29,7 @@ public class MessageDropoff extends NetworkMessage {
 
 	@Override
 	public IMessage handleMessage(MessageContext context) {
-		DropoffHandler.dropoff(context.getServerHandler().playerEntity, smart, useContainer);
+		DropoffHandler.dropoff(context.getServerHandler().player, smart, useContainer);
 		return null;
 	}
 

@@ -20,7 +20,7 @@ public class ArrowSafeMobs extends Feature {
 	@SubscribeEvent
 	public void onAttacked(LivingAttackEvent event) {
 		if(event.getSource() != null) {
-			Entity attacker = event.getSource().getEntity();
+			Entity attacker = event.getSource().getTrueSource();
 			if(attacker != null && attacker.getRidingEntity() == event.getEntity())
 				event.setCanceled(true);
 		}

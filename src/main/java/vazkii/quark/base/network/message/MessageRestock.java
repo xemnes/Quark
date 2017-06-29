@@ -21,7 +21,7 @@ public class MessageRestock extends NetworkMessage {
 
 	@Override
 	public IMessage handleMessage(MessageContext context) {
-		DropoffHandler.restock(context.getServerHandler().playerEntity);
+		DropoffHandler.restock(context.getServerHandler().player);
 		return null;
 	}
 

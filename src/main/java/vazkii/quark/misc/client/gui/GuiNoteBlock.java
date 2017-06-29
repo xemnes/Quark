@@ -282,14 +282,14 @@ public class GuiNoteBlock extends GuiScreen {
 		final void renderNote(Minecraft mc, CoordinateHolder c) {
 			int x = c.baseX + this.x;
 			int y = c.baseY + this.y;
-			int sw = mc.fontRendererObj.getStringWidth(desc);
+			int sw = mc.fontRenderer.getStringWidth(desc);
 
 			int color = Color.HSBtoRGB((float) (24 - clicks) / 24F - 0.6F, 1F, 1F);
-			mc.fontRendererObj.drawString(desc, x + w / 2 - sw / 2, y + h - 24, color);
+			mc.fontRenderer.drawString(desc, x + w / 2 - sw / 2, y + h - 24, color);
 
 			String s = Integer.toString(clicks);
-			sw = mc.fontRendererObj.getStringWidth(s);
-			mc.fontRendererObj.drawString(s, x + w / 2 - sw / 2, y + h - 13, this instanceof BlackKey ? 0xCCCCCC : 0x333333);
+			sw = mc.fontRenderer.getStringWidth(s);
+			mc.fontRenderer.drawString(s, x + w / 2 - sw / 2, y + h - 13, this instanceof BlackKey ? 0xCCCCCC : 0x333333);
 
 			GlStateManager.color(1F, 1F, 1F);
 		}

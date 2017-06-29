@@ -52,10 +52,10 @@ public class AIFormShulker extends EntityAIWander
 	}
 
 	@Override
-	public boolean continueExecuting() {
-		return doMerge ? false : super.continueExecuting();
+	public boolean shouldContinueExecuting() {
+		return doMerge ? false : super.shouldContinueExecuting();
 	}
-
+	
 	@Override
 	public void startExecuting() {
 		if(!doMerge)

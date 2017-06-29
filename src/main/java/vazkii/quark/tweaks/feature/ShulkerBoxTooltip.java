@@ -119,7 +119,7 @@ public class ShulkerBoxTooltip extends Feature {
 						int yp = currentY + 6 + (i / 9) * 18;
 
 						render.renderItemAndEffectIntoGUI(itemstack, xp, yp);
-						render.renderItemOverlays(mc.fontRendererObj, itemstack, xp, yp);
+						render.renderItemOverlays(mc.fontRenderer, itemstack, xp, yp);
 					}
 					i++;
 				}

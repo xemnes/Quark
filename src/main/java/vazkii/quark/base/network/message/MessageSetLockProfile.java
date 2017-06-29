@@ -18,7 +18,7 @@ public class MessageSetLockProfile extends NetworkMessage<MessageSetLockProfile>
 	
 	@Override
 	public IMessage handleMessage(MessageContext context) {
-		LockDirectionHotkey.setProfile(context.getServerHandler().playerEntity, profile);
+		LockDirectionHotkey.setProfile(context.getServerHandler().player, profile);
 		return null;
 	}
 	

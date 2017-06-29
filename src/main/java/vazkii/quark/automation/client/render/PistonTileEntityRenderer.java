@@ -83,7 +83,7 @@ public class PistonTileEntityRenderer {
 				}
 
 				RenderHelper.enableStandardItemLighting();
-				TileEntityRendererDispatcher.instance.renderTileEntityAt(tile, 0, 0, 0, 0);
+				TileEntityRendererDispatcher.instance.render(tile, 0, 0, 0, 0);
 				RenderHelper.disableStandardItemLighting();
 				GlStateManager.popMatrix();
 				

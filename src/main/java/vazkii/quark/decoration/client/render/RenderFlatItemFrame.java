@@ -120,8 +120,8 @@ public class RenderFlatItemFrame extends RenderItemFrame {
 
 		if(!itemstack.isEmpty()) {
 			EntityItem entityitem = new EntityItem(itemFrame.getEntityWorld(), 0.0D, 0.0D, 0.0D, itemstack);
-			Item item = entityitem.getEntityItem().getItem();
-			entityitem.getEntityItem().setCount(1);
+			Item item = entityitem.getItem().getItem();
+			entityitem.getItem().setCount(1);
 			entityitem.hoverStart = 0.0F;
 			GlStateManager.pushMatrix();
 			GlStateManager.disableLighting();
@@ -140,13 +140,13 @@ public class RenderFlatItemFrame extends RenderItemFrame {
 					float f = 0.0078125F;
 					GlStateManager.scale(f, f, f);
 					GlStateManager.translate(-64.0F, -64.0F, 0.0F);
-					MapData mapdata = Items.FILLED_MAP.getMapData(entityitem.getEntityItem(), itemFrame.getEntityWorld());
+					MapData mapdata = Items.FILLED_MAP.getMapData(entityitem.getItem(), itemFrame.getEntityWorld());
 					GlStateManager.translate(0.0F, 0.0F, -1.0F);
 
 					if(mapdata != null)
 						mc.entityRenderer.getMapItemRenderer().renderMap(mapdata, true);
 				} else {
-					ItemStack stack = entityitem.getEntityItem();
+					ItemStack stack = entityitem.getItem();
 					renderItemStack(itemFrame, stack);
 				}
 			}

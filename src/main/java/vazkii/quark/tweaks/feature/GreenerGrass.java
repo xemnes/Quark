@@ -24,10 +24,10 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.registry.RegistryDelegate;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.registries.IRegistryDelegate;
 import vazkii.quark.base.module.Feature;
 
 public class GreenerGrass extends Feature {
@@ -77,13 +77,13 @@ public class GreenerGrass extends Feature {
 			Block b = Block.REGISTRY.getObject(new ResourceLocation(s));
 			if(b != null)
 				registerGreenerColor(b);
-		}
+		}	
 	}
 
 	@SideOnly(Side.CLIENT)
 	private void registerGreenerColor(Block... blocks) {
 		BlockColors colors = Minecraft.getMinecraft().getBlockColors();
-		Map<RegistryDelegate<Block>, IBlockColor> map = ReflectionHelper.getPrivateValue(BlockColors.class, colors, "blockColorMap"); // This is a forge field so obfuscation is meaningless
+		Map<IRegistryDelegate<Block>, IBlockColor> map = ReflectionHelper.getPrivateValue(BlockColors.class, colors, "blockColorMap"); // This is a forge field so obfuscation is meaningless
 
 		for(Block b : blocks) {
 			IBlockColor color = map.get(b.delegate);

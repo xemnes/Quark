@@ -75,9 +75,9 @@ public class VisualStatDisplay extends Feature {
 			}
 
 			if(clearedAny) {
-				int len = mc.fontRendererObj.getStringWidth(allDesc) + 32;
+				int len = mc.fontRenderer.getStringWidth(allDesc) + 32;
 				String spaces = "";
-				while(mc.fontRendererObj.getStringWidth(spaces) < len)
+				while(mc.fontRenderer.getStringWidth(spaces) < len)
 					spaces += " " ;
 				
 				tooltip.add(1, spaces);
@@ -115,16 +115,16 @@ public class VisualStatDisplay extends Feature {
 
 				double damage = getAttribute(mc.player, stack, slotAttributes, "generic.attackDamage");
 				String dmgStr = ItemStack.DECIMALFORMAT.format(damage);
-				mc.fontRendererObj.drawStringWithShadow(dmgStr, x + 12, y + 1, 0xFFFFFF);
-				x += mc.fontRendererObj.getStringWidth(dmgStr) + 20;
+				mc.fontRenderer.drawStringWithShadow(dmgStr, x + 12, y + 1, 0xFFFFFF);
+				x += mc.fontRenderer.getStringWidth(dmgStr) + 20;
 				
 				GlStateManager.color(1F, 1F, 1F);
 				mc.getTextureManager().bindTexture(GuiButtonChest.GENERAL_ICONS_RESOURCE);
 				Gui.drawModalRectWithCustomSizedTexture(x, y, 247, 0, 9, 9, 256, 256);
 				double speed = getAttribute(mc.player, stack, slotAttributes, "generic.attackSpeed");
 				String spdStr = ItemStack.DECIMALFORMAT.format(speed);
-				mc.fontRendererObj.drawStringWithShadow(spdStr, x + 12, y + 1, 0xFFFFFF);
-				x += mc.fontRendererObj.getStringWidth(spdStr) + 20;
+				mc.fontRenderer.drawStringWithShadow(spdStr, x + 12, y + 1, 0xFFFFFF);
+				x += mc.fontRenderer.getStringWidth(spdStr) + 20;
 			} else if(item instanceof ItemArmor) {
 				ItemArmor armor = (ItemArmor) item;
 				EntityEquipmentSlot slot = armor.getEquipmentSlot();
@@ -136,21 +136,21 @@ public class VisualStatDisplay extends Feature {
 				double armorLevel = getAttribute(mc.player, stack, slotAttributes, "generic.armor");
 				Gui.drawModalRectWithCustomSizedTexture(x, y, 229, 0, 9, 9, 256, 256);
 				String armorStr = ItemStack.DECIMALFORMAT.format(armorLevel);
-				mc.fontRendererObj.drawStringWithShadow(armorStr, x + 12, y + 1, 0xFFFFFF);
-				x += mc.fontRendererObj.getStringWidth(armorStr) + 20;
+				mc.fontRenderer.drawStringWithShadow(armorStr, x + 12, y + 1, 0xFFFFFF);
+				x += mc.fontRenderer.getStringWidth(armorStr) + 20;
 				
 				double toughness = getAttribute(mc.player, stack, slotAttributes, "generic.armorToughness");
 				mc.getTextureManager().bindTexture(GuiButtonChest.GENERAL_ICONS_RESOURCE);
 				Gui.drawModalRectWithCustomSizedTexture(x, y, 220, 0, 9, 9, 256, 256);
 				String toughnessStr = ItemStack.DECIMALFORMAT.format(toughness);
-				mc.fontRendererObj.drawStringWithShadow(toughnessStr, x + 12, y + 1, 0xFFFFFF);
-				x += mc.fontRendererObj.getStringWidth(toughnessStr) + 20;
+				mc.fontRenderer.drawStringWithShadow(toughnessStr, x + 12, y + 1, 0xFFFFFF);
+				x += mc.fontRenderer.getStringWidth(toughnessStr) + 20;
 			}
 			
 			if(slotAttributes != null)
 				for(String s : slotAttributes.keySet())
 					if(!VALID_ATTRIBUTES.contains(s)) {
-						mc.fontRendererObj.drawStringWithShadow(TextFormatting.YELLOW + "[+]", x, y + 1, 0xFFFFFF);
+						mc.fontRenderer.drawStringWithShadow(TextFormatting.YELLOW + "[+]", x, y + 1, 0xFFFFFF);
 						break;
 					}
 			

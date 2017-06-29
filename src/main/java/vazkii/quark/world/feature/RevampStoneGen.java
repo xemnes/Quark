@@ -162,7 +162,7 @@ public class RevampStoneGen extends Feature {
 		Chunk chunk = world.getChunkFromBlockCoords(pos);
 		
 		for(StoneInfoBasedGenerator gen : generators)
-			gen.generate(chunk.xPosition, chunk.zPosition, world);
+			gen.generate(chunk.x, chunk.z, world);
 	}
 	
 	@Override

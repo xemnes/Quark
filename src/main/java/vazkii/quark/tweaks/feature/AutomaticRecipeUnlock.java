@@ -14,7 +14,7 @@ public class AutomaticRecipeUnlock extends Feature {
 	@SubscribeEvent 
 	public void onPlayerLoggedIn(PlayerLoggedInEvent event) {
 		if(event.player instanceof EntityPlayerMP)
-			((EntityPlayerMP) event.player).func_192021_a(Lists.newArrayList(CraftingManager.field_193380_a));
+			((EntityPlayerMP) event.player).unlockRecipes(Lists.newArrayList(CraftingManager.REGISTRY));
 	}
 
 	@Override

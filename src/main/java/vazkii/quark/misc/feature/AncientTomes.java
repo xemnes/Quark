@@ -120,7 +120,7 @@ public class AncientTomes extends Feature {
 							if(enchCompare == ench)
 								continue;
 							
-							if(!enchCompare.func_191560_c(ench)) {
+							if(!enchCompare.isCompatibleWith(ench)) {
 								event.setCanceled(true);
 								return;
 							}

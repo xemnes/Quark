@@ -75,12 +75,12 @@ public class CrystalCaveGenerator implements IWorldGenerator {
 			hollowOut(world, hollowingCenter, rand, size, crystal1, crystal2);
 			
 			BlockPos currentCenter = hollowingCenter;
-			hollowingCenter = currentCenter.add(expansion.xCoord * size * 0.5, expansion.yCoord * size * 0.5, expansion.zCoord * size * 0.5);
+			hollowingCenter = currentCenter.add(expansion.x * size * 0.5, expansion.y * size * 0.5, expansion.z * size * 0.5);
 			
 			if(hollowingCenter.getY() < 10) {
-				expansion = new Vec3d(expansion.xCoord, -expansion.yCoord, expansion.zCoord);
-				curvature = new Vec3d(curvature.xCoord, -curvature.yCoord, curvature.zCoord);
-				currentCenter = hollowingCenter.add(expansion.xCoord * size * 0.5, expansion.yCoord * size * 0.5, expansion.zCoord * size * 0.5);
+				expansion = new Vec3d(expansion.x, -expansion.y, expansion.z);
+				curvature = new Vec3d(curvature.x, -curvature.y, curvature.z);
+				currentCenter = hollowingCenter.add(expansion.x * size * 0.5, expansion.y * size * 0.5, expansion.z * size * 0.5);
 			}
 			
 			expansion = expansion.add(curvature).normalize();

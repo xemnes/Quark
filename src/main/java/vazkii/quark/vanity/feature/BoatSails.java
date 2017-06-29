@@ -34,7 +34,7 @@ public class BoatSails extends Feature {
 
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
-		bannerData = EntityDataManager.<ItemStack>createKey(EntityBoat.class, DataSerializers.OPTIONAL_ITEM_STACK);
+		bannerData = EntityDataManager.<ItemStack>createKey(EntityBoat.class, DataSerializers.ITEM_STACK);
 	}
 	
 	@SubscribeEvent

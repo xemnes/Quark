@@ -28,7 +28,7 @@ public class MessageLinkItem  extends NetworkMessage {
 
 	@Override
 	public IMessage handleMessage(MessageContext context) {
-		LinkItems.linkItem(context.getServerHandler().playerEntity, stack);
+		LinkItems.linkItem(context.getServerHandler().player, stack);
 		return null;
 	}
 
