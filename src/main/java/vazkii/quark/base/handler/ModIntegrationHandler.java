@@ -6,7 +6,7 @@ import net.minecraftforge.fml.common.event.FMLInterModComms;
 public final class ModIntegrationHandler {
 
 	public static void addCharsetCarry(Block b) {
-		FMLInterModComms.sendMessage("charsetlib", "addCarry", b.getRegistryName());
+		FMLInterModComms.sendMessage("charset", "addCarry", b.getRegistryName());
 	}
 	
 }
