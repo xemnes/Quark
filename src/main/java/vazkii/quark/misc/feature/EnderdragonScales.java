@@ -15,6 +15,17 @@ public class EnderdragonScales extends Feature {
 
 	public static Item enderdragonScale;
 	
+	public static int required;
+	public static boolean dyeBlack;
+	int dropped;
+	
+	@Override
+	public void setupConfig() {
+		required = loadPropInt("Required Scales per Elytra", "", 1);
+		dropped = loadPropInt("Amount Dropped per Dragon Kill", "", 1);
+		dyeBlack = loadPropBool("Dye Elytra Black", "Should the crafted Elytra be dyed black? (only works if Dyed Elytras from Vanity is loaded)", true);
+	}
+	
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
 		enderdragonScale = new ItemEnderdragonScale();
@@ -29,7 +40,7 @@ public class EnderdragonScales extends Feature {
 
 			System.out.println(dragon.getFightManager().hasPreviouslyKilledDragon() + " " + dragon.deathTicks);
 			if(dragon.getFightManager().hasPreviouslyKilledDragon() && dragon.deathTicks == 100) {
-				EntityItem item = new EntityItem(dragon.world, dragon.posX, dragon.posY, dragon.posZ, new ItemStack(enderdragonScale));
+				EntityItem item = new EntityItem(dragon.world, dragon.posX, dragon.posY, dragon.posZ, new ItemStack(enderdragonScale, dropped));
 				dragon.world.spawnEntity(item);
 			}
 		}

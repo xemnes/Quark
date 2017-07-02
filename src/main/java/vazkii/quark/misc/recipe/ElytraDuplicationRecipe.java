@@ -9,7 +9,10 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import vazkii.arl.recipe.ModRecipe;
+import vazkii.arl.util.ItemNBTHelper;
+import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.misc.feature.EnderdragonScales;
+import vazkii.quark.vanity.feature.DyableElytra;
 
 public class ElytraDuplicationRecipe extends ModRecipe {
 
@@ -19,7 +22,7 @@ public class ElytraDuplicationRecipe extends ModRecipe {
 	
 	@Override
 	public boolean matches(InventoryCrafting var1, World var2) {
-		boolean foundSource = false;
+		int sources = 0;
 		boolean foundTarget = false;
 
 		for(int i = 0; i < var1.getSizeInventory(); i++) {
@@ -30,14 +33,14 @@ public class ElytraDuplicationRecipe extends ModRecipe {
 						return false;
 					foundTarget = true;
 				} else if(stack.getItem() == EnderdragonScales.enderdragonScale) {
-					if(foundSource)
+					if(sources >= EnderdragonScales.required)
 						return false;
-					foundSource = true;
+					sources++;
 				} else return false;
 			}
 		}
 
-		return foundSource && foundTarget;
+		return sources == EnderdragonScales.required && foundTarget;
 	}
 
 	@Override
@@ -47,7 +50,11 @@ public class ElytraDuplicationRecipe extends ModRecipe {
 
 	@Override
 	public ItemStack getRecipeOutput() {
-		return new ItemStack(Items.ELYTRA);
+		ItemStack stack = new ItemStack(Items.ELYTRA);
+		if(EnderdragonScales.dyeBlack && ModuleLoader.isFeatureEnabled(DyableElytra.class))
+			ItemNBTHelper.setInt(stack, DyableElytra.TAG_ELYTRA_DYE, 0);
+		
+		return stack;
 	}
 
 	@Override
@@ -69,9 +76,10 @@ public class ElytraDuplicationRecipe extends ModRecipe {
 	}
 	
 	public NonNullList<Ingredient> getIngredients() {
-		NonNullList<Ingredient> list = NonNullList.withSize(2, Ingredient.EMPTY);
+		NonNullList<Ingredient> list = NonNullList.withSize(1 + EnderdragonScales.required, Ingredient.EMPTY);
 		list.set(0, Ingredient.fromStacks(new ItemStack(Items.ELYTRA)));
-		list.set(1, Ingredient.fromStacks(new ItemStack(EnderdragonScales.enderdragonScale)));
+		for(int i = 1; i < EnderdragonScales.required + 1; i++)
+			list.set(i, Ingredient.fromStacks(new ItemStack(EnderdragonScales.enderdragonScale)));
 		return list;
 	}
 	
