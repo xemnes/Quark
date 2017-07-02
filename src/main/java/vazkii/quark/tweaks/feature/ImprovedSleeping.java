@@ -109,7 +109,7 @@ public class ImprovedSleeping extends Feature {
 	@SubscribeEvent
 	public void onWorldTick(PlayerTickEvent event) {
 		World world = event.player.world;
-		if(world.isRemote || world.playerEntities.indexOf(event.player) != 0 || event.phase != Phase.END)
+		if(world.isRemote || world.provider.getDimension() != 0 || world.playerEntities.indexOf(event.player) != 0 || event.phase != Phase.END)
 			return;
 		
 		List<String> newSleepingPlayers = new ArrayList();
