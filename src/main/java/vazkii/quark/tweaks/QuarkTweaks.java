@@ -75,7 +75,7 @@ public class QuarkTweaks extends Module {
 		registerFeature(new NoPotionShift());
 		registerFeature(new ShearableChickens());
 		registerFeature(new MinecartInteraction(), "Right click minecarts to add blocks to them");
-		registerFeature(new EndermenAntiCheese(), "Endermen teleport you to them if you're in a 2 high area");
+		registerFeature(new EndermenAntiCheese());
 		registerFeature(new SheepArmor(), "Sheep have armor while wearing wool");
 		registerFeature(new ImprovedStoneToolCrafting(), "Allow crafting stone tools using flint");
 		registerFeature(new ConvertClay(), "Convert Clay Blocks to Clay");
