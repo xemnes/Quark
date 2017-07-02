@@ -10,6 +10,7 @@ import com.google.common.collect.ImmutableSet;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirectional;
+import net.minecraft.block.BlockHopper;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.BlockQuartz;
@@ -17,6 +18,7 @@ import net.minecraft.block.BlockRotatedPillar;
 import net.minecraft.block.BlockSlab;
 import net.minecraft.block.BlockStairs;
 import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
@@ -81,21 +83,35 @@ public class LockDirectionHotkey extends Feature {
 		ImmutableMap<IProperty<?>, Comparable<?>> props = state.getProperties(); 
 		Block block = state.getBlock();
 		
+		// General Facing
 		if(props.containsKey(BlockDirectional.FACING))
 			setState = state.withProperty(BlockDirectional.FACING, face);
+		
+		// Horizontal Facing
 		else if(props.containsKey(BlockHorizontal.FACING) && face.getAxis() != Axis.Y) {
 			if(block instanceof BlockStairs)
 				setState = state.withProperty(BlockHorizontal.FACING, face.getOpposite());
 			else setState = state.withProperty(BlockHorizontal.FACING, face);
-		} else if(props.containsKey(BlockRotatedPillar.AXIS))
+		} 
+		
+		// Pillar Axis
+		else if(props.containsKey(BlockRotatedPillar.AXIS))
 			setState = state.withProperty(BlockRotatedPillar.AXIS, face.getAxis());
+		
+		// Log Axis
 		else if(props.containsKey(BlockLog.LOG_AXIS))
 			setState = state.withProperty(BlockLog.LOG_AXIS, BlockLog.EnumAxis.fromFacingAxis(face.getAxis()));
+		
+		// Quartz Variant/Axis
 		else if(props.containsKey(BlockQuartz.VARIANT)) {
 			BlockQuartz.EnumType type = state.getValue(BlockQuartz.VARIANT);
 			if(ImmutableSet.of(BlockQuartz.EnumType.LINES_X, BlockQuartz.EnumType.LINES_Y, BlockQuartz.EnumType.LINES_Z).contains(type))
 				setState = state.withProperty(BlockQuartz.VARIANT, BlockQuartz.VARIANT.parseValue("lines_" + face.getAxis().getName()).or(BlockQuartz.EnumType.LINES_Y));
 		}
+		
+		// Hopper Facing
+		else if(props.containsKey(BlockHopper.FACING) && face != EnumFacing.DOWN)
+			setState = state.withProperty(BlockHopper.FACING, face.getOpposite());
 			
 		if(half != -1) {
 			if(block instanceof BlockStairs)
