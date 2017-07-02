@@ -112,7 +112,8 @@ public class PirateShipGenerator implements IWorldGenerator {
 				pirate.setItemStackToSlot(EntityEquipmentSlot.HEAD, new ItemStack(PirateShips.pirate_hat));
 				
 				EntityParrot parrot = new EntityParrot(world);
-				pirate.setPosition(dataPos.getX() + 0.5, dataPos.getY(), dataPos.getZ() + 0.5);
+				parrot.setPosition(dataPos.getX() + 0.5, dataPos.getY(), dataPos.getZ() + 0.5);
+				parrot.setVariant(world.rand.nextInt(5));
 				
 				world.spawnEntity(pirate);
 				world.spawnEntity(parrot);
@@ -124,6 +125,8 @@ public class PirateShipGenerator implements IWorldGenerator {
 				pirate.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.BOW));
 				pirate.setItemStackToSlot(EntityEquipmentSlot.HEAD, new ItemStack(PirateShips.pirate_hat));
 				world.spawnEntity(pirate);
+				world.setBlockState(dataPos, Blocks.AIR.getDefaultState());
+
 				break;
 			case "sword_pirate":
 				pirate = new EntityPirate(world);
@@ -131,6 +134,8 @@ public class PirateShipGenerator implements IWorldGenerator {
 				pirate.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.IRON_SWORD));
 				pirate.setItemStackToSlot(EntityEquipmentSlot.HEAD, new ItemStack(PirateShips.pirate_hat));
 				world.spawnEntity(pirate);
+				world.setBlockState(dataPos, Blocks.AIR.getDefaultState());
+
 				break;
 			case "booty":
 				float chance = tokens.length == 3 ? 1F : 0.75F;
