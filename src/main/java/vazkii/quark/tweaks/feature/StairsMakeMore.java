@@ -28,8 +28,10 @@ import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+import vazkii.arl.recipe.MultiRecipe;
 import vazkii.arl.recipe.RecipeHandler;
 import vazkii.quark.base.module.Feature;
 
@@ -41,6 +43,8 @@ public class StairsMakeMore extends Feature {
 	int originalSize;
 	boolean reversionRecipe;
 	boolean enableSlabToStair;
+	
+	private MultiRecipe slabMultiRecipe, returnMultiRecipe;
 
 	@Override
 	public void setupConfig() {
@@ -48,6 +52,14 @@ public class StairsMakeMore extends Feature {
 		originalSize = loadPropInt("Vanilla stack size", "The stack size for the vanilla stair recipe, used for automatically detecting stair recipes", 4);
 		reversionRecipe = loadPropBool("Add stairs to blocks recipe", "", true);
 		enableSlabToStair = loadPropBool("Enable Slab to Stairs Recipe", "This recipe can only be enabled if the \"Slabs to blocks recipe\" feature is.", true);
+	}
+	
+	@Override
+	public void preInit(FMLPreInitializationEvent event) {
+		if(enableSlabToStair)
+			slabMultiRecipe = new MultiRecipe(new ResourceLocation("quark", "slabs_to_stairs"));
+		if(reversionRecipe)
+			returnMultiRecipe = new MultiRecipe(new ResourceLocation("quark", "stairs_to_blocks"));
 	}
 
 	@Override
@@ -105,7 +117,7 @@ public class StairsMakeMore extends Feature {
 							}
 							
 							if(reversionRecipe)
-								RecipeHandler.addShapelessOreDictRecipe(outCopy, in, in, in, in);
+								RecipeHandler.addShapelessOreDictRecipe(returnMultiRecipe, outCopy, in, in, in, in);
 						}
 					}
 				}
@@ -123,7 +135,7 @@ public class StairsMakeMore extends Feature {
 						stair.setCount(targetSize / 2);
 						ItemStack slab = SlabsToBlocks.slabs.get(state);
 						
-						RecipeHandler.addOreDictRecipe(stair, 
+						RecipeHandler.addOreDictRecipe(slabMultiRecipe, stair, 
 								"S  ", "SS ", "SSS",
 								'S', slab);
 					}
