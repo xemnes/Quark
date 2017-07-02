@@ -184,5 +184,10 @@ public class ImprovedSleeping extends Feature {
 	public boolean hasSubscriptions() {
 		return true;
 	}
+	
+	@Override
+	public String[] getIncompatibleMods() {
+		return new String[] { "morpheus" };
+	}
 
 }
