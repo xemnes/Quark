@@ -38,6 +38,7 @@ public class ModKeybinds {
 	public static KeyBinding chestDropoffKey = null;
 	public static KeyBinding chestMergeKey = null;
 	public static KeyBinding chestRestockKey = null;
+	public static KeyBinding chestExtractKey = null;
 
 	public static void initEmoteKeybinds() {
 		for(String emoteName : EmoteHandler.emoteMap.keySet()) {
@@ -71,6 +72,7 @@ public class ModKeybinds {
 		chestDropoffKey = initAndButtonBind("chestDropoff", 0);
 		chestMergeKey = initAndButtonBind("chestMerge", 0);
 		chestRestockKey = initAndButtonBind("chestRestock", 0);
+		chestExtractKey = initAndButtonBind("chestExtract", 0);
 	}
 
 	public static void keybindButton(KeyBinding key, IParentedGui ipg) {

@@ -6,6 +6,7 @@ quarkmisc.chestButton.dropoff=Deposit to nearby Chests
 quarkmisc.chestButton.dropoff.shift=Merge to nearby Chests
 quarkmisc.chestButton.sort=Sort
 quarkmisc.chestButton.sort_player=Sort
+quarkmisc.chestButton.extract=Extract
 quarkmisc.incrementNote=Increment Note
 quarkmisc.craftButton.redo=Redo Recipe
 quarkmisc.craftButton.balance=Balance Grid
@@ -511,6 +512,7 @@ quark.keybind.chestSort=Sort Container
 quark.keybind.chestDropoff=Deposit into Container
 quark.keybind.chestMerge=Merge into Container
 quark.keybind.chestRestock=Restock from Container
+quark.keybind.chestExtract=Extract from Container
 
 # GUI STUFF
 quark.gui.emotes=Emotes

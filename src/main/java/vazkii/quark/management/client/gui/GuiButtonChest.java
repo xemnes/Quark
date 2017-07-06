@@ -64,41 +64,15 @@ public class GuiButtonChest<T extends GuiScreen> extends GuiButton implements IP
 			hovered = par2 >= x && par3 >= y && par2 < x + width && par3 < y + height;
 			int k = getHoverState(hovered);
 
-			int u = 0;
-			int v = 0;
+			int u = action.u;
+			int v = action.v;
 
-			switch(action) {
-			case DROPOFF:
-				if(GuiScreen.isShiftKeyDown() != StoreToChests.invert) {
-					if(k == 2)
-						u = 48;
-					else u = 32;
-				} else {
-					if(k == 2)
-						u = 16;
-					else u = 0;
-				}
-				break;
-			case SORT:
-			case SORT_PLAYER:
-				v = 16;
-			case DEPOSIT:
-				if(k == 2)
-					u = 16;
-				else u = 0;
-				break;
-			case SMART_DEPOSIT:
-				if(k == 2)
-					u = 48;
-				else u = 32;
-				break;
-			case RESTOCK:
-				if(k == 2)
-					u = 80;
-				else u = 64;
-				break;
-			}
+			if(action == Action.DROPOFF && GuiScreen.isShiftKeyDown() != StoreToChests.invert)
+				u = 32;
 
+			if(k == 2)
+				u += 16;
+			
 			par1Minecraft.renderEngine.bindTexture(GENERAL_ICONS_RESOURCE);
 			GlStateManager.color(1F, 1F, 1F, 1F);
 			drawIcon(u, v);
@@ -150,12 +124,20 @@ public class GuiButtonChest<T extends GuiScreen> extends GuiButton implements IP
 
 	public static enum Action {
 
-		DROPOFF,
-		DEPOSIT,
-		SMART_DEPOSIT,
-		RESTOCK,
-		SORT,
-		SORT_PLAYER;
+		DROPOFF(0, 0),
+		DEPOSIT(0, 0),
+		SMART_DEPOSIT(32, 0),
+		RESTOCK(64, 0),
+		EXTRACT(64, 16),
+		SORT(0, 16),
+		SORT_PLAYER(0, 16);
+		
+		private Action(int u, int v) {
+			this.u = u;
+			this.v = v;
+		}
+		
+		public final int u, v;
 		
 		public boolean isSortAction() {
 			return this == SORT || this == SORT_PLAYER;

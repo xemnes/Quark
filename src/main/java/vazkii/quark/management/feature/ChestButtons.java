@@ -39,6 +39,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import scala.actors.threadpool.Arrays;
 import vazkii.arl.network.NetworkHandler;
+import vazkii.quark.api.IChestButtonCallback;
 import vazkii.quark.base.client.ModKeybinds;
 import vazkii.quark.base.handler.DropoffHandler;
 import vazkii.quark.base.lib.LibObfuscation;
@@ -52,7 +53,7 @@ import vazkii.quark.management.client.gui.GuiButtonShulker;
 
 public class ChestButtons extends Feature {
 
-	ButtonInfo deposit, smartDeposit, restock, sort, sortPlayer;
+	ButtonInfo deposit, smartDeposit, restock, extract, sort, sortPlayer;
 	
 	boolean debugClassnames;
 	List<String> classnames;
@@ -63,9 +64,10 @@ public class ChestButtons extends Feature {
 	public void setupConfig() {
 		deposit = loadButtonInfo("deposit", "", -18, -50);
 		smartDeposit = loadButtonInfo("smart_deposit", "", -18, -30);
-		restock = loadButtonInfo("restock", "", -18, 35);
+		restock = loadButtonInfo("restock", "", -18, 45);
+		extract = loadButtonInfo("extract", "", -18, 25);
 		sort = loadButtonInfo("sort", "The Sort button is only available if the Inventory Sorting feature is enable", -18, -70);
-		sortPlayer = loadButtonInfo("sort_player", "The Sort button is only available if the Inventory Sorting feature is enable", -18, 15);
+		sortPlayer = loadButtonInfo("sort_player", "The Sort button is only available if the Inventory Sorting feature is enable", -18, 5);
 		
 		debugClassnames = loadPropBool("Debug Classnames", "Set this to true to print out the names of all GUIs you open to the log. This is used to fill in the \"Forced GUIs\" list.", false);
 		String[] classnamesArr = loadPropStringList("Forced GUIs", "GUIs in which the chest buttons should be forced to show up. Use the \"Debug Classnames\" option to find the names.", new String[0]);
@@ -120,6 +122,7 @@ public class ChestButtons extends Feature {
 
 			for(Slot s : container.inventorySlots)
 				if(s.inventory == player.inventory && s.getSlotIndex() == 9) {
+					addButtonAndKeybind(event, extract, Action.EXTRACT, guiInv, 13210, guiLeft, guiTop, s, ModKeybinds.chestExtractKey);
 					addButtonAndKeybind(event, restock, Action.RESTOCK, guiInv, 13211, guiLeft, guiTop, s, ModKeybinds.chestRestockKey);
 					addButtonAndKeybind(event, deposit, Action.DEPOSIT, guiInv, 13212, guiLeft, guiTop, s, ModKeybinds.chestDropoffKey);
 					addButtonAndKeybind(event, smartDeposit, Action.SMART_DEPOSIT, guiInv, 13213, guiLeft, guiTop, s, ModKeybinds.chestMergeKey);
@@ -155,6 +158,9 @@ public class ChestButtons extends Feature {
 			button = new GuiButtonShulker((GuiShulkerBox) guiInv, action, index, x, y, left, top);
 		else button = new GuiButtonChest(guiInv, action, index, x, y, left, top, pred);
 		
+		if(guiInv instanceof IChestButtonCallback && !((IChestButtonCallback) guiInv).onAddChestButton(button, action.ordinal()))
+			return;
+		
 		chestButtons.add(button);
 		event.getButtonList().add(button);
 		if(kb != null)
@@ -178,8 +184,12 @@ public class ChestButtons extends Feature {
 				NetworkHandler.INSTANCE.sendToServer(new MessageDropoff(false, true));
 				event.setCanceled(true);
 				break;
+			case EXTRACT:
+				NetworkHandler.INSTANCE.sendToServer(new MessageRestock(false));
+				event.setCanceled(true);
+				break;
 			case RESTOCK:
-				NetworkHandler.INSTANCE.sendToServer(new MessageRestock());
+				NetworkHandler.INSTANCE.sendToServer(new MessageRestock(true));
 				event.setCanceled(true);
 				break;
 			}

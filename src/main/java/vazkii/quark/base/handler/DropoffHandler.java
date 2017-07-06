@@ -53,11 +53,11 @@ public final class DropoffHandler {
 		new Dropoff(player, smart, useContainer).execute();
 	}
 
-	public static void restock(EntityPlayer player) {
+	public static void restock(EntityPlayer player, boolean filtered) {
 		if(!ModuleLoader.isFeatureEnabled(StoreToChests.class))
 			return;
 
-		new Restock(player).execute();
+		new Restock(player, filtered).execute();
 	}
 
 	public static void disableClientDropoff(EntityPlayer player) {
@@ -237,8 +237,8 @@ public final class DropoffHandler {
 
 	public static class Restock extends Dropoff {
 
-		public Restock(EntityPlayer player) {
-			super(player, true, true);
+		public Restock(EntityPlayer player, boolean filtered) {
+			super(player, filtered, true);
 		}
 
 		@Override

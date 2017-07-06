@@ -17,11 +17,17 @@ import vazkii.quark.base.handler.DropoffHandler;
 
 public class MessageRestock extends NetworkMessage {
 
+	public boolean filtered;
+	
 	public MessageRestock() { }
+	
+	public MessageRestock(boolean filtered) { 
+		this.filtered = filtered;
+	}
 
 	@Override
 	public IMessage handleMessage(MessageContext context) {
-		DropoffHandler.restock(context.getServerHandler().player);
+		DropoffHandler.restock(context.getServerHandler().player, filtered);
 		return null;
 	}
 
