@@ -15,6 +15,7 @@ import vazkii.quark.management.feature.AutomaticToolRestock;
 import vazkii.quark.management.feature.BetterCraftShifting;
 import vazkii.quark.management.feature.ChangeHotbarKeybind;
 import vazkii.quark.management.feature.ChestButtons;
+import vazkii.quark.management.feature.ChestSearchBar;
 import vazkii.quark.management.feature.DeleteItems;
 import vazkii.quark.management.feature.FToSwitchItems;
 import vazkii.quark.management.feature.FavoriteItems;
@@ -36,6 +37,7 @@ public class QuarkManagement extends Module {
 		registerFeature(new BetterCraftShifting());
 		registerFeature(new ChangeHotbarKeybind());
 		registerFeature(new AutomaticToolRestock());
+		registerFeature(new ChestSearchBar());
 	}
 
 }
