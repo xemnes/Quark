@@ -54,7 +54,6 @@ public class BetterVanillaTextures extends Feature {
 			Quark.proxy.addResourceOverride("models", "item", str, "json");
 	}
 
-	
 	@Override
 	public boolean requiresMinecraftRestartToEnable() {
 		return true;

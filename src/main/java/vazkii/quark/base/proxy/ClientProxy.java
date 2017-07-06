@@ -30,8 +30,14 @@ import vazkii.quark.vanity.client.emotes.base.EmoteHandler;
 
 public class ClientProxy extends CommonProxy {
 
-	ResourceProxy resourceProxy;
+	static ResourceProxy resourceProxy;
 	
+	static {
+		List<IResourcePack> packs = ReflectionHelper.getPrivateValue(Minecraft.class, Minecraft.getMinecraft(), LibObfuscation.DEFAULT_RESOURCE_PACKS);
+		resourceProxy = new ResourceProxy();
+		packs.add(resourceProxy);
+	}
+
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
 		super.preInit(event);
@@ -58,17 +64,10 @@ public class ClientProxy extends CommonProxy {
 		if(player != null && player instanceof AbstractClientPlayer)
 			EmoteHandler.putEmote((AbstractClientPlayer) player, emoteName);
 	}
-	
-	@Override
-	public void hookResourceProxy() {
-		List<IResourcePack> packs = ReflectionHelper.getPrivateValue(Minecraft.class, Minecraft.getMinecraft(), LibObfuscation.DEFAULT_RESOURCE_PACKS);
-		resourceProxy = new ResourceProxy();
-		packs.add(resourceProxy);
-	}
-	
+
 	@Override
 	public void addResourceOverride(String space, String dir, String file, String ext) {
 		resourceProxy.addResource(space, dir, file, ext);
 	}
-		
+
 }
