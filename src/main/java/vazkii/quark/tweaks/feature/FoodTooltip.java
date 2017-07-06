@@ -7,10 +7,13 @@ import net.minecraft.client.gui.inventory.GuiContainerCreative;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemFood;
+import net.minecraft.potion.PotionEffect;
 import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.RenderTooltipEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
+import vazkii.quark.base.lib.LibObfuscation;
 import vazkii.quark.base.module.Feature;
 
 public class FoodTooltip extends Feature {
@@ -44,7 +47,12 @@ public class FoodTooltip extends Feature {
 			GlStateManager.color(1F, 1F, 1F);
 			Minecraft mc = Minecraft.getMinecraft();
 			mc.getTextureManager().bindTexture(GuiIngameForge.ICONS);
-			int pips = ((ItemFood) event.getStack().getItem()).getHealAmount(event.getStack());
+			ItemFood food = ((ItemFood) event.getStack().getItem()); 
+			int pips = food.getHealAmount(event.getStack());
+			
+			PotionEffect eff = ReflectionHelper.getPrivateValue(ItemFood.class, food, LibObfuscation.POTION_ID);
+			boolean poison = eff != null && eff.getPotion().isBadEffect();
+
 			for(int i = 0; i < Math.ceil((double) pips / divisor); i++) {
 				int x = event.getX() + i * 9 - 2;
 				int y = event.getY() + 12;
@@ -53,14 +61,17 @@ public class FoodTooltip extends Feature {
 						y += 10;
 				
 				int u = 16;
-				int v = 9;
+				if(poison)
+					u += 117;
+				int v = 27;
 				
-				Gui.drawModalRectWithCustomSizedTexture(x, y, 16, 27, 9, 9, 256, 256);
+				Gui.drawModalRectWithCustomSizedTexture(x, y, u, v, 9, 9, 256, 256);
 				
 				u = 52;
 				if(pips % 2 != 0 && i == 0)
 					u += 9;
-				v = 27;
+				if(poison)
+					u += 36;
 				
 				Gui.drawModalRectWithCustomSizedTexture(x, y, u, v, 9, 9, 256, 256);
 			}

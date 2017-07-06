@@ -55,4 +55,7 @@ public final class LibObfuscation {
 	// ItemTool
 	public static final String[] TOOL_MATERIAL = new String[] { "d", "field_77862_b", "toolMaterial" };
 	
+	// ItemFood
+	public static final String[] POTION_ID = new String[] { "f", "field_77851_ca", "potionId" };
+	
 }
