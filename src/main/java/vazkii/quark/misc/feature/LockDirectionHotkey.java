@@ -137,7 +137,8 @@ public class LockDirectionHotkey extends Feature {
 		if(mc.inGameHasFocus && down) {
 			LockProfile newProfile;
 			RayTraceResult result = mc.objectMouseOver;
-			if(result.typeOfHit == Type.BLOCK) {
+			
+			if(result != null && result.typeOfHit == Type.BLOCK) {
 				int half = (int) ((result.hitVec.y - (int) result.hitVec.y) * 2);
 				if(result.sideHit.getAxis() == Axis.Y)
 					half = -1;
