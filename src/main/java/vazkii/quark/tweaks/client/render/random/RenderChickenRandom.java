@@ -19,7 +19,7 @@ public class RenderChickenRandom extends RenderChicken {
 		if(RandomAnimalTextures.enableChick && entity.isChild())
 			return RandomAnimalTextures.getRandomTexture(entity, RandomTextureType.CHICK);
 		
-		return RandomAnimalTextures.getRandomTexture(entity, RandomTextureType.CHICKEN);
+		return RandomAnimalTextures.getRandomTexture(entity, RandomTextureType.CHICKEN, RandomAnimalTextures.enableChicken);
 	}
 	
 	public static IRenderFactory factory() {

@@ -55,12 +55,20 @@ public class RandomAnimalTextures extends Feature {
 
 		registerOverride(EntityCow.class, RenderCowRandom.factory(), enableCow);
 		registerOverride(EntityPig.class, RenderPigRandom.factory(), enablePig);
-		registerOverride(EntityChicken.class, RenderChickenRandom.factory(), enableChicken);
+		registerOverride(EntityChicken.class, RenderChickenRandom.factory(), enableChicken || enableChick);
 	}
 
 	@SideOnly(Side.CLIENT)
 	public static ResourceLocation getRandomTexture(Entity e, RandomTextureType type) {
+		return getRandomTexture(e, type, true);
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public static ResourceLocation getRandomTexture(Entity e, RandomTextureType type, boolean choose) {
 		List<ResourceLocation> styles = textures.get(type);
+		if(!choose)
+			return styles.get(styles.size() - 1);
+		
 		UUID id = e.getUniqueID();
 		int choice = Math.abs((int) (id.getMostSignificantBits() % styles.size()));
 		return styles.get(choice);
@@ -78,6 +86,11 @@ public class RandomAnimalTextures extends Feature {
 	private static <T extends Entity>void registerOverride(Class<T> clazz, IRenderFactory<? super T> factory, boolean enabled) {
 		if(enabled)
 			RenderingRegistry.registerEntityRenderingHandler(clazz, factory);
+	}
+	
+	@Override
+	public boolean requiresMinecraftRestartToEnable() {
+		return true;
 	}
 	
 	public static enum RandomTextureType {
