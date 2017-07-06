@@ -117,8 +117,8 @@ public class ChestButtons extends Feature {
 
 			chestButtons.clear();
 			
-			int guiLeft = ReflectionHelper.getPrivateValue(GuiContainer.class, guiInv, LibObfuscation.GUI_LEFT);
-			int guiTop = ReflectionHelper.getPrivateValue(GuiContainer.class, guiInv, LibObfuscation.GUI_TOP);
+			int guiLeft = guiInv.getGuiLeft();
+			int guiTop = guiInv.getGuiTop();
 
 			for(Slot s : container.inventorySlots)
 				if(s.inventory == player.inventory && s.getSlotIndex() == 9) {

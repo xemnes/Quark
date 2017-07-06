@@ -103,8 +103,8 @@ public class FavoriteItems extends Feature {
 			GuiContainer guiInv = (GuiContainer) event.getGui();
 			Container container = guiInv.inventorySlots;
 
-			int guiLeft = ReflectionHelper.getPrivateValue(GuiContainer.class, guiInv, LibObfuscation.GUI_LEFT);
-			int guiTop = ReflectionHelper.getPrivateValue(GuiContainer.class, guiInv, LibObfuscation.GUI_TOP);
+			int guiLeft = guiInv.getGuiLeft();
+			int guiTop = guiInv.getGuiTop();
 
 			GlStateManager.color(1F, 1F, 1F);
 			GlStateManager.pushMatrix();

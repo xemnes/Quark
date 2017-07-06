@@ -22,10 +22,6 @@ public final class LibObfuscation {
 	public static final String[] MODEL_ARMOR = new String[] { "d", "field_177186_d", "modelArmor" };
 	public static final String[] MODEL_LEGGINGS = new String[] { "c", "field_177189_c", "modelLeggings" };
 
-	// GuiContainer
-	public static final String[] GUI_LEFT = new String[] { "i", "field_147003_i", "guiLeft" };
-	public static final String[] GUI_TOP = new String[] { "s", "field_147009_r", "guiTop" };
-
 	// TileEntitySign
 	public static final String[] IS_EDITABLE = new String[] { "g", "field_145916_j", "isEditable" };
 
