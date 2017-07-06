@@ -3,7 +3,9 @@ package vazkii.quark.tweaks.feature;
 import betterwithmods.api.FeatureEnabledEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.inventory.GuiContainerCreative;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemFood;
 import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.RenderTooltipEvent;
@@ -44,13 +46,23 @@ public class FoodTooltip extends Feature {
 			mc.getTextureManager().bindTexture(GuiIngameForge.ICONS);
 			int pips = ((ItemFood) event.getStack().getItem()).getHealAmount(event.getStack());
 			for(int i = 0; i < Math.ceil((double) pips / divisor); i++) {
-				Gui.drawModalRectWithCustomSizedTexture(event.getX() + i * 9 - 2, event.getY() + 12, 16, 27, 9, 9, 256, 256);
+				int x = event.getX() + i * 9 - 2;
+				int y = event.getY() + 12;
 				
-				int u = 52;
+				if(mc.currentScreen instanceof GuiContainerCreative && ((GuiContainerCreative) mc.currentScreen).getSelectedTabIndex() == CreativeTabs.SEARCH.getTabIndex())
+						y += 10;
+				
+				int u = 16;
+				int v = 9;
+				
+				Gui.drawModalRectWithCustomSizedTexture(x, y, 16, 27, 9, 9, 256, 256);
+				
+				u = 52;
 				if(pips % 2 != 0 && i == 0)
 					u += 9;
+				v = 27;
 				
-				Gui.drawModalRectWithCustomSizedTexture(event.getX() + i * 9 - 2, event.getY() + 12, u, 27, 9, 9, 256, 256);
+				Gui.drawModalRectWithCustomSizedTexture(x, y, u, v, 9, 9, 256, 256);
 			}
 
 			GlStateManager.popMatrix();
