@@ -10,6 +10,8 @@
  */
 package vazkii.quark.tweaks.feature;
 
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
@@ -91,20 +93,15 @@ public class EndermenAntiCheese extends Feature {
 		entity.swingArm(EnumHand.MAIN_HAND);
 		
 		IBlockState state = entity.world.getBlockState(pos);
-		boolean unbreakable = state.getBlock().getBlockHardness(state, entity.world, pos) == -1 || !state.getBlock().canEntityDestroy(state, entity.world, pos, entity);
-		if(!unbreakable && state.getBlock().getCollisionBoundingBox(state, entity.getEntityWorld(), pos) != null) {
-			IBlockState carried = entity.getHeldBlockState();
-			if(carried != null) {
-				Block outBlock = carried.getBlock();
-				int meta = outBlock.getMetaFromState(carried);
-				ItemStack outStack = new ItemStack(outBlock, 1, meta);
-				EntityItem out = new EntityItem(entity.world, entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ, outStack);
-				entity.world.spawnEntity(out);
-			}
-			
-			entity.world.playEvent(2001, pos, Block.getStateId(state));
-			entity.setHeldBlockState(state);
+		Block block = state.getBlock();
+		boolean unbreakable = block.getBlockHardness(state, entity.world, pos) == -1 || !block.canEntityDestroy(state, entity.world, pos, entity);
+		if(!unbreakable && block.getCollisionBoundingBox(state, entity.getEntityWorld(), pos) != null) {
+			List<ItemStack> drops = block.getDrops(entity.world, pos, state, 0);
 			entity.world.setBlockToAir(pos);
+			entity.world.playEvent(2001, pos, Block.getStateId(state));
+			
+			for(ItemStack drop : drops)
+				entity.world.spawnEntity(new EntityItem(entity.world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, drop));
 		}
 	}
 
