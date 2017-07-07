@@ -289,7 +289,7 @@
 			},
 			{
 				"name":"Glass Item Frame",
-				"description":"Crafting an Item Frame with Glass Panes makes a Glass Item Frame. The frame itself will not render while an item is inside, and items inside render a bit larger than a normal Item Frame.",
+				"description":"Crafting an Item Frame with Glass Panes makes a Glass Item Frame. The frame itself will not render while an item is inside, and items inside render a bit larger than a normal Item Frame.<br><br>Some items will display differently on these frames. Shields will be a bit larger, and thus at a 1:1 scale. Banners will be scaled down to be square, and usable as wallpaper.",
 				"image":"glass-item-frame.jpg",
 				"introduced":11
 			},
@@ -307,7 +307,7 @@
 		"features":[
 			{
 				"name":"Chest Buttons",
-				"description":"Five buttons are added to Chest interfaces. From top to bottom, they do the following:<ul><li>Sort the chest, if the Sorting Button feature is enabled.</li><li>Deposit your entire inventory (not hotbar, armor or off-hand) in the chest.</li><li>Same as the previous, but only for items that the chest has at least one of inside.</li><li>Sort your inventory, if the Sorting Button feature is enabled.</li><li>Extract all items from the chest that you have at least one of in your inventory.</li></ul>All of these buttons can be bound to a key for quick usage. None are bound by default.",
+				"description":"Six buttons are added to Chest interfaces. From top to bottom, they do the following:<ul><li>Sort the chest (if the Sorting Button feature is enabled).</li><li>Deposit your entire inventory (not hotbar, armor or off-hand) in the chest.</li><li>Same as the previous, but only for items that the chest has at least one of inside.</li><li>Sort your inventory (if the Sorting Button feature is enabled).</li><li>Extract all items from the chest into your inventory.</li><li>Same as the previous, but only for items you have at least one of in your inventory.</li></ul>All of these buttons can be bound to a key for quick usage. None are bound by default.",
 				"image":"chest-buttons.jpg",
 				"introduced":9
 			},
@@ -367,6 +367,12 @@
 				"image":"auto-tool-restock.jpg",
 				"introduced":12,
 				"overlap": ["InvTweaks"]
+			},
+			{
+				"name":"Chest Searching",
+				"description":"A search bar is added to the chest interface. Typing in the bar will darken out any items whose names don't include the search query.<br><br>Wrapping the search in quotes will search for an entire name. For example, searching for Stone will also highlight Stone Bricks, whereas searching for \"Stone\" will not.",
+				"image":"chest-search.jpg",
+				"introduced":12
 			}
 		]
 	},
