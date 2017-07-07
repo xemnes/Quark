@@ -17,6 +17,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.RenderTooltipEvent;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import vazkii.quark.api.IItemSearchBar;
 import vazkii.quark.base.handler.GuiFactory;
@@ -28,6 +29,14 @@ public class ChestSearchBar extends Feature {
 	static String text = "";
 	GuiTextField searchBar;
 	boolean skip;
+	boolean moveToCenterBar;
+	
+	@Override
+	public void setupConfig() {
+		boolean invtweaks = loadPropBool("Avoid Invtweaks Buttons", "Automatically move the search bar if Inventory Tweaks is loaded so it doesn't end up in the same place as their buttons.", true);
+		moveToCenterBar = loadPropBool("Move to Center Bar", "Set to true to move to the center bar, next to the \"Inventory\" text.", false);
+		moveToCenterBar |= (invtweaks && Loader.isModLoaded("inventorytweaks"));
+	}
 	
 	@SubscribeEvent
 	public void initGui(GuiScreenEvent.InitGuiEvent.Post event) {
@@ -36,6 +45,9 @@ public class ChestSearchBar extends Feature {
 		if(callback || gui instanceof GuiChest || gui instanceof GuiShulkerBox) {
 			GuiContainer chest = (GuiContainer) gui;
 			searchBar = new GuiTextField(12831, gui.mc.fontRenderer, chest.getGuiLeft() + 80, chest.getGuiTop() + 5, 88, 10);
+			if(moveToCenterBar)
+				searchBar.y = chest.getGuiTop() + chest.getYSize() - 95;
+			
 			searchBar.setText(text);
 			searchBar.setFocused(false);
 			searchBar.setMaxStringLength(32);
