@@ -35,6 +35,7 @@ public class EndermenAntiCheese extends Feature {
 	int minimumDifficulty = 2;
 	boolean oldBehaviour;
 	int delay;
+	int lowerBound;
 	boolean ignoreMobGriefing;
 	
 	@Override
@@ -42,6 +43,7 @@ public class EndermenAntiCheese extends Feature {
 		minimumDifficulty = loadPropInt("Minimum Difficulty", "The minimum difficulty in which this effect should take place. (1: easy, 2: normal, 3: hard)", 2);
 		oldBehaviour = loadPropBool("Use Old Behaviour", "Set this to true to use the old behaviour, where the endermen would teleport the player to them", false);
 		delay = loadPropInt("Delay", "The delay between how often an enderman can break a block.", 10);
+		lowerBound = loadPropInt("HP Lower Bound", "A value of health for which endermen will stop doing anti-cheese when below. Set to 0 to disable.", 3);
 		ignoreMobGriefing = loadPropBool("Ignore mobGriefing Gamerule", "", true);
 	}
 
@@ -49,6 +51,9 @@ public class EndermenAntiCheese extends Feature {
 	public void onUpdate(LivingUpdateEvent event) {
 		if(event.getEntityLiving() instanceof EntityEnderman && event.getEntityLiving().getEntityWorld().getDifficulty().getDifficultyId() >= minimumDifficulty) {
 			EntityEnderman entity = (EntityEnderman) event.getEntityLiving();
+			
+			if(entity.getHealth() < lowerBound)
+				return;
 
 			BlockPos ourPos = entity.getPosition().up(2);
 			IBlockState ourState = entity.getEntityWorld().getBlockState(ourPos);
