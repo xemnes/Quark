@@ -493,28 +493,30 @@ entity.quark:wraith.name=Wraith
 quark.potion.curse.name=Curse
 
 # KEYBINDS
-quark.gui.keygroup=Quark Keybinds
-quark.keybind.emote.wave=Emote: Wave
-quark.keybind.emote.yes=Emote: Yes
-quark.keybind.emote.no=Emote: No
-quark.keybind.emote.cheer=Emote: Cheer
-quark.keybind.emote.clap=Emote: Clap
-quark.keybind.emote.salute=Emote: Salute
-quark.keybind.emote.facepalm=Emote: Facepalm
-quark.keybind.emote.shrug=Emote: Shrug
-quark.keybind.emote.point=Emote: Point
-quark.keybind.emote.headbang=Emote: Headbang
-quark.keybind.emote.custom=Emote: Custom
+quark.gui.keygroupMisc=Quark Misc
+quark.gui.keygroupInv=Quark Inventory
+quark.gui.keygroupEmote=Quark Emotes
+quark.keybind.emote.wave=Wave
+quark.keybind.emote.yes=Yes
+quark.keybind.emote.no=No
+quark.keybind.emote.cheer=Cheer
+quark.keybind.emote.clap=Clap
+quark.keybind.emote.salute=Salute
+quark.keybind.emote.facepalm=Facepalm
+quark.keybind.emote.shrug=Shrug
+quark.keybind.emote.point=Point
+quark.keybind.emote.headbang=Headbang
+quark.keybind.emote.custom=Custom
 quark.keybind.lockBuilding=Lock Orientation
 quark.keybind.toggleAutojump=Toggle Autojump
 quark.keybind.changeHotbar=Change Hotbar
 quark.keybind.dropoff=Dropoff
-quark.keybind.playerSort=Sort Player Inventory
+quark.keybind.playerSort=Sort Player
 quark.keybind.chestSort=Sort Container
-quark.keybind.chestDropoff=Deposit into Container
-quark.keybind.chestMerge=Merge into Container
-quark.keybind.chestRestock=Restock from Container
-quark.keybind.chestExtract=Extract from Container
+quark.keybind.chestDropoff=Deposit
+quark.keybind.chestMerge=Merge
+quark.keybind.chestRestock=Restock
+quark.keybind.chestExtract=Extract
 
 # GUI STUFF
 quark.gui.emotes=Emotes

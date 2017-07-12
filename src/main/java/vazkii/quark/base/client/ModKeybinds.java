@@ -39,24 +39,28 @@ public class ModKeybinds {
 	public static KeyBinding chestMergeKey = null;
 	public static KeyBinding chestRestockKey = null;
 	public static KeyBinding chestExtractKey = null;
+	
+	private static final String MISC_GROUP = "quark.gui.keygroupMisc";
+	private static final String INV_GROUP = "quark.gui.keygroupInv";
+	private static final String EMOTE_GROUP = "quark.gui.keygroupEmote";
 
 	public static void initEmoteKeybinds() {
 		for(String emoteName : EmoteHandler.emoteMap.keySet()) {
-			KeyBinding key = init("emote." + emoteName, 0);
+			KeyBinding key = init("emote." + emoteName, 0, EMOTE_GROUP);
 			emoteKeys.put(key, emoteName);
 		}
 	}
 
 	public static void initLockKey() {
-		lockKey = init("lockBuilding", Keyboard.KEY_L);
+		lockKey = init("lockBuilding", Keyboard.KEY_K, MISC_GROUP);
 	}
 
 	public static void initAutoJumpKey() {
-		autoJumpKey = init("toggleAutojump", Keyboard.KEY_B);
+		autoJumpKey = init("toggleAutojump", Keyboard.KEY_B, MISC_GROUP);
 	}
 
 	public static void initChangeHotbarKey() {
-		changeHotbarKey = init("changeHotbar", Keyboard.KEY_X);
+		changeHotbarKey = init("changeHotbar", Keyboard.KEY_Z, MISC_GROUP);
 	}
 
 	public static void initDropoffKey() {
@@ -81,13 +85,13 @@ public class ModKeybinds {
 	}
 
 	private static KeyBinding initAndButtonBind(String s, int key) {
-		KeyBinding kb = init(s, key);
+		KeyBinding kb = init(s, key, INV_GROUP);
 		new KeybindButtonHandler(kb);
 		return kb;
 	}
 	
-	private static KeyBinding init(String s, int key) {
-		KeyBinding kb = new KeyBinding("quark.keybind." + s, key, "quark.gui.keygroup");
+	private static KeyBinding init(String s, int key, String group) {
+		KeyBinding kb = new KeyBinding("quark.keybind." + s, key, group);
 		ClientRegistry.registerKeyBinding(kb);
 		return kb;
 	}
