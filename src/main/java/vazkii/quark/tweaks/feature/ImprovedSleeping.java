@@ -9,6 +9,7 @@ import java.util.WeakHashMap;
 import org.apache.commons.lang3.tuple.Pair;
 import org.lwjgl.input.Mouse;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
@@ -163,14 +164,14 @@ public class ImprovedSleeping extends Feature {
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void onMousePress(MouseInputEvent event) {
-		if(Mouse.getEventButtonState())
+		if(Mouse.getEventButtonState() && Minecraft.getMinecraft().currentScreen != null)
 			registerPress();
 	}
 
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void onMousePress(GuiScreenEvent.MouseInputEvent.Pre event) {
-		if(Mouse.getEventButtonState())
+		if(Mouse.getEventButtonState() && Minecraft.getMinecraft().currentScreen != null)
 			registerPress();
 	}
 
