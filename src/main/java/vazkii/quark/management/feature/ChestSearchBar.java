@@ -1,5 +1,9 @@
 package vazkii.quark.management.feature;
 
+import java.util.Map;
+import java.util.function.Function;
+import java.util.regex.Pattern;
+
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
@@ -11,16 +15,21 @@ import net.minecraft.client.gui.inventory.GuiChest;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.gui.inventory.GuiShulkerBox;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemEnchantedBook;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.RenderTooltipEvent;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import vazkii.quark.api.IItemSearchBar;
-import vazkii.quark.base.handler.GuiFactory;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.management.client.gui.GuiButtonChest;
 
@@ -30,6 +39,9 @@ public class ChestSearchBar extends Feature {
 	GuiTextField searchBar;
 	boolean skip;
 	boolean moveToCenterBar;
+	
+	private long lastClick;
+	private int matched;
 	
 	@Override
 	public void setupConfig() {
@@ -44,7 +56,7 @@ public class ChestSearchBar extends Feature {
 		boolean callback = gui instanceof IItemSearchBar;
 		if(callback || gui instanceof GuiChest || gui instanceof GuiShulkerBox) {
 			GuiContainer chest = (GuiContainer) gui;
-			searchBar = new GuiTextField(12831, gui.mc.fontRenderer, chest.getGuiLeft() + 80, chest.getGuiTop() + 5, 88, 10);
+			searchBar = new GuiTextField(12831, gui.mc.fontRenderer, chest.getGuiLeft() + 81, chest.getGuiTop() + 6, 88, 10);
 			if(moveToCenterBar)
 				searchBar.y = chest.getGuiTop() + chest.getYSize() - 95;
 			
@@ -60,7 +72,7 @@ public class ChestSearchBar extends Feature {
 	
 	@SubscribeEvent
 	public void onKeypress(GuiScreenEvent.KeyboardInputEvent.Pre event) {
-		if(searchBar != null && searchBar.isFocused()) {
+		if(searchBar != null && searchBar.isFocused() && Keyboard.getEventKeyState()) {
 	        char eventChar = Keyboard.getEventCharacter();
 	        int eventCode = Keyboard.getEventKey();
 	        
@@ -82,6 +94,15 @@ public class ChestSearchBar extends Feature {
 			int button = Mouse.getEventButton();
 			
 			searchBar.mouseClicked(x, y, button);
+			
+			long time = System.currentTimeMillis();
+			long delta = time - lastClick;
+			if(delta < 200 && searchBar.isFocused()) {
+				searchBar.setText("");
+				text = "";
+			}
+			
+			lastClick = time;
 		}
 	}
 	
@@ -101,8 +122,7 @@ public class ChestSearchBar extends Feature {
 	}
 	
 	private void renderElements(GuiScreen gui) {
-		drawBackground(gui, searchBar.x - 1, searchBar.y - 1);
-		searchBar.drawTextBox();
+		drawBackground(gui, searchBar.x - 2, searchBar.y - 2);
 		
 		if(!text.isEmpty()) {
 			if(gui instanceof GuiContainer) {
@@ -112,18 +132,24 @@ public class ChestSearchBar extends Feature {
 				int guiLeft = guiContainer.getGuiLeft();
 				int guiTop = guiContainer.getGuiTop();
 				
+				matched = 0;
 				for(Slot s : container.inventorySlots) {
 					ItemStack stack = s.getStack();
-					if(stack.isEmpty() || !namesMatch(stack.getDisplayName(), text)) {
+					if(!namesMatch(stack, text)) {
 						int x = guiLeft + s.xPos;
 						int y = guiTop + s.yPos;
 						
 						GlStateManager.disableDepth();
 						guiContainer.drawRect(x, y, x + 16, y + 16, 0xAA000000);
-					}
+					} else matched++;
 				}
 			}
 		}
+		
+		if(matched == 0 && !text.isEmpty())
+			searchBar.setTextColor(0xFF5555);
+		else searchBar.setTextColor(0xFFFFFF);
+		searchBar.drawTextBox();
 	}
 	
 	private void drawBackground(GuiScreen gui, int x, int y) {
@@ -136,17 +162,55 @@ public class ChestSearchBar extends Feature {
 		Gui.drawModalRectWithCustomSizedTexture(x, y, 0, 244, 90, 12, 256, 256);
 	}
 	
-	private boolean namesMatch(String name, String search) {
+	private boolean namesMatch(ItemStack stack, String search) {
+		if(stack.isEmpty())
+			return false;
+		
+		String name = stack.getDisplayName();
 		search = TextFormatting.getTextWithoutFormattingCodes(search.trim().toLowerCase());
 		name = TextFormatting.getTextWithoutFormattingCodes(name.trim().toLowerCase());
-		if(search.startsWith("\"") && search.endsWith("\""))
-			return name.equals(search);
-		return name.contains(search);
+		
+		StringMatcher matcher = (s1, s2) -> s1.contains(s2);
+		
+		if(search.length() >= 3 && search.startsWith("\"") && search.endsWith("\"")) {
+			search = search.substring(1, search.length() - 1);
+			matcher = (s1, s2) -> s1.equals(s2);
+		}
+		
+		if(search.length() >= 3 && search.startsWith("/") && search.endsWith("/")) {
+			search = search.substring(1, search.length() - 1);
+			matcher = (s1, s2) -> Pattern.compile(s2).matcher(s1).find();
+		}
+
+		if(stack.isItemEnchanted()) {
+			Map<Enchantment, Integer> enchants = EnchantmentHelper.getEnchantments(stack);
+			for(Enchantment e : enchants.keySet())
+				if(matcher.matches(e.getTranslatedName(enchants.get(e)).toLowerCase(), search))
+					return true;
+		}
+		
+		if(stack.getItem() == Items.ENCHANTED_BOOK) {
+			NBTTagList enchants = ItemEnchantedBook.getEnchantments(stack);
+			for(int i = 0; i < enchants.tagCount(); i++) {
+				NBTTagCompound cmp = enchants.getCompoundTagAt(i);
+				int id = cmp.getInteger("id");
+				int lvl = cmp.getInteger("lvl");
+				Enchantment e = Enchantment.getEnchantmentByID(id);
+				if(matcher.matches(e.getTranslatedName(lvl).toLowerCase(), search))
+					return true;
+			}
+		}
+		
+		return matcher.matches(name, search);
 	}
 	
 	@Override
 	public boolean hasSubscriptions() {
 		return isClient();
+	}
+	
+	private static interface StringMatcher {
+		boolean matches(String str1, String str2);
 	}
 	
 }
