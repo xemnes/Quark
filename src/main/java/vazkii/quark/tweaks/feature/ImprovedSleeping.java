@@ -1,18 +1,20 @@
 package vazkii.quark.tweaks.feature;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
-import java.util.WeakHashMap;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.lwjgl.input.Mouse;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextComponentBase;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.event.HoverEvent;
+import net.minecraft.util.text.event.HoverEvent.Action;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -21,9 +23,9 @@ import net.minecraftforge.fml.common.gameevent.InputEvent.MouseInputEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import scala.actors.threadpool.Arrays;
 import vazkii.arl.network.NetworkHandler;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.ModuleLoader;
@@ -114,27 +116,48 @@ public class ImprovedSleeping extends Feature {
 			return;
 		
 		List<String> newSleepingPlayers = new ArrayList();
+		List<String> nonSleepingPlayers = new ArrayList();
+		int legitPlayers = 0;
 		String sleeper = "";
 
 		for(EntityPlayer player : world.playerEntities)
-			if(doesPlayerCountForSleeping(player) && isPlayerSleeping(player)) {
+			if(doesPlayerCountForSleeping(player)) {
 				String name = player.getName();
-				if(!sleepingPlayers.contains(name))
-					sleeper = name;
-				newSleepingPlayers.add(name);
+				if(isPlayerSleeping(player)) {
+					if(!sleepingPlayers.contains(name))
+						sleeper = name;
+					newSleepingPlayers.add(name);
+				} else nonSleepingPlayers.add(name);
+				
+				legitPlayers++;
 			}
 		sleepingPlayers = newSleepingPlayers;
-
-		if(!sleeper.isEmpty() && world.playerEntities.size() != 1) {
-			Pair<Integer, Integer> counts = getPlayerCounts(world);
-			int legitPlayers = counts.getLeft();
-			int sleepingPlayers = counts.getRight();
+		
+		if(!sleeper.isEmpty()/* && world.playerEntities.size() != 1*/) {
 			int requiredPlayers = Math.max((int) Math.ceil(((float) legitPlayers * (float) percentReq / 100F)), 0);
-
-			TextComponentTranslation text = new TextComponentTranslation("quarkmisc.personSleeping", sleeper, sleepingPlayers, requiredPlayers);
-			text.getStyle().setColor(TextFormatting.GOLD);
+			
+			TextComponentBase message = new TextComponentTranslation("quarkmisc.personSleeping", sleeper);
+			message.getStyle().setColor(TextFormatting.GOLD);
+			message.appendSibling(new TextComponentString(" "));
+			
+			List<String> lines = new ArrayList();
+			for(String s : newSleepingPlayers)
+				lines.add("\u00A7a\u2714 " + s);
+			for(String s : nonSleepingPlayers)
+				lines.add("\u00A7c\u2718 " + s);
+			
+			TextComponentBase hoverText = new TextComponentTranslation("quarkmisc.sleepingListHeader", "\n");
+			for(int i = 0; i < lines.size(); i++)
+				hoverText.appendSibling(new TextComponentString(lines.get(i) + (i == lines.size() - 1 ? "" : "\n")));
+			
+			TextComponentBase sibling = new TextComponentString(String.format("(%d/%d)", newSleepingPlayers.size(), requiredPlayers));
+			HoverEvent hover = new HoverEvent(Action.SHOW_TEXT, hoverText);
+			sibling.getStyle().setHoverEvent(hover);
+			sibling.getStyle().setUnderlined(true);
+			message.appendSibling(sibling);
+			
 			for(EntityPlayer player : world.playerEntities)
-				player.sendMessage(text);
+				player.sendMessage(message);
 		}
 	}
 
