@@ -88,7 +88,7 @@ public class AutomaticToolRestock extends Feature {
 				Set<String> classes = getItemClasses(stack);
 				
 				if(!classes.isEmpty()) {
-					Predicate<ItemStack> toolPredicate = (other) -> getItemClasses(other).retainAll(classes);
+					Predicate<ItemStack> toolPredicate = (other) -> !getItemClasses(other).retainAll(classes);
 
 					if(enableEnchantMatching && findReplacement(player, currSlot, toolPredicate.and(enchantmentPredicate)))
 						return;
