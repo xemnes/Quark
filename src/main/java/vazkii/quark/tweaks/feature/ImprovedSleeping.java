@@ -133,7 +133,7 @@ public class ImprovedSleeping extends Feature {
 			}
 		sleepingPlayers = newSleepingPlayers;
 		
-		if(!sleeper.isEmpty()/* && world.playerEntities.size() != 1*/) {
+		if(!sleeper.isEmpty() && world.playerEntities.size() != 1) {
 			int requiredPlayers = Math.max((int) Math.ceil(((float) legitPlayers * (float) percentReq / 100F)), 0);
 			
 			TextComponentBase message = new TextComponentTranslation("quarkmisc.personSleeping", sleeper);
