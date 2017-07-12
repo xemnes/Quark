@@ -1,6 +1,0 @@
-{
-	"id": "minecraft:purpur_block",
-	"blocks": {
-		"wall": { "id": "quark:purpur_block_wall", "meta": 0 }
-	}
-}

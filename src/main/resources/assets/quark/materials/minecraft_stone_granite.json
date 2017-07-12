@@ -1,8 +1,0 @@
-{
-    "id": "minecraft:granite",
-    "blocks": {
-        "stairs": "quark:stone_granite_stairs",
-        "slab": "quark:stone_granite_slab",
-        "wall": { "id": "quark:stone_granite_wall", "meta": 0 }
-    }
-}
