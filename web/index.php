@@ -25,19 +25,19 @@
 		<div id="main-container">
 			<div id="header">
 				<img src="img/icon.png" id="quark-logo"></img>
-				<a href="https://www.creeperhost.net/"><img id="sellout-image" src="http://vazkii.us/sellout.png"></img></a>
+				<a href="https://www.creeperhost.net/"><img id="sellout-image" src="https://vazkii.us/sellout.png"></img></a>
 
 				<div id="header-contents">
 					<div class="title"><span class="q">q</span>uark</div>
 					<div class="subtitle">Change your game. Not your gameplay.</div>
 				</div>
 
-				<a href="http://minecraft.curseforge.com/projects/quark"><button id="download-button" class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored">
+				<a href="https://minecraft.curseforge.com/projects/quark"><button id="download-button" class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored">
 					<i class="material-icons">file_download</i>
 				</button></a>
 
 				<div id="download-section">
-					<img src="http://cf.way2muchnoise.eu/full_quark_downloads.svg"></img> <img src="http://cf.way2muchnoise.eu/versions/quark.svg"></img>
+					<img src="https://cf.way2muchnoise.eu/full_quark_downloads.svg"></img> <img src="https://cf.way2muchnoise.eu/versions/quark.svg"></img>
 				</div>
 			</div>
 
@@ -80,7 +80,7 @@
 							This is just a standard forge mod installation. If you've done it before you can skip this.
 							<ol>
 								<li>Make sure you have Minecraft installed.</li>
-								<li>Locate the version of Minecraft Forge for your target Minecraft version <a href="http://files.minecraftforge.net/">here</a>.</li>
+								<li>Locate the version of Minecraft Forge for your target Minecraft version <a href="https://files.minecraftforge.net/">here</a>.</li>
 								<li>Download installer-win (or installer if you're not on Windows) and run it. A new forge profile will be added to your minecraft launcher.</li>
 								<li>Download AutoRegLib using the link above the image. Put the downloaded .jar into your "mods" folder.</li>
 								<li>Download Quark using the download button above. Put the downloaded .jar file into your "mods" folder.
@@ -133,9 +133,9 @@
 								<li><a href="https://patreon.com/Vazkii/">Vazkii's Patreon</a></li>
 								<li><a href="https://twitter.com/wiliv75/">wiiv's Twitter</a></li>
 								<li><a href="https://patreon.com/WIIV/">wiiv's Patreon</a></li>
-								<li><a href="http://vazkii.us/about-me/supportdonations/">Donations</a></li>
-								<li><a href="http://vazkii.us/about-me/contact/">Email and other Contacts</a></li>
-								<li><a href="http://vazkii.us/">vazkii.us</a></li>
+								<li><a href="https://vazkii.us/about-me/supportdonations/">Donations</a></li>
+								<li><a href="https://vazkii.us/about-me/contact/">Email and other Contacts</a></li>
+								<li><a href="https://vazkii.us/">vazkii.us</a></li>
 							</ul>
 							<br>
 							</div>
@@ -166,6 +166,7 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.1.3/mustache.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/material-design-lite/1.3.0/material.min.js"></script>
 		<script src="quark.js"></script>
+		<script src="https://widget.battleforthenet.com/widget.js" async></script>
 	</body>
 </html>
 
