@@ -4,7 +4,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import vazkii.arl.recipe.RecipeHandler;
@@ -30,7 +29,7 @@ public class SoulPowder extends Feature {
 	}
 	
 	@Override
-	public void init(FMLInitializationEvent event) {
+	public void postPreInit(FMLPreInitializationEvent event) {
 		if(ModuleLoader.isFeatureEnabled(Wraiths.class))
 			RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(soul_powder), ProxyRegistry.newStack(Wraiths.soul_bead), ProxyRegistry.newStack(Blocks.SOUL_SAND), ProxyRegistry.newStack(Blocks.SOUL_SAND), ProxyRegistry.newStack(Blocks.SOUL_SAND));
 		else RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(soul_powder), ProxyRegistry.newStack(Items.MAGMA_CREAM), ProxyRegistry.newStack(Blocks.SOUL_SAND), ProxyRegistry.newStack(Blocks.SOUL_SAND), ProxyRegistry.newStack(Blocks.SOUL_SAND));
