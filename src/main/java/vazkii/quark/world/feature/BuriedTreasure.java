@@ -181,6 +181,8 @@ public class BuriedTreasure extends Feature {
 
 		@Override
 		public ItemStack apply(ItemStack stack, Random rand, LootContext context) {
+			int id = context.getWorld().getUniqueDataId("map");
+			stack.setItemDamage(id);
 			ItemNBTHelper.setBoolean(stack, TAG_TREASURE_MAP_DELEGATE, true);
 			return stack;
 		}
