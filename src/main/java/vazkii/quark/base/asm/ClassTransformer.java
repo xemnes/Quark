@@ -39,11 +39,7 @@ import org.objectweb.asm.util.Printer;
 import org.objectweb.asm.util.Textifier;
 import org.objectweb.asm.util.TraceMethodVisitor;
 
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.launchwrapper.IClassTransformer;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLLog;
 
 public class ClassTransformer implements IClassTransformer {
@@ -411,10 +407,16 @@ public class ClassTransformer implements IClassTransformer {
 					InsnList newInstructions = new InsnList();
 
 					newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 0));
-					newInstructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, ASM_HOOKS, "isEveryoneAsleep", "(Lnet/minecraft/world/World;)Z"));
+					newInstructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, ASM_HOOKS, "isEveryoneAsleep", "(Lnet/minecraft/world/World;)I"));
+					newInstructions.add(new InsnNode(Opcodes.DUP));
+					LabelNode label = new LabelNode();
+					newInstructions.add(new JumpInsnNode(Opcodes.IFEQ, label));
+					newInstructions.add(new InsnNode(Opcodes.ICONST_1));
+					newInstructions.add(new InsnNode(Opcodes.ISUB));
 					newInstructions.add(new InsnNode(Opcodes.IRETURN));
-					
-					method.instructions = newInstructions;
+					newInstructions.add(label);
+
+					method.instructions.insertBefore(node, newInstructions);
 					return true;
 				})));
 	}

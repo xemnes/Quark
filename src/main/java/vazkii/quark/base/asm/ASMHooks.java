@@ -91,7 +91,7 @@ public final class ASMHooks {
 	
 	// ===== IMPROVED SLEEPING ===== //
 
-	public static boolean isEveryoneAsleep(World world) {
+	public static int isEveryoneAsleep(World world) {
 		return ImprovedSleeping.isEveryoneAsleep(world);
 	}
 	

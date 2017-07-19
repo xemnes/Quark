@@ -67,24 +67,16 @@ public class ImprovedSleeping extends Feature {
 		}
 	}
 
-	public static boolean isEveryoneAsleep(World world) {
+	public static int isEveryoneAsleep(World world) {
 		if(!ModuleLoader.isFeatureEnabled(ImprovedSleeping.class))
-			return vanillaCheck(world);
+			return 0;
 
 		Pair<Integer, Integer> counts = getPlayerCounts(world);
 		int legitPlayers = counts.getLeft();
 		int sleepingPlayers = counts.getRight();
 
-		return legitPlayers > 0 && ((float) sleepingPlayers / (float) legitPlayers) * 100 >= percentReq;
-	}
-
-	private static boolean vanillaCheck(World world) {
-		for(EntityPlayer entityplayer : world.playerEntities) {
-			if(!entityplayer.isSpectator() && !entityplayer.isPlayerFullyAsleep())
-				return false;
-		}
-
-		return true;
+		boolean everybody = (legitPlayers > 0 && ((float) sleepingPlayers / (float) legitPlayers) * 100 >= percentReq);
+		return everybody ? 2 : 1;
 	}
 
 	private static boolean doesPlayerCountForSleeping(EntityPlayer player) {
