@@ -24,6 +24,7 @@ import vazkii.arl.recipe.RecipeHandler;
 import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.handler.BiomeTypeConfigHandler;
 import vazkii.quark.base.handler.DimensionConfig;
+import vazkii.quark.base.handler.ModIntegrationHandler;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.GlobalConfig;
 import vazkii.quark.base.module.ModuleLoader;
@@ -136,11 +137,15 @@ public class RevampStoneGen extends Feature {
 		if(enableMarble) {
 			OreDictionary.registerOre("stoneMarble", ProxyRegistry.newStack(marble, 1, 0));
 			OreDictionary.registerOre("stoneMarblePolished", ProxyRegistry.newStack(marble, 1, 1));
+			ModIntegrationHandler.registerChiselVariant("stoneLimestone", ProxyRegistry.newStack(marble, 1, 0));
+			ModIntegrationHandler.registerChiselVariant("stoneLimestone", ProxyRegistry.newStack(marble, 1, 1));
 		}
 		
 		if(enableLimestone) {
 			OreDictionary.registerOre("stoneLimestone", ProxyRegistry.newStack(limestone, 1, 0));
 			OreDictionary.registerOre("stoneLimestonePolished", ProxyRegistry.newStack(limestone, 1, 1));
+			ModIntegrationHandler.registerChiselVariant("stoneLimestone", ProxyRegistry.newStack(marble, 1, 0));
+			ModIntegrationHandler.registerChiselVariant("stoneLimestone", ProxyRegistry.newStack(marble, 1, 1));
 		}
 	}
 	
