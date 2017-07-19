@@ -18,6 +18,7 @@ quarkmisc.leftAfk=You are no longer AFK.
 quarkmisc.personSleeping=%s is now sleeping.
 # The %s is very important!
 quarkmisc.sleepingListHeader=Sleeping Players: %s
+quarkmisc.buried_chest_map=Buried Treasure Map
 
 # BLOCK NAMES
 tile.quark:hardened_clay_tiles.name=Terracotta Shingles

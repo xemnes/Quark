@@ -12,6 +12,7 @@ package vazkii.quark.world.feature;
 
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 
@@ -24,12 +25,15 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.ItemMap;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.MapData;
+import net.minecraft.world.storage.MapDecoration.Type;
 import net.minecraft.world.storage.loot.LootContext;
 import net.minecraft.world.storage.loot.LootEntryItem;
 import net.minecraft.world.storage.loot.LootTableList;
@@ -74,6 +78,7 @@ public class BuriedTreasure extends Feature {
 			if(customPools.containsKey(res))
 				customPools.get(res);
 
+			rarity = 200; // TODO test
 			event.getTable().getPool("main").addEntry(new LootEntryItem(Items.FILLED_MAP, rarity, quality, new LootFunction[] { new SetAsTreasureFunction() }, new LootCondition[0], "quark:treasure_map"));
 		}
 	}
@@ -87,30 +92,6 @@ public class BuriedTreasure extends Feature {
 				if(!stack.isEmpty() && stack.hasTagCompound()) {
 					if(ItemNBTHelper.getBoolean(stack, TAG_TREASURE_MAP_DELEGATE, false))
 						makeMap(stack, player.getEntityWorld(), player.getPosition());
-
-					if(ItemNBTHelper.getBoolean(stack, TAG_TREASURE_MAP, false)) {
-						MapData data = (MapData) player.getEntityWorld().loadData(MapData.class, "map_" + stack.getItemDamage());
-						if(data != null) {
-							int w = 128;
-							byte[] colors = data.colors;
-
-							int x = w / 2;
-							int y = w / 2;
-							byte color = (byte) 18;
-
-							colors[xy(x, y)] = color;
-
-							colors[xy(x - 1, y - 1)] = color;
-							colors[xy(x - 2, y - 2)] = color;
-							colors[xy(x + 1, y + 1)] = color;
-							colors[xy(x + 2, y + 2)] = color;
-
-							colors[xy(x + 1, y - 1)] = color;
-							colors[xy(x + 2, y - 2)] = color;
-							colors[xy(x - 1, y + 1)] = color;
-							colors[xy(x - 2, y + 2)] = color;
-						}
-					}
 				}
 			}
 		}
@@ -142,10 +123,14 @@ public class BuriedTreasure extends Feature {
 		MapData mapdata = new MapData(s);
 		world.setData(s, mapdata);
 		mapdata.scale = 1;
-		mapdata.xCenter = treasurePos.getX();
-		mapdata.zCenter = treasurePos.getZ();
+		mapdata.xCenter = treasurePos.getX() + (int) ((Math.random() - 0.5) * 100);
+		mapdata.zCenter = treasurePos.getZ() + (int) ((Math.random() - 0.5) * 100);
 		mapdata.dimension = 0;
 		mapdata.trackingPosition = true;
+		mapdata.unlimitedTracking = true;
+        ItemMap.renderBiomePreviewMap(world, itemstack);
+		mapdata.addTargetDecoration(itemstack, treasurePos, "x", Type.TARGET_X);
+
 		mapdata.markDirty();
 
 		world.setBlockState(treasurePos, Blocks.CHEST.getDefaultState());
@@ -183,7 +168,12 @@ public class BuriedTreasure extends Feature {
 		public ItemStack apply(ItemStack stack, Random rand, LootContext context) {
 			int id = context.getWorld().getUniqueDataId("map");
 			stack.setItemDamage(id);
+			stack.setTranslatableName("quarkmisc.buried_chest_map");
+			NBTTagCompound cmp = ItemNBTHelper.getCompound(stack, "display", false);
+			cmp.setInteger("MapColor", 0x8C0E0E);
+			ItemNBTHelper.setCompound(stack, "display", cmp);
 			ItemNBTHelper.setBoolean(stack, TAG_TREASURE_MAP_DELEGATE, true);
+			
 			return stack;
 		}
 
