@@ -137,15 +137,15 @@ public class RevampStoneGen extends Feature {
 		if(enableMarble) {
 			OreDictionary.registerOre("stoneMarble", ProxyRegistry.newStack(marble, 1, 0));
 			OreDictionary.registerOre("stoneMarblePolished", ProxyRegistry.newStack(marble, 1, 1));
-			ModIntegrationHandler.registerChiselVariant("stoneLimestone", ProxyRegistry.newStack(marble, 1, 0));
-			ModIntegrationHandler.registerChiselVariant("stoneLimestone", ProxyRegistry.newStack(marble, 1, 1));
+			ModIntegrationHandler.registerChiselVariant("marble", ProxyRegistry.newStack(marble, 1, 0));
+			ModIntegrationHandler.registerChiselVariant("marble", ProxyRegistry.newStack(marble, 1, 1));
 		}
 		
 		if(enableLimestone) {
 			OreDictionary.registerOre("stoneLimestone", ProxyRegistry.newStack(limestone, 1, 0));
 			OreDictionary.registerOre("stoneLimestonePolished", ProxyRegistry.newStack(limestone, 1, 1));
-			ModIntegrationHandler.registerChiselVariant("stoneLimestone", ProxyRegistry.newStack(marble, 1, 0));
-			ModIntegrationHandler.registerChiselVariant("stoneLimestone", ProxyRegistry.newStack(marble, 1, 1));
+			ModIntegrationHandler.registerChiselVariant("limestone", ProxyRegistry.newStack(marble, 1, 0));
+			ModIntegrationHandler.registerChiselVariant("limestone", ProxyRegistry.newStack(marble, 1, 1));
 		}
 	}
 	

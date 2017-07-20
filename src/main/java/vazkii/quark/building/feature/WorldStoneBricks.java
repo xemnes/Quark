@@ -82,29 +82,29 @@ public class WorldStoneBricks extends Feature {
 					"SS", "SS",
 					'S', ProxyRegistry.newStack(Blocks.STONE, 1, i * 2 + 2));
 
-		ModIntegrationHandler.registerChiselVariant("stoneGranite", ProxyRegistry.newStack(world_stone_bricks, 1, 0));
-		ModIntegrationHandler.registerChiselVariant("stoneDiorite", ProxyRegistry.newStack(world_stone_bricks, 1, 1));
-		ModIntegrationHandler.registerChiselVariant("stoneAndesite", ProxyRegistry.newStack(world_stone_bricks, 1, 2));
+		ModIntegrationHandler.registerChiselVariant("granite", ProxyRegistry.newStack(world_stone_bricks, 1, 0));
+		ModIntegrationHandler.registerChiselVariant("diorite", ProxyRegistry.newStack(world_stone_bricks, 1, 1));
+		ModIntegrationHandler.registerChiselVariant("andesite", ProxyRegistry.newStack(world_stone_bricks, 1, 2));
 		
 		if(BlockWorldStoneBricks.Variants.STONE_BASALT_BRICKS.isEnabled()) {
 			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(world_stone_bricks, 4, 3),
 					"SS", "SS",
 					'S', ProxyRegistry.newStack(Basalt.basalt, 1, 1));
-			ModIntegrationHandler.registerChiselVariant("stoneBasalt", ProxyRegistry.newStack(world_stone_bricks, 1, 3));
+			ModIntegrationHandler.registerChiselVariant("basalt", ProxyRegistry.newStack(world_stone_bricks, 1, 3));
 		}
 		
 		if(BlockWorldStoneBricks.Variants.STONE_MARBLE_BRICKS.isEnabled()) {
 			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(world_stone_bricks, 4, 4),
 					"SS", "SS",
 					'S', ProxyRegistry.newStack(RevampStoneGen.marble, 1, 1));
-			ModIntegrationHandler.registerChiselVariant("stoneMarble", ProxyRegistry.newStack(world_stone_bricks, 1, 4));
+			ModIntegrationHandler.registerChiselVariant("marble", ProxyRegistry.newStack(world_stone_bricks, 1, 4));
 		}
 		
 		if(BlockWorldStoneBricks.Variants.STONE_LIMESTONE_BRICKS.isEnabled()) {
 			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(world_stone_bricks, 4, 5),
 					"SS", "SS",
 					'S', ProxyRegistry.newStack(RevampStoneGen.limestone, 1, 1));
-			ModIntegrationHandler.registerChiselVariant("stoneMarble", ProxyRegistry.newStack(world_stone_bricks, 1, 5));
+			ModIntegrationHandler.registerChiselVariant("limestone", ProxyRegistry.newStack(world_stone_bricks, 1, 5));
 		}
 	}
 	
