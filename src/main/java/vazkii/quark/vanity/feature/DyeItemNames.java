@@ -7,6 +7,7 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.event.RenderTooltipEvent;
 import net.minecraftforge.event.AnvilUpdateEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
@@ -15,6 +16,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.arl.util.ItemNBTHelper;
 import vazkii.quark.base.module.Feature;
+import vazkii.quark.management.feature.FavoriteItems;
 
 public class DyeItemNames extends Feature {
 
@@ -44,7 +46,15 @@ public class DyeItemNames extends Feature {
 			if(dye != -1) {
 				int rgb = ItemDye.DYE_COLORS[Math.min(15, dye)];
 				Color color = new Color(rgb);
-				Minecraft.getMinecraft().fontRenderer.drawStringWithShadow(stack.getDisplayName(), event.getX(), event.getY(), color.getRGB());
+				
+				String name = stack.getDisplayName();
+				if(FavoriteItems.isItemFavorited(stack))
+					name = "   " + name;
+				
+				if(stack.hasDisplayName())
+					name = TextFormatting.ITALIC + name;
+				
+				Minecraft.getMinecraft().fontRenderer.drawStringWithShadow(name, event.getX(), event.getY(), color.getRGB());
 			}
 		}
 	}
