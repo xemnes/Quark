@@ -6,7 +6,6 @@ import java.util.Random;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-import com.google.common.collect.MultimapBuilder;
 
 import net.minecraft.entity.IMerchant;
 import net.minecraft.entity.passive.EntityVillager;
@@ -21,9 +20,11 @@ import net.minecraft.village.MerchantRecipe;
 import net.minecraft.village.MerchantRecipeList;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.BiomeMushroomIsland;
 import net.minecraft.world.storage.MapData;
 import net.minecraft.world.storage.MapDecoration.Type;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.FMLLog;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.VillagerRegistry.VillagerCareer;
 import net.minecraftforge.fml.common.registry.VillagerRegistry.VillagerProfession;
@@ -38,6 +39,7 @@ public class PathfinderMaps extends Feature {
 
 	public static boolean unlockAllAtOnce;
 	public static boolean multipleAtFirstUnlock;
+	public static boolean printAllBiomeNames;
 	
 	@Override
 	public void setupConfig() {
@@ -48,7 +50,7 @@ public class PathfinderMaps extends Feature {
 		multipleAtFirstUnlock = loadPropBool("Unlock Multiples At Level 2", "By default, when a Cartographer evolves to level 2, two or three Pathfinder Maps are unlocked."
 				+ "\nSet this to false to disable this, and make it only unlock one, like in the other levels.", true);
 		
-		loadTradeInfo(Biomes.ICE_PLAINS, true, 2, 8, 14, 0x7FE4FF, "(Ice Plains)");
+		loadTradeInfo(Biomes.ICE_PLAINS, true, 2, 8, 14, 0x7FE4FF, "ice_plains");
 		loadTradeInfo(Biomes.EXTREME_HILLS, true, 2, 8, 14, 0x8A8A8A);
 		loadTradeInfo(Biomes.ROOFED_FOREST, true, 2, 8, 14, 0x00590A);
 		loadTradeInfo(Biomes.DESERT, true, 2, 8, 14, 0xCCB94E);
@@ -56,14 +58,30 @@ public class PathfinderMaps extends Feature {
 
 		loadTradeInfo(Biomes.SWAMPLAND, true, 3, 12, 18, 0x22370F);
 		loadTradeInfo(Biomes.REDWOOD_TAIGA, true, 3, 12, 18, 0x5B421F);
-		loadTradeInfo(Biomes.MUTATED_FOREST, true, 3, 12, 18, 0xDC7BEA, "(Flower Forest)");
+		loadTradeInfo(Biomes.MUTATED_FOREST, true, 3, 12, 18, 0xDC7BEA, "flower_forest");
 		
 		loadTradeInfo(Biomes.JUNGLE, true, 4, 16, 22, 0x22B600);
 		loadTradeInfo(Biomes.MESA, true, 4, 16, 22, 0xC67F22);
 
 		loadTradeInfo(Biomes.MUSHROOM_ISLAND, true, 5, 20, 26, 0x4D4273);
-		loadTradeInfo(Biomes.MUTATED_ICE_FLATS, true, 5, 20, 26, 0x41D6C9, "(Ice Spikes)");
-	}
+		loadTradeInfo(Biomes.MUTATED_ICE_FLATS, true, 5, 20, 26, 0x41D6C9, "ice_spikes");
+		
+		String desc = "In this section you can add custom Pathfinder Maps. This works for both vanilla and modded biomes.\n"
+				+ "Each custom map must be on its own line.\n"
+				+ "The format for a custom map is as follows:\n"
+				+ "<id>,<level>,<min_price>,<max_price>,<color>,<name>\n\n"
+				+ "With the following descriptions:\n"
+				+ " - <id> being the biome's ID NAME. You can find vanilla names here - https://minecraft.gamepedia.com/Biome#Biome_IDs\n"
+				+ " - <level> being the Cartographer villager level required for the map to be unlockable\n"
+				+ " - <min_price> being the cheapest (in Emeralds) the map can be\n"
+				+ " - <max_price> being the most expensive (in Emeralds) the map can be\n"
+				+ " - <color> being a hex color (without the #) for the map to display. You can generate one here - http://htmlcolorcodes.com/\n"
+				+ " - <name> being the display name of the map\n\n"
+				+ "Here's an example of a map to locate Ice Mountains:\n"
+				+ "minecraft:ice_mountains,2,8,14,7FE4FF,Ice Mountains Pathfinder Map";
+		String[] customs = loadPropStringList("Custom Map Info", desc, new String[0]);
+		loadCustomMaps(customs);
+ 	}
 	
 	@SubscribeEvent
 	public void onRegisterVillagers(RegistryEvent.Register<VillagerProfession> event) {
@@ -75,17 +93,55 @@ public class PathfinderMaps extends Feature {
  	}
 	
 	private void loadTradeInfo(Biome biome, boolean enabled, int level, int minPrice, int maxPrice, int color) {
-		loadTradeInfo(biome, enabled, level, minPrice, maxPrice, color, "");
+		loadTradeInfo(biome, enabled, level, minPrice, maxPrice, color, "", "");
 	}
 	
-	private void loadTradeInfo(Biome biome, boolean enabled, int level, int minPrice, int maxPrice, int color, String comment) {
-		String category = configCategory + "." + biome.getRegistryName().getResourcePath();
-		if(!comment.isEmpty())
-			ModuleLoader.config.getCategory(category).setComment(comment);
+	private void loadTradeInfo(Biome biome, boolean enabled, int level, int minPrice, int maxPrice, int color, String overrideCategory) {
+		loadTradeInfo(biome, enabled, level, minPrice, maxPrice, color, overrideCategory, "");
+	}
+	
+	private void loadTradeInfo(Biome biome, boolean enabled, int level, int minPrice, int maxPrice, int color, String overrideCategory, String overrideName) {
+		String category = configCategory + ".";
+		if(!overrideCategory.isEmpty())
+			category += overrideCategory;
+		else category += biome.getRegistryName().getResourcePath();
 		
-		TradeInfo info = new TradeInfo(category, biome, enabled, level, minPrice, maxPrice, color);
+		TradeInfo info;
+		if(overrideName.isEmpty())
+			info = new TradeInfo(category, biome, enabled, level, minPrice, maxPrice, color);
+		else info = new TradeInfo(category, biome, enabled, level, minPrice, maxPrice, color, overrideName);
+		
 		if(info.enabled)
 			trades.put(info.level, info);
+	}
+	
+	private void loadTradeInfo(String line) throws IllegalArgumentException {
+		String[] tokens = line.split(",");
+		if(tokens.length != 6)
+			throw new IllegalArgumentException("Wrong number of parameters " + tokens.length + " (expected 6)");
+		
+		ResourceLocation biomeName = new ResourceLocation(tokens[0]);
+		if(!Biome.REGISTRY.containsKey(biomeName))
+			throw new IllegalArgumentException("No biome exists with name " + biomeName);
+		
+		Biome biome = Biome.REGISTRY.getObject(biomeName);
+		int level = Integer.parseInt(tokens[1]);
+		int minPrice = Integer.parseInt(tokens[2]);
+		int maxPrice = Integer.parseInt(tokens[3]);
+		int color = Integer.parseInt(tokens[4], 16);
+		String name = tokens[5];
+		
+		loadTradeInfo(biome, true, level, minPrice, maxPrice, color, "", name);
+	}
+	
+	private void loadCustomMaps(String[] lines) {
+		for(String s : lines)
+			try {
+				loadTradeInfo(s);
+			} catch(IllegalArgumentException e) {
+				FMLLog.warning("[Quark][Custom Pathfinder Maps] Error while reading custom map string \"%s\"", s);
+				FMLLog.warning("[Quark][Custom Pathfinder Maps] - %s", e.getMessage());
+			}
 	}
 
 	@Override
@@ -98,14 +154,14 @@ public class PathfinderMaps extends Feature {
 		return true;
 	}
 	
-	public static ItemStack createMap(World world, BlockPos pos, Biome biome, int color) {
-		BlockPos biomePos = BiomeLocator.spiralOutwardsLookingForBiome(world, biome, pos.getX(), pos.getZ());
+	public static ItemStack createMap(World world, BlockPos pos, TradeInfo info) {
+		BlockPos biomePos = BiomeLocator.spiralOutwardsLookingForBiome(world, info.biome, pos.getX(), pos.getZ());
 
 		int id = world.getUniqueDataId("map");
 		ItemStack stack = new ItemStack(Items.FILLED_MAP, 1, id);
-		stack.setTranslatableName("quark.biomeMap." + biome.getRegistryName().getResourcePath());
+		stack.setTranslatableName(info.name);
 		NBTTagCompound cmp = ItemNBTHelper.getCompound(stack, "display", false);
-		cmp.setInteger("MapColor", color);
+		cmp.setInteger("MapColor", info.color);
 		ItemNBTHelper.setCompound(stack, "display", cmp);
 
 		String s = "map_" + id;
@@ -152,10 +208,10 @@ public class PathfinderMaps extends Feature {
 		}
 		
 		private void unlock(IMerchant merchant, MerchantRecipeList recipeList, Random random, TradeInfo info) {
-			int i = random.nextInt(info.maxPrice - info.minPrice) + info.minPrice;
+			int i = random.nextInt(info.maxPrice - info.minPrice + 1) + info.minPrice;
 			World world = merchant.getWorld();
 
-			ItemStack itemstack = createMap(merchant.getWorld(), merchant.getPos(), info.biome, info.color); 
+			ItemStack itemstack = createMap(merchant.getWorld(), merchant.getPos(), info); 
 			MerchantRecipe recipe = new MerchantRecipe(new ItemStack(Items.EMERALD, i), new ItemStack(Items.COMPASS), itemstack, 0, 1);
 			recipeList.add(recipe);
 		}
@@ -169,14 +225,20 @@ public class PathfinderMaps extends Feature {
 		public final int minPrice;
 		public final int maxPrice;
 		public final int color;
+		public final String name;
 		
 		TradeInfo(String category, Biome biome, boolean enabled, int level, int minPrice, int maxPrice, int color) {
+			this(category, biome, enabled, level, minPrice, maxPrice, color, "quark.biomeMap." + biome.getRegistryName().getResourcePath());
+		}
+		
+		TradeInfo(String category, Biome biome, boolean enabled, int level, int minPrice, int maxPrice, int color, String name) {
 			this.enabled = ModuleLoader.config.getBoolean("Enabled", category, enabled, "");
 			this.biome = biome;
 			this.level = ModuleLoader.config.getInt("Required Villager Level", category, level, 0, 10, "");
 			this.minPrice = ModuleLoader.config.getInt("Minimum Emerald Price", category, minPrice, 1, 64, "");
 			this.maxPrice = Math.max(minPrice, ModuleLoader.config.getInt("Maximum Emerald Price", category, maxPrice, 1, 64, ""));
 			this.color = color;
+			this.name = name;
 		}
 	}
 	
