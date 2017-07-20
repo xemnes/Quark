@@ -4,6 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.init.Items;
@@ -43,8 +44,14 @@ public class MapTooltip extends Feature {
 	public void renderTooltip(RenderTooltipEvent.PostText event) {
 		if(event.getStack() != null && event.getStack().getItem() instanceof ItemMap && (!requireShift || GuiScreen.isShiftKeyDown())) {
 			Minecraft mc = Minecraft.getMinecraft();
+			
+			MapData mapdata = Items.FILLED_MAP.getMapData(event.getStack(), mc.world);
+			if(mapdata == null)
+				return;
+			
 			GlStateManager.pushMatrix();
-			GlStateManager.disableLighting();
+			GlStateManager.color(1F, 1F, 1F);
+			RenderHelper.disableStandardItemLighting();
 			mc.getTextureManager().bindTexture(RES_MAP_BACKGROUND);
 			Tessellator tessellator = Tessellator.getInstance();
 			BufferBuilder vertexbuffer = tessellator.getBuffer();
@@ -63,11 +70,9 @@ public class MapTooltip extends Feature {
 			vertexbuffer.pos(-pad, -pad, 0.0D).tex(0.0D, 0.0D).endVertex();
 			tessellator.draw();
 
-			MapData mapdata = Items.FILLED_MAP.getMapData(event.getStack(), mc.world);
+			mc.entityRenderer.getMapItemRenderer().renderMap(mapdata, false);
 
-			if(mapdata != null)
-				mc.entityRenderer.getMapItemRenderer().renderMap(mapdata, false);
-
+			
 			GlStateManager.enableLighting();
 			GlStateManager.popMatrix();
 		}
