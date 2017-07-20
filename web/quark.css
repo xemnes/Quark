@@ -15,6 +15,25 @@ a {
 	color: rgb(255,96,32);
 }
 
+table {
+	border: 1px solid #aaa;
+	border-spacing: 0;
+}
+
+td {
+	border-top: 1px solid #ccc;
+	border-left: 1px solid #ccc;
+	padding-left: 5px;
+	padding-right: 5px;
+	margin: 0;
+}
+
+th {
+	padding-left: 5px;
+	padding-right: 5px;
+	border-left: 1px solid #ccc;
+}
+
 .q {
 	color: #48ddbc;
 }
@@ -98,7 +117,7 @@ a {
 #download-section {
 	position: absolute;
 	top: 270px;
-	left: calc(50% + 75px);
+	left: calc(50% + 20px);
 }
 
 #btt-button {

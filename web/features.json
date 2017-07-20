@@ -785,6 +785,12 @@
 				"image":"underground-biomes.jpg",
 				"album":"https://imgur.com/a/olViK",
 				"introduced":11
+			},
+			{
+				"name": "Pathfinder Maps",
+				"description":"Cartographer Villagers will now sell Pathfinder Maps of various biome types, which point to the closest biome to the villager carrying them. Unlike other trades, any given Cartographer will only stock only a random assortment instead, which expands as they level up. The default table for these sales is as follows:<table><tbody><tr><th>Level</th><th>Maps Carried</th></tr><tr><td>2</td><td>Ice Plains, Extreme Hills, Roofed Forest, Desert, Savanna</td></tr><tr></tr><tr><td>3</td><td>Swampland, Mega Taiga, Flower Forest</td></tr><tr><td>4</td><td>Jungle, Mesa</td></tr><tr><td>5</td><td>Mushroom Island, Ice Spikes</td></tr></tbody></table>",
+				"image":"pathfinder-maps.jpg",
+				"introduced":12
 			}
 		]
 	},
