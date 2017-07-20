@@ -21,6 +21,7 @@ import vazkii.quark.world.feature.DepthMobs;
 import vazkii.quark.world.feature.MushroomsInSwamps;
 import vazkii.quark.world.feature.NaturalBlazesInNether;
 import vazkii.quark.world.feature.OceanGuardians;
+import vazkii.quark.world.feature.PathfinderMaps;
 import vazkii.quark.world.feature.PirateShips;
 import vazkii.quark.world.feature.RealisticWorldType;
 import vazkii.quark.world.feature.RevampStoneGen;
@@ -46,6 +47,7 @@ public class QuarkWorld extends Module {
 		registerFeature(new CrystalCaves());
 		registerFeature(new VariedDungeons());
 		registerFeature(new UndergroundBiomes());
+		registerFeature(new PathfinderMaps());
 
 		registerFeature(new RealisticWorldType());
 		registerFeature(new DefaultWorldOptions());

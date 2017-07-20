@@ -553,6 +553,20 @@ quark.dye.black=Black
 generator.quark_realistic=Realistic
 generator.quark_realistic.info=[Quark] Realistic World Type by /u/Soniop
 
+# BIOME MAPS
+quark.biomeMap.ice_flats=Ice Plains Pathfinder Map
+quark.biomeMap.extreme_hills=Extreme Hills Pathfinder Map
+quark.biomeMap.roofed_forest=Roofed Forest Pathfinder Map
+quark.biomeMap.desert=Desert Pathfinder Map
+quark.biomeMap.savanna=Savanna Pathfinder Map
+quark.biomeMap.swampland=Swampland Pathfinder Map
+quark.biomeMap.redwood_taiga=Mega Taiga Pathfinder Map
+quark.biomeMap.mutated_forest=Flower Forest Pathfinder Map
+quark.biomeMap.jungle=Jungle Pathfinder Map
+quark.biomeMap.mesa=Mesa Pathfinder Map
+quark.biomeMap.mushroom_island=Mushroom Island Pathfinder Map
+quark.biomeMap.mutated_ice_flats=Ice Spikes Pathfinder Map
+
 # BANNER NAMES
 item.banner.quark_dragon.black=Black Dragon
 item.banner.quark_dragon.red=Red Dragon
