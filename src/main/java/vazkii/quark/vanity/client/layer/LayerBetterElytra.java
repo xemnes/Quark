@@ -71,6 +71,7 @@ public class LayerBetterElytra implements LayerRenderer<AbstractClientPlayer> {
 			if(itemstack.isItemEnchanted())
 				LayerArmorBase.renderEnchantedGlint(renderPlayer, entitylivingbaseIn, modelElytra, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch, scale);
 
+			GlStateManager.color(1F, 1F, 1F);
 			GlStateManager.popMatrix();
 		}
 	}
