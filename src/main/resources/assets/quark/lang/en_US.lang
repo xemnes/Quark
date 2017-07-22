@@ -19,6 +19,7 @@ quarkmisc.personSleeping=%s is now sleeping.
 # The %s is very important!
 quarkmisc.sleepingListHeader=Sleeping Players: %s
 quarkmisc.buried_chest_map=Buried Treasure Map
+quarkmisc.trashButtonOpen=Click to Delete
 
 # BLOCK NAMES
 tile.quark:hardened_clay_tiles.name=Terracotta Shingles
