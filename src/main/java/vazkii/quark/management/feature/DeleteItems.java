@@ -29,57 +29,58 @@ public class DeleteItems extends Feature {
 	boolean keyboardDown = false;
 	boolean mouseDown = false;
 	GuiButtonTrash trash;
-	
-	@SubscribeEvent
-	@SideOnly(Side.CLIENT)
-	public void initGui(GuiScreenEvent.InitGuiEvent.Post event) {
-		trash = null;
-		if(event.getGui() instanceof GuiContainer) {
-			GuiContainer guiInv = (GuiContainer) event.getGui();
-			Container container = guiInv.inventorySlots;
-			EntityPlayer player = Minecraft.getMinecraft().player;
-			
-			boolean accept = guiInv instanceof GuiContainer;
 
-			if(!accept)
-				return;
-
-			int guiLeft = guiInv.getGuiLeft();
-			int guiTop = guiInv.getGuiTop();
-			int guiWidth = guiInv.getXSize();
-			int guiHeight = guiInv.getYSize();
-
-			for(Slot s : container.inventorySlots)
-				if(s.inventory == player.inventory && s.getSlotIndex() == 9) {
-					trash = new GuiButtonTrash(guiInv, 82424, guiLeft + guiWidth + 2, guiTop + guiHeight - 25);
-					event.getButtonList().add(trash);
-					break;
-				}
-		}
-	}
-	
-	@SubscribeEvent
-	public void mouseEvent(GuiScreenEvent.MouseInputEvent.Pre event) {
-		handleMouseclick(event);
-	}
-	
-	@SubscribeEvent
-	public void mouseEvent(MouseEvent event) {
-		handleMouseclick(event);
-	}
-	
-	private void handleMouseclick(Event event) {
-		mouseDown = Mouse.isButtonDown(0);
-		boolean click = mouseDown;
-
-		GuiScreen current = Minecraft.getMinecraft().currentScreen;
-		if(click && current instanceof GuiContainer) {
-			GuiContainer gui = (GuiContainer) current;
-			if(trash != null && trash.ready) {
-				event.setCanceled(true);
-			}
-		}
-	}
+//	Will be used eventually
+//	@SubscribeEvent
+//	@SideOnly(Side.CLIENT)
+//	public void initGui(GuiScreenEvent.InitGuiEvent.Post event) {
+//		trash = null;
+//		if(event.getGui() instanceof GuiContainer) {
+//			GuiContainer guiInv = (GuiContainer) event.getGui();
+//			Container container = guiInv.inventorySlots;
+//			EntityPlayer player = Minecraft.getMinecraft().player;
+//			
+//			boolean accept = guiInv instanceof GuiContainer;
+//
+//			if(!accept)
+//				return;
+//
+//			int guiLeft = guiInv.getGuiLeft();
+//			int guiTop = guiInv.getGuiTop();
+//			int guiWidth = guiInv.getXSize();
+//			int guiHeight = guiInv.getYSize();
+//
+//			for(Slot s : container.inventorySlots)
+//				if(s.inventory == player.inventory && s.getSlotIndex() == 9) {
+//					trash = new GuiButtonTrash(guiInv, 82424, guiLeft + guiWidth + 2, guiTop + guiHeight - 25);
+//					event.getButtonList().add(trash);
+//					break;
+//				}
+//		}
+//	}
+//
+//	@SubscribeEvent
+//	public void mouseEvent(GuiScreenEvent.MouseInputEvent.Pre event) {
+//		handleMouseclick(event);
+//	}
+//	
+//	@SubscribeEvent
+//	public void mouseEvent(MouseEvent event) {
+//		handleMouseclick(event);
+//	}
+//	
+//	private void handleMouseclick(Event event) {
+//		mouseDown = Mouse.isButtonDown(0);
+//		boolean click = mouseDown;
+//
+//		GuiScreen current = Minecraft.getMinecraft().currentScreen;
+//		if(click && current instanceof GuiContainer) {
+//			GuiContainer gui = (GuiContainer) current;
+//			if(trash != null && trash.ready) {
+//				event.setCanceled(true);
+//			}
+//		}
+//	}
 	
 	@SubscribeEvent
 	public void keyboardEvent(GuiScreenEvent.KeyboardInputEvent.Post event) {
