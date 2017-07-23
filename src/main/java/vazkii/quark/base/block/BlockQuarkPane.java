@@ -17,6 +17,7 @@ import net.minecraft.block.BlockPane;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
+import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
@@ -176,10 +177,17 @@ public class BlockQuarkPane extends BlockMod implements IQuarkBlock {
 		return new IProperty[] {NORTH, EAST, WEST, SOUTH};
 	}
 
+	@Override
+    public BlockFaceShape getBlockFaceShape(IBlockAccess p_193383_1_, IBlockState p_193383_2_, BlockPos p_193383_3_, EnumFacing p_193383_4_) {
+        return p_193383_4_ != EnumFacing.UP && p_193383_4_ != EnumFacing.DOWN ? BlockFaceShape.MIDDLE_POLE_THIN : BlockFaceShape.CENTER_SMALL;
+    }
+	
 	public boolean canPaneConnectTo(IBlockAccess world, BlockPos pos, EnumFacing dir) {
 		BlockPos off = pos.offset(dir);
 		IBlockState state = world.getBlockState(off);
 		return canPaneConnectToBlock(state.getBlock()) || state.isSideSolid(world, off, dir.getOpposite());
 	}
+	
+	
 
 }
