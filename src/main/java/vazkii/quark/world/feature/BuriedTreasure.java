@@ -78,7 +78,6 @@ public class BuriedTreasure extends Feature {
 			if(customPools.containsKey(res))
 				customPools.get(res);
 
-			rarity = 200; // TODO test
 			event.getTable().getPool("main").addEntry(new LootEntryItem(Items.FILLED_MAP, rarity, quality, new LootFunction[] { new SetAsTreasureFunction() }, new LootCondition[0], "quark:treasure_map"));
 		}
 	}
