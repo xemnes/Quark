@@ -37,6 +37,8 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModContainer;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import vazkii.arl.util.ItemNBTHelper;
+import vazkii.quark.api.ICustomSearchHandler;
+import vazkii.quark.api.ICustomSearchHandler.StringMatcher;
 import vazkii.quark.api.IItemSearchBar;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.management.client.gui.GuiButtonChest;
@@ -234,16 +236,15 @@ public class ChestSearchBar extends Feature {
 		if(matcher.matches(mod.getName().toLowerCase(), search))
 			return true;
 		
-		return matcher.matches(name, search);
+		if(matcher.matches(name, search))
+			return true;
+		
+		return item instanceof ICustomSearchHandler && ((ICustomSearchHandler) item).stackMatchesSearchQuery(stack, search, matcher, ChestSearchBar::namesMatch);
 	}
 	
 	@Override
 	public boolean hasSubscriptions() {
 		return isClient();
-	}
-	
-	private static interface StringMatcher {
-		boolean matches(String str1, String str2);
 	}
 	
 }
