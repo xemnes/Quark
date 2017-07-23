@@ -157,6 +157,9 @@ public class PathfinderMaps extends Feature {
 	public static ItemStack createMap(World world, BlockPos pos, TradeInfo info) {
 		BlockPos biomePos = BiomeLocator.spiralOutwardsLookingForBiome(world, info.biome, pos.getX(), pos.getZ());
 
+		if(biomePos == null)
+			return ItemStack.EMPTY;
+		
 		int id = world.getUniqueDataId("map");
 		ItemStack stack = new ItemStack(Items.FILLED_MAP, 1, id);
 		stack.setTranslatableName(info.name);
@@ -212,6 +215,9 @@ public class PathfinderMaps extends Feature {
 			World world = merchant.getWorld();
 
 			ItemStack itemstack = createMap(merchant.getWorld(), merchant.getPos(), info); 
+			if(itemstack.isEmpty())
+				return;
+			
 			MerchantRecipe recipe = new MerchantRecipe(new ItemStack(Items.EMERALD, i), new ItemStack(Items.COMPASS), itemstack, 0, 1);
 			recipeList.add(recipe);
 		}
