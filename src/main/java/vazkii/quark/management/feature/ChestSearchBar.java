@@ -1,7 +1,6 @@
 package vazkii.quark.management.feature;
 
 import java.util.Map;
-import java.util.function.Function;
 import java.util.regex.Pattern;
 
 import org.lwjgl.input.Keyboard;
@@ -15,27 +14,36 @@ import net.minecraft.client.gui.inventory.GuiChest;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.gui.inventory.GuiShulkerBox;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemEnchantedBook;
+import net.minecraft.item.ItemShulkerBox;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.RenderTooltipEvent;
 import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.ModContainer;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import vazkii.arl.util.ItemNBTHelper;
 import vazkii.quark.api.IItemSearchBar;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.management.client.gui.GuiButtonChest;
 
 public class ChestSearchBar extends Feature {
 
-	static String text = "";
+	public static String text = "";
 	GuiTextField searchBar;
 	boolean skip;
 	boolean moveToCenterBar;
@@ -162,12 +170,28 @@ public class ChestSearchBar extends Feature {
 		Gui.drawModalRectWithCustomSizedTexture(x, y, 0, 244, 90, 12, 256, 256);
 	}
 	
-	private boolean namesMatch(ItemStack stack, String search) {
+	public static boolean namesMatch(ItemStack stack, String search) {
+		search = TextFormatting.getTextWithoutFormattingCodes(search.trim().toLowerCase());
+		if(search.isEmpty())
+			return true;
+		
 		if(stack.isEmpty())
 			return false;
 		
+		Item item = stack.getItem();
+		if(item instanceof ItemShulkerBox) {
+			NBTTagCompound cmp = ItemNBTHelper.getCompound(stack, "BlockEntityTag", true);
+			if(cmp != null && cmp.hasKey("Items", 9)) {
+				NonNullList<ItemStack> itemList = NonNullList.<ItemStack>withSize(27, ItemStack.EMPTY);
+				ItemStackHelper.loadAllItems(cmp, itemList);
+				
+				for(ItemStack innerStack : itemList)
+					if(namesMatch(innerStack, search))
+						return true;
+			}
+		}
+		
 		String name = stack.getDisplayName();
-		search = TextFormatting.getTextWithoutFormattingCodes(search.trim().toLowerCase());
 		name = TextFormatting.getTextWithoutFormattingCodes(name.trim().toLowerCase());
 		
 		StringMatcher matcher = (s1, s2) -> s1.contains(s2);
@@ -200,6 +224,15 @@ public class ChestSearchBar extends Feature {
 					return true;
 			}
 		}
+		
+		CreativeTabs tab = item.getCreativeTab();
+		if(tab != null && matcher.matches(I18n.translateToLocal(tab.getTranslatedTabLabel()).toLowerCase(), search))
+			return true;
+		
+		ResourceLocation itemName = Item.REGISTRY.getNameForObject(item);
+		ModContainer mod = Loader.instance().getIndexedModList().get(itemName.getResourceDomain());
+		if(matcher.matches(mod.getName().toLowerCase(), search))
+			return true;
 		
 		return matcher.matches(name, search);
 	}

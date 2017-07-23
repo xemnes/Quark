@@ -28,6 +28,8 @@ import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import vazkii.arl.util.ItemNBTHelper;
 import vazkii.quark.base.module.Feature;
+import vazkii.quark.management.feature.ChestButtons;
+import vazkii.quark.management.feature.ChestSearchBar;
 
 public class ShulkerBoxTooltip extends Feature {
 
@@ -112,13 +114,19 @@ public class ShulkerBoxTooltip extends Feature {
 				GlStateManager.enableDepth();
 				int i = 0;
 				for(ItemStack itemstack : itemList) {
+					int xp = currentX + 6 + (i % 9) * 18;
+					int yp = currentY + 6 + (i / 9) * 18;
+					
 					if(!itemstack.isEmpty()) {
-						int xp = currentX + 6 + (i % 9) * 18;
-						int yp = currentY + 6 + (i / 9) * 18;
-
 						render.renderItemAndEffectIntoGUI(itemstack, xp, yp);
 						render.renderItemOverlays(mc.fontRenderer, itemstack, xp, yp);
 					}
+					
+					if(!ChestSearchBar.namesMatch(itemstack, ChestSearchBar.text)) {
+						GlStateManager.disableDepth();
+						Gui.drawRect(xp, yp, xp + 16, yp + 16, 0xAA000000);
+					}
+					
 					i++;
 				}
 
