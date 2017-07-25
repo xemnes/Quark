@@ -53,6 +53,14 @@ public class Feature {
 		// NO-OP
 	}
 
+	public void onEnabled() {
+		// NO-OP
+	}
+	
+	public void onDisabled() {
+		// NO-OP
+	}
+	
 	public void preInit(FMLPreInitializationEvent event) {
 		// NO-OP
 	}

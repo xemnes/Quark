@@ -4,20 +4,22 @@ import java.util.List;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.automation.client.render.PistonTileEntityRenderer;
 import vazkii.quark.automation.feature.PistonSpikes;
 import vazkii.quark.automation.feature.PistonsMoveTEs;
+import vazkii.quark.experimental.features.ColoredLights;
 import vazkii.quark.management.feature.BetterCraftShifting;
 import vazkii.quark.misc.feature.ColorRunes;
-import vazkii.quark.tweaks.feature.ImprovedMountHUD;
 import vazkii.quark.tweaks.feature.ImprovedSleeping;
 import vazkii.quark.vanity.client.emotes.base.EmoteHandler;
 import vazkii.quark.vanity.client.render.BoatBannerRenderer;
@@ -95,6 +97,12 @@ public final class ASMHooks {
 		return ImprovedSleeping.isEveryoneAsleep(world);
 	}
 	
+	// ===== COLORED LIGHTS ===== //
+	
+	@SideOnly(Side.CLIENT)
+	public static void putColorsFlat(IBlockAccess world, IBlockState state, BlockPos pos, BufferBuilder buffer, BakedQuad quad, int brightness) {
+		ColoredLights.putColorsFlat(world, state, pos, buffer, quad, brightness);
+	}
+	
 }
-
 	

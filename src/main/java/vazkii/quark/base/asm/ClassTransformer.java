@@ -61,7 +61,9 @@ public class ClassTransformer implements IClassTransformer {
 		"net/minecraft/util/EnumFacing", "fa",
 		"net/minecraft/entity/player/EntityPlayer", "aeb",
 		"net/minecraft/block/state/IBlockState", "awr",
-		"net/minecraft/client/renderer/BufferBuilder", "bui"
+		"net/minecraft/client/renderer/BufferBuilder", "bui",
+		"net/minecraft/world/IBlockAccess", "amw",
+		"net/minecraft/client/renderer/block/model/BakedQuad", "bvn"
 	);
 
 	private static final Map<String, Transformer> transformers = new HashMap();
@@ -90,6 +92,10 @@ public class ClassTransformer implements IClassTransformer {
 		
 		// For Imrpoved Sleeping
 		transformers.put("net.minecraft.world.WorldServer", ClassTransformer::transformWorldServer);
+		
+		// For Colored Lights
+		transformers.put("net.minecraft.client.renderer.BlockModelRenderer", ClassTransformer::transformBlockModelRenderer);
+
 	}
 
 	@Override
@@ -421,6 +427,30 @@ public class ClassTransformer implements IClassTransformer {
 				})));
 	}
 
+	private static byte[] transformBlockModelRenderer(byte[] basicClass) {
+		log("Transforming BlockModelRenderer");
+		MethodSignature sig1 = new MethodSignature("renderQuadsFlat", "func_187496_a", "a", "(Lnet/minecraft/world/IBlockAccess;Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/util/math/BlockPos;IZLnet/minecraft/client/renderer/BufferBuilder;Ljava/util/List;Ljava/util/BitSet;)V");
+
+		return transform(basicClass, Pair.of(sig1, combine(
+				(AbstractInsnNode node) -> { // Filter
+					return node.getOpcode() == Opcodes.INVOKEVIRTUAL && checkDesc(((MethodInsnNode) node).desc, "(DDD)V");
+				},
+				(MethodNode method, AbstractInsnNode node) -> { // Action
+					InsnList newInstructions = new InsnList();
+
+					newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 1));
+					newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 2));
+					newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 3));
+					newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 6));
+					newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 18));
+					newInstructions.add(new VarInsnNode(Opcodes.ILOAD, 4));
+					newInstructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, ASM_HOOKS, "putColorsFlat", "(Lnet/minecraft/world/IBlockAccess;Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/client/renderer/BufferBuilder;Lnet/minecraft/client/renderer/block/model/BakedQuad;I)V"));
+
+					method.instructions.insertBefore(node, newInstructions);
+					return true;
+				})));
+	}
+
 	// BOILERPLATE BELOW ==========================================================================================================================================
 
 	private static byte[] transform(byte[] basicClass, Pair<MethodSignature, MethodAction>... methods) {
@@ -475,6 +505,7 @@ public class ClassTransformer implements IClassTransformer {
 		while(iterator.hasNext()) {
 			AbstractInsnNode anode = iterator.next();
 			if(filter.test(anode)) {
+				log("Located patch target node " + getNodeString(anode));
 				didAny = true;
 				if(action.test(method, anode))
 					break;
@@ -489,6 +520,10 @@ public class ClassTransformer implements IClassTransformer {
 	}
 
 	private static void prettyPrint(AbstractInsnNode node) {
+		log(getNodeString(node));
+	}
+
+	private static String getNodeString(AbstractInsnNode node) {
 		Printer printer = new Textifier();
 
 		TraceMethodVisitor visitor = new TraceMethodVisitor(printer);
@@ -497,10 +532,10 @@ public class ClassTransformer implements IClassTransformer {
 		StringWriter sw = new StringWriter();
 		printer.print(new PrintWriter(sw));
 		printer.getText().clear();
-
-		log(sw.toString().replaceAll("\n", ""));
+		
+		return sw.toString().replaceAll("\n", "").trim();
 	}
-
+	
 	private static boolean checkDesc(String desc, String expected) {
 		return desc.equals(expected) || desc.equals(MethodSignature.obfuscate(expected));
 	}

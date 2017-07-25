@@ -111,6 +111,7 @@ public class Module {
 					MinecraftForge.TERRAIN_GEN_BUS.unregister(feature);
 				if(feature.hasOreGenSubscriptions())
 					MinecraftForge.ORE_GEN_BUS.unregister(feature);
+				feature.onDisabled();
 			} else if(feature.enabled && (feature.enabledAtLoadtime || !feature.requiresMinecraftRestartToEnable()) && !feature.prevEnabled) {
 				if(feature.hasSubscriptions())
 					MinecraftForge.EVENT_BUS.register(feature);
@@ -118,6 +119,7 @@ public class Module {
 					MinecraftForge.TERRAIN_GEN_BUS.register(feature);
 				if(feature.hasOreGenSubscriptions())
 					MinecraftForge.ORE_GEN_BUS.register(feature);
+				feature.onEnabled();
 			}
 			
 			feature.prevEnabled = feature.enabled;
