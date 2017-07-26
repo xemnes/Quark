@@ -13,10 +13,10 @@ import net.minecraftforge.common.ForgeModContainer;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
-import vazkii.quark.api.IColoredLightSource;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.experimental.lighting.BlockTinter;
 import vazkii.quark.experimental.lighting.ColoredLightSystem;
+import vazkii.quark.experimental.lighting.IColoredLightSource;
 
 public class ColoredLights extends Feature {
 
@@ -31,6 +31,12 @@ public class ColoredLights extends Feature {
 				+ "You have been warned.", false);
 	}
 	
+	@Override
+	public String getFeatureDescription() {
+		return "This feature is an incomplete test, and not fit for regular gameplay. Feel free to enable it to mess around but it may explode horribly. Don't report bugs with it.\n"
+				+ "To make a colored light, use a Lit Redstone Lamp and put the color of Stained Glass you want under it.\n"
+				+ "For obvious reasons, this is incompatible with Optifine.\n";
+	}
 	
 	public static void putColorsFlat(IBlockAccess world, IBlockState state, BlockPos pos, BufferBuilder buffer, BakedQuad quad, int lightColor) {
 		if(!enabled)

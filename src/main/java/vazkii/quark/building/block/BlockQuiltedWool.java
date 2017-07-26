@@ -7,21 +7,16 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import vazkii.arl.block.BlockMetaVariants;
-import vazkii.quark.api.IColoredLightSource;
 import vazkii.quark.base.block.IQuarkBlock;
-import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.experimental.features.ColoredLights;
 
-public class BlockQuiltedWool extends BlockMetaVariants implements IQuarkBlock, IColoredLightSource {
+public class BlockQuiltedWool extends BlockMetaVariants implements IQuarkBlock {
 
 	public BlockQuiltedWool() {
 		super("quilted_wool", Material.CLOTH, Variants.class);
 		setHardness(0.8F);
 		setSoundType(SoundType.CLOTH);
 		setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
-		
-		if(ModuleLoader.isFeatureEnabled(ColoredLights.class))
-			setLightLevel(1F);
 	}
 	
 	@Override
@@ -29,46 +24,6 @@ public class BlockQuiltedWool extends BlockMetaVariants implements IQuarkBlock, 
 		int val = super.getLightValue(state, world, pos);
 		ColoredLights.addLightSource(world, pos, state, val);
 		return val;
-	}
-	
-	@Override
-	public float[] getColoredLight(IBlockAccess access, BlockPos pos) {
-		float r = 1F;
-		float g = 1F;
-		float b = 1F;
-		
-		IBlockState state = access.getBlockState(pos);
-		if(state.getBlock() == this) {
-			Variants variant = (Variants) state.getValue(getVariantProp());
-			
-			// TODO do the thing for all variants in a non shit way
-			switch(variant) {
-			case WOOL_QUILTED_RED:
-				g = 0;
-				b = 0;
-				break;
-			case WOOL_QUILTED_LIGHT_BLUE:
-				r = 0;
-				g = 0; 
-				break;
-			case WOOL_QUILTED_LIME:
-				r = 0;
-				b = 0;
-				break;
-			case WOOL_QUILTED_YELLOW:
-				b = 0;
-				break;
-			case WOOL_QUILTED_PURPLE:
-				g = 0;
-				break;
-			case WOOL_QUILTED_CYAN:
-				r = 0;
-				break;
-			default:;
-			}
-		}
-		
-		return new float[] { r, g, b };
 	}
 	
 	public static enum Variants implements EnumBase {

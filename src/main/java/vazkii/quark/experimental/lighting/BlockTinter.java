@@ -13,12 +13,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.client.model.pipeline.LightUtil;
-import vazkii.quark.api.IColoredLightSource;
 
 public class BlockTinter {
 
-	// TODO do the thing for smooth
-	
 	public static void tintBlockFlat(IBlockAccess world, IBlockState state, BlockPos pos, BufferBuilder buffer, BakedQuad quad, int lightColor) {
 		if((lightColor & 0xFF) == 0)
 			return;

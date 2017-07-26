@@ -10,13 +10,21 @@
  */
 package vazkii.quark.decoration.block;
 
+import net.minecraft.block.BlockColored;
+import net.minecraft.block.BlockStainedGlass;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Blocks;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import vazkii.arl.block.BlockMod;
 import vazkii.quark.base.block.IQuarkBlock;
+import vazkii.quark.experimental.features.ColoredLights;
+import vazkii.quark.experimental.lighting.IColoredLightSource;
 
-public class BlockLitLamp extends BlockMod implements IQuarkBlock {
+public class BlockLitLamp extends BlockMod implements IQuarkBlock, IColoredLightSource {
 
 	public BlockLitLamp() {
 		super("lit_lamp", Material.GLASS);
@@ -24,6 +32,25 @@ public class BlockLitLamp extends BlockMod implements IQuarkBlock {
 		setLightLevel(1F);
 		setSoundType(SoundType.GLASS);
 		setCreativeTab(CreativeTabs.REDSTONE);
+	}
+	
+	@Override
+	public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) {
+		int val = super.getLightValue(state, world, pos);
+		ColoredLights.addLightSource(world, pos, state, val);
+		return val;
+	}
+
+	@Override
+	public float[] getColoredLight(IBlockAccess world, BlockPos pos) {
+		int index = 0;
+		
+		BlockPos down = pos.down();
+		IBlockState state = world.getBlockState(down);
+		if(state.getBlock() == Blocks.CONCRETE)
+			index = state.getValue(BlockColored.COLOR).ordinal();
+		
+		return VANILLA_SPECTRUM_COLORS[index];
 	}
 
 }

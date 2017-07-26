@@ -12,13 +12,10 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeModContainer;
-import vazkii.quark.api.IColoredLightSource;
 import vazkii.quark.base.client.ClientTicker;
 
 public final class ColoredLightSystem {
 
-	// TODO figure out how to get light updates to work on chunks that don't need it 
-	
 	private static List<LightSource> lightSources = new ArrayList();
 	private static List<LightSource> currentSources = new ArrayList();
 	
@@ -26,7 +23,7 @@ public final class ColoredLightSystem {
 	
 	public static void tick(Minecraft mc) {
 		ForgeModContainer.forgeLightPipelineEnabled = false;
-		mc.gameSettings.ambientOcclusion = 0; // TODO implement smooth light
+		mc.gameSettings.ambientOcclusion = 0;
 
 		World world = mc.world;
 		if(world == null) {
@@ -35,7 +32,7 @@ public final class ColoredLightSystem {
 		}
 		
 		List<LightSource> tempList = new ArrayList(lightSources);
-		tempList.removeIf((src) -> !src.isValid(world));
+		tempList.removeIf((src) -> src == null || !src.isValid(world));
 		currentSources = tempList;
 	}
 	
