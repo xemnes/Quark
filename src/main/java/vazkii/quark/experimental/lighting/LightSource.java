@@ -4,17 +4,19 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
+import vazkii.quark.experimental.features.ColoredLights;
 
 public class LightSource {
 
-	public final IBlockAccess world;
+	public final World world;
 	public final BlockPos pos;
 	public final IBlockState state;
 	public final byte brightness;
 
 	byte[][][] incidences = null;
 
-	public LightSource(IBlockAccess world, BlockPos pos, IBlockState state, int brightness) {
+	public LightSource(World world, BlockPos pos, IBlockState state, int brightness) {
 		this.world = world;
 		this.pos = pos;
 		this.state = state;
@@ -29,18 +31,26 @@ public class LightSource {
 		int dist = manhattanDistance(checkPos); 
 		if(dist >= brightness)
 			return 0;
-
-		if(incidences == null)
-			computeIncidences();
-
-		int[] coords = posToIndex(checkPos);
-		return getIncidenceAtCoords(coords);
+		
+		if(ColoredLights.simulateTravel) {
+			if(incidences == null)
+				computeIncidences();
+			
+			int[] coords = posToIndex(checkPos);
+			return getIncidenceAtCoords(coords);
+		}
+		
+		return 15 - dist;
 	}
 
-	private int manhattanDistance(BlockPos target) {
+	public boolean isValid(World world) {
+		return world.isBlockLoaded(pos) && world.getBlockState(pos).equals(state);
+	}
+	
+	final int manhattanDistance(BlockPos target) {
 		return Math.abs(pos.getX() - target.getX()) + Math.abs(pos.getY() - target.getY()) + Math.abs(pos.getZ() - target.getZ());
 	}
-
+	
 	void computeIncidences() {
 		int size = brightness * 2 + 1;
 		incidences = new byte[size][size][size];
@@ -98,14 +108,10 @@ public class LightSource {
 		incidences[coords[0]][coords[1]][coords[2]] = (byte) b;
 	}
 
-	@Override
-	public int hashCode() {
-		return pos.hashCode();
-	}
 
 	@Override
 	public boolean equals(Object obj) {
-		return obj == this || (obj != null && obj instanceof LightSource && ((LightSource) obj).pos.equals(pos));
+		return obj == this || pos.equals(obj) || (obj != null && (obj instanceof LightSource && ((LightSource) obj).pos.equals(pos)));
 	}
 
 	private static class Edge {

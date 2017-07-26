@@ -1,7 +1,8 @@
 package vazkii.quark.experimental.lighting;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -18,8 +19,8 @@ public final class ColoredLightSystem {
 
 	// TODO figure out how to get light updates to work on chunks that don't need it 
 	
-	private static Set<LightSource> lightSources = new HashSet();
-	private static Set<LightSource> currentSources = new HashSet();
+	private static List<LightSource> lightSources = new ArrayList();
+	private static List<LightSource> currentSources = new ArrayList();
 	
 	private static int lastFrame;
 	
@@ -33,9 +34,9 @@ public final class ColoredLightSystem {
 			currentSources.clear();
 		}
 		
-		HashSet<LightSource> tempSet = new HashSet(lightSources);
-		tempSet.removeIf((src) -> !mc.world.isBlockLoaded(src.pos)|| !(mc.world.getBlockState(src.pos).getBlock() instanceof IColoredLightSource));
-		currentSources = tempSet;
+		List<LightSource> tempList = new ArrayList(lightSources);
+		tempList.removeIf((src) -> !src.isValid(world));
+		currentSources = tempList;
 	}
 	
 	public static float[] getLightColor(IBlockAccess world, BlockPos pos) {
@@ -102,8 +103,21 @@ public final class ColoredLightSystem {
 	}
 	
 	public static void addLightSource(IBlockAccess access, BlockPos pos, IBlockState state, int brightness) {
-		// TODO rework for vanilla lights (probably ASM)
-		lightSources.add(new LightSource(access, pos, state, brightness));
+		if(!(access instanceof World))
+			return;
+		
+		World world = (World) access;
+		ListIterator<LightSource> iterator = lightSources.listIterator();
+		while(iterator.hasNext()) {
+			LightSource src = iterator.next();
+			if(src.equals(pos)) {
+				if(!src.isValid(world))
+					iterator.remove();
+				else return;
+			}
+		}
+		
+		lightSources.add(new LightSource(world, pos, state, brightness));
 	}
 	
 }

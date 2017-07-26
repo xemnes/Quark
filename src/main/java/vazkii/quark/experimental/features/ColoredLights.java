@@ -21,6 +21,16 @@ import vazkii.quark.experimental.lighting.ColoredLightSystem;
 public class ColoredLights extends Feature {
 
 	private static boolean enabled;
+	public static boolean simulateTravel;
+	
+	@Override
+	public void setupConfig() {
+		simulateTravel = loadPropBool("Simulate Light Travel", "Simulates the way light travels to calculate the colored light value properly.\n"
+				+ "This needs to be enabled to prevent light from blending through walls.\n"
+				+ "Note that this feature heavily increases memory and CPU requirements. Do NOT use it if you plan on having a lot of lights.\n"
+				+ "You have been warned.", false);
+	}
+	
 	
 	public static void putColorsFlat(IBlockAccess world, IBlockState state, BlockPos pos, BufferBuilder buffer, BakedQuad quad, int lightColor) {
 		if(!enabled)
