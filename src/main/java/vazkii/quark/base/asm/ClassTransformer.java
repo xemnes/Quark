@@ -89,10 +89,10 @@ public class ClassTransformer implements IClassTransformer {
 		// For Pistons Move TEs
 		transformers.put("net.minecraft.tileentity.TileEntityPiston", ClassTransformer::transformTileEntityPiston);
 		transformers.put("net.minecraft.client.renderer.tileentity.TileEntityPistonRenderer", ClassTransformer::transformTileEntityPistonRenderer);
-		
+
 		// For Imrpoved Sleeping
 		transformers.put("net.minecraft.world.WorldServer", ClassTransformer::transformWorldServer);
-		
+
 		// For Colored Lights
 		transformers.put("net.minecraft.client.renderer.BlockModelRenderer", ClassTransformer::transformBlockModelRenderer);
 
@@ -183,10 +183,7 @@ public class ClassTransformer implements IClassTransformer {
 					return true;
 				})));
 
-		try {
-			if(Class.forName("optifine.OptiFineTweaker") != null)
-				log("Optifine Detected. Disabling Patch for " + sig2);
-		} catch (ClassNotFoundException e) {
+		if(!hasOptifine(sig2.toString())) {
 			invokestaticCount = 0;
 			transClass = transform(transClass, Pair.of(sig2, combine(
 					(AbstractInsnNode node) -> { // Filter
@@ -269,8 +266,8 @@ public class ClassTransformer implements IClassTransformer {
 		log("Transforming BlockPistonBase");
 		MethodSignature sig1 = new MethodSignature("doMove", "func_176319_a", "a", "(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/EnumFacing;Z)Z");
 		MethodSignature sig2 = new MethodSignature("canPush", "func_185646_a", "a", "(Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/EnumFacing;ZLnet/minecraft/util/EnumFacing;)Z");
-		
-		
+
+
 		byte[] transClass = transform(basicClass, Pair.of(sig1, combine(
 				(AbstractInsnNode node) -> { // Filter
 					return node.getOpcode() == Opcodes.ASTORE && ((VarInsnNode) node).var == 11;
@@ -353,7 +350,7 @@ public class ClassTransformer implements IClassTransformer {
 					method.instructions.insert(node, newInstructions);
 					return bipushCount == 6;
 				})));
-		}
+	}
 
 	private static byte[] transformTileEntityPiston(byte[] basicClass) {
 		log("Transforming TileEntityPiston");
@@ -378,7 +375,7 @@ public class ClassTransformer implements IClassTransformer {
 		byte[] transClass = transform(basicClass, Pair.of(sig1, action));
 		return transform(transClass, Pair.of(sig2, action));
 	}
-	
+
 	private static byte[] transformTileEntityPistonRenderer(byte[] basicClass) {
 		log("Transforming TileEntityPistonRenderer");
 		MethodSignature sig = new MethodSignature("renderStateModel", "func_188186_a", "a", "(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/client/renderer/BufferBuilder;Lnet/minecraft/world/World;Z)Z");
@@ -395,12 +392,12 @@ public class ClassTransformer implements IClassTransformer {
 					newInstructions.add(new VarInsnNode(Opcodes.ILOAD, 5));
 					newInstructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, ASM_HOOKS, "renderPistonBlock", "(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/client/renderer/BufferBuilder;Lnet/minecraft/world/World;Z)Z"));
 					newInstructions.add(new InsnNode(Opcodes.IRETURN));
-					
+
 					method.instructions = newInstructions;
 					return true;
 				})));
 	}
-	
+
 	private static byte[] transformWorldServer(byte[] basicClass) {
 		log("Transforming WorldServer");
 		MethodSignature sig = new MethodSignature("areAllPlayersAsleep", "func_73056_e", "g", "()Z");
@@ -430,6 +427,9 @@ public class ClassTransformer implements IClassTransformer {
 	private static byte[] transformBlockModelRenderer(byte[] basicClass) {
 		log("Transforming BlockModelRenderer");
 		MethodSignature sig1 = new MethodSignature("renderQuadsFlat", "func_187496_a", "a", "(Lnet/minecraft/world/IBlockAccess;Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/util/math/BlockPos;IZLnet/minecraft/client/renderer/BufferBuilder;Ljava/util/List;Ljava/util/BitSet;)V");
+
+		if(hasOptifine(sig1.toString()))
+			return basicClass;
 
 		return transform(basicClass, Pair.of(sig1, combine(
 				(AbstractInsnNode node) -> { // Filter
@@ -532,12 +532,22 @@ public class ClassTransformer implements IClassTransformer {
 		StringWriter sw = new StringWriter();
 		printer.print(new PrintWriter(sw));
 		printer.getText().clear();
-		
+
 		return sw.toString().replaceAll("\n", "").trim();
 	}
-	
+
 	private static boolean checkDesc(String desc, String expected) {
 		return desc.equals(expected) || desc.equals(MethodSignature.obfuscate(expected));
+	}
+
+	private static boolean hasOptifine(String msg) {
+		try {
+			if(Class.forName("optifine.OptiFineTweaker") != null) {
+				log("Optifine Detected. Disabling Patch for " + msg);
+				return true;
+			}
+		} catch (ClassNotFoundException e) { }
+		return false;
 	}
 
 	private static class MethodSignature {
