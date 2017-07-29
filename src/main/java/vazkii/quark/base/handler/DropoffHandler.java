@@ -42,7 +42,7 @@ import vazkii.quark.management.feature.StoreToChests;
 public final class DropoffHandler {
 
 	public static void dropoff(EntityPlayer player, boolean smart, boolean useContainer) {
-		if(!ModuleLoader.isFeatureEnabled(useContainer ? ChestButtons.class : StoreToChests.class))
+		if(!ModuleLoader.isFeatureEnabled(useContainer ? ChestButtons.class : StoreToChests.class) || player.isSpectator())
 			return;
 
 		if(!useContainer && !player.getEntityWorld().getWorldInfo().getGameRulesInstance().getBoolean(StoreToChests.GAME_RULE)) {
@@ -54,7 +54,7 @@ public final class DropoffHandler {
 	}
 
 	public static void restock(EntityPlayer player, boolean filtered) {
-		if(!ModuleLoader.isFeatureEnabled(StoreToChests.class))
+		if(!ModuleLoader.isFeatureEnabled(StoreToChests.class) || player.isSpectator())
 			return;
 
 		new Restock(player, filtered).execute();

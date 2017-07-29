@@ -57,6 +57,9 @@ public class GuiButtonChest<T extends GuiScreen> extends GuiButton implements IP
 
 	@Override
 	public void drawButton(Minecraft par1Minecraft, int par2, int par3, float pticks) {
+		if(par1Minecraft.player.isSpectator())
+			enabled = false;
+		
 		if(enabledPredicate != null)
 			enabled = enabledPredicate.apply(parent);
 
