@@ -3,6 +3,8 @@ package vazkii.quark.tweaks.feature;
 import java.util.Collection;
 import java.util.List;
 
+import org.lwjgl.input.Keyboard;
+
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
 
@@ -42,7 +44,7 @@ public class VisualStatDisplay extends Feature {
 		Minecraft mc = Minecraft.getMinecraft();
 		ItemStack stack = event.getItemStack();
 
-		if(!GuiScreen.isShiftKeyDown() && isAttributeStrippable(stack)) {
+		if(Keyboard.isCreated() && !GuiScreen.isShiftKeyDown() && isAttributeStrippable(stack)) {
 			List<String> tooltip = event.getToolTip();
 			String allDesc = "";
 			boolean clearedAny = false;
