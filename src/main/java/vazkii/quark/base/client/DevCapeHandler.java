@@ -1,7 +1,5 @@
 package vazkii.quark.base.client;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import com.google.common.collect.ImmutableSet;
@@ -14,6 +12,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
+import scala.reflect.internal.util.WeakHashSet;
 import vazkii.quark.base.lib.LibObfuscation;
 
 public class DevCapeHandler {
@@ -22,13 +21,13 @@ public class DevCapeHandler {
 			"8c826f34-113b-4238-a173-44639c53b6e6",
 			"0d054077-a977-4b19-9df9-8a4d5bf20ec3");
 
-	private static final List<String> done = new ArrayList();
+	private static final WeakHashSet<EntityPlayer> done = new WeakHashSet();
 
 	@SubscribeEvent
 	public static void onRenderPlayer(RenderPlayerEvent.Post event) {
 		EntityPlayer player = event.getEntityPlayer();
 		String uuid = player.getUUID(player.getGameProfile()).toString();
-		if(player instanceof AbstractClientPlayer && UUIDS.contains(uuid) && !done.contains(uuid)) {
+		if(player instanceof AbstractClientPlayer && UUIDS.contains(uuid) && !done.contains(player)) {
 			AbstractClientPlayer clplayer = (AbstractClientPlayer) player;
 			if(clplayer.hasPlayerInfo()) {
 				NetworkPlayerInfo info = ReflectionHelper.getPrivateValue(AbstractClientPlayer.class, clplayer, LibObfuscation.PLAYER_INFO);
@@ -36,7 +35,7 @@ public class DevCapeHandler {
 				ResourceLocation loc = new ResourceLocation("quark", "textures/misc/dev_cape.png");
 				textures.put(Type.CAPE, loc);
 				textures.put(Type.ELYTRA, loc);
-				done.add(uuid);
+				done.add(player);
 			}
 		}
 	}
