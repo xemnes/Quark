@@ -55,7 +55,7 @@ public class NaturalBlazesInNether extends Feature {
 	
 	@SubscribeEvent
 	public void onSpawn(LivingSpawnEvent.CheckSpawn event) {
-		if(restrictToNetherrack && event.getEntityLiving() instanceof EntityBlaze && event.getResult() != Result.DENY && event.getEntityLiving().world instanceof WorldServer) {
+		if(restrictToNetherrack && !event.isSpawner() && event.getEntityLiving() instanceof EntityBlaze && event.getResult() != Result.DENY && event.getEntityLiving().world instanceof WorldServer) {
 			EntityBlaze blaze = (EntityBlaze) event.getEntityLiving();
 			WorldServer world = (WorldServer) blaze.world;
 			BlockPos pos = blaze.getPosition();
