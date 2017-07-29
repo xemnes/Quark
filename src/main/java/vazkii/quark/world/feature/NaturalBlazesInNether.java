@@ -10,6 +10,8 @@
  */
 package vazkii.quark.world.feature;
 
+import java.util.List;
+
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.monster.EntityBlaze;
 import net.minecraft.init.Biomes;
@@ -21,19 +23,29 @@ import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.Event.Result;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import scala.actors.threadpool.Arrays;
 import vazkii.quark.base.module.Feature;
 
 public class NaturalBlazesInNether extends Feature {
 
 	int weight, min, max;
 	boolean restrictToNetherrack;
+	
+	List<String> allowedBlocks;
 
 	@Override
 	public void setupConfig() {
 		weight = loadPropInt("Spawn Weight", "", 10);
 		min = loadPropInt("Smallest spawn group", "", 1);
 		max = loadPropInt("Largest spawn group", "", 3);
-		restrictToNetherrack = loadPropBool("Block restrictions", "Make naturally spawned blazes only spawn in netherrack", true);
+		
+		restrictToNetherrack = loadPropBool("Block restrictions", "Make naturally spawned blazes only spawn in allowed blocks", true);
+		allowedBlocks = Arrays.asList(loadPropStringList("Allowed spawn blocks", "Only used if \" Block restrictions\" is enabled.", new String[] {
+				Blocks.NETHERRACK.getRegistryName().toString(),
+				Blocks.SOUL_SAND.getRegistryName().toString(),
+				Blocks.MAGMA.getRegistryName().toString(),
+				"quark:basalt"
+		}));
 	}
 
 	@Override
@@ -47,9 +59,9 @@ public class NaturalBlazesInNether extends Feature {
 			EntityBlaze blaze = (EntityBlaze) event.getEntityLiving();
 			WorldServer world = (WorldServer) blaze.world;
 			BlockPos pos = blaze.getPosition();
-			boolean netherrack = world.getBlockState(pos.down()).getBlock() == Blocks.NETHERRACK;
+			boolean allowedBlock = allowedBlocks.contains(world.getBlockState(pos.down()).getBlock().getRegistryName().toString());
 			boolean fortress = world.getChunkProvider().isInsideStructure(world, "Fortress", pos);
-			if(!fortress && !netherrack)
+			if(!fortress && !allowedBlock)
 				event.setResult(Result.DENY);
 		}
 	}
