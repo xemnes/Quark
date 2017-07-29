@@ -68,15 +68,13 @@ public class VariedTrapdoors extends Feature {
 				NonNullList<Ingredient> ingredients = shaped.recipeItems;
 				for(int i = 0; i < ingredients.size(); i++) {
 					Ingredient ingr = ingredients.get(i);
-					if(ingr.apply(ProxyRegistry.newStack(Blocks.PLANKS)))
+					if(ingr.apply(ProxyRegistry.newStack(Blocks.PLANKS))) {
 						ingredients.set(i, Ingredient.fromStacks(ProxyRegistry.newStack(Blocks.PLANKS, 1, 0)));
+						out.setCount(recipeOutput);
+					}
 				}
 			}
 		}
-
-		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(Blocks.TRAPDOOR, recipeOutput),
-				"WWW", "WWW",
-				'W', ProxyRegistry.newStack(Blocks.PLANKS));
 
 		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(spruce_trapdoor, recipeOutput),
 				"WWW", "WWW",
