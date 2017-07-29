@@ -27,6 +27,7 @@ import net.minecraft.client.renderer.entity.layers.LayerArmorBase;
 import net.minecraft.client.renderer.entity.layers.LayerBipedArmor;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
@@ -74,27 +75,50 @@ public final class EmoteHandler {
 				EmoteBase emote = playerEmotes.get(player);
 				boolean done = emote.isDone();
 
-				if(player.swingProgress > 0 || player.hurtTime > 0)
-					done = true;
-
-				if(done) {
-					playerEmotes.remove(player);
-					resetModel(getPlayerModel(player));
-					resetModel(getPlayerArmorModel(player));
-					resetModel(getPlayerArmorLegModel(player));
-				}
-				else emote.update(!updatedPlayers.contains(player));
+				if(!done)
+					emote.update(!updatedPlayers.contains(player));
+				
 				updatedPlayers.add(player);
 			}
 		}
 	}
 	
+	public static void onRenderTick(Minecraft mc, boolean start) {
+		if(start)
+			clearPlayerList();
+		else {
+			World world = mc.world;
+			if(world == null)
+				return;
+			
+			for(EntityPlayer player : world.playerEntities)
+				updateEmoteTime(player);
+		}
+	}
+	
+	private static void updateEmoteTime(EntityPlayer e) {
+		if(e instanceof AbstractClientPlayer) {
+			AbstractClientPlayer player = (AbstractClientPlayer) e;
+
+			if(playerEmotes.containsKey(player)) {
+				EmoteBase emote = playerEmotes.get(player);
+				boolean done = emote.isDone();
+				if(done) {
+					playerEmotes.remove(player);
+					resetModel(getPlayerModel(player));
+					resetModel(getPlayerArmorModel(player));
+					resetModel(getPlayerArmorLegModel(player));
+				} else emote.updateTime();
+			}
+		}
+	}
+	
+	private static void clearPlayerList() {
+		updatedPlayers.clear();
+	}
+	
 	public static EmoteBase getPlayerEmote(EntityPlayer player) {
 		return playerEmotes.get(player);
-	}
-
-	public static void clearPlayerList() {
-		updatedPlayers.clear();
 	}
 
 	private static RenderPlayer getRenderPlayer(AbstractClientPlayer player) {

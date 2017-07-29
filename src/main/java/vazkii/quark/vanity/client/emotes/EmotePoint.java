@@ -14,6 +14,7 @@ import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.player.EntityPlayer;
 import vazkii.aurelienribon.tweenengine.Timeline;
 import vazkii.aurelienribon.tweenengine.Tween;
+import vazkii.aurelienribon.tweenengine.equations.Quad;
 import vazkii.quark.vanity.client.emotes.base.EmoteBase;
 import vazkii.quark.vanity.client.emotes.base.EmoteDescriptor;
 import vazkii.quark.vanity.client.emotes.base.ModelAccessor;

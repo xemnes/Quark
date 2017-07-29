@@ -10,6 +10,7 @@
  */
 package vazkii.quark.vanity.client.emotes.base;
 
+import net.minecraft.advancements.critereon.PlacedBlockTrigger;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.player.EntityPlayer;
 import vazkii.aurelienribon.tweenengine.BaseTween;
@@ -29,9 +30,9 @@ public abstract class EmoteBase {
 	private ModelBiped armorModel;
 	private ModelBiped armorLegsModel;
 	private EmoteState state;
+	private EntityPlayer player;
 	
-	public float timeDone, totalTime;
-	private boolean done = false;
+	public float timeDone, totalTime, animatedTime;
 
 	public EmoteBase(EmoteDescriptor desc, EntityPlayer player, ModelBiped model, ModelBiped armorModel, ModelBiped armorLegsModel) {
 		this.desc = desc;
@@ -40,17 +41,16 @@ public abstract class EmoteBase {
 		this.model = model;
 		this.armorModel = armorModel;
 		this.armorLegsModel = armorLegsModel;
+		this.player = player;
 
-		startTimeline(player, model, true);
-		startTimeline(player, armorModel, false);
-		startTimeline(player, armorLegsModel, false);
+		startTimeline(player, model);
+		startTimeline(player, armorModel);
+		startTimeline(player, armorLegsModel);
 	}
 
-	void startTimeline(EntityPlayer player, ModelBiped model, boolean callback) {
+	void startTimeline(EntityPlayer player, ModelBiped model) {
 		Timeline timeline = getTimeline(player, model).start(emoteManager);
 		totalTime = timeline.getFullDuration() / 50F;
-		if(callback)
-			timeline.setCallback(new FinishCallback());
 	}
 
 	public abstract Timeline getTimeline(EntityPlayer player, ModelBiped model);
@@ -62,24 +62,20 @@ public abstract class EmoteBase {
 		state.load(armorModel);
 		state.load(armorLegsModel);
 		if(doUpdate) {
-			timeDone += ClientTicker.delta;
-			emoteManager.update(ClientTicker.delta * 50F);
+			float timeDiff = Math.max(Math.abs(animatedTime - timeDone), ClientTicker.delta);
+			animatedTime += timeDiff;
+			emoteManager.update(timeDiff * 50F);
 			state.save(model);
 		}
 	}
+	
+	public void updateTime() {
+		timeDone += ClientTicker.delta;
+	}
 
 	public boolean isDone() {
-		return done;
+		return timeDone >= totalTime || player.swingProgress > 0 || player.hurtTime > 0;
 	}
 
-	private class FinishCallback implements TweenCallback {
-
-		@Override
-		public void onEvent(int type, BaseTween<?> source) {
-			if(type == COMPLETE)
-				done = true;
-		}
-
-	}
 
 }

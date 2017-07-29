@@ -163,7 +163,7 @@ public class EmoteSystem extends Feature {
 			Minecraft mc = Minecraft.getMinecraft();
 			ScaledResolution res = event.getResolution();
 			EmoteBase emote = EmoteHandler.getPlayerEmote(mc.player);
-			if(emote != null) {
+			if(emote != null && emote.timeDone < emote.totalTime) {
 				ResourceLocation resource = emote.desc.texture;
 				int x = res.getScaledWidth() / 2 - 16;
 				int y = res.getScaledHeight() / 2 - 60;
@@ -195,8 +195,7 @@ public class EmoteSystem extends Feature {
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void renderTick(RenderTickEvent event) {
-		if(event.phase == Phase.START)
-			EmoteHandler.clearPlayerList();
+		EmoteHandler.onRenderTick(Minecraft.getMinecraft(), event.phase == Phase.START);
 	}
 
 	@Override
