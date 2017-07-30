@@ -45,9 +45,9 @@ public class ColoredLights extends Feature {
 		BlockTinter.tintBlockFlat(world, state, pos, buffer, quad, lightColor);
 	}
 	
-	public static void addLightSource(IBlockAccess access, BlockPos pos, IBlockState state, int brightness) {
+	public static void addLightSource(IBlockAccess access, BlockPos pos, IBlockState state) {
 		if(enabled)
-			ColoredLightSystem.addLightSource(access, pos, state, brightness);
+			ColoredLightSystem.addLightSource(access, pos, state);
 	}
 
 	@Override
