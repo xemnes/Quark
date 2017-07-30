@@ -19,13 +19,6 @@ public class BlockQuiltedWool extends BlockMetaVariants implements IQuarkBlock {
 		setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
 	}
 	
-	@Override
-	public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) {
-		int val = super.getLightValue(state, world, pos);
-		ColoredLights.addLightSource(world, pos, state, val);
-		return val;
-	}
-	
 	public static enum Variants implements EnumBase {
 		WOOL_QUILTED_WHITE,
 		WOOL_QUILTED_ORANGE,

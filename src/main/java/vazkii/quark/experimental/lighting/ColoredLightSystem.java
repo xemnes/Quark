@@ -48,13 +48,13 @@ public final class ColoredLightSystem {
 		lastFrame = time;
 		
 		for(LightSource src : currentSources) {
-			BlockPos srcpos = src.pos;
-			IBlockState srcState = world.getBlockState(srcpos);
+			BlockPos srcPos = src.pos;
+			IBlockState srcState = world.getBlockState(srcPos);
 			Block srcBlock = srcState.getBlock();
 			if(!(srcBlock instanceof IColoredLightSource))
 				continue;
 			
-			int srcLight = srcState.getLightValue(world, srcpos);
+			int srcLight = srcState.getLightValue(world, srcPos);
 			float brightness = (float) srcLight / 15F;
 
 			int incidence = src.getIndidence(pos);
@@ -64,7 +64,7 @@ public final class ColoredLightSystem {
 				float negIncidence = 1F - incidenceF;
 				float localBrightness = brightness * incidenceF;
 				
-				float[] colors = ((IColoredLightSource) srcBlock).getColoredLight(world, srcpos);
+				float[] colors = ((IColoredLightSource) srcBlock).getColoredLight(world, srcPos);
 				if(colors.length != 3)
 					colors = new float[] { 1F, 1F, 1F };
 				
@@ -99,7 +99,7 @@ public final class ColoredLightSystem {
 			src.newFrame();
 	}
 	
-	public static void addLightSource(IBlockAccess access, BlockPos pos, IBlockState state, int brightness) {
+	public static void addLightSource(IBlockAccess access, BlockPos pos, IBlockState state) {
 		if(!(access instanceof World))
 			return;
 		
@@ -114,6 +114,7 @@ public final class ColoredLightSystem {
 			}
 		}
 		
+		int brightness = state.getBlock().getLightValue(state, access, pos);
 		lightSources.add(new LightSource(world, pos, state, brightness));
 	}
 	

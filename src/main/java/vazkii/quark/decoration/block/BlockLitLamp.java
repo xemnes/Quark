@@ -35,10 +35,9 @@ public class BlockLitLamp extends BlockMod implements IQuarkBlock, IColoredLight
 	}
 	
 	@Override
-	public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) {
-		int val = super.getLightValue(state, world, pos);
-		ColoredLights.addLightSource(world, pos, state, val);
-		return val;
+	public int getLightOpacity(IBlockState state, IBlockAccess world, BlockPos pos) {
+		ColoredLights.addLightSource(world, pos, state);
+		return super.getLightOpacity(state, world, pos);
 	}
 
 	@Override
