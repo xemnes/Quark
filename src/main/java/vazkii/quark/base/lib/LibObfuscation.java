@@ -60,4 +60,7 @@ public final class LibObfuscation {
 	// NetworkPlayerInfo
 	public static final String[] PLAYER_TEXTURES = new String[] { "a", "field_187107_a", "playerTextures" };
 	
+	// EntityRenderer
+	public static final String[] LIGHTMAP_TEXTURE = new String[] { "H", "field_78513_d", "lightmapTexture" };
+	
 }
