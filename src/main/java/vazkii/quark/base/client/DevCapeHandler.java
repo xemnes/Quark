@@ -1,6 +1,9 @@
 package vazkii.quark.base.client;
 
+import java.util.Collections;
 import java.util.Map;
+import java.util.Set;
+import java.util.WeakHashMap;
 
 import com.google.common.collect.ImmutableSet;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
@@ -12,7 +15,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
-import scala.reflect.internal.util.WeakHashSet;
 import vazkii.quark.base.lib.LibObfuscation;
 
 public class DevCapeHandler {
@@ -21,7 +23,7 @@ public class DevCapeHandler {
 			"8c826f34-113b-4238-a173-44639c53b6e6",
 			"0d054077-a977-4b19-9df9-8a4d5bf20ec3");
 
-	private static final WeakHashSet<EntityPlayer> done = new WeakHashSet();
+	private static final Set<EntityPlayer> done = Collections.newSetFromMap(new WeakHashMap());
 
 	@SubscribeEvent
 	public static void onRenderPlayer(RenderPlayerEvent.Post event) {
