@@ -66,7 +66,7 @@ public class AutomaticToolRestock extends Feature {
 		ItemStack stack = event.getOriginal();
 		Item item = stack.getItem();
 
-		if(!player.world.isRemote && !stack.isEmpty() && !(item instanceof ItemArmor) && (!unstackablesOnly || !stack.isStackable())) {
+		if(player != null && player.world != null && !player.world.isRemote && !stack.isEmpty() && !(item instanceof ItemArmor) && (!unstackablesOnly || !stack.isStackable())) {
 			int currSlot = player.inventory.currentItem;
 			if(event.getHand() == EnumHand.OFF_HAND)
 				currSlot = player.inventory.getSizeInventory() - 1;
