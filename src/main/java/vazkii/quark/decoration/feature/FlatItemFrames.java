@@ -47,6 +47,9 @@ public class FlatItemFrames extends Feature {
 	
 	@SubscribeEvent
 	public void onPlayerInteract(PlayerInteractEvent.RightClickBlock event) {
+		if(event.getFace() == null)
+			return;
+		
 		ItemStack itemstack = event.getItemStack();
 		EnumFacing facing = event.getFace();
 		BlockPos blockpos = event.getPos().offset(facing);
