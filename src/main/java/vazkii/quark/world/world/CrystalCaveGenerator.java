@@ -112,7 +112,8 @@ public class CrystalCaveGenerator implements IWorldGenerator {
 				makeCrystal(world, pos, rand, rand.nextBoolean() ? crystal1 : crystal2);
 			else if(rand.nextInt(2) == 0) {
 				IBlockState stateAt = world.getBlockState(pos);
-				if(stateAt.getBlock().isAir(stateAt, world, pos) || stateAt.getBlock() == CrystalCaves.crystal)
+				Block blockAt = stateAt.getBlock();
+				if(blockAt.isAir(stateAt, world, pos) || blockAt == CrystalCaves.crystal || blockAt.getBlockHardness(stateAt, world, pos) == -1)
 					continue;
 				
 				IBlockState oreState = Blocks.GOLD_ORE.getDefaultState();
