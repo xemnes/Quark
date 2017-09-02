@@ -47,23 +47,23 @@ public class ClassTransformer implements IClassTransformer {
 	private static final String ASM_HOOKS = "vazkii/quark/base/asm/ASMHooks";
 
 	public static final ClassnameMap CLASS_MAPPINGS = new ClassnameMap(
-		"net/minecraft/entity/Entity", "ve",
-		"net/minecraft/item/ItemStack", "ain",
-		"net/minecraft/client/renderer/block/model/IBakedModel", "cfw",
-		"net/minecraft/entity/EntityLivingBase", "vn",
-		"net/minecraft/inventory/EntityEquipmentSlot", "vj",
-		"net/minecraft/client/renderer/entity/RenderLivingBase", "bzy",
-		"net/minecraft/client/model/ModelBase", "bqd",
-		"net/minecraft/util/DamageSource", "up",
-		"net/minecraft/entity/item/EntityBoat", "afb",
-		"net/minecraft/world/World", "ams",
+		"net/minecraft/entity/Entity", "vg",
+		"net/minecraft/item/ItemStack", "aip",
+		"net/minecraft/client/renderer/block/model/IBakedModel", "cfy",
+		"net/minecraft/entity/EntityLivingBase", "vp",
+		"net/minecraft/inventory/EntityEquipmentSlot", "vl",
+		"net/minecraft/client/renderer/entity/RenderLivingBase", "caa",
+		"net/minecraft/client/model/ModelBase", "bqf",
+		"net/minecraft/util/DamageSource", "ur",
+		"net/minecraft/entity/item/EntityBoat", "afd",
+		"net/minecraft/world/World", "amu",
 		"net/minecraft/util/math/BlockPos", "et",
 		"net/minecraft/util/EnumFacing", "fa",
-		"net/minecraft/entity/player/EntityPlayer", "aeb",
-		"net/minecraft/block/state/IBlockState", "awr",
-		"net/minecraft/client/renderer/BufferBuilder", "bui",
-		"net/minecraft/world/IBlockAccess", "amw",
-		"net/minecraft/client/renderer/block/model/BakedQuad", "bvn"
+		"net/minecraft/entity/player/EntityPlayer", "aed",
+		"net/minecraft/block/state/IBlockState", "awt",
+		"net/minecraft/client/renderer/BufferBuilder", "buk",
+		"net/minecraft/world/IBlockAccess", "amy",
+		"net/minecraft/client/renderer/block/model/BakedQuad", "bvp"
 	);
 
 	private static final Map<String, Transformer> transformers = new HashMap();
