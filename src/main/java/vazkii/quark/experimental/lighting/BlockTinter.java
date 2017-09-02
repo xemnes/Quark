@@ -12,6 +12,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.client.model.pipeline.LightUtil;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import vazkii.quark.base.lib.LibObfuscation;
+import vazkii.quark.experimental.features.ColoredLights;
 
 public class BlockTinter {
 	
@@ -22,7 +23,9 @@ public class BlockTinter {
 			return;
 		
 		float[] colors = ColoredLightSystem.getLightColor(world, pos.offset(quad.getFace()));
-		colors = cullColorsToLightmap(colors, lightColor);
+		
+		if(ColoredLights.cullToLightmap)
+			colors = cullColorsToLightmap(colors, lightColor);
 		
 		if(colors.length > 0) {
 			float[] quadTint = tintQuad(quad, state, world, pos, buffer);
@@ -64,6 +67,9 @@ public class BlockTinter {
 	}
 	
 	private static float[] cullColorsToLightmap(float[] colors, int lightmapPos) {
+		if(colors.length < 3)
+			return colors;
+		
 		int sunlight = (lightmapPos & 0xF00000) >> 20;
 		
 		int index = sunlight * 16;

@@ -22,13 +22,17 @@ public class ColoredLights extends Feature {
 
 	private static boolean enabled;
 	public static boolean simulateTravel;
-	
+	public static boolean cullToLightmap;
+
 	@Override
 	public void setupConfig() {
 		simulateTravel = loadPropBool("Simulate Light Travel", "Simulates the way light travels to calculate the colored light value properly.\n"
 				+ "This needs to be enabled to prevent light from blending through walls.\n"
 				+ "Note that this feature heavily increases memory and CPU requirements. Do NOT use it if you plan on having a lot of lights.\n"
 				+ "You have been warned.", false);
+		
+		cullToLightmap = loadPropBool("Cull To Lightmap", "Set this to true to make colored light cap out at the value of natural light.\n"
+				+ "Note that having this enabled will make light values inconsistent based on when the light blocks were placed and updated.", false);
 	}
 	
 	@Override
