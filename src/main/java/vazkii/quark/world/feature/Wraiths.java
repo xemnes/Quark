@@ -86,7 +86,7 @@ public class Wraiths extends Feature {
 			List<EntityPlayer> players = ((WorldServer) event.getWorld()).playerEntities;
 			for(EntityPlayer player : players)
 				if(player.getActivePotionEffect(curse) != null && player.getDistanceSqToEntity(event.getEntity()) < curseRange * curseRange) {
-					if(event.getEntity() instanceof EntityCreeper)
+					if(!(event.getEntity() instanceof EntityCreeper))
 						event.getEntityLiving().addPotionEffect(new PotionEffect(MobEffects.FIRE_RESISTANCE, Integer.MAX_VALUE, 0, false, false));
 					event.setResult(Result.ALLOW);
 					return;
