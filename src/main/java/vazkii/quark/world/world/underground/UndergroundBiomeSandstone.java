@@ -70,11 +70,6 @@ public class UndergroundBiomeSandstone extends BasicUndergroundBiome {
 	}
 	
 	@Override
-	public int getDungeonDistance() {
-		return 35;
-	}
-	
-	@Override
 	public void spawnDungeon(WorldServer world, BlockPos pos, EnumFacing side) {
 		if(side == null)
 			side = EnumFacing.NORTH;

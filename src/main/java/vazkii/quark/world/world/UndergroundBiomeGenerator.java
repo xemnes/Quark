@@ -2,10 +2,14 @@ package vazkii.quark.world.world;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraft.world.biome.Biome;
 import vazkii.quark.base.handler.BiomeTypeConfigHandler;
 import vazkii.quark.world.feature.UndergroundBiomes.UndergroundBiomeInfo;
@@ -37,7 +41,7 @@ public class UndergroundBiomeGenerator extends MultiChunkFeatureGenerator {
 		int radiusX = info.minXSize + random.nextInt(info.xVariation);
 		int radiusY = info.minYSize + random.nextInt(info.yVariation);
 		int radiusZ = info.minZSize + random.nextInt(info.zVariation);
-		apply(world, src, chunkX, chunkZ, radiusX, radiusY, radiusZ);
+		apply(world, src, random, chunkX, chunkZ, radiusX, radiusY, radiusZ);
 	}
 
 	@Override
@@ -62,7 +66,7 @@ public class UndergroundBiomeGenerator extends MultiChunkFeatureGenerator {
 		return BiomeTypeConfigHandler.biomeTypeIntersectCheck(info.types, biome) && info.biome.isValidBiome(biome);
 	}
 	
-	public void apply(World world, BlockPos center, int chunkX, int chunkZ, int radiusX, int radiusY, int radiusZ) {
+	public void apply(World world, BlockPos center, Random random, int chunkX, int chunkZ, int radiusX, int radiusY, int radiusZ) {
 		int centerX = center.getX();
 		int centerY = center.getY();
 		int centerZ = center.getZ();
@@ -86,10 +90,8 @@ public class UndergroundBiomeGenerator extends MultiChunkFeatureGenerator {
 			double distZ = z * z;
 			boolean inside = distX / radiusX2 + distY / radiusY2 + distZ / radiusZ2 <= 1;
 			
-			if(inside) {
-//				System.out.println(center.add(x, y, z));
+			if(inside)
 				info.biome.fill(world, center.add(x, y, z));
-			}
 		});
 
 		info.biome.floorList.forEach(pos -> info.biome.finalFloorPass(world, pos));
@@ -97,39 +99,21 @@ public class UndergroundBiomeGenerator extends MultiChunkFeatureGenerator {
 		info.biome.wallMap.keySet().forEach(pos -> info.biome.finalWallPass(world, pos));
 		info.biome.insideList.forEach(pos -> info.biome.finalInsidePass(world, pos));
 		
-//		if(info.biome.hasDungeon() && world instanceof WorldServer) { TODO redo me
-//			int times = info.minDungeons;
-//			while(times < maxDungeons && world.rand.nextInt(dungeonChance) == 0)
-//				times++;
-//
-//			List<BlockPos> candidates = new ArrayList(wallMap.keySet());
-//			candidates.removeIf(pos -> {
-//				BlockPos down = pos.down();
-//				IBlockState state = world.getBlockState(down);
-//				return isWall(world, down, state) || state.getBlock().isAir(state, world, down);
-//			});
-//			
-//			List<BlockPos> currentDungeons = new ArrayList();
-//			for(int i = 0; i < times; i++) {
-//				candidates.removeIf(pos -> {
-//					for(BlockPos compare : currentDungeons)
-//						if(compare.getDistance(pos.getX(), pos.getY(), pos.getZ()) < getDungeonDistance())
-//							return true;
-//					
-//					return false;
-//				});
-//				
-//				if(candidates.isEmpty())
-//					break;
-//				
-//				BlockPos pos = candidates.get(world.rand.nextInt(candidates.size()));
-//				currentDungeons.add(pos);
-//				candidates.remove(pos);
-//				
-//				EnumFacing border = wallMap.get(pos);
-//				if(border != null)
-//					spawnDungeon((WorldServer) world, pos, border);
-//			}
-//		}
+		if(info.biome.hasDungeon() && world instanceof WorldServer && random.nextFloat() < info.biome.dungeonChance) {
+			List<BlockPos> candidates = new ArrayList(info.biome.wallMap.keySet());
+			candidates.removeIf(pos -> {
+				BlockPos down = pos.down();
+				IBlockState state = world.getBlockState(down);
+				return info.biome.isWall(world, down, state) || state.getBlock().isAir(state, world, down);
+			});
+			
+			if(!candidates.isEmpty()) {
+				BlockPos pos = candidates.get(world.rand.nextInt(candidates.size()));
+				
+				EnumFacing border = info.biome.wallMap.get(pos);
+				if(border != null)
+					info.biome.spawnDungeon((WorldServer) world, pos, border);
+			}
+		}
 	}
 }

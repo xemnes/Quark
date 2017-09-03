@@ -20,7 +20,7 @@ import vazkii.quark.world.feature.RevampStoneGen;
 
 public abstract class UndergroundBiome {
 
-	int dungeonChance, maxDungeons, minDungeons;
+	public float dungeonChance;
 	
 	public static final Predicate<IBlockState> STONE_PREDICATE = state -> {
 		if(state != null) {
@@ -81,12 +81,8 @@ public abstract class UndergroundBiome {
 	}
 	
 	public final void setupBaseConfig(String category) {
-		if(hasDungeon()) {
-			int[] settings = getDefaultDungeonSettings();
-			dungeonChance = ModuleLoader.config.getInt("Dungeon Chance", category, settings[0], 0, Integer.MAX_VALUE, "The chance that dungeons will spawn in this biome. 1 is 100%, 2 is 50%, the higher, the less dungeons will spawn.");
-			maxDungeons = ModuleLoader.config.getInt("Max Dungeons", category, settings[1], 0, Integer.MAX_VALUE, "The max amount of dungeons that can spawn.");
-			minDungeons = ModuleLoader.config.getInt("Min Dungeons", category, settings[2], 0, Integer.MAX_VALUE, "The minimum amount of dungeons that will spawn.");
-		}
+		if(hasDungeon())
+			dungeonChance = ModuleLoader.config.getFloat("Dungeon Spawn Chance", category, getDungeonChance(), 0, 1, "The chance that dungeons will spawn any given chunk of the biome. The lower the value, the fewer dungeons will spawn.");
 		
 		setupConfig(category);
 	}
@@ -102,20 +98,11 @@ public abstract class UndergroundBiome {
 	public boolean hasDungeon() {
 		return false;
 	}
-	
-	public int getDungeonDistance() {
-		return 0;
-	}
-	
-	/**
-	 * 0: Dungeon Chance
-	 * 1: Max Dungeons
-	 * 2: Min Dungeons 
-	 */
-	public int[] getDefaultDungeonSettings() {
-		return new int[] { 2, 2, 0 };
-	}
  
+	public float getDungeonChance() {
+		return 0.05F;
+	}
+	
 	public void spawnDungeon(WorldServer world, BlockPos pos, EnumFacing face) {
 		// NO-OP
 	}
@@ -136,7 +123,7 @@ public abstract class UndergroundBiome {
 		return world.isAirBlock(downPos) || world.getBlockState(downPos).getBlock().isReplaceable(world, downPos);
 	}
 
-	boolean isWall(World world, BlockPos pos, IBlockState state) {
+	public boolean isWall(World world, BlockPos pos, IBlockState state) {
 		if(!state.isFullBlock() || !state.isOpaqueCube() || !STONE_PREDICATE.apply(state))
 			return false;
 

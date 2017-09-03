@@ -44,17 +44,7 @@ public class UndergroundBiomeSpiderNest extends BasicUndergroundBiome {
 	public boolean hasDungeon() {
 		return true;
 	}
-	
-	@Override
-	public int getDungeonDistance() {
-		return 12;
-	}
-	
-	@Override
-	public int[] getDefaultDungeonSettings() {
-		return new int[] { 2, 3, 1 };
-	}
-	
+
 	@Override
 	public void spawnDungeon(WorldServer world, BlockPos pos, EnumFacing face) {
 		BlockPos spawnerPos = pos.offset(face);
