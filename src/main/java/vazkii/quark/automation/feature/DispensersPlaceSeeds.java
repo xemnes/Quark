@@ -36,13 +36,32 @@ import vazkii.quark.base.module.Feature;
 
 public class DispensersPlaceSeeds extends Feature {
 
+	String[] customSeedsArr;
 	Map<Item, IBlockState> customSeeds;
 	
 	@Override
 	public void setupConfig() {
 		ConfigHelper.needsRestart = true;
-		String[] customSeedsArr = loadPropStringList("Custom Seeds", "Add seeds from other mods here, in the following format: mod:seed=mod:block:meta. Set meta to -1 to just place the default.", new String[0]);
+		customSeedsArr = loadPropStringList("Custom Seeds", "Add seeds from other mods here, in the following format: mod:seed=mod:block:meta. Set meta to -1 to just place the default.", new String[0]);
+	}
+	
+	@Override
+	public void init(FMLInitializationEvent event) {
+		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(Items.WHEAT_SEEDS, new BehaviourSeeds(Blocks.WHEAT));
+		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(Items.POTATO, new BehaviourSeeds(Blocks.POTATOES));
+		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(Items.CARROT, new BehaviourSeeds(Blocks.CARROTS));
+		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(Items.NETHER_WART, new BehaviourSeeds(Blocks.NETHER_WART));
+		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(Items.PUMPKIN_SEEDS, new BehaviourSeeds(Blocks.PUMPKIN_STEM));
+		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(Items.MELON_SEEDS, new BehaviourSeeds(Blocks.MELON_STEM));
+		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(Items.BEETROOT_SEEDS, new BehaviourSeeds(Blocks.BEETROOTS));
+		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(Item.getItemFromBlock(Blocks.CHORUS_FLOWER), new BehaviourSeeds(Blocks.CHORUS_FLOWER));
+
+		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(Items.DYE, new BehaviourCocoaBeans(BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.getObject(Items.DYE)));
 		
+		setupCustomSeeds();
+	}
+	
+	public void setupCustomSeeds() {
 		customSeeds = new HashMap();
 		for(String s : customSeedsArr) {
 			String[] tokens = s.split("=");
@@ -66,23 +85,14 @@ public class DispensersPlaceSeeds extends Feature {
 				}
 			}
 		}
-	}
-	
-	@Override
-	public void init(FMLInitializationEvent event) {
-		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(Items.WHEAT_SEEDS, new BehaviourSeeds(Blocks.WHEAT));
-		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(Items.POTATO, new BehaviourSeeds(Blocks.POTATOES));
-		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(Items.CARROT, new BehaviourSeeds(Blocks.CARROTS));
-		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(Items.NETHER_WART, new BehaviourSeeds(Blocks.NETHER_WART));
-		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(Items.PUMPKIN_SEEDS, new BehaviourSeeds(Blocks.PUMPKIN_STEM));
-		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(Items.MELON_SEEDS, new BehaviourSeeds(Blocks.MELON_STEM));
-		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(Items.BEETROOT_SEEDS, new BehaviourSeeds(Blocks.BEETROOTS));
-		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(Item.getItemFromBlock(Blocks.CHORUS_FLOWER), new BehaviourSeeds(Blocks.CHORUS_FLOWER));
-
-		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(Items.DYE, new BehaviourCocoaBeans(BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.getObject(Items.DYE)));
 		
 		for(Item i : customSeeds.keySet())
 			BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(i, new BehaviourSeeds(customSeeds.get(i)));
+	}
+	
+	@Override
+	public boolean requiresMinecraftRestartToEnable() {
+		return true;
 	}
 	
 	@Override
