@@ -13,8 +13,15 @@ package vazkii.quark.world.feature;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import net.minecraft.world.chunk.Chunk;
+import net.minecraftforge.common.BiomeDictionary;
+import net.minecraftforge.event.terraingen.OreGenEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.eventhandler.Event.Result;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import vazkii.arl.block.BlockMod;
@@ -30,27 +37,24 @@ import vazkii.quark.building.feature.VanillaWalls;
 import vazkii.quark.world.block.BlockBasalt;
 import vazkii.quark.world.block.slab.BlockBasaltSlab;
 import vazkii.quark.world.block.stairs.BlockBasaltStairs;
+import vazkii.quark.world.feature.RevampStoneGen.StoneInfo;
 import vazkii.quark.world.world.BasaltGenerator;
+import vazkii.quark.world.world.StoneInfoBasedGenerator;
 
 public class Basalt extends Feature {
 
 	public static BlockMod basalt;
 
-	DimensionConfig dims;
-	int clusterSizeNether, clusterSizeOverworld;
-	int clusterCountNether, clusterCountOverworld;
+	StoneInfo basaltInfo;
+	
 	boolean enableStairsAndSlabs;
 	boolean enableWalls;
 
 	@Override
 	public void setupConfig() {
-		clusterSizeNether = loadPropInt("Nether cluster size", "", 80);
-		clusterSizeOverworld = loadPropInt("Overworld cluster size", "", 33);
-		clusterCountNether = loadPropInt("Nether cluster count", "", 1);
-		clusterCountOverworld = loadPropInt("Overworld cluster count", "", 10);
+		basaltInfo = RevampStoneGen.loadStoneInfo(configCategory, "basalt", 18, 20, 120, 20, true, "-1", BiomeDictionary.Type.NETHER);
 		enableStairsAndSlabs = loadPropBool("Enable stairs and slabs", "", true) && GlobalConfig.enableVariants;
 		enableWalls = loadPropBool("Enable walls", "", true) && GlobalConfig.enableVariants;
-		dims = new DimensionConfig(configCategory, false, "-1");
 	}
 
 	@Override
@@ -66,8 +70,8 @@ public class Basalt extends Feature {
 		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(basalt, 4, 1),
 				"BB", "BB",
 				'B', ProxyRegistry.newStack(basalt, 1, 0));
-
-		GameRegistry.registerWorldGenerator(new BasaltGenerator(dims, clusterSizeOverworld, clusterSizeNether, clusterCountOverworld, clusterCountNether), 0);
+		
+		GameRegistry.registerWorldGenerator(new BasaltGenerator(() -> basaltInfo), 0);
 	}
 	
 	@Override
@@ -88,7 +92,7 @@ public class Basalt extends Feature {
 				'I', blackItem);
 		RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(Blocks.STONE, 1, 5), ProxyRegistry.newStack(basalt), ProxyRegistry.newStack(Items.QUARTZ));
 	}
-
+	
 	@Override
 	public boolean requiresMinecraftRestartToEnable() {
 		return true;

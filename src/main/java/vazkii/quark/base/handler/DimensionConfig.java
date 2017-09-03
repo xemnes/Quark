@@ -15,6 +15,10 @@ public class DimensionConfig {
 		this(parent, false, "0");
 	}
 	
+	public DimensionConfig(String parent, String dimStr) {
+		this(parent, false, dimStr.split(","));
+	}
+	
 	public DimensionConfig(String parent, boolean blacklist, String... defaultStrs) {
 		String category = parent + ".dimensions";
 		this.blacklist = ModuleLoader.config.getBoolean("Is Blacklist", category, blacklist, "");

@@ -11,11 +11,11 @@
 package vazkii.quark.world.world;
 
 import java.util.Random;
+import java.util.function.Supplier;
 
-import net.minecraft.block.state.pattern.BlockMatcher;
+import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.DimensionType;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.IChunkGenerator;
@@ -23,40 +23,23 @@ import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.fml.common.IWorldGenerator;
 import vazkii.quark.base.handler.DimensionConfig;
 import vazkii.quark.world.feature.Basalt;
+import vazkii.quark.world.feature.RevampStoneGen.StoneInfo;
 
-public class BasaltGenerator implements IWorldGenerator {
+public class BasaltGenerator extends StoneInfoBasedGenerator implements IWorldGenerator {
 
-	DimensionConfig dims;
-	int clusterCountOverworld, clusterCountNether;
-	WorldGenMinable generatorOverworld;
-	WorldGenMinable generatorNether;
-
-	public BasaltGenerator(DimensionConfig dims, int clusterSizeOverworld, int clusterSizeNether, int clusterCountOverworld, int clusterCountNether) {
-		this.dims = dims;
-		this.clusterCountNether = clusterCountNether;
-		this.clusterCountOverworld = clusterCountOverworld;
-
-		generatorOverworld = new WorldGenMinable(Basalt.basalt.getDefaultState(), clusterSizeOverworld);
-		generatorNether = new WorldGenMinable(Basalt.basalt.getDefaultState(), clusterSizeNether, BlockMatcher.forBlock(Blocks.NETHERRACK));
+	public BasaltGenerator(Supplier<StoneInfo> infoSupplier) {
+		super(infoSupplier, Basalt.basalt.getDefaultState(), "basalt");
 	}
 
 	@Override
-	public void generate(Random rand, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
-		boolean isNether = world.provider.getDimensionType() == DimensionType.NETHER;
-		boolean isOverworld = world.provider.getDimensionType() == DimensionType.OVERWORLD;
-
-		if(!dims.canSpawnHere(world))
-			return;
-
-		for(int i = 0; i < (isNether ? clusterCountNether : clusterCountOverworld); i++) {
-			int x = chunkX * 16 + rand.nextInt(16);
-			int y = rand.nextInt(isNether ? 128 : 80);
-			int z = chunkZ * 16 + rand.nextInt(16);
-
-			if(isNether)
-				generatorNether.generate(world, rand, new BlockPos(x, y, z));
-			else generatorOverworld.generate(world, rand, new BlockPos(x, y, z));
-		}
+	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
+		generate(chunkX, chunkZ, world);
+	}
+	
+	@Override
+	public boolean canPlaceBlock(World world, BlockPos pos) {
+		Block block = world.getBlockState(pos).getBlock(); 
+		return block == Blocks.STONE || block == Blocks.NETHERRACK;
 	}
 
 }

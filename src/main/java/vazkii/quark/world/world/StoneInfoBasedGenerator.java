@@ -57,9 +57,13 @@ public class StoneInfoBasedGenerator extends MultiChunkFeatureGenerator {
 	public void generateChunkPart(BlockPos src, Random random, int chunkX, int chunkZ, World world) {
 		StoneInfo info = infoSupplier.get();
 		forEachChunkBlock(chunkX, chunkZ, info.lowerBound - info.clusterSize, info.upperBound + info.clusterSize, (pos) -> {
-			if(world.getBlockState(pos).getBlock() == Blocks.STONE && pos.distanceSq(src) < (info.clusterSize * info.clusterSize))
+			if(canPlaceBlock(world, pos) && pos.distanceSq(src) < (info.clusterSize * info.clusterSize))
 				world.setBlockState(pos, state, 0);
 		});
+	}
+	
+	public boolean canPlaceBlock(World world, BlockPos pos) {
+		return world.getBlockState(pos).getBlock() == Blocks.STONE;
 	}
 
 	@Override
