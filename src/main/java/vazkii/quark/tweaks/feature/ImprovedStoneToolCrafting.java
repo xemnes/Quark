@@ -48,9 +48,9 @@ public class ImprovedStoneToolCrafting extends Feature {
 	
 	@Override
 	public void init(FMLInitializationEvent event) {
-		if(RevampStoneGen.enableLimestone)
+		if(RevampStoneGen.limestone != null)
 			OreDictionary.registerOre(mat, ProxyRegistry.newStack(RevampStoneGen.limestone));
-		if(RevampStoneGen.enableMarble)
+		if(RevampStoneGen.marble != null)
 			OreDictionary.registerOre(mat, ProxyRegistry.newStack(RevampStoneGen.marble));
 	}
 
