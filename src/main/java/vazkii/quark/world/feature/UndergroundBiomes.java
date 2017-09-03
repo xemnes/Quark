@@ -12,6 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.event.terraingen.OreGenEvent;
@@ -37,6 +38,7 @@ import vazkii.quark.world.block.slab.BlockFireStoneSlab;
 import vazkii.quark.world.block.slab.BlockIcyStoneSlab;
 import vazkii.quark.world.block.stairs.BlockFireStoneStairs;
 import vazkii.quark.world.block.stairs.BlockIcyStoneStairs;
+import vazkii.quark.world.world.UndergroundBiomeGenerator;
 import vazkii.quark.world.world.underground.UndergroundBiome;
 import vazkii.quark.world.world.underground.UndergroundBiomeGlowshroom;
 import vazkii.quark.world.world.underground.UndergroundBiomeIcy;
@@ -50,7 +52,7 @@ import vazkii.quark.world.world.underground.UndergroundBiomeSpiderNest;
 
 public class UndergroundBiomes extends Feature {
 
-	public static List<UndergroundBiomeInfo> biomes;
+	public static List<UndergroundBiomeGenerator> biomes;
 	
 	public static BlockMod biome_cobblestone;
 	public static BlockMod glowcelium;
@@ -133,24 +135,11 @@ public class UndergroundBiomes extends Feature {
 		if(event.getType() == EventType.DIRT) {
 			World world = event.getWorld();
 			BlockPos pos = event.getPos();
-			Random rand = event.getRand();
 			
-			for(UndergroundBiomeInfo biomeInfo : biomes) {
-				if(!biomeInfo.dims.canSpawnHere(world))
-					continue;
-				
-				BlockPos spawnPos = pos.add(rand.nextInt(16), biomeInfo.minY + rand.nextInt(biomeInfo.maxY - biomeInfo.minY), rand.nextInt(16));
-				Biome biome = world.getBiome(spawnPos);
-				
-				if(BiomeTypeConfigHandler.biomeTypeIntersectCheck(biomeInfo.types, biome) && rand.nextInt(biomeInfo.rarity) == 0) {
-					int radiusX = biomeInfo.minXSize + rand.nextInt(biomeInfo.xVariation);
-					int radiusY = biomeInfo.minYSize + rand.nextInt(biomeInfo.yVariation);
-					int radiusZ = biomeInfo.minZSize + rand.nextInt(biomeInfo.zVariation);
-					
-					if(biomeInfo.biome.apply(world, spawnPos, radiusX, radiusY, radiusZ))
-						return;
-				}
-			}
+			Chunk chunk = world.getChunkFromBlockCoords(pos);
+
+			for(UndergroundBiomeGenerator gen : biomes)
+				gen.generate(chunk.x, chunk.z, world);
 		}
 	}
 	
@@ -164,11 +153,11 @@ public class UndergroundBiomes extends Feature {
 		return true;
 	}
 	
-	private UndergroundBiomeInfo loadUndergrondBiomeInfo(String name, UndergroundBiome biome, int rarity, BiomeDictionary.Type... biomes) {
+	private UndergroundBiomeGenerator loadUndergrondBiomeInfo(String name, UndergroundBiome biome, int rarity, BiomeDictionary.Type... biomes) {
 		String category = configCategory + "." + name;
 		UndergroundBiomeInfo info = new UndergroundBiomeInfo(category, biome, rarity, biomes);
 
-		return info;
+		return new UndergroundBiomeGenerator(info);
 	}
 	
 	public static class UndergroundBiomeInfo {
@@ -203,7 +192,6 @@ public class UndergroundBiomes extends Feature {
 			
 			biome.setupBaseConfig(category);
 		}
-
 		
 	}
 	

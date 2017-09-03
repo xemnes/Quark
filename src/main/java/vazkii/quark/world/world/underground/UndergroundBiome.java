@@ -1,7 +1,5 @@
 package vazkii.quark.world.world.underground;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +14,7 @@ import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+import net.minecraft.world.biome.Biome;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.world.feature.RevampStoneGen;
 
@@ -37,79 +36,8 @@ public abstract class UndergroundBiome {
 		return false;
 	};
 
-	List<BlockPos> floorList, ceilingList, insideList;
-	Map<BlockPos, EnumFacing> wallMap;
-
-	public boolean apply(World world, BlockPos center, int radiusX, int radiusY, int radiusZ) {
-		int centerX = center.getX();
-		int centerY = center.getY();
-		int centerZ = center.getZ();
-
-		double radiusX2 = radiusX * radiusX;
-		double radiusY2 = radiusY * radiusY;
-		double radiusZ2 = radiusZ * radiusZ;
-
-		floorList = new ArrayList();
-		ceilingList = new ArrayList();
-		insideList = new ArrayList();
-		wallMap = new HashMap();
-		
-		for(int x = -radiusX; x < radiusX + 1; x++)
-			for(int y = -radiusY; y < radiusY + 1; y++)
-				for(int z = -radiusZ; z < radiusZ + 1; z++) {
-					double distX = x * x;
-					double distY = y * y;
-					double distZ = z * z;
-					boolean inside = distX / radiusX2 + distY / radiusY2 + distZ / radiusZ2 <= 1;
-
-					if(inside)
-						fill(world, center.add(x, y, z));
-				}
-
-
-		floorList.forEach(pos -> finalFloorPass(world, pos));
-		ceilingList.forEach(pos -> finalCeilingPass(world, pos));
-		wallMap.keySet().forEach(pos -> finalWallPass(world, pos));
-		insideList.forEach(pos -> finalInsidePass(world, pos));
-		
-		if(hasDungeon() && world instanceof WorldServer) {
-			int times = minDungeons;
-			while(times < maxDungeons && world.rand.nextInt(dungeonChance) == 0)
-				times++;
-
-			List<BlockPos> candidates = new ArrayList(wallMap.keySet());
-			candidates.removeIf(pos -> {
-				BlockPos down = pos.down();
-				IBlockState state = world.getBlockState(down);
-				return isWall(world, down, state) || state.getBlock().isAir(state, world, down);
-			});
-			
-			List<BlockPos> currentDungeons = new ArrayList();
-			for(int i = 0; i < times; i++) {
-				candidates.removeIf(pos -> {
-					for(BlockPos compare : currentDungeons)
-						if(compare.getDistance(pos.getX(), pos.getY(), pos.getZ()) < getDungeonDistance())
-							return true;
-					
-					return false;
-				});
-				
-				if(candidates.isEmpty())
-					break;
-				
-				BlockPos pos = candidates.get(world.rand.nextInt(candidates.size()));
-				currentDungeons.add(pos);
-				candidates.remove(pos);
-				
-				EnumFacing border = wallMap.get(pos);
-				if(border != null)
-					spawnDungeon((WorldServer) world, pos, border);
-			}
-			
-		}
-		
-		return true;
-	}
+	public List<BlockPos> floorList, ceilingList, insideList;
+	public Map<BlockPos, EnumFacing> wallMap;
 
 	public void fill(World world, BlockPos pos) {
 		IBlockState state = world.getBlockState(pos);
@@ -165,6 +93,10 @@ public abstract class UndergroundBiome {
 
 	public void setupConfig(String category) {
 		// NO-OP
+	}
+	
+	public boolean isValidBiome(Biome biome) {
+		return true;
 	}
 	
 	public boolean hasDungeon() {

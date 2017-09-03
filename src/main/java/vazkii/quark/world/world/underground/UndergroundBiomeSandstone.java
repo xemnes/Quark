@@ -18,6 +18,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.structure.template.PlacementSettings;
 import net.minecraft.world.gen.structure.template.Template;
 import net.minecraft.world.storage.loot.LootTableList;
@@ -35,12 +36,8 @@ public class UndergroundBiomeSandstone extends BasicUndergroundBiome {
 		super(Blocks.SANDSTONE.getDefaultState(), Blocks.SANDSTONE.getDefaultState(), Blocks.SANDSTONE.getDefaultState());
 	}
 	
-	@Override
-	public boolean apply(World world, BlockPos center, int radiusX, int radiusY, int radiusZ) {
-		if(!allowGenInMesa && BiomeDictionary.hasType(world.getBiome(center), BiomeDictionary.Type.MESA))
-			return false;
-				
-		return super.apply(world, center, radiusX, radiusY, radiusZ);
+	public boolean isValidBiome(Biome biome) {
+		return allowGenInMesa || !BiomeDictionary.hasType(biome, BiomeDictionary.Type.MESA);
 	}
 	
 	@Override
