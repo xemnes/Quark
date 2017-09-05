@@ -50,11 +50,8 @@ public class ItemTrowel extends ItemMod implements IQuarkItem {
 		
 		ItemStack target = targets.get(rand.nextInt(targets.size()));
 		EnumActionResult result = placeBlock(target, player, pos, facing, worldIn, hand, hitX, hitY, hitZ);
-		System.out.println(result + " " + ourStack + " " + ourStack.isItemStackDamageable() + " " + getMaxDamage(ourStack));
-		if(result == EnumActionResult.SUCCESS && ourStack.isItemStackDamageable()) {
+		if(result == EnumActionResult.SUCCESS && ourStack.isItemStackDamageable())
 			ourStack.damageItem(1, player);
-			System.out.println("damage");
-		}
 		
 		return result;
 	}
