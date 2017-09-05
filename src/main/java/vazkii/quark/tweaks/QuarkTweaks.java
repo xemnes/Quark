@@ -15,6 +15,7 @@ import vazkii.quark.tweaks.feature.AngryCreepers;
 import vazkii.quark.tweaks.feature.ArmedArmorStands;
 import vazkii.quark.tweaks.feature.ArrowSafeMobs;
 import vazkii.quark.tweaks.feature.AutomaticRecipeUnlock;
+import vazkii.quark.tweaks.feature.AxesBreakLeaves;
 import vazkii.quark.tweaks.feature.BabyZombiesBurn;
 import vazkii.quark.tweaks.feature.BetterVanillaTextures;
 import vazkii.quark.tweaks.feature.ChickensShedFeathers;
@@ -98,6 +99,7 @@ public class QuarkTweaks extends Module {
 		registerFeature(new AutomaticRecipeUnlock());
 		registerFeature(new ImprovedSleeping());
 		registerFeature(new ImprovedSignEdit());
+		registerFeature(new AxesBreakLeaves());
 	}
 
 }
