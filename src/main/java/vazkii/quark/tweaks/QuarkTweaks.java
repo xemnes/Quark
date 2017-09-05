@@ -28,6 +28,7 @@ import vazkii.quark.tweaks.feature.GlassShards;
 import vazkii.quark.tweaks.feature.GreenerGrass;
 import vazkii.quark.tweaks.feature.HoeSickle;
 import vazkii.quark.tweaks.feature.ImprovedMountHUD;
+import vazkii.quark.tweaks.feature.ImprovedSignEdit;
 import vazkii.quark.tweaks.feature.ImprovedSleeping;
 import vazkii.quark.tweaks.feature.ImprovedStoneToolCrafting;
 import vazkii.quark.tweaks.feature.JumpBoostStepAssist;
@@ -96,6 +97,7 @@ public class QuarkTweaks extends Module {
 		registerFeature(new RandomAnimalTextures());
 		registerFeature(new AutomaticRecipeUnlock());
 		registerFeature(new ImprovedSleeping());
+		registerFeature(new ImprovedSignEdit());
 	}
 
 }
