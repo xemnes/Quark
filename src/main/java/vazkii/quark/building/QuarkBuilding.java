@@ -17,7 +17,6 @@ import vazkii.quark.building.feature.CharredNetherBricks;
 import vazkii.quark.building.feature.DuskboundBlocks;
 import vazkii.quark.building.feature.HardenedClayTiles;
 import vazkii.quark.building.feature.IronPlates;
-import vazkii.quark.building.feature.MagmaBricks;
 import vazkii.quark.building.feature.MidoriBlocks;
 import vazkii.quark.building.feature.MoreSandstone;
 import vazkii.quark.building.feature.PolishedNetherrack;
@@ -30,6 +29,7 @@ import vazkii.quark.building.feature.SoulSandstone;
 import vazkii.quark.building.feature.StainedPlanks;
 import vazkii.quark.building.feature.SturdyStone;
 import vazkii.quark.building.feature.Thatch;
+import vazkii.quark.building.feature.Trowel;
 import vazkii.quark.building.feature.VanillaStairsAndSlabs;
 import vazkii.quark.building.feature.VanillaWalls;
 import vazkii.quark.building.feature.VerticalWoodPlanks;
@@ -61,6 +61,7 @@ public class QuarkBuilding extends Module {
 		registerFeature(new DuskboundBlocks());
 		registerFeature(new SturdyStone());
 		registerFeature(new QuiltedWool());
+		registerFeature(new Trowel());
 //		registerFeature(new MagmaBricks());
 	}
 

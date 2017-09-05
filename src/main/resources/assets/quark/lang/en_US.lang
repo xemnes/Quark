@@ -484,6 +484,7 @@ item.quark:arrow_torch.name=Torch Arrow
 item.quark:soul_powder.name=Soul Powder
 item.quark:glass_item_frame.name=Glass Item Frame
 item.quark:enderdragon_scale.name=Dragon Scale
+item.quark:trowel.name=Trowel
 
 # ENTITY NAMES
 entity.quark:colored_item_frame.name=Colored Item Frame
