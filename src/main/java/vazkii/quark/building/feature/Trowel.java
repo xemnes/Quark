@@ -28,4 +28,9 @@ public class Trowel extends Feature {
 				'I', "ingotIron");
 	}
 	
+	@Override
+	public boolean requiresMinecraftRestartToEnable() {
+		return true;
+	}
+	
 }
