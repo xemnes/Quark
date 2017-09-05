@@ -19,6 +19,7 @@ import vazkii.quark.tweaks.feature.AxesBreakLeaves;
 import vazkii.quark.tweaks.feature.BabyZombiesBurn;
 import vazkii.quark.tweaks.feature.BetterVanillaTextures;
 import vazkii.quark.tweaks.feature.ChickensShedFeathers;
+import vazkii.quark.tweaks.feature.CompassesWorkEverywhere;
 import vazkii.quark.tweaks.feature.ConvertClay;
 import vazkii.quark.tweaks.feature.DeployLaddersDown;
 import vazkii.quark.tweaks.feature.DoubleDoors;
@@ -100,6 +101,7 @@ public class QuarkTweaks extends Module {
 		registerFeature(new ImprovedSleeping());
 		registerFeature(new ImprovedSignEdit());
 		registerFeature(new AxesBreakLeaves());
+		registerFeature(new CompassesWorkEverywhere());
 	}
 
 }
