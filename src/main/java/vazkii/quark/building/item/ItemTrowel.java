@@ -24,6 +24,8 @@ import vazkii.quark.base.item.IQuarkItem;
 
 public class ItemTrowel extends ItemMod implements IQuarkItem {
 
+	private static final String TAG_PLACING_SEED = "placing_seed";
+	
 	public ItemTrowel(int durability) {
 		super("trowel");
 		setMaxStackSize(1);
@@ -44,9 +46,9 @@ public class ItemTrowel extends ItemMod implements IQuarkItem {
 		if(targets.isEmpty())
 			return EnumActionResult.PASS;
 		
-		long seed = ItemNBTHelper.getLong(ourStack, "placingSeed", 0);
+		long seed = ItemNBTHelper.getLong(ourStack, TAG_PLACING_SEED, 0);
 		Random rand = new Random(seed);
-		ItemNBTHelper.setLong(ourStack, "placingSeed", rand.nextLong());
+		ItemNBTHelper.setLong(ourStack, TAG_PLACING_SEED, rand.nextLong());
 		
 		ItemStack target = targets.get(rand.nextInt(targets.size()));
 		EnumActionResult result = placeBlock(target, player, pos, facing, worldIn, hand, hitX, hitY, hitZ);
