@@ -1,10 +1,8 @@
-package vazkii.quark.vanity.client.emotes;
+package vazkii.quark.vanity.client.emotes.base;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,13 +12,12 @@ import java.util.Stack;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.FMLLog;
+import scala.tools.nsc.backend.icode.analysis.ReachingDefinitions;
 import vazkii.aurelienribon.tweenengine.Timeline;
 import vazkii.aurelienribon.tweenengine.Tween;
-import vazkii.quark.vanity.client.emotes.base.EmoteBase;
-import vazkii.quark.vanity.client.emotes.base.EmoteDescriptor;
-import vazkii.quark.vanity.client.emotes.base.ModelAccessor;
+import vazkii.quark.vanity.feature.EmoteSystem;
 
-public class EmoteCustom extends EmoteBase {
+public class EmoteTemplate {
 
 	private static final Map<String, Integer> parts = new HashMap();
 	private static final Map<String, Integer> tweenables = new HashMap();
@@ -34,7 +31,7 @@ public class EmoteCustom extends EmoteBase {
 		parts.put("left_arm", ModelAccessor.LEFT_ARM);
 		parts.put("right_leg", ModelAccessor.RIGHT_LEG);
 		parts.put("left_leg", ModelAccessor.LEFT_LEG);
-		
+
 		tweenables.put("head_x", ModelAccessor.HEAD_X);
 		tweenables.put("head_y", ModelAccessor.HEAD_Y);
 		tweenables.put("head_z", ModelAccessor.HEAD_Z);
@@ -54,45 +51,62 @@ public class EmoteCustom extends EmoteBase {
 		tweenables.put("left_leg_y", ModelAccessor.LEFT_LEG_Y);
 		tweenables.put("left_leg_z", ModelAccessor.LEFT_LEG_Z);
 
-		functions.put("use", EmoteCustom::use);
-		functions.put("animation", EmoteCustom::animation);
-		functions.put("section", EmoteCustom::section);
-		functions.put("end", EmoteCustom::end);
-		functions.put("move", EmoteCustom::move);
-		functions.put("pause", EmoteCustom::pause);
-		functions.put("yoyo", EmoteCustom::yoyo);
-		functions.put("repeat", EmoteCustom::repeat);
+		functions.put("use", EmoteTemplate::use);
+		functions.put("animation", EmoteTemplate::animation);
+		functions.put("section", EmoteTemplate::section);
+		functions.put("end", EmoteTemplate::end);
+		functions.put("move", EmoteTemplate::move);
+		functions.put("pause", EmoteTemplate::pause);
+		functions.put("yoyo", EmoteTemplate::yoyo);
+		functions.put("repeat", EmoteTemplate::repeat);
 	}
 
+	final String file;
+	
+	List<String> readLines;
 	List<Integer> usedParts;
 	Stack<Timeline> timelineStack;
 	boolean compiled = false;
-
-	public EmoteCustom(EmoteDescriptor desc, EntityPlayer player, ModelBiped model, ModelBiped armorModel, ModelBiped armorLegsModel) {
-		super(desc, player, model, armorModel, armorLegsModel);
+	boolean compiledOnce = false;
+	
+	public EmoteTemplate(String file) {
+		this.file = file;
 	}
 
-	@Override
 	public Timeline getTimeline(EntityPlayer player, ModelBiped model) {
+		compiled = false;
+
+		if(readLines == null)
+			return readAndMakeTimeline(player, model);
+		else {
+			Timeline timeline = null;
+			timelineStack = new Stack();
+
+			for(int i = 0; i < readLines.size() && !compiled; i++)
+				timeline = handle(model, timeline, readLines.get(i));
+			
+			if(timeline == null) 
+				return Timeline.createSequence();
+			
+			return timeline;
+		}
+	}
+	
+	public Timeline readAndMakeTimeline(EntityPlayer player, ModelBiped model) {
+		Timeline timeline = null;
+		BufferedReader reader = new BufferedReader(new InputStreamReader(EmoteTemplate.class.getResourceAsStream("/assets/quark/emotes/" + file)));
 		usedParts = new ArrayList();
 		timelineStack = new Stack();
-		compiled = false;
-		
-		BufferedReader reader;
-		try {
-			reader = new BufferedReader(new FileReader(new File(".", "emote.txt")));
-		} catch (FileNotFoundException e) {
-			throw new RuntimeException(e);
-		}
-		
-		Timeline timeline = null;
 		int lines = 0;
-
+		
+		compiled = compiledOnce = false;
+		readLines = new ArrayList();
 		try {
 			try {
 				String s;
 				while((s = reader.readLine()) != null && !compiled) {
 					lines++;
+					readLines.add(s);
 					timeline = handle(model, timeline, s);
 				}
 			} catch(Exception e) {
@@ -107,9 +121,10 @@ public class EmoteCustom extends EmoteBase {
 
 			if(timeline == null) 
 				return Timeline.createSequence();
-			
+
 			return timeline;
 		} finally {
+			compiledOnce = true;
 			try {
 				reader.close();
 			} catch (IOException e) {
@@ -122,20 +137,24 @@ public class EmoteCustom extends EmoteBase {
 		s = s.trim().toLowerCase();
 		if(s.startsWith("#") || s.isEmpty())
 			return timeline;
-
+		
 		String[] tokens = s.trim().split(" ");
 		String function = tokens[0];
+		
 		if(functions.containsKey(function))
 			return functions.get(function).invoke(this, model, timeline, tokens);
 
 		throw new IllegalArgumentException("Illegal function name " + function);
 	}
 
-	private static Timeline use(EmoteCustom em, ModelBiped model, Timeline timeline, String[] tokens) throws IllegalArgumentException {
+	private static Timeline use(EmoteTemplate em, ModelBiped model, Timeline timeline, String[] tokens) throws IllegalArgumentException {
+		if(em.compiledOnce)
+			return timeline;
+		
 		assertParamSize(tokens, 2);
 
 		String part = tokens[1];
-		
+
 		if(parts.containsKey(part))
 			em.usedParts.add(parts.get(part));
 		else throw new IllegalArgumentException("Illgal part name for function use: " + part);
@@ -143,7 +162,7 @@ public class EmoteCustom extends EmoteBase {
 		return timeline;
 	}
 
-	private static Timeline animation(EmoteCustom em, ModelBiped model, Timeline timeline, String[] tokens) throws IllegalArgumentException {
+	private static Timeline animation(EmoteTemplate em, ModelBiped model, Timeline timeline, String[] tokens) throws IllegalArgumentException {
 		if(timeline != null)
 			throw new IllegalArgumentException("Illegal use of function animation, animation already started");
 
@@ -159,7 +178,7 @@ public class EmoteCustom extends EmoteBase {
 		}
 	}
 
-	private static Timeline section(EmoteCustom em, ModelBiped model, Timeline timeline, String[] tokens) throws IllegalArgumentException {
+	private static Timeline section(EmoteTemplate em, ModelBiped model, Timeline timeline, String[] tokens) throws IllegalArgumentException {
 		assertParamSize(tokens, 2);
 
 		String type = tokens[1];
@@ -173,14 +192,14 @@ public class EmoteCustom extends EmoteBase {
 			break;
 		default: throw new IllegalArgumentException("Illegal section type: " + type);
 		}
-		
+
 		em.timelineStack.push(timeline);
 		return newTimeline;
 	}
 
-	private static Timeline end(EmoteCustom em, ModelBiped model, Timeline timeline, String[] tokens) throws IllegalArgumentException {
+	private static Timeline end(EmoteTemplate em, ModelBiped model, Timeline timeline, String[] tokens) throws IllegalArgumentException {
 		assertParamSize(tokens, 1);
-		
+
 		if(em.timelineStack.isEmpty()) {
 			em.compiled = true;
 			return timeline;
@@ -191,19 +210,19 @@ public class EmoteCustom extends EmoteBase {
 		return poppedLine;
 	}
 
-	private static Timeline move(EmoteCustom em, ModelBiped model, Timeline timeline, String[] tokens) throws IllegalArgumentException {
+	private static Timeline move(EmoteTemplate em, ModelBiped model, Timeline timeline, String[] tokens) throws IllegalArgumentException {
 		if(tokens.length < 4)
 			throw new IllegalArgumentException(String.format("Illgal parameter amount for function move: %d (at least 4 are required)", tokens.length));
-		
+
 		String partStr = tokens[1];
 		int part;
 		if(tweenables.containsKey(partStr))
 			part = tweenables.get(partStr);
 		else throw new IllegalArgumentException("Illgal part name for function move: " + partStr);
-		
+
 		int time = Integer.parseInt(tokens[2]);
 		double target = Double.parseDouble(tokens[3]);
-		
+
 		Tween tween = Tween.to(model, part, time).target((float) target);
 		if(tokens.length > 4) {
 			int index = 4;
@@ -233,24 +252,24 @@ public class EmoteCustom extends EmoteBase {
 				}
 			}
 		}
-		
+
 		return timeline.push(tween);
 	}
 
-	private static Timeline pause(EmoteCustom em, ModelBiped model, Timeline timeline, String[] tokens) throws IllegalArgumentException {
+	private static Timeline pause(EmoteTemplate em, ModelBiped model, Timeline timeline, String[] tokens) throws IllegalArgumentException {
 		assertParamSize(tokens, 2);
 		int ms = Integer.parseInt(tokens[1]);
 		return timeline.pushPause(ms);
 	}
 
-	private static Timeline yoyo(EmoteCustom em, ModelBiped model, Timeline timeline, String[] tokens) throws IllegalArgumentException {
+	private static Timeline yoyo(EmoteTemplate em, ModelBiped model, Timeline timeline, String[] tokens) throws IllegalArgumentException {
 		assertParamSize(tokens, 3);
 		int times = Integer.parseInt(tokens[1]);
 		int delay = Integer.parseInt(tokens[2]);
 		return timeline.repeatYoyo(times, delay);
 	}
 
-	private static Timeline repeat(EmoteCustom em, ModelBiped model, Timeline timeline, String[] tokens) throws IllegalArgumentException {
+	private static Timeline repeat(EmoteTemplate em, ModelBiped model, Timeline timeline, String[] tokens) throws IllegalArgumentException {
 		assertParamSize(tokens, 3);
 		int times = Integer.parseInt(tokens[1]);
 		int delay = Integer.parseInt(tokens[2]);
@@ -261,19 +280,18 @@ public class EmoteCustom extends EmoteBase {
 		if(tokens.length != expect)
 			throw new IllegalArgumentException(String.format("Illgal parameter amount for function %s: %d (expected %d)", tokens[0], tokens.length, expect));
 	}
-	
+
 	private static void assertParamSize(String mod, String[] tokens, int expect, int startingFrom) throws IllegalArgumentException {
 		if(tokens.length - startingFrom < expect)
 			throw new IllegalArgumentException(String.format("Illgal parameter amount for move modifier %s: %d (expected at least %d)", mod, tokens.length, expect));
 	}
 
-	@Override
 	public boolean usesBodyPart(int part) {
 		return usedParts.contains(part);
 	}
 
 	private static interface Function {
-		Timeline invoke(EmoteCustom em, ModelBiped model, Timeline timeline, String[] tokens) throws IllegalArgumentException;
+		Timeline invoke(EmoteTemplate em, ModelBiped model, Timeline timeline, String[] tokens) throws IllegalArgumentException;
 	}
 
 }

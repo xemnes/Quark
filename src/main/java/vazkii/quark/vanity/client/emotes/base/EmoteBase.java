@@ -42,7 +42,9 @@ public abstract class EmoteBase {
 		this.armorModel = armorModel;
 		this.armorLegsModel = armorLegsModel;
 		this.player = player;
-
+	}
+	
+	public void startAllTimelines() {
 		startTimeline(player, model);
 		startTimeline(player, armorModel);
 		startTimeline(player, armorLegsModel);

@@ -11,6 +11,7 @@
 package vazkii.quark.base.module;
 
 import java.io.File;
+import java.lang.management.ManagementFactory;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -55,6 +56,9 @@ public final class ModuleLoader {
 
 		registerModule(QuarkExperimental.class);
 	}
+	
+	// Checks if the Java Debug Wire Protocol is enabled
+	public static final boolean DEBUG_MODE = ManagementFactory.getRuntimeMXBean().getInputArguments().toString().contains("-agentlib:jdwp"); 
 
 	private static List<Class<? extends Module>> moduleClasses;
 	public static Map<Class<? extends Module>, Module> moduleInstances = new HashMap();

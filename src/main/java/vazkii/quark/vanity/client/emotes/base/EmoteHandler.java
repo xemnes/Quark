@@ -48,6 +48,10 @@ public final class EmoteHandler {
 		emoteMap.put(name, desc);
 	}
 	
+	public static void addEmote(String name) {
+		addEmote(name, EmoteTemplated.class);
+	}
+	
 	public static void putEmote(AbstractClientPlayer player, String emoteName) {
 		if(emoteMap.containsKey(emoteName))
 			putEmote(player, emoteMap.get(emoteName));
@@ -64,7 +68,9 @@ public final class EmoteHandler {
 		if(model.bipedHead.rotateAngleY < 0)
 			model.bipedHead.rotateAngleY = 2 * (float) Math.PI - model.bipedHead.rotateAngleY;
 
-		playerEmotes.put(player, desc.instantiate(player, model, armorModel, armorLegModel));
+		EmoteBase emote = desc.instantiate(player, model, armorModel, armorLegModel);
+		emote.startAllTimelines();
+		playerEmotes.put(player, emote);
 	}
 
 	public static void updateEmotes(Entity e) {

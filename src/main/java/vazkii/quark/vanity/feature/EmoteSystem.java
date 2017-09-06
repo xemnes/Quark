@@ -38,8 +38,6 @@ import vazkii.quark.base.client.ModKeybinds;
 import vazkii.quark.base.client.gui.GuiButtonTranslucent;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.vanity.client.emotes.EmoteCheer;
-import vazkii.quark.vanity.client.emotes.EmoteClap;
-import vazkii.quark.vanity.client.emotes.EmoteCustom;
 import vazkii.quark.vanity.client.emotes.EmoteFacepalm;
 import vazkii.quark.vanity.client.emotes.EmoteHeadbang;
 import vazkii.quark.vanity.client.emotes.EmoteNo;
@@ -61,12 +59,10 @@ public class EmoteSystem extends Feature {
 	static boolean emotesVisible = false;
 
 	private boolean enableKeybinds;
-	private boolean enableCustomEmote;
 
 	@Override
 	public void setupConfig() {
 		enableKeybinds = loadPropBool("Enable Keybinds", "Should keybinds for emotes be generated? (They're all unbound by default)", true);
-		enableCustomEmote = loadPropBool("Enable Custom Emote", "Allows usage of a custom emote. EXPERIMENTAL, do not use if you don't know exactly what you're doing!", false);
 	}
 
 	@Override
@@ -79,14 +75,11 @@ public class EmoteSystem extends Feature {
 		EmoteHandler.addEmote("yes", EmoteYes.class);
 		EmoteHandler.addEmote("no", EmoteNo.class);
 		EmoteHandler.addEmote("cheer", EmoteCheer.class);
-		EmoteHandler.addEmote("clap", EmoteClap.class);
+		EmoteHandler.addEmote("clap");
 		EmoteHandler.addEmote("point", EmotePoint.class);
 		EmoteHandler.addEmote("shrug", EmoteShrug.class);
 		EmoteHandler.addEmote("facepalm", EmoteFacepalm.class);
 		EmoteHandler.addEmote("headbang", EmoteHeadbang.class);
-
-		if(enableCustomEmote)
-			EmoteHandler.addEmote("custom", EmoteCustom.class);
 		
 		if(enableKeybinds)
 			ModKeybinds.initEmoteKeybinds();

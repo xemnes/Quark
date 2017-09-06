@@ -10,12 +10,14 @@ public class EmoteDescriptor {
 	public final int index;
 	public final String name;
 	public final ResourceLocation texture;
+	public final EmoteTemplate template;
 	
 	public EmoteDescriptor(Class<? extends EmoteBase> clazz, String name, int index) {
 		this.clazz = clazz;
 		this.index = index;
 		this.name = name;
 		texture = new ResourceLocation("quark", "textures/emotes/" + name + ".png");
+		template = new EmoteTemplate(name + ".emote");
 	}
 	
 	public String getUnlocalizedName() {
