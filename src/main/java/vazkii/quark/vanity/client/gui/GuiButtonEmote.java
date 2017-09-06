@@ -16,6 +16,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 import vazkii.quark.base.client.gui.GuiButtonTranslucent;
+import vazkii.quark.management.client.gui.GuiButtonChest;
 import vazkii.quark.vanity.client.emotes.EmoteDescriptor;
 
 public class GuiButtonEmote extends GuiButtonTranslucent {
@@ -23,7 +24,7 @@ public class GuiButtonEmote extends GuiButtonTranslucent {
 	public final EmoteDescriptor desc;
 
 	public GuiButtonEmote(int buttonId, int x, int y, EmoteDescriptor desc) {
-		super(buttonId, x, y, 100, 18, I18n.format(desc.getUnlocalizedName()));
+		super(buttonId, x, y, 24, 24, "");
 		this.desc = desc;
 	}
 
@@ -32,18 +33,31 @@ public class GuiButtonEmote extends GuiButtonTranslucent {
 		super.drawButton(mc, mouseX, mouseY, pticks);
 
 		if(visible) {
-			GlStateManager.pushMatrix();
-			GlStateManager.scale(0.5, 0.5, 0.5);
-			GlStateManager.color(1F, 1F, 1F);
 			mc.getTextureManager().bindTexture(desc.texture);
-			drawTexturedModalRect((x + 9) * 2, (y + 2) * 2, 32, 32);
-			GlStateManager.popMatrix();
-		}
-	}
+			GlStateManager.color(1F, 1F, 1F);
+			drawModalRectWithCustomSizedTexture(x + 4, y + 4, 0, 0, 16, 16, 16, 16);
+			
+			boolean hovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
+			if(hovered) {
+				String name = desc.getLocalizedName();
+				
+				mc.getTextureManager().bindTexture(GuiButtonChest.GENERAL_ICONS_RESOURCE);
+				int w = mc.fontRenderer.getStringWidth(name);
+				int left = x - w;
+				int top = y - 8;
+				
+				GlStateManager.pushMatrix();
+				GlStateManager.color(1F, 1F, 1F);
+				GlStateManager.translate(0, 0, 100);
+				drawActualTexturedModalRect(left, top, 242, 9, 5, 18);
+				for(int i = 0; i < w; i++)
+					drawActualTexturedModalRect(left + i + 5, top, 248, 9, 1, 18);
+				drawActualTexturedModalRect(left + w + 5, top, 250, 9, 6, 18);
 
-	@Override
-	public void drawCenteredString(FontRenderer fontRendererIn, String text, int x, int y, int color) {
-		fontRendererIn.drawStringWithShadow(text, x - 20, y, color);
+				mc.fontRenderer.drawString(name, left + 5, top + 3, 0);
+				GlStateManager.popMatrix();
+			}
+		}
 	}
 
 }

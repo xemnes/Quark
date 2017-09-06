@@ -49,8 +49,18 @@ import vazkii.quark.vanity.command.CommandEmote;
 public class EmoteSystem extends Feature {
 
 	private static final String[] EMOTE_NAMES = new String[] {
-			"wave", "salute", "yes", "no", "cheer",
-			"clap", "point", "shrug", "facepalm", "headbang"
+			"no",
+			"yes",
+			"wave", 
+			"salute", 
+			"cheer",
+			"clap", 
+			// "think",
+			"point", 
+			"shrug",
+			"headbang",
+			// "weep", 
+			"facepalm" 
 	};
 	private static List<String> EMOTE_NAME_LIST = Arrays.asList(EMOTE_NAMES);
 	
@@ -90,14 +100,14 @@ public class EmoteSystem extends Feature {
 		GuiScreen gui = event.getGui();
 		if(gui instanceof GuiChat) {
 			List<GuiButton> list = event.getButtonList();
-			list.add(new GuiButtonTranslucent(EMOTE_BUTTON_START, gui.width - 100, gui.height - 40, 100, 20, I18n.format("quark.gui.emotes")));
+			list.add(new GuiButtonTranslucent(EMOTE_BUTTON_START, gui.width - 75, gui.height - 40, 75, 20, I18n.format("quark.gui.emotes")));
 
 			int size = EmoteHandler.emoteMap.size() - 1;
 			for(String key : EmoteHandler.emoteMap.keySet()) {
 				EmoteDescriptor desc = EmoteHandler.emoteMap.get(key);
 				int i = desc.index;
-				int x = gui.width - 100;
-				int y = gui.height - 61 - 21 * (size - i);
+				int x = gui.width - ((i % 3) + 1) * 25;
+				int y = gui.height - 65 - 25 * ((size / 3) - i / 3);
 
 				GuiButton button = new GuiButtonEmote(EMOTE_BUTTON_START + i + 1, x, y, desc);
 				button.visible = emotesVisible;

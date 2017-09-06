@@ -1,8 +1,11 @@
 package vazkii.quark.vanity.client.emotes;
 
 import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EmoteDescriptor {
 
@@ -22,6 +25,11 @@ public class EmoteDescriptor {
 	
 	public String getUnlocalizedName() {
 		return "quark.emote." + name;
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public String getLocalizedName() {
+		return I18n.format(getUnlocalizedName());
 	}
 	
 	public String getCommand() {
