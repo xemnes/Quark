@@ -37,15 +37,6 @@ import vazkii.aurelienribon.tweenengine.Tween;
 import vazkii.quark.base.client.ModKeybinds;
 import vazkii.quark.base.client.gui.GuiButtonTranslucent;
 import vazkii.quark.base.module.Feature;
-import vazkii.quark.vanity.client.emotes.EmoteCheer;
-import vazkii.quark.vanity.client.emotes.EmoteFacepalm;
-import vazkii.quark.vanity.client.emotes.EmoteHeadbang;
-import vazkii.quark.vanity.client.emotes.EmoteNo;
-import vazkii.quark.vanity.client.emotes.EmotePoint;
-import vazkii.quark.vanity.client.emotes.EmoteSalute;
-import vazkii.quark.vanity.client.emotes.EmoteShrug;
-import vazkii.quark.vanity.client.emotes.EmoteWave;
-import vazkii.quark.vanity.client.emotes.EmoteYes;
 import vazkii.quark.vanity.client.emotes.base.EmoteBase;
 import vazkii.quark.vanity.client.emotes.base.EmoteDescriptor;
 import vazkii.quark.vanity.client.emotes.base.EmoteHandler;
@@ -70,16 +61,16 @@ public class EmoteSystem extends Feature {
 	public void preInitClient(FMLPreInitializationEvent event) {
 		Tween.registerAccessor(ModelBiped.class, new ModelAccessor());
 
-		EmoteHandler.addEmote("wave", EmoteWave.class);
-		EmoteHandler.addEmote("salute", EmoteSalute.class);
-		EmoteHandler.addEmote("yes", EmoteYes.class);
-		EmoteHandler.addEmote("no", EmoteNo.class);
-		EmoteHandler.addEmote("cheer", EmoteCheer.class);
+		EmoteHandler.addEmote("wave");
+		EmoteHandler.addEmote("salute");
+		EmoteHandler.addEmote("yes");
+		EmoteHandler.addEmote("no");
+		EmoteHandler.addEmote("cheer");
 		EmoteHandler.addEmote("clap");
-		EmoteHandler.addEmote("point", EmotePoint.class);
-		EmoteHandler.addEmote("shrug", EmoteShrug.class);
-		EmoteHandler.addEmote("facepalm", EmoteFacepalm.class);
-		EmoteHandler.addEmote("headbang", EmoteHeadbang.class);
+		EmoteHandler.addEmote("point");
+		EmoteHandler.addEmote("shrug");
+		EmoteHandler.addEmote("facepalm");
+		EmoteHandler.addEmote("headbang");
 		
 		if(enableKeybinds)
 			ModKeybinds.initEmoteKeybinds();

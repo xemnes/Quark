@@ -82,8 +82,14 @@ public class EmoteTemplate {
 			Timeline timeline = null;
 			timelineStack = new Stack();
 
-			for(int i = 0; i < readLines.size() && !compiled; i++)
-				timeline = handle(model, timeline, readLines.get(i));
+			int i = 0;
+			try {
+				for(; i < readLines.size() && !compiled; i++)
+					timeline = handle(model, timeline, readLines.get(i));
+			} catch(Exception e) {
+				logError(e, i);
+				return Timeline.createSequence();
+			}
 			
 			if(timeline == null) 
 				return Timeline.createSequence();
@@ -110,12 +116,7 @@ public class EmoteTemplate {
 					timeline = handle(model, timeline, s);
 				}
 			} catch(Exception e) {
-				FMLLog.log.error("[Quark Custom Emotes] Error loading line " + lines);
-				if(!(e instanceof IllegalArgumentException)) {
-					FMLLog.log.error("[Quark Custom Emotes] This is an Internal Error, and not one in the emote file, please report it");
-					e.printStackTrace();
-				}
-				else FMLLog.log.error("[Quark Custom Emotes] " + e.getMessage());
+				logError(e, lines);
 				return Timeline.createSequence();
 			}
 
@@ -131,6 +132,15 @@ public class EmoteTemplate {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	private void logError(Exception e, int line) {
+		FMLLog.log.error("[Quark Custom Emotes] Error loading line " + line);
+		if(!(e instanceof IllegalArgumentException)) {
+			FMLLog.log.error("[Quark Custom Emotes] This is an Internal Error, and not one in the emote file, please report it");
+			e.printStackTrace();
+		}
+		else FMLLog.log.error("[Quark Custom Emotes] " + e.getMessage());
 	}
 
 	private Timeline handle(ModelBiped model, Timeline timeline, String s) throws IllegalArgumentException {
