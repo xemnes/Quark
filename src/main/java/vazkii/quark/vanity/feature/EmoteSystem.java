@@ -10,6 +10,7 @@
  */
 package vazkii.quark.vanity.feature;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.client.Minecraft;
@@ -33,6 +34,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import scala.actors.threadpool.Arrays;
 import vazkii.aurelienribon.tweenengine.Tween;
 import vazkii.quark.base.client.ModKeybinds;
 import vazkii.quark.base.client.gui.GuiButtonTranslucent;
@@ -46,14 +48,22 @@ import vazkii.quark.vanity.command.CommandEmote;
 
 public class EmoteSystem extends Feature {
 
+	private static final String[] EMOTE_NAMES = new String[] {
+			"wave", "salute", "yes", "no", "cheer",
+			"clap", "point", "shrug", "facepalm", "headbang"
+	};
+	private static List<String> EMOTE_NAME_LIST = Arrays.asList(EMOTE_NAMES);
+	
 	private static final int EMOTE_BUTTON_START = 1800;
 	static boolean emotesVisible = false;
 
+	private String[] enabledEmotes;
 	private boolean enableKeybinds;
 
 	@Override
 	public void setupConfig() {
 		enableKeybinds = loadPropBool("Enable Keybinds", "Should keybinds for emotes be generated? (They're all unbound by default)", true);
+		enabledEmotes = loadPropStringList("Enabled Emotes", "The enabled default emotes. Remove from this list to disable them. You can also re-order them, if you feel like it.", EMOTE_NAMES);
 	}
 
 	@Override
@@ -61,16 +71,9 @@ public class EmoteSystem extends Feature {
 	public void preInitClient(FMLPreInitializationEvent event) {
 		Tween.registerAccessor(ModelBiped.class, new ModelAccessor());
 
-		EmoteHandler.addEmote("wave");
-		EmoteHandler.addEmote("salute");
-		EmoteHandler.addEmote("yes");
-		EmoteHandler.addEmote("no");
-		EmoteHandler.addEmote("cheer");
-		EmoteHandler.addEmote("clap");
-		EmoteHandler.addEmote("point");
-		EmoteHandler.addEmote("shrug");
-		EmoteHandler.addEmote("facepalm");
-		EmoteHandler.addEmote("headbang");
+		for(String s : enabledEmotes)
+			if(EMOTE_NAME_LIST.contains(s))
+				EmoteHandler.addEmote(s);
 		
 		if(enableKeybinds)
 			ModKeybinds.initEmoteKeybinds();
