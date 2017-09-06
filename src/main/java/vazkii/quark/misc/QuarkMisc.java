@@ -11,6 +11,7 @@ import vazkii.quark.misc.feature.LockDirectionHotkey;
 import vazkii.quark.misc.feature.NoteBlockInterface;
 import vazkii.quark.misc.feature.NoteBlocksMobSounds;
 import vazkii.quark.misc.feature.PanoramaMaker;
+import vazkii.quark.misc.feature.PoisonPotatoUsage;
 import vazkii.quark.misc.feature.SlimeBucket;
 import vazkii.quark.misc.feature.SnowGolemPlayerHeads;
 import vazkii.quark.misc.feature.SoulPowder;
@@ -32,6 +33,7 @@ public class QuarkMisc extends Module {
 		registerFeature(new SoulPowder());
 		registerFeature(new LockDirectionHotkey());
 		registerFeature(new EnderdragonScales());
+		registerFeature(new PoisonPotatoUsage());
 	}
 	
 }
