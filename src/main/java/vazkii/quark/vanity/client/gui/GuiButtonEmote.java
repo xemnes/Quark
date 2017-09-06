@@ -16,7 +16,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 import vazkii.quark.base.client.gui.GuiButtonTranslucent;
-import vazkii.quark.vanity.client.emotes.base.EmoteDescriptor;
+import vazkii.quark.vanity.client.emotes.EmoteDescriptor;
 
 public class GuiButtonEmote extends GuiButtonTranslucent {
 

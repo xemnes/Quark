@@ -1,4 +1,4 @@
-package vazkii.quark.vanity.client.emotes.base;
+package vazkii.quark.vanity.client.emotes;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,10 +12,8 @@ import java.util.Stack;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.FMLLog;
-import scala.tools.nsc.backend.icode.analysis.ReachingDefinitions;
 import vazkii.aurelienribon.tweenengine.Timeline;
 import vazkii.aurelienribon.tweenengine.Tween;
-import vazkii.quark.vanity.feature.EmoteSystem;
 
 public class EmoteTemplate {
 

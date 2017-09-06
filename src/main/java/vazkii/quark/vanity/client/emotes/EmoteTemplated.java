@@ -1,4 +1,4 @@
-package vazkii.quark.vanity.client.emotes.base;
+package vazkii.quark.vanity.client.emotes;
 
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.player.EntityPlayer;

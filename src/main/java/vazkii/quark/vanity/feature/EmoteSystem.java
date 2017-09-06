@@ -37,10 +37,10 @@ import vazkii.aurelienribon.tweenengine.Tween;
 import vazkii.quark.base.client.ModKeybinds;
 import vazkii.quark.base.client.gui.GuiButtonTranslucent;
 import vazkii.quark.base.module.Feature;
-import vazkii.quark.vanity.client.emotes.base.EmoteBase;
-import vazkii.quark.vanity.client.emotes.base.EmoteDescriptor;
-import vazkii.quark.vanity.client.emotes.base.EmoteHandler;
-import vazkii.quark.vanity.client.emotes.base.ModelAccessor;
+import vazkii.quark.vanity.client.emotes.EmoteBase;
+import vazkii.quark.vanity.client.emotes.EmoteDescriptor;
+import vazkii.quark.vanity.client.emotes.EmoteHandler;
+import vazkii.quark.vanity.client.emotes.ModelAccessor;
 import vazkii.quark.vanity.client.gui.GuiButtonEmote;
 import vazkii.quark.vanity.command.CommandEmote;
 

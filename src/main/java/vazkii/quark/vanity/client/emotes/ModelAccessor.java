@@ -8,7 +8,7 @@
  *
  * File Created @ [26/03/2016, 21:37:50 (GMT)]
  */
-package vazkii.quark.vanity.client.emotes.base;
+package vazkii.quark.vanity.client.emotes;
 
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;

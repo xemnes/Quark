@@ -20,7 +20,7 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import vazkii.quark.base.lib.LibObfuscation;
-import vazkii.quark.vanity.client.emotes.base.EmoteHandler;
+import vazkii.quark.vanity.client.emotes.EmoteHandler;
 
 public class ModKeybinds {
 

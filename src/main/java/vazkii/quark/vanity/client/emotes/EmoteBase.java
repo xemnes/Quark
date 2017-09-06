@@ -8,14 +8,11 @@
  *
  * File Created @ [26/03/2016, 21:37:06 (GMT)]
  */
-package vazkii.quark.vanity.client.emotes.base;
+package vazkii.quark.vanity.client.emotes;
 
-import net.minecraft.advancements.critereon.PlacedBlockTrigger;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.player.EntityPlayer;
-import vazkii.aurelienribon.tweenengine.BaseTween;
 import vazkii.aurelienribon.tweenengine.Timeline;
-import vazkii.aurelienribon.tweenengine.TweenCallback;
 import vazkii.aurelienribon.tweenengine.TweenManager;
 import vazkii.quark.base.client.ClientTicker;
 

@@ -27,7 +27,7 @@ import vazkii.quark.base.client.DevCapeHandler;
 import vazkii.quark.base.client.ResourceProxy;
 import vazkii.quark.base.lib.LibObfuscation;
 import vazkii.quark.base.module.ModuleLoader;
-import vazkii.quark.vanity.client.emotes.base.EmoteHandler;
+import vazkii.quark.vanity.client.emotes.EmoteHandler;
 
 public class ClientProxy extends CommonProxy {
 
