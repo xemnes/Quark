@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,18 +12,22 @@ import java.util.Map;
 import java.util.Stack;
 
 import net.minecraft.client.model.ModelBiped;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.world.storage.loot.functions.SetNBT;
 import net.minecraftforge.fml.common.FMLLog;
 import vazkii.aurelienribon.tweenengine.Timeline;
 import vazkii.aurelienribon.tweenengine.Tween;
+import vazkii.aurelienribon.tweenengine.TweenEquation;
+import vazkii.aurelienribon.tweenengine.TweenEquations;
+import vazkii.aurelienribon.tweenengine.equations.Cubic;
+import vazkii.aurelienribon.tweenengine.equations.Linear;
+import vazkii.aurelienribon.tweenengine.equations.Quad;
+import vazkii.aurelienribon.tweenengine.equations.Sine;
 
 public class EmoteTemplate {
 
 	private static final Map<String, Integer> parts = new HashMap();
 	private static final Map<String, Integer> tweenables = new HashMap();
-
 	private static final Map<String, Function> functions = new HashMap();
+	private static final Map<String, TweenEquation> equations = new HashMap();
 
 	static {
 		parts.put("head", ModelAccessor.HEAD);
@@ -60,6 +65,20 @@ public class EmoteTemplate {
 		functions.put("yoyo", EmoteTemplate::yoyo);
 		functions.put("repeat", EmoteTemplate::repeat);
 		functions.put("name", EmoteTemplate::name);
+
+		Class<?> clazz = TweenEquations.class;
+		Field[] fields = clazz.getDeclaredFields();
+		for(Field f : fields) {
+			String name = f.getName().replaceAll("[A-Z]", "_$0").substring(5).toLowerCase();
+			try {
+				TweenEquation eq = (TweenEquation) f.get(null);
+				equations.put(name, eq);
+				if(name.equals("none"))
+					equations.put("linear", eq);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	final String file;
@@ -151,7 +170,7 @@ public class EmoteTemplate {
 	}
 	
 	private void logError(Exception e, int line) {
-		FMLLog.log.error("[Quark Custom Emotes] Error loading line " + line);
+		FMLLog.log.error("[Quark Custom Emotes] Error loading line " + line + " of emote " + file);
 		if(!(e instanceof IllegalArgumentException)) {
 			FMLLog.log.error("[Quark Custom Emotes] This is an Internal Error, and not one in the emote file, please report it");
 			e.printStackTrace();
@@ -278,6 +297,14 @@ public class EmoteTemplate {
 					delay = Integer.parseInt(tokens[index++]);
 					if(valid)
 						tween = tween.repeat(times, delay);
+					break;
+				case "ease":
+					assertParamSize("ease", tokens, 1, index);
+					String easeType = tokens[index++];
+					if(equations.containsKey(easeType)) {
+						if(valid)
+							tween = tween.ease(equations.get(easeType));
+					} else throw new IllegalArgumentException("Easing type " + easeType + " doesn't exist");
 					break;
 				default:
 					throw new IllegalArgumentException(String.format("Invalid modifier %s for move function", cmd));
