@@ -58,11 +58,11 @@ public class EmoteSystem extends Feature {
 			"salute", 
 			"cheer",
 			"clap", 
-			// "think",
+			"think",
 			"point", 
 			"shrug",
 			"headbang",
-			// "weep", 
+			"weep", 
 			"facepalm" 
 	};
 	private static List<String> EMOTE_NAME_LIST = Arrays.asList(EMOTE_NAMES);
