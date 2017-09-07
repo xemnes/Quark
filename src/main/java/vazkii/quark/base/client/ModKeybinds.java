@@ -20,6 +20,7 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import vazkii.quark.base.lib.LibObfuscation;
+import vazkii.quark.vanity.client.emotes.EmoteDescriptor;
 import vazkii.quark.vanity.client.emotes.EmoteHandler;
 
 public class ModKeybinds {
@@ -46,7 +47,8 @@ public class ModKeybinds {
 
 	public static void initEmoteKeybinds() {
 		for(String emoteName : EmoteHandler.emoteMap.keySet()) {
-			KeyBinding key = init("emote." + emoteName, 0, EMOTE_GROUP);
+			EmoteDescriptor desc = EmoteHandler.emoteMap.get(emoteName);
+			KeyBinding key = init(desc.getUnlocalizedName(), 0, EMOTE_GROUP, false);
 			emoteKeys.put(key, emoteName);
 		}
 	}
@@ -91,7 +93,11 @@ public class ModKeybinds {
 	}
 	
 	private static KeyBinding init(String s, int key, String group) {
-		KeyBinding kb = new KeyBinding("quark.keybind." + s, key, group);
+		return init(s, key, group, true);
+	}
+	
+	private static KeyBinding init(String s, int key, String group, boolean prefix) {
+		KeyBinding kb = new KeyBinding(prefix ? ("quark.keybind." + s) : s, key, group);
 		ClientRegistry.registerKeyBinding(kb);
 		return kb;
 	}

@@ -10,7 +10,7 @@
  */
 package vazkii.quark.vanity.feature;
 
-import java.util.ArrayList;
+import java.io.File;
 import java.util.List;
 
 import net.minecraft.client.Minecraft;
@@ -21,6 +21,7 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.client.resources.IResourcePack;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.GuiScreenEvent;
@@ -39,6 +40,8 @@ import vazkii.aurelienribon.tweenengine.Tween;
 import vazkii.quark.base.client.ModKeybinds;
 import vazkii.quark.base.client.gui.GuiButtonTranslucent;
 import vazkii.quark.base.module.Feature;
+import vazkii.quark.base.module.ModuleLoader;
+import vazkii.quark.vanity.client.emotes.CustomEmoteIconResourcePack;
 import vazkii.quark.vanity.client.emotes.EmoteBase;
 import vazkii.quark.vanity.client.emotes.EmoteDescriptor;
 import vazkii.quark.vanity.client.emotes.EmoteHandler;
@@ -67,13 +70,30 @@ public class EmoteSystem extends Feature {
 	private static final int EMOTE_BUTTON_START = 1800;
 	static boolean emotesVisible = false;
 
+	public static boolean customEmoteDebug;
+	public static File emotesDir;
+	public static CustomEmoteIconResourcePack resourcePack;
+	
 	private String[] enabledEmotes;
+	private String[] customEmotes;
 	private boolean enableKeybinds;
 
 	@Override
 	public void setupConfig() {
 		enableKeybinds = loadPropBool("Enable Keybinds", "Should keybinds for emotes be generated? (They're all unbound by default)", true);
 		enabledEmotes = loadPropStringList("Enabled Emotes", "The enabled default emotes. Remove from this list to disable them. You can also re-order them, if you feel like it.", EMOTE_NAMES);
+		customEmotes = loadPropStringList("Custom Emotes", "The list of Custom Emotes to be loaded. Check the README on /config/quark_emotes for more info.", new String[0]);
+		
+		customEmoteDebug = loadPropBool("Custom Emote Dev Mode", "Enable this to make custom emotes read the file every time they're triggered so you can edit on the fly.\nDO NOT ship enabled this in a modpack, please.", false);
+		
+		emotesDir = new File(ModuleLoader.configFile.getParent(), "quark_emotes");
+		if(!emotesDir.exists())
+			emotesDir.mkdir();
+		resourcePack.setFile(emotesDir);
+	}
+	
+	public static void addResourcePack(List<IResourcePack> packs) {
+		packs.add(resourcePack = new CustomEmoteIconResourcePack());
 	}
 
 	@Override
@@ -84,6 +104,9 @@ public class EmoteSystem extends Feature {
 		for(String s : enabledEmotes)
 			if(EMOTE_NAME_LIST.contains(s))
 				EmoteHandler.addEmote(s);
+		
+		for(String s : customEmotes)
+			EmoteHandler.addCustomEmote(s);
 		
 		if(enableKeybinds)
 			ModKeybinds.initEmoteKeybinds();
@@ -100,13 +123,13 @@ public class EmoteSystem extends Feature {
 		GuiScreen gui = event.getGui();
 		if(gui instanceof GuiChat) {
 			List<GuiButton> list = event.getButtonList();
-			list.add(new GuiButtonTranslucent(EMOTE_BUTTON_START, gui.width - 75, gui.height - 40, 75, 20, I18n.format("quark.gui.emotes")));
+			list.add(new GuiButtonTranslucent(EMOTE_BUTTON_START, gui.width - 76, gui.height - 40, 75, 20, I18n.format("quark.gui.emotes")));
 
 			int size = EmoteHandler.emoteMap.size() - 1;
 			for(String key : EmoteHandler.emoteMap.keySet()) {
 				EmoteDescriptor desc = EmoteHandler.emoteMap.get(key);
 				int i = desc.index;
-				int x = gui.width - ((i % 3) + 1) * 25;
+				int x = gui.width - ((i % 3) + 1) * 25 - 1;
 				int y = gui.height - 65 - 25 * ((size / 3) - i / 3);
 
 				GuiButton button = new GuiButtonEmote(EMOTE_BUTTON_START + i + 1, x, y, desc);

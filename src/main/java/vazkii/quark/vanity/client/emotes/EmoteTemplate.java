@@ -1,6 +1,7 @@
 package vazkii.quark.vanity.client.emotes;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import java.util.Stack;
 
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.storage.loot.functions.SetNBT;
 import net.minecraftforge.fml.common.FMLLog;
 import vazkii.aurelienribon.tweenengine.Timeline;
 import vazkii.aurelienribon.tweenengine.Tween;
@@ -57,6 +59,7 @@ public class EmoteTemplate {
 		functions.put("pause", EmoteTemplate::pause);
 		functions.put("yoyo", EmoteTemplate::yoyo);
 		functions.put("repeat", EmoteTemplate::repeat);
+		functions.put("name", EmoteTemplate::name);
 	}
 
 	final String file;
@@ -69,13 +72,14 @@ public class EmoteTemplate {
 	
 	public EmoteTemplate(String file) {
 		this.file = file;
+		readAndMakeTimeline(null);
 	}
 
-	public Timeline getTimeline(EntityPlayer player, ModelBiped model) {
+	public Timeline getTimeline(ModelBiped model) {
 		compiled = false;
 
 		if(readLines == null)
-			return readAndMakeTimeline(player, model);
+			return readAndMakeTimeline(model);
 		else {
 			Timeline timeline = null;
 			timelineStack = new Stack();
@@ -96,16 +100,18 @@ public class EmoteTemplate {
 		}
 	}
 	
-	public Timeline readAndMakeTimeline(EntityPlayer player, ModelBiped model) {
+	public Timeline readAndMakeTimeline(ModelBiped model) {
 		Timeline timeline = null;
-		BufferedReader reader = new BufferedReader(new InputStreamReader(EmoteTemplate.class.getResourceAsStream("/assets/quark/emotes/" + file)));
 		usedParts = new ArrayList();
 		timelineStack = new Stack();
 		int lines = 0;
 		
+		BufferedReader reader = null;
 		compiled = compiledOnce = false;
 		readLines = new ArrayList();
 		try {
+			reader = createReader();
+
 			try {
 				String s;
 				while((s = reader.readLine()) != null && !compiled) {
@@ -115,21 +121,33 @@ public class EmoteTemplate {
 				}
 			} catch(Exception e) {
 				logError(e, lines);
-				return Timeline.createSequence();
+				return fallback();
 			}
 
 			if(timeline == null) 
-				return Timeline.createSequence();
+				return fallback();
 
 			return timeline;
+		} catch(IOException e) {
+			e.printStackTrace();
+			return fallback();
 		} finally {
 			compiledOnce = true;
 			try {
-				reader.close();
+				if(reader != null)
+					reader.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	BufferedReader createReader() throws FileNotFoundException {
+		return new BufferedReader(new InputStreamReader(EmoteTemplate.class.getResourceAsStream("/assets/quark/emotes/" + file)));
+	}
+	
+	Timeline fallback() {
+		return Timeline.createSequence();
 	}
 	
 	private void logError(Exception e, int line) {
@@ -142,7 +160,7 @@ public class EmoteTemplate {
 	}
 
 	private Timeline handle(ModelBiped model, Timeline timeline, String s) throws IllegalArgumentException {
-		s = s.trim().toLowerCase();
+		s = s.trim();
 		if(s.startsWith("#") || s.isEmpty())
 			return timeline;
 		
@@ -231,7 +249,10 @@ public class EmoteTemplate {
 		int time = Integer.parseInt(tokens[2]);
 		double target = Double.parseDouble(tokens[3]);
 
-		Tween tween = Tween.to(model, part, time).target((float) target);
+		Tween tween = null;
+		boolean valid = model != null;
+		if(valid)
+			tween = Tween.to(model, part, time).target((float) target);
 		if(tokens.length > 4) {
 			int index = 4;
 			while(index < tokens.length) {
@@ -241,19 +262,22 @@ public class EmoteTemplate {
 				case "delay":
 					assertParamSize("delay", tokens, 1, index);
 					delay = Integer.parseInt(tokens[index++]);
-					tween = tween.delay(delay);
+					if(valid)
+						tween = tween.delay(delay);
 					break;
 				case "yoyo":
 					assertParamSize("yoyo", tokens, 2, index);
 					times = Integer.parseInt(tokens[index++]);
 					delay = Integer.parseInt(tokens[index++]);
-					tween = tween.repeatYoyo(times, delay);
+					if(valid)
+						tween = tween.repeatYoyo(times, delay);
 					break;
 				case "repeat":
 					assertParamSize("repeat", tokens, 2, index);
 					times = Integer.parseInt(tokens[index++]);
 					delay = Integer.parseInt(tokens[index++]);
-					tween = tween.repeat(times, delay);
+					if(valid)
+						tween = tween.repeat(times, delay);
 					break;
 				default:
 					throw new IllegalArgumentException(String.format("Invalid modifier %s for move function", cmd));
@@ -261,7 +285,9 @@ public class EmoteTemplate {
 			}
 		}
 
-		return timeline.push(tween);
+		if(valid)
+			return timeline.push(tween);
+		return timeline;
 	}
 
 	private static Timeline pause(EmoteTemplate em, ModelBiped model, Timeline timeline, String[] tokens) throws IllegalArgumentException {
@@ -282,6 +308,13 @@ public class EmoteTemplate {
 		int times = Integer.parseInt(tokens[1]);
 		int delay = Integer.parseInt(tokens[2]);
 		return timeline.repeat(times, delay);
+	}
+	
+	void setName(String[] tokens) { }
+	
+	private static Timeline name(EmoteTemplate em, ModelBiped model, Timeline timeline, String[] tokens) throws IllegalArgumentException {
+		em.setName(tokens);
+		return timeline;
 	}
 
 	private static void assertParamSize(String[] tokens, int expect) throws IllegalArgumentException {

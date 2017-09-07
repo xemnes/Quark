@@ -32,19 +32,28 @@ import vazkii.quark.base.lib.LibObfuscation;
 
 public final class EmoteHandler {
 
+	public static final String CUSTOM_EMOTE_NAMESPACE = "quark_custom";
+	public static final String CUSTOM_PREFIX = "custom:";
+	
 	public static Map<String, EmoteDescriptor> emoteMap = new LinkedHashMap();
 	private static WeakHashMap<EntityPlayer, EmoteBase> playerEmotes = new WeakHashMap();
 	private static List<EntityPlayer> updatedPlayers = new ArrayList();
 
 	private static int count;
-
+	
 	public static void addEmote(String name, Class<? extends EmoteBase> clazz) {
-		EmoteDescriptor desc = new EmoteDescriptor(clazz, name, count++);
+		EmoteDescriptor desc = new EmoteDescriptor(clazz, name, name, count++);
 		emoteMap.put(name, desc);
 	}
 	
 	public static void addEmote(String name) {
-		addEmote(name, EmoteTemplated.class);
+		addEmote(name, TemplateSourcedEmote.class);
+	}
+
+	public static void addCustomEmote(String name) {
+		String reg = CUSTOM_PREFIX + name;
+		EmoteDescriptor desc = new CustomEmoteDescriptor(CustomEmote.class, name, reg, count++);
+		emoteMap.put(reg, desc);
 	}
 	
 	public static void putEmote(AbstractClientPlayer player, String emoteName) {
