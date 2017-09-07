@@ -12,15 +12,21 @@ public class EmoteDescriptor {
 	public final Class<? extends EmoteBase> clazz;
 	public final int index;
 	public final String name;
+	public final String regName;
 	public final ResourceLocation texture;
 	public final EmoteTemplate template;
 	
-	public EmoteDescriptor(Class<? extends EmoteBase> clazz, String name, int index) {
+	public EmoteDescriptor(Class<? extends EmoteBase> clazz, String name, String regName, int index) {
+		this(clazz, name, regName, index, new ResourceLocation("quark", "textures/emotes/" + name + ".png"), new EmoteTemplate(name + ".emote"));
+	}
+	
+	public EmoteDescriptor(Class<? extends EmoteBase> clazz, String name, String regName, int index, ResourceLocation texture, EmoteTemplate template) {
 		this.clazz = clazz;
 		this.index = index;
 		this.name = name;
-		texture = new ResourceLocation("quark", "textures/emotes/" + name + ".png");
-		template = new EmoteTemplate(name + ".emote");
+		this.regName = regName;
+		this.texture = texture;
+		this.template = template;
 	}
 	
 	public String getUnlocalizedName() {
@@ -33,7 +39,7 @@ public class EmoteDescriptor {
 	}
 	
 	public String getCommand() {
-		return "/emote " + name;
+		return "/emote " + regName;
 	}
 	
 	public EmoteBase instantiate(EntityPlayer player, ModelBiped model, ModelBiped armorModel, ModelBiped armorLegModel) {

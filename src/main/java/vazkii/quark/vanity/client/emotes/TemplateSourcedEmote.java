@@ -5,18 +5,24 @@ import net.minecraft.entity.player.EntityPlayer;
 import vazkii.aurelienribon.tweenengine.Timeline;
 import vazkii.quark.base.module.ModuleLoader;
 
-public class EmoteTemplated extends EmoteBase {
+public class TemplateSourcedEmote extends EmoteBase {
 	
-	public EmoteTemplated(EmoteDescriptor desc, EntityPlayer player, ModelBiped model, ModelBiped armorModel, ModelBiped armorLegsModel) {
+	public TemplateSourcedEmote(EmoteDescriptor desc, EntityPlayer player, ModelBiped model, ModelBiped armorModel, ModelBiped armorLegsModel) {
 		super(desc, player, model, armorModel, armorLegsModel);
 		
-		if(ModuleLoader.DEBUG_MODE)
-			desc.template.readAndMakeTimeline(player, model);
+		if(shouldLoadTimelineOnLaunch()) {
+			System.out.println("Loading emote " + desc.getUnlocalizedName());
+			desc.template.readAndMakeTimeline(model);
+		}
+	}
+	
+	boolean shouldLoadTimelineOnLaunch() {
+		return ModuleLoader.DEBUG_MODE;
 	}
 
 	@Override
 	public Timeline getTimeline(EntityPlayer player, ModelBiped model) {
-		return desc.template.getTimeline(player, model);
+		return desc.template.getTimeline(model);
 	}
 
 	@Override
