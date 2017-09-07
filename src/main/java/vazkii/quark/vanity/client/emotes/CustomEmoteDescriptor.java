@@ -5,8 +5,8 @@ import vazkii.quark.vanity.feature.EmoteSystem;
 
 public class CustomEmoteDescriptor extends EmoteDescriptor {
 
-	public CustomEmoteDescriptor(Class<? extends EmoteBase> clazz, String name, String regName, int index) {
-		super(TemplateSourcedEmote.class, name, regName, index, getSprite(name), new CustomEmoteTemplate(name));
+	public CustomEmoteDescriptor(String name, String regName, int index) {
+		super(CustomEmote.class, name, regName, index, getSprite(name), new CustomEmoteTemplate(name));
 	}
 	
 	public static ResourceLocation getSprite(String name) {

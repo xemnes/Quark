@@ -52,7 +52,7 @@ public final class EmoteHandler {
 
 	public static void addCustomEmote(String name) {
 		String reg = CUSTOM_PREFIX + name;
-		EmoteDescriptor desc = new CustomEmoteDescriptor(CustomEmote.class, name, reg, count++);
+		EmoteDescriptor desc = new CustomEmoteDescriptor(name, reg, count++);
 		emoteMap.put(reg, desc);
 	}
 	
