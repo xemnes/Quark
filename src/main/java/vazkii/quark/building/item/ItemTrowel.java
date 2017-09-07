@@ -10,6 +10,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
@@ -75,7 +76,7 @@ public class ItemTrowel extends ItemMod implements IQuarkItem {
 	                SoundType soundtype = state.getBlock().getSoundType(state, worldIn, pos, player);
 	                worldIn.playSound(player, pos, soundtype.getPlaceSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
 	                if(!player.capabilities.isCreativeMode)
-	                	itemstack.shrink(1);
+	                	shrinkInventory(itemstack, player);
 	            }
 
 	            return EnumActionResult.SUCCESS;
@@ -84,5 +85,26 @@ public class ItemTrowel extends ItemMod implements IQuarkItem {
 
         return EnumActionResult.FAIL;
 	}
+	
+	private void shrinkInventory(ItemStack stack, EntityPlayer player) {
+		for(int i = player.inventory.getHotbarSize(); i < player.inventory.mainInventory.size(); i++)
+			if(shrinkItem(stack, player, i))
+				return;
+			
+		for(int i = 0; i < player.inventory.getHotbarSize(); i++)
+			if(shrinkItem(stack, player, i))
+				return;
+	}
+	
+	private boolean shrinkItem(ItemStack stack, EntityPlayer player, int slot) {
+		ItemStack stackAt = player.inventory.getStackInSlot(slot);
+		if(stack.isItemEqual(stackAt) && ItemStack.areItemStackTagsEqual(stack, stackAt)) {
+			stackAt.shrink(1);
+			return true;
+		}
+		
+		return false;
+	}
+	
 
 }
