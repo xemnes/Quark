@@ -168,7 +168,7 @@ public final class DropoffHandler {
 				for(Slot s : c.inventorySlots) {
 					IInventory inv = s.inventory;
 					if(inv != player.inventory) {
-						itemHandlers.add(Pair.of(new InvWrapper(inv), 0.0));
+						itemHandlers.add(Pair.of(new ContainerWrapper(inv, c), 0.0));
 						break;
 					}
 				}
@@ -282,6 +282,30 @@ public final class DropoffHandler {
 			return super.getSlots() - 5;
 		}
 
+	}
+	
+	public static class ContainerWrapper extends InvWrapper {
+		
+		final Container container;
+		
+		public ContainerWrapper(IInventory inv, Container container) {
+			super(inv);
+			this.container = container;
+		}
+		
+		@Override
+		public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
+			Slot containerSlot = getSlot(slot);
+			if(containerSlot == null || !containerSlot.isItemValid(stack))
+				return stack;
+			
+			return super.insertItem(slot, stack, simulate);
+		}
+		
+		private Slot getSlot(int slot) {
+			return container.getSlotFromInventory(getInv(), slot);
+		}
+		
 	}
 
 	public static interface DropoffPredicate {
