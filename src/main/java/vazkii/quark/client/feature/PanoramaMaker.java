@@ -8,7 +8,7 @@
  *
  * File Created @ [10/06/2016, 18:08:12 (GMT)]
  */
-package vazkii.quark.misc.feature;
+package vazkii.quark.client.feature;
 
 import java.awt.image.BufferedImage;
 import java.io.File;

@@ -29,19 +29,16 @@ import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.RenderTooltipEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-import net.minecraftforge.fml.common.eventhandler.Event.Result;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.arl.network.NetworkHandler;
 import vazkii.arl.util.ItemNBTHelper;
-import vazkii.quark.base.lib.LibObfuscation;
+import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.base.network.message.MessageFavoriteItem;
-import vazkii.quark.management.client.gui.GuiButtonChest;
 
 public class FavoriteItems extends Feature {
 
@@ -113,7 +110,7 @@ public class FavoriteItems extends Feature {
 			for(Slot s : container.inventorySlots) {
 				ItemStack stack = s.getStack();
 				if(isItemFavorited(stack)) {
-					Minecraft.getMinecraft().renderEngine.bindTexture(GuiButtonChest.GENERAL_ICONS_RESOURCE);
+					Minecraft.getMinecraft().renderEngine.bindTexture(LibMisc.GENERAL_ICONS_RESOURCE);
 					guiInv.drawTexturedModalRect(guiLeft + s.xPos, guiTop + s.yPos, 96, 0, 16, 16);
 				}
 			}
@@ -143,7 +140,7 @@ public class FavoriteItems extends Feature {
 			int x = event.getX();
 			int y = event.getY() - 1;
 			
-			mc.getTextureManager().bindTexture(GuiButtonChest.GENERAL_ICONS_RESOURCE);
+			mc.getTextureManager().bindTexture(LibMisc.GENERAL_ICONS_RESOURCE);
 			Gui.drawModalRectWithCustomSizedTexture(x, y, 211, 0, 9, 9, 256, 256);
 			
 			GlStateManager.popMatrix();

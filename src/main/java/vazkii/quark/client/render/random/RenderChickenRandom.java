@@ -1,12 +1,12 @@
-package vazkii.quark.tweaks.client.render.random;
+package vazkii.quark.client.render.random;
 
 import net.minecraft.client.renderer.entity.RenderChicken;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
-import vazkii.quark.tweaks.feature.RandomAnimalTextures;
-import vazkii.quark.tweaks.feature.RandomAnimalTextures.RandomTextureType;
+import vazkii.quark.client.feature.RandomAnimalTextures;
+import vazkii.quark.client.feature.RandomAnimalTextures.RandomTextureType;
 
 public class RenderChickenRandom extends RenderChicken {
 

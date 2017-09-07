@@ -1,4 +1,4 @@
-package vazkii.quark.tweaks.feature;
+package vazkii.quark.client.feature;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;

@@ -1,13 +1,13 @@
-package vazkii.quark.tweaks.client.render.random;
+package vazkii.quark.client.render.random;
 
 import net.minecraft.client.renderer.entity.RenderCow;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
-import vazkii.quark.tweaks.client.render.RenderCreeperAngry;
-import vazkii.quark.tweaks.feature.RandomAnimalTextures;
-import vazkii.quark.tweaks.feature.RandomAnimalTextures.RandomTextureType;
+import vazkii.quark.client.feature.RandomAnimalTextures;
+import vazkii.quark.client.feature.RandomAnimalTextures.RandomTextureType;
+import vazkii.quark.client.render.RenderCreeperAngry;
 
 public class RenderCowRandom extends RenderCow {
 

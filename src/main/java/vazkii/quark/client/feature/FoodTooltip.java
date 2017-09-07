@@ -1,4 +1,4 @@
-package vazkii.quark.tweaks.feature;
+package vazkii.quark.client.feature;
 
 import betterwithmods.api.FeatureEnabledEvent;
 import net.minecraft.client.Minecraft;

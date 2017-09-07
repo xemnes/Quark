@@ -1,4 +1,4 @@
-package vazkii.quark.tweaks.feature;
+package vazkii.quark.client.feature;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -29,7 +29,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import vazkii.arl.util.ItemNBTHelper;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.management.feature.ChestButtons;
-import vazkii.quark.management.feature.ChestSearchBar;
 
 public class ShulkerBoxTooltip extends Feature {
 

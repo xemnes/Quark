@@ -1,4 +1,4 @@
-package vazkii.quark.tweaks.client.gui;
+package vazkii.quark.client.gui;
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -17,7 +17,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.util.ChatAllowedCharacters;
 import net.minecraft.util.text.TextComponentString;
-import vazkii.quark.tweaks.feature.ImprovedSignEdit;
+import vazkii.quark.client.feature.ImprovedSignEdit;
 
 public class GuiBetterEditSign extends GuiScreen {
 

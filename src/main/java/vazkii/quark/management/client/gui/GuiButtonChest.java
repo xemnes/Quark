@@ -11,7 +11,6 @@
 package vazkii.quark.management.client.gui;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import com.google.common.base.Predicate;
@@ -23,18 +22,17 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.translation.I18n;
 import vazkii.arl.util.RenderHelper;
 import vazkii.quark.base.client.IParentedGui;
 import vazkii.quark.base.client.ModKeybinds;
+import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.management.feature.FavoriteItems;
 import vazkii.quark.management.feature.StoreToChests;
 
 public class GuiButtonChest<T extends GuiScreen> extends GuiButton implements IParentedGui {
 
-	public static ResourceLocation GENERAL_ICONS_RESOURCE = new ResourceLocation("quark", "textures/misc/general_icons.png");
 	public final Action action;
 	public final T parent;
 	
@@ -76,7 +74,7 @@ public class GuiButtonChest<T extends GuiScreen> extends GuiButton implements IP
 			if(k == 2)
 				u += 16;
 			
-			par1Minecraft.renderEngine.bindTexture(GENERAL_ICONS_RESOURCE);
+			par1Minecraft.renderEngine.bindTexture(LibMisc.GENERAL_ICONS_RESOURCE);
 			GlStateManager.color(1F, 1F, 1F, 1F);
 			drawIcon(u, v);
 			

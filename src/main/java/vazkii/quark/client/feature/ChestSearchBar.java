@@ -1,4 +1,4 @@
-package vazkii.quark.management.feature;
+package vazkii.quark.client.feature;
 
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -40,8 +40,8 @@ import vazkii.arl.util.ItemNBTHelper;
 import vazkii.quark.api.ICustomSearchHandler;
 import vazkii.quark.api.ICustomSearchHandler.StringMatcher;
 import vazkii.quark.api.IItemSearchBar;
+import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.base.module.Feature;
-import vazkii.quark.management.client.gui.GuiButtonChest;
 
 public class ChestSearchBar extends Feature {
 
@@ -168,7 +168,7 @@ public class ChestSearchBar extends Feature {
 		
 		GlStateManager.color(1F, 1F, 1F, 1F);
 		GlStateManager.disableLighting();
-		gui.mc.getTextureManager().bindTexture(GuiButtonChest.GENERAL_ICONS_RESOURCE);
+		gui.mc.getTextureManager().bindTexture(LibMisc.GENERAL_ICONS_RESOURCE);
 		Gui.drawModalRectWithCustomSizedTexture(x, y, 0, 244, 90, 12, 256, 256);
 	}
 	

@@ -8,7 +8,7 @@
  *
  * File Created @ [09/04/2016, 22:38:05 (GMT)]
  */
-package vazkii.quark.tweaks.feature;
+package vazkii.quark.client.feature;
 
 import java.util.Arrays;
 import java.util.List;
@@ -55,14 +55,14 @@ public class GreenerGrass extends Feature {
 				"buildingbrickscompatvanilla:grass_vertical_slab",
 				"buildingbrickscompatvanilla:grass_stairs",
 				"betterwithmods:dirt_slab",
-			     	"biomesoplenty:plant_0",
-            			"biomesoplenty:plant_1",
-            			"biomesoplenty:leaves_1",
-            			"biomesoplenty:leaves_2",
-            			"biomesoplenty:leaves_3",
+				"biomesoplenty:plant_0",
+				"biomesoplenty:plant_1",
+				"biomesoplenty:leaves_1",
+				"biomesoplenty:leaves_2",
+				"biomesoplenty:leaves_3",
 				"biomesoplenty:leaves_4",
 				"biomesoplenty:leaves_5",
-            			"biomesoplenty:grass"
+				"biomesoplenty:grass"
 		}));
 	}
 

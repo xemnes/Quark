@@ -1,4 +1,4 @@
-package vazkii.quark.tweaks.feature;
+package vazkii.quark.client.feature;
 
 import net.minecraft.client.gui.inventory.GuiEditSign;
 import net.minecraft.tileentity.TileEntitySign;
@@ -9,7 +9,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.base.lib.LibObfuscation;
 import vazkii.quark.base.module.Feature;
-import vazkii.quark.tweaks.client.gui.GuiBetterEditSign;
+import vazkii.quark.client.gui.GuiBetterEditSign;
 
 public class ImprovedSignEdit extends Feature {
 

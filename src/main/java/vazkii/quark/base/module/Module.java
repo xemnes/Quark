@@ -55,7 +55,11 @@ public class Module {
 	}
 
 	public void registerFeature(Feature feature, String name, boolean enabledByDefault) {
-		ModuleLoader.featureInstances.put(feature.getClass(), feature);
+		Class<? extends Feature> clazz = feature.getClass();
+		if(ModuleLoader.featureInstances.containsKey(clazz))
+			throw new IllegalArgumentException("Feature " + clazz + " is already registered!");
+		
+		ModuleLoader.featureInstances.put(clazz, feature);
 		features.put(name, feature);
 
 		feature.enabledByDefault = enabledByDefault;

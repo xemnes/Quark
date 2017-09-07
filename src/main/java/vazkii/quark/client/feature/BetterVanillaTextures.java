@@ -1,4 +1,4 @@
-package vazkii.quark.tweaks.feature;
+package vazkii.quark.client.feature;
 
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import vazkii.quark.base.Quark;

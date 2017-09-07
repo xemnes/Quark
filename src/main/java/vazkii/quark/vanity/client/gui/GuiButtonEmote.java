@@ -11,12 +11,9 @@
 package vazkii.quark.vanity.client.gui;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.util.ResourceLocation;
 import vazkii.quark.base.client.gui.GuiButtonTranslucent;
-import vazkii.quark.management.client.gui.GuiButtonChest;
+import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.vanity.client.emotes.EmoteDescriptor;
 
 public class GuiButtonEmote extends GuiButtonTranslucent {
@@ -41,7 +38,7 @@ public class GuiButtonEmote extends GuiButtonTranslucent {
 			if(hovered) {
 				String name = desc.getLocalizedName();
 				
-				mc.getTextureManager().bindTexture(GuiButtonChest.GENERAL_ICONS_RESOURCE);
+				mc.getTextureManager().bindTexture(LibMisc.GENERAL_ICONS_RESOURCE);
 				int w = mc.fontRenderer.getStringWidth(name);
 				int left = x - w;
 				int top = y - 8;

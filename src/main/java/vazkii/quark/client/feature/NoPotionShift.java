@@ -8,7 +8,7 @@
  *
  * File Created @ [20/05/2016, 02:58:50 (GMT)]
  */
-package vazkii.quark.tweaks.feature;
+package vazkii.quark.client.feature;
 
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;

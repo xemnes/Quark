@@ -8,7 +8,7 @@
  *
  * File Created @ [26/03/2016, 21:07:15 (GMT)]
  */
-package vazkii.quark.tweaks.feature;
+package vazkii.quark.client.feature;
 
 import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;

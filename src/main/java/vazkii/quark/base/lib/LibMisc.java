@@ -13,6 +13,8 @@ package vazkii.quark.base.lib;
 import java.util.Arrays;
 import java.util.List;
 
+import net.minecraft.util.ResourceLocation;
+
 public final class LibMisc {
 
 	// Mod Constants
@@ -28,7 +30,6 @@ public final class LibMisc {
 	public static final String PROXY_CLIENT = "vazkii.quark.base.proxy.ClientProxy";
 	public static final String GUI_FACTORY = "vazkii.quark.base.handler.GuiFactory";
 
-	// Oredict Dyes
 	public static final List<String> OREDICT_DYES = Arrays.asList(new String[]{
 			"dyeBlack",
 			"dyeRed",
@@ -47,5 +48,7 @@ public final class LibMisc {
 			"dyeOrange",
 			"dyeWhite"
 	});
+	
+	public static ResourceLocation GENERAL_ICONS_RESOURCE = new ResourceLocation("quark", "textures/misc/general_icons.png");
 	
 }

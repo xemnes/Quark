@@ -18,7 +18,6 @@ import net.minecraft.block.BlockRotatedPillar;
 import net.minecraft.block.BlockSlab;
 import net.minecraft.block.BlockStairs;
 import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
@@ -43,9 +42,9 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.arl.network.NetworkHandler;
 import vazkii.quark.base.client.ModKeybinds;
+import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.network.message.MessageSetLockProfile;
-import vazkii.quark.management.client.gui.GuiButtonChest;
 
 public class LockDirectionHotkey extends Feature {
 
@@ -168,7 +167,7 @@ public class LockDirectionHotkey extends Feature {
 			GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 			GlStateManager.color(1F, 1F, 1F, 0.5F);
 			
-			mc.renderEngine.bindTexture(GuiButtonChest.GENERAL_ICONS_RESOURCE);
+			mc.renderEngine.bindTexture(LibMisc.GENERAL_ICONS_RESOURCE);
 			
 			int x = event.getResolution().getScaledWidth() / 2 + 20;
 			int y = event.getResolution().getScaledHeight() / 2 - 8;

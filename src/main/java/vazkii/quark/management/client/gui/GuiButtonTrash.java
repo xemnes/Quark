@@ -3,19 +3,18 @@ package vazkii.quark.management.client.gui;
 import java.util.List;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.translation.I18n;
 import scala.actors.threadpool.Arrays;
 import vazkii.arl.util.RenderHelper;
 import vazkii.quark.base.client.IParentedGui;
+import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.management.feature.DeleteItems;
 
 public class GuiButtonTrash extends GuiButton implements IParentedGui {
@@ -43,7 +42,7 @@ public class GuiButtonTrash extends GuiButton implements IParentedGui {
 				u += 16;
 		}
 		
-		par1Minecraft.renderEngine.bindTexture(GuiButtonChest.GENERAL_ICONS_RESOURCE);
+		par1Minecraft.renderEngine.bindTexture(LibMisc.GENERAL_ICONS_RESOURCE);
 		GlStateManager.color(1F, 1F, 1F, 1F);
 		drawIcon(u, v);
 		

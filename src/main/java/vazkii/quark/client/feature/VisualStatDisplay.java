@@ -1,4 +1,4 @@
-package vazkii.quark.tweaks.feature;
+package vazkii.quark.client.feature;
 
 import java.util.Collection;
 import java.util.List;
@@ -31,8 +31,8 @@ import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.base.module.Feature;
-import vazkii.quark.management.client.gui.GuiButtonChest;
 
 public class VisualStatDisplay extends Feature {
 
@@ -111,7 +111,7 @@ public class VisualStatDisplay extends Feature {
 			Multimap<String, AttributeModifier> slotAttributes = null;
 			if(item instanceof ItemSword || item instanceof ItemTool || item instanceof ItemHoe) {
 				GlStateManager.color(1F, 1F, 1F);
-				mc.getTextureManager().bindTexture(GuiButtonChest.GENERAL_ICONS_RESOURCE);
+				mc.getTextureManager().bindTexture(LibMisc.GENERAL_ICONS_RESOURCE);
 				Gui.drawModalRectWithCustomSizedTexture(x, y, 238, 0, 9, 9, 256, 256);
 				slotAttributes = stack.getAttributeModifiers(EntityEquipmentSlot.MAINHAND);
 
@@ -121,7 +121,7 @@ public class VisualStatDisplay extends Feature {
 				x += mc.fontRenderer.getStringWidth(dmgStr) + 20;
 				
 				GlStateManager.color(1F, 1F, 1F);
-				mc.getTextureManager().bindTexture(GuiButtonChest.GENERAL_ICONS_RESOURCE);
+				mc.getTextureManager().bindTexture(LibMisc.GENERAL_ICONS_RESOURCE);
 				Gui.drawModalRectWithCustomSizedTexture(x, y, 247, 0, 9, 9, 256, 256);
 				double speed = getAttribute(mc.player, stack, slotAttributes, "generic.attackSpeed");
 				String spdStr = ItemStack.DECIMALFORMAT.format(speed);
@@ -132,7 +132,7 @@ public class VisualStatDisplay extends Feature {
 				EntityEquipmentSlot slot = armor.getEquipmentSlot();
 				
 				GlStateManager.color(1F, 1F, 1F);
-				mc.getTextureManager().bindTexture(GuiButtonChest.GENERAL_ICONS_RESOURCE);
+				mc.getTextureManager().bindTexture(LibMisc.GENERAL_ICONS_RESOURCE);
 				slotAttributes = stack.getAttributeModifiers(slot);
 				
 				double armorLevel = getAttribute(mc.player, stack, slotAttributes, "generic.armor");
@@ -142,7 +142,7 @@ public class VisualStatDisplay extends Feature {
 				x += mc.fontRenderer.getStringWidth(armorStr) + 20;
 				
 				double toughness = getAttribute(mc.player, stack, slotAttributes, "generic.armorToughness");
-				mc.getTextureManager().bindTexture(GuiButtonChest.GENERAL_ICONS_RESOURCE);
+				mc.getTextureManager().bindTexture(LibMisc.GENERAL_ICONS_RESOURCE);
 				Gui.drawModalRectWithCustomSizedTexture(x, y, 220, 0, 9, 9, 256, 256);
 				String toughnessStr = ItemStack.DECIMALFORMAT.format(toughness);
 				mc.fontRenderer.drawStringWithShadow(toughnessStr, x + 12, y + 1, 0xFFFFFF);

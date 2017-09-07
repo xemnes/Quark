@@ -1,4 +1,4 @@
-package vazkii.quark.tweaks.feature;
+package vazkii.quark.client.feature;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -20,9 +20,9 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.base.module.Feature;
-import vazkii.quark.tweaks.client.render.random.RenderChickenRandom;
-import vazkii.quark.tweaks.client.render.random.RenderCowRandom;
-import vazkii.quark.tweaks.client.render.random.RenderPigRandom;
+import vazkii.quark.client.render.random.RenderChickenRandom;
+import vazkii.quark.client.render.random.RenderCowRandom;
+import vazkii.quark.client.render.random.RenderPigRandom;
 
 public class RandomAnimalTextures extends Feature {
 
