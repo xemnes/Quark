@@ -11,7 +11,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Enchantments;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.inventory.EntityEquipmentSlot.Type;
@@ -150,7 +153,6 @@ public class UsageTicker extends Feature {
 				GlStateManager.pushMatrix();
 				GlStateManager.translate(x, y, 0);
 				RenderHelper.enableGUIStandardItemLighting();
-//				mc.fontRenderer.drawStringWithShadow(Integer.toString(liveTicks), 0, -20, 0xFFFFFF);
 				mc.getRenderItem().renderItemAndEffectIntoGUI(stack, 0, 0);
 				mc.getRenderItem().renderItemOverlays(Minecraft.getMinecraft().fontRenderer, stack, 0, 0);
 				GlStateManager.popMatrix();
@@ -167,7 +169,7 @@ public class UsageTicker extends Feature {
 		
 		public ItemStack getDisplayedStack(EntityPlayer player, ItemStack stack, int count) {
 			boolean verifySize = true;
-			if(stack.getItem() instanceof ItemBow) {
+			if(stack.getItem() instanceof ItemBow && EnchantmentHelper.getEnchantmentLevel(Enchantments.INFINITY, stack) > 0) {
 				stack = new ItemStack(Items.ARROW);
 				verifySize = false;
 			}
