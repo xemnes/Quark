@@ -15,6 +15,7 @@ import vazkii.quark.client.feature.NoPotionShift;
 import vazkii.quark.client.feature.PanoramaMaker;
 import vazkii.quark.client.feature.RandomAnimalTextures;
 import vazkii.quark.client.feature.ShulkerBoxTooltip;
+import vazkii.quark.client.feature.UsageTicker;
 import vazkii.quark.client.feature.VisualStatDisplay;
 
 public class QuarkClient extends Module {
@@ -36,6 +37,7 @@ public class QuarkClient extends Module {
 		registerFeature(new AutoJumpHotkey());
 		registerFeature(new PanoramaMaker());
 		registerFeature(new ImprovedSignEdit());
+		registerFeature(new UsageTicker());
 	}
 	
 }

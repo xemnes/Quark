@@ -1,0 +1,225 @@
+package vazkii.quark.client.feature;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.lang3.text.WordUtils;
+
+import com.google.common.base.Predicate;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
+import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.inventory.EntityEquipmentSlot.Type;
+import net.minecraft.item.ItemArrow;
+import net.minecraft.item.ItemBow;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.EnumHandSide;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
+import vazkii.quark.base.module.Feature;
+import vazkii.quark.building.item.ItemTrowel;
+
+public class UsageTicker extends Feature {
+
+	List<TickerElement> elements;
+	boolean invert;
+	
+	@Override
+	public void setupConfig() {
+		elements = new ArrayList();
+		
+		for(EntityEquipmentSlot slot : EntityEquipmentSlot.values()) {
+			String config = "Enable " + WordUtils.capitalize(slot.getName());
+			if(loadPropBool(config, "", true))
+				elements.add(new TickerElement(slot));
+		}
+		
+		invert = loadPropBool("Invert Displays", "Switch the armor display to the off hand side and the hand display to the main hand side", false);
+	}
+	
+	@SubscribeEvent
+	public void clientTick(ClientTickEvent event) {
+		if(event.phase == Phase.START) {
+			Minecraft mc = Minecraft.getMinecraft();
+			if(mc.player != null)
+				elements.forEach((ticker) -> ticker.tick(event, mc.player));
+		}
+	}
+	
+	@SubscribeEvent
+	public void renderHUD(RenderGameOverlayEvent.Post event) {
+		if(event.getType() == ElementType.HOTBAR) {
+			ScaledResolution res = event.getResolution();
+			EntityPlayer player = Minecraft.getMinecraft().player;
+			float pticks = event.getPartialTicks();
+			elements.forEach((ticker) -> ticker.render(res, player, invert, pticks));
+		}
+	}
+	
+	@Override
+	public boolean hasSubscriptions() {
+		return isClient();
+	}
+	
+	class TickerElement {
+		
+		private static final int MAX_TIME = 60;
+		private static final int ANIM_TIME = 5;
+		
+		int liveTicks;
+		EntityEquipmentSlot slot;
+		ItemStack currStack = ItemStack.EMPTY;
+		int currCount;
+		
+		public TickerElement(EntityEquipmentSlot slot) {
+			this.slot = slot;
+		}
+		
+		public void tick(ClientTickEvent event, EntityPlayer player) {
+			ItemStack heldStack = getStack(player).copy();
+			
+			int count = 0;
+
+			count = getStackCount(player, heldStack);
+			heldStack = getDisplayedStack(player, heldStack, count);
+
+			if(heldStack.isEmpty())
+				liveTicks = 0;
+			else if(shouldChange(heldStack, currStack, count, currCount)) {
+				int animTicks = ANIM_TIME;
+				int maxTicks = MAX_TIME;
+				boolean done = liveTicks == 0;
+				boolean animatingIn = liveTicks > maxTicks - animTicks;
+				boolean animatingOut = liveTicks < animTicks && !done;
+				if(animatingOut)
+					liveTicks = maxTicks - liveTicks;
+				else if(!animatingIn) {
+					if(!done)
+						liveTicks = maxTicks - animTicks;
+					else liveTicks = maxTicks;
+				}
+			} else if(liveTicks > 0)
+				liveTicks--;
+				
+			currCount = count;
+			currStack = heldStack;
+		}
+		
+		public void render(ScaledResolution res, EntityPlayer player, boolean invert, float partialTicks) {
+			if(liveTicks > 0) {
+				int max = MAX_TIME;
+				int animTicks = ANIM_TIME;
+				float animProgress; 
+				
+				if(liveTicks < animTicks)
+					animProgress = Math.max(0, liveTicks - partialTicks);
+				else animProgress = Math.min(animTicks, (max - liveTicks) + partialTicks);
+				
+				float anim = animProgress * (20F / animTicks);
+				
+				float x = res.getScaledWidth() / 2;
+				float y = res.getScaledHeight() - anim;
+				
+				int armorWidth = 80;
+				int heldWidth = 40;
+				int barWidth = 190;
+				boolean armor = slot.getSlotType() == Type.ARMOR;
+				
+				EnumHandSide primary = player.getPrimaryHand();
+				EnumHandSide ourSide = (armor != invert) ? primary : primary.opposite();
+				
+				int slots = armor ? 4 : 2;
+				int index = slots - slot.getIndex() - 1;
+				float mul = ourSide == EnumHandSide.LEFT ? -1 : 1;
+
+				if(ourSide != primary && !player.getHeldItem(EnumHand.OFF_HAND).isEmpty())
+					barWidth += 58;
+				
+				Minecraft mc = Minecraft.getMinecraft();
+				x += (barWidth / 2) * mul + index * 20;
+				if(ourSide == EnumHandSide.LEFT)
+					x -= slots * 20;
+					
+				ItemStack stack = getRenderedStack(player);
+				
+				GlStateManager.pushMatrix();
+				GlStateManager.translate(x, y, 0);
+				RenderHelper.enableGUIStandardItemLighting();
+//				mc.fontRenderer.drawStringWithShadow(Integer.toString(liveTicks), 0, -20, 0xFFFFFF);
+				mc.getRenderItem().renderItemAndEffectIntoGUI(stack, 0, 0);
+				mc.getRenderItem().renderItemOverlays(Minecraft.getMinecraft().fontRenderer, stack, 0, 0);
+				GlStateManager.popMatrix();
+			}
+		}
+		
+		public boolean shouldChange(ItemStack currStack, ItemStack prevStack, int currentTotal, int pastTotal) {
+			return !prevStack.isItemEqual(currStack) || currentTotal != pastTotal;
+		}
+		
+		public ItemStack getStack(EntityPlayer player) {
+			return player.getItemStackFromSlot(slot);
+		}
+		
+		public ItemStack getDisplayedStack(EntityPlayer player, ItemStack stack, int count) {
+			boolean verifySize = true;
+			if(stack.getItem() instanceof ItemBow) {
+				stack = new ItemStack(Items.ARROW);
+				verifySize = false;
+			}
+			
+			if(stack.getItem() instanceof ItemTrowel) {
+				stack = ItemTrowel.getLastStack(stack);
+				verifySize = false;
+			}
+			
+			if(!stack.isStackable() && slot.getSlotType() == Type.HAND)
+				return ItemStack.EMPTY;
+			
+			if(verifySize && stack.isStackable() && count == stack.getCount())
+				return ItemStack.EMPTY;
+			
+			return stack;
+		}
+		
+		public ItemStack getRenderedStack(EntityPlayer player) {
+			ItemStack stack = getStack(player);
+			int count = getStackCount(player, stack);
+			ItemStack displayStack = getDisplayedStack(player, stack, count).copy();
+			if(displayStack != stack)
+				count = getStackCount(player,  displayStack);
+			displayStack.setCount(count);
+			
+			return  displayStack;
+		}
+		
+		public int getStackCount(EntityPlayer player, ItemStack stack) {
+			if(!stack.isStackable())
+				return 1;
+			
+			Predicate<ItemStack> pred = (stackAt) -> stack.isItemEqual(stackAt);	
+			
+			if(stack.getItem() == Items.ARROW)
+				pred = (stackAt) -> stackAt.getItem() instanceof ItemArrow;
+			
+			int total = 0;
+			for(int i = 0; i < player.inventory.getSizeInventory(); i++) {
+				ItemStack stackAt = player.inventory.getStackInSlot(i);
+				if(pred.apply(stackAt))
+					total += stackAt.getCount();
+			}
+			
+			return total;
+		}
+				
+	}
+	
+}

@@ -13,6 +13,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -26,7 +27,8 @@ import vazkii.quark.base.item.IQuarkItem;
 public class ItemTrowel extends ItemMod implements IQuarkItem {
 
 	private static final String TAG_PLACING_SEED = "placing_seed";
-	
+	private static final String TAG_LAST_STACK = "last_stack";
+
 	public ItemTrowel(int durability) {
 		super("trowel");
 		setMaxStackSize(1);
@@ -53,8 +55,14 @@ public class ItemTrowel extends ItemMod implements IQuarkItem {
 		
 		ItemStack target = targets.get(rand.nextInt(targets.size()));
 		EnumActionResult result = placeBlock(target, player, pos, facing, worldIn, hand, hitX, hitY, hitZ);
-		if(result == EnumActionResult.SUCCESS && ourStack.isItemStackDamageable())
-			ourStack.damageItem(1, player);
+		if(result == EnumActionResult.SUCCESS) {
+			NBTTagCompound cmp = new NBTTagCompound();
+			target.writeToNBT(cmp);
+			ItemNBTHelper.setCompound(ourStack, TAG_LAST_STACK, cmp);
+			
+			if(ourStack.isItemStackDamageable())
+				ourStack.damageItem(1, player);
+		}
 		
 		return result;
 	}
@@ -106,5 +114,9 @@ public class ItemTrowel extends ItemMod implements IQuarkItem {
 		return false;
 	}
 	
+	public static ItemStack getLastStack(ItemStack stack) {
+		NBTTagCompound cmp = ItemNBTHelper.getCompound(stack, TAG_LAST_STACK, false);
+		return new ItemStack(cmp);
+	}
 
 }
