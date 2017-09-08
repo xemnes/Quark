@@ -35,6 +35,7 @@ public class UsageTicker extends Feature {
 
 	List<TickerElement> elements;
 	boolean invert;
+	int shiftLeft, shiftRight;
 	
 	@Override
 	public void setupConfig() {
@@ -47,6 +48,8 @@ public class UsageTicker extends Feature {
 		}
 		
 		invert = loadPropBool("Invert Displays", "Switch the armor display to the off hand side and the hand display to the main hand side", false);
+		shiftLeft = loadPropInt("Left Side Offeset", "", 0);
+		shiftRight = loadPropInt("Right Side Offset", "", 0);
 	}
 	
 	@SubscribeEvent
@@ -145,8 +148,10 @@ public class UsageTicker extends Feature {
 				
 				Minecraft mc = Minecraft.getMinecraft();
 				x += (barWidth / 2) * mul + index * 20;
-				if(ourSide == EnumHandSide.LEFT)
+				if(ourSide == EnumHandSide.LEFT) {
 					x -= slots * 20;
+					x += shiftLeft;
+				} else x += shiftRight;
 					
 				ItemStack stack = getRenderedStack(player);
 				
