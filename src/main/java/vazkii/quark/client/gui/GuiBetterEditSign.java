@@ -10,10 +10,12 @@ import net.minecraft.block.Block;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.init.Blocks;
+import net.minecraft.network.play.client.CPacketUpdateSign;
 import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.util.ChatAllowedCharacters;
 import net.minecraft.util.text.TextComponentString;
@@ -187,6 +189,17 @@ public class GuiBetterEditSign extends GuiScreen {
 		sign.markDirty();
 		mc.displayGuiScreen(null);
 	}
+	
+	@Override
+    public void onGuiClosed() {
+        Keyboard.enableRepeatEvents(false);
+        NetHandlerPlayClient nethandlerplayclient = this.mc.getConnection();
+
+        if(nethandlerplayclient != null)
+            nethandlerplayclient.sendPacket(new CPacketUpdateSign(sign.getPos(), sign.signText));
+
+        sign.setEditable(true);
+    }
 	
 	void tabFocus(int change) {
 		textFields.get(focusedField).setFocused(false);
