@@ -161,6 +161,7 @@ public class AncientTomes extends Feature {
 				Enchantments.KNOCKBACK,
 				Enchantments.FIRE_ASPECT,
 				Enchantments.LOOTING,
+				Enchantments.SWEEPING,
 				Enchantments.EFFICIENCY,
 				Enchantments.UNBREAKING,
 				Enchantments.FORTUNE,
