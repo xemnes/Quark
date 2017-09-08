@@ -169,7 +169,7 @@ public class UsageTicker extends Feature {
 		
 		public ItemStack getDisplayedStack(EntityPlayer player, ItemStack stack, int count) {
 			boolean verifySize = true;
-			if(stack.getItem() instanceof ItemBow && EnchantmentHelper.getEnchantmentLevel(Enchantments.INFINITY, stack) > 0) {
+			if(stack.getItem() instanceof ItemBow && EnchantmentHelper.getEnchantmentLevel(Enchantments.INFINITY, stack) == 0) {
 				stack = new ItemStack(Items.ARROW);
 				verifySize = false;
 			}
