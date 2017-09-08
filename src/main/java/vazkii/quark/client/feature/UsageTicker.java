@@ -95,17 +95,15 @@ public class UsageTicker extends Feature {
 			if(heldStack.isEmpty())
 				liveTicks = 0;
 			else if(shouldChange(heldStack, currStack, count, currCount)) {
-				int animTicks = ANIM_TIME;
-				int maxTicks = MAX_TIME;
 				boolean done = liveTicks == 0;
-				boolean animatingIn = liveTicks > maxTicks - animTicks;
-				boolean animatingOut = liveTicks < animTicks && !done;
+				boolean animatingIn = liveTicks > MAX_TIME - ANIM_TIME;
+				boolean animatingOut = liveTicks < ANIM_TIME && !done;
 				if(animatingOut)
-					liveTicks = maxTicks - liveTicks;
+					liveTicks = MAX_TIME - liveTicks;
 				else if(!animatingIn) {
 					if(!done)
-						liveTicks = maxTicks - animTicks;
-					else liveTicks = maxTicks;
+						liveTicks = MAX_TIME - ANIM_TIME;
+					else liveTicks = MAX_TIME;
 				}
 			} else if(liveTicks > 0)
 				liveTicks--;
@@ -116,15 +114,13 @@ public class UsageTicker extends Feature {
 		
 		public void render(ScaledResolution res, EntityPlayer player, boolean invert, float partialTicks) {
 			if(liveTicks > 0) {
-				int max = MAX_TIME;
-				int animTicks = ANIM_TIME;
 				float animProgress; 
 				
-				if(liveTicks < animTicks)
-					animProgress = Math.max(0, liveTicks - partialTicks);
-				else animProgress = Math.min(animTicks, (max - liveTicks) + partialTicks);
+				if(liveTicks < ANIM_TIME)
+					animProgress = Math.max(0, liveTicks - partialTicks) / ANIM_TIME;
+				else animProgress = Math.min(ANIM_TIME, (MAX_TIME - liveTicks) + partialTicks) / ANIM_TIME;
 				
-				float anim = animProgress * (20F / animTicks);
+				float anim = -animProgress * (animProgress - 2) * 20F;
 				
 				float x = res.getScaledWidth() / 2;
 				float y = res.getScaledHeight() - anim;
