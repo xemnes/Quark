@@ -52,6 +52,7 @@
 						<a href="#module-tweaks" data-module="tweaks" class="mdl-layout__tab module-button">Tweaks</a>
 						<a href="#module-vanity" data-module="vanity" class="mdl-layout__tab module-button">Vanity</a>
 						<a href="#module-world" data-module="world" class="mdl-layout__tab module-button">World</a>
+						<a href="#module-client" data-module="client" class="mdl-layout__tab module-button">Client</a>
 						<a href="#module-misc" data-module="misc" class="mdl-layout__tab module-button">Misc</a>
 					</div>
 				</header>
@@ -149,6 +150,7 @@
 					<section class="mdl-layout__tab-panel" id="module-tweaks"></section>
 					<section class="mdl-layout__tab-panel" id="module-vanity"></section>
 					<section class="mdl-layout__tab-panel" id="module-world"></section>
+					<section class="mdl-layout__tab-panel" id="module-client"></section>
 					<section class="mdl-layout__tab-panel" id="module-misc"></section>
 				</div>
 			</div>
