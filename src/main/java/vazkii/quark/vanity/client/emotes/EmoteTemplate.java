@@ -36,6 +36,7 @@ public class EmoteTemplate {
 		functions.put("section", EmoteTemplate::section);
 		functions.put("end", EmoteTemplate::end);
 		functions.put("move", EmoteTemplate::move);
+		functions.put("reset", EmoteTemplate::reset);
 		functions.put("pause", EmoteTemplate::pause);
 		functions.put("yoyo", EmoteTemplate::yoyo);
 		functions.put("repeat", EmoteTemplate::repeat);
@@ -312,6 +313,45 @@ public class EmoteTemplate {
 			return timeline.push(tween);
 		return timeline;
 	}
+	
+	private static Timeline reset(EmoteTemplate em, ModelBiped model, Timeline timeline, String[] tokens) throws IllegalArgumentException {
+		if(tokens.length < 4)
+			throw new IllegalArgumentException(String.format("Illgal parameter amount for function reset: %d (at least 4 are required)", tokens.length));
+
+		String part = tokens[1];
+		boolean allParts = part.equals("all");
+		if(!allParts && !parts.containsKey(part))
+			throw new IllegalArgumentException("Illgal part name for function reset: " + part);
+		
+		String type = tokens[2];
+		boolean all = type.equals("all");
+		boolean rot = all || type.equals("rotation");
+		boolean off = all || type.equals("offset");
+		
+		if(!rot && !off)
+			throw new IllegalArgumentException("Illgal reset type: " + type);
+		
+		int partInt = allParts ? 0 : parts.get(part);
+		int time = Integer.parseInt(tokens[3]);
+		
+
+		if(model != null) {
+			Timeline parallel = Timeline.createParallel();
+			int lower = allParts ? 0 : partInt + (rot ? 0 : 3);
+			int upper = allParts ? ModelAccessor.STATE_COUNT : partInt + (off ? 6 : 3);
+			
+			for(int i = lower; i < upper; i++) {
+				int piece = i / ModelAccessor.MODEL_PROPS * ModelAccessor.MODEL_PROPS;
+				if(em.usedParts.contains(piece))
+					parallel.push(Tween.to(model, i, time));
+			}
+			
+			timeline.push(parallel);
+		}
+		
+		return timeline;
+	}
+	
 
 	private static Timeline pause(EmoteTemplate em, ModelBiped model, Timeline timeline, String[] tokens) throws IllegalArgumentException {
 		assertParamSize(tokens, 2);
