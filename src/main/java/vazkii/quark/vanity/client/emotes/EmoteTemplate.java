@@ -167,7 +167,7 @@ public class EmoteTemplate {
 	}
 	
 	private void logError(Exception e, int line) {
-		FMLLog.log.error("[Quark Custom Emotes] Error loading line " + line + " of emote " + file);
+		FMLLog.log.error("[Quark Custom Emotes] Error loading line " + (line + 1) + " of emote " + file);
 		if(!(e instanceof IllegalArgumentException)) {
 			FMLLog.log.error("[Quark Custom Emotes] This is an Internal Error, and not one in the emote file, please report it");
 			e.printStackTrace();
