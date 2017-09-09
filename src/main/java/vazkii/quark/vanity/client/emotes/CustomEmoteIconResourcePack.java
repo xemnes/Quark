@@ -21,14 +21,8 @@ public class CustomEmoteIconResourcePack extends AbstractResourcePack {
 	private List<String> verifiedNames = new ArrayList();
 	private List<String> existingNames = new ArrayList();
 
-	File file;
-	
 	public CustomEmoteIconResourcePack() {
 		super(Loader.instance().activeModContainer().getSource());
-	}
-	
-	public void setFile(File file) {
-		this.file = file;
 	}
 	
 	@Override

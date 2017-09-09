@@ -72,6 +72,7 @@ public class EmoteSystem extends Feature {
 
 	public static boolean customEmoteDebug;
 	public static File emotesDir;
+	@SideOnly(Side.CLIENT)
 	public static CustomEmoteIconResourcePack resourcePack;
 	
 	private String[] enabledEmotes;
@@ -89,7 +90,6 @@ public class EmoteSystem extends Feature {
 		emotesDir = new File(ModuleLoader.configFile.getParent(), "quark_emotes");
 		if(!emotesDir.exists())
 			emotesDir.mkdir();
-		resourcePack.setFile(emotesDir);
 	}
 	
 	public static void addResourcePack(List<IResourcePack> packs) {
