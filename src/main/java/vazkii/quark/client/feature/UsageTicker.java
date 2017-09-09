@@ -11,7 +11,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Enchantments;
@@ -28,6 +27,8 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.building.item.ItemTrowel;
 
@@ -53,6 +54,7 @@ public class UsageTicker extends Feature {
 	}
 	
 	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
 	public void clientTick(ClientTickEvent event) {
 		if(event.phase == Phase.START) {
 			Minecraft mc = Minecraft.getMinecraft();
@@ -62,6 +64,7 @@ public class UsageTicker extends Feature {
 	}
 	
 	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
 	public void renderHUD(RenderGameOverlayEvent.Post event) {
 		if(event.getType() == ElementType.HOTBAR) {
 			ScaledResolution res = event.getResolution();
@@ -90,6 +93,7 @@ public class UsageTicker extends Feature {
 			this.slot = slot;
 		}
 		
+		@SideOnly(Side.CLIENT)
 		public void tick(ClientTickEvent event, EntityPlayer player) {
 			ItemStack heldStack = getStack(player).copy();
 			
@@ -118,6 +122,7 @@ public class UsageTicker extends Feature {
 			currStack = heldStack;
 		}
 		
+		@SideOnly(Side.CLIENT)
 		public void render(ScaledResolution res, EntityPlayer player, boolean invert, float partialTicks) {
 			if(liveTicks > 0) {
 				float animProgress; 
@@ -164,14 +169,17 @@ public class UsageTicker extends Feature {
 			}
 		}
 		
+		@SideOnly(Side.CLIENT)
 		public boolean shouldChange(ItemStack currStack, ItemStack prevStack, int currentTotal, int pastTotal) {
 			return !prevStack.isItemEqual(currStack) || currentTotal != pastTotal;
 		}
 		
+		@SideOnly(Side.CLIENT)
 		public ItemStack getStack(EntityPlayer player) {
 			return player.getItemStackFromSlot(slot);
 		}
 		
+		@SideOnly(Side.CLIENT)
 		public ItemStack getDisplayedStack(EntityPlayer player, ItemStack stack, int count) {
 			boolean verifySize = true;
 			if(stack.getItem() instanceof ItemBow && EnchantmentHelper.getEnchantmentLevel(Enchantments.INFINITY, stack) == 0) {
@@ -193,6 +201,7 @@ public class UsageTicker extends Feature {
 			return stack;
 		}
 		
+		@SideOnly(Side.CLIENT)
 		public ItemStack getRenderedStack(EntityPlayer player) {
 			ItemStack stack = getStack(player);
 			int count = getStackCount(player, stack);
@@ -204,6 +213,7 @@ public class UsageTicker extends Feature {
 			return  displayStack;
 		}
 		
+		@SideOnly(Side.CLIENT)
 		public int getStackCount(EntityPlayer player, ItemStack stack) {
 			if(!stack.isStackable())
 				return 1;
