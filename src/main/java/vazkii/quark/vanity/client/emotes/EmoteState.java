@@ -38,7 +38,7 @@ public class EmoteState {
 			for(int i = 0; i < ModelAccessor.STATE_COUNT; i++) {
 				values[0] = states[i];
 
-				int part = i / 3 * 3;
+				int part = i / ModelAccessor.MODEL_PROPS * ModelAccessor.MODEL_PROPS;
 				if(emote.usesBodyPart(part))
 					ModelAccessor.INSTANCE.setValues(model, i, values);
 			}

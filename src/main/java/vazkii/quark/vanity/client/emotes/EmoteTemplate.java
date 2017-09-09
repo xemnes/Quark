@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,32 +31,6 @@ public class EmoteTemplate {
 	private static final Map<String, TweenEquation> equations = new HashMap();
 
 	static {
-		parts.put("head", ModelAccessor.HEAD);
-		parts.put("body", ModelAccessor.BODY);
-		parts.put("right_arm", ModelAccessor.RIGHT_ARM);
-		parts.put("left_arm", ModelAccessor.LEFT_ARM);
-		parts.put("right_leg", ModelAccessor.RIGHT_LEG);
-		parts.put("left_leg", ModelAccessor.LEFT_LEG);
-
-		tweenables.put("head_x", ModelAccessor.HEAD_X);
-		tweenables.put("head_y", ModelAccessor.HEAD_Y);
-		tweenables.put("head_z", ModelAccessor.HEAD_Z);
-		tweenables.put("body_x", ModelAccessor.BODY_X);
-		tweenables.put("body_y", ModelAccessor.BODY_Y);
-		tweenables.put("body_z", ModelAccessor.BODY_Z);
-		tweenables.put("right_arm_x", ModelAccessor.RIGHT_ARM_X);
-		tweenables.put("right_arm_y", ModelAccessor.RIGHT_ARM_Y);
-		tweenables.put("right_arm_z", ModelAccessor.RIGHT_ARM_Z);
-		tweenables.put("left_arm_x", ModelAccessor.LEFT_ARM_X);
-		tweenables.put("left_arm_y", ModelAccessor.LEFT_ARM_Y);
-		tweenables.put("left_arm_z", ModelAccessor.LEFT_ARM_Z);
-		tweenables.put("right_leg_x", ModelAccessor.RIGHT_LEG_X);
-		tweenables.put("right_leg_y", ModelAccessor.RIGHT_LEG_Y);
-		tweenables.put("right_leg_z", ModelAccessor.RIGHT_LEG_Z);
-		tweenables.put("left_leg_x", ModelAccessor.LEFT_LEG_X);
-		tweenables.put("left_leg_y", ModelAccessor.LEFT_LEG_Y);
-		tweenables.put("left_leg_z", ModelAccessor.LEFT_LEG_Z);
-
 		functions.put("use", EmoteTemplate::use);
 		functions.put("animation", EmoteTemplate::animation);
 		functions.put("section", EmoteTemplate::section);
@@ -66,8 +41,29 @@ public class EmoteTemplate {
 		functions.put("repeat", EmoteTemplate::repeat);
 		functions.put("name", EmoteTemplate::name);
 
-		Class<?> clazz = TweenEquations.class;
+		Class<?> clazz = ModelAccessor.class;
 		Field[] fields = clazz.getDeclaredFields();
+		for(Field f : fields) {
+			if(f.getType() != int.class)
+				continue;
+			
+			int modifiers = f.getModifiers();
+			if(Modifier.isPublic(modifiers) && Modifier.isStatic(modifiers) && Modifier.isFinal(modifiers)) {
+				try {
+					int val = f.getInt(null);
+					String name = f.getName().toLowerCase();
+					if(name.matches("^.+?_[xyz]$"))
+						tweenables.put(name, val);
+					else
+						parts.put(name, val);
+				} catch(Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		clazz = TweenEquations.class;
+		fields = clazz.getDeclaredFields();
 		for(Field f : fields) {
 			String name = f.getName().replaceAll("[A-Z]", "_$0").substring(5).toLowerCase();
 			try {
@@ -264,7 +260,7 @@ public class EmoteTemplate {
 		if(tweenables.containsKey(partStr))
 			part = tweenables.get(partStr);
 		else throw new IllegalArgumentException("Illgal part name for function move: " + partStr);
-
+		
 		int time = Integer.parseInt(tokens[2]);
 		double target = Double.parseDouble(tokens[3]);
 

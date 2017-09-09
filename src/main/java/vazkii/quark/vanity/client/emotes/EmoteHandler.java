@@ -16,9 +16,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
 
+import com.google.common.collect.ImmutableSet;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.entity.RenderLivingBase;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderPlayer;
@@ -160,11 +163,11 @@ public final class EmoteHandler {
 	}
 
 	private static void resetModel(ModelBiped model) {
-		model.bipedHead.rotateAngleZ = 0F;
-		model.bipedHeadwear.rotateAngleZ = 0F;
-		model.bipedBody.rotateAngleZ = 0F;
-		model.bipedRightLeg.rotateAngleZ = 0F;
-		model.bipedLeftLeg.rotateAngleZ = 0F;
+		ImmutableSet.of(model.bipedHead, model.bipedHeadwear, model.bipedBody, model.bipedLeftArm, model.bipedRightArm, model.bipedLeftLeg, model.bipedRightLeg).forEach(EmoteHandler::resetPart);
+	}
+	
+	private static void resetPart(ModelRenderer part) {
+		part.rotateAngleZ = part.offsetX = part.offsetY = part.offsetZ = 0F;
 	}
 
 }
