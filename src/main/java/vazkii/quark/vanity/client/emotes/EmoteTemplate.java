@@ -18,10 +18,6 @@ import vazkii.aurelienribon.tweenengine.Timeline;
 import vazkii.aurelienribon.tweenengine.Tween;
 import vazkii.aurelienribon.tweenengine.TweenEquation;
 import vazkii.aurelienribon.tweenengine.TweenEquations;
-import vazkii.aurelienribon.tweenengine.equations.Cubic;
-import vazkii.aurelienribon.tweenengine.equations.Linear;
-import vazkii.aurelienribon.tweenengine.equations.Quad;
-import vazkii.aurelienribon.tweenengine.equations.Sine;
 
 public class EmoteTemplate {
 
@@ -31,7 +27,9 @@ public class EmoteTemplate {
 	private static final Map<String, TweenEquation> equations = new HashMap();
 
 	static {
+		functions.put("name", EmoteTemplate::name);
 		functions.put("use", EmoteTemplate::use);
+		functions.put("unit", EmoteTemplate::unit);
 		functions.put("animation", EmoteTemplate::animation);
 		functions.put("section", EmoteTemplate::section);
 		functions.put("end", EmoteTemplate::end);
@@ -40,7 +38,7 @@ public class EmoteTemplate {
 		functions.put("pause", EmoteTemplate::pause);
 		functions.put("yoyo", EmoteTemplate::yoyo);
 		functions.put("repeat", EmoteTemplate::repeat);
-		functions.put("name", EmoteTemplate::name);
+		
 
 		Class<?> clazz = ModelAccessor.class;
 		Field[] fields = clazz.getDeclaredFields();
@@ -83,6 +81,7 @@ public class EmoteTemplate {
 	List<String> readLines;
 	List<Integer> usedParts;
 	Stack<Timeline> timelineStack;
+	float speed;
 	boolean compiled = false;
 	boolean compiledOnce = false;
 	
@@ -93,6 +92,7 @@ public class EmoteTemplate {
 
 	public Timeline getTimeline(ModelBiped model) {
 		compiled = false;
+		speed = 1;
 
 		if(readLines == null)
 			return readAndMakeTimeline(model);
@@ -188,6 +188,13 @@ public class EmoteTemplate {
 
 		throw new IllegalArgumentException("Illegal function name " + function);
 	}
+	
+	void setName(String[] tokens) { }
+	
+	private static Timeline name(EmoteTemplate em, ModelBiped model, Timeline timeline, String[] tokens) throws IllegalArgumentException {
+		em.setName(tokens);
+		return timeline;
+	}
 
 	private static Timeline use(EmoteTemplate em, ModelBiped model, Timeline timeline, String[] tokens) throws IllegalArgumentException {
 		if(em.compiledOnce)
@@ -204,6 +211,12 @@ public class EmoteTemplate {
 		return timeline;
 	}
 
+	private static Timeline unit(EmoteTemplate em, ModelBiped model, Timeline timeline, String[] tokens) throws IllegalArgumentException {
+		assertParamSize(tokens, 2);
+		em.speed = Float.parseFloat(tokens[1]);
+		return timeline;
+	}
+	
 	private static Timeline animation(EmoteTemplate em, ModelBiped model, Timeline timeline, String[] tokens) throws IllegalArgumentException {
 		if(timeline != null)
 			throw new IllegalArgumentException("Illegal use of function animation, animation already started");
@@ -262,8 +275,8 @@ public class EmoteTemplate {
 			part = tweenables.get(partStr);
 		else throw new IllegalArgumentException("Illgal part name for function move: " + partStr);
 		
-		int time = Integer.parseInt(tokens[2]);
-		double target = Double.parseDouble(tokens[3]);
+		float time = Float.parseFloat(tokens[2]) * em.speed;
+		float target = Float.parseFloat(tokens[3]);
 
 		Tween tween = null;
 		boolean valid = model != null;
@@ -273,25 +286,26 @@ public class EmoteTemplate {
 			int index = 4;
 			while(index < tokens.length) {
 				String cmd = tokens[index++];
-				int times, delay;
+				int times;
+				float delay;
 				switch(cmd) {
 				case "delay":
 					assertParamSize("delay", tokens, 1, index);
-					delay = Integer.parseInt(tokens[index++]);
+					delay = Float.parseFloat(tokens[index++]) * em.speed;
 					if(valid)
 						tween = tween.delay(delay);
 					break;
 				case "yoyo":
 					assertParamSize("yoyo", tokens, 2, index);
 					times = Integer.parseInt(tokens[index++]);
-					delay = Integer.parseInt(tokens[index++]);
+					delay = Float.parseFloat(tokens[index++]) * em.speed;
 					if(valid)
 						tween = tween.repeatYoyo(times, delay);
 					break;
 				case "repeat":
 					assertParamSize("repeat", tokens, 2, index);
 					times = Integer.parseInt(tokens[index++]);
-					delay = Integer.parseInt(tokens[index++]);
+					delay = Float.parseFloat(tokens[index++]) * em.speed;
 					if(valid)
 						tween = tween.repeat(times, delay);
 					break;
@@ -332,9 +346,8 @@ public class EmoteTemplate {
 			throw new IllegalArgumentException("Illgal reset type: " + type);
 		
 		int partInt = allParts ? 0 : parts.get(part);
-		int time = Integer.parseInt(tokens[3]);
+		float time = Float.parseFloat(tokens[3]) * em.speed;
 		
-
 		if(model != null) {
 			Timeline parallel = Timeline.createParallel();
 			int lower = allParts ? 0 : partInt + (rot ? 0 : 3);
@@ -355,31 +368,24 @@ public class EmoteTemplate {
 
 	private static Timeline pause(EmoteTemplate em, ModelBiped model, Timeline timeline, String[] tokens) throws IllegalArgumentException {
 		assertParamSize(tokens, 2);
-		int ms = Integer.parseInt(tokens[1]);
+		float ms = Float.parseFloat(tokens[1]) * em.speed;
 		return timeline.pushPause(ms);
 	}
 
 	private static Timeline yoyo(EmoteTemplate em, ModelBiped model, Timeline timeline, String[] tokens) throws IllegalArgumentException {
 		assertParamSize(tokens, 3);
 		int times = Integer.parseInt(tokens[1]);
-		int delay = Integer.parseInt(tokens[2]);
+		float delay = Float.parseFloat(tokens[2]) * em.speed;
 		return timeline.repeatYoyo(times, delay);
 	}
 
 	private static Timeline repeat(EmoteTemplate em, ModelBiped model, Timeline timeline, String[] tokens) throws IllegalArgumentException {
 		assertParamSize(tokens, 3);
 		int times = Integer.parseInt(tokens[1]);
-		int delay = Integer.parseInt(tokens[2]);
+		float delay = Float.parseFloat(tokens[2]) * em.speed;
 		return timeline.repeat(times, delay);
 	}
 	
-	void setName(String[] tokens) { }
-	
-	private static Timeline name(EmoteTemplate em, ModelBiped model, Timeline timeline, String[] tokens) throws IllegalArgumentException {
-		em.setName(tokens);
-		return timeline;
-	}
-
 	private static void assertParamSize(String[] tokens, int expect) throws IllegalArgumentException {
 		if(tokens.length != expect)
 			throw new IllegalArgumentException(String.format("Illgal parameter amount for function %s: %d (expected %d)", tokens[0], tokens.length, expect));
