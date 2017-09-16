@@ -24,6 +24,9 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.VanillaDoubleChestItemHandler;
 import vazkii.quark.decoration.feature.VariedChests;
 
 public class TileCustomChest extends TileEntityChest {
@@ -131,4 +134,46 @@ public class TileCustomChest extends TileEntityChest {
 	public AxisAlignedBB getRenderBoundingBox() {
 		return new AxisAlignedBB(pos.getX() - 1, pos.getY(), pos.getZ() - 1, pos.getX() + 2, pos.getY() + 2, pos.getZ() + 2);
 	}
+	
+    @Override
+    @SuppressWarnings("unchecked")
+    public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
+        if(capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+            if(doubleChestHandler == null || doubleChestHandler.needsRefresh())
+                doubleChestHandler = getDoubleChestHandler(this);
+            if(doubleChestHandler != null && doubleChestHandler != VanillaDoubleChestItemHandler.NO_ADJACENT_CHESTS_INSTANCE)
+                return (T) doubleChestHandler;
+        }
+        return super.getCapability(capability, facing);
+    }
+    
+
+    // Copied from VanillaDoubleChestItemHandler
+    @Nullable
+    public static VanillaDoubleChestItemHandler getDoubleChestHandler(TileCustomChest chest) {
+        World world = chest.getWorld();
+        BlockPos pos = chest.getPos();
+        if(world == null || pos == null || !world.isBlockLoaded(pos))
+            return null; // Still loading
+
+        Block blockType = chest.getBlockType();
+
+        EnumFacing[] horizontals = EnumFacing.HORIZONTALS;
+        for(int i = horizontals.length - 1; i >= 0; i--) { // Use reverse order so we can return early
+            EnumFacing enumfacing = horizontals[i];
+            BlockPos blockpos = pos.offset(enumfacing);
+            Block block = world.getBlockState(blockpos).getBlock();
+
+            if (block == blockType) {
+                TileEntity otherTE = world.getTileEntity(blockpos);
+
+                if(otherTE instanceof TileCustomChest) {
+                	TileCustomChest otherChest = (TileCustomChest) otherTE;
+                	if(otherChest.chestType.equals(chest.chestType))
+                		return new VanillaDoubleChestItemHandler(chest, otherChest, enumfacing != EnumFacing.WEST && enumfacing != EnumFacing.NORTH);
+                }
+            }
+        }
+        return VanillaDoubleChestItemHandler.NO_ADJACENT_CHESTS_INSTANCE; // All alone
+    }
 }
