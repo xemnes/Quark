@@ -173,7 +173,7 @@ public class AutomaticToolRestock extends Feature {
 
 	@Override
 	public String[] getIncompatibleMods() {
-		return new String[] { "invtweaks" };
+		return new String[] { "inventorytweaks" };
 	}
 
 	private String[] generateDefaultEnchantmentList() {
