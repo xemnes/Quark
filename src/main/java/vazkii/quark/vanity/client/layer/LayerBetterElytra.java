@@ -27,6 +27,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.arl.util.ItemNBTHelper;
+import vazkii.quark.misc.feature.ColorRunes;
 import vazkii.quark.vanity.feature.DyableElytra;
 
 @SideOnly(Side.CLIENT)
@@ -68,9 +69,11 @@ public class LayerBetterElytra implements LayerRenderer<AbstractClientPlayer> {
 			modelElytra.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale, entitylivingbaseIn);
 			modelElytra.render(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
 
-			if(itemstack.isItemEnchanted())
+			if(itemstack.isItemEnchanted()) {
+				ColorRunes.setTargetStack(itemstack);
 				LayerArmorBase.renderEnchantedGlint(renderPlayer, entitylivingbaseIn, modelElytra, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch, scale);
-
+			}
+			
 			GlStateManager.color(1F, 1F, 1F);
 			GlStateManager.popMatrix();
 		}
