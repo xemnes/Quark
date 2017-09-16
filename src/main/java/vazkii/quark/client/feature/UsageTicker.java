@@ -165,6 +165,7 @@ public class UsageTicker extends Feature {
 				RenderHelper.enableGUIStandardItemLighting();
 				mc.getRenderItem().renderItemAndEffectIntoGUI(stack, 0, 0);
 				mc.getRenderItem().renderItemOverlays(Minecraft.getMinecraft().fontRenderer, stack, 0, 0);
+				RenderHelper.disableStandardItemLighting();
 				GlStateManager.popMatrix();
 			}
 		}
