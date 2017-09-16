@@ -10,6 +10,7 @@
  */
 package vazkii.quark.misc.item;
 
+import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -18,6 +19,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -28,10 +30,13 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.oredict.OreDictionary;
 import vazkii.arl.item.ItemMod;
+import vazkii.arl.util.ItemNBTHelper;
 import vazkii.quark.base.item.IQuarkItem;
 
 public class ItemSlimeBucket extends ItemMod implements IQuarkItem {
 
+	public static final String TAG_ENTITY_DATA = "slime_nbt";
+	
 	public static final String[] VARIANTS = new String[] {
 			"slime_bucket_normal",
 			"slime_bucket_excited"
@@ -71,18 +76,36 @@ public class ItemSlimeBucket extends ItemMod implements IQuarkItem {
 
 		if(!worldIn.isRemote) {
 			EntitySlime slime = new EntitySlime(worldIn);
+			
+			NBTTagCompound data = ItemNBTHelper.getCompound(playerIn.getHeldItem(hand), TAG_ENTITY_DATA, true);
+			if(data != null)
+				slime.readFromNBT(data);
+			else {
+				slime.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(1.0);
+				slime.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.3);
+				slime.setHealth(slime.getMaxHealth());
+			}
+				
 			slime.setPosition(x, y, z);
 
-			slime.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(1.0);
-			slime.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.3);
-			slime.setHealth(slime.getMaxHealth());
 			worldIn.spawnEntity(slime);
 			playerIn.swingArm(hand);
 		}
 
-
 		playerIn.setHeldItem(hand, new ItemStack(Items.BUCKET));
 		return EnumActionResult.SUCCESS;
+	}
+	
+
+	@Override
+	public String getItemStackDisplayName(ItemStack stack) {
+		if(stack.hasTagCompound()) {
+			NBTTagCompound cmp = ItemNBTHelper.getCompound(stack, TAG_ENTITY_DATA, true);
+			if(cmp.hasKey("CustomName")) 
+				return I18n.format("item.quark:slime_bucket_named.name", cmp.getString("CustomName")); 
+		}
+		
+		return super.getItemStackDisplayName(stack);
 	}
 
 	@Override

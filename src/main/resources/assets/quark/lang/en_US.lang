@@ -427,6 +427,7 @@ item.quark:ancient_tome.name=Ancient Tome
 item.quark:witch_hat.name=Witch Hat
 item.quark:slime_bucket_normal.name=Slime in a Bucket
 item.quark:slime_bucket_excited.name=Slime in a Bucket
+item.quark:slime_bucket_named.name=%s in a Bucket
 item.quark:rune_black.name=Black Rune
 item.quark:rune_blue.name=Blue Rune
 item.quark:rune_brown.name=Brown Rune
