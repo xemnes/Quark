@@ -25,7 +25,7 @@ public class AnimalsEatFloorFood extends Feature {
 					EntityItem e = nearbyFood.get(0);
 					
 					ItemStack stack = e.getItem();
-					stack.shrink(1);;
+					stack.shrink(1);
 					e.setItem(stack);
 					if(stack.isEmpty())
 						e.setDead();
