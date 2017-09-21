@@ -70,7 +70,7 @@ public class EmoteSystem extends Feature {
 	private static final int EMOTE_BUTTON_START = 1800;
 	static boolean emotesVisible = false;
 
-	public static boolean customEmoteDebug;
+	public static boolean customEmoteDebug, emoteCommands;
 	public static File emotesDir;
 	@SideOnly(Side.CLIENT)
 	public static CustomEmoteIconResourcePack resourcePack;
@@ -86,6 +86,9 @@ public class EmoteSystem extends Feature {
 		customEmotes = loadPropStringList("Custom Emotes", "The list of Custom Emotes to be loaded.\nWatch the tutorial on Custom Emotes to learn how to make your own: https://youtu.be/ourHUkan6aQ", new String[0]);
 		
 		customEmoteDebug = loadPropBool("Custom Emote Dev Mode", "Enable this to make custom emotes read the file every time they're triggered so you can edit on the fly.\nDO NOT ship enabled this in a modpack, please.", false);
+		emoteCommands = loadPropBool("Custom Emote Functions", "Allow custom emotes to run function files when a user prompts them.\n"
+				+ "To attach a function file to any given emote, simply place a .mcfunction file with the same name as your .emote file (sans extension) in /quark_emotes.\n"
+				+ "Command output from emote functions is enabled only if both \"Custom Emote Dev Mode\" and the \"commandBlockOutput\" gamerule are enabled. ", false);
 		
 		emotesDir = new File(ModuleLoader.configFile.getParent(), "quark_emotes");
 		if(!emotesDir.exists())
