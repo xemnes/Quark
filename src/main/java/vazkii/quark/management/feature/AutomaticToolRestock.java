@@ -104,8 +104,10 @@ public class AutomaticToolRestock extends Feature {
 		if(event.phase == Phase.END && replacements.containsKey(event.player)) {
 			Stack<Pair<Integer, Integer>> replacementStack = replacements.get(event.player);
 			while(!replacementStack.isEmpty()) {
-				Pair<Integer, Integer> pair = replacementStack.pop();
-				switchItems(event.player, pair.getLeft(), pair.getRight());
+				if(!replacementStack.isEmpty()) { // this was crashing with EmptyStackException so I just put this here? idk
+					Pair<Integer, Integer> pair = replacementStack.pop();
+					switchItems(event.player, pair.getLeft(), pair.getRight());
+				}
 			}
 		}
 	}
