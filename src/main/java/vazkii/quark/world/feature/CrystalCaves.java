@@ -7,6 +7,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import vazkii.arl.recipe.RecipeHandler;
+import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.handler.DimensionConfig;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.ModuleLoader;
@@ -49,9 +50,9 @@ public class CrystalCaves extends Feature {
 	}
 
 	private void addRuneRecipe(int crystalMeta, int runeMeta) {
-		RecipeHandler.addOreDictRecipe(new ItemStack(ColorRunes.rune, 1, runeMeta), 
+		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(ColorRunes.rune, 1, runeMeta), 
 				"CCC", "CSC", "CCC",
-				'C', new ItemStack(crystal, 1, crystalMeta),
+				'C', ProxyRegistry.newStack(crystal, 1, crystalMeta),
 				'S', "stone");
 	}
 	
