@@ -12,7 +12,6 @@ package vazkii.quark.tweaks;
 
 import vazkii.quark.base.module.Module;
 import vazkii.quark.tweaks.feature.ArmedArmorStands;
-import vazkii.quark.tweaks.feature.ArrowSafeMobs;
 import vazkii.quark.tweaks.feature.AutomaticRecipeUnlock;
 import vazkii.quark.tweaks.feature.AxesBreakLeaves;
 import vazkii.quark.tweaks.feature.BabyZombiesBurn;
@@ -54,7 +53,6 @@ public class QuarkTweaks extends Module {
 		registerFeature(new GlassShards());
 		registerFeature(new StairsMakeMore(), "Stair crafting makes more");
 		registerFeature(new SlabsToBlocks(), "Slabs to blocks recipe");
-		registerFeature(new ArrowSafeMobs(), "Ridable mobs are immune to rider's arrows");
 		registerFeature(new JumpBoostStepAssist(), "Jump boost allows to step up 1 block");
 		registerFeature(new DragonsBreathBottleless(), "Dragon's Breath doesn't leave a bottle behind");
 		registerFeature(new KnockOnDoors());
