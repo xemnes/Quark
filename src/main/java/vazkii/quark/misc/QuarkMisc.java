@@ -2,6 +2,7 @@ package vazkii.quark.misc;
 
 import vazkii.quark.base.module.Module;
 import vazkii.quark.misc.feature.AncientTomes;
+import vazkii.quark.misc.feature.BlackAsh;
 import vazkii.quark.misc.feature.ColorRunes;
 import vazkii.quark.misc.feature.EnderdragonScales;
 import vazkii.quark.misc.feature.EndermitesIntoShulkers;
@@ -32,6 +33,7 @@ public class QuarkMisc extends Module {
 		registerFeature(new EnderdragonScales());
 		registerFeature(new PoisonPotatoUsage());
 		registerFeature(new ThrowableDragonBreath());
+		registerFeature(new BlackAsh());
 	}
 	
 }

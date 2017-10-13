@@ -390,7 +390,6 @@ tile.quark:colored_flowerpot_silver.name=Light Gray Flower Pot
 tile.quark:colored_flowerpot_white.name=White Flower Pot
 tile.quark:colored_flowerpot_yellow.name=Yellow Flower Pot
 tile.quark:colored_flowerpot_red.name=Red Flower Pot
-
 tile.quark:bark_oak_stairs.name=Oak Bark Stairs
 tile.quark:bark_spruce_stairs.name=Spruce Bark Stairs
 tile.quark:bark_birch_stairs.name=Birch Bark Stairs
@@ -403,6 +402,7 @@ tile.quark:bark_birch_slab.name=Birch Bark Slab
 tile.quark:bark_jungle_slab.name=Jungle Bark Slab
 tile.quark:bark_acacia_slab.name=Acacia Bark Slab
 tile.quark:bark_dark_oak_slab.name=Dark Oak Bark Slab
+tile.quark:black_ash.name=Wither Ash
 
 # ITEM NAMES
 item.quark:glass_shard.name=Glass Shard
