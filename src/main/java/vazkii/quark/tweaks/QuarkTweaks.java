@@ -22,6 +22,7 @@ import vazkii.quark.tweaks.feature.ConvertClay;
 import vazkii.quark.tweaks.feature.DeployLaddersDown;
 import vazkii.quark.tweaks.feature.DoubleDoors;
 import vazkii.quark.tweaks.feature.DragonsBreathBottleless;
+import vazkii.quark.tweaks.feature.DyeAnyWool;
 import vazkii.quark.tweaks.feature.EndermenAntiCheese;
 import vazkii.quark.tweaks.feature.GlassShards;
 import vazkii.quark.tweaks.feature.HoeSickle;
@@ -78,6 +79,7 @@ public class QuarkTweaks extends Module {
 		registerFeature(new AxesBreakLeaves());
 		registerFeature(new CompassesWorkEverywhere());
 		registerFeature(new BlastproofShulkerBoxes());
+		registerFeature(new DyeAnyWool());
 	}
 
 }
