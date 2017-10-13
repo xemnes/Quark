@@ -8,7 +8,6 @@ import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -64,6 +63,15 @@ public class BlockGunpowder extends BlockQuarkDust {
 		}
 		
 		return false;
+	}
+	
+	@Override
+	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
+		if(!state.getValue(LIT)) {
+			IBlockState otherBlock = worldIn.getBlockState(fromPos);
+			if(otherBlock.getBlock() == Blocks.FIRE)
+				lightUp(worldIn, pos);
+		}
 	}
 	
 	private boolean lightUp(World world, BlockPos pos) {
