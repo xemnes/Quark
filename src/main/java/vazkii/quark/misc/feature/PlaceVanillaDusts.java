@@ -29,7 +29,7 @@ public class PlaceVanillaDusts extends Feature {
 	public void setupConfig() {
 		enableGlowstone = loadPropBool("Enable Glowstone", "", true);
 		enableGunpowder = loadPropBool("Enable Gunpowder", "", true);
-		gunpowderDelay = loadPropInt("Gunpowder Delay", "Amount of ticks between each piece of gunpowder igniting the next", 20);
+		gunpowderDelay = loadPropInt("Gunpowder Delay", "Amount of ticks between each piece of gunpowder igniting the next", 10);
 	}
 	
 	@Override
