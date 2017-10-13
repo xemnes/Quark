@@ -15,6 +15,7 @@ import vazkii.quark.tweaks.feature.ArmedArmorStands;
 import vazkii.quark.tweaks.feature.AutomaticRecipeUnlock;
 import vazkii.quark.tweaks.feature.AxesBreakLeaves;
 import vazkii.quark.tweaks.feature.BabyZombiesBurn;
+import vazkii.quark.tweaks.feature.BlastproofShulkerBoxes;
 import vazkii.quark.tweaks.feature.ChickensShedFeathers;
 import vazkii.quark.tweaks.feature.CompassesWorkEverywhere;
 import vazkii.quark.tweaks.feature.ConvertClay;
@@ -76,6 +77,7 @@ public class QuarkTweaks extends Module {
 		registerFeature(new ImprovedSleeping());
 		registerFeature(new AxesBreakLeaves());
 		registerFeature(new CompassesWorkEverywhere());
+		registerFeature(new BlastproofShulkerBoxes());
 	}
 
 }
