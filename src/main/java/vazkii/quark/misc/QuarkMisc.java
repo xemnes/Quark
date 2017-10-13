@@ -10,6 +10,7 @@ import vazkii.quark.misc.feature.ExtraArrows;
 import vazkii.quark.misc.feature.LockDirectionHotkey;
 import vazkii.quark.misc.feature.NoteBlockInterface;
 import vazkii.quark.misc.feature.NoteBlocksMobSounds;
+import vazkii.quark.misc.feature.PlaceVanillaDusts;
 import vazkii.quark.misc.feature.PoisonPotatoUsage;
 import vazkii.quark.misc.feature.SlimeBucket;
 import vazkii.quark.misc.feature.SnowGolemPlayerHeads;
@@ -34,6 +35,7 @@ public class QuarkMisc extends Module {
 		registerFeature(new PoisonPotatoUsage());
 		registerFeature(new ThrowableDragonBreath());
 		registerFeature(new BlackAsh());
+		registerFeature(new PlaceVanillaDusts());
 	}
 	
 }
