@@ -403,6 +403,8 @@ tile.quark:bark_jungle_slab.name=Jungle Bark Slab
 tile.quark:bark_acacia_slab.name=Acacia Bark Slab
 tile.quark:bark_dark_oak_slab.name=Dark Oak Bark Slab
 tile.quark:black_ash.name=Wither Ash
+tile.quark:glowstone_dust_block.name=Glowstone Dust
+tile.quark:gunpowder_block.name=Gunpowder
 
 # ITEM NAMES
 item.quark:glass_shard.name=Glass Shard

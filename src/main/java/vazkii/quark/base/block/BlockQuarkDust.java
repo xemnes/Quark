@@ -110,7 +110,7 @@ public abstract class BlockQuarkDust extends BlockMod implements IQuarkBlock, IB
 		return state;
 	}
 
-	private EnumAttachPosition getAttachPosition(IBlockAccess worldIn, BlockPos pos, EnumFacing direction) {
+	protected EnumAttachPosition getAttachPosition(IBlockAccess worldIn, BlockPos pos, EnumFacing direction) {
 		BlockPos blockpos = pos.offset(direction);
 		IBlockState iblockstate = worldIn.getBlockState(pos.offset(direction));
 
@@ -156,8 +156,6 @@ public abstract class BlockQuarkDust extends BlockMod implements IQuarkBlock, IB
 		return worldIn.getBlockState(pos.down()).isTopSolid() || worldIn.getBlockState(pos.down()).getBlock() == Blocks.GLOWSTONE;
 	}
 
-	// TODO is isBlockAdded and breakBlock required here?
-
 	@Override
 	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
 		if(!worldIn.isRemote && !canPlaceBlockAt(worldIn, pos)) {
@@ -172,7 +170,7 @@ public abstract class BlockQuarkDust extends BlockMod implements IQuarkBlock, IB
 
 	protected boolean canConnectTo(IBlockState blockState, @Nullable EnumFacing side, IBlockAccess world, BlockPos pos) {
 		Block block = blockState.getBlock();
-		return block == this; // TODO make not be shit
+		return block == this;
 	}
 
 	@Override
@@ -248,7 +246,7 @@ public abstract class BlockQuarkDust extends BlockMod implements IQuarkBlock, IB
 		return (stack, tint) -> 0xFFFFFF;
 	}
 
-	static enum EnumAttachPosition implements EnumBase {
+	protected static enum EnumAttachPosition implements EnumBase {
 
 		UP,
 		SIDE,

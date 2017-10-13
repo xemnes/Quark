@@ -15,6 +15,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.misc.block.BlockGlowstoneDust;
+import vazkii.quark.misc.block.BlockGunpowder;
 
 public class PlaceVanillaDusts extends Feature {
 
@@ -22,16 +23,22 @@ public class PlaceVanillaDusts extends Feature {
 	public static Block gunpowder_block;
 	
 	boolean enableGlowstone, enableGunpowder;
+	public static int gunpowderDelay;
 	
 	@Override
 	public void setupConfig() {
 		enableGlowstone = loadPropBool("Enable Glowstone", "", true);
 		enableGunpowder = loadPropBool("Enable Gunpowder", "", true);
+		gunpowderDelay = loadPropInt("Gunpowder Delay", "Amount of ticks between each piece of gunpowder igniting the next", 20);
 	}
 	
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
-		glowstone_dust_block = new BlockGlowstoneDust();
+		if(enableGlowstone)
+			glowstone_dust_block = new BlockGlowstoneDust();
+		
+		if(enableGunpowder)
+			gunpowder_block = new BlockGunpowder();
 	}
 	
 	@SubscribeEvent
@@ -45,6 +52,8 @@ public class PlaceVanillaDusts extends Feature {
 		
 		if(enableGlowstone && stack.getItem() == Items.GLOWSTONE_DUST)
 			setBlock(player, world, pos, hand, face, glowstone_dust_block);
+		else if(enableGunpowder && stack.getItem() == Items.GUNPOWDER)
+			setBlock(player, world, pos, hand, face, gunpowder_block);
 	}
 	
     private boolean setBlock(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, Block block) {
