@@ -72,14 +72,20 @@ public class BlockGunpowder extends BlockQuarkDust {
 			if(otherBlock.getBlock() == Blocks.FIRE)
 				lightUp(worldIn, pos);
 		}
+		
+		super.neighborChanged(state, worldIn, pos, blockIn, fromPos);
 	}
 	
 	private boolean lightUp(World world, BlockPos pos) {
 		IBlockState state = world.getBlockState(pos);
 		if(state.getBlock() == this) {
+			IBlockState belowState = world.getBlockState(pos.down());
 			IBlockState newState = state.withProperty(LIT, true);
 			world.setBlockState(pos, newState);
-			world.scheduleUpdate(pos, newState.getBlock(), tickRate(world));
+			world.scheduleUpdate(pos, newState.getBlock(),
+					belowState.getBlock().getRegistryName().getResourcePath().contains("netherrack")
+						? PlaceVanillaDusts.gunpowderDelayNetherrack 
+						: PlaceVanillaDusts.gunpowderDelay);
 			
 			if(world instanceof WorldServer) {
 	    		float x = pos.getX();
@@ -122,11 +128,6 @@ public class BlockGunpowder extends BlockQuarkDust {
 			default: break;
 			}
 		}
-	}
-	
-	@Override
-	public int tickRate(World worldIn) {
-		return PlaceVanillaDusts.gunpowderDelay;
 	}
 	
 	@Override

@@ -24,12 +24,14 @@ public class PlaceVanillaDusts extends Feature {
 	
 	boolean enableGlowstone, enableGunpowder;
 	public static int gunpowderDelay;
+	public static int gunpowderDelayNetherrack;
 	
 	@Override
 	public void setupConfig() {
 		enableGlowstone = loadPropBool("Enable Glowstone", "", true);
 		enableGunpowder = loadPropBool("Enable Gunpowder", "", true);
 		gunpowderDelay = loadPropInt("Gunpowder Delay", "Amount of ticks between each piece of gunpowder igniting the next", 10);
+		gunpowderDelayNetherrack = loadPropInt("Gunpowder Delay on Netherrack", "Amount of ticks between each piece of gunpowder igniting the next, if on Netherrack", 5);
 	}
 	
 	@Override
