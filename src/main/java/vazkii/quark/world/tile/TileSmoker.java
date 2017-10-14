@@ -7,7 +7,7 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import vazkii.quark.base.block.tile.TileMod;
+import vazkii.arl.block.tile.TileMod;
 
 public class TileSmoker extends TileMod implements ITickable {
 
