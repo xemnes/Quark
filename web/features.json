@@ -338,7 +338,7 @@
 			},
 			{
 				"name":"Favorite Items",
-				"description":"Alt-clicking an item will make it a \"Favorite Item\". Favorite items are not deposited by the Dropoff button or the last two Chest buttons.",
+				"description":"Alt+right clicking an item will make it a \"Favorite Item\". Favorite items are not deposited by the Dropoff button or the last two Chest buttons.",
 				"image":"favorites.jpg",
 				"introduced":9
 			},
@@ -501,7 +501,8 @@
 				"name":"Safe Mounts",
 				"description":"Mounts are immune to attacks from riders. No more shooting your own horse!",
 				"image":"safe-horses.jpg",
-				"introduced":9
+				"introduced":9,
+				"added_to_vanilla":12
 			},
 			{
 				"name":"Shave Snow Layers",
@@ -575,6 +576,18 @@
 				"name":"Compasses Everywhere",
 				"description":"Compasses will now work in the Nether and the End.<ul><li>In the Nether, a compass will point to the portal you entered from, provided you had it on you when you did.</li><li>In the End, a compass will point to the overworld portal.</li></ul>As a bonus, Compases and Clocks will not function until crafted to prevent cheesing with the recipe book. If you prefer, this feature can be configured to only have the anti-cheese, and not the former points.",
 				"image":"compasses-everywhere.jpg",
+				"introduced":12
+			},
+			{
+				"name":"Blastproof Shulker Boxes",
+				"description":"Shulker Boxes are now blastproof, having the same blast resistance as Obsidian.",
+				"image":"blastproof-shulker-boxes.jpg",
+				"introduced":12
+			},
+			{
+				"name":"Dye any Wool",
+				"description":"Any color of Wool can be dyed into another one, instead of just White Wool. You can also dye 8 blocks of Wool at once, similarly to other dyable blocks like Terracotta.",
+				"image":"dye-any-wool.jpg",
 				"introduced":12
 			}
 		]
@@ -733,8 +746,14 @@
 			},
 			{
 				"name": "Pathfinder Maps",
-				"description":"Cartographer Villagers will now sell Pathfinder Maps of various biome types, which point to the closest biome to the villager carrying them. Unlike other trades, any given Cartographer will only stock only a random assortment instead, which expands as they level up. The default table for these sales is as follows:<table><tbody><tr><th>Level</th><th>Maps Carried</th></tr><tr><td>2</td><td>Ice Plains, Extreme Hills, Roofed Forest, Desert, Savanna</td></tr><tr></tr><tr><td>3</td><td>Swampland, Mega Taiga, Flower Forest</td></tr><tr><td>4</td><td>Jungle, Mesa</td></tr><tr><td>5</td><td>Mushroom Island, Ice Spikes</td></tr></tbody></table>",
+				"description":"Cartographer Villagers will now sell Pathfinder Maps of various biome types, which point to the closest biome to the villager carrying them. Unlike other trades where every variant is present, any given Cartographer will only stock only a random assortment of these, which expands as they level up. The default table for these sales is as follows:<table><tbody><tr><th>Level</th><th>Potential Maps Carried</th></tr><tr><td>2</td><td>Ice Plains, Extreme Hills, Roofed Forest, Desert, Savanna</td></tr><tr></tr><tr><td>3</td><td>Swampland, Mega Taiga, Flower Forest</td></tr><tr><td>4</td><td>Jungle, Mesa</td></tr><tr><td>5</td><td>Mushroom Island, Ice Spikes</td></tr></tbody></table>",
 				"image":"pathfinder-maps.jpg",
+				"introduced":12
+			},
+			{
+				"name": "Nether Smokers",
+				"description":"Nether Smokers are a new block which will spawn uncommonly on the border of lava lakes in the Nether. These blocks emit a bunch of smoke, which you can use for decoration to create chimneys or smokestacks.<br><br>Nether Smokers will not emit smoke if there's a solid block directly above them. Furthermore, creating a 1x1 chimney surrounded by solid blocks, from the smoker block upward, will cause the smoke to propagate. Combine these two with a piston and you can turn the smoke off at will on your chimney.",
+				"image":"smokers.jpg",
 				"introduced":12
 			}
 		]
@@ -918,6 +937,24 @@
 				"name":"Animal Poisoning",
 				"description":"Feeding a baby animal a Poisonous Potato has a chance to poison it for a few seconds. A baby animal that has been poisoned by this method will never grow into an adult.",
 				"image":"animal-poisoning.jpg",
+				"introduced":12
+			},
+			{
+				"name":"Place Glowstone and Gunpowder",
+				"description":"Glowstone Dust and Gunpowder can be placed just like Redstone.<br><br>Glowstone will just emit some light (same level as Torches).<br><br>Gunpowder can be ignited, either by using a Flint and Steel or a Fire Charge on it, or by having some fire show up adjacent to it. Gunpowder works as a fuse, by default spreading the flame two blocks every second. Placing Gunpowder on Netherrack makes it go twice as fast.",
+				"image":"vanilla-dusts.jpg",
+				"introduced":12
+			},
+			{
+				"name":"Throwable Dragon Breath",
+				"description":"Bottles of Dragon Breath can now be thrown. Upon impact, they'll randomly replace some Stone blocks around the impact point with End Stone.",
+				"image":"throw-dragon-breath.jpg",
+				"introduced":12
+			},
+			{
+				"name":"Wither Ash",
+				"description":"Wither Ash is a new drop from Withers and Wither Skeletons (replacing Coal for these). Regardless of light level, monsters may not spawn on top of Wither Ash, or on top of blocks that have Wither Ash under them, as seen in the picture.",
+				"image":"wither-ash.jpg",
 				"introduced":12
 			}
 		]
