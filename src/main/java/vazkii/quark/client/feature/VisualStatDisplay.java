@@ -128,6 +128,7 @@ public class VisualStatDisplay extends Feature {
 					GlStateManager.color(1F, 1F, 1F);
 					mc.getTextureManager().bindTexture(LibMisc.GENERAL_ICONS_RESOURCE);
 					Gui.drawModalRectWithCustomSizedTexture(x, y, 247, 0, 9, 9, 256, 256);
+					
 					String spdStr = ItemStack.DECIMALFORMAT.format(speed);
 					mc.fontRenderer.drawStringWithShadow(spdStr, x + 12, y + 1, 0xFFFFFF);
 					x += mc.fontRenderer.getStringWidth(spdStr) + 20;
@@ -136,13 +137,14 @@ public class VisualStatDisplay extends Feature {
 				ItemArmor armor = (ItemArmor) item;
 				EntityEquipmentSlot slot = armor.getEquipmentSlot();
 				
-				GlStateManager.color(1F, 1F, 1F);
-				mc.getTextureManager().bindTexture(LibMisc.GENERAL_ICONS_RESOURCE);
 				slotAttributes = stack.getAttributeModifiers(slot);
 				
 				double armorLevel = getAttribute(mc.player, stack, slotAttributes, "generic.armor");
 				if(armorLevel > 0) {
+					GlStateManager.color(1F, 1F, 1F);
+					mc.getTextureManager().bindTexture(LibMisc.GENERAL_ICONS_RESOURCE);
 					Gui.drawModalRectWithCustomSizedTexture(x, y, 229, 0, 9, 9, 256, 256);
+					
 					String armorStr = ItemStack.DECIMALFORMAT.format(armorLevel);
 					mc.fontRenderer.drawStringWithShadow(armorStr, x + 12, y + 1, 0xFFFFFF);
 					x += mc.fontRenderer.getStringWidth(armorStr) + 20;
@@ -150,8 +152,10 @@ public class VisualStatDisplay extends Feature {
 				
 				double toughness = getAttribute(mc.player, stack, slotAttributes, "generic.armorToughness");
 				if(toughness > 0) {
+					GlStateManager.color(1F, 1F, 1F);
 					mc.getTextureManager().bindTexture(LibMisc.GENERAL_ICONS_RESOURCE);
 					Gui.drawModalRectWithCustomSizedTexture(x, y, 220, 0, 9, 9, 256, 256);
+					
 					String toughnessStr = ItemStack.DECIMALFORMAT.format(toughness);
 					mc.fontRenderer.drawStringWithShadow(toughnessStr, x + 12, y + 1, 0xFFFFFF);
 					x += mc.fontRenderer.getStringWidth(toughnessStr) + 20;
