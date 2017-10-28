@@ -73,7 +73,7 @@ public class ReactiveCursor extends Feature {
 			}
 		}
 	}
-	
+
 	private String getCursor() {
 		Minecraft mc = Minecraft.getMinecraft();
 		GuiScreen gui = mc.currentScreen;
@@ -82,22 +82,21 @@ public class ReactiveCursor extends Feature {
 				GuiContainer container = (GuiContainer) gui;
 				if(!mc.player.inventory.getItemStack().isEmpty())
 					return CURSOR_CLOSED_HAND;
-				
+
 				Slot hovered = container.getSlotUnderMouse();
-				if(hovered != null) {
+				if(hovered != null && !hovered.getStack().isEmpty()) {
 					if(hovered instanceof SlotCrafting)
 						return CURSOR_SAW;
-					else if(!hovered.getStack().isEmpty())
-						return CURSOR_OPEN_HAND;
+					return CURSOR_OPEN_HAND;
 				}
 			}
-			
+
 			List<GuiButton> buttonList = ReflectionHelper.getPrivateValue(GuiScreen.class, gui, LibObfuscation.BUTTON_LIST);
 			for(GuiButton b : buttonList)
 				if(b.isMouseOver())
 					return CURSOR_FINGER;
 		}
-		
+
 		return CURSOR_POINTER;
 	}
 
@@ -109,7 +108,7 @@ public class ReactiveCursor extends Feature {
 	private static void putCursor(String name, double xAnchor, double yAnchor) {
 		putCursor(name, name + ".png", xAnchor, yAnchor);
 	}
-	
+
 	private static void putCursor(String name, String file, double xAnchor, double yAnchor) {
 		putCursor(name, new ResourceLocation(LibMisc.MOD_ID, CURSOR_ROOT + file), xAnchor, yAnchor);
 	}
@@ -151,7 +150,7 @@ public class ReactiveCursor extends Feature {
 
 			int xHotspot = MathHelper.clamp((int) ((double) width * xAnchor), 0, width - 1);
 			int yHotspot = MathHelper.clamp((int) ((double) height * yAnchor), 0, height - 1);
-			
+
 			Cursor cursor = new Cursor(width, height, xHotspot, yHotspot, 1, buf.asIntBuffer(), null);
 			CURSORS.put(name, cursor);
 		} catch (Throwable e) {
