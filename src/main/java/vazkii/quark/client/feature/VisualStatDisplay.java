@@ -110,12 +110,13 @@ public class VisualStatDisplay extends Feature {
 			
 			Multimap<String, AttributeModifier> slotAttributes = null;
 			if(item instanceof ItemSword || item instanceof ItemTool || item instanceof ItemHoe) {
+				slotAttributes = stack.getAttributeModifiers(EntityEquipmentSlot.MAINHAND);
+
 				double damage = getAttribute(mc.player, stack, slotAttributes, "generic.attackDamage");
 				if(damage > 0) {
 					GlStateManager.color(1F, 1F, 1F);
 					mc.getTextureManager().bindTexture(LibMisc.GENERAL_ICONS_RESOURCE);
 					Gui.drawModalRectWithCustomSizedTexture(x, y, 238, 0, 9, 9, 256, 256);
-					slotAttributes = stack.getAttributeModifiers(EntityEquipmentSlot.MAINHAND);
 
 					String dmgStr = ItemStack.DECIMALFORMAT.format(damage);
 					mc.fontRenderer.drawStringWithShadow(dmgStr, x + 12, y + 1, 0xFFFFFF);
