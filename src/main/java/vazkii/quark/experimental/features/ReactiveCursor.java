@@ -57,6 +57,7 @@ public class ReactiveCursor extends Feature {
 	}
 
 	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
 	public void onTick(RenderTickEvent event) {
 		if(event.phase == Phase.END) {
 			String cursorName = getCursor();
@@ -74,6 +75,7 @@ public class ReactiveCursor extends Feature {
 		}
 	}
 
+	@SideOnly(Side.CLIENT)
 	private String getCursor() {
 		Minecraft mc = Minecraft.getMinecraft();
 		GuiScreen gui = mc.currentScreen;
@@ -105,14 +107,17 @@ public class ReactiveCursor extends Feature {
 		return isClient();
 	}
 
+	@SideOnly(Side.CLIENT)
 	private static void putCursor(String name, double xAnchor, double yAnchor) {
 		putCursor(name, name + ".png", xAnchor, yAnchor);
 	}
 
+	@SideOnly(Side.CLIENT)
 	private static void putCursor(String name, String file, double xAnchor, double yAnchor) {
 		putCursor(name, new ResourceLocation(LibMisc.MOD_ID, CURSOR_ROOT + file), xAnchor, yAnchor);
 	}
 
+	@SideOnly(Side.CLIENT)
 	private static void putCursor(String name, ResourceLocation res, double xAnchor, double yAnchor) {
 		try {
 			CURSORS.put(name, null);
