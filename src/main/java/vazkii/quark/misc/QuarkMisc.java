@@ -8,6 +8,7 @@ import vazkii.quark.misc.feature.EnderdragonScales;
 import vazkii.quark.misc.feature.EndermitesIntoShulkers;
 import vazkii.quark.misc.feature.ExtraArrows;
 import vazkii.quark.misc.feature.LockDirectionHotkey;
+import vazkii.quark.misc.feature.MapMarkers;
 import vazkii.quark.misc.feature.NoteBlockInterface;
 import vazkii.quark.misc.feature.NoteBlocksMobSounds;
 import vazkii.quark.misc.feature.PlaceVanillaDusts;
@@ -36,6 +37,7 @@ public class QuarkMisc extends Module {
 		registerFeature(new ThrowableDragonBreath());
 		registerFeature(new BlackAsh());
 		registerFeature(new PlaceVanillaDusts());
+		registerFeature(new MapMarkers());
 	}
 	
 }
