@@ -500,6 +500,24 @@ entity.quark:wraith.name=Wraith
 
 # POTION NAMES
 quark.potion.curse.name=Curse
+quark.potion.danger_sight.name=Danger Sight
+
+potion.effect.haste=Potion of Haste
+splash_potion.effect.haste=Splash Potion of Haste
+lingering_potion.effect.haste=Lingering Potion of Haste
+tipped_arrow.effect.haste=Arrow of Haste
+potion.effect.mining_fatigue=Potion of Lagging
+splash_potion.effect.mining_fatigue=Splash Potion of Lagging
+lingering_potion.effect.mining_fatigue=Lingering Potion of Lagging
+tipped_arrow.effect.mining_fatigue=Arrow of Lagging
+potion.effect.resistance=Potion of Fortitude
+splash_potion.effect.resistance=Splash Potion of Fortitude
+lingering_potion.effect.resistance=Lingering Potion of Fortitude
+tipped_arrow.effect.resistance=Arrow of Fortitude
+potion.effect.danger_sight=Potion of Danger Sight
+splash_potion.effect.danger_sight=Splash Potion of Danger Sight
+lingering_potion.effect.danger_sight=Lingering Potion of Danger Sight
+tipped_arrow.effect.danger_sight=Arrow of Danger Sight
 
 # KEYBINDS
 quark.gui.keygroupMisc=Quark Misc
@@ -551,7 +569,6 @@ quark.dye.black=Black
 generator.quark_realistic=Realistic
 generator.quark_realistic.info=[Quark] Realistic World Type by /u/Soniop
 
-# BIOME MAPS
 quark.biomeMap.ice_flats=Ice Plains Pathfinder Map
 quark.biomeMap.extreme_hills=Extreme Hills Pathfinder Map
 quark.biomeMap.roofed_forest=Roofed Forest Pathfinder Map

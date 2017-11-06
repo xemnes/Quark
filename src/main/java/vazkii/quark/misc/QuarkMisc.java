@@ -7,6 +7,7 @@ import vazkii.quark.misc.feature.ColorRunes;
 import vazkii.quark.misc.feature.EnderdragonScales;
 import vazkii.quark.misc.feature.EndermitesIntoShulkers;
 import vazkii.quark.misc.feature.ExtraArrows;
+import vazkii.quark.misc.feature.ExtraPotions;
 import vazkii.quark.misc.feature.LockDirectionHotkey;
 import vazkii.quark.misc.feature.MapMarkers;
 import vazkii.quark.misc.feature.NoteBlockInterface;
@@ -38,6 +39,7 @@ public class QuarkMisc extends Module {
 		registerFeature(new BlackAsh());
 		registerFeature(new PlaceVanillaDusts());
 		registerFeature(new MapMarkers());
+		registerFeature(new ExtraPotions());
 	}
 	
 }
