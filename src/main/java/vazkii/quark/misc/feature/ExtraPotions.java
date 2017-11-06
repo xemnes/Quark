@@ -3,7 +3,6 @@ package vazkii.quark.misc.feature;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
 import net.minecraft.init.PotionTypes;
@@ -30,6 +29,7 @@ import net.minecraftforge.oredict.OreIngredient;
 import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.base.module.Feature;
+import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.base.potion.PotionMod;
 import vazkii.quark.world.feature.Biotite;
 import vazkii.quark.world.feature.UndergroundBiomes;
@@ -91,12 +91,12 @@ public class ExtraPotions extends Feature {
 		if(world.isSideSolid(pos.down(), EnumFacing.UP) && !world.isBlockNormalCube(pos, false)
 				&& !world.isBlockNormalCube(pos.up(), false) && !world.getBlockState(pos).getMaterial().isLiquid()) {
 			IBlockState state = world.getBlockState(pos);
-			if(state.getBlock() == Blocks.BEDROCK)
+			
+			if(ModuleLoader.isFeatureEnabled(BlackAsh.class) && state.getBlock() == BlackAsh.black_ash || world.getBlockState(pos.down(2)).getBlock() == BlackAsh.black_ash)
 				return false;
-			else {
-				int lightLevel = world.getLightFor(EnumSkyBlock.BLOCK, pos);
-				return lightLevel < 8 && (world.isAirBlock(pos) || state.getCollisionBoundingBox(world, pos) == null);
-			}
+			
+			int lightLevel = world.getLightFor(EnumSkyBlock.BLOCK, pos);
+			return lightLevel < 8 && (world.isAirBlock(pos) || state.getCollisionBoundingBox(world, pos) == null);
 		}
 		
 		return false;
