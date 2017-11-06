@@ -1,5 +1,9 @@
 package vazkii.quark.misc.feature;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
 import net.minecraft.init.PotionTypes;
@@ -10,8 +14,19 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.potion.PotionHelper;
 import net.minecraft.potion.PotionType;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.EnumSkyBlock;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.oredict.OreIngredient;
 import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.base.module.Feature;
@@ -46,10 +61,45 @@ public class ExtraPotions extends Feature {
 		if(enableDangerSight) {
 			dangerSight = new PotionMod("danger_sight", false, 0x08C8E3, 1).setBeneficial();
 
-			addStandardBlend(dangerSight, (UndergroundBiomes.glowcelium == null || forceClownfishForDangerSight) ? 
-					Ingredient.fromStacks(new ItemStack(Items.FISH, 1, 2)) : Item.getItemFromBlock(UndergroundBiomes.glowcelium),
-					null, 3600, 9600, 0);
+			addStandardBlend(dangerSight, (UndergroundBiomes.glowshroom == null || forceClownfishForDangerSight) ? 
+					new ItemStack(Items.FISH, 1, 2) : UndergroundBiomes.glowshroom, null, 3600, 9600, 0);
 		}
+	}
+	
+	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
+	public void clientTick(ClientTickEvent event) {
+		Minecraft mc = Minecraft.getMinecraft();
+		if(enableDangerSight && event.phase == Phase.START && mc.player != null && mc.player.getActivePotionEffect(dangerSight) != null && !mc.isGamePaused()) {
+			int range = 12;
+			World world = mc.world;
+			Iterable<BlockPos> positions = BlockPos.getAllInBox(mc.player.getPosition().add(-range, -range, -range), mc.player.getPosition().add(range, range, range));
+			
+			for(BlockPos pos : positions)
+				if(world.rand.nextFloat() < 0.1 && canMobsSpawnInPos(world, pos)) {
+		    		float x = pos.getX() + 0.3F + world.rand.nextFloat() * 0.4F;
+		        	float y = pos.getY();
+		        	float z = pos.getZ() + 0.3F + world.rand.nextFloat() * 0.4F;
+		            world.spawnParticle(EnumParticleTypes.SPELL_MOB, x, y, z, world.rand.nextFloat() < 0.9 ? 0 : 1, 0, 0);	
+				}
+		}
+	}
+	
+	// Shamelessly stolen from BetterWithMods
+	// https://github.com/BetterWithMods/BetterWithMods/blob/bf630aa1fade156ce8fae0d769ad745a4161b0ba/src/main/java/betterwithmods/event/PotionEventHandler.java
+	private boolean canMobsSpawnInPos(World world, BlockPos pos) {
+		if(world.isSideSolid(pos.down(), EnumFacing.UP) && !world.isBlockNormalCube(pos, false)
+				&& !world.isBlockNormalCube(pos.up(), false) && !world.getBlockState(pos).getMaterial().isLiquid()) {
+			IBlockState state = world.getBlockState(pos);
+			if(state.getBlock() == Blocks.BEDROCK)
+				return false;
+			else {
+				int lightLevel = world.getLightFor(EnumSkyBlock.BLOCK, pos);
+				return lightLevel < 8 && (world.isAirBlock(pos) || state.getCollisionBoundingBox(world, pos) == null);
+			}
+		}
+		
+		return false;
 	}
 
 	private void addStandardBlend(Potion type, Object reagent) {
@@ -68,13 +118,19 @@ public class ExtraPotions extends Feature {
 		PotionType longType = addPotion(new PotionEffect(type, longTime), baseName, "long_" + baseName);
 		PotionType strongType = !hasStrong ? null : addPotion(new PotionEffect(type, strongTime, 1), baseName, "strong_" + baseName);
 
-		if(reagent instanceof Item) {
-			PotionHelper.addMix(PotionTypes.AWKWARD, (Item) reagent, normalType);
-			PotionHelper.addMix(PotionTypes.WATER, (Item) reagent, PotionTypes.MUNDANE);
-		} else if(reagent instanceof Ingredient) {
+		if(reagent instanceof Item)
+			reagent = Ingredient.fromItem((Item) reagent);
+		else if(reagent instanceof Block)
+			reagent = Ingredient.fromStacks(ProxyRegistry.newStack((Block) reagent));
+		else if(reagent instanceof ItemStack)
+			reagent = Ingredient.fromStacks((ItemStack) reagent);
+		else if(reagent instanceof String)
+			reagent = new OreIngredient((String) reagent);
+		
+		if(reagent instanceof Ingredient) {
 			PotionHelper.addMix(PotionTypes.AWKWARD, (Ingredient) reagent, normalType);
 			PotionHelper.addMix(PotionTypes.WATER, (Ingredient) reagent, PotionTypes.MUNDANE);
-		}
+		} else throw new IllegalArgumentException("Reagent can't be " + reagent.getClass());
 
 		if(hasStrong)
 			PotionHelper.addMix(normalType, Items.GLOWSTONE_DUST, strongType);
@@ -100,6 +156,11 @@ public class ExtraPotions extends Feature {
 		ProxyRegistry.register(type);
 
 		return type;
+	}
+	
+	@Override
+	public boolean hasSubscriptions() {
+		return isClient();
 	}
 
 }
