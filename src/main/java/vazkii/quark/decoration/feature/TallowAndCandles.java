@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.oredict.OreDictionary;
 import vazkii.arl.recipe.RecipeHandler;
 import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.lib.LibMisc;
@@ -41,10 +42,12 @@ public class TallowAndCandles extends Feature {
 		if(enableTallow) {
 			tallow = new ItemTallow();
 			
+			OreDictionary.registerOre("tallow", tallow);
+			
 			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(candle, candlesCrafted), 
 					"S", "T", "T",
 					'S', "string",
-					'T', ProxyRegistry.newStack(tallow));
+					'T', "tallow");
 			
 			ItemStack baseCandle = ProxyRegistry.newStack(candle);
 			for(int i = 0; i < 16; i++) {
