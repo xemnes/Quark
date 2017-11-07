@@ -1,9 +1,9 @@
 {
 	"Comment": "Designed by Wiiv with Cubik Studio - https://cubik.studio",
 	"textures": {
-		"particle": "quark:blocks/candle_white",
-		"candle": "quark:blocks/candle_white",
-		"wick": "blocks/wool_white"
+		"particle": "#all",
+		"candle": "#all",
+		"wick": "minecraft:blocks/wool_colored_black"
 	},
 	"elements": [ 	 
 		{

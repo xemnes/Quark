@@ -406,6 +406,22 @@ tile.quark:black_ash.name=Wither Ash
 tile.quark:glowstone_dust_block.name=Glowstone Dust
 tile.quark:gunpowder_block.name=Gunpowder
 tile.quark:smoker.name=Nether Smoker
+tile.quark:candle_black.name=Black Candle
+tile.quark:candle_blue.name=Blue Candle
+tile.quark:candle_brown.name=Brown Candle
+tile.quark:candle_cyan.name=Cyan Candle
+tile.quark:candle_gray.name=Gray Candle
+tile.quark:candle_green.name=Green Candle
+tile.quark:candle_light_blue.name=Light Blue Candle
+tile.quark:candle_lime.name=Lime Candle
+tile.quark:candle_magenta.name=Magenta Candle
+tile.quark:candle_orange.name=Orange Candle
+tile.quark:candle_pink.name=Pink Candle
+tile.quark:candle_purple.name=Purple Candle
+tile.quark:candle_silver.name=Light Gray Candle
+tile.quark:candle_white.name=White Candle
+tile.quark:candle_yellow.name=Yellow Candle
+tile.quark:candle_red.name=Red Candle
 
 # ITEM NAMES
 item.quark:glass_shard.name=Glass Shard
@@ -489,6 +505,7 @@ item.quark:soul_powder.name=Soul Powder
 item.quark:glass_item_frame.name=Glass Item Frame
 item.quark:enderdragon_scale.name=Dragon Scale
 item.quark:trowel.name=Trowel
+item.quark:tallow.name=Tallow
 
 # ENTITY NAMES
 entity.quark:colored_item_frame.name=Colored Item Frame
