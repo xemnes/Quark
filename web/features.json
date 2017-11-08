@@ -198,6 +198,12 @@
 				"description":"A Trowel tool can be crafted with Iron and Sticks. The Trowel, when right clicked, will place a random block from your hotbar, making it useful for ruins or paths.<br><br>A Trowel will break after placing 256 blocks.",
 				"image":"trowel.jpg",
 				"introduced":12
+			},
+			{
+				"name":"Magma Bricks",
+				"description":"Magma Bricks can be crafted by combining Magma and Stone Bricks. Similarly to Magma, these shine but don't emit light. Magma Bricks are also available as stairs and slabs.",
+				"image":"magma-bricks.jpg",
+				"introduced":12
 			}
 		]
 	},
@@ -304,6 +310,12 @@
 				"description":"Flower Pots can be combined with a dye to change their texture to that of the respective Stained Clay variant. All functionality remains the same.",
 				"image":"colored-flower-pots.jpg",
 				"introduced":11
+			},
+			{
+				"name":"Tallow and Candles",
+				"description":"In an attempt to make pigs be useful in any way, they drop Tallow. Tallow can be crafted alongside String to create Candles.<br><br>Candles come in all 16 colors of the spectrum, and emit as much light as torches. Candles will also fall like sand if there's no block under them, which can have many fun uses.",
+				"image":"candles.jpg",
+				"introduced":12
 			}
 		]
 	},
@@ -588,6 +600,12 @@
 				"name":"Dye any Wool",
 				"description":"Any color of Wool can be dyed into another one, instead of just White Wool. You can also dye 8 blocks of Wool at once, similarly to other dyable blocks like Terracotta.",
 				"image":"dye-any-wool.jpg",
+				"introduced":12
+			},
+			{
+				"name":"Squid Inking",
+				"description":"Upon being attacked, Squids will release some ink, which inflicts blindness on nearby players.",
+				"image":"squid-inking.jpg",
 				"introduced":12
 			}
 		]
@@ -955,6 +973,18 @@
 				"name":"Wither Ash",
 				"description":"Wither Ash is a new drop from Withers and Wither Skeletons (replacing Coal for these). Regardless of light level, monsters may not spawn on top of Wither Ash, or on top of blocks that have Wither Ash under them, as seen in the picture.",
 				"image":"wither-ash.jpg",
+				"introduced":12
+			},
+			{
+				"name":"Extra Potions",
+				"description":"Haste and Resistance potions can now be brewed, using Prismarine Crystals and Biotite, respectively. Brewing Haste with a Fermented Spider Eye produces a Mining Fatigue potion.<br><br>Furthermore, a new potion effect is added: Danger Sight, brewed with Glowshroom (from Underground Biomes). While under the effect of Danger Sight, nearby spots that are dark enough for monsters to spawn will emit particles.<br><br>Lastly, if Biotite or Glowshrooms aren't available, they're replaced with Quartz or Clownfish, respectively.",
+				"image":"extra-potions.jpg",
+				"introduced":12
+			},
+			{
+				"name":"Map Markers",
+				"description":"Combine an Ink Sac with a Map to add a marker to where you're currently standing.<br><br>Note: At the moment, markers can't be removed, so plan wisely.",
+				"image":"map-markers.jpg",
 				"introduced":12
 			}
 		]
