@@ -44,7 +44,7 @@ public class VisualStatDisplay extends Feature {
 		Minecraft mc = Minecraft.getMinecraft();
 		ItemStack stack = event.getItemStack();
 
-		if(Keyboard.isCreated() && !GuiScreen.isShiftKeyDown() && isAttributeStrippable(stack)) {
+		if(!GuiScreen.isShiftKeyDown() && isAttributeStrippable(stack)) {
 			List<String> tooltip = event.getToolTip();
 			String allDesc = "";
 			boolean clearedAny = false;
