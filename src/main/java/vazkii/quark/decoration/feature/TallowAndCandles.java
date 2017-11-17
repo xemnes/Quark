@@ -7,6 +7,7 @@ import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.oredict.OreDictionary;
@@ -42,21 +43,26 @@ public class TallowAndCandles extends Feature {
 		if(enableTallow) {
 			tallow = new ItemTallow();
 			
-			OreDictionary.registerOre("tallow", tallow);
-			
 			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(candle, candlesCrafted), 
 					"S", "T", "T",
 					'S', "string",
 					'T', "tallow");
-			
-			ItemStack baseCandle = ProxyRegistry.newStack(candle);
-			for(int i = 0; i < 16; i++) {
-				String dye = LibMisc.OREDICT_DYES.get(15 - i);
-				RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(candle, 1, i), baseCandle, dye);
-				RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(candle, 8, i), 
-						baseCandle, baseCandle, baseCandle, baseCandle, baseCandle, baseCandle, baseCandle, baseCandle, dye);
-			}
 		}
+		
+		ItemStack baseCandle = ProxyRegistry.newStack(candle);
+		for(int i = 0; i < 16; i++) {
+			String dye = LibMisc.OREDICT_DYES.get(15 - i);
+			RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(candle, 1, i), baseCandle, dye);
+			RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(candle, 8, i), 
+					baseCandle, baseCandle, baseCandle, baseCandle, baseCandle, baseCandle, baseCandle, baseCandle, dye);
+		}
+	}
+	
+	@Override
+	public void init(FMLInitializationEvent event) {
+		OreDictionary.registerOre("tallow", tallow);
+		OreDictionary.registerOre("blockCandle", ProxyRegistry.newStack(candle, 1, OreDictionary.WILDCARD_VALUE));
+
 	}
 	
 	@SubscribeEvent
