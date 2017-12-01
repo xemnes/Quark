@@ -10,6 +10,8 @@
  */
 package vazkii.quark.tweaks;
 
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.tweaks.feature.ArmedArmorStands;
 import vazkii.quark.tweaks.feature.AutomaticRecipeUnlock;
@@ -82,6 +84,11 @@ public class QuarkTweaks extends Module {
 		registerFeature(new BlastproofShulkerBoxes());
 		registerFeature(new DyeAnyWool());
 		registerFeature(new SquidsInkYou());
+	}
+	
+	@Override
+	public ItemStack getIconStack() {
+		return new ItemStack(Items.IRON_PICKAXE);
 	}
 
 }

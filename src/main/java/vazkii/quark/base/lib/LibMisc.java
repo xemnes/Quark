@@ -28,7 +28,7 @@ public final class LibMisc {
 	// Proxy Constants
 	public static final String PROXY_COMMON = "vazkii.quark.base.proxy.CommonProxy";
 	public static final String PROXY_CLIENT = "vazkii.quark.base.proxy.ClientProxy";
-	public static final String GUI_FACTORY = "vazkii.quark.base.handler.GuiFactory";
+	public static final String GUI_FACTORY = "vazkii.quark.base.client.gui.GuiFactory";
 
 	public static final List<String> OREDICT_DYES = Arrays.asList(new String[]{
 			"dyeBlack",

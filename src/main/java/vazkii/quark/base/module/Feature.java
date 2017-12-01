@@ -21,7 +21,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.base.lib.LibMisc;
 
-public class Feature {
+public class Feature implements Comparable<Feature> {
 
 	public Module module;
 	
@@ -150,5 +150,10 @@ public class Feature {
 
 	public final String[] loadPropStringList(String propName, String desc, String[] default_) {
 		return ConfigHelper.loadPropStringList(propName, configCategory, desc, default_);
+	}
+
+	@Override
+	public int compareTo(Feature o) {
+		return configName.compareTo(o.configName);
 	}
 }

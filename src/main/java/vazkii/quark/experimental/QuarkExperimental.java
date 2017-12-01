@@ -10,6 +10,9 @@
  */
 package vazkii.quark.experimental;
 
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.experimental.features.BiggerCaves;
 import vazkii.quark.experimental.features.ColoredLights;
@@ -29,6 +32,11 @@ public class QuarkExperimental extends Module {
 	@Override
 	public String getModuleDescription() {
 		return "Experimental Features. All features in this module are disabled by default. Use at your own risk.";
+	}
+	
+	@Override
+	public ItemStack getIconStack() {
+		return new ItemStack(Blocks.TNT);
 	}
 
 }

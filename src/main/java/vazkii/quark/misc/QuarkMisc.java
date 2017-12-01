@@ -1,5 +1,7 @@
 package vazkii.quark.misc;
 
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.misc.feature.AncientTomes;
 import vazkii.quark.misc.feature.BlackAsh;
@@ -40,6 +42,11 @@ public class QuarkMisc extends Module {
 		registerFeature(new PlaceVanillaDusts());
 		registerFeature(new MapMarkers());
 		registerFeature(new ExtraPotions());
+	}
+	
+	@Override
+	public ItemStack getIconStack() {
+		return new ItemStack(Items.CARROT_ON_A_STICK);
 	}
 	
 }

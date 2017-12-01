@@ -10,6 +10,9 @@
  */
 package vazkii.quark.building;
 
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.building.feature.BarkBlocks;
 import vazkii.quark.building.feature.CarvedWood;
@@ -66,4 +69,9 @@ public class QuarkBuilding extends Module {
 		registerFeature(new MagmaBricks());
 	}
 
+	@Override
+	public ItemStack getIconStack() {
+		return new ItemStack(Blocks.BRICK_BLOCK);
+	}
+	
 }

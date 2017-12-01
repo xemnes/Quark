@@ -8,7 +8,7 @@
  *
  * File Created @ [19/03/2016, 00:59:31 (GMT)]
  */
-package vazkii.quark.base.handler;
+package vazkii.quark.base.client.gui;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +43,7 @@ public class GuiFactory implements IModGuiFactory {
 
 	@Override
 	public GuiScreen createConfigGui(GuiScreen parentScreen) {
-		return new GuiQuarkConfig(parentScreen);
+		return new GuiConfigRoot(parentScreen);
 	}
 
 	public static class GuiQuarkConfig extends GuiConfig {

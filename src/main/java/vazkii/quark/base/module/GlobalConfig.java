@@ -1,6 +1,7 @@
 package vazkii.quark.base.module;
 
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.common.config.Property;
 
 public final class GlobalConfig {
 
@@ -8,6 +9,9 @@ public final class GlobalConfig {
 	public static boolean enableSeasonalFeatures;
 	public static boolean enableConfigCommand;
 	public static boolean enableVariants;
+	public static boolean enableQButton;
+	
+	public static Property qButtonProp;
 
 	public static void initGlobalConfig() {
 		String category = "_global";
@@ -37,6 +41,11 @@ public final class GlobalConfig {
 				"Set this to false to disable stairs, slabs, and walls, mod-wide. As these blocks can use a lot of Block IDs,\n"
 				+ "this is helpful to reduce the load, if you intend on running a really large modpack.\n"
 				+ "Note: Blocks that require stairs and/or slabs for their recipes (such as Soul Sandstone or Midori) won't be affected.", true);
+		
+		enableQButton = ConfigHelper.loadPropBool("Enable q Button", category, 
+				"Set this to false to disable the q button in the main and pause menus.\n"
+				+ "If you disable this, you can still access the quark config from Mod Options > Quark > Config", true);
+		qButtonProp = ConfigHelper.lastProp;
 		
 		ConfigHelper.needsRestart = ConfigHelper.allNeedRestart = false;
 	}

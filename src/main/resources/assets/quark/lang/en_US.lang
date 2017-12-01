@@ -23,6 +23,24 @@ quarkmisc.trashButtonOpen=Click to Delete
 quarkmisc.signShift=Shift
 quarkmisc.signClear=Clear
 
+# CONFIG STRINGS
+quark.config.title=Quark Configuration
+quark.config.import=Import Config
+quark.config.opensite=Quark Website
+quark.config.general=General Settings
+
+quark.config.module.automation=Automation
+quark.config.module.building=Building
+quark.config.module.client=Client
+quark.config.module.decoration=Decoration
+quark.config.module.experimental=Experimental
+quark.config.module.management=Management
+quark.config.module.misc=Miscellaneous
+quark.config.module.tweaks=Tweaks
+quark.config.module.vanity=Vanity
+quark.config.module.world=World
+
+
 # BLOCK NAMES
 tile.quark:hardened_clay_tiles.name=Terracotta Shingles
 tile.quark:hardened_clay_tiles_slab.name=Terracotta Shingle Slab
