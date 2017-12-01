@@ -3,11 +3,14 @@ package vazkii.quark.base.client.gui;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.LinkedList;
+import java.util.List;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiConfirmOpenLink;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.text.translation.I18n;
+import net.minecraftforge.common.config.Property;
 import net.minecraftforge.fml.common.FMLLog;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.base.module.ModuleLoader;
@@ -16,6 +19,9 @@ public class GuiConfigBase extends GuiScreen {
 
 	String title;
 	GuiScreen parent;
+	
+	private static List<Property> restartRequiringProperties = new LinkedList();
+	public static boolean mayRequireRestart = false;
 
 	GuiButton backButton;
 
@@ -55,6 +61,13 @@ public class GuiConfigBase extends GuiScreen {
 		if(button instanceof GuiButtonConfigSetting) {
 			GuiButtonConfigSetting configButton = (GuiButtonConfigSetting) button;
 			configButton.prop.set(!configButton.prop.getBoolean());
+			if(configButton.prop.requiresMcRestart()) {
+				if(restartRequiringProperties.contains(configButton.prop))
+					restartRequiringProperties.remove(configButton.prop);
+				else restartRequiringProperties.add(configButton.prop);
+						
+				mayRequireRestart = !restartRequiringProperties.isEmpty();
+			}
 			ModuleLoader.loadConfig();
 		}
 	}

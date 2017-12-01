@@ -29,6 +29,7 @@ quark.config.import=Import Config
 quark.config.opensite=Quark Website
 quark.config.general=General Settings
 quark.config.qdisabled=(If you disable the q button, you can access this menu from the Mods list)
+quark.config.needrestart=(Some settings you changed will require you to restart your game)
 quark.config.module.automation=Automation
 quark.config.module.building=Building
 quark.config.module.client=Client
@@ -39,7 +40,6 @@ quark.config.module.misc=Miscellaneous
 quark.config.module.tweaks=Tweaks
 quark.config.module.vanity=Vanity
 quark.config.module.world=World
-
 
 # BLOCK NAMES
 tile.quark:hardened_clay_tiles.name=Terracotta Shingles

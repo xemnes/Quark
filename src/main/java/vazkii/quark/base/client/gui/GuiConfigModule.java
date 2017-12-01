@@ -18,38 +18,59 @@ import vazkii.quark.base.module.ModuleLoader;
 
 public class GuiConfigModule extends GuiConfigBase {
 
+	private static final int FEATURES_PER_PAGE = 12;
+	
 	final Module module;
 	final List<Feature> features;
-	final String moduleTitle;
-	int index;
+	int page = 0;
+	int totalPages;
 	
+	private GuiButton left, right;
 	
 	public GuiConfigModule(GuiScreen parent, Module module) {
 		super(parent);
 		this.module = module;
 		
-		moduleTitle = "";
-		
 		features = new ArrayList();
 		module.forEachFeature(features::add);
 		Collections.sort(features);
-		
-		index = 0;
+
+		totalPages = (features.size() - 1) / FEATURES_PER_PAGE + 1;
 	}
 	
 	public void initGui() {
 		super.initGui();
 		
-		title += " - " + I18n.translateToLocal("quark.config.module." + module.name);
+		title += " - " + I18n.translateToLocal("quark.config.module." + module.name) + " (" + features.size() + ")";
 
+		int x = width / 2 - 100;
+		int y = height / 6 + 167;
+		
+		buttonList.add(backButton = new GuiButton(0, x, y, 200, 20, I18n.translateToLocal("gui.done")));
+
+		if(totalPages > 1) {
+			x = width / 2;
+			y = height / 6 - 12;
+			buttonList.add(left = new GuiButton(0, x - 40, y, 20, 20, "<"));
+			buttonList.add(right = new GuiButton(0, x + 20, y, 20, 20, ">"));
+		}
+		
+		addFeatureButtons();
+	}
+
+	void addFeatureButtons() {
 		int startX = width / 2 - 195;
-		int startY = height / 6 - 12;
+		int startY = height / 6 + 20;
+		
+		buttonList.removeIf((b) -> b instanceof GuiButtonConfigSetting || b instanceof GuiButtonFeatureSettings);
 		
 		int x = 0, y = 0;
 		
-		for(int i = 0; i < features.size(); i++) {
-			x = startX + i % 2 * 200;
-			y = startY + i / 2 * 22;
+		int start = page * FEATURES_PER_PAGE;
+		for(int i = start; i < Math.min(start + FEATURES_PER_PAGE, features.size()); i++) {
+			int j = i - start;
+			x = startX + j % 2 * 200;
+			y = startY + j / 2 * 22;
 			
 			Feature feature = features.get(i);
 			
@@ -57,11 +78,12 @@ public class GuiConfigModule extends GuiConfigBase {
 			
 			if(ModuleLoader.config.hasCategory(feature.configCategory))
 				buttonList.add(new GuiButtonFeatureSettings(x + 170, y, feature.configCategory));
-
 		}
-		x = width / 2;
 		
-		buttonList.add(backButton = new GuiButton(0, x - 100, y + 74, 200, 20, I18n.translateToLocal("gui.done")));
+		if(left != null) {
+			left.enabled = (page > 0);
+			right.enabled = (page < totalPages - 1);
+		}
 	}
 	
 	@Override
@@ -71,6 +93,12 @@ public class GuiConfigModule extends GuiConfigBase {
 		if(button instanceof GuiButtonFeatureSettings) {
 			GuiButtonFeatureSettings featureButton = (GuiButtonFeatureSettings) button;
 			mc.displayGuiScreen(new GuiConfigCategory(this, featureButton.category));
+		} else if(button == left || button == right) {
+			if(button == left)
+				page = Math.max(page - 1, 0);
+			else page = Math.min(page + 1, totalPages - 1);
+
+			addFeatureButtons();
 		}
 	}
 
@@ -78,7 +106,16 @@ public class GuiConfigModule extends GuiConfigBase {
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		super.drawScreen(mouseX, mouseY, partialTicks);
 		
-		drawCenteredString(mc.fontRenderer, moduleTitle, width / 2, 28, 0xFFFFFF);
+		if(totalPages > 1) {
+			int x = width / 2;
+			int y = height / 6 - 7;
+			drawCenteredString(mc.fontRenderer, (page + 1) + "/" + totalPages, x, y, 0xFFFFFF);
+		}
+		
+		if(mayRequireRestart) {
+			String s = I18n.translateToLocal("quark.config.needrestart");
+			drawCenteredString(mc.fontRenderer, s, width / 2, backButton.y + 22, 0xFFFF00);
+		}
 	}
 	
 }
