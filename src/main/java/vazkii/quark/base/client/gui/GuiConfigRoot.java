@@ -1,30 +1,38 @@
 package vazkii.quark.base.client.gui;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.Set;
 import java.util.TreeSet;
 
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiConfirmOpenLink;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.GuiYesNoCallback;
 import net.minecraft.util.text.translation.I18n;
+import net.minecraftforge.fml.common.FMLLog;
 import vazkii.quark.base.module.GlobalConfig;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleLoader;
 
 public class GuiConfigRoot extends GuiConfigBase {
-
+	
+	boolean qEnabled;
+	
 	public GuiConfigRoot(GuiScreen parent) {
 		super(parent);
+		
+		qEnabled = GlobalConfig.enableQButton;
 	}
 
 	public void initGui() {
 		super.initGui();
-		
+
 		int startX = width / 2 - 175;
 		int startY = height / 6 - 12;
 
 		int x = 0, y = 0, i = 0;
-		
+
 		Set<Module> modules = new TreeSet();
 		modules.addAll(ModuleLoader.moduleInstances.values());
 
@@ -32,8 +40,8 @@ public class GuiConfigRoot extends GuiConfigBase {
 			x = startX + i % 2 * 180;
 			y = startY + i / 2 * 22;
 
-			buttonList.add(new GuiButtonModule(i, x, y, module));
-			buttonList.add(new GuiButtonConfigSetting(i, x + 150, y, module.prop, false));
+			buttonList.add(new GuiButtonModule(0, x, y, module));
+			buttonList.add(new GuiButtonConfigSetting(0, x + 150, y, module.prop, false));
 
 			i++;
 		}
@@ -41,13 +49,38 @@ public class GuiConfigRoot extends GuiConfigBase {
 		x = width / 2;
 		y = startY + 140;
 		buttonList.add(new GuiButtonConfigSetting(0, x + 80, y, GlobalConfig.qButtonProp, true));
-		buttonList.add(new GuiButton(0, x - 100, y + 22, 200, 20, I18n.translateToLocal("quark.config.general")));
-		buttonList.add(new GuiButton(0, x - 100, y + 44, 98, 20, I18n.translateToLocal("quark.config.import")));
-		buttonList.add(new GuiButton(0, x + 2, y + 44, 98, 20, I18n.translateToLocal("quark.config.opensite")));
+		buttonList.add(new GuiButton(1, x - 100, y + 22, 200, 20, I18n.translateToLocal("quark.config.general")));
+		buttonList.add(new GuiButton(2, x - 100, y + 44, 98, 20, I18n.translateToLocal("quark.config.import")));
+		buttonList.add(new GuiButton(3, x + 2, y + 44, 98, 20, I18n.translateToLocal("quark.config.opensite")));
 
-		buttonList.add(backButton = new GuiButton(i, x - 100, y + 74, 200, 20, I18n.translateToLocal("gui.done")));
+		buttonList.add(backButton = new GuiButton(0, x - 100, y + 74, 200, 20, I18n.translateToLocal("gui.done")));
+	}
+	
+	@Override
+	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+		super.drawScreen(mouseX, mouseY, partialTicks);
+		
+		if(qEnabled && !GlobalConfig.enableQButton) {
+			String s = I18n.translateToLocal("quark.config.qdisabled");
+			drawCenteredString(mc.fontRenderer, s, width / 2, 28, 0xFFFF00);
+		}
 	}
 
+	@Override
+	protected void actionPerformed(GuiButton button) throws IOException {
+		super.actionPerformed(button);
 
+		switch(button.id) {
+		case 1: // General Settings
+			mc.displayGuiScreen(new GuiConfigCategory(this, "_global"));
+			break;
+		case 2: // Import Config
+			System.out.println("NYI");
+			break;
+		case 3: // Open Website
+			tryOpenWebsite();
+			break;
+		}
+	}
 
 }

@@ -28,7 +28,7 @@ quark.config.title=Quark Configuration
 quark.config.import=Import Config
 quark.config.opensite=Quark Website
 quark.config.general=General Settings
-
+quark.config.qdisabled=(If you disable the q button, you can access this menu from the Mods list)
 quark.config.module.automation=Automation
 quark.config.module.building=Building
 quark.config.module.client=Client

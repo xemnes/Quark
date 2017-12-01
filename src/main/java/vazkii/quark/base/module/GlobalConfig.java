@@ -42,12 +42,13 @@ public final class GlobalConfig {
 				+ "this is helpful to reduce the load, if you intend on running a really large modpack.\n"
 				+ "Note: Blocks that require stairs and/or slabs for their recipes (such as Soul Sandstone or Midori) won't be affected.", true);
 		
+		ConfigHelper.needsRestart = ConfigHelper.allNeedRestart = false;
+		
 		enableQButton = ConfigHelper.loadPropBool("Enable q Button", category, 
 				"Set this to false to disable the q button in the main and pause menus.\n"
 				+ "If you disable this, you can still access the quark config from Mod Options > Quark > Config", true);
 		qButtonProp = ConfigHelper.lastProp;
 		
-		ConfigHelper.needsRestart = ConfigHelper.allNeedRestart = false;
 	}
 	
 	public static void changeConfig(String moduleName, String category, String key, String value, boolean saveToFile) {

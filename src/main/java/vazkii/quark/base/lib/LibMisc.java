@@ -49,6 +49,8 @@ public final class LibMisc {
 			"dyeWhite"
 	});
 	
+	public static final String MOD_WEBSITE = "https://quark.vazkii.us";
+	
 	public static final ResourceLocation GENERAL_ICONS_RESOURCE = new ResourceLocation(MOD_ID, "textures/misc/general_icons.png");
 	
 }

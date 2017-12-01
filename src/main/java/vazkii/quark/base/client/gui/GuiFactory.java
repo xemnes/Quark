@@ -46,23 +46,4 @@ public class GuiFactory implements IModGuiFactory {
 		return new GuiConfigRoot(parentScreen);
 	}
 
-	public static class GuiQuarkConfig extends GuiConfig {
-
-		public GuiQuarkConfig(GuiScreen parentScreen) {
-			super(parentScreen, getAllElements(), LibMisc.MOD_ID, false, false, GuiConfig.getAbridgedConfigPath(ModuleLoader.config.toString()));
-		}
-
-		public static List<IConfigElement> getAllElements() {
-			List<IConfigElement> list = new ArrayList();
-
-			Set<String> categories = ModuleLoader.config.getCategoryNames();
-			for(String s : categories)
-				if(!s.contains("."))
-					list.add(new DummyConfigElement.DummyCategoryElement(s, s, new ConfigElement(ModuleLoader.config.getCategory(s)).getChildElements()));
-
-			return list;
-		}
-
-	}
-
 }
