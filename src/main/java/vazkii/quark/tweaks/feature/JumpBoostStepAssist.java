@@ -78,5 +78,10 @@ public class JumpBoostStepAssist extends Feature {
 	public boolean hasSubscriptions() {
 		return true;
 	}
+	
+	@Override
+	public String getFeatureIngameConfigName() {
+		return "Jump Boost Step Assist";
+	}
 
 }

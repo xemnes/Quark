@@ -26,6 +26,8 @@ public class GuiConfigBase extends GuiScreen {
 	@Override
 	public void initGui() {
 		super.initGui();
+		
+		buttonList.clear();
 		title = I18n.translateToLocal("quark.config.title");
 	}
 

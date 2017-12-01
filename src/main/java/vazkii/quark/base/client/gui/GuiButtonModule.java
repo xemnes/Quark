@@ -15,8 +15,8 @@ public class GuiButtonModule extends GuiButton {
 
 	final Module module;
 	
-	public GuiButtonModule(int buttonId, int x, int y, Module module) {
-		super(buttonId, x, y, 150, 20, I18n.translateToLocal("quark.config.module." + module.name));
+	public GuiButtonModule(int x, int y, Module module) {
+		super(0, x, y, 150, 20, I18n.translateToLocal("quark.config.module." + module.name));
 		this.module = module;
 	}
 	

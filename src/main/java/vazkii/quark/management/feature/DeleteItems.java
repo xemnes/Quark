@@ -123,4 +123,9 @@ public class DeleteItems extends Feature {
 		return isClient();
 	}
 	
+	@Override
+	public String getFeatureIngameConfigName() {
+		return "Delete Items";
+	}
+	
 }

@@ -76,4 +76,9 @@ public class NaturalBlazesInNether extends Feature {
 		return true;
 	}
 	
+	@Override
+	public String getFeatureIngameConfigName() {
+		return "Naturally Spawning Blazes";
+	}
+	
 }

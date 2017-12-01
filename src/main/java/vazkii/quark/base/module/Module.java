@@ -81,6 +81,7 @@ public class Module implements Comparable<Module> {
 		forEachFeature(feature -> {
 			ConfigHelper.needsRestart = feature.requiresMinecraftRestartToEnable();
 			feature.enabled = loadPropBool(feature.configName, feature.getFeatureDescription(), feature.enabledByDefault) && enabled;
+			feature.prop = ConfigHelper.lastProp;
 			
 			feature.setupConstantConfig();
 			

@@ -182,5 +182,10 @@ public class PistonsMoveTEs extends Feature {
 		return true;
 	}
 	
+	@Override
+	public String getFeatureIngameConfigName() {
+		return "Pistons Move TEs";
+	}
+	
 }
 

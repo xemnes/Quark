@@ -10,10 +10,14 @@ import vazkii.quark.base.lib.LibMisc;
 public class GuiButtonConfigSetting extends GuiButton {
 	
 	public final Property prop;
-	boolean labeled;
+	final boolean labeled;
 
-	public GuiButtonConfigSetting(int buttonId, int x, int y, Property prop, boolean labeled) {
-		super(buttonId, x, y, 20, 20, prop.getName());
+	public GuiButtonConfigSetting(int x, int y, Property prop, boolean labeled) {
+		this(0, x, y, prop, labeled, prop.getName());
+	}
+	
+	public GuiButtonConfigSetting(int buttonId, int x, int y, Property prop, boolean labeled, String label) {
+		super(buttonId, x, y, 20, 20, label);
 		this.prop = prop;
 		this.labeled = labeled;
 		
