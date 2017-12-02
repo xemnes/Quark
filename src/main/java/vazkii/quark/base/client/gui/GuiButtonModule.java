@@ -27,6 +27,7 @@ public class GuiButtonModule extends GuiButton {
 		if(visible) {
 			ItemStack stack = module.getIconStack();
 			RenderHelper.enableGUIStandardItemLighting();
+			GlStateManager.enableDepth();
 			mc.getRenderItem().renderItemIntoGUI(stack, x + 6, y + 2);
 		}
 	}

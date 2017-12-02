@@ -57,10 +57,14 @@ public class GuiConfigRoot extends GuiConfigBase {
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		super.drawScreen(mouseX, mouseY, partialTicks);
 		
-		if(qEnabled && !GlobalConfig.enableQButton) {
-			String s = I18n.translateToLocal("quark.config.qdisabled");
+		String s = null;
+		if(mayRequireRestart)
+			s = I18n.translateToLocal("quark.config.needrestart");
+		else if(qEnabled && !GlobalConfig.enableQButton)
+			s = I18n.translateToLocal("quark.config.qdisabled");
+		
+		if(s != null)
 			drawCenteredString(mc.fontRenderer, s, width / 2, backButton.y + 22, 0xFFFF00);
-		}
 	}
 
 	@Override
