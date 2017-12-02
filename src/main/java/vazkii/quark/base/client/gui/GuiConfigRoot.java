@@ -76,7 +76,7 @@ public class GuiConfigRoot extends GuiConfigBase {
 			mc.displayGuiScreen(new GuiConfigCategory(this, "_global"));
 			break;
 		case 2: // Import Config
-			System.out.println("NYI");
+			mc.displayGuiScreen(new GuiConfigImport(this));
 			break;
 		case 3: // Open Website
 			tryOpenWebsite();

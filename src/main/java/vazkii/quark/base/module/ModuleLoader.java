@@ -65,6 +65,8 @@ public final class ModuleLoader {
 	private static List<Class<? extends Module>> moduleClasses;
 	public static Map<Class<? extends Module>, Module> moduleInstances = new HashMap();
 	public static Map<Class<? extends Feature>, Feature> featureInstances = new HashMap();
+	public static Map<String, Feature> featureClassnames = new HashMap();
+
 	public static List<Module> enabledModules;
 
 	public static Configuration config;

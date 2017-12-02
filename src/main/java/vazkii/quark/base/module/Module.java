@@ -64,6 +64,7 @@ public class Module implements Comparable<Module> {
 			throw new IllegalArgumentException("Feature " + clazz + " is already registered!");
 		
 		ModuleLoader.featureInstances.put(clazz, feature);
+		ModuleLoader.featureClassnames.put(clazz.getSimpleName(), feature);
 		features.put(name, feature);
 
 		feature.enabledByDefault = enabledByDefault;
