@@ -80,7 +80,7 @@ public class GuiConfigBase extends GuiScreen {
 	}
 
 	void tryOpenWebsite() {
-		GuiConfirmOpenLink gui = new GuiConfirmOpenLink(this, LibMisc.MOD_WEBSITE, 0, true);
+		GuiConfirmOpenLink gui = new GuiConfigLink(this);
 		mc.displayGuiScreen(gui);
 	}
 	

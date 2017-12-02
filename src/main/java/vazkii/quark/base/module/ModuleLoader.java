@@ -71,6 +71,7 @@ public final class ModuleLoader {
 
 	public static Configuration config;
 	public static File configFile;
+	public static boolean firstLoad;
 
 	public static void preInit(FMLPreInitializationEvent event) {
 		moduleClasses.forEach(clazz -> {
@@ -122,6 +123,11 @@ public final class ModuleLoader {
 
 	public static void setupConfig(FMLPreInitializationEvent event) {
 		configFile = event.getSuggestedConfigurationFile();
+		if(!configFile.exists())
+			firstLoad = true;
+		
+		firstLoad = true; // TODO
+		
 		config = new Configuration(configFile);
 		config.load();
 		

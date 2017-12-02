@@ -125,10 +125,13 @@ public class GuiConfigImport extends GuiConfigBase {
 		String[] disables = textField.getText().trim().split(",");
 		if(disables.length > 0) {
 			Set<String> disabledSet = ImmutableSet.copyOf(disables);
+			
 			for(String name : ModuleLoader.featureClassnames.keySet()) {
 				Feature f = ModuleLoader.featureClassnames.get(name);
 				boolean enabled = !disabledSet.contains(name);
-				f.prop.set(enabled);
+				if(f.prop.getBoolean() != enabled)
+					f.prop.set(enabled);
+				
 				if(f.prop.hasChanged()) {
 					changed = true;
 					if(!enabled)
@@ -137,6 +140,7 @@ public class GuiConfigImport extends GuiConfigBase {
 			}
 		}
 		 
+		needsRestart = false;
 		if(changed) {
 			ModuleLoader.loadConfig();
 			needsRestart = true;
