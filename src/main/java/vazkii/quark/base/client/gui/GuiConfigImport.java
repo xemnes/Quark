@@ -111,7 +111,7 @@ public class GuiConfigImport extends GuiConfigBase {
 				s = I18n.translateToLocalFormatted("quark.config.disabledcount1");
 			else s = I18n.translateToLocalFormatted("quark.config.disabledcount", disabledFeatures);
 			
-			drawCenteredString(mc.fontRenderer, s, x, textField.y + 26, 0xFFFF00);
+			drawCenteredString(mc.fontRenderer, s, x, textField.y + 26, 0x00FF00);
 		}
 		
 		if(mc.world != null)
