@@ -10,6 +10,7 @@ public final class GlobalConfig {
 	public static boolean enableConfigCommand;
 	public static boolean enableVariants;
 	public static boolean enableQButton;
+	public static boolean qButtonOnRight;
 	
 	public static Property qButtonProp;
 
@@ -48,6 +49,10 @@ public final class GlobalConfig {
 				"Set this to false to disable the q button in the main and pause menus.\n"
 				+ "If you disable this, you can still access the quark config from Mod Options > Quark > Config", true);
 		qButtonProp = ConfigHelper.lastProp;
+		
+		qButtonOnRight = ConfigHelper.loadPropBool("q Button on the Right", category,
+				"Set this to true to move the q button to the right of the buttons, instead\n"
+				+ "of to the left as it is by default.", false);
 		
 	}
 	

@@ -126,8 +126,6 @@ public final class ModuleLoader {
 		if(!configFile.exists())
 			firstLoad = true;
 		
-		firstLoad = true; // TODO
-		
 		config = new Configuration(configFile);
 		config.load();
 		
