@@ -38,6 +38,7 @@ quark.config.importinfo3=You can import it by pasting (press Ctrl+V) to the text
 quark.config.importinfo3m=You can import it by pasting (press Cmd+V) to the text field. 
 quark.config.disabledcount=%d Features Disabled. Please Restart your game:
 quark.config.disabledcount1=1 Feature Disabled. Please Restart your game:
+quark.config.cantimport=Can't Import a Config if a world is loaded
 quark.config.module.automation=Automation
 quark.config.module.building=Building
 quark.config.module.client=Client

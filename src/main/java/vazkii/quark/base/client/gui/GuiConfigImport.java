@@ -33,14 +33,18 @@ public class GuiConfigImport extends GuiConfigBase {
 		int x = width / 2 - 100;
 		int y = height / 6;
 		
+		GuiButton importButton = new GuiButton(1, x, y + 110, 200, 20, I18n.translateToLocal("quark.config.import"));
 		buttonList.add(backButton = new GuiButton(0, x, y + 167, 200, 20, I18n.translateToLocal("gui.done")));
-		buttonList.add(new GuiButton(1, x, y + 110, 200, 20, I18n.translateToLocal("quark.config.import")));
+		buttonList.add(importButton);
 		buttonList.add(new GuiButton(2, x, y + 132, 200, 20, I18n.translateToLocal("quark.config.opensite")));
 
 		textField = new GuiTextField(0, fontRenderer, x, y + 72, 200, 20);
 		textField.setFocused(true);
 		textField.setCanLoseFocus(false);
 		textField.setMaxStringLength(Integer.MAX_VALUE);
+		
+		if(mc.world != null)
+			importButton.enabled = false;
 	}
 	
 	@Override
@@ -109,6 +113,9 @@ public class GuiConfigImport extends GuiConfigBase {
 			
 			drawCenteredString(mc.fontRenderer, s, x, textField.y + 26, 0xFFFF00);
 		}
+		
+		if(mc.world != null)
+			drawCenteredString(mc.fontRenderer, I18n.translateToLocal("quark.config.cantimport"), x, textField.y + 26, 0xFF0000);
 	}
 
 	private void doImport() {
