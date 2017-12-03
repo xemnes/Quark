@@ -29,6 +29,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.RayTraceResult.Type;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentKeybind;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
@@ -48,6 +52,8 @@ import vazkii.quark.base.network.message.MessageSetLockProfile;
 
 public class LockDirectionHotkey extends Feature {
 
+	private static final String TAG_LOCKED_ONCE = "quark:locked_once";
+	
 	private static final HashMap<String, LockProfile> lockProfiles = new HashMap();
 	private LockProfile clientProfile;
 	
@@ -185,7 +191,21 @@ public class LockDirectionHotkey extends Feature {
 		
 		if(profile == null)
 			lockProfiles.remove(name);
-		else lockProfiles.put(name, profile);
+		else {
+			boolean locked = player.getEntityData().getBoolean(TAG_LOCKED_ONCE);
+			if(!locked) {
+				ITextComponent text = new TextComponentTranslation("quarkmisc.rotationLockBefore");
+				ITextComponent keybind = new TextComponentKeybind("quark.keybind.lockBuilding");
+				keybind.getStyle().setColor(TextFormatting.AQUA);
+				text.appendSibling(keybind);
+				text.appendSibling(new TextComponentTranslation("quarkmisc.rotationLockAfter"));
+				player.sendMessage(text);
+				
+				player.getEntityData().setBoolean(TAG_LOCKED_ONCE, true);
+			}
+			
+			lockProfiles.put(name, profile);
+		}
 	}
 	
 	@Override
