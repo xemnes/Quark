@@ -45,6 +45,7 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.arl.network.NetworkHandler;
+import vazkii.quark.api.IRotationLockHandler;
 import vazkii.quark.base.client.ModKeybinds;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.base.module.Feature;
@@ -88,8 +89,12 @@ public class LockDirectionHotkey extends Feature {
 		ImmutableMap<IProperty<?>, Comparable<?>> props = state.getProperties(); 
 		Block block = state.getBlock();
 		
+		// API hook
+		if(block instanceof IRotationLockHandler)
+			setState = ((IRotationLockHandler) block).setRotation(world, pos, setState, face, half != -1, half == 1);
+		
 		// General Facing
-		if(props.containsKey(BlockDirectional.FACING))
+		else if(props.containsKey(BlockDirectional.FACING))
 			setState = state.withProperty(BlockDirectional.FACING, face);
 		
 		// Horizontal Facing
@@ -115,8 +120,8 @@ public class LockDirectionHotkey extends Feature {
 		}
 		
 		// Hopper Facing
-		else if(props.containsKey(BlockHopper.FACING) && face != EnumFacing.DOWN)
-			setState = state.withProperty(BlockHopper.FACING, face.getOpposite());
+		else if(props.containsKey(BlockHopper.FACING))
+			setState = state.withProperty(BlockHopper.FACING, face == EnumFacing.DOWN ? face : face.getOpposite());
 			
 		if(half != -1) {
 			if(block instanceof BlockStairs)
