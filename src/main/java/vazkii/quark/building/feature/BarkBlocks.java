@@ -29,13 +29,13 @@ public class BarkBlocks extends Feature {
 
 	public static BlockMod bark;
 
-	boolean enableWalls, enableStairsAndSlabs, use3x3;
+	boolean enableWalls, enableStairsAndSlabs, use2x2;
 
 	@Override
 	public void setupConfig() {
 		enableWalls = loadPropBool("Enable walls", "", true) && GlobalConfig.enableVariants;
 		enableStairsAndSlabs = loadPropBool("Enable stairs and slabs", "", true) && GlobalConfig.enableVariants;
-		use3x3 = loadPropBool("Use 3x3 Recipe", "Set this to true to use a 3x3 recipe instead of 2x2.\nTurn this on if you have the Forestry mod to prevent recipe overlap.", false);
+		use2x2 = loadPropBool("Use 2x2 Recipe", "Set this to true to use a 2x2 recipe instead of 3x3.", false);
 	}
 
 	@Override
@@ -45,7 +45,7 @@ public class BarkBlocks extends Feature {
 		for(int i = 0; i < 6; i++) {
 			ItemStack log = ProxyRegistry.newStack(i > 3 ? Blocks.LOG2 : Blocks.LOG, 1, i % 4);
 
-			if(use3x3)
+			if(!use2x2)
 				RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(bark, 9, i),
 						"WWW", "WWW", "WWW",
 						'W', log);

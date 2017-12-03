@@ -35,7 +35,7 @@ public class NaturalBlazesInNether extends Feature {
 
 	@Override
 	public void setupConfig() {
-		weight = loadPropInt("Spawn Weight", "", 5);
+		weight = loadPropInt("Spawn Weight", "The higher, the more will spawn", 5);
 		min = loadPropInt("Smallest spawn group", "", 1);
 		max = loadPropInt("Largest spawn group", "", 2);
 		
