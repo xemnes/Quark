@@ -137,9 +137,12 @@ public class ModKeybinds {
 				IParentedGui ipg = keyboundButtons.get(ref);
 				GuiScreen curr = Minecraft.getMinecraft().currentScreen;
 				if(curr == ipg.getParent()) {
-					List<GuiButton> buttonList = ReflectionHelper.getPrivateValue(GuiScreen.class, curr, LibObfuscation.BUTTON_LIST);
-					GuiScreenEvent.ActionPerformedEvent.Pre postEvent = new GuiScreenEvent.ActionPerformedEvent.Pre(curr, (GuiButton) ipg, buttonList);
-					MinecraftForge.EVENT_BUS.post(postEvent);
+					GuiButton button = (GuiButton) ipg;
+					if(button.enabled && button.visible) {
+						List<GuiButton> buttonList = ReflectionHelper.getPrivateValue(GuiScreen.class, curr, LibObfuscation.BUTTON_LIST);
+						GuiScreenEvent.ActionPerformedEvent.Pre postEvent = new GuiScreenEvent.ActionPerformedEvent.Pre(curr, button, buttonList);
+						MinecraftForge.EVENT_BUS.post(postEvent);
+					}
 				}
 			}
 		}
