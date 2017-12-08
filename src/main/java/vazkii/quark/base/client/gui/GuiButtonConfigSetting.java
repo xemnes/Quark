@@ -13,11 +13,11 @@ public class GuiButtonConfigSetting extends GuiButton {
 	final boolean labeled;
 
 	public GuiButtonConfigSetting(int x, int y, Property prop, boolean labeled) {
-		this(0, x, y, prop, labeled, prop.getName());
+		this(x, y, prop, labeled, prop.getName());
 	}
 	
-	public GuiButtonConfigSetting(int buttonId, int x, int y, Property prop, boolean labeled, String label) {
-		super(buttonId, x, y, 20, 20, label);
+	public GuiButtonConfigSetting(int x, int y, Property prop, boolean labeled, String label) {
+		super(0, x, y, 20, 20, label);
 		this.prop = prop;
 		this.labeled = labeled;
 		

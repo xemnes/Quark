@@ -74,7 +74,7 @@ public class GuiConfigModule extends GuiConfigBase {
 			
 			Feature feature = features.get(i);
 			
-			buttonList.add(new GuiButtonConfigSetting(0, x + 150, y, feature.prop, true, feature.getFeatureIngameConfigName()));
+			buttonList.add(new GuiButtonConfigSetting(x + 150, y, feature.prop, true, feature.getFeatureIngameConfigName()));
 			
 			if(ModuleLoader.config.hasCategory(feature.configCategory))
 				buttonList.add(new GuiButtonFeatureSettings(x + 170, y, feature.configCategory));

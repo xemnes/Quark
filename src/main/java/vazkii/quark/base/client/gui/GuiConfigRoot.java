@@ -45,7 +45,7 @@ public class GuiConfigRoot extends GuiConfigBase {
 
 		x = width / 2;
 		y = startY + 113;
-		buttonList.add(new GuiButtonConfigSetting(x + 80, y, GlobalConfig.qButtonProp, true));
+		buttonList.add(new GuiButtonConfigSetting(x + 80, y, GlobalConfig.qButtonProp, true, I18n.translateToLocal("quark.config.enableq")));
 		buttonList.add(new GuiButton(1, x - 100, y + 22, 200, 20, I18n.translateToLocal("quark.config.general")));
 		buttonList.add(new GuiButton(2, x - 100, y + 44, 98, 20, I18n.translateToLocal("quark.config.import")));
 		buttonList.add(new GuiButton(3, x + 2, y + 44, 98, 20, I18n.translateToLocal("quark.config.opensite")));

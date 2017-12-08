@@ -33,6 +33,7 @@ quark.config.opensite=Quark Website
 quark.config.general=General Settings
 quark.config.close=Close Game
 quark.config.skip=Skip to Main Menu
+quark.config.enableq=Enable q button
 quark.config.qdisabled=(If you disable the q button, you can access this menu from the Mods list)
 quark.config.needrestart=(Some settings you changed will require you to restart your game)
 quark.config.importinfo0=You can import a list of disabled features from the Quark Website
