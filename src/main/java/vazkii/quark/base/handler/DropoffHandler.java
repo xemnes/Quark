@@ -54,7 +54,7 @@ public final class DropoffHandler {
 	}
 
 	public static void restock(EntityPlayer player, boolean filtered) {
-		if(!ModuleLoader.isFeatureEnabled(StoreToChests.class) || player.isSpectator())
+		if(!ModuleLoader.isFeatureEnabled(ChestButtons.class) || player.isSpectator())
 			return;
 
 		new Restock(player, filtered).execute();
