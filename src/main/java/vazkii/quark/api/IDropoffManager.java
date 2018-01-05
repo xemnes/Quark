@@ -10,8 +10,9 @@
  */
 package vazkii.quark.api;
 
+import java.util.function.Supplier;
+
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraftforge.items.IItemHandler;
 
@@ -23,12 +24,11 @@ public interface IDropoffManager {
 
 	public boolean acceptsDropoff(EntityPlayer player);
 	
-	public default IItemHandler getDropoffItemHandler(Container container, IIHProvider defaultProvider) {
-		return defaultProvider.provide((IInventory) this, container);
-	}
-	
-	public interface IIHProvider {
-		IItemHandler provide(IInventory tile, Container container);
+	/**
+	 * Override this if you want to add a custom IItemHandler for dropoff.
+	 */
+	public default IItemHandler getDropoffItemHandler(Supplier<IItemHandler> defaultSupplier) {
+		return defaultSupplier.get();
 	}
 	
 }

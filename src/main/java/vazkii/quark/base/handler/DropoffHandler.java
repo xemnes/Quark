@@ -13,6 +13,7 @@ package vazkii.quark.base.handler;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Supplier;
 
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -70,14 +71,24 @@ public final class DropoffHandler {
 
 		if(te == null)
 			return null;
-
+		
 		boolean accept = isValidChest(player, te);
-		IItemHandler ret = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
-
-		if(accept && ret == null && te instanceof IInventory)
-			ret = new InvWrapper((IInventory) te);
-
-		return accept ? ret : null;
+		if(accept) {
+			IItemHandler ret;
+			Supplier<IItemHandler> supplier = () -> {
+				IItemHandler innerRet = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+				if(innerRet == null && te instanceof IInventory)
+					innerRet = new InvWrapper((IInventory) te);
+				
+				return innerRet;
+			};
+			
+			if(te instanceof IDropoffManager)
+				ret = ((IDropoffManager) te).getDropoffItemHandler(supplier);
+			else return supplier.get();
+		}
+		
+		return null;
 	}
 
 
@@ -290,7 +301,7 @@ public final class DropoffHandler {
 		
 		public static IItemHandler provideWrapper(IInventory inv, Container container) {
 			if(inv instanceof IDropoffManager)
-				return ((IDropoffManager) inv).getDropoffItemHandler(container, ContainerWrapper::new);
+				return ((IDropoffManager) inv).getDropoffItemHandler(() -> new ContainerWrapper(inv, container));
 			return new ContainerWrapper(inv, container);
 		}
 		
