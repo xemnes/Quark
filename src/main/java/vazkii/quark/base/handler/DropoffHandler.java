@@ -168,7 +168,7 @@ public final class DropoffHandler {
 				for(Slot s : c.inventorySlots) {
 					IInventory inv = s.inventory;
 					if(inv != player.inventory) {
-						itemHandlers.add(Pair.of(new ContainerWrapper(inv, c), 0.0));
+						itemHandlers.add(Pair.of(ContainerWrapper.provideWrapper(inv, c), 0.0));
 						break;
 					}
 				}
@@ -232,7 +232,7 @@ public final class DropoffHandler {
 
 			return stack;
 		}
-
+		
 	}
 
 	public static class Restock extends Dropoff {
@@ -288,7 +288,13 @@ public final class DropoffHandler {
 		
 		final Container container;
 		
-		public ContainerWrapper(IInventory inv, Container container) {
+		public static IItemHandler provideWrapper(IInventory inv, Container container) {
+			if(inv instanceof IDropoffManager)
+				return ((IDropoffManager) inv).getDropoffItemHandler(container, ContainerWrapper::new);
+			return new ContainerWrapper(inv, container);
+		}
+		
+		private ContainerWrapper(IInventory inv, Container container) {
 			super(inv);
 			this.container = container;
 		}

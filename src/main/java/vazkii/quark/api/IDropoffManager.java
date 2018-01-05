@@ -11,6 +11,9 @@
 package vazkii.quark.api;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
+import net.minecraft.inventory.IInventory;
+import net.minecraftforge.items.IItemHandler;
 
 /**
  * Implement on a TileEntity to allow it to receive dropoff, and to have
@@ -19,5 +22,13 @@ import net.minecraft.entity.player.EntityPlayer;
 public interface IDropoffManager {
 
 	public boolean acceptsDropoff(EntityPlayer player);
+	
+	public default IItemHandler getDropoffItemHandler(Container container, IIHProvider defaultProvider) {
+		return defaultProvider.provide((IInventory) this, container);
+	}
+	
+	public interface IIHProvider {
+		IItemHandler provide(IInventory tile, Container container);
+	}
 	
 }
