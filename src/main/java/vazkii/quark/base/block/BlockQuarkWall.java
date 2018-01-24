@@ -14,6 +14,7 @@ import javax.annotation.Nullable;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFenceGate;
+import net.minecraft.block.BlockWall;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
@@ -112,7 +113,7 @@ public class BlockQuarkWall extends BlockMod implements IQuarkBlock {
 		IBlockState iblockstate = worldIn.getBlockState(pos);
 		Block block = iblockstate.getBlock();
 		Material material = iblockstate.getMaterial();
-		return block == Blocks.BARRIER ? false : block != this && !(block instanceof BlockFenceGate) ? material.isOpaque() && iblockstate.isFullCube() ? material != Material.GOURD : block instanceof BlockQuarkWall ? true : false : true;
+		return block == Blocks.BARRIER ? false : block != this && !(block instanceof BlockFenceGate) ? material.isOpaque() && iblockstate.isFullCube() ? material != Material.GOURD : block instanceof BlockQuarkWall || block instanceof BlockWall ? true : false : true;
 	}
 
 	@Override
