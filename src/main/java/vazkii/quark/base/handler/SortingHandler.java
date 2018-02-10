@@ -319,11 +319,11 @@ public final class SortingHandler {
 	private static int toolPowerCompare(ItemStack stack1, ItemStack stack2) {
 		ToolMaterial mat1 = ReflectionHelper.getPrivateValue(ItemTool.class, (ItemTool) stack1.getItem(), LibObfuscation.TOOL_MATERIAL);
 		ToolMaterial mat2 = ReflectionHelper.getPrivateValue(ItemTool.class, (ItemTool) stack2.getItem(), LibObfuscation.TOOL_MATERIAL);
-		return (int) (mat2.getEfficiencyOnProperMaterial() * 100 - mat1.getEfficiencyOnProperMaterial() * 100);
+		return (int) (mat2.getEfficiency() * 100 - mat1.getEfficiency() * 100);
 	}
 	
 	private static int swordPowerCompare(ItemStack stack1, ItemStack stack2) {
-		return (int) (((ItemSword) stack2.getItem()).getDamageVsEntity() * 100 - ((ItemSword) stack1.getItem()).getDamageVsEntity() * 100);
+		return (int) (((ItemSword) stack2.getItem()).getAttackDamage() * 100 - ((ItemSword) stack1.getItem()).getAttackDamage() * 100);
 	}
 	
 	private static int armorSlotAndToughnessCompare(ItemStack stack1, ItemStack stack2) {
