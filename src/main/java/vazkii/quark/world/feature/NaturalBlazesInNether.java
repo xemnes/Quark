@@ -13,9 +13,11 @@ package vazkii.quark.world.feature;
 import java.util.Arrays;
 import java.util.List;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.monster.EntityBlaze;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.biome.Biome.SpawnListEntry;
@@ -60,10 +62,14 @@ public class NaturalBlazesInNether extends Feature {
 			EntityBlaze blaze = (EntityBlaze) event.getEntityLiving();
 			WorldServer world = (WorldServer) blaze.world;
 			BlockPos pos = blaze.getPosition();
-			boolean allowedBlock = allowedBlocks.contains(world.getBlockState(pos.down()).getBlock().getRegistryName().toString());
-			boolean fortress = world.getChunkProvider().isInsideStructure(world, "Fortress", pos);
-			if(!fortress && !allowedBlock)
-				event.setResult(Result.DENY);
+			Block block = world.getBlockState(pos.down()).getBlock();
+			ResourceLocation res = block.getRegistryName();
+			if(res != null) {
+				boolean allowedBlock = allowedBlocks.contains(res.toString());
+				boolean fortress = world.getChunkProvider().isInsideStructure(world, "Fortress", pos);
+				if(!fortress && !allowedBlock)
+					event.setResult(Result.DENY);	
+			}
 		}
 	}
 
