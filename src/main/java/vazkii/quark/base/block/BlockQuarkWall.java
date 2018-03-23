@@ -50,7 +50,7 @@ public class BlockQuarkWall extends BlockMod implements IQuarkBlock {
 		setResistance(state.getBlock().getExplosionResistance(null) * 5F / 3F);
 		setSoundType(state.getBlock().getSoundType());
 		setDefaultState(blockState.getBaseState().withProperty(UP, Boolean.valueOf(false)).withProperty(NORTH, Boolean.valueOf(false)).withProperty(EAST, Boolean.valueOf(false)).withProperty(SOUTH, Boolean.valueOf(false)).withProperty(WEST, Boolean.valueOf(false)));
-		setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
+		setCreativeTab(CreativeTabs.DECORATIONS);
 	}
 
 	@Override
