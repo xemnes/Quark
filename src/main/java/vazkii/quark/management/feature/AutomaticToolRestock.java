@@ -88,9 +88,12 @@ public class AutomaticToolRestock extends Feature {
 				Set<String> classes = getItemClasses(stack);
 
 				if(!classes.isEmpty()) {
-					Predicate<ItemStack> toolPredicate = (other) -> !getItemClasses(other).retainAll(classes);
+					Predicate<ItemStack> toolPredicate = (other) -> {
+						Set<String> otherClasses = getItemClasses(other);
+						return !otherClasses.isEmpty() && !otherClasses.retainAll(classes);
+					};
 
-					if(enableEnchantMatching && findReplacement(player, currSlot, toolPredicate.and(enchantmentPredicate)))
+					if(enableEnchantMatching && !enchantmentsOnStack.isEmpty() && findReplacement(player, currSlot, toolPredicate.and(enchantmentPredicate)))
 						return;
 
 					findReplacement(player, currSlot, toolPredicate);
@@ -132,7 +135,7 @@ public class AutomaticToolRestock extends Feature {
 				continue;
 
 			ItemStack stackAt = player.inventory.getStackInSlot(i);
-			if(match.test(stackAt)) {
+			if(!stackAt.isEmpty() && match.test(stackAt)) {
 				pushReplace(player, i, currSlot);
 				return true;
 			}
