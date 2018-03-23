@@ -211,7 +211,8 @@ public final class DropoffHandler {
 
 				if(!stackAt.isEmpty() && !FavoriteItems.isItemFavorited(stackAt)) {
 					ItemStack ret = insert(stackAt, pred);
-					if(!ItemStack.areItemsEqual(stackAt, ret))
+					System.out.println("Inserted " + stackAt + ", got back " + ret);
+					if(!ItemStack.areItemStacksEqual(stackAt, ret))
 						inv.setInventorySlotContents(i, ret);
 				}
 			}
