@@ -112,6 +112,9 @@ public class AncientTomes extends Feature {
 				boolean hasMatching = false;
 				for (Map.Entry<Enchantment, Integer> entry : enchants.entrySet()) {
 					Enchantment ench = entry.getKey();
+					if(ench == null)
+						continue;
+					
 					int level = entry.getValue();
 					if (level > ench.getMaxLevel()) {
 						hasOverLevel = true;
