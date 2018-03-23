@@ -21,6 +21,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
+import vazkii.quark.api.IPistonCallback;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.ModuleLoader;
 
@@ -85,6 +86,9 @@ public class PistonsMoveTEs extends Feature {
 			IBlockState state = world.getBlockState(pos);
 			if(state.getBlock().hasTileEntity(state)) {
 				TileEntity tile = world.getTileEntity(pos);
+				if(tile instanceof IPistonCallback)
+					((IPistonCallback) tile).onPistonMovementStarted();
+				
 				world.removeTileEntity(pos);
 				
 				registerMovement(world, pos.offset(facing), tile);
@@ -166,6 +170,9 @@ public class PistonsMoveTEs extends Feature {
 	private static TileEntity getAndClearMovement(World world, BlockPos pos) {
 		TileEntity tile = getMovement(world, pos, true);
 		if(tile != null) {
+			if(tile instanceof IPistonCallback)
+				((IPistonCallback) tile).onPistonMovementFinished();
+			
 			tile.validate();
 			
 			if(tile instanceof TileEntityChest)
