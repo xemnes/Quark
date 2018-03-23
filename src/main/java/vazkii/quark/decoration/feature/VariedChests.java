@@ -34,6 +34,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
+import vazkii.arl.recipe.BlacklistOreIngredient;
 import vazkii.arl.recipe.RecipeHandler;
 import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.handler.ModIntegrationHandler;
@@ -136,12 +137,14 @@ public class VariedChests extends Feature {
 			RecipeHandler.addShapelessOreDictRecipe(outTrap, out.copy(), ProxyRegistry.newStack(Blocks.TRIPWIRE_HOOK));
 			i++;
 		}
-
 		// Low priority ore dictionary recipes
+		Ingredient wood = new BlacklistOreIngredient("plankWood", (stack) -> stack.getItem() == Item.getItemFromBlock(Blocks.PLANKS));
+		Ingredient chest = new BlacklistOreIngredient("chestWood", (stack) -> stack.getItem() == Item.getItemFromBlock(custom_chest));
+
 		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(Blocks.CHEST),
 				"WWW", "W W", "WWW",
-				'W', "plankWood");
-		RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(Blocks.TRAPPED_CHEST), "chestWood", ProxyRegistry.newStack(Blocks.TRIPWIRE_HOOK));
+				'W', wood);
+		RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(Blocks.TRAPPED_CHEST), chest, ProxyRegistry.newStack(Blocks.TRIPWIRE_HOOK));
 
 		// Vanilla recipe replacement
 		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(Blocks.HOPPER),

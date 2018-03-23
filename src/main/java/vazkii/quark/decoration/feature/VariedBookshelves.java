@@ -27,6 +27,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.oredict.OreDictionary;
 import vazkii.arl.block.BlockMod;
+import vazkii.arl.recipe.BlacklistOreIngredient;
 import vazkii.arl.recipe.RecipeHandler;
 import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.module.Feature;
@@ -71,9 +72,10 @@ public class VariedBookshelves extends Feature {
 					'W', ProxyRegistry.newStack(Blocks.PLANKS, 1, i + 1),
 					'B', ProxyRegistry.newStack(Items.BOOK));
 		
+		Ingredient wood = new BlacklistOreIngredient("plankWood", (stack) -> stack.getItem() == Item.getItemFromBlock(Blocks.PLANKS));
 		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(Blocks.BOOKSHELF),
 				"WWW", "BBB", "WWW",
-				'W', "plankWood",
+				'W', wood,
 				'B', ProxyRegistry.newStack(Items.BOOK));
 	}
 

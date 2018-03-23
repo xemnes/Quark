@@ -26,6 +26,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.oredict.OreDictionary;
+import vazkii.arl.recipe.BlacklistOreIngredient;
 import vazkii.arl.recipe.RecipeHandler;
 import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.block.BlockQuarkTrapdoor;
@@ -96,9 +97,10 @@ public class VariedTrapdoors extends Feature {
 			Blocks.TRAPDOOR.setUnlocalizedName("oak_trapdoor");
 
 		// Low priority ore dictionary recipe
+		Ingredient wood = new BlacklistOreIngredient("plankWood", (stack) -> stack.getItem() == Item.getItemFromBlock(Blocks.PLANKS));
 		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(Blocks.TRAPDOOR, recipeOutput),
 				"WWW", "WWW",
-				'W', "plankWood");
+				'W', wood);
 	}
 	
 	@Override
