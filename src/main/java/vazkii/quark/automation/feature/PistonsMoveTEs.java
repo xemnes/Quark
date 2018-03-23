@@ -127,6 +127,8 @@ public class PistonsMoveTEs extends Feature {
 		
 		if(!destroyed) {
 			world.setBlockState(pos, state, flags);
+			world.setBlockState(pos, state, 0);
+
 			if(tile != null && !world.isRemote) {
 				if(delayedUpdateList.contains(Block.REGISTRY.getNameForObject(block).toString()))
 					registerDelayedUpdate(world, pos, tile);
