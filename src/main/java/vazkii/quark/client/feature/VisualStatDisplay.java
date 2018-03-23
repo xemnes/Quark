@@ -175,7 +175,8 @@ public class VisualStatDisplay extends Feature {
 
 	private boolean isAttributeStrippable(ItemStack stack) {
 		Item item = stack.getItem();
-		return !stack.isEmpty() && (item instanceof ItemTool || item instanceof ItemSword || item instanceof ItemArmor || item instanceof ItemHoe);
+		boolean tool = !stack.isEmpty() && (item instanceof ItemTool || item instanceof ItemSword || item instanceof ItemArmor || item instanceof ItemHoe);
+		return tool && (!stack.hasTagCompound() || (stack.getTagCompound().getInteger("HideFlags") & 2) == 0);
 	}
 
 	private double getAttribute(EntityPlayer player, ItemStack stack, Multimap<String, AttributeModifier> map, String key) {
