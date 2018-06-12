@@ -139,7 +139,7 @@ public class AncientTomes extends Feature {
 							if (enchCompare == ench)
 								continue;
 
-							if (!enchCompare.isCompatibleWith(ench)) {
+							if (enchCompare != null && !enchCompare.isCompatibleWith(ench)) {
 								compatible = false;
 								break;
 							}
