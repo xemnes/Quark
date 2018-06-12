@@ -66,9 +66,9 @@ public class VisualStatDisplay extends Feature {
 					if(VALID_ATTRIBUTES.contains(s))
 						allDesc += ItemStack.DECIMALFORMAT.format(getAttribute(event.getEntityPlayer(), stack, slotAttributes, s));
 						
-					String name = I18n.translateToLocal("attribute.name." + s);
+					String pattern = ".* ?\\+\\d+ " + I18n.translateToLocal("attribute.name." + s) + "$";
 					for(int i = 1; i < tooltip.size(); i++)
-						if(tooltip.get(i).contains(name)) {
+						if(tooltip.get(i).matches(pattern)) {
 							tooltip.remove(i);
 							clearedAny = true;
 							break;
