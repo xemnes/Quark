@@ -11,7 +11,6 @@
 package vazkii.quark.world;
 
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.world.feature.Basalt;
@@ -23,6 +22,7 @@ import vazkii.quark.world.feature.DefaultWorldOptions;
 import vazkii.quark.world.feature.DepthMobs;
 import vazkii.quark.world.feature.MushroomsInSwamps;
 import vazkii.quark.world.feature.NaturalBlazesInNether;
+import vazkii.quark.world.feature.NetherFossils;
 import vazkii.quark.world.feature.NetherSmoker;
 import vazkii.quark.world.feature.OceanGuardians;
 import vazkii.quark.world.feature.PathfinderMaps;
@@ -53,6 +53,7 @@ public class QuarkWorld extends Module {
 		registerFeature(new UndergroundBiomes());
 		registerFeature(new PathfinderMaps());
 		registerFeature(new NetherSmoker());
+		registerFeature(new NetherFossils());
 
 		registerFeature(new RealisticWorldType());
 		registerFeature(new DefaultWorldOptions());
