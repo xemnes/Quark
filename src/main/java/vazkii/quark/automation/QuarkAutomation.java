@@ -13,6 +13,7 @@ package vazkii.quark.automation;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import vazkii.quark.automation.feature.AnimalsEatFloorFood;
+import vazkii.quark.automation.feature.Chute;
 import vazkii.quark.automation.feature.DispenserRecords;
 import vazkii.quark.automation.feature.DispensersPlaceBlocks;
 import vazkii.quark.automation.feature.DispensersPlaceSeeds;
@@ -38,6 +39,7 @@ public class QuarkAutomation extends Module {
 		registerFeature(new DispensersPlaceBlocks());
 		registerFeature(new DispenserRecords());
 		registerFeature(new PistonsPushItems());
+		registerFeature(new Chute());
 	}
 	
 	@Override
