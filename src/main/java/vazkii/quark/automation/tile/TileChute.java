@@ -1,7 +1,10 @@
 package vazkii.quark.automation.tile;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.BlockPos;
 import vazkii.arl.block.tile.TileSimpleInventory;
 import vazkii.quark.automation.block.BlockChute;
 
@@ -23,7 +26,13 @@ public class TileChute extends TileSimpleInventory {
 	
 	@Override
 	public boolean isAutomationEnabled() {
-		return world.getBlockState(getPos()).getValue(BlockChute.ENABLED);
+		if(world.getBlockState(pos).getValue(BlockChute.ENABLED)) {
+			BlockPos below = pos.down();
+			IBlockState state = world.getBlockState(below);
+			Block block = state.getBlock();
+			return block.isAir(state, world, below) || state.getCollisionBoundingBox(world, below) == null;
+		}
+		return false;
 	}
 	
 }
