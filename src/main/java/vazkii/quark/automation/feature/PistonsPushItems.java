@@ -18,6 +18,13 @@ import vazkii.quark.base.module.Feature;
 
 public class PistonsPushItems extends Feature {
 
+	double force = 0.48F;
+	
+	@Override
+	public void setupConfig() {
+		force = loadPropDouble("Push Strength", "", force);
+	}
+	
 	@SubscribeEvent
 	public void onEntityTick(EntityItemTickEvent event) {
 		EntityItem entity = event.getEntityItem();
@@ -32,10 +39,9 @@ public class PistonsPushItems extends Feature {
 					if(type == EnumPistonType.DEFAULT) {
 						EnumFacing facing = state.getValue(BlockDirectional.FACING);
 						if(facing == face.getOpposite()) {
-							float force = 0.48F;
-							float x = force * facing.getFrontOffsetX();
-							float y = force * facing.getFrontOffsetY();
-							float z = force * facing.getFrontOffsetZ();
+							float x = (float) force * facing.getFrontOffsetX();
+							float y = (float) force * facing.getFrontOffsetY();
+							float z = (float) force * facing.getFrontOffsetZ();
 							float px = x == 0 ? 0.4F : 0;
 							float py = y == 0 ? 0.4F : 0;
 							float pz = z == 0 ? 0.4F : 0;
