@@ -1,23 +1,23 @@
 package vazkii.quark.misc.feature;
 
+import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import vazkii.arl.recipe.RecipeHandler;
 import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.module.Feature;
-import vazkii.quark.base.module.ModuleLoader;
-import vazkii.quark.decoration.feature.VariedChests;
 
 public class UtilityRecipes extends Feature {
 
-	boolean enableDispenser, enableRepeater, enableTrappedChest;
+	boolean enableDispenser, enableRepeater, enableMinecarts;
 	
 	@Override
 	public void setupConfig() {
 		enableDispenser = loadPropBool("Dispenser Recipe", "", true);
 		enableRepeater = loadPropBool("Repeater Recipe", "", true);
-		enableTrappedChest = loadPropBool("Enable Trapped Chest", "", true);
+		enableMinecarts = loadPropBool("Enable Minecarts", "", true);
 	}
 	
 	@Override
@@ -35,6 +35,20 @@ public class UtilityRecipes extends Feature {
 					'S', "stone",
 					'T', "stickWood",
 					'R', "dustRedstone");
+		
+		if(enableMinecarts) {
+			addMinecart(Blocks.CHEST, Items.CHEST_MINECART);
+			addMinecart(Blocks.FURNACE, Items.FURNACE_MINECART);
+			addMinecart(Blocks.HOPPER, Items.HOPPER_MINECART);
+			addMinecart(Blocks.TNT, Items.TNT_MINECART);
+		}
+	}
+	
+	private void addMinecart(Block block, Item cart) {
+		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(cart), 
+				"IBI", "III",
+				'I', "ingotIron",
+				'B', ProxyRegistry.newStack(block));
 	}
 	
 }
