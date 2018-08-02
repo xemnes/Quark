@@ -470,6 +470,13 @@ tile.quark:magma_bricks.name=Magma Bricks
 tile.quark:magma_bricks_stairs.name=Magma Brick Stairs
 tile.quark:magma_bricks_slab.name=Magma Brick Slab
 tile.quark:chute.name=Chute
+tile.quark:stone_speleothem.name=Stone Speleothem
+tile.quark:granite_speleothem.name=Granite Speleothem
+tile.quark:diorite_speleothem.name=Diorite Speleothem
+tile.quark:andesite_speleothem.name=Andesite Speleothem
+tile.quark:basalt_speleothem.name=Basalt Speleothem
+tile.quark:marble_speleothem.name=Marble Speleothem
+tile.quark:limestone_speleothem.name=Limestone Speleothem
 
 # ITEM NAMES
 item.quark:glass_shard.name=Glass Shard
