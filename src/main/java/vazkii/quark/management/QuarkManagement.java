@@ -23,6 +23,7 @@ import vazkii.quark.management.feature.FToSwitchItems;
 import vazkii.quark.management.feature.FavoriteItems;
 import vazkii.quark.management.feature.InventorySorting;
 import vazkii.quark.management.feature.LinkItems;
+import vazkii.quark.management.feature.RightClickAddToShulkerBox;
 import vazkii.quark.management.feature.StoreToChests;
 
 public class QuarkManagement extends Module {
@@ -39,6 +40,7 @@ public class QuarkManagement extends Module {
 		registerFeature(new BetterCraftShifting());
 		registerFeature(new ChangeHotbarKeybind());
 		registerFeature(new AutomaticToolRestock());
+		registerFeature(new RightClickAddToShulkerBox());
 	}
 	
 	@Override
