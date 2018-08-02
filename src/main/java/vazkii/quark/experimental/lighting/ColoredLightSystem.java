@@ -99,6 +99,7 @@ public final class ColoredLightSystem {
 			src.newFrame();
 	}
 	
+	@SuppressWarnings("unlikely-arg-type")
 	public static void addLightSource(IBlockAccess access, BlockPos pos, IBlockState state) {
 		if(!(access instanceof World))
 			return;
