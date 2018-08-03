@@ -86,6 +86,7 @@ public class ClassTransformer implements IClassTransformer {
 
 		// For Better Craft Shifting
 		transformers.put("net.minecraft.inventory.ContainerWorkbench", ClassTransformer::transformContainerWorkbench);
+		transformers.put("net.minecraft.inventory.ContainerMerchant", ClassTransformer::transformContainerMerchant);
 
 		// For Pistons Move TEs
 		transformers.put("net.minecraft.tileentity.TileEntityPiston", ClassTransformer::transformTileEntityPiston);
@@ -330,9 +331,18 @@ public class ClassTransformer implements IClassTransformer {
 		return transClass;
 	}
 
-	static int bipushCount = 0;
 	private static byte[] transformContainerWorkbench(byte[] basicClass) {
 		log("Transforming ContainerWorkbench");
+		return transformTransferStackInSlot(basicClass, 5, 6, "getInventoryBoundaryCrafting");
+	}
+
+	private static byte[] transformContainerMerchant(byte[] basicClass) {
+		log("Transforming ContainerMerchant");
+		return transformTransferStackInSlot(basicClass, 3, 4, "getInventoryBoundaryVillager");
+	}
+
+	static int bipushCount = 0;
+	private static byte[] transformTransferStackInSlot(byte[] basicClass, int min, int max, String hook) {
 		MethodSignature sig = new MethodSignature("transferStackInSlot", "func_82846_b", "b", "(Lnet/minecraft/entity/player/EntityPlayer;I)Lnet/minecraft/item/ItemStack;");
 
 		bipushCount = 0;
@@ -343,14 +353,15 @@ public class ClassTransformer implements IClassTransformer {
 				(MethodNode method, AbstractInsnNode node) -> { // Action
 					InsnList newInstructions = new InsnList();
 					bipushCount++;
-					if(bipushCount != 5 && bipushCount != 6)
+
+					if(bipushCount != min && bipushCount != max)
 						return false;
 
 					log("Adding invokestatic to " + ((IntInsnNode) node).operand + "/" + bipushCount);
-					newInstructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, ASM_HOOKS, "getInventoryBoundary", "(I)I"));
+					newInstructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, ASM_HOOKS, hook, "(I)I"));
 
 					method.instructions.insert(node, newInstructions);
-					return bipushCount == 6;
+					return bipushCount == max;
 				})));
 	}
 

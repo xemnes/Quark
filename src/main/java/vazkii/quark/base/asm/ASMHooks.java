@@ -73,8 +73,12 @@ public final class ASMHooks {
 	
 	// ===== BETTER CRAFT SHIFTING ===== //
 	
-	public static int getInventoryBoundary(int curr) {
-		return BetterCraftShifting.getInventoryBoundary(curr);
+	public static int getInventoryBoundaryCrafting(int curr) {
+		return BetterCraftShifting.getInventoryBoundaryCrafting(curr);
+	}
+	
+	public static int getInventoryBoundaryVillager(int curr) {
+		return BetterCraftShifting.getInventoryBoundaryVillager(curr);
 	}
 	
 	// ===== PISTONS MOVE TES ===== //
