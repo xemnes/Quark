@@ -16,7 +16,7 @@ quarkmisc.keyboundButton=%sPress %s
 quarkmisc.nowAfk=You are now AFK (Away From Keyboard).
 quarkmisc.leftAfk=You are no longer AFK.
 quarkmisc.personSleeping=%s is now sleeping.
-# The %s is very important!
+# The %s is very important!paper
 quarkmisc.sleepingListHeader=Sleeping Players: %s
 quarkmisc.buried_chest_map=Buried Treasure Map
 quarkmisc.trashButtonOpen=Click to Delete
@@ -179,6 +179,7 @@ tile.quark:reed_block.name=Sugar Cane Block
 tile.quark:reed_block_slab.name=Sugar Cane Slab
 tile.quark:reed_block_stairs.name=Sugar Cane Stairs
 tile.quark:paper_wall.name=Paper Wall
+tile.quark:paper_wall_big.name=Big Paper Wall
 tile.quark:bark_oak.name=Oak Bark
 tile.quark:bark_spruce.name=Spruce Bark
 tile.quark:bark_birch.name=Birch Bark
