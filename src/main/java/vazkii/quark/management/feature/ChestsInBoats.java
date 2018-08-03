@@ -37,7 +37,7 @@ public class ChestsInBoats extends Feature {
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
 		String name = LibMisc.PREFIX_MOD + "chest_passenger";
-		EntityRegistry.registerModEntity(new ResourceLocation(name), EntityChestPassenger.class, name, LibEntityIDs.CHEST_PASSENGER, Quark.instance, 64, 16, true);
+		EntityRegistry.registerModEntity(new ResourceLocation(name), EntityChestPassenger.class, name, LibEntityIDs.CHEST_PASSENGER, Quark.instance, 64, Integer.MAX_VALUE, false);
 	}
 
 	@Override
@@ -62,6 +62,8 @@ public class ChestsInBoats extends Feature {
 			if(isChest(stack)) {
 				World world = event.getWorld();
 				EntityChestPassenger passenger = new EntityChestPassenger(world, stack);
+				passenger.setPosition(target.posX, target.posY, target.posZ);
+				passenger.rotationYaw = target.rotationYaw;
 				
 				if(!player.isCreative())
 					stack.shrink(1);

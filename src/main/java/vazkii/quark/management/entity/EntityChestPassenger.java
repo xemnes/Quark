@@ -28,20 +28,23 @@ public class EntityChestPassenger extends Entity implements IInventory {
 	public EntityChestPassenger(World worldIn, ItemStack stack) {
 		this(worldIn);
 		
-		dataManager.set(CHEST_TYPE, stack);
+		ItemStack newStack = stack.copy();
+		newStack.setCount(1);
+		dataManager.set(CHEST_TYPE, newStack);
 	}
 
 	@Override
 	protected void entityInit() {
 		noClip = true;
-		setSize(0.85F, 0.85F);
-		
 		dataManager.register(CHEST_TYPE, new ItemStack(Blocks.CHEST));
 	}
 	
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
+		
+		if(isDead)
+			return;
 		
 		if(!isRiding()) {
 			if(!world.isRemote)
@@ -51,7 +54,7 @@ public class EntityChestPassenger extends Entity implements IInventory {
 		}
 		
 		Entity riding = getRidingEntity();
-		rotationYaw = riding.rotationYaw;
+		rotationYaw = riding.prevRotationYaw;
 		rotationPitch = 0F;
 	}
 
