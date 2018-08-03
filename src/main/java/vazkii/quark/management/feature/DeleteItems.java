@@ -55,7 +55,7 @@ public class DeleteItems extends Feature {
 			if(playerInvOnly)
 				accept = guiInv instanceof GuiInventory;
 			
-			if(!accept)
+			if(!accept || player.isCreative())
 				return;
 
 			int guiLeft = guiInv.getGuiLeft();
