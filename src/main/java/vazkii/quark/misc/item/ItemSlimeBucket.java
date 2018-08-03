@@ -101,7 +101,7 @@ public class ItemSlimeBucket extends ItemMod implements IQuarkItem {
 	public String getItemStackDisplayName(ItemStack stack) {
 		if(stack.hasTagCompound()) {
 			NBTTagCompound cmp = ItemNBTHelper.getCompound(stack, TAG_ENTITY_DATA, false);
-			if(cmp.hasKey("CustomName")) 
+			if(cmp != null && cmp.hasKey("CustomName")) 
 				return I18n.format("item.quark:slime_bucket_named.name", cmp.getString("CustomName")); 
 		}
 		
