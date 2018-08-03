@@ -481,6 +481,18 @@ tile.quark:basalt_speleothem.name=Basalt Speleothem
 tile.quark:marble_speleothem.name=Marble Speleothem
 tile.quark:limestone_speleothem.name=Limestone Speleothem
 tile.quark:netherrack_speleothem.name=Netherrack Speleothem
+tile.quark:spruce_pressure_plate.name=Spruce Pressure Plate
+tile.quark:birch_pressure_plate.name=Birch Pressure Plate
+tile.quark:jungle_pressure_plate.name=Jungle Pressure Plate
+tile.quark:acacia_pressure_plate.name=Acacia Pressure Plate
+tile.quark:dark_oak_pressure_plate.name=Dark Oak Pressure Plate
+tile.oak_pressure_plate.name=Oak Pressure Plate
+tile.quark:spruce_button.name=Spruce Button
+tile.quark:birch_button.name=Birch Button
+tile.quark:jungle_button.name=Jungle Button
+tile.quark:acacia_button.name=Acacia Button
+tile.quark:dark_oak_button.name=Dark Oak Button
+tile.oak_button.name=Oak Button
 
 # ITEM NAMES
 item.quark:glass_shard.name=Glass Shard
