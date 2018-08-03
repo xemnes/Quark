@@ -47,25 +47,25 @@ public class ClassTransformer implements IClassTransformer {
 	private static final String ASM_HOOKS = "vazkii/quark/base/asm/ASMHooks";
 
 	public static final ClassnameMap CLASS_MAPPINGS = new ClassnameMap(
-		"net/minecraft/entity/Entity", "vg",
-		"net/minecraft/item/ItemStack", "aip",
-		"net/minecraft/client/renderer/block/model/IBakedModel", "cfy",
-		"net/minecraft/entity/EntityLivingBase", "vp",
-		"net/minecraft/inventory/EntityEquipmentSlot", "vl",
-		"net/minecraft/client/renderer/entity/RenderLivingBase", "caa",
-		"net/minecraft/client/model/ModelBase", "bqf",
-		"net/minecraft/util/DamageSource", "ur",
-		"net/minecraft/entity/item/EntityBoat", "afd",
-		"net/minecraft/world/World", "amu",
-		"net/minecraft/util/math/BlockPos", "et",
-		"net/minecraft/util/EnumFacing", "fa",
-		"net/minecraft/entity/player/EntityPlayer", "aed",
-		"net/minecraft/block/state/IBlockState", "awt",
-		"net/minecraft/client/renderer/BufferBuilder", "buk",
-		"net/minecraft/world/IBlockAccess", "amy",
-		"net/minecraft/client/renderer/block/model/BakedQuad", "bvp",
-		"net/minecraft/inventory/InventoryCrafting", "afw"
-	);
+			"net/minecraft/entity/Entity", "vg",
+			"net/minecraft/item/ItemStack", "aip",
+			"net/minecraft/client/renderer/block/model/IBakedModel", "cfy",
+			"net/minecraft/entity/EntityLivingBase", "vp",
+			"net/minecraft/inventory/EntityEquipmentSlot", "vl",
+			"net/minecraft/client/renderer/entity/RenderLivingBase", "caa",
+			"net/minecraft/client/model/ModelBase", "bqf",
+			"net/minecraft/util/DamageSource", "ur",
+			"net/minecraft/entity/item/EntityBoat", "afd",
+			"net/minecraft/world/World", "amu",
+			"net/minecraft/util/math/BlockPos", "et",
+			"net/minecraft/util/EnumFacing", "fa",
+			"net/minecraft/entity/player/EntityPlayer", "aed",
+			"net/minecraft/block/state/IBlockState", "awt",
+			"net/minecraft/client/renderer/BufferBuilder", "buk",
+			"net/minecraft/world/IBlockAccess", "amy",
+			"net/minecraft/client/renderer/block/model/BakedQuad", "bvp",
+			"net/minecraft/inventory/InventoryCrafting", "afw"
+			);
 
 	private static final Map<String, Transformer> transformers = new HashMap();
 
@@ -96,7 +96,7 @@ public class ClassTransformer implements IClassTransformer {
 
 		// For Colored Lights
 		transformers.put("net.minecraft.client.renderer.BlockModelRenderer", ClassTransformer::transformBlockModelRenderer);
-		
+
 		// For More Banner Layers
 		transformers.put("net.minecraft.item.crafting.RecipesBanners$RecipeAddPattern", ClassTransformer::transformRecipeAddPattern);
 		transformers.put("net.minecraft.item.ItemBanner", ClassTransformer::transformItemBanner);
@@ -452,43 +452,32 @@ public class ClassTransformer implements IClassTransformer {
 					return true;
 				})));
 	}
-	
+
+	private static MethodAction layerCountTransformer = combine(
+			(AbstractInsnNode node) -> { // Filter
+				return node.getOpcode() == Opcodes.BIPUSH && ((IntInsnNode) node).operand == 6;
+			},
+			(MethodNode method, AbstractInsnNode node) -> { // Action
+				InsnList newInstructions = new InsnList();
+				newInstructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, ASM_HOOKS, "getLayerCount", "()I"));
+
+				method.instructions.insert(node, newInstructions);
+				method.instructions.remove(node);
+				return true;
+			}); 
+
 	private static byte[] transformRecipeAddPattern(byte[] basicClass) {
 		log("Transforming RecipeAddPattern");
 
 		MethodSignature sig = new MethodSignature("matches", "func_77569_a", "a", "(Lnet/minecraft/inventory/InventoryCrafting;Lnet/minecraft/world/World;)Z");
-
-		return transform(basicClass, Pair.of(sig, combine(
-				(AbstractInsnNode node) -> { // Filte
-					return node.getOpcode() == Opcodes.BIPUSH && ((IntInsnNode) node).operand == 6;
-				},
-				(MethodNode method, AbstractInsnNode node) -> { // Action
-					InsnList newInstructions = new InsnList();
-					newInstructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, ASM_HOOKS, "getLayerCount", "()I"));
-
-					method.instructions.insert(node, newInstructions);
-					method.instructions.remove(node);
-					return true;
-				})));
+		return transform(basicClass, Pair.of(sig, layerCountTransformer));
 	}
-	
+
 	private static byte[] transformItemBanner(byte[] basicClass) {
 		log("Transforming ItemBanner");
 
 		MethodSignature sig = new MethodSignature("appendHoverTextFromTileEntityTag", "func_185054_a", "a", "(Lnet/minecraft/item/ItemStack;Ljava/util/List;)V");
-
-		return transform(basicClass, Pair.of(sig, combine(
-				(AbstractInsnNode node) -> { // Filte
-					return node.getOpcode() == Opcodes.BIPUSH && ((IntInsnNode) node).operand == 6;
-				},
-				(MethodNode method, AbstractInsnNode node) -> { // Action
-					InsnList newInstructions = new InsnList();
-					newInstructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, ASM_HOOKS, "getLayerCount", "()I"));
-
-					method.instructions.insert(node, newInstructions);
-					method.instructions.remove(node);
-					return true;
-				})));
+		return transform(basicClass, Pair.of(sig, layerCountTransformer));
 	}
 
 	// BOILERPLATE BELOW ==========================================================================================================================================
