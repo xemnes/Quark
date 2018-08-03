@@ -22,20 +22,24 @@ public class SpeleothemGenerator implements IWorldGenerator {
 
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
+		if(!Speleothems.dimensionConfig.canSpawnHere(world))
+			return;
+		
 		int x = chunkX * 16 + 8;
 		int z = chunkZ * 16 + 8;
 		
 		int spread = 16;
-		int tries = 60;
+		int tries = Speleothems.tries;
 		int innerSpread = 6;
-		int innerTries = 12;
+		int innerTries = Speleothems.clusterCount;
 		int upperBound = world.getSeaLevel();
 		int offset = 6;
 		
 		if(world.provider.isNether()) {
 			upperBound = 128;
 			offset = 0;
-			tries = 4;
+			tries = Speleothems.netherTries;
+			innerSpread = Speleothems.netherClusterCount;
 		}
 		
 		for(int i = 0; i < tries; i++) {
