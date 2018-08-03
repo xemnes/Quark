@@ -90,14 +90,6 @@ public class DeleteItems extends Feature {
 	}
 	
 	@SubscribeEvent
-	public void mouseEvent(MouseEvent event) {
-	}
-	
-	private void handleMouseclick(Event event) {
-
-	}
-	
-	@SubscribeEvent
 	public void keyboardEvent(GuiScreenEvent.KeyboardInputEvent.Post event) {
 		boolean down = Keyboard.isKeyDown(Keyboard.KEY_DELETE);
 		if(GuiScreen.isCtrlKeyDown() && down && !this.keyboardDown && event.getGui() instanceof GuiContainer) {
