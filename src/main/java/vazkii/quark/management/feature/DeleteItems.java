@@ -6,6 +6,7 @@ import org.lwjgl.input.Mouse;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -30,12 +31,13 @@ public class DeleteItems extends Feature {
 	boolean mouseDown = false;
 	GuiButtonTrash trash;
 	
-	boolean trashButton;
+	boolean trashButton, playerInvOnly;
 	int trashButtonX, trashButtonY;
 	
 	@Override
 	public void setupConfig() {
 		trashButton = loadPropBool("Enable Trash Button", "", true);
+		playerInvOnly = loadPropBool("Trash Button only on Player Inventory", "", false);
 		trashButtonX = loadPropInt("Trash Button X", "", 3);
 		trashButtonY = loadPropInt("Trash Button Y", "", -25);
 	}
@@ -50,7 +52,9 @@ public class DeleteItems extends Feature {
 			EntityPlayer player = Minecraft.getMinecraft().player;
 			
 			boolean accept = guiInv instanceof GuiContainer;
-
+			if(playerInvOnly)
+				accept = guiInv instanceof GuiInventory;
+			
 			if(!accept)
 				return;
 
