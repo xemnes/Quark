@@ -2,7 +2,9 @@ package vazkii.quark.decoration.feature;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.oredict.OreDictionary;
 import vazkii.arl.recipe.RecipeHandler;
 import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.handler.WoodVariantReplacer;
@@ -78,6 +80,27 @@ public class VariedButtonsAndPressurePlates extends Feature {
 
 			if(renameVanillaBlocks)
 				Blocks.WOODEN_BUTTON.setUnlocalizedName("oak_button");
+		}
+	}
+	
+	@Override
+	public void init(FMLInitializationEvent event) {
+		if(enablePressurePlates) {
+			OreDictionary.registerOre("pressurePlateWood", Blocks.WOODEN_PRESSURE_PLATE);
+			OreDictionary.registerOre("pressurePlateWood", spruce_pressure_plate);
+			OreDictionary.registerOre("pressurePlateWood", birch_pressure_plate);
+			OreDictionary.registerOre("pressurePlateWood", jungle_pressure_plate);
+			OreDictionary.registerOre("pressurePlateWood", acacia_pressure_plate);
+			OreDictionary.registerOre("pressurePlateWood", dark_oak_pressure_plate);
+		}
+
+		if(enableButtons) {
+			OreDictionary.registerOre("buttonWood", Blocks.WOODEN_BUTTON);
+			OreDictionary.registerOre("buttonWood", spruce_button);
+			OreDictionary.registerOre("buttonWood", birch_button);
+			OreDictionary.registerOre("buttonWood", jungle_button);
+			OreDictionary.registerOre("buttonWood", acacia_button);
+			OreDictionary.registerOre("buttonWood", dark_oak_button);
 		}
 	}
 	
