@@ -24,6 +24,7 @@ import vazkii.quark.automation.feature.PistonSpikes;
 import vazkii.quark.automation.feature.PistonsMoveTEs;
 import vazkii.quark.automation.feature.PistonsPushPullItems;
 import vazkii.quark.automation.feature.RainDetector;
+import vazkii.quark.automation.feature.SugarBlock;
 import vazkii.quark.base.module.Module;
 
 public class QuarkAutomation extends Module {
@@ -42,6 +43,7 @@ public class QuarkAutomation extends Module {
 		registerFeature(new PistonsPushPullItems(), "Pistons Push and Pull Items");
 		registerFeature(new Chute());
 		registerFeature(new MetalButtons());
+		registerFeature(new SugarBlock());
 	}
 	
 	@Override
