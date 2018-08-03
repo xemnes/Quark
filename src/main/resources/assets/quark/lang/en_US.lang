@@ -493,6 +493,8 @@ tile.quark:jungle_button.name=Jungle Button
 tile.quark:acacia_button.name=Acacia Button
 tile.quark:dark_oak_button.name=Dark Oak Button
 tile.oak_button.name=Oak Button
+tile.quark:iron_button.name=Iron Button
+tile.quark:gold_button.name=Gold Button
 
 # ITEM NAMES
 item.quark:glass_shard.name=Glass Shard

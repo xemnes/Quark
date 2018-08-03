@@ -2,10 +2,10 @@ package vazkii.quark.base.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockButton;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
@@ -33,7 +33,10 @@ public class BlockQuarkButton extends BlockButton implements IQuarkBlock {
 		bareName = name;
 		variants = new String[] { bareName };
 
-		setUnlocalizedName(bareName);	
+		setUnlocalizedName(bareName);
+		
+		setHardness(0.5F);
+		setSoundType(wooden ? SoundType.WOOD : SoundType.STONE);
 	}
 	
 	@Override
