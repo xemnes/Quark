@@ -570,6 +570,7 @@ entity.quark:dweller.name=Dweller
 entity.quark:ashen.name=Ashen
 entity.quark:pirate.name=Pirate
 entity.quark:wraith.name=Wraith
+entity.quark:chest_passenger.name=Boat Chest
 
 # POTION NAMES
 quark.potion.curse.name=Curse
