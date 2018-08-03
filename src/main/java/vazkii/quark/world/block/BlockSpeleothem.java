@@ -30,11 +30,15 @@ public class BlockSpeleothem extends BlockMod implements IQuarkBlock {
 	public BlockSpeleothem(String name) {
 		super(name + "_speleothem", Material.ROCK);
 		setHardness(1.5F);
-		setResistance(10.0F);
 		setSoundType(SoundType.STONE);
 		setCreativeTab(CreativeTabs.DECORATIONS);
 		
 		setDefaultState(blockState.getBaseState().withProperty(SIZE, EnumSize.MEDIUM));
+	}
+	
+	public BlockSpeleothem setNetherrack() {
+		setHardness(0.4F);
+		return this;
 	}
 	
 	@Override

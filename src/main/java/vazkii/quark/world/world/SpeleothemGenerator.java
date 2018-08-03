@@ -26,11 +26,20 @@ public class SpeleothemGenerator implements IWorldGenerator {
 		int z = chunkZ * 16 + 8;
 		
 		int spread = 16;
-		int tries = 80;
-		int innerSpread = 4;
-		int innerTries = 8;
+		int tries = 60;
+		int innerSpread = 6;
+		int innerTries = 12;
+		int upperBound = world.getSeaLevel();
+		int offset = 6;
+		
+		if(world.provider.isNether()) {
+			upperBound = 128;
+			offset = 0;
+			tries = 4;
+		}
+		
 		for(int i = 0; i < tries; i++) {
-			BlockPos target = new BlockPos(x + random.nextInt(spread), random.nextInt(world.getSeaLevel()) + 6, z + random.nextInt(spread));
+			BlockPos target = new BlockPos(x + random.nextInt(spread), random.nextInt(upperBound) + offset, z + random.nextInt(spread));
 			if(placeSpeleothemCluster(random, world, target, innerSpread, innerTries))
 				i++;
 		}
@@ -90,7 +99,9 @@ public class SpeleothemGenerator implements IWorldGenerator {
 	private Block getSpeleothemType(IBlockState state) {
 		Block block = state.getBlock();
 
-		if(block == Blocks.STONE) {
+		if(block == Blocks.NETHERRACK)
+			return Speleothems.netherrack_speleothem;
+		else if(block == Blocks.STONE) {
 			switch(state.getValue(BlockStone.VARIANT)) {
 			case STONE: 
 				return Speleothems.stone_speleothem;

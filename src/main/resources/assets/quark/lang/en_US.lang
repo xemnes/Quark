@@ -477,6 +477,7 @@ tile.quark:andesite_speleothem.name=Andesite Speleothem
 tile.quark:basalt_speleothem.name=Basalt Speleothem
 tile.quark:marble_speleothem.name=Marble Speleothem
 tile.quark:limestone_speleothem.name=Limestone Speleothem
+tile.quark:netherrack_speleothem.name=Netherrack Speleothem
 
 # ITEM NAMES
 item.quark:glass_shard.name=Glass Shard

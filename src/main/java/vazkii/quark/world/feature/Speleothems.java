@@ -11,7 +11,8 @@ import vazkii.quark.world.world.SpeleothemGenerator;
 public class Speleothems extends Feature {
 
 	public static Block stone_speleothem, granite_speleothem, diorite_speleothem,
-		andesite_speleothem, basalt_speleothem, marble_speleothem, limestone_speleothem;
+		andesite_speleothem, basalt_speleothem, marble_speleothem, limestone_speleothem,
+		netherrack_speleothem;
 	
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
@@ -19,6 +20,7 @@ public class Speleothems extends Feature {
 		granite_speleothem = new BlockSpeleothem("granite");
 		diorite_speleothem = new BlockSpeleothem("diorite");
 		andesite_speleothem = new BlockSpeleothem("andesite");
+		netherrack_speleothem = new BlockSpeleothem("netherrack").setNetherrack();
 		
 		if(ModuleLoader.isFeatureEnabled(Basalt.class))
 			basalt_speleothem = new BlockSpeleothem("basalt");
