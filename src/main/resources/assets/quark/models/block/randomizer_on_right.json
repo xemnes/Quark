@@ -1,10 +1,9 @@
 {
 	"__comment": "Designed by Wiiv with Cubik Studio - https://cubik.studio",
-	"ambientocclusion": false,
 	"textures": {
 		"particle": "blocks/repeater_on",
 		"slab": "blocks/stone_slab_top",
-		"top": "blocks/unused/randomizer_on_right",
+		"top": "quark:blocks/randomizer_on_right",
 		"lit": "blocks/redstone_torch_on",
 		"unlit": "blocks/redstone_torch_off"
 	},

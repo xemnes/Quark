@@ -496,6 +496,7 @@ tile.oak_button.name=Oak Button
 tile.quark:iron_button.name=Iron Button
 tile.quark:gold_button.name=Gold Button
 tile.quark:sugar_block.name=Sugar Block
+tile.quark:redstone_randomizer.name=Redstone Randomizer
 
 # ITEM NAMES
 item.quark:glass_shard.name=Glass Shard
