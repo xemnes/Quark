@@ -581,6 +581,11 @@ item.quark:glass_item_frame.name=Glass Item Frame
 item.quark:enderdragon_scale.name=Dragon Scale
 item.quark:trowel.name=Trowel
 item.quark:tallow.name=Tallow
+item.quark:red_parrot_egg.name=Red Parrot Egg
+item.quark:blue_parrot_egg.name=Blue Parrot Egg
+item.quark:cyan_parrot_egg.name=Cyan Parrot Egg
+item.quark:green_parrot_egg.name=Green Parrot Egg
+item.quark:grey_parrot_egg.name=Grey Parrot Egg
 
 # ENTITY NAMES
 entity.quark:colored_item_frame.name=Colored Item Frame
