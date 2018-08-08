@@ -25,18 +25,18 @@ public class WorldStonePavement extends Feature {
 		for(int i = 0; i < 3; i++)
 			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(world_stone_pavement, 9, i),
 					"SSS", "SSS", "SSS",
-					'S', ProxyRegistry.newStack(Blocks.STONE, 1, i * 2 + 2));
+					'S', ProxyRegistry.newStack(Blocks.STONE, 1, i * 2 + 1));
 
 		if(BlockWorldStoneBricks.Variants.STONE_BASALT_BRICKS.isEnabled()) {
 			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(world_stone_pavement, 9, 3),
 					"SSS", "SSS", "SSS",
-					'S', ProxyRegistry.newStack(Basalt.basalt, 1, 1));
+					'S', ProxyRegistry.newStack(Basalt.basalt, 1, 0));
 		}
 		
 		if(BlockWorldStoneBricks.Variants.STONE_MARBLE_BRICKS.isEnabled()) {
 			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(world_stone_pavement, 9, 4),
 					"SSS", "SSS", "SSS",
-					'S', ProxyRegistry.newStack(RevampStoneGen.marble, 1, 1));
+					'S', ProxyRegistry.newStack(RevampStoneGen.marble, 1, 0));
 		}
 		
 		if(BlockWorldStoneBricks.Variants.STONE_LIMESTONE_BRICKS.isEnabled()) {
