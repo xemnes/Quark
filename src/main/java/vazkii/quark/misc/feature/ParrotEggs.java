@@ -9,7 +9,6 @@ import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
@@ -23,15 +22,13 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import vazkii.arl.util.ItemNBTHelper;
-import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.lib.LibEntityIDs;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.misc.client.render.RenderParrotEgg;
+import vazkii.quark.misc.client.render.RenderParrotKoto;
 import vazkii.quark.misc.entity.EntityParrotEgg;
 import vazkii.quark.misc.item.ItemParrotEgg;
-import vazkii.quark.misc.item.ItemSlimeBucket;
 
 public class ParrotEggs extends Feature {
 
@@ -68,6 +65,9 @@ public class ParrotEggs extends Feature {
 	@SideOnly(Side.CLIENT)
 	public void preInitClient(FMLPreInitializationEvent event) {
 		RenderingRegistry.registerEntityRenderingHandler(EntityParrotEgg.class, RenderParrotEgg.factory());
+		
+		if(enableKotobirb)
+			RenderingRegistry.registerEntityRenderingHandler(EntityParrot.class, RenderParrotKoto.factory());
 	}
 
 	@SubscribeEvent

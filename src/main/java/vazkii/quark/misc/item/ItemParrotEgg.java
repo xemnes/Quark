@@ -21,16 +21,16 @@ public class ItemParrotEgg extends ItemMod implements IQuarkItem, IItemColorProv
 	private static final String[] VARIANTS = {
 			"red_parrot_egg",
 			"blue_parrot_egg",
-			"cyan_parrot_egg",
 			"green_parrot_egg",
+			"cyan_parrot_egg",
 			"grey_parrot_egg"
 	};
 	
 	private static final int[][] COLORS = {
 			{ 0xb20200, 0x005eb7 }, // red
 			{ 0x0e26cb, 0x04104e }, // blue
-			{ 0x188bb7, 0xfed305 }, // cyan
 			{ 0x9bd901, 0x426000 }, // green
+			{ 0x188bb7, 0xfed305 }, // cyan
 			{ 0xababab, 0x616161 }  // grey
 	};
 
