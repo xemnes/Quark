@@ -11,7 +11,6 @@
 package vazkii.quark.building;
 
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.building.feature.BarkBlocks;
@@ -38,6 +37,7 @@ import vazkii.quark.building.feature.VanillaStairsAndSlabs;
 import vazkii.quark.building.feature.VanillaWalls;
 import vazkii.quark.building.feature.VerticalWoodPlanks;
 import vazkii.quark.building.feature.WorldStoneBricks;
+import vazkii.quark.building.feature.WorldStonePavement;
 
 public class QuarkBuilding extends Module {
 
@@ -67,6 +67,7 @@ public class QuarkBuilding extends Module {
 		registerFeature(new QuiltedWool());
 		registerFeature(new Trowel());
 		registerFeature(new MagmaBricks());
+		registerFeature(new WorldStonePavement());
 	}
 
 	@Override

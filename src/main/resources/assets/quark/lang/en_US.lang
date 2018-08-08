@@ -497,6 +497,12 @@ tile.quark:iron_button.name=Iron Button
 tile.quark:gold_button.name=Gold Button
 tile.quark:sugar_block.name=Sugar Block
 tile.quark:redstone_randomizer.name=Redstone Randomizer
+tile.quark:stone_diorite_pavement.name=Diorite Pavement
+tile.quark:stone_granite_pavement.name=Granite Pavement
+tile.quark:stone_andesite_pavement.name=Andesite Pavement
+tile.quark:stone_basalt_pavement.name=Basalt Pavement
+tile.quark:stone_marble_pavement.name=Marble Pavement
+tile.quark:stone_limestone_pavement.name=Limestone Pavement
 
 # ITEM NAMES
 item.quark:glass_shard.name=Glass Shard
