@@ -17,6 +17,7 @@ import vazkii.quark.building.feature.BarkBlocks;
 import vazkii.quark.building.feature.CarvedWood;
 import vazkii.quark.building.feature.CharredNetherBricks;
 import vazkii.quark.building.feature.DuskboundBlocks;
+import vazkii.quark.building.feature.FramedGlass;
 import vazkii.quark.building.feature.HardenedClayTiles;
 import vazkii.quark.building.feature.IronPlates;
 import vazkii.quark.building.feature.MagmaBricks;
@@ -68,6 +69,7 @@ public class QuarkBuilding extends Module {
 		registerFeature(new Trowel());
 		registerFeature(new MagmaBricks());
 		registerFeature(new WorldStonePavement());
+		registerFeature(new FramedGlass());
 	}
 
 	@Override
