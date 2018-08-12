@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -87,6 +88,8 @@ public class TilePipe extends TileMod implements ITickable {
 
 	public void dropItem(ItemStack stack) {
 		System.out.println("Dropping " + stack);
+		EntityItem entity = new EntityItem(world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, stack);
+		world.spawnEntity(entity);
 	}
 
 	@Override
