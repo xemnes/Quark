@@ -2,6 +2,7 @@ package vazkii.quark.oddities.tile;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
@@ -14,9 +15,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ITickable;
-import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -25,7 +26,6 @@ import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import scala.actors.threadpool.Arrays;
-import vazkii.arl.block.tile.TileMod;
 import vazkii.arl.block.tile.TileSimpleInventory;
 
 public class TilePipe extends TileSimpleInventory implements ITickable {
@@ -39,6 +39,8 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 
 	@Override
 	public void update() {
+		int currentOut = getComparatorOutput();
+
 		ListIterator<PipeItem> itemItr = pipeItems.listIterator();
 		while(itemItr.hasNext()) {
 			PipeItem item = itemItr.next();
@@ -50,15 +52,28 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 				else dropItem(item.stack);
 			}
 		}
+		
+		if(getComparatorOutput() != currentOut)
+			world.updateComparatorOutputLevel(getPos(), getBlockType());
 	}
-
+	
+	public int getComparatorOutput() {
+		return Math.min(15, pipeItems.size());
+	}
+	
+	public Iterator<PipeItem> getItemIterator() {
+		return pipeItems.iterator(); 
+	}
+	
 	public boolean passIn(ItemStack stack, EnumFacing face) {
 		if(pipeItems.size() > MAX_PIPE_ITEMS)
 			return false;
 
-		System.out.println("Passing " + stack + " into " + getPos() + " from " + face);
+		int currentOut = getComparatorOutput();
 		PipeItem item = new PipeItem(stack, face);
 		pipeItems.add(item);
+		if(getComparatorOutput() != currentOut)
+			world.updateComparatorOutputLevel(getPos(), getBlockType());
 		
 		if(!world.isRemote) {
 			BlockPos pos = getPos();
@@ -69,7 +84,6 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 	}
 
 	void passOut(PipeItem item) {
-		System.out.println("Passing " + item.stack + " out " + item.outgoingFace);
 		BlockPos targetPos = getPos().offset(item.outgoingFace);
 		TileEntity tile = world.getTileEntity(targetPos);
 		boolean did = false;
@@ -90,8 +104,7 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 			dropItem(item.stack);
 	}
 
-	public void dropItem(ItemStack stack) {
-		System.out.println("Dropping " + stack);
+	public void dropItem(ItemStack stack) { // TODO replace with bounce
 		EntityItem entity = new EntityItem(world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, stack);
 		world.spawnEntity(entity);
 	}
@@ -194,10 +207,8 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 		boolean tick(TilePipe pipe) {
 			ticksInPipe++;
 
-			if(ticksInPipe == ITEM_TRAVEL_TIME / 2) {
+			if(ticksInPipe == ITEM_TRAVEL_TIME / 2)
 				outgoingFace = getTargetFace(pipe);
-				System.out.println(stack + " going " + outgoingFace);
-			}
 
 			if(outgoingFace == null) {
 				valid = false;
