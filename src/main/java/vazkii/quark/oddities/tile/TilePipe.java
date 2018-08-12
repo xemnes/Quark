@@ -36,13 +36,16 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 	public static final int MAX_PIPE_ITEMS = 16;
 	public static final int ITEM_TRAVEL_TIME = 10;
 
+	boolean iterating = false;
 	List<PipeItem> pipeItems = new LinkedList();
+	List<PipeItem> queuedItems = new LinkedList();
 
 	@Override
 	public void update() {
 		int currentOut = getComparatorOutput();
 
 		ListIterator<PipeItem> itemItr = pipeItems.listIterator();
+		iterating = true;
 		while(itemItr.hasNext()) {
 			PipeItem item = itemItr.next();
 			if(item.tick(this)) {
@@ -53,6 +56,12 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 				else dropItem(item.stack);
 			}
 		}
+		iterating = false;
+
+		pipeItems.addAll(queuedItems);
+		if(!queuedItems.isEmpty())
+			sync();
+		queuedItems.clear();
 		
 		if(getComparatorOutput() != currentOut)
 			world.updateComparatorOutputLevel(getPos(), getBlockType());
@@ -70,12 +79,14 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 		if(pipeItems.size() > MAX_PIPE_ITEMS)
 			return false;
 
-		int currentOut = getComparatorOutput();
 		PipeItem item = new PipeItem(stack, face, seed);
-		pipeItems.add(item);
-		item.timeInWorld = time;
-		if(getComparatorOutput() != currentOut)
-			world.updateComparatorOutputLevel(getPos(), getBlockType());
+		if(!iterating) {
+			int currentOut = getComparatorOutput();
+			pipeItems.add(item);
+			item.timeInWorld = time;
+			if(getComparatorOutput() != currentOut)
+				world.updateComparatorOutputLevel(getPos(), getBlockType());
+		} else queuedItems.add(item);
 
 		return true;
 	}
@@ -96,16 +107,21 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 				if(result.getCount() != item.stack.getCount()) {
 					did = true;
 					if(!result.isEmpty())
-						dropItem(result);
+						bounceBack(item, result);
 				}
 			}
 		}
 		
 		if(!did)
-			dropItem(item.stack);
+			bounceBack(item, null);
+	}
+	
+	void bounceBack(PipeItem item, ItemStack stack) {
+		if(!world.isRemote)
+			passIn(stack == null ? item.stack : stack, item.outgoingFace, item.rngSeed, item.timeInWorld);
 	}
 
-	public void dropItem(ItemStack stack) { // TODO replace with bounce
+	public void dropItem(ItemStack stack) {
 		if(!world.isRemote) {
 			EntityItem entity = new EntityItem(world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, stack);
 			world.spawnEntity(entity);
