@@ -1,5 +1,7 @@
 package vazkii.quark.oddities.block;
 
+import java.util.Iterator;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -8,13 +10,10 @@ import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -25,6 +24,7 @@ import vazkii.arl.block.BlockMetaVariants.EnumBase;
 import vazkii.arl.block.BlockModContainer;
 import vazkii.quark.base.block.IQuarkBlock;
 import vazkii.quark.oddities.tile.TilePipe;
+import vazkii.quark.oddities.tile.TilePipe.PipeItem;
 
 public class BlockPipe extends BlockModContainer implements IQuarkBlock {
 	
@@ -99,6 +99,16 @@ public class BlockPipe extends BlockModContainer implements IQuarkBlock {
 			return ((TilePipe) tile).getComparatorOutput();
 		return 0;
 	}
+	
+	@Override
+    public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
+        TileEntity tileentity = worldIn.getTileEntity(pos);
+
+        if(tileentity instanceof TilePipe)
+        	((TilePipe) tileentity).dropAllItems();;
+
+        super.breakBlock(worldIn, pos, state);
+    }
 
 	@Override
     public boolean isFullCube(IBlockState state) {

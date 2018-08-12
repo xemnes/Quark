@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Random;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
@@ -17,10 +18,8 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumFacing.Axis;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.WorldServer;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
@@ -28,13 +27,11 @@ import net.minecraftforge.items.wrapper.InvWrapper;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import scala.actors.threadpool.Arrays;
 import vazkii.arl.block.tile.TileSimpleInventory;
+import vazkii.quark.oddities.feature.Pipes;
 
 public class TilePipe extends TileSimpleInventory implements ITickable {
 
 	private static final String TAG_PIPE_ITEMS = "pipeItems";
-
-	public static final int MAX_PIPE_ITEMS = 16;
-	public static final int ITEM_TRAVEL_TIME = 10;
 
 	boolean iterating = false;
 	List<PipeItem> pipeItems = new LinkedList();
@@ -43,6 +40,12 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 	@Override
 	public void update() {
 		int currentOut = getComparatorOutput();
+		
+		if(Pipes.maxPipeItems > 0 && pipeItems.size() > Pipes.maxPipeItems && !world.isRemote) {
+			world.playEvent(2001, pos, Block.getStateId(world.getBlockState(pos)));
+			dropItem(new ItemStack(getBlockType()));
+			world.setBlockToAir(getPos());
+		}
 
 		ListIterator<PipeItem> itemItr = pipeItems.listIterator();
 		iterating = true;
@@ -76,9 +79,6 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 	}
 	
 	public boolean passIn(ItemStack stack, EnumFacing face, long seed, int time) {
-		if(pipeItems.size() > MAX_PIPE_ITEMS)
-			return false;
-
 		PipeItem item = new PipeItem(stack, face, seed);
 		if(!iterating) {
 			int currentOut = getComparatorOutput();
@@ -126,6 +126,12 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 			EntityItem entity = new EntityItem(world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, stack);
 			world.spawnEntity(entity);
 		}
+	}
+	
+	public void dropAllItems() {
+		for(PipeItem item : pipeItems)
+			dropItem(item.stack);
+		pipeItems.clear();
 	}
 
 	@Override
@@ -233,7 +239,7 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 			ticksInPipe++;
 			timeInWorld++;
 
-			if(ticksInPipe == ITEM_TRAVEL_TIME / 2)
+			if(ticksInPipe == Pipes.pipeSpeed / 2)
 				outgoingFace = getTargetFace(pipe);
 
 			if(outgoingFace == null) {
@@ -241,7 +247,7 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 				return true;
 			}
 
-			return ticksInPipe >= ITEM_TRAVEL_TIME;
+			return ticksInPipe >= Pipes.pipeSpeed;
 		}
 
 		protected EnumFacing getTargetFace(TilePipe pipe) {
@@ -275,7 +281,7 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 		}
 
 		public float getTimeFract(float pticks) {
-			return (float) (ticksInPipe + pticks) / ITEM_TRAVEL_TIME;
+			return (float) (ticksInPipe + pticks) / Pipes.pipeSpeed;
 		}
 
 		public float getTimeFract() {

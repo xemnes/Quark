@@ -12,6 +12,15 @@ public class Pipes extends Feature {
 
 	public static Block pipe;
 	
+	public static int pipeSpeed;
+	public static int maxPipeItems;
+	
+	@Override
+	public void setupConfig() {
+		pipeSpeed = loadPropInt("Pipe Speed", "How long it takes for an item to cross a pipe. Bigger = slower.", 5) * 2;
+		maxPipeItems = loadPropInt("Max Pipe Items", "Set to 0 if you don't want pipes to have a max amount of items", 16);
+	}
+	
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
 		pipe = new BlockPipe();
