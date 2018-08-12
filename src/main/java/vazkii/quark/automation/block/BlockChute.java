@@ -40,7 +40,7 @@ public class BlockChute extends BlockModContainer implements IQuarkBlock {
         boolean flag = !worldIn.isBlockPowered(pos);
 
         if(flag != state.getValue(ENABLED))
-            worldIn.setBlockState(pos, state.withProperty(ENABLED, Boolean.valueOf(flag)), 4);
+            worldIn.setBlockState(pos, state.withProperty(ENABLED, Boolean.valueOf(flag)), 2 | 4);
     }
 	
 	@Override

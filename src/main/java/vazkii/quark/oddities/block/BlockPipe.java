@@ -6,6 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -34,6 +35,7 @@ public class BlockPipe extends BlockModContainer implements IQuarkBlock {
     public static final PropertyEnum<ConnectionType> SOUTH = PropertyEnum.create("south", ConnectionType.class);
     public static final PropertyEnum<ConnectionType> WEST = PropertyEnum.create("west", ConnectionType.class);
     public static final PropertyEnum<ConnectionType> EAST = PropertyEnum.create("east", ConnectionType.class);
+    public static final PropertyBool ENABLED = PropertyBool.create("enabled");
     
     private static final PropertyEnum<ConnectionType>[] CONNECTIONS = new PropertyEnum[] {
     		DOWN, UP, NORTH, SOUTH, WEST, EAST
@@ -51,8 +53,17 @@ public class BlockPipe extends BlockModContainer implements IQuarkBlock {
         setDefaultState(getDefaultState()
         		.withProperty(DOWN, ConnectionType.NONE).withProperty(UP, ConnectionType.NONE)
         		.withProperty(NORTH, ConnectionType.NONE).withProperty(SOUTH, ConnectionType.NONE)
-        		.withProperty(WEST, ConnectionType.NONE).withProperty(EAST, ConnectionType.NONE));
+        		.withProperty(WEST, ConnectionType.NONE).withProperty(EAST, ConnectionType.NONE)
+        		.withProperty(ENABLED, true));
 	}
+	
+	@Override
+    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
+        boolean flag = !worldIn.isBlockPowered(pos);
+
+        if(flag != state.getValue(ENABLED))
+            worldIn.setBlockState(pos, state.withProperty(ENABLED, Boolean.valueOf(flag)), 2 | 4);
+    }
 	
 	@Override
     @SideOnly(Side.CLIENT)
@@ -62,18 +73,24 @@ public class BlockPipe extends BlockModContainer implements IQuarkBlock {
 	
 	@Override
 	public IProperty[] getIgnoredProperties() { // TODO just for now
-		return new IProperty[] { UP, DOWN, NORTH, SOUTH, WEST, EAST };
+		return new IProperty[] { UP, DOWN, NORTH, SOUTH, WEST, EAST, ENABLED };
 	}
 	
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, new IProperty[] { UP, DOWN, NORTH, SOUTH, WEST, EAST });
+		return new BlockStateContainer(this, new IProperty[] { UP, DOWN, NORTH, SOUTH, WEST, EAST, ENABLED });
 	}
 	
 	@Override
 	public int getMetaFromState(IBlockState state) {
-		return 0;
+		return (state.getValue(ENABLED) ? 0b0 : 1);
 	}
+
+	@Override
+	public IBlockState getStateFromMeta(int meta) {
+		return getDefaultState().withProperty(ENABLED, (meta & 0b1) != 1);
+	}
+	
 	
 	@Override
 	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
