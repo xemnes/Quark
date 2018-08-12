@@ -16,6 +16,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -25,8 +26,9 @@ import net.minecraftforge.items.wrapper.InvWrapper;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import scala.actors.threadpool.Arrays;
 import vazkii.arl.block.tile.TileMod;
+import vazkii.arl.block.tile.TileSimpleInventory;
 
-public class TilePipe extends TileMod implements ITickable {
+public class TilePipe extends TileSimpleInventory implements ITickable {
 
 	private static final String TAG_PIPE_ITEMS = "pipeItems";
 
@@ -71,14 +73,16 @@ public class TilePipe extends TileMod implements ITickable {
 		BlockPos targetPos = getPos().offset(item.outgoingFace);
 		TileEntity tile = world.getTileEntity(targetPos);
 		boolean did = false;
-		if(tile instanceof TilePipe)
-			did = ((TilePipe) tile).passIn(item.stack, item.outgoingFace.getOpposite());
-		else {
-			ItemStack result = putIntoInv(item.stack, tile, item.outgoingFace.getOpposite(), false);
-			if(result.getCount() != item.stack.getCount()) {
-				did = true;
-				if(!result.isEmpty())
-					dropItem(result);
+		if(tile != null) {
+			if(tile instanceof TilePipe)
+				did = ((TilePipe) tile).passIn(item.stack, item.outgoingFace.getOpposite());
+			else {
+				ItemStack result = putIntoInv(item.stack, tile, item.outgoingFace.getOpposite(), false);
+				if(result.getCount() != item.stack.getCount()) {
+					did = true;
+					if(!result.isEmpty())
+						dropItem(result);
+				}
 			}
 		}
 		
@@ -144,6 +148,29 @@ public class TilePipe extends TileMod implements ITickable {
 		return stack;
 	}
 
+	@Override
+	public boolean canInsertItem(int index, ItemStack itemStackIn, EnumFacing direction) {
+		return index == direction.ordinal();
+	}
+	
+	@Override
+	public void setInventorySlotContents(int i, ItemStack itemstack) {
+		if(!itemstack.isEmpty()) {
+			EnumFacing side = EnumFacing.VALUES[i];
+			passIn(itemstack, side);
+		}
+	}
+
+	@Override
+	public int getSizeInventory() {
+		return 6;
+	}
+	
+	@Override
+	protected boolean needsToSyncInventory() {
+		return false;
+	}
+
 	public static class PipeItem {
 
 		private static final String TAG_TICKS = "ticksInPipe";
@@ -185,8 +212,17 @@ public class TilePipe extends TileMod implements ITickable {
 			if(incomingFace != EnumFacing.DOWN && pipe.canFit(stack, pipePos.offset(EnumFacing.DOWN), EnumFacing.UP))
 				return EnumFacing.DOWN;
 
+			EnumFacing incomingOpposite = incomingFace; // init as same so it doesn't break in the remove later
+			if(incomingFace.getAxis() != Axis.Y) {
+				incomingOpposite = incomingFace.getOpposite();
+				if(pipe.canFit(stack, pipePos.offset(incomingOpposite), incomingFace))
+					return incomingOpposite;
+			}
+			
 			List<EnumFacing> sides = new ArrayList(HORIZONTAL_SIDES_LIST);
 			sides.remove(incomingFace);
+			sides.remove(incomingOpposite);
+			
 			Collections.shuffle(sides); // TODO make deterministic
 			for(EnumFacing side : sides) {
 				if(pipe.canFit(stack, pipePos.offset(side), side.getOpposite()))

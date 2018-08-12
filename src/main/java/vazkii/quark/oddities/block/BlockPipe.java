@@ -55,17 +55,6 @@ public class BlockPipe extends BlockModContainer implements IQuarkBlock {
 	}
 	
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if(!worldIn.isRemote && hand == EnumHand.MAIN_HAND) {
-			ItemStack stack = playerIn.getHeldItem(hand).copy();
-			((TilePipe) worldIn.getTileEntity(pos)).passIn(stack, facing);
-			playerIn.setHeldItem(hand, ItemStack.EMPTY);
-			return true;
-		}
-		return false;
-	}
-	
-	@Override
     @SideOnly(Side.CLIENT)
     public BlockRenderLayer getBlockLayer() {
         return BlockRenderLayer.CUTOUT;
