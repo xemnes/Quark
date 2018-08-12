@@ -14,7 +14,7 @@ public class QuarkOddities extends Module {
 	
 	@Override
 	public ItemStack getIconStack() {
-		return new ItemStack(Items.ENDER_EYE);
+		return new ItemStack(Items.CHORUS_FRUIT);
 	}
 	
 }
