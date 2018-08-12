@@ -5,9 +5,12 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -27,6 +30,17 @@ public class BlockPipe extends BlockModContainer implements IQuarkBlock {
 		setCreativeTab(CreativeTabs.REDSTONE);
 
 		setHarvestLevel("pickaxe", 1);
+	}
+	
+	@Override
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+		if(!worldIn.isRemote && hand == EnumHand.MAIN_HAND) {
+			ItemStack stack = playerIn.getHeldItem(hand).copy();
+			((TilePipe) worldIn.getTileEntity(pos)).passIn(stack, facing);
+			playerIn.setHeldItem(hand, ItemStack.EMPTY);
+			return true;
+		}
+		return false;
 	}
 	
 	@Override
