@@ -72,8 +72,8 @@ public class BlockPipe extends BlockModContainer implements IQuarkBlock {
     }
 	
 	@Override
-	public IProperty[] getIgnoredProperties() { // TODO just for now
-		return new IProperty[] { UP, DOWN, NORTH, SOUTH, WEST, EAST, ENABLED };
+	public IProperty[] getIgnoredProperties() {
+		return new IProperty[] { ENABLED };
 	}
 	
 	@Override
