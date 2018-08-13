@@ -34,16 +34,14 @@ import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
 import net.minecraftforge.items.ItemHandlerHelper;
+import vazkii.arl.block.property.PropertyString;
 import vazkii.arl.interf.IBlockColorProvider;
 import vazkii.arl.interf.IStateMapperProvider;
-import vazkii.quark.base.property.PropertyString;
 import vazkii.quark.decoration.feature.ColoredFlowerPots;
 
 public class BlockCustomFlowerPot extends BlockFlowerPot implements IBlockColorProvider, IStateMapperProvider {
 
 	public static final PropertyBool CUSTOM = PropertyBool.create("custom");
-	// TODO: move the property to a common place if using this model for another block
-	public static final PropertyString TEXTURE = new PropertyString("texture");
 	public static final String TAG_TEXTURE_PATH = "texture_path";
 
 	public BlockCustomFlowerPot() {

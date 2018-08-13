@@ -12,8 +12,8 @@ import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import vazkii.arl.client.RetexturedModel;
 import vazkii.arl.util.ProxyRegistry;
-import vazkii.quark.base.client.model.RetexturedModel;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.decoration.block.BlockCustomFlowerPot;
 
