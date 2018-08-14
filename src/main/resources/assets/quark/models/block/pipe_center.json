@@ -1,5 +1,6 @@
 {
 	"__comment": "Designed by Wiiv with Cubik Studio - https://cubik.studio",
+	"parent": "minecraft:block/block",
 	"textures": {
 		"particle": "quark:blocks/pipe_structure",
 		"texture": "quark:blocks/pipe_structure"

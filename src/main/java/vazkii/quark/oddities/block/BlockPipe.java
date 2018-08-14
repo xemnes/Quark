@@ -1,6 +1,6 @@
 package vazkii.quark.oddities.block;
 
-import java.util.Iterator;
+import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -11,10 +11,12 @@ import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -25,10 +27,18 @@ import vazkii.arl.block.BlockMetaVariants.EnumBase;
 import vazkii.arl.block.BlockModContainer;
 import vazkii.quark.base.block.IQuarkBlock;
 import vazkii.quark.oddities.tile.TilePipe;
-import vazkii.quark.oddities.tile.TilePipe.PipeItem;
 
 public class BlockPipe extends BlockModContainer implements IQuarkBlock {
 	
+	private static final AxisAlignedBB CENTER_AABB = new AxisAlignedBB(0.3125, 0.3125, 0.3125, 0.6875, 0.6875, 0.6875);
+	
+	private static final AxisAlignedBB DOWN_AABB = new AxisAlignedBB(0.3125, 0, 0.3125, 0.6875, 0.6875, 0.6875);
+	private static final AxisAlignedBB UP_AABB = new AxisAlignedBB(0.3125, 0.3125, 0.3125, 0.6875, 1, 0.6875);
+	private static final AxisAlignedBB NORTH_AABB = new AxisAlignedBB(0.3125, 0.3125, 0, 0.6875, 0.6875, 0.6875);
+	private static final AxisAlignedBB SOUTH_AABB = new AxisAlignedBB(0.3125, 0.3125, 0.3125, 0.6875, 0.6875, 1);
+	private static final AxisAlignedBB WEST_AABB = new AxisAlignedBB(0, 0.3125, 0.3125, 0.6875, 0.6875, 0.6875);
+	private static final AxisAlignedBB EAST_AABB = new AxisAlignedBB(0.3125, 0.3125, 1, 0.6875, 0.6875, 0.6875);
+
     public static final PropertyEnum<ConnectionType> DOWN = PropertyEnum.create("down", ConnectionType.class);
     public static final PropertyEnum<ConnectionType> UP = PropertyEnum.create("up", ConnectionType.class);
     public static final PropertyEnum<ConnectionType> NORTH = PropertyEnum.create("north", ConnectionType.class);
@@ -39,6 +49,10 @@ public class BlockPipe extends BlockModContainer implements IQuarkBlock {
     
     private static final PropertyEnum<ConnectionType>[] CONNECTIONS = new PropertyEnum[] {
     		DOWN, UP, NORTH, SOUTH, WEST, EAST
+    };
+    
+    private static final AxisAlignedBB[] SIDE_BOXES = new AxisAlignedBB[] {
+    		DOWN_AABB, UP_AABB, NORTH_AABB, SOUTH_AABB, WEST_AABB, EAST_AABB
     };
     
 	public BlockPipe() {
@@ -66,6 +80,45 @@ public class BlockPipe extends BlockModContainer implements IQuarkBlock {
     }
 	
 	@Override
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+		double minX = CENTER_AABB.minX, minY = CENTER_AABB.minY, minZ = CENTER_AABB.minZ, 
+				maxX = CENTER_AABB.maxX, maxY = CENTER_AABB.maxY, maxZ = CENTER_AABB.maxZ;
+		
+		state = getActualState(state, source, pos);
+		if(hasAnyConnection(state, EnumFacing.DOWN)) minY = 0;
+		if(hasAnyConnection(state, EnumFacing.UP)) maxY = 1;
+		if(hasAnyConnection(state, EnumFacing.NORTH)) minZ = 0;
+		if(hasAnyConnection(state, EnumFacing.SOUTH)) maxZ = 1;
+		if(hasAnyConnection(state, EnumFacing.WEST)) minX = 0;
+		if(hasAnyConnection(state, EnumFacing.EAST)) maxX = 1;
+		
+		AxisAlignedBB aabb = new AxisAlignedBB(minX, minY, minZ, maxX, maxY, maxZ);
+		return aabb;
+	}
+	
+	@Override
+	public AxisAlignedBB getSelectedBoundingBox(IBlockState state, World worldIn, BlockPos pos) {
+		return getBoundingBox(state, worldIn, pos).offset(pos);
+	}
+	
+	@Override
+	public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, Entity entityIn, boolean isActualState) {
+		if(!isActualState)
+			state = getActualState(state, worldIn, pos);
+		
+        addCollisionBoxToList(pos, entityBox, collidingBoxes, CENTER_AABB);
+        for(EnumFacing side : EnumFacing.VALUES) {
+        	if(hasAnyConnection(state, side))
+                addCollisionBoxToList(pos, entityBox, collidingBoxes, SIDE_BOXES[side.ordinal()]);
+        }
+	}
+	
+	private boolean hasAnyConnection(IBlockState state, EnumFacing side) {
+		PropertyEnum<ConnectionType> prop = CONNECTIONS[side.ordinal()];
+		return state.getValue(prop) != ConnectionType.NONE;
+	}
+	
+	@Override
     @SideOnly(Side.CLIENT)
     public BlockRenderLayer getBlockLayer() {
         return BlockRenderLayer.CUTOUT;
@@ -90,7 +143,6 @@ public class BlockPipe extends BlockModContainer implements IQuarkBlock {
 	public IBlockState getStateFromMeta(int meta) {
 		return getDefaultState().withProperty(ENABLED, (meta & 0b1) != 1);
 	}
-	
 	
 	@Override
 	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
@@ -143,7 +195,7 @@ public class BlockPipe extends BlockModContainer implements IQuarkBlock {
         IBlockState iblockstate = blockAccess.getBlockState(pos.offset(side));
         Block block = iblockstate.getBlock();
 
-        return block == this ? false : super.shouldSideBeRendered(blockState, blockAccess, pos, side);
+        return block != this;
     }
 	
 	@Override

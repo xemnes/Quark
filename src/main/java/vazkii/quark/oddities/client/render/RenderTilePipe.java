@@ -26,12 +26,12 @@ public class RenderTilePipe extends TileEntitySpecialRenderer<TilePipe> {
 		GlStateManager.popMatrix();
 	}
 
-	private void renderItem(PipeItem item, RenderItem render, float pticks) { // TODO add pticks
+	private void renderItem(PipeItem item, RenderItem render, float pticks) { 
 		GlStateManager.pushMatrix();
 		GlStateManager.pushAttrib();
 		RenderHelper.enableStandardItemLighting();
 
-		float scale = 0.5F;
+		float scale = 0.4F;
 		float fract = item.getTimeFract(pticks);
 		float afract = fract - 0.5F;
 		EnumFacing face = item.outgoingFace;
