@@ -19,12 +19,14 @@ public class Pipes extends Feature {
 	public static int pipeSpeed;
 	public static int maxPipeItems;
 	int pipesCrafted;
+	boolean enableRender;
 	
 	@Override
 	public void setupConfig() {
 		pipeSpeed = loadPropInt("Pipe Speed", "How long it takes for an item to cross a pipe. Bigger = slower.", 5) * 2;
 		maxPipeItems = loadPropInt("Max Pipe Items", "Set to 0 if you don't want pipes to have a max amount of items", 16);
 		pipesCrafted = loadPropInt("Pipes Crafted", "", 6);
+		enableRender = loadPropBool("Enable Pipe Render", "Freel free to disable so you don't see items going through pipes, good if your PC is a potato", true);
 	}
 	
 	@Override
@@ -43,7 +45,8 @@ public class Pipes extends Feature {
 	
 	@Override
 	public void preInitClient(FMLPreInitializationEvent event) {
-		ClientRegistry.bindTileEntitySpecialRenderer(TilePipe.class, new RenderTilePipe());
+		if(enableRender)
+			ClientRegistry.bindTileEntitySpecialRenderer(TilePipe.class, new RenderTilePipe());
 	}
 	
 }

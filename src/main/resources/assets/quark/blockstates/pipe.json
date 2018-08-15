@@ -45,13 +45,22 @@
         	"when": { "west": "terminal" },
             "apply": { "model": "quark:pipe_connector", "y": 270 }
         },
-        		{   
+        {   
         	"when": { "down": "terminal" },
             "apply": { "model": "quark:pipe_connector", "x": 90 }
         },
         {   
         	"when": { "up": "terminal" },
             "apply": { "model": "quark:pipe_connector", "x": 270 }
+        },
+
+         {   
+        	"when": { "down": "prop" },
+            "apply": { "model": "quark:pipe_prop", "x": 90 }
+        },
+        {   
+        	"when": { "up": "prop" },
+            "apply": { "model": "quark:pipe_prop", "x": 270 }
         }
     ]
 }

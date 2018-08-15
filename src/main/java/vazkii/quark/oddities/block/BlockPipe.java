@@ -3,6 +3,7 @@ package vazkii.quark.oddities.block;
 import java.util.List;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockWall;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -16,6 +17,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -25,6 +27,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
 import vazkii.arl.block.BlockMetaVariants.EnumBase;
 import vazkii.arl.block.BlockModContainer;
+import vazkii.quark.base.block.BlockQuarkWall;
 import vazkii.quark.base.block.IQuarkBlock;
 import vazkii.quark.oddities.tile.TilePipe;
 
@@ -115,7 +118,7 @@ public class BlockPipe extends BlockModContainer implements IQuarkBlock {
 	
 	private boolean hasAnyConnection(IBlockState state, EnumFacing side) {
 		PropertyEnum<ConnectionType> prop = CONNECTIONS[side.ordinal()];
-		return state.getValue(prop) != ConnectionType.NONE;
+		return state.getValue(prop).isSolid;
 	}
 	
 	@Override
@@ -214,12 +217,29 @@ public class BlockPipe extends BlockModContainer implements IQuarkBlock {
 				return ConnectionType.TERMINAL;
 		}
 		
+		if(face.getAxis() == Axis.Y) {
+			IBlockState stateAt = world.getBlockState(pos);
+			Block blockAt = stateAt.getBlock();
+			if(blockAt instanceof BlockWall || blockAt instanceof BlockQuarkWall)
+				return ConnectionType.PROP;
+		}
+		
 		return ConnectionType.NONE;
 	}
 	
 	public static enum ConnectionType implements EnumBase {
 		
-		NONE, PIPE, TERMINAL
+		NONE(false, false), 
+		PIPE(true, true), 
+		TERMINAL(true, true), 
+		PROP(true, false);
+		
+		private ConnectionType(boolean isSolid, boolean allowsItems) {
+			this.isSolid = isSolid;
+			this.allowsItems = allowsItems;
+		}
+		
+		public final boolean isSolid, allowsItems;
 		
 	}
 

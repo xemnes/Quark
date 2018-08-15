@@ -19,6 +19,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -41,7 +42,7 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 
 	@Override
 	public void update() {
-		if(!isPipeEnabled() && world.getWorldTime() % 10 == 0 && world instanceof WorldServer) 
+		if(!isPipeEnabled() && world.getTotalWorldTime() % 10 == 0 && world instanceof WorldServer) 
 			((WorldServer) world).spawnParticle(EnumParticleTypes.REDSTONE, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 3, 0.2, 0.2, 0.2, 0);
 
 		int currentOut = getComparatorOutput();
@@ -267,9 +268,11 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 				return EnumFacing.DOWN;
 
 			EnumFacing incomingOpposite = incomingFace; // init as same so it doesn't break in the remove later
-			incomingOpposite = incomingFace.getOpposite();
-			if(pipe.canFit(stack, pipePos.offset(incomingOpposite), incomingFace))
-				return incomingOpposite;
+			if(incomingFace.getAxis() != Axis.Y) {
+				incomingOpposite = incomingFace.getOpposite();
+				if(pipe.canFit(stack, pipePos.offset(incomingOpposite), incomingFace))
+					return incomingOpposite;
+			}
 
 			List<EnumFacing> sides = new ArrayList(HORIZONTAL_SIDES_LIST);
 			sides.remove(incomingFace);
