@@ -1,6 +1,6 @@
 {
 	"__comment": "Designed by Wiiv with Cubik Studio - https://cubik.studio",
-	"parent": "block/block"
+	"parent": "block/block",
 	"textures": {
 		"texture": "quark:blocks/pipe_structure"
 	},
