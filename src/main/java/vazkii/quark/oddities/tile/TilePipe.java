@@ -9,6 +9,7 @@ import java.util.ListIterator;
 import java.util.Random;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
@@ -17,9 +18,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ITickable;
-import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -181,7 +182,8 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 	}
 
 	protected boolean isPipeEnabled() {
-		return world.getBlockState(pos).getValue(BlockPipe.ENABLED);
+		IBlockState state = world.getBlockState(pos);
+		return state.getBlock() instanceof BlockPipe && state.getValue(BlockPipe.ENABLED);
 	}
 
 	protected ItemStack putIntoInv(ItemStack stack, TileEntity tile, EnumFacing face, boolean simulate) {
@@ -200,7 +202,7 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 
 	@Override
 	public boolean canInsertItem(int index, ItemStack itemStackIn, EnumFacing direction) {
-		return index == direction.ordinal();
+		return index == direction.ordinal() && isPipeEnabled();
 	}
 
 	@Override
