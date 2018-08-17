@@ -16,6 +16,7 @@ import vazkii.arl.client.RetexturedModel;
 import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.decoration.block.BlockCustomFlowerPot;
+import vazkii.quark.decoration.client.state.FlowerPotStateMapper;
 
 public class BetterVanillaFlowerPot extends Feature {
 
@@ -63,7 +64,7 @@ public class BetterVanillaFlowerPot extends Feature {
 
 	@SubscribeEvent
 	public void onModelBake(ModelBakeEvent event) {
-		ModelResourceLocation location = BlockCustomFlowerPot.FlowerPotStateMapper.LOCATION;
+		ModelResourceLocation location = FlowerPotStateMapper.LOCATION;
 		IModel model = ModelLoaderRegistry.getModelOrLogError(location, "Error loading model for " + location);
 		IBakedModel standard = event.getModelRegistry().getObject(location);
 		IBakedModel finalModel = new RetexturedModel(standard, model, DefaultVertexFormats.BLOCK, "plant");

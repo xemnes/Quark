@@ -1,13 +1,13 @@
 package vazkii.quark.oddities.feature;
 
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.arl.recipe.RecipeHandler;
 import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.module.Feature;
-import vazkii.quark.building.feature.FramedGlass;
 import vazkii.quark.oddities.block.BlockPipe;
 import vazkii.quark.oddities.client.render.RenderTilePipe;
 import vazkii.quark.oddities.tile.TilePipe;
@@ -44,6 +44,7 @@ public class Pipes extends Feature {
 	}
 	
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void preInitClient(FMLPreInitializationEvent event) {
 		if(enableRender)
 			ClientRegistry.bindTileEntitySpecialRenderer(TilePipe.class, new RenderTilePipe());

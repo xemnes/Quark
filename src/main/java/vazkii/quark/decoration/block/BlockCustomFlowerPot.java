@@ -1,10 +1,6 @@
 package vazkii.quark.decoration.block;
 
-import java.util.LinkedHashMap;
-
 import javax.annotation.Nonnull;
-
-import com.google.common.collect.Maps;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFlowerPot;
@@ -13,9 +9,7 @@ import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.IStateMapper;
-import net.minecraft.client.renderer.block.statemap.StateMapperBase;
 import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,17 +20,18 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFlowerPot;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.ItemHandlerHelper;
-import vazkii.arl.block.property.PropertyString;
 import vazkii.arl.interf.IBlockColorProvider;
 import vazkii.arl.interf.IStateMapperProvider;
+import vazkii.quark.decoration.client.state.FlowerPotStateMapper;
 import vazkii.quark.decoration.feature.ColoredFlowerPots;
 
 public class BlockCustomFlowerPot extends BlockFlowerPot implements IBlockColorProvider, IStateMapperProvider {
@@ -196,28 +191,9 @@ public class BlockCustomFlowerPot extends BlockFlowerPot implements IBlockColorP
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public IStateMapper getStateMapper() {
 		return FlowerPotStateMapper.INSTANCE;
 	}
 
-	/**
-	 * Remaps the custom flag to be a separate model file. Used for compatibility with vanilla resource packs over replacing the resource
-	 */
-	public static class FlowerPotStateMapper extends StateMapperBase {
-		public static final FlowerPotStateMapper INSTANCE = new FlowerPotStateMapper();
-		public static final ModelResourceLocation LOCATION = new ModelResourceLocation(new ResourceLocation("quark", "custom_flower_pot"), "normal");
-
-		@Override
-		protected ModelResourceLocation getModelResourceLocation(IBlockState state) {
-			if(state.getValue(CUSTOM)) {
-				return LOCATION;
-			}
-
-			LinkedHashMap<IProperty<?>, Comparable<?>> map = Maps.newLinkedHashMap(state.getProperties());
-			map.remove(CUSTOM);
-			map.remove(LEGACY_DATA);
-
-			return new ModelResourceLocation(state.getBlock().getRegistryName(), this.getPropertyString(map));
-		}
-	}
 }
