@@ -57,4 +57,9 @@ public class FairyRings extends Feature {
 		initted = true;
 	}
 	
+	@Override
+	public boolean requiresMinecraftRestartToEnable() {
+		return true;
+	}
+	
 }

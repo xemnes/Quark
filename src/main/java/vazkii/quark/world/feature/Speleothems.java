@@ -49,5 +49,10 @@ public class Speleothems extends Feature {
 
 		GameRegistry.registerWorldGenerator(new SpeleothemGenerator(), 1000);
 	}
+	
+	@Override
+	public boolean requiresMinecraftRestartToEnable() {
+		return true;
+	}
 
 }

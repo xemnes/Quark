@@ -36,16 +36,18 @@ public class BetterVanillaFlowerPot extends Feature {
 
 	@Override
 	public String[] getIncompatibleMods() {
-		return new String[] {"inspirations"};
+		return new String[] { "inspirations" };
 	}
 
 	@Override
 	public String getFeatureDescription() {
 		return "Adds the colored flower pot features of supporting additional flowers and comparator power to the vanilla flower pot using a block substitution";
 	}
-
-
-	/* events */
+	
+	@Override
+	public boolean requiresMinecraftRestartToEnable() {
+		return true;
+	}
 
 	@Override
 	public boolean hasSubscriptions() {

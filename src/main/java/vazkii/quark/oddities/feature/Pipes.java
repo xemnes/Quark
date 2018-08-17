@@ -50,4 +50,9 @@ public class Pipes extends Feature {
 			ClientRegistry.bindTileEntitySpecialRenderer(TilePipe.class, new RenderTilePipe());
 	}
 	
+	@Override
+	public boolean requiresMinecraftRestartToEnable() {
+		return true;
+	}
+	
 }
