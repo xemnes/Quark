@@ -74,7 +74,7 @@ public class ColoredFlowerPots extends Feature {
 				+ "* 0 - not flower, blacklists from placing in a flower pot\n* 1 - mushroom\n* 4 - fern\n* 7 - flower\n* 10 - dead bush\n* 12 - sapling\n* 15 - cactus", new String[] {
 				"biomesoplenty:mushroom->1",
 				"biomesoplenty:flower_0->7",
-				"biomesoplenty:flower_0->7",
+				"biomesoplenty:flower_1->7",
 				"biomesoplenty:sapling_0->12",
 				"biomesoplenty:sapling_1->12",
 				"biomesoplenty:sapling_2->12",
