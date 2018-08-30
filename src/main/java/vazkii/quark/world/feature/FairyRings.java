@@ -23,8 +23,8 @@ public class FairyRings extends Feature {
 	
 	@Override
 	public void setupConfig() {
-		forestChance = loadPropInt("Forest Chance", "", 40);
-		plainsChance = loadPropInt("Plains Chance", "", 100);
+		forestChance = loadPropInt("Forest Chance", "", 160);
+		plainsChance = loadPropInt("Plains Chance", "", 400);
 		dimensions = new DimensionConfig(configCategory, "0");
 		
 		oresArr = loadPropStringList("Spawnable Ores", "", new String[] {
