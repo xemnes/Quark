@@ -45,7 +45,7 @@ public class BlockPipe extends BlockModContainer implements IQuarkBlock {
 	private static final AxisAlignedBB NORTH_AABB = new AxisAlignedBB(0.3125, 0.3125, 0, 0.6875, 0.6875, 0.6875);
 	private static final AxisAlignedBB SOUTH_AABB = new AxisAlignedBB(0.3125, 0.3125, 0.3125, 0.6875, 0.6875, 1);
 	private static final AxisAlignedBB WEST_AABB = new AxisAlignedBB(0, 0.3125, 0.3125, 0.6875, 0.6875, 0.6875);
-	private static final AxisAlignedBB EAST_AABB = new AxisAlignedBB(0.3125, 0.3125, 1, 0.6875, 0.6875, 0.6875);
+	private static final AxisAlignedBB EAST_AABB = new AxisAlignedBB(0.3125, 0.3125, 0.3125, 1, 0.6875, 0.6875);
 
 	public static final PropertyEnum<ConnectionType> DOWN = PropertyEnum.create("down", ConnectionType.class);
 	public static final PropertyEnum<ConnectionType> UP = PropertyEnum.create("up", ConnectionType.class);
