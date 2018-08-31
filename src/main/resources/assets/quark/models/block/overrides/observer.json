@@ -2,8 +2,8 @@
     "parent": "block/block",
     "textures": {
         "bottom": "blocks/observer_back",
-        "side": "quark:blocks/observer_side",
-        "top": "quark:blocks/observer_top",
+        "side": "quark:blocks/override_res/observer_side",
+        "top": "quark:blocks/override_res/observer_top",
         "front": "blocks/observer_front",
         "particle": "blocks/observer_front"
     },

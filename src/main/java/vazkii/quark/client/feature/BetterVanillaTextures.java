@@ -1,78 +1,66 @@
 package vazkii.quark.client.feature;
 
+import java.io.InputStreamReader;
+import java.util.List;
 import java.util.function.BiConsumer;
+
+import com.google.gson.Gson;
 
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import vazkii.quark.base.Quark;
+import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.base.module.Feature;
 
 public class BetterVanillaTextures extends Feature {
 
-	boolean granite, andesite, diorite, bricks, glass, pumpkinFace, pistonModels, bowAnimation, observer, beetrootSeeds;
+	private static final String OVERRIDES_JSON_FILE = "/assets/" + LibMisc.MOD_ID + "/overrides.json";
+	private static final Gson GSON = new Gson();
+	
+	OverrideHolder overrides = null;
 	
 	@Override
 	public void setupConfig() {
-		granite = loadPropBool("Override Granite", "", true);
-		andesite = loadPropBool("Override Andesite", "", true);
-		diorite = loadPropBool("Override Diorite", "", true);
-		bricks = loadPropBool("Override Bricks", "", true);
-		glass = loadPropBool("Override Glass", "", true);
-		pumpkinFace = loadPropBool("Override Pumpkin Front Face", "", false);
-		pistonModels = loadPropBool("Override Piston Models", "", true);
-		bowAnimation = loadPropBool("Override Bow Animation", "", true);
-		observer = loadPropBool("Override Observer", "", true);
-		beetrootSeeds = loadPropBool("Override Beetroot Seeds", "", true);
+		if(overrides == null) {
+			InputStreamReader reader = new InputStreamReader(Quark.class.getResourceAsStream(OVERRIDES_JSON_FILE));
+			overrides = GSON.fromJson(reader, OverrideHolder.class);
+		}
+		
+		for(OverrideEntry e : overrides.overrides)
+			e.configVal = loadPropBool("Enable " + e.name, "", !e.disabled);
 	}
 	
 	@Override
 	public void preInitClient(FMLPreInitializationEvent event) {
-		overrideBlock("stone_granite", granite);
-		overrideBlock("stone_andesite", andesite);
-		overrideBlock("stone_diorite", diorite);
-		overrideBlock("brick", bricks);
-		overrideBlock("glass", glass);
-		overrideBlock("pumpkin_face_off", pumpkinFace);
-		
-		batch(this::overrideBlockModel, pistonModels,
-				"piston_extended_normal", "piston_head_normal", "piston_head_short_sticky",
-				"piston_head_sticky", "piston_inventory_sticky", "sticky_piston");
-		
-		batch(this::overrideBlockModel, observer,
-				"observer", "observer_powered");
-		
-		overrideItemModel("bow", bowAnimation);
-		
-		overrideItem("beetroot_seeds", beetrootSeeds);
+		overrides.overrides.forEach(OverrideEntry::apply);
 	}
 	
-	private void overrideBlock(String str, boolean flag) {
-		if(flag)
-			Quark.proxy.addResourceOverride("textures", "blocks", str, "png");
-	}
-	
-	private void overrideItem(String str, boolean flag) {
-		if(flag)
-			Quark.proxy.addResourceOverride("textures", "items", str, "png");
-	}
-	
-	private void overrideBlockModel(String str, boolean flag) {
-		if(flag)
-			Quark.proxy.addResourceOverride("models", "block", str, "json");
-	}
-	
-	private void overrideItemModel(String str, boolean flag) {
-		if(flag)
-			Quark.proxy.addResourceOverride("models", "item", str, "json");
-	}
-	
-	private void batch(BiConsumer<String, Boolean> f, boolean flag, String... vars) {
-		for(String s : vars)
-			f.accept(s, flag);
-	}
-
 	@Override
 	public boolean requiresMinecraftRestartToEnable() {
 		return true;
+	}
+	
+	private static class OverrideHolder {
+		
+		List<OverrideEntry> overrides;
+		
+	}
+	
+	private static class OverrideEntry {
+		
+		String name;
+		String[] files;
+		boolean disabled = false;
+		
+		boolean configVal;
+		
+		void apply() {
+			if(configVal) 
+				for(String file : files) {
+					String[] tokens = file.split("\\/\\/");
+					Quark.proxy.addResourceOverride(tokens[0], tokens[1]);
+				}
+		}
+		
 	}
 	
 }
