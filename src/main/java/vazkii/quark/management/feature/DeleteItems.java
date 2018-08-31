@@ -53,10 +53,11 @@ public class DeleteItems extends Feature {
 			Container container = guiInv.inventorySlots;
 			EntityPlayer player = Minecraft.getMinecraft().player;
 
-			boolean accept = !playerInvOnly || (guiInv instanceof GuiInventory && !player.isCreative());
-			if(!accept)
+			boolean isPlayerInv = guiInv instanceof GuiInventory;
+			boolean creative = player.isCreative();
+			if(creative || (!isPlayerInv && playerInvOnly))
 				return;
-
+			
 			int guiWidth = guiInv.getXSize();
 			int guiHeight = guiInv.getYSize();
 
