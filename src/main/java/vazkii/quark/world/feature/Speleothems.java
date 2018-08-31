@@ -18,7 +18,7 @@ public class Speleothems extends Feature {
 	andesite_speleothem, basalt_speleothem, marble_speleothem, limestone_speleothem,
 	netherrack_speleothem;
 
-	public static int tries, clusterCount, netherTries, netherClusterCount;
+	public static int tries, clusterCount, netherTries, netherClusterCount, maxHeight;
 	public static DimensionConfig dimensionConfig;
 
 	@Override
@@ -27,6 +27,7 @@ public class Speleothems extends Feature {
 		clusterCount = loadPropInt("Speleothems Per Cluster", "", 12);
 		netherTries = loadPropInt("Cluster Attempts Per Chunk (Nether)", "", 4);
 		netherClusterCount = loadPropInt("Speleothems Per Cluster (Nether)", "", 12);
+		maxHeight = loadPropInt("Highest Y Level", "", 55);
 
 		dimensionConfig = new DimensionConfig(configCategory, "0,-1");
 	}

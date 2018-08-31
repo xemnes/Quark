@@ -32,7 +32,7 @@ public class SpeleothemGenerator implements IWorldGenerator {
 		int tries = Speleothems.tries;
 		int innerSpread = 6;
 		int innerTries = Speleothems.clusterCount;
-		int upperBound = world.getSeaLevel();
+		int upperBound = Speleothems.maxHeight;
 		int offset = 6;
 		
 		if(world.provider.isNether()) {
