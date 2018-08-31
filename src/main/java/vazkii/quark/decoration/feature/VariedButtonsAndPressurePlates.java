@@ -109,4 +109,9 @@ public class VariedButtonsAndPressurePlates extends Feature {
 		return true;
 	}
 	
+	@Override
+	public String getFeatureIngameConfigName() {
+		return "Varied Buttons/P.Plates";
+	}
+	
 }
