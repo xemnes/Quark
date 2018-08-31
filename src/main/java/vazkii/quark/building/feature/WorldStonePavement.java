@@ -42,7 +42,7 @@ public class WorldStonePavement extends Feature {
 		if(BlockWorldStoneBricks.Variants.STONE_LIMESTONE_BRICKS.isEnabled()) {
 			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(world_stone_pavement, 9, 5),
 					"SSS", "SSS", "SSS",
-					'S', ProxyRegistry.newStack(RevampStoneGen.limestone, 1, 1));
+					'S', ProxyRegistry.newStack(RevampStoneGen.limestone, 1, 0));
 		}
 	}
 	
