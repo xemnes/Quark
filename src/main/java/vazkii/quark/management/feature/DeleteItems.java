@@ -32,10 +32,10 @@ public class DeleteItems extends Feature {
 	boolean keyboardDown = false;
 	boolean mouseDown = false;
 	GuiButtonTrash trash;
-	
+
 	boolean trashButton, playerInvOnly;
 	int trashButtonX, trashButtonY;
-	
+
 	@Override
 	public void setupConfig() {
 		trashButton = loadPropBool("Enable Trash Button", "", true);
@@ -52,23 +52,16 @@ public class DeleteItems extends Feature {
 			GuiContainer guiInv = (GuiContainer) event.getGui();
 			Container container = guiInv.inventorySlots;
 			EntityPlayer player = Minecraft.getMinecraft().player;
-			
-			boolean accept = guiInv instanceof GuiContainer;
-			if(playerInvOnly)
-				accept = guiInv instanceof GuiInventory;
-			
-			if(!accept || player.isCreative())
+
+			boolean accept = !playerInvOnly || (guiInv instanceof GuiInventory && !player.isCreative());
+			if(!accept)
 				return;
 
 			int guiWidth = guiInv.getXSize();
 			int guiHeight = guiInv.getYSize();
 
-			for(Slot s : container.inventorySlots)
-				if(s.inventory == player.inventory && s.getSlotIndex() == 9) {
-					trash = new GuiButtonTrash(guiInv, 82424, guiWidth, guiHeight + trashButtonY);
-					event.getButtonList().add(trash);
-					break;
-				}
+			trash = new GuiButtonTrash(guiInv, 82424, guiWidth, guiHeight + trashButtonY);
+			event.getButtonList().add(trash);
 		}
 	}
 
@@ -88,7 +81,7 @@ public class DeleteItems extends Feature {
 			}
 		}
 	}
-	
+
 	@SubscribeEvent
 	public void keyboardEvent(GuiScreenEvent.KeyboardInputEvent.Post event) {
 		boolean down = Keyboard.isKeyDown(Keyboard.KEY_DELETE);
@@ -110,46 +103,46 @@ public class DeleteItems extends Feature {
 		}
 		this.keyboardDown = down;
 	}
-	
-	
+
+
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void update(ClientTickEvent event) {
 		GuiScreen gui = Minecraft.getMinecraft().currentScreen;
-		if(gui instanceof GuiInventory && trash != null) {
-			GuiInventory inv = (GuiInventory) gui;
-				trash.x = inv.getGuiLeft() + trash.shiftX;
-				trash.y = inv.getGuiTop() + trash.shiftY;
+		if(gui instanceof GuiContainer && trash != null) {
+			GuiContainer inv = (GuiContainer) gui;
+			trash.x = inv.getGuiLeft() + trash.shiftX;
+			trash.y = inv.getGuiTop() + trash.shiftY;
 		}
 	}
 
-	
+
 	public static void deleteItem(EntityPlayer player, int slot) {
 		if(slot > player.inventory.mainInventory.size())
 			return;
-		
+
 		ItemStack stack = slot == -1 ? player.inventory.getItemStack() : player.inventory.getStackInSlot(slot);
 		if(!canItemBeDeleted(stack))
 			return;
-		
+
 		if(slot == -1)
 			player.inventory.setItemStack(ItemStack.EMPTY);
 		else 
 			player.inventory.setInventorySlotContents(slot, ItemStack.EMPTY);
 	}
-	
+
 	public static boolean canItemBeDeleted(ItemStack stack) {
 		return ModuleLoader.isFeatureEnabled(DeleteItems.class) && !stack.isEmpty() && !FavoriteItems.isItemFavorited(stack);
 	}
-	
+
 	@Override
 	public boolean hasSubscriptions() {
 		return isClient();
 	}
-	
+
 	@Override
 	public String getFeatureIngameConfigName() {
 		return "Delete Items";
 	}
-	
+
 }
