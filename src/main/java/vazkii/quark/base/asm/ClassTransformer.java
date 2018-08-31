@@ -64,7 +64,7 @@ public class ClassTransformer implements IClassTransformer {
 			"net/minecraft/client/renderer/BufferBuilder", "buk",
 			"net/minecraft/world/IBlockAccess", "amy",
 			"net/minecraft/client/renderer/block/model/BakedQuad", "bvp",
-			"net/minecraft/inventory/InventoryCrafting", "afw"
+			"net/minecraft/inventory/InventoryCrafting", "afy"
 			);
 
 	private static final Map<String, Transformer> transformers = new HashMap();
