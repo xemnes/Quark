@@ -28,7 +28,7 @@ public class SpeleothemGenerator implements IWorldGenerator {
 		int x = chunkX * 16 + 8;
 		int z = chunkZ * 16 + 8;
 		
-		int spread = 16;
+		int spread = 10;
 		int tries = Speleothems.tries;
 		int innerSpread = 6;
 		int innerTries = Speleothems.clusterCount;
@@ -39,7 +39,7 @@ public class SpeleothemGenerator implements IWorldGenerator {
 			upperBound = 128;
 			offset = 0;
 			tries = Speleothems.netherTries;
-			innerSpread = Speleothems.netherClusterCount;
+			innerTries = Speleothems.netherClusterCount;
 		}
 		
 		if(upperBound > 0)
