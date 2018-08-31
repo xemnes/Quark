@@ -18,7 +18,10 @@ public class RedstoneRandomizer extends Feature {
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
 		redstone_randomizer = new BlockRedstoneRandomizer();
-		
+	}
+	
+	@Override
+	public void postPreInit(FMLPreInitializationEvent event) {
 		RecipeHandler.addShapedRecipe(ProxyRegistry.newStack(redstone_randomizer), 
 				" T ", "TBT", "SSS",
 				'T', ProxyRegistry.newStack(Blocks.REDSTONE_TORCH),
