@@ -49,5 +49,9 @@
 	{
 		"name": "Bow Animation",
 		"files": [ "textures/items//beetroot_seeds.json" ]
+	},
+	{
+		"name": "Dead Bush",
+		"files": [ "textures/blocks//deadbush.png" ]
 	}
 ]}
