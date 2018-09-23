@@ -58,10 +58,8 @@ public class VariedDungeons extends Feature {
 		int y = rand.nextInt(256);
 		int z = rand.nextInt(16) + 8;
 		BlockPos generatePos = blockpos.add(x, y, z);
-		if(couldDungeonGenerate(world, rand, generatePos) && world instanceof WorldServer) {
+		if(couldDungeonGenerate(world, rand, generatePos) && world instanceof WorldServer)
 			placeDungeonAt((WorldServer) world, rand, generatePos);
-			event.setResult(Result.DENY);
-		}
 	}
 
 	public boolean couldDungeonGenerate(World worldIn, Random rand, BlockPos position) {
