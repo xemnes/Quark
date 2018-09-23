@@ -158,10 +158,12 @@ public class ImprovedSleeping extends Feature {
         List<EntityPlayer> players = logoutWorld.playerEntities;
         if(players.size() == 1) {
             EntityPlayer lastPlayer = players.get(0);
-            lastPlayer.getEntityData().setBoolean(TAG_AFK, false);
-            TextComponentTranslation text = new TextComponentTranslation("quarkmisc.leftAfk");
-            text.getStyle().setColor(TextFormatting.AQUA);
-            lastPlayer.sendMessage(text);
+            if(lastPlayer.getEntityData().getBoolean(TAG_AFK)) {
+                lastPlayer.getEntityData().setBoolean(TAG_AFK, false);
+                TextComponentTranslation text = new TextComponentTranslation("quarkmisc.leftAfk");
+                text.getStyle().setColor(TextFormatting.AQUA);
+                lastPlayer.sendMessage(text);
+            }
         }
     }
 	
