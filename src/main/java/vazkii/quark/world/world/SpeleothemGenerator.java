@@ -68,7 +68,11 @@ public class SpeleothemGenerator implements IWorldGenerator {
 		
 		int off = world.provider.isNether() ? -1000 : 0;
 		boolean up = random.nextBoolean();
-		EnumFacing diff = up ? EnumFacing.UP : EnumFacing.DOWN;
+		EnumFacing diff = (up ? EnumFacing.UP : EnumFacing.DOWN);
+		
+		if(!up && world.canBlockSeeSky(pos))
+ 			return false;
+		
 		IBlockState stateAt = null;
 		do {
 			pos = pos.offset(diff);
