@@ -13,8 +13,10 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Enchantments;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
@@ -84,6 +86,26 @@ public class ItemBackpack extends ItemModArmor implements IQuarkItem {
 		
 		if(changedEnchants)
 			EnchantmentHelper.setEnchantments(enchants, stack);
+	}
+	
+	@Override
+	public boolean onEntityItemUpdate(EntityItem entityItem) {
+		if(entityItem.world.isRemote)
+			return;
+		
+		ItemStack stack = entityItem.getItem();
+		
+		IItemHandler handler = stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+		for(int i = 0; i < handler.getSlots(); i++) {
+			ItemStack stackAt = handler.getStackInSlot(i);
+			if(!stackAt.isEmpty()) {
+				ItemStack copy = stackAt.copy();
+				stackAt.setCount(0);
+				InventoryHelper.spawnItemStack(entityItem.world, entityItem.posX, entityItem.posY, entityItem.posZ, copy);
+			}
+		}
+		
+		return false;
 	}
 
 	@Override
