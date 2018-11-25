@@ -15,6 +15,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.init.Enchantments;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
@@ -86,13 +87,23 @@ public class ItemBackpack extends ItemModArmor implements IQuarkItem {
 	}
 
 	@Override
-	public int getItemEnchantability() {
-		return -1;
-	}
-
-	@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type) {
 		return WORN_TEXTURE;
+	}
+	
+	@Override
+	public boolean hasEffect(ItemStack stack) {
+		return false;
+	}
+	
+	@Override
+    public EnumRarity getRarity(ItemStack stack) {
+        return EnumRarity.COMMON;
+    }
+	
+	@Override
+	public boolean isEnchantable(ItemStack stack) {
+		return false;
 	}
 
 	@Nonnull
