@@ -91,7 +91,7 @@ public class ItemBackpack extends ItemModArmor implements IQuarkItem {
 	@Override
 	public boolean onEntityItemUpdate(EntityItem entityItem) {
 		if(entityItem.world.isRemote)
-			return;
+			return false;
 		
 		ItemStack stack = entityItem.getItem();
 		
