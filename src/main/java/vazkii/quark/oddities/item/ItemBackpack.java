@@ -47,7 +47,7 @@ public class ItemBackpack extends ItemModArmor implements IQuarkItem, IItemColor
 		super("backpack", ArmorMaterial.LEATHER, 0, EntityEquipmentSlot.CHEST);
 		setCreativeTab(CreativeTabs.TOOLS);
 		
-		addPropertyOverride(new ResourceLocation("has_items"), (stack, world, entity) -> doesBackpackHaveItems(stack) ? 1 : 0);
+		addPropertyOverride(new ResourceLocation("has_items"), (stack, world, entity) -> (!Backpacks.superOpMode && doesBackpackHaveItems(stack)) ? 1 : 0);
 	}
 	
 	public static boolean doesBackpackHaveItems(ItemStack stack) {
@@ -66,6 +66,9 @@ public class ItemBackpack extends ItemModArmor implements IQuarkItem, IItemColor
 	
 	@Override
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+		if(Backpacks.superOpMode)
+			return;
+		
 		boolean hasItems = doesBackpackHaveItems(stack);
 		
 		Map<Enchantment, Integer> enchants = EnchantmentHelper.getEnchantments(stack);
@@ -94,7 +97,7 @@ public class ItemBackpack extends ItemModArmor implements IQuarkItem, IItemColor
 	
 	@Override
 	public boolean onEntityItemUpdate(EntityItem entityItem) {
-		if(entityItem.world.isRemote)
+		if(Backpacks.superOpMode || entityItem.world.isRemote)
 			return false;
 		
 		ItemStack stack = entityItem.getItem();

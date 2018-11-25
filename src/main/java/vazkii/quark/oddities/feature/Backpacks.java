@@ -9,7 +9,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IMerchant;
 import net.minecraft.entity.passive.EntityVillager;
-import net.minecraft.entity.passive.EntityVillager.PriceInfo;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Enchantments;
 import net.minecraft.init.Items;
@@ -37,6 +36,20 @@ public class Backpacks extends Feature {
 
 	public static Item backpack;
 	
+	public static boolean superOpMode;
+	boolean enableTrades;
+	
+	static int leatherCount, minEmeralds, maxEmeralds;
+	
+	@Override
+	public void setupConfig() {
+		enableTrades = loadPropBool("Enable Trade", "Set this to false if you want to disable the villager trade so you can add an alternate acquisition method", true);
+		superOpMode = loadPropBool("Unbalanced Mode", "Set this to true to allow the backpacks to be unequipped even with items in them", false);
+		leatherCount = loadPropInt("Required Leather", "", 12);
+		minEmeralds = loadPropInt("Min Required Emeralds", "", 12);
+		maxEmeralds = loadPropInt("Max Required Emeralds", "", 18);
+	}
+	
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
 		backpack = new ItemBackpack();
@@ -44,6 +57,9 @@ public class Backpacks extends Feature {
 	
 	@SubscribeEvent
 	public void onRegisterVillagers(RegistryEvent.Register<VillagerProfession> event) {
+		if(!enableTrades)
+			return;
+		
 		VillagerProfession butcher = event.getRegistry().getValue(new ResourceLocation("minecraft:butcher"));
 		VillagerCareer leatherworker = butcher.getCareer(1);
 		
@@ -59,6 +75,7 @@ public class Backpacks extends Feature {
 	}
 	
 	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
 	public void clientTick(ClientTickEvent event) {
 		Minecraft mc = Minecraft.getMinecraft();
 		if(isInventoryGUI(mc.currentScreen) && isEntityWearingBackpack(mc.player))
@@ -66,8 +83,9 @@ public class Backpacks extends Feature {
 	}
 	
 	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
 	public void removeCurseTooltip(ItemTooltipEvent event) {
-		if(event.getItemStack().getItem() instanceof ItemBackpack)
+		if(!superOpMode && event.getItemStack().getItem() instanceof ItemBackpack)
 			for(String s : event.getToolTip())
 				if(s.equals(Enchantments.BINDING_CURSE.getTranslatedName(1))) {
 					event.getToolTip().remove(s);
@@ -113,8 +131,8 @@ public class Backpacks extends Feature {
 
     	@Override
         public void addMerchantRecipe(IMerchant merchant, MerchantRecipeList recipeList, Random random) {
-        	int count = random.nextInt(6) + 12;
-        	recipeList.add(new MerchantRecipe(new ItemStack(Items.LEATHER, 12), new ItemStack(Items.EMERALD, count), new ItemStack(backpack)));
+        	int emeraldCount = random.nextInt(maxEmeralds - minEmeralds) + minEmeralds;
+        	recipeList.add(new MerchantRecipe(new ItemStack(Items.LEATHER, leatherCount), new ItemStack(Items.EMERALD, emeraldCount), new ItemStack(backpack)));
         }
     }
 
