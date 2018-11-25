@@ -8,6 +8,7 @@ import javax.annotation.Nullable;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
+import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -18,6 +19,7 @@ import net.minecraft.init.Enchantments;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.EnumRarity;
+import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
@@ -30,14 +32,16 @@ import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
+import vazkii.arl.interf.IItemColorProvider;
 import vazkii.arl.item.ItemModArmor;
 import vazkii.quark.base.item.IQuarkItem;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.oddities.feature.Backpacks;
 
-public class ItemBackpack extends ItemModArmor implements IQuarkItem {
+public class ItemBackpack extends ItemModArmor implements IQuarkItem, IItemColorProvider {
 
 	private static final String WORN_TEXTURE = LibMisc.PREFIX_MOD + "textures/misc/backpack_worn.png";
+	private static final String WORN_OVERLAY_TEXTURE = LibMisc.PREFIX_MOD + "textures/misc/backpack_worn_overlay.png";
 
 	public ItemBackpack() {
 		super("backpack", ArmorMaterial.LEATHER, 0, EntityEquipmentSlot.CHEST);
@@ -110,7 +114,7 @@ public class ItemBackpack extends ItemModArmor implements IQuarkItem {
 
 	@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type) {
-		return WORN_TEXTURE;
+		return type != null && type.equals("overlay") ? WORN_OVERLAY_TEXTURE : WORN_TEXTURE;
 	}
 	
 	@Override
@@ -165,6 +169,11 @@ public class ItemBackpack extends ItemModArmor implements IQuarkItem {
 		public void deserializeNBT(NBTBase nbt) {
 			CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.readNBT(inv, null, nbt);
 		}
+	}
+
+	@Override
+	public IItemColor getItemColor() {
+		return (stack, i) -> i == 1 ? ((ItemArmor) stack.getItem()).getColor(stack) : -1;
 	}
 
 }
