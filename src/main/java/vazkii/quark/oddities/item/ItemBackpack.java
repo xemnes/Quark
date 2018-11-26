@@ -66,10 +66,7 @@ public class ItemBackpack extends ItemModArmor implements IQuarkItem, IItemColor
 	
 	@Override
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-		if(Backpacks.superOpMode)
-			return;
-		
-		boolean hasItems = doesBackpackHaveItems(stack);
+		boolean hasItems = !Backpacks.superOpMode && doesBackpackHaveItems(stack);
 		
 		Map<Enchantment, Integer> enchants = EnchantmentHelper.getEnchantments(stack);
 		boolean isCursed = enchants.containsKey(Enchantments.BINDING_CURSE);
