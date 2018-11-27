@@ -38,7 +38,7 @@ public class Pipes extends Feature {
 	@Override
 	public void postPreInit(FMLPreInitializationEvent event) {
 		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(pipe, pipesCrafted), 
-				"IGI",
+				"I", "G", "I",
 				'I', "ingotIron",
 				'G', "blockGlass");
 	}
