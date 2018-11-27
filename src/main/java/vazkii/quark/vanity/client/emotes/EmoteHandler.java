@@ -65,7 +65,7 @@ public final class EmoteHandler {
 	}
 
 	public static void putEmote(AbstractClientPlayer player, EmoteDescriptor desc) {
-		if(playerEmotes.containsKey(player))
+		if(player == null || playerEmotes.containsKey(player))
 			return;
 
 		ModelBiped model = getPlayerModel(player);
