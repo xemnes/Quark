@@ -2,6 +2,7 @@ package vazkii.quark.client.feature;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.lwjgl.input.Keyboard;
 
@@ -65,14 +66,20 @@ public class VisualStatDisplay extends Feature {
 				for(String s : slotAttributes.keys()) {
 					if(VALID_ATTRIBUTES.contains(s))
 						allDesc += ItemStack.DECIMALFORMAT.format(getAttribute(event.getEntityPlayer(), stack, slotAttributes, s));
-						
-					String pattern = ".* ?\\+?\\d+ " + I18n.translateToLocal("attribute.name." + s) + "$";
-					for(int i = 1; i < tooltip.size(); i++)
-						if(tooltip.get(i).matches(pattern)) {
-							tooltip.remove(i);
-							clearedAny = true;
-							break;
+					
+					for(AttributeModifier mod : slotAttributes.get(s)) {
+						String attrName = I18n.translateToLocal("attribute.name." + s);
+						String format = I18n.translateToLocalFormatted("attribute.modifier.equals." + mod.getOperation(), "\\d+", Pattern.quote(I18n.translateToLocal("attribute.name." + s)));
+						String pattern = ".*\\s*\\+?" + format + "$";
+						for(int i = 1; i < tooltip.size(); i++) {
+							String line = Pattern.quote(tooltip.get(i));
+							if(tooltip.get(i).matches(pattern)) {
+								tooltip.remove(i);
+								clearedAny = true;
+								break;
+							}
 						}
+					}
 				}
 			}
 
