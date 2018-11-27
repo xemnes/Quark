@@ -2,8 +2,11 @@ package vazkii.quark.world.feature;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -14,9 +17,11 @@ import vazkii.quark.world.world.FairyRingGenerator;
 
 public class FairyRings extends Feature {
 
+	private static final Pattern BLOCKSTATE_PARSER = Pattern.compile("^(\\D+?):(\\d+)$");
+	
 	public static int forestChance, plainsChance;
 	public static DimensionConfig dimensions;
-	public static List<Block> ores;
+	public static List<IBlockState> ores;
 	
 	boolean initted = false;
 	String[] oresArr;
@@ -48,10 +53,17 @@ public class FairyRings extends Feature {
 	private void loadOres() {
 		ores = new ArrayList(oresArr.length);
 		for(String s : oresArr) {
+			int meta = 0;
+			Matcher m = BLOCKSTATE_PARSER.matcher(s);
+			if(m.matches()) {
+				s = m.group(1);
+				meta = Integer.parseInt(m.group(2));
+			}
+			
 			Block b = Block.getBlockFromName(s);
 			if(b == null)
 				new IllegalArgumentException("Block " + s + " does not exist!").printStackTrace();
-			else ores.add(b);
+			else ores.add(b.getStateFromMeta(meta));
 		}
 			
 		initted = true;

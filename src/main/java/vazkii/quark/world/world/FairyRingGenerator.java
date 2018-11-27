@@ -3,7 +3,6 @@ package vazkii.quark.world.world;
 import java.util.Random;
 import java.util.Set;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockStone;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -79,8 +78,7 @@ public class FairyRingGenerator implements IWorldGenerator {
 		}
 		
 		if(stoneState.getBlock() == Blocks.STONE && stoneState.getValue(BlockStone.VARIANT).isNatural()) {
-			Block block = FairyRings.ores.get(world.rand.nextInt(FairyRings.ores.size()));
-			IBlockState ore = (world.rand.nextBoolean() ? Blocks.DIAMOND_ORE : Blocks.EMERALD_ORE).getDefaultState();
+			IBlockState ore = FairyRings.ores.get(world.rand.nextInt(FairyRings.ores.size()));
 			world.setBlockState(orePos, ore);
 			for(EnumFacing face : EnumFacing.VALUES)
 				if(world.rand.nextBoolean())
