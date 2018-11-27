@@ -24,12 +24,14 @@ import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import net.minecraftforge.fml.common.registry.VillagerRegistry.VillagerCareer;
 import net.minecraftforge.fml.common.registry.VillagerRegistry.VillagerProfession;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.oddities.client.gui.GuiBackpackInventory;
+import vazkii.quark.oddities.inventory.ContainerBackpack;
 import vazkii.quark.oddities.item.ItemBackpack;
 
 public class Backpacks extends Feature {
@@ -91,6 +93,15 @@ public class Backpacks extends Feature {
 					event.getToolTip().remove(s);
 					return;
 				}
+	}
+	
+	@SubscribeEvent
+	public void onPlayerUpdate(PlayerTickEvent event) {
+		boolean hasBackpack = isEntityWearingBackpack(event.player);
+		if(hasBackpack && event.player.openContainer == event.player.inventoryContainer)
+			event.player.openContainer = new ContainerBackpack(event.player);
+		else if(!hasBackpack && event.player.openContainer instanceof ContainerBackpack)
+			event.player.openContainer = event.player.inventoryContainer;
 	}
 	
 	private static boolean isInventoryGUI(GuiScreen gui) {

@@ -6,9 +6,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import vazkii.arl.network.NetworkHandler;
 import vazkii.quark.base.lib.LibMisc;
-import vazkii.quark.base.network.message.MessageOpenBackpackContainer;
 import vazkii.quark.oddities.feature.Backpacks;
 import vazkii.quark.oddities.inventory.ContainerBackpack;
 
@@ -25,8 +23,6 @@ public class GuiBackpackInventory extends GuiInventory {
 		
 		this.player = player;
 		inventorySlots = new ContainerBackpack(player);
-		
-		NetworkHandler.INSTANCE.sendToServer(new MessageOpenBackpackContainer());
 	}
 	
 	@Override
