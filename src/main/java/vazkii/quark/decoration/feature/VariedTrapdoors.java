@@ -21,7 +21,7 @@ import vazkii.arl.recipe.BlacklistOreIngredient;
 import vazkii.arl.recipe.RecipeHandler;
 import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.block.BlockQuarkTrapdoor;
-import vazkii.quark.base.handler.WoodVariantReplacer;
+import vazkii.quark.base.handler.RecipeProcessor;
 import vazkii.quark.base.module.Feature;
 
 public class VariedTrapdoors extends Feature {
@@ -52,7 +52,7 @@ public class VariedTrapdoors extends Feature {
 
 	@Override
 	public void postPreInit(FMLPreInitializationEvent event) {		
-		WoodVariantReplacer.addReplacements(recipeOutput, Blocks.TRAPDOOR);
+		RecipeProcessor.addWoodReplacements(recipeOutput, Blocks.TRAPDOOR);
 		
 		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(spruce_trapdoor, recipeOutput),
 				"WWW", "WWW",

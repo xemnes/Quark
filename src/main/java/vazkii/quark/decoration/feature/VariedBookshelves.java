@@ -21,7 +21,7 @@ import vazkii.arl.block.BlockMod;
 import vazkii.arl.recipe.BlacklistOreIngredient;
 import vazkii.arl.recipe.RecipeHandler;
 import vazkii.arl.util.ProxyRegistry;
-import vazkii.quark.base.handler.WoodVariantReplacer;
+import vazkii.quark.base.handler.RecipeProcessor;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.decoration.block.BlockCustomBookshelf;
 
@@ -43,7 +43,7 @@ public class VariedBookshelves extends Feature {
 		
 		custom_bookshelf = new BlockCustomBookshelf();
 		
-		WoodVariantReplacer.addReplacements(Blocks.BOOKSHELF);
+		RecipeProcessor.addWoodReplacements(Blocks.BOOKSHELF);
 		
 		for(int i = 0; i < 5; i++)
 			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(custom_bookshelf, 1, i),

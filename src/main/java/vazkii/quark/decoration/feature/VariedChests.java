@@ -11,6 +11,7 @@
 package vazkii.quark.decoration.feature;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import net.minecraft.block.BlockChest.Type;
@@ -19,6 +20,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.EnumHelper;
@@ -28,11 +30,12 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.OreIngredient;
 import vazkii.arl.recipe.BlacklistOreIngredient;
 import vazkii.arl.recipe.RecipeHandler;
 import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.handler.ModIntegrationHandler;
-import vazkii.quark.base.handler.WoodVariantReplacer;
+import vazkii.quark.base.handler.RecipeProcessor;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.decoration.block.BlockCustomChest;
@@ -86,11 +89,9 @@ public class VariedChests extends Feature {
 			Blocks.TRAPPED_CHEST.setUnlocalizedName("oak_chest_trap");
 		}
 
-		WoodVariantReplacer.addReplacements(Blocks.CHEST, Blocks.TRAPPED_CHEST);
+		RecipeProcessor.addWoodReplacements(Blocks.CHEST);
+		RecipeProcessor.addConsumer(VariedChests::fixTrappedChestRecipe);
 
-		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(Blocks.CHEST),
-				"WWW", "W W", "WWW",
-				'W', ProxyRegistry.newStack(Blocks.PLANKS));
 		if(addLogRecipe)
 			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(Blocks.CHEST, 4),
 					"WWW", "W W", "WWW",
@@ -119,15 +120,14 @@ public class VariedChests extends Feature {
 			RecipeHandler.addShapelessOreDictRecipe(outTrap, out.copy(), ProxyRegistry.newStack(Blocks.TRIPWIRE_HOOK));
 			i++;
 		}
+		
 		// Low priority ore dictionary recipes
 		Ingredient wood = new BlacklistOreIngredient("plankWood", (stack) -> stack.getItem() == Item.getItemFromBlock(Blocks.PLANKS));
-		Ingredient chest = new BlacklistOreIngredient("chestWood", (stack) -> stack.getItem() == Item.getItemFromBlock(custom_chest));
 
 		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(Blocks.CHEST),
 				"WWW", "W W", "WWW",
 				'W', wood);
-		RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(Blocks.TRAPPED_CHEST), chest, ProxyRegistry.newStack(Blocks.TRIPWIRE_HOOK));
-
+		
 		// Vanilla recipe replacement
 		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(Blocks.HOPPER),
 				"I I", "ICI", " I ",
@@ -158,6 +158,26 @@ public class VariedChests extends Feature {
 		
 		OreDictionary.registerOre("chestTrapped", ProxyRegistry.newStack(custom_chest_trap, 1, OreDictionary.WILDCARD_VALUE));
 		OreDictionary.registerOre("chestTrapped", Blocks.TRAPPED_CHEST);
+	}
+	
+	private static boolean fixedTrappedChest = false;
+	private static void fixTrappedChestRecipe(IRecipe recipe) {
+		if(fixedTrappedChest)
+			return;
+		
+		if(recipe.getRegistryName().toString().equals("minecraft:trapped_chest")) {
+			List<Ingredient> ingredients = recipe.getIngredients();
+			for(int i = 0; i < ingredients.size(); i++) {
+				Ingredient ingr = ingredients.get(i);
+				if(ingr instanceof OreIngredient) {
+					Ingredient chest = new BlacklistOreIngredient("chestWood", (stack) -> stack.getItem() == Item.getItemFromBlock(custom_chest));
+					ingredients.set(i, chest);
+					break;
+				}
+			}
+			
+			fixedTrappedChest = true;
+		}
 	}
 	
 	@Override

@@ -7,7 +7,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.oredict.OreDictionary;
 import vazkii.arl.recipe.RecipeHandler;
 import vazkii.arl.util.ProxyRegistry;
-import vazkii.quark.base.handler.WoodVariantReplacer;
+import vazkii.quark.base.handler.RecipeProcessor;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.decoration.block.BlockCustomButton;
 import vazkii.quark.decoration.block.BlockCustomPressurePlate;
@@ -52,7 +52,7 @@ public class VariedButtonsAndPressurePlates extends Feature {
 	@Override
 	public void postPreInit(FMLPreInitializationEvent event) {
 		if(enablePressurePlates) {
-	 		WoodVariantReplacer.addReplacements(1, Blocks.WOODEN_PRESSURE_PLATE);
+	 		RecipeProcessor.addWoodReplacements(1, Blocks.WOODEN_PRESSURE_PLATE);
 			
 			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(spruce_pressure_plate, 1),
 					"WW", 'W', ProxyRegistry.newStack(Blocks.PLANKS, 1, 1));
@@ -70,7 +70,7 @@ public class VariedButtonsAndPressurePlates extends Feature {
 		}
 		
 		if(enableButtons) {
-	 		WoodVariantReplacer.addReplacements(1, Blocks.WOODEN_BUTTON);
+	 		RecipeProcessor.addWoodReplacements(1, Blocks.WOODEN_BUTTON);
 			
 			RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(spruce_button, 1), ProxyRegistry.newStack(Blocks.PLANKS, 1, 1));
 			RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(birch_button, 1), ProxyRegistry.newStack(Blocks.PLANKS, 1, 2));
