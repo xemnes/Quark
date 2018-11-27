@@ -5,6 +5,7 @@ import net.minecraft.item.ItemStack;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.oddities.feature.Backpacks;
 import vazkii.quark.oddities.feature.Pipes;
+import vazkii.quark.oddities.feature.TotemOfHolding;
 
 public class QuarkOddities extends Module {
 
@@ -12,6 +13,7 @@ public class QuarkOddities extends Module {
 	public void addFeatures() {
 		registerFeature(new Pipes());
 		registerFeature(new Backpacks());
+		registerFeature(new TotemOfHolding());
 	}
 	
 	@Override
