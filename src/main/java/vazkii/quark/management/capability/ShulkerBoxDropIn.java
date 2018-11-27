@@ -16,21 +16,22 @@ import vazkii.quark.management.feature.RightClickAddToShulkerBox;
 public class ShulkerBoxDropIn extends AbstractDropIn {
 
 	@Override
-	public boolean canDropItemIn(ItemStack stack, ItemStack incoming) {
-		return tryAddToShulkerBox(stack, incoming, true);
+	public boolean canDropItemIn(EntityPlayer player, ItemStack stack, ItemStack incoming) {
+		return tryAddToShulkerBox(player, stack, incoming, true);
 	}
 
 	@Override
-	public ItemStack dropItemIn(ItemStack stack, ItemStack incoming) {
-		tryAddToShulkerBox(stack, incoming, false);
+	public ItemStack dropItemIn(EntityPlayer player, ItemStack stack, ItemStack incoming) {
+		tryAddToShulkerBox(player, stack, incoming, false);
 		return stack;
 	}
 	
-	private boolean tryAddToShulkerBox(ItemStack shulkerBox, ItemStack stack, boolean simulate) {
+	private boolean tryAddToShulkerBox(EntityPlayer player, ItemStack shulkerBox, ItemStack stack, boolean simulate) {
 		if(stack.getItem() instanceof ItemShulkerBox)
 			return false;
 		
 		TileEntityShulkerBox tile = new TileEntityShulkerBox();
+		tile.setWorld(player.world);
 		NBTTagCompound stackCmp = shulkerBox.getTagCompound();
 		NBTTagCompound blockCmp = null;
 		
