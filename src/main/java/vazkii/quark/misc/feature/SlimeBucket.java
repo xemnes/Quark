@@ -10,6 +10,8 @@
  */
 package vazkii.quark.misc.feature;
 
+import com.sun.jna.platform.win32.WinDef.WORD;
+
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.monster.EntitySlime;
@@ -45,7 +47,7 @@ public class SlimeBucket extends Feature {
 	
 	@SubscribeEvent
 	public void entityInteract(PlayerInteractEvent.EntityInteract event) {
-		if(event.getTarget() != null) {
+		if(event.getTarget() != null && !event.getWorld().isRemote) {
 			String name = EntityList.getEntityString(event.getTarget());
 			if(name != null && name.equals("Slime") && ((EntitySlime) event.getTarget()).getSlimeSize() == 1 && ((EntityLiving) event.getTarget()).getHealth() > 0) {
 				EntityPlayer player = event.getEntityPlayer();
