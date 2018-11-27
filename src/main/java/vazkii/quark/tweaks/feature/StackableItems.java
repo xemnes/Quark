@@ -23,11 +23,10 @@ import vazkii.quark.base.module.Feature;
 
 public class StackableItems extends Feature {
 
-	int potions, minecarts, soups, saddle;
+	int minecarts, soups, saddle;
 
 	@Override
 	public void setupConfig() {
-		potions = loadPropInt("Potions", "", 8);
 		minecarts = loadPropInt("Minecarts", "", 16);
 		soups = loadPropInt("Soups", "", 64);
 		saddle = loadPropInt("Saddle", "", 8);
@@ -35,9 +34,6 @@ public class StackableItems extends Feature {
 
 	@Override
 	public void init(FMLInitializationEvent event) {
-		ImmutableSet.<Item>of(Items.POTIONITEM, Items.SPLASH_POTION, Items.LINGERING_POTION)
-		.forEach(item -> item.setMaxStackSize(potions));
-
 		ImmutableSet.<Item>of(Items.MINECART, Items.CHEST_MINECART, Items.COMMAND_BLOCK_MINECART, Items.FURNACE_MINECART, Items.HOPPER_MINECART, Items.TNT_MINECART)
 		.forEach(item -> item.setMaxStackSize(minecarts));
 		
