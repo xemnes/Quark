@@ -17,6 +17,7 @@ import net.minecraft.world.WorldServer;
 import net.minecraft.world.biome.Biome;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.world.feature.RevampStoneGen;
+import vazkii.quark.world.world.UndergroundBiomeGenerator.UndergroundBiomeGenerationContext;
 
 public abstract class UndergroundBiome {
 
@@ -36,25 +37,22 @@ public abstract class UndergroundBiome {
 		return false;
 	};
 
-	public List<BlockPos> floorList, ceilingList, insideList;
-	public Map<BlockPos, EnumFacing> wallMap;
-
-	public void fill(World world, BlockPos pos) {
+	public void fill(World world, BlockPos pos, UndergroundBiomeGenerationContext context) {
 		IBlockState state = world.getBlockState(pos);
 		if(state.getBlock().getBlockHardness(state, world, pos) == -1 || world.canBlockSeeSky(pos))
 			return;
 
 		if(isFloor(world, pos, state)) {
-			floorList.add(pos);
+			context.floorList.add(pos);
 			fillFloor(world, pos, state);
 		} else if(isCeiling(world, pos, state)) {
-			ceilingList.add(pos);
+			context.ceilingList.add(pos);
 			fillCeiling(world, pos, state);
 		} else if(isWall(world, pos, state)) {
-			wallMap.put(pos, getBorderSide(world, pos));
+			context.wallMap.put(pos, getBorderSide(world, pos));
 			fillWall(world, pos, state);
 		} else if(isInside(world, pos, state)) {
-			insideList.add(pos);
+			context.insideList.add(pos);
 			fillInside(world, pos, state);
 		}
 	}
