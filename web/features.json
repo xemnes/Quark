@@ -533,7 +533,7 @@
 				"overlap": ["InvTweaks"]
 			},
 			{
-				"name":"Boats in Chests",
+				"name":"Chests in Boats",
 				"classname":"ChestsInBoats",
 				"description":"Right clicking a Chest onto a Boat adds the chest in as a passenger. To access the chest, simply enter the boat and open your inventory, just like you would for a horse. To remove the chest (and the items inside), break the boat.",
 				"image":"boat-chests.jpg",
@@ -612,7 +612,7 @@
 			{
 				"name":"Enderman Anti-Cheese",
 				"classname":"EndermenAntiCheese",
-				"description":"Going under a 2 block high area while being attacked by an enderman will have the enderman pick up and drop the blocks you are hiding under. This ability is negated in Easy mode.<br><br>Note: prior to 1.11, this would have endermen teleport <i>you</i> to them. An option is present to switch to the old behaviour, if you prefer.",
+				"description":"Going under a 2 block high area while being attacked by an enderman will have the enderman pick up and drop the blocks you are hiding under. This ability only exists in Hard difficulty.<br><br>Note: prior to 1.11, this would have endermen teleport <i>you</i> to them. An option is present to switch to the old behaviour, if you prefer.",
 				"image":"ender-cheese.jpg",
 				"introduced":9
 			},
@@ -726,9 +726,9 @@
 				"introduced":9
 			},
 			{
-				"name":"Stackable Minecarts",
+				"name":"Stackable Items",
 				"classname":"StackableItems",
-				"description":"All types of Minecarts can be stacked up to 16.",
+				"description":"A few items can now be stacked. Minecarts can be stacked up to 16, Saddles up to 8 and all Soup/Stew items up to 64.",
 				"image":"stackable-carts.jpg",
 				"introduced":9
 			},

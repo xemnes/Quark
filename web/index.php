@@ -102,7 +102,7 @@
 								<li>Run the server using the forge jar. <i>Not the minecraft_server jar</i></li>
 							</ol>
 
-							Alternatively, you can use the <a href="https://www.curse.com/download">Curse app</a> and install the mod directly from inside it. Make sure you have Minecraft installed so it installs the Minecraft plugin.<br>
+							Alternatively, you can use the <a href="https://app.twitch.tv/">Twitch app</a> and install the mod directly from inside it. Make sure you have Minecraft installed so it installs the Minecraft plugin.<br>
 							Yes, you can use the mod in modpacks.
 							<hr>
 							<b>Credits</b>
