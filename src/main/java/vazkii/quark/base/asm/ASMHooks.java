@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntityPiston;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -17,6 +18,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.automation.client.render.PistonTileEntityRenderer;
 import vazkii.quark.automation.feature.PistonSpikes;
 import vazkii.quark.automation.feature.PistonsMoveTEs;
+import vazkii.quark.automation.feature.PistonsPushPullItems;
 import vazkii.quark.client.feature.BetterFireEffect;
 import vazkii.quark.decoration.feature.MoreBannerLayers;
 import vazkii.quark.experimental.features.ColoredLights;
@@ -95,6 +97,12 @@ public final class ASMHooks {
 	@SideOnly(Side.CLIENT)
 	public static boolean renderPistonBlock(BlockPos pos, IBlockState state, BufferBuilder buffer, World world, boolean checkSides) {
 		return PistonTileEntityRenderer.renderPistonBlock(pos, state, buffer, world, checkSides);
+	}
+	
+	// ===== PISTONS PUSH/PULL ITEMS ===== //
+	
+	public static void onPistonUpdate(TileEntityPiston piston) {
+		PistonsPushPullItems.onPistonUpdate(piston);
 	}
 	
 	// ===== IMPROVED SLEEPING ===== //

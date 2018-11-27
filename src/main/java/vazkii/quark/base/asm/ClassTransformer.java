@@ -64,7 +64,8 @@ public class ClassTransformer implements IClassTransformer {
 			"net/minecraft/client/renderer/BufferBuilder", "buk",
 			"net/minecraft/world/IBlockAccess", "amy",
 			"net/minecraft/client/renderer/block/model/BakedQuad", "bvp",
-			"net/minecraft/inventory/InventoryCrafting", "afy"
+			"net/minecraft/inventory/InventoryCrafting", "afy",
+			"net/minecraft/inventory/TileEntityPiston", "awk"
 			);
 
 	private static final Map<String, Transformer> transformers = new HashMap();
@@ -370,10 +371,10 @@ public class ClassTransformer implements IClassTransformer {
 
 	private static byte[] transformTileEntityPiston(byte[] basicClass) {
 		log("Transforming TileEntityPiston");
-		MethodSignature sig1 = new MethodSignature("clearPistonTileEntity", "func_145866_f", "j", "()V");
-		MethodSignature sig2 = new MethodSignature("update", "func_73660_a", "e", "()V");
+		MethodSignature clearPistonTileEntitySig = new MethodSignature("clearPistonTileEntity", "func_145866_f", "j", "()V");
+		MethodSignature updateSig = new MethodSignature("update", "func_73660_a", "e", "()V");
 
-		MethodAction action = combine(
+		MethodAction setPistonBlockAction = combine(
 				(AbstractInsnNode node) -> { // Filter
 					return node.getOpcode() == Opcodes.INVOKEVIRTUAL && checkDesc(((MethodInsnNode) node).desc, "(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/state/IBlockState;I)Z");
 				},
@@ -387,9 +388,28 @@ public class ClassTransformer implements IClassTransformer {
 
 					return true;
 				});
+		
+		MethodAction onUpdateAction = combine(
+				(AbstractInsnNode node) -> { // Filter
+					return true;
+				},
+				(MethodNode method, AbstractInsnNode node) -> { // Action
+					InsnList newInstructions = new InsnList();
 
-		byte[] transClass = transform(basicClass, Pair.of(sig1, action));
-		return transform(transClass, Pair.of(sig2, action));
+					newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 0));
+					newInstructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, ASM_HOOKS, "onPistonUpdate", "(Lnet/minecraft/tileentity/TileEntityPiston;)V"));
+
+					method.instructions.insertBefore(node, newInstructions);
+
+					return true;
+				});
+
+		byte[] transClass = basicClass;
+		transClass = transform(transClass, Pair.of(updateSig, onUpdateAction));
+		transClass = transform(transClass, Pair.of(clearPistonTileEntitySig, setPistonBlockAction));
+		transClass = transform(transClass, Pair.of(updateSig, setPistonBlockAction));
+		
+		return transClass;
 	}
 
 	private static byte[] transformTileEntityPistonRenderer(byte[] basicClass) {
