@@ -28,13 +28,5 @@ public class ItemBiotite extends ItemMod implements IQuarkItem {
 		super("biotite");
 		setCreativeTab(CreativeTabs.MATERIALS);
 	}
-	 
-	@Override
-	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if(worldIn.isRemote)
-			FairyRingGenerator.spawnFairyRing(worldIn, pos);
-		
-		return EnumActionResult.SUCCESS;
-	}
 
 }
