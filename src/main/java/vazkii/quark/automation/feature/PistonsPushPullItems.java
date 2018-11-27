@@ -34,30 +34,28 @@ public class PistonsPushPullItems extends Feature {
 		boolean pulling = state.getBlock() != Blocks.PISTON_HEAD;
 		boolean sticky = state.getBlock() == Blocks.STICKY_PISTON || (state.getPropertyKeys().contains(BlockPistonExtension.TYPE) && state.getValue(BlockPistonExtension.TYPE) == EnumPistonType.STICKY); 
 
+		if(pulling != sticky)
+			return;
+		
 		EnumFacing face = piston.getFacing();
 		AxisAlignedBB aabb = new AxisAlignedBB(piston.getPos().offset(face, pulling ? 2 : 1));
 		List<EntityItem> items = piston.getWorld().getEntitiesWithinAABB(EntityItem.class, aabb);
 
 		for(EntityItem entity : items)
-			onEntityHandled(entity, face, sticky, pulling);
+			onEntityHandled(entity, face, sticky);
 	}
 
-	private static void onEntityHandled(EntityItem entity, EnumFacing face, boolean sticky, boolean pulling) {
+	private static void onEntityHandled(EntityItem entity, EnumFacing face, boolean sticky) {
 		if(sticky)
 			face = face.getOpposite();
 		
 		World world = entity.getEntityWorld();
-		BlockPos pos = entity.getPosition();
-		BlockPos offsetPos1 = pos.offset(face);
-		
-		if(!sticky && !pulling)
-			nudgeItem(world, entity, face, true);
-
-		if(sticky && pulling) {
-			boolean closeToEdge = new BlockPos(entity.posX + face.getFrontOffsetX() * .5, entity.posY + face.getFrontOffsetY() * .5, entity.posZ + face.getFrontOffsetZ() * .5).equals(offsetPos1);
+		if(sticky) {
+			BlockPos offsetPos = entity.getPosition().offset(face);
+			boolean closeToEdge = new BlockPos(entity.posX + face.getFrontOffsetX() * .5, entity.posY + face.getFrontOffsetY() * .5, entity.posZ + face.getFrontOffsetZ() * .5).equals(offsetPos);
 			if(closeToEdge)
 				nudgeItem(world, entity, face, false);
-		}
+		} else nudgeItem(world, entity, face, true);
 	}
 
 	private static void nudgeItem(World world, EntityItem entity, EnumFacing whichWay, boolean showParticles) {
