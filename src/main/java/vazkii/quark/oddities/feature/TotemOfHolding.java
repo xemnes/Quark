@@ -31,6 +31,16 @@ public class TotemOfHolding extends Feature {
 	@SideOnly(Side.CLIENT)
 	public static TextureAtlasSprite totemSprite;
 	
+	public static boolean darkSoulsMode, enableOnPK, destroyItems, anyoneCollect;
+	
+	@Override
+	public void setupConfig() {
+		darkSoulsMode = loadPropBool("Dark Souls Mode", "Set this to false to remove the behaviour where totems destroy themselves if the player dies again.", true);
+		enableOnPK = loadPropBool("Spawn Toten on PVP Kill", "", false);
+		destroyItems = loadPropBool("Destroy Lost Items", "Set this to true to make it so that if a totem is destroyed, the items it holds are destroyed alongside it rather than dropped", false);
+		anyoneCollect = loadPropBool("Allow Anyone to Collect", "Set this to false to only allow the owner of a totem to collect its items rather than any player", true);
+	}
+	
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
 		String totemName = "quark:totem_of_holding";
@@ -51,7 +61,7 @@ public class TotemOfHolding extends Feature {
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onPlayerDrops(PlayerDropsEvent event) {
 		List<EntityItem> drops = event.getDrops();
-		if(!event.isCanceled() && !(event.getSource().getTrueSource() instanceof EntityPlayer)) {
+		if(!event.isCanceled() && (enableOnPK || !(event.getSource().getTrueSource() instanceof EntityPlayer))) {
 			EntityPlayer player = event.getEntityPlayer();
 			NBTTagCompound persistent = player.getEntityData().getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG);
 			

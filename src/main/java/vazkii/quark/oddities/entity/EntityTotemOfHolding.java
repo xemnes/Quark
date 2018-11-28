@@ -63,6 +63,12 @@ public class EntityTotemOfHolding extends Entity {
 	@Override
 	public boolean hitByEntity(Entity e) {
 		if(!world.isRemote && e instanceof EntityPlayer) {
+			if(!TotemOfHolding.anyoneCollect) {
+				EntityPlayer owner = getOwnerEntity();
+				if(e != owner)
+					return false;
+			}
+			
 			int drops = Math.min(storedItems.size(), 3 + world.rand.nextInt(4));
 			EntityPlayer player = (EntityPlayer) e;
 			for(int i = 0; i < drops; i++) {
@@ -75,11 +81,9 @@ public class EntityTotemOfHolding extends Entity {
 				((WorldServer) world).spawnParticle(EnumParticleTypes.DAMAGE_INDICATOR, false, posX, posY + 0.5, posZ, drops, 0.1, 0.5, 0.1, 0);
 				((WorldServer) world).spawnParticle(EnumParticleTypes.CRIT_MAGIC, false, posX, posY + 0.5, posZ, drops, 0.4, 0.5, 0.4, 0);
 			}
-
-			return false;
 		}
 
-		return true;
+		return false;
 	}
 
 	@Override
@@ -94,11 +98,13 @@ public class EntityTotemOfHolding extends Entity {
 		if(isDead)
 			return;
 		
-		EntityPlayer owner = getOwnerEntity();
-		if(owner != null && !world.isRemote) {
-			String ownerTotem = TotemOfHolding.getTotemUUID(owner);
-			if(!getUniqueID().toString().equals(ownerTotem))
-				dropEverythingAndDie();
+		if(TotemOfHolding.darkSoulsMode) {
+			EntityPlayer owner = getOwnerEntity();
+			if(owner != null && !world.isRemote) {
+				String ownerTotem = TotemOfHolding.getTotemUUID(owner);
+				if(!getUniqueID().toString().equals(ownerTotem))
+					dropEverythingAndDie();
+			}
 		}
 		
 		if(storedItems.isEmpty() && !world.isRemote)
@@ -115,8 +121,10 @@ public class EntityTotemOfHolding extends Entity {
 	}
 	
 	private void dropEverythingAndDie() {
-		for(int i = 0; i < storedItems.size(); i++)
-			entityDropItem(storedItems.get(i), 0);
+		if(!TotemOfHolding.destroyItems)
+			for(int i = 0; i < storedItems.size(); i++)
+				entityDropItem(storedItems.get(i), 0);
+		
 		storedItems.clear();
 		
 		setDead();
