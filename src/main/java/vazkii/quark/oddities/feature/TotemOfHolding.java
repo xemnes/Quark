@@ -51,7 +51,7 @@ public class TotemOfHolding extends Feature {
 	@Override
 	public void setupConfig() {
 		darkSoulsMode = loadPropBool("Dark Souls Mode", "Set this to false to remove the behaviour where totems destroy themselves if the player dies again.", true);
-		enableOnPK = loadPropBool("Spawn Toten on PVP Kill", "", false);
+		enableOnPK = loadPropBool("Spawn Totem on PVP Kill", "", false);
 		destroyItems = loadPropBool("Destroy Lost Items", "Set this to true to make it so that if a totem is destroyed, the items it holds are destroyed alongside it rather than dropped", false);
 		anyoneCollect = loadPropBool("Allow Anyone to Collect", "Set this to false to only allow the owner of a totem to collect its items rather than any player", true);
 		enableSoulCompass = loadPropBool("Enable Soul Compass", "", true);
