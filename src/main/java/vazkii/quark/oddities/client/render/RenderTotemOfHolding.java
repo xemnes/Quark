@@ -2,6 +2,7 @@ package vazkii.quark.oddities.client.render;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -27,18 +28,27 @@ public class RenderTotemOfHolding extends Render<EntityTotemOfHolding> {
 	public void doRender(EntityTotemOfHolding entity, double x, double y, double z, float entityYaw, float partialTicks) {
 		super.doRender(entity, x, y, z, entityYaw, partialTicks);
 		
+		int deathTicks = entity.getDeathTicks();
+		boolean dying = entity.isDying();
+		float time = ClientTicker.ticksInGame + partialTicks;
+		float scale = !dying ? 1F : (Math.max(0, EntityTotemOfHolding.DEATH_TIME - (deathTicks + partialTicks)) / EntityTotemOfHolding.DEATH_TIME);
+		float rotation = time + (!dying ? 0 : (deathTicks + partialTicks) * 5);
+		double translation = !dying ? (Math.sin(time * 0.03) * 0.1) : ((deathTicks + partialTicks) / EntityTotemOfHolding.DEATH_TIME * 5);
+		
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(x, y, z);
-		GlStateManager.rotate(ClientTicker.total, 0F, 1F, 0F);
-		GlStateManager.translate(-0.5, 0, 0);
-		renderTotemIcon();
+		GlStateManager.rotate(rotation, 0F, 1F, 0F);
+		GlStateManager.translate(-0.5, translation, 0);
+		GlStateManager.scale(scale, scale, scale);
+		renderTotemIcon(entity);
 		GlStateManager.popMatrix();
 	}
 	
-	private void renderTotemIcon() {
+	private void renderTotemIcon(EntityTotemOfHolding entity) { 
+        OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240, 240);
 		Minecraft mc = Minecraft.getMinecraft();
 		mc.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
-		AtlasSpriteHelper.renderIconThicc(TotemOfHolding.totemSprite, 1F / 32F);
+		AtlasSpriteHelper.renderIconThicc(TotemOfHolding.totemSprite, 1F / 16F);
 	}
 	
 	@Override
