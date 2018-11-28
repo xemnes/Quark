@@ -19,11 +19,17 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 import vazkii.quark.base.lib.LibGuiIDs;
 import vazkii.quark.misc.client.gui.GuiNoteBlock;
+import vazkii.quark.oddities.client.gui.GuiBackpackInventory;
+import vazkii.quark.oddities.inventory.ContainerBackpack;
 
 public class GuiHandler implements IGuiHandler {
 
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		switch(ID) {
+		case LibGuiIDs.BACKPACK: return new ContainerBackpack(player);
+		}
+		
 		return null;
 	}
 
@@ -32,6 +38,7 @@ public class GuiHandler implements IGuiHandler {
 		switch(ID) {
 		case LibGuiIDs.SIGN: return new GuiEditSign((TileEntitySign) world.getTileEntity(new BlockPos(x, y, z)));
 		case LibGuiIDs.NOTE_BLOCK: return new GuiNoteBlock((TileEntityNote) world.getTileEntity(new BlockPos(x, y, z)));
+		case LibGuiIDs.BACKPACK: return new GuiBackpackInventory(player);
 		}
 		return null;
 	}

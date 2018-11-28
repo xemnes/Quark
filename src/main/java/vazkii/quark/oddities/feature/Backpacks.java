@@ -29,7 +29,9 @@ import net.minecraftforge.fml.common.registry.VillagerRegistry.VillagerCareer;
 import net.minecraftforge.fml.common.registry.VillagerRegistry.VillagerProfession;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import vazkii.arl.network.NetworkHandler;
 import vazkii.quark.base.module.Feature;
+import vazkii.quark.base.network.message.MessageOpenBackpack;
 import vazkii.quark.oddities.client.gui.GuiBackpackInventory;
 import vazkii.quark.oddities.inventory.ContainerBackpack;
 import vazkii.quark.oddities.item.ItemBackpack;
@@ -42,6 +44,7 @@ public class Backpacks extends Feature {
 	boolean enableTrades;
 	
 	static int leatherCount, minEmeralds, maxEmeralds;
+	static GuiScreen heldScreen;
 	
 	@Override
 	public void setupConfig() {
@@ -72,16 +75,24 @@ public class Backpacks extends Feature {
 	@SideOnly(Side.CLIENT)
 	public void onOpenGUI(GuiOpenEvent event) {
 		EntityPlayer player = Minecraft.getMinecraft().player;
-		if(player != null && isInventoryGUI(event.getGui()) && !player.isCreative() && isEntityWearingBackpack(player))
-			event.setGui(new GuiBackpackInventory(player));
+		if(player != null && isInventoryGUI(event.getGui()) && !player.isCreative() && isEntityWearingBackpack(player)) {
+			requestBackpack();
+			event.setCanceled(true);
+		}
 	}
 	
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void clientTick(ClientTickEvent event) {
 		Minecraft mc = Minecraft.getMinecraft();
-		if(isInventoryGUI(mc.currentScreen) && isEntityWearingBackpack(mc.player))
-			mc.displayGuiScreen(new GuiBackpackInventory(mc.player));
+		if(isInventoryGUI(mc.currentScreen) && mc.currentScreen != heldScreen && isEntityWearingBackpack(mc.player)) {
+			requestBackpack();
+			heldScreen = mc.currentScreen;
+		}
+	}
+	
+	private void requestBackpack() {
+		NetworkHandler.INSTANCE.sendToServer(new MessageOpenBackpack());
 	}
 	
 	@SubscribeEvent
@@ -93,15 +104,6 @@ public class Backpacks extends Feature {
 					event.getToolTip().remove(s);
 					return;
 				}
-	}
-	
-	@SubscribeEvent
-	public void onPlayerUpdate(PlayerTickEvent event) {
-		boolean hasBackpack = isEntityWearingBackpack(event.player);
-		if(hasBackpack && event.player.openContainer == event.player.inventoryContainer)
-			event.player.openContainer = new ContainerBackpack(event.player);
-		else if(!hasBackpack && event.player.openContainer instanceof ContainerBackpack)
-			event.player.openContainer = event.player.inventoryContainer;
 	}
 	
 	private static boolean isInventoryGUI(GuiScreen gui) {
