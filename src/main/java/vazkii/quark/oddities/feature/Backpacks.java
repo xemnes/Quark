@@ -30,6 +30,7 @@ import net.minecraftforge.fml.common.registry.VillagerRegistry.VillagerProfessio
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.arl.network.NetworkHandler;
+import vazkii.arl.recipe.RecipeHandler;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.network.message.MessageOpenBackpack;
 import vazkii.quark.oddities.client.gui.GuiBackpackInventory;
@@ -41,7 +42,7 @@ public class Backpacks extends Feature {
 	public static Item backpack;
 	
 	public static boolean superOpMode;
-	boolean enableTrades;
+	boolean enableTrades, enableCrafting;
 	
 	static int leatherCount, minEmeralds, maxEmeralds;
 	static GuiScreen heldScreen;
@@ -49,6 +50,7 @@ public class Backpacks extends Feature {
 	@Override
 	public void setupConfig() {
 		enableTrades = loadPropBool("Enable Trade", "Set this to false if you want to disable the villager trade so you can add an alternate acquisition method", true);
+		enableCrafting = loadPropBool("Enable Crafting", "Set this to true to enable a crafting recipe", false);
 		superOpMode = loadPropBool("Unbalanced Mode", "Set this to true to allow the backpacks to be unequipped even with items in them", false);
 		leatherCount = loadPropInt("Required Leather", "", 12);
 		minEmeralds = loadPropInt("Min Required Emeralds", "", 12);
@@ -58,6 +60,12 @@ public class Backpacks extends Feature {
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
 		backpack = new ItemBackpack();
+		
+		if(enableCrafting)
+			RecipeHandler.addShapelessOreDictRecipe(new ItemStack(backpack), 
+					"LLL", "LCL", "LLL",
+					'L', new ItemStack(Items.LEATHER),
+					'C', "chestWood");
 	}
 	
 	@SubscribeEvent
