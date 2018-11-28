@@ -5,6 +5,7 @@ import java.util.List;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.event.entity.player.PlayerDropsEvent;
@@ -25,9 +26,10 @@ import vazkii.quark.oddities.entity.EntityTotemOfHolding;
 
 public class TotemOfHolding extends Feature {
 	
+	private static final String TAG_LAST_TOTEM = "quark:lastTotemOfHolding";
+	
 	@SideOnly(Side.CLIENT)
 	public static TextureAtlasSprite totemSprite;
-
 	
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
@@ -49,15 +51,30 @@ public class TotemOfHolding extends Feature {
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onPlayerDrops(PlayerDropsEvent event) {
 		List<EntityItem> drops = event.getDrops();
-		if(!event.isCanceled() && !drops.isEmpty()) {
+		if(!event.isCanceled() && !(event.getSource().getTrueSource() instanceof EntityPlayer)) {
 			EntityPlayer player = event.getEntityPlayer();
-			EntityTotemOfHolding totem = new EntityTotemOfHolding(player.world);
-			totem.setPosition(player.posX, player.posY + 1, player.posZ);
-			drops.stream().map(EntityItem::getItem).forEach(totem::addItem);
-			player.world.spawnEntity(totem);
+			NBTTagCompound persistent = player.getEntityData().getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG);
 			
-			event.setCanceled(true);
+			if(!drops.isEmpty()) {
+				EntityTotemOfHolding totem = new EntityTotemOfHolding(player.world);
+				totem.setPosition(player.posX, player.posY + 1, player.posZ);
+				totem.setOwner(player);
+				drops.stream().map(EntityItem::getItem).forEach(totem::addItem);
+				player.world.spawnEntity(totem);
+				
+				persistent.setString(TAG_LAST_TOTEM, totem.getUniqueID().toString());
+				
+				event.setCanceled(true);
+			} else persistent.setString(TAG_LAST_TOTEM, "");
 		}
+	}
+	
+	public static String getTotemUUID(EntityPlayer player) {
+		NBTTagCompound cmp = player.getEntityData().getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG);
+		if(cmp.hasKey(TAG_LAST_TOTEM))
+			return cmp.getString(TAG_LAST_TOTEM);
+		
+		return "";
 	}
 	
 	@Override

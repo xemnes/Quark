@@ -14,17 +14,21 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+import net.minecraft.world.storage.loot.functions.SetDamage;
+import vazkii.quark.oddities.feature.TotemOfHolding;
 
 public class EntityTotemOfHolding extends Entity {
 
 	private static final String TAG_ITEMS = "storedItems";
 	private static final String TAG_DYING = "dying";
+	private static final String OWNER = "owner";
 	
     private static final DataParameter<Boolean> DYING = EntityDataManager.<Boolean>createKey(EntityTotemOfHolding.class, DataSerializers.BOOLEAN);
 	
     public static final int DEATH_TIME = 40;
 
     int deathTicks = 0;
+    String owner;
 	List<ItemStack> storedItems = new LinkedList();
 
 	public EntityTotemOfHolding(World worldIn) {
@@ -40,6 +44,20 @@ public class EntityTotemOfHolding extends Entity {
 
 	public void addItem(ItemStack stack) {
 		storedItems.add(stack);
+	}
+	
+	public void setOwner(EntityPlayer player) {
+		owner = EntityPlayer.getUUID(player.getGameProfile()).toString();
+	}
+	
+	EntityPlayer getOwnerEntity() {
+		for(EntityPlayer player : world.playerEntities) {
+			String uuid = EntityPlayer.getUUID(player.getGameProfile()).toString();
+			if(uuid.equals(owner))
+				return player;
+		}
+		
+		return null;
 	}
 
 	@Override
@@ -73,6 +91,16 @@ public class EntityTotemOfHolding extends Entity {
 	public void onEntityUpdate() {
 		super.onEntityUpdate();
 
+		if(isDead)
+			return;
+		
+		EntityPlayer owner = getOwnerEntity();
+		if(owner != null && !world.isRemote) {
+			String ownerTotem = TotemOfHolding.getTotemUUID(owner);
+			if(!getUniqueID().toString().equals(ownerTotem))
+				dropEverythingAndDie();
+		}
+		
 		if(storedItems.isEmpty() && !world.isRemote)
 			dataManager.set(DYING, true);
 		
@@ -84,6 +112,14 @@ public class EntityTotemOfHolding extends Entity {
 		
 		else if(world.isRemote)
 			world.spawnParticle(EnumParticleTypes.PORTAL, posX, posY + (Math.random() - 0.5) * 0.2, posZ, Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5);
+	}
+	
+	private void dropEverythingAndDie() {
+		for(int i = 0; i < storedItems.size(); i++)
+			entityDropItem(storedItems.get(i), 0);
+		storedItems.clear();
+		
+		setDead();
 	}
 
 	public int getDeathTicks() {
