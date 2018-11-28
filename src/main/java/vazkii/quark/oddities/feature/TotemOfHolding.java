@@ -6,7 +6,10 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -20,6 +23,7 @@ import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.arl.client.AtlasSpriteHelper;
+import vazkii.arl.recipe.RecipeHandler;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.lib.LibEntityIDs;
 import vazkii.quark.base.lib.LibMisc;
@@ -27,6 +31,7 @@ import vazkii.quark.base.module.Feature;
 import vazkii.quark.oddities.client.render.RenderTotemOfHolding;
 import vazkii.quark.oddities.entity.EntityTotemOfHolding;
 import vazkii.quark.oddities.item.ItemSoulCompass;
+import vazkii.quark.world.feature.Wraiths;
 
 public class TotemOfHolding extends Feature {
 	
@@ -56,10 +61,16 @@ public class TotemOfHolding extends Feature {
 	public void preInit(FMLPreInitializationEvent event) {
 		if(enableSoulCompass)
 			soul_compass = new ItemSoulCompass();
-		// TODO recipe
-		
+
 		String totemName = "quark:totem_of_holding";
 		EntityRegistry.registerModEntity(new ResourceLocation(totemName), EntityTotemOfHolding.class, totemName, LibEntityIDs.TOTEM_OF_HOLDING, Quark.instance, 64, 128, false);
+	}
+	
+	@Override
+	public void postPreInit(FMLPreInitializationEvent event) {
+		RecipeHandler.addShapelessOreDictRecipe(new ItemStack(soul_compass), 
+				(Wraiths.soul_bead == null ? new ItemStack(Blocks.SOUL_SAND) : new ItemStack(Wraiths.soul_bead)), 
+				new ItemStack(Items.COMPASS));
 	}
 	
 	@Override
@@ -76,9 +87,11 @@ public class TotemOfHolding extends Feature {
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onPlayerDrops(PlayerDropsEvent event) {
 		List<EntityItem> drops = event.getDrops();
+		
 		if(!event.isCanceled() && (enableOnPK || !(event.getSource().getTrueSource() instanceof EntityPlayer))) {
 			EntityPlayer player = event.getEntityPlayer();
-			NBTTagCompound persistent = player.getEntityData().getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG);
+			NBTTagCompound data = player.getEntityData();
+			NBTTagCompound persistent = data.getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG);
 			
 			if(!drops.isEmpty()) {
 				EntityTotemOfHolding totem = new EntityTotemOfHolding(player.world);
@@ -96,6 +109,9 @@ public class TotemOfHolding extends Feature {
 			persistent.setInteger(TAG_DEATH_X, pos.getX());
 			persistent.setInteger(TAG_DEATH_Z, pos.getZ());
 			persistent.setInteger(TAG_DEATH_DIM, player.world.provider.getDimension());
+			
+			if(!data.hasKey(EntityPlayer.PERSISTED_NBT_TAG))
+				data.setTag(EntityPlayer.PERSISTED_NBT_TAG, persistent);
 		}
 	}
 	
