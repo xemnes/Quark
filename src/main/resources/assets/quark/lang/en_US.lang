@@ -27,7 +27,6 @@ quarkmisc.rotationLockAfter=] to change or reset it. This message won't appear a
 quarkmisc.rightClickAdd=Right-click to Add
 quarkmisc.panoramaSaved=Saved Panorama Screenshot as %s
 
-
 # CONFIG STRINGS
 quark.config.title=Quark Configuration
 quark.config.import=Import Config
@@ -600,6 +599,7 @@ item.quark:cyan_parrot_egg.name=Cyan Parrot Egg
 item.quark:green_parrot_egg.name=Green Parrot Egg
 item.quark:gray_parrot_egg.name=Gray Parrot Egg
 item.quark:backpack.name=Traveller's Backpack
+item.quark:soul_compass.name=Soul Compass
 
 # ENTITY NAMES
 entity.quark:colored_item_frame.name=Colored Item Frame
@@ -610,6 +610,7 @@ entity.quark:ashen.name=Ashen
 entity.quark:pirate.name=Pirate
 entity.quark:wraith.name=Wraith
 entity.quark:chest_passenger.name=Boat Chest
+entity.quark:totem_of_holding.name=Totem of Holding
 
 # POTION NAMES
 quark.potion.curse.name=Curse

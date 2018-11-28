@@ -3,10 +3,13 @@ package vazkii.quark.oddities.feature;
 import java.util.List;
 
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.event.entity.player.PlayerDropsEvent;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
@@ -23,15 +26,22 @@ import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.oddities.client.render.RenderTotemOfHolding;
 import vazkii.quark.oddities.entity.EntityTotemOfHolding;
+import vazkii.quark.oddities.item.ItemSoulCompass;
 
 public class TotemOfHolding extends Feature {
 	
 	private static final String TAG_LAST_TOTEM = "quark:lastTotemOfHolding";
 	
+	private static final String TAG_DEATH_X = "quark:deathX";
+	private static final String TAG_DEATH_Z = "quark:deathZ";
+	private static final String TAG_DEATH_DIM = "quark:deathDim";
+	
 	@SideOnly(Side.CLIENT)
 	public static TextureAtlasSprite totemSprite;
 	
-	public static boolean darkSoulsMode, enableOnPK, destroyItems, anyoneCollect;
+	public static Item soul_compass;
+	
+	public static boolean darkSoulsMode, enableOnPK, destroyItems, anyoneCollect, enableSoulCompass;
 	
 	@Override
 	public void setupConfig() {
@@ -39,10 +49,15 @@ public class TotemOfHolding extends Feature {
 		enableOnPK = loadPropBool("Spawn Toten on PVP Kill", "", false);
 		destroyItems = loadPropBool("Destroy Lost Items", "Set this to true to make it so that if a totem is destroyed, the items it holds are destroyed alongside it rather than dropped", false);
 		anyoneCollect = loadPropBool("Allow Anyone to Collect", "Set this to false to only allow the owner of a totem to collect its items rather than any player", true);
+		enableSoulCompass = loadPropBool("Enable Soul Compass", "", true);
 	}
 	
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
+		if(enableSoulCompass)
+			soul_compass = new ItemSoulCompass();
+		// TODO recipe
+		
 		String totemName = "quark:totem_of_holding";
 		EntityRegistry.registerModEntity(new ResourceLocation(totemName), EntityTotemOfHolding.class, totemName, LibEntityIDs.TOTEM_OF_HOLDING, Quark.instance, 64, 128, false);
 	}
@@ -76,6 +91,11 @@ public class TotemOfHolding extends Feature {
 				
 				event.setCanceled(true);
 			} else persistent.setString(TAG_LAST_TOTEM, "");
+			
+			BlockPos pos = player.getPosition();
+			persistent.setInteger(TAG_DEATH_X, pos.getX());
+			persistent.setInteger(TAG_DEATH_Z, pos.getZ());
+			persistent.setInteger(TAG_DEATH_DIM, player.world.provider.getDimension());
 		}
 	}
 	
@@ -85,6 +105,20 @@ public class TotemOfHolding extends Feature {
 			return cmp.getString(TAG_LAST_TOTEM);
 		
 		return "";
+	}
+	
+	public static BlockPos getPlayerDeathPosition(Entity e) {
+		if(e instanceof EntityPlayer) {
+			NBTTagCompound cmp = e.getEntityData().getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG);
+			if(cmp.hasKey(TAG_LAST_TOTEM)) {
+				int x = cmp.getInteger(TAG_DEATH_X);
+				int z = cmp.getInteger(TAG_DEATH_Z);
+				int dim = cmp.getInteger(TAG_DEATH_DIM);
+				return new BlockPos(x, dim, z);
+			}
+		}
+		
+		return new BlockPos(0, -1, 0);
 	}
 	
 	@Override
