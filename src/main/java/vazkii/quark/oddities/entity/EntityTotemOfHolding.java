@@ -3,8 +3,13 @@ package vazkii.quark.oddities.entity;
 import java.util.LinkedList;
 import java.util.List;
 
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Enchantments;
+import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -16,6 +21,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.storage.loot.functions.SetDamage;
 import vazkii.quark.oddities.feature.TotemOfHolding;
+import vazkii.quark.oddities.item.ItemBackpack;
 
 public class EntityTotemOfHolding extends Entity {
 
@@ -73,8 +79,24 @@ public class EntityTotemOfHolding extends Entity {
 			EntityPlayer player = (EntityPlayer) e;
 			for(int i = 0; i < drops; i++) {
 				ItemStack stack = storedItems.remove(0);
-				if(!player.addItemStackToInventory(stack))
-					entityDropItem(stack, 0);
+				
+				if(stack.getItem() instanceof ItemArmor) {
+					ItemArmor armor = (ItemArmor) stack.getItem();
+					EntityEquipmentSlot slot = armor.getEquipmentSlot();
+					ItemStack curr = player.getItemStackFromSlot(slot);
+					
+					if(curr.isEmpty()) {
+						player.setItemStackToSlot(slot, stack);
+						stack = null;
+					} else if(EnchantmentHelper.getEnchantmentLevel(Enchantments.BINDING_CURSE, curr) == 0) {
+						player.setItemStackToSlot(slot, stack);
+						stack = curr;
+					}
+				}
+				
+				if(stack != null)
+					if(!player.addItemStackToInventory(stack))
+						entityDropItem(stack, 0);
 			}
 			
 			if(world instanceof WorldServer) {

@@ -67,7 +67,7 @@ public class TotemOfHolding extends Feature {
 			
 			if(!drops.isEmpty()) {
 				EntityTotemOfHolding totem = new EntityTotemOfHolding(player.world);
-				totem.setPosition(player.posX, player.posY + 1, player.posZ);
+				totem.setPosition(player.posX, Math.max(3, player.posY + 1), player.posZ);
 				totem.setOwner(player);
 				drops.stream().map(EntityItem::getItem).forEach(totem::addItem);
 				player.world.spawnEntity(totem);
