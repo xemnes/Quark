@@ -598,7 +598,7 @@ item.quark:blue_parrot_egg.name=Blue Parrot Egg
 item.quark:cyan_parrot_egg.name=Cyan Parrot Egg
 item.quark:green_parrot_egg.name=Green Parrot Egg
 item.quark:gray_parrot_egg.name=Gray Parrot Egg
-item.quark:backpack.name=Traveller's Backpack
+item.quark:backpack.name=Backpack
 item.quark:soul_compass.name=Soul Compass
 
 # ENTITY NAMES
