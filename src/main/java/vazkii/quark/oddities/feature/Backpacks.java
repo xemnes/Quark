@@ -24,7 +24,6 @@ import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import net.minecraftforge.fml.common.registry.VillagerRegistry.VillagerCareer;
 import net.minecraftforge.fml.common.registry.VillagerRegistry.VillagerProfession;
 import net.minecraftforge.fml.relauncher.Side;
@@ -34,7 +33,6 @@ import vazkii.arl.recipe.RecipeHandler;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.network.message.MessageOpenBackpack;
 import vazkii.quark.oddities.client.gui.GuiBackpackInventory;
-import vazkii.quark.oddities.inventory.ContainerBackpack;
 import vazkii.quark.oddities.item.ItemBackpack;
 
 public class Backpacks extends Feature {
@@ -45,7 +43,9 @@ public class Backpacks extends Feature {
 	boolean enableTrades, enableCrafting;
 	
 	static int leatherCount, minEmeralds, maxEmeralds;
-	static GuiScreen heldScreen;
+	
+	@SideOnly(Side.CLIENT)
+	boolean backpackRequested;
 	
 	@Override
 	public void setupConfig() {
@@ -93,10 +93,11 @@ public class Backpacks extends Feature {
 	@SideOnly(Side.CLIENT)
 	public void clientTick(ClientTickEvent event) {
 		Minecraft mc = Minecraft.getMinecraft();
-		if(isInventoryGUI(mc.currentScreen) && mc.currentScreen != heldScreen && isEntityWearingBackpack(mc.player)) {
+		if(isInventoryGUI(mc.currentScreen) && !backpackRequested && isEntityWearingBackpack(mc.player)) {
 			requestBackpack();
-			heldScreen = mc.currentScreen;
-		}
+			backpackRequested = true;
+		} else if(mc.currentScreen instanceof GuiBackpackInventory)
+			backpackRequested = false;
 	}
 	
 	private void requestBackpack() {
@@ -114,6 +115,7 @@ public class Backpacks extends Feature {
 				}
 	}
 	
+	@SideOnly(Side.CLIENT)
 	private static boolean isInventoryGUI(GuiScreen gui) {
 		return gui != null && gui.getClass() == GuiInventory.class;
 	}
