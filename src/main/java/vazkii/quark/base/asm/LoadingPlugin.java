@@ -14,7 +14,6 @@ import java.util.Map;
 
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 
-@IFMLLoadingPlugin.SortingIndex(1001)
 public class LoadingPlugin implements IFMLLoadingPlugin {
 
 	public static boolean runtimeDeobfEnabled = false;
