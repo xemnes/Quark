@@ -13,11 +13,11 @@
 	},
 	{
 		"name": "Bricks",
-		"files": [ "textures/blocks//stone_bricks.png" ]
+		"files": [ "textures/blocks//brick.png" ]
 	},
 	{
 		"name": "Glass",
-		"files": [ "textures/blocks//stone_glass.png" ]
+		"files": [ "textures/blocks//glass.png" ]
 	},
 	{
 		"name": "Pumpkin Front Face",
