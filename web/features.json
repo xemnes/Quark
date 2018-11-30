@@ -1297,6 +1297,20 @@
 				"image":"pipes.jpg",
 				"album": "https://twitter.com/Vazkii/status/1029551677781815296",
 				"introduced":12
+			},
+			{
+				"name":"Backpack",
+				"classname":"Backpacks",
+				"description":"Locate yourself a Leatherworker villager, and they might fashion a Backpack for you in exchange for some Leather and Emeralds.<br><br>This Backpack can be worn in the Chest slot, and it'll give you a bunch of extra slots in your inventory to store all your stuff. Beware however, if your backpack has items in it, you can't unequip it. You may also dye the backpack just like any other leather armor.",
+				"image":"backpack.jpg",
+				"introduced":12
+			},
+			{
+				"name":"Totem of Holding",
+				"classname":"TotemOfHolding",
+				"description":"When a player dies, a Totem of Holding will spawn at the dead player's position. This totem will float around in the air, holding the player's items. Any player can retreive the items the totem is holding by punching it a few times. (The totem won't spawn for PVP kills)<br><br>Do note that if the player who spawned the totem dies again, the totem will break and drop all of the items on the ground, like a normal death.<br><br>A player's totem can be located by crafting a Soul Compass, which is done using a Compass and a Soul Bead (from the Wraiths feature in the World Module). Should Soul Beads not be available, Soul Sand is used instead.",
+				"image":"totem-of-holding.jpg",
+				"introduced":12
 			}
 		]
 	}		
