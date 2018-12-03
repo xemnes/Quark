@@ -39,7 +39,7 @@ public final class ConfigEvents {
 			List<GuiButton> buttons = event.getButtonList();
 			for(GuiButton b : buttons)
 				if(targets.contains(b.displayString)) {
-					GuiButton qButton = new GuiButtonColor(-82392, b.x + (GlobalConfig.qButtonOnRight ? 103 : -24), b.y, 20, "q", 0x48ddbc);
+					GuiButton qButton = new GuiButtonQ(b.x + (GlobalConfig.qButtonOnRight ? 103 : -24), b.y);
 					buttons.add(qButton);
 					return;
 				}
