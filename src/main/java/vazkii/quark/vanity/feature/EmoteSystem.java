@@ -191,7 +191,7 @@ public class EmoteSystem extends Feature {
 			for(KeyBinding key : ModKeybinds.emoteKeys.keySet())
 				if(key.isKeyDown()) {
 					String emote = ModKeybinds.emoteKeys.get(key);
-					mc.player.sendChatMessage("/emote " + emote);
+					NetworkHandler.INSTANCE.sendToServer(new MessageRequestEmote(emote));
 					return;
 				}
 		}
