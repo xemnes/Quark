@@ -75,6 +75,7 @@ public class EmoteSystem extends Feature {
 			"dance", 
 			"tpose", 
 			"dab",
+			"jet",
 			"exorcist",
 			"zombie"
 	); 
