@@ -4,7 +4,7 @@ Hey there. Looks like you want to contribute with an issue. Great. Here's what y
   * Issues regarding MCPC+/Cauldron/Spigot/Sponge that are not reproducible with forge only are **not accepted**;
   * Issues regarding outdated versions of Quark or AutoReglib are **not accepted**;
   * Duplicate issues or issues that have been solved already (use the search feature!) will be closed without asking. If the issue is still happening, comment on the old one with the proper info you'd use when reporting a new one. (if it's locked for some reason feel free to make another one)
-  * Suggestions are **not** accepted here. Please check the [Quark subreddit](https://www.reddit.com/r/quarkmod) and tag me (/u/vazkii) instead.
+  * Suggestions are **not accepted** here. Please check out the [Quark subreddit](https://www.reddit.com/r/quarkmod) and post them there instead.
 
 [Report the Issue](https://github.com/Vazkii/Quark/issues)!
 
@@ -12,7 +12,7 @@ You can find me at most times on [my Discord Server](https://vazkii.us/discord),
 
 ---
 
-If you want to make a Pull Request keep these in mind:
-* Do NOT use the github editor. Test your damn PRs before you submit them.
-* I'm very strict when it comes to syntax. Make sure your PR's syntax matches the syntax of the rest of the code. That includes the lack of spacing after if/for/(etc), proper bracket usage, camel casing and copyleft headers on new classes.
+If you want to make a code Pull Request keep these in mind:
+* Do **not** use the github editor. Please test your PRs before you submit then (test on a server too).
+* Syntax is important. Make sure your PR's syntax matches the syntax of the rest of the code. That includes the lack of spacing after if/for/(etc), proper bracket usage (no newline, no brackets on one-line blocks), camel casing, and tab indentation.
 * If your pull request edits very small chunks of code and isn't flawless I'll close it as it'll probably take less time to fix it myself rather than pull yours and change the code.
