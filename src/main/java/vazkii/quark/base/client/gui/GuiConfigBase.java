@@ -9,6 +9,7 @@ import java.util.List;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiConfirmOpenLink;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.common.config.Property;
 import net.minecraftforge.fml.common.FMLLog;
@@ -40,7 +41,7 @@ public class GuiConfigBase extends GuiScreen {
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		drawDefaultBackground();
-		drawCenteredString(fontRenderer, title, width / 2, 15, 0xFFFFFF);
+		drawCenteredString(fontRenderer, TextFormatting.BOLD + title, width / 2, 15, 0xFFFFFF);
 
 		super.drawScreen(mouseX, mouseY, partialTicks);
 	}
