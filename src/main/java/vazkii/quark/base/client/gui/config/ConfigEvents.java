@@ -1,4 +1,4 @@
-package vazkii.quark.base.client.gui;
+package vazkii.quark.base.client.gui.config;
 
 import java.util.List;
 
@@ -13,6 +13,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import vazkii.quark.base.client.gui.GuiButtonColor;
 import vazkii.quark.base.module.GlobalConfig;
 import vazkii.quark.base.module.ModuleLoader;
 

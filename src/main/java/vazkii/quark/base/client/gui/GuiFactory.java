@@ -21,6 +21,7 @@ import net.minecraftforge.fml.client.IModGuiFactory;
 import net.minecraftforge.fml.client.config.DummyConfigElement;
 import net.minecraftforge.fml.client.config.GuiConfig;
 import net.minecraftforge.fml.client.config.IConfigElement;
+import vazkii.quark.base.client.gui.config.GuiConfigRoot;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.base.module.ModuleLoader;
 

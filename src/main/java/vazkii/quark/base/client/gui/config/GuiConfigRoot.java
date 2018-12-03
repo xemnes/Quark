@@ -1,4 +1,4 @@
-package vazkii.quark.base.client.gui;
+package vazkii.quark.base.client.gui.config;
 
 import java.io.IOException;
 import java.util.Set;
@@ -11,6 +11,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.translation.I18n;
 import vazkii.quark.base.client.ContributorRewardHandler;
+import vazkii.quark.base.client.gui.GuiButtonColor;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.base.module.GlobalConfig;
 import vazkii.quark.base.module.Module;
@@ -79,6 +80,7 @@ public class GuiConfigRoot extends GuiConfigBase {
 				s = I18n.translateToLocal("quarkmisc.patronPlugNone");
 			else s = I18n.translateToLocalFormatted("quarkmisc.patronPlug", ContributorRewardHandler.featuredPatron);
 		} else s = "\u2665 " + I18n.translateToLocalFormatted("quarkmisc.supportMessage", mc.getSession().getUsername()) + " \u2665";
+		
 		drawCenteredString(mc.fontRenderer, s, width / 2, 27, 0xff8f80);
 	}
 

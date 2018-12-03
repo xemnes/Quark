@@ -71,15 +71,12 @@ public class ContributorRewardHandler {
 			if(tier < 10)
 				allPatrons.add(key);
 			
-			if(localPatronTier == -1 && key.toLowerCase().equals(name))
+			if(key.toLowerCase().equals(name))
 				localPatronTier = tier;
 		});
 		
 		if(!allPatrons.isEmpty())
 			featuredPatron = allPatrons.get((int) (Math.random() * allPatrons.size()));
-		
-		if(localPatronTier == -1)
-			localPatronTier = 0;
 	}
 	
 	private static class ThreadContributorListLoader extends Thread {

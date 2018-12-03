@@ -24,7 +24,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import vazkii.quark.base.client.ContributorRewardHandler;
 import vazkii.quark.base.client.ResourceProxy;
-import vazkii.quark.base.client.gui.ConfigEvents;
+import vazkii.quark.base.client.gui.config.ConfigEvents;
 import vazkii.quark.base.lib.LibObfuscation;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.vanity.client.emotes.EmoteHandler;

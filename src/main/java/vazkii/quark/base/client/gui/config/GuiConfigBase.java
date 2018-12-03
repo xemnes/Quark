@@ -1,4 +1,4 @@
-package vazkii.quark.base.client.gui;
+package vazkii.quark.base.client.gui.config;
 
 import java.io.IOException;
 import java.net.URI;

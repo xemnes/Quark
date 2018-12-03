@@ -1,4 +1,4 @@
-package vazkii.quark.base.client.gui;
+package vazkii.quark.base.client.gui.config;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
