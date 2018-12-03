@@ -20,9 +20,10 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
+import net.minecraftforge.oredict.OreDictionary;
 import vazkii.arl.recipe.ModRecipe;
 import vazkii.arl.util.ItemNBTHelper;
-import vazkii.quark.misc.feature.EnderdragonScales;
+import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.vanity.feature.DyableElytra;
 
 public class ElytraDyingRecipe extends ModRecipe {
@@ -43,7 +44,7 @@ public class ElytraDyingRecipe extends ModRecipe {
 					if(foundTarget)
 						return false;
 					foundTarget = true;
-				} else if(stack.getItem() instanceof ItemDye) {
+				} else if(getDye(stack) != -1) {
 					if(foundSource)
 						return false;
 					foundSource = true;
@@ -62,8 +63,9 @@ public class ElytraDyingRecipe extends ModRecipe {
 		for(int i = 0; i < var1.getSizeInventory(); i++) {
 			ItemStack stack = var1.getStackInSlot(i);
 			if(!stack.isEmpty()) {
-				if(stack.getItem() instanceof ItemDye)
-					source = stack.getItemDamage();
+				int dye = getDye(stack);
+				if(dye != -1)
+					source = dye;
 				else target = stack;
 			}
 		}
@@ -75,6 +77,21 @@ public class ElytraDyingRecipe extends ModRecipe {
 		}
 
 		return ItemStack.EMPTY;
+	}
+	
+	private int getDye(ItemStack stack) {
+		if(stack.getItem() instanceof ItemDye)
+			return stack.getItemDamage();
+		
+		int[] ids = OreDictionary.getOreIDs(stack);
+		for(int i = 0; i < ids.length; i++) {
+			String tag = OreDictionary.getOreName(ids[i]);
+			int dye = LibMisc.OREDICT_DYES.indexOf(tag);
+			if(dye > -1)
+				return dye;
+		}
+		
+		return -1;
 	}
 
 	@Override
