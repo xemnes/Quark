@@ -27,6 +27,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.arl.util.ItemNBTHelper;
+import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.misc.feature.ColorRunes;
 import vazkii.quark.vanity.feature.DyableElytra;
 
@@ -34,6 +35,7 @@ import vazkii.quark.vanity.feature.DyableElytra;
 public class LayerBetterElytra implements LayerRenderer<AbstractClientPlayer> {
 
 	private static final ResourceLocation TEXTURE_ELYTRA = new ResourceLocation("textures/entity/elytra.png");
+	private static final ResourceLocation TEXTURE_ELYTRA_DYED = new ResourceLocation(LibMisc.MOD_ID, "textures/misc/elytra_dyed.png");
 	private final RenderPlayer renderPlayer;
 	private final ModelElytra modelElytra = new ModelElytra();
 
@@ -47,8 +49,9 @@ public class LayerBetterElytra implements LayerRenderer<AbstractClientPlayer> {
 
 		if(!itemstack.isEmpty() && itemstack.getItem() == Items.ELYTRA) {
 			int colorIndex = ItemNBTHelper.getInt(itemstack, DyableElytra.TAG_ELYTRA_DYE, -1);
+			boolean dyed = colorIndex != -1 && colorIndex != 15; 
 
-			if(colorIndex == -1 || colorIndex == 15)
+			if(!dyed)
 				GlStateManager.color(1F, 1F, 1F);
 			else {
 				Color color = new Color(ItemDye.DYE_COLORS[colorIndex]);
@@ -62,6 +65,8 @@ public class LayerBetterElytra implements LayerRenderer<AbstractClientPlayer> {
 				renderPlayer.bindTexture(entitylivingbaseIn.getLocationElytra());
 			else if(entitylivingbaseIn.hasPlayerInfo() && entitylivingbaseIn.getLocationCape() != null && entitylivingbaseIn.isWearing(EnumPlayerModelParts.CAPE))
 				renderPlayer.bindTexture(entitylivingbaseIn.getLocationCape());
+			else if(dyed)
+				renderPlayer.bindTexture(TEXTURE_ELYTRA_DYED);
 			else renderPlayer.bindTexture(TEXTURE_ELYTRA);
 
 			GlStateManager.pushMatrix();
