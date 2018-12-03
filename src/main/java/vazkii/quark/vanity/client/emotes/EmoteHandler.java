@@ -63,7 +63,7 @@ public final class EmoteHandler {
 		if(emoteMap.containsKey(emoteName))
 			putEmote(player, emoteMap.get(emoteName));
 	}
-
+	
 	public static void putEmote(AbstractClientPlayer player, EmoteDescriptor desc) {
 		if(player == null || playerEmotes.containsKey(player))
 			return;

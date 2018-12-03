@@ -38,7 +38,7 @@ public class EmoteTemplate {
 		functions.put("pause", EmoteTemplate::pause);
 		functions.put("yoyo", EmoteTemplate::yoyo);
 		functions.put("repeat", EmoteTemplate::repeat);
-		
+		functions.put("tier", EmoteTemplate::tier);
 
 		Class<?> clazz = ModelAccessor.class;
 		Field[] fields = clazz.getDeclaredFields();
@@ -82,6 +82,7 @@ public class EmoteTemplate {
 	List<Integer> usedParts;
 	Stack<Timeline> timelineStack;
 	float speed;
+	int tier;
 	boolean compiled = false;
 	boolean compiledOnce = false;
 	
@@ -93,6 +94,7 @@ public class EmoteTemplate {
 	public Timeline getTimeline(ModelBiped model) {
 		compiled = false;
 		speed = 1;
+		tier = 0;
 
 		if(readLines == null)
 			return readAndMakeTimeline(model);
@@ -214,6 +216,12 @@ public class EmoteTemplate {
 	private static Timeline unit(EmoteTemplate em, ModelBiped model, Timeline timeline, String[] tokens) throws IllegalArgumentException {
 		assertParamSize(tokens, 2);
 		em.speed = Float.parseFloat(tokens[1]);
+		return timeline;
+	}
+
+	private static Timeline tier(EmoteTemplate em, ModelBiped model, Timeline timeline, String[] tokens) throws IllegalArgumentException {
+		assertParamSize(tokens, 2);
+		em.tier = Integer.parseInt(tokens[1]);
 		return timeline;
 	}
 	
@@ -364,7 +372,6 @@ public class EmoteTemplate {
 		
 		return timeline;
 	}
-	
 
 	private static Timeline pause(EmoteTemplate em, ModelBiped model, Timeline timeline, String[] tokens) throws IllegalArgumentException {
 		assertParamSize(tokens, 2);

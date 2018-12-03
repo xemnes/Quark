@@ -36,18 +36,20 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import scala.actors.threadpool.Arrays;
+import vazkii.arl.network.NetworkHandler;
 import vazkii.aurelienribon.tweenengine.Tween;
+import vazkii.quark.base.client.ContributorRewardHandler;
 import vazkii.quark.base.client.ModKeybinds;
 import vazkii.quark.base.client.gui.GuiButtonTranslucent;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.ModuleLoader;
+import vazkii.quark.base.network.message.MessageRequestEmote;
 import vazkii.quark.vanity.client.emotes.CustomEmoteIconResourcePack;
 import vazkii.quark.vanity.client.emotes.EmoteBase;
 import vazkii.quark.vanity.client.emotes.EmoteDescriptor;
 import vazkii.quark.vanity.client.emotes.EmoteHandler;
 import vazkii.quark.vanity.client.emotes.ModelAccessor;
 import vazkii.quark.vanity.client.gui.GuiButtonEmote;
-import vazkii.quark.vanity.command.CommandEmote;
 
 public class EmoteSystem extends Feature {
 
@@ -115,11 +117,6 @@ public class EmoteSystem extends Feature {
 			ModKeybinds.initEmoteKeybinds();
 	}
 
-	@Override
-	public void serverStarting(FMLServerStartingEvent event) {
-		event.registerServerCommand(new CommandEmote());
-	}
-
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void initGui(GuiScreenEvent.InitGuiEvent.Post event) {
@@ -128,10 +125,15 @@ public class EmoteSystem extends Feature {
 			List<GuiButton> list = event.getButtonList();
 			list.add(new GuiButtonTranslucent(EMOTE_BUTTON_START, gui.width - 76, gui.height - 40, 75, 20, I18n.format("quark.gui.emotes")));
 
+			int i = 0;
 			int size = EmoteHandler.emoteMap.size() - 1;
 			for(String key : EmoteHandler.emoteMap.keySet()) {
 				EmoteDescriptor desc = EmoteHandler.emoteMap.get(key);
-				int i = desc.index;
+				int tier = desc.getTier();
+				
+				if(tier > ContributorRewardHandler.localPatronTier)
+					continue;
+				
 				int x = gui.width - ((i % 3) + 1) * 25 - 1;
 				int y = gui.height - 65 - 25 * ((size / 3) - i / 3);
 
@@ -139,6 +141,7 @@ public class EmoteSystem extends Feature {
 				button.visible = emotesVisible;
 				button.enabled = emotesVisible;
 				list.add(button);
+				i++;
 			}
 		}
 	}
@@ -160,8 +163,8 @@ public class EmoteSystem extends Feature {
 
 			emotesVisible = !emotesVisible;
 		} else if(button instanceof GuiButtonEmote) {
-			String cmd = ((GuiButtonEmote) button).desc.getCommand();
-			Minecraft.getMinecraft().player.sendChatMessage(cmd);
+			String name = ((GuiButtonEmote) button).desc.getRegistryName();
+			NetworkHandler.INSTANCE.sendToServer(new MessageRequestEmote(name));
 		}
 	}
 
