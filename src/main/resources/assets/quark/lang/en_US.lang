@@ -666,6 +666,12 @@ quark.emote.point=Point
 quark.emote.headbang=Headbang
 quark.emote.think=Think
 quark.emote.weep=Weep
+quark.emote.dab=Dab
+quark.emote.tpose=T-Pose
+quark.emote.dance=Dance
+quark.emote.zombie=Zombie
+quark.emote.exorcist=Exorcist
+
 quark.dyedElytra=Dyed %s
 quark.dye.white=White
 quark.dye.orange=Orange

@@ -11,7 +11,11 @@
 package vazkii.quark.vanity.feature;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+
+import com.google.common.collect.ImmutableSet;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -28,7 +32,6 @@ import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
@@ -65,10 +68,19 @@ public class EmoteSystem extends Feature {
 			"shrug",
 			"headbang",
 			"weep", 
-			"facepalm" 
+			"facepalm"
 	};
-	private static List<String> EMOTE_NAME_LIST = Arrays.asList(EMOTE_NAMES);
-	
+
+	private static final Set<String> PATREON_EMOTES = ImmutableSet.of(
+			"dance", 
+			"tpose", 
+			"dab",
+			"exorcist",
+			"zombie"
+	); 
+
+	private static List<String> EMOTE_NAME_LIST = new ArrayList(Arrays.asList(EMOTE_NAMES));
+
 	private static final int EMOTE_BUTTON_START = 1800;
 	static boolean emotesVisible = false;
 
@@ -76,7 +88,7 @@ public class EmoteSystem extends Feature {
 	public static File emotesDir;
 	@SideOnly(Side.CLIENT)
 	public static CustomEmoteIconResourcePack resourcePack;
-	
+
 	private String[] enabledEmotes;
 	private String[] customEmotes;
 	private boolean enableKeybinds;
@@ -86,17 +98,17 @@ public class EmoteSystem extends Feature {
 		enableKeybinds = loadPropBool("Enable Keybinds", "Should keybinds for emotes be generated? (They're all unbound by default)", true);
 		enabledEmotes = loadPropStringList("Enabled Emotes", "The enabled default emotes. Remove from this list to disable them. You can also re-order them, if you feel like it.", EMOTE_NAMES);
 		customEmotes = loadPropStringList("Custom Emotes", "The list of Custom Emotes to be loaded.\nWatch the tutorial on Custom Emotes to learn how to make your own: https://youtu.be/ourHUkan6aQ", new String[0]);
-		
+
 		customEmoteDebug = loadPropBool("Custom Emote Dev Mode", "Enable this to make custom emotes read the file every time they're triggered so you can edit on the fly.\nDO NOT ship enabled this in a modpack, please.", false);
 		emoteCommands = loadPropBool("Custom Emote Functions", "Allow custom emotes to run function files when a user prompts them.\n"
 				+ "To attach a function file to any given emote, simply place a .mcfunction file with the same name as your .emote file (sans extension) in /quark_emotes.\n"
 				+ "Command output from emote functions is enabled only if both \"Custom Emote Dev Mode\" and the \"commandBlockOutput\" gamerule are enabled. ", false);
-		
+
 		emotesDir = new File(ModuleLoader.configFile.getParent(), "quark_emotes");
 		if(!emotesDir.exists())
 			emotesDir.mkdir();
 	}
-	
+
 	public static void addResourcePack(List<IResourcePack> packs) {
 		packs.add(resourcePack = new CustomEmoteIconResourcePack());
 	}
@@ -109,10 +121,13 @@ public class EmoteSystem extends Feature {
 		for(String s : enabledEmotes)
 			if(EMOTE_NAME_LIST.contains(s))
 				EmoteHandler.addEmote(s);
+
+		for(String s : PATREON_EMOTES)
+			EmoteHandler.addEmote(s);
 		
 		for(String s : customEmotes)
 			EmoteHandler.addCustomEmote(s);
-		
+
 		if(enableKeybinds)
 			ModKeybinds.initEmoteKeybinds();
 	}
@@ -130,10 +145,10 @@ public class EmoteSystem extends Feature {
 			for(String key : EmoteHandler.emoteMap.keySet()) {
 				EmoteDescriptor desc = EmoteHandler.emoteMap.get(key);
 				int tier = desc.getTier();
-				
+
 				if(tier > ContributorRewardHandler.localPatronTier)
 					continue;
-				
+
 				int x = gui.width - ((i % 3) + 1) * 25 - 1;
 				int y = gui.height - 65 - 25 * ((size / 3) - i / 3);
 
@@ -195,7 +210,7 @@ public class EmoteSystem extends Feature {
 				int y = res.getScaledHeight() / 2 - 60;
 				float transparency = 1F;
 				float tween = 5F;
-				
+
 				if(emote.timeDone < tween)
 					transparency = emote.timeDone / tween;
 				else if(emote.timeDone > emote.totalTime - tween)
