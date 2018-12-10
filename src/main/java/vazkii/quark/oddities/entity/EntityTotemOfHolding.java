@@ -82,7 +82,7 @@ public class EntityTotemOfHolding extends Entity {
 				
 				if(stack.getItem() instanceof ItemArmor) {
 					ItemArmor armor = (ItemArmor) stack.getItem();
-					EntityEquipmentSlot slot = armor.getEquipmentSlot();
+					EntityEquipmentSlot slot = armor.armorType;
 					ItemStack curr = player.getItemStackFromSlot(slot);
 					
 					if(curr.isEmpty()) {
