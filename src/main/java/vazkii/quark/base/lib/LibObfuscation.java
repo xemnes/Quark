@@ -66,4 +66,10 @@ public final class LibObfuscation {
 	// GuiSignEdit
 	public static final String[] TILE_SIGN = new String[] { "a", "field_146848_f", "tileSign" };
 	
+	// GuiToast
+	public static final String[] TOASTS_QUEUE = new String[] { "g", "field_191792_h ", "toastsQueue" };
+	
+	// RecipeToast
+	public static final String[] RECIPES_OUTPUTS = new String[] { "c", "field_193666_c", "recipesOutputs" };
+	
 }
