@@ -124,9 +124,9 @@ public class LockDirectionHotkey extends Feature {
 			setState = state.withProperty(BlockHopper.FACING, face == EnumFacing.DOWN ? face : face.getOpposite());
 			
 		if(half != -1) {
-			if(block instanceof BlockStairs)
+			if(props.containsKey(BlockStairs.HALF))
 				setState = setState.withProperty(BlockStairs.HALF, half == 1 ? BlockStairs.EnumHalf.TOP : BlockStairs.EnumHalf.BOTTOM);
-			else if(block instanceof BlockSlab)
+			else if(props.containsKey(BlockSlab.HALF))
 				setState = setState.withProperty(BlockSlab.HALF, half == 1 ? BlockSlab.EnumBlockHalf.TOP : BlockSlab.EnumBlockHalf.BOTTOM);
 		}
 		
