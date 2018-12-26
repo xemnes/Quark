@@ -6,6 +6,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItemFrame;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.IItemPropertyGetter;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
@@ -34,8 +35,9 @@ public class CompassAngleGetter implements IItemPropertyGetter {
 		boolean nether = player.world.provider.getDimensionType() == DimensionType.NETHER; 
 		if(calculated) {
 			boolean wasInNether = ItemNBTHelper.getBoolean(stack, TAG_WAS_IN_NETHER, false);
-			if(nether && !wasInNether) {
-				BlockPos pos = player.getPosition();
+			BlockPos pos = player.getPosition();
+			boolean isInPortal = player.world.getBlockState(pos).getBlock() == Blocks.PORTAL;
+			if(nether && !wasInNether && isInPortal) {
 				ItemNBTHelper.setInt(stack, TAG_NETHER_TARGET_X, pos.getX());
 				ItemNBTHelper.setInt(stack, TAG_NETHER_TARGET_Z, pos.getZ());
 				ItemNBTHelper.setBoolean(stack, TAG_WAS_IN_NETHER, true);
