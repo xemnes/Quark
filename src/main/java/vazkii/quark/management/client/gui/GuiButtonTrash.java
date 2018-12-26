@@ -21,13 +21,15 @@ public class GuiButtonTrash extends GuiButton implements IParentedGui {
 
 	public final GuiScreen parent;
 	public final int shiftX, shiftY;
+	final boolean needsShift;
 	public boolean ready;
 
-	public GuiButtonTrash(GuiScreen parent, int id, int shiftX, int shiftY) {
+	public GuiButtonTrash(GuiScreen parent, int id, int shiftX, int shiftY, boolean needsShift) {
 		super(id, 0, 0, 16, 16, "");
 		this.parent = parent;
 		this.shiftX = shiftX;
 		this.shiftY = shiftY;
+		this.needsShift = needsShift;
 	}
 	
 	@Override
@@ -38,22 +40,30 @@ public class GuiButtonTrash extends GuiButton implements IParentedGui {
 		int u = 0;
 		int v = 192;
 		
+		boolean canDelete = false;
+		boolean open = false;
+		
 		if(parent instanceof GuiContainer) {
 			EntityPlayer player = par1Minecraft.player;
 			ItemStack hovered = player.inventory.getItemStack();
-			if(DeleteItems.canItemBeDeleted(hovered)) {
+			canDelete = DeleteItems.canItemBeDeleted(hovered);
+			open = canDelete && (!needsShift || parent.isShiftKeyDown());
+			
+			if(open)
 				u += 16;
-			}
 		}
 		
 		par1Minecraft.renderEngine.bindTexture(LibMisc.GENERAL_ICONS_RESOURCE);
 		GlStateManager.color(1F, 1F, 1F, 1F);
 		drawIcon(u, v);
 		
-		ready = k == 2 && u != 0;
-		if(ready) {
+		ready = false;
+		if(k == 2 && canDelete) {
+			if(open)
+				ready = true;
+			
 			GlStateManager.pushMatrix();
-			String tooltip = I18n.translateToLocal("quarkmisc.trashButtonOpen"); 
+			String tooltip = I18n.translateToLocal(open ? "quarkmisc.trashButtonOpen" : "quarkmisc.trashButtonShift"); 
 			int len = Minecraft.getMinecraft().fontRenderer.getStringWidth(tooltip);
 			int tooltipShift = 2;
 			List<String> tooltipList = Arrays.asList(new String[]{ tooltip });

@@ -33,7 +33,7 @@ public class DeleteItems extends Feature {
 	boolean mouseDown = false;
 	GuiButtonTrash trash;
 
-	boolean trashButton, playerInvOnly;
+	boolean trashButton, playerInvOnly, needsShift;
 	int trashButtonX, trashButtonY;
 
 	@Override
@@ -42,6 +42,7 @@ public class DeleteItems extends Feature {
 		playerInvOnly = loadPropBool("Trash Button only on Player Inventory", "", false);
 		trashButtonX = loadPropInt("Trash Button X", "", 3);
 		trashButtonY = loadPropInt("Trash Button Y", "", -25);
+		needsShift = loadPropBool("Trash Button Needs Shift", "", true);
 	}
 
 	@SubscribeEvent
@@ -61,7 +62,7 @@ public class DeleteItems extends Feature {
 			int guiWidth = guiInv.getXSize();
 			int guiHeight = guiInv.getYSize();
 
-			trash = new GuiButtonTrash(guiInv, 82424, guiWidth, guiHeight + trashButtonY);
+			trash = new GuiButtonTrash(guiInv, 82424, guiWidth, guiHeight + trashButtonY, needsShift);
 			event.getButtonList().add(trash);
 		}
 	}
