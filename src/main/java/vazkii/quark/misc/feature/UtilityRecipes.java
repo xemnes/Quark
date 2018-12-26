@@ -37,18 +37,24 @@ public class UtilityRecipes extends Feature {
 					'R', "dustRedstone");
 		
 		if(enableMinecarts) {
-			addMinecart(Blocks.CHEST, Items.CHEST_MINECART);
-			addMinecart(Blocks.FURNACE, Items.FURNACE_MINECART);
-			addMinecart(Blocks.HOPPER, Items.HOPPER_MINECART);
-			addMinecart(Blocks.TNT, Items.TNT_MINECART);
+			addMinecartBlock(Blocks.CHEST, Items.CHEST_MINECART);
+			addMinecartBlock(Blocks.FURNACE, Items.FURNACE_MINECART);
+			addMinecartBlock(Blocks.HOPPER, Items.HOPPER_MINECART);
+			addMinecartBlock(Blocks.TNT, Items.TNT_MINECART);
+			
+			addMinecart("chestWood", Items.CHEST_MINECART);
 		}
 	}
 	
-	private void addMinecart(Block block, Item cart) {
+	private void addMinecartBlock(Block block, Item cart) {
+		addMinecart(ProxyRegistry.newStack(block), cart);
+	}
+	
+	private void addMinecart(Object block, Item cart) {
 		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(cart), 
 				"IBI", "III",
 				'I', "ingotIron",
-				'B', ProxyRegistry.newStack(block));
+				'B', block);
 	}
 	
 }
