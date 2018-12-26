@@ -13,6 +13,8 @@ import vazkii.quark.base.module.Module;
 
 public class GuiButtonModule extends GuiButton {
 
+	boolean projectRedCrashing = false;
+	
 	final Module module;
 	
 	public GuiButtonModule(int x, int y, Module module) {
@@ -24,11 +26,16 @@ public class GuiButtonModule extends GuiButton {
 	public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks) {
 		super.drawButton(mc, mouseX, mouseY, partialTicks);
 		
-		if(visible) {
+		if(visible && !projectRedCrashing) {
 			ItemStack stack = module.getIconStack();
 			RenderHelper.enableGUIStandardItemLighting();
 			GlStateManager.enableDepth();
-			mc.getRenderItem().renderItemIntoGUI(stack, x + 6, y + 2);
+			
+			try {
+				mc.getRenderItem().renderItemIntoGUI(stack, x + 6, y + 2);
+			} catch(NullPointerException e) {
+				projectRedCrashing = true;
+			}
 		}
 	}
 	
