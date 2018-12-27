@@ -61,9 +61,24 @@ public class ExtraPotions extends Feature {
 		enableDangerSight = loadPropBool("Enable Danger Sight Potion", "", true);
 		forceQuartzForResistance = loadPropBool("Force Quartz for Resistance", "Always use Quartz instead of Biotite, even if Biotite is available.", false);
 		forceClownfishForDangerSight = loadPropBool("Force Clownfish for Danger Sight", "Always use Clownfish instead of Glowshroom, even if Glowshroom is available.", forceClownfishForDangerSight);
-		
-		// TODO document
-		replacements = loadPropStringList("Beacon Replacements", "", new String[0]);
+	
+		String comment = "A list of potentially context sensitive replacements to apply to the beacon effect list.\n"
+				+ "This system allows the potion effects in a beacon to change based on if there's specific blocks on top of the pyramid at the same layer as the beacon.\n"
+				+ "Lines are processed in the order you add them.\n"
+				+ "Each line is a comma separated list in the following format:\n"
+				+ "block,meta,layer,index,potion\n\n"
+				+ ""
+				+ "Each value is as follows:\n"
+				+ "block: A block ID of a block to check against when applying this replacement. You can leave this empty if you always want to apply the replacement\n"
+				+ "meta: The metadata of the block to check against, or -1 if any metadata will work. You must include this even if block is empty\n"
+				+ "layer: The layer of the beacon that contains the effect you want to replace (range: 0-3)\n"
+				+ "index: The effect in that layer you want to replace (range: 0-1, just 0 if it's layers 2 or 3)\n"
+				+ "potion: The ID for the potion to replace. Note: modded potions won't dispay the icons properly\n\n"
+				+ ""
+				+ "Examples:\n"
+				+ "minecraft:sea_lantern,-1,0,1,minecraft:water_breathing -> Replace Haste with Water Breathing if there's a Sea Lantern next to the beacon\n"
+				+ ",-1,1,0,minecraft:levitation -> Always replace Resistance with Levitation";
+		replacements = loadPropStringList("Beacon Replacements", comment, new String[0]);
 		
 		if(started)
 			BeaconReplacementHandler.parse(replacements);

@@ -91,7 +91,7 @@ public final class BeaconReplacementHandler {
 				int effect = Integer.parseInt(tokens[3]);
 				Potion potion = Potion.getPotionFromResourceLocation(tokens[4]);
 				
-				if(block == null || potion == null || effect < 0 || effect > 1 || layer < 0 || layer > 3)
+				if(potion == null || effect < 0 || effect > 1 || layer < 0 || layer > 3)
 					return null;
 				
 				return new Replacer(block, meta, layer, effect, potion);
@@ -101,7 +101,7 @@ public final class BeaconReplacementHandler {
 		}
 		
 		public void replace(IBlockState stateAt) {
-			if(stateAt.getBlock() == block && (meta == -1 || block.getMetaFromState(stateAt) == meta))
+			if(block == null || (stateAt.getBlock() == block && (meta == -1 || block.getMetaFromState(stateAt) == meta)))
 				TileEntityBeacon.EFFECTS_LIST[layer][effect] = potion;
 		}
 		
