@@ -3,9 +3,11 @@ package vazkii.quark.misc.feature;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.inventory.GuiBeacon;
 import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
 import net.minecraft.init.PotionTypes;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
@@ -13,21 +15,28 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.potion.PotionHelper;
 import net.minecraft.potion.PotionType;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityBeacon;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.GuiOpenEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreIngredient;
 import vazkii.arl.util.ProxyRegistry;
+import vazkii.quark.base.handler.BeaconReplacementHandler;
 import vazkii.quark.base.lib.LibMisc;
+import vazkii.quark.base.lib.LibObfuscation;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.base.potion.PotionMod;
@@ -37,9 +46,13 @@ import vazkii.quark.world.feature.UndergroundBiomes;
 public class ExtraPotions extends Feature {
 
 	public static Potion dangerSight;
+	
+	private boolean started = false;
 
 	boolean enableHaste, enableResistance, enableDangerSight;
 	boolean forceQuartzForResistance, forceClownfishForDangerSight;
+	
+	String[] replacements;
 
 	@Override
 	public void setupConfig() {
@@ -48,6 +61,14 @@ public class ExtraPotions extends Feature {
 		enableDangerSight = loadPropBool("Enable Danger Sight Potion", "", true);
 		forceQuartzForResistance = loadPropBool("Force Quartz for Resistance", "Always use Quartz instead of Biotite, even if Biotite is available.", false);
 		forceClownfishForDangerSight = loadPropBool("Force Clownfish for Danger Sight", "Always use Clownfish instead of Glowshroom, even if Glowshroom is available.", forceClownfishForDangerSight);
+		
+		// TODO document
+		replacements = loadPropStringList("Beacon Replacements", "", new String[0]);
+		
+		if(started)
+			BeaconReplacementHandler.parse(replacements);
+		
+		started = true;
 	}
 
 	@Override
@@ -66,6 +87,11 @@ public class ExtraPotions extends Feature {
 		}
 	}
 	
+	@Override
+	public void postInit(FMLPostInitializationEvent event) {
+		BeaconReplacementHandler.parse(replacements);
+	}
+	
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void clientTick(ClientTickEvent event) {
@@ -82,6 +108,18 @@ public class ExtraPotions extends Feature {
 		        	float z = pos.getZ() + 0.3F + world.rand.nextFloat() * 0.4F;
 		            world.spawnParticle(EnumParticleTypes.SPELL_MOB, x, y, z, world.rand.nextFloat() < 0.9 ? 0 : 1, 0, 0);	
 				}
+		}
+	}
+	
+	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
+	public void onGuiOpen(GuiOpenEvent event) {
+		if(event.getGui() instanceof GuiBeacon) {
+			Minecraft mc = Minecraft.getMinecraft();
+			TileEntity lookTe = mc.world.getTileEntity(mc.objectMouseOver.getBlockPos());
+			
+			if(lookTe instanceof TileEntityBeacon)
+				BeaconReplacementHandler.update((TileEntityBeacon) lookTe);
 		}
 	}
 	

@@ -72,4 +72,10 @@ public final class LibObfuscation {
 	// RecipeToast
 	public static final String[] RECIPES_OUTPUTS = new String[] { "c", "field_193666_c", "recipesOutputs" };
 	
+	// TileEntityBeacon 
+	public static final String[] VALID_EFFECTS = new String[] { "f", "field_184280_f", "VALID_EFFECTS" };
+
+	// GuiBeacon
+	public static final String[] TILE_BEACON = new String[] { "x", "field_147024_w", "tileBeacon" };
+	
 }
