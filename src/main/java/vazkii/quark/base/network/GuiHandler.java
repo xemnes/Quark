@@ -20,7 +20,10 @@ import net.minecraftforge.fml.common.network.IGuiHandler;
 import vazkii.quark.base.lib.LibGuiIDs;
 import vazkii.quark.misc.client.gui.GuiNoteBlock;
 import vazkii.quark.oddities.client.gui.GuiBackpackInventory;
+import vazkii.quark.oddities.client.gui.GuiMatrixEnchanting;
 import vazkii.quark.oddities.inventory.ContainerBackpack;
+import vazkii.quark.oddities.inventory.ContainerMatrixEnchanting;
+import vazkii.quark.oddities.tile.TileMatrixEnchanter;
 
 public class GuiHandler implements IGuiHandler {
 
@@ -28,6 +31,7 @@ public class GuiHandler implements IGuiHandler {
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		switch(ID) {
 		case LibGuiIDs.BACKPACK: return new ContainerBackpack(player);
+		case LibGuiIDs.MATRIX_ENCHANTING: return new ContainerMatrixEnchanting(player.inventory, (TileMatrixEnchanter) world.getTileEntity(new BlockPos(x, y, z)));
 		}
 		
 		return null;
@@ -39,6 +43,7 @@ public class GuiHandler implements IGuiHandler {
 		case LibGuiIDs.SIGN: return new GuiEditSign((TileEntitySign) world.getTileEntity(new BlockPos(x, y, z)));
 		case LibGuiIDs.NOTE_BLOCK: return new GuiNoteBlock((TileEntityNote) world.getTileEntity(new BlockPos(x, y, z)));
 		case LibGuiIDs.BACKPACK: return new GuiBackpackInventory(player);
+		case LibGuiIDs.MATRIX_ENCHANTING: return new GuiMatrixEnchanting(player.inventory, (TileMatrixEnchanter) world.getTileEntity(new BlockPos(x, y, z)));
 		}
 		return null;
 	}

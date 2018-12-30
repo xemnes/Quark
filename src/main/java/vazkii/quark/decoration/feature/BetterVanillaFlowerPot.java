@@ -21,6 +21,7 @@ import vazkii.quark.decoration.client.state.FlowerPotStateMapper;
 public class BetterVanillaFlowerPot extends Feature {
 
 	private static BlockCustomFlowerPot flowerPot;
+	
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
 		flowerPot = new BlockCustomFlowerPot();
