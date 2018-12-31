@@ -5,7 +5,7 @@ import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.decoration.block.BlockCustomFlowerPot;
 import vazkii.quark.oddities.block.BlockEnchantingTableReplacement;
-import vazkii.quark.oddities.tile.TileMatrixEnchanter;
+import vazkii.quark.oddities.tile.TileMatrixEnchanterBase;
 import vazkii.quark.oddities.tile.TilePipe;
 
 public class MatrixEnchanting extends Feature {
@@ -19,7 +19,7 @@ public class MatrixEnchanting extends Feature {
 		enchantingTable.setUnlocalizedName("enchantmentTable");
 		ProxyRegistry.register(enchantingTable);
 		
-		registerTile(TileMatrixEnchanter.class, "matrix_enchanter");
+		registerTile(TileMatrixEnchanterBase.class, "matrix_enchanter");
 	}
 	
 	@Override

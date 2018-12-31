@@ -6,6 +6,8 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.oddities.inventory.ContainerMatrixEnchanting;
+import vazkii.quark.oddities.inventory.EnchantmentMatrix;
+import vazkii.quark.oddities.inventory.EnchantmentMatrix.Piece;
 import vazkii.quark.oddities.tile.TileMatrixEnchanter;
 
 public class GuiMatrixEnchanting extends GuiContainer {
@@ -34,6 +36,10 @@ public class GuiMatrixEnchanting extends GuiContainer {
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		fontRenderer.drawString(enchanter.getDisplayName().getUnformattedText(), 12, 5, 4210752);
 		fontRenderer.drawString(playerInv.getDisplayName().getUnformattedText(), 8, ySize - 96 + 2, 4210752);
+		
+		EnchantmentMatrix matrix = enchanter.matrix;
+		if(matrix != null)
+			renderMatrixGrid(matrix);
 	}
 	
 	@Override
@@ -42,5 +48,35 @@ public class GuiMatrixEnchanting extends GuiContainer {
         super.drawScreen(mouseX, mouseY, partialTicks);
         renderHoveredToolTip(mouseX, mouseY);
     }
+	
+	private void renderMatrixGrid(EnchantmentMatrix matrix) {
+		int i = 0;
+		
+        mc.getTextureManager().bindTexture(BACKGROUND);
+		for(Piece p : matrix.pieces.values()) {
+			GlStateManager.pushMatrix();
+			GlStateManager.translate(96, 31, 0);
+			renderPiece(p);
+			GlStateManager.popMatrix();
+			
+			i++;
+		}
+	}
+	
+	private void renderPiece(Piece piece) {
+		float r = (float) ((piece.color >> 16) & 0xFF) / 255F;
+		float g = (float) ((piece.color >> 8) & 0xFF) / 255F;
+		float b = (float) (piece.color & 0xFF) / 255F;
+		GlStateManager.color(r, g, b);
+		
+		for(int[] block : piece.blocks)
+			renderBlock(block[0], block[1], piece.type);
+		
+		GlStateManager.color(1F, 1F, 1F);
+	}
+	
+	private void renderBlock(int x, int y, int type) {
+        drawTexturedModalRect(x * 10, y * 10, 11 + type * 10, ySize, 10, 10);
+	}
 	
 }

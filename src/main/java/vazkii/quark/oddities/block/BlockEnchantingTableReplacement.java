@@ -4,19 +4,16 @@ import net.minecraft.block.BlockEnchantmentTable;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityEnchantmentTable;
-import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.lib.LibGuiIDs;
 import vazkii.quark.oddities.tile.TileMatrixEnchanter;
+import vazkii.quark.oddities.tile.TileMatrixEnchanterBase;
 
 public class BlockEnchantingTableReplacement extends BlockEnchantmentTable {
 
@@ -43,16 +40,16 @@ public class BlockEnchantingTableReplacement extends BlockEnchantmentTable {
 		if(stack.hasDisplayName()) {
 			TileEntity tileentity = worldIn.getTileEntity(pos);
 
-			if(tileentity instanceof TileMatrixEnchanter)
-				((TileMatrixEnchanter) tileentity).setCustomName(stack.getDisplayName());
+			if(tileentity instanceof TileMatrixEnchanterBase)
+				((TileMatrixEnchanterBase) tileentity).setCustomName(stack.getDisplayName());
 		}
 	}
 
 	public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
 		TileEntity tileentity = worldIn.getTileEntity(pos);
 
-		if(tileentity instanceof TileMatrixEnchanter) {
-			TileMatrixEnchanter enchanter = (TileMatrixEnchanter) tileentity;
+		if(tileentity instanceof TileMatrixEnchanterBase) {
+			TileMatrixEnchanterBase enchanter = (TileMatrixEnchanterBase) tileentity;
 			enchanter.dropItem(0);
 			enchanter.dropItem(1);
 		}
