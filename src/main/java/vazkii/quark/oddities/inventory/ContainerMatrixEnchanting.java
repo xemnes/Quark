@@ -18,7 +18,7 @@ public class ContainerMatrixEnchanting extends Container {
 
     private final List<ItemStack> lapisTypes = OreDictionary.getOres("gemLapis");
 	
-	TileMatrixEnchanter enchanter;
+	public TileMatrixEnchanter enchanter;
 	Random rand;
 	
 	public ContainerMatrixEnchanting(InventoryPlayer playerInv, TileMatrixEnchanter tile) {

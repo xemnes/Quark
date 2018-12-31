@@ -30,16 +30,20 @@ public class EnchantmentMatrix {
 	public List<Integer> benchedPieces = new ArrayList();
 	public List<Integer> placedPieces = new ArrayList();
 	
-	public Piece[][] matrix = new Piece[MATRIX_WIDTH][MATRIX_HEIGHT];
+	public int[][] matrix = new int[MATRIX_WIDTH][MATRIX_HEIGHT];
 	
 	public int count = 0;
 	
-	public EnchantmentMatrix() {
-		generatePiece(); // TODO test
+	private static final Enchantment[] TEST = new Enchantment[] {
+			Enchantments.UNBREAKING, Enchantments.SHARPNESS, Enchantments.KNOCKBACK
+	};
+
+	public boolean canGeneratePiece() {
+		return true; // TODO
 	}
 	
-	public boolean generatePiece() {
-		Enchantment enchant = Enchantments.UNBREAKING; // TODO test
+	public void generatePiece() {
+		Enchantment enchant = TEST[count % TEST.length]; // TODO
 		int level = 1;
 		
 		Piece piece = new Piece(enchant, level, count % PIECE_VARIANTS);
@@ -47,8 +51,10 @@ public class EnchantmentMatrix {
 		pieces.put(count, piece);
 		benchedPieces.add(count);
 		count++;
-		
-		return true;
+	}
+	
+	public int getNewPiecePrice() {
+		return 10; // TODO
 	}
 	
 	public boolean place(int id, int x, int y) {
@@ -127,19 +133,27 @@ public class EnchantmentMatrix {
 	}
 	
 	private void computeMatrix() {
-		matrix = new Piece[MATRIX_WIDTH][MATRIX_HEIGHT];
+		matrix = new int[MATRIX_WIDTH][MATRIX_HEIGHT];
+		
+		for(int i = 0; i < MATRIX_WIDTH; i++)
+			for(int j = 0; j < MATRIX_HEIGHT; j++)
+				matrix[i][j] = -1;
 		
 		for(Integer i : placedPieces) {
 			Piece p = pieces.get(i);
 			for(int[] b : p.blocks)
-				matrix[p.x + b[0]][p.y + b[1]] = p;
+				matrix[p.x + b[0]][p.y + b[1]] = i;
 		}
 	}
 	
 	private boolean canPlace(Piece p, int x, int y) {
-		for(Integer i : placedPieces) {
-			Piece pp = pieces.get(i);
-			if(p.collides(pp, x, y))
+		for(int[] b : p.blocks) {
+			int bx = b[0] + x;
+			int by = b[1] + y;
+			if(bx < 0 || by < 0 || bx >= MATRIX_WIDTH || by >= MATRIX_HEIGHT)
+				return false;
+			
+			if(matrix[bx][by] != -1)
 				return false;
 		}
 		
@@ -156,7 +170,7 @@ public class EnchantmentMatrix {
 	private List<Integer> unpackList(int[] arr) {
 		List<Integer> list = new ArrayList(arr.length);
 		for(int i = 0; i < arr.length; i++)
-			list.set(i, arr[i]);
+			list.add(arr[i]);
 		
 		return list;
 	}
@@ -181,11 +195,11 @@ public class EnchantmentMatrix {
 		Piece(Enchantment enchant, int level, int type) {
 			this.enchant = enchant;
 			this.level = level;
-			this.color = Color.HSBtoRGB(new Random(enchant.getRegistryName().toString().hashCode()).nextFloat(), 0.9F, 1.0F);
+			this.color = Color.HSBtoRGB(new Random(enchant.getRegistryName().toString().hashCode()).nextFloat(), 1F, 1.0F);
 			this.type = type;
 		}
 		
-		public void generateBlocks() {
+		public void generateBlocks() { // TODO
 			int count = 5;
 			blocks = new int[count][2];
 			blocks[0] = new int[] { 0, 0 };
@@ -193,22 +207,6 @@ public class EnchantmentMatrix {
 			blocks[2] = new int[] { 1, 0 };
 			blocks[3] = new int[] { 0, -1 };
 			blocks[4] = new int[] { -1, 0 };
-		}
-		
-		public boolean collides(Piece o, int x, int y) {
-			int ox = x - o.x;
-			int oy = y - o.y;
-
-			for(int[] b : blocks) {
-				int bx = b[0] + ox;
-				int by = b[1] + bx;
-				
-				for(int[] ob : o.blocks)
-					if(bx == ob[0] && by == ob[1])
-						return true;
-			}
-			
-			return false;
 		}
 		
 		public void rotate() {
@@ -223,6 +221,7 @@ public class EnchantmentMatrix {
 			cmp.setInteger(TAG_X, x);
 			cmp.setInteger(TAG_Y, y);
 
+			System.out.println(blocks.length);
 			cmp.setInteger(TAG_BLOCK_COUNT, blocks.length);
 			for(int i = 0; i < blocks.length; i++)
 				cmp.setIntArray(TAG_BLOCK + i, blocks[i]);
@@ -236,7 +235,7 @@ public class EnchantmentMatrix {
 			x = cmp.getInteger(TAG_X);
 			y = cmp.getInteger(TAG_Y);
 			
-			blocks = new int[2][cmp.getInteger(TAG_BLOCK_COUNT)];
+			blocks = new int[cmp.getInteger(TAG_BLOCK_COUNT)][2];
 			for(int i = 0; i < blocks.length; i++)
 				blocks[i] = cmp.getIntArray(TAG_BLOCK + i);
 		}

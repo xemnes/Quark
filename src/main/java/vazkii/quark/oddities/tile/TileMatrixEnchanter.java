@@ -14,8 +14,12 @@ import vazkii.quark.oddities.inventory.EnchantmentMatrix;
 
 public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 
-	private static final String TAG_STACK_MATRIX = "quark:enchantingMatrix";
+	public static final int OPER_ADD = 0;
+	public static final int OPER_PLACE = 1;
+	public static final int OPER_REMOVE = 2;
+	public static final int OPER_ROTATE = 3;
 	
+	private static final String TAG_STACK_MATRIX = "quark:enchantingMatrix";
 	private static final String TAG_MATRIX = "matrix";
 	private static final String TAG_MATRIX_UUID_LESS = "uuidLess";
 	private static final String TAG_MATRIX_UUID_MOST = "uuidMost";
@@ -34,11 +38,41 @@ public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 			loadMatrix(item);
 	}
 	
-	public void apply(Predicate<EnchantmentMatrix> oper) {
+	public void onOperation(EntityPlayer player, int operation, int arg0, int arg1, int arg2) {
+		if(matrix == null)
+			return;
+		
+		switch(operation) {
+		case OPER_ADD:
+			apply(m -> generateAndPay(m, player));
+			break;
+		case OPER_PLACE:
+			apply(m -> m.place(arg0, arg1, arg2));
+			break;
+		case OPER_REMOVE:
+			apply(m -> m.remove(arg0));
+			break;
+		case OPER_ROTATE:
+			apply(m -> m.rotate(arg0));
+			break;
+		}
+	}
+	
+	private void apply(Predicate<EnchantmentMatrix> oper) {
 		if(oper.test(matrix)) {
 			ItemStack item = getStackInSlot(0);
 			commitMatrix(item);
 		}
+	}
+	
+	private boolean generateAndPay(EnchantmentMatrix matrix, EntityPlayer player) {
+		ItemStack lapis = getStackInSlot(1);
+		if(lapis.getCount() > 0) { // TODO test if matrix can and make player pay xp
+			lapis.shrink(1);
+			matrix.generatePiece();
+		}
+		
+		return true;
 	}
 	
 	private void loadMatrix(ItemStack stack) {
@@ -53,11 +87,15 @@ public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 	}
 	
 	private void commitMatrix(ItemStack stack) {
+		if(world.isRemote)
+			return;
+		
 		NBTTagCompound cmp = new NBTTagCompound();
 		matrix.writeToNBT(cmp);
 		ItemNBTHelper.setCompound(stack, TAG_STACK_MATRIX, cmp);
 		
 		makeUUID();
+		sync();
 	}
 	
 	private void makeUUID() {
@@ -89,9 +127,10 @@ public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 			UUID newId = new UUID(most, least);
 			
 			if(matrixId == null || !newId.equals(matrixId)) {
+				NBTTagCompound matrixCmp = cmp.getCompoundTag(TAG_MATRIX);
 				matrixId = newId;
 				matrix = new EnchantmentMatrix();
-				matrix.readFromNBT(cmp);
+				matrix.readFromNBT(matrixCmp);
 			}
 		} else matrix = null;
 	}

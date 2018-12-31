@@ -3,10 +3,8 @@ package vazkii.quark.oddities.feature;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.module.Feature;
-import vazkii.quark.decoration.block.BlockCustomFlowerPot;
 import vazkii.quark.oddities.block.BlockEnchantingTableReplacement;
-import vazkii.quark.oddities.tile.TileMatrixEnchanterBase;
-import vazkii.quark.oddities.tile.TilePipe;
+import vazkii.quark.oddities.tile.TileMatrixEnchanter;
 
 public class MatrixEnchanting extends Feature {
 
@@ -19,7 +17,7 @@ public class MatrixEnchanting extends Feature {
 		enchantingTable.setUnlocalizedName("enchantmentTable");
 		ProxyRegistry.register(enchantingTable);
 		
-		registerTile(TileMatrixEnchanterBase.class, "matrix_enchanter");
+		registerTile(TileMatrixEnchanter.class, "matrix_enchanter");
 	}
 	
 	@Override
