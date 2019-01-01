@@ -54,6 +54,7 @@ public class ItemBackpack extends ItemModArmor implements IQuarkItem, IItemColor
 	public ItemBackpack() {
 		super("backpack", ArmorMaterial.LEATHER, 0, EntityEquipmentSlot.CHEST);
 		setCreativeTab(CreativeTabs.TOOLS);
+		setMaxDamage(0);
 		
 		addPropertyOverride(new ResourceLocation("has_items"), (stack, world, entity) -> (!Backpacks.superOpMode && doesBackpackHaveItems(stack)) ? 1 : 0);
 	}
