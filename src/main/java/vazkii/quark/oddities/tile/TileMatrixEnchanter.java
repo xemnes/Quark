@@ -39,8 +39,10 @@ public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 	}
 	
 	public void onOperation(EntityPlayer player, int operation, int arg0, int arg1, int arg2) {
+		System.out.println("oper " + operation);
 		if(matrix == null)
 			return;
+	System.out.println("ack");
 		
 		switch(operation) {
 		case OPER_ADD:
