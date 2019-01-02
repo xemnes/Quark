@@ -1,13 +1,10 @@
 package vazkii.quark.oddities.client.gui;
 
-import java.awt.peer.ListPeer;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.lwjgl.input.Mouse;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -20,6 +17,7 @@ import vazkii.arl.network.NetworkHandler;
 import vazkii.arl.util.ClientTicker;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.base.network.message.MessageMatrixEnchanterOperation;
+import vazkii.quark.oddities.client.gui.button.GuiButtonMatrixEnchantingPlus;
 import vazkii.quark.oddities.inventory.ContainerMatrixEnchanting;
 import vazkii.quark.oddities.inventory.EnchantmentMatrix;
 import vazkii.quark.oddities.inventory.EnchantmentMatrix.Piece;
@@ -27,11 +25,12 @@ import vazkii.quark.oddities.tile.TileMatrixEnchanter;
 
 public class GuiMatrixEnchanting extends GuiContainer {
 
-	private static final ResourceLocation BACKGROUND = new ResourceLocation(LibMisc.MOD_ID, "textures/misc/matrix_enchanting.png");
+	public static final ResourceLocation BACKGROUND = new ResourceLocation(LibMisc.MOD_ID, "textures/misc/matrix_enchanting.png");
 
 	InventoryPlayer playerInv;
 	TileMatrixEnchanter enchanter;
 	
+	GuiButton plusButton;
 	PieceList pieceList;
 	
 	int selectedPiece = -1;
@@ -49,8 +48,13 @@ public class GuiMatrixEnchanting extends GuiContainer {
 		super.initGui();
 		
 		selectedPiece = -1;
-		addButton(new GuiButton(0, guiLeft, guiTop - 24, 40, 20, "Add"));
+		addButton(plusButton = new GuiButtonMatrixEnchantingPlus(guiLeft + 86, guiTop + 63));
 		pieceList = new PieceList(this, 29, 64, guiTop + 11, guiLeft + 139, 22);
+	}
+	
+	@Override
+	public void updateScreen() {
+		plusButton.enabled = (enchanter.matrix != null && !enchanter.getStackInSlot(1).isEmpty());
 	}
 
 	@Override
@@ -120,8 +124,8 @@ public class GuiMatrixEnchanting extends GuiContainer {
 				remove(hover);
 				selectedPiece = hover;
 			}
-		}
-		
+		} else if(mouseButton == 1 && selectedPiece != -1)
+			rotate(selectedPiece);
 	}
 	
 	private void renderMatrixGrid(EnchantmentMatrix matrix) {
@@ -139,10 +143,14 @@ public class GuiMatrixEnchanting extends GuiContainer {
 		
 		if(selectedPiece != -1 && gridHoverX != -1) {
 			Piece piece = getPiece(selectedPiece);
-			if(piece != null && matrix.canPlace(piece, gridHoverX, gridHoverY)) {
+			if(piece != null) {
 				GlStateManager.pushMatrix();
 				GlStateManager.translate(gridHoverX * 10, gridHoverY * 10, 0);
-				float a = (float) ((Math.sin(ClientTicker.total * 0.2) + 1) * 0.4 + 0.4); 
+				
+				float a = 0.2F;
+				if(matrix.canPlace(piece, gridHoverX, gridHoverY))
+					a = (float) ((Math.sin(ClientTicker.total * 0.2) + 1) * 0.4 + 0.4);
+				
 				renderPiece(piece, a);
 				GlStateManager.popMatrix();
 			}
@@ -169,7 +177,8 @@ public class GuiMatrixEnchanting extends GuiContainer {
 	
 	@Override
 	protected void actionPerformed(GuiButton button) throws IOException {
-		add();
+		if(button == plusButton)
+			add();
 	}
 	
 	public void add() {
@@ -185,7 +194,7 @@ public class GuiMatrixEnchanting extends GuiContainer {
 	}
 	
 	public void rotate(int id) {
-		send(TileMatrixEnchanter.OPER_REMOVE, id, 0, 0);
+		send(TileMatrixEnchanter.OPER_ROTATE, id, 0, 0);
 	}
 	
 	private void send(int operation, int arg0, int arg1, int arg2) {

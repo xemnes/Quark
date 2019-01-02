@@ -35,7 +35,7 @@ public class EnchantmentMatrix {
 	public int count = 0;
 	
 	private static final Enchantment[] TEST = new Enchantment[] {
-			Enchantments.UNBREAKING, Enchantments.SHARPNESS, Enchantments.KNOCKBACK
+			Enchantments.UNBREAKING, Enchantments.SHARPNESS, Enchantments.KNOCKBACK, Enchantments.FIRE_ASPECT, Enchantments.LOOTING, Enchantments.FORTUNE
 	};
 	
 	public EnchantmentMatrix() {
@@ -94,6 +94,7 @@ public class EnchantmentMatrix {
 		Piece p = pieces.get(id);
 		if(p != null && benchedPieces.contains(id)) {
 			p.rotate();
+			System.out.println("rotated");
 			return true;
 		}
 		
@@ -180,6 +181,22 @@ public class EnchantmentMatrix {
 	}
 	
 	public static class Piece {
+		
+		// TODO one of these has a disconnected piece
+		private static final int[][][] PIECE_TYPES = new int[][][] {
+			{{0,0},	{-1,0},	{1,0},	{0,-1},	{0,1}}, // Plus
+			{{0,0},	{-1,0},	{1,0},	{-1,-1},{0,-1}}, // Block
+			{{0,0},	{-1,0},	{1,0},	{-1,1},	{1,1}}, // U
+			{{0,0}, {-1,0},	{1,0},	{-1,-1},{1,1}}, // S
+			{{0,0}, {-1,0},	{1,0},	{1,-1},	{1,1}}, // T
+			{{0,0}, {-1,0},	{1,0},	{0,-1},	{1,1}}, // Twig
+			{{0,0}, {-1,0},	{0,-1},	{-1,-1},{1,1}}, // Squiggle
+			{{0,0},	{-1,0},	{1,0},	{0,-1},	{0,1},	{1,1}}, // Fish
+			{{0,0}, {-1,0},	{0,-1},	{-1,-1},{-1,1},	{1,-1}}, // Stairs
+			{{-1,0},{0,-1},	{1,0},	{-1,-1},{-1,1},	{1,1}}, // J
+			{{0,0},{-1,0},	{1,0},	{-1,-1},{1,-1},	{1,1}}, // H
+			{{0,0},	{-1,0},	{1,0},	{0,-1},	{-1,-1}, {1,1}} // weird block thing idk
+		};
 
 		private static final String TAG_COLOR = "color";
 		private static final String TAG_TYPE = "type";
@@ -203,18 +220,29 @@ public class EnchantmentMatrix {
 			this.type = type;
 		}
 		
-		public void generateBlocks() { // TODO
-			int count = 5;
-			blocks = new int[count][2];
-			blocks[0] = new int[] { 0, 0 };
-			blocks[1] = new int[] { 0, 1 };
-			blocks[2] = new int[] { 1, 0 };
-			blocks[3] = new int[] { 0, -1 };
-			blocks[4] = new int[] { -1, 0 };
+		public void generateBlocks() {
+			int type = (int) (Math.random() * PIECE_TYPES.length);
+			int[][] copyPieces = PIECE_TYPES[type];
+			blocks = new int[copyPieces.length][2];
+			
+			for(int i = 0; i < blocks.length; i++) {
+				blocks[i][0] = copyPieces[i][0]; 
+				blocks[i][1] = copyPieces[i][1];
+			}
+			
+			int rotations = (int) (Math.random() * 4);
+			for(int i = 0; i < rotations; i++)
+				rotate();
 		}
 		
 		public void rotate() {
-			// TODO
+			for(int i = 0; i < blocks.length; i++) {
+				int[] b = blocks[i];
+				int x = b[0];
+				int y = b[1];
+				b[0] = y;
+				b[1] = -x;
+			}
 		}
 		
 		public void writeToNBT(NBTTagCompound cmp) {
@@ -246,3 +274,4 @@ public class EnchantmentMatrix {
 	}	
 	
 }
+
