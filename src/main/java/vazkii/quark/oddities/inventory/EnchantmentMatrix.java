@@ -94,7 +94,6 @@ public class EnchantmentMatrix {
 		Piece p = pieces.get(id);
 		if(p != null && benchedPieces.contains(id)) {
 			p.rotate();
-			System.out.println("rotated");
 			return true;
 		}
 		

@@ -1,6 +1,7 @@
 package vazkii.quark.oddities.client.gui;
 
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.lwjgl.input.Mouse;
@@ -12,6 +13,8 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.fml.client.GuiScrollingList;
 import vazkii.arl.network.NetworkHandler;
 import vazkii.arl.util.ClientTicker;
@@ -32,6 +35,7 @@ public class GuiMatrixEnchanting extends GuiContainer {
 	
 	GuiButton plusButton;
 	PieceList pieceList;
+	Piece hoveredPiece;
 	
 	int selectedPiece = -1;
 	int gridHoverX, gridHoverY;
@@ -50,11 +54,13 @@ public class GuiMatrixEnchanting extends GuiContainer {
 		selectedPiece = -1;
 		addButton(plusButton = new GuiButtonMatrixEnchantingPlus(guiLeft + 86, guiTop + 63));
 		pieceList = new PieceList(this, 29, 64, guiTop + 11, guiLeft + 139, 22);
+		updateButtonStatus();
 	}
 	
 	@Override
 	public void updateScreen() {
-		plusButton.enabled = (enchanter.matrix != null && !enchanter.getStackInSlot(1).isEmpty());
+		super.updateScreen();
+		updateButtonStatus();
 	}
 
 	@Override
@@ -87,7 +93,15 @@ public class GuiMatrixEnchanting extends GuiContainer {
             pieceList.drawScreen(mouseX, mouseY, ClientTicker.partialTicks);
         }
         
-        renderHoveredToolTip(mouseX, mouseY);
+        if(hoveredPiece != null) {
+        	List<String> tooltip = new LinkedList();
+        	tooltip.add(hoveredPiece.enchant.getTranslatedName(hoveredPiece.level));
+        	if(gridHoverX == -1) {
+        		tooltip.add(TextFormatting.GRAY + I18n.translateToLocal("quarkmisc.matrixLeftClick"));
+        		tooltip.add(TextFormatting.GRAY + I18n.translateToLocal("quarkmisc.matrixRightClick"));
+        	}
+        	drawHoveringText(tooltip, mouseX, mouseY);
+        } else renderHoveredToolTip(mouseX, mouseY);
     }
 	
 	@Override
@@ -101,11 +115,15 @@ public class GuiMatrixEnchanting extends GuiContainer {
 		int gridMouseX = mouseX - guiLeft - 86;
 		int gridMouseY = mouseY - guiTop - 11;
 		
-		gridHoverX = gridMouseX / 10;
-		gridHoverY = gridMouseY / 10;
+		gridHoverX = gridMouseX < 0 ? -1 : gridMouseX / 10;
+		gridHoverY = gridMouseY < 0 ? -1 : gridMouseY / 10;
 		if(gridHoverX < 0 || gridHoverX > 4 || gridHoverY < 0 || gridHoverY > 4) {
 			gridHoverX = -1;
 			gridHoverY = -1;
+			hoveredPiece = null;
+		} else {
+			int hover = enchanter.matrix.matrix[gridHoverX][gridHoverY];
+			hoveredPiece = getPiece(hover);
 		}
 		
 		super.handleMouseInput();
@@ -202,6 +220,10 @@ public class GuiMatrixEnchanting extends GuiContainer {
 		NetworkHandler.INSTANCE.sendToServer(message);
 	}
 	
+	private void updateButtonStatus() {
+		plusButton.enabled = (enchanter.matrix != null && !enchanter.getStackInSlot(1).isEmpty());
+	}
+	
 	private Piece getPiece(int id) {
 		EnchantmentMatrix matrix = enchanter.matrix;
 		if(matrix != null)
@@ -213,6 +235,7 @@ public class GuiMatrixEnchanting extends GuiContainer {
 	public static class PieceList extends GuiScrollingList {
 
 		private GuiMatrixEnchanting parent;
+		private int mouseX, mouseY;
 		
 		public PieceList(GuiMatrixEnchanting parent, int width, int height, int top, int left, int entryHeight) {
 			super(parent.mc, width, height, top, top + height, left, entryHeight, parent.width, parent.height);
@@ -240,7 +263,14 @@ public class GuiMatrixEnchanting extends GuiContainer {
 
 		@Override
 		protected void drawBackground() {
-			
+			// NO-OP
+		}
+		
+		@Override
+		public void handleMouseInput(int mouseX, int mouseY) throws IOException {
+			super.handleMouseInput(mouseX, mouseY);
+			this.mouseX = mouseX;
+			this.mouseY = mouseY;
 		}
 
 		@Override
@@ -256,6 +286,9 @@ public class GuiMatrixEnchanting extends GuiContainer {
 				GlStateManager.translate(-4, -8, 0);
 				parent.renderPiece(piece, 1F);
 				GlStateManager.popMatrix();
+				
+				if(mouseX >= left && mouseX < left + listWidth - 7 && mouseY >= slotTop && mouseY <= slotTop + slotHeight && mouseY < bottom)
+					parent.hoveredPiece = piece;
 			}
 		}
 		

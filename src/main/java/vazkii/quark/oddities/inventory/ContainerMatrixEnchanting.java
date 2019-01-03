@@ -39,12 +39,6 @@ public class ContainerMatrixEnchanting extends Container {
             public boolean isItemValid(ItemStack stack) {
                 return isLapis(stack);
             }
-            
-            @Override
-            public ItemStack onTake(EntityPlayer thePlayer, ItemStack stack) {
-            	finish();
-            	return super.onTake(thePlayer, stack);
-            }
         });
         
         // Output Slot
@@ -52,6 +46,12 @@ public class ContainerMatrixEnchanting extends Container {
         	@Override
         	public boolean isItemValid(ItemStack stack) {
         		return false;
+        	}
+        	
+        	@Override
+        	public ItemStack onTake(EntityPlayer thePlayer, ItemStack stack) {
+        		finish();
+        		return super.onTake(thePlayer, stack);
         	}
         });
 
@@ -72,7 +72,7 @@ public class ContainerMatrixEnchanting extends Container {
 	}
 	
 	private void finish() {
-		
+		enchanter.setInventorySlotContents(0, ItemStack.EMPTY);
 	}
 
 	@Override

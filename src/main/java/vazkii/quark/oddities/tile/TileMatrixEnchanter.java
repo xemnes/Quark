@@ -1,8 +1,12 @@
 package vazkii.quark.oddities.tile;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 import java.util.function.Predicate;
 
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -11,6 +15,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import vazkii.arl.util.ItemNBTHelper;
 import vazkii.quark.oddities.inventory.ContainerMatrixEnchanting;
 import vazkii.quark.oddities.inventory.EnchantmentMatrix;
+import vazkii.quark.oddities.inventory.EnchantmentMatrix.Piece;
 
 public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 
@@ -25,6 +30,7 @@ public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 	private static final String TAG_MATRIX_UUID_MOST = "uuidMost";
 	
 	public EnchantmentMatrix matrix;
+	private boolean matrixDirty = false;
 	private UUID matrixId;
 	
 	@Override
@@ -32,10 +38,16 @@ public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 		super.update();
 
 		ItemStack item = getStackInSlot(0);
-		if(item.isEmpty())
+		if(item.isEmpty()) {
 			matrix = null;
-		else if(matrix == null)
+			matrixDirty = true;
+		} else
 			loadMatrix(item);
+		
+		if(matrixDirty) {
+			makeOutput();
+			matrixDirty = false;
+		}
 	}
 	
 	public void onOperation(EntityPlayer player, int operation, int arg0, int arg1, int arg2) {
@@ -75,8 +87,29 @@ public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 		return true;
 	}
 	
+	private void makeOutput() {
+		if(world.isRemote)
+			return;
+		
+		setInventorySlotContents(2, ItemStack.EMPTY);
+		ItemStack in = getStackInSlot(0);
+		if(!in.isEmpty() && matrix != null && !matrix.placedPieces.isEmpty()) {
+			ItemStack out = in.copy();
+			Map<Enchantment, Integer> enchantments = new HashMap();
+			
+			for(int i : matrix.placedPieces) {
+				Piece p = matrix.pieces.get(i);
+				enchantments.put(p.enchant, p.level);
+			}
+			EnchantmentHelper.setEnchantments(enchantments, out);
+			setInventorySlotContents(2, out);
+			out.getTagCompound().removeTag(TAG_STACK_MATRIX);
+		}
+	}
+	
 	private void loadMatrix(ItemStack stack) {
 		matrix = new EnchantmentMatrix();
+		matrixDirty = true;
 		makeUUID();
 		
 		if(stack.hasTagCompound() && stack.getTagCompound().hasKey(TAG_STACK_MATRIX)) {
@@ -94,6 +127,7 @@ public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 		matrix.writeToNBT(cmp);
 		ItemNBTHelper.setCompound(stack, TAG_STACK_MATRIX, cmp);
 		
+		matrixDirty = true;
 		makeUUID();
 		sync();
 	}
