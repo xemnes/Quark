@@ -70,6 +70,20 @@ public class GuiMatrixEnchanting extends GuiContainer {
         int i = guiLeft;
         int j = guiTop;
         drawTexturedModalRect(i, j, 0, 0, xSize, ySize);
+        
+        if(enchanter.matrix != null && enchanter.matrix.canGeneratePiece(enchanter.bookshelfPower, enchanter.enchantability)) {
+        	int x = i + 74;
+        	int y = j + 64;
+        	int xpCost = enchanter.matrix.getNewPiecePrice();
+        	boolean has = mc.player.experienceLevel <= xpCost || mc.player.isCreative();
+            drawTexturedModalRect(x, y, 0, ySize, 10, 10);
+            String text = String.valueOf(xpCost);
+            fontRenderer.drawStringWithShadow(text, x - fontRenderer.getStringWidth(text) - 2, y, has ? 0xc8ff8f : 0xff8f8f);
+        }
+        
+        // TODO test
+        fontRenderer.drawStringWithShadow("Bookshelves: " + enchanter.bookshelfPower, i, j - 32, 0xFFFFFF);
+        fontRenderer.drawStringWithShadow("Enchantability: " + enchanter.enchantability, i, j - 22, 0xFFFFFF);
 	}
 
 	@Override
@@ -125,7 +139,7 @@ public class GuiMatrixEnchanting extends GuiContainer {
 			gridHoverX = -1;
 			gridHoverY = -1;
 			hoveredPiece = null;
-		} else {
+		} else if(enchanter.matrix != null) {
 			int hover = enchanter.matrix.matrix[gridHoverX][gridHoverY];
 			hoveredPiece = getPiece(hover);
 		}
@@ -146,7 +160,8 @@ public class GuiMatrixEnchanting extends GuiContainer {
 				else merge(selectedPiece, gridHoverX, gridHoverY);
 			} else {
 				remove(hover);
-				selectedPiece = hover;
+				if(!isShiftKeyDown())
+					selectedPiece = hover;
 			}
 		} else if(mouseButton == 1 && selectedPiece != -1)
 			rotate(selectedPiece);
@@ -226,9 +241,7 @@ public class GuiMatrixEnchanting extends GuiContainer {
 		int hover = enchanter.matrix.matrix[gridHoverX][gridHoverY];
 		Piece p = getPiece(hover);
 		Piece p1 = getPiece(selectedPiece);
-		System.out.println("Merge " + p + " - " + p1);
 		if(p != null && p1 != null && p.enchant == p1.enchant && p.level < p.enchant.getMaxLevel()) {
-			System.out.println("run merge");
 			send(TileMatrixEnchanter.OPER_MERGE, hover, id, 0);
 			selectedPiece = -1;
 		}
@@ -240,7 +253,10 @@ public class GuiMatrixEnchanting extends GuiContainer {
 	}
 	
 	private void updateButtonStatus() {
-		plusButton.enabled = (enchanter.matrix != null && !enchanter.getStackInSlot(1).isEmpty());
+		plusButton.enabled = (enchanter.matrix != null 
+				&& !enchanter.getStackInSlot(1).isEmpty() 
+				&& enchanter.matrix.canGeneratePiece(enchanter.bookshelfPower, enchanter.enchantability)
+				&& (enchanter.matrix.getNewPiecePrice() < mc.player.experienceLevel || mc.player.isCreative()));
 	}
 	
 	private Piece getPiece(int id) {

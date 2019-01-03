@@ -12,6 +12,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.common.ForgeHooks;
 import vazkii.arl.util.ItemNBTHelper;
 import vazkii.quark.oddities.inventory.ContainerMatrixEnchanting;
 import vazkii.quark.oddities.inventory.EnchantmentMatrix;
@@ -34,6 +35,8 @@ public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 	private boolean matrixDirty = false;
 	private UUID matrixId;
 	
+	public int bookshelfPower, enchantability;
+	
 	@Override
 	public void update() {
 		super.update();
@@ -42,8 +45,12 @@ public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 		if(item.isEmpty()) {
 			matrix = null;
 			matrixDirty = true;
-		} else
+		} else {
 			loadMatrix(item);
+			
+			if(world.getTotalWorldTime() % 20 == 0 || matrixDirty)
+				updateEnchantPower();
+		}
 		
 		if(matrixDirty) {
 			makeOutput();
@@ -82,12 +89,22 @@ public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 	}
 	
 	private boolean generateAndPay(EnchantmentMatrix matrix, EntityPlayer player) {
-		ItemStack lapis = getStackInSlot(1);
-		if(lapis.getCount() > 0) { // TODO test if matrix can and make player pay xp
-			lapis.shrink(1);
-			matrix.generatePiece();
+		if(matrix.canGeneratePiece(bookshelfPower, enchantability)) {
+			boolean creative = player.isCreative();
+			int cost = matrix.getNewPiecePrice();
+			if(player.experienceLevel <= cost || creative) {
+				ItemStack lapis = getStackInSlot(1);
+				if(lapis.getCount() > 0 || creative) {
+					if(!creative) {
+						player.addExperienceLevel(-cost);
+						lapis.shrink(1);
+					}
+					
+					matrix.generatePiece();
+				}
+			}
 		}
-		
+				
 		return true;
 	}
 	
@@ -112,15 +129,17 @@ public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 	}
 	
 	private void loadMatrix(ItemStack stack) {
-		matrix = new EnchantmentMatrix();
-		matrixDirty = true;
-		makeUUID();
-		
-		if(stack.hasTagCompound() && stack.getTagCompound().hasKey(TAG_STACK_MATRIX)) {
-			NBTTagCompound cmp = ItemNBTHelper.getCompound(stack, TAG_STACK_MATRIX, true);
-			if(cmp != null)
-				matrix.readFromNBT(cmp);
-		} 
+		if(stack.isItemEnchantable() && matrix == null) {
+			matrix = new EnchantmentMatrix(stack, world.rand);
+			matrixDirty = true;
+			makeUUID();
+			
+			if(stack.hasTagCompound() && stack.getTagCompound().hasKey(TAG_STACK_MATRIX)) {
+				NBTTagCompound cmp = ItemNBTHelper.getCompound(stack, TAG_STACK_MATRIX, true);
+				if(cmp != null)
+					matrix.readFromNBT(cmp);
+			}
+		}
 	}
 	
 	private void commitMatrix(ItemStack stack) {
@@ -139,6 +158,31 @@ public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 	private void makeUUID() {
 		if(!world.isRemote)
 			matrixId = UUID.randomUUID();
+	}
+	
+	private void updateEnchantPower() {
+		ItemStack item = getStackInSlot(0);
+		if(item.isEmpty())
+			return;
+		
+		enchantability = item.getItem().getItemEnchantability(item);
+		
+        float power = 0;
+        for (int j = -1; j <= 1; ++j)
+            for (int k = -1; k <= 1; ++k)
+                if ((j != 0 || k != 0) && world.isAirBlock(pos.add(k, 0, j)) && world.isAirBlock(pos.add(k, 1, j)))
+                {
+                    power += ForgeHooks.getEnchantPower(world, pos.add(k * 2, 0, j * 2));
+                    power += ForgeHooks.getEnchantPower(world, pos.add(k * 2, 1, j * 2));
+                    if (k != 0 && j != 0) {
+                        power += ForgeHooks.getEnchantPower(world, pos.add(k * 2, 0, j));
+                        power += ForgeHooks.getEnchantPower(world, pos.add(k * 2, 1, j));
+                        power += ForgeHooks.getEnchantPower(world, pos.add(k, 0, j * 2));
+                        power += ForgeHooks.getEnchantPower(world, pos.add(k, 1, j * 2));
+                    }
+                }
+        
+        bookshelfPower = (int) power;
 	}
 	
 	@Override
@@ -167,7 +211,7 @@ public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 			if(matrixId == null || !newId.equals(matrixId)) {
 				NBTTagCompound matrixCmp = cmp.getCompoundTag(TAG_MATRIX);
 				matrixId = newId;
-				matrix = new EnchantmentMatrix();
+				matrix = new EnchantmentMatrix(getStackInSlot(0), world.rand);
 				matrix.readFromNBT(matrixCmp);
 			}
 		} else matrix = null;

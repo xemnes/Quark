@@ -2,16 +2,17 @@ package vazkii.quark.oddities.inventory;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
 import net.minecraft.enchantment.Enchantment;
-import net.minecraft.init.Enchantments;
+import net.minecraft.enchantment.EnchantmentData;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.WeightedRandom;
 
 public class EnchantmentMatrix {
 	
@@ -31,34 +32,46 @@ public class EnchantmentMatrix {
 	public List<Integer> placedPieces = new ArrayList();
 	
 	public int[][] matrix;
-	
 	public int count = 0;
+
+	public final ItemStack target;
+	public final Random rng;
 	
-	private static final Enchantment[] TEST = new Enchantment[] {
-			Enchantments.UNBREAKING, Enchantments.SHARPNESS, Enchantments.KNOCKBACK, Enchantments.FIRE_ASPECT, Enchantments.LOOTING, Enchantments.FORTUNE
-	};
-	
-	public EnchantmentMatrix() {
+	public EnchantmentMatrix(ItemStack target, Random rng) {
+		this.target = target;
+		this.rng = rng;
 		computeMatrix();
 	}
 
-	public boolean canGeneratePiece() {
-		return true; // TODO
+	public boolean canGeneratePiece(int bookshelfPower, int enchantability) {
+        int bookshelfCount = (Math.min(bookshelfPower, 15) + 1) / 2;
+		int enchantabilityCount = (Math.min(bookshelfPower, enchantability)) / 2;
+		int maxCount = 1 + bookshelfCount + enchantabilityCount;
+		return count < maxCount; // TODO allow configuring these numbers
 	}
 	
 	public void generatePiece() {
-		Enchantment enchant = TEST[count % TEST.length]; // TODO
-		int level = 1;
-		
-		Piece piece = new Piece(enchant, level, count % PIECE_VARIANTS);
+		EnchantmentData data = generateRandomEnchantment();
+		Piece piece = new Piece(data.enchantment, data.enchantmentLevel, count % PIECE_VARIANTS);
 		piece.generateBlocks();
 		pieces.put(count, piece);
 		benchedPieces.add(count);
 		count++;
 	}
 	
+	private EnchantmentData generateRandomEnchantment() {
+		boolean book = false; // TODO support books
+		
+		List<EnchantmentData> validEnchants = new ArrayList();
+		for(Enchantment enchantment : Enchantment.REGISTRY)
+			if(!enchantment.isTreasureEnchantment() && (enchantment.canApplyAtEnchantingTable(target) || !(book && enchantment.isAllowedOnBooks())))
+				validEnchants.add(new EnchantmentData(enchantment, 1)); // TODO allow higher levels
+
+		return WeightedRandom.getRandomItem(rng, validEnchants);
+	}
+	
 	public int getNewPiecePrice() {
-		return 10; // TODO
+		return count + 1; // TODO make config
 	}
 	
 	public boolean place(int id, int x, int y) {
@@ -208,8 +221,8 @@ public class EnchantmentMatrix {
 			{{0,0}, {-1,0},	{0,-1},	{-1,-1},{1,1}}, // Squiggle
 			{{0,0},	{-1,0},	{1,0},	{0,-1},	{0,1},	{1,1}}, // Fish
 			{{0,0}, {-1,0},	{0,-1},	{-1,-1},{-1,1},	{1,-1}}, // Stairs
-			{{-1,0},{0,-1},	{1,0},	{-1,-1},{-1,1},	{1,1}}, // J
-			{{0,0},{-1,0},	{1,0},	{-1,-1},{1,-1},	{1,1}}, // H
+			{{0,0},	{-1,0},	{0,-1},	{-1,-1},{-1,1},	{1,1}}, // J
+			{{0,0},	{-1,0},	{1,0},	{-1,-1},{1,-1},	{1,1}}, // H
 			{{0,0},	{-1,0},	{1,0},	{0,-1},	{-1,-1}, {1,1}} // weird block thing idk
 		};
 
