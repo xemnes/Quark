@@ -23,7 +23,8 @@ public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 	public static final int OPER_PLACE = 1;
 	public static final int OPER_REMOVE = 2;
 	public static final int OPER_ROTATE = 3;
-	
+	public static final int OPER_MERGE = 4;
+
 	private static final String TAG_STACK_MATRIX = "quark:enchantingMatrix";
 	private static final String TAG_MATRIX = "matrix";
 	private static final String TAG_MATRIX_UUID_LESS = "uuidLess";
@@ -66,6 +67,9 @@ public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 			break;
 		case OPER_ROTATE:
 			apply(m -> m.rotate(arg0));
+			break;
+		case OPER_MERGE:
+			apply(m -> m.merge(arg0, arg1));
 			break;
 		}
 	}

@@ -32,6 +32,7 @@ quarkmisc.patronPlug=Quark is possible thanks to the support of %s and others!
 quarkmisc.supportMessage=Thank you for your support, %s!
 quarkmisc.matrixLeftClick=Left Click to Select
 quarkmisc.matrixRightClick=Right Click to Rotate
+quarkmisc.matrixMerge=Click to Upgrade
 
 # CONFIG STRINGS
 quark.config.title=Quark Configuration

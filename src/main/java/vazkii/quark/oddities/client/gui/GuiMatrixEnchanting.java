@@ -99,6 +99,10 @@ public class GuiMatrixEnchanting extends GuiContainer {
         	if(gridHoverX == -1) {
         		tooltip.add(TextFormatting.GRAY + I18n.translateToLocal("quarkmisc.matrixLeftClick"));
         		tooltip.add(TextFormatting.GRAY + I18n.translateToLocal("quarkmisc.matrixRightClick"));
+        	} else if(selectedPiece != -1) {
+        		Piece p = getPiece(selectedPiece);
+        		if(p.enchant == hoveredPiece.enchant && hoveredPiece.level < hoveredPiece.enchant.getMaxLevel())
+        			tooltip.add(TextFormatting.GRAY + I18n.translateToLocal("quarkmisc.matrixMerge"));
         	}
         	drawHoveringText(tooltip, mouseX, mouseY);
         } else renderHoveredToolTip(mouseX, mouseY);
@@ -134,11 +138,13 @@ public class GuiMatrixEnchanting extends GuiContainer {
 		super.mouseClicked(mouseX, mouseY, mouseButton);
 		
 		if(mouseButton == 0 && gridHoverX != -1) { // left click
+			int hover = enchanter.matrix.matrix[gridHoverX][gridHoverY];
+
 			if(selectedPiece != -1) {
-				place(selectedPiece, gridHoverX, gridHoverY);
-				selectedPiece = -1;
+				if(hover == -1)
+					place(selectedPiece, gridHoverX, gridHoverY);
+				else merge(selectedPiece, gridHoverX, gridHoverY);
 			} else {
-				int hover = enchanter.matrix.matrix[gridHoverX][gridHoverY];
 				remove(hover);
 				selectedPiece = hover;
 			}
@@ -205,6 +211,7 @@ public class GuiMatrixEnchanting extends GuiContainer {
 	
 	public void place(int id, int x, int y) {
 		send(TileMatrixEnchanter.OPER_PLACE, id, x, y);
+		selectedPiece = -1;
 	}
 	
 	public void remove(int id) {
@@ -214,6 +221,18 @@ public class GuiMatrixEnchanting extends GuiContainer {
 	public void rotate(int id) {
 		send(TileMatrixEnchanter.OPER_ROTATE, id, 0, 0);
 	}
+	
+	public void merge(int id, int x, int y) {
+		int hover = enchanter.matrix.matrix[gridHoverX][gridHoverY];
+		Piece p = getPiece(hover);
+		Piece p1 = getPiece(selectedPiece);
+		System.out.println("Merge " + p + " - " + p1);
+		if(p != null && p1 != null && p.enchant == p1.enchant && p.level < p.enchant.getMaxLevel()) {
+			System.out.println("run merge");
+			send(TileMatrixEnchanter.OPER_MERGE, hover, id, 0);
+			selectedPiece = -1;
+		}
+	}	
 	
 	private void send(int operation, int arg0, int arg1, int arg2) {
 		MessageMatrixEnchanterOperation message = new MessageMatrixEnchanterOperation(operation, arg0, arg1, arg2);

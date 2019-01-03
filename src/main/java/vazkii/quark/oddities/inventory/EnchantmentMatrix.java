@@ -100,6 +100,22 @@ public class EnchantmentMatrix {
 		return false;
 	}
 	
+	public boolean merge(int placed, int hover) {
+		Piece placedPiece = pieces.get(placed);
+		Piece hoveredPiece = pieces.get(hover);
+		if(placedPiece != null && hoveredPiece != null && placedPieces.contains(placed) && benchedPieces.contains(hover)) {
+			Enchantment enchant = placedPiece.enchant;
+			if(hoveredPiece.enchant == enchant && placedPiece.level < enchant.getMaxLevel()) {
+				placedPiece.level++;
+				benchedPieces.remove(Integer.valueOf(hover));
+				pieces.remove(hover);
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
 	public void writeToNBT(NBTTagCompound cmp) {
 		NBTTagList list = new NBTTagList();
 		for(Integer i : pieces.keySet()) {
