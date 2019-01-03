@@ -20,95 +20,119 @@ import vazkii.quark.oddities.inventory.ContainerMatrixEnchanting;
 // mostly a copy of TileEntityEnchantmentTable
 public abstract class TileMatrixEnchanterBase extends TileSimpleInventory implements ITickable, IInteractionObject {
 
-    public int tickCount;
-    public float pageFlip, pageFlipPrev, flipT, flipA, bookSpread, bookSpreadPrev, bookRotation, bookRotationPrev, tRot;
-    
-    private static final Random rand = new Random();
-    private String customName;
-	
+	public int tickCount;
+	public float pageFlip, pageFlipPrev, flipT, flipA, bookSpread, bookSpreadPrev, bookRotation, bookRotationPrev, tRot;
+
+	private static final Random rand = new Random();
+	private String customName;
+
 	@Override
 	public int getSizeInventory() {
 		return 3;
 	}
-	
+
 	@Override
 	public boolean isAutomationEnabled() {
 		return false;
 	}
-	
-	@Override
-    public NBTTagCompound writeToNBT(NBTTagCompound compound) {
-        super.writeToNBT(compound);
-
-        if(hasCustomName())
-            compound.setString("CustomName", customName);
-
-        return compound;
-    }
 
 	@Override
-    public void readFromNBT(NBTTagCompound compound) {
-        super.readFromNBT(compound);
+	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+		super.writeToNBT(compound);
 
-        if(compound.hasKey("CustomName", 8))
-            customName = compound.getString("CustomName");
-    }
+		if(hasCustomName())
+			compound.setString("CustomName", customName);
+
+		return compound;
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound compound) {
+		super.readFromNBT(compound);
+
+		if(compound.hasKey("CustomName", 8))
+			customName = compound.getString("CustomName");
+	}
 
 	@Override
 	public void update() {
 		doVanillaUpdateyThings();
-    }
-	
+	}
+
 	private void doVanillaUpdateyThings() {
-		bookSpreadPrev = bookSpread;
-        bookRotationPrev = bookRotation;
-        EntityPlayer entityplayer = world.getClosestPlayer(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 3, false);
+        this.bookSpreadPrev = this.bookSpread;
+        this.bookRotationPrev = this.bookRotation;
+        EntityPlayer entityplayer = this.world.getClosestPlayer((double)((float)this.pos.getX() + 0.5F), (double)((float)this.pos.getY() + 0.5F), (double)((float)this.pos.getZ() + 0.5F), 3.0D, false);
 
-        if(entityplayer != null) {
-            double d0 = entityplayer.posX - pos.getX() + 0.5;
-            double d1 = entityplayer.posZ - pos.getZ() + 0.5;
-            tRot = (float) MathHelper.atan2(d1, d0);
-            bookSpread += 0.1F;
+        if (entityplayer != null)
+        {
+            double d0 = entityplayer.posX - (double)((float)this.pos.getX() + 0.5F);
+            double d1 = entityplayer.posZ - (double)((float)this.pos.getZ() + 0.5F);
+            this.tRot = (float)MathHelper.atan2(d1, d0);
+            this.bookSpread += 0.1F;
 
-            if(bookSpread < 0.5F || rand.nextInt(40) == 0) {
-                float f1 = flipT;
+            if (this.bookSpread < 0.5F || rand.nextInt(40) == 0)
+            {
+                float f1 = this.flipT;
 
-                while(true) {
-                    flipT += rand.nextInt(4) - rand.nextInt(4);
+                while (true)
+                {
+                    this.flipT += (float)(rand.nextInt(4) - rand.nextInt(4));
 
-                    if(f1 != flipT)
+                    if (f1 != this.flipT)
+                    {
                         break;
+                    }
                 }
             }
-        } else {
-            tRot += 0.02F;
-            bookSpread -= 0.1F;
+        }
+        else
+        {
+            this.tRot += 0.02F;
+            this.bookSpread -= 0.1F;
         }
 
-        while(bookRotation >= Math.PI)
-            bookRotation -= (Math.PI * 2);
-        while(bookRotation < -Math.PI)
-            bookRotation += (Math.PI * 2F);
-        while (tRot >= Math.PI)
-            tRot -= (Math.PI * 2F);
-        while (tRot < Math.PI)
-            tRot += (Math.PI * 2F);
+        while (this.bookRotation >= (float)Math.PI)
+        {
+            this.bookRotation -= ((float)Math.PI * 2F);
+        }
+
+        while (this.bookRotation < -(float)Math.PI)
+        {
+            this.bookRotation += ((float)Math.PI * 2F);
+        }
+
+        while (this.tRot >= (float)Math.PI)
+        {
+            this.tRot -= ((float)Math.PI * 2F);
+        }
+
+        while (this.tRot < -(float)Math.PI)
+        {
+            this.tRot += ((float)Math.PI * 2F);
+        }
 
         float f2;
-        for(f2 = tRot - bookRotation; f2 >= Math.PI; f2 -= (Math.PI * 2F));
 
-        while(f2 < -Math.PI)
-            f2 += (Math.PI * 2F);
+        for (f2 = this.tRot - this.bookRotation; f2 >= (float)Math.PI; f2 -= ((float)Math.PI * 2F))
+        {
+            ;
+        }
 
-        bookRotation += f2 * 0.4F;
-        bookSpread = MathHelper.clamp(bookSpread, 0.0F, 1.0F);
-        ++tickCount;
-        pageFlipPrev = pageFlip;
-        float f = (flipT - pageFlip) * 0.4F;
+        while (f2 < -(float)Math.PI)
+        {
+            f2 += ((float)Math.PI * 2F);
+        }
+
+        this.bookRotation += f2 * 0.4F;
+        this.bookSpread = MathHelper.clamp(this.bookSpread, 0.0F, 1.0F);
+        ++this.tickCount;
+        this.pageFlipPrev = this.pageFlip;
+        float f = (this.flipT - this.pageFlip) * 0.4F;
         float f3 = 0.2F;
         f = MathHelper.clamp(f, -0.2F, 0.2F);
-        flipA += (f - flipA) * 0.9F;
-        pageFlip += flipA;
+        this.flipA += (f - this.flipA) * 0.9F;
+        this.pageFlip += this.flipA;
 	}
 
 	public void dropItem(int i) {
@@ -116,29 +140,29 @@ public abstract class TileMatrixEnchanterBase extends TileSimpleInventory implem
 		if(!stack.isEmpty())
 			InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), stack);
 	}
-	
+
 	@Override
 	public String getName() {
-        return hasCustomName() ? customName : "container.enchant";
-    }
+		return hasCustomName() ? customName : "container.enchant";
+	}
 
 	@Override
 	public boolean hasCustomName() {
-        return customName != null && !customName.isEmpty();
-    }
+		return customName != null && !customName.isEmpty();
+	}
 
-    public void setCustomName(String customNameIn) {
-        customName = customNameIn;
-    }
+	public void setCustomName(String customNameIn) {
+		customName = customNameIn;
+	}
 
-    @Override
-    public ITextComponent getDisplayName() {
-        return hasCustomName() ? new TextComponentString(getName()) : new TextComponentTranslation(getName(), new Object[0]);
-    }
+	@Override
+	public ITextComponent getDisplayName() {
+		return hasCustomName() ? new TextComponentString(getName()) : new TextComponentTranslation(getName(), new Object[0]);
+	}
 
-    @Override
-    public String getGuiID() {
-        return "minecraft:enchanting_table";
-    }
+	@Override
+	public String getGuiID() {
+		return "minecraft:enchanting_table";
+	}
 
 }

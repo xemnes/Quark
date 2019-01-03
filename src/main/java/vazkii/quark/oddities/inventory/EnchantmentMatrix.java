@@ -64,7 +64,7 @@ public class EnchantmentMatrix {
 		
 		List<EnchantmentData> validEnchants = new ArrayList();
 		for(Enchantment enchantment : Enchantment.REGISTRY)
-			if(!enchantment.isTreasureEnchantment() && (enchantment.canApplyAtEnchantingTable(target) || !(book && enchantment.isAllowedOnBooks())))
+			if(!enchantment.isTreasureEnchantment() && (enchantment.canApplyAtEnchantingTable(target) || (book && enchantment.isAllowedOnBooks())))
 				validEnchants.add(new EnchantmentData(enchantment, 1)); // TODO allow higher levels
 
 		return WeightedRandom.getRandomItem(rng, validEnchants);

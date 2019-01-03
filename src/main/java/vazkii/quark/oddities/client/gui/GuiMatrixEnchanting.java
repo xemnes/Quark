@@ -61,6 +61,9 @@ public class GuiMatrixEnchanting extends GuiContainer {
 	public void updateScreen() {
 		super.updateScreen();
 		updateButtonStatus();
+		
+		if(enchanter.matrix == null)
+			selectedPiece = -1;
 	}
 
 	@Override
