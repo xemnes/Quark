@@ -9,6 +9,8 @@ import java.util.Random;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -34,44 +36,79 @@ public class EnchantmentMatrix {
 	public int[][] matrix;
 	public int count = 0;
 
+	public final boolean book;
 	public final ItemStack target;
 	public final Random rng;
 	
 	public EnchantmentMatrix(ItemStack target, Random rng) {
 		this.target = target;
 		this.rng = rng;
+		book = target.getItem() == Items.BOOK;
 		computeMatrix();
 	}
 
+	 // TODO allow configuring these numbers
 	public boolean canGeneratePiece(int bookshelfPower, int enchantability) {
-        int bookshelfCount = (Math.min(bookshelfPower, 15) + 1) / 2;
-		int enchantabilityCount = (Math.min(bookshelfPower, enchantability)) / 2;
-		int maxCount = 1 + bookshelfCount + enchantabilityCount;
-		return count < maxCount; // TODO allow configuring these numbers
+		if(book) {
+			int bookshelfCount = Math.max(0, Math.min(bookshelfPower - 1, 15)) / 7 + 1;
+			return count < bookshelfCount;
+		} else {
+			int bookshelfCount = (Math.min(bookshelfPower, 15) + 1) / 2;
+			int enchantabilityCount = (Math.min(bookshelfPower, enchantability)) / 2;
+			int maxCount = 1 + bookshelfCount + enchantabilityCount;
+			return count < maxCount;
+		}
 	}
 	
-	public void generatePiece() {
-		EnchantmentData data = generateRandomEnchantment();
+	public boolean validateXp(EntityPlayer player, int bookshelfPower, int enchantability) {
+		return player.isCreative() || (player.experienceLevel >= getMinXpLevel(bookshelfPower, enchantability) && player.experienceLevel >= getNewPiecePrice());
+	}
+	
+	public int getMinXpLevel(int bookshelfPower, int enchantability) {
+		if(book)
+			return bookshelfPower * 2;
+		else 
+			return count > 10 ? (15 + count) : (int) (count * 2.5);
+	}
+	
+	public int getNewPiecePrice() {
+		return 1 + (count / 5); 
+	}
+	
+	public void generatePiece(int bookshelfPower, int enchantability) {
+		EnchantmentData data = generateRandomEnchantment(bookshelfPower, enchantability);
 		Piece piece = new Piece(data.enchantment, data.enchantmentLevel, count % PIECE_VARIANTS);
 		piece.generateBlocks();
 		pieces.put(count, piece);
 		benchedPieces.add(count);
 		count++;
+		
+		if(book && count == 1) 
+			for(int i = 0; i < 2; i++)
+				if(rng.nextBoolean())
+					count++;
 	}
 	
-	private EnchantmentData generateRandomEnchantment() {
-		boolean book = false; // TODO support books
+	private EnchantmentData generateRandomEnchantment(int bookshelfPower, int enchantability) {
+		int level = book ? (12 + rng.nextInt(Math.max(1, bookshelfPower) * 2)) : 0;
 		
 		List<EnchantmentData> validEnchants = new ArrayList();
 		for(Enchantment enchantment : Enchantment.REGISTRY)
-			if(!enchantment.isTreasureEnchantment() && (enchantment.canApplyAtEnchantingTable(target) || (book && enchantment.isAllowedOnBooks())))
-				validEnchants.add(new EnchantmentData(enchantment, 1)); // TODO allow higher levels
+			if(!enchantment.isTreasureEnchantment() && (enchantment.canApplyAtEnchantingTable(target) || (book && enchantment.isAllowedOnBooks()))) {
+				int enchantLevel = 1;
+				if(book) {
+	                for(int i = enchantment.getMaxLevel(); i > enchantment.getMinLevel() - 1; --i) {
+	                	if(level >= enchantment.getMinEnchantability(i) && level <= enchantment.getMaxEnchantability(i)) {
+	                		enchantLevel = i;
+	                		break;
+	                	}
+	                }
+				}
+				
+				validEnchants.add(new EnchantmentData(enchantment, enchantLevel));
+			}
 
 		return WeightedRandom.getRandomItem(rng, validEnchants);
-	}
-	
-	public int getNewPiecePrice() {
-		return count + 1; // TODO make config
 	}
 	
 	public boolean place(int id, int x, int y) {

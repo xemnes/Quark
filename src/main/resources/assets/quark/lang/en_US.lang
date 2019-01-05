@@ -33,6 +33,7 @@ quarkmisc.supportMessage=Thank you for your support, %s!
 quarkmisc.matrixLeftClick=Left Click to Select
 quarkmisc.matrixRightClick=Right Click to Rotate
 quarkmisc.matrixMerge=Click to Upgrade
+quarkmisc.matrixMin=Min: %d
 
 # CONFIG STRINGS
 quark.config.title=Quark Configuration

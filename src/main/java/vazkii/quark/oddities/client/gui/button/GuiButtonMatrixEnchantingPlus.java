@@ -2,6 +2,7 @@ package vazkii.quark.oddities.client.gui.button;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.renderer.GlStateManager;
 import vazkii.quark.oddities.client.gui.GuiMatrixEnchanting;
 
 public class GuiButtonMatrixEnchantingPlus extends GuiButton {
@@ -25,6 +26,7 @@ public class GuiButtonMatrixEnchantingPlus extends GuiButton {
 		else if(hovered)
 			v += 24;
 
+		GlStateManager.color(1F, 1F, 1F);
 		drawTexturedModalRect(x, y, u, v, width, height);
 	}
 
