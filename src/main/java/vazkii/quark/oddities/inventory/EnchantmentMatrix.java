@@ -15,6 +15,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.WeightedRandom;
+import vazkii.quark.oddities.feature.MatrixEnchanting;
 
 public class EnchantmentMatrix {
 	
@@ -47,15 +48,18 @@ public class EnchantmentMatrix {
 		computeMatrix();
 	}
 
-	 // TODO allow configuring these numbers
 	public boolean canGeneratePiece(int bookshelfPower, int enchantability) {
 		if(book) {
-			int bookshelfCount = Math.max(0, Math.min(bookshelfPower - 1, 15)) / 7 + 1;
-			return count < bookshelfCount;
+			if(!MatrixEnchanting.allowBooks)
+				return false;
+			
+			int bookshelfCount = Math.max(0, Math.min(bookshelfPower - 1, MatrixEnchanting.maxBookshelves)) / 7;
+			int maxCount = MatrixEnchanting.baseMaxPieceCountBook + bookshelfCount;
+			return count < maxCount;
 		} else {
-			int bookshelfCount = (Math.min(bookshelfPower, 15) + 1) / 2;
+			int bookshelfCount = (Math.min(bookshelfPower, MatrixEnchanting.maxBookshelves) + 1) / 2;
 			int enchantabilityCount = (Math.min(bookshelfPower, enchantability)) / 2;
-			int maxCount = 1 + bookshelfCount + enchantabilityCount;
+			int maxCount = MatrixEnchanting.baseMaxPieceCount + bookshelfCount + enchantabilityCount;
 			return count < maxCount;
 		}
 	}
@@ -72,7 +76,7 @@ public class EnchantmentMatrix {
 	}
 	
 	public int getNewPiecePrice() {
-		return 1 + (count / 5); 
+		return 1 + (count / MatrixEnchanting.piecePriceScale); 
 	}
 	
 	public void generatePiece(int bookshelfPower, int enchantability) {
@@ -90,7 +94,7 @@ public class EnchantmentMatrix {
 	}
 	
 	private EnchantmentData generateRandomEnchantment(int bookshelfPower, int enchantability) {
-		int level = book ? (12 + rng.nextInt(Math.max(1, bookshelfPower) * 2)) : 0;
+		int level = book ? (MatrixEnchanting.bookEnchantability + rng.nextInt(Math.max(1, bookshelfPower) * 2)) : 0;
 		
 		List<EnchantmentData> validEnchants = new ArrayList();
 		for(Enchantment enchantment : Enchantment.REGISTRY)
@@ -247,7 +251,6 @@ public class EnchantmentMatrix {
 	
 	public static class Piece {
 		
-		// TODO one of these has a disconnected piece
 		private static final int[][][] PIECE_TYPES = new int[][][] {
 			{{0,0},	{-1,0},	{1,0},	{0,-1},	{0,1}}, // Plus
 			{{0,0},	{-1,0},	{1,0},	{-1,-1},{0,-1}}, // Block

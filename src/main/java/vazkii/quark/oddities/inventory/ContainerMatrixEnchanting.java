@@ -91,7 +91,7 @@ public class ContainerMatrixEnchanting extends Container {
 	public boolean canInteractWith(EntityPlayer playerIn) {
 		World world = enchanter.getWorld();
 		BlockPos pos = enchanter.getPos();
-		if(world.getBlockState(pos).getBlock() != Blocks.ENCHANTING_TABLE) // TODO
+		if(world.getBlockState(pos).getBlock() != Blocks.ENCHANTING_TABLE)
 			return false;
 		else
 			return playerIn.getDistanceSq(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D) <= 64.0D;
