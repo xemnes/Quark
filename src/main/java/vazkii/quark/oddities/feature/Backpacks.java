@@ -31,7 +31,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.arl.network.NetworkHandler;
 import vazkii.arl.recipe.RecipeHandler;
 import vazkii.quark.base.module.Feature;
-import vazkii.quark.base.network.message.MessageOpenBackpack;
+import vazkii.quark.base.network.message.MessageHandleBackpack;
 import vazkii.quark.oddities.client.gui.GuiBackpackInventory;
 import vazkii.quark.oddities.item.ItemBackpack;
 
@@ -101,7 +101,7 @@ public class Backpacks extends Feature {
 	}
 	
 	private void requestBackpack() {
-		NetworkHandler.INSTANCE.sendToServer(new MessageOpenBackpack());
+		NetworkHandler.INSTANCE.sendToServer(new MessageHandleBackpack(true));
 	}
 	
 	@SubscribeEvent

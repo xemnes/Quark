@@ -54,6 +54,7 @@ public class ItemBackpack extends ItemModArmor implements IQuarkItem, IItemColor
 	public ItemBackpack() {
 		super("backpack", ArmorMaterial.LEATHER, 0, EntityEquipmentSlot.CHEST);
 		setCreativeTab(CreativeTabs.TOOLS);
+		setMaxDamage(0);
 		
 		addPropertyOverride(new ResourceLocation("has_items"), (stack, world, entity) -> (!Backpacks.superOpMode && doesBackpackHaveItems(stack)) ? 1 : 0);
 	}
@@ -84,7 +85,7 @@ public class ItemBackpack extends ItemModArmor implements IQuarkItem, IItemColor
 		boolean changedEnchants = false;
 		
 		if(hasItems) {
-			if(Backpacks.isEntityWearingBackpack(entityIn)) {
+			if(Backpacks.isEntityWearingBackpack(entityIn, stack)) {
 				if(!isCursed) {
 					enchants.put(Enchantments.BINDING_CURSE, 1);
 					changedEnchants = true;

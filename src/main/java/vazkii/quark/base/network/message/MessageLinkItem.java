@@ -10,6 +10,7 @@
  */
 package vazkii.quark.base.network.message;
 
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -28,7 +29,9 @@ public class MessageLinkItem  extends NetworkMessage {
 
 	@Override
 	public IMessage handleMessage(MessageContext context) {
-		LinkItems.linkItem(context.getServerHandler().player, stack);
+		EntityPlayerMP player = context.getServerHandler().player;
+		player.getServer().addScheduledTask(() -> LinkItems.linkItem(player, stack));
+		
 		return null;
 	}
 

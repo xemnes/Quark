@@ -1,13 +1,9 @@
 buildscript {
     repositories {
-        mavenCentral()
+        jcenter()
         maven {
             name = "forge"
             url = "http://files.minecraftforge.net/maven"
-        }
-        maven {
-            name = "sonatype"
-            url = "https://oss.sonatype.org/content/repositories/snapshots/"
         }
     }
     dependencies {
@@ -27,6 +23,24 @@ ext.config = parseConfig(configFile)
 version = "${config.version}-${config.build_number}"
 group = "vazkii.quark" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = config.mod_name
+
+repositories {
+    maven {
+        // for AutoRegLib
+        name "blamejared"
+        url "http://maven.blamejared.com/"
+    }
+    maven {
+        // for JEI
+        name = "promwml16"
+        url "http://dvs1.progwml6.com/files/maven"
+    }
+}
+
+dependencies {
+    compile "vazkii.autoreglib:AutoRegLib:${config.arl_version}"
+    deobfProvided "mezz.jei:jei_${config.mc_version}:${config.jei_version}:api"
+}
 
 minecraft {
     version = "${config.mc_version}-${config.forge_version}"
