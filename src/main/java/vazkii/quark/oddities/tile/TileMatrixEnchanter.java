@@ -31,7 +31,8 @@ public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 	public static final int OPER_ROTATE = 3;
 	public static final int OPER_MERGE = 4;
 
-	private static final String TAG_STACK_MATRIX = "quark:enchantingMatrix";
+	public static final String TAG_STACK_MATRIX = "quark:enchantingMatrix";
+	
 	private static final String TAG_MATRIX = "matrix";
 	private static final String TAG_MATRIX_UUID_LESS = "uuidLess";
 	private static final String TAG_MATRIX_UUID_MOST = "uuidMost";

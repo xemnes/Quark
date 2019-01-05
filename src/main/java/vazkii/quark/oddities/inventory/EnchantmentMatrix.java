@@ -76,7 +76,7 @@ public class EnchantmentMatrix {
 	}
 	
 	public int getNewPiecePrice() {
-		return 1 + (count / MatrixEnchanting.piecePriceScale); 
+		return 1 + (MatrixEnchanting.piecePriceScale == 0 ? 0 : count / MatrixEnchanting.piecePriceScale); 
 	}
 	
 	public void generatePiece(int bookshelfPower, int enchantability) {
@@ -98,7 +98,9 @@ public class EnchantmentMatrix {
 		
 		List<EnchantmentData> validEnchants = new ArrayList();
 		for(Enchantment enchantment : Enchantment.REGISTRY)
-			if(!enchantment.isTreasureEnchantment() && (enchantment.canApplyAtEnchantingTable(target) || (book && enchantment.isAllowedOnBooks()))) {
+			if((!enchantment.isTreasureEnchantment() || MatrixEnchanting.allowTreasures) 
+					&& !MatrixEnchanting.disallowedEnchantments.contains(enchantment.getRegistryName().toString())
+					&& (enchantment.canApplyAtEnchantingTable(target) || (book && enchantment.isAllowedOnBooks()))) {
 				int enchantLevel = 1;
 				if(book) {
 	                for(int i = enchantment.getMaxLevel(); i > enchantment.getMinLevel() - 1; --i) {
