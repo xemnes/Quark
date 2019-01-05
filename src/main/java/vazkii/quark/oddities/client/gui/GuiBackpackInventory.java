@@ -6,7 +6,9 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import vazkii.arl.network.NetworkHandler;
 import vazkii.quark.base.lib.LibMisc;
+import vazkii.quark.base.network.message.MessageHandleBackpack;
 import vazkii.quark.oddities.feature.Backpacks;
 import vazkii.quark.oddities.inventory.ContainerBackpack;
 
@@ -17,6 +19,8 @@ public class GuiBackpackInventory extends GuiInventory {
 	private EntityPlayer player;
 	private GuiButton recipeButton;
 	private int recipeButtonY;
+	
+	private boolean closeHack = false;
 	
 	public GuiBackpackInventory(EntityPlayer player) {
 		super(player);
@@ -47,9 +51,21 @@ public class GuiBackpackInventory extends GuiInventory {
 		
 		if(!Backpacks.isEntityWearingBackpack(player)) {
 			ItemStack curr = player.inventory.getItemStack();
+			closeHack = true;
+			NetworkHandler.INSTANCE.sendToServer(new MessageHandleBackpack(false));
 			mc.displayGuiScreen(new GuiInventory(player));
 			player.inventory.setItemStack(curr);
 		}
+	}
+	
+	@Override
+	public void onGuiClosed() {
+		if(closeHack) {
+			closeHack = false;
+			return;
+		}
+			
+		super.onGuiClosed();
 	}
 	
 	@Override

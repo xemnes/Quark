@@ -85,7 +85,7 @@ public class ItemBackpack extends ItemModArmor implements IQuarkItem, IItemColor
 		boolean changedEnchants = false;
 		
 		if(hasItems) {
-			if(Backpacks.isEntityWearingBackpack(entityIn)) {
+			if(Backpacks.isEntityWearingBackpack(entityIn, stack)) {
 				if(!isCursed) {
 					enchants.put(Enchantments.BINDING_CURSE, 1);
 					changedEnchants = true;
