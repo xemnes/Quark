@@ -72,10 +72,13 @@ public class EnchantmentMatrix {
 	}
 	
 	public int getMinXpLevel(int bookshelfPower, int enchantability) {
+		float scale = MatrixEnchanting.minLevelScaleFactor;
+		int cutoff = MatrixEnchanting.minLevelCutoff;
+		
 		if(book)
-			return bookshelfPower * 2;
+			return (int) (Math.min(bookshelfPower, MatrixEnchanting.maxBookshelves) * MatrixEnchanting.minLevelScaleFactorBook);
 		else 
-			return count > 10 ? (15 + count) : (int) (count * 2.5);
+			return count > cutoff ? ((int) (cutoff * scale) - cutoff + count) : (int) (count * scale);
 	}
 	
 	public int getNewPiecePrice() {

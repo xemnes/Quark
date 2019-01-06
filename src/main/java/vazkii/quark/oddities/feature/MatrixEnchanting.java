@@ -23,7 +23,8 @@ public class MatrixEnchanting extends Feature {
 
 	private static BlockEnchantingTableReplacement enchantingTable;
 	
-	public static int maxBookshelves, piecePriceScale, bookEnchantability, baseMaxPieceCount, baseMaxPieceCountBook;
+	public static int maxBookshelves, piecePriceScale, bookEnchantability, baseMaxPieceCount, baseMaxPieceCountBook, minLevelCutoff;
+	public static float minLevelScaleFactor, minLevelScaleFactorBook;
 	public static boolean allowBooks, allowTreasures, showTooltip;
 	
 	public static List<String> disallowedEnchantments; 
@@ -38,7 +39,10 @@ public class MatrixEnchanting extends Feature {
 		allowBooks = loadPropBool("Allow Enchanted Books", "Set to false to disable the ability to create Enchanted Books", true);
 		allowTreasures = loadPropBool("Allow Treasure Enchantments", "Set this to true to allow treasure enchantments to be rolled as pieces", false);
 		showTooltip = loadPropBool("Show Tooltip", "Set to false to disable the tooltip for items with pending enchantments", true);
-		
+		minLevelCutoff = loadPropInt("Min Level Cutoff", "At which piece count the calculation for the min level should default to increasing one per piece rather than using the scale factor", 10);
+		minLevelScaleFactor = (float) loadPropDouble("Min Level Scale Factor", "How much the min level requirement for adding a new piece should increase for each piece added (up until the value of Min Level Cutoff)", 2F);
+		minLevelScaleFactorBook = (float) loadPropDouble("Book Min Level Scale Factor", "How much the min level requirement for adding a new piece to a book should increase per each bookshelf being used", 2F);
+
 		String[] enchArr = loadPropStringList("Disallowed Enchantments", "A list of enchantment IDs you don't want the enchantment table to be able to create", new String[0]);
 		disallowedEnchantments = Arrays.asList(enchArr);
 	}
