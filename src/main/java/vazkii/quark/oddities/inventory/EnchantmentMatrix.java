@@ -49,6 +49,9 @@ public class EnchantmentMatrix {
 	}
 
 	public boolean canGeneratePiece(int bookshelfPower, int enchantability) {
+		if(enchantability == 0)
+			return false;
+		
 		if(book) {
 			if(!MatrixEnchanting.allowBooks)
 				return false;
