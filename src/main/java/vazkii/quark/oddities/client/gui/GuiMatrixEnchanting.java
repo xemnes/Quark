@@ -118,13 +118,21 @@ public class GuiMatrixEnchanting extends GuiContainer {
         if(hoveredPiece != null) {
         	List<String> tooltip = new LinkedList();
         	tooltip.add(hoveredPiece.enchant.getTranslatedName(hoveredPiece.level));
+        	
+        	int max = hoveredPiece.getMaxXP();
+        	if(max > 0)
+        		tooltip.add(TextFormatting.GRAY + I18n.translateToLocalFormatted("quarkmisc.matrixUpgrade", hoveredPiece.xp, max));
+        	
         	if(gridHoverX == -1) {
+        		tooltip.add("");
         		tooltip.add(TextFormatting.GRAY + I18n.translateToLocal("quarkmisc.matrixLeftClick"));
         		tooltip.add(TextFormatting.GRAY + I18n.translateToLocal("quarkmisc.matrixRightClick"));
         	} else if(selectedPiece != -1) {
         		Piece p = getPiece(selectedPiece);
-        		if(p.enchant == hoveredPiece.enchant && hoveredPiece.level < hoveredPiece.enchant.getMaxLevel())
+        		if(p.enchant == hoveredPiece.enchant && hoveredPiece.level < hoveredPiece.enchant.getMaxLevel()) {
+        			tooltip.add("");
         			tooltip.add(TextFormatting.GRAY + I18n.translateToLocal("quarkmisc.matrixMerge"));
+        		}
         	}
         	drawHoveringText(tooltip, mouseX, mouseY);
         } else renderHoveredToolTip(mouseX, mouseY);

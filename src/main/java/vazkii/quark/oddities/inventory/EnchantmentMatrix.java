@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Random;
 
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.Enchantment.Rarity;
 import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -117,7 +118,7 @@ public class EnchantmentMatrix {
 	                }
 				}
 				
-				validEnchants.add(new EnchantmentData(enchantment, enchantLevel));
+				validEnchants.add(new EnchantmentDataWrapper(enchantment, enchantLevel));
 			}
 
 		return WeightedRandom.getRandomItem(rng, validEnchants);
@@ -168,7 +169,17 @@ public class EnchantmentMatrix {
 		if(placedPiece != null && hoveredPiece != null && placedPieces.contains(placed) && benchedPieces.contains(hover)) {
 			Enchantment enchant = placedPiece.enchant;
 			if(hoveredPiece.enchant == enchant && placedPiece.level < enchant.getMaxLevel()) {
-				placedPiece.level++;
+				placedPiece.xp += hoveredPiece.level;
+				int max = placedPiece.getMaxXP();
+				while(placedPiece.xp >= max) {
+					if(placedPiece.level >= enchant.getMaxLevel())
+						break;
+					
+					placedPiece.level++;
+					placedPiece.xp -= max;
+					max = placedPiece.getMaxXP();
+				}
+				
 				benchedPieces.remove(Integer.valueOf(hover));
 				pieces.remove(hover);
 				return true;
@@ -273,7 +284,7 @@ public class EnchantmentMatrix {
 			{{0,0},	{-1,0},	{1,0},	{-1,-1},{1,-1},	{1,1}}, // H
 			{{0,0},	{-1,0},	{1,0},	{0,-1},	{-1,-1}, {1,1}} // weird block thing idk
 		};
-
+		
 		private static final String TAG_COLOR = "color";
 		private static final String TAG_TYPE = "type";
 		private static final String TAG_ENCHANTMENT = "enchant";
@@ -282,9 +293,10 @@ public class EnchantmentMatrix {
 		private static final String TAG_BLOCK = "block";
 		private static final String TAG_X = "x";
 		private static final String TAG_Y = "y";
+		private static final String TAG_XP = "xp";
 
 		public Enchantment enchant;
-		public int level, color, type, x, y;
+		public int level, color, type, x, y, xp;
 		public int[][] blocks;
 		
 		Piece() { }
@@ -321,6 +333,20 @@ public class EnchantmentMatrix {
 			}
 		}
 		
+		public int getMaxXP() {
+			if(level >= enchant.getMaxLevel())
+				return 0;
+			
+			switch(enchant.getRarity()) {
+			case COMMON:
+				return (level - 1) + 1;
+			case UNCOMMON:
+				return level / 2 + 1;
+			default:
+				return 1;
+			}
+		}
+		
 		public void writeToNBT(NBTTagCompound cmp) {
 			cmp.setInteger(TAG_COLOR, color);
 			cmp.setInteger(TAG_TYPE, type);
@@ -328,6 +354,7 @@ public class EnchantmentMatrix {
 			cmp.setInteger(TAG_LEVEL, level);
 			cmp.setInteger(TAG_X, x);
 			cmp.setInteger(TAG_Y, y);
+			cmp.setInteger(TAG_XP, xp);
 
 			cmp.setInteger(TAG_BLOCK_COUNT, blocks.length);
 			for(int i = 0; i < blocks.length; i++)
@@ -341,13 +368,41 @@ public class EnchantmentMatrix {
 			level = cmp.getInteger(TAG_LEVEL);
 			x = cmp.getInteger(TAG_X);
 			y = cmp.getInteger(TAG_Y);
+			xp = cmp.getInteger(TAG_XP);
 			
 			blocks = new int[cmp.getInteger(TAG_BLOCK_COUNT)][2];
 			for(int i = 0; i < blocks.length; i++)
 				blocks[i] = cmp.getIntArray(TAG_BLOCK + i);
 		}
+	}
+	
+	private static class EnchantmentDataWrapper extends EnchantmentData {
+
+		public EnchantmentDataWrapper(Enchantment enchantmentObj, int enchLevel) {
+			super(enchantmentObj, enchLevel);
+			
+			if(MatrixEnchanting.normalizeRarity) {
+				itemWeight *= 10;
+				switch(enchantmentObj.getRarity()) {
+				case COMMON:
+					itemWeight = 80;
+					break;
+				case UNCOMMON:
+					itemWeight = 40;
+					break;
+				case RARE:
+					itemWeight = 25;
+					break;
+				case VERY_RARE:
+					itemWeight = 5; 
+				default: 
+					break;
+				}
+			}
+		}
 		
-	}	
+	}
 	
 }
+
 
