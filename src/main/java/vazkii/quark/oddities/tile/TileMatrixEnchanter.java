@@ -19,6 +19,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.ForgeHooks;
 import vazkii.arl.util.ItemNBTHelper;
+import vazkii.quark.oddities.feature.MatrixEnchanting;
 import vazkii.quark.oddities.inventory.ContainerMatrixEnchanting;
 import vazkii.quark.oddities.inventory.EnchantmentMatrix;
 import vazkii.quark.oddities.inventory.EnchantmentMatrix.Piece;
@@ -36,12 +37,13 @@ public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 	private static final String TAG_MATRIX = "matrix";
 	private static final String TAG_MATRIX_UUID_LESS = "uuidLess";
 	private static final String TAG_MATRIX_UUID_MOST = "uuidMost";
+	private static final String TAG_CHARGE = "charge";
 
 	public EnchantmentMatrix matrix;
 	private boolean matrixDirty = false;
 	private UUID matrixId;
 
-	public int bookshelfPower, enchantability;
+	public int bookshelfPower, enchantability, charge;
 
 	@Override
 	public void update() {
@@ -56,6 +58,15 @@ public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 
 			if(world.getTotalWorldTime() % 20 == 0 || matrixDirty)
 				updateEnchantPower();
+		}
+		
+		if(charge == 0 && !world.isRemote) {
+			ItemStack lapis = getStackInSlot(1);
+			if(!lapis.isEmpty()) {
+				lapis.shrink(1);
+				charge += MatrixEnchanting.chargePerLapis;
+				sync();
+			}
 		}
 
 		if(matrixDirty) {
@@ -98,13 +109,11 @@ public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 		if(matrix.canGeneratePiece(bookshelfPower, enchantability) && matrix.validateXp(player, bookshelfPower, enchantability)) {
 			boolean creative = player.isCreative();
 			int cost = matrix.getNewPiecePrice();
-			ItemStack lapis = getStackInSlot(1);
-			if(lapis.getCount() > 0 || creative) {
-				if(!creative) {
+			if(charge > 0 || creative) {
+				if(!creative)
 					player.addExperienceLevel(-cost);
-					lapis.shrink(1);
-				}
-
+				charge--;
+				
 				matrix.generatePiece(bookshelfPower, enchantability);
 			}
 		}
@@ -151,7 +160,7 @@ public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 	}
 
 	private void loadMatrix(ItemStack stack) {
-		if(stack.isItemEnchantable() && matrix == null) {
+		if(stack.isItemEnchantable() && (matrix == null || matrix.target != stack)) {
 			matrix = new EnchantmentMatrix(stack, world.rand);
 			matrixDirty = true;
 			makeUUID();
@@ -219,6 +228,7 @@ public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 			cmp.setLong(TAG_MATRIX_UUID_LESS, matrixId.getLeastSignificantBits());
 			cmp.setLong(TAG_MATRIX_UUID_MOST, matrixId.getMostSignificantBits());
 		}
+		cmp.setInteger(TAG_CHARGE, charge);
 	}
 
 	@Override
@@ -237,6 +247,8 @@ public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 				matrix.readFromNBT(matrixCmp);
 			}
 		} else matrix = null;
+		
+		charge = cmp.getInteger(TAG_CHARGE);
 	}
 
 	@Override

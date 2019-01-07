@@ -31,7 +31,7 @@ public class ContainerMatrixEnchanting extends Container {
 		enchanter = tile;
 
 		// Item Slot
-		addSlotToContainer(new Slot(tile, 0, 13, 20) {
+		addSlotToContainer(new Slot(tile, 0, 15, 20) {
 			@Override 
 			public int getSlotStackLimit() { 
 				return 1; 
@@ -39,7 +39,7 @@ public class ContainerMatrixEnchanting extends Container {
 		});
 
 		// Lapis Slot
-		addSlotToContainer(new Slot(tile, 1, 13, 44) {
+		addSlotToContainer(new Slot(tile, 1, 15, 44) {
 			@Override
 			public boolean isItemValid(ItemStack stack) {
 				return isLapis(stack);
@@ -47,7 +47,7 @@ public class ContainerMatrixEnchanting extends Container {
 		});
 
 		// Output Slot
-		addSlotToContainer(new Slot(tile, 2, 57, 32) {
+		addSlotToContainer(new Slot(tile, 2, 59, 32) {
 			@Override
 			public boolean isItemValid(ItemStack stack) {
 				return false;

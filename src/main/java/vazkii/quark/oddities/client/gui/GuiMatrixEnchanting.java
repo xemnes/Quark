@@ -23,6 +23,7 @@ import vazkii.arl.util.ClientTicker;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.base.network.message.MessageMatrixEnchanterOperation;
 import vazkii.quark.oddities.client.gui.button.GuiButtonMatrixEnchantingPlus;
+import vazkii.quark.oddities.feature.MatrixEnchanting;
 import vazkii.quark.oddities.inventory.ContainerMatrixEnchanting;
 import vazkii.quark.oddities.inventory.EnchantmentMatrix;
 import vazkii.quark.oddities.inventory.EnchantmentMatrix.Piece;
@@ -76,6 +77,12 @@ public class GuiMatrixEnchanting extends GuiContainer {
         int j = guiTop;
         drawTexturedModalRect(i, j, 0, 0, xSize, ySize);
         
+        if(enchanter.charge > 0 && MatrixEnchanting.chargePerLapis > 0) {
+        	int maxHeight = 18;
+        	int barHeight = (int) (((float) enchanter.charge / MatrixEnchanting.chargePerLapis) * maxHeight);
+            drawTexturedModalRect(i + 7, j + 32 + maxHeight - barHeight, 50, 176 + maxHeight - barHeight, 4, barHeight);
+        }
+        
         if(enchanter.matrix != null && enchanter.matrix.canGeneratePiece(enchanter.bookshelfPower, enchanter.enchantability)) {
         	int x = i + 74;
         	int y = j + 58;
@@ -111,8 +118,8 @@ public class GuiMatrixEnchanting extends GuiContainer {
         super.drawScreen(mouseX, mouseY, partialTicks);
         
         if(enchanter.matrix != null) {
-        	RenderHelper.enableGUIStandardItemLighting();
-            pieceList.drawScreen(mouseX, mouseY, ClientTicker.partialTicks);
+        	RenderHelper.disableStandardItemLighting();
+        	pieceList.drawScreen(mouseX, mouseY, ClientTicker.partialTicks);
         }
         
         if(hoveredPiece != null) {
@@ -290,7 +297,7 @@ public class GuiMatrixEnchanting extends GuiContainer {
 	
 	private void updateButtonStatus() {
 		plusButton.enabled = (enchanter.matrix != null 
-				&& !enchanter.getStackInSlot(1).isEmpty()
+				&& enchanter.charge > 0
 				&& enchanter.matrix.validateXp(mc.player, enchanter.bookshelfPower, enchanter.enchantability)
 				&& enchanter.matrix.canGeneratePiece(enchanter.bookshelfPower, enchanter.enchantability));
 	}

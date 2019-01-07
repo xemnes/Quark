@@ -6,9 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.Enchantment.Rarity;
 import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -30,13 +30,14 @@ public class EnchantmentMatrix {
 	private static final String TAG_BENCHED_PIECES = "benchedPieces";
 	private static final String TAG_PLACED_PIECES = "placedPieces";
 	private static final String TAG_COUNT = "count";
-	
+	private static final String TAG_TYPE_COUNT = "typeCount";
+
 	public Map<Integer, Piece> pieces = new HashMap();
 	public List<Integer> benchedPieces = new ArrayList();
 	public List<Integer> placedPieces = new ArrayList();
 	
 	public int[][] matrix;
-	public int count = 0;
+	public int count, typeCount;
 
 	public final boolean book;
 	public final ItemStack target;
@@ -87,9 +88,21 @@ public class EnchantmentMatrix {
 	}
 	
 	public void generatePiece(int bookshelfPower, int enchantability) {
-		EnchantmentData data = generateRandomEnchantment(bookshelfPower, enchantability);
-		Piece piece = new Piece(data.enchantment, data.enchantmentLevel, count % PIECE_VARIANTS);
+		EnchantmentDataWrapper data = generateRandomEnchantment(bookshelfPower, enchantability);
+		
+		int type = -1;
+		for(Piece p : pieces.values())
+			if(p.enchant == data.enchantment)
+				type = p.type;
+		
+		if(type == -1) {
+			type = typeCount % PIECE_VARIANTS;
+			typeCount++;
+		}
+
+		Piece piece = new Piece(data.enchantment, data.enchantmentLevel, type, data.marked);
 		piece.generateBlocks();
+		
 		pieces.put(count, piece);
 		benchedPieces.add(count);
 		count++;
@@ -100,10 +113,12 @@ public class EnchantmentMatrix {
 					count++;
 	}
 	
-	private EnchantmentData generateRandomEnchantment(int bookshelfPower, int enchantability) {
+	private EnchantmentDataWrapper generateRandomEnchantment(int bookshelfPower, int enchantability) {
 		int level = book ? (MatrixEnchanting.bookEnchantability + rng.nextInt(Math.max(1, bookshelfPower) * 2)) : 0;
 		
-		List<EnchantmentData> validEnchants = new ArrayList();
+		List<Piece> marked = pieces.values().stream().filter(p -> p.marked).collect(Collectors.toList());
+		
+		List<EnchantmentDataWrapper> validEnchants = new ArrayList();
 		for(Enchantment enchantment : Enchantment.REGISTRY)
 			if((!enchantment.isTreasureEnchantment() || MatrixEnchanting.allowTreasures) 
 					&& !MatrixEnchanting.disallowedEnchantments.contains(enchantment.getRegistryName().toString())
@@ -118,7 +133,9 @@ public class EnchantmentMatrix {
 	                }
 				}
 				
-				validEnchants.add(new EnchantmentDataWrapper(enchantment, enchantLevel));
+				EnchantmentDataWrapper wrapper = new EnchantmentDataWrapper(enchantment, enchantLevel);
+				wrapper.normalizeRarity(marked);
+				validEnchants.add(wrapper);
 			}
 
 		return WeightedRandom.getRandomItem(rng, validEnchants);
@@ -179,6 +196,9 @@ public class EnchantmentMatrix {
 					placedPiece.xp -= max;
 					max = placedPiece.getMaxXP();
 				}
+
+				if(hoveredPiece.marked)
+					placedPiece.marked = true;
 				
 				benchedPieces.remove(Integer.valueOf(hover));
 				pieces.remove(hover);
@@ -204,6 +224,7 @@ public class EnchantmentMatrix {
 		cmp.setIntArray(TAG_BENCHED_PIECES, packList(benchedPieces));
 		cmp.setIntArray(TAG_PLACED_PIECES, packList(placedPieces));
 		cmp.setInteger(TAG_COUNT, count);
+		cmp.setInteger(TAG_TYPE_COUNT, typeCount);
 	}
 	
 	public void readFromNBT(NBTTagCompound cmp) {
@@ -221,7 +242,8 @@ public class EnchantmentMatrix {
 		benchedPieces = unpackList(cmp.getIntArray(TAG_BENCHED_PIECES));
 		placedPieces = unpackList(cmp.getIntArray(TAG_PLACED_PIECES));
 		count = cmp.getInteger(TAG_COUNT);
-		
+		typeCount = cmp.getInteger(TAG_TYPE_COUNT);
+
 		computeMatrix();
 	}
 	
@@ -294,18 +316,26 @@ public class EnchantmentMatrix {
 		private static final String TAG_X = "x";
 		private static final String TAG_Y = "y";
 		private static final String TAG_XP = "xp";
+		private static final String TAG_MARKED = "marked";
 
 		public Enchantment enchant;
 		public int level, color, type, x, y, xp;
 		public int[][] blocks;
+		public boolean marked;
 		
 		Piece() { }
 		
-		Piece(Enchantment enchant, int level, int type) {
+		Piece(Enchantment enchant, int level, int type, boolean marked) {
 			this.enchant = enchant;
 			this.level = level;
-			this.color = Color.HSBtoRGB(new Random(enchant.getRegistryName().toString().hashCode()).nextFloat(), 1F, 1.0F);
 			this.type = type;
+			this.marked = marked;
+			
+			Random rng = new Random(enchant.getRegistryName().toString().hashCode());
+			float h = rng.nextFloat();
+			float s = rng.nextFloat() * 0.2F + 0.8F;
+			float b = rng.nextFloat() * 0.25F + 0.75F;
+			this.color = Color.HSBtoRGB(h, s, b);
 		}
 		
 		public void generateBlocks() {
@@ -355,6 +385,7 @@ public class EnchantmentMatrix {
 			cmp.setInteger(TAG_X, x);
 			cmp.setInteger(TAG_Y, y);
 			cmp.setInteger(TAG_XP, xp);
+			cmp.setBoolean(TAG_MARKED, marked);
 
 			cmp.setInteger(TAG_BLOCK_COUNT, blocks.length);
 			for(int i = 0; i < blocks.length; i++)
@@ -369,6 +400,7 @@ public class EnchantmentMatrix {
 			x = cmp.getInteger(TAG_X);
 			y = cmp.getInteger(TAG_Y);
 			xp = cmp.getInteger(TAG_XP);
+			marked = cmp.getBoolean(TAG_MARKED);
 			
 			blocks = new int[cmp.getInteger(TAG_BLOCK_COUNT)][2];
 			for(int i = 0; i < blocks.length; i++)
@@ -378,26 +410,47 @@ public class EnchantmentMatrix {
 	
 	private static class EnchantmentDataWrapper extends EnchantmentData {
 
+		boolean marked;
+		
 		public EnchantmentDataWrapper(Enchantment enchantmentObj, int enchLevel) {
 			super(enchantmentObj, enchLevel);
-			
+		}
+		
+		public void normalizeRarity(List<Piece> markedEnchants) {
 			if(MatrixEnchanting.normalizeRarity) {
-				itemWeight *= 10;
-				switch(enchantmentObj.getRarity()) {
+				itemWeight *= 100;
+				switch(enchantment.getRarity()) {
 				case COMMON:
-					itemWeight = 80;
+					itemWeight = 800;
 					break;
 				case UNCOMMON:
-					itemWeight = 40;
+					itemWeight = 400;
 					break;
 				case RARE:
-					itemWeight = 25;
+					itemWeight = 250;
 					break;
 				case VERY_RARE:
-					itemWeight = 5; 
+					itemWeight = 50; 
 				default: 
 					break;
 				}
+				
+				boolean mark = true;
+				
+				for(Piece other : markedEnchants) {
+					if(other.enchant == enchantment) {
+						itemWeight *= 1.4;
+						mark = false;
+						break;
+					} else if(!other.enchant.isCompatibleWith(enchantment) || !enchantment.isCompatibleWith(other.enchant)) {
+						itemWeight = 0;
+						mark = false;
+						break;
+					}
+				}
+				
+				if(mark)
+					marked = true;
 			}
 		}
 		
