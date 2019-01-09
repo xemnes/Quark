@@ -174,6 +174,9 @@ public class GuiMatrixEnchanting extends GuiContainer {
 	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
 		super.mouseClicked(mouseX, mouseY, mouseButton);
 		
+		if(enchanter.matrix == null)
+			return;
+		
 		if(mouseButton == 0 && gridHoverX != -1) { // left click
 			int hover = enchanter.matrix.matrix[gridHoverX][gridHoverY];
 
