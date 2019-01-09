@@ -439,11 +439,11 @@ public class EnchantmentMatrix {
 				
 				for(Piece other : markedEnchants) {
 					if(other.enchant == enchantment) {
-						itemWeight *= 1.4;
+						itemWeight *= MatrixEnchanting.dupeMultiplier;
 						mark = false;
 						break;
 					} else if(!other.enchant.isCompatibleWith(enchantment) || !enchantment.isCompatibleWith(other.enchant)) {
-						itemWeight = 0;
+						itemWeight *= MatrixEnchanting.incompatibleMultiplier;
 						mark = false;
 						break;
 					}

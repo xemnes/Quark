@@ -24,7 +24,7 @@ public class MatrixEnchanting extends Feature {
 	private static BlockEnchantingTableReplacement enchantingTable;
 	
 	public static int maxBookshelves, piecePriceScale, bookEnchantability, baseMaxPieceCount, baseMaxPieceCountBook, minLevelCutoff, chargePerLapis;
-	public static float minLevelScaleFactor, minLevelScaleFactorBook;
+	public static float minLevelScaleFactor, minLevelScaleFactorBook, dupeMultiplier, incompatibleMultiplier;
 	public static boolean allowBooks, allowTreasures, showTooltip, normalizeRarity;
 	
 	public static List<String> disallowedEnchantments; 
@@ -44,6 +44,8 @@ public class MatrixEnchanting extends Feature {
 		minLevelScaleFactorBook = (float) loadPropDouble("Book Min Level Scale Factor", "How much the min level requirement for adding a new piece to a book should increase per each bookshelf being used", 2F);
 		normalizeRarity = loadPropBool("Normalize Rarity", "By default, enchantment rarities are fuzzied a bit to work better with the new system. Set this to false to override this behaviour.", true);
 		chargePerLapis = loadPropInt("Charge per Lapis", "How many pieces a single Lapis can generate", 4);
+		dupeMultiplier = (float) loadPropDouble("Dupe Multiplier", "How much to multiply the frequency of pieces where at least one of the same type has been generated", 1.4);
+		incompatibleMultiplier = (float) loadPropDouble("Incompatible Multiplier", "How much to multiply the frequency of pieces where incompatible pieces have been generated", 0);
 		
 		String[] enchArr = loadPropStringList("Disallowed Enchantments", "A list of enchantment IDs you don't want the enchantment table to be able to create", new String[0]);
 		disallowedEnchantments = Arrays.asList(enchArr);
