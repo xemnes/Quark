@@ -206,12 +206,9 @@ public class GuiMatrixEnchanting extends GuiContainer {
 			GlStateManager.popMatrix();
 		}
 		
-		hovering: if(selectedPiece != -1 && gridHoverX != -1) {
+		if(selectedPiece != -1 && gridHoverX != -1) {
 			Piece piece = getPiece(selectedPiece);
-			if(piece != null) {
-				if(hoveredPiece != null && piece.enchant == hoveredPiece.enchant && hoveredPiece.level < hoveredPiece.enchant.getMaxLevel())
-					break hovering;
-				
+			if(piece != null && !(hoveredPiece != null && piece.enchant == hoveredPiece.enchant && hoveredPiece.level < hoveredPiece.enchant.getMaxLevel())) {
 				GlStateManager.pushMatrix();
 				GlStateManager.translate(gridHoverX * 10, gridHoverY * 10, 0);
 				
