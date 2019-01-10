@@ -11,6 +11,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockJukebox;
+import net.minecraft.block.state.BlockPistonStructureHelper;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
@@ -78,9 +79,11 @@ public class PistonsMoveTEs extends Feature {
 		return PistonsMoveTEs.movementBlacklist.contains(res.toString()) || PistonsMoveTEs.movementBlacklist.contains(res.getResourceDomain());
 	}
 	
-	public static void detachTileEntities(World world, BlockPos sourcePos, List<BlockPos> moveList, List<BlockPos> destroyList, EnumFacing facing, boolean extending) {
+	public static void detachTileEntities(World world, BlockPos sourcePos, BlockPistonStructureHelper helper, EnumFacing facing, boolean extending) {
 		if(!ModuleLoader.isFeatureEnabled(PistonsMoveTEs.class))
 			return;
+		
+		List<BlockPos> moveList = helper.getBlocksToMove();
 		
 		for(BlockPos pos : moveList) {
 			IBlockState state = world.getBlockState(pos);

@@ -65,7 +65,8 @@ public class ClassTransformer implements IClassTransformer {
 			"net/minecraft/world/IBlockAccess", "amy",
 			"net/minecraft/client/renderer/block/model/BakedQuad", "bvp",
 			"net/minecraft/inventory/InventoryCrafting", "afy",
-			"net/minecraft/inventory/TileEntityPiston", "awk"
+			"net/minecraft/inventory/TileEntityPiston", "awk",
+			"net/minecraft/block/state/BlockPistonStructureHelper", "" // TODO fill this in
 			);
 
 	private static final Map<String, Transformer> transformers = new HashMap();
@@ -269,50 +270,32 @@ public class ClassTransformer implements IClassTransformer {
 				})));
 	}
 
+	private static int aloadCount = 0;
 	private static byte[] transformBlockPistonBase(byte[] basicClass) {
 		log("Transforming BlockPistonBase");
 		MethodSignature sig1 = new MethodSignature("doMove", "func_176319_a", "a", "(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/EnumFacing;Z)Z");
 		MethodSignature sig2 = new MethodSignature("canPush", "func_185646_a", "a", "(Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/EnumFacing;ZLnet/minecraft/util/EnumFacing;)Z");
-
-
+		
+		
 		byte[] transClass = transform(basicClass, Pair.of(sig1, combine(
 				(AbstractInsnNode node) -> { // Filter
-					return node.getOpcode() == Opcodes.ASTORE && ((VarInsnNode) node).var == 11;
+					if(node.getOpcode() == Opcodes.ALOAD && ((VarInsnNode) node).var == 5) {
+						aloadCount++;
+						if(aloadCount == 2)
+							return true;
+					}	
+					
+					return false;
 				},
 				(MethodNode method, AbstractInsnNode node) -> { // Action
 					InsnList newInstructions = new InsnList();
 
 					newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 1));
 					newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 2));
-					newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 6));
-					newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 8));
-					newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 11));
+					newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 5));
+					newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 3));
 					newInstructions.add(new VarInsnNode(Opcodes.ILOAD, 4));
-					newInstructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, ASM_HOOKS, "breakStuffWithSpikes", "(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Ljava/util/List;Ljava/util/List;Lnet/minecraft/util/EnumFacing;Z)Z"));
-
-					// recalculate the list and array sizes
-					LabelNode label = new LabelNode();
-					newInstructions.add(new JumpInsnNode(Opcodes.IFEQ, label));
-
-					newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 6));
-					newInstructions.add(new MethodInsnNode(Opcodes.INVOKEINTERFACE, "java/util/List", "size", "()I"));
-					newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 8));
-					newInstructions.add(new MethodInsnNode(Opcodes.INVOKEINTERFACE, "java/util/List", "size", "()I"));
-					newInstructions.add(new InsnNode(Opcodes.IADD));
-					newInstructions.add(new VarInsnNode(Opcodes.ISTORE, 9));
-					newInstructions.add(new VarInsnNode(Opcodes.ILOAD, 9));
-
-					AbstractInsnNode newNode = node.getPrevious();
-					while(true) {
-						if(newNode.getOpcode() == Opcodes.ANEWARRAY) {
-							newInstructions.add(new TypeInsnNode(Opcodes.ANEWARRAY, ((TypeInsnNode) newNode).desc));
-							break;
-						}
-						newNode = newNode.getPrevious();
-					}
-
-					newInstructions.add(new VarInsnNode(Opcodes.ASTORE, 10));
-					newInstructions.add(label);
+					newInstructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, ASM_HOOKS, "onPistonMove", "(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/state/BlockPistonStructureHelper;Lnet/minecraft/util/EnumFacing;Z)V"));
 
 					method.instructions.insert(node, newInstructions);
 					return true;

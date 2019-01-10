@@ -5,6 +5,7 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirectional;
+import net.minecraft.block.state.BlockPistonStructureHelper;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
@@ -38,9 +39,12 @@ public class PistonSpikes extends Feature {
 				'R', (ezRecipe ? "ingotIron" : Blocks.END_ROD));
 	}
 	
-	public static boolean breakStuffWithSpikes(World world, BlockPos sourcePos, List<BlockPos> moveList, List<BlockPos> destroyList, EnumFacing facing, boolean extending) {
+	public static void breakStuffWithSpikes(World world, BlockPos sourcePos, BlockPistonStructureHelper helper, EnumFacing facing, boolean extending) {
 		if(!extending || !ModuleLoader.isFeatureEnabled(PistonSpikes.class))
-			return false;
+			return;
+		
+		List<BlockPos> moveList = helper.getBlocksToMove();
+		List<BlockPos> destroyList = helper.getBlocksToDestroy();
 		
 		boolean did = false;
 		List<BlockPos> newMoveList = new ArrayList(moveList);
@@ -62,7 +66,7 @@ public class PistonSpikes extends Feature {
 						break;
 					
 					if(blockAt == Blocks.SLIME_BLOCK)
-						return false;
+						return;
 					
 					if(i >= 2) {
 						if(i == 2) {
@@ -90,8 +94,6 @@ public class PistonSpikes extends Feature {
 			destroyList.clear();
 			destroyList.addAll(newDestroyList);
 		}
-		
-		return did;
 	}
 	
 	@Override

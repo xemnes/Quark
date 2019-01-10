@@ -2,6 +2,7 @@ package vazkii.quark.base.asm;
 
 import java.util.List;
 
+import net.minecraft.block.state.BlockPistonStructureHelper;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.block.model.BakedQuad;
@@ -21,6 +22,7 @@ import vazkii.quark.automation.feature.PistonsMoveTEs;
 import vazkii.quark.automation.feature.PistonsPushPullItems;
 import vazkii.quark.client.feature.BetterFireEffect;
 import vazkii.quark.decoration.feature.MoreBannerLayers;
+import vazkii.quark.experimental.features.CollateralPistonMovement;
 import vazkii.quark.experimental.features.ColoredLights;
 import vazkii.quark.management.feature.BetterCraftShifting;
 import vazkii.quark.misc.feature.ColorRunes;
@@ -66,12 +68,14 @@ public final class ASMHooks {
 		BoatBannerRenderer.renderBanner(boat, pticks);
 	}
 
-	// ===== PISTON BLOCK BREAKERS & PISTONS MOVE TES ===== //
+	// ===== PISTON BLOCK BREAKERS & PISTONS MOVE TES & COLLATERAL PISTON MOVEMENT ===== //
 	
-	public static boolean breakStuffWithSpikes(World world, BlockPos sourcePos, List<BlockPos> moveList, List<BlockPos> destroyList, EnumFacing facing, boolean extending) {
-		boolean res = PistonSpikes.breakStuffWithSpikes(world, sourcePos, moveList, destroyList, facing, extending); 
-		PistonsMoveTEs.detachTileEntities(world, sourcePos, moveList, destroyList, facing, extending);
-		return res;
+	public static void onPistonMove(World world, BlockPos sourcePos, BlockPistonStructureHelper helper, EnumFacing facing, boolean extending) {
+		EnumFacing rfacing = extending ? facing : facing.getOpposite();
+		
+		PistonSpikes.breakStuffWithSpikes(world, sourcePos, helper, rfacing, extending);
+		CollateralPistonMovement.applyCollateralMovements(world, sourcePos, helper, rfacing, extending);
+		PistonsMoveTEs.detachTileEntities(world, sourcePos, helper, rfacing, extending);
 	}	
 	
 	// ===== BETTER CRAFT SHIFTING ===== //

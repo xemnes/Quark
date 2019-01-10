@@ -14,6 +14,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.experimental.features.BiggerCaves;
+import vazkii.quark.experimental.features.CollateralPistonMovement;
 import vazkii.quark.experimental.features.ColoredLights;
 import vazkii.quark.experimental.features.ParrotsSayDespacito;
 import vazkii.quark.experimental.features.PrintSuppressor;
@@ -28,6 +29,7 @@ public class QuarkExperimental extends Module {
 		registerFeature(new ColoredLights(), false);
 		registerFeature(new ReactiveCursor(), false);
 		registerFeature(new ParrotsSayDespacito(), false);
+		registerFeature(new CollateralPistonMovement(), false);
 	}
 
 	@Override
