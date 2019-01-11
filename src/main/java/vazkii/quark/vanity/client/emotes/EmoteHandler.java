@@ -11,10 +11,10 @@
 package vazkii.quark.vanity.client.emotes;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.WeakHashMap;
 
 import com.google.common.collect.ImmutableSet;
 
@@ -39,8 +39,7 @@ public final class EmoteHandler {
 	public static final String CUSTOM_PREFIX = "custom:";
 	
 	public static Map<String, EmoteDescriptor> emoteMap = new LinkedHashMap();
-	private static WeakHashMap<EntityPlayer, EmoteBase> playerEmotes = new WeakHashMap();
-	private static List<EntityPlayer> updatedPlayers = new ArrayList();
+	private static Map<String, EmoteBase> playerEmotes = new HashMap();
 
 	private static int count;
 	
@@ -65,7 +64,8 @@ public final class EmoteHandler {
 	}
 	
 	public static void putEmote(AbstractClientPlayer player, EmoteDescriptor desc) {
-		if(player == null || playerEmotes.containsKey(player))
+		String name = player.getName();
+		if(player == null || playerEmotes.containsKey(name) || desc == null)
 			return;
 
 		ModelBiped model = getPlayerModel(player);
@@ -77,61 +77,51 @@ public final class EmoteHandler {
 
 		EmoteBase emote = desc.instantiate(player, model, armorModel, armorLegModel);
 		emote.startAllTimelines();
-		playerEmotes.put(player, emote);
+		playerEmotes.put(name, emote);
 	}
 
 	public static void updateEmotes(Entity e) {
 		if(e instanceof AbstractClientPlayer) {
 			AbstractClientPlayer player = (AbstractClientPlayer) e;
-
-			if(playerEmotes.containsKey(player)) {
-				EmoteBase emote = playerEmotes.get(player);
+			String name = player.getName();
+			
+			if(playerEmotes.containsKey(name)) {
+				EmoteBase emote = playerEmotes.get(name);
 				boolean done = emote.isDone();
 
 				if(!done)
-					emote.update(!updatedPlayers.contains(player));
-				
-				updatedPlayers.add(player);
-			}
+					emote.update();
+			} else resetPlayer(player);
 		}
 	}
 	
 	public static void onRenderTick(Minecraft mc, boolean start) {
-		if(start)
-			clearPlayerList();
-		else {
-			World world = mc.world;
-			if(world == null)
-				return;
-			
-			for(EntityPlayer player : world.playerEntities)
-				updateEmoteTime(player);
-		}
+		World world = mc.world;
+		if(world == null)
+			return;
+		
+		for(EntityPlayer player : world.playerEntities)
+			updatePlayerStatus(player);
 	}
 	
-	private static void updateEmoteTime(EntityPlayer e) {
+	private static void updatePlayerStatus(EntityPlayer e) {
 		if(e instanceof AbstractClientPlayer) {
 			AbstractClientPlayer player = (AbstractClientPlayer) e;
+			String name = player.getName();
 
-			if(playerEmotes.containsKey(player)) {
-				EmoteBase emote = playerEmotes.get(player);
+			if(playerEmotes.containsKey(name)) {
+				EmoteBase emote = playerEmotes.get(name);
 				boolean done = emote.isDone();
 				if(done) {
-					playerEmotes.remove(player);
-					resetModel(getPlayerModel(player));
-					resetModel(getPlayerArmorModel(player));
-					resetModel(getPlayerArmorLegModel(player));
-				} else emote.updateTime();
-			}
+					playerEmotes.remove(name);
+					resetPlayer(player);
+				}
+			} else resetPlayer(player);
 		}
-	}
-	
-	private static void clearPlayerList() {
-		updatedPlayers.clear();
 	}
 	
 	public static EmoteBase getPlayerEmote(EntityPlayer player) {
-		return playerEmotes.get(player);
+		return playerEmotes.get(player.getName());
 	}
 
 	private static RenderPlayer getRenderPlayer(AbstractClientPlayer player) {
@@ -160,6 +150,12 @@ public final class EmoteHandler {
 				return ReflectionHelper.getPrivateValue(LayerArmorBase.class, (LayerArmorBase) list.get(i), LibObfuscation.MODEL_LEGGINGS);
 		
 		return null;
+	}
+	
+	private static void resetPlayer(AbstractClientPlayer player) {
+		resetModel(getPlayerModel(player));
+		resetModel(getPlayerArmorModel(player));
+		resetModel(getPlayerArmorLegModel(player));
 	}
 
 	private static void resetModel(ModelBiped model) {

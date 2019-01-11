@@ -13,6 +13,7 @@ package vazkii.quark.base.network.message;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import vazkii.arl.network.NetworkMessage;
+import vazkii.arl.util.ClientTicker;
 import vazkii.quark.base.Quark;
 
 public class MessageDoEmote extends NetworkMessage {
@@ -29,7 +30,8 @@ public class MessageDoEmote extends NetworkMessage {
 
 	@Override
 	public IMessage handleMessage(MessageContext context) {
-		Quark.proxy.doEmote(playerName, emoteName);
+		ClientTicker.addAction(() -> Quark.proxy.doEmote(playerName, emoteName)); 
+		
 		return null;
 	}
 

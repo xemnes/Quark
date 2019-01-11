@@ -30,6 +30,7 @@ public abstract class EmoteBase {
 	private EntityPlayer player;
 	
 	public float timeDone, totalTime, animatedTime;
+	private long lastMs;
 
 	public EmoteBase(EmoteDescriptor desc, EntityPlayer player, ModelBiped model, ModelBiped armorModel, ModelBiped armorLegsModel) {
 		this.desc = desc;
@@ -45,33 +46,33 @@ public abstract class EmoteBase {
 		startTimeline(player, model);
 		startTimeline(player, armorModel);
 		startTimeline(player, armorLegsModel);
+		lastMs = System.currentTimeMillis();
 	}
 
 	void startTimeline(EntityPlayer player, ModelBiped model) {
 		Timeline timeline = getTimeline(player, model).start(emoteManager);
-		totalTime = timeline.getFullDuration() / 50F;
+		totalTime = timeline.getFullDuration();
 	}
 
 	public abstract Timeline getTimeline(EntityPlayer player, ModelBiped model);
 
 	public abstract boolean usesBodyPart(int part);
 
-	public void update(boolean doUpdate) {
+	public void update() {
 		state.load(model);
 		state.load(armorModel);
 		state.load(armorLegsModel);
-		if(doUpdate) {
-			float timeDiff = Math.max(Math.abs(animatedTime - timeDone), ClientTicker.delta);
-			animatedTime += timeDiff;
-			emoteManager.update(timeDiff * 50F);
-			state.save(model);
-		}
+		
+		long currTime = System.currentTimeMillis();
+		long timeDiff = currTime - lastMs;
+		animatedTime += timeDiff;
+		emoteManager.update(timeDiff);
+		state.save(model);
+		
+		lastMs = currTime;
+		timeDone += timeDiff;
 	}
 	
-	public void updateTime() {
-		timeDone += ClientTicker.delta;
-	}
-
 	public boolean isDone() {
 		return timeDone >= totalTime || player.swingProgress > 0 || player.hurtTime > 0;
 	}
