@@ -6,6 +6,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import com.google.common.collect.ImmutableSet;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockPistonBase;
 import net.minecraft.block.material.EnumPushReaction;
@@ -39,7 +41,10 @@ public class CollateralPistonMovement extends Feature {
 				+ "above_edge - moves all equal blocks above it, and one more block of any type that's above the stack\n"
 				+ "below_edge - moves all equal blocks below it, and one more block of any type that's below the stack\n"
 				+ "above_below_edge - moves all equal blocks above and below it, and one more block of any type that's above or below the stack\n"
-				+ "directional - moves the block its facing to (only works on directional blocks)";
+				+ "directional - moves the block its facing to (only works on directional blocks)\n"
+				+ "sides - moves the blocks on all adjacent sides\n"
+				+ "horiozntals - moves the blocks on all adjacent horizontal sides\n"
+				+ "verticals - moves the blocks on all adjacent vertical sides";
 		
 		String[] actionArr = loadPropStringList("Actions", desc, new String[] {
 				"quark:chain=below_edge"
@@ -62,6 +67,9 @@ public class CollateralPistonMovement extends Feature {
 				case "above_below_edge": action = CollateralPistonMovement::moveAllAboveBelowAndEdge; break;
 				
 				case "directional": action = CollateralPistonMovement::moveNextDirectional; break;
+				case "sides": action = CollateralPistonMovement::moveSides; break;
+				case "horizontals": action = CollateralPistonMovement::moveHorizontals; break;
+				case "verticals": action = CollateralPistonMovement::moveVerticals; break;
 				}
 				
 				if(action != null)
@@ -153,12 +161,30 @@ public class CollateralPistonMovement extends Feature {
 	
 	private static void moveNextDirectional(World world, BlockPos pos, IBlockState state, EnumFacing facing, boolean extending, List<BlockPos> list) {
 		EnumFacing direction = getStateFacing(state);
-		if(direction != null && direction != facing.getOpposite()) {
-			BlockPos nextPos = pos.offset(direction);
-			IBlockState nextState = world.getBlockState(nextPos);
-			if(canMove(nextState, world, nextPos))
-				list.add(nextPos);
-		}
+		if(direction != null)
+			moveSideIterable(world, pos, facing, list, new EnumFacing[] { direction });
+	}
+	
+	private static void moveSides(World world, BlockPos pos, IBlockState state, EnumFacing facing, boolean extending, List<BlockPos> list) {
+		moveSideIterable(world, pos, facing, list, EnumFacing.VALUES);
+	}
+	
+	private static void moveHorizontals(World world, BlockPos pos, IBlockState state, EnumFacing facing, boolean extending, List<BlockPos> list) {
+		moveSideIterable(world, pos, facing, list, EnumFacing.HORIZONTALS);
+	}
+	
+	private static void moveVerticals(World world, BlockPos pos, IBlockState state, EnumFacing facing, boolean extending, List<BlockPos> list) {
+		moveSideIterable(world, pos, facing, list, new EnumFacing[] { EnumFacing.UP, EnumFacing.DOWN });
+	}
+	
+	private static void moveSideIterable(World world, BlockPos pos, EnumFacing facing, List<BlockPos> list, EnumFacing[] directions) {
+		for(EnumFacing direction : directions)
+			if(direction != facing.getOpposite()) {
+				BlockPos nextPos = pos.offset(direction);
+				IBlockState nextState = world.getBlockState(nextPos);
+				if(canMove(nextState, world, nextPos))
+					list.add(nextPos);
+			}
 	}
 	
 	private static boolean canMove(IBlockState state, World world, BlockPos pos) { // TODO change to isAir
