@@ -160,15 +160,21 @@ public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 	}
 
 	private void loadMatrix(ItemStack stack) {
-		if(stack.isItemEnchantable() && (matrix == null || matrix.target != stack)) {
-			matrix = new EnchantmentMatrix(stack, world.rand);
-			matrixDirty = true;
-			makeUUID();
+		if(matrix == null || matrix.target != stack) {
+			if(matrix != null)
+				matrixDirty = true;
+			matrix = null;
+			
+			if(stack.isItemEnchantable()) {
+				matrix = new EnchantmentMatrix(stack, world.rand);
+				matrixDirty = true;
+				makeUUID();
 
-			if(stack.hasTagCompound() && stack.getTagCompound().hasKey(TAG_STACK_MATRIX)) {
-				NBTTagCompound cmp = ItemNBTHelper.getCompound(stack, TAG_STACK_MATRIX, true);
-				if(cmp != null)
-					matrix.readFromNBT(cmp);
+				if(stack.hasTagCompound() && stack.getTagCompound().hasKey(TAG_STACK_MATRIX)) {
+					NBTTagCompound cmp = ItemNBTHelper.getCompound(stack, TAG_STACK_MATRIX, true);
+					if(cmp != null)
+						matrix.readFromNBT(cmp);
+				}
 			}
 		}
 	}
