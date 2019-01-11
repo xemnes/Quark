@@ -10,8 +10,12 @@
  */
 package vazkii.quark.base.module;
 
+import org.apache.commons.io.input.ProxyReader;
 import org.apache.commons.lang3.text.WordUtils;
 
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.config.Property;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -22,6 +26,8 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.oredict.OreDictionary;
+import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.lib.LibMisc;
 
 public class Feature implements Comparable<Feature> {
@@ -134,6 +140,18 @@ public class Feature implements Comparable<Feature> {
 
 	public static void registerTile(Class<? extends TileEntity> clazz, String key) {
 		GameRegistry.registerTileEntity(clazz, LibMisc.PREFIX_MOD + key);
+	}
+	
+	public static void addOreDict(String key, Item value) {
+		addOreDict(key, ProxyRegistry.newStack(value));
+	}
+	
+	public static void addOreDict(String key, Block value) {
+		addOreDict(key, ProxyRegistry.newStack(value));
+	}
+	
+	public static void addOreDict(String key, ItemStack value) {
+		ModuleLoader.lazyOreDictRegisters.add(() -> OreDictionary.registerOre(key, value));
 	}
 
 	public final boolean isClient() {

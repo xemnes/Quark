@@ -57,11 +57,11 @@ public class VerticalWoodPlanks extends Feature {
 	}
 	
 	private void addOreDict() {
-		OreDictionary.registerOre("plankWood", ProxyRegistry.newStack(vertical_planks, 1, OreDictionary.WILDCARD_VALUE));
+		addOreDict("plankWood", ProxyRegistry.newStack(vertical_planks, 1, OreDictionary.WILDCARD_VALUE));
 
 		if(ModuleLoader.isFeatureEnabled(StainedPlanks.class) && enableVerticalStained) {
-			OreDictionary.registerOre("plankWood", ProxyRegistry.newStack(vertical_stained_planks, 1, OreDictionary.WILDCARD_VALUE));
-			OreDictionary.registerOre("plankStained", ProxyRegistry.newStack(vertical_stained_planks, 1, OreDictionary.WILDCARD_VALUE));
+			addOreDict("plankWood", ProxyRegistry.newStack(vertical_stained_planks, 1, OreDictionary.WILDCARD_VALUE));
+			addOreDict("plankStained", ProxyRegistry.newStack(vertical_stained_planks, 1, OreDictionary.WILDCARD_VALUE));
 		}
 	}
 

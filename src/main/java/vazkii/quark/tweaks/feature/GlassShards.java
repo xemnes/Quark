@@ -42,7 +42,7 @@ public class GlassShards extends Feature {
 					"SS", "SS",
 					'S', ProxyRegistry.newStack(glass_shard, 1, i + 1));
 		
-		OreDictionary.registerOre("shardGlass", glass_shard);
+		addOreDict("shardGlass", glass_shard);
 	}
 	
 	@SubscribeEvent(priority = EventPriority.LOW)

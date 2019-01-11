@@ -39,7 +39,7 @@ public class SlimeBucket extends Feature {
 	public void preInit(FMLPreInitializationEvent event) {
 		slime_bucket = new ItemSlimeBucket();
 		
-		OreDictionary.registerOre("slimeball", slime_bucket);
+		addOreDict("slimeball", slime_bucket);
 	}
 	
 	@SubscribeEvent

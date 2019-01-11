@@ -125,9 +125,9 @@ public class UndergroundBiomes extends Feature {
 	
 	private void addOreDict() {
 		if(glowceliumEnabled) {
-			OreDictionary.registerOre("mushroomAny", Blocks.RED_MUSHROOM);
-			OreDictionary.registerOre("mushroomAny", Blocks.BROWN_MUSHROOM);	
-			OreDictionary.registerOre("mushroomAny", glowshroom);
+			addOreDict("mushroomAny", Blocks.RED_MUSHROOM);
+			addOreDict("mushroomAny", Blocks.BROWN_MUSHROOM);	
+			addOreDict("mushroomAny", glowshroom);
 		}
 	}
 	

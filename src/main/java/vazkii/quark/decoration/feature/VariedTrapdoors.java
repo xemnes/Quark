@@ -83,12 +83,12 @@ public class VariedTrapdoors extends Feature {
 	}
 	
 	private void addOreDict() {
-		OreDictionary.registerOre("trapdoorWood", Blocks.TRAPDOOR);
-		OreDictionary.registerOre("trapdoorWood", spruce_trapdoor);
-		OreDictionary.registerOre("trapdoorWood", birch_trapdoor);
-		OreDictionary.registerOre("trapdoorWood", jungle_trapdoor);
-		OreDictionary.registerOre("trapdoorWood", acacia_trapdoor);
-		OreDictionary.registerOre("trapdoorWood", dark_oak_trapdoor);
+		addOreDict("trapdoorWood", Blocks.TRAPDOOR);
+		addOreDict("trapdoorWood", spruce_trapdoor);
+		addOreDict("trapdoorWood", birch_trapdoor);
+		addOreDict("trapdoorWood", jungle_trapdoor);
+		addOreDict("trapdoorWood", acacia_trapdoor);
+		addOreDict("trapdoorWood", dark_oak_trapdoor);
 	}
 	
 	@Override

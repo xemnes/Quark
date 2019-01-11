@@ -44,8 +44,8 @@ public class StainedPlanks extends Feature {
 					'D', LibMisc.OREDICT_DYES.get(15 - i));
 		}
 		
-		OreDictionary.registerOre("plankWood", ProxyRegistry.newStack(stained_planks, 1, OreDictionary.WILDCARD_VALUE));
-		OreDictionary.registerOre("plankStained", ProxyRegistry.newStack(stained_planks, 1, OreDictionary.WILDCARD_VALUE));
+		addOreDict("plankWood", ProxyRegistry.newStack(stained_planks, 1, OreDictionary.WILDCARD_VALUE));
+		addOreDict("plankStained", ProxyRegistry.newStack(stained_planks, 1, OreDictionary.WILDCARD_VALUE));
 	}
 
 	@Override

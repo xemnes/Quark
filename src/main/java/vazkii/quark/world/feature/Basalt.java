@@ -73,8 +73,8 @@ public class Basalt extends Feature {
 		
 		GameRegistry.registerWorldGenerator(new BasaltGenerator(() -> basaltInfo), 0);
 		
-		OreDictionary.registerOre("stoneBasalt", ProxyRegistry.newStack(basalt, 1, 0));
-		OreDictionary.registerOre("stoneBasaltPolished", ProxyRegistry.newStack(basalt, 1, 1));
+		addOreDict("stoneBasalt", ProxyRegistry.newStack(basalt, 1, 0));
+		addOreDict("stoneBasaltPolished", ProxyRegistry.newStack(basalt, 1, 1));
 	}
 	
 	@Override

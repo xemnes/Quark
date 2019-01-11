@@ -88,7 +88,7 @@ public class Biotite extends Feature {
 
 		GameRegistry.registerWorldGenerator(new BiotiteGenerator(clusterSize, clusterCount), 0);
 		
-		OreDictionary.registerOre("gemEnderBiotite", biotite);
+		addOreDict("gemEnderBiotite", biotite);
 	}
 	
 	@SubscribeEvent

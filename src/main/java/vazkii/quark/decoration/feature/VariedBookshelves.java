@@ -61,15 +61,15 @@ public class VariedBookshelves extends Feature {
 	}
 
 	private void addOreDict() {
-		OreDictionary.registerOre("bookshelf", Blocks.BOOKSHELF);
-		OreDictionary.registerOre("bookshelf", ProxyRegistry.newStack(custom_bookshelf, 1, OreDictionary.WILDCARD_VALUE));
+		addOreDict("bookshelf", Blocks.BOOKSHELF);
+		addOreDict("bookshelf", ProxyRegistry.newStack(custom_bookshelf, 1, OreDictionary.WILDCARD_VALUE));
 		
-		OreDictionary.registerOre("bookshelfOak", Blocks.BOOKSHELF);
-		OreDictionary.registerOre("bookshelfSpruce", ProxyRegistry.newStack(custom_bookshelf, 1, 0));
-		OreDictionary.registerOre("bookshelfBirch", ProxyRegistry.newStack(custom_bookshelf, 1, 1));
-		OreDictionary.registerOre("bookshelfJungle", ProxyRegistry.newStack(custom_bookshelf, 1, 2));
-		OreDictionary.registerOre("bookshelfAcacia", ProxyRegistry.newStack(custom_bookshelf, 1, 3));
-		OreDictionary.registerOre("bookshelfDarkOak", ProxyRegistry.newStack(custom_bookshelf, 1, 4));
+		addOreDict("bookshelfOak", Blocks.BOOKSHELF);
+		addOreDict("bookshelfSpruce", ProxyRegistry.newStack(custom_bookshelf, 1, 0));
+		addOreDict("bookshelfBirch", ProxyRegistry.newStack(custom_bookshelf, 1, 1));
+		addOreDict("bookshelfJungle", ProxyRegistry.newStack(custom_bookshelf, 1, 2));
+		addOreDict("bookshelfAcacia", ProxyRegistry.newStack(custom_bookshelf, 1, 3));
+		addOreDict("bookshelfDarkOak", ProxyRegistry.newStack(custom_bookshelf, 1, 4));
 	}
 	
 	@Override

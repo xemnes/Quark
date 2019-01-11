@@ -149,16 +149,16 @@ public class VariedChests extends Feature {
 	}
 	
 	private void addOreDict() {
-		OreDictionary.registerOre("chest", ProxyRegistry.newStack(custom_chest, 1, OreDictionary.WILDCARD_VALUE));
-		OreDictionary.registerOre("chest", ProxyRegistry.newStack(custom_chest_trap, 1, OreDictionary.WILDCARD_VALUE));
-		OreDictionary.registerOre("chest", Blocks.CHEST);
-		OreDictionary.registerOre("chest", Blocks.TRAPPED_CHEST);
+		addOreDict("chest", ProxyRegistry.newStack(custom_chest, 1, OreDictionary.WILDCARD_VALUE));
+		addOreDict("chest", ProxyRegistry.newStack(custom_chest_trap, 1, OreDictionary.WILDCARD_VALUE));
+		addOreDict("chest", Blocks.CHEST);
+		addOreDict("chest", Blocks.TRAPPED_CHEST);
 		
-		OreDictionary.registerOre("chestWood", ProxyRegistry.newStack(custom_chest, 1, OreDictionary.WILDCARD_VALUE));
-		OreDictionary.registerOre("chestWood", Blocks.CHEST);
+		addOreDict("chestWood", ProxyRegistry.newStack(custom_chest, 1, OreDictionary.WILDCARD_VALUE));
+		addOreDict("chestWood", Blocks.CHEST);
 		
-		OreDictionary.registerOre("chestTrapped", ProxyRegistry.newStack(custom_chest_trap, 1, OreDictionary.WILDCARD_VALUE));
-		OreDictionary.registerOre("chestTrapped", Blocks.TRAPPED_CHEST);
+		addOreDict("chestTrapped", ProxyRegistry.newStack(custom_chest_trap, 1, OreDictionary.WILDCARD_VALUE));
+		addOreDict("chestTrapped", Blocks.TRAPPED_CHEST);
 	}
 	
 	private static boolean fixedTrappedChest = false;

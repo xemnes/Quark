@@ -35,7 +35,7 @@ public class PolishedStone extends Feature {
 				"SSS",
 				'S', ProxyRegistry.newStack(polished_stone));
 		
-		OreDictionary.registerOre("stonePolished", polished_stone);
+		addOreDict("stonePolished", polished_stone);
 	}
 	
 	@Override

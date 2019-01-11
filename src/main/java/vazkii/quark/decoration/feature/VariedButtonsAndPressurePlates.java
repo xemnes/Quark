@@ -87,21 +87,21 @@ public class VariedButtonsAndPressurePlates extends Feature {
 	
 	private void addOreDict() {
 		if(enablePressurePlates) {
-			OreDictionary.registerOre("pressurePlateWood", Blocks.WOODEN_PRESSURE_PLATE);
-			OreDictionary.registerOre("pressurePlateWood", spruce_pressure_plate);
-			OreDictionary.registerOre("pressurePlateWood", birch_pressure_plate);
-			OreDictionary.registerOre("pressurePlateWood", jungle_pressure_plate);
-			OreDictionary.registerOre("pressurePlateWood", acacia_pressure_plate);
-			OreDictionary.registerOre("pressurePlateWood", dark_oak_pressure_plate);
+			addOreDict("pressurePlateWood", Blocks.WOODEN_PRESSURE_PLATE);
+			addOreDict("pressurePlateWood", spruce_pressure_plate);
+			addOreDict("pressurePlateWood", birch_pressure_plate);
+			addOreDict("pressurePlateWood", jungle_pressure_plate);
+			addOreDict("pressurePlateWood", acacia_pressure_plate);
+			addOreDict("pressurePlateWood", dark_oak_pressure_plate);
 		}
 
 		if(enableButtons) {
-			OreDictionary.registerOre("buttonWood", Blocks.WOODEN_BUTTON);
-			OreDictionary.registerOre("buttonWood", spruce_button);
-			OreDictionary.registerOre("buttonWood", birch_button);
-			OreDictionary.registerOre("buttonWood", jungle_button);
-			OreDictionary.registerOre("buttonWood", acacia_button);
-			OreDictionary.registerOre("buttonWood", dark_oak_button);
+			addOreDict("buttonWood", Blocks.WOODEN_BUTTON);
+			addOreDict("buttonWood", spruce_button);
+			addOreDict("buttonWood", birch_button);
+			addOreDict("buttonWood", jungle_button);
+			addOreDict("buttonWood", acacia_button);
+			addOreDict("buttonWood", dark_oak_button);
 		}
 	}
 	

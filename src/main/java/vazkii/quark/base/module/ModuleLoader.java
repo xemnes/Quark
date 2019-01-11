@@ -18,8 +18,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
+import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.FMLLog;
 import net.minecraftforge.fml.common.Loader;
@@ -27,6 +29,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -55,6 +58,7 @@ public final class ModuleLoader {
 	public static Map<String, Feature> featureClassnames = new HashMap();
 
 	public static List<Module> enabledModules;
+	public static List<Runnable> lazyOreDictRegisters = new ArrayList();
 
 	public static Configuration config;
 	public static File configFile;
@@ -140,7 +144,7 @@ public final class ModuleLoader {
 		
 		loadConfig();
 
-		MinecraftForge.EVENT_BUS.register(new ChangeListener());
+		MinecraftForge.EVENT_BUS.register(EventHandler.class);
 	}
 	
 	public static void loadConfig() {
@@ -189,12 +193,17 @@ public final class ModuleLoader {
 			moduleClasses.add(clazz);
 	}
 
-	public static class ChangeListener {
+	public static class EventHandler {
 
 		@SubscribeEvent
-		public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent eventArgs) {
+		public static void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent eventArgs) {
 			if(eventArgs.getModID().equals(LibMisc.MOD_ID))
 				loadConfig();
+		}
+		
+		@SubscribeEvent(priority = EventPriority.LOWEST)
+		public static void onRegistered(RegistryEvent.Register<Item> event) {
+			lazyOreDictRegisters.forEach(Runnable::run);
 		}
 
 	}

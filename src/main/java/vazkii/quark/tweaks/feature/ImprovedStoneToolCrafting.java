@@ -42,17 +42,17 @@ public class ImprovedStoneToolCrafting extends Feature {
 	}
 	
 	private void addOreDict() {
-		OreDictionary.registerOre(mat, ProxyRegistry.newStack(Items.FLINT));
-		OreDictionary.registerOre(mat, ProxyRegistry.newStack(Blocks.STONE));
-		OreDictionary.registerOre(mat, ProxyRegistry.newStack(Blocks.STONE, 1, 1));
-		OreDictionary.registerOre(mat, ProxyRegistry.newStack(Blocks.STONE, 1, 3));
-		OreDictionary.registerOre(mat, ProxyRegistry.newStack(Blocks.STONE, 1, 5));
-		OreDictionary.registerOre(mat, ProxyRegistry.newStack(Blocks.COBBLESTONE));
+		addOreDict(mat, ProxyRegistry.newStack(Items.FLINT));
+		addOreDict(mat, ProxyRegistry.newStack(Blocks.STONE));
+		addOreDict(mat, ProxyRegistry.newStack(Blocks.STONE, 1, 1));
+		addOreDict(mat, ProxyRegistry.newStack(Blocks.STONE, 1, 3));
+		addOreDict(mat, ProxyRegistry.newStack(Blocks.STONE, 1, 5));
+		addOreDict(mat, ProxyRegistry.newStack(Blocks.COBBLESTONE));
 		
 		if(RevampStoneGen.limestone != null)
-			OreDictionary.registerOre(mat, ProxyRegistry.newStack(RevampStoneGen.limestone));
+			addOreDict(mat, ProxyRegistry.newStack(RevampStoneGen.limestone));
 		if(RevampStoneGen.marble != null)
-			OreDictionary.registerOre(mat, ProxyRegistry.newStack(RevampStoneGen.marble));
+			addOreDict(mat, ProxyRegistry.newStack(RevampStoneGen.marble));
 	}
 
 	@Override

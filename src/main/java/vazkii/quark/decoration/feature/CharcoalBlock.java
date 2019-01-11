@@ -39,7 +39,7 @@ public class CharcoalBlock extends Feature {
 
 		GameRegistry.registerFuelHandler((stack) -> !stack.isEmpty() && stack.getItem() == Item.getItemFromBlock(charcoal_block) ? 16000 : 0);
 	
-		OreDictionary.registerOre("blockCharcoal", charcoal_block);
+		addOreDict("blockCharcoal", charcoal_block);
 	}
 	
 	@Override

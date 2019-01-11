@@ -62,8 +62,8 @@ public class TallowAndCandles extends Feature {
 					baseCandle, baseCandle, baseCandle, baseCandle, baseCandle, baseCandle, baseCandle, baseCandle, dye);
 		}
 		
-		OreDictionary.registerOre("tallow", tallow);
-		OreDictionary.registerOre("blockCandle", ProxyRegistry.newStack(candle, 1, OreDictionary.WILDCARD_VALUE));
+		addOreDict("tallow", tallow);
+		addOreDict("blockCandle", ProxyRegistry.newStack(candle, 1, OreDictionary.WILDCARD_VALUE));
 	}
 	
 	@SubscribeEvent
