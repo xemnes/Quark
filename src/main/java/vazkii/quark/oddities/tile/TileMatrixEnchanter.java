@@ -231,8 +231,10 @@ public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 			matrix.writeToNBT(matrixCmp);
 
 			cmp.setTag(TAG_MATRIX, matrixCmp);
-			cmp.setLong(TAG_MATRIX_UUID_LESS, matrixId.getLeastSignificantBits());
-			cmp.setLong(TAG_MATRIX_UUID_MOST, matrixId.getMostSignificantBits());
+			if(matrixId != null) {
+				cmp.setLong(TAG_MATRIX_UUID_LESS, matrixId.getLeastSignificantBits());
+				cmp.setLong(TAG_MATRIX_UUID_MOST, matrixId.getMostSignificantBits());
+			}
 		}
 		cmp.setInteger(TAG_CHARGE, charge);
 	}
