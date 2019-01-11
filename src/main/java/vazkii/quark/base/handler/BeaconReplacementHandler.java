@@ -35,7 +35,7 @@ public final class BeaconReplacementHandler {
 			defaultEffectsList = new Potion[TileEntityBeacon.EFFECTS_LIST.length][2];
 			for(int i = 0; i < TileEntityBeacon.EFFECTS_LIST.length; i++) {
 				Potion[] a = TileEntityBeacon.EFFECTS_LIST[i];
-				for(int j = 0; j < a.length && j < defaultEffectsList.length; j++)
+				for(int j = 0; j < a.length && j < defaultEffectsList[i].length; j++)
 					defaultEffectsList[i][j] = a[j];
 			}
 		}
@@ -48,7 +48,7 @@ public final class BeaconReplacementHandler {
 	public static void update(TileEntityBeacon beacon) {
 		for(int i = 0; i < TileEntityBeacon.EFFECTS_LIST.length; i++) {
 			Potion[] a = TileEntityBeacon.EFFECTS_LIST[i];
-			for(int j = 0; j < a.length; j++)
+			for(int j = 0; j < a.length && j < defaultEffectsList[i].length; j++)
 				a[j] = defaultEffectsList[i][j];
 		}
 		
