@@ -97,7 +97,13 @@ public class GuiMatrixEnchanting extends GuiContainer {
             	text = I18n.translateToLocalFormatted("quarkmisc.matrixMin", xpMin);
             }
             
-            fontRenderer.drawStringWithShadow(text, x - fontRenderer.getStringWidth(text) - 2, y, has ? 0xc8ff8f : 0xff8f8f);
+            x -= (fontRenderer.getStringWidth(text) - 5);
+            y += 3;
+            fontRenderer.drawString(text, x - 1, y, 0);
+            fontRenderer.drawString(text, x + 1, y, 0);
+            fontRenderer.drawString(text, x, y + 1, 0);
+            fontRenderer.drawString(text, x, y - 1, 0);
+            fontRenderer.drawString(text, x, y, has ? 0xc8ff8f : 0xff8f8f);
         }
 	}
 
