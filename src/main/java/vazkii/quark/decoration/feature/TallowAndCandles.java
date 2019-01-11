@@ -25,6 +25,8 @@ public class TallowAndCandles extends Feature {
 	public static Block candle;
 	
 	public static boolean candlesFall;
+	public static float enchantPower;
+	
 	boolean enableTallow;
 	int minDrop, maxDrop, candlesCrafted, tallowBurnTime;
 	
@@ -36,6 +38,7 @@ public class TallowAndCandles extends Feature {
 		maxDrop = loadPropInt("Max Tallow Dropped", "", 3);
 		candlesCrafted = loadPropInt("Candles Crafted", "", 2);
 		tallowBurnTime = loadPropInt("Tallow Burn Time", "", 200);
+		enchantPower = (float) loadPropDouble("Enchantment Power", "How much power candles provide to enchanting tables. 1 = 1 bookshelf", 0.5);
 	}
 	
 	@Override

@@ -51,6 +51,11 @@ public class BlockCandle extends BlockMetaVariants implements IQuarkBlock {
             checkFallable(worldIn, pos);
     }
 	
+	@Override
+	public float getEnchantPowerBonus(World world, BlockPos pos) {
+		return TallowAndCandles.enchantPower;
+	}
+	
 	// Copypasta from BlockFalling
 	private void checkFallable(World worldIn, BlockPos pos) {
         if((worldIn.isAirBlock(pos.down()) || BlockFalling.canFallThrough(worldIn.getBlockState(pos.down()))) && pos.getY() >= 0) {
