@@ -72,9 +72,6 @@ public final class EmoteHandler {
 		ModelBiped armorModel = getPlayerArmorModel(player);
 		ModelBiped armorLegModel = getPlayerArmorLegModel(player);
 
-		if(model.bipedHead.rotateAngleY < 0)
-			model.bipedHead.rotateAngleY = 2 * (float) Math.PI - model.bipedHead.rotateAngleY;
-
 		EmoteBase emote = desc.instantiate(player, model, armorModel, armorLegModel);
 		emote.startAllTimelines();
 		playerEmotes.put(name, emote);
