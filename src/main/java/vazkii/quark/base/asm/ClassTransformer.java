@@ -66,7 +66,7 @@ public class ClassTransformer implements IClassTransformer {
 			"net/minecraft/client/renderer/block/model/BakedQuad", "bvp",
 			"net/minecraft/inventory/InventoryCrafting", "afy",
 			"net/minecraft/inventory/TileEntityPiston", "awk",
-			"net/minecraft/block/state/BlockPistonStructureHelper", "" // TODO fill this in
+			"net/minecraft/block/state/BlockPistonStructureHelper", "awn"
 			);
 
 	private static final Map<String, Transformer> transformers = new HashMap();
