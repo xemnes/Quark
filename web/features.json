@@ -419,7 +419,7 @@
 			{
 				"name":"Tallow and Candles",
 				"classname":"TallowAndCandles",
-				"description":"In an attempt to make pigs be useful in any way, they drop Tallow. Tallow can be crafted alongside String to create Candles, or as a furnace fuel.<br><br>Candles come in all 16 colors of the spectrum, and emit as much light as torches. Candles will also fall like sand if there's no block under them, which can have many fun uses.",
+				"description":"In an attempt to make pigs be useful in any way, they drop Tallow. Tallow can be crafted alongside String to create Candles, or as a furnace fuel.<br><br>Candles come in all 16 colors of the spectrum, and emit as much light as torches. Candles will also fall like sand if there's no block under them, which can have many fun uses.<br><br>Lastly, for Enchanting Table purposes, two candles equal one bookshelf.",
 				"image":"candles.jpg",
 				"introduced":12
 			},
@@ -1310,6 +1310,14 @@
 				"classname":"TotemOfHolding",
 				"description":"When a player dies, a Totem of Holding will spawn at the dead player's position. This totem will float around in the air, holding the player's items. Any player can retreive the items the totem is holding by punching it a few times. (The totem won't spawn for PVP kills)<br><br>Do note that if the player who spawned the totem dies again, the totem will break and drop all of the items on the ground, like a normal death.<br><br>A player's totem can be located by crafting a Soul Compass, which is done using a Compass and a Soul Bead (from the Wraiths feature in the World Module). Should Soul Beads not be available, Soul Sand is used instead.",
 				"image":"totem-of-holding.jpg",
+				"introduced":12
+			},
+			{
+				"name":"Matrix Enchanting",
+				"classname":"MatrixEnchanting",
+				"description":"A complete overhaul of the Enchanting System. Pieces can be generated using lapis and XP. The pieces then have to be laid on the grid to enchant the item. Pieces can be rotated and upgraded into higher levels.<br><br>Furthermore, the enchanting table can now hold Lapis and the item you put in. The item will even render in the world!<br><br>Click the album button in the bottom of this card for a preview of how this system works.",
+				"image":"matrix-enchanting.jpg",
+				"album": "https://twitter.com/Vazkii/status/1083572148793499649",
 				"introduced":12
 			}
 		]
