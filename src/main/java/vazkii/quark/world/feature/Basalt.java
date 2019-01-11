@@ -72,14 +72,11 @@ public class Basalt extends Feature {
 				'B', ProxyRegistry.newStack(basalt, 1, 0));
 		
 		GameRegistry.registerWorldGenerator(new BasaltGenerator(() -> basaltInfo), 0);
-	}
-	
-	@Override
-	public void init(FMLInitializationEvent event) {
+		
 		OreDictionary.registerOre("stoneBasalt", ProxyRegistry.newStack(basalt, 1, 0));
 		OreDictionary.registerOre("stoneBasaltPolished", ProxyRegistry.newStack(basalt, 1, 1));
 	}
-
+	
 	@Override
 	public void postPreInit(FMLPreInitializationEvent event) {
 		ItemStack blackItem = ProxyRegistry.newStack(Items.COAL); 

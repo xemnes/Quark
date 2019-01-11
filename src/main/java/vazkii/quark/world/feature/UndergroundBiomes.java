@@ -119,10 +119,11 @@ public class UndergroundBiomes extends Feature {
 			firestoneState = biome_cobblestone.getDefaultState().withProperty(biome_cobblestone.getVariantProp(), BlockBiomeCobblestone.Variants.FIRE_STONE);
 		if(icystoneEnabled)
 			icystoneState = biome_cobblestone.getDefaultState().withProperty(biome_cobblestone.getVariantProp(), BlockBiomeCobblestone.Variants.ICY_STONE);
+
+		addOreDict();
 	}
 	
-	@Override
-	public void init(FMLInitializationEvent event) {
+	private void addOreDict() {
 		if(glowceliumEnabled) {
 			OreDictionary.registerOre("mushroomAny", Blocks.RED_MUSHROOM);
 			OreDictionary.registerOre("mushroomAny", Blocks.BROWN_MUSHROOM);	

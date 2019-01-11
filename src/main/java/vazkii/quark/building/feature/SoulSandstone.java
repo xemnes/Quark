@@ -54,7 +54,6 @@ public class SoulSandstone extends Feature {
 			BlockModStairs.initStairs(soul_sandstone, 0, new BlockSoulSandstoneStairs());
 		
 		VanillaWalls.add("soul_sandstone", soul_sandstone, 0, enableWalls);
-
 	}
 
 	@Override

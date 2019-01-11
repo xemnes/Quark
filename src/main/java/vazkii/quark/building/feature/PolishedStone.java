@@ -34,10 +34,7 @@ public class PolishedStone extends Feature {
 		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(Blocks.STONE_SLAB, 6),
 				"SSS",
 				'S', ProxyRegistry.newStack(polished_stone));
-	}
-
-	@Override
-	public void init(FMLInitializationEvent event) {
+		
 		OreDictionary.registerOre("stonePolished", polished_stone);
 	}
 	

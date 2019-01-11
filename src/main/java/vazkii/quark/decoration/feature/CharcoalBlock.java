@@ -38,13 +38,10 @@ public class CharcoalBlock extends Feature {
 		RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(Items.COAL, 9, 1), ProxyRegistry.newStack(charcoal_block));
 
 		GameRegistry.registerFuelHandler((stack) -> !stack.isEmpty() && stack.getItem() == Item.getItemFromBlock(charcoal_block) ? 16000 : 0);
-	}
 	
-	@Override
-	public void init(FMLInitializationEvent event) {
 		OreDictionary.registerOre("blockCharcoal", charcoal_block);
 	}
-
+	
 	@Override
 	public boolean requiresMinecraftRestartToEnable() {
 		return true;

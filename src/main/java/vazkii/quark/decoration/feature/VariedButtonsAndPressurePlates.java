@@ -47,6 +47,8 @@ public class VariedButtonsAndPressurePlates extends Feature {
 			acacia_button = new BlockCustomButton("acacia");
 			dark_oak_button = new BlockCustomButton("dark_oak");
 		}
+		
+		addOreDict();
 	}
 
 	@Override
@@ -83,8 +85,7 @@ public class VariedButtonsAndPressurePlates extends Feature {
 		}
 	}
 	
-	@Override
-	public void init(FMLInitializationEvent event) {
+	private void addOreDict() {
 		if(enablePressurePlates) {
 			OreDictionary.registerOre("pressurePlateWood", Blocks.WOODEN_PRESSURE_PLATE);
 			OreDictionary.registerOre("pressurePlateWood", spruce_pressure_plate);

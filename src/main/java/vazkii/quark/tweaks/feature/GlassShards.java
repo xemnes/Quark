@@ -41,13 +41,10 @@ public class GlassShards extends Feature {
 			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(Blocks.STAINED_GLASS, 1, i),
 					"SS", "SS",
 					'S', ProxyRegistry.newStack(glass_shard, 1, i + 1));
-	}
-	
-	@Override
-	public void init(FMLInitializationEvent event) {
+		
 		OreDictionary.registerOre("shardGlass", glass_shard);
 	}
-
+	
 	@SubscribeEvent(priority = EventPriority.LOW)
 	public void onDrops(HarvestDropsEvent event) {
 		Block block = event.getState().getBlock();

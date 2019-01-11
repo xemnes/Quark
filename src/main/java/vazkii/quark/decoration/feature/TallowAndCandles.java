@@ -61,13 +61,9 @@ public class TallowAndCandles extends Feature {
 			RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(candle, 8, i), 
 					baseCandle, baseCandle, baseCandle, baseCandle, baseCandle, baseCandle, baseCandle, baseCandle, dye);
 		}
-	}
-	
-	@Override
-	public void init(FMLInitializationEvent event) {
+		
 		OreDictionary.registerOre("tallow", tallow);
 		OreDictionary.registerOre("blockCandle", ProxyRegistry.newStack(candle, 1, OreDictionary.WILDCARD_VALUE));
-
 	}
 	
 	@SubscribeEvent

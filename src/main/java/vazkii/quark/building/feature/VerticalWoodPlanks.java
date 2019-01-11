@@ -39,6 +39,8 @@ public class VerticalWoodPlanks extends Feature {
 
 		if(ModuleLoader.isFeatureEnabled(StainedPlanks.class) && enableVerticalStained)
 			vertical_stained_planks = new BlockVerticalStainedPlanks();
+		
+		addOreDict();
 	}
 
 	@Override
@@ -54,8 +56,7 @@ public class VerticalWoodPlanks extends Feature {
 			}
 	}
 	
-	@Override
-	public void init(FMLInitializationEvent event) {
+	private void addOreDict() {
 		OreDictionary.registerOre("plankWood", ProxyRegistry.newStack(vertical_planks, 1, OreDictionary.WILDCARD_VALUE));
 
 		if(ModuleLoader.isFeatureEnabled(StainedPlanks.class) && enableVerticalStained) {

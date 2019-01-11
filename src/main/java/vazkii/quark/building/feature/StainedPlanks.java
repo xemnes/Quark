@@ -43,10 +43,7 @@ public class StainedPlanks extends Feature {
 					'B', "plankWood",
 					'D', LibMisc.OREDICT_DYES.get(15 - i));
 		}
-	}
-	
-	@Override
-	public void init(FMLInitializationEvent event) {
+		
 		OreDictionary.registerOre("plankWood", ProxyRegistry.newStack(stained_planks, 1, OreDictionary.WILDCARD_VALUE));
 		OreDictionary.registerOre("plankStained", ProxyRegistry.newStack(stained_planks, 1, OreDictionary.WILDCARD_VALUE));
 	}

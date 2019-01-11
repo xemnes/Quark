@@ -29,13 +29,6 @@ public class ImprovedStoneToolCrafting extends Feature {
 	public void preInit(FMLPreInitializationEvent event) {
 		super.preInit(event);
 		
-		OreDictionary.registerOre(mat, ProxyRegistry.newStack(Items.FLINT));
-		OreDictionary.registerOre(mat, ProxyRegistry.newStack(Blocks.STONE));
-		OreDictionary.registerOre(mat, ProxyRegistry.newStack(Blocks.STONE, 1, 1));
-		OreDictionary.registerOre(mat, ProxyRegistry.newStack(Blocks.STONE, 1, 3));
-		OreDictionary.registerOre(mat, ProxyRegistry.newStack(Blocks.STONE, 1, 5));
-		OreDictionary.registerOre(mat, ProxyRegistry.newStack(Blocks.COBBLESTONE));
-		
 		String[][] patterns = new String[][] {{"XXX", " # ", " # "}, {"X", "#", "#"}, {"XX", "X#", " #"}, {"XX", " #", " #"}, {"X", "X", "#"}};
 		Item[] items = new Item[] { Items.STONE_PICKAXE, Items.STONE_SHOVEL, Items.STONE_AXE, Items.STONE_HOE, Items.STONE_SWORD };
 
@@ -44,10 +37,18 @@ public class ImprovedStoneToolCrafting extends Feature {
 					patterns[i][0], patterns[i][1], patterns[i][2],
 					'X', mat,
 					'#', ProxyRegistry.newStack(Items.STICK));
+		
+		addOreDict();
 	}
 	
-	@Override
-	public void init(FMLInitializationEvent event) {
+	private void addOreDict() {
+		OreDictionary.registerOre(mat, ProxyRegistry.newStack(Items.FLINT));
+		OreDictionary.registerOre(mat, ProxyRegistry.newStack(Blocks.STONE));
+		OreDictionary.registerOre(mat, ProxyRegistry.newStack(Blocks.STONE, 1, 1));
+		OreDictionary.registerOre(mat, ProxyRegistry.newStack(Blocks.STONE, 1, 3));
+		OreDictionary.registerOre(mat, ProxyRegistry.newStack(Blocks.STONE, 1, 5));
+		OreDictionary.registerOre(mat, ProxyRegistry.newStack(Blocks.COBBLESTONE));
+		
 		if(RevampStoneGen.limestone != null)
 			OreDictionary.registerOre(mat, ProxyRegistry.newStack(RevampStoneGen.limestone));
 		if(RevampStoneGen.marble != null)

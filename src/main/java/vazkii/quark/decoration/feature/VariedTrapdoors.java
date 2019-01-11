@@ -48,6 +48,8 @@ public class VariedTrapdoors extends Feature {
 		jungle_trapdoor = new BlockQuarkTrapdoor("jungle_trapdoor");
 		acacia_trapdoor = new BlockQuarkTrapdoor("acacia_trapdoor");
 		dark_oak_trapdoor = new BlockQuarkTrapdoor("dark_oak_trapdoor");
+		
+		addOreDict();
 	}
 
 	@Override
@@ -80,8 +82,7 @@ public class VariedTrapdoors extends Feature {
 				'W', wood);
 	}
 	
-	@Override
-	public void init(FMLInitializationEvent event) {
+	private void addOreDict() {
 		OreDictionary.registerOre("trapdoorWood", Blocks.TRAPDOOR);
 		OreDictionary.registerOre("trapdoorWood", spruce_trapdoor);
 		OreDictionary.registerOre("trapdoorWood", birch_trapdoor);

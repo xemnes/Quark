@@ -134,10 +134,11 @@ public class RevampStoneGen extends Feature {
 		
 		if(outputCSV)
 			BiomeTypeConfigHandler.debugStoneGeneration(generators);
+		
+		addOreDict();
 	}
 	
-	@Override
-	public void init(FMLInitializationEvent event) {
+	private void addOreDict() {
 		if(enableMarble) {
 			OreDictionary.registerOre("stoneMarble", ProxyRegistry.newStack(marble, 1, 0));
 			OreDictionary.registerOre("stoneMarblePolished", ProxyRegistry.newStack(marble, 1, 1));

@@ -38,10 +38,7 @@ public class SlimeBucket extends Feature {
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
 		slime_bucket = new ItemSlimeBucket();
-	}
-
-	@Override
-	public void init(FMLInitializationEvent event) {
+		
 		OreDictionary.registerOre("slimeball", slime_bucket);
 	}
 	

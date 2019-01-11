@@ -87,10 +87,7 @@ public class Biotite extends Feature {
 				'B', ProxyRegistry.newStack(biotite_block));
 
 		GameRegistry.registerWorldGenerator(new BiotiteGenerator(clusterSize, clusterCount), 0);
-	}
-
-	@Override
-	public void init(FMLInitializationEvent event) {
+		
 		OreDictionary.registerOre("gemEnderBiotite", biotite);
 	}
 	

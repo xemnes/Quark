@@ -74,6 +74,8 @@ public class VariedChests extends Feature {
 		
 		ModIntegrationHandler.addCharsetCarry(custom_chest);
 		ModIntegrationHandler.addCharsetCarry(custom_chest_trap);
+		
+		addOreDict();
 	}
 
 	@Override
@@ -146,8 +148,7 @@ public class VariedChests extends Feature {
 		}
 	}
 	
-	@Override
-	public void init(FMLInitializationEvent event) {
+	private void addOreDict() {
 		OreDictionary.registerOre("chest", ProxyRegistry.newStack(custom_chest, 1, OreDictionary.WILDCARD_VALUE));
 		OreDictionary.registerOre("chest", ProxyRegistry.newStack(custom_chest_trap, 1, OreDictionary.WILDCARD_VALUE));
 		OreDictionary.registerOre("chest", Blocks.CHEST);
