@@ -7,8 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockDirectional;
-import net.minecraft.block.BlockHorizontal;
+import net.minecraft.block.BlockPistonBase;
 import net.minecraft.block.material.EnumPushReaction;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockPistonStructureHelper;
@@ -108,7 +107,7 @@ public class CollateralPistonMovement extends Feature {
 		IBlockState stateAt = world.getBlockState(curr);
 		
 		while(stateAt.equals(state)) {
-			if(!canMove(stateAt))
+			if(!canMove(stateAt, world, curr))
 				return curr;
 			
 			list.add(curr);
@@ -122,7 +121,7 @@ public class CollateralPistonMovement extends Feature {
 	private static void moveAllEqualSideAndOneMore(World world, BlockPos pos, IBlockState state, EnumFacing side, List<BlockPos> list) {
 		BlockPos edge = moveAllEqualSide(world, pos, state, side, list);
 		IBlockState edgeState = world.getBlockState(edge);
-		if(canMove(edgeState))
+		if(canMove(edgeState, world, edge))
 			list.add(edge);
 	}
 	
@@ -154,16 +153,20 @@ public class CollateralPistonMovement extends Feature {
 	
 	private static void moveNextDirectional(World world, BlockPos pos, IBlockState state, EnumFacing facing, boolean extending, List<BlockPos> list) {
 		EnumFacing direction = getStateFacing(state);
-		if(direction != null) {
+		if(direction != null && direction != facing.getOpposite()) {
 			BlockPos nextPos = pos.offset(direction);
 			IBlockState nextState = world.getBlockState(nextPos);
-			if(canMove(nextState))
+			if(canMove(nextState, world, nextPos))
 				list.add(nextPos);
 		}
 	}
 	
-	private static boolean canMove(IBlockState state) {
-		return state.getMobilityFlag() == EnumPushReaction.NORMAL && (!state.getBlock().hasTileEntity() || PistonsMoveTEs.shouldMoveTE(true, state));
+	private static boolean canMove(IBlockState state, World world, BlockPos pos) { // TODO change to isAir
+		Block block = state.getBlock();
+		if(block == Blocks.PISTON || block == Blocks.STICKY_PISTON)
+			return !state.getValue(BlockPistonBase.EXTENDED);
+			
+		return !block.isAir(state, world, pos) && state.getMobilityFlag() == EnumPushReaction.NORMAL && (!block.hasTileEntity() || !PistonsMoveTEs.shouldMoveTE(true, state));
 	}
 	
 	private static EnumFacing getStateFacing(IBlockState state) {
