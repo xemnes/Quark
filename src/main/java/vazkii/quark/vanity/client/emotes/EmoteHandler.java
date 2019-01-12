@@ -156,11 +156,13 @@ public final class EmoteHandler {
 	}
 
 	private static void resetModel(ModelBiped model) {
-		ImmutableSet.of(model.bipedHead, model.bipedHeadwear, model.bipedBody, model.bipedLeftArm, model.bipedRightArm, model.bipedLeftLeg, model.bipedRightLeg).forEach(EmoteHandler::resetPart);
+		if(model != null)
+			ImmutableSet.of(model.bipedHead, model.bipedHeadwear, model.bipedBody, model.bipedLeftArm, model.bipedRightArm, model.bipedLeftLeg, model.bipedRightLeg).forEach(EmoteHandler::resetPart);
 	}
 	
 	private static void resetPart(ModelRenderer part) {
-		part.rotateAngleZ = part.offsetX = part.offsetY = part.offsetZ = 0F;
+		if(part != null)
+			part.rotateAngleZ = part.offsetX = part.offsetY = part.offsetZ = 0F;
 	}
 
 }
