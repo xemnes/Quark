@@ -1,5 +1,7 @@
 package vazkii.quark.client.feature;
 
+import java.util.List;
+
 import betterwithmods.api.FeatureEnabledEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -36,7 +38,10 @@ public class FoodTooltip extends Feature {
 			for(int i = 0; i < len; i++)
 				s += "  ";
 			
-			event.getToolTip().add(1, s);
+			List<String> tooltip = event.getToolTip();
+			if(tooltip.isEmpty())
+				tooltip.add(s);
+			else tooltip.add(1, s);
 		}
 	}
 
