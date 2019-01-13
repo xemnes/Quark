@@ -138,7 +138,11 @@ public final class EmoteHandler {
 	}
 
 	private static ModelBiped getPlayerArmorModel(AbstractClientPlayer player) {
-		List list = ReflectionHelper.getPrivateValue(RenderLivingBase.class, getRenderPlayer(player), LibObfuscation.LAYER_RENDERERS);
+		RenderPlayer render = getRenderPlayer(player);
+		if(render == null)
+			return null;
+		
+		List list = ReflectionHelper.getPrivateValue(RenderLivingBase.class, render, LibObfuscation.LAYER_RENDERERS);
 		for(int i = 0; i < list.size(); i++)
 			if(list.get(i) instanceof LayerBipedArmor)
 				return ReflectionHelper.getPrivateValue(LayerArmorBase.class, (LayerArmorBase) list.get(i), LibObfuscation.MODEL_ARMOR);
@@ -147,7 +151,11 @@ public final class EmoteHandler {
 	}
 
 	private static ModelBiped getPlayerArmorLegModel(AbstractClientPlayer player) {
-		List list = ReflectionHelper.getPrivateValue(RenderLivingBase.class, getRenderPlayer(player), LibObfuscation.LAYER_RENDERERS);
+		RenderPlayer render = getRenderPlayer(player);
+		if(render == null)
+			return null;
+		
+		List list = ReflectionHelper.getPrivateValue(RenderLivingBase.class, render, LibObfuscation.LAYER_RENDERERS);
 		for(int i = 0; i < list.size(); i++)
 			if(list.get(i) instanceof LayerBipedArmor)
 				return ReflectionHelper.getPrivateValue(LayerArmorBase.class, (LayerArmorBase) list.get(i), LibObfuscation.MODEL_LEGGINGS);
