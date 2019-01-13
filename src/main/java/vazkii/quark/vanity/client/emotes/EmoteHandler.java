@@ -72,9 +72,11 @@ public final class EmoteHandler {
 		ModelBiped armorModel = getPlayerArmorModel(player);
 		ModelBiped armorLegModel = getPlayerArmorLegModel(player);
 
-		EmoteBase emote = desc.instantiate(player, model, armorModel, armorLegModel);
-		emote.startAllTimelines();
-		playerEmotes.put(name, emote);
+		if(model != null && armorModel != null && armorLegModel != null) {
+			EmoteBase emote = desc.instantiate(player, model, armorModel, armorLegModel);
+			emote.startAllTimelines();
+			playerEmotes.put(name, emote);
+		}
 	}
 
 	public static void updateEmotes(Entity e) {
@@ -128,7 +130,11 @@ public final class EmoteHandler {
 	}
 
 	private static ModelBiped getPlayerModel(AbstractClientPlayer player) {
-		return getRenderPlayer(player).getMainModel();
+		RenderPlayer render = getRenderPlayer(player);
+		if(render != null)
+			return render.getMainModel();
+		
+		return null;
 	}
 
 	private static ModelBiped getPlayerArmorModel(AbstractClientPlayer player) {
