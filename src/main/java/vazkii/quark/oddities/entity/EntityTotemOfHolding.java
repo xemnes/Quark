@@ -69,14 +69,16 @@ public class EntityTotemOfHolding extends Entity {
 	@Override
 	public boolean hitByEntity(Entity e) {
 		if(!world.isRemote && e instanceof EntityPlayer) {
-			if(!TotemOfHolding.anyoneCollect) {
+			EntityPlayer player = (EntityPlayer) e;
+			
+			if(!TotemOfHolding.anyoneCollect && !player.isCreative()) {
 				EntityPlayer owner = getOwnerEntity();
 				if(e != owner)
 					return false;
 			}
 			
 			int drops = Math.min(storedItems.size(), 3 + world.rand.nextInt(4));
-			EntityPlayer player = (EntityPlayer) e;
+			
 			for(int i = 0; i < drops; i++) {
 				ItemStack stack = storedItems.remove(0);
 				
