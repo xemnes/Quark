@@ -10,15 +10,16 @@ public final class ModIntegrationHandler {
 	public static void addCharsetCarry(Block b) {
 		FMLInterModComms.sendMessage("charset", "addCarry", b.getRegistryName());
 	}
-	
+
+	// disabled temporarily
 	public static void registerChiselVariant(String group, ItemStack stack) {
-		NBTTagCompound cmp = new NBTTagCompound();
-		cmp.setString("group", group);
-		NBTTagCompound stackCmp = new NBTTagCompound();
-		stack.writeToNBT(stackCmp);
-		cmp.setTag("stack", stackCmp);
-		
-		FMLInterModComms.sendMessage("chisel", "add_variation", cmp);
+//		NBTTagCompound cmp = new NBTTagCompound();
+//		cmp.setString("group", group);
+//		NBTTagCompound stackCmp = new NBTTagCompound();
+//		stack.writeToNBT(stackCmp);
+//		cmp.setTag("stack", stackCmp);
+//		
+//		FMLInterModComms.sendMessage("chisel", "add_variation", cmp);
 	}
 	
 	public static void allowChiselAndBitsChiseling(Block b) {
