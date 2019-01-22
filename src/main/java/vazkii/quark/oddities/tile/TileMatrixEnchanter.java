@@ -60,7 +60,7 @@ public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 				updateEnchantPower();
 		}
 		
-		if(charge == 0 && !world.isRemote) {
+		if(charge <= 0 && !world.isRemote) {
 			ItemStack lapis = getStackInSlot(1);
 			if(!lapis.isEmpty()) {
 				lapis.shrink(1);
@@ -112,7 +112,8 @@ public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 			if(charge > 0 || creative) {
 				if(!creative)
 					player.addExperienceLevel(-cost);
-				charge--;
+				
+				charge = Math.max(charge - 1, 0);
 				
 				matrix.generatePiece(bookshelfPower, enchantability);
 			}
