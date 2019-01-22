@@ -27,7 +27,7 @@ public class EntityTotemOfHolding extends Entity {
 
 	private static final String TAG_ITEMS = "storedItems";
 	private static final String TAG_DYING = "dying";
-	private static final String OWNER = "owner";
+	private static final String TAG_OWNER = "owner";
 	
     private static final DataParameter<Boolean> DYING = EntityDataManager.<Boolean>createKey(EntityTotemOfHolding.class, DataSerializers.BOOLEAN);
 	
@@ -173,6 +173,8 @@ public class EntityTotemOfHolding extends Entity {
 		
 		boolean dying = compound.getBoolean(TAG_DYING);
 		dataManager.set(DYING, dying);
+		
+		owner = compound.getString(TAG_OWNER);
 	}
 
 	@Override
@@ -186,6 +188,7 @@ public class EntityTotemOfHolding extends Entity {
 
 		compound.setTag(TAG_ITEMS, list);
 		compound.setBoolean(TAG_DYING, isDying());
+		compound.setString(TAG_OWNER, owner);
 	}
 
 }
