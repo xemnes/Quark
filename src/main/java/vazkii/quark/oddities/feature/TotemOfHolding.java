@@ -68,9 +68,10 @@ public class TotemOfHolding extends Feature {
 	
 	@Override
 	public void postPreInit(FMLPreInitializationEvent event) {
-		RecipeHandler.addShapelessOreDictRecipe(new ItemStack(soul_compass), 
-				(Wraiths.soul_bead == null ? new ItemStack(Blocks.SOUL_SAND) : new ItemStack(Wraiths.soul_bead)), 
-				new ItemStack(Items.COMPASS));
+		if(enableSoulCompass)
+			RecipeHandler.addShapelessOreDictRecipe(new ItemStack(soul_compass), 
+					(Wraiths.soul_bead == null ? new ItemStack(Blocks.SOUL_SAND) : new ItemStack(Wraiths.soul_bead)), 
+					new ItemStack(Items.COMPASS));
 	}
 	
 	@Override
