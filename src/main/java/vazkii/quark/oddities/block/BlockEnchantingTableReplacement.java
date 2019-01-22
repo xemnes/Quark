@@ -6,6 +6,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityEnchantmentTable;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
@@ -29,6 +30,9 @@ public class BlockEnchantingTableReplacement extends BlockEnchantmentTable {
 
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+		if(worldIn.getTileEntity(pos) instanceof TileEntityEnchantmentTable)
+			worldIn.setTileEntity(pos, createNewTileEntity(worldIn, 0));
+		
 		playerIn.openGui(Quark.instance, LibGuiIDs.MATRIX_ENCHANTING, worldIn, pos.getX(), pos.getY(), pos.getZ());
 		return true;
 	}
