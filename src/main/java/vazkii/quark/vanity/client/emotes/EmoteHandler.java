@@ -84,13 +84,15 @@ public final class EmoteHandler {
 			AbstractClientPlayer player = (AbstractClientPlayer) e;
 			String name = player.getName();
 			
+			resetPlayer(player);
+			
 			if(playerEmotes.containsKey(name)) {
 				EmoteBase emote = playerEmotes.get(name);
 				boolean done = emote.isDone();
 
 				if(!done)
 					emote.update();
-			} else resetPlayer(player);
+			}
 		}
 	}
 	
