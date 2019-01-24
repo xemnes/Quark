@@ -142,18 +142,27 @@ public class RevampStoneGen extends Feature {
 		if(enableMarble) {
 			addOreDict("stoneMarble", ProxyRegistry.newStack(marble, 1, 0));
 			addOreDict("stoneMarblePolished", ProxyRegistry.newStack(marble, 1, 1));
-			ModIntegrationHandler.registerChiselVariant("marble", ProxyRegistry.newStack(marble, 1, 0));
-			ModIntegrationHandler.registerChiselVariant("marble", ProxyRegistry.newStack(marble, 1, 1));
 		}
 		
 		if(enableLimestone) {
 			addOreDict("stoneLimestone", ProxyRegistry.newStack(limestone, 1, 0));
 			addOreDict("stoneLimestonePolished", ProxyRegistry.newStack(limestone, 1, 1));
+		}
+	}
+
+	@Override
+	public void init(FMLInitializationEvent event) {
+		if(enableMarble) {
+			ModIntegrationHandler.registerChiselVariant("marble", ProxyRegistry.newStack(marble, 1, 0));
+			ModIntegrationHandler.registerChiselVariant("marble", ProxyRegistry.newStack(marble, 1, 1));
+		}
+
+		if(enableLimestone) {
 			ModIntegrationHandler.registerChiselVariant("limestone", ProxyRegistry.newStack(limestone, 1, 0));
 			ModIntegrationHandler.registerChiselVariant("limestone", ProxyRegistry.newStack(limestone, 1, 1));
 		}
 	}
-	
+
 	@SubscribeEvent
 	public void onOreGenerate(OreGenEvent.GenerateMinable event) {
 		switch(event.getType()) {
