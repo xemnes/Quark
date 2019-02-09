@@ -30,7 +30,7 @@ public class UndergroundBiomeGenerator extends MultiChunkFeatureGenerator {
 	
 	@Override
 	public boolean canGenerate(World world, int chunkX, int chunkZ) {
-		return info.dims.canSpawnHere(world);
+		return info.enabled && info.dims.canSpawnHere(world);
 	}
 	
 	@Override
