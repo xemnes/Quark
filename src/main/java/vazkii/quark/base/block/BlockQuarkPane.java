@@ -198,9 +198,9 @@ public class BlockQuarkPane extends BlockMod implements IQuarkBlock {
 	@Nonnull
 	@Override
 	@SuppressWarnings("deprecation")
-    public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos blockPos, EnumFacing face) {
-        return face != EnumFacing.UP && face != EnumFacing.DOWN ? BlockFaceShape.MIDDLE_POLE_THIN : BlockFaceShape.CENTER_SMALL;
-    }
+	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos blockPos, EnumFacing face) {
+		return face != EnumFacing.UP && face != EnumFacing.DOWN ? BlockFaceShape.MIDDLE_POLE_THIN : BlockFaceShape.CENTER_SMALL;
+	}
 	
 	public boolean canPaneConnectTo(IBlockAccess world, BlockPos pos, EnumFacing dir) {
 		BlockPos off = pos.offset(dir);

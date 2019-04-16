@@ -64,9 +64,9 @@ public class ItemBackpack extends ItemModArmor implements IQuarkItem, IItemColor
 	
 	@Nonnull
 	@Override
-    public Multimap<String, AttributeModifier> getItemAttributeModifiers(@Nonnull EntityEquipmentSlot equipmentSlot) {
-        return HashMultimap.create();
-    }
+	public Multimap<String, AttributeModifier> getItemAttributeModifiers(@Nonnull EntityEquipmentSlot equipmentSlot) {
+		return HashMultimap.create();
+	}
 	
 	@Override
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
@@ -140,9 +140,9 @@ public class ItemBackpack extends ItemModArmor implements IQuarkItem, IItemColor
 	
 	@Nonnull
 	@Override
-    public EnumRarity getRarity(ItemStack stack) {
-        return EnumRarity.COMMON;
-    }
+	public EnumRarity getRarity(ItemStack stack) {
+		return EnumRarity.COMMON;
+	}
 	
 	@Override
 	public boolean isEnchantable(@Nonnull ItemStack stack) {

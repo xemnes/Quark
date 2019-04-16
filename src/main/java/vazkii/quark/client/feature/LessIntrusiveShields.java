@@ -33,7 +33,7 @@ public class LessIntrusiveShields extends Feature {
 
 		ModelLoader.setCustomMeshDefinition(Items.SHIELD, new ItemMeshDefinition() {
 			@Nonnull
-            @Override
+			@Override
 			public ModelResourceLocation getModelLocation(@Nonnull ItemStack stack) {
 				return new ModelResourceLocation("quark:shield_override", "inventory");
 			}

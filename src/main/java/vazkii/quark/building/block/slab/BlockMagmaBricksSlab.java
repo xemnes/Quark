@@ -30,11 +30,11 @@ public class BlockMagmaBricksSlab extends BlockQuarkSlab {
 		return isSideSolid(world.getBlockState(pos), world, pos, side);
 	}
 	
-    @Override
+	@Override
 	@SideOnly(Side.CLIENT)
 	@SuppressWarnings("deprecation")
-    public int getPackedLightmapCoords(IBlockState state, IBlockAccess source, @Nonnull BlockPos pos) {
-        return 0xf000f0;
-    }
+	public int getPackedLightmapCoords(IBlockState state, IBlockAccess source, @Nonnull BlockPos pos) {
+		return 0xf000f0;
+	}
 
 }

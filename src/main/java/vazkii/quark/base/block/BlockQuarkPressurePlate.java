@@ -54,7 +54,7 @@ public abstract class BlockQuarkPressurePlate extends BlockPressurePlate impleme
 	protected abstract List<Entity> getValidEntities(World world, AxisAlignedBB aabb);
 
 	@Nonnull
-    @Override
+	@Override
 	public Block setTranslationKey(@Nonnull String name) {
 		super.setTranslationKey(name);
 		setRegistryName(LibMisc.PREFIX_MOD + name);

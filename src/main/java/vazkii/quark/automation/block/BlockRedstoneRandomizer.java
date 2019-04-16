@@ -76,7 +76,7 @@ public class BlockRedstoneRandomizer extends BlockMod implements IQuarkBlock {
 	}
 	
 	@Nonnull
-    @Override
+	@Override
 	protected BlockStateContainer createBlockState() {
 		return new BlockStateContainer(this, FACING, POWERED, POWER_LEFT);
 	}
@@ -87,7 +87,7 @@ public class BlockRedstoneRandomizer extends BlockMod implements IQuarkBlock {
 	}
 	
 	@Nonnull
-    @Override
+	@Override
 	@SuppressWarnings("deprecation")
 	public IBlockState getStateFromMeta(int meta) {
 		EnumFacing face = EnumFacing.VALUES[(meta & 0b0011) + 2];
@@ -101,7 +101,7 @@ public class BlockRedstoneRandomizer extends BlockMod implements IQuarkBlock {
 	// ===========================================================================
 
 	@Nonnull
-    @Override
+	@Override
 	@SuppressWarnings("deprecation")
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
 		return REDSTONE_DIODE_AABB;
@@ -162,19 +162,19 @@ public class BlockRedstoneRandomizer extends BlockMod implements IQuarkBlock {
 		}
 	}
 	
-    protected int calculateInputStrength(World worldIn, BlockPos pos, IBlockState state) {
-        EnumFacing enumfacing = state.getValue(FACING);
-        BlockPos blockpos = pos.offset(enumfacing);
-        int i = worldIn.getRedstonePower(blockpos, enumfacing);
+	protected int calculateInputStrength(World worldIn, BlockPos pos, IBlockState state) {
+		EnumFacing enumfacing = state.getValue(FACING);
+		BlockPos blockpos = pos.offset(enumfacing);
+		int i = worldIn.getRedstonePower(blockpos, enumfacing);
 
-        if(i >= 15)
-            return i;
-        else {
-            IBlockState iblockstate = worldIn.getBlockState(blockpos);
-            return Math.max(i, iblockstate.getBlock() == Blocks.REDSTONE_WIRE ? iblockstate.getValue(BlockRedstoneWire.POWER) : 0);
-        }
-    }
-    
+		if(i >= 15)
+			return i;
+		else {
+			IBlockState iblockstate = worldIn.getBlockState(blockpos);
+			return Math.max(i, iblockstate.getBlock() == Blocks.REDSTONE_WIRE ? iblockstate.getValue(BlockRedstoneWire.POWER) : 0);
+		}
+	}
+
 	protected boolean shouldBePowered(World world, BlockPos pos, IBlockState currState) {
 		return calculateInputStrength(world, pos, currState) > 0;
 	}
@@ -186,7 +186,7 @@ public class BlockRedstoneRandomizer extends BlockMod implements IQuarkBlock {
 	}
 
 	@Nonnull
-    @Override
+	@Override
 	@SuppressWarnings("deprecation")
 	public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
 		return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite());
@@ -243,17 +243,17 @@ public class BlockRedstoneRandomizer extends BlockMod implements IQuarkBlock {
 	}
 
 	@Nonnull
-    @Override
+	@Override
 	@SuppressWarnings("deprecation")
 	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
 		return face == EnumFacing.DOWN ? BlockFaceShape.SOLID : BlockFaceShape.UNDEFINED;
 	}
 
 	@Nonnull
-    @Override
-    @SideOnly(Side.CLIENT)
-    public BlockRenderLayer getRenderLayer() {
-        return BlockRenderLayer.CUTOUT;
-    }
+	@Override
+	@SideOnly(Side.CLIENT)
+	public BlockRenderLayer getRenderLayer() {
+		return BlockRenderLayer.CUTOUT;
+	}
 
 }

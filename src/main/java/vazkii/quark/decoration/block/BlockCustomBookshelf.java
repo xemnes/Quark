@@ -41,20 +41,20 @@ public class BlockCustomBookshelf extends BlockMetaVariants<BlockCustomBookshelf
 	}
 
 	@Override
-    public int quantityDropped(Random random) {
-        return 3;
-    }
+	public int quantityDropped(Random random) {
+		return 3;
+	}
 
 	@Override
 	public int damageDropped(IBlockState state) {
 		return 0;
 	}
 	
-    @Nonnull
+	@Nonnull
 	@Override
-    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
-        return Items.BOOK;
-    }
+	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+		return Items.BOOK;
+	}
 	
 	public enum Variants implements IStringSerializable {
 		BOOKSHELF_SPRUCE,

@@ -262,7 +262,7 @@ public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 	}
 
 	@Nonnull
-    @Override
+	@Override
 	public Container createContainer(@Nonnull InventoryPlayer playerInventory, @Nonnull EntityPlayer playerIn) {
 		return new ContainerMatrixEnchanting(playerInventory, this);
 	}

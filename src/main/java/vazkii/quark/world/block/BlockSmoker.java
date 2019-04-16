@@ -27,9 +27,9 @@ public class BlockSmoker extends BlockModContainer implements IQuarkBlock {
 		setSoundType(SoundType.STONE);
 	}
 	
-    @Override
-    public TileEntity createTileEntity(@Nonnull World world, @Nonnull IBlockState state) {
-    	return new TileSmoker();
-    }
+	@Override
+	public TileEntity createTileEntity(@Nonnull World world, @Nonnull IBlockState state) {
+		return new TileSmoker();
+	}
 
 }

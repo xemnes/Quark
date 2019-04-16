@@ -56,7 +56,7 @@ public class ContainerMatrixEnchanting extends Container {
 			}
 
 			@Nonnull
-            @Override
+			@Override
 			public ItemStack onTake(EntityPlayer thePlayer, @Nonnull ItemStack stack) {
 				finish(thePlayer, stack);
 				return super.onTake(thePlayer, stack);
@@ -101,7 +101,7 @@ public class ContainerMatrixEnchanting extends Container {
 	}
 
 	@Nonnull
-    @Override
+	@Override
 	public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
 		ItemStack itemstack = ItemStack.EMPTY;
 		Slot slot = inventorySlots.get(index);

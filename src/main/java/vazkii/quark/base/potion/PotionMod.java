@@ -36,7 +36,7 @@ public class PotionMod extends Potion {
 	}
 
 	@Nonnull
-    @Override
+	@Override
 	public String getName() {
 		return "quark.potion." + bareName + ".name";
 	}

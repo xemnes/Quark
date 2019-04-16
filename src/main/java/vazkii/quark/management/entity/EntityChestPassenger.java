@@ -20,9 +20,9 @@ public class EntityChestPassenger extends Entity implements IInventory {
 
 	private NonNullList<ItemStack> items = NonNullList.<ItemStack>withSize(27, ItemStack.EMPTY);
 	
-    private static final DataParameter<ItemStack> CHEST_TYPE = EntityDataManager.<ItemStack>createKey(EntityChestPassenger.class, DataSerializers.ITEM_STACK);
-    private static final String TAG_CHEST_TYPE = "chestType";
-    
+	private static final DataParameter<ItemStack> CHEST_TYPE = EntityDataManager.<ItemStack>createKey(EntityChestPassenger.class, DataSerializers.ITEM_STACK);
+	private static final String TAG_CHEST_TYPE = "chestType";
+
 	public EntityChestPassenger(World worldIn) {
 		super(worldIn);
 	}
@@ -75,19 +75,19 @@ public class EntityChestPassenger extends Entity implements IInventory {
 	}
 
 	@Nonnull
-    @Override
+	@Override
 	public ItemStack getStackInSlot(int index) {
 		return items.get(index);
 	}
 
 	@Nonnull
-    @Override
+	@Override
 	public ItemStack decrStackSize(int index, int count) {
 		return ItemStackHelper.getAndSplit(items, index, count);
 	}
 
 	@Nonnull
-    @Override
+	@Override
 	public ItemStack removeStackFromSlot(int index) {
 		ItemStack itemstack = items.get(index);
 

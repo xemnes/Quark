@@ -25,7 +25,7 @@ import javax.annotation.Nonnull;
 
 public class BlockChute extends BlockModContainer implements IQuarkBlock {
 
-    public static final PropertyBool ENABLED = PropertyBool.create("enabled");
+	public static final PropertyBool ENABLED = PropertyBool.create("enabled");
 	
 	public BlockChute() {
 		super("chute", Material.WOOD);
@@ -36,14 +36,14 @@ public class BlockChute extends BlockModContainer implements IQuarkBlock {
 		setDefaultState(getDefaultState().withProperty(ENABLED, true));
 	}
 
-    @Override
-    @SuppressWarnings("deprecation")
-    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
-        boolean flag = !worldIn.isBlockPowered(pos);
+	@Override
+	@SuppressWarnings("deprecation")
+	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
+		boolean flag = !worldIn.isBlockPowered(pos);
 
-        if(flag != state.getValue(ENABLED))
-            worldIn.setBlockState(pos, state.withProperty(ENABLED, flag), 2 | 4);
-    }
+		if(flag != state.getValue(ENABLED))
+			worldIn.setBlockState(pos, state.withProperty(ENABLED, flag), 2 | 4);
+	}
 	
 	@Override
 	public TileEntity createNewTileEntity(@Nonnull World worldIn, int meta) {
@@ -51,19 +51,19 @@ public class BlockChute extends BlockModContainer implements IQuarkBlock {
 	}
 	
 	@Override
-    @SuppressWarnings("deprecation")
+	@SuppressWarnings("deprecation")
 	public boolean isFullCube(IBlockState state) {
 		return false;
 	}
 
 	@Override
-    @SuppressWarnings("deprecation")
+	@SuppressWarnings("deprecation")
 	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
 	
 	@Nonnull
-    @Override
+	@Override
 	protected BlockStateContainer createBlockState() {
 		return new BlockStateContainer(this, ENABLED);
 	}
@@ -79,37 +79,37 @@ public class BlockChute extends BlockModContainer implements IQuarkBlock {
 	}
 
 	@Nonnull
-    @Override
-    @SuppressWarnings("deprecation")
+	@Override
+	@SuppressWarnings("deprecation")
 	public IBlockState getStateFromMeta(int meta) {
 		return getDefaultState().withProperty(ENABLED, (meta & 0b1) != 1);
 	}
 	
 	@Nonnull
-    @Override
-    @SuppressWarnings("deprecation")
-    public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
-        return face == EnumFacing.UP ? BlockFaceShape.SOLID : BlockFaceShape.UNDEFINED;
-    }
+	@Override
+	@SuppressWarnings("deprecation")
+	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
+		return face == EnumFacing.UP ? BlockFaceShape.SOLID : BlockFaceShape.UNDEFINED;
+	}
 
-    @Nonnull
-    @Override
-    @SideOnly(Side.CLIENT)
-    public BlockRenderLayer getRenderLayer() {
-        return BlockRenderLayer.CUTOUT_MIPPED;
-    }
-    
-    @SideOnly(Side.CLIENT)
-    @Override
-    @SuppressWarnings("deprecation")
-    public boolean shouldSideBeRendered(IBlockState blockState, @Nonnull IBlockAccess blockAccess, @Nonnull BlockPos pos, EnumFacing side) {
-        return true;
-    }
-    
-    @Override
-    @SuppressWarnings("deprecation")
-    public boolean isTopSolid(IBlockState state) {
-        return true;
-    }
+	@Nonnull
+	@Override
+	@SideOnly(Side.CLIENT)
+	public BlockRenderLayer getRenderLayer() {
+		return BlockRenderLayer.CUTOUT_MIPPED;
+	}
+
+	@SideOnly(Side.CLIENT)
+	@Override
+	@SuppressWarnings("deprecation")
+	public boolean shouldSideBeRendered(IBlockState blockState, @Nonnull IBlockAccess blockAccess, @Nonnull BlockPos pos, EnumFacing side) {
+		return true;
+	}
+
+	@Override
+	@SuppressWarnings("deprecation")
+	public boolean isTopSolid(IBlockState state) {
+		return true;
+	}
 
 }

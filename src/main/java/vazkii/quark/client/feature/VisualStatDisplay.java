@@ -179,18 +179,18 @@ public class VisualStatDisplay extends Feature {
 		if(collection.isEmpty())
 			return 0;
 		
-        AttributeModifier attributemodifier = collection.iterator().next();
-        double d0 = attributemodifier.getAmount();
-        boolean flag = false;
+		AttributeModifier attributemodifier = collection.iterator().next();
+		double d0 = attributemodifier.getAmount();
+		boolean flag = false;
 
-        if(key.equals("generic.attackDamage")) {
-            d0 += player.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue();
-            d0 += (double) EnchantmentHelper.getModifierForCreature(stack, EnumCreatureAttribute.UNDEFINED);
-        }
-        else if(key.equals("generic.attackSpeed"))
-            d0 += player.getEntityAttribute(SharedMonsterAttributes.ATTACK_SPEED).getBaseValue();
-        
-        return d0;
+		if(key.equals("generic.attackDamage")) {
+			d0 += player.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue();
+			d0 += (double) EnchantmentHelper.getModifierForCreature(stack, EnumCreatureAttribute.UNDEFINED);
+		}
+		else if(key.equals("generic.attackSpeed"))
+			d0 += player.getEntityAttribute(SharedMonsterAttributes.ATTACK_SPEED).getBaseValue();
+
+		return d0;
 	}
 	
 	@Override

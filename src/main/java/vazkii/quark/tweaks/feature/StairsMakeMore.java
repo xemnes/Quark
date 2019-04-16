@@ -60,7 +60,7 @@ public class StairsMakeMore extends Feature {
 	}
 
 	@Override
-    @SuppressWarnings("deprecation")
+	@SuppressWarnings("deprecation")
 	public void postInit(FMLPostInitializationEvent event) {
 		List<ResourceLocation> recipeList = new ArrayList<>(CraftingManager.REGISTRY.getKeys());
 		for(ResourceLocation res : recipeList) {
@@ -88,7 +88,7 @@ public class StairsMakeMore extends Feature {
 								recipeItem = matches[0];
 							
 							if(recipeItem != null && !recipeItem.isEmpty()) {
-                                if(outStack.isEmpty())
+								if(outStack.isEmpty())
 									outStack = recipeItem;
 								
 								if(ItemStack.areItemsEqual(outStack, recipeItem))

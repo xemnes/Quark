@@ -79,9 +79,9 @@ public class GuiButtonTrash extends GuiButton implements IParentedGui {
 	}
 	
 	@Override
-    public void playPressSound(SoundHandler soundHandlerIn) {
-        // NO-OP
-    }
+	public void playPressSound(SoundHandler soundHandlerIn) {
+		// NO-OP
+	}
 
 	
 	@Override

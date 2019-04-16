@@ -29,32 +29,32 @@ public class BlockFramedGlass extends BlockMod implements IQuarkBlock {
 	}
 	
 	@Nonnull
-    @Override
-    @SideOnly(Side.CLIENT)
-    public BlockRenderLayer getRenderLayer() {
-        return BlockRenderLayer.CUTOUT;
-    }
+	@Override
+	@SideOnly(Side.CLIENT)
+	public BlockRenderLayer getRenderLayer() {
+		return BlockRenderLayer.CUTOUT;
+	}
 
 	@Override
-    @SuppressWarnings("deprecation")
-    public boolean isFullCube(IBlockState state) {
-        return false;
-    }
+	@SuppressWarnings("deprecation")
+	public boolean isFullCube(IBlockState state) {
+		return false;
+	}
 
 	@Override
-    @SuppressWarnings("deprecation")
-    public boolean isOpaqueCube(IBlockState state) {
-        return false;
-    }
+	@SuppressWarnings("deprecation")
+	public boolean isOpaqueCube(IBlockState state) {
+		return false;
+	}
 	
 	@Override
-    @SideOnly(Side.CLIENT)
-    @SuppressWarnings("deprecation")
-    public boolean shouldSideBeRendered(IBlockState blockState, @Nonnull IBlockAccess blockAccess, @Nonnull BlockPos pos, EnumFacing side) {
-        IBlockState iblockstate = blockAccess.getBlockState(pos.offset(side));
-        Block block = iblockstate.getBlock();
+	@SideOnly(Side.CLIENT)
+	@SuppressWarnings("deprecation")
+	public boolean shouldSideBeRendered(IBlockState blockState, @Nonnull IBlockAccess blockAccess, @Nonnull BlockPos pos, EnumFacing side) {
+		IBlockState iblockstate = blockAccess.getBlockState(pos.offset(side));
+		Block block = iblockstate.getBlock();
 
-        return block != this && super.shouldSideBeRendered(blockState, blockAccess, pos, side);
-    }
-    
+		return block != this && super.shouldSideBeRendered(blockState, blockAccess, pos, side);
+	}
+
 }

@@ -45,7 +45,7 @@ public class EntityArrowEnder extends EntityArrow {
 	}
 
 	@Nonnull
-    @Override
+	@Override
 	protected ItemStack getArrowStack() {
 		return new ItemStack(ExtraArrows.arrow_ender);
 	}

@@ -54,7 +54,7 @@ public class EntityColoredItemFrame extends EntityFlatItemFrame {
 	}
 	
 	@Nonnull
-    @Override
+	@Override
 	public ItemStack getPickedResult(RayTraceResult target) {
 		return new ItemStack(ColoredItemFrames.colored_item_frame, 1, getColor());
 	}

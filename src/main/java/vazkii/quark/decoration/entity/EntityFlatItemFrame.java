@@ -102,7 +102,7 @@ public class EntityFlatItemFrame extends EntityItemFrame implements IEntityAddit
 			} else {
 				BlockPos blockpos = this.hangingPosition.offset(this.realFacingDirection.getOpposite());
 				IBlockState iblockstate = this.world.getBlockState(blockpos);
-				if(!iblockstate.isSideSolid(this.world, blockpos, this.realFacingDirection))                  
+				if(!iblockstate.isSideSolid(this.world, blockpos, this.realFacingDirection))
 					if(!iblockstate.getMaterial().isSolid() && !BlockRedstoneDiode.isDiode(iblockstate))
 						return false;
 
@@ -152,12 +152,12 @@ public class EntityFlatItemFrame extends EntityItemFrame implements IEntityAddit
 	}
 
 	@SuppressWarnings("ConstantConditions")
-    private void removeFrameFromMap(ItemStack stack) {
+	private void removeFrameFromMap(ItemStack stack) {
 		if(!stack.isEmpty()) {
 			if(stack.getItem() instanceof ItemMap) {
 				MapData mapdata = ((ItemMap) stack.getItem()).getMapData(stack, getEntityWorld());
 				if (mapdata != null)
-				    mapdata.mapDecorations.remove("frame-" + getEntityId());
+					mapdata.mapDecorations.remove("frame-" + getEntityId());
 			}
 
 			stack.setItemFrame(null);

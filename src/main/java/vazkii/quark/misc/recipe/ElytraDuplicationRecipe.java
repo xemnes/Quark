@@ -46,13 +46,13 @@ public class ElytraDuplicationRecipe extends ModRecipe {
 	}
 
 	@Nonnull
-    @Override
+	@Override
 	public ItemStack getCraftingResult(@Nonnull InventoryCrafting var1) {
 		return getRecipeOutput();
 	}
 
 	@Nonnull
-    @Override
+	@Override
 	public ItemStack getRecipeOutput() {
 		ItemStack stack = new ItemStack(Items.ELYTRA);
 		if(EnderdragonScales.dyeBlack && ModuleLoader.isFeatureEnabled(DyableElytra.class))
@@ -62,7 +62,7 @@ public class ElytraDuplicationRecipe extends ModRecipe {
 	}
 
 	@Nonnull
-    @Override
+	@Override
 	public NonNullList<ItemStack> getRemainingItems(InventoryCrafting inv) {
 		NonNullList<ItemStack> ret = NonNullList.withSize(inv.getSizeInventory(), ItemStack.EMPTY);
 		
@@ -81,8 +81,8 @@ public class ElytraDuplicationRecipe extends ModRecipe {
 	}
 	
 	@Override
-    @Nonnull
-    public NonNullList<Ingredient> getIngredients() {
+	@Nonnull
+	public NonNullList<Ingredient> getIngredients() {
 		NonNullList<Ingredient> list = NonNullList.withSize(1 + EnderdragonScales.required, Ingredient.EMPTY);
 		list.set(0, Ingredient.fromStacks(new ItemStack(Items.ELYTRA)));
 		for(int i = 1; i < EnderdragonScales.required + 1; i++)

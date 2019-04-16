@@ -26,19 +26,19 @@ public class CustomEmoteIconResourcePack extends AbstractResourcePack {
 	}
 	
 	@Nonnull
-    @Override
+	@Override
 	public Set<String> getResourceDomains() {
 		return ImmutableSet.of(EmoteHandler.CUSTOM_EMOTE_NAMESPACE);
 	}
 	
 	@Nonnull
-    @Override
+	@Override
 	public InputStream getInputStream(ResourceLocation location) throws IOException {
 		return getInputStreamByName(location.toString());
 	}
 
 	@Nonnull
-    @Override
+	@Override
 	protected InputStream getInputStreamByName(@Nonnull String name) throws IOException {
 		if(name.equals("pack.mcmeta"))
 			return Quark.class.getResourceAsStream("/proxypack.mcmeta");

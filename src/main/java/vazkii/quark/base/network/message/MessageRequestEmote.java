@@ -75,13 +75,13 @@ public class MessageRequestEmote extends NetworkMessage<MessageRequestEmote> {
 		}
 
 		@Nonnull
-        @Override
+		@Override
 		public String getName() {
 			return "Quark-Emotes[" + superSender.getName() + "]";
 		}
 
 		@Nonnull
-        @Override
+		@Override
 		public World getEntityWorld() {
 			return superSender.getEntityWorld();
 		}
@@ -92,13 +92,13 @@ public class MessageRequestEmote extends NetworkMessage<MessageRequestEmote> {
 		}
 		
 		@Nonnull
-        @Override
+		@Override
 		public BlockPos getPosition() {
 			return superSender.getPosition();
 		}
 		
 		@Nonnull
-        @Override
+		@Override
 		public Vec3d getPositionVector() {
 			return superSender.getPositionVector();
 		}

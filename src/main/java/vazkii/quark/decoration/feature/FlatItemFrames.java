@@ -81,7 +81,7 @@ public class FlatItemFrames extends Feature {
 	@Override
 	public boolean requiresMinecraftRestartToEnable() {
 		return true;
-    }
+	}
 	
 	@Override
 	public String[] getIncompatibleMods() {

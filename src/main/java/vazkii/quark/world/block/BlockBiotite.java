@@ -48,7 +48,7 @@ public class BlockBiotite extends BlockQuartz implements IQuarkBlock {
 	}
 
 	@Nonnull
-    @Override
+	@Override
 	public Block setTranslationKey(@Nonnull String name) {
 		super.setTranslationKey(name);
 		setRegistryName(LibMisc.PREFIX_MOD + name);
@@ -99,7 +99,7 @@ public class BlockBiotite extends BlockQuartz implements IQuarkBlock {
 		return new StateMapperBase() {
 
 			@Nonnull
-            @Override
+			@Override
 			public ModelResourceLocation getModelResourceLocation(@Nonnull IBlockState state) {
 				BlockQuartz.EnumType blockquartz$enumtype = state.getValue(BlockQuartz.VARIANT);
 				ResourceLocation baseLocation = new ResourceLocation(LibMisc.MOD_ID.toLowerCase(), "biotite_block");

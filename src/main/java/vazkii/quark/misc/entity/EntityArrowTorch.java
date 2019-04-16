@@ -42,7 +42,7 @@ public class EntityArrowTorch extends EntityArrow {
 	}
 
 	@Nonnull
-    @Override
+	@Override
 	protected ItemStack getArrowStack() {
 		return new ItemStack(ExtraArrows.arrow_torch);
 	}

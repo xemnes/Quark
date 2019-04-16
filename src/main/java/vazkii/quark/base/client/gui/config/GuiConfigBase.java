@@ -106,7 +106,7 @@ public class GuiConfigBase extends GuiScreen {
 			oclass.getMethod("browse", URI.class).invoke(object, url);
 		} catch(Throwable throwable1) {
 			Throwable throwable = throwable1.getCause();
-            LogManager.getLogger("Quark").warn("Couldn't open link: {}", (throwable == null ? "<UNKNOWN>" : throwable.getMessage()));
+			LogManager.getLogger("Quark").warn("Couldn't open link: {}", (throwable == null ? "<UNKNOWN>" : throwable.getMessage()));
 		}
 	}
 

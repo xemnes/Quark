@@ -81,7 +81,7 @@ public class EntityWraith extends EntityZombie {
 		getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(0);
 		getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.28);
 		getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(1);
-        getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(40);
+		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(40);
 	}
 
 	@Override

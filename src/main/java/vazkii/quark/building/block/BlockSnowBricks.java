@@ -50,7 +50,7 @@ public class BlockSnowBricks extends BlockMod implements IQuarkBlock {
 	}
 
 	@Nonnull
-    @Override
+	@Override
 	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
 		return Item.getItemFromBlock(this);
 	}

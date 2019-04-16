@@ -42,7 +42,7 @@ public class BlockQuarkPillar extends BlockMod implements IQuarkBlock {
 	}
 
 	@Nonnull
-    @Override
+	@Override
 	@SuppressWarnings("deprecation")
 	public IBlockState withRotation(@Nonnull IBlockState state, Rotation rot) {
 		switch (rot) {
@@ -63,7 +63,7 @@ public class BlockQuarkPillar extends BlockMod implements IQuarkBlock {
 	}
 
 	@Nonnull
-    @Override
+	@Override
 	@SuppressWarnings("deprecation")
 	public IBlockState getStateFromMeta(int meta) {
 		EnumFacing.Axis axis = EnumFacing.Axis.Y;
@@ -91,13 +91,13 @@ public class BlockQuarkPillar extends BlockMod implements IQuarkBlock {
 	}
 
 	@Nonnull
-    @Override
+	@Override
 	protected BlockStateContainer createBlockState() {
 		return new BlockStateContainer(this, BlockRotatedPillar.AXIS);
 	}
 
 	@Nonnull
-    @Override
+	@Override
 	@SuppressWarnings("deprecation")
 	public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
 		return getStateFromMeta(meta).withProperty(BlockRotatedPillar.AXIS, facing.getAxis());

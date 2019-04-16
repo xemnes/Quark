@@ -28,13 +28,13 @@ public class CommandConfig extends CommandBase {
 	private static final Pattern TOKENIZER = Pattern.compile("[^\\s\"']+|\"([^\"]*)\"|'([^']*)'");
 	
 	@Nonnull
-    @Override
+	@Override
 	public String getName() {
 		return "quarkconfig";
 	}
 
 	@Nonnull
-    @Override
+	@Override
 	public String getUsage(@Nonnull ICommandSender sender) {
 		return "commands.quarkconfig.usage";
 	}

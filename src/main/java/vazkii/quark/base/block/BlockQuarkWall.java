@@ -60,22 +60,22 @@ public class BlockQuarkWall extends BlockMod implements IQuarkBlock {
 		setCreativeTab(CreativeTabs.DECORATIONS);
 	}
 
-    @Override
-    public float getExplosionResistance(World world, BlockPos pos, @Nullable Entity exploder, Explosion explosion) {
-        return parent.getBlock().getExplosionResistance(world, pos, exploder, explosion) * 5 / 3;
-    }
+	@Override
+	public float getExplosionResistance(World world, BlockPos pos, @Nullable Entity exploder, Explosion explosion) {
+		return parent.getBlock().getExplosionResistance(world, pos, exploder, explosion) * 5 / 3;
+	}
 
-    @Override
+	@Override
 	@SuppressWarnings("deprecation")
-    public float getBlockHardness(IBlockState blockState, World worldIn, BlockPos pos) {
-        return parent.getBlockHardness(worldIn, pos);
-    }
+	public float getBlockHardness(IBlockState blockState, World worldIn, BlockPos pos) {
+		return parent.getBlockHardness(worldIn, pos);
+	}
 
-    @Nonnull
-    @Override
-    public SoundType getSoundType(IBlockState state, World world, BlockPos pos, @Nullable Entity entity) {
-        return parent.getBlock().getSoundType(parent, world, pos, entity);
-    }
+	@Nonnull
+	@Override
+	public SoundType getSoundType(IBlockState state, World world, BlockPos pos, @Nullable Entity entity) {
+		return parent.getBlock().getSoundType(parent, world, pos, entity);
+	}
 
 	@Override
 	public int getMetaFromState(IBlockState state) {
@@ -83,8 +83,8 @@ public class BlockQuarkWall extends BlockMod implements IQuarkBlock {
 	}
 
 	@Nonnull
-    @Override
-    @SuppressWarnings("deprecation")
+	@Override
+	@SuppressWarnings("deprecation")
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
 		state = this.getActualState(state, source, pos);
 		return AABB_BY_INDEX[getAABBIndex(state)];
@@ -92,7 +92,7 @@ public class BlockQuarkWall extends BlockMod implements IQuarkBlock {
 
 	@Override
 	@Nullable
-    @SuppressWarnings("deprecation")
+	@SuppressWarnings("deprecation")
 	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, @Nonnull IBlockAccess worldIn, @Nonnull BlockPos pos) {
 		blockState = this.getActualState(blockState, worldIn, pos);
 		return CLIP_AABB_BY_INDEX[getAABBIndex(blockState)];
@@ -122,7 +122,7 @@ public class BlockQuarkWall extends BlockMod implements IQuarkBlock {
 	}
 
 	@Override
-    @SuppressWarnings("deprecation")
+	@SuppressWarnings("deprecation")
 	public boolean isFullCube(IBlockState state) {
 		return false;
 	}
@@ -133,7 +133,7 @@ public class BlockQuarkWall extends BlockMod implements IQuarkBlock {
 	}
 
 	@Override
-    @SuppressWarnings("deprecation")
+	@SuppressWarnings("deprecation")
 	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
@@ -147,14 +147,14 @@ public class BlockQuarkWall extends BlockMod implements IQuarkBlock {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-    @SuppressWarnings("deprecation")
+	@SuppressWarnings("deprecation")
 	public boolean shouldSideBeRendered(IBlockState blockState, @Nonnull IBlockAccess blockAccess, @Nonnull BlockPos pos, EnumFacing side) {
 		return side != EnumFacing.DOWN || super.shouldSideBeRendered(blockState, blockAccess, pos, side);
 	}
 
 	@Nonnull
-    @Override
-    @SuppressWarnings("deprecation")
+	@Override
+	@SuppressWarnings("deprecation")
 	public IBlockState getActualState(@Nonnull IBlockState state, IBlockAccess worldIn, BlockPos pos) {
 		boolean flag = canConnectTo(worldIn, pos.north());
 		boolean flag1 = canConnectTo(worldIn, pos.east());
@@ -165,14 +165,14 @@ public class BlockQuarkWall extends BlockMod implements IQuarkBlock {
 	}
 
 	@Nonnull
-    @Override
+	@Override
 	protected BlockStateContainer createBlockState() {
 		return new BlockStateContainer(this, UP, NORTH, EAST, WEST, SOUTH);
 	}
 	
 	@Nonnull
-    @Override
-    @SuppressWarnings("deprecation")
+	@Override
+	@SuppressWarnings("deprecation")
 	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
 		return face != EnumFacing.UP && face != EnumFacing.DOWN ? BlockFaceShape.MIDDLE_POLE_THICK : BlockFaceShape.CENTER_BIG;
 	}

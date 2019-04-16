@@ -37,7 +37,7 @@ public class DispenserRecords extends Feature {
 	public class BehaviourRecord extends BehaviorDefaultDispenseItem {
 		
 		@Nonnull
-        @Override
+		@Override
 		protected ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
 			EnumFacing facing = source.getBlockState().getValue(BlockDispenser.FACING);
 			BlockPos pos = source.getBlockPos().offset(facing);
@@ -48,7 +48,7 @@ public class DispenserRecords extends Feature {
 				TileEntityJukebox juke = (TileEntityJukebox) world.getTileEntity(pos);
 				ItemStack currentRecord = juke.getRecord();
 				((BlockJukebox) state.getBlock()).insertRecord(world, pos, state, stack);
-                world.playEvent(null, 1010, pos, Item.getIdFromItem(stack.getItem()));
+				world.playEvent(null, 1010, pos, Item.getIdFromItem(stack.getItem()));
 				
 				return currentRecord;
 			}

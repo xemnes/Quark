@@ -41,19 +41,19 @@ public class BlockEnderWatcher extends BlockModContainer implements IQuarkBlock 
 	}
 
 	@Nonnull
-    @Override
+	@Override
 	protected BlockStateContainer createBlockState() {
 		return new BlockStateContainer(this, WATCHED);
 	}
 
 	@Override
-    @SuppressWarnings("deprecation")
+	@SuppressWarnings("deprecation")
 	public boolean canProvidePower(IBlockState state) {
 		return true;
 	}
 
 	@Override
-    @SuppressWarnings("deprecation")
+	@SuppressWarnings("deprecation")
 	public int getWeakPower(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
 		return blockState.getValue(WATCHED) ? 15 : 0;
 	}
@@ -64,8 +64,8 @@ public class BlockEnderWatcher extends BlockModContainer implements IQuarkBlock 
 	}
 
 	@Nonnull
-    @Override
-    @SuppressWarnings("deprecation")
+	@Override
+	@SuppressWarnings("deprecation")
 	public IBlockState getStateFromMeta(int meta) {
 		return getDefaultState().withProperty(WATCHED, meta != 0);
 	}

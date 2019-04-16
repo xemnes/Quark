@@ -35,13 +35,13 @@ public class ResourceProxy extends AbstractResourcePack {
 	}
 
 	@Nonnull
-    @Override
+	@Override
 	public Set<String> getResourceDomains() {
 		return RESOURCE_DOMAINS;
 	}
 
 	@Nonnull
-    @Override
+	@Override
 	protected InputStream getInputStreamByName(@Nonnull String name) throws IOException {
 		if(name == null)
 			return null;
@@ -61,7 +61,7 @@ public class ResourceProxy extends AbstractResourcePack {
 	}
 
 	@Nonnull
-    @Override
+	@Override
 	public String getPackName() {
 		return "quark-texture-proxy";
 	}

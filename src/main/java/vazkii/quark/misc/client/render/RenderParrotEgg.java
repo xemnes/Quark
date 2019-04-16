@@ -17,7 +17,7 @@ public class RenderParrotEgg extends RenderSnowball<EntityParrotEgg> {
 	}
 	
 	@Nonnull
-    @Override
+	@Override
 	public ItemStack getStackToRender(EntityParrotEgg entityIn) {
 		return new ItemStack(ParrotEggs.parrot_egg, 1, entityIn.getColor());
 	}

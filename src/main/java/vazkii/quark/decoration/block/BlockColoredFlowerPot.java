@@ -58,25 +58,25 @@ public class BlockColoredFlowerPot extends BlockCustomFlowerPot implements IQuar
 	
 	@Nonnull
 	@Override
-    public ItemStack getItem(World worldIn, @Nonnull BlockPos pos, IBlockState state) {
-        ItemStack stack = super.getItem(worldIn, pos, state);
-        if(stack.getItem() == Items.FLOWER_POT)
-        	stack = new ItemStack(Item.getItemFromBlock(this));
-        
-        return stack;
-    }
+	public ItemStack getItem(World worldIn, @Nonnull BlockPos pos, IBlockState state) {
+		ItemStack stack = super.getItem(worldIn, pos, state);
+		if(stack.getItem() == Items.FLOWER_POT)
+			stack = new ItemStack(Item.getItemFromBlock(this));
+
+		return stack;
+	}
 
 	@Nonnull
 	@Override
-    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
 		return Item.getItemFromBlock(this);
 	}
 	
 	@Nonnull
 	@Override
-    public String getLocalizedName() {
-        return I18n.format(getTranslationKey() + ".name");
-    }
+	public String getLocalizedName() {
+		return I18n.format(getTranslationKey() + ".name");
+	}
 	
 	@Override
 	public String getBareName() {

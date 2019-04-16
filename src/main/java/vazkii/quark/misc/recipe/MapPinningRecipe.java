@@ -51,7 +51,7 @@ public class MapPinningRecipe extends ModRecipe {
 	}
 
 	@Nonnull
-    @Override
+	@Override
 	public ItemStack getCraftingResult(@Nonnull InventoryCrafting inv) {
 		for(int i = 0; i < inv.getSizeInventory(); i++) {
 			ItemStack stack = inv.getStackInSlot(i);
@@ -71,7 +71,7 @@ public class MapPinningRecipe extends ModRecipe {
 	}
 
 	@Nonnull
-    @Override
+	@Override
 	public ItemStack getRecipeOutput() {
 		return ItemStack.EMPTY;
 	}

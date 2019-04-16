@@ -61,7 +61,7 @@ public class FireworkCloningRecipe extends ModRecipe {
 	}
 
 	@Nonnull
-    @Override
+	@Override
 	public ItemStack getCraftingResult(@Nonnull InventoryCrafting var1) {
 		ItemStack source = ItemStack.EMPTY;
 		ItemStack target = ItemStack.EMPTY;
@@ -89,13 +89,13 @@ public class FireworkCloningRecipe extends ModRecipe {
 	}
 
 	@Nonnull
-    @Override
+	@Override
 	public ItemStack getRecipeOutput() {
 		return new ItemStack(Items.FIREWORKS);
 	}
 
 	@Nonnull
-    @Override
+	@Override
 	public NonNullList<ItemStack> getRemainingItems(InventoryCrafting inv) {
 		NonNullList<ItemStack> remaining = NonNullList.withSize(inv.getSizeInventory(), ItemStack.EMPTY);
 		for(int i = 0; i < inv.getSizeInventory(); i++) {
@@ -128,8 +128,8 @@ public class FireworkCloningRecipe extends ModRecipe {
 	}
 	
 	@Override
-    @Nonnull
-    public NonNullList<Ingredient> getIngredients() {
+	@Nonnull
+	public NonNullList<Ingredient> getIngredients() {
 		NonNullList<Ingredient> list = NonNullList.withSize(2, Ingredient.EMPTY);
 		list.set(0, Ingredient.fromStacks(new ItemStack(Items.FIREWORKS)));
 		list.set(1, Ingredient.fromStacks(new ItemStack(Items.FIREWORKS)));

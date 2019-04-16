@@ -115,10 +115,10 @@ public class ExtraPotions extends Feature {
 			
 			for(BlockPos pos : positions)
 				if(world.rand.nextFloat() < 0.1 && canMobsSpawnInPos(world, pos)) {
-		    		float x = pos.getX() + 0.3F + world.rand.nextFloat() * 0.4F;
-		        	float y = pos.getY();
-		        	float z = pos.getZ() + 0.3F + world.rand.nextFloat() * 0.4F;
-		            world.spawnParticle(EnumParticleTypes.SPELL_MOB, x, y, z, world.rand.nextFloat() < 0.9 ? 0 : 1, 0, 0);	
+					float x = pos.getX() + 0.3F + world.rand.nextFloat() * 0.4F;
+					float y = pos.getY();
+					float z = pos.getZ() + 0.3F + world.rand.nextFloat() * 0.4F;
+					world.spawnParticle(EnumParticleTypes.SPELL_MOB, x, y, z, world.rand.nextFloat() < 0.9 ? 0 : 1, 0, 0);
 				}
 		}
 	}

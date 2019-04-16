@@ -49,7 +49,7 @@ public class BlockCustomFlowerPot extends BlockFlowerPot implements IBlockColorP
 	}
 
 	@Nonnull
-    @Override
+	@Override
 	protected ExtendedBlockState createBlockState() {
 		return new ExtendedBlockState(this, new IProperty[] {CONTENTS, LEGACY_DATA, CUSTOM}, new IUnlistedProperty[] {TEXTURE});
 	}
@@ -91,7 +91,7 @@ public class BlockCustomFlowerPot extends BlockFlowerPot implements IBlockColorP
 	}
 
 	@Nonnull
-    @Override
+	@Override
 	public IBlockState getActualState(IBlockState state, IBlockAccess world, @Nonnull BlockPos pos) {
 		state = super.getActualState(state, world, pos);
 		// if the flower pot type is empty, but we have a flower, set the extra flag
@@ -128,8 +128,8 @@ public class BlockCustomFlowerPot extends BlockFlowerPot implements IBlockColorP
 					Block block = Block.getBlockFromItem(stack.getItem());
 					if(block != Blocks.AIR) {
 						// logic to obtain texture string
-					    IBlockState blockState = block.getStateFromMeta(stack.getItem().getMetadata(stack));
-					    texture = Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes().getTexture(blockState).getIconName();
+						IBlockState blockState = block.getStateFromMeta(stack.getItem().getMetadata(stack));
+						texture = Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes().getTexture(blockState).getIconName();
 						flowerPot.getTileData().setString(TAG_TEXTURE_PATH, texture);
 					}
 				}

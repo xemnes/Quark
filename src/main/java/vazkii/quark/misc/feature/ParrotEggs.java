@@ -94,7 +94,7 @@ public class ParrotEggs extends Feature {
 						stack.shrink(1);
 					
 					WorldServer ws = (WorldServer) e.world;
-	                ws.playSound(null, e.posX, e.posY, e.posZ, SoundEvents.ENTITY_PARROT_EAT, SoundCategory.NEUTRAL, 1.0F, 1.0F + (ws.rand.nextFloat() - ws.rand.nextFloat()) * 0.2F);
+					ws.playSound(null, e.posX, e.posY, e.posZ, SoundEvents.ENTITY_PARROT_EAT, SoundCategory.NEUTRAL, 1.0F, 1.0F + (ws.rand.nextFloat() - ws.rand.nextFloat()) * 0.2F);
 
 					if(e.world.rand.nextInt(chance) == 0) {
 						e.getEntityData().setInteger(TAG_EGG_TIMER, eggTime);

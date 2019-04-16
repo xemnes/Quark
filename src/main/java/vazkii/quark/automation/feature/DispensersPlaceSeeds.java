@@ -58,7 +58,7 @@ public class DispensersPlaceSeeds extends Feature {
 		setupCustomSeeds();
 	}
 
-    @SuppressWarnings("deprecation")
+	@SuppressWarnings("deprecation")
 	public void setupCustomSeeds() {
 		customSeeds = new HashMap<>();
 		for(String s : customSeedsArr) {
@@ -111,7 +111,7 @@ public class DispensersPlaceSeeds extends Feature {
 		}
 
 		@Nonnull
-        @Override
+		@Override
 		public ItemStack dispenseStack(IBlockSource par1IBlockSource, ItemStack par2ItemStack) {
 			EnumFacing facing = par1IBlockSource.getBlockState().getValue(BlockDispenser.FACING);
 			BlockPos pos = par1IBlockSource.getBlockPos().offset(facing);
@@ -136,7 +136,7 @@ public class DispensersPlaceSeeds extends Feature {
 		}
 
 		@Nonnull
-        @Override
+		@Override
 		public ItemStack dispenseStack(IBlockSource par1IBlockSource, ItemStack par2ItemStack) {
 			if(par2ItemStack.getItemDamage() == EnumDyeColor.BROWN.getDyeDamage()) {
 				Block block = Blocks.COCOA;

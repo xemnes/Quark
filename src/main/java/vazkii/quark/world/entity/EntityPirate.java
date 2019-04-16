@@ -66,28 +66,28 @@ public class EntityPirate extends EntitySkeleton {
 	}
 	
 	@Override
-    public void updatePassenger(@Nonnull Entity passenger) {
-        if(isPassenger(passenger) && passenger instanceof EntityParrot) {
-        	EntityParrot parrot = (EntityParrot) passenger;
-        	parrot.flap = -1;
-        	parrot.rotationPitch = 0;
-        	
-        	float rotation = rotationYaw;
-        	float radius = 0.5F;
-        	float x = (float) Math.cos(rotation * 0.017453292F) * radius;
-        	float z = (float) Math.sin(rotation * 0.017453292F) * radius;
-        	
-        	parrot.setPosition(posX + x, posY + getMountedYOffset(), posZ + z);
-        }
-    }
+	public void updatePassenger(@Nonnull Entity passenger) {
+		if(isPassenger(passenger) && passenger instanceof EntityParrot) {
+			EntityParrot parrot = (EntityParrot) passenger;
+			parrot.flap = -1;
+			parrot.rotationPitch = 0;
+
+			float rotation = rotationYaw;
+			float radius = 0.5F;
+			float x = (float) Math.cos(rotation * 0.017453292F) * radius;
+			float z = (float) Math.sin(rotation * 0.017453292F) * radius;
+
+			parrot.setPosition(posX + x, posY + getMountedYOffset(), posZ + z);
+		}
+	}
 	
 	@Override
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
-        
-        if(captain)
-            getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(60);
-    }
+	protected void applyEntityAttributes() {
+		super.applyEntityAttributes();
+
+		if(captain)
+			getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(60);
+	}
 	
 }
 

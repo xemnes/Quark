@@ -146,8 +146,8 @@ public class BlockIronLadder extends BlockMod implements IQuarkBlock {
 	@Nonnull
 	@Override
 	@SuppressWarnings("deprecation")
-    public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos blockPos, EnumFacing face) {
-        return BlockFaceShape.UNDEFINED;
-    }
+	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos blockPos, EnumFacing face) {
+		return BlockFaceShape.UNDEFINED;
+	}
 
 }

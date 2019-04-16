@@ -201,8 +201,8 @@ public class ColoredFlowerPots extends Feature {
 
 	/**
 	 * Registers an override to state a stack is definitely a flower or not a flower, primarily used by the config
-	 * @param stack     ItemStack which is a flower
-	 * @param power     Comparator level. Set to 0 to register this as not a flower
+	 * @param stack	 ItemStack which is a flower
+	 * @param power	 Comparator level. Set to 0 to register this as not a flower
 	 */
 	public static void registerFlower(ItemStack stack, int power) {
 		flowers.put(Pair.of(stack.getItem(), stack.getMetadata()), power);
@@ -214,7 +214,7 @@ public class ColoredFlowerPots extends Feature {
 	 * Gets the block colors for a block from an itemstack, logging an exception if it fails. Use this to get block colors when the implementation is unknown
 	 * @param stack  Stack to use
 	 * @param world  World
-	 * @param pos    Pos
+	 * @param pos	Pos
 	 * @param index  Tint index
 	 * @return  color, or -1 for undefined
 	 */
@@ -243,7 +243,7 @@ public class ColoredFlowerPots extends Feature {
 	 * Gets the block colors from an item stack
 	 * @param stack  Stack to check
 	 * @param world  World
-	 * @param pos    Pos
+	 * @param pos	Pos
 	 * @param index  Tint index
 	 * @return  color, or -1 for undefined
 	 */

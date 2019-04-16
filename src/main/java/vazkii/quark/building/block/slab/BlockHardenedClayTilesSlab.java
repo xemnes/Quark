@@ -32,7 +32,7 @@ public class BlockHardenedClayTilesSlab extends BlockQuarkSlab {
 	}
 
 	@Nonnull
-    @Override
+	@Override
 	@SuppressWarnings("deprecation")
 	public MapColor getMapColor(IBlockState state, IBlockAccess world, BlockPos pos) {
 		return MapColor.ADOBE;

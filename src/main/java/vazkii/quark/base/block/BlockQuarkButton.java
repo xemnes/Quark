@@ -42,7 +42,7 @@ public class BlockQuarkButton extends BlockButton implements IQuarkBlock {
 	}
 	
 	@Nonnull
-    @Override
+	@Override
 	public Block setTranslationKey(@Nonnull String name) {
 		super.setTranslationKey(name);
 		setRegistryName(LibMisc.PREFIX_MOD + name);

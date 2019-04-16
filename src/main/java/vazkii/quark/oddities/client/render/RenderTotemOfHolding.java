@@ -47,7 +47,7 @@ public class RenderTotemOfHolding extends Render<EntityTotemOfHolding> {
 	}
 	
 	private void renderTotemIcon(EntityTotemOfHolding entity) { 
-        OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240, 240);
+		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240, 240);
 		Minecraft mc = Minecraft.getMinecraft();
 		mc.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 		AtlasSpriteHelper.renderIconThicc(TotemOfHolding.totemSprite, 1F / 16F);

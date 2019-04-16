@@ -52,7 +52,7 @@ public class BlockEnchantingTableReplacement extends BlockEnchantmentTable {
 	}
 
 	@Override
-    public void breakBlock(World worldIn, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
+	public void breakBlock(World worldIn, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
 		TileEntity tileentity = worldIn.getTileEntity(pos);
 
 		if(tileentity instanceof TileMatrixEnchanterBase) {

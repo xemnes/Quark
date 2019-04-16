@@ -22,15 +22,15 @@ import vazkii.quark.world.feature.NetherFossils;
 
 public class NetherFossilGenerator implements IWorldGenerator {
 
-    private static final ResourceLocation STRUCTURE_SPINE_01 = new ResourceLocation("fossils/fossil_spine_01");
-    private static final ResourceLocation STRUCTURE_SPINE_02 = new ResourceLocation("fossils/fossil_spine_02");
-    private static final ResourceLocation STRUCTURE_SPINE_03 = new ResourceLocation("fossils/fossil_spine_03");
-    private static final ResourceLocation STRUCTURE_SPINE_04 = new ResourceLocation("fossils/fossil_spine_04");
-    private static final ResourceLocation STRUCTURE_SKULL_01 = new ResourceLocation("fossils/fossil_skull_01");
-    private static final ResourceLocation STRUCTURE_SKULL_02 = new ResourceLocation("fossils/fossil_skull_02");
-    private static final ResourceLocation STRUCTURE_SKULL_03 = new ResourceLocation("fossils/fossil_skull_03");
-    private static final ResourceLocation STRUCTURE_SKULL_04 = new ResourceLocation("fossils/fossil_skull_04");
-    private static final ResourceLocation[] FOSSILS = new ResourceLocation[] {STRUCTURE_SPINE_01, STRUCTURE_SPINE_02, STRUCTURE_SPINE_03, STRUCTURE_SPINE_04, STRUCTURE_SKULL_01, STRUCTURE_SKULL_02, STRUCTURE_SKULL_03, STRUCTURE_SKULL_04};
+	private static final ResourceLocation STRUCTURE_SPINE_01 = new ResourceLocation("fossils/fossil_spine_01");
+	private static final ResourceLocation STRUCTURE_SPINE_02 = new ResourceLocation("fossils/fossil_spine_02");
+	private static final ResourceLocation STRUCTURE_SPINE_03 = new ResourceLocation("fossils/fossil_spine_03");
+	private static final ResourceLocation STRUCTURE_SPINE_04 = new ResourceLocation("fossils/fossil_spine_04");
+	private static final ResourceLocation STRUCTURE_SKULL_01 = new ResourceLocation("fossils/fossil_skull_01");
+	private static final ResourceLocation STRUCTURE_SKULL_02 = new ResourceLocation("fossils/fossil_skull_02");
+	private static final ResourceLocation STRUCTURE_SKULL_03 = new ResourceLocation("fossils/fossil_skull_03");
+	private static final ResourceLocation STRUCTURE_SKULL_04 = new ResourceLocation("fossils/fossil_skull_04");
+	private static final ResourceLocation[] FOSSILS = new ResourceLocation[] {STRUCTURE_SPINE_01, STRUCTURE_SPINE_02, STRUCTURE_SPINE_03, STRUCTURE_SPINE_04, STRUCTURE_SKULL_01, STRUCTURE_SKULL_02, STRUCTURE_SKULL_03, STRUCTURE_SKULL_04};
 
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
@@ -52,20 +52,20 @@ public class NetherFossilGenerator implements IWorldGenerator {
 	
 	// stolen from WorldGenFossils
 	private void generateFossil(World world, Random random, BlockPos pos) {
-        MinecraftServer minecraftserver = world.getMinecraftServer();
-        Rotation[] arotation = Rotation.values();
-        Rotation rotation = arotation[random.nextInt(arotation.length)];
-        int i = random.nextInt(FOSSILS.length);
-        TemplateManager templatemanager = world.getSaveHandler().getStructureTemplateManager();
-        Template template = templatemanager.getTemplate(minecraftserver, FOSSILS[i]);
-        ChunkPos chunkpos = new ChunkPos(pos);
-        StructureBoundingBox structureboundingbox = new StructureBoundingBox(chunkpos.getXStart(), 0, chunkpos.getZStart(), chunkpos.getXEnd(), 256, chunkpos.getZEnd());
-        PlacementSettings placementsettings = (new PlacementSettings()).setRotation(rotation).setBoundingBox(structureboundingbox).setRandom(random);
-        BlockPos blockpos = template.transformedSize(rotation);
+		MinecraftServer minecraftserver = world.getMinecraftServer();
+		Rotation[] arotation = Rotation.values();
+		Rotation rotation = arotation[random.nextInt(arotation.length)];
+		int i = random.nextInt(FOSSILS.length);
+		TemplateManager templatemanager = world.getSaveHandler().getStructureTemplateManager();
+		Template template = templatemanager.getTemplate(minecraftserver, FOSSILS[i]);
+		ChunkPos chunkpos = new ChunkPos(pos);
+		StructureBoundingBox structureboundingbox = new StructureBoundingBox(chunkpos.getXStart(), 0, chunkpos.getZStart(), chunkpos.getXEnd(), 256, chunkpos.getZEnd());
+		PlacementSettings placementsettings = (new PlacementSettings()).setRotation(rotation).setBoundingBox(structureboundingbox).setRandom(random);
+		BlockPos blockpos = template.transformedSize(rotation);
 
-        BlockPos blockpos1 = template.getZeroPositionWithTransform(pos, Mirror.NONE, rotation);
-        placementsettings.setIntegrity(1F);
-        template.addBlocksToWorld(world, blockpos1, placementsettings, 20);
+		BlockPos blockpos1 = template.getZeroPositionWithTransform(pos, Mirror.NONE, rotation);
+		placementsettings.setIntegrity(1F);
+		template.addBlocksToWorld(world, blockpos1, placementsettings, 20);
 	}
 
 }

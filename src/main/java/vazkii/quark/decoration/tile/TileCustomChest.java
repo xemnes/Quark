@@ -36,7 +36,7 @@ public class TileCustomChest extends TileEntityChest {
 	public VariedChests.ChestType chestType = VariedChests.ChestType.NONE;
 
 	@Nonnull
-    @Override
+	@Override
 	public NBTTagCompound writeToNBT(@Nonnull NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setString("type", chestType.name);
@@ -44,7 +44,7 @@ public class TileCustomChest extends TileEntityChest {
 	}
 
 	@Nonnull
-    @Override
+	@Override
 	public NBTTagCompound getUpdateTag() {
 		NBTTagCompound nbt = super.getUpdateTag();
 		nbt.setString("type", chestType.name);
@@ -147,7 +147,7 @@ public class TileCustomChest extends TileEntityChest {
 	}
 
 	@Nonnull
-    @Override
+	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
 		return new AxisAlignedBB(pos.getX() - 1, pos.getY(), pos.getZ() - 1, pos.getX() + 2, pos.getY() + 2, pos.getZ() + 2);
 	}

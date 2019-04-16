@@ -223,7 +223,7 @@ public class AncientTomes extends Feature {
 		}
 
 		@Nonnull
-        @Override
+		@Override
 		public ItemStack apply(@Nonnull ItemStack stack, @Nonnull Random rand, @Nonnull LootContext context) {
 			Enchantment enchantment = validEnchants.get(rand.nextInt(validEnchants.size()));
 			stack.addEnchantment(enchantment, enchantment.getMaxLevel());
@@ -238,12 +238,12 @@ public class AncientTomes extends Feature {
 
 			@Override
 			public void serialize(@Nonnull JsonObject object, @Nonnull EnchantTomeFunction functionClazz,
-                                  @Nonnull JsonSerializationContext serializationContext) {}
+								  @Nonnull JsonSerializationContext serializationContext) {}
 
 			@Nonnull
-            @Override
+			@Override
 			public EnchantTomeFunction deserialize(@Nonnull JsonObject object, @Nonnull JsonDeserializationContext deserializationContext,
-                                                   @Nonnull LootCondition[] conditionsIn) {
+												   @Nonnull LootCondition[] conditionsIn) {
 				return new EnchantTomeFunction();
 			}	
 		}

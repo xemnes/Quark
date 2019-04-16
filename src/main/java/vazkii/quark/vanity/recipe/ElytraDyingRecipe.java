@@ -58,7 +58,7 @@ public class ElytraDyingRecipe extends ModRecipe {
 	}
 
 	@Nonnull
-    @Override
+	@Override
 	public ItemStack getCraftingResult(@Nonnull InventoryCrafting var1) {
 		int source = -1;
 		ItemStack target = ItemStack.EMPTY;
@@ -98,13 +98,13 @@ public class ElytraDyingRecipe extends ModRecipe {
 	}
 
 	@Nonnull
-    @Override
+	@Override
 	public ItemStack getRecipeOutput() {
 		return new ItemStack(Items.ELYTRA);
 	}
 
 	@Nonnull
-    @Override
+	@Override
 	public NonNullList<ItemStack> getRemainingItems(InventoryCrafting inv) {
 		return ForgeHooks.defaultRecipeGetRemainingItems(inv);
 	}
@@ -115,8 +115,8 @@ public class ElytraDyingRecipe extends ModRecipe {
 	}
 	
 	@Override
-    @Nonnull
-    public NonNullList<Ingredient> getIngredients() {
+	@Nonnull
+	public NonNullList<Ingredient> getIngredients() {
 		NonNullList<Ingredient> list = NonNullList.withSize(2, Ingredient.EMPTY);
 		list.set(0, Ingredient.fromStacks(new ItemStack(Items.ELYTRA)));
 		

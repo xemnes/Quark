@@ -40,7 +40,7 @@ public class BlockBiotiteOre extends BlockMod implements IQuarkBlock  {
 	}
 
 	@Nonnull
-    @Override
+	@Override
 	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
 		return Biotite.biotite;
 	}

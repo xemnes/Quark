@@ -26,7 +26,7 @@ import vazkii.quark.decoration.tile.TileCustomChest;
 public class RenderTileCustomChest extends TileEntitySpecialRenderer<TileCustomChest> {
 
 	private static final ResourceLocation TEXTURE_CHRISTMAS_DOUBLE = new ResourceLocation("textures/entity/chest/christmas_double.png");
-    private static final ResourceLocation TEXTURE_CHRISTMAS = new ResourceLocation("textures/entity/chest/christmas.png");
+	private static final ResourceLocation TEXTURE_CHRISTMAS = new ResourceLocation("textures/entity/chest/christmas.png");
 	
 	private final ModelChest simpleChest = new ModelChest();
 	private final ModelChest largeChest = new ModelLargeChest();
@@ -36,7 +36,7 @@ public class RenderTileCustomChest extends TileEntitySpecialRenderer<TileCustomC
 	public RenderTileCustomChest() {
 		if(GlobalConfig.enableSeasonalFeatures) {
 			Calendar calendar = Calendar.getInstance();
-	        xmas = calendar.get(Calendar.MONTH) + 1 == 12 && calendar.get(Calendar.DAY_OF_MONTH) >= 24 && calendar.get(Calendar.DAY_OF_MONTH) <= 26;
+			xmas = calendar.get(Calendar.MONTH) + 1 == 12 && calendar.get(Calendar.DAY_OF_MONTH) >= 24 && calendar.get(Calendar.DAY_OF_MONTH) <= 26;
 		}
 	}
 	

@@ -27,18 +27,18 @@ public class BlockBlackAsh extends BlockQuarkDust {
 		return new ItemBlackAshBlock(this, res);
 	}
 	
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand) {
-    	if(rand.nextFloat() < 0.1) {
-    		float x = pos.getX() + 0.3F + rand.nextFloat() * 0.4F;
-        	float y = pos.getY() + 0.2F;
-        	float z = pos.getZ() + 0.3F + rand.nextFloat() * 0.4F;
-            worldIn.spawnParticle(EnumParticleTypes.SPELL_MOB, x, y, z, 0, 0, 0);	
-    	}
-    }	
-    
-    @Override
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand) {
+		if(rand.nextFloat() < 0.1) {
+			float x = pos.getX() + 0.3F + rand.nextFloat() * 0.4F;
+			float y = pos.getY() + 0.2F;
+			float z = pos.getZ() + 0.3F + rand.nextFloat() * 0.4F;
+			worldIn.spawnParticle(EnumParticleTypes.SPELL_MOB, x, y, z, 0, 0, 0);
+		}
+	}
+
+	@Override
 	public int getColor(IBlockAccess world, IBlockState state, BlockPos pos, int tint) {
 		return 0x222222;
 	}

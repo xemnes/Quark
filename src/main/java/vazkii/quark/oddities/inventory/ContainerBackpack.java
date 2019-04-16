@@ -37,15 +37,15 @@ public class ContainerBackpack extends ContainerPlayer {
 	}
 	
 	@Nonnull
-    @Override
+	@Override
 	public ItemStack transferStackInSlot(@Nonnull EntityPlayer playerIn, int index) {
-        ItemStack itemstack = ItemStack.EMPTY;
-        Slot slot = inventorySlots.get(index);
+		ItemStack itemstack = ItemStack.EMPTY;
+		Slot slot = inventorySlots.get(index);
 
-        if(index >= 9 && index < 36 && slot != null && slot.getHasStack()) {
+		if(index >= 9 && index < 36 && slot != null && slot.getHasStack()) {
 			ItemStack stack = slot.getStack();
 			if(!mergeItemStack(stack, 46, 72, false))
-                return ItemStack.EMPTY;
+				return ItemStack.EMPTY;
 		}
 		
 		return super.transferStackInSlot(playerIn, index);

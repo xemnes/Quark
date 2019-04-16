@@ -77,7 +77,7 @@ public class BlockPipe extends BlockModContainer implements IQuarkBlock {
 	}
 
 	@Override
-    @SuppressWarnings("deprecation")
+	@SuppressWarnings("deprecation")
 	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
 		boolean flag = !worldIn.isBlockPowered(pos);
 
@@ -87,7 +87,7 @@ public class BlockPipe extends BlockModContainer implements IQuarkBlock {
 
 	@Nonnull
 	@Override
-    @SuppressWarnings("deprecation")
+	@SuppressWarnings("deprecation")
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
 		double minX = CENTER_AABB.minX, minY = CENTER_AABB.minY, minZ = CENTER_AABB.minZ, 
 				maxX = CENTER_AABB.maxX, maxY = CENTER_AABB.maxY, maxZ = CENTER_AABB.maxZ;
@@ -105,7 +105,7 @@ public class BlockPipe extends BlockModContainer implements IQuarkBlock {
 
 	@Nonnull
 	@Override
-    @SuppressWarnings("deprecation")
+	@SuppressWarnings("deprecation")
 	public AxisAlignedBB getSelectedBoundingBox(IBlockState state, @Nonnull World worldIn, @Nonnull BlockPos pos) {
 		return getBoundingBox(state, worldIn, pos).offset(pos);
 	}
@@ -153,14 +153,14 @@ public class BlockPipe extends BlockModContainer implements IQuarkBlock {
 
 	@Nonnull
 	@Override
-    @SuppressWarnings("deprecation")
+	@SuppressWarnings("deprecation")
 	public IBlockState getStateFromMeta(int meta) {
 		return getDefaultState().withProperty(ENABLED, (meta & 0b1) != 1);
 	}
 
 	@Nonnull
 	@Override
-    @SuppressWarnings("deprecation")
+	@SuppressWarnings("deprecation")
 	public IBlockState getActualState(@Nonnull IBlockState state, IBlockAccess worldIn, BlockPos pos) {
 		IBlockState actualState = state;
 		for(EnumFacing facing : EnumFacing.VALUES) {
@@ -173,13 +173,13 @@ public class BlockPipe extends BlockModContainer implements IQuarkBlock {
 	}
 
 	@Override
-    @SuppressWarnings("deprecation")
+	@SuppressWarnings("deprecation")
 	public boolean hasComparatorInputOverride(IBlockState state) {
 		return true;
 	}
 
 	@Override
-    @SuppressWarnings("deprecation")
+	@SuppressWarnings("deprecation")
 	public int getComparatorInputOverride(IBlockState blockState, World worldIn, BlockPos pos) {
 		TileEntity tile = worldIn.getTileEntity(pos);
 		if(tile instanceof TilePipe)
@@ -198,27 +198,27 @@ public class BlockPipe extends BlockModContainer implements IQuarkBlock {
 	}
 
 	@Override
-    @SuppressWarnings("deprecation")
+	@SuppressWarnings("deprecation")
 	public boolean isFullCube(IBlockState state) {
 		return false;
 	}
 
 	@Override
-    @SuppressWarnings("deprecation")
+	@SuppressWarnings("deprecation")
 	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-    @SuppressWarnings("deprecation")
+	@SuppressWarnings("deprecation")
 	public boolean shouldSideBeRendered(IBlockState blockState, @Nonnull IBlockAccess blockAccess, @Nonnull BlockPos pos, EnumFacing side) {
 		return true;
 	}
 	
 	@Nonnull
 	@Override
-    @SuppressWarnings("deprecation")
+	@SuppressWarnings("deprecation")
 	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
 		return BlockFaceShape.UNDEFINED;
 	}

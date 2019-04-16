@@ -47,7 +47,7 @@ public class BlockGlowcelium extends BlockMod implements IQuarkBlock {
 	}
 
 	@Override
-    @SideOnly(Side.CLIENT)
+	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand) {
 		super.randomDisplayTick(stateIn, worldIn, pos, rand);
 
@@ -56,9 +56,9 @@ public class BlockGlowcelium extends BlockMod implements IQuarkBlock {
 	}
 	
 	@Nonnull
-    @Override
-    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
-        return Blocks.DIRT.getItemDropped(Blocks.DIRT.getDefaultState().withProperty(BlockDirt.VARIANT, BlockDirt.DirtType.DIRT), rand, fortune);
-    }
+	@Override
+	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+		return Blocks.DIRT.getItemDropped(Blocks.DIRT.getDefaultState().withProperty(BlockDirt.VARIANT, BlockDirt.DirtType.DIRT), rand, fortune);
+	}
 
 }

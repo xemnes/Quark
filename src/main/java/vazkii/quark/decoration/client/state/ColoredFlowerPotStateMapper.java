@@ -19,7 +19,7 @@ import javax.annotation.Nonnull;
 public class ColoredFlowerPotStateMapper extends StateMapperBase {
 	
 	@Nonnull
-    @Override
+	@Override
 	protected ModelResourceLocation getModelResourceLocation(@Nonnull IBlockState state) {
 		ResourceLocation loc = state.getBlock().getRegistryName();
 		if(state.getValue(BlockCustomFlowerPot.CUSTOM))

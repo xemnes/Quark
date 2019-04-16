@@ -76,7 +76,7 @@ public class DispensersPlaceBlocks extends Feature {
 		}
 
 		@Nonnull
-        @Override
+		@Override
 		@SuppressWarnings("deprecation")
 		public ItemStack dispenseStack(IBlockSource par1IBlockSource, ItemStack par2ItemStack) {
 			EnumFacing facing = par1IBlockSource.getBlockState().getValue(BlockDispenser.FACING);

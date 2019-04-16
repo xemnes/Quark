@@ -27,7 +27,7 @@ public class BlockPaperLantern extends BlockMod implements IQuarkBlock {
 	}
 	
 	@Nonnull
-    @Override
+	@Override
 	@SuppressWarnings("deprecation")
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
 		return AABB;
@@ -46,10 +46,10 @@ public class BlockPaperLantern extends BlockMod implements IQuarkBlock {
 	}
 	
 	@Nonnull
-    @Override
+	@Override
 	@SuppressWarnings("deprecation")
-    public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
-        return face != EnumFacing.UP && face != EnumFacing.DOWN ? BlockFaceShape.UNDEFINED : BlockFaceShape.CENTER;
-    }
+	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
+		return face != EnumFacing.UP && face != EnumFacing.DOWN ? BlockFaceShape.UNDEFINED : BlockFaceShape.CENTER;
+	}
 
 }

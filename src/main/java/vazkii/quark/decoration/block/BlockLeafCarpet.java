@@ -109,9 +109,9 @@ public class BlockLeafCarpet extends BlockMetaVariants<BlockLeafCarpet.Variants>
 	@Nonnull
 	@Override
 	@SuppressWarnings("deprecation")
-    public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos blockPos, EnumFacing face) {
-        return face == EnumFacing.DOWN ? BlockFaceShape.SOLID : BlockFaceShape.UNDEFINED;
-    }
+	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos blockPos, EnumFacing face) {
+		return face == EnumFacing.DOWN ? BlockFaceShape.SOLID : BlockFaceShape.UNDEFINED;
+	}
 
 	public enum Variants implements IStringSerializable {
 		OAK_LEAF_CARPET(new ItemStack(Blocks.LEAVES, 1, 0), Blocks.LEAVES.getDefaultState().withProperty(BlockOldLeaf.VARIANT, BlockPlanks.EnumType.OAK)),

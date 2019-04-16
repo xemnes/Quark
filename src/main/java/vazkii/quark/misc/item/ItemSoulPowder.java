@@ -26,27 +26,27 @@ public class ItemSoulPowder extends ItemMod implements IQuarkItem {
 	}
 	
 	@Nonnull
-    @Override
+	@Override
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, @Nonnull EnumHand handIn) {
-        ItemStack itemstack = playerIn.getHeldItem(handIn);
+		ItemStack itemstack = playerIn.getHeldItem(handIn);
 
-        if(!playerIn.capabilities.isCreativeMode)
-            itemstack.shrink(1);
+		if(!playerIn.capabilities.isCreativeMode)
+			itemstack.shrink(1);
 
-        if(!worldIn.isRemote) {
-            BlockPos blockpos = playerIn.getEntityWorld().findNearestStructure("Fortress", playerIn.getPosition(), false);
-            
-            if(blockpos != null) {
-                EntitySoulPowder entity = new EntitySoulPowder(worldIn, blockpos.getX(), blockpos.getZ());
-                Vec3d look = playerIn.getLookVec();
-                entity.setPosition(playerIn.posX + look.x * 2, playerIn.posY + 0.25, playerIn.posZ + look.z * 2);
-                worldIn.spawnEntity(entity);
-                worldIn.playSound(null, playerIn.posX, playerIn.posY, playerIn.posZ, SoundEvents.ENTITY_GHAST_DEATH, SoundCategory.PLAYERS, 1F, 1F);
-            }
-        } else playerIn.swingArm(handIn);
+		if(!worldIn.isRemote) {
+			BlockPos blockpos = playerIn.getEntityWorld().findNearestStructure("Fortress", playerIn.getPosition(), false);
 
-        playerIn.addStat(StatList.getObjectUseStats(this));
-        return new ActionResult(EnumActionResult.SUCCESS, itemstack);
+			if(blockpos != null) {
+				EntitySoulPowder entity = new EntitySoulPowder(worldIn, blockpos.getX(), blockpos.getZ());
+				Vec3d look = playerIn.getLookVec();
+				entity.setPosition(playerIn.posX + look.x * 2, playerIn.posY + 0.25, playerIn.posZ + look.z * 2);
+				worldIn.spawnEntity(entity);
+				worldIn.playSound(null, playerIn.posX, playerIn.posY, playerIn.posZ, SoundEvents.ENTITY_GHAST_DEATH, SoundCategory.PLAYERS, 1F, 1F);
+			}
+		} else playerIn.swingArm(handIn);
+
+		playerIn.addStat(StatList.getObjectUseStats(this));
+		return new ActionResult(EnumActionResult.SUCCESS, itemstack);
 	}
 
 }

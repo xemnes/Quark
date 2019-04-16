@@ -127,7 +127,7 @@ public class BuriedTreasure extends Feature {
 		mapdata.dimension = 0;
 		mapdata.trackingPosition = true;
 		mapdata.unlimitedTracking = true;
-        ItemMap.renderBiomePreviewMap(world, itemstack);
+		ItemMap.renderBiomePreviewMap(world, itemstack);
 		MapData.addTargetDecoration(itemstack, treasurePos, "x", Type.TARGET_X);
 
 		mapdata.markDirty();
@@ -164,7 +164,7 @@ public class BuriedTreasure extends Feature {
 		}
 
 		@Nonnull
-        @Override
+		@Override
 		public ItemStack apply(@Nonnull ItemStack stack, @Nonnull Random rand, @Nonnull LootContext context) {
 			int id = context.getWorld().getUniqueDataId("map");
 			stack.setItemDamage(id);
@@ -185,12 +185,12 @@ public class BuriedTreasure extends Feature {
 
 			@Override
 			public void serialize(@Nonnull JsonObject object, @Nonnull SetAsTreasureFunction functionClazz,
-                                  @Nonnull JsonSerializationContext serializationContext) {}
+								  @Nonnull JsonSerializationContext serializationContext) {}
 
 			@Nonnull
-            @Override
+			@Override
 			public SetAsTreasureFunction deserialize(@Nonnull JsonObject object, @Nonnull JsonDeserializationContext deserializationContext,
-                                                     @Nonnull LootCondition[] conditionsIn) {
+													 @Nonnull LootCondition[] conditionsIn) {
 				return new SetAsTreasureFunction();
 			}
 		}

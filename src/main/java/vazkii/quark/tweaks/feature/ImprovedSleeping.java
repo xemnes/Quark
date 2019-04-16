@@ -152,20 +152,20 @@ public class ImprovedSleeping extends Feature {
 		}
 	}
 
-    @SubscribeEvent
-    public void onPlayerLogout(PlayerLoggedOutEvent event) {
-        World logoutWorld = event.player.world;
-        List<EntityPlayer> players = logoutWorld.playerEntities;
-        if(players.size() == 1) {
-            EntityPlayer lastPlayer = players.get(0);
-            if(lastPlayer.getEntityData().getBoolean(TAG_AFK)) {
-                lastPlayer.getEntityData().setBoolean(TAG_AFK, false);
-                TextComponentTranslation text = new TextComponentTranslation("quarkmisc.leftAfk");
-                text.getStyle().setColor(TextFormatting.AQUA);
-                lastPlayer.sendMessage(text);
-            }
-        }
-    }
+	@SubscribeEvent
+	public void onPlayerLogout(PlayerLoggedOutEvent event) {
+		World logoutWorld = event.player.world;
+		List<EntityPlayer> players = logoutWorld.playerEntities;
+		if(players.size() == 1) {
+			EntityPlayer lastPlayer = players.get(0);
+			if(lastPlayer.getEntityData().getBoolean(TAG_AFK)) {
+				lastPlayer.getEntityData().setBoolean(TAG_AFK, false);
+				TextComponentTranslation text = new TextComponentTranslation("quarkmisc.leftAfk");
+				text.getStyle().setColor(TextFormatting.AQUA);
+				lastPlayer.sendMessage(text);
+			}
+		}
+	}
 	
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)

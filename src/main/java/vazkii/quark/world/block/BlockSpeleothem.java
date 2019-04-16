@@ -55,12 +55,12 @@ public class BlockSpeleothem extends BlockMod implements IQuarkBlock {
 	
 	@Override
 	@SuppressWarnings("deprecation")
-    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
+	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
 		int size = state.getValue(SIZE).strength;
 		if(getBearing(worldIn, pos) < size + 1) {
 			worldIn.playEvent(2001, pos, Block.getStateId(worldIn.getBlockState(pos)));
 			dropBlockAsItem(worldIn, pos, state, 0);
-            worldIn.setBlockToAir(pos);
+			worldIn.setBlockToAir(pos);
 		}
 	}
 	
@@ -75,9 +75,9 @@ public class BlockSpeleothem extends BlockMod implements IQuarkBlock {
 	}
 	
 	@Override
-    public boolean isPassable(IBlockAccess worldIn, BlockPos pos) {
-        return false;
-    }
+	public boolean isPassable(IBlockAccess worldIn, BlockPos pos) {
+		return false;
+	}
 	
 	private int getBearing(IBlockAccess world, BlockPos pos) {
 		return Math.max(getStrength(world, pos.down()), getStrength(world, pos.up()));
@@ -95,7 +95,7 @@ public class BlockSpeleothem extends BlockMod implements IQuarkBlock {
 	}
 	
 	@Nonnull
-    @Override
+	@Override
 	@SuppressWarnings("deprecation")
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
 		return state.getValue(SIZE).aabb;
@@ -126,7 +126,7 @@ public class BlockSpeleothem extends BlockMod implements IQuarkBlock {
 	}
 	
 	@Nonnull
-    @Override
+	@Override
 	@SuppressWarnings("deprecation")
 	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos blockPos, EnumFacing face) {
 		return BlockFaceShape.UNDEFINED;
@@ -138,7 +138,7 @@ public class BlockSpeleothem extends BlockMod implements IQuarkBlock {
 	}
 
 	@Nonnull
-    @Override
+	@Override
 	protected BlockStateContainer createBlockState() {
 		return new BlockStateContainer(this, SIZE);
 	}
@@ -149,7 +149,7 @@ public class BlockSpeleothem extends BlockMod implements IQuarkBlock {
 	}
 
 	@Nonnull
-    @Override
+	@Override
 	@SuppressWarnings("deprecation")
 	public IBlockState getStateFromMeta(int meta) {
 		return getDefaultState().withProperty(SIZE, EnumSize.values()[Math.min(EnumSize.values().length - 1, meta)]);
@@ -171,10 +171,10 @@ public class BlockSpeleothem extends BlockMod implements IQuarkBlock {
 		public final int strength;
 		public final AxisAlignedBB aabb;
 
-        @Override
-        public String getName() {
-            return name().toLowerCase(Locale.ROOT);
-        }
+		@Override
+		public String getName() {
+			return name().toLowerCase(Locale.ROOT);
+		}
 	}
 
 }

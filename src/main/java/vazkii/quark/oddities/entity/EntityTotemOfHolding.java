@@ -27,12 +27,12 @@ public class EntityTotemOfHolding extends Entity {
 	private static final String TAG_DYING = "dying";
 	private static final String TAG_OWNER = "owner";
 	
-    private static final DataParameter<Boolean> DYING = EntityDataManager.<Boolean>createKey(EntityTotemOfHolding.class, DataSerializers.BOOLEAN);
+	private static final DataParameter<Boolean> DYING = EntityDataManager.<Boolean>createKey(EntityTotemOfHolding.class, DataSerializers.BOOLEAN);
 	
-    public static final int DEATH_TIME = 40;
+	public static final int DEATH_TIME = 40;
 
-    int deathTicks = 0;
-    String owner;
+	int deathTicks = 0;
+	String owner;
 	List<ItemStack> storedItems = new LinkedList<>();
 
 	public EntityTotemOfHolding(World worldIn) {

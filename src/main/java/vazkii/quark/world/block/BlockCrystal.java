@@ -30,25 +30,25 @@ public class BlockCrystal extends BlockMetaVariants<BlockCrystal.Variants> imple
 	
 	@Override
 	@SuppressWarnings("deprecation")
-    public boolean isOpaqueCube(IBlockState state) {
-        return false;
-    }
-    
-    @Nonnull
-	@Override
-    public BlockRenderLayer getRenderLayer() {
-        return BlockRenderLayer.TRANSLUCENT;
-    }
+	public boolean isOpaqueCube(IBlockState state) {
+		return false;
+	}
 
-    @Override
+	@Nonnull
+	@Override
+	public BlockRenderLayer getRenderLayer() {
+		return BlockRenderLayer.TRANSLUCENT;
+	}
+
+	@Override
 	@SideOnly(Side.CLIENT)
 	@SuppressWarnings("deprecation")
-    public boolean shouldSideBeRendered(IBlockState blockState, @Nonnull IBlockAccess blockAccess, @Nonnull BlockPos pos, EnumFacing side) {
-        IBlockState iblockstate = blockAccess.getBlockState(pos.offset(side));
-        Block block = iblockstate.getBlock();
+	public boolean shouldSideBeRendered(IBlockState blockState, @Nonnull IBlockAccess blockAccess, @Nonnull BlockPos pos, EnumFacing side) {
+		IBlockState iblockstate = blockAccess.getBlockState(pos.offset(side));
+		Block block = iblockstate.getBlock();
 
-        return block != this && super.shouldSideBeRendered(blockState, blockAccess, pos, side);
-    }
+		return block != this && super.shouldSideBeRendered(blockState, blockAccess, pos, side);
+	}
 
 	public enum Variants implements IStringSerializable {
 		CRYSTAL_WHITE,

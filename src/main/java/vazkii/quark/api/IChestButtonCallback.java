@@ -15,6 +15,6 @@ public interface IChestButtonCallback {
 	 * @param buttonType The type of the button, aka the ordinal() of the button type enum.
 	 * @return true to keep the button, false to not have it be added. 
 	 */
-    boolean onAddChestButton(GuiButton button, int buttonType);
+	boolean onAddChestButton(GuiButton button, int buttonType);
 	
 }

@@ -152,13 +152,13 @@ public class Backpacks extends Feature {
 		return true;
 	}
 	
-    public static class BackpackTrade implements EntityVillager.ITradeList {
+	public static class BackpackTrade implements EntityVillager.ITradeList {
 
-    	@Override
-        public void addMerchantRecipe(@Nonnull IMerchant merchant, @Nonnull MerchantRecipeList recipeList, @Nonnull Random random) {
-        	int emeraldCount = random.nextInt(maxEmeralds - minEmeralds) + minEmeralds;
-        	recipeList.add(new MerchantRecipe(new ItemStack(Items.LEATHER, leatherCount), new ItemStack(Items.EMERALD, emeraldCount), new ItemStack(backpack)));
-        }
-    }
+		@Override
+		public void addMerchantRecipe(@Nonnull IMerchant merchant, @Nonnull MerchantRecipeList recipeList, @Nonnull Random random) {
+			int emeraldCount = random.nextInt(maxEmeralds - minEmeralds) + minEmeralds;
+			recipeList.add(new MerchantRecipe(new ItemStack(Items.LEATHER, leatherCount), new ItemStack(Items.EMERALD, emeraldCount), new ItemStack(backpack)));
+		}
+	}
 
 }

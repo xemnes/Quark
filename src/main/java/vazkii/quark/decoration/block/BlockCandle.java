@@ -39,21 +39,21 @@ public class BlockCandle extends BlockMetaVariants<BlockCandle.Variants> impleme
 	}
 	
 	@Override
-    public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
-        worldIn.scheduleUpdate(pos, this, tickRate(worldIn));
-    }
+	public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
+		worldIn.scheduleUpdate(pos, this, tickRate(worldIn));
+	}
 
 	@Override
 	@SuppressWarnings("deprecation")
-    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
-        worldIn.scheduleUpdate(pos, this, tickRate(worldIn));
-    }
+	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
+		worldIn.scheduleUpdate(pos, this, tickRate(worldIn));
+	}
 	
 	@Override
-    public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
-        if(!worldIn.isRemote && TallowAndCandles.candlesFall)
-            checkFallable(worldIn, pos);
-    }
+	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+		if(!worldIn.isRemote && TallowAndCandles.candlesFall)
+			checkFallable(worldIn, pos);
+	}
 	
 	@Override
 	public float getEnchantPowerBonus(World world, BlockPos pos) {
@@ -62,35 +62,35 @@ public class BlockCandle extends BlockMetaVariants<BlockCandle.Variants> impleme
 	
 	// Copypasta from BlockFalling
 	private void checkFallable(World worldIn, BlockPos pos) {
-        if((worldIn.isAirBlock(pos.down()) || BlockFalling.canFallThrough(worldIn.getBlockState(pos.down()))) && pos.getY() >= 0) {
+		if((worldIn.isAirBlock(pos.down()) || BlockFalling.canFallThrough(worldIn.getBlockState(pos.down()))) && pos.getY() >= 0) {
 
 			if(!BlockFalling.fallInstantly && worldIn.isAreaLoaded(pos.add(-32, -32, -32), pos.add(32, 32, 32))) {
-                if(!worldIn.isRemote) {
-                    EntityFallingBlock entityfallingblock = new EntityFallingBlock(worldIn, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, worldIn.getBlockState(pos));
-                    worldIn.spawnEntity(entityfallingblock);
-                }
-            } else {
-                IBlockState state = worldIn.getBlockState(pos);
-                worldIn.setBlockToAir(pos);
-                BlockPos blockpos = pos.down();
+				if(!worldIn.isRemote) {
+					EntityFallingBlock entityfallingblock = new EntityFallingBlock(worldIn, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, worldIn.getBlockState(pos));
+					worldIn.spawnEntity(entityfallingblock);
+				}
+			} else {
+				IBlockState state = worldIn.getBlockState(pos);
+				worldIn.setBlockToAir(pos);
+				BlockPos blockpos = pos.down();
 
-                while ((worldIn.isAirBlock(blockpos) || BlockFalling.canFallThrough(worldIn.getBlockState(blockpos))) && blockpos.getY() > 0)
-                	blockpos = blockpos.down();
+				while ((worldIn.isAirBlock(blockpos) || BlockFalling.canFallThrough(worldIn.getBlockState(blockpos))) && blockpos.getY() > 0)
+					blockpos = blockpos.down();
 
-                if(blockpos.getY() > 0)
-                    worldIn.setBlockState(blockpos.up(), state);
-            }
-        }
-    }
+				if(blockpos.getY() > 0)
+					worldIn.setBlockState(blockpos.up(), state);
+			}
+		}
+	}
 	
 
 	@Override
-    public int tickRate(World worldIn) {
-        return 2;
-    }
+	public int tickRate(World worldIn) {
+		return 2;
+	}
 	
 	@Nonnull
-    @Override
+	@Override
 	@SuppressWarnings("deprecation")
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
 		return AABB;
@@ -121,22 +121,22 @@ public class BlockCandle extends BlockMetaVariants<BlockCandle.Variants> impleme
 	}
 	
 	@Nonnull
-    @Override
+	@Override
 	@SuppressWarnings("deprecation")
 	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos blockPos, EnumFacing face) {
 		return BlockFaceShape.UNDEFINED;
 	}
 	
-    @Override
+	@Override
 	@SideOnly(Side.CLIENT)
-    public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand) {
-        double d0 = (double)pos.getX() + 0.5D;
-        double d1 = (double)pos.getY() + 0.7D;
-        double d2 = (double)pos.getZ() + 0.5D;
+	public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand) {
+		double d0 = (double)pos.getX() + 0.5D;
+		double d1 = (double)pos.getY() + 0.7D;
+		double d2 = (double)pos.getZ() + 0.5D;
 
-        worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0, d1, d2, 0.0D, 0.0D, 0.0D);
-        worldIn.spawnParticle(EnumParticleTypes.FLAME, d0, d1, d2, 0.0D, 0.0D, 0.0D);
-    }
+		worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0, d1, d2, 0.0D, 0.0D, 0.0D);
+		worldIn.spawnParticle(EnumParticleTypes.FLAME, d0, d1, d2, 0.0D, 0.0D, 0.0D);
+	}
 	
 	
 	public enum Variants implements IStringSerializable {

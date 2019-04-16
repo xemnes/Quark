@@ -29,8 +29,8 @@ public class BlockThatchSlab extends BlockQuarkSlab {
 	}
 	
 	@Override
-    public void onFallenUpon(World worldIn, BlockPos pos, Entity entityIn, float fallDistance) {
-        entityIn.fall(fallDistance, Thatch.fallDamageMultiplier);
-    }
+	public void onFallenUpon(World worldIn, BlockPos pos, Entity entityIn, float fallDistance) {
+		entityIn.fall(fallDistance, Thatch.fallDamageMultiplier);
+	}
 
 }

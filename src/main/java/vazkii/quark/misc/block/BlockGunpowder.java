@@ -37,10 +37,10 @@ public class BlockGunpowder extends BlockQuarkDust {
 		setDefaultState(getDefaultState().withProperty(LIT, false));
 	}
 	
-    @Override
-    public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items) { 
-    	// NO-OP
-    }
+	@Override
+	public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items) {
+		// NO-OP
+	}
 	
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
@@ -93,20 +93,20 @@ public class BlockGunpowder extends BlockQuarkDust {
 						: PlaceVanillaDusts.gunpowderDelay);
 			
 			if(world instanceof WorldServer) {
-	    		float x = pos.getX();
-	        	float y = pos.getY() + 0.2F;
-	        	float z = pos.getZ();
-	        	
-	        	((WorldServer) world).spawnParticle(EnumParticleTypes.FLAME, x + 0.5, y, z + 0.5, 6, 0.2, 0.0, 0.2, 0);
-	        	((WorldServer) world).spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x + 0.5, y, z + 0.5, 6, 0.2, 0.0, 0.2, 0);
+				float x = pos.getX();
+				float y = pos.getY() + 0.2F;
+				float z = pos.getZ();
+
+				((WorldServer) world).spawnParticle(EnumParticleTypes.FLAME, x + 0.5, y, z + 0.5, 6, 0.2, 0.0, 0.2, 0);
+				((WorldServer) world).spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x + 0.5, y, z + 0.5, 6, 0.2, 0.0, 0.2, 0);
 			}
 			
 			return true;
 		} else if(block == Blocks.TNT) {
 			block.breakBlock(world, pos, state.withProperty(BlockTNT.EXPLODE, Boolean.TRUE));
-            world.setBlockToAir(pos);
-            
-            return true;
+			world.setBlockToAir(pos);
+
+			return true;
 		} else if(block instanceof IFuseIgnitable) {
 			((IFuseIgnitable) block).onIngitedByFuse(world, pos, state);
 			
@@ -146,7 +146,7 @@ public class BlockGunpowder extends BlockQuarkDust {
 	}
 	
 	@Nonnull
-    @Override
+	@Override
 	public IBlockState getStateFromMeta(int meta)  {
 		return getDefaultState().withProperty(LIT, meta != 0);
 	}
@@ -157,26 +157,26 @@ public class BlockGunpowder extends BlockQuarkDust {
 	}
 	
 	@Nonnull
-    @Override
+	@Override
 	protected BlockStateContainer createBlockState() {
 		return new BlockStateContainer(this, NORTH, EAST, SOUTH, WEST, LIT);
 	}
 	
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand) {
-    	if(stateIn.getValue(LIT)) {
-    		float x = pos.getX() + 0.2F + rand.nextFloat() * 0.6F;
-        	float y = pos.getY() + 0.2F;
-        	float z = pos.getZ() + 0.2F + rand.nextFloat() * 0.6F;
-        	
-        	worldIn.spawnParticle(EnumParticleTypes.FLAME, x, y, z, 0, 0, 0);
-        	worldIn.spawnParticle(EnumParticleTypes.SMOKE_LARGE, x, y, z, 0, 0, 0);
-    	}
-    }
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand) {
+		if(stateIn.getValue(LIT)) {
+			float x = pos.getX() + 0.2F + rand.nextFloat() * 0.6F;
+			float y = pos.getY() + 0.2F;
+			float z = pos.getZ() + 0.2F + rand.nextFloat() * 0.6F;
+
+			worldIn.spawnParticle(EnumParticleTypes.FLAME, x, y, z, 0, 0, 0);
+			worldIn.spawnParticle(EnumParticleTypes.SMOKE_LARGE, x, y, z, 0, 0, 0);
+		}
+	}
 	
 	@Nonnull
-    @Override
+	@Override
 	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
 		return Items.GUNPOWDER;
 	}

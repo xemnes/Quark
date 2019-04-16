@@ -56,7 +56,7 @@ public class ItemChestBlock extends ItemModBlock implements IExtraVariantHolder 
 		return new ItemMeshDefinition() {
 
 			@Nonnull
-            @Override
+			@Override
 			public ModelResourceLocation getModelLocation(@Nonnull ItemStack stack) {
 				ChestType type = VariedChests.custom_chest.getCustomType(stack);
 				return getBlock() == VariedChests.custom_chest_trap ? type.trapModel : type.normalModel;
@@ -65,7 +65,7 @@ public class ItemChestBlock extends ItemModBlock implements IExtraVariantHolder 
 	}
 
 	@Nonnull
-    @Override
+	@Override
 	public String getTranslationKey(ItemStack stack) {
 		ChestType type = VariedChests.custom_chest.getCustomType(stack);
 		String name = type.name + (getBlock() == VariedChests.custom_chest_trap ? "_trap" : "");

@@ -30,7 +30,7 @@ public class ItemGlassItemFrame extends ItemMod implements IQuarkItem, IExtraVar
 	}
 
 	@Nonnull
-    @Override
+	@Override
 	public EnumActionResult onItemUse(EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		ItemStack stack = playerIn.getHeldItem(hand);
 		BlockPos blockpos = pos.offset(facing);

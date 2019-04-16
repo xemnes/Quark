@@ -35,7 +35,7 @@ public class ItemSoulBead extends ItemMod implements IQuarkItem {
 	}
 
 	@Nonnull
-    @Override
+	@Override
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, @Nonnull EnumHand hand) {
 		ItemStack stack = playerIn.getHeldItem(hand);
 		if(Wraiths.enableCurse) {

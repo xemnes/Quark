@@ -18,22 +18,22 @@ public abstract class MultiChunkFeatureGenerator {
 		int radius = getFeatureRadius();
 		int chunkRadius = (int) Math.ceil((double) radius / 16.0);
 		
-        long worldSeed = modifyWorldSeed(world.getSeed());
-        Random worldRandom = new Random(worldSeed);
-        long xSeed = worldRandom.nextLong() >> 2 + 1;
-        long zSeed = worldRandom.nextLong() >> 2 + 1;
-        
-        long ourChunkSeed = (xSeed * chunkX + zSeed * chunkZ) ^ worldSeed;
+		long worldSeed = modifyWorldSeed(world.getSeed());
+		Random worldRandom = new Random(worldSeed);
+		long xSeed = worldRandom.nextLong() >> 2 + 1;
+		long zSeed = worldRandom.nextLong() >> 2 + 1;
+
+		long ourChunkSeed = (xSeed * chunkX + zSeed * chunkZ) ^ worldSeed;
 
 		for(int x = chunkX - chunkRadius; x <= chunkX + chunkRadius; x++)
 			for(int z = chunkZ - chunkRadius; z <= chunkZ + chunkRadius; z++) {
-		        long chunkSeed = (xSeed * x + zSeed * z) ^ worldSeed;
-		        Random chunkRandom = new Random(chunkSeed);
-		        
-		        BlockPos[] sources = getSourcesInChunk(chunkRandom, x, z, world);
-		        for(BlockPos source : sources)
-		        	if(source != null && isSourceValid(world, source))
-		        		generateChunkPart(source, chunkRandom, chunkX, chunkZ, world);
+				long chunkSeed = (xSeed * x + zSeed * z) ^ worldSeed;
+				Random chunkRandom = new Random(chunkSeed);
+
+				BlockPos[] sources = getSourcesInChunk(chunkRandom, x, z, world);
+				for(BlockPos source : sources)
+					if(source != null && isSourceValid(world, source))
+						generateChunkPart(source, chunkRandom, chunkX, chunkZ, world);
 			}
 	}
 	

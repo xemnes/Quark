@@ -18,21 +18,21 @@ public class TileSmoker extends TileMod implements ITickable {
 		
 		BlockPos source = findChimneyEnd();
 		int yDiff = source.getY() - pos.getY();
-    	for(int i = 0; i < yDiff - 1; i++) {
-    		float x = pos.getX() + 0.2F + world.rand.nextFloat() * 0.6F;
-        	float y = pos.getY() + world.rand.nextFloat() * (yDiff - 1) - 0.4F;
-        	float z = pos.getZ() + 0.2F + world.rand.nextFloat() * 0.6F;
-        	
-        	world.spawnAlwaysVisibleParticle(EnumParticleTypes.SMOKE_LARGE.getParticleID(), x, y, z, 0, 0, 0);
-    	}
-    	
-    	for(int i = 0; i < 6; i++) {
-    		float x = source.getX() + 0.2F + world.rand.nextFloat() * 0.6F;
-        	float y = source.getY() + world.rand.nextFloat() - 0.4F;
-        	float z = source.getZ() + 0.2F + world.rand.nextFloat() * 0.6F;
-        	
-        	world.spawnAlwaysVisibleParticle(EnumParticleTypes.SMOKE_LARGE.getParticleID(), x, y, z, 0, 0, 0);
-    	}
+		for(int i = 0; i < yDiff - 1; i++) {
+			float x = pos.getX() + 0.2F + world.rand.nextFloat() * 0.6F;
+			float y = pos.getY() + world.rand.nextFloat() * (yDiff - 1) - 0.4F;
+			float z = pos.getZ() + 0.2F + world.rand.nextFloat() * 0.6F;
+
+			world.spawnAlwaysVisibleParticle(EnumParticleTypes.SMOKE_LARGE.getParticleID(), x, y, z, 0, 0, 0);
+		}
+
+		for(int i = 0; i < 6; i++) {
+			float x = source.getX() + 0.2F + world.rand.nextFloat() * 0.6F;
+			float y = source.getY() + world.rand.nextFloat() - 0.4F;
+			float z = source.getZ() + 0.2F + world.rand.nextFloat() * 0.6F;
+
+			world.spawnAlwaysVisibleParticle(EnumParticleTypes.SMOKE_LARGE.getParticleID(), x, y, z, 0, 0, 0);
+		}
 	}
 	
 	private boolean isFullBlock(BlockPos pos) {

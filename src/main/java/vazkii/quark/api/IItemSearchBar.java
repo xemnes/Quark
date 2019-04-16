@@ -11,7 +11,7 @@ public interface IItemSearchBar {
 	 * Called when the search bar is added. You should move it to the correct position
 	 * in this method.
 	 */
-    void onSearchBarAdded(GuiTextField bar);
+	void onSearchBarAdded(GuiTextField bar);
 		
 	/**
 	 * Called to render the text field background.

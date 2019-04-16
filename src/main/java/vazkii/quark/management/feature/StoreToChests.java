@@ -48,7 +48,7 @@ public class StoreToChests extends Feature {
 	int xPos, yPos;
 	int xPosC, yPosC;
 
-    List<String> classnames;
+	List<String> classnames;
 
 	@Override
 	public void setupConfig() {

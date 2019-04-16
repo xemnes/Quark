@@ -37,7 +37,7 @@ public class UndergroundBiomeSandstone extends BasicUndergroundBiome {
 	}
 	
 	@Override
-    public boolean isValidBiome(Biome biome) {
+	public boolean isValidBiome(Biome biome) {
 		return allowGenInMesa || !BiomeDictionary.hasType(biome, BiomeDictionary.Type.MESA);
 	}
 	
@@ -104,11 +104,11 @@ public class UndergroundBiomeSandstone extends BasicUndergroundBiome {
 			switch(entry.getValue()) {
 			case "spawner":
 				world.setBlockState(dataPos, Blocks.MOB_SPAWNER.getDefaultState(), 2);
-	            TileEntity spawner = world.getTileEntity(dataPos);
+				TileEntity spawner = world.getTileEntity(dataPos);
 
-	            if(spawner instanceof TileEntityMobSpawner)
-	                ((TileEntityMobSpawner) spawner).getSpawnerBaseLogic().setEntityId(EntityList.getKey(EntityZombie.class));
-	            break;
+				if(spawner instanceof TileEntityMobSpawner)
+					((TileEntityMobSpawner) spawner).getSpawnerBaseLogic().setEntityId(EntityList.getKey(EntityZombie.class));
+				break;
 			case "chest":
 				IBlockState chestState = Blocks.CHEST.getDefaultState().withProperty(BlockChest.FACING, EnumFacing.WEST);
 				world.setBlockState(dataPos, chestState);

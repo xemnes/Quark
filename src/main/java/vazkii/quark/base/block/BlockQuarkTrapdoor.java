@@ -51,19 +51,19 @@ public class BlockQuarkTrapdoor extends BlockTrapDoor implements IQuarkBlock {
 		useNeighborBrightness = true;
 	}
 	
-    @Override
-    public boolean isLadder(IBlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos, EntityLivingBase entity) {
-        if(state.getValue(OPEN))  {
-            IBlockState down = world.getBlockState(pos.down());
-            if(down.getBlock() == Blocks.LADDER || down.getBlock() == IronLadders.iron_ladder)
-                return down.getValue(FACING) == state.getValue(FACING);
-        }
-        
-        return false;
-    }
+	@Override
+	public boolean isLadder(IBlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos, EntityLivingBase entity) {
+		if(state.getValue(OPEN))  {
+			IBlockState down = world.getBlockState(pos.down());
+			if(down.getBlock() == Blocks.LADDER || down.getBlock() == IronLadders.iron_ladder)
+				return down.getValue(FACING) == state.getValue(FACING);
+		}
+
+		return false;
+	}
 
 	@Nonnull
-    @Override
+	@Override
 	public Block setTranslationKey(@Nonnull String name) {
 		super.setTranslationKey(name);
 		setRegistryName(LibMisc.PREFIX_MOD + name);

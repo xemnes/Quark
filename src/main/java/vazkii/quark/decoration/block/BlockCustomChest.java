@@ -64,7 +64,7 @@ public class BlockCustomChest extends BlockChest implements IQuarkBlock {
 	}
 
 	@Nonnull
-    @Override
+	@Override
 	public Block setTranslationKey(@Nonnull String name) {
 		super.setTranslationKey(name);
 		setRegistryName(LibMisc.PREFIX_MOD + name);
@@ -111,7 +111,7 @@ public class BlockCustomChest extends BlockChest implements IQuarkBlock {
 	}
 
 	@Nonnull
-    @Override
+	@Override
 	@SuppressWarnings("deprecation")
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
 		VariedChests.ChestType myType = getCustomType(source, pos);
@@ -124,7 +124,7 @@ public class BlockCustomChest extends BlockChest implements IQuarkBlock {
 	}
 
 	@Nonnull
-    @Override
+	@Override
 	public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
 		return getDefaultState().withProperty(FACING, placer.getHorizontalFacing());
 	}
@@ -207,14 +207,14 @@ public class BlockCustomChest extends BlockChest implements IQuarkBlock {
 	}
 
 	@Nonnull
-    @Override
+	@Override
 	@Deprecated
 	public IBlockState checkForSurroundingChests(World worldIn, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
 		return state;
 	}
 
 	@Nonnull
-    @Override
+	@Override
 	@Deprecated
 	public IBlockState correctFacing(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
 		return correctFacing(worldIn, pos, state, VariedChests.ChestType.NONE);
@@ -372,7 +372,7 @@ public class BlockCustomChest extends BlockChest implements IQuarkBlock {
 	}
 
 	@Nonnull
-    @Override
+	@Override
 	public ItemStack getPickBlock(@Nonnull IBlockState state, RayTraceResult target, @Nonnull World world, @Nonnull BlockPos pos, EntityPlayer player) {
 		return setCustomType(new ItemStack(this, 1), getCustomType(world, pos));
 	}

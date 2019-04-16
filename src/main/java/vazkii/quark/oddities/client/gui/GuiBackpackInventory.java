@@ -69,13 +69,13 @@ public class GuiBackpackInventory extends GuiInventory {
 	}
 	
 	@Override
-    protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-        this.mc.getTextureManager().bindTexture(BACKPACK_INVENTORY_BACKGROUND);
-        int i = this.guiLeft;
-        int j = this.guiTop;
-        this.drawTexturedModalRect(i, j, 0, 0, this.xSize, this.ySize);
-        drawEntityOnScreen(i + 51, j + 75, 30, (float)(i + 51) - mouseX, (float)(j + 75 - 50) - mouseY, this.mc.player);
-    }
+	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
+		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		this.mc.getTextureManager().bindTexture(BACKPACK_INVENTORY_BACKGROUND);
+		int i = this.guiLeft;
+		int j = this.guiTop;
+		this.drawTexturedModalRect(i, j, 0, 0, this.xSize, this.ySize);
+		drawEntityOnScreen(i + 51, j + 75, 30, (float)(i + 51) - mouseX, (float)(j + 75 - 50) - mouseY, this.mc.player);
+	}
 	
 }

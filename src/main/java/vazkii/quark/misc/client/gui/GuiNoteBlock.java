@@ -218,16 +218,16 @@ public class GuiNoteBlock extends GuiScreen {
 		else if(material == Material.WOOD)
 			note = 4;
 
-        if(block == Blocks.CLAY)
-            note = 5;
-        else if(block == Blocks.GOLD_BLOCK)
-            note = 6;
-        else if(block == Blocks.WOOL)
-            note = 7;
-        else if(block == Blocks.PACKED_ICE)
-            note = 8;
-        else if(block == Blocks.BONE_BLOCK)
-            note = 9;
+		if(block == Blocks.CLAY)
+			note = 5;
+		else if(block == Blocks.GOLD_BLOCK)
+			note = 6;
+		else if(block == Blocks.WOOL)
+			note = 7;
+		else if(block == Blocks.PACKED_ICE)
+			note = 8;
+		else if(block == Blocks.BONE_BLOCK)
+			note = 9;
 		
 		return note;
 	}

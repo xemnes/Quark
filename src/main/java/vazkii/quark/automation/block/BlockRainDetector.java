@@ -47,7 +47,7 @@ public class BlockRainDetector extends BlockModContainer implements IQuarkBlock 
 	}
 
 	@Nonnull
-    @Override
+	@Override
 	@SuppressWarnings("deprecation")
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
 		return RAIN_DETECTOR_AABB;
@@ -111,7 +111,7 @@ public class BlockRainDetector extends BlockModContainer implements IQuarkBlock 
 	}
 
 	@Nonnull
-    @Override
+	@Override
 	protected BlockStateContainer createBlockState() {
 		return new BlockStateContainer(this, POWER, INVERTED);
 	}
@@ -122,7 +122,7 @@ public class BlockRainDetector extends BlockModContainer implements IQuarkBlock 
 	}
 
 	@Nonnull
-    @Override
+	@Override
 	@SuppressWarnings("deprecation")
 	public IBlockState getStateFromMeta(int meta) {
 		return getDefaultState().withProperty(POWER, (meta & 0b1) != 0).withProperty(INVERTED, (meta & 0b10) != 0);

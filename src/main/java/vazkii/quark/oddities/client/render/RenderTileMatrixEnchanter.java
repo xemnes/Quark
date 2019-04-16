@@ -25,14 +25,14 @@ public class RenderTileMatrixEnchanter extends TileEntitySpecialRenderer<TileMat
 		GlStateManager.translate(x, y, z);
 		
 		float time = (float)te.tickCount + partialTicks;
-        
-        float f1;
-        for (f1 = te.bookRotation - te.bookRotationPrev; f1 >= Math.PI; f1 -= (Math.PI * 2F));
-        while (f1 < -Math.PI)
-            f1 += (Math.PI * 2F);
-        
-        float rot = te.bookRotationPrev + f1 * partialTicks;
-        float bookOpen = te.bookSpreadPrev + (te.bookSpread - te.bookSpreadPrev) * partialTicks;
+
+		float f1;
+		for (f1 = te.bookRotation - te.bookRotationPrev; f1 >= Math.PI; f1 -= (Math.PI * 2F));
+		while (f1 < -Math.PI)
+			f1 += (Math.PI * 2F);
+
+		float rot = te.bookRotationPrev + f1 * partialTicks;
+		float bookOpen = te.bookSpreadPrev + (te.bookSpread - te.bookSpreadPrev) * partialTicks;
 		
 		renderBook(te, time, rot, partialTicks);
 		
@@ -72,37 +72,37 @@ public class RenderTileMatrixEnchanter extends TileEntitySpecialRenderer<TileMat
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(0.5F, 0.85F + MathHelper.sin(time * 0.1F) * 0.01F, 0.5F);
 		
-        GlStateManager.rotate(-bookRot * (180F / (float)Math.PI), 0.0F, 1.0F, 0.0F);
-        GlStateManager.rotate(80.0F, 0.0F, 0.0F, 1.0F);
-        this.bindTexture(TEXTURE_BOOK);
-        float f3 = te.pageFlipPrev + (te.pageFlip - te.pageFlipPrev) * partialTicks + 0.25F;
-        float f4 = te.pageFlipPrev + (te.pageFlip - te.pageFlipPrev) * partialTicks + 0.75F;
-        f3 = (f3 - (float)MathHelper.fastFloor((double)f3)) * 1.6F - 0.3F;
-        f4 = (f4 - (float)MathHelper.fastFloor((double)f4)) * 1.6F - 0.3F;
+		GlStateManager.rotate(-bookRot * (180F / (float)Math.PI), 0.0F, 1.0F, 0.0F);
+		GlStateManager.rotate(80.0F, 0.0F, 0.0F, 1.0F);
+		this.bindTexture(TEXTURE_BOOK);
+		float f3 = te.pageFlipPrev + (te.pageFlip - te.pageFlipPrev) * partialTicks + 0.25F;
+		float f4 = te.pageFlipPrev + (te.pageFlip - te.pageFlipPrev) * partialTicks + 0.75F;
+		f3 = (f3 - (float)MathHelper.fastFloor((double)f3)) * 1.6F - 0.3F;
+		f4 = (f4 - (float)MathHelper.fastFloor((double)f4)) * 1.6F - 0.3F;
 
-        if (f3 < 0.0F)
-        {
-            f3 = 0.0F;
-        }
+		if (f3 < 0.0F)
+		{
+			f3 = 0.0F;
+		}
 
-        if (f4 < 0.0F)
-        {
-            f4 = 0.0F;
-        }
+		if (f4 < 0.0F)
+		{
+			f4 = 0.0F;
+		}
 
-        if (f3 > 1.0F)
-        {
-            f3 = 1.0F;
-        }
+		if (f3 > 1.0F)
+		{
+			f3 = 1.0F;
+		}
 
-        if (f4 > 1.0F)
-        {
-            f4 = 1.0F;
-        }
+		if (f4 > 1.0F)
+		{
+			f4 = 1.0F;
+		}
 
-        float f5 = te.bookSpreadPrev + (te.bookSpread - te.bookSpreadPrev) * partialTicks;
-        GlStateManager.enableCull();
-        this.modelBook.render(null, time, f3, f4, f5, 0.0F, 0.0625F);
+		float f5 = te.bookSpreadPrev + (te.bookSpread - te.bookSpreadPrev) * partialTicks;
+		GlStateManager.enableCull();
+		this.modelBook.render(null, time, f3, f4, f5, 0.0F, 0.0625F);
 		GlStateManager.popMatrix();
 	}
 

@@ -39,7 +39,7 @@ public class ItemTrowel extends ItemMod implements IQuarkItem {
 	}
 	
 	@Nonnull
-    @Override
+	@Override
 	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		List<ItemStack> targets = new ArrayList<>();
 		for(int i = 0; i < InventoryPlayer.getHotbarSize(); i++) {
@@ -72,29 +72,29 @@ public class ItemTrowel extends ItemMod implements IQuarkItem {
 	
 	private EnumActionResult placeBlock(ItemStack itemstack, EntityPlayer player, BlockPos pos, EnumFacing facing, World worldIn, EnumHand hand, float hitX, float hitY, float hitZ) {
 		IBlockState stateAt = worldIn.getBlockState(pos);
-        if(!stateAt.getBlock().isReplaceable(worldIn, pos))
-            pos = pos.offset(facing);
+		if(!stateAt.getBlock().isReplaceable(worldIn, pos))
+			pos = pos.offset(facing);
 		
 		if(itemstack.getItem() instanceof ItemBlock) {
 			ItemBlock item = (ItemBlock) itemstack.getItem();
 			Block block = item.getBlock();
-	        if(player.canPlayerEdit(pos, facing, itemstack) && worldIn.mayPlace(block, pos, false, facing, null)) {
-	            int i = item.getMetadata(itemstack.getMetadata());
-	            IBlockState state = block.getStateForPlacement(worldIn, pos, facing, hitX, hitY, hitZ, i, player, hand);
-	            
-	            if(item.placeBlockAt(itemstack, player, worldIn, pos, facing, hitX, hitY, hitZ, state)) {
-	            	state = worldIn.getBlockState(pos);
-	                SoundType soundtype = state.getBlock().getSoundType(state, worldIn, pos, player);
-	                worldIn.playSound(player, pos, soundtype.getPlaceSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
-	                if(!player.capabilities.isCreativeMode)
-	                	shrinkInventory(itemstack, player);
-	            }
+			if(player.canPlayerEdit(pos, facing, itemstack) && worldIn.mayPlace(block, pos, false, facing, null)) {
+				int i = item.getMetadata(itemstack.getMetadata());
+				IBlockState state = block.getStateForPlacement(worldIn, pos, facing, hitX, hitY, hitZ, i, player, hand);
 
-	            return EnumActionResult.SUCCESS;
-	        }
+				if(item.placeBlockAt(itemstack, player, worldIn, pos, facing, hitX, hitY, hitZ, state)) {
+					state = worldIn.getBlockState(pos);
+					SoundType soundtype = state.getBlock().getSoundType(state, worldIn, pos, player);
+					worldIn.playSound(player, pos, soundtype.getPlaceSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
+					if(!player.capabilities.isCreativeMode)
+						shrinkInventory(itemstack, player);
+				}
+
+				return EnumActionResult.SUCCESS;
+			}
 		}
 
-        return EnumActionResult.FAIL;
+		return EnumActionResult.FAIL;
 	}
 	
 	private void shrinkInventory(ItemStack stack, EntityPlayer player) {

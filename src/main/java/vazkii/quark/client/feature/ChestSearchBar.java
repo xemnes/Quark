@@ -86,9 +86,9 @@ public class ChestSearchBar extends Feature {
 	@SubscribeEvent
 	public void onKeypress(GuiScreenEvent.KeyboardInputEvent.Pre event) {
 		if(searchBar != null && searchBar.isFocused() && Keyboard.getEventKeyState()) {
-	        char eventChar = Keyboard.getEventCharacter();
-	        int eventCode = Keyboard.getEventKey();
-	        
+			char eventChar = Keyboard.getEventCharacter();
+			int eventCode = Keyboard.getEventKey();
+
 			searchBar.textboxKeyTyped(eventChar, eventCode);
 			text = searchBar.getText();
 			
@@ -102,8 +102,8 @@ public class ChestSearchBar extends Feature {
 			Minecraft mc = Minecraft.getMinecraft();
 			GuiScreen gui = event.getGui();
 			
-	        int x = Mouse.getEventX() * gui.width / mc.displayWidth;
-	        int y = gui.height - Mouse.getEventY() * gui.height / mc.displayHeight - 1;
+			int x = Mouse.getEventX() * gui.width / mc.displayWidth;
+			int y = gui.height - Mouse.getEventY() * gui.height / mc.displayHeight - 1;
 			int button = Mouse.getEventButton();
 			
 			searchBar.mouseClicked(x, y, button);
