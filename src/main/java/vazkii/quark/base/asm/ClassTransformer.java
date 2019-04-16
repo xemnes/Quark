@@ -389,6 +389,7 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 			newInstructions.add(new InsnNode(ISUB));
 			newInstructions.add(new InsnNode(IRETURN));
 			newInstructions.add(label);
+			newInstructions.add(new InsnNode(POP));
 
 			method.instructions.insertBefore(method.instructions.getFirst(), newInstructions);
 			return true;
