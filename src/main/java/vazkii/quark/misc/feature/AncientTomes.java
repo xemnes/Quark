@@ -10,16 +10,9 @@
  */
 package vazkii.quark.misc.feature;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.Iterator;
-
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
-
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -45,10 +38,12 @@ import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.misc.item.ItemAncientTome;
 
+import java.util.*;
+
 public class AncientTomes extends Feature {
 
 	public static Item ancient_tome;
-	public static List<Enchantment> validEnchants = new ArrayList();
+	public static List<Enchantment> validEnchants = new ArrayList<>();
 	private String[] enchantNames;
 
 	int dungeonWeight, libraryWeight, itemQuality, mergeTomeCost, applyTomeCost;

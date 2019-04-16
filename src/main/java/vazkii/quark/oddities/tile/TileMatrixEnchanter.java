@@ -1,12 +1,5 @@
 package vazkii.quark.oddities.tile;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Random;
-import java.util.UUID;
-import java.util.function.Predicate;
-
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -23,6 +16,13 @@ import vazkii.quark.oddities.feature.MatrixEnchanting;
 import vazkii.quark.oddities.inventory.ContainerMatrixEnchanting;
 import vazkii.quark.oddities.inventory.EnchantmentMatrix;
 import vazkii.quark.oddities.inventory.EnchantmentMatrix.Piece;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Random;
+import java.util.UUID;
+import java.util.function.Predicate;
 
 public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 
@@ -110,12 +110,12 @@ public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 			boolean creative = player.isCreative();
 			int cost = matrix.getNewPiecePrice();
 			if(charge > 0 || creative) {
-				if(!creative)
-					player.addExperienceLevel(-cost);
-				
-				charge = Math.max(charge - 1, 0);
-				
-				matrix.generatePiece(bookshelfPower, enchantability);
+				if (matrix.generatePiece(bookshelfPower, enchantability)) {
+					if (!creative)
+						player.addExperienceLevel(-cost);
+
+					charge = Math.max(charge - 1, 0);
+				}
 			}
 		}
 
@@ -136,7 +136,7 @@ public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 				book = true;
 			}
 
-			Map<Enchantment, Integer> enchantments = new HashMap();
+			Map<Enchantment, Integer> enchantments = new HashMap<>();
 
 			for(int i : matrix.placedPieces) {
 				Piece p = matrix.pieces.get(i);

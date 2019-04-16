@@ -1,13 +1,5 @@
 package vazkii.quark.oddities.inventory;
 
-import java.awt.Color;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.stream.Collectors;
-
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,6 +9,11 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.WeightedRandom;
 import vazkii.quark.oddities.feature.MatrixEnchanting;
+
+import java.awt.*;
+import java.util.*;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class EnchantmentMatrix {
 	
@@ -32,9 +29,9 @@ public class EnchantmentMatrix {
 	private static final String TAG_COUNT = "count";
 	private static final String TAG_TYPE_COUNT = "typeCount";
 
-	public Map<Integer, Piece> pieces = new HashMap();
-	public List<Integer> benchedPieces = new ArrayList();
-	public List<Integer> placedPieces = new ArrayList();
+	public Map<Integer, Piece> pieces = new HashMap<>();
+	public List<Integer> benchedPieces = new ArrayList<>();
+	public List<Integer> placedPieces = new ArrayList<>();
 	
 	public int[][] matrix;
 	public int count, typeCount;
@@ -87,8 +84,10 @@ public class EnchantmentMatrix {
 		return 1 + (MatrixEnchanting.piecePriceScale == 0 ? 0 : count / MatrixEnchanting.piecePriceScale); 
 	}
 	
-	public void generatePiece(int bookshelfPower, int enchantability) {
+	public boolean generatePiece(int bookshelfPower, int enchantability) {
 		EnchantmentDataWrapper data = generateRandomEnchantment(bookshelfPower, enchantability);
+		if (data == null)
+			return false;
 		
 		int type = -1;
 		for(Piece p : pieces.values())
@@ -107,10 +106,13 @@ public class EnchantmentMatrix {
 		benchedPieces.add(count);
 		count++;
 		
-		if(book && count == 1) 
-			for(int i = 0; i < 2; i++)
-				if(rng.nextBoolean())
+		if(book && count == 1) {
+			for (int i = 0; i < 2; i++)
+				if (rng.nextBoolean())
 					count++;
+		}
+
+		return true;
 	}
 	
 	private EnchantmentDataWrapper generateRandomEnchantment(int bookshelfPower, int enchantability) {
@@ -118,25 +120,29 @@ public class EnchantmentMatrix {
 		
 		List<Piece> marked = pieces.values().stream().filter(p -> p.marked).collect(Collectors.toList());
 		
-		List<EnchantmentDataWrapper> validEnchants = new ArrayList();
-		for(Enchantment enchantment : Enchantment.REGISTRY)
-			if((!enchantment.isTreasureEnchantment() || MatrixEnchanting.allowTreasures) 
+		List<EnchantmentDataWrapper> validEnchants = new ArrayList<>();
+		for(Enchantment enchantment : Enchantment.REGISTRY) {
+			if ((!enchantment.isTreasureEnchantment() || MatrixEnchanting.allowTreasures)
 					&& !MatrixEnchanting.disallowedEnchantments.contains(enchantment.getRegistryName().toString())
 					&& (enchantment.canApplyAtEnchantingTable(target) || (book && enchantment.isAllowedOnBooks()))) {
 				int enchantLevel = 1;
-				if(book) {
-	                for(int i = enchantment.getMaxLevel(); i > enchantment.getMinLevel() - 1; --i) {
-	                	if(level >= enchantment.getMinEnchantability(i) && level <= enchantment.getMaxEnchantability(i)) {
-	                		enchantLevel = i;
-	                		break;
-	                	}
-	                }
+				if (book) {
+					for (int i = enchantment.getMaxLevel(); i > enchantment.getMinLevel() - 1; --i) {
+						if (level >= enchantment.getMinEnchantability(i) && level <= enchantment.getMaxEnchantability(i)) {
+							enchantLevel = i;
+							break;
+						}
+					}
 				}
-				
+
 				EnchantmentDataWrapper wrapper = new EnchantmentDataWrapper(enchantment, enchantLevel);
 				wrapper.normalizeRarity(marked);
 				validEnchants.add(wrapper);
 			}
+		}
+
+		if (validEnchants.isEmpty())
+			return null;
 
 		return WeightedRandom.getRandomItem(rng, validEnchants);
 	}
@@ -147,8 +153,8 @@ public class EnchantmentMatrix {
 			p.x = x;
 			p.y = y;
 			
-			benchedPieces.remove(Integer.valueOf(id));
-			placedPieces.add(Integer.valueOf(id));
+			benchedPieces.remove(id);
+			placedPieces.add(id);
 			
 			computeMatrix();
 			return true;
@@ -160,8 +166,8 @@ public class EnchantmentMatrix {
 	public boolean remove(int id) {
 		Piece p = pieces.get(id);
 		if(p != null && placedPieces.contains(id)) {
-			placedPieces.remove(Integer.valueOf(id));
-			benchedPieces.add(Integer.valueOf(id));
+			placedPieces.remove(id);
+			benchedPieces.add(id);
 			
 			computeMatrix();
 			return true;
@@ -283,9 +289,8 @@ public class EnchantmentMatrix {
 	}
 	
 	private List<Integer> unpackList(int[] arr) {
-		List<Integer> list = new ArrayList(arr.length);
-		for(int i = 0; i < arr.length; i++)
-			list.add(arr[i]);
+		List<Integer> list = new ArrayList<>(arr.length);
+		for (int anArr : arr) list.add(anArr);
 		
 		return list;
 	}
@@ -354,8 +359,7 @@ public class EnchantmentMatrix {
 		}
 		
 		public void rotate() {
-			for(int i = 0; i < blocks.length; i++) {
-				int[] b = blocks[i];
+			for (int[] b : blocks) {
 				int x = b[0];
 				int y = b[1];
 				b[0] = y;
