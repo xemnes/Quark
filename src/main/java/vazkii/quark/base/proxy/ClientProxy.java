@@ -10,18 +10,16 @@
  */
 package vazkii.quark.base.proxy;
 
-import java.util.List;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.resources.IResourcePack;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import vazkii.quark.base.client.ContributorRewardHandler;
 import vazkii.quark.base.client.ResourceProxy;
 import vazkii.quark.base.client.gui.config.ConfigEvents;
@@ -30,12 +28,14 @@ import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.vanity.client.emotes.EmoteHandler;
 import vazkii.quark.vanity.feature.EmoteSystem;
 
+import java.util.List;
+
 public class ClientProxy extends CommonProxy {
 
 	static ResourceProxy resourceProxy;
 	
 	static {
-		List<IResourcePack> packs = ReflectionHelper.getPrivateValue(Minecraft.class, Minecraft.getMinecraft(), LibObfuscation.DEFAULT_RESOURCE_PACKS);
+		List<IResourcePack> packs = ObfuscationReflectionHelper.getPrivateValue(Minecraft.class, Minecraft.getMinecraft(), LibObfuscation.DEFAULT_RESOURCE_PACKS);
 		resourceProxy = new ResourceProxy();
 		packs.add(resourceProxy);
 		

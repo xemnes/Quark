@@ -10,7 +10,7 @@ import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.client.model.pipeline.LightUtil;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import vazkii.quark.base.lib.LibObfuscation;
 import vazkii.quark.experimental.features.ColoredLights;
 
@@ -78,14 +78,14 @@ public class BlockTinter {
 
 		float r = (float) ((lightmapColor >> 16) & 0xFF) / 0xFF; 
 		float g = (float) ((lightmapColor >> 8) & 0xFF)  / 0xFF;
-		float b = (float) ((lightmapColor >> 0) & 0xFF)  / 0xFF;
+		float b = (float) ((lightmapColor) & 0xFF)  / 0xFF;
 		
 		return new float[] { Math.max(r, colors[0]), Math.max(g, colors[1]), Math.max(b, colors[2]) };
 	}
 	
 	private static int[] getLightmapColors() {
 		if(lightmapTex == null) 
-			lightmapTex = ReflectionHelper.getPrivateValue(EntityRenderer.class, Minecraft.getMinecraft().entityRenderer, LibObfuscation.LIGHTMAP_TEXTURE);
+			lightmapTex = ObfuscationReflectionHelper.getPrivateValue(EntityRenderer.class, Minecraft.getMinecraft().entityRenderer, LibObfuscation.LIGHTMAP_TEXTURE);
 		
 		return lightmapTex.getTextureData();
 	}

@@ -108,7 +108,7 @@ public class PathfinderMaps extends Feature {
 		String category = configCategory + ".";
 		if(!overrideCategory.isEmpty())
 			category += overrideCategory;
-		else category += biome.getRegistryName().getResourcePath();
+		else category += biome.getRegistryName().getPath();
 		
 		TradeInfo info;
 		if(overrideName.isEmpty())
@@ -238,7 +238,7 @@ public class PathfinderMaps extends Feature {
 		public final String name;
 		
 		TradeInfo(String category, Biome biome, boolean enabled, int level, int minPrice, int maxPrice, int color) {
-			this(category, biome, enabled, level, minPrice, maxPrice, color, "quark.biomeMap." + biome.getRegistryName().getResourcePath());
+			this(category, biome, enabled, level, minPrice, maxPrice, color, "quark.biomeMap." + biome.getRegistryName().getPath());
 		}
 		
 		TradeInfo(String category, Biome biome, boolean enabled, int level, int minPrice, int maxPrice, int color, String name) {

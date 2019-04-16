@@ -59,15 +59,15 @@ public class BlockCustomChest extends BlockChest implements IQuarkBlock {
 
 		variants = new String[] { name };
 		bareName = name;
-		setUnlocalizedName(name);
+		setTranslationKey(name);
 		setHardness(2.5F);
 		setSoundType(SoundType.WOOD);
 		setCreativeTab(type == VariedChests.CUSTOM_TYPE_QUARK_TRAP ? CreativeTabs.REDSTONE : CreativeTabs.DECORATIONS);
 	}
 
 	@Override
-	public Block setUnlocalizedName(String name) {
-		super.setUnlocalizedName(name);
+	public Block setTranslationKey(String name) {
+		super.setTranslationKey(name);
 		setRegistryName(LibMisc.PREFIX_MOD + name);
 		ProxyRegistry.register(this);
 		ProxyRegistry.register(new ItemChestBlock(this, new ResourceLocation(LibMisc.PREFIX_MOD + name)));
@@ -129,7 +129,7 @@ public class BlockCustomChest extends BlockChest implements IQuarkBlock {
 
 	@Override
 	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
-		EnumFacing facing = EnumFacing.getHorizontal(MathHelper.floor(placer.rotationYaw * 4.0F / 360.0F + 0.5D) & 3).getOpposite();
+		EnumFacing facing = EnumFacing.byHorizontalIndex(MathHelper.floor(placer.rotationYaw * 4.0F / 360.0F + 0.5D) & 3).getOpposite();
 		state = state.withProperty(FACING, facing);
 		BlockPos northPos = pos.north();
 		BlockPos southPos = pos.south();

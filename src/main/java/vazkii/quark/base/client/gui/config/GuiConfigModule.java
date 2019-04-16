@@ -1,20 +1,16 @@
 package vazkii.quark.base.client.gui.config;
 
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.resources.I18n;
+import vazkii.quark.base.module.Feature;
+import vazkii.quark.base.module.Module;
+import vazkii.quark.base.module.ModuleLoader;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.util.text.translation.I18n;
-import vazkii.quark.base.module.ConfigHelper;
-import vazkii.quark.base.module.Feature;
-import vazkii.quark.base.module.GlobalConfig;
-import vazkii.quark.base.module.Module;
-import vazkii.quark.base.module.ModuleLoader;
 
 public class GuiConfigModule extends GuiConfigBase {
 
@@ -41,12 +37,12 @@ public class GuiConfigModule extends GuiConfigBase {
 	public void initGui() {
 		super.initGui();
 		
-		title += " - " + I18n.translateToLocal("quark.config.module." + module.name) + " (" + features.size() + ")";
+		title += " - " + I18n.format("quark.config.module." + module.name) + " (" + features.size() + ")";
 
 		int x = width / 2 - 100;
 		int y = height / 6 + 167;
 		
-		buttonList.add(backButton = new GuiButton(0, x, y, 200, 20, I18n.translateToLocal("gui.done")));
+		buttonList.add(backButton = new GuiButton(0, x, y, 200, 20, I18n.format("gui.done")));
 
 		if(totalPages > 1) {
 			x = width / 2;
@@ -113,7 +109,7 @@ public class GuiConfigModule extends GuiConfigBase {
 		}
 		
 		if(mayRequireRestart) {
-			String s = I18n.translateToLocal("quark.config.needrestart");
+			String s = I18n.format("quark.config.needrestart");
 			drawCenteredString(mc.fontRenderer, s, width / 2, backButton.y + 22, 0xFFFF00);
 		}
 	}

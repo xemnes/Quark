@@ -15,7 +15,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import vazkii.arl.network.NetworkMessage;
 import vazkii.quark.management.feature.StoreToChests;
 
-public class MessageDisableDropoffClient extends NetworkMessage {
+public class MessageDisableDropoffClient extends NetworkMessage<MessageDisableDropoffClient> {
 
 	@Override
 	public IMessage handleMessage(MessageContext context) {

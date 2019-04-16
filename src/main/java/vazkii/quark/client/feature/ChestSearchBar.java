@@ -1,13 +1,5 @@
 package vazkii.quark.client.feature;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Pattern;
-
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiScreen;
@@ -16,6 +8,7 @@ import net.minecraft.client.gui.inventory.GuiChest;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.gui.inventory.GuiShulkerBox;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -33,12 +26,13 @@ import net.minecraft.potion.PotionUtils;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.RenderTooltipEvent;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModContainer;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import vazkii.arl.util.ItemNBTHelper;
 import vazkii.quark.api.ICustomSearchHandler;
 import vazkii.quark.api.ICustomSearchHandler.StringMatcher;
@@ -46,6 +40,11 @@ import vazkii.quark.api.IItemSearchBar;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.management.feature.FavoriteItems;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Pattern;
 
 public class ChestSearchBar extends Feature {
 
@@ -238,14 +237,14 @@ public class ChestSearchBar extends Feature {
 		}
 		
 		CreativeTabs tab = item.getCreativeTab();
-		if(tab != null && matcher.matches(I18n.translateToLocal(tab.getTranslatedTabLabel()).toLowerCase(), search))
+		if(tab != null && matcher.matches(I18n.format(tab.getTranslationKey()).toLowerCase(), search))
 			return true;
 		
 		if(search.matches("favou?rites?") && FavoriteItems.isItemFavorited(stack))
 			return true;
 		
 		ResourceLocation itemName = Item.REGISTRY.getNameForObject(item);
-		ModContainer mod = Loader.instance().getIndexedModList().get(itemName.getResourceDomain());
+		ModContainer mod = Loader.instance().getIndexedModList().get(itemName.getNamespace());
 		if(matcher.matches(mod.getName().toLowerCase(), search))
 			return true;
 		

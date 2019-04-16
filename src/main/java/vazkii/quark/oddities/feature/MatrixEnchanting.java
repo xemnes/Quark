@@ -1,23 +1,22 @@
 package vazkii.quark.oddities.feature;
 
-import java.util.List;
-
+import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import scala.actors.threadpool.Arrays;
-import vazkii.arl.util.ItemNBTHelper;
 import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.oddities.block.BlockEnchantingTableReplacement;
 import vazkii.quark.oddities.client.render.RenderTileMatrixEnchanter;
 import vazkii.quark.oddities.tile.TileMatrixEnchanter;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class MatrixEnchanting extends Feature {
 
@@ -55,7 +54,7 @@ public class MatrixEnchanting extends Feature {
 	public void preInit(FMLPreInitializationEvent event) {
 		enchantingTable = new BlockEnchantingTableReplacement();
 		enchantingTable.setRegistryName("minecraft:enchanting_table");
-		enchantingTable.setUnlocalizedName("enchantmentTable");
+		enchantingTable.setTranslationKey("enchantmentTable");
 		ProxyRegistry.register(enchantingTable);
 		
 		registerTile(TileMatrixEnchanter.class, "matrix_enchanter");
@@ -72,7 +71,7 @@ public class MatrixEnchanting extends Feature {
 	public void onTooltip(ItemTooltipEvent event) {
 		ItemStack stack = event.getItemStack();
 		if(showTooltip && stack.hasTagCompound() && stack.getTagCompound().hasKey(TileMatrixEnchanter.TAG_STACK_MATRIX))
-			event.getToolTip().add(TextFormatting.AQUA + I18n.translateToLocal("quarkmisc.pendingEnchants"));
+			event.getToolTip().add(TextFormatting.AQUA + I18n.format("quarkmisc.pendingEnchants"));
 	}
 	
 	@Override

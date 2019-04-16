@@ -1,13 +1,5 @@
 package vazkii.quark.base.handler;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Predicate;
-
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -18,35 +10,23 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
-import net.minecraft.item.Item;
+import net.minecraft.item.*;
 import net.minecraft.item.Item.ToolMaterial;
-import net.minecraft.item.ItemArmor;
-import net.minecraft.item.ItemArrow;
-import net.minecraft.item.ItemAxe;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemBow;
-import net.minecraft.item.ItemDye;
-import net.minecraft.item.ItemFood;
-import net.minecraft.item.ItemMinecart;
-import net.minecraft.item.ItemPickaxe;
-import net.minecraft.item.ItemPotion;
-import net.minecraft.item.ItemSpade;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemSword;
-import net.minecraft.item.ItemTool;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.potion.PotionUtils;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
-import vazkii.quark.api.ICustomEnchantColor;
 import vazkii.quark.api.ICustomSorting;
 import vazkii.quark.base.lib.LibObfuscation;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.management.feature.InventorySorting;
 import vazkii.quark.oddities.inventory.ContainerBackpack;
+
+import java.util.*;
+import java.util.function.Predicate;
 
 public final class SortingHandler {
 
@@ -331,8 +311,8 @@ public final class SortingHandler {
 		}
 
 		private static int toolPowerCompare(ItemStack stack1, ItemStack stack2) {
-			ToolMaterial mat1 = ReflectionHelper.getPrivateValue(ItemTool.class, (ItemTool) stack1.getItem(), LibObfuscation.TOOL_MATERIAL);
-			ToolMaterial mat2 = ReflectionHelper.getPrivateValue(ItemTool.class, (ItemTool) stack2.getItem(), LibObfuscation.TOOL_MATERIAL);
+			ToolMaterial mat1 = ObfuscationReflectionHelper.getPrivateValue(ItemTool.class, (ItemTool) stack1.getItem(), LibObfuscation.TOOL_MATERIAL);
+			ToolMaterial mat2 = ObfuscationReflectionHelper.getPrivateValue(ItemTool.class, (ItemTool) stack2.getItem(), LibObfuscation.TOOL_MATERIAL);
 			return (int) (mat2.getEfficiency() * 100 - mat1.getEfficiency() * 100);
 		}
 

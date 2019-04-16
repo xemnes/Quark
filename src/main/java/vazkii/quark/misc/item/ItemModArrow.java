@@ -31,7 +31,7 @@ public class ItemModArrow extends ItemArrow implements IVariantHolder, IQuarkIte
 	private final ArrowProvider provider; 
 
 	public ItemModArrow(String name, ArrowProvider provider) {
-		setUnlocalizedName(name);
+		setTranslationKey(name);
 		
 		bareName = name;
 		this.provider = provider;
@@ -52,8 +52,8 @@ public class ItemModArrow extends ItemArrow implements IVariantHolder, IQuarkIte
 	}
 	
 	@Override
-	public Item setUnlocalizedName(String name) {
-		super.setUnlocalizedName(name);
+	public Item setTranslationKey(String name) {
+		super.setTranslationKey(name);
 		setRegistryName(new ResourceLocation(LibMisc.PREFIX_MOD + name));
 		ProxyRegistry.register(this);
 
@@ -61,7 +61,7 @@ public class ItemModArrow extends ItemArrow implements IVariantHolder, IQuarkIte
 	}
 
 	@Override
-	public String getUnlocalizedName(ItemStack par1ItemStack) {
+	public String getTranslationKey(ItemStack par1ItemStack) {
 		int dmg = par1ItemStack.getItemDamage();
 		String[] variants = getVariants();
 

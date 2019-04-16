@@ -7,10 +7,10 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemMap;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.storage.MapData;
 import net.minecraftforge.client.event.RenderTooltipEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
@@ -35,7 +35,7 @@ public class MapTooltip extends Feature {
 	public void makeTooltip(ItemTooltipEvent event) {
 		if(!event.getItemStack().isEmpty() && event.getItemStack().getItem() instanceof ItemMap) {
 			if(requireShift && !GuiScreen.isShiftKeyDown())
-				event.getToolTip().add(1, I18n.translateToLocal("quarkmisc.mapShift"));
+				event.getToolTip().add(1, I18n.format("quarkmisc.mapShift"));
 		}
 	}
 

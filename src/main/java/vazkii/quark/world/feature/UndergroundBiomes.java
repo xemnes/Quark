@@ -1,9 +1,5 @@
 package vazkii.quark.world.feature;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -11,16 +7,13 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.event.terraingen.OreGenEvent;
 import net.minecraftforge.event.terraingen.OreGenEvent.GenerateMinable.EventType;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.oredict.OreDictionary;
 import vazkii.arl.block.BlockMod;
 import vazkii.arl.block.BlockModSlab;
 import vazkii.arl.block.BlockModStairs;
@@ -39,16 +32,10 @@ import vazkii.quark.world.block.slab.BlockIcyStoneSlab;
 import vazkii.quark.world.block.stairs.BlockFireStoneStairs;
 import vazkii.quark.world.block.stairs.BlockIcyStoneStairs;
 import vazkii.quark.world.world.UndergroundBiomeGenerator;
-import vazkii.quark.world.world.underground.UndergroundBiome;
-import vazkii.quark.world.world.underground.UndergroundBiomeGlowshroom;
-import vazkii.quark.world.world.underground.UndergroundBiomeIcy;
-import vazkii.quark.world.world.underground.UndergroundBiomeLava;
-import vazkii.quark.world.world.underground.UndergroundBiomeLush;
-import vazkii.quark.world.world.underground.UndergroundBiomeOvergrown;
-import vazkii.quark.world.world.underground.UndergroundBiomePrismarine;
-import vazkii.quark.world.world.underground.UndergroundBiomeSandstone;
-import vazkii.quark.world.world.underground.UndergroundBiomeSlime;
-import vazkii.quark.world.world.underground.UndergroundBiomeSpiderNest;
+import vazkii.quark.world.world.underground.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class UndergroundBiomes extends Feature {
 
@@ -137,7 +124,7 @@ public class UndergroundBiomes extends Feature {
 			World world = event.getWorld();
 			BlockPos pos = event.getPos();
 			
-			Chunk chunk = world.getChunkFromBlockCoords(pos);
+			Chunk chunk = world.getChunk(pos);
 
 			for(UndergroundBiomeGenerator gen : biomes)
 				gen.generate(chunk.x, chunk.z, world);

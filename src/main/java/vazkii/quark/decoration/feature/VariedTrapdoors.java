@@ -73,7 +73,7 @@ public class VariedTrapdoors extends Feature {
 				'W', ProxyRegistry.newStack(Blocks.PLANKS, 1, 5));
 
 		if(renameVanillaTrapdoor)
-			Blocks.TRAPDOOR.setUnlocalizedName("oak_trapdoor");
+			Blocks.TRAPDOOR.setTranslationKey("oak_trapdoor");
 
 		// Low priority ore dictionary recipe
 		Ingredient wood = new BlacklistOreIngredient("plankWood", (stack) -> stack.getItem() == Item.getItemFromBlock(Blocks.PLANKS));

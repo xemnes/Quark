@@ -1,19 +1,18 @@
 package vazkii.quark.base.client.gui.config;
 
-import java.io.IOException;
-import java.util.Set;
-
 import com.google.common.collect.ImmutableSet;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.client.resources.I18n;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.ModuleLoader;
+
+import java.io.IOException;
+import java.util.Set;
 
 public class GuiConfigImport extends GuiConfigBase {
 
@@ -29,15 +28,15 @@ public class GuiConfigImport extends GuiConfigBase {
 	public void initGui() {
 		super.initGui();
 		
-		title += " - " + I18n.translateToLocal("quark.config.import");
+		title += " - " + I18n.format("quark.config.import");
 
 		int x = width / 2 - 100;
 		int y = height / 6;
 		
-		GuiButton importButton = new GuiButton(1, x, y + 110, 200, 20, I18n.translateToLocal("quark.config.import"));
-		buttonList.add(backButton = new GuiButton(0, x, y + 167, 200, 20, I18n.translateToLocal("gui.done")));
+		GuiButton importButton = new GuiButton(1, x, y + 110, 200, 20, I18n.format("quark.config.import"));
+		buttonList.add(backButton = new GuiButton(0, x, y + 167, 200, 20, I18n.format("gui.done")));
 		buttonList.add(importButton);
-		buttonList.add(new GuiButton(2, x, y + 132, 200, 20, I18n.translateToLocal("quark.config.opensite")));
+		buttonList.add(new GuiButton(2, x, y + 132, 200, 20, I18n.format("quark.config.opensite")));
 
 		textField = new GuiTextField(0, fontRenderer, x, y + 72, 200, 20);
 		textField.setFocused(true);
@@ -58,7 +57,7 @@ public class GuiConfigImport extends GuiConfigBase {
 				doImport();
 				
 				if(needsRestart) {
-					button.displayString = I18n.translateToLocal("quark.config.close");
+					button.displayString = I18n.format("quark.config.close");
 					for(GuiButton b : buttonList)
 						if(b != button)
 							b.enabled = false;
@@ -106,20 +105,20 @@ public class GuiConfigImport extends GuiConfigBase {
 				y += 5;
 			}
 			
-			drawCenteredString(mc.fontRenderer, I18n.translateToLocal(key), x, y, 0xFFFFFF);
+			drawCenteredString(mc.fontRenderer, I18n.format(key), x, y, 0xFFFFFF);
 		}
 		
 		if(needsRestart) {
 			String s = "";
 			if(disabledFeatures == 1)
-				s = I18n.translateToLocalFormatted("quark.config.disabledcount1");
-			else s = I18n.translateToLocalFormatted("quark.config.disabledcount", disabledFeatures);
+				s = I18n.format("quark.config.disabledcount1");
+			else s = I18n.format("quark.config.disabledcount", disabledFeatures);
 			
 			drawCenteredString(mc.fontRenderer, s, x, textField.y + 26, 0x00FF00);
 		}
 		
 		if(mc.world != null)
-			drawCenteredString(mc.fontRenderer, I18n.translateToLocal("quark.config.cantimport"), x, textField.y + 26, 0xFF0000);
+			drawCenteredString(mc.fontRenderer, I18n.format("quark.config.cantimport"), x, textField.y + 26, 0xFF0000);
 	}
 
 	private void doImport() {

@@ -62,7 +62,7 @@ public class ItemChestBlock extends ItemModBlock implements IExtraVariantHolder 
 	}
 
 	@Override
-	public String getUnlocalizedName(ItemStack stack) {
+	public String getTranslationKey(ItemStack stack) {
 		ChestType type = VariedChests.custom_chest.getCustomType(stack);
 		String name = type.name + (getBlock() == VariedChests.custom_chest_trap ? "_trap" : "");
 		return "tile." + LibMisc.PREFIX_MOD + "custom_chest_" + name;

@@ -15,7 +15,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import vazkii.arl.network.NetworkMessage;
 import vazkii.quark.base.module.GlobalConfig;
 
-public class MessageChangeConfig extends NetworkMessage {
+public class MessageChangeConfig extends NetworkMessage<MessageChangeConfig> {
 	
 	public String moduleName;
 	public String category;

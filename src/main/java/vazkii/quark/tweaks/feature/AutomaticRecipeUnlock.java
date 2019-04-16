@@ -1,11 +1,6 @@
 package vazkii.quark.tweaks.feature;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Queue;
-
 import com.google.common.collect.Lists;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiCrafting;
@@ -18,15 +13,19 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.client.event.GuiScreenEvent.InitGuiEvent;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import scala.actors.threadpool.Arrays;
 import vazkii.quark.base.lib.LibObfuscation;
 import vazkii.quark.base.module.Feature;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Queue;
 
 public class AutomaticRecipeUnlock extends Feature {
 
@@ -74,11 +73,11 @@ public class AutomaticRecipeUnlock extends Feature {
 		Minecraft mc = Minecraft.getMinecraft();
 		if(mc.player != null && mc.player.ticksExisted < 20) {
 			GuiToast toasts = mc.getToastGui();
-			Queue<IToast> toastQueue = ReflectionHelper.getPrivateValue(GuiToast.class, toasts, LibObfuscation.TOASTS_QUEUE);
+			Queue<IToast> toastQueue = ObfuscationReflectionHelper.getPrivateValue(GuiToast.class, toasts, LibObfuscation.TOASTS_QUEUE);
 			for(IToast toast : toastQueue)
 				if(toast instanceof RecipeToast) {
 					RecipeToast rtoast = (RecipeToast) toast;
-					List<ItemStack> stacks = ReflectionHelper.getPrivateValue(RecipeToast.class, rtoast, LibObfuscation.RECIPES_OUTPUTS);
+					List<ItemStack> stacks = ObfuscationReflectionHelper.getPrivateValue(RecipeToast.class, rtoast, LibObfuscation.RECIPES_OUTPUTS);
 					if(stacks.size() > 100) {
 						toastQueue.remove(toast);
 						return;

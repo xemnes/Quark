@@ -11,7 +11,7 @@ public class TemplateSourcedEmote extends EmoteBase {
 		super(desc, player, model, armorModel, armorLegsModel);
 		
 		if(shouldLoadTimelineOnLaunch()) {
-			System.out.println("Loading emote " + desc.getUnlocalizedName());
+			System.out.println("Loading emote " + desc.getTranslationKey());
 			desc.template.readAndMakeTimeline(model);
 		}
 	}

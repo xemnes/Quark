@@ -1,21 +1,18 @@
 package vazkii.quark.base.client.gui.config;
 
-import java.io.IOException;
-import java.util.Set;
-import java.util.TreeSet;
-
-import org.apache.commons.lang3.concurrent.ConcurrentRuntimeException;
-
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.client.resources.I18n;
 import vazkii.quark.base.client.ContributorRewardHandler;
 import vazkii.quark.base.client.gui.GuiButtonColor;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.base.module.GlobalConfig;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleLoader;
+
+import java.io.IOException;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class GuiConfigRoot extends GuiConfigBase {
 	
@@ -51,15 +48,15 @@ public class GuiConfigRoot extends GuiConfigBase {
 
 		x = width / 2;
 		y = startY + 96;
-		buttonList.add(new GuiButtonConfigSetting(x + 155, y + 13, GlobalConfig.qButtonProp, true, I18n.translateToLocal("quark.config.enableq")));
+		buttonList.add(new GuiButtonConfigSetting(x + 155, y + 13, GlobalConfig.qButtonProp, true, I18n.format("quark.config.enableq")));
 		
-		buttonList.add(new GuiButtonColor(3, x - 149, y + 44, 98, I18n.translateToLocal("quark.config.opensite"), 0x48ddbc));
-		buttonList.add(new GuiButtonColor(4, x - 49, y + 44, 98, I18n.translateToLocal("quark.config.reddit"), 0x1f98e9));
-		buttonList.add(new GuiButtonColor(5, x + 51, y + 44, 98, I18n.translateToLocal("quark.config.donate"), 0xf96854));
+		buttonList.add(new GuiButtonColor(3, x - 149, y + 44, 98, I18n.format("quark.config.opensite"), 0x48ddbc));
+		buttonList.add(new GuiButtonColor(4, x - 49, y + 44, 98, I18n.format("quark.config.reddit"), 0x1f98e9));
+		buttonList.add(new GuiButtonColor(5, x + 51, y + 44, 98, I18n.format("quark.config.donate"), 0xf96854));
 
-		buttonList.add(new GuiButton(1, x - 149, y + 66, 98, 20, I18n.translateToLocal("quark.config.general")));
-		buttonList.add(new GuiButton(2, x - 49, y + 66, 98, 20, I18n.translateToLocal("quark.config.import")));
-		buttonList.add(backButton = new GuiButton(0, x + 51, y + 66, 98, 20, I18n.translateToLocal("gui.done")));
+		buttonList.add(new GuiButton(1, x - 149, y + 66, 98, 20, I18n.format("quark.config.general")));
+		buttonList.add(new GuiButton(2, x - 49, y + 66, 98, 20, I18n.format("quark.config.import")));
+		buttonList.add(backButton = new GuiButton(0, x + 51, y + 66, 98, 20, I18n.format("gui.done")));
 	}
 	
 	@Override
@@ -68,18 +65,18 @@ public class GuiConfigRoot extends GuiConfigBase {
 		
 		String s = null;
 		if(mayRequireRestart)
-			s = I18n.translateToLocal("quark.config.needrestart");
+			s = I18n.format("quark.config.needrestart");
 		else if(qEnabled && !GlobalConfig.enableQButton)
-			s = I18n.translateToLocal("quark.config.qdisabled");
+			s = I18n.format("quark.config.qdisabled");
 		
 		if(s != null)
 			drawCenteredString(mc.fontRenderer, s, width / 2, backButton.y + 22, 0xFFFF00);
 		
 		if(ContributorRewardHandler.localPatronTier == 0) {
 			if(ContributorRewardHandler.featuredPatron.isEmpty())
-				s = I18n.translateToLocal("quarkmisc.patronPlugNone");
-			else s = I18n.translateToLocalFormatted("quarkmisc.patronPlug", ContributorRewardHandler.featuredPatron);
-		} else s = "\u2665 " + I18n.translateToLocalFormatted("quarkmisc.supportMessage", mc.getSession().getUsername()) + " \u2665";
+				s = I18n.format("quarkmisc.patronPlugNone");
+			else s = I18n.format("quarkmisc.patronPlug", ContributorRewardHandler.featuredPatron);
+		} else s = "\u2665 " + I18n.format("quarkmisc.supportMessage", mc.getSession().getUsername()) + " \u2665";
 		
 		drawCenteredString(mc.fontRenderer, s, width / 2, 27, 0xff8f80);
 	}

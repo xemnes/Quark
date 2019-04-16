@@ -2,8 +2,6 @@ package vazkii.quark.automation.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirectional;
-import net.minecraft.block.BlockPistonBase;
-import net.minecraft.block.BlockPistonExtension;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -103,7 +101,7 @@ public class BlockIronRod extends BlockMod implements IQuarkBlock {
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
 		IBlockState iblockstate = getDefaultState();
-		iblockstate = iblockstate.withProperty(FACING, EnumFacing.getFront(meta));
+		iblockstate = iblockstate.withProperty(FACING, EnumFacing.byIndex(meta));
 		return iblockstate;
 	}
 

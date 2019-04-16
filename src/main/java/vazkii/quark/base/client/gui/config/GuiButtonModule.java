@@ -5,10 +5,8 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.RenderItem;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.translation.I18n;
-import net.minecraftforge.client.event.RenderHandEvent;
 import vazkii.quark.base.module.Module;
 
 public class GuiButtonModule extends GuiButton {
@@ -18,7 +16,7 @@ public class GuiButtonModule extends GuiButton {
 	final Module module;
 	
 	public GuiButtonModule(int x, int y, Module module) {
-		super(0, x, y, 150, 20, I18n.translateToLocal("quark.config.module." + module.name));
+		super(0, x, y, 150, 20, I18n.format("quark.config.module." + module.name));
 		this.module = module;
 	}
 	

@@ -10,10 +10,6 @@
  */
 package vazkii.quark.world.world;
 
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Random;
-
 import net.minecraft.block.BlockChest;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.block.BlockLiquid;
@@ -43,6 +39,10 @@ import net.minecraftforge.fml.common.IWorldGenerator;
 import vazkii.quark.base.handler.DimensionConfig;
 import vazkii.quark.world.entity.EntityPirate;
 import vazkii.quark.world.feature.PirateShips;
+
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Random;
 
 public class PirateShipGenerator implements IWorldGenerator {
 
@@ -169,7 +169,7 @@ public class PirateShipGenerator implements IWorldGenerator {
 	}
 
 	private static BlockPos getTopLiquidBlock(World world, BlockPos pos) {
-		Chunk chunk = world.getChunkFromBlockCoords(pos);
+		Chunk chunk = world.getChunk(pos);
 		BlockPos blockpos;
 		BlockPos blockpos1;
 

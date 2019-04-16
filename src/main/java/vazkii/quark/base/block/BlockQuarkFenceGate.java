@@ -37,12 +37,12 @@ public class BlockQuarkFenceGate extends BlockFenceGate implements IQuarkBlock {
 		variants = new String[] { name };
 		bareName = name;
 
-		setUnlocalizedName(name);
+		setTranslationKey(name);
 	}
 
 	@Override
-	public Block setUnlocalizedName(String name) {
-		super.setUnlocalizedName(name);
+	public Block setTranslationKey(String name) {
+		super.setTranslationKey(name);
 		setRegistryName(LibMisc.PREFIX_MOD + name);
 		ProxyRegistry.register(this);
 		ProxyRegistry.register(new ItemModBlock(this, new ResourceLocation(LibMisc.PREFIX_MOD + name)));

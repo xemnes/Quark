@@ -15,7 +15,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import vazkii.arl.network.NetworkMessage;
 import vazkii.quark.management.feature.FavoriteItems;
 
-public class MessageFavoriteItem extends NetworkMessage {
+public class MessageFavoriteItem extends NetworkMessage<MessageFavoriteItem> {
 
 	public int index;
 

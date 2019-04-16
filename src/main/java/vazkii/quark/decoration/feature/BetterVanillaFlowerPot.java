@@ -26,7 +26,7 @@ public class BetterVanillaFlowerPot extends Feature {
 	public void preInit(FMLPreInitializationEvent event) {
 		flowerPot = new BlockCustomFlowerPot();
 		flowerPot.setRegistryName("minecraft:flower_pot");
-		flowerPot.setUnlocalizedName("flowerPot");
+		flowerPot.setTranslationKey("flowerPot");
 		ProxyRegistry.register(flowerPot);
 	}
 

@@ -1,7 +1,5 @@
 package vazkii.quark.automation.block;
 
-import java.util.EnumSet;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.BlockRedstoneWire;
@@ -29,6 +27,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.arl.block.BlockMod;
 import vazkii.arl.util.RotationHandler;
 import vazkii.quark.base.block.IQuarkBlock;
+
+import java.util.EnumSet;
 
 public class BlockRedstoneRandomizer extends BlockMod implements IQuarkBlock {
 
@@ -204,12 +204,12 @@ public class BlockRedstoneRandomizer extends BlockMod implements IQuarkBlock {
 	}
 
 	@Override
-	public void onBlockDestroyedByPlayer(World worldIn, BlockPos pos, IBlockState state) {
+	public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
 		if(isPowered(state))
 			for(EnumFacing enumfacing : EnumFacing.values())
 				worldIn.notifyNeighborsOfStateChange(pos.offset(enumfacing), this, false);
 
-		super.onBlockDestroyedByPlayer(worldIn, pos, state);
+		super.breakBlock(worldIn, pos, state);
 	}
 
 	@Override
@@ -235,10 +235,10 @@ public class BlockRedstoneRandomizer extends BlockMod implements IQuarkBlock {
 	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
 		return face == EnumFacing.DOWN ? BlockFaceShape.SOLID : BlockFaceShape.UNDEFINED;
 	}
-	
+
 	@Override
     @SideOnly(Side.CLIENT)
-    public BlockRenderLayer getBlockLayer() {
+    public BlockRenderLayer getRenderLayer() {
         return BlockRenderLayer.CUTOUT;
     }
 

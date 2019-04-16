@@ -10,13 +10,7 @@
  */
 package vazkii.quark.vanity.feature;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
 import com.google.common.collect.ImmutableSet;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiChat;
@@ -38,7 +32,6 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import scala.actors.threadpool.Arrays;
 import vazkii.arl.network.NetworkHandler;
 import vazkii.aurelienribon.tweenengine.Tween;
 import vazkii.quark.base.client.ContributorRewardHandler;
@@ -47,12 +40,14 @@ import vazkii.quark.base.client.gui.GuiButtonTranslucent;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.base.network.message.MessageRequestEmote;
-import vazkii.quark.vanity.client.emotes.CustomEmoteIconResourcePack;
-import vazkii.quark.vanity.client.emotes.EmoteBase;
-import vazkii.quark.vanity.client.emotes.EmoteDescriptor;
-import vazkii.quark.vanity.client.emotes.EmoteHandler;
-import vazkii.quark.vanity.client.emotes.ModelAccessor;
+import vazkii.quark.vanity.client.emotes.*;
 import vazkii.quark.vanity.client.gui.GuiButtonEmote;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
 
 public class EmoteSystem extends Feature {
 
@@ -80,7 +75,7 @@ public class EmoteSystem extends Feature {
 			"zombie"
 	); 
 
-	private static List<String> EMOTE_NAME_LIST = new ArrayList(Arrays.asList(EMOTE_NAMES));
+	private static List<String> EMOTE_NAME_LIST = new ArrayList<>(Arrays.asList(EMOTE_NAMES));
 
 	private static final int EMOTE_BUTTON_START = 1800;
 	static boolean emotesVisible = false;
@@ -227,7 +222,7 @@ public class EmoteSystem extends Feature {
 				GuiScreen.drawModalRectWithCustomSizedTexture(x, y, 0, 0, 32, 32, 32, 32);
 				GlStateManager.enableBlend();
 
-				String name = I18n.format(emote.desc.getUnlocalizedName());
+				String name = I18n.format(emote.desc.getTranslationKey());
 				mc.fontRenderer.drawStringWithShadow(name, res.getScaledWidth() / 2 - mc.fontRenderer.getStringWidth(name) / 2, y + 34, 0xFFFFFF + (((int) (transparency * 255F)) << 24));
 				GlStateManager.popMatrix();
 			}

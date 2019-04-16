@@ -1,7 +1,5 @@
 package vazkii.quark.decoration.block;
 
-import java.util.Random;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
@@ -10,6 +8,7 @@ import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.client.renderer.block.statemap.IStateMapper;
 import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraft.client.renderer.color.IItemColor;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -19,7 +18,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -30,6 +28,8 @@ import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.block.IQuarkBlock;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.decoration.client.state.ColoredFlowerPotStateMapper;
+
+import java.util.Random;
 
 public class BlockColoredFlowerPot extends BlockCustomFlowerPot implements IQuarkBlock, IBlockColorProvider, IRecipeGrouped {
 
@@ -42,12 +42,12 @@ public class BlockColoredFlowerPot extends BlockCustomFlowerPot implements IQuar
 		bareName = name;
 
 		setCreativeTab(CreativeTabs.DECORATIONS);
-		setUnlocalizedName(name);
+		setTranslationKey(name);
 	}
 
 	@Override
-	public Block setUnlocalizedName(String name) {
-		super.setUnlocalizedName(name);
+	public Block setTranslationKey(String name) {
+		super.setTranslationKey(name);
 		setRegistryName(LibMisc.PREFIX_MOD + name);
 		ProxyRegistry.register(this);
 		ProxyRegistry.register(new ItemModBlock(this, new ResourceLocation(LibMisc.PREFIX_MOD + name)));
@@ -70,7 +70,7 @@ public class BlockColoredFlowerPot extends BlockCustomFlowerPot implements IQuar
 	
 	@Override
     public String getLocalizedName() {
-        return I18n.translateToLocal(getUnlocalizedName() + ".name");
+        return I18n.format(getTranslationKey() + ".name");
     }
 	
 	@Override

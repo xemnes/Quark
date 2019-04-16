@@ -16,7 +16,7 @@ import vazkii.arl.network.NetworkMessage;
 import vazkii.arl.util.ClientTicker;
 import vazkii.quark.base.Quark;
 
-public class MessageDoEmote extends NetworkMessage {
+public class MessageDoEmote extends NetworkMessage<MessageDoEmote> {
 
 	public String emoteName;
 	public String playerName;

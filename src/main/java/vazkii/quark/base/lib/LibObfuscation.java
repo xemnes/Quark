@@ -13,69 +13,69 @@ package vazkii.quark.base.lib;
 public final class LibObfuscation {
 
 	// PotionHelper
-	public static final String[] POTION_ITEM_CONVERSIONS = new String[] { "b", "field_185214_b", "POTION_ITEM_CONVERSIONS" };
+	public static final String POTION_ITEM_CONVERSIONS = "field_185214_b";
 
 	// RenderLivingBase
-	public static final String[] LAYER_RENDERERS = new String[] { "h", "field_177097_h", "layerRenderers" };
+	public static final String LAYER_RENDERERS = "field_177097_h";
 
 	// LayerArmorBase
-	public static final String[] MODEL_ARMOR = new String[] { "d", "field_177186_d", "modelArmor" };
-	public static final String[] MODEL_LEGGINGS = new String[] { "c", "field_177189_c", "modelLeggings" };
+	public static final String MODEL_ARMOR = "field_177186_d";
+	public static final String MODEL_LEGGINGS = "field_177189_c";
 
 	// TileEntitySign
-	public static final String[] IS_EDITABLE = new String[] { "g", "field_145916_j", "isEditable" };
+	public static final String IS_EDITABLE = "field_145916_j";
 
 	// NetHandlerPlayServer
-	public static final String[] CHAT_SPAM_TRESHOLD_COUNT = new String[] { "i", "field_147374_l", "chatSpamThresholdCount" };
+	public static final String CHAT_SPAM_TRESHOLD_COUNT = "field_147374_l";
 
 	// GuiMainMenu
-	public static final String[] TITLE_PANORAMA_PATHS = new String[] { "H", "field_73978_o", "TITLE_PANORAMA_PATHS" };
+	public static final String TITLE_PANORAMA_PATHS = "field_73978_o";
 
 	// GuardianSound
-	public static final String[] GUARDIAN = new String[] { "m", "field_174934_k", "guardian" };
+	public static final String GUARDIAN = "field_174934_k";
 
 	// Minecraft
-	public static final String[] DEFAULT_RESOURCE_PACKS = new String[] { "aD", "field_110449_ao", "defaultResourcePacks" };
+	public static final String DEFAULT_RESOURCE_PACKS = "field_110449_ao";
 
 	// BufferBuilder 
-	public static final String[] X_OFFSET = new String[] { "k", "field_179004_l", "xOffset" };
-	public static final String[] Y_OFFSET = new String[] { "l", "field_179005_m", "yOffset" };
-	public static final String[] Z_OFFSET = new String[] { "m", "field_179002_n", "zOffset" };
+	public static final String X_OFFSET = "field_179004_l";
+	public static final String Y_OFFSET = "field_179005_m";
+	public static final String Z_OFFSET = "field_179002_n";
 	
 	// GuiCreateWorld
-	public static final String[] SELECTED_INDEX = new String[] { "M", "field_146331_K", "selectedIndex" };
+	public static final String SELECTED_INDEX = "field_146331_K";
 	
 	// GuiScreen
-	public static final String[] BUTTON_LIST = new String[] { "n", "field_146292_n", "buttonList" };
+	public static final String BUTTON_LIST = "field_146292_n";
 	
 	// ItemTool
-	public static final String[] TOOL_MATERIAL = new String[] { "d", "field_77862_b", "toolMaterial" };
+	public static final String TOOL_MATERIAL = "field_77862_b";
 	
 	// ItemFood
-	public static final String[] POTION_ID = new String[] { "f", "field_77851_ca", "potionId" };
+	public static final String POTION_ID = "field_77851_ca";
 	
 	// AbstractClientPlayer
-	public static final String[] PLAYER_INFO = new String[] { "d", "field_175157_a", "playerInfo" };
+	public static final String PLAYER_INFO = "field_175157_a";
 	
 	// NetworkPlayerInfo
-	public static final String[] PLAYER_TEXTURES = new String[] { "a", "field_187107_a", "playerTextures" };
+	public static final String PLAYER_TEXTURES = "field_187107_a";
 	
 	// EntityRenderer
-	public static final String[] LIGHTMAP_TEXTURE = new String[] { "H", "field_78513_d", "lightmapTexture" };
+	public static final String LIGHTMAP_TEXTURE = "field_78513_d";
 	
 	// GuiSignEdit
-	public static final String[] TILE_SIGN = new String[] { "a", "field_146848_f", "tileSign" };
+	public static final String TILE_SIGN = "field_146848_f";
 	
 	// GuiToast
-	public static final String[] TOASTS_QUEUE = new String[] { "g", "field_191792_h", "toastsQueue" };
+	public static final String TOASTS_QUEUE = "field_191792_h";
 	
 	// RecipeToast
-	public static final String[] RECIPES_OUTPUTS = new String[] { "c", "field_193666_c", "recipesOutputs" };
+	public static final String RECIPES_OUTPUTS = "field_193666_c";
 	
 	// TileEntityBeacon 
-	public static final String[] VALID_EFFECTS = new String[] { "f", "field_184280_f", "VALID_EFFECTS" };
+	public static final String VALID_EFFECTS = "field_184280_f";
 
 	// GuiBeacon
-	public static final String[] TILE_BEACON = new String[] { "x", "field_147024_w", "tileBeacon" };
+	public static final String TILE_BEACON = "field_147024_w";
 	
 }

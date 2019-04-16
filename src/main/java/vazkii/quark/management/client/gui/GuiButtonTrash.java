@@ -1,21 +1,21 @@
 package vazkii.quark.management.client.gui;
 
-import java.util.List;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.translation.I18n;
-import scala.actors.threadpool.Arrays;
 import vazkii.arl.util.RenderHelper;
 import vazkii.quark.base.client.IParentedGui;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.management.feature.DeleteItems;
+
+import java.util.Collections;
+import java.util.List;
 
 public class GuiButtonTrash extends GuiButton implements IParentedGui {
 
@@ -47,7 +47,7 @@ public class GuiButtonTrash extends GuiButton implements IParentedGui {
 			EntityPlayer player = par1Minecraft.player;
 			ItemStack hovered = player.inventory.getItemStack();
 			canDelete = DeleteItems.canItemBeDeleted(hovered);
-			open = canDelete && (!needsShift || parent.isShiftKeyDown());
+			open = canDelete && (!needsShift || GuiScreen.isShiftKeyDown());
 			
 			if(open)
 				u += 16;
@@ -63,10 +63,10 @@ public class GuiButtonTrash extends GuiButton implements IParentedGui {
 				ready = true;
 			
 			GlStateManager.pushMatrix();
-			String tooltip = I18n.translateToLocal(open ? "quarkmisc.trashButtonOpen" : "quarkmisc.trashButtonShift"); 
+			String tooltip = I18n.format(open ? "quarkmisc.trashButtonOpen" : "quarkmisc.trashButtonShift");
 			int len = Minecraft.getMinecraft().fontRenderer.getStringWidth(tooltip);
 			int tooltipShift = 2;
-			List<String> tooltipList = Arrays.asList(new String[]{ tooltip });
+			List<String> tooltipList = Collections.singletonList(tooltip);
 			
 			RenderHelper.renderTooltip(par2 + tooltipShift, par3 + 8, tooltipList);
 			GlStateManager.popMatrix();

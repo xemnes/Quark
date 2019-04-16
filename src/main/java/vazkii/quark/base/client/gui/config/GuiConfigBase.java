@@ -1,20 +1,20 @@
 package vazkii.quark.base.client.gui.config;
 
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiConfirmOpenLink;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.common.config.Property;
+import net.minecraftforge.fml.common.FMLLog;
+import vazkii.quark.base.lib.LibMisc;
+import vazkii.quark.base.module.ModuleLoader;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.LinkedList;
 import java.util.List;
-
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiConfirmOpenLink;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.translation.I18n;
-import net.minecraftforge.common.config.Property;
-import net.minecraftforge.fml.common.FMLLog;
-import vazkii.quark.base.lib.LibMisc;
-import vazkii.quark.base.module.ModuleLoader;
 
 public class GuiConfigBase extends GuiScreen {
 
@@ -35,7 +35,7 @@ public class GuiConfigBase extends GuiScreen {
 		super.initGui();
 		
 		buttonList.clear();
-		title = I18n.translateToLocal("quark.config.title");
+		title = I18n.format("quark.config.title");
 	}
 
 	@Override

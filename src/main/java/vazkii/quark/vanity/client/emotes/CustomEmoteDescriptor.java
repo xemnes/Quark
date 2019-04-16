@@ -18,13 +18,13 @@ public class CustomEmoteDescriptor extends EmoteDescriptor {
 	}
 	
 	@Override
-	public String getUnlocalizedName() {
+	public String getTranslationKey() {
 		return ((CustomEmoteTemplate) template).getName();
 	}
 	
 	@Override
 	public String getLocalizedName() {
-		return getUnlocalizedName();
+		return getTranslationKey();
 	}
 
 }

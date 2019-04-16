@@ -15,7 +15,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import vazkii.arl.network.NetworkMessage;
 import vazkii.quark.base.handler.DropoffHandler;
 
-public class MessageRestock extends NetworkMessage {
+public class MessageRestock extends NetworkMessage<MessageRestock> {
 
 	public boolean filtered;
 	
@@ -27,12 +27,8 @@ public class MessageRestock extends NetworkMessage {
 
 	@Override
 	public IMessage handleMessage(MessageContext context) {
-		context.getServerHandler().player.getServer().addScheduledTask(new Runnable() {
-			@Override
-			public void run() {
-				DropoffHandler.restock(context.getServerHandler().player, filtered);
-			}
-		});
+		context.getServerHandler().player.getServerWorld().addScheduledTask(() ->
+				DropoffHandler.restock(context.getServerHandler().player, filtered));
 		return null;
 	}
 

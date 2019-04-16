@@ -11,7 +11,6 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
-import net.minecraft.client.renderer.vertex.VertexBuffer;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
@@ -19,7 +18,7 @@ import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import vazkii.quark.automation.feature.PistonsMoveTEs;
 import vazkii.quark.base.lib.LibObfuscation;
 
@@ -50,9 +49,9 @@ public class PistonTileEntityRenderer {
 					chest.adjacentChestZNeg = null;
 				}
 
-				double x = (double) ReflectionHelper.getPrivateValue(BufferBuilder.class, buffer, LibObfuscation.X_OFFSET) + pos.getX();
-				double y = (double) ReflectionHelper.getPrivateValue(BufferBuilder.class, buffer, LibObfuscation.Y_OFFSET) + pos.getY();
-				double z = (double) ReflectionHelper.getPrivateValue(BufferBuilder.class, buffer, LibObfuscation.Z_OFFSET) + pos.getZ();
+				double x = (double) ObfuscationReflectionHelper.getPrivateValue(BufferBuilder.class, buffer, LibObfuscation.X_OFFSET) + pos.getX();
+				double y = (double) ObfuscationReflectionHelper.getPrivateValue(BufferBuilder.class, buffer, LibObfuscation.Y_OFFSET) + pos.getY();
+				double z = (double) ObfuscationReflectionHelper.getPrivateValue(BufferBuilder.class, buffer, LibObfuscation.Z_OFFSET) + pos.getZ();
 				GlStateManager.translate(x, y, z);
 
 				EnumFacing facing = null;

@@ -1,5 +1,12 @@
 package vazkii.quark.vanity.client.emotes;
 
+import com.google.common.collect.ImmutableSet;
+import net.minecraft.client.resources.AbstractResourcePack;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.Loader;
+import vazkii.quark.base.Quark;
+import vazkii.quark.vanity.feature.EmoteSystem;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -7,14 +14,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-
-import com.google.common.collect.ImmutableSet;
-
-import net.minecraft.client.resources.AbstractResourcePack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.Loader;
-import vazkii.quark.base.Quark;
-import vazkii.quark.vanity.feature.EmoteSystem;
 
 public class CustomEmoteIconResourcePack extends AbstractResourcePack {
 

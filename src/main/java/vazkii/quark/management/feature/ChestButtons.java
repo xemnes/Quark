@@ -10,16 +10,8 @@
  */
 package vazkii.quark.management.feature;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import net.minecraftforge.items.SlotItemHandler;
-import org.apache.logging.log4j.Level;
-
 import com.google.common.base.Predicate;
-
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiChest;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.gui.inventory.GuiShulkerBox;
@@ -36,7 +28,8 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import scala.actors.threadpool.Arrays;
+import net.minecraftforge.items.SlotItemHandler;
+import org.apache.logging.log4j.Level;
 import vazkii.arl.network.NetworkHandler;
 import vazkii.quark.api.IChestButtonCallback;
 import vazkii.quark.base.client.ModKeybinds;
@@ -49,6 +42,10 @@ import vazkii.quark.management.client.gui.GuiButtonChest;
 import vazkii.quark.management.client.gui.GuiButtonChest.Action;
 import vazkii.quark.management.client.gui.GuiButtonShulker;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class ChestButtons extends Feature {
 
 	ButtonInfo deposit, smartDeposit, restock, extract, sort, sortPlayer;
@@ -56,7 +53,7 @@ public class ChestButtons extends Feature {
 	boolean debugClassnames;
 	List<String> classnames;
 	
-	static List<GuiButtonChest> chestButtons = new ArrayList();
+	static List<GuiButtonChest> chestButtons = new ArrayList<>();
 	
 	@Override
 	public void setupConfig() {
@@ -69,7 +66,7 @@ public class ChestButtons extends Feature {
 		
 		debugClassnames = loadPropBool("Debug Classnames", "Set this to true to print out the names of all GUIs you open to the log. This is used to fill in the \"Forced GUIs\" list.", false);
 		String[] classnamesArr = loadPropStringList("Forced GUIs", "GUIs in which the chest buttons should be forced to show up. Use the \"Debug Classnames\" option to find the names.", new String[0]);
-		classnames = new ArrayList(Arrays.asList(classnamesArr));
+		classnames = new ArrayList<>(Arrays.asList(classnamesArr));
 	}
 	
 	private ButtonInfo loadButtonInfo(String name, String comment, int xShift, int yShift) {
@@ -153,7 +150,7 @@ public class ChestButtons extends Feature {
 	}
 
 	@SideOnly(Side.CLIENT)
-	public static <T extends GuiScreen>void addButtonAndKeybind(GuiScreenEvent.InitGuiEvent.Post event, Action action, GuiContainer guiInv, int index, int x, int y, Slot s, KeyBinding kb, Predicate<T> pred) {
+	public static <T extends GuiContainer>void addButtonAndKeybind(GuiScreenEvent.InitGuiEvent.Post event, Action action, GuiContainer guiInv, int index, int x, int y, Slot s, KeyBinding kb, Predicate<T> pred) {
 		int left = guiInv.getGuiLeft();
 		int top = guiInv.getGuiTop();
 		

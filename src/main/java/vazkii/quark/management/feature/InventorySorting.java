@@ -74,7 +74,7 @@ public class InventorySorting extends Feature {
 							continue;
 
 						ChestButtons.<GuiContainerCreative>addButtonAndKeybind(event, Action.SORT, guiInv, 132112, s.xPos + xPosC, s.yPos + yPosC, s, ModKeybinds.playerSortKey,
-								(gui) -> gui.getSelectedTabIndex() == CreativeTabs.INVENTORY.getTabIndex());
+								(gui) -> gui.getSelectedTabIndex() == CreativeTabs.INVENTORY.getIndex());
 					}
 
 					break;

@@ -3,8 +3,8 @@ package vazkii.quark.client.feature;
 import net.minecraft.client.gui.inventory.GuiEditSign;
 import net.minecraft.tileentity.TileEntitySign;
 import net.minecraftforge.client.event.GuiOpenEvent;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.base.lib.LibObfuscation;
@@ -26,7 +26,7 @@ public class ImprovedSignEdit extends Feature {
 	@SideOnly(Side.CLIENT)
 	public void onOpenGUI(GuiOpenEvent event) {
 		if(event.getGui() instanceof GuiEditSign) {
-			TileEntitySign sign = ReflectionHelper.getPrivateValue(GuiEditSign.class, (GuiEditSign) event.getGui(), LibObfuscation.TILE_SIGN);
+			TileEntitySign sign = ObfuscationReflectionHelper.getPrivateValue(GuiEditSign.class, (GuiEditSign) event.getGui(), LibObfuscation.TILE_SIGN);
 			event.setGui(new GuiBetterEditSign(sign));
 		}
 	}

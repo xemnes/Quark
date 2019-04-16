@@ -1,14 +1,6 @@
 package vazkii.quark.oddities.block;
 
-import java.util.List;
-
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockDirectional;
-import net.minecraft.block.BlockLever;
-import net.minecraft.block.BlockPistonBase;
-import net.minecraft.block.BlockPistonExtension;
-import net.minecraft.block.BlockWall;
-import net.minecraft.block.SoundType;
+import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
@@ -35,6 +27,8 @@ import vazkii.arl.block.BlockModContainer;
 import vazkii.quark.base.block.BlockQuarkWall;
 import vazkii.quark.base.block.IQuarkBlock;
 import vazkii.quark.oddities.tile.TilePipe;
+
+import java.util.List;
 
 public class BlockPipe extends BlockModContainer implements IQuarkBlock {
 
@@ -128,7 +122,7 @@ public class BlockPipe extends BlockModContainer implements IQuarkBlock {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public BlockRenderLayer getBlockLayer() {
+	public BlockRenderLayer getRenderLayer() {
 		return BlockRenderLayer.CUTOUT;
 	}
 
@@ -139,7 +133,7 @@ public class BlockPipe extends BlockModContainer implements IQuarkBlock {
 
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, new IProperty[] { UP, DOWN, NORTH, SOUTH, WEST, EAST, ENABLED });
+		return new BlockStateContainer(this, UP, DOWN, NORTH, SOUTH, WEST, EAST, ENABLED);
 	}
 
 	@Override

@@ -10,9 +10,6 @@
  */
 package vazkii.quark.vanity.feature;
 
-import java.util.List;
-import java.util.Map;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.client.renderer.entity.RenderLivingBase;
@@ -26,10 +23,10 @@ import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.arl.util.ItemNBTHelper;
@@ -37,6 +34,9 @@ import vazkii.quark.base.lib.LibObfuscation;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.vanity.client.layer.LayerBetterElytra;
 import vazkii.quark.vanity.recipe.ElytraDyingRecipe;
+
+import java.util.List;
+import java.util.Map;
 
 public class DyableElytra extends Feature {
 
@@ -72,7 +72,7 @@ public class DyableElytra extends Feature {
 
 	@SideOnly(Side.CLIENT)
 	private void messWithRender(RenderPlayer render) {
-		List<LayerRenderer> list = ReflectionHelper.getPrivateValue(RenderLivingBase.class, render, LibObfuscation.LAYER_RENDERERS);
+		List<LayerRenderer> list = ObfuscationReflectionHelper.getPrivateValue(RenderLivingBase.class, render, LibObfuscation.LAYER_RENDERERS);
 		LayerRenderer remove = null;
 		for(LayerRenderer layer : list)
 			if(layer instanceof LayerElytra) {
@@ -92,7 +92,7 @@ public class DyableElytra extends Feature {
 			int color = ItemNBTHelper.getInt(stack, TAG_ELYTRA_DYE, 15);
 			EnumDyeColor dye = EnumDyeColor.byDyeDamage(color);
 			if(dye != EnumDyeColor.WHITE)
-				event.getToolTip().add(I18n.format("quark.dyedElytra", I18n.format("quark.dye." + dye.getUnlocalizedName())));
+				event.getToolTip().add(I18n.format("quark.dyedElytra", I18n.format("quark.dye." + dye.getTranslationKey())));
 		}
 	}
 

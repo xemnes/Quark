@@ -1,13 +1,12 @@
 package vazkii.quark.base.client.gui.config;
 
-import java.io.IOException;
-
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.translation.I18n;
 import vazkii.quark.base.lib.LibMisc;
+
+import java.io.IOException;
 
 public class GuiConfigFirstLoad extends GuiConfigBase {
 
@@ -19,14 +18,14 @@ public class GuiConfigFirstLoad extends GuiConfigBase {
 	public void initGui() {
 		super.initGui();
 		
-		title += " - " + I18n.translateToLocal("quark.config.firstload");
+		title += " - " + I18n.format("quark.config.firstload");
 
 		int x = width / 2 - 100;
 		int y = height / 6;
 		
-		buttonList.add(backButton = new GuiButton(0, x, y + 167, 200, 20, I18n.translateToLocal("quark.config.skip")));
-		buttonList.add(new GuiButton(1, x, y + 142, 98, 20, I18n.translateToLocal("quark.config.configure")));
-		buttonList.add(new GuiButton(2, x + 102, y + 142, 98, 20, I18n.translateToLocal("quark.config.opensite")));
+		buttonList.add(backButton = new GuiButton(0, x, y + 167, 200, 20, I18n.format("quark.config.skip")));
+		buttonList.add(new GuiButton(1, x, y + 142, 98, 20, I18n.format("quark.config.configure")));
+		buttonList.add(new GuiButton(2, x + 102, y + 142, 98, 20, I18n.format("quark.config.opensite")));
 	}
 	
 	@Override
@@ -50,7 +49,7 @@ public class GuiConfigFirstLoad extends GuiConfigBase {
 		int x = width / 2;
 		int y = height / 6;
 		for(int i = 0; i < 10; i++) {
-			String s = I18n.translateToLocal("quark.config.firstloadinfo" + i);
+			String s = I18n.format("quark.config.firstloadinfo" + i);
 			if(i == 5)
 				s = (TextFormatting.RED.toString() + TextFormatting.UNDERLINE.toString() + s);
 			

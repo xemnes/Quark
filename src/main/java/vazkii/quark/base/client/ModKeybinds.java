@@ -1,14 +1,7 @@
 package vazkii.quark.base.client;
 
-import java.util.HashMap;
-import java.util.List;
-
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
-
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -17,11 +10,16 @@ import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.GuiScreenEvent.KeyboardInputEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import vazkii.quark.base.lib.LibObfuscation;
 import vazkii.quark.vanity.client.emotes.EmoteDescriptor;
 import vazkii.quark.vanity.client.emotes.EmoteHandler;
+
+import java.util.HashMap;
+import java.util.List;
 
 public class ModKeybinds {
 
@@ -48,7 +46,7 @@ public class ModKeybinds {
 	public static void initEmoteKeybinds() {
 		for(String emoteName : EmoteHandler.emoteMap.keySet()) {
 			EmoteDescriptor desc = EmoteHandler.emoteMap.get(emoteName);
-			KeyBinding key = init(desc.getUnlocalizedName(), 0, EMOTE_GROUP, false);
+			KeyBinding key = init(desc.getTranslationKey(), 0, EMOTE_GROUP, false);
 			emoteKeys.put(key, emoteName);
 		}
 	}
@@ -139,7 +137,7 @@ public class ModKeybinds {
 				if(curr == ipg.getParent()) {
 					GuiButton button = (GuiButton) ipg;
 					if(button.enabled && button.visible) {
-						List<GuiButton> buttonList = ReflectionHelper.getPrivateValue(GuiScreen.class, curr, LibObfuscation.BUTTON_LIST);
+						List<GuiButton> buttonList = ObfuscationReflectionHelper.getPrivateValue(GuiScreen.class, curr, LibObfuscation.BUTTON_LIST);
 						GuiScreenEvent.ActionPerformedEvent.Pre postEvent = new GuiScreenEvent.ActionPerformedEvent.Pre(curr, button, buttonList);
 						MinecraftForge.EVENT_BUS.post(postEvent);
 					}

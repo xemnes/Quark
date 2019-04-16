@@ -7,7 +7,6 @@ import net.minecraft.client.gui.inventory.GuiBeacon;
 import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
 import net.minecraft.init.PotionTypes;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
@@ -29,14 +28,12 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreIngredient;
 import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.handler.BeaconReplacementHandler;
 import vazkii.quark.base.lib.LibMisc;
-import vazkii.quark.base.lib.LibObfuscation;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.base.potion.PotionMod;
@@ -164,7 +161,7 @@ public class ExtraPotions extends Feature {
 	}
 
 	private void addStandardBlend(Potion type, Object reagent, Potion negation, int normalTime, int longTime, int strongTime) {
-		String baseName = type.getRegistryName().getResourcePath();
+		String baseName = type.getRegistryName().getPath();
 		boolean hasStrong = strongTime > 0;
 
 		PotionType normalType = addPotion(new PotionEffect(type, normalTime), baseName, baseName);
@@ -190,7 +187,7 @@ public class ExtraPotions extends Feature {
 		PotionHelper.addMix(normalType, Items.REDSTONE, longType);
 
 		if(negation != null) {
-			String negationBaseName = negation.getRegistryName().getResourcePath();
+			String negationBaseName = negation.getRegistryName().getPath();
 
 			PotionType normalNegationType = addPotion(new PotionEffect(negation, normalTime), negationBaseName, negationBaseName);
 			PotionType longNegationType = addPotion(new PotionEffect(negation, longTime), negationBaseName, "long_" + negationBaseName);

@@ -1,17 +1,16 @@
 package vazkii.quark.base.client;	
 
+import com.google.common.collect.ImmutableSet;
+import net.minecraft.client.resources.AbstractResourcePack;
+import net.minecraftforge.fml.common.Loader;
+import vazkii.quark.base.Quark;
+import vazkii.quark.base.lib.LibMisc;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-
-import com.google.common.collect.ImmutableSet;
-
-import net.minecraft.client.resources.AbstractResourcePack;
-import net.minecraftforge.fml.common.Loader;
-import vazkii.quark.base.Quark;
-import vazkii.quark.base.lib.LibMisc;
 
 public class ResourceProxy extends AbstractResourcePack {
 

@@ -93,7 +93,7 @@ public class RenderFlatItemFrame extends RenderItemFrame {
 		GlStateManager.rotate(flipItem ? -180.0F : 0.0F, 0.0F, 1.0F, 0.0F);
 		renderItem(entity);
 		GlStateManager.popMatrix();
-		renderName(entity, x + entity.facingDirection.getFrontOffsetX() * 0.3F, y - (entityFlat.realFacingDirection == EnumFacing.DOWN ? 0.75D : 0.25D), z + entity.facingDirection.getFrontOffsetZ() * 0.3F);
+		renderName(entity, x + entity.facingDirection.getXOffset() * 0.3F, y - (entityFlat.realFacingDirection == EnumFacing.DOWN ? 0.75D : 0.25D), z + entity.facingDirection.getZOffset() * 0.3F);
 	}
 
 	protected void renderModel(EntityFlatItemFrame entity, Minecraft mc) {

@@ -13,9 +13,9 @@ package vazkii.quark.world.feature;
 import net.minecraft.client.gui.GuiCreateWorld;
 import net.minecraft.world.WorldType;
 import net.minecraftforge.client.event.GuiScreenEvent.InitGuiEvent;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.base.lib.LibObfuscation;
@@ -49,9 +49,9 @@ public class RealisticWorldType extends Feature {
 	public void openGUI(InitGuiEvent.Pre event) {
 		if(makeRealisticDefault && event.getGui() instanceof GuiCreateWorld) {
 			GuiCreateWorld create = (GuiCreateWorld) event.getGui();
-			int index = ReflectionHelper.getPrivateValue(GuiCreateWorld.class, create, LibObfuscation.SELECTED_INDEX);
+			int index = ObfuscationReflectionHelper.getPrivateValue(GuiCreateWorld.class, create, LibObfuscation.SELECTED_INDEX);
 			if(index == WorldType.DEFAULT.getId())
-				ReflectionHelper.setPrivateValue(GuiCreateWorld.class, create, realistic.getId(), LibObfuscation.SELECTED_INDEX);
+				ObfuscationReflectionHelper.setPrivateValue(GuiCreateWorld.class, create, realistic.getId(), LibObfuscation.SELECTED_INDEX);
 		}
 	}
 	

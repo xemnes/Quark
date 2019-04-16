@@ -1,7 +1,5 @@
 package vazkii.quark.misc.block;
 
-import java.util.Random;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockTNT;
 import net.minecraft.block.properties.IProperty;
@@ -15,12 +13,7 @@ import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -30,6 +23,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.api.IFuseIgnitable;
 import vazkii.quark.base.block.BlockQuarkDust;
 import vazkii.quark.misc.feature.PlaceVanillaDusts;
+
+import java.util.Random;
 
 public class BlockGunpowder extends BlockQuarkDust {
 
@@ -92,7 +87,7 @@ public class BlockGunpowder extends BlockQuarkDust {
 			IBlockState newState = state.withProperty(LIT, true);
 			world.setBlockState(pos, newState);
 			world.scheduleUpdate(pos, newState.getBlock(),
-					belowState.getBlock().getRegistryName().getResourcePath().contains("netherrack")
+					belowState.getBlock().getRegistryName().getPath().contains("netherrack")
 						? PlaceVanillaDusts.gunpowderDelayNetherrack 
 						: PlaceVanillaDusts.gunpowderDelay);
 			
@@ -107,7 +102,7 @@ public class BlockGunpowder extends BlockQuarkDust {
 			
 			return true;
 		} else if(block == Blocks.TNT) {
-			block.onBlockDestroyedByPlayer(world, pos, state.withProperty(BlockTNT.EXPLODE, Boolean.valueOf(true)));
+			block.breakBlock(world, pos, state.withProperty(BlockTNT.EXPLODE, Boolean.valueOf(true)));
             world.setBlockToAir(pos);
             
             return true;

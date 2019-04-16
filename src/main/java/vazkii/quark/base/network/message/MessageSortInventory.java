@@ -5,7 +5,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import vazkii.arl.network.NetworkMessage;
 import vazkii.quark.base.handler.SortingHandler;
 
-public class MessageSortInventory extends NetworkMessage {
+public class MessageSortInventory extends NetworkMessage<MessageSortInventory> {
 
 	public boolean forcePlayer;
 	

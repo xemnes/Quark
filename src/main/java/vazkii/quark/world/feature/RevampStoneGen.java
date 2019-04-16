@@ -1,8 +1,5 @@
 package vazkii.quark.world.feature;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.block.BlockStone;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -16,7 +13,6 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.Event.Result;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.oredict.OreDictionary;
 import vazkii.arl.block.BlockMod;
 import vazkii.arl.block.BlockModSlab;
 import vazkii.arl.block.BlockModStairs;
@@ -36,6 +32,9 @@ import vazkii.quark.world.block.slab.BlockMarbleSlab;
 import vazkii.quark.world.block.stairs.BlockLimestoneStairs;
 import vazkii.quark.world.block.stairs.BlockMarbleStairs;
 import vazkii.quark.world.world.StoneInfoBasedGenerator;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class RevampStoneGen extends Feature {
 
@@ -187,7 +186,7 @@ public class RevampStoneGen extends Feature {
 	private void generateNewStones(OreGenEvent.GenerateMinable event) {
 		World world = event.getWorld();
 		BlockPos pos = event.getPos();
-		Chunk chunk = world.getChunkFromBlockCoords(pos);
+		Chunk chunk = world.getChunk(pos);
 		
 		for(StoneInfoBasedGenerator gen : generators)
 			gen.generate(chunk.x, chunk.z, world);

@@ -68,7 +68,7 @@ public class VariedButtonsAndPressurePlates extends Feature {
 					"WW", 'W', ProxyRegistry.newStack(Blocks.PLANKS, 1, 5));
 
 			if(renameVanillaBlocks)
-				Blocks.WOODEN_PRESSURE_PLATE.setUnlocalizedName("oak_pressure_plate");
+				Blocks.WOODEN_PRESSURE_PLATE.setTranslationKey("oak_pressure_plate");
 		}
 		
 		if(enableButtons) {
@@ -81,7 +81,7 @@ public class VariedButtonsAndPressurePlates extends Feature {
 			RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(dark_oak_button, 1), ProxyRegistry.newStack(Blocks.PLANKS, 1, 5));
 
 			if(renameVanillaBlocks)
-				Blocks.WOODEN_BUTTON.setUnlocalizedName("oak_button");
+				Blocks.WOODEN_BUTTON.setTranslationKey("oak_button");
 		}
 	}
 	

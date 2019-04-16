@@ -1,23 +1,18 @@
 package vazkii.quark.oddities.client.gui;
 
-import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
-
-import org.lwjgl.input.Mouse;
-
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.fml.client.GuiScrollingList;
+import org.lwjgl.input.Mouse;
 import vazkii.arl.network.NetworkHandler;
 import vazkii.arl.util.ClientTicker;
 import vazkii.quark.base.lib.LibMisc;
@@ -28,6 +23,10 @@ import vazkii.quark.oddities.inventory.ContainerMatrixEnchanting;
 import vazkii.quark.oddities.inventory.EnchantmentMatrix;
 import vazkii.quark.oddities.inventory.EnchantmentMatrix.Piece;
 import vazkii.quark.oddities.tile.TileMatrixEnchanter;
+
+import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 
 public class GuiMatrixEnchanting extends GuiContainer {
 
@@ -94,7 +93,7 @@ public class GuiMatrixEnchanting extends GuiContainer {
             
             if(!has && mc.player.experienceLevel < xpMin) {
             	fontRenderer.drawStringWithShadow("!", x + 6, y + 3, 0xFF0000);
-            	text = I18n.translateToLocalFormatted("quarkmisc.matrixMin", xpMin);
+            	text = I18n.format("quarkmisc.matrixMin", xpMin);
             }
             
             x -= (fontRenderer.getStringWidth(text) - 5);
@@ -134,17 +133,17 @@ public class GuiMatrixEnchanting extends GuiContainer {
         	
         	int max = hoveredPiece.getMaxXP();
         	if(max > 0)
-        		tooltip.add(TextFormatting.GRAY + I18n.translateToLocalFormatted("quarkmisc.matrixUpgrade", hoveredPiece.xp, max));
+        		tooltip.add(TextFormatting.GRAY + I18n.format("quarkmisc.matrixUpgrade", hoveredPiece.xp, max));
         	
         	if(gridHoverX == -1) {
         		tooltip.add("");
-        		tooltip.add(TextFormatting.GRAY + I18n.translateToLocal("quarkmisc.matrixLeftClick"));
-        		tooltip.add(TextFormatting.GRAY + I18n.translateToLocal("quarkmisc.matrixRightClick"));
+        		tooltip.add(TextFormatting.GRAY + I18n.format("quarkmisc.matrixLeftClick"));
+        		tooltip.add(TextFormatting.GRAY + I18n.format("quarkmisc.matrixRightClick"));
         	} else if(selectedPiece != -1) {
         		Piece p = getPiece(selectedPiece);
         		if(p.enchant == hoveredPiece.enchant && hoveredPiece.level < hoveredPiece.enchant.getMaxLevel()) {
         			tooltip.add("");
-        			tooltip.add(TextFormatting.GRAY + I18n.translateToLocal("quarkmisc.matrixMerge"));
+        			tooltip.add(TextFormatting.GRAY + I18n.format("quarkmisc.matrixMerge"));
         		}
         	}
         	drawHoveringText(tooltip, mouseX, mouseY);

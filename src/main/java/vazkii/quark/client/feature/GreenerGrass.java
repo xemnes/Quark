@@ -10,10 +10,6 @@
  */
 package vazkii.quark.client.feature;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -23,12 +19,16 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.registries.IRegistryDelegate;
 import vazkii.quark.base.module.Feature;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 public class GreenerGrass extends Feature {
 
@@ -83,7 +83,7 @@ public class GreenerGrass extends Feature {
 	@SideOnly(Side.CLIENT)
 	private void registerGreenerColor(Block... blocks) {
 		BlockColors colors = Minecraft.getMinecraft().getBlockColors();
-		Map<IRegistryDelegate<Block>, IBlockColor> map = ReflectionHelper.getPrivateValue(BlockColors.class, colors, "blockColorMap"); // This is a forge field so obfuscation is meaningless
+		Map<IRegistryDelegate<Block>, IBlockColor> map = ObfuscationReflectionHelper.getPrivateValue(BlockColors.class, colors, "blockColorMap"); // This is a forge field so obfuscation is meaningless
 
 		for(Block b : blocks) {
 			IBlockColor color = map.get(b.delegate);

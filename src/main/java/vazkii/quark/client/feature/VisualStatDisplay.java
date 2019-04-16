@@ -1,31 +1,20 @@
 package vazkii.quark.client.feature;
 
-import java.util.Collection;
-import java.util.List;
-
-import org.lwjgl.input.Keyboard;
-
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemArmor;
-import net.minecraft.item.ItemHoe;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemSword;
-import net.minecraft.item.ItemTool;
+import net.minecraft.item.*;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.client.event.RenderTooltipEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -33,6 +22,9 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.base.module.Feature;
+
+import java.util.Collection;
+import java.util.List;
 
 public class VisualStatDisplay extends Feature {
 
@@ -53,7 +45,7 @@ public class VisualStatDisplay extends Feature {
 				Multimap<String, AttributeModifier> slotAttributes = stack.getAttributeModifiers(slot);
 				
 				if(!slotAttributes.isEmpty()) {
-					String slotDesc = I18n.translateToLocal("item.modifiers." + slot.getName());
+					String slotDesc = I18n.format("item.modifiers." + slot.getName());
 					int index = tooltip.indexOf(slotDesc) - 1;
 					if(index < 0)
 						continue;
@@ -66,7 +58,7 @@ public class VisualStatDisplay extends Feature {
 					if(VALID_ATTRIBUTES.contains(s))
 						allDesc += ItemStack.DECIMALFORMAT.format(getAttribute(event.getEntityPlayer(), stack, slotAttributes, s));
 						
-					String pattern = ".* ?\\+?\\d+ " + I18n.translateToLocal("attribute.name." + s) + "$";
+					String pattern = ".* ?\\+?\\d+ " + I18n.format("attribute.name." + s) + "$";
 					for(int i = 1; i < tooltip.size(); i++)
 						if(tooltip.get(i).matches(pattern)) {
 							tooltip.remove(i);

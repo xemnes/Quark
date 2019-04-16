@@ -10,26 +10,25 @@
  */
 package vazkii.quark.management.client.gui;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.common.base.Predicate;
 import com.google.common.collect.BiMap;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.translation.I18n;
 import vazkii.arl.util.RenderHelper;
 import vazkii.quark.base.client.IParentedGui;
 import vazkii.quark.base.client.ModKeybinds;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.management.feature.FavoriteItems;
 import vazkii.quark.management.feature.StoreToChests;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GuiButtonChest<T extends GuiScreen> extends GuiButton implements IParentedGui {
 
@@ -86,8 +85,8 @@ public class GuiButtonChest<T extends GuiScreen> extends GuiButton implements IP
 				GlStateManager.pushMatrix();
 				String tooltip; 
 				if(action == Action.DROPOFF && (GuiScreen.isShiftKeyDown() != StoreToChests.invert))
-					tooltip = I18n.translateToLocal("quarkmisc.chestButton." + action.name().toLowerCase() + ".shift");
-					else tooltip = I18n.translateToLocal("quarkmisc.chestButton." + action.name().toLowerCase());
+					tooltip = I18n.format("quarkmisc.chestButton." + action.name().toLowerCase() + ".shift");
+					else tooltip = I18n.format("quarkmisc.chestButton." + action.name().toLowerCase());
 				int len = Minecraft.getMinecraft().fontRenderer.getStringWidth(tooltip);
 				
 				int tooltipShift = action == Action.DROPOFF ? 0 : -len - 24;
@@ -98,7 +97,7 @@ public class GuiButtonChest<T extends GuiScreen> extends GuiButton implements IP
 				if(map.containsKey(this)) {
 					KeyBinding key = map.get(this);
 					if(key.getKeyCode() != 0) {
-						String press = String.format(I18n.translateToLocal("quarkmisc.keyboundButton"), TextFormatting.GRAY, GameSettings.getKeyDisplayString(key.getKeyCode())); 
+						String press = String.format(I18n.format("quarkmisc.keyboundButton"), TextFormatting.GRAY, GameSettings.getKeyDisplayString(key.getKeyCode()));
 						tooltipList.add(press);
 						
 						if(action != Action.DROPOFF) {

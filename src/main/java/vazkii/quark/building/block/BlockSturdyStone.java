@@ -19,7 +19,7 @@ public class BlockSturdyStone extends BlockMod implements IQuarkBlock {
 	}
 	
 	@Override
-	public EnumPushReaction getMobilityFlag(IBlockState state) {
+	public EnumPushReaction getPushReaction(IBlockState state) {
 		return EnumPushReaction.BLOCK;
 	}
 	

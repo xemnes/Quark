@@ -12,7 +12,6 @@ package vazkii.quark.decoration.entity;
 
 import com.google.common.base.Predicate;
 import io.netty.buffer.ByteBuf;
-import javax.annotation.Nullable;
 import net.minecraft.block.BlockRedstoneDiode;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
@@ -24,9 +23,6 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemMap;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -34,7 +30,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.storage.MapData;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import org.apache.commons.lang3.Validate;
-import vazkii.quark.decoration.feature.ColoredItemFrames;
+
+import javax.annotation.Nullable;
 
 public class EntityFlatItemFrame extends EntityItemFrame implements IEntityAdditionalSpawnData {
 
@@ -94,7 +91,7 @@ public class EntityFlatItemFrame extends EntityItemFrame implements IEntityAddit
 
 	@Override
 	public EntityItem entityDropItem(ItemStack stack, float offsetY) {
-		EntityItem entityitem = new EntityItem(this.world, this.posX + (double)((float)this.realFacingDirection.getFrontOffsetX() * 0.15F), this.posY + (double)offsetY, this.posZ + (double)((float)this.realFacingDirection.getFrontOffsetZ() * 0.15F), stack);
+		EntityItem entityitem = new EntityItem(this.world, this.posX + (double)((float)this.realFacingDirection.getXOffset() * 0.15F), this.posY + (double)offsetY, this.posZ + (double)((float)this.realFacingDirection.getZOffset() * 0.15F), stack);
 		entityitem.setDefaultPickupDelay();
 		if (realFacingDirection == EnumFacing.DOWN)
 			entityitem.motionY = -entityitem.motionY;
@@ -140,10 +137,10 @@ public class EntityFlatItemFrame extends EntityItemFrame implements IEntityAddit
 			double d0 = (double)this.hangingPosition.getX() + 0.5D;
 			double d1 = (double)this.hangingPosition.getY() + 0.5D;
 			double d2 = (double)this.hangingPosition.getZ() + 0.5D;
-			d1 = d1 - (double)this.realFacingDirection.getFrontOffsetY() * 0.46875D;
+			d1 = d1 - (double)this.realFacingDirection.getYOffset() * 0.46875D;
 
 			double d6 = (double)this.getHeightPixels();
-			double d7 = -(double)this.realFacingDirection.getFrontOffsetY();
+			double d7 = -(double)this.realFacingDirection.getYOffset();
 			double d8 = (double)this.getHeightPixels();
 
 			d6 = d6 / 32.0D;
@@ -183,7 +180,7 @@ public class EntityFlatItemFrame extends EntityItemFrame implements IEntityAddit
 		}
 
 		super.readEntityFromNBT(compound);
-		this.updateFacingWithBoundingBox(EnumFacing.getFront(compound.getByte(TAG_REALFACINGDIRECTION)));
+		this.updateFacingWithBoundingBox(EnumFacing.byIndex(compound.getByte(TAG_REALFACINGDIRECTION)));
 	}
 
 	@Override
@@ -193,7 +190,7 @@ public class EntityFlatItemFrame extends EntityItemFrame implements IEntityAddit
 
 	@Override
 	public void readSpawnData(ByteBuf additionalData) {
-		updateFacingWithBoundingBox(EnumFacing.getFront(additionalData.readShort()));
+		updateFacingWithBoundingBox(EnumFacing.byIndex(additionalData.readShort()));
 	}
 
 }

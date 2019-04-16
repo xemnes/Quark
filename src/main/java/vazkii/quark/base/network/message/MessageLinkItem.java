@@ -17,7 +17,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import vazkii.arl.network.NetworkMessage;
 import vazkii.quark.management.feature.LinkItems;
 
-public class MessageLinkItem  extends NetworkMessage {
+public class MessageLinkItem  extends NetworkMessage<MessageLinkItem> {
 
 	public ItemStack stack;
 
@@ -30,7 +30,7 @@ public class MessageLinkItem  extends NetworkMessage {
 	@Override
 	public IMessage handleMessage(MessageContext context) {
 		EntityPlayerMP player = context.getServerHandler().player;
-		player.getServer().addScheduledTask(() -> LinkItems.linkItem(player, stack));
+		player.getServerWorld().addScheduledTask(() -> LinkItems.linkItem(player, stack));
 		
 		return null;
 	}

@@ -156,7 +156,7 @@ public class FavoriteItems extends Feature {
 			if(isItemFavorited(stack)) {
 				NBTTagCompound cmp = stack.getTagCompound();
 				cmp.removeTag(TAG_FAVORITE_ITEM);
-				if(cmp.hasNoTags())
+				if(cmp.isEmpty())
 					stack.setTagCompound(null);
 			} else ItemNBTHelper.setBoolean(stack, TAG_FAVORITE_ITEM, true);
 		}

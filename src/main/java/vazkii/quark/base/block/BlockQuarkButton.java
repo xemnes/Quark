@@ -33,15 +33,15 @@ public class BlockQuarkButton extends BlockButton implements IQuarkBlock {
 		bareName = name;
 		variants = new String[] { bareName };
 
-		setUnlocalizedName(bareName);
+		setTranslationKey(bareName);
 		
 		setHardness(0.5F);
 		setSoundType(wooden ? SoundType.WOOD : SoundType.STONE);
 	}
 	
 	@Override
-	public Block setUnlocalizedName(String name) {
-		super.setUnlocalizedName(name);
+	public Block setTranslationKey(String name) {
+		super.setTranslationKey(name);
 		setRegistryName(LibMisc.PREFIX_MOD + name);
 		ProxyRegistry.register(this);
 		ProxyRegistry.register(new ItemModBlock(this, new ResourceLocation(LibMisc.PREFIX_MOD + name)));

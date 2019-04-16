@@ -10,8 +10,6 @@
  */
 package vazkii.quark.tweaks.feature;
 
-import java.util.List;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
@@ -29,6 +27,8 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import vazkii.quark.base.module.Feature;
+
+import java.util.List;
 
 public class EndermenAntiCheese extends Feature {
 
@@ -49,7 +49,7 @@ public class EndermenAntiCheese extends Feature {
 
 	@SubscribeEvent
 	public void onUpdate(LivingUpdateEvent event) {
-		if(event.getEntityLiving() instanceof EntityEnderman && event.getEntityLiving().getEntityWorld().getDifficulty().getDifficultyId() >= minimumDifficulty) {
+		if(event.getEntityLiving() instanceof EntityEnderman && event.getEntityLiving().getEntityWorld().getDifficulty().getId() >= minimumDifficulty) {
 			EntityEnderman entity = (EntityEnderman) event.getEntityLiving();
 			
 			if(entity.getHealth() < lowerBound)

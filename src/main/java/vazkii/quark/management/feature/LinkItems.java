@@ -23,8 +23,8 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.client.event.GuiScreenEvent;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import vazkii.arl.network.NetworkHandler;
 import vazkii.quark.base.lib.LibObfuscation;
 import vazkii.quark.base.module.Feature;
@@ -61,13 +61,13 @@ public class LinkItems extends Feature {
 			player.getServer().getPlayerList().sendMessage(comp, false);
 
 			NetHandlerPlayServer handler = ((EntityPlayerMP) player).connection;
-			int treshold = ReflectionHelper.getPrivateValue(NetHandlerPlayServer.class, handler, LibObfuscation.CHAT_SPAM_TRESHOLD_COUNT);
+			int treshold = ObfuscationReflectionHelper.getPrivateValue(NetHandlerPlayServer.class, handler, LibObfuscation.CHAT_SPAM_TRESHOLD_COUNT);
 			treshold += 20;
 
 			if(treshold > 200 && !player.getServer().getPlayerList().canSendCommands(player.getGameProfile()))
 				handler.onDisconnect(new TextComponentTranslation("disconnect.spam"));
 
-			ReflectionHelper.setPrivateValue(NetHandlerPlayServer.class, handler, treshold, LibObfuscation.CHAT_SPAM_TRESHOLD_COUNT);
+			ObfuscationReflectionHelper.setPrivateValue(NetHandlerPlayServer.class, handler, treshold, LibObfuscation.CHAT_SPAM_TRESHOLD_COUNT);
 		}
 
 	}

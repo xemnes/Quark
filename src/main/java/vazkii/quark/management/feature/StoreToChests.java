@@ -10,10 +10,6 @@
  */
 package vazkii.quark.management.feature;
 
-import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -37,6 +33,10 @@ import vazkii.quark.base.network.message.MessageDropoff;
 import vazkii.quark.management.client.gui.GuiButtonChest;
 import vazkii.quark.management.client.gui.GuiButtonChest.Action;
 import vazkii.quark.management.gamerule.DropoffGamerule;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class StoreToChests extends Feature {
 
@@ -107,7 +107,7 @@ public class StoreToChests extends Feature {
 							continue;
 						
 						ChestButtons.<GuiContainerCreative>addButtonAndKeybind(event, Action.DROPOFF, guiInv, 13211, s.xPos + xPosC, s.yPos + yPosC, s, ModKeybinds.dropoffKey,
-								(gui) -> gui.getSelectedTabIndex() == CreativeTabs.INVENTORY.getTabIndex());
+								(gui) -> gui.getSelectedTabIndex() == CreativeTabs.INVENTORY.getIndex());
 					}
 
 					break;

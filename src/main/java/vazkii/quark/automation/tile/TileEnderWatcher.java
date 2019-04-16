@@ -10,8 +10,6 @@
  */
 package vazkii.quark.automation.tile;
 
-import java.util.List;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -28,6 +26,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import vazkii.arl.block.tile.TileMod;
 import vazkii.quark.automation.block.BlockEnderWatcher;
+
+import java.util.List;
 
 public class TileEnderWatcher extends TileMod implements ITickable {
 
@@ -82,7 +82,7 @@ public class TileEnderWatcher extends TileMod implements ITickable {
 		float f7 = f4 * f5;
 		float f8 = f3 * f5;
 		double d3 = range;
-		Vec3d vec31 = vec3.addVector(f7 * d3, f6 * d3, f8 * d3);
+		Vec3d vec31 = vec3.add(f7 * d3, f6 * d3, f8 * d3);
 		return world.rayTraceBlocks(vec3, vec31, par3);
 	}
 

@@ -32,13 +32,13 @@ public class EmoteDescriptor {
 		this.tier = template.tier;
 	}
 	
-	public String getUnlocalizedName() {
+	public String getTranslationKey() {
 		return "quark.emote." + name;
 	}
 	
 	@SideOnly(Side.CLIENT)
 	public String getLocalizedName() {
-		return I18n.format(getUnlocalizedName());
+		return I18n.format(getTranslationKey());
 	}
 	
 	public String getRegistryName() {

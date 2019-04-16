@@ -30,7 +30,7 @@ public class BlockCrystal extends BlockMetaVariants implements IQuarkBlock {
     }
     
     @Override
-    public BlockRenderLayer getBlockLayer() {
+    public BlockRenderLayer getRenderLayer() {
         return BlockRenderLayer.TRANSLUCENT;
     }
 

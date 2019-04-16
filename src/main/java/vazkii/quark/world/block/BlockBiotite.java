@@ -42,12 +42,12 @@ public class BlockBiotite extends BlockQuartz implements IQuarkBlock {
 		variants = new String[] { name, "chiseled_biotite_block", "pillar_biotite_block" };
 		bareName = name;
 
-		setUnlocalizedName(name);
+		setTranslationKey(name);
 	}
 
 	@Override
-	public Block setUnlocalizedName(String name) {
-		super.setUnlocalizedName(name);
+	public Block setTranslationKey(String name) {
+		super.setTranslationKey(name);
 		setRegistryName(LibMisc.PREFIX_MOD + name);
 		ProxyRegistry.register(this);
 		ProxyRegistry.register(new ItemModBlock(this, new ResourceLocation(LibMisc.PREFIX_MOD + name)));

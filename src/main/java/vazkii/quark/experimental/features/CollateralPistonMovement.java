@@ -181,12 +181,13 @@ public class CollateralPistonMovement extends Feature {
 			}
 	}
 	
+	@SuppressWarnings("deprecation")
 	private static boolean canMove(IBlockState state, World world, BlockPos pos) { // TODO change to isAir
 		Block block = state.getBlock();
 		if(block == Blocks.PISTON || block == Blocks.STICKY_PISTON)
 			return !state.getValue(BlockPistonBase.EXTENDED);
 			
-		return !block.isAir(state, world, pos) && state.getMobilityFlag() == EnumPushReaction.NORMAL && (!block.hasTileEntity() || !PistonsMoveTEs.shouldMoveTE(true, state));
+		return !block.isAir(state, world, pos) && state.getPushReaction() == EnumPushReaction.NORMAL && (!block.hasTileEntity() || !PistonsMoveTEs.shouldMoveTE(true, state));
 	}
 	
 	private static EnumFacing getStateFacing(IBlockState state) {

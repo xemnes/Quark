@@ -1,9 +1,5 @@
 package vazkii.quark.client.feature;
 
-import java.awt.Color;
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.block.BlockShulkerBox;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -12,23 +8,22 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.RenderItem;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.inventory.ItemStackHelper;
-import net.minecraft.item.EnumDyeColor;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemDye;
-import net.minecraft.item.ItemShulkerBox;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.*;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.client.event.RenderTooltipEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import vazkii.arl.util.ItemNBTHelper;
 import vazkii.quark.base.module.Feature;
-import vazkii.quark.management.feature.ChestButtons;
+
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ShulkerBoxTooltip extends Feature {
 
@@ -58,7 +53,7 @@ public class ShulkerBoxTooltip extends Feature {
 				}
 				
 				if(requireShift && !GuiScreen.isShiftKeyDown())
-					tooltip.add(1, I18n.translateToLocal("quarkmisc.shulkerBoxShift"));
+					tooltip.add(1, I18n.format("quarkmisc.shulkerBoxShift"));
 			}
 		}
 	}

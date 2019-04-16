@@ -33,7 +33,7 @@ public abstract class BlockQuarkPressurePlate extends BlockPressurePlate impleme
 		bareName = name;
 		variants = new String[] { bareName };
 
-		setUnlocalizedName(bareName);
+		setTranslationKey(bareName);
 	}
 
 	@Override
@@ -52,8 +52,8 @@ public abstract class BlockQuarkPressurePlate extends BlockPressurePlate impleme
 	protected abstract List<Entity> getValidEntities(World world, AxisAlignedBB aabb);
 
 	@Override
-	public Block setUnlocalizedName(String name) {
-		super.setUnlocalizedName(name);
+	public Block setTranslationKey(String name) {
+		super.setTranslationKey(name);
 		setRegistryName(LibMisc.PREFIX_MOD + name);
 		ProxyRegistry.register(this);
 		ProxyRegistry.register(new ItemModBlock(this, new ResourceLocation(LibMisc.PREFIX_MOD + name)));

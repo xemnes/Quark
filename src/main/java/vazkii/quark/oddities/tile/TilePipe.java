@@ -20,7 +20,6 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
-import scala.actors.threadpool.Arrays;
 import vazkii.arl.block.tile.TileSimpleInventory;
 import vazkii.quark.oddities.block.BlockPipe;
 import vazkii.quark.oddities.feature.Pipes;

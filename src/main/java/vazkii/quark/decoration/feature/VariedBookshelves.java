@@ -39,7 +39,7 @@ public class VariedBookshelves extends Feature {
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
 		if(renameVanillaBookshelves)
-			Blocks.BOOKSHELF.setUnlocalizedName("oak_bookshelf");
+			Blocks.BOOKSHELF.setTranslationKey("oak_bookshelf");
 		
 		custom_bookshelf = new BlockCustomBookshelf();
 		

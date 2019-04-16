@@ -15,7 +15,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import vazkii.arl.network.NetworkMessage;
 import vazkii.quark.base.handler.DropoffHandler;
 
-public class MessageDropoff extends NetworkMessage {
+public class MessageDropoff extends NetworkMessage<MessageDropoff> {
 
 	public boolean smart;
 	public boolean useContainer;
@@ -29,12 +29,8 @@ public class MessageDropoff extends NetworkMessage {
 
 	@Override
 	public IMessage handleMessage(MessageContext context) {
-		context.getServerHandler().player.getServer().addScheduledTask(new Runnable() {
-			@Override
-			public void run() {
-				DropoffHandler.dropoff(context.getServerHandler().player, smart, useContainer);
-			}
-		});
+		context.getServerHandler().player.getServerWorld().addScheduledTask(() ->
+				DropoffHandler.dropoff(context.getServerHandler().player, smart, useContainer));
 		return null;
 	}
 
