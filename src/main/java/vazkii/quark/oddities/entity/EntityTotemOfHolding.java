@@ -1,9 +1,5 @@
 package vazkii.quark.oddities.entity;
 
-import java.util.LinkedList;
-import java.util.List;
-
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -19,9 +15,10 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-import net.minecraft.world.storage.loot.functions.SetDamage;
 import vazkii.quark.oddities.feature.TotemOfHolding;
-import vazkii.quark.oddities.item.ItemBackpack;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public class EntityTotemOfHolding extends Entity {
 
@@ -35,7 +32,7 @@ public class EntityTotemOfHolding extends Entity {
 
     int deathTicks = 0;
     String owner;
-	List<ItemStack> storedItems = new LinkedList();
+	List<ItemStack> storedItems = new LinkedList<>();
 
 	public EntityTotemOfHolding(World worldIn) {
 		super(worldIn);
@@ -146,8 +143,8 @@ public class EntityTotemOfHolding extends Entity {
 	
 	private void dropEverythingAndDie() {
 		if(!TotemOfHolding.destroyItems)
-			for(int i = 0; i < storedItems.size(); i++)
-				entityDropItem(storedItems.get(i), 0);
+			for (ItemStack storedItem : storedItems)
+				entityDropItem(storedItem, 0);
 		
 		storedItems.clear();
 		
@@ -165,7 +162,7 @@ public class EntityTotemOfHolding extends Entity {
 	@Override
 	protected void readEntityFromNBT(NBTTagCompound compound) {
 		NBTTagList list = compound.getTagList(TAG_ITEMS, 10);
-		storedItems = new LinkedList();
+		storedItems = new LinkedList<>();
 
 		for(int i = 0; i < list.tagCount(); i++) {
 			NBTTagCompound cmp = list.getCompoundTagAt(i);
@@ -190,7 +187,8 @@ public class EntityTotemOfHolding extends Entity {
 
 		compound.setTag(TAG_ITEMS, list);
 		compound.setBoolean(TAG_DYING, isDying());
-		compound.setString(TAG_OWNER, owner);
+		if (owner != null)
+			compound.setString(TAG_OWNER, owner);
 	}
 
 }
