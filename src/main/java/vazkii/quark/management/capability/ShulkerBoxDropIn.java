@@ -10,8 +10,6 @@ import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import vazkii.arl.util.AbstractDropIn;
 import vazkii.arl.util.ItemNBTHelper;
-import vazkii.quark.base.module.ModuleLoader;
-import vazkii.quark.management.feature.RightClickAddToShulkerBox;
 
 public class ShulkerBoxDropIn extends AbstractDropIn {
 
@@ -33,7 +31,7 @@ public class ShulkerBoxDropIn extends AbstractDropIn {
 		TileEntityShulkerBox tile = new TileEntityShulkerBox();
 		tile.setWorld(player.world);
 		NBTTagCompound stackCmp = shulkerBox.getTagCompound();
-		NBTTagCompound blockCmp = null;
+		NBTTagCompound blockCmp;
 		
 		if(stackCmp == null || !stackCmp.hasKey("BlockEntityTag"))
 			blockCmp = new NBTTagCompound();

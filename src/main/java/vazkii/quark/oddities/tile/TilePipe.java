@@ -1,13 +1,5 @@
 package vazkii.quark.oddities.tile;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Random;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
@@ -33,13 +25,15 @@ import vazkii.arl.block.tile.TileSimpleInventory;
 import vazkii.quark.oddities.block.BlockPipe;
 import vazkii.quark.oddities.feature.Pipes;
 
+import java.util.*;
+
 public class TilePipe extends TileSimpleInventory implements ITickable {
 
 	private static final String TAG_PIPE_ITEMS = "pipeItems";
 
 	boolean iterating = false;
-	List<PipeItem> pipeItems = new LinkedList();
-	List<PipeItem> queuedItems = new LinkedList();
+	List<PipeItem> pipeItems = new LinkedList<>();
+	List<PipeItem> queuedItems = new LinkedList<>();
 
 	@Override
 	public void update() {
@@ -48,8 +42,8 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 
 		int currentOut = getComparatorOutput();
 
-		if(!pipeItems.isEmpty()) {
-			if(Pipes.maxPipeItems > 0 && pipeItems.size() > Pipes.maxPipeItems && !world.isRemote) {
+		if(!pipeItems.isEmpty() && !world.isRemote) {
+			if(Pipes.maxPipeItems > 0 && pipeItems.size() > Pipes.maxPipeItems) {
 				world.playEvent(2001, pos, Block.getStateId(world.getBlockState(pos)));
 				dropItem(new ItemStack(getBlockType()));
 				world.setBlockToAir(getPos());
