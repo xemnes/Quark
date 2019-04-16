@@ -11,7 +11,9 @@
 package vazkii.quark.misc.feature;
 
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.storage.loot.LootEntryItem;
@@ -117,6 +119,10 @@ public class ColorRunes extends Feature {
 
 	public static void setTargetStack(ItemStack stack) {
 		targetStack = stack;
+	}
+
+	public static void setTargetStack(EntityLivingBase entity, EntityEquipmentSlot slot) {
+		setTargetStack(entity.getItemStackFromSlot(slot));
 	}
 
 	public static int getColor(int original) {

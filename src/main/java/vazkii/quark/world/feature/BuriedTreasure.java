@@ -11,16 +11,10 @@
 package vazkii.quark.world.feature;
 
 
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Random;
-
 import com.google.common.collect.ImmutableSet;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -47,6 +41,10 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import vazkii.arl.util.ItemNBTHelper;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.base.module.Feature;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
 public class BuriedTreasure extends Feature {
 
@@ -122,20 +120,21 @@ public class BuriedTreasure extends Feature {
 		MapData mapdata = new MapData(s);
 		world.setData(s, mapdata);
 		mapdata.scale = 1;
-		mapdata.xCenter = treasurePos.getX() + (int) ((Math.random() - 0.5) * 100);
-		mapdata.zCenter = treasurePos.getZ() + (int) ((Math.random() - 0.5) * 100);
+		mapdata.calculateMapCenter(treasurePos.getX() + (int) ((Math.random() - 0.5) * 100),
+				treasurePos.getZ() + (int) ((Math.random() - 0.5) * 100),
+				mapdata.scale);
 		mapdata.dimension = 0;
 		mapdata.trackingPosition = true;
 		mapdata.unlimitedTracking = true;
         ItemMap.renderBiomePreviewMap(world, itemstack);
-		mapdata.addTargetDecoration(itemstack, treasurePos, "x", Type.TARGET_X);
+		MapData.addTargetDecoration(itemstack, treasurePos, "x", Type.TARGET_X);
 
 		mapdata.markDirty();
 
 		world.setBlockState(treasurePos, Blocks.CHEST.getDefaultState());
 		TileEntityChest chest = (TileEntityChest) world.getTileEntity(treasurePos);
-
-		chest.setLootTable(LootTableList.CHESTS_SIMPLE_DUNGEON, r.nextLong());
+		if (chest != null)
+			chest.setLootTable(LootTableList.CHESTS_SIMPLE_DUNGEON, r.nextLong());
 
 		ItemNBTHelper.setBoolean(itemstack, TAG_TREASURE_MAP, true);
 		ItemNBTHelper.setBoolean(itemstack, TAG_TREASURE_MAP_DELEGATE, false);

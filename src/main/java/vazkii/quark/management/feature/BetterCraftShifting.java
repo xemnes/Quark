@@ -13,18 +13,32 @@ public class BetterCraftShifting extends Feature {
 		enableVillager = loadPropBool("Enable Villager", "", true);
 	}
 	
-	public static int getInventoryBoundaryCrafting(int curr) {
-		if(!ModuleLoader.isFeatureEnabled(BetterCraftShifting.class) || !enableCraftingTable)
-			return curr;
-		
-		return curr == 37 ? 0 : 10;
+	public static int getMaxInventoryBoundaryCrafting(int min, int max) {
+		if(!ModuleLoader.isFeatureEnabled(BetterCraftShifting.class) || !enableCraftingTable || min != 10 || max != 37)
+			return max;
+
+		return 10;
 	}
 	
-	public static int getInventoryBoundaryVillager(int curr) {
-		if(!ModuleLoader.isFeatureEnabled(BetterCraftShifting.class) || !enableVillager)
-			return curr;
+	public static int getMaxInventoryBoundaryVillager(int min, int max) {
+		if(!ModuleLoader.isFeatureEnabled(BetterCraftShifting.class) || !enableVillager || min != 30 || max != 39)
+			return max;
 		
-		return curr == 30 ? 0 : 1;
+		return 1;
+	}
+
+	public static int getMinInventoryBoundaryCrafting(int min, int max) {
+		if(!ModuleLoader.isFeatureEnabled(BetterCraftShifting.class) || !enableCraftingTable || min != 10 || max != 37)
+			return min;
+
+		return 0;
+	}
+
+	public static int getMinInventoryBoundaryVillager(int min, int max) {
+		if(!ModuleLoader.isFeatureEnabled(BetterCraftShifting.class) || !enableVillager || min != 30 || max != 39)
+			return min;
+
+		return 0;
 	}
 	
 }

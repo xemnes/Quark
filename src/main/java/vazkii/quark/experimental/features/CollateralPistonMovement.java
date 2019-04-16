@@ -1,13 +1,5 @@
 package vazkii.quark.experimental.features;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
-import com.google.common.collect.ImmutableSet;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockPistonBase;
 import net.minecraft.block.material.EnumPushReaction;
@@ -22,6 +14,8 @@ import net.minecraft.world.World;
 import vazkii.quark.automation.feature.PistonsMoveTEs;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.ModuleLoader;
+
+import java.util.*;
 
 public class CollateralPistonMovement extends Feature {
 
@@ -83,7 +77,7 @@ public class CollateralPistonMovement extends Feature {
 			return;
 
 		List<BlockPos> moveList = helper.getBlocksToMove();
-		List<BlockPos> additions = new LinkedList();
+		List<BlockPos> additions = new LinkedList<>();
 		
 		for(BlockPos move : moveList) {
 			IBlockState moveState = world.getBlockState(move);

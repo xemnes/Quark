@@ -1,13 +1,13 @@
 package vazkii.quark.base.asm;
 
-import java.util.List;
-
 import net.minecraft.block.state.BlockPistonStructureHelper;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityBoat;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityPiston;
 import net.minecraft.util.EnumFacing;
@@ -31,6 +31,7 @@ import vazkii.quark.vanity.client.emotes.EmoteHandler;
 import vazkii.quark.vanity.client.render.BoatBannerRenderer;
 import vazkii.quark.vanity.feature.BoatSails;
 
+@SuppressWarnings("unused")
 public final class ASMHooks {
 
 	// ===== EMOTES ===== //
@@ -41,6 +42,10 @@ public final class ASMHooks {
 
 	// ===== COLOR RUNES ===== //
 	
+	public static void setColorRuneTargetStack(EntityLivingBase entity, EntityEquipmentSlot slot) {
+		ColorRunes.setTargetStack(entity, slot);
+	}
+
 	public static void setColorRuneTargetStack(ItemStack stack) {
 		ColorRunes.setTargetStack(stack);
 	}
@@ -80,12 +85,20 @@ public final class ASMHooks {
 	
 	// ===== BETTER CRAFT SHIFTING ===== //
 	
-	public static int getInventoryBoundaryCrafting(int curr) {
-		return BetterCraftShifting.getInventoryBoundaryCrafting(curr);
+	public static int getMaxInventoryBoundaryCrafting(int min, int max) {
+		return BetterCraftShifting.getMaxInventoryBoundaryCrafting(min, max);
 	}
 	
-	public static int getInventoryBoundaryVillager(int curr) {
-		return BetterCraftShifting.getInventoryBoundaryVillager(curr);
+	public static int getMaxInventoryBoundaryVillager(int min, int max) {
+		return BetterCraftShifting.getMaxInventoryBoundaryVillager(min, max);
+	}
+
+	public static int getMinInventoryBoundaryCrafting(int min, int max) {
+		return BetterCraftShifting.getMinInventoryBoundaryCrafting(min, max);
+	}
+
+	public static int getMinInventoryBoundaryVillager(int min, int max) {
+		return BetterCraftShifting.getMinInventoryBoundaryVillager(min, max);
 	}
 	
 	// ===== PISTONS MOVE TES ===== //
@@ -123,8 +136,8 @@ public final class ASMHooks {
 	}
 	
 	// ===== MORE BANNER LAYERS ===== //
-	public static int getLayerCount() {
-		return MoreBannerLayers.getLayerCount();
+	public static int shiftLayerCount(int amount) {
+		return amount + 6 - MoreBannerLayers.getLayerCount();
 	}
 
 	// ===== BETTER FIRE EFFECT ==== //
@@ -133,4 +146,3 @@ public final class ASMHooks {
 	}
 	
 }
-	
