@@ -38,6 +38,7 @@ import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.misc.item.ItemAncientTome;
 
+import javax.annotation.Nonnull;
 import java.util.*;
 
 public class AncientTomes extends Feature {
@@ -202,7 +203,7 @@ public class AncientTomes extends Feature {
 				Enchantments.LURE
 		};
 
-		List<String> strings = new ArrayList();
+		List<String> strings = new ArrayList<>();
 		for(Enchantment e : enchants)
 			if(e != null && e.getRegistryName() != null)
 				strings.add(e.getRegistryName().toString());
@@ -221,8 +222,9 @@ public class AncientTomes extends Feature {
 			super(new LootCondition[0]);
 		}
 
-		@Override
-		public ItemStack apply(ItemStack stack, Random rand, LootContext context) {
+		@Nonnull
+        @Override
+		public ItemStack apply(@Nonnull ItemStack stack, @Nonnull Random rand, @Nonnull LootContext context) {
 			Enchantment enchantment = validEnchants.get(rand.nextInt(validEnchants.size()));
 			stack.addEnchantment(enchantment, enchantment.getMaxLevel());
 			return stack;
@@ -235,12 +237,13 @@ public class AncientTomes extends Feature {
 			}
 
 			@Override
-			public void serialize(JsonObject object, EnchantTomeFunction functionClazz,
-					JsonSerializationContext serializationContext) {}
+			public void serialize(@Nonnull JsonObject object, @Nonnull EnchantTomeFunction functionClazz,
+                                  @Nonnull JsonSerializationContext serializationContext) {}
 
-			@Override
-			public EnchantTomeFunction deserialize(JsonObject object, JsonDeserializationContext deserializationContext,
-					LootCondition[] conditionsIn) {
+			@Nonnull
+            @Override
+			public EnchantTomeFunction deserialize(@Nonnull JsonObject object, @Nonnull JsonDeserializationContext deserializationContext,
+                                                   @Nonnull LootCondition[] conditionsIn) {
 				return new EnchantTomeFunction();
 			}	
 		}

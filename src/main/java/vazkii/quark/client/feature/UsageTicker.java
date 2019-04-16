@@ -40,7 +40,7 @@ public class UsageTicker extends Feature {
 	
 	@Override
 	public void setupConfig() {
-		elements = new ArrayList();
+		elements = new ArrayList<>();
 		
 		for(EntityEquipmentSlot slot : EntityEquipmentSlot.values()) {
 			String config = "Enable " + WordUtils.capitalize(slot.getName());

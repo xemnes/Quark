@@ -3,7 +3,6 @@ package vazkii.quark.decoration.block;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
@@ -25,6 +24,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.arl.block.BlockMod;
 import vazkii.quark.base.block.IQuarkBlock;
 
+import javax.annotation.Nonnull;
+
 public class BlockIronLadder extends BlockMod implements IQuarkBlock {
 
 	public static final PropertyDirection FACING = BlockHorizontal.FACING;
@@ -35,27 +36,33 @@ public class BlockIronLadder extends BlockMod implements IQuarkBlock {
 		setCreativeTab(CreativeTabs.DECORATIONS);
 	}
 
+	@Nonnull
 	@Override
+	@SuppressWarnings("deprecation")
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
 		return Blocks.LADDER.getBoundingBox(state, source, pos);
 	}
 
 	@Override
+	@SuppressWarnings("deprecation")
 	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
 
 	@Override
+	@SuppressWarnings("deprecation")
 	public boolean isFullCube(IBlockState state) {
 		return false;
 	}
 
 	@Override
-	public boolean canPlaceBlockOnSide(World worldIn, BlockPos pos, EnumFacing side) {
+	public boolean canPlaceBlockOnSide(@Nonnull World worldIn, @Nonnull BlockPos pos, EnumFacing side) {
 		return canBlockStay(worldIn, pos, side);
 	}
 	
+	@Nonnull
 	@Override
+	@SuppressWarnings("deprecation")
 	public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
 		if(facing.getAxis() != Axis.Y)
 			return getDefaultState().withProperty(FACING, facing);
@@ -68,13 +75,12 @@ public class BlockIronLadder extends BlockMod implements IQuarkBlock {
 	}
 	
 	@Override
+	@SuppressWarnings("deprecation")
 	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
 		if(!canBlockStay(worldIn, pos)) {
 			dropBlockAsItem(worldIn, pos, state, 0);
 			worldIn.setBlockToAir(pos);
 		}
-
-		super.neighborChanged(state, worldIn, pos, blockIn, fromPos);
 	}
 
 	protected boolean canBlockStay(World worldIn, BlockPos pos) {
@@ -88,7 +94,9 @@ public class BlockIronLadder extends BlockMod implements IQuarkBlock {
 		return solid || (topState.getBlock() == this && (facing.getAxis() == Axis.Y || topState.getValue(FACING) == facing));
 	}
 
+	@Nonnull
 	@Override
+	@SuppressWarnings("deprecation")
 	public IBlockState getStateFromMeta(int meta) {
 		EnumFacing enumfacing = EnumFacing.byIndex(meta);
 
@@ -98,29 +106,36 @@ public class BlockIronLadder extends BlockMod implements IQuarkBlock {
 		return getDefaultState().withProperty(FACING, enumfacing);
 	}
 
+	@Nonnull
+	@Override
 	@SideOnly(Side.CLIENT)
-	public BlockRenderLayer getBlockLayer() {
+	public BlockRenderLayer getRenderLayer() {
 		return BlockRenderLayer.CUTOUT;
 	}
 
 	@Override
 	public int getMetaFromState(IBlockState state) {
-		return ((EnumFacing)state.getValue(FACING)).getIndex();
+		return state.getValue(FACING).getIndex();
 	}
 
+	@Nonnull
 	@Override
-	public IBlockState withRotation(IBlockState state, Rotation rot) {
-		return state.withProperty(FACING, rot.rotate((EnumFacing)state.getValue(FACING)));
+	@SuppressWarnings("deprecation")
+	public IBlockState withRotation(@Nonnull IBlockState state, Rotation rot) {
+		return state.withProperty(FACING, rot.rotate(state.getValue(FACING)));
 	}
 
+	@Nonnull
 	@Override
-	public IBlockState withMirror(IBlockState state, Mirror mirrorIn) {
-		return state.withRotation(mirrorIn.toRotation((EnumFacing)state.getValue(FACING)));
+	@SuppressWarnings("deprecation")
+	public IBlockState withMirror(@Nonnull IBlockState state, Mirror mirrorIn) {
+		return state.withRotation(mirrorIn.toRotation(state.getValue(FACING)));
 	}
 
+	@Nonnull
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, new IProperty[] {FACING});
+		return new BlockStateContainer(this, FACING);
 	}
 
 	@Override 
@@ -128,8 +143,10 @@ public class BlockIronLadder extends BlockMod implements IQuarkBlock {
 		return true; 
 	}
 	
+	@Nonnull
 	@Override
-    public BlockFaceShape getBlockFaceShape(IBlockAccess p_193383_1_, IBlockState p_193383_2_, BlockPos p_193383_3_, EnumFacing p_193383_4_) {
+	@SuppressWarnings("deprecation")
+    public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos blockPos, EnumFacing face) {
         return BlockFaceShape.UNDEFINED;
     }
 

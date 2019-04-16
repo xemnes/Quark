@@ -22,6 +22,8 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 import vazkii.quark.world.feature.PirateShips;
 
+import javax.annotation.Nonnull;
+
 public class EntityPirate extends EntitySkeleton {
 
 	private static final String TAG_CAPTAIN = "captain";
@@ -52,19 +54,19 @@ public class EntityPirate extends EntitySkeleton {
 	}
 	
 	@Override
-	public void readEntityFromNBT(NBTTagCompound compound) {
+	public void readEntityFromNBT(@Nonnull NBTTagCompound compound) {
 		super.readEntityFromNBT(compound);
 		captain = compound.getBoolean(TAG_CAPTAIN);
 	}
 
 	@Override
-	protected void setEquipmentBasedOnDifficulty(DifficultyInstance difficulty) {
+	protected void setEquipmentBasedOnDifficulty(@Nonnull DifficultyInstance difficulty) {
 		setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.IRON_SWORD));
 		setItemStackToSlot(EntityEquipmentSlot.HEAD, new ItemStack(PirateShips.pirate_hat));
 	}
 	
 	@Override
-    public void updatePassenger(Entity passenger) {
+    public void updatePassenger(@Nonnull Entity passenger) {
         if(isPassenger(passenger) && passenger instanceof EntityParrot) {
         	EntityParrot parrot = (EntityParrot) passenger;
         	parrot.flap = -1;

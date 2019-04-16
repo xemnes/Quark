@@ -7,6 +7,8 @@ import vazkii.quark.base.client.ContributorRewardHandler;
 import vazkii.quark.base.client.gui.GuiButtonColor;
 import vazkii.quark.base.lib.LibMisc;
 
+import javax.annotation.Nonnull;
+
 public class GuiButtonQ extends GuiButtonColor {
 
 	public GuiButtonQ(int x, int y) {
@@ -14,7 +16,7 @@ public class GuiButtonQ extends GuiButtonColor {
 	}
 
 	@Override
-	public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks) {
+	public void drawButton(@Nonnull Minecraft mc, int mouseX, int mouseY, float partialTicks) {
 		super.drawButton(mc, mouseX, mouseY, partialTicks);
 		
 		if(ContributorRewardHandler.localPatronTier > 0) {

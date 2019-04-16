@@ -31,6 +31,8 @@ import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.misc.feature.ColorRunes;
 import vazkii.quark.vanity.feature.DyableElytra;
 
+import javax.annotation.Nonnull;
+
 @SideOnly(Side.CLIENT)
 public class LayerBetterElytra implements LayerRenderer<AbstractClientPlayer> {
 
@@ -44,7 +46,7 @@ public class LayerBetterElytra implements LayerRenderer<AbstractClientPlayer> {
 	}
 
 	@Override
-	public void doRenderLayer(AbstractClientPlayer entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+	public void doRenderLayer(@Nonnull AbstractClientPlayer entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
 		ItemStack itemstack = entitylivingbaseIn.getItemStackFromSlot(EntityEquipmentSlot.CHEST);
 
 		if(!itemstack.isEmpty() && itemstack.getItem() == Items.ELYTRA) {

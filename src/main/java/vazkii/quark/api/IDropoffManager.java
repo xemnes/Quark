@@ -22,12 +22,12 @@ import net.minecraftforge.items.IItemHandler;
  */
 public interface IDropoffManager {
 
-	public boolean acceptsDropoff(EntityPlayer player);
+	boolean acceptsDropoff(EntityPlayer player);
 	
 	/**
 	 * Override this if you want to add a custom IItemHandler for dropoff.
 	 */
-	public default IItemHandler getDropoffItemHandler(Supplier<IItemHandler> defaultSupplier) {
+	default IItemHandler getDropoffItemHandler(Supplier<IItemHandler> defaultSupplier) {
 		return defaultSupplier.get();
 	}
 	

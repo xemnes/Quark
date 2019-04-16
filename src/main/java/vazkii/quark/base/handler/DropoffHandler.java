@@ -41,6 +41,8 @@ import vazkii.quark.management.feature.ChestButtons;
 import vazkii.quark.management.feature.FavoriteItems;
 import vazkii.quark.management.feature.StoreToChests;
 
+import javax.annotation.Nonnull;
+
 public final class DropoffHandler {
 
 	public static void dropoff(EntityPlayer player, boolean smart, boolean useContainer) {
@@ -127,7 +129,7 @@ public final class DropoffHandler {
 		final boolean smart;
 		final boolean useContainer;
 
-		List<Pair<IItemHandler, Double>> itemHandlers = new ArrayList();
+		List<Pair<IItemHandler, Double>> itemHandlers = new ArrayList<>();
 
 		public Dropoff(EntityPlayer player, boolean smart, boolean useContainer) {
 			this.player = player;
@@ -284,8 +286,9 @@ public final class DropoffHandler {
 			super(inv);
 		}
 
+		@Nonnull
 		@Override
-		public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
+		public ItemStack insertItem(int slot, @Nonnull ItemStack stack, boolean simulate) {
 			if(stack.isEmpty())
 				stack = stack.copy();
 
@@ -327,8 +330,9 @@ public final class DropoffHandler {
 			this.container = container;
 		}
 		
+		@Nonnull
 		@Override
-		public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
+		public ItemStack insertItem(int slot, @Nonnull ItemStack stack, boolean simulate) {
 			Slot containerSlot = getSlot(slot);
 			if(containerSlot == null || !containerSlot.isItemValid(stack))
 				return stack;
@@ -342,9 +346,9 @@ public final class DropoffHandler {
 		
 	}
 
-	public static interface DropoffPredicate {
+	public interface DropoffPredicate {
 
-		public boolean apply(ItemStack stack, IItemHandler handler);
+		boolean apply(ItemStack stack, IItemHandler handler);
 
 	}
 

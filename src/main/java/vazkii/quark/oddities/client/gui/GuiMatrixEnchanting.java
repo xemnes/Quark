@@ -128,7 +128,7 @@ public class GuiMatrixEnchanting extends GuiContainer {
         }
         
         if(hoveredPiece != null) {
-        	List<String> tooltip = new LinkedList();
+        	List<String> tooltip = new LinkedList<>();
         	tooltip.add(hoveredPiece.enchant.getTranslatedName(hoveredPiece.level));
         	
         	int max = hoveredPiece.getMaxXP();

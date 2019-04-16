@@ -34,7 +34,7 @@ import java.util.List;
 public class ReactiveCursor extends Feature {
 
 	private static final String CURSOR_ROOT = "textures/cursors/"; 
-	private static final HashMap<String, Cursor> CURSORS = new HashMap();
+	private static final HashMap<String, Cursor> CURSORS = new HashMap<>();
 
 	private static final String CURSOR_POINTER = "pointer";
 	private static final String CURSOR_FINGER = "finger";

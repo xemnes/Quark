@@ -99,7 +99,7 @@ public class UndergroundBiomeGenerator extends MultiChunkFeatureGenerator {
 		context.insideList.forEach(pos -> info.biome.finalInsidePass(world, pos));
 		
 		if(info.biome.hasDungeon() && world instanceof WorldServer && random.nextFloat() < info.biome.dungeonChance) {
-			List<BlockPos> candidates = new ArrayList(context.wallMap.keySet());
+			List<BlockPos> candidates = new ArrayList<>(context.wallMap.keySet());
 			candidates.removeIf(pos -> {
 				BlockPos down = pos.down();
 				IBlockState state = world.getBlockState(down);
@@ -118,11 +118,11 @@ public class UndergroundBiomeGenerator extends MultiChunkFeatureGenerator {
 	
 	public static class UndergroundBiomeGenerationContext {
 		
-		public List<BlockPos> floorList = new LinkedList();
-		public List<BlockPos> ceilingList = new LinkedList();
-		public List<BlockPos> insideList = new LinkedList();
+		public List<BlockPos> floorList = new LinkedList<>();
+		public List<BlockPos> ceilingList = new LinkedList<>();
+		public List<BlockPos> insideList = new LinkedList<>();
 		
-		public Map<BlockPos, EnumFacing> wallMap = new HashMap();
+		public Map<BlockPos, EnumFacing> wallMap = new HashMap<>();
 		
 	}
 }

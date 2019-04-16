@@ -21,10 +21,10 @@ import vazkii.aurelienribon.tweenengine.TweenEquations;
 
 public class EmoteTemplate {
 
-	private static final Map<String, Integer> parts = new HashMap();
-	private static final Map<String, Integer> tweenables = new HashMap();
-	private static final Map<String, Function> functions = new HashMap();
-	private static final Map<String, TweenEquation> equations = new HashMap();
+	private static final Map<String, Integer> parts = new HashMap<>();
+	private static final Map<String, Integer> tweenables = new HashMap<>();
+	private static final Map<String, Function> functions = new HashMap<>();
+	private static final Map<String, TweenEquation> equations = new HashMap<>();
 
 	static {
 		functions.put("name", EmoteTemplate::name);
@@ -120,13 +120,13 @@ public class EmoteTemplate {
 	
 	public Timeline readAndMakeTimeline(ModelBiped model) {
 		Timeline timeline = null;
-		usedParts = new ArrayList();
+		usedParts = new ArrayList<>();
 		timelineStack = new Stack();
 		int lines = 0;
 		
 		BufferedReader reader = null;
 		compiled = compiledOnce = false;
-		readLines = new ArrayList();
+		readLines = new ArrayList<>();
 		try {
 			reader = createReader();
 
@@ -289,7 +289,7 @@ public class EmoteTemplate {
 		Tween tween = null;
 		boolean valid = model != null;
 		if(valid)
-			tween = Tween.to(model, part, time).target((float) target);
+			tween = Tween.to(model, part, time).target(target);
 		if(tokens.length > 4) {
 			int index = 4;
 			while(index < tokens.length) {
@@ -407,7 +407,7 @@ public class EmoteTemplate {
 		return usedParts.contains(part);
 	}
 
-	private static interface Function {
+	private interface Function {
 		Timeline invoke(EmoteTemplate em, ModelBiped model, Timeline timeline, String[] tokens) throws IllegalArgumentException;
 	}
 

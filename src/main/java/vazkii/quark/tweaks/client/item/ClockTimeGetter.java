@@ -1,5 +1,6 @@
 package vazkii.quark.tweaks.client.item;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import net.minecraft.entity.Entity;
@@ -36,7 +37,7 @@ public class ClockTimeGetter implements IItemPropertyGetter {
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public float apply(ItemStack stack, @Nullable World worldIn, @Nullable EntityLivingBase entityIn) {
+	public float apply(@Nonnull ItemStack stack, @Nullable World worldIn, @Nullable EntityLivingBase entityIn) {
 		if(!isCalculated(stack))
 			return 0F;
 		

@@ -102,7 +102,7 @@ public class RenderTileMatrixEnchanter extends TileEntitySpecialRenderer<TileMat
 
         float f5 = te.bookSpreadPrev + (te.bookSpread - te.bookSpreadPrev) * partialTicks;
         GlStateManager.enableCull();
-        this.modelBook.render((Entity)null, time, f3, f4, f5, 0.0F, 0.0625F);
+        this.modelBook.render(null, time, f3, f4, f5, 0.0F, 0.0625F);
 		GlStateManager.popMatrix();
 	}
 

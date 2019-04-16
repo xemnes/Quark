@@ -103,7 +103,7 @@ public final class SortingHandler {
 		}
 
 		public static void sortInventory(IItemHandler handler, int iStart, int iEnd) {
-			List<ItemStack> stacks = new ArrayList();
+			List<ItemStack> stacks = new ArrayList<>();
 
 			for(int i = iStart; i < iEnd; i++) {
 				ItemStack stackAt = handler.getStackInSlot(i);
@@ -216,7 +216,7 @@ public final class SortingHandler {
 			if(otherComparators == null)
 				return jointComparator(finalComparator);
 
-			Comparator<ItemStack>[] resizedArray = (Comparator<ItemStack>[]) Arrays.copyOf(otherComparators, otherComparators.length + 1);
+			Comparator<ItemStack>[] resizedArray = Arrays.copyOf(otherComparators, otherComparators.length + 1);
 			resizedArray[otherComparators.length] = finalComparator;
 			return jointComparator(resizedArray);
 		}
@@ -266,7 +266,7 @@ public final class SortingHandler {
 		}
 
 		private static List<Item> list(Object... items) {
-			List<Item> itemList = new ArrayList();
+			List<Item> itemList = new ArrayList<>();
 			for(Object o : items)
 				if(o != null) {
 					if(o instanceof Item)
@@ -353,7 +353,7 @@ public final class SortingHandler {
 			return stack1.getItemDamage() - stack2.getItemDamage();
 		}
 
-		private static enum ItemType {
+		private enum ItemType {
 
 			FOOD(classPred(ItemFood.class), FOOD_COMPARATOR),
 			TORCH(list(Blocks.TORCH)),
@@ -376,15 +376,15 @@ public final class SortingHandler {
 			private Predicate<ItemStack> pred;
 			private Comparator<ItemStack> comparator;
 
-			private ItemType(List<Item> list, Comparator<ItemStack>... comparators) {
+			ItemType(List<Item> list, Comparator<ItemStack>... comparators) {
 				this(itemPred(list), jointComparator(listOrderComparator(list), comparators));
 			}
 
-			private ItemType(Predicate<ItemStack> pred) {
+			ItemType(Predicate<ItemStack> pred) {
 				this(pred, FALLBACK_COMPARATOR);
 			}
 
-			private ItemType(Predicate<ItemStack> pred, Comparator<ItemStack> comparator) {
+			ItemType(Predicate<ItemStack> pred, Comparator<ItemStack> comparator) {
 				this.pred = pred;
 				this.comparator = comparator;
 			}

@@ -19,6 +19,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import vazkii.quark.base.block.BlockQuarkPane;
 
+import javax.annotation.Nonnull;
+
 public class BlockPaperWall extends BlockQuarkPane {
 
 	public BlockPaperWall(String name) {
@@ -29,7 +31,7 @@ public class BlockPaperWall extends BlockQuarkPane {
 	}
 
 	@Override
-	public boolean canPlaceTorchOnTop(IBlockState state, IBlockAccess world, BlockPos pos) {
+	public boolean canPlaceTorchOnTop(IBlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos) {
 		return !state.getValue(NORTH) && !state.getValue(SOUTH) && !state.getValue(EAST) && !state.getValue(WEST);
 	}
 	

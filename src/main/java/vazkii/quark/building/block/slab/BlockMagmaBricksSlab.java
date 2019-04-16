@@ -12,6 +12,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.base.block.BlockQuarkSlab;
 
+import javax.annotation.Nonnull;
+
 public class BlockMagmaBricksSlab extends BlockQuarkSlab {
 
 	public BlockMagmaBricksSlab(boolean doubleSlab) {
@@ -24,13 +26,15 @@ public class BlockMagmaBricksSlab extends BlockQuarkSlab {
 	}
 	
 	@Override
-	public boolean isFireSource(World world, BlockPos pos, EnumFacing side) {
+	public boolean isFireSource(@Nonnull World world, BlockPos pos, EnumFacing side) {
 		return isSideSolid(world.getBlockState(pos), world, pos, side);
 	}
 	
-    @SideOnly(Side.CLIENT)
-    public int getPackedLightmapCoords(IBlockState state, IBlockAccess source, BlockPos pos) {
-        return 15728880;
+    @Override
+	@SideOnly(Side.CLIENT)
+	@SuppressWarnings("deprecation")
+    public int getPackedLightmapCoords(IBlockState state, IBlockAccess source, @Nonnull BlockPos pos) {
+        return 0xf000f0;
     }
 
 }

@@ -24,7 +24,7 @@ public class DimensionConfig {
 		this.blacklist = ModuleLoader.config.getBoolean("Is Blacklist", category, blacklist, "");
 		
 		String[] dimStrs = ModuleLoader.config.getStringList("Dimensions", category, defaultStrs, "");
-		dims = new ArrayList();
+		dims = new ArrayList<>();
 		for(String s : dimStrs)
 			try {
 				dims.add(Integer.parseInt(s));

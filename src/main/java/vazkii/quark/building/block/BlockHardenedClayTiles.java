@@ -20,6 +20,8 @@ import net.minecraft.world.IBlockAccess;
 import vazkii.arl.block.BlockMod;
 import vazkii.quark.base.block.IQuarkBlock;
 
+import javax.annotation.Nonnull;
+
 public class BlockHardenedClayTiles extends BlockMod implements IQuarkBlock {
 
 	public BlockHardenedClayTiles() {
@@ -30,7 +32,9 @@ public class BlockHardenedClayTiles extends BlockMod implements IQuarkBlock {
 		setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
 	}
 
-	@Override
+	@Nonnull
+    @Override
+	@SuppressWarnings("deprecation")
 	public MapColor getMapColor(IBlockState state, IBlockAccess world, BlockPos pos) {
 		return MapColor.ADOBE;
 	}

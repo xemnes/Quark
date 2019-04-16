@@ -23,7 +23,7 @@ import vazkii.quark.base.module.Feature;
 
 public class JumpBoostStepAssist extends Feature {
 
-	public static List<String> playersWithStepup = new ArrayList();
+	public static List<String> playersWithStepup = new ArrayList<>();
 
 	int minimumLevel;
 	boolean canToggleWithSneak;

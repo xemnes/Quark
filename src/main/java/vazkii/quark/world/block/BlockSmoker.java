@@ -16,6 +16,8 @@ import vazkii.arl.block.BlockModContainer;
 import vazkii.quark.base.block.IQuarkBlock;
 import vazkii.quark.world.tile.TileSmoker;
 
+import javax.annotation.Nonnull;
+
 public class BlockSmoker extends BlockModContainer implements IQuarkBlock {
 
 	public BlockSmoker() {
@@ -26,7 +28,7 @@ public class BlockSmoker extends BlockModContainer implements IQuarkBlock {
 	}
 	
     @Override
-    public TileEntity createTileEntity(World world, IBlockState state) {
+    public TileEntity createTileEntity(@Nonnull World world, @Nonnull IBlockState state) {
     	return new TileSmoker();
     }
 

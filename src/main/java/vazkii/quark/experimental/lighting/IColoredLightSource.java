@@ -5,7 +5,7 @@ import net.minecraft.world.IBlockAccess;
 
 public interface IColoredLightSource {
 
-	public static final float[][] VANILLA_SPECTRUM_COLORS = new float[][] {
+	float[][] VANILLA_SPECTRUM_COLORS = new float[][] {
 		{ 1.0F, 1.0F, 1.0F }, // White
 		{ 1.0F, 0.5F, 0.0F }, // Orange
 		{ 1.0F, 0.0F, 1.0F }, // Magenta
@@ -24,6 +24,6 @@ public interface IColoredLightSource {
 		{ 1F, 1F, 1F } // Black
 	};
 	
-	public float[] getColoredLight(IBlockAccess world, BlockPos pos);
+	float[] getColoredLight(IBlockAccess world, BlockPos pos);
 	
 }

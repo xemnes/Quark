@@ -3,6 +3,8 @@ package vazkii.quark.base.client.gui;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 
+import javax.annotation.Nonnull;
+
 public class GuiButtonColor extends GuiButton {
 	
 	final int color;
@@ -13,7 +15,7 @@ public class GuiButtonColor extends GuiButton {
 	}
 	
 	@Override
-	public void drawCenteredString(FontRenderer fontRendererIn, String text, int x, int y, int color) {
+	public void drawCenteredString(FontRenderer fontRendererIn, @Nonnull String text, int x, int y, int color) {
 		super.drawCenteredString(fontRendererIn, text, x, y, this.color);
 	}
 

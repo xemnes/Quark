@@ -18,7 +18,8 @@ public class CustomEmoteTemplate extends EmoteTemplate {
 			name = file;
 	}
 	
-	BufferedReader createReader() throws FileNotFoundException {
+	@Override
+    BufferedReader createReader() throws FileNotFoundException {
 		return new BufferedReader(new FileReader(new File(EmoteSystem.emotesDir, file)));
 	}
 	

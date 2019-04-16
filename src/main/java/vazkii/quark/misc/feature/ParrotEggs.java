@@ -1,7 +1,5 @@
 package vazkii.quark.misc.feature;
 
-import java.util.Random;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.EntityParrot;
 import net.minecraft.entity.player.EntityPlayer;
@@ -29,6 +27,8 @@ import vazkii.quark.misc.client.render.RenderParrotEgg;
 import vazkii.quark.misc.client.render.RenderParrotKoto;
 import vazkii.quark.misc.entity.EntityParrotEgg;
 import vazkii.quark.misc.item.ItemParrotEgg;
+
+import java.util.Random;
 
 public class ParrotEggs extends Feature {
 
@@ -80,11 +80,9 @@ public class ParrotEggs extends Feature {
 					return;
 				
 				EntityPlayer player = event.getEntityPlayer();
-				EnumHand hand = EnumHand.MAIN_HAND;
 				ItemStack stack = player.getHeldItemMainhand();
 				if(stack.isEmpty() || stack.getItem() != item) {
 					stack = player.getHeldItemOffhand();
-					hand = EnumHand.OFF_HAND;
 				}
 
 				if(!stack.isEmpty() && stack.getItem() == item) {

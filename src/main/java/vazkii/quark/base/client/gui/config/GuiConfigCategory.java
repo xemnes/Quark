@@ -19,7 +19,7 @@ public class GuiConfigCategory extends GuiConfig {
 	}
 
 	public static List<IConfigElement> getAllElements(String baseCategory) {
-		List<IConfigElement> list = new ArrayList();
+		List<IConfigElement> list = new ArrayList<>();
 		list.addAll(new ConfigElement(ModuleLoader.config.getCategory(baseCategory)).getChildElements());
 
 		return list;

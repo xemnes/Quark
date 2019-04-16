@@ -20,7 +20,7 @@ import vazkii.arl.util.ProxyRegistry;
 public class RecipeProcessor {
 
 	private static Function<ItemStack, Integer> compositeFunction = stack -> 0;
-	private static List<Consumer<IRecipe>> recipeConsumers = new ArrayList();
+	private static List<Consumer<IRecipe>> recipeConsumers = new ArrayList<>();
 	
 	static { 
 		addConsumer(RecipeProcessor::executeWoodReplacementsOverRecipe);
@@ -48,7 +48,7 @@ public class RecipeProcessor {
 	}
 	
 	public static void runConsumers() {
-		List<ResourceLocation> recipeList = new ArrayList(CraftingManager.REGISTRY.getKeys());
+		List<ResourceLocation> recipeList = new ArrayList<>(CraftingManager.REGISTRY.getKeys());
 		for(ResourceLocation res : recipeList) {
 			IRecipe recipe = CraftingManager.REGISTRY.getObject(res);
 			for(Consumer<IRecipe> consumer : recipeConsumers)

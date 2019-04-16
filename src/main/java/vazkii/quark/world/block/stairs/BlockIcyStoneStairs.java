@@ -5,6 +5,7 @@ import vazkii.quark.world.feature.UndergroundBiomes;
 
 public class BlockIcyStoneStairs extends BlockQuarkStairs {
 
+	@SuppressWarnings("deprecation")
 	public BlockIcyStoneStairs() {
 		super("icy_stone_stairs", UndergroundBiomes.biome_cobblestone.getStateFromMeta(1));
 	}

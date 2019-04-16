@@ -35,6 +35,7 @@ import vazkii.quark.base.module.Feature;
 import vazkii.quark.vanity.client.layer.LayerBetterElytra;
 import vazkii.quark.vanity.recipe.ElytraDyingRecipe;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Map;
 
@@ -59,7 +60,7 @@ public class DyableElytra extends Feature {
 		mc.getItemColors().registerItemColorHandler(new IItemColor() {
 
 			@Override
-			public int colorMultiplier(ItemStack stack, int tintIndex) {
+			public int colorMultiplier(@Nonnull ItemStack stack, int tintIndex) {
 				int color = ItemNBTHelper.getInt(stack, TAG_ELYTRA_DYE, -1);
 				if(color == -1 || color == 15)
 					return -1;

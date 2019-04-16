@@ -16,6 +16,8 @@ import vazkii.quark.base.client.gui.GuiButtonTranslucent;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.vanity.client.emotes.EmoteDescriptor;
 
+import javax.annotation.Nonnull;
+
 public class GuiButtonEmote extends GuiButtonTranslucent {
 
 	public final EmoteDescriptor desc;
@@ -26,7 +28,7 @@ public class GuiButtonEmote extends GuiButtonTranslucent {
 	}
 
 	@Override
-	public void drawButton(Minecraft mc, int mouseX, int mouseY, float pticks) {
+	public void drawButton(@Nonnull Minecraft mc, int mouseX, int mouseY, float pticks) {
 		super.drawButton(mc, mouseX, mouseY, pticks);
 
 		if(visible) {

@@ -22,6 +22,8 @@ import vazkii.arl.util.ModelHandler;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.base.module.Feature;
 
+import javax.annotation.Nonnull;
+
 public class LessIntrusiveShields extends Feature {
 
 	@Override
@@ -30,8 +32,9 @@ public class LessIntrusiveShields extends Feature {
 		ModelHandler.registerModels(Items.SHIELD, LibMisc.PREFIX_MOD, new String[] { "shield_override" }, null, true);
 
 		ModelLoader.setCustomMeshDefinition(Items.SHIELD, new ItemMeshDefinition() {
-			@Override
-			public ModelResourceLocation getModelLocation(ItemStack stack) {
+			@Nonnull
+            @Override
+			public ModelResourceLocation getModelLocation(@Nonnull ItemStack stack) {
 				return new ModelResourceLocation("quark:shield_override", "inventory");
 			}
 		});

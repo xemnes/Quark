@@ -13,7 +13,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.arl.block.BlockMod;
 import vazkii.quark.base.block.IQuarkBlock;
-import vazkii.quark.building.block.BlockPolishedNetherrack.Variants;
+
+import javax.annotation.Nonnull;
 
 public class BlockMagmaBricks extends BlockMod implements IQuarkBlock {
 
@@ -27,16 +28,19 @@ public class BlockMagmaBricks extends BlockMod implements IQuarkBlock {
 	}
 	
 	@Override
-	public boolean isFireSource(World world, BlockPos pos, EnumFacing side) {
+	public boolean isFireSource(@Nonnull World world, BlockPos pos, EnumFacing side) {
 		return true;
 	}
 	
+    @Override
     @SideOnly(Side.CLIENT)
-    public int getPackedLightmapCoords(IBlockState state, IBlockAccess source, BlockPos pos) {
-        return 15728880;
+	@SuppressWarnings("deprecation")
+    public int getPackedLightmapCoords(IBlockState state, IBlockAccess source, @Nonnull BlockPos pos) {
+        return 0xf000f0;
     }
     
     @Override
+	@SuppressWarnings("deprecation")
     public boolean canEntitySpawn(IBlockState state, Entity entityIn) {
         return entityIn.isImmuneToFire();
     }

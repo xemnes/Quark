@@ -1,7 +1,5 @@
 package vazkii.quark.decoration.block;
 
-import javax.annotation.Nonnull;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFlowerPot;
 import net.minecraft.block.SoundType;
@@ -34,6 +32,8 @@ import vazkii.arl.interf.IStateMapperProvider;
 import vazkii.quark.decoration.client.state.FlowerPotStateMapper;
 import vazkii.quark.decoration.feature.ColoredFlowerPots;
 
+import javax.annotation.Nonnull;
+
 public class BlockCustomFlowerPot extends BlockFlowerPot implements IBlockColorProvider, IStateMapperProvider {
 
 	public static final PropertyBool CUSTOM = PropertyBool.create("custom");
@@ -48,7 +48,8 @@ public class BlockCustomFlowerPot extends BlockFlowerPot implements IBlockColorP
 				.withProperty(CUSTOM, false));
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	protected ExtendedBlockState createBlockState() {
 		return new ExtendedBlockState(this, new IProperty[] {CONTENTS, LEGACY_DATA, CUSTOM}, new IUnlistedProperty[] {TEXTURE});
 	}
@@ -57,7 +58,7 @@ public class BlockCustomFlowerPot extends BlockFlowerPot implements IBlockColorP
 	 * Called when the block is right clicked by a player.
 	 */
 	@Override
-	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World world, @Nonnull BlockPos pos, @Nonnull IBlockState state, EntityPlayer player, @Nonnull EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		// this is basically a copy of the original method since I needed to override the private method canBePotted
 		ItemStack stack = player.getHeldItem(hand);
 		TileEntity te = world.getTileEntity(pos);
@@ -89,8 +90,9 @@ public class BlockCustomFlowerPot extends BlockFlowerPot implements IBlockColorP
 		return true;
 	}
 
-	@Override
-	public IBlockState getActualState(IBlockState state, IBlockAccess world, BlockPos pos) {
+	@Nonnull
+    @Override
+	public IBlockState getActualState(IBlockState state, IBlockAccess world, @Nonnull BlockPos pos) {
 		state = super.getActualState(state, world, pos);
 		// if the flower pot type is empty, but we have a flower, set the extra flag
 		if(state.getValue(CONTENTS) == EnumFlowerType.EMPTY) {
@@ -146,11 +148,13 @@ public class BlockCustomFlowerPot extends BlockFlowerPot implements IBlockColorP
 	 */
 
 	@Override
+	@SuppressWarnings("deprecation")
 	public boolean hasComparatorInputOverride(IBlockState state) {
 		return ColoredFlowerPots.enableComparatorLogic;
 	}
 
 	@Override
+	@SuppressWarnings("deprecation")
 	public int getComparatorInputOverride(IBlockState blockState, World world, BlockPos pos) {
 		if(!ColoredFlowerPots.enableComparatorLogic) {
 			return 0;

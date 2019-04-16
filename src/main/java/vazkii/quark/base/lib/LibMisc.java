@@ -30,8 +30,7 @@ public final class LibMisc {
 	public static final String PROXY_CLIENT = "vazkii.quark.base.proxy.ClientProxy";
 	public static final String GUI_FACTORY = "vazkii.quark.base.client.gui.GuiFactory";
 
-	public static final List<String> OREDICT_DYES = Arrays.asList(new String[]{
-			"dyeBlack",
+	public static final List<String> OREDICT_DYES = Arrays.asList("dyeBlack",
 			"dyeRed",
 			"dyeGreen",
 			"dyeBrown",
@@ -46,8 +45,7 @@ public final class LibMisc {
 			"dyeLightBlue",
 			"dyeMagenta",
 			"dyeOrange",
-			"dyeWhite"
-	});
+			"dyeWhite");
 	
 	public static final String MOD_WEBSITE = "https://quark.vazkii.us";
 	

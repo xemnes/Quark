@@ -59,7 +59,7 @@ public class StoreToChests extends Feature {
 		yPosC = loadPropInt("Position Y (Creative)", "", -20);
 
 		String[] classnamesArr = loadPropStringList("Forced GUIs", "GUIs in which the drop off button should be forced to show up. Use the \"Debug Classnames\" option in chest buttons to find the names.", new String[0]);
-		classnames = new ArrayList(Arrays.asList(classnamesArr));
+		classnames = new ArrayList<>(Arrays.asList(classnamesArr));
 	}
 
 	@Override
@@ -101,13 +101,13 @@ public class StoreToChests extends Feature {
 			for(Slot s : container.inventorySlots)
 				if(creativeInv != null || s instanceof SlotCrafting) {
 					if(creativeInv == null)
-						ChestButtons.addButtonAndKeybind(event, Action.DROPOFF, guiInv, 13211, s.xPos + xPos, s.yPos + yPos, s, ModKeybinds.dropoffKey);
+						ChestButtons.addButtonAndKeybind(event, Action.DROPOFF, guiInv, 13211, s.xPos + xPos, s.yPos + yPos, ModKeybinds.dropoffKey);
 					else {
 						if(s.getSlotIndex() != 15)
 							continue;
 						
-						ChestButtons.<GuiContainerCreative>addButtonAndKeybind(event, Action.DROPOFF, guiInv, 13211, s.xPos + xPosC, s.yPos + yPosC, s, ModKeybinds.dropoffKey,
-								(gui) -> gui.getSelectedTabIndex() == CreativeTabs.INVENTORY.getIndex());
+						ChestButtons.addButtonAndKeybind(event, Action.DROPOFF, guiInv, 13211, s.xPos + xPosC, s.yPos + yPosC, ModKeybinds.dropoffKey,
+								(gui) -> ((GuiContainerCreative) gui).getSelectedTabIndex() == CreativeTabs.INVENTORY.getIndex());
 					}
 
 					break;

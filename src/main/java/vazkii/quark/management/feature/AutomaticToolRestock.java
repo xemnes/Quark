@@ -1,27 +1,10 @@
 package vazkii.quark.management.feature;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.Stack;
-import java.util.WeakHashMap;
-import java.util.function.Predicate;
-
-import org.apache.commons.lang3.tuple.Pair;
-
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Enchantments;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemArmor;
-import net.minecraft.item.ItemBow;
-import net.minecraft.item.ItemFishingRod;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemSword;
-import net.minecraft.item.ItemTool;
+import net.minecraft.item.*;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
@@ -29,13 +12,17 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
+import org.apache.commons.lang3.tuple.Pair;
 import vazkii.quark.base.module.Feature;
+
+import java.util.*;
+import java.util.function.Predicate;
 
 public class AutomaticToolRestock extends Feature {
 
-	private static final WeakHashMap<EntityPlayer, Stack<Pair<Integer, Integer>>> replacements = new WeakHashMap();
+	private static final WeakHashMap<EntityPlayer, Stack<Pair<Integer, Integer>>> replacements = new WeakHashMap<>();
 
-	public List<Enchantment> importantEnchants = new ArrayList();
+	public List<Enchantment> importantEnchants = new ArrayList<>();
 	private String[] enchantNames;
 	private boolean enableLooseMatching;
 	private boolean enableEnchantMatching;
@@ -76,7 +63,7 @@ public class AutomaticToolRestock extends Feature {
 			if(!stack.isItemStackDamageable())
 				itemPredicate = itemPredicate.and((other) -> other.getItemDamage() == stack.getItemDamage());
 
-			Predicate<ItemStack> enchantmentPredicate = (other) -> !(new ArrayList(enchantmentsOnStack)).retainAll(getImportantEnchantments(other));
+			Predicate<ItemStack> enchantmentPredicate = (other) -> !(new ArrayList<>(enchantmentsOnStack)).retainAll(getImportantEnchantments(other));
 
 			if(enableEnchantMatching && findReplacement(player, currSlot, itemPredicate.and(enchantmentPredicate)))
 				return;
@@ -115,18 +102,18 @@ public class AutomaticToolRestock extends Feature {
 		}
 	}
 
-	private Set<String> getItemClasses(ItemStack stack) {
+	private HashSet<String> getItemClasses(ItemStack stack) {
 		Item item = stack.getItem();
 		if(item instanceof ItemTool)
-			return new HashSet(((ItemTool) item).getToolClasses(stack));
+			return new HashSet<>(item.getToolClasses(stack));
 		else if(item instanceof ItemSword)
-			return new HashSet(Arrays.asList("sword"));
+			return new HashSet<>(Collections.singletonList("sword"));
 		else if(item instanceof ItemBow)
-			return new HashSet(Arrays.asList("bow"));
+			return new HashSet<>(Collections.singletonList("bow"));
 		else if(item instanceof ItemFishingRod)
-			return new HashSet(Arrays.asList("fishing_rod"));
+			return new HashSet<>(Collections.singletonList("fishing_rod"));
 
-		return new HashSet();
+		return new HashSet<>();
 	}
 
 	private boolean findReplacement(EntityPlayer player, int currSlot, Predicate<ItemStack> match) {
@@ -147,7 +134,7 @@ public class AutomaticToolRestock extends Feature {
 	private void pushReplace(EntityPlayer player, int slot1, int slot2) {
 		synchronized(this) {
 			if(!replacements.containsKey(player))
-				replacements.put(player, new Stack());
+				replacements.put(player, new Stack<>());
 			replacements.get(player).push(Pair.of(slot1, slot2));
 		}
 	}
@@ -165,7 +152,7 @@ public class AutomaticToolRestock extends Feature {
 	}
 
 	private List<Enchantment> getImportantEnchantments(ItemStack stack) {
-		List<Enchantment> enchantsOnStack = new ArrayList();
+		List<Enchantment> enchantsOnStack = new ArrayList<>();
 		for(Enchantment ench : importantEnchants)
 			if(EnchantmentHelper.getEnchantmentLevel(ench, stack) > 0)
 				enchantsOnStack.add(ench);
@@ -192,7 +179,7 @@ public class AutomaticToolRestock extends Feature {
 				Enchantments.LOOTING
 		};
 
-		List<String> strings = new ArrayList();
+		List<String> strings = new ArrayList<>();
 		for(Enchantment e : enchants)
 			if(e != null && e.getRegistryName() != null)
 				strings.add(e.getRegistryName().toString());

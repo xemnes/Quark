@@ -33,7 +33,7 @@ import vazkii.quark.base.network.message.MessageUpdateAfk;
 public class ImprovedSleeping extends Feature {
 
 	private int timeSinceKeystroke;
-	private static List<String> sleepingPlayers = new ArrayList();
+	private static List<String> sleepingPlayers = new ArrayList<>();
 
 	private static boolean enableAfk;
 	private static int afkTime, percentReq;
@@ -106,8 +106,8 @@ public class ImprovedSleeping extends Feature {
 		if(world.isRemote || world.provider.getDimension() != 0 || world.playerEntities.indexOf(event.player) != 0 || event.phase != Phase.END)
 			return;
 		
-		List<String> newSleepingPlayers = new ArrayList();
-		List<String> nonSleepingPlayers = new ArrayList();
+		List<String> newSleepingPlayers = new ArrayList<>();
+		List<String> nonSleepingPlayers = new ArrayList<>();
 		int legitPlayers = 0;
 		String sleeper = "";
 
@@ -131,7 +131,7 @@ public class ImprovedSleeping extends Feature {
 			message.getStyle().setColor(TextFormatting.GOLD);
 			message.appendSibling(new TextComponentString(" "));
 			
-			List<String> lines = new ArrayList();
+			List<String> lines = new ArrayList<>();
 			for(String s : newSleepingPlayers)
 				lines.add("\u00A7a\u2714 " + s);
 			for(String s : nonSleepingPlayers)

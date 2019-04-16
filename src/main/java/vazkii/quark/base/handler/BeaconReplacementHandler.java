@@ -19,7 +19,7 @@ public final class BeaconReplacementHandler {
 	private static List<Replacer> replacers;
 	
 	public static void parse(String[] lines) {
-		replacers = new LinkedList();
+		replacers = new LinkedList<>();
 
 		for(String s : lines) {
 			Replacer r = Replacer.fromString(s);

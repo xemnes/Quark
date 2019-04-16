@@ -31,6 +31,8 @@ import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.decoration.feature.IronLadders;
 
+import javax.annotation.Nonnull;
+
 public class BlockQuarkTrapdoor extends BlockTrapDoor implements IQuarkBlock {
 
 	private final String[] variants;
@@ -50,7 +52,7 @@ public class BlockQuarkTrapdoor extends BlockTrapDoor implements IQuarkBlock {
 	}
 	
     @Override
-    public boolean isLadder(IBlockState state, IBlockAccess world, BlockPos pos, EntityLivingBase entity) {
+    public boolean isLadder(IBlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos, EntityLivingBase entity) {
         if(state.getValue(OPEN))  {
             IBlockState down = world.getBlockState(pos.down());
             if(down.getBlock() == Blocks.LADDER || down.getBlock() == IronLadders.iron_ladder)
@@ -60,8 +62,9 @@ public class BlockQuarkTrapdoor extends BlockTrapDoor implements IQuarkBlock {
         return false;
     }
 
-	@Override
-	public Block setTranslationKey(String name) {
+	@Nonnull
+    @Override
+	public Block setTranslationKey(@Nonnull String name) {
 		super.setTranslationKey(name);
 		setRegistryName(LibMisc.PREFIX_MOD + name);
 		ProxyRegistry.register(this);

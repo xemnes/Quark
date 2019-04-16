@@ -27,13 +27,13 @@ public interface ICustomSearchHandler {
 	 * 
 	 * @return false if the item should be darkened, true otherwise 
 	 */
-	public boolean stackMatchesSearchQuery(ItemStack stack, String query, StringMatcher matcher, SearchMethod search);
+    boolean stackMatchesSearchQuery(ItemStack stack, String query, StringMatcher matcher, SearchMethod search);
 
-	public static interface StringMatcher {
+	interface StringMatcher {
 		boolean matches(String str1, String str2);
 	}
 	
-	public static interface SearchMethod {
+	interface SearchMethod {
 		boolean namesMatch(ItemStack stack, String query);
 	}
 	

@@ -32,7 +32,7 @@ public class RenderAshen extends RenderSkeleton {
 	public RenderAshen(RenderManager renderManagerIn) {
 		super(renderManagerIn);
 
-		List<LayerRenderer> removals = new ArrayList();
+		List<LayerRenderer> removals = new ArrayList<>();
 		for(LayerRenderer layer : layerRenderers)
 			if(layer instanceof LayerHeldItem)
 				removals.add(layer);

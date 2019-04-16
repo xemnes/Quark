@@ -22,8 +22,8 @@ import java.util.*;
 
 public class PistonsMoveTEs extends Feature {
 
-	private static WeakHashMap<World, Map<BlockPos, TileEntity>> movements = new WeakHashMap();
-	private static WeakHashMap<World, List<Pair<BlockPos, TileEntity>>> delayedUpdates = new WeakHashMap();
+	private static WeakHashMap<World, Map<BlockPos, TileEntity>> movements = new WeakHashMap<>();
+	private static WeakHashMap<World, List<Pair<BlockPos, TileEntity>>> delayedUpdates = new WeakHashMap<>();
 
 	public static List<String> renderBlacklist;
 	public static List<String> movementBlacklist;
@@ -38,9 +38,9 @@ public class PistonsMoveTEs extends Feature {
 		String[] delayedUpdateListArray = loadPropStringList("Delayed Update List", "List of blocks whose tile entity update should be delayed by one tick after placed to prevent corruption.", 
 				new String[] { "minecraft:dispenser", "minecraft:dropper" });
 		
-		renderBlacklist = new ArrayList(Arrays.asList(renderBlacklistArray));
-		movementBlacklist = new ArrayList(Arrays.asList(movementBlacklistArray));
-		delayedUpdateList = new ArrayList(Arrays.asList(delayedUpdateListArray));
+		renderBlacklist = new ArrayList<>(Arrays.asList(renderBlacklistArray));
+		movementBlacklist = new ArrayList<>(Arrays.asList(movementBlacklistArray));
+		delayedUpdateList = new ArrayList<>(Arrays.asList(delayedUpdateListArray));
 	}
 	
 	@SubscribeEvent
@@ -143,7 +143,7 @@ public class PistonsMoveTEs extends Feature {
 	
 	private static void registerMovement(World world, BlockPos pos, TileEntity tile) {
 		if(!movements.containsKey(world))
-			movements.put(world, new HashMap());
+			movements.put(world, new HashMap<>());
 		
 		movements.get(world).put(pos, tile);
 	}
@@ -184,7 +184,7 @@ public class PistonsMoveTEs extends Feature {
 	
 	private static void registerDelayedUpdate(World world, BlockPos pos, TileEntity tile) {
 		if(!delayedUpdates.containsKey(world))
-			delayedUpdates.put(world, new ArrayList());
+			delayedUpdates.put(world, new ArrayList<>());
 		
 		delayedUpdates.get(world).add(Pair.of(pos, tile));
 	}

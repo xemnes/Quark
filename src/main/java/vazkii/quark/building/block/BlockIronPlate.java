@@ -13,12 +13,13 @@ package vazkii.quark.building.block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.util.IStringSerializable;
 import vazkii.arl.block.BlockMetaVariants;
-import vazkii.arl.block.BlockMod;
-import vazkii.arl.block.BlockMetaVariants.EnumBase;
 import vazkii.quark.base.block.IQuarkBlock;
 
-public class BlockIronPlate extends BlockMetaVariants implements IQuarkBlock {
+import java.util.Locale;
+
+public class BlockIronPlate extends BlockMetaVariants<BlockIronPlate.Variants> implements IQuarkBlock {
 
 	public BlockIronPlate() {
 		super("iron_plate", Material.IRON, Variants.class);
@@ -28,9 +29,14 @@ public class BlockIronPlate extends BlockMetaVariants implements IQuarkBlock {
 		setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
 	}
 	
-	public enum Variants implements EnumBase {
+	public enum Variants implements IStringSerializable {
 		IRON_PLATE,
-		RUSTY_IRON_PLATE
+		RUSTY_IRON_PLATE;
+
+		@Override
+		public String getName() {
+			return name().toLowerCase(Locale.ROOT);
+		}
 	}
 
 }

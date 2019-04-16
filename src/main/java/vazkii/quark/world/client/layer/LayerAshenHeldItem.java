@@ -21,6 +21,8 @@ import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHandSide;
 
+import javax.annotation.Nonnull;
+
 public class LayerAshenHeldItem implements LayerRenderer<EntitySkeleton> {
 
 	protected final RenderLivingBase<?> livingEntityRenderer;
@@ -30,7 +32,7 @@ public class LayerAshenHeldItem implements LayerRenderer<EntitySkeleton> {
 	}
 
 	@Override
-	public void doRenderLayer(EntitySkeleton entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+	public void doRenderLayer(@Nonnull EntitySkeleton entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
 		boolean flag = entitylivingbaseIn.getPrimaryHand() == EnumHandSide.RIGHT;
 		ItemStack itemstack = flag ? entitylivingbaseIn.getHeldItemOffhand() : entitylivingbaseIn.getHeldItemMainhand();
 		ItemStack itemstack1 = flag ? entitylivingbaseIn.getHeldItemMainhand() : entitylivingbaseIn.getHeldItemOffhand();
@@ -49,11 +51,12 @@ public class LayerAshenHeldItem implements LayerRenderer<EntitySkeleton> {
 			GlStateManager.popMatrix();
 		}
 	}
-	private void renderHeldItem(EntityLivingBase p_188358_1_, ItemStack p_188358_2_, ItemCameraTransforms.TransformType p_188358_3_, EnumHandSide handSide) {
-		if(!p_188358_2_.isEmpty()) {
+
+	private void renderHeldItem(EntityLivingBase entity, ItemStack stack, ItemCameraTransforms.TransformType transform, EnumHandSide handSide) {
+		if(!stack.isEmpty()) {
 			GlStateManager.pushMatrix();
 
-			if(p_188358_1_.isSneaking())
+			if(entity.isSneaking())
 				GlStateManager.translate(0.0F, 0.2F, 0.0F);
 
 			// Forge: moved this call down, fixes incorrect offset while sneaking.
@@ -62,7 +65,7 @@ public class LayerAshenHeldItem implements LayerRenderer<EntitySkeleton> {
 			GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
 			boolean flag = handSide == EnumHandSide.LEFT;
 			GlStateManager.translate((flag ? -1 : 1) / 16.0F, 0.125F, -0.625F);
-			Minecraft.getMinecraft().getItemRenderer().renderItemSide(p_188358_1_, p_188358_2_, p_188358_3_, flag);
+			Minecraft.getMinecraft().getItemRenderer().renderItemSide(entity, stack, transform, flag);
 			GlStateManager.popMatrix();
 		}
 	}

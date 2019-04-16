@@ -1,7 +1,5 @@
 package vazkii.quark.decoration.block;
 
-import java.util.Random;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.SoundType;
@@ -12,6 +10,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -22,7 +21,11 @@ import vazkii.arl.block.BlockMetaVariants;
 import vazkii.quark.base.block.IQuarkBlock;
 import vazkii.quark.decoration.feature.TallowAndCandles;
 
-public class BlockCandle extends BlockMetaVariants implements IQuarkBlock {
+import javax.annotation.Nonnull;
+import java.util.Locale;
+import java.util.Random;
+
+public class BlockCandle extends BlockMetaVariants<BlockCandle.Variants> implements IQuarkBlock {
 
 	private static final AxisAlignedBB AABB = new AxisAlignedBB(6F / 16F, 0F, 6F / 16F, 10F / 16F, 0.5F, 10F / 16F);
 	
@@ -41,6 +44,7 @@ public class BlockCandle extends BlockMetaVariants implements IQuarkBlock {
     }
 
 	@Override
+	@SuppressWarnings("deprecation")
     public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
         worldIn.scheduleUpdate(pos, this, tickRate(worldIn));
     }
@@ -59,9 +63,8 @@ public class BlockCandle extends BlockMetaVariants implements IQuarkBlock {
 	// Copypasta from BlockFalling
 	private void checkFallable(World worldIn, BlockPos pos) {
         if((worldIn.isAirBlock(pos.down()) || BlockFalling.canFallThrough(worldIn.getBlockState(pos.down()))) && pos.getY() >= 0) {
-            int i = 32;
 
-            if(!BlockFalling.fallInstantly && worldIn.isAreaLoaded(pos.add(-32, -32, -32), pos.add(32, 32, 32))) {
+			if(!BlockFalling.fallInstantly && worldIn.isAreaLoaded(pos.add(-32, -32, -32), pos.add(32, 32, 32))) {
                 if(!worldIn.isRemote) {
                     EntityFallingBlock entityfallingblock = new EntityFallingBlock(worldIn, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, worldIn.getBlockState(pos));
                     worldIn.spawnEntity(entityfallingblock);
@@ -69,9 +72,10 @@ public class BlockCandle extends BlockMetaVariants implements IQuarkBlock {
             } else {
                 IBlockState state = worldIn.getBlockState(pos);
                 worldIn.setBlockToAir(pos);
-                BlockPos blockpos;
+                BlockPos blockpos = pos.down();
 
-                for(blockpos = pos.down(); (worldIn.isAirBlock(blockpos) || BlockFalling.canFallThrough(worldIn.getBlockState(blockpos))) && blockpos.getY() > 0; blockpos = blockpos.down());
+                while ((worldIn.isAirBlock(blockpos) || BlockFalling.canFallThrough(worldIn.getBlockState(blockpos))) && blockpos.getY() > 0)
+                	blockpos = blockpos.down();
 
                 if(blockpos.getY() > 0)
                     worldIn.setBlockState(blockpos.up(), state);
@@ -85,50 +89,57 @@ public class BlockCandle extends BlockMetaVariants implements IQuarkBlock {
         return 2;
     }
 	
-	@Override
+	@Nonnull
+    @Override
+	@SuppressWarnings("deprecation")
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
 		return AABB;
 	}
 	
 	@Override
-	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
+	@SuppressWarnings("deprecation")
+	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, @Nonnull IBlockAccess worldIn, @Nonnull BlockPos pos) {
 		return AABB;
 	}
 	
 	@Override
+	@SuppressWarnings("deprecation")
 	public boolean isFullCube(IBlockState state) {
 		return false;
 	}
 	
 	@Override
+	@SuppressWarnings("deprecation")
 	public boolean isFullBlock(IBlockState state) {
 		return false;
 	}
 	
 	@Override
+	@SuppressWarnings("deprecation")
 	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
 	
-	@Override
-	public BlockFaceShape getBlockFaceShape(IBlockAccess p_193383_1_, IBlockState p_193383_2_, BlockPos p_193383_3_, EnumFacing p_193383_4_) {
+	@Nonnull
+    @Override
+	@SuppressWarnings("deprecation")
+	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos blockPos, EnumFacing face) {
 		return BlockFaceShape.UNDEFINED;
 	}
 	
-    @SideOnly(Side.CLIENT)
+    @Override
+	@SideOnly(Side.CLIENT)
     public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand) {
         double d0 = (double)pos.getX() + 0.5D;
         double d1 = (double)pos.getY() + 0.7D;
         double d2 = (double)pos.getZ() + 0.5D;
-        double d3 = 0.22D;
-        double d4 = 0.27D;
 
         worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0, d1, d2, 0.0D, 0.0D, 0.0D);
         worldIn.spawnParticle(EnumParticleTypes.FLAME, d0, d1, d2, 0.0D, 0.0D, 0.0D);
     }
 	
 	
-	public static enum Variants implements EnumBase {
+	public enum Variants implements IStringSerializable {
 		CANDLE_WHITE,
 		CANDLE_ORANGE,
 		CANDLE_MAGENTA,
@@ -144,7 +155,12 @@ public class BlockCandle extends BlockMetaVariants implements IQuarkBlock {
 		CANDLE_BROWN,
 		CANDLE_GREEN,
 		CANDLE_RED,
-		CANDLE_BLACK
+		CANDLE_BLACK;
+
+		@Override
+		public String getName() {
+			return name().toLowerCase(Locale.ROOT);
+		}
 	}
 	
 }

@@ -10,17 +10,10 @@
  */
 package vazkii.quark.base.module;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Consumer;
-
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Property;
-import net.minecraftforge.fml.common.FMLLog;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -28,12 +21,20 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.apache.logging.log4j.LogManager;
+
+import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
 
 public class Module implements Comparable<Module> {
 
 	public final String name = makeName();
-	public final Map<String, Feature> features = new HashMap();
-	public final List<Feature> enabledFeatures = new ArrayList();
+	public final Map<String, Feature> features = new HashMap<>();
+	public final List<Feature> enabledFeatures = new ArrayList<>();
 	public boolean enabled;
 	public Property prop;
 
@@ -89,7 +90,7 @@ public class Module implements Comparable<Module> {
 			if(!feature.forceLoad && GlobalConfig.enableAntiOverlap) {
 				String[] incompatibilities = feature.getIncompatibleMods();
 				if(incompatibilities != null) {
-					List<String> failiures = new ArrayList();
+					List<String> failiures = new ArrayList<>();
 
 					for(String s : incompatibilities)
 						if(Loader.isModLoaded(s)) {
@@ -98,7 +99,7 @@ public class Module implements Comparable<Module> {
 						}
 					
 					if(!failiures.isEmpty())
-						FMLLog.info("[Quark] '" + feature.configName + "' is forcefully disabled as it's incompatible with the following loaded mods: " + failiures);
+						LogManager.getLogger("Quark").info("'" + feature.configName + "' is forcefully disabled as it's incompatible with the following loaded mods: " + failiures);
 				}
 			}
 			
@@ -220,7 +221,7 @@ public class Module implements Comparable<Module> {
 	}
 
 	@Override
-	public int compareTo(Module o) {
+	public int compareTo(@Nonnull Module o) {
 		return name.compareTo(o.name);
 	}
 

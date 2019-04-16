@@ -10,6 +10,8 @@ import vazkii.arl.recipe.ModRecipe;
 import vazkii.arl.util.ItemNBTHelper;
 import vazkii.quark.misc.feature.MapMarkers;
 
+import javax.annotation.Nonnull;
+
 public class MapPinningRecipe extends ModRecipe {
 
 	public MapPinningRecipe() {
@@ -17,7 +19,7 @@ public class MapPinningRecipe extends ModRecipe {
 	}
 
 	@Override
-	public boolean matches(InventoryCrafting var1, World var2) {
+	public boolean matches(@Nonnull InventoryCrafting var1, @Nonnull World var2) {
 		boolean foundDye = false;
 		boolean foundTarget = false;
 		int blackDye = OreDictionary.getOreID("dyeBlack");
@@ -48,8 +50,9 @@ public class MapPinningRecipe extends ModRecipe {
 		return foundDye && foundTarget;
 	}
 
-	@Override
-	public ItemStack getCraftingResult(InventoryCrafting inv) {
+	@Nonnull
+    @Override
+	public ItemStack getCraftingResult(@Nonnull InventoryCrafting inv) {
 		for(int i = 0; i < inv.getSizeInventory(); i++) {
 			ItemStack stack = inv.getStackInSlot(i);
 			if(stack.getItem() == Items.FILLED_MAP) {
@@ -67,7 +70,8 @@ public class MapPinningRecipe extends ModRecipe {
 		return true;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public ItemStack getRecipeOutput() {
 		return ItemStack.EMPTY;
 	}

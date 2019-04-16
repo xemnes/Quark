@@ -32,7 +32,7 @@ import vazkii.quark.base.module.Feature;
 
 public class MinecartInteraction extends Feature {
 
-	Map<Item, Function<EntityMinecartEmpty, EntityMinecart>> inserters = new HashMap();
+	Map<Item, Function<EntityMinecartEmpty, EntityMinecart>> inserters = new HashMap<>();
 	boolean enableCommandAndSpawner;
 
 	@Override

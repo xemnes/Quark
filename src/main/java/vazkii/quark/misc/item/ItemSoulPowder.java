@@ -16,6 +16,8 @@ import vazkii.arl.item.ItemMod;
 import vazkii.quark.base.item.IQuarkItem;
 import vazkii.quark.misc.entity.EntitySoulPowder;
 
+import javax.annotation.Nonnull;
+
 public class ItemSoulPowder extends ItemMod implements IQuarkItem {
 
 	public ItemSoulPowder() {
@@ -23,8 +25,9 @@ public class ItemSoulPowder extends ItemMod implements IQuarkItem {
 		setCreativeTab(CreativeTabs.MISC);
 	}
 	
-	@Override
-	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
+	@Nonnull
+    @Override
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, @Nonnull EnumHand handIn) {
         ItemStack itemstack = playerIn.getHeldItem(handIn);
 
         if(!playerIn.capabilities.isCreativeMode)

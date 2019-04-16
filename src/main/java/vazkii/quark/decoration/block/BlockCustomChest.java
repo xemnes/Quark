@@ -10,12 +10,6 @@
  */
 package vazkii.quark.decoration.block;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import javax.annotation.Nullable;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockChest;
 import net.minecraft.block.SoundType;
@@ -32,6 +26,7 @@ import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -49,6 +44,9 @@ import vazkii.quark.decoration.feature.VariedChests;
 import vazkii.quark.decoration.item.ItemChestBlock;
 import vazkii.quark.decoration.tile.TileCustomChest;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 public class BlockCustomChest extends BlockChest implements IQuarkBlock {
 
 	private final String[] variants;
@@ -65,8 +63,9 @@ public class BlockCustomChest extends BlockChest implements IQuarkBlock {
 		setCreativeTab(type == VariedChests.CUSTOM_TYPE_QUARK_TRAP ? CreativeTabs.REDSTONE : CreativeTabs.DECORATIONS);
 	}
 
-	@Override
-	public Block setTranslationKey(String name) {
+	@Nonnull
+    @Override
+	public Block setTranslationKey(@Nonnull String name) {
 		super.setTranslationKey(name);
 		setRegistryName(LibMisc.PREFIX_MOD + name);
 		ProxyRegistry.register(this);
@@ -111,18 +110,21 @@ public class BlockCustomChest extends BlockChest implements IQuarkBlock {
 		return null;
 	}
 
-	@Override
+	@Nonnull
+    @Override
+	@SuppressWarnings("deprecation")
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
 		VariedChests.ChestType myType = getCustomType(source, pos);
 		return getCustomType(source, pos.north()) == myType ? NORTH_CHEST_AABB : getCustomType(source, pos.south()) == myType ? SOUTH_CHEST_AABB : getCustomType(source, pos.west()) == myType ? WEST_CHEST_AABB : getCustomType(source, pos.east()) == myType ? EAST_CHEST_AABB : NOT_CONNECTED_AABB;
 	}
 
 	@Override
-	public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
+	public void onBlockAdded(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
 		// NO-OP
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
 		return getDefaultState().withProperty(FACING, placer.getHorizontalFacing());
 	}
@@ -162,7 +164,7 @@ public class BlockCustomChest extends BlockChest implements IQuarkBlock {
 					setState(worldIn, southPos, state.withProperty(FACING, corrected), 3);
 				else if(westChest)
 					setState(worldIn, westPos, state.withProperty(FACING, corrected), 3);
-				else if(eastChest)
+				else
 					setState(worldIn, eastPos, state.withProperty(FACING, corrected), 3);
 			}
 		} else {
@@ -199,19 +201,22 @@ public class BlockCustomChest extends BlockChest implements IQuarkBlock {
 	}
 
 	@Override
+	@SuppressWarnings("deprecation")
 	public boolean canProvidePower(IBlockState state) {
 		return chestType == VariedChests.CUSTOM_TYPE_QUARK_TRAP;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	@Deprecated
-	public IBlockState checkForSurroundingChests(World worldIn, BlockPos pos, IBlockState state) {
+	public IBlockState checkForSurroundingChests(World worldIn, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
 		return state;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	@Deprecated
-	public IBlockState correctFacing(World worldIn, BlockPos pos, IBlockState state) {
+	public IBlockState correctFacing(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
 		return correctFacing(worldIn, pos, state, VariedChests.ChestType.NONE);
 	}
 
@@ -269,12 +274,12 @@ public class BlockCustomChest extends BlockChest implements IQuarkBlock {
 	}
 
 	@Override
-	public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest) {
+	public boolean removedByPlayer(@Nonnull IBlockState state, World world, @Nonnull BlockPos pos, @Nonnull EntityPlayer player, boolean willHarvest) {
 		return willHarvest || super.removedByPlayer(state, world, pos, player, false);
 	}
 
 	@Override
-	public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, @Nullable TileEntity te, @Nullable ItemStack stack) {
+	public void harvestBlock(@Nonnull World worldIn, EntityPlayer player, @Nonnull BlockPos pos, @Nonnull IBlockState state, @Nullable TileEntity te, @Nullable ItemStack stack) {
 		super.harvestBlock(worldIn, player, pos, state, te, stack);
 
 		worldIn.setBlockToAir(pos);
@@ -309,7 +314,7 @@ public class BlockCustomChest extends BlockChest implements IQuarkBlock {
 	}
 
 	@Override
-	public ILockableContainer getContainer(World world, BlockPos pos, boolean locked) {
+	public ILockableContainer getContainer(World world, @Nonnull BlockPos pos, boolean locked) {
 		TileEntity tile = world.getTileEntity(pos);
 
 		if(!(tile instanceof TileCustomChest)) {
@@ -362,12 +367,13 @@ public class BlockCustomChest extends BlockChest implements IQuarkBlock {
 	}
 
 	@Override
-	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
-		return new ArrayList<>(Collections.singletonList(setCustomType(new ItemStack(this, 1), getCustomType(world, pos))));
+	public void getDrops(@Nonnull NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, @Nonnull IBlockState state, int fortune) {
+		drops.add(setCustomType(new ItemStack(this, 1), getCustomType(world, pos)));
 	}
 
-	@Override
-	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
+	@Nonnull
+    @Override
+	public ItemStack getPickBlock(@Nonnull IBlockState state, RayTraceResult target, @Nonnull World world, @Nonnull BlockPos pos, EntityPlayer player) {
 		return setCustomType(new ItemStack(this, 1), getCustomType(world, pos));
 	}
 

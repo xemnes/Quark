@@ -10,14 +10,12 @@
  */
 package vazkii.quark.tweaks.feature;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLadder;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
@@ -31,6 +29,9 @@ import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.decoration.feature.IronLadders;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DeployLaddersDown extends Feature {
 
 	@SubscribeEvent
@@ -39,7 +40,7 @@ public class DeployLaddersDown extends Feature {
 		EnumHand hand = event.getHand();
 		ItemStack stack = player.getHeldItem(hand);
 
-		List<Item> items = new ArrayList();
+		List<Item> items = new ArrayList<>();
 		items.add(Item.getItemFromBlock(Blocks.LADDER));
 		if(ModuleLoader.isFeatureEnabled(IronLadders.class))
 			items.add(Item.getItemFromBlock(IronLadders.iron_ladder));
@@ -61,7 +62,7 @@ public class DeployLaddersDown extends Feature {
 						EnumFacing facing = copyState.getValue(BlockLadder.FACING);
 						if(block.canPlaceBlockOnSide(world, posDown, facing)) {
 							world.setBlockState(posDown, copyState);
-							world.playSound(null, posDown.getX(), posDown.getY(), posDown.getZ(), Blocks.LADDER.getSoundType().getPlaceSound(), SoundCategory.BLOCKS, 1F, 1F);
+							world.playSound(null, posDown.getX(), posDown.getY(), posDown.getZ(), SoundEvents.BLOCK_LADDER_PLACE, SoundCategory.BLOCKS, 1F, 1F);
 
 							event.setCanceled(true);
 							

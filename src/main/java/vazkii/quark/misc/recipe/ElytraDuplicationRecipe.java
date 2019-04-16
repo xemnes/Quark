@@ -14,6 +14,8 @@ import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.misc.feature.EnderdragonScales;
 import vazkii.quark.vanity.feature.DyableElytra;
 
+import javax.annotation.Nonnull;
+
 public class ElytraDuplicationRecipe extends ModRecipe {
 
 	public ElytraDuplicationRecipe() {
@@ -21,7 +23,7 @@ public class ElytraDuplicationRecipe extends ModRecipe {
 	}
 	
 	@Override
-	public boolean matches(InventoryCrafting var1, World var2) {
+	public boolean matches(@Nonnull InventoryCrafting var1, @Nonnull World var2) {
 		int sources = 0;
 		boolean foundTarget = false;
 
@@ -43,12 +45,14 @@ public class ElytraDuplicationRecipe extends ModRecipe {
 		return sources == EnderdragonScales.required && foundTarget;
 	}
 
-	@Override
-	public ItemStack getCraftingResult(InventoryCrafting var1) {
+	@Nonnull
+    @Override
+	public ItemStack getCraftingResult(@Nonnull InventoryCrafting var1) {
 		return getRecipeOutput();
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public ItemStack getRecipeOutput() {
 		ItemStack stack = new ItemStack(Items.ELYTRA);
 		if(EnderdragonScales.dyeBlack && ModuleLoader.isFeatureEnabled(DyableElytra.class))
@@ -57,7 +61,8 @@ public class ElytraDuplicationRecipe extends ModRecipe {
 		return stack;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public NonNullList<ItemStack> getRemainingItems(InventoryCrafting inv) {
 		NonNullList<ItemStack> ret = NonNullList.withSize(inv.getSizeInventory(), ItemStack.EMPTY);
 		
@@ -75,7 +80,9 @@ public class ElytraDuplicationRecipe extends ModRecipe {
 		return true;
 	}
 	
-	public NonNullList<Ingredient> getIngredients() {
+	@Override
+    @Nonnull
+    public NonNullList<Ingredient> getIngredients() {
 		NonNullList<Ingredient> list = NonNullList.withSize(1 + EnderdragonScales.required, Ingredient.EMPTY);
 		list.set(0, Ingredient.fromStacks(new ItemStack(Items.ELYTRA)));
 		for(int i = 1; i < EnderdragonScales.required + 1; i++)

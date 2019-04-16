@@ -1,17 +1,17 @@
 package vazkii.quark.management.client.render;
 
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import vazkii.quark.management.entity.EntityChestPassenger;
+
+import javax.annotation.Nonnull;
 
 public class RenderChestPassenger extends Render<EntityChestPassenger> {
 
@@ -20,13 +20,16 @@ public class RenderChestPassenger extends Render<EntityChestPassenger> {
 	}
 
 	@Override
-	public void doRender(EntityChestPassenger entity, double x, double y, double z, float entityYaw, float partialTicks) {
+	public void doRender(@Nonnull EntityChestPassenger entity, double x, double y, double z, float entityYaw, float partialTicks) {
 		super.doRender(entity, x, y, z, entityYaw, partialTicks);
 
 		if(!entity.isRiding())
 			return;
 
 		Entity boat = entity.getRidingEntity();
+		if (boat == null)
+			return;
+
 		float rot = 180F - entityYaw;
 		
 		ItemStack stack = entity.getChestType();
@@ -45,12 +48,12 @@ public class RenderChestPassenger extends Render<EntityChestPassenger> {
 	}
 	
 	@Override
-	protected ResourceLocation getEntityTexture(EntityChestPassenger entity) {
+	protected ResourceLocation getEntityTexture(@Nonnull EntityChestPassenger entity) {
 		return null;
 	}
 	
-	public static IRenderFactory factory() {
-		return manager -> new RenderChestPassenger(manager);
+	public static IRenderFactory<EntityChestPassenger> factory() {
+		return RenderChestPassenger::new;
 	}
 
 

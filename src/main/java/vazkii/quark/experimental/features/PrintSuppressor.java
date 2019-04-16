@@ -10,16 +10,14 @@
  */
 package vazkii.quark.experimental.features;
 
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import org.apache.logging.log4j.LogManager;
+import vazkii.quark.base.module.Feature;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.function.Consumer;
-
-import org.apache.logging.log4j.Level;
-
-import net.minecraftforge.fml.common.FMLLog;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import vazkii.quark.base.module.Feature;
 
 public class PrintSuppressor extends Feature {
 
@@ -33,7 +31,7 @@ public class PrintSuppressor extends Feature {
 
 	@Override
 	public void postInit(FMLPostInitializationEvent event) {
-		FMLLog.log(Level.WARN, "Quark print suppression is enabled. Important info might be missing. Suppressing STDOUT=%b, STDERR=%b", suppressOut, suppressErr);
+		LogManager.getLogger("Quark").warn("Quark print suppression is enabled. Important info might be missing. Suppressing STDOUT=%b, STDERR=%b", suppressOut, suppressErr);
 
 		if(suppressOut)
 			oppressFreedomOfSpeech(System::setOut);

@@ -3,11 +3,13 @@ package vazkii.quark.building.block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.util.IStringSerializable;
 import vazkii.arl.block.BlockMetaVariants;
-import vazkii.arl.interf.IRecipeGrouped;
 import vazkii.quark.base.block.IQuarkBlock;
 
-public class BlockStainedPlanks extends BlockMetaVariants implements IQuarkBlock {
+import java.util.Locale;
+
+public class BlockStainedPlanks extends BlockMetaVariants<BlockStainedPlanks.Variants> implements IQuarkBlock {
 
 	public BlockStainedPlanks() {
 		super("stained_planks", Material.WOOD, Variants.class);
@@ -17,7 +19,7 @@ public class BlockStainedPlanks extends BlockMetaVariants implements IQuarkBlock
 		setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
 	}
 
-	public static enum Variants implements EnumBase {
+	public enum Variants implements IStringSerializable {
 		STAINED_PLANKS_WHITE,
 		STAINED_PLANKS_ORANGE,
 		STAINED_PLANKS_MAGENTA,
@@ -33,7 +35,12 @@ public class BlockStainedPlanks extends BlockMetaVariants implements IQuarkBlock
 		STAINED_PLANKS_BROWN,
 		STAINED_PLANKS_GREEN,
 		STAINED_PLANKS_RED,
-		STAINED_PLANKS_BLACK
+		STAINED_PLANKS_BLACK;
+
+		@Override
+		public String getName() {
+			return name().toLowerCase(Locale.ROOT);
+		}
 	}
 
 }

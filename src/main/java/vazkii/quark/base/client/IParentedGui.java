@@ -4,6 +4,6 @@ import net.minecraft.client.gui.GuiScreen;
 
 public interface IParentedGui {
 
-	public GuiScreen getParent();
+	GuiScreen getParent();
 	
 }

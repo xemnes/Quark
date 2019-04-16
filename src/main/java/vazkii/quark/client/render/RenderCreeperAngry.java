@@ -21,6 +21,8 @@ import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.Nonnull;
+
 @SideOnly(Side.CLIENT)
 public class RenderCreeperAngry extends RenderCreeper {
 
@@ -29,7 +31,7 @@ public class RenderCreeperAngry extends RenderCreeper {
 	}
 	
 	@Override
-	protected void renderModel(EntityCreeper entitylivingbaseIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
+	protected void renderModel(@Nonnull EntityCreeper entitylivingbaseIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
 		GlStateManager.color(1F, 1F, 1F);
 		super.renderModel(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
 		GlStateManager.color(1F, 1F, 1F);
@@ -44,8 +46,8 @@ public class RenderCreeperAngry extends RenderCreeper {
 		return super.getEntityTexture(entity);
 	}
 
-	public static IRenderFactory factory() {
-		return manager -> new RenderCreeperAngry(manager);
+	public static IRenderFactory<EntityCreeper> factory() {
+		return RenderCreeperAngry::new;
 	}
 
 }

@@ -12,7 +12,6 @@ package vazkii.quark.base.block;
 
 import net.minecraft.block.BlockRotatedPillar;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
@@ -22,6 +21,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import vazkii.arl.block.BlockMod;
 
+import javax.annotation.Nonnull;
+
 public class BlockQuarkPillar extends BlockMod implements IQuarkBlock {
 
 	public BlockQuarkPillar(String name, Material materialIn, String... variants) {
@@ -29,7 +30,7 @@ public class BlockQuarkPillar extends BlockMod implements IQuarkBlock {
 	}
 
 	@Override
-	public boolean rotateBlock(net.minecraft.world.World world, BlockPos pos, EnumFacing axis) {
+	public boolean rotateBlock(net.minecraft.world.World world, @Nonnull BlockPos pos, @Nonnull EnumFacing axis) {
 		net.minecraft.block.state.IBlockState state = world.getBlockState(pos);
 		for(net.minecraft.block.properties.IProperty<?> prop : state.getProperties().keySet()) {
 			if(prop == BlockRotatedPillar.AXIS) {
@@ -40,8 +41,10 @@ public class BlockQuarkPillar extends BlockMod implements IQuarkBlock {
 		return false;
 	}
 
-	@Override
-	public IBlockState withRotation(IBlockState state, Rotation rot) {
+	@Nonnull
+    @Override
+	@SuppressWarnings("deprecation")
+	public IBlockState withRotation(@Nonnull IBlockState state, Rotation rot) {
 		switch (rot) {
 		case COUNTERCLOCKWISE_90:
 		case CLOCKWISE_90:
@@ -59,40 +62,45 @@ public class BlockQuarkPillar extends BlockMod implements IQuarkBlock {
 		}
 	}
 
-	@Override
+	@Nonnull
+    @Override
+	@SuppressWarnings("deprecation")
 	public IBlockState getStateFromMeta(int meta) {
-		EnumFacing.Axis enumfacing$axis = EnumFacing.Axis.Y;
+		EnumFacing.Axis axis = EnumFacing.Axis.Y;
 		int i = meta & 12;
 
 		if (i == 4)
-			enumfacing$axis = EnumFacing.Axis.X;
+			axis = EnumFacing.Axis.X;
 		else if (i == 8)
-			enumfacing$axis = EnumFacing.Axis.Z;
+			axis = EnumFacing.Axis.Z;
 
-		return getDefaultState().withProperty(BlockRotatedPillar.AXIS, enumfacing$axis);
+		return getDefaultState().withProperty(BlockRotatedPillar.AXIS, axis);
 	}
 
 	@Override
 	public int getMetaFromState(IBlockState state) {
 		int i = 0;
-		EnumFacing.Axis enumfacing$axis = state.getValue(BlockRotatedPillar.AXIS);
+		EnumFacing.Axis axis = state.getValue(BlockRotatedPillar.AXIS);
 
-		if(enumfacing$axis == EnumFacing.Axis.X)
+		if(axis == EnumFacing.Axis.X)
 			i |= 4;
-		else if(enumfacing$axis == EnumFacing.Axis.Z)
+		else if(axis == EnumFacing.Axis.Z)
 			i |= 8;
 
 		return i;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, new IProperty[] { BlockRotatedPillar.AXIS });
+		return new BlockStateContainer(this, BlockRotatedPillar.AXIS);
 	}
 
-	@Override
+	@Nonnull
+    @Override
+	@SuppressWarnings("deprecation")
 	public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
-		return super.getStateForPlacement(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer).withProperty(BlockRotatedPillar.AXIS, facing.getAxis());
+		return getStateFromMeta(meta).withProperty(BlockRotatedPillar.AXIS, facing.getAxis());
 	}
 
 }

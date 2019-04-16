@@ -44,7 +44,7 @@ public class ShulkerBoxTooltip extends Feature {
 			NBTTagCompound cmp = ItemNBTHelper.getCompound(event.getItemStack(), "BlockEntityTag", true);
 			if(cmp != null && cmp.hasKey("Items", 9)) {
 				List<String> tooltip = event.getToolTip();
-				List<String> tooltipCopy = new ArrayList(tooltip);
+				List<String> tooltipCopy = new ArrayList<>(tooltip);
 				
 				for(int i = 1; i < tooltipCopy.size(); i++) {
 					String s = tooltipCopy.get(i);

@@ -18,6 +18,8 @@ import vazkii.quark.world.client.render.RenderAshen;
 import net.minecraft.client.renderer.entity.Render;
 import vazkii.quark.oddities.entity.EntityTotemOfHolding;
 
+import javax.annotation.Nonnull;
+
 public class RenderTotemOfHolding extends Render<EntityTotemOfHolding> {
 
 	protected RenderTotemOfHolding(RenderManager renderManager) {
@@ -25,7 +27,7 @@ public class RenderTotemOfHolding extends Render<EntityTotemOfHolding> {
 	}
 
 	@Override
-	public void doRender(EntityTotemOfHolding entity, double x, double y, double z, float entityYaw, float partialTicks) {
+	public void doRender(@Nonnull EntityTotemOfHolding entity, double x, double y, double z, float entityYaw, float partialTicks) {
 		super.doRender(entity, x, y, z, entityYaw, partialTicks);
 		
 		int deathTicks = entity.getDeathTicks();
@@ -52,7 +54,7 @@ public class RenderTotemOfHolding extends Render<EntityTotemOfHolding> {
 	}
 	
 	@Override
-	protected ResourceLocation getEntityTexture(EntityTotemOfHolding entity) {
+	protected ResourceLocation getEntityTexture(@Nonnull EntityTotemOfHolding entity) {
 		return null;
 	}
 	

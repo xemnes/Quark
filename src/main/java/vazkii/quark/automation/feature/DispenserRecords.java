@@ -16,6 +16,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import vazkii.quark.base.module.Feature;
 
+import javax.annotation.Nonnull;
+
 public class DispenserRecords extends Feature {
 	
 	@Override
@@ -34,7 +36,8 @@ public class DispenserRecords extends Feature {
 	
 	public class BehaviourRecord extends BehaviorDefaultDispenseItem {
 		
-		@Override
+		@Nonnull
+        @Override
 		protected ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
 			EnumFacing facing = source.getBlockState().getValue(BlockDispenser.FACING);
 			BlockPos pos = source.getBlockPos().offset(facing);

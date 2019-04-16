@@ -10,8 +10,6 @@
  */
 package vazkii.quark.world.feature;
 
-import java.util.Random;
-
 import net.minecraft.init.Biomes;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
@@ -22,6 +20,8 @@ import net.minecraftforge.event.terraingen.DecorateBiomeEvent.Decorate.EventType
 import net.minecraftforge.fml.common.eventhandler.Event.Result;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import vazkii.quark.base.module.Feature;
+
+import java.util.Random;
 
 public class MushroomsInSwamps extends Feature {
 
@@ -37,21 +37,23 @@ public class MushroomsInSwamps extends Feature {
 	@SubscribeEvent
 	public void decorate(DecorateBiomeEvent.Decorate event) {
 		World world = event.getWorld();
-		Biome biome = world.getBiome(event.getPos());
-		Random rand = event.getRand();
+		if (event.getPlacementPos() != null) {
+			Biome biome = world.getBiome(event.getPlacementPos());
+			Random rand = event.getRand();
 
-		if((biome == Biomes.SWAMPLAND || biome == Biomes.MUTATED_SWAMPLAND) && event.getType() == EventType.BIG_SHROOM) {
-			if(bigMushroomsPerChunk < 1 && rand.nextDouble() > bigMushroomsPerChunk)
-				return;
+			if ((biome == Biomes.SWAMPLAND || biome == Biomes.MUTATED_SWAMPLAND) && event.getType() == EventType.BIG_SHROOM) {
+				if (bigMushroomsPerChunk < 1 && rand.nextDouble() > bigMushroomsPerChunk)
+					return;
 
-			int amount = (int) Math.max(1, bigMushroomsPerChunk);
-			for(int i = 0; i < amount; i++) {
-				int x = rand.nextInt(16) + 8;
-				int y = rand.nextInt(16) + 8;
-				bigMushroomGen.generate(world, rand, world.getHeight(event.getPos().add(x, 0, y)));
+				int amount = (int) Math.max(1, bigMushroomsPerChunk);
+				for (int i = 0; i < amount; i++) {
+					int x = rand.nextInt(16) + 8;
+					int y = rand.nextInt(16) + 8;
+					bigMushroomGen.generate(world, rand, world.getHeight(event.getPlacementPos().add(x, 0, y)));
+				}
+
+				event.setResult(Result.DENY);
 			}
-
-			event.setResult(Result.DENY);
 		}
 	}
 

@@ -153,7 +153,7 @@ public class ChestSearchBar extends Feature {
 						int y = guiTop + s.yPos;
 						
 						GlStateManager.disableDepth();
-						guiContainer.drawRect(x, y, x + 16, y + 16, 0xAA000000);
+						Gui.drawRect(x, y, x + 16, y + 16, 0xAA000000);
 					} else matched++;
 				}
 			}
@@ -218,7 +218,7 @@ public class ChestSearchBar extends Feature {
 					return true;
 		}
 		
-		List<String> potionNames = new ArrayList();
+		List<String> potionNames = new ArrayList<>();
 		PotionUtils.addPotionTooltip(stack, potionNames, 1F);
 		for(String s : potionNames)
 			if(matcher.matches(TextFormatting.getTextWithoutFormattingCodes(s.trim().toLowerCase()), search))

@@ -32,11 +32,13 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 
+import javax.annotation.Nonnull;
+
 public class EntityWraith extends EntityZombie {
 
 	public static final ResourceLocation LOOT_TABLE = new ResourceLocation("quark:entities/wraith");
 
-	private static final DataParameter<Integer> SOUND_TYPE = EntityDataManager.<Integer>createKey(EntityWraith.class, DataSerializers.VARINT);
+	private static final DataParameter<Integer> SOUND_TYPE = EntityDataManager.createKey(EntityWraith.class, DataSerializers.VARINT);
 	private static final String TAG_SOUND_TYPE = "SoundType";
 
 	private static SoundEvent[][] SOUNDS = new SoundEvent[][] {
@@ -83,7 +85,7 @@ public class EntityWraith extends EntityZombie {
 	}
 
 	@Override
-	protected void setEquipmentBasedOnDifficulty(DifficultyInstance difficulty) {
+	protected void setEquipmentBasedOnDifficulty(@Nonnull DifficultyInstance difficulty) {
 		// NO-OP
 	}
 
@@ -93,7 +95,7 @@ public class EntityWraith extends EntityZombie {
 	}
 
 	@Override
-	protected SoundEvent getHurtSound(DamageSource p_184601_1_) {
+	protected SoundEvent getHurtSound(DamageSource damageSource) {
 		return getSoundForIndex(1);
 	}
 
@@ -154,7 +156,7 @@ public class EntityWraith extends EntityZombie {
 	}
 
 	@Override
-	public boolean attackEntityFrom(DamageSource source, float amount) {
+	public boolean attackEntityFrom(@Nonnull DamageSource source, float amount) {
 		if(source == DamageSource.FALL)
 			return false;
 

@@ -27,13 +27,14 @@ public class GuiConfigModule extends GuiConfigBase {
 		super(parent);
 		this.module = module;
 		
-		features = new ArrayList();
+		features = new ArrayList<>();
 		module.forEachFeature(features::add);
 		Collections.sort(features);
 
 		totalPages = (features.size() - 1) / FEATURES_PER_PAGE + 1;
 	}
 	
+	@Override
 	public void initGui() {
 		super.initGui();
 		

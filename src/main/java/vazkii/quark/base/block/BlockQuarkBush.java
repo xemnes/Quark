@@ -13,6 +13,8 @@ import vazkii.arl.item.ItemModBlock;
 import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.lib.LibMisc;
 
+import javax.annotation.Nonnull;
+
 public class BlockQuarkBush extends BlockBush implements IQuarkBlock {
 
 	private final String[] variants;
@@ -25,8 +27,9 @@ public class BlockQuarkBush extends BlockBush implements IQuarkBlock {
 		setTranslationKey(name);
 	}
 
-	@Override
-	public Block setTranslationKey(String name) {
+	@Nonnull
+    @Override
+	public Block setTranslationKey(@Nonnull String name) {
 		super.setTranslationKey(name);
 		setRegistryName(LibMisc.PREFIX_MOD + name);
 		ProxyRegistry.register(this);

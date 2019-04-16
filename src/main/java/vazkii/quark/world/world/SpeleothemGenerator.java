@@ -1,7 +1,5 @@
 package vazkii.quark.world.world;
 
-import java.util.Random;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockStone;
 import net.minecraft.block.state.IBlockState;
@@ -17,6 +15,8 @@ import vazkii.quark.world.block.BlockSpeleothem.EnumSize;
 import vazkii.quark.world.feature.Basalt;
 import vazkii.quark.world.feature.RevampStoneGen;
 import vazkii.quark.world.feature.Speleothems;
+
+import java.util.Random;
 
 public class SpeleothemGenerator implements IWorldGenerator {
 
@@ -78,7 +78,7 @@ public class SpeleothemGenerator implements IWorldGenerator {
 			pos = pos.offset(diff);
 			stateAt = world.getBlockState(pos);
 			off++;
-		} while(pos.getY() > 4 && pos.getY() < 200 && !stateAt.getBlock().isFullBlock(stateAt) && off < 10);
+		} while(pos.getY() > 4 && pos.getY() < 200 && !stateAt.isFullBlock() && off < 10);
 		
 		Block type = getSpeleothemType(stateAt);
 		placeSpeleothem(random, world, pos, type, !up);

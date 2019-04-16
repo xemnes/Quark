@@ -203,7 +203,7 @@ public class VariedChests extends Feature {
 		public static final ChestType[] VALID_TYPES;
 		public static final Map<String, ChestType> NAME_TO_TYPE;
 
-		private ChestType(String name) {
+		ChestType(String name) {
 			this.name = name;
 			nrmTex = new ResourceLocation(LibMisc.PREFIX_MOD + "textures/blocks/chests/" + name + ".png");
 			dblTex = new ResourceLocation(LibMisc.PREFIX_MOD + "textures/blocks/chests/" + name + "_double.png");

@@ -29,6 +29,8 @@ import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.block.IQuarkBlock;
 import vazkii.quark.base.lib.LibMisc;
 
+import javax.annotation.Nonnull;
+
 public class BlockBiotite extends BlockQuartz implements IQuarkBlock {
 
 	private final String[] variants;
@@ -45,8 +47,9 @@ public class BlockBiotite extends BlockQuartz implements IQuarkBlock {
 		setTranslationKey(name);
 	}
 
-	@Override
-	public Block setTranslationKey(String name) {
+	@Nonnull
+    @Override
+	public Block setTranslationKey(@Nonnull String name) {
 		super.setTranslationKey(name);
 		setRegistryName(LibMisc.PREFIX_MOD + name);
 		ProxyRegistry.register(this);
@@ -95,8 +98,9 @@ public class BlockBiotite extends BlockQuartz implements IQuarkBlock {
 	public IStateMapper getStateMapper() {
 		return new StateMapperBase() {
 
-			@Override
-			public ModelResourceLocation getModelResourceLocation(IBlockState state) {
+			@Nonnull
+            @Override
+			public ModelResourceLocation getModelResourceLocation(@Nonnull IBlockState state) {
 				BlockQuartz.EnumType blockquartz$enumtype = state.getValue(BlockQuartz.VARIANT);
 				ResourceLocation baseLocation = new ResourceLocation(LibMisc.MOD_ID.toLowerCase(), "biotite_block");
 

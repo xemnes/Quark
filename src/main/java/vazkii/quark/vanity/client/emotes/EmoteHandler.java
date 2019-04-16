@@ -36,8 +36,8 @@ public final class EmoteHandler {
 	public static final String CUSTOM_EMOTE_NAMESPACE = "quark_custom";
 	public static final String CUSTOM_PREFIX = "custom:";
 	
-	public static Map<String, EmoteDescriptor> emoteMap = new LinkedHashMap();
-	private static Map<String, EmoteBase> playerEmotes = new HashMap();
+	public static Map<String, EmoteDescriptor> emoteMap = new LinkedHashMap<>();
+	private static Map<String, EmoteBase> playerEmotes = new HashMap<>();
 
 	private static int count;
 	

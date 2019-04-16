@@ -23,7 +23,7 @@ import java.util.List;
 
 public class ModKeybinds {
 
-	public static HashMap<KeyBinding, String> emoteKeys = new HashMap();
+	public static HashMap<KeyBinding, String> emoteKeys = new HashMap<>();
 
 	public static BiMap<KeyBinding, IParentedGui> keyboundButtons = HashBiMap.create();
 

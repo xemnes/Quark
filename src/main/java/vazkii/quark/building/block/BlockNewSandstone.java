@@ -12,12 +12,15 @@ package vazkii.quark.building.block;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.util.IStringSerializable;
 import vazkii.arl.block.BlockMetaVariants;
 import vazkii.quark.base.block.IQuarkBlock;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.building.feature.SoulSandstone;
 
-public class BlockNewSandstone extends BlockMetaVariants implements IQuarkBlock {
+import java.util.Locale;
+
+public class BlockNewSandstone extends BlockMetaVariants<BlockNewSandstone.Variants> implements IQuarkBlock {
 
 	public BlockNewSandstone() {
 		super("sandstone_new", Material.ROCK, Variants.class);
@@ -30,7 +33,7 @@ public class BlockNewSandstone extends BlockMetaVariants implements IQuarkBlock 
 		return ModuleLoader.isFeatureEnabled(SoulSandstone.class) || variant < 4;
 	}
 	
-	public static enum Variants implements EnumBase {
+	public enum Variants implements IStringSerializable {
 		SANDSTONE_SMOOTH(false, true),
 		SANDSTONE_BRICKS(true, true),
 		RED_SANDSTONE_SMOOTH(false, true),
@@ -38,11 +41,16 @@ public class BlockNewSandstone extends BlockMetaVariants implements IQuarkBlock 
 		SOUL_SANDSTONE_SMOOTH(false, true),
 		SOUL_SANDSTONE_BRICKS(true, true);
 
-		private Variants(boolean stairs, boolean slabs) {
+		Variants(boolean stairs, boolean slabs) {
 			this.stairs = stairs;
 			this.slabs = slabs;
 		}
 		public final boolean stairs, slabs;
+
+		@Override
+		public String getName() {
+			return name().toLowerCase(Locale.ROOT);
+		}
 	}
 
 }

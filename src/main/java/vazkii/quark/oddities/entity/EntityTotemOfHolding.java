@@ -17,6 +17,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import vazkii.quark.oddities.feature.TotemOfHolding;
 
+import javax.annotation.Nonnull;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -160,7 +161,7 @@ public class EntityTotemOfHolding extends Entity {
 	}
 				
 	@Override
-	protected void readEntityFromNBT(NBTTagCompound compound) {
+	protected void readEntityFromNBT(@Nonnull NBTTagCompound compound) {
 		NBTTagList list = compound.getTagList(TAG_ITEMS, 10);
 		storedItems = new LinkedList<>();
 
@@ -177,7 +178,7 @@ public class EntityTotemOfHolding extends Entity {
 	}
 
 	@Override
-	protected void writeEntityToNBT(NBTTagCompound compound) {
+	protected void writeEntityToNBT(@Nonnull NBTTagCompound compound) {
 		NBTTagList list = new NBTTagList();
 		for(ItemStack stack : storedItems) {
 			NBTTagCompound cmp = new NBTTagCompound();

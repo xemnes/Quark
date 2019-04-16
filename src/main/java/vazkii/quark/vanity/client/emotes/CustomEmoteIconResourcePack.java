@@ -7,6 +7,7 @@ import net.minecraftforge.fml.common.Loader;
 import vazkii.quark.base.Quark;
 import vazkii.quark.vanity.feature.EmoteSystem;
 
+import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -17,25 +18,28 @@ import java.util.Set;
 
 public class CustomEmoteIconResourcePack extends AbstractResourcePack {
 
-	private List<String> verifiedNames = new ArrayList();
-	private List<String> existingNames = new ArrayList();
+	private List<String> verifiedNames = new ArrayList<>();
+	private List<String> existingNames = new ArrayList<>();
 
 	public CustomEmoteIconResourcePack() {
 		super(Loader.instance().activeModContainer().getSource());
 	}
 	
-	@Override
+	@Nonnull
+    @Override
 	public Set<String> getResourceDomains() {
 		return ImmutableSet.of(EmoteHandler.CUSTOM_EMOTE_NAMESPACE);
 	}
 	
-	@Override
+	@Nonnull
+    @Override
 	public InputStream getInputStream(ResourceLocation location) throws IOException {
 		return getInputStreamByName(location.toString());
 	}
 
-	@Override
-	protected InputStream getInputStreamByName(String name) throws IOException {
+	@Nonnull
+    @Override
+	protected InputStream getInputStreamByName(@Nonnull String name) throws IOException {
 		if(name.equals("pack.mcmeta"))
 			return Quark.class.getResourceAsStream("/proxypack.mcmeta");
 		
@@ -52,7 +56,7 @@ public class CustomEmoteIconResourcePack extends AbstractResourcePack {
 	}
 	
 	@Override
-	protected boolean hasResourceName(String name) {
+	protected boolean hasResourceName(@Nonnull String name) {
 		if(!verifiedNames.contains(name)) {
 			File file = getFile(name);
 			if(file.exists())

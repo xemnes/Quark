@@ -36,7 +36,8 @@ public class UndergroundBiomeSandstone extends BasicUndergroundBiome {
 		super(Blocks.SANDSTONE.getDefaultState(), Blocks.SANDSTONE.getDefaultState(), Blocks.SANDSTONE.getDefaultState());
 	}
 	
-	public boolean isValidBiome(Biome biome) {
+	@Override
+    public boolean isValidBiome(Biome biome) {
 		return allowGenInMesa || !BiomeDictionary.hasType(biome, BiomeDictionary.Type.MESA);
 	}
 	
@@ -113,7 +114,7 @@ public class UndergroundBiomeSandstone extends BasicUndergroundBiome {
 				world.setBlockState(dataPos, chestState);
 
 				TileEntity chest = world.getTileEntity(dataPos);
-				if(chest != null && chest instanceof TileEntityLockableLoot)
+				if(chest instanceof TileEntityLockableLoot)
 					((TileEntityLockableLoot) chest).setLootTable(LootTableList.CHESTS_DESERT_PYRAMID, world.rand.nextLong());
 				break;
 			}

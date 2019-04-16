@@ -8,6 +8,8 @@ import net.minecraft.creativetab.CreativeTabs;
 import vazkii.arl.block.BlockMod;
 import vazkii.quark.base.block.IQuarkBlock;
 
+import javax.annotation.Nonnull;
+
 public class BlockSturdyStone extends BlockMod implements IQuarkBlock {
 
 	public BlockSturdyStone() {
@@ -18,7 +20,9 @@ public class BlockSturdyStone extends BlockMod implements IQuarkBlock {
 		setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
 	}
 	
+	@Nonnull
 	@Override
+	@SuppressWarnings("deprecation")
 	public EnumPushReaction getPushReaction(IBlockState state) {
 		return EnumPushReaction.BLOCK;
 	}

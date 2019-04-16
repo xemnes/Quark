@@ -55,7 +55,7 @@ public class LockDirectionHotkey extends Feature {
 
 	private static final String TAG_LOCKED_ONCE = "quark:locked_once";
 	
-	private static final HashMap<String, LockProfile> lockProfiles = new HashMap();
+	private static final HashMap<String, LockProfile> lockProfiles = new HashMap<>();
 	private LockProfile clientProfile;
 	
 	@Override

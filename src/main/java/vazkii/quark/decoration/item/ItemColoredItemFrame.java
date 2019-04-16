@@ -31,6 +31,8 @@ import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.decoration.entity.EntityColoredItemFrame;
 import vazkii.quark.decoration.feature.FlatItemFrames;
 
+import javax.annotation.Nonnull;
+
 
 public class ItemColoredItemFrame extends ItemMod implements IItemColorProvider, IExtraVariantHolder, IQuarkItem {
 
@@ -65,7 +67,8 @@ public class ItemColoredItemFrame extends ItemMod implements IItemColorProvider,
 		setCreativeTab(CreativeTabs.DECORATIONS);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public EnumActionResult onItemUse(EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		ItemStack stack = playerIn.getHeldItem(hand);
 		BlockPos blockpos = pos.offset(facing);
@@ -108,7 +111,7 @@ public class ItemColoredItemFrame extends ItemMod implements IItemColorProvider,
 		return new IItemColor() {
 
 			@Override
-			public int colorMultiplier(ItemStack stack, int tintIndex) {
+			public int colorMultiplier(@Nonnull ItemStack stack, int tintIndex) {
 				return tintIndex == 1 ? ItemDye.DYE_COLORS[15 - Math.min(15, stack.getItemDamage())] : 0xFFFFFF;
 			}
 		};

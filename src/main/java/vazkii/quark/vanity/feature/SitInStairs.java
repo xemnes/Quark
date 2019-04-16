@@ -10,9 +10,6 @@
  */
 package vazkii.quark.vanity.feature;
 
-import java.util.List;
-
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockStairs;
 import net.minecraft.block.BlockStairs.EnumHalf;
 import net.minecraft.block.state.IBlockState;
@@ -29,11 +26,14 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
-import net.minecraftforge.fml.common.registry.EntityRegistry.EntityRegistration;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.lib.LibEntityIDs;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.base.module.Feature;
+
+import javax.annotation.Nonnull;
+import java.util.List;
+import java.util.Objects;
 
 public class SitInStairs extends Feature {
 
@@ -64,7 +64,7 @@ public class SitInStairs extends Feature {
 		if(!stack1.isEmpty() || !stack2.isEmpty())
 			return;
 
-		if(state.getBlock() instanceof BlockStairs && state.getValue(BlockStairs.HALF) == EnumHalf.BOTTOM && !state.getBlock().isSideSolid(state, world, pos, event.getFace()) && canBeAbove(world, pos)) {
+		if(state.getBlock() instanceof BlockStairs && state.getValue(BlockStairs.HALF) == EnumHalf.BOTTOM && !state.isSideSolid(world, pos, Objects.requireNonNull(event.getFace())) && canBeAbove(world, pos)) {
 			List<Seat> seats = world.getEntitiesWithinAABB(Seat.class, new AxisAlignedBB(pos, pos.add(1, 1, 1)));
 
 			if(seats.isEmpty()) {
@@ -83,8 +83,7 @@ public class SitInStairs extends Feature {
 	public static boolean canBeAbove(World world, BlockPos pos) {
 		BlockPos upPos = pos.up();
 		IBlockState state = world.getBlockState(upPos);
-		Block block = state.getBlock();
-		return block.getCollisionBoundingBox(state, world, upPos) == null;
+		return state.getCollisionBoundingBox(world, upPos) == null;
 	}
 
 	public static class Seat extends Entity {
@@ -120,8 +119,8 @@ public class SitInStairs extends Feature {
 		}
 
 		@Override protected void entityInit() { }
-		@Override protected void readEntityFromNBT(NBTTagCompound nbttagcompound) { }
-		@Override protected void writeEntityToNBT(NBTTagCompound nbttagcompound) { }
+		@Override protected void readEntityFromNBT(@Nonnull NBTTagCompound nbttagcompound) { }
+		@Override protected void writeEntityToNBT(@Nonnull NBTTagCompound nbttagcompound) { }
 	}
 
 }

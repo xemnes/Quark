@@ -1,9 +1,5 @@
 package vazkii.quark.experimental.lighting;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ListIterator;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -14,10 +10,14 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeModContainer;
 import vazkii.arl.util.ClientTicker;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
+
 public final class ColoredLightSystem {
 
-	private static List<LightSource> lightSources = new ArrayList();
-	private static List<LightSource> currentSources = new ArrayList();
+	private static List<LightSource> lightSources = new ArrayList<>();
+	private static List<LightSource> currentSources = new ArrayList<>();
 	
 	private static int lastFrame;
 	
@@ -31,15 +31,14 @@ public final class ColoredLightSystem {
 			currentSources.clear();
 		}
 		
-		List<LightSource> tempList = new ArrayList(lightSources);
+		List<LightSource> tempList = new ArrayList<>(lightSources);
 		tempList.removeIf((src) -> src == null || !src.isValid(world));
 		currentSources = tempList;
 	}
 	
 	public static float[] getLightColor(IBlockAccess world, BlockPos pos) {
-		float totalIncidence = 0;
 		float maxBrightness = 0;
-		float addR, addG, addB, r, g, b;
+		float addR, addG, addB;
 		addR = addG = addB = 0;
 		
 		int time = ClientTicker.ticksInGame;
@@ -61,7 +60,6 @@ public final class ColoredLightSystem {
 			
 			if(incidence > 0) {
 				float incidenceF = (float) incidence / 15F;
-				float negIncidence = 1F - incidenceF;
 				float localBrightness = brightness * incidenceF;
 				
 				float[] colors = ((IColoredLightSource) srcBlock).getColoredLight(world, srcPos);
@@ -99,7 +97,6 @@ public final class ColoredLightSystem {
 			src.newFrame();
 	}
 	
-	@SuppressWarnings("unlikely-arg-type")
 	public static void addLightSource(IBlockAccess access, BlockPos pos, IBlockState state) {
 		if(!(access instanceof World))
 			return;
@@ -108,7 +105,7 @@ public final class ColoredLightSystem {
 		ListIterator<LightSource> iterator = lightSources.listIterator();
 		while(iterator.hasNext()) {
 			LightSource src = iterator.next();
-			if(src.equals(pos)) {
+			if(src.pos.equals(pos)) {
 				if(!src.isValid(world))
 					iterator.remove();
 				else return;

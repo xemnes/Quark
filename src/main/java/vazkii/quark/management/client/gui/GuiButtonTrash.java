@@ -14,6 +14,7 @@ import vazkii.quark.base.client.IParentedGui;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.management.feature.DeleteItems;
 
+import javax.annotation.Nonnull;
 import java.util.Collections;
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class GuiButtonTrash extends GuiButton implements IParentedGui {
 	}
 	
 	@Override
-	public void drawButton(Minecraft par1Minecraft, int par2, int par3, float pticks) {
+	public void drawButton(@Nonnull Minecraft par1Minecraft, int par2, int par3, float pticks) {
 		hovered = par2 >= x && par3 >= y && par2 < x + width && par3 < y + height;
 		int k = getHoverState(hovered);
 

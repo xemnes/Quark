@@ -81,7 +81,7 @@ public class DepthMobs extends Feature {
 	}
 
 	private Biome[] getBiomesWithMob(Class<? extends Entity> clazz) {
-		List<Biome> biomes = new ArrayList();
+		List<Biome> biomes = new ArrayList<>();
 		Iterator<Biome> bIter = Biome.REGISTRY.iterator();
 		while(bIter.hasNext()) {
 			Biome b = bIter.next();

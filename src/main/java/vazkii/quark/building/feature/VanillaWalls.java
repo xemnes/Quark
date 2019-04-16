@@ -58,9 +58,10 @@ public class VanillaWalls extends Feature {
 	}
 
 	public static void add(String name, Block block, int meta, boolean doit) {
-		add(name, block, meta, doit, (wallName, state) -> new BlockQuarkWall(wallName, state));
+		add(name, block, meta, doit, BlockQuarkWall::new);
 	}
 
+	@SuppressWarnings("deprecation")
 	public static void add(String name, Block block, int meta, boolean doit, WallSupplier supplier) {
 		if(!doit)
 			return;
@@ -75,7 +76,7 @@ public class VanillaWalls extends Feature {
 		return true;
 	}
 
-	public static interface WallSupplier {
-		public BlockQuarkWall supply(String wallName, IBlockState state);
+	public interface WallSupplier {
+		BlockQuarkWall supply(String wallName, IBlockState state);
 	}
 }

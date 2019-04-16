@@ -9,6 +9,8 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import vazkii.quark.base.module.Module;
 
+import javax.annotation.Nonnull;
+
 public class GuiButtonModule extends GuiButton {
 
 	boolean projectRedCrashing = false;
@@ -21,7 +23,7 @@ public class GuiButtonModule extends GuiButton {
 	}
 	
 	@Override
-	public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks) {
+	public void drawButton(@Nonnull Minecraft mc, int mouseX, int mouseY, float partialTicks) {
 		super.drawButton(mc, mouseX, mouseY, partialTicks);
 		
 		if(visible && !projectRedCrashing) {
@@ -38,7 +40,7 @@ public class GuiButtonModule extends GuiButton {
 	}
 	
 	@Override
-	public void drawCenteredString(FontRenderer fontRendererIn, String text, int x, int y, int color) {
+	public void drawCenteredString(FontRenderer fontRendererIn, @Nonnull String text, int x, int y, int color) {
 		super.drawCenteredString(fontRendererIn, text, x + 14, y, color);
 	}
 

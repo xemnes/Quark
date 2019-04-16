@@ -21,6 +21,8 @@ import vazkii.arl.network.NetworkHandler;
 import vazkii.arl.network.NetworkMessage;
 import vazkii.quark.vanity.feature.EmoteSystem;
 
+import javax.annotation.Nonnull;
+
 public class MessageRequestEmote extends NetworkMessage<MessageRequestEmote> {
 
 	public String emoteName;
@@ -72,27 +74,31 @@ public class MessageRequestEmote extends NetworkMessage<MessageRequestEmote> {
 			return server;
 		}
 
-		@Override
+		@Nonnull
+        @Override
 		public String getName() {
 			return "Quark-Emotes[" + superSender.getName() + "]";
 		}
 
-		@Override
+		@Nonnull
+        @Override
 		public World getEntityWorld() {
 			return superSender.getEntityWorld();
 		}
 
 		@Override
-		public boolean canUseCommand(int permLevel, String commandName) {
+		public boolean canUseCommand(int permLevel, @Nonnull String commandName) {
 			return !commandName.equals("emote") && permLevel <= 2;
 		}
 		
-		@Override
+		@Nonnull
+        @Override
 		public BlockPos getPosition() {
 			return superSender.getPosition();
 		}
 		
-		@Override
+		@Nonnull
+        @Override
 		public Vec3d getPositionVector() {
 			return superSender.getPositionVector();
 		}

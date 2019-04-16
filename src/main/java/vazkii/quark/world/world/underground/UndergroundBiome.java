@@ -1,10 +1,6 @@
 package vazkii.quark.world.world.underground;
 
-import java.util.List;
-import java.util.Map;
-
 import com.google.common.base.Predicate;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockStone;
 import net.minecraft.block.state.IBlockState;
@@ -27,7 +23,7 @@ public abstract class UndergroundBiome {
 		if(state != null) {
 			Block block = state.getBlock();
 			if(block == Blocks.STONE) {
-				BlockStone.EnumType blockstone$enumtype = (BlockStone.EnumType) state.getValue(BlockStone.VARIANT);
+				BlockStone.EnumType blockstone$enumtype = state.getValue(BlockStone.VARIANT);
 				return blockstone$enumtype.isNatural();
 			}
 			
@@ -39,7 +35,7 @@ public abstract class UndergroundBiome {
 
 	public void fill(World world, BlockPos pos, UndergroundBiomeGenerationContext context) {
 		IBlockState state = world.getBlockState(pos);
-		if(state.getBlock().getBlockHardness(state, world, pos) == -1 || world.canBlockSeeSky(pos))
+		if(state.getBlockHardness(world, pos) == -1 || world.canBlockSeeSky(pos))
 			return;
 
 		if(isFloor(world, pos, state)) {

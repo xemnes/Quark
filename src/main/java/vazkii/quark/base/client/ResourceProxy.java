@@ -6,6 +6,7 @@ import net.minecraftforge.fml.common.Loader;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.lib.LibMisc;
 
+import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -20,7 +21,7 @@ public class ResourceProxy extends AbstractResourcePack {
 	private static final String BARE_FORMAT = "assets/" + MINECRAFT + "/%s/%s";
 	private static final String OVERRIDE_FORMAT = "/assets/" + LibMisc.MOD_ID + "/%s/overrides/%s";
 
-	private static final Map<String, String> overrides = new HashMap();
+	private static final Map<String, String> overrides = new HashMap<>();
 
 	public ResourceProxy() {
 		super(Loader.instance().activeModContainer().getSource());
@@ -33,13 +34,15 @@ public class ResourceProxy extends AbstractResourcePack {
 		overrides.put(bare, override);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public Set<String> getResourceDomains() {
 		return RESOURCE_DOMAINS;
 	}
 
-	@Override
-	protected InputStream getInputStreamByName(String name) throws IOException {
+	@Nonnull
+    @Override
+	protected InputStream getInputStreamByName(@Nonnull String name) throws IOException {
 		if(name == null)
 			return null;
 		
@@ -48,16 +51,17 @@ public class ResourceProxy extends AbstractResourcePack {
 	}
 
 	@Override
-	protected boolean hasResourceName(String name) {
+	protected boolean hasResourceName(@Nonnull String name) {
 		return overrides.containsKey(name);
 	}
 
 	@Override
-	protected void logNameNotLowercase(String name) {
+	protected void logNameNotLowercase(@Nonnull String name) {
 		// NO-OP
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public String getPackName() {
 		return "quark-texture-proxy";
 	}

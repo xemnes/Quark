@@ -29,6 +29,7 @@ import vazkii.quark.base.block.IQuarkBlock;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.decoration.client.state.ColoredFlowerPotStateMapper;
 
+import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class BlockColoredFlowerPot extends BlockCustomFlowerPot implements IQuarkBlock, IBlockColorProvider, IRecipeGrouped {
@@ -45,8 +46,9 @@ public class BlockColoredFlowerPot extends BlockCustomFlowerPot implements IQuar
 		setTranslationKey(name);
 	}
 
+	@Nonnull
 	@Override
-	public Block setTranslationKey(String name) {
+	public Block setTranslationKey(@Nonnull String name) {
 		super.setTranslationKey(name);
 		setRegistryName(LibMisc.PREFIX_MOD + name);
 		ProxyRegistry.register(this);
@@ -54,8 +56,9 @@ public class BlockColoredFlowerPot extends BlockCustomFlowerPot implements IQuar
 		return this;
 	}
 	
+	@Nonnull
 	@Override
-    public ItemStack getItem(World worldIn, BlockPos pos, IBlockState state) {
+    public ItemStack getItem(World worldIn, @Nonnull BlockPos pos, IBlockState state) {
         ItemStack stack = super.getItem(worldIn, pos, state);
         if(stack.getItem() == Items.FLOWER_POT)
         	stack = new ItemStack(Item.getItemFromBlock(this));
@@ -63,11 +66,13 @@ public class BlockColoredFlowerPot extends BlockCustomFlowerPot implements IQuar
         return stack;
     }
 
+	@Nonnull
 	@Override
     public Item getItemDropped(IBlockState state, Random rand, int fortune) {
 		return Item.getItemFromBlock(this);
 	}
 	
+	@Nonnull
 	@Override
     public String getLocalizedName() {
         return I18n.format(getTranslationKey() + ".name");

@@ -7,6 +7,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
@@ -14,7 +15,10 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.arl.block.BlockMetaVariants;
 import vazkii.quark.base.block.IQuarkBlock;
 
-public class BlockCrystal extends BlockMetaVariants implements IQuarkBlock {
+import javax.annotation.Nonnull;
+import java.util.Locale;
+
+public class BlockCrystal extends BlockMetaVariants<BlockCrystal.Variants> implements IQuarkBlock {
 
 	public BlockCrystal() {
 		super("crystal", Material.GLASS, Variants.class);
@@ -25,24 +29,28 @@ public class BlockCrystal extends BlockMetaVariants implements IQuarkBlock {
 	}
 	
 	@Override
+	@SuppressWarnings("deprecation")
     public boolean isOpaqueCube(IBlockState state) {
         return false;
     }
     
-    @Override
+    @Nonnull
+	@Override
     public BlockRenderLayer getRenderLayer() {
         return BlockRenderLayer.TRANSLUCENT;
     }
 
-    @SideOnly(Side.CLIENT)
-    public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
+    @Override
+	@SideOnly(Side.CLIENT)
+	@SuppressWarnings("deprecation")
+    public boolean shouldSideBeRendered(IBlockState blockState, @Nonnull IBlockAccess blockAccess, @Nonnull BlockPos pos, EnumFacing side) {
         IBlockState iblockstate = blockAccess.getBlockState(pos.offset(side));
         Block block = iblockstate.getBlock();
 
-        return block == this ? false : super.shouldSideBeRendered(blockState, blockAccess, pos, side);
+        return block != this && super.shouldSideBeRendered(blockState, blockAccess, pos, side);
     }
 
-	public enum Variants implements EnumBase {
+	public enum Variants implements IStringSerializable {
 		CRYSTAL_WHITE,
 		CRYSTAL_RED,
 		CRYSTAL_ORANGE,
@@ -50,7 +58,12 @@ public class BlockCrystal extends BlockMetaVariants implements IQuarkBlock {
 		CRYSTAL_GREEN,
 		CRYSTAL_BLUE,
 		CRYSTAL_INDIGO,
-		CRYSTAL_VIOLET
+		CRYSTAL_VIOLET;
+
+		@Override
+		public String getName() {
+			return name().toLowerCase(Locale.ROOT);
+		}
 	}
 
 }

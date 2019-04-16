@@ -10,11 +10,10 @@
  */
 package vazkii.quark.building.block;
 
-import java.util.function.Supplier;
-
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.util.IStringSerializable;
 import vazkii.arl.block.BlockMetaVariants;
 import vazkii.quark.base.block.IQuarkBlock;
 import vazkii.quark.base.module.Feature;
@@ -23,7 +22,10 @@ import vazkii.quark.building.feature.WorldStoneBricks;
 import vazkii.quark.world.feature.Basalt;
 import vazkii.quark.world.feature.RevampStoneGen;
 
-public class BlockWorldStoneBricks extends BlockMetaVariants implements IQuarkBlock {
+import java.util.Locale;
+import java.util.function.Supplier;
+
+public class BlockWorldStoneBricks extends BlockMetaVariants<BlockWorldStoneBricks.Variants> implements IQuarkBlock {
 
 	public BlockWorldStoneBricks() {
 		super("world_stone_bricks", Material.ROCK, Variants.class);
@@ -38,7 +40,7 @@ public class BlockWorldStoneBricks extends BlockMetaVariants implements IQuarkBl
 		return Variants.class.getEnumConstants()[variant].isEnabled();
 	}
 
-	public enum Variants implements EnumBase {
+	public enum Variants implements IStringSerializable {
 		
 		STONE_GRANITE_BRICKS(WorldStoneBricks.class),
 		STONE_DIORITE_BRICKS(WorldStoneBricks.class),
@@ -47,11 +49,11 @@ public class BlockWorldStoneBricks extends BlockMetaVariants implements IQuarkBl
 		STONE_MARBLE_BRICKS(RevampStoneGen.class, () -> RevampStoneGen.enableMarble),
 		STONE_LIMESTONE_BRICKS(RevampStoneGen.class, () -> RevampStoneGen.enableLimestone);
 		
-		private Variants(Class<? extends Feature> clazz) {
+		Variants(Class<? extends Feature> clazz) {
 			this(clazz, () -> true);
 		}
 		
-		private Variants(Class<? extends Feature> clazz, Supplier<Boolean> enabledCond) {
+		Variants(Class<? extends Feature> clazz, Supplier<Boolean> enabledCond) {
 			featureLink = clazz;
 			this.enabledCond = enabledCond;
 		}
@@ -61,6 +63,11 @@ public class BlockWorldStoneBricks extends BlockMetaVariants implements IQuarkBl
 		
 		public boolean isEnabled() {
 			return ModuleLoader.isFeatureEnabled(featureLink) && enabledCond.get();
+		}
+
+		@Override
+		public String getName() {
+			return name().toLowerCase(Locale.ROOT);
 		}
 		
 	}

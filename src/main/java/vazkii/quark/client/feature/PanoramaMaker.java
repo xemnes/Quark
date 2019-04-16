@@ -72,7 +72,7 @@ public class PanoramaMaker extends Feature {
 			File mcDir = ModuleLoader.configFile.getParentFile().getParentFile();
 			File panoramasDir = new File(mcDir, "/screenshots/panoramas");
 			
-			List<File[]> validFiles = new ArrayList();
+			List<File[]> validFiles = new ArrayList<>();
 
 			ImmutableSet<String> set = ImmutableSet.of("panorama_0.png", "panorama_1.png", "panorama_2.png", "panorama_3.png", "panorama_4.png", "panorama_5.png");
 

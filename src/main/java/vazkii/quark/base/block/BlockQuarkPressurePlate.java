@@ -22,6 +22,8 @@ import vazkii.arl.item.ItemModBlock;
 import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.lib.LibMisc;
 
+import javax.annotation.Nonnull;
+
 public abstract class BlockQuarkPressurePlate extends BlockPressurePlate implements IQuarkBlock {
 
 	private final String[] variants;
@@ -37,7 +39,7 @@ public abstract class BlockQuarkPressurePlate extends BlockPressurePlate impleme
 	}
 
 	@Override
-	protected int computeRedstoneStrength(World worldIn, BlockPos pos) {
+	protected int computeRedstoneStrength(@Nonnull World worldIn, @Nonnull BlockPos pos) {
 		AxisAlignedBB axisalignedbb = PRESSURE_AABB.offset(pos);
 		List<? extends Entity> list = getValidEntities(worldIn, axisalignedbb);
 
@@ -51,8 +53,9 @@ public abstract class BlockQuarkPressurePlate extends BlockPressurePlate impleme
 	
 	protected abstract List<Entity> getValidEntities(World world, AxisAlignedBB aabb);
 
-	@Override
-	public Block setTranslationKey(String name) {
+	@Nonnull
+    @Override
+	public Block setTranslationKey(@Nonnull String name) {
 		super.setTranslationKey(name);
 		setRegistryName(LibMisc.PREFIX_MOD + name);
 		ProxyRegistry.register(this);

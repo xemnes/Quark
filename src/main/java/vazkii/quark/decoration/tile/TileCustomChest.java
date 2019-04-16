@@ -10,8 +10,6 @@
  */
 package vazkii.quark.decoration.tile;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockChest;
 import net.minecraft.block.state.IBlockState;
@@ -30,18 +28,23 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.VanillaDoubleChestItemHandler;
 import vazkii.quark.decoration.feature.VariedChests;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 public class TileCustomChest extends TileEntityChest {
 
 	public VariedChests.ChestType chestType = VariedChests.ChestType.NONE;
 
-	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
+	@Nonnull
+    @Override
+	public NBTTagCompound writeToNBT(@Nonnull NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setString("type", chestType.name);
 		return nbt;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public NBTTagCompound getUpdateTag() {
 		NBTTagCompound nbt = super.getUpdateTag();
 		nbt.setString("type", chestType.name);
@@ -49,13 +52,13 @@ public class TileCustomChest extends TileEntityChest {
 	}
 
 	@Override
-	public void handleUpdateTag(NBTTagCompound tag) {
+	public void handleUpdateTag(@Nonnull NBTTagCompound tag) {
 		super.handleUpdateTag(tag);
 		chestType = VariedChests.ChestType.getType(tag.getString("type"));
 	}
 
 	@Override
-	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
+	public boolean shouldRefresh(World world, BlockPos pos, @Nonnull IBlockState oldState, @Nonnull IBlockState newState) {
 		return oldState.getBlock() != newState.getBlock();
 	}
 
@@ -105,7 +108,7 @@ public class TileCustomChest extends TileEntityChest {
 
 	@Nullable
 	@Override
-	protected TileEntityChest getAdjacentChest(EnumFacing side) {
+	protected TileEntityChest getAdjacentChest(@Nonnull EnumFacing side) {
 		BlockPos blockpos = pos.offset(side);
 
 		if(isChestAt(blockpos)) {
@@ -122,13 +125,9 @@ public class TileCustomChest extends TileEntityChest {
 	}
 
 	private boolean isChestAt(BlockPos posIn) {
-		if(getWorld() == null) {
-			return false;
-		} else {
-			Block block = getWorld().getBlockState(posIn).getBlock();
-			TileEntity te = getWorld().getTileEntity(posIn);
-			return block instanceof BlockChest && ((BlockChest) block).chestType == getChestType() && te instanceof TileCustomChest && ((TileCustomChest) te).chestType == chestType;
-		}
+		Block block = getWorld().getBlockState(posIn).getBlock();
+		TileEntity te = getWorld().getTileEntity(posIn);
+		return block instanceof BlockChest && ((BlockChest) block).chestType == getChestType() && te instanceof TileCustomChest && ((TileCustomChest) te).chestType == chestType;
 	}
 
 	@Override
@@ -147,18 +146,19 @@ public class TileCustomChest extends TileEntityChest {
 			world.notifyNeighborsOfStateChange(pos.down(), getBlockType(), false);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public AxisAlignedBB getRenderBoundingBox() {
 		return new AxisAlignedBB(pos.getX() - 1, pos.getY(), pos.getZ() - 1, pos.getX() + 2, pos.getY() + 2, pos.getZ() + 2);
 	}
 
 	@Override
-	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
+	public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
 		if(capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
 			if(doubleChestHandler == null || doubleChestHandler.needsRefresh())
 				doubleChestHandler = getDoubleChestHandler(this);
 			if(doubleChestHandler != null && doubleChestHandler != VanillaDoubleChestItemHandler.NO_ADJACENT_CHESTS_INSTANCE)
-				return (T) doubleChestHandler;
+				return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(doubleChestHandler);
 		}
 		return super.getCapability(capability, facing);
 	}
@@ -169,7 +169,7 @@ public class TileCustomChest extends TileEntityChest {
 	public static VanillaDoubleChestItemHandler getDoubleChestHandler(TileCustomChest chest) {
 		World world = chest.getWorld();
 		BlockPos pos = chest.getPos();
-		if(world == null || pos == null || !world.isBlockLoaded(pos))
+		if(!world.isBlockLoaded(pos))
 			return null; // Still loading
 
 		Block blockType = chest.getBlockType();

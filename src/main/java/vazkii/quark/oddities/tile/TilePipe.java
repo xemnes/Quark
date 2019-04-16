@@ -24,6 +24,7 @@ import vazkii.arl.block.tile.TileSimpleInventory;
 import vazkii.quark.oddities.block.BlockPipe;
 import vazkii.quark.oddities.feature.Pipes;
 
+import javax.annotation.Nonnull;
 import java.util.*;
 
 public class TilePipe extends TileSimpleInventory implements ITickable {
@@ -194,12 +195,12 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 	}
 
 	@Override
-	public boolean canInsertItem(int index, ItemStack itemStackIn, EnumFacing direction) {
+	public boolean canInsertItem(int index, @Nonnull ItemStack itemStackIn, @Nonnull EnumFacing direction) {
 		return index == direction.ordinal() && isPipeEnabled();
 	}
 
 	@Override
-	public void setInventorySlotContents(int i, ItemStack itemstack) {
+	public void setInventorySlotContents(int i, @Nonnull ItemStack itemstack) {
 		if(!itemstack.isEmpty()) {
 			EnumFacing side = EnumFacing.VALUES[i];
 			passIn(itemstack, side);
@@ -269,7 +270,7 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 					return incomingOpposite;
 			}
 
-			List<EnumFacing> sides = new ArrayList(HORIZONTAL_SIDES_LIST);
+			List<EnumFacing> sides = new ArrayList<>(HORIZONTAL_SIDES_LIST);
 			sides.remove(incomingFace);
 			sides.remove(incomingOpposite);
 
@@ -288,7 +289,7 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 		}
 
 		public float getTimeFract(float pticks) {
-			return (float) (ticksInPipe + pticks) / Pipes.pipeSpeed;
+			return (ticksInPipe + pticks) / Pipes.pipeSpeed;
 		}
 
 		public float getTimeFract() {

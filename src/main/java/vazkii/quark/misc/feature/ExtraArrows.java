@@ -36,6 +36,8 @@ import vazkii.quark.misc.entity.EntityArrowExplosive;
 import vazkii.quark.misc.entity.EntityArrowTorch;
 import vazkii.quark.misc.item.ItemModArrow;
 
+import javax.annotation.Nonnull;
+
 public class ExtraArrows extends Feature {
 
 	public static Item arrow_ender;
@@ -109,15 +111,16 @@ public class ExtraArrows extends Feature {
 			this.provider = provider;
 		}
 		
+		@Nonnull
 		@Override
-		protected IProjectile getProjectileEntity(World worldIn, IPosition position, ItemStack stackIn) {
+		protected IProjectile getProjectileEntity(@Nonnull World worldIn, @Nonnull IPosition position, @Nonnull ItemStack stackIn) {
 			EntityArrow arrow = provider.provide(worldIn, position);
 			arrow.pickupStatus = EntityArrow.PickupStatus.ALLOWED;
 			return arrow;
 		}
 		
-		public static interface ArrowProvider {
-			public EntityArrow provide(World world, IPosition pos);
+		public interface ArrowProvider {
+			EntityArrow provide(World world, IPosition pos);
 		}
 
 	}

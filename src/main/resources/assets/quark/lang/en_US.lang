@@ -37,6 +37,9 @@ quarkmisc.matrixMin=Min: %d
 quarkmisc.matrixUpgrade=Upgrade: %d/%d
 quarkmisc.pendingEnchants=Has Pending Enchantments
 
+# COMMANDS
+commands.quarkconfig.usage=/quarkconfig <module> <category> <key> <value> [save?] [player]
+
 # CONFIG STRINGS
 quark.config.title=Quark Configuration
 quark.config.import=Import Config

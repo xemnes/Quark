@@ -25,6 +25,8 @@ import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.item.IQuarkItem;
 import vazkii.quark.base.lib.LibMisc;
 
+import javax.annotation.Nonnull;
+
 public class ItemModArrow extends ItemArrow implements IVariantHolder, IQuarkItem {
 
 	private final String bareName;
@@ -38,8 +40,9 @@ public class ItemModArrow extends ItemArrow implements IVariantHolder, IQuarkIte
 		ItemMod.variantHolders.add(this);
 	}
 	
+	@Nonnull
 	@Override
-	public EntityArrow createArrow(World worldIn, ItemStack stack, EntityLivingBase shooter) {
+	public EntityArrow createArrow(@Nonnull World worldIn, @Nonnull ItemStack stack, EntityLivingBase shooter) {
 		if(provider == null)
 			return super.createArrow(worldIn, stack, shooter);
 		
@@ -51,8 +54,9 @@ public class ItemModArrow extends ItemArrow implements IVariantHolder, IQuarkIte
 		return false;
 	}
 	
+	@Nonnull
 	@Override
-	public Item setTranslationKey(String name) {
+	public Item setTranslationKey(@Nonnull String name) {
 		super.setTranslationKey(name);
 		setRegistryName(new ResourceLocation(LibMisc.PREFIX_MOD + name));
 		ProxyRegistry.register(this);
@@ -60,6 +64,7 @@ public class ItemModArrow extends ItemArrow implements IVariantHolder, IQuarkIte
 		return this;
 	}
 
+	@Nonnull
 	@Override
 	public String getTranslationKey(ItemStack par1ItemStack) {
 		int dmg = par1ItemStack.getItemDamage();
@@ -83,8 +88,8 @@ public class ItemModArrow extends ItemArrow implements IVariantHolder, IQuarkIte
 		return null;
 	}
 
-	public static interface ArrowProvider {
-		public EntityArrow provide(World worldIn, ItemStack stack, EntityLivingBase shooter);
+	public interface ArrowProvider {
+		EntityArrow provide(World worldIn, ItemStack stack, EntityLivingBase shooter);
 	}
 	
 }

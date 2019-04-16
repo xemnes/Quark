@@ -26,6 +26,8 @@ import vazkii.arl.util.ItemNBTHelper;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.vanity.feature.DyableElytra;
 
+import javax.annotation.Nonnull;
+
 public class ElytraDyingRecipe extends ModRecipe {
 	
 	public ElytraDyingRecipe() {
@@ -33,7 +35,7 @@ public class ElytraDyingRecipe extends ModRecipe {
 	}
 	
 	@Override
-	public boolean matches(InventoryCrafting var1, World var2) {
+	public boolean matches(@Nonnull InventoryCrafting var1, @Nonnull World var2) {
 		boolean foundSource = false;
 		boolean foundTarget = false;
 
@@ -55,8 +57,9 @@ public class ElytraDyingRecipe extends ModRecipe {
 		return foundSource && foundTarget;
 	}
 
-	@Override
-	public ItemStack getCraftingResult(InventoryCrafting var1) {
+	@Nonnull
+    @Override
+	public ItemStack getCraftingResult(@Nonnull InventoryCrafting var1) {
 		int source = -1;
 		ItemStack target = ItemStack.EMPTY;
 
@@ -94,12 +97,14 @@ public class ElytraDyingRecipe extends ModRecipe {
 		return -1;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public ItemStack getRecipeOutput() {
 		return new ItemStack(Items.ELYTRA);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public NonNullList<ItemStack> getRemainingItems(InventoryCrafting inv) {
 		return ForgeHooks.defaultRecipeGetRemainingItems(inv);
 	}
@@ -109,7 +114,9 @@ public class ElytraDyingRecipe extends ModRecipe {
 		return true;
 	}
 	
-	public NonNullList<Ingredient> getIngredients() {
+	@Override
+    @Nonnull
+    public NonNullList<Ingredient> getIngredients() {
 		NonNullList<Ingredient> list = NonNullList.withSize(2, Ingredient.EMPTY);
 		list.set(0, Ingredient.fromStacks(new ItemStack(Items.ELYTRA)));
 		

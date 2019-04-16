@@ -19,6 +19,8 @@ import vazkii.arl.item.ItemMod;
 import vazkii.quark.base.item.IQuarkItem;
 import vazkii.quark.misc.feature.AncientTomes;
 
+import javax.annotation.Nonnull;
+
 public class ItemAncientTome extends ItemMod implements IQuarkItem {
 
 	public ItemAncientTome() {
@@ -28,7 +30,7 @@ public class ItemAncientTome extends ItemMod implements IQuarkItem {
 	}
 
 	@Override
-	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> subItems) {
+	public void getSubItems(@Nonnull CreativeTabs tab, @Nonnull NonNullList<ItemStack> subItems) {
 		if(isInCreativeTab(tab))
 			for(Enchantment e : AncientTomes.validEnchants) {
 				ItemStack stack = new ItemStack(this);

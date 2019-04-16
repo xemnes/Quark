@@ -17,6 +17,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.Nonnull;
+
 public class EntityParrotEgg extends EntityThrowable {
 
 	private static final DataParameter<Integer> COLOR = EntityDataManager.<Integer>createKey(EntityParrotEgg.class, DataSerializers.VARINT);
@@ -67,7 +69,7 @@ public class EntityParrotEgg extends EntityThrowable {
 	}
 
 	@Override
-	protected void onImpact(RayTraceResult result) {
+	protected void onImpact(@Nonnull RayTraceResult result) {
 		if(result.entityHit != null)
 			result.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, getThrower()), 0.0F);
 

@@ -1,7 +1,5 @@
 package vazkii.quark.misc.block;
 
-import java.util.Random;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemBlock;
@@ -15,6 +13,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.base.block.BlockQuarkDust;
 import vazkii.quark.misc.item.ItemBlackAshBlock;
 
+import java.util.Random;
+
 public class BlockBlackAsh extends BlockQuarkDust {
 
 	public BlockBlackAsh() {
@@ -27,6 +27,7 @@ public class BlockBlackAsh extends BlockQuarkDust {
 		return new ItemBlackAshBlock(this, res);
 	}
 	
+    @Override
     @SideOnly(Side.CLIENT)
     public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand) {
     	if(rand.nextFloat() < 0.1) {

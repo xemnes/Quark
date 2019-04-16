@@ -19,6 +19,8 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import vazkii.quark.misc.feature.ExtraArrows;
 
+import javax.annotation.Nonnull;
+
 public class EntityArrowExplosive extends EntityArrow {
 
 	public EntityArrowExplosive(World worldIn) {
@@ -33,7 +35,8 @@ public class EntityArrowExplosive extends EntityArrow {
 		super(worldIn, pos.getX(), pos.getY(), pos.getZ());
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	protected ItemStack getArrowStack() {
 		return new ItemStack(ExtraArrows.arrow_explosive);
 	}
@@ -49,7 +52,7 @@ public class EntityArrowExplosive extends EntityArrow {
 	public void spawnPotionParticles(int particleCount) {
 		if(particleCount > 0)
 			for(int i = 0; i < particleCount; i++)
-				getEntityWorld().spawnParticle(EnumParticleTypes.SMOKE_NORMAL, posX + (rand.nextDouble() - 0.5D) * width, posY + rand.nextDouble() * height, posZ + (rand.nextDouble() - 0.5D) * width, 0.0D, 0.0D, 0.0D, new int[0]);
+				getEntityWorld().spawnParticle(EnumParticleTypes.SMOKE_NORMAL, posX + (rand.nextDouble() - 0.5D) * width, posY + rand.nextDouble() * height, posZ + (rand.nextDouble() - 0.5D) * width, 0.0D, 0.0D, 0.0D);
 	}
 
 	@Override

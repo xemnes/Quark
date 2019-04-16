@@ -31,7 +31,7 @@ public class PistonTileEntityRenderer {
 		String id = Block.REGISTRY.getNameForObject(block).toString();
 
 		boolean executedTERender = false;
-		EnumBlockRenderType type = block.getRenderType(state);
+		EnumBlockRenderType type = state.getRenderType();
 		renderTE: {
 			try {
 				TileEntity tile = PistonsMoveTEs.getMovement(world, pos);

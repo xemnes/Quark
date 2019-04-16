@@ -8,6 +8,8 @@ import net.minecraftforge.items.SlotItemHandler;
 import vazkii.arl.util.InventoryIIH;
 import vazkii.quark.oddities.feature.Backpacks;
 
+import javax.annotation.Nonnull;
+
 public class ContainerBackpack extends ContainerPlayer {
 
 	public ContainerBackpack(EntityPlayer player) {
@@ -34,8 +36,9 @@ public class ContainerBackpack extends ContainerPlayer {
 		}
 	}
 	
-	@Override
-	public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
+	@Nonnull
+    @Override
+	public ItemStack transferStackInSlot(@Nonnull EntityPlayer playerIn, int index) {
         ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = inventorySlots.get(index);
 

@@ -2,6 +2,7 @@ package vazkii.quark.misc.feature;
 
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
@@ -52,7 +53,7 @@ public class PlaceVanillaDusts extends Feature {
 		World world = event.getWorld();
 		EnumHand hand = event.getHand();
 		ItemStack stack = event.getItemStack();
-		RayTraceResult res = rayTrace(world, player, false);
+		RayTraceResult res = rayTrace(world, player, false, player.getEntityAttribute(EntityPlayer.REACH_DISTANCE).getAttributeValue());
 		if(res != null) {
 			BlockPos pos = res.getBlockPos();
 			EnumFacing face = res.sideHit;
@@ -65,7 +66,7 @@ public class PlaceVanillaDusts extends Feature {
 		
 	}
 
-	private boolean setBlock(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, Block block) {
+	private void setBlock(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, Block block) {
 		boolean flag = worldIn.getBlockState(pos).getBlock().isReplaceable(worldIn, pos);
 		BlockPos blockpos = flag ? pos : pos.offset(facing);
 		ItemStack itemstack = player.getHeldItem(hand);
@@ -80,10 +81,8 @@ public class PlaceVanillaDusts extends Feature {
 				itemstack.shrink(1);
 			player.swingArm(hand);
 
-			return true;
 		}
 
-		return false;
 	}
 
 	@Override
@@ -97,25 +96,25 @@ public class PlaceVanillaDusts extends Feature {
 	}
 
 	// copy from Item#rayTrace
-	private RayTraceResult rayTrace(World worldIn, EntityPlayer playerIn, boolean useLiquids) {
-		float f = playerIn.rotationPitch;
-		float f1 = playerIn.rotationYaw;
-		double d0 = playerIn.posX;
-		double d1 = playerIn.posY + (double)playerIn.getEyeHeight();
-		double d2 = playerIn.posZ;
-		Vec3d vec3d = new Vec3d(d0, d1, d2);
-		float f2 = MathHelper.cos(-f1 * 0.017453292F - (float)Math.PI);
-		float f3 = MathHelper.sin(-f1 * 0.017453292F - (float)Math.PI);
-		float f4 = -MathHelper.cos(-f * 0.017453292F);
-		float f5 = MathHelper.sin(-f * 0.017453292F);
-		float f6 = f3 * f4;
-		float f7 = f2 * f4;
-		double d3 = 5.0D;
-		if(playerIn instanceof net.minecraft.entity.player.EntityPlayerMP)
-			d3 = ((net.minecraft.entity.player.EntityPlayerMP)playerIn).interactionManager.getBlockReachDistance();
-		
-		Vec3d vec3d1 = vec3d.add((double)f6 * d3, (double)f5 * d3, (double)f7 * d3);
-		return worldIn.rayTraceBlocks(vec3d, vec3d1, useLiquids, !useLiquids, false);
+	private static RayTraceResult rayTrace(World world, Entity player, boolean stopOnLiquid, double range) {
+		float scale = 1.0F;
+		float pitch = player.prevRotationPitch + (player.rotationPitch - player.prevRotationPitch) * scale;
+		float yaw = player.prevRotationYaw + (player.rotationYaw - player.prevRotationYaw) * scale;
+		double posX = player.prevPosX + (player.posX - player.prevPosX) * scale;
+		double posY = player.prevPosY + (player.posY - player.prevPosY) * scale;
+		if (player instanceof EntityPlayer)
+			posY += ((EntityPlayer) player).eyeHeight;
+		double posZ = player.prevPosZ + (player.posZ - player.prevPosZ) * scale;
+		Vec3d rayPos = new Vec3d(posX, posY, posZ);
+		float zYaw = -MathHelper.cos(yaw * (float) Math.PI / 180);
+		float xYaw = MathHelper.sin(yaw * (float) Math.PI / 180);
+		float pitchMod = -MathHelper.cos(pitch * (float) Math.PI / 180);
+		float azimuth = -MathHelper.sin(pitch * (float) Math.PI / 180);
+		float xLen = xYaw * pitchMod;
+		float yLen = zYaw * pitchMod;
+		Vec3d end = rayPos.add(xLen * range, azimuth * range, yLen * range);
+		return world.rayTraceBlocks(rayPos, end, stopOnLiquid);
+
 	}
 
 }

@@ -12,7 +12,6 @@ package vazkii.quark.building.feature;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import vazkii.arl.block.BlockMod;
 import vazkii.arl.block.BlockModSlab;
@@ -38,6 +37,7 @@ public class BarkBlocks extends Feature {
 		use2x2 = loadPropBool("Use 2x2 Recipe", "Set this to true to use a 2x2 recipe instead of 3x3.", false);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
 		bark = new BlockBark();

@@ -23,7 +23,7 @@ public class CollateralPistonMovement extends Feature {
 
 	@Override
 	public void setupConfig() {
-		blockActions = new HashMap();
+		blockActions = new HashMap<>();
 		
 		String desc = "An array of actions to apply to blocks. Each element is in the following format:\n"
 				+ "blockid=action\n"
@@ -202,7 +202,7 @@ public class CollateralPistonMovement extends Feature {
 		return null;
 	}
 
-	private static interface MoveAction {
+	private interface MoveAction {
 		void add(World world, BlockPos pos, IBlockState state, EnumFacing facing, boolean extending, List<BlockPos> list);
 	}
 	

@@ -23,6 +23,8 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 import vazkii.quark.world.feature.DepthMobs;
 
+import javax.annotation.Nonnull;
+
 public class EntityAshen extends EntitySkeleton {
 
 	public EntityAshen(World worldIn) {
@@ -30,7 +32,7 @@ public class EntityAshen extends EntitySkeleton {
 	}
 
 	@Override
-	protected void setEquipmentBasedOnDifficulty(DifficultyInstance difficulty) {
+	protected void setEquipmentBasedOnDifficulty(@Nonnull DifficultyInstance difficulty) {
 		super.setEquipmentBasedOnDifficulty(difficulty);
 
 		ItemStack stack = new ItemStack(Items.TIPPED_ARROW);

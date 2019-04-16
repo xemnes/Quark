@@ -64,10 +64,10 @@ public class MapMarkers extends Feature {
 	
 	public static void addMarker(ItemStack stack, EntityPlayer player) {
 		if(stack.getItem() == Items.FILLED_MAP) {
-			MapData data = ((ItemMap) Items.FILLED_MAP).getMapData(stack, player.world);
+			MapData data = Items.FILLED_MAP.getMapData(stack, player.world);
 			
 			if(data != null)
-				data.addTargetDecoration(stack, player.getPosition(), "Pin" + player.getPosition().hashCode(), Type.TARGET_X);
+				MapData.addTargetDecoration(stack, player.getPosition(), "Pin" + player.getPosition().hashCode(), Type.TARGET_X);
 		}
 	}
 	

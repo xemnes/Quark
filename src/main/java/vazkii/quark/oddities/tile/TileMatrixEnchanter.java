@@ -17,6 +17,7 @@ import vazkii.quark.oddities.inventory.ContainerMatrixEnchanting;
 import vazkii.quark.oddities.inventory.EnchantmentMatrix;
 import vazkii.quark.oddities.inventory.EnchantmentMatrix.Piece;
 
+import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -249,7 +250,7 @@ public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 			long most = cmp.getLong(TAG_MATRIX_UUID_MOST);
 			UUID newId = new UUID(most, least);
 
-			if(matrixId == null || !newId.equals(matrixId)) {
+			if(!newId.equals(matrixId)) {
 				NBTTagCompound matrixCmp = cmp.getCompoundTag(TAG_MATRIX);
 				matrixId = newId;
 				matrix = new EnchantmentMatrix(getStackInSlot(0), new Random());
@@ -260,8 +261,9 @@ public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 		charge = cmp.getInteger(TAG_CHARGE);
 	}
 
-	@Override
-	public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn) {
+	@Nonnull
+    @Override
+	public Container createContainer(@Nonnull InventoryPlayer playerInventory, @Nonnull EntityPlayer playerIn) {
 		return new ContainerMatrixEnchanting(playerInventory, this);
 	}
 

@@ -22,6 +22,8 @@ import net.minecraft.world.World;
 import vazkii.arl.recipe.ModRecipe;
 import vazkii.quark.misc.feature.EnderdragonScales;
 
+import javax.annotation.Nonnull;
+
 public class FireworkCloningRecipe extends ModRecipe {
 	
 	public FireworkCloningRecipe() {
@@ -29,7 +31,7 @@ public class FireworkCloningRecipe extends ModRecipe {
 	}
 
 	@Override
-	public boolean matches(InventoryCrafting var1, World var2) {
+	public boolean matches(@Nonnull InventoryCrafting var1, @Nonnull World var2) {
 		boolean foundSource = false;
 		boolean foundTarget = false;
 		ItemStack source = ItemStack.EMPTY;
@@ -58,8 +60,9 @@ public class FireworkCloningRecipe extends ModRecipe {
 		return foundSource && foundTarget && getFlight(source) == getFlight(target);
 	}
 
-	@Override
-	public ItemStack getCraftingResult(InventoryCrafting var1) {
+	@Nonnull
+    @Override
+	public ItemStack getCraftingResult(@Nonnull InventoryCrafting var1) {
 		ItemStack source = ItemStack.EMPTY;
 		ItemStack target = ItemStack.EMPTY;
 
@@ -85,12 +88,14 @@ public class FireworkCloningRecipe extends ModRecipe {
 		return ItemStack.EMPTY;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public ItemStack getRecipeOutput() {
 		return new ItemStack(Items.FIREWORKS);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public NonNullList<ItemStack> getRemainingItems(InventoryCrafting inv) {
 		NonNullList<ItemStack> remaining = NonNullList.withSize(inv.getSizeInventory(), ItemStack.EMPTY);
 		for(int i = 0; i < inv.getSizeInventory(); i++) {
@@ -122,7 +127,9 @@ public class FireworkCloningRecipe extends ModRecipe {
 		return true;
 	}
 	
-	public NonNullList<Ingredient> getIngredients() {
+	@Override
+    @Nonnull
+    public NonNullList<Ingredient> getIngredients() {
 		NonNullList<Ingredient> list = NonNullList.withSize(2, Ingredient.EMPTY);
 		list.set(0, Ingredient.fromStacks(new ItemStack(Items.FIREWORKS)));
 		list.set(1, Ingredient.fromStacks(new ItemStack(Items.FIREWORKS)));

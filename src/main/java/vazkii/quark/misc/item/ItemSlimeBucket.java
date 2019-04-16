@@ -31,6 +31,8 @@ import vazkii.arl.item.ItemMod;
 import vazkii.arl.util.ItemNBTHelper;
 import vazkii.quark.base.item.IQuarkItem;
 
+import javax.annotation.Nonnull;
+
 public class ItemSlimeBucket extends ItemMod implements IQuarkItem {
 
 	public static final String TAG_ENTITY_DATA = "slime_nbt";
@@ -48,7 +50,7 @@ public class ItemSlimeBucket extends ItemMod implements IQuarkItem {
 	}
 
 	@Override
-	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> subItems) {
+	public void getSubItems(@Nonnull CreativeTabs tab, @Nonnull NonNullList<ItemStack> subItems) {
 		if(isInCreativeTab(tab))
 			subItems.add(new ItemStack(this));
 	}
@@ -66,6 +68,7 @@ public class ItemSlimeBucket extends ItemMod implements IQuarkItem {
 		}
 	}
 
+	@Nonnull
 	@Override
 	public EnumActionResult onItemUse(EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		double x = pos.getX() + 0.5 + facing.getXOffset();
@@ -95,8 +98,9 @@ public class ItemSlimeBucket extends ItemMod implements IQuarkItem {
 	}
 	
 
+	@Nonnull
 	@Override
-	public String getItemStackDisplayName(ItemStack stack) {
+	public String getItemStackDisplayName(@Nonnull ItemStack stack) {
 		if(stack.hasTagCompound()) {
 			NBTTagCompound cmp = ItemNBTHelper.getCompound(stack, TAG_ENTITY_DATA, false);
 			if(cmp != null && cmp.hasKey("CustomName")) 
@@ -107,7 +111,7 @@ public class ItemSlimeBucket extends ItemMod implements IQuarkItem {
 	}
 
 	@Override
-	public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
+	public boolean shouldCauseReequipAnimation(ItemStack oldStack, @Nonnull ItemStack newStack, boolean slotChanged) {
 		return super.shouldCauseReequipAnimation(oldStack, newStack, slotChanged);
 	}
 

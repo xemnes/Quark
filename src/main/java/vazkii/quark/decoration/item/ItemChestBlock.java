@@ -36,6 +36,8 @@ import vazkii.quark.decoration.feature.VariedChests;
 import vazkii.quark.decoration.feature.VariedChests.ChestType;
 import vazkii.quark.decoration.tile.TileCustomChest;
 
+import javax.annotation.Nonnull;
+
 public class ItemChestBlock extends ItemModBlock implements IExtraVariantHolder {
 
 	public ItemChestBlock(Block block, ResourceLocation res) {
@@ -53,15 +55,17 @@ public class ItemChestBlock extends ItemModBlock implements IExtraVariantHolder 
 	public ItemMeshDefinition getCustomMeshDefinition() {
 		return new ItemMeshDefinition() {
 
-			@Override
-			public ModelResourceLocation getModelLocation(ItemStack stack) {
+			@Nonnull
+            @Override
+			public ModelResourceLocation getModelLocation(@Nonnull ItemStack stack) {
 				ChestType type = VariedChests.custom_chest.getCustomType(stack);
 				return getBlock() == VariedChests.custom_chest_trap ? type.trapModel : type.normalModel;
 			}
 		};
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public String getTranslationKey(ItemStack stack) {
 		ChestType type = VariedChests.custom_chest.getCustomType(stack);
 		String name = type.name + (getBlock() == VariedChests.custom_chest_trap ? "_trap" : "");
@@ -69,7 +73,7 @@ public class ItemChestBlock extends ItemModBlock implements IExtraVariantHolder 
 	}
 
 	@Override
-	public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, IBlockState newState) {
+	public boolean placeBlockAt(@Nonnull ItemStack stack, @Nonnull EntityPlayer player, World world, @Nonnull BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, @Nonnull IBlockState newState) {
 		int typeCnt = 0;
 
 		BlockPos posN = pos.north();
@@ -101,7 +105,7 @@ public class ItemChestBlock extends ItemModBlock implements IExtraVariantHolder 
 	}
 
 	@Override
-	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> subItems) {
+	public void getSubItems(@Nonnull CreativeTabs tab, @Nonnull NonNullList<ItemStack> subItems) {
 		BlockCustomChest chest = (BlockCustomChest) Block.getBlockFromItem(this);
 		if(isInCreativeTab(tab))
 			for(ChestType type : VariedChests.ChestType.VALID_TYPES)
@@ -110,7 +114,7 @@ public class ItemChestBlock extends ItemModBlock implements IExtraVariantHolder 
 
 	@Override
 	public String[] getExtraVariants() {
-		List<String> variants = new ArrayList();
+		List<String> variants = new ArrayList<>();
 		for(ChestType type : VariedChests.ChestType.VALID_TYPES) {
 			variants.add("custom_chest_" + type.name);
 			variants.add("custom_chest_trap_" + type.name);

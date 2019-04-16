@@ -86,7 +86,7 @@ public class PirateShipGenerator implements IWorldGenerator {
 		for(int x = 0; x < size.getX(); x++)
 			for(int y = 0; y < size.getY(); y++)
 				for(int z = 0; z < size.getZ(); z++) {
-					BlockPos checkPos = pos.add(template.transformedBlockPos(settings, new BlockPos(x, y, z)));
+					BlockPos checkPos = pos.add(Template.transformedBlockPos(settings, new BlockPos(x, y, z)));
 					IBlockState checkState = world.getBlockState(checkPos);
 					if(!checkState.getBlock().isAir(checkState, world, checkPos) && checkState.getBlock() != Blocks.WATER)
 						return; // Obstructed, can't generate here
@@ -151,7 +151,7 @@ public class PirateShipGenerator implements IWorldGenerator {
 				world.setBlockState(dataPos, chestState);
 
 				TileEntity tile = world.getTileEntity(dataPos);
-				if(tile != null && tile instanceof TileEntityLockableLoot)
+				if(tile instanceof TileEntityLockableLoot)
 					((TileEntityLockableLoot) tile).setLootTable(PirateShips.PIRATE_CHEST_LOOT_TABLE, random.nextLong());
 				break;
 			case "cannon":

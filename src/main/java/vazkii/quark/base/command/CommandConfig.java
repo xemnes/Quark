@@ -10,34 +10,33 @@
  */
 package vazkii.quark.base.command;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import net.minecraft.command.CommandBase;
-import net.minecraft.command.CommandException;
-import net.minecraft.command.ICommandSender;
-import net.minecraft.command.SyntaxErrorException;
-import net.minecraft.command.WrongUsageException;
+import net.minecraft.command.*;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import vazkii.arl.network.NetworkHandler;
 import vazkii.quark.base.module.GlobalConfig;
 import vazkii.quark.base.network.message.MessageChangeConfig;
 
+import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class CommandConfig extends CommandBase {
 
 	private static final Pattern TOKENIZER = Pattern.compile("[^\\s\"']+|\"([^\"]*)\"|'([^']*)'");
 	
-	@Override
+	@Nonnull
+    @Override
 	public String getName() {
 		return "quarkconfig";
 	}
 
-	@Override
-	public String getUsage(ICommandSender p_71518_1_) {
-		return "<module> <category> <key> <value> [save?] [player]";
+	@Nonnull
+    @Override
+	public String getUsage(@Nonnull ICommandSender sender) {
+		return "commands.quarkconfig.usage";
 	}
 
 	@Override
@@ -46,11 +45,11 @@ public class CommandConfig extends CommandBase {
 	}
 
 	@Override
-	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
+	public void execute(@Nonnull MinecraftServer server, @Nonnull ICommandSender sender, @Nonnull String[] args) throws CommandException {
 		String fullInput = String.join(" ", args);
 		Matcher m = TOKENIZER.matcher(fullInput);
 		
-		List<String> matches = new ArrayList();
+		List<String> matches = new ArrayList<>();
 		while(m.find()) {
 			String s = m.group(0);
 			if(s.startsWith("\"") && s.endsWith("\"")) {
@@ -62,11 +61,7 @@ public class CommandConfig extends CommandBase {
 		}
 		
 		if(matches.size() < 4)
-			 throw new SyntaxErrorException();
-				
-		String fileStr = matches.get(0);
-		if(fileStr.contains("\\.\\."))
-			throw new WrongUsageException("I know the game you're playing.");
+			 throw new WrongUsageException(getUsage(sender));
 		
 		boolean save = matches.size() > 4 && matches.get(4).equals("save");
 		
@@ -77,7 +72,7 @@ public class CommandConfig extends CommandBase {
 		
 		GlobalConfig.changeConfig(moduleName, category, key, value, save);
 		
-		String player = matches.size() > 5 ? player = matches.get(5) : null;
+		String player = matches.size() > 5 ? matches.get(5) : null;
 		if(player != null) {
 			EntityPlayerMP playermp = getPlayer(server, sender, player);
 			NetworkHandler.INSTANCE.sendTo(new MessageChangeConfig(moduleName, category, key, value, save), playermp);

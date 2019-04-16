@@ -24,6 +24,7 @@ import vazkii.quark.api.IFuseIgnitable;
 import vazkii.quark.base.block.BlockQuarkDust;
 import vazkii.quark.misc.feature.PlaceVanillaDusts;
 
+import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class BlockGunpowder extends BlockQuarkDust {
@@ -102,7 +103,7 @@ public class BlockGunpowder extends BlockQuarkDust {
 			
 			return true;
 		} else if(block == Blocks.TNT) {
-			block.breakBlock(world, pos, state.withProperty(BlockTNT.EXPLODE, Boolean.valueOf(true)));
+			block.breakBlock(world, pos, state.withProperty(BlockTNT.EXPLODE, Boolean.TRUE));
             world.setBlockToAir(pos);
             
             return true;
@@ -144,7 +145,8 @@ public class BlockGunpowder extends BlockQuarkDust {
 		return block == this || block == Blocks.TNT || block instanceof IFuseIgnitable;
 	}
 	
-	@Override
+	@Nonnull
+    @Override
 	public IBlockState getStateFromMeta(int meta)  {
 		return getDefaultState().withProperty(LIT, meta != 0);
 	}
@@ -154,11 +156,13 @@ public class BlockGunpowder extends BlockQuarkDust {
 		return state.getValue(LIT) ? 1 : 0;
 	}
 	
-	@Override
+	@Nonnull
+    @Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, new IProperty[] { NORTH, EAST, SOUTH, WEST, LIT });
+		return new BlockStateContainer(this, NORTH, EAST, SOUTH, WEST, LIT);
 	}
 	
+    @Override
     @SideOnly(Side.CLIENT)
     public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand) {
     	if(stateIn.getValue(LIT)) {
@@ -171,7 +175,8 @@ public class BlockGunpowder extends BlockQuarkDust {
     	}
     }
 	
-	@Override
+	@Nonnull
+    @Override
 	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
 		return Items.GUNPOWDER;
 	}

@@ -13,11 +13,14 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.decoration.block.BlockCustomFlowerPot;
 
+import javax.annotation.Nonnull;
+
 @SideOnly(Side.CLIENT)
 public class ColoredFlowerPotStateMapper extends StateMapperBase {
 	
-	@Override
-	protected ModelResourceLocation getModelResourceLocation(IBlockState state) {
+	@Nonnull
+    @Override
+	protected ModelResourceLocation getModelResourceLocation(@Nonnull IBlockState state) {
 		ResourceLocation loc = state.getBlock().getRegistryName();
 		if(state.getValue(BlockCustomFlowerPot.CUSTOM))
 			return new ModelResourceLocation(loc, "contents=custom");

@@ -19,6 +19,8 @@ import vazkii.arl.item.ItemModBlock;
 import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.lib.LibMisc;
 
+import javax.annotation.Nonnull;
+
 public class BlockQuarkButton extends BlockButton implements IQuarkBlock {
 
 	private final String[] variants;
@@ -39,8 +41,9 @@ public class BlockQuarkButton extends BlockButton implements IQuarkBlock {
 		setSoundType(wooden ? SoundType.WOOD : SoundType.STONE);
 	}
 	
-	@Override
-	public Block setTranslationKey(String name) {
+	@Nonnull
+    @Override
+	public Block setTranslationKey(@Nonnull String name) {
 		super.setTranslationKey(name);
 		setRegistryName(LibMisc.PREFIX_MOD + name);
 		ProxyRegistry.register(this);
@@ -85,14 +88,14 @@ public class BlockQuarkButton extends BlockButton implements IQuarkBlock {
 	}
 
 	@Override
-	protected void playClickSound(EntityPlayer player, World worldIn, BlockPos pos) {
+	protected void playClickSound(EntityPlayer player, @Nonnull World worldIn, @Nonnull BlockPos pos) {
 		if(wooden)
 			worldIn.playSound(player, pos, SoundEvents.BLOCK_WOOD_BUTTON_CLICK_ON, SoundCategory.BLOCKS, 0.3F, 0.6F);
 		else worldIn.playSound(player, pos, SoundEvents.BLOCK_STONE_BUTTON_CLICK_ON, SoundCategory.BLOCKS, 0.3F, 0.6F);
 	}
 
 	@Override
-	protected void playReleaseSound(World worldIn, BlockPos pos) {
+	protected void playReleaseSound(@Nonnull World worldIn, @Nonnull BlockPos pos) {
 		if(wooden)
 			worldIn.playSound(null, pos, SoundEvents.BLOCK_WOOD_BUTTON_CLICK_OFF, SoundCategory.BLOCKS, 0.3F, 0.5F);
 		else worldIn.playSound(null, pos, SoundEvents.BLOCK_STONE_BUTTON_CLICK_OFF, SoundCategory.BLOCKS, 0.3F, 0.5F);		

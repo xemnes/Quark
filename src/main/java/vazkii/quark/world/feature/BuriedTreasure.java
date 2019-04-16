@@ -42,6 +42,7 @@ import vazkii.arl.util.ItemNBTHelper;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.base.module.Feature;
 
+import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -52,7 +53,7 @@ public class BuriedTreasure extends Feature {
 	public static String TAG_TREASURE_MAP_DELEGATE = "Quark:TreasureMapDelegate";
 
 	ImmutableSet<ResourceLocation> tablesToEdit = ImmutableSet.of(LootTableList.CHESTS_DESERT_PYRAMID, LootTableList.CHESTS_JUNGLE_TEMPLE, LootTableList.CHESTS_STRONGHOLD_CORRIDOR);
-	Map<ResourceLocation, String> customPools = new HashMap() {{
+	Map<ResourceLocation, String> customPools = new HashMap<ResourceLocation, String>() {{
 		put(PirateShips.PIRATE_CHEST_LOOT_TABLE, "quark:pirate_ship");
 	}};
 
@@ -162,8 +163,9 @@ public class BuriedTreasure extends Feature {
 			super(new LootCondition[0]);
 		}
 
-		@Override
-		public ItemStack apply(ItemStack stack, Random rand, LootContext context) {
+		@Nonnull
+        @Override
+		public ItemStack apply(@Nonnull ItemStack stack, @Nonnull Random rand, @Nonnull LootContext context) {
 			int id = context.getWorld().getUniqueDataId("map");
 			stack.setItemDamage(id);
 			stack.setTranslatableName("quarkmisc.buried_chest_map");
@@ -182,12 +184,13 @@ public class BuriedTreasure extends Feature {
 			}
 
 			@Override
-			public void serialize(JsonObject object, SetAsTreasureFunction functionClazz,
-					JsonSerializationContext serializationContext) {}
+			public void serialize(@Nonnull JsonObject object, @Nonnull SetAsTreasureFunction functionClazz,
+                                  @Nonnull JsonSerializationContext serializationContext) {}
 
-			@Override
-			public SetAsTreasureFunction deserialize(JsonObject object, JsonDeserializationContext deserializationContext,
-					LootCondition[] conditionsIn) {
+			@Nonnull
+            @Override
+			public SetAsTreasureFunction deserialize(@Nonnull JsonObject object, @Nonnull JsonDeserializationContext deserializationContext,
+                                                     @Nonnull LootCondition[] conditionsIn) {
 				return new SetAsTreasureFunction();
 			}
 		}

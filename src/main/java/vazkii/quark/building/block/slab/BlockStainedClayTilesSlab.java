@@ -21,6 +21,8 @@ import vazkii.arl.interf.IRecipeGrouped;
 import vazkii.quark.base.block.BlockQuarkSlab;
 import vazkii.quark.building.block.BlockStainedClayTiles;
 
+import javax.annotation.Nonnull;
+
 public class BlockStainedClayTilesSlab extends BlockQuarkSlab implements IRecipeGrouped {
 
 	public BlockStainedClayTilesSlab(BlockStainedClayTiles.Variants variant, boolean doubleSlab) {
@@ -31,7 +33,9 @@ public class BlockStainedClayTilesSlab extends BlockQuarkSlab implements IRecipe
 		setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
 	}
 
-	@Override
+	@Nonnull
+    @Override
+    @SuppressWarnings("deprecation")
 	public MapColor getMapColor(IBlockState state, IBlockAccess world, BlockPos pos) {
 		return MapColor.ADOBE;
 	}

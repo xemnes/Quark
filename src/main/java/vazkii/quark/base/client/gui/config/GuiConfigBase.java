@@ -6,7 +6,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.config.Property;
-import net.minecraftforge.fml.common.FMLLog;
+import org.apache.logging.log4j.LogManager;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.base.module.ModuleLoader;
 
@@ -21,7 +21,7 @@ public class GuiConfigBase extends GuiScreen {
 	String title;
 	GuiScreen parent;
 	
-	private static List<Property> restartRequiringProperties = new LinkedList();
+	private static List<Property> restartRequiringProperties = new LinkedList<>();
 	public static boolean mayRequireRestart = false;
 
 	GuiButton backButton;
@@ -102,11 +102,11 @@ public class GuiConfigBase extends GuiScreen {
 	private void openWebLink(URI url) {
 		try {
 			Class<?> oclass = Class.forName("java.awt.Desktop");
-			Object object = oclass.getMethod("getDesktop").invoke((Object)null);
+			Object object = oclass.getMethod("getDesktop").invoke(null);
 			oclass.getMethod("browse", URI.class).invoke(object, url);
 		} catch(Throwable throwable1) {
 			Throwable throwable = throwable1.getCause();
-			FMLLog.warning("Couldn't open link: {}", (Object)(throwable == null ? "<UNKNOWN>" : throwable.getMessage()));
+            LogManager.getLogger("Quark").warn("Couldn't open link: {}", (throwable == null ? "<UNKNOWN>" : throwable.getMessage()));
 		}
 	}
 

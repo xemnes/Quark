@@ -11,13 +11,16 @@ import net.minecraft.client.renderer.block.statemap.StateMapperBase;
 import net.minecraft.util.ResourceLocation;
 import vazkii.quark.decoration.block.BlockCustomFlowerPot;
 
+import javax.annotation.Nonnull;
+
 public class FlowerPotStateMapper extends StateMapperBase {
 	
 	public static final FlowerPotStateMapper INSTANCE = new FlowerPotStateMapper();
 	public static final ModelResourceLocation LOCATION = new ModelResourceLocation(new ResourceLocation("quark", "custom_flower_pot"), "normal");
 
-	@Override
-	protected ModelResourceLocation getModelResourceLocation(IBlockState state) {
+	@Nonnull
+    @Override
+	protected ModelResourceLocation getModelResourceLocation(@Nonnull IBlockState state) {
 		if(state.getValue(BlockCustomFlowerPot.CUSTOM))
 			return LOCATION;
 

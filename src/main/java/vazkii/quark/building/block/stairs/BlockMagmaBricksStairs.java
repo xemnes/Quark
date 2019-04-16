@@ -8,9 +8,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.base.block.BlockQuarkStairs;
-import vazkii.quark.building.block.BlockPolishedNetherrack;
 import vazkii.quark.building.feature.MagmaBricks;
-import vazkii.quark.building.feature.PolishedNetherrack;
+
+import javax.annotation.Nonnull;
 
 public class BlockMagmaBricksStairs extends BlockQuarkStairs {
 
@@ -21,13 +21,15 @@ public class BlockMagmaBricksStairs extends BlockQuarkStairs {
 	}
 	
 	@Override
-	public boolean isFireSource(World world, BlockPos pos, EnumFacing side) {
-		return isSideSolid(world.getBlockState(pos), world, pos, side);
+	public boolean isFireSource(@Nonnull World world, BlockPos pos, EnumFacing side) {
+		return world.getBlockState(pos).isSideSolid(world, pos, side);
 	}
 	
-    @SideOnly(Side.CLIENT)
-    public int getPackedLightmapCoords(IBlockState state, IBlockAccess source, BlockPos pos) {
-        return 15728880;
+    @Override
+	@SideOnly(Side.CLIENT)
+	@SuppressWarnings("deprecation")
+    public int getPackedLightmapCoords(IBlockState state, @Nonnull IBlockAccess source, @Nonnull BlockPos pos) {
+        return 0xf000f0;
     }
 
 }

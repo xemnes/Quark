@@ -18,6 +18,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.lib.LibMisc;
 
+import javax.annotation.Nonnull;
+
 public class PotionMod extends Potion {
 
 	public static ResourceLocation TEXTURE = new ResourceLocation("quark", "textures/misc/potions.png");
@@ -33,7 +35,8 @@ public class PotionMod extends Potion {
 		bareName = name;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public String getName() {
 		return "quark.potion." + bareName + ".name";
 	}

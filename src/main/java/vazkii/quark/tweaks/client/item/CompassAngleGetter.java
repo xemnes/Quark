@@ -1,5 +1,6 @@
 package vazkii.quark.tweaks.client.item;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import net.minecraft.entity.Entity;
@@ -58,7 +59,7 @@ public class CompassAngleGetter implements IItemPropertyGetter {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public float apply(ItemStack stack, @Nullable World worldIn, @Nullable EntityLivingBase entityIn) {
+	public float apply(@Nonnull ItemStack stack, @Nullable World worldIn, @Nullable EntityLivingBase entityIn) {
 		if(entityIn == null && !stack.isOnItemFrame())
 			return 0F;
 		

@@ -23,6 +23,8 @@ import net.minecraft.world.IBlockAccess;
 import vazkii.arl.block.BlockMod;
 import vazkii.quark.base.block.IQuarkBlock;
 
+import javax.annotation.Nonnull;
+
 public class BlockSnowBricks extends BlockMod implements IQuarkBlock {
 
 	public BlockSnowBricks() {
@@ -33,12 +35,12 @@ public class BlockSnowBricks extends BlockMod implements IQuarkBlock {
 	}
 
 	@Override
-	public boolean isToolEffective(String type, IBlockState state) {
+	public boolean isToolEffective(String type, @Nonnull IBlockState state) {
 		return type.equals("shovel");
 	}
 
 	@Override
-	public boolean canHarvestBlock(IBlockAccess world, BlockPos pos, EntityPlayer player) {
+	public boolean canHarvestBlock(IBlockAccess world, @Nonnull BlockPos pos, @Nonnull EntityPlayer player) {
 		return true;
 	}
 
@@ -47,7 +49,8 @@ public class BlockSnowBricks extends BlockMod implements IQuarkBlock {
 		return 1;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
 		return Item.getItemFromBlock(this);
 	}

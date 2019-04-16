@@ -18,6 +18,6 @@ public interface IRotationLockHandler {
 	 * @param hasHalf true if the rotation lock specifies a block half, false otherwise
 	 * @param topHalf true if the rotation lock applies to the upper half of the block, false otherwise
 	 */
-	public IBlockState setRotation(World world, BlockPos pos, IBlockState state, EnumFacing face, boolean hasHalf, boolean topHalf);
+    IBlockState setRotation(World world, BlockPos pos, IBlockState state, EnumFacing face, boolean hasHalf, boolean topHalf);
 	
 }

@@ -19,6 +19,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import vazkii.quark.base.block.BlockQuarkSlab;
 
+import javax.annotation.Nonnull;
+
 public class BlockSnowBricksSlab extends BlockQuarkSlab {
 
 	public BlockSnowBricksSlab(boolean doubleSlab) {
@@ -29,12 +31,12 @@ public class BlockSnowBricksSlab extends BlockQuarkSlab {
 	}
 
 	@Override
-	public boolean isToolEffective(String type, IBlockState state) {
+	public boolean isToolEffective(String type, @Nonnull IBlockState state) {
 		return type.equals("shovel");
 	}
 
 	@Override
-	public boolean canHarvestBlock(IBlockAccess world, BlockPos pos, EntityPlayer player) {
+	public boolean canHarvestBlock(IBlockAccess world, @Nonnull BlockPos pos, @Nonnull EntityPlayer player) {
 		return true;
 	}
 

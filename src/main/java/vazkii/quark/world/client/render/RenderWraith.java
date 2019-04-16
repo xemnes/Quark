@@ -22,6 +22,8 @@ import net.minecraftforge.fml.client.registry.IRenderFactory;
 import vazkii.quark.world.client.model.ModelWraith;
 import vazkii.quark.world.entity.EntityWraith;
 
+import javax.annotation.Nonnull;
+
 public class RenderWraith extends RenderLiving<EntityWraith> {
 
 	private static final ResourceLocation TEXTURE = new ResourceLocation("quark", "textures/entity/wraith.png");
@@ -33,12 +35,12 @@ public class RenderWraith extends RenderLiving<EntityWraith> {
 	}
 
 	@Override
-	protected ResourceLocation getEntityTexture(EntityWraith entity) {
+	protected ResourceLocation getEntityTexture(@Nonnull EntityWraith entity) {
 		return TEXTURE;
 	}
 
 	@Override
-	public void doRenderShadowAndFire(Entity entityIn, double x, double y, double z, float yaw, float partialTicks) {
+	public void doRenderShadowAndFire(@Nonnull Entity entityIn, double x, double y, double z, float yaw, float partialTicks) {
 		// NO-OP
 	}
 

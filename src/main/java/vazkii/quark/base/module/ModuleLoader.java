@@ -10,20 +10,11 @@
  */
 package vazkii.quark.base.module;
 
-import java.io.File;
-import java.lang.management.ManagementFactory;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Consumer;
-
 import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
-import net.minecraftforge.fml.common.FMLLog;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -33,6 +24,8 @@ import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import vazkii.quark.automation.QuarkAutomation;
 import vazkii.quark.base.handler.RecipeProcessor;
 import vazkii.quark.base.lib.LibMisc;
@@ -47,25 +40,34 @@ import vazkii.quark.tweaks.QuarkTweaks;
 import vazkii.quark.vanity.QuarkVanity;
 import vazkii.quark.world.QuarkWorld;
 
+import java.io.File;
+import java.lang.management.ManagementFactory;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
+
 public final class ModuleLoader {
 	
 	// Checks if the Java Debug Wire Protocol is enabled
 	public static final boolean DEBUG_MODE = ManagementFactory.getRuntimeMXBean().getInputArguments().toString().contains("-agentlib:jdwp"); 
 
 	private static List<Class<? extends Module>> moduleClasses;
-	public static Map<Class<? extends Module>, Module> moduleInstances = new HashMap();
-	public static Map<Class<? extends Feature>, Feature> featureInstances = new HashMap();
-	public static Map<String, Feature> featureClassnames = new HashMap();
+	public static Map<Class<? extends Module>, Module> moduleInstances = new HashMap<>();
+	public static Map<Class<? extends Feature>, Feature> featureInstances = new HashMap<>();
+	public static Map<String, Feature> featureClassnames = new HashMap<>();
 
 	public static List<Module> enabledModules;
-	public static List<Runnable> lazyOreDictRegisters = new ArrayList();
+	public static List<String> moduleNames;
+	public static List<Runnable> lazyOreDictRegisters = new ArrayList<>();
 
 	public static Configuration config;
 	public static File configFile;
 	public static boolean firstLoad;
 
 	private static void setupModuleClasses() {
-		moduleClasses = new ArrayList();
+		moduleClasses = new ArrayList<>();
 
 		registerModule(QuarkTweaks.class);
 		registerModule(QuarkWorld.class);
@@ -87,7 +89,9 @@ public final class ModuleLoader {
 		setupModuleClasses();
 		moduleClasses.forEach(clazz -> {
 			try {
-				moduleInstances.put(clazz, clazz.newInstance());
+				Module instance = clazz.newInstance();
+				moduleInstances.put(clazz, instance);
+				moduleNames.add(instance.name);
 			} catch (Exception e) {
 				throw new RuntimeException("Can't initialize module " + clazz, e);
 			}
@@ -95,7 +99,9 @@ public final class ModuleLoader {
 
 		setupConfig(event);
 
-		forEachModule(module -> FMLLog.info("[Quark] Module " + module.name + " is " + (module.enabled ? "enabled" : "disabled")));
+		Logger logger = LogManager.getLogger("Quark");
+
+		forEachModule(module -> logger.info("Module " + module.name + " is " + (module.enabled ? "enabled" : "disabled")));
 
 		forEachEnabled(module -> module.preInit(event));
 		forEachEnabled(module -> module.postPreInit(event));
@@ -159,7 +165,7 @@ public final class ModuleLoader {
 			}
 		});
 
-		enabledModules = new ArrayList(moduleInstances.values());
+		enabledModules = new ArrayList<>(moduleInstances.values());
 		enabledModules.removeIf(module -> !module.enabled);
 
 		loadModuleConfigs();
@@ -169,7 +175,7 @@ public final class ModuleLoader {
 	}
 
 	private static void loadModuleConfigs() {
-		forEachModule(module -> module.setupConfig());
+		forEachModule(Module::setupConfig);
 	}
 	
 	public static boolean isModuleEnabled(Class<? extends Module> clazz) {

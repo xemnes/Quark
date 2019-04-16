@@ -120,7 +120,7 @@ public class RevampStoneGen extends Feature {
 		IBlockState dioriteState = Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.DIORITE);
 		IBlockState andesiteState = Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.ANDESITE);
 
-		generators = new ArrayList();
+		generators = new ArrayList<>();
 		
 		generators.add(new StoneInfoBasedGenerator(() -> graniteInfo, graniteState, "granite"));
 		generators.add(new StoneInfoBasedGenerator(() -> dioriteInfo, dioriteState, "diorite"));

@@ -67,7 +67,7 @@ public class ClientProxy extends CommonProxy {
 	public void doEmote(String playerName, String emoteName) {
 		World world = Minecraft.getMinecraft().world;
 		EntityPlayer player = world.getPlayerEntityByName(playerName);
-		if(player != null && player instanceof AbstractClientPlayer)
+		if(player instanceof AbstractClientPlayer)
 			EmoteHandler.putEmote((AbstractClientPlayer) player, emoteName);
 	}
 

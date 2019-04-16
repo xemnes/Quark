@@ -8,10 +8,12 @@ import net.minecraft.util.math.BlockPos;
 import vazkii.arl.block.tile.TileSimpleInventory;
 import vazkii.quark.automation.block.BlockChute;
 
+import javax.annotation.Nonnull;
+
 public class TileChute extends TileSimpleInventory {
 
 	@Override
-	public void setInventorySlotContents(int i, ItemStack itemstack) {
+	public void setInventorySlotContents(int i, @Nonnull ItemStack itemstack) {
 		if(!itemstack.isEmpty()) {
 			EntityItem entity = new EntityItem(world, pos.getX() + 0.5, pos.getY() - 0.5, pos.getZ() + 0.5, itemstack);
 			entity.motionX = entity.motionY = entity.motionZ = 0;

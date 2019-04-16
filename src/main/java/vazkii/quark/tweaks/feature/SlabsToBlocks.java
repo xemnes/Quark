@@ -10,11 +10,6 @@
  */
 package vazkii.quark.tweaks.feature;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSlab;
 import net.minecraft.block.state.IBlockState;
@@ -33,12 +28,16 @@ import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import vazkii.arl.recipe.MultiRecipe;
 import vazkii.arl.recipe.RecipeHandler;
-import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.module.Feature;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class SlabsToBlocks extends Feature {
 
-	public static Map<IBlockState, ItemStack> slabs = new HashMap();
+	public static Map<IBlockState, ItemStack> slabs = new HashMap<>();
 	
 	int originalSize;
 	private MultiRecipe multiRecipe;
@@ -54,21 +53,22 @@ public class SlabsToBlocks extends Feature {
 	}
 	
 	@Override
+    @SuppressWarnings("deprecation")
 	public void postInit(FMLPostInitializationEvent event) {
-		List<ResourceLocation> recipeList = new ArrayList(CraftingManager.REGISTRY.getKeys());
+		List<ResourceLocation> recipeList = new ArrayList<>(CraftingManager.REGISTRY.getKeys());
 		for(ResourceLocation res : recipeList) {
 			IRecipe recipe = CraftingManager.REGISTRY.getObject(res);
 			if(recipe instanceof ShapedRecipes || recipe instanceof ShapedOreRecipe) {
 				NonNullList<Ingredient> recipeItems;
 				if(recipe instanceof ShapedRecipes)
 					recipeItems = ((ShapedRecipes) recipe).recipeItems;
-				else recipeItems = ((ShapedOreRecipe) recipe).getIngredients();
+				else recipeItems = recipe.getIngredients();
 
 				ItemStack output = recipe.getRecipeOutput();
 				if(!output.isEmpty() && output.getCount() == originalSize) {
 					Item outputItem = output.getItem();
 					Block outputBlock = Block.getBlockFromItem(outputItem);
-					if(outputBlock != null && outputBlock instanceof BlockSlab) {
+					if(outputBlock instanceof BlockSlab) {
 						ItemStack outStack = ItemStack.EMPTY;
 						int inputItems = 0;
 
@@ -78,12 +78,11 @@ public class SlabsToBlocks extends Feature {
 							if(matches.length > 0)
 								recipeItem = matches[0];
 							
-							if(recipeItem != null && !((ItemStack) recipeItem).isEmpty()) {
-								ItemStack recipeStack = (ItemStack) recipeItem;
-								if(outStack.isEmpty())
-									outStack = recipeStack;
+							if(recipeItem != null && !recipeItem.isEmpty()) {
+                                if(outStack.isEmpty())
+									outStack = recipeItem;
 								
-								if(ItemStack.areItemsEqual(outStack, recipeStack))
+								if(ItemStack.areItemsEqual(outStack, recipeItem))
 									inputItems++;
 								else {
 									outStack = ItemStack.EMPTY;

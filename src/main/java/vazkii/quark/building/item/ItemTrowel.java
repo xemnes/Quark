@@ -24,6 +24,8 @@ import vazkii.arl.item.ItemMod;
 import vazkii.arl.util.ItemNBTHelper;
 import vazkii.quark.base.item.IQuarkItem;
 
+import javax.annotation.Nonnull;
+
 public class ItemTrowel extends ItemMod implements IQuarkItem {
 
 	private static final String TAG_PLACING_SEED = "placing_seed";
@@ -36,9 +38,10 @@ public class ItemTrowel extends ItemMod implements IQuarkItem {
 		setCreativeTab(CreativeTabs.TOOLS);
 	}
 	
-	@Override
+	@Nonnull
+    @Override
 	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		List<ItemStack> targets = new ArrayList();
+		List<ItemStack> targets = new ArrayList<>();
 		for(int i = 0; i < InventoryPlayer.getHotbarSize(); i++) {
 			ItemStack stack = player.inventory.getStackInSlot(i);
 			if(!stack.isEmpty() && stack.getItem() instanceof ItemBlock)
@@ -95,11 +98,11 @@ public class ItemTrowel extends ItemMod implements IQuarkItem {
 	}
 	
 	private void shrinkInventory(ItemStack stack, EntityPlayer player) {
-		for(int i = player.inventory.getHotbarSize(); i < player.inventory.mainInventory.size(); i++)
+		for(int i = InventoryPlayer.getHotbarSize(); i < player.inventory.mainInventory.size(); i++)
 			if(shrinkItem(stack, player, i))
 				return;
 			
-		for(int i = 0; i < player.inventory.getHotbarSize(); i++)
+		for(int i = 0; i < InventoryPlayer.getHotbarSize(); i++)
 			if(shrinkItem(stack, player, i))
 				return;
 	}

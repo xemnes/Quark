@@ -19,6 +19,7 @@ import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
@@ -32,6 +33,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.arl.block.BlockMod;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 public class BlockQuarkPane extends BlockMod implements IQuarkBlock {
@@ -41,64 +43,71 @@ public class BlockQuarkPane extends BlockMod implements IQuarkBlock {
 	public static final PropertyBool SOUTH = PropertyBool.create("south");
 	public static final PropertyBool WEST = PropertyBool.create("west");
 
-	protected static final AxisAlignedBB[] field_185730_f = new AxisAlignedBB[] {new AxisAlignedBB(0.4375D, 0.0D, 0.4375D, 0.5625D, 1.0D, 0.5625D), new AxisAlignedBB(0.4375D, 0.0D, 0.4375D, 0.5625D, 1.0D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.4375D, 0.5625D, 1.0D, 0.5625D), new AxisAlignedBB(0.0D, 0.0D, 0.4375D, 0.5625D, 1.0D, 1.0D), new AxisAlignedBB(0.4375D, 0.0D, 0.0D, 0.5625D, 1.0D, 0.5625D), new AxisAlignedBB(0.4375D, 0.0D, 0.0D, 0.5625D, 1.0D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.5625D, 1.0D, 0.5625D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.5625D, 1.0D, 1.0D), new AxisAlignedBB(0.4375D, 0.0D, 0.4375D, 1.0D, 1.0D, 0.5625D), new AxisAlignedBB(0.4375D, 0.0D, 0.4375D, 1.0D, 1.0D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.4375D, 1.0D, 1.0D, 0.5625D), new AxisAlignedBB(0.0D, 0.0D, 0.4375D, 1.0D, 1.0D, 1.0D), new AxisAlignedBB(0.4375D, 0.0D, 0.0D, 1.0D, 1.0D, 0.5625D), new AxisAlignedBB(0.4375D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 0.5625D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D)};
+	protected static final AxisAlignedBB[] BOUNDING_BOXES = new AxisAlignedBB[] {new AxisAlignedBB(0.4375D, 0.0D, 0.4375D, 0.5625D, 1.0D, 0.5625D), new AxisAlignedBB(0.4375D, 0.0D, 0.4375D, 0.5625D, 1.0D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.4375D, 0.5625D, 1.0D, 0.5625D), new AxisAlignedBB(0.0D, 0.0D, 0.4375D, 0.5625D, 1.0D, 1.0D), new AxisAlignedBB(0.4375D, 0.0D, 0.0D, 0.5625D, 1.0D, 0.5625D), new AxisAlignedBB(0.4375D, 0.0D, 0.0D, 0.5625D, 1.0D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.5625D, 1.0D, 0.5625D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.5625D, 1.0D, 1.0D), new AxisAlignedBB(0.4375D, 0.0D, 0.4375D, 1.0D, 1.0D, 0.5625D), new AxisAlignedBB(0.4375D, 0.0D, 0.4375D, 1.0D, 1.0D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.4375D, 1.0D, 1.0D, 0.5625D), new AxisAlignedBB(0.0D, 0.0D, 0.4375D, 1.0D, 1.0D, 1.0D), new AxisAlignedBB(0.4375D, 0.0D, 0.0D, 1.0D, 1.0D, 0.5625D), new AxisAlignedBB(0.4375D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 0.5625D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D)};
 
 	public BlockQuarkPane(String name, Material materialIn) {
 		super(name, materialIn);
-		setDefaultState(blockState.getBaseState().withProperty(NORTH, Boolean.valueOf(false)).withProperty(EAST, Boolean.valueOf(false)).withProperty(SOUTH, Boolean.valueOf(false)).withProperty(WEST, Boolean.valueOf(false)));
+		setDefaultState(blockState.getBaseState().withProperty(NORTH, Boolean.FALSE).withProperty(EAST, Boolean.FALSE).withProperty(SOUTH, Boolean.FALSE).withProperty(WEST, Boolean.FALSE));
 	}
 
 	// COPYPASTA
 
+	@SuppressWarnings("deprecation")
 	@Override
-	public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB p_185477_4_, List<AxisAlignedBB> p_185477_5_, Entity p_185477_6_, boolean something) {
-		state = getActualState(state, worldIn, pos);
-		addCollisionBoxToList(pos, p_185477_4_, p_185477_5_, field_185730_f[0]);
+	public void addCollisionBoxToList(IBlockState state, @Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull AxisAlignedBB entityBox, @Nonnull List<AxisAlignedBB> collidingBoxes, Entity entity, boolean isActualState) {
+		if (!isActualState)
+			state = state.getActualState(worldIn, pos);
 
-		if(state.getValue(NORTH).booleanValue())
-			addCollisionBoxToList(pos, p_185477_4_, p_185477_5_, field_185730_f[getBoundingBoxIndex(EnumFacing.NORTH)]);
+		addCollisionBoxToList(pos, entityBox, collidingBoxes, BOUNDING_BOXES[0]);
 
-		if(state.getValue(SOUTH).booleanValue())
-			addCollisionBoxToList(pos, p_185477_4_, p_185477_5_, field_185730_f[getBoundingBoxIndex(EnumFacing.SOUTH)]);
+		if(state.getValue(NORTH))
+			addCollisionBoxToList(pos, entityBox, collidingBoxes, BOUNDING_BOXES[getBoundingBoxIndex(EnumFacing.NORTH)]);
 
-		if(state.getValue(EAST).booleanValue())
-			addCollisionBoxToList(pos, p_185477_4_, p_185477_5_, field_185730_f[getBoundingBoxIndex(EnumFacing.EAST)]);
+		if(state.getValue(SOUTH))
+			addCollisionBoxToList(pos, entityBox, collidingBoxes, BOUNDING_BOXES[getBoundingBoxIndex(EnumFacing.SOUTH)]);
 
-		if(state.getValue(WEST).booleanValue())
-			addCollisionBoxToList(pos, p_185477_4_, p_185477_5_, field_185730_f[getBoundingBoxIndex(EnumFacing.WEST)]);
+		if(state.getValue(EAST))
+			addCollisionBoxToList(pos, entityBox, collidingBoxes, BOUNDING_BOXES[getBoundingBoxIndex(EnumFacing.EAST)]);
+
+		if(state.getValue(WEST))
+			addCollisionBoxToList(pos, entityBox, collidingBoxes, BOUNDING_BOXES[getBoundingBoxIndex(EnumFacing.WEST)]);
 	}
 
 
-	private static int getBoundingBoxIndex(EnumFacing p_185729_0_) {
-		return 1 << p_185729_0_.getHorizontalIndex();
+	private static int getBoundingBoxIndex(EnumFacing facing) {
+		return 1 << facing.getHorizontalIndex();
 	}
 
+	@Nonnull
 	@Override
+	@SuppressWarnings("deprecation")
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
 		state = getActualState(state, source, pos);
-		return field_185730_f[getBoundingBoxIndex(state)];
+		return BOUNDING_BOXES[getBoundingBoxIndex(state)];
 	}
 
-	private static int getBoundingBoxIndex(IBlockState p_185728_0_) {
+	private static int getBoundingBoxIndex(IBlockState state) {
 		int i = 0;
 
-		if(p_185728_0_.getValue(NORTH).booleanValue())
+		if(state.getValue(NORTH))
 			i |= getBoundingBoxIndex(EnumFacing.NORTH);
 
-		if(p_185728_0_.getValue(EAST).booleanValue())
+		if(state.getValue(EAST))
 			i |= getBoundingBoxIndex(EnumFacing.EAST);
 
-		if(p_185728_0_.getValue(SOUTH).booleanValue())
+		if(state.getValue(SOUTH))
 			i |= getBoundingBoxIndex(EnumFacing.SOUTH);
 
-		if(p_185728_0_.getValue(WEST).booleanValue())
+		if(state.getValue(WEST))
 			i |= getBoundingBoxIndex(EnumFacing.WEST);
 
 		return i;
 	}
 
+	@Nonnull
 	@Override
-	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
+	@SuppressWarnings("deprecation")
+	public IBlockState getActualState(@Nonnull IBlockState state, IBlockAccess worldIn, BlockPos pos) {
 		return state.withProperty(NORTH, canPaneConnectTo(worldIn, pos, EnumFacing.NORTH))
 				.withProperty(SOUTH, canPaneConnectTo(worldIn, pos, EnumFacing.SOUTH))
 				.withProperty(WEST, canPaneConnectTo(worldIn, pos, EnumFacing.WEST))
@@ -106,11 +115,13 @@ public class BlockQuarkPane extends BlockMod implements IQuarkBlock {
 	}
 
 	@Override
+	@SuppressWarnings("deprecation")
 	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
 
 	@Override
+	@SuppressWarnings("deprecation")
 	public boolean isFullCube(IBlockState state) {
 		return false;
 	}
@@ -121,15 +132,17 @@ public class BlockQuarkPane extends BlockMod implements IQuarkBlock {
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
+	@SuppressWarnings("deprecation")
+	public boolean shouldSideBeRendered(IBlockState blockState, @Nonnull IBlockAccess blockAccess, @Nonnull BlockPos pos, EnumFacing side) {
 		return blockAccess.getBlockState(pos.offset(side)).getBlock() != this && super.shouldSideBeRendered(blockState, blockAccess, pos, side);
 	}
-	@Override
 
-	protected boolean canSilkHarvest() {
+	@Override
+	public boolean canSilkHarvest(World world, BlockPos pos, @Nonnull IBlockState state, EntityPlayer player) {
 		return true;
 	}
 
+	@Nonnull
 	@SideOnly(Side.CLIENT)
 	@Override
 	public BlockRenderLayer getRenderLayer() {
@@ -141,8 +154,10 @@ public class BlockQuarkPane extends BlockMod implements IQuarkBlock {
 		return 0;
 	}
 
+	@Nonnull
 	@Override
-	public IBlockState withRotation(IBlockState state, Rotation rot) {
+	@SuppressWarnings("deprecation")
+	public IBlockState withRotation(@Nonnull IBlockState state, Rotation rot) {
 		switch (rot) {
 		case CLOCKWISE_180:
 			return state.withProperty(NORTH, state.getValue(SOUTH)).withProperty(EAST, state.getValue(WEST)).withProperty(SOUTH, state.getValue(NORTH)).withProperty(WEST, state.getValue(EAST));
@@ -155,8 +170,10 @@ public class BlockQuarkPane extends BlockMod implements IQuarkBlock {
 		}
 	}
 
+	@Nonnull
 	@Override
-	public IBlockState withMirror(IBlockState state, Mirror mirrorIn) {
+	@SuppressWarnings("deprecation")
+	public IBlockState withMirror(@Nonnull IBlockState state, Mirror mirrorIn) {
 		switch (mirrorIn) {
 		case LEFT_RIGHT:
 			return state.withProperty(NORTH, state.getValue(SOUTH)).withProperty(SOUTH, state.getValue(NORTH));
@@ -167,9 +184,10 @@ public class BlockQuarkPane extends BlockMod implements IQuarkBlock {
 		}
 	}
 
+	@Nonnull
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, new IProperty[] {NORTH, EAST, WEST, SOUTH});
+		return new BlockStateContainer(this, NORTH, EAST, WEST, SOUTH);
 	}
 
 	@Override
@@ -177,9 +195,11 @@ public class BlockQuarkPane extends BlockMod implements IQuarkBlock {
 		return new IProperty[] {NORTH, EAST, WEST, SOUTH};
 	}
 
+	@Nonnull
 	@Override
-    public BlockFaceShape getBlockFaceShape(IBlockAccess p_193383_1_, IBlockState p_193383_2_, BlockPos p_193383_3_, EnumFacing p_193383_4_) {
-        return p_193383_4_ != EnumFacing.UP && p_193383_4_ != EnumFacing.DOWN ? BlockFaceShape.MIDDLE_POLE_THIN : BlockFaceShape.CENTER_SMALL;
+	@SuppressWarnings("deprecation")
+    public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos blockPos, EnumFacing face) {
+        return face != EnumFacing.UP && face != EnumFacing.DOWN ? BlockFaceShape.MIDDLE_POLE_THIN : BlockFaceShape.CENTER_SMALL;
     }
 	
 	public boolean canPaneConnectTo(IBlockAccess world, BlockPos pos, EnumFacing dir) {

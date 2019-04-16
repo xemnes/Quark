@@ -10,7 +10,6 @@
  */
 package vazkii.quark.decoration.entity;
 
-import com.google.common.base.Predicate;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.BlockRedstoneDiode;
 import net.minecraft.block.state.IBlockState;
@@ -31,15 +30,11 @@ import net.minecraft.world.storage.MapData;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import org.apache.commons.lang3.Validate;
 
-import javax.annotation.Nullable;
+import java.util.function.Predicate;
 
 public class EntityFlatItemFrame extends EntityItemFrame implements IEntityAdditionalSpawnData {
 
-	protected static final Predicate<Entity> IS_HANGING_ENTITY = new Predicate<Entity>() {
-		public boolean apply(@Nullable Entity p_apply_1_) {
-			return p_apply_1_ instanceof EntityHanging;
-		}
-	};
+	protected static final Predicate<Entity> IS_HANGING_ENTITY = entity -> entity instanceof EntityHanging;
 
 	private static final String TAG_ITEMDROPCHANCE = "ItemDropChance";
 	private static final String TAG_REALFACINGDIRECTION = "RealFacing";
@@ -51,14 +46,14 @@ public class EntityFlatItemFrame extends EntityItemFrame implements IEntityAddit
 		super(worldIn);
 	}
 
-	public EntityFlatItemFrame(World worldIn, BlockPos p_i45852_2_, EnumFacing p_i45852_3_) {
-		super(worldIn, p_i45852_2_, p_i45852_3_);
+	public EntityFlatItemFrame(World worldIn, BlockPos blockPos, EnumFacing face) {
+		super(worldIn, blockPos, face);
 	}
 
 	@Override
-	public void dropItemOrSelf(Entity entityIn, boolean p_146065_2_) {
-		if(!p_146065_2_) {
-			super.dropItemOrSelf(entityIn, p_146065_2_);
+	public void dropItemOrSelf(Entity entityIn, boolean creative) {
+		if(!creative) {
+			super.dropItemOrSelf(entityIn, false);
 			return;
 		}
 
@@ -111,7 +106,7 @@ public class EntityFlatItemFrame extends EntityItemFrame implements IEntityAddit
 					if(!iblockstate.getMaterial().isSolid() && !BlockRedstoneDiode.isDiode(iblockstate))
 						return false;
 
-				return this.world.getEntitiesInAABBexcluding(this, this.getEntityBoundingBox(), IS_HANGING_ENTITY).isEmpty();
+				return this.world.getEntitiesInAABBexcluding(this, this.getEntityBoundingBox(), IS_HANGING_ENTITY::test).isEmpty();
 			}
 		} else
 			return super.onValidSurface();
@@ -156,14 +151,16 @@ public class EntityFlatItemFrame extends EntityItemFrame implements IEntityAddit
 			super.updateBoundingBox();
 	}
 
-	private void removeFrameFromMap(ItemStack stack) {
+	@SuppressWarnings("ConstantConditions")
+    private void removeFrameFromMap(ItemStack stack) {
 		if(!stack.isEmpty()) {
 			if(stack.getItem() instanceof ItemMap) {
 				MapData mapdata = ((ItemMap) stack.getItem()).getMapData(stack, getEntityWorld());
-				mapdata.mapDecorations.remove("frame-" + getEntityId());
+				if (mapdata != null)
+				    mapdata.mapDecorations.remove("frame-" + getEntityId());
 			}
 
-			stack.setItemFrame((EntityItemFrame) null);
+			stack.setItemFrame(null);
 		}
 	}
 

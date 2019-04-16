@@ -14,6 +14,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
+import javax.annotation.Nonnull;
+
 public class EntitySoulPowder extends Entity {
 
 	private static final DataParameter<Integer> TARGET_X = EntityDataManager.<Integer>createKey(EntitySoulPowder.class, DataSerializers.VARINT);
@@ -66,7 +68,7 @@ public class EntitySoulPowder extends Entity {
 			double pz = bpz + (Math.random() - 0.5) * posSpread;
 			world.spawnParticle(EnumParticleTypes.REDSTONE, px, py, pz, 0.2, 0.12, 0.1);
 			if(Math.random() < 0.05)
-				world.spawnParticle(EnumParticleTypes.FALLING_DUST, px, py, pz, 0, 0, 0, new int[] { Block.getStateId(Blocks.SOUL_SAND.getDefaultState()) });	
+				world.spawnParticle(EnumParticleTypes.FALLING_DUST, px, py, pz, 0, 0, 0, Block.getStateId(Blocks.SOUL_SAND.getDefaultState()));
 		}
 		
 		if(Math.random() < 0.1)
@@ -78,13 +80,13 @@ public class EntitySoulPowder extends Entity {
 	}
 
 	@Override
-	protected void readEntityFromNBT(NBTTagCompound compound) {
+	protected void readEntityFromNBT(@Nonnull NBTTagCompound compound) {
 		dataManager.set(TARGET_X, compound.getInteger(TAG_TARGET_X));
 		dataManager.set(TARGET_Z, compound.getInteger(TAG_TARGET_Z));
 	}
 
 	@Override
-	protected void writeEntityToNBT(NBTTagCompound compound) {
+	protected void writeEntityToNBT(@Nonnull NBTTagCompound compound) {
 		compound.setInteger(TAG_TARGET_X, dataManager.get(TARGET_X));
 		compound.setInteger(TAG_TARGET_Z, dataManager.get(TARGET_Z));
 	}

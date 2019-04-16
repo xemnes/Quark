@@ -44,7 +44,7 @@ public class MoreBanners extends Feature {
 
 		name = "quark_" + name;
 		id = "q_" + id;
-		EnumHelper.addEnum(BannerPattern.class, name.toUpperCase(), new Class[] { String.class, String.class, ItemStack.class }, new Object[] { name, id, craftingItem });
+		EnumHelper.addEnum(BannerPattern.class, name.toUpperCase(), new Class[] { String.class, String.class, ItemStack.class }, name, id, craftingItem);
 	}
 	
 	@Override

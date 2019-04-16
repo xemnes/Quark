@@ -17,6 +17,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.arl.block.BlockMod;
 import vazkii.quark.base.block.IQuarkBlock;
 
+import javax.annotation.Nonnull;
+
 public class BlockGlowcelium extends BlockMod implements IQuarkBlock {
 
 	public BlockGlowcelium() {
@@ -44,15 +46,17 @@ public class BlockGlowcelium extends BlockMod implements IQuarkBlock {
 		}
 	}
 
-	@SideOnly(Side.CLIENT)
+	@Override
+    @SideOnly(Side.CLIENT)
 	public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand) {
 		super.randomDisplayTick(stateIn, worldIn, pos, rand);
 
 		if(rand.nextInt(40) == 0)
-			worldIn.spawnParticle(EnumParticleTypes.END_ROD, pos.getX() + rand.nextFloat(), pos.getY() + 1.15F, pos.getZ() + rand.nextFloat(), 0, 0, 0, new int[0]);
+			worldIn.spawnParticle(EnumParticleTypes.END_ROD, pos.getX() + rand.nextFloat(), pos.getY() + 1.15F, pos.getZ() + rand.nextFloat(), 0, 0, 0);
 	}
 	
-	@Override
+	@Nonnull
+    @Override
     public Item getItemDropped(IBlockState state, Random rand, int fortune) {
         return Blocks.DIRT.getItemDropped(Blocks.DIRT.getDefaultState().withProperty(BlockDirt.VARIANT, BlockDirt.DirtType.DIRT), rand, fortune);
     }

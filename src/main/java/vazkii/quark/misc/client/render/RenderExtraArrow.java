@@ -12,15 +12,20 @@ package vazkii.quark.misc.client.render;
 
 import net.minecraft.client.renderer.entity.RenderArrow;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.entity.Entity;
+import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
+import vazkii.quark.misc.entity.EntityArrowEnder;
+import vazkii.quark.misc.entity.EntityArrowExplosive;
+import vazkii.quark.misc.entity.EntityArrowTorch;
 
-public class RenderExtraArrow extends RenderArrow {
+import javax.annotation.Nonnull;
 
-	public static final IRenderFactory FACTORY_ENDER = (RenderManager manager) -> new RenderExtraArrow(manager, new ResourceLocation("quark", "textures/entity/arrow_ender.png"));
-	public static final IRenderFactory FACTORY_EXPLOSIVE = (RenderManager manager) -> new RenderExtraArrow(manager, new ResourceLocation("quark", "textures/entity/arrow_explosive.png"));
-	public static final IRenderFactory FACTORY_TORCH = (RenderManager manager) -> new RenderExtraArrow(manager, new ResourceLocation("quark", "textures/entity/arrow_torch.png"));
+public class RenderExtraArrow<T extends EntityArrow> extends RenderArrow<T> {
+
+	public static final IRenderFactory<EntityArrowEnder> FACTORY_ENDER = (RenderManager manager) -> new RenderExtraArrow<>(manager, new ResourceLocation("quark", "textures/entity/arrow_ender.png"));
+	public static final IRenderFactory<EntityArrowExplosive> FACTORY_EXPLOSIVE = (RenderManager manager) -> new RenderExtraArrow<>(manager, new ResourceLocation("quark", "textures/entity/arrow_explosive.png"));
+	public static final IRenderFactory<EntityArrowTorch> FACTORY_TORCH = (RenderManager manager) -> new RenderExtraArrow<>(manager, new ResourceLocation("quark", "textures/entity/arrow_torch.png"));
 	
 	ResourceLocation res;
 	
@@ -30,7 +35,7 @@ public class RenderExtraArrow extends RenderArrow {
 	}
 
 	@Override
-	protected ResourceLocation getEntityTexture(Entity entity) {
+	protected ResourceLocation getEntityTexture(@Nonnull EntityArrow entity) {
 		return res;
 	}
 

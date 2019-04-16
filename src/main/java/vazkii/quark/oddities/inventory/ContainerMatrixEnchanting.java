@@ -19,6 +19,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 import vazkii.quark.oddities.tile.TileMatrixEnchanter;
 
+import javax.annotation.Nonnull;
+
 public class ContainerMatrixEnchanting extends Container {
 
 	private final List<ItemStack> lapisTypes = OreDictionary.getOres("gemLapis");
@@ -53,8 +55,9 @@ public class ContainerMatrixEnchanting extends Container {
 				return false;
 			}
 
-			@Override
-			public ItemStack onTake(EntityPlayer thePlayer, ItemStack stack) {
+			@Nonnull
+            @Override
+			public ItemStack onTake(EntityPlayer thePlayer, @Nonnull ItemStack stack) {
 				finish(thePlayer, stack);
 				return super.onTake(thePlayer, stack);
 			}
@@ -88,7 +91,7 @@ public class ContainerMatrixEnchanting extends Container {
 	}
 
 	@Override
-	public boolean canInteractWith(EntityPlayer playerIn) {
+	public boolean canInteractWith(@Nonnull EntityPlayer playerIn) {
 		World world = enchanter.getWorld();
 		BlockPos pos = enchanter.getPos();
 		if(world.getBlockState(pos).getBlock() != Blocks.ENCHANTING_TABLE)
@@ -97,7 +100,8 @@ public class ContainerMatrixEnchanting extends Container {
 			return playerIn.getDistanceSq(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D) <= 64.0D;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
 		ItemStack itemstack = ItemStack.EMPTY;
 		Slot slot = inventorySlots.get(index);

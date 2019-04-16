@@ -54,7 +54,7 @@ public class UndergroundBiomes extends Feature {
 	
 	@Override
 	public void setupConfig() {
-		biomes = new ArrayList();
+		biomes = new ArrayList<>();
 		
 		firestoneEnabled = loadPropBool("Enable Firestone", "", true);
 		icystoneEnabled = loadPropBool("Enable Froststone", "", true);

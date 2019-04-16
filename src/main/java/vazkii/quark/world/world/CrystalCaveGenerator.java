@@ -1,9 +1,5 @@
 package vazkii.quark.world.world;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -16,6 +12,10 @@ import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraftforge.fml.common.IWorldGenerator;
 import vazkii.quark.base.handler.DimensionConfig;
 import vazkii.quark.world.feature.CrystalCaves;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class CrystalCaveGenerator implements IWorldGenerator {
 
@@ -45,6 +45,7 @@ public class CrystalCaveGenerator implements IWorldGenerator {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	public void makeCrystalCaveAt(World world, BlockPos source, Random rand) {
 		double expandX = (rand.nextDouble() - 0.5) * 2;
 		double expandY = (rand.nextDouble() - 0.5) * 0.1F;
@@ -80,7 +81,6 @@ public class CrystalCaveGenerator implements IWorldGenerator {
 			if(hollowingCenter.getY() < 10) {
 				expansion = new Vec3d(expansion.x, -expansion.y, expansion.z);
 				curvature = new Vec3d(curvature.x, -curvature.y, curvature.z);
-				currentCenter = hollowingCenter.add(expansion.x * size * 0.5, expansion.y * size * 0.5, expansion.z * size * 0.5);
 			}
 			
 			expansion = expansion.add(curvature).normalize();
@@ -88,7 +88,7 @@ public class CrystalCaveGenerator implements IWorldGenerator {
 	}
 
 	private void hollowOut(World world, BlockPos source, Random rand, int width, IBlockState crystal1, IBlockState crystal2) {
-		List<BlockPos> crystals = new ArrayList();
+		List<BlockPos> crystals = new ArrayList<>();
 		
 		int max = width * width;
 		for(int i = -width; i <= width; i++)
@@ -99,9 +99,8 @@ public class CrystalCaveGenerator implements IWorldGenerator {
 
 					if(dist < max) {
 						IBlockState state = world.getBlockState(pos);
-						Block block = state.getBlock();
 
-						if(block.getBlockHardness(state, world, pos) != -1)
+						if(state.getBlockHardness(world, pos) != -1)
 							world.setBlockToAir(pos);
 					} else if(dist - 1 < max)
 						crystals.add(pos);
@@ -113,7 +112,7 @@ public class CrystalCaveGenerator implements IWorldGenerator {
 			else if(rand.nextInt(2) == 0) {
 				IBlockState stateAt = world.getBlockState(pos);
 				Block blockAt = stateAt.getBlock();
-				if(blockAt.isAir(stateAt, world, pos) || blockAt == CrystalCaves.crystal || blockAt.getBlockHardness(stateAt, world, pos) == -1)
+				if(blockAt.isAir(stateAt, world, pos) || blockAt == CrystalCaves.crystal || stateAt.getBlockHardness(world, pos) == -1)
 					continue;
 				
 				IBlockState oreState = Blocks.GOLD_ORE.getDefaultState();
@@ -154,8 +153,7 @@ public class CrystalCaveGenerator implements IWorldGenerator {
 		BlockPos pos = startPos;
 		for(int i = 0; i < size; i++) {
 			IBlockState stateAt = world.getBlockState(pos);
-			Block block = stateAt.getBlock();
-			if(block.getBlockHardness(stateAt, world, pos) == -1)
+			if(stateAt.getBlockHardness(world, pos) == -1)
 				break;
 			
 			world.setBlockState(pos, crystal);

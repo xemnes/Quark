@@ -7,6 +7,8 @@ import net.minecraftforge.common.config.Property;
 import net.minecraftforge.common.config.Property.Type;
 import vazkii.quark.base.lib.LibMisc;
 
+import javax.annotation.Nonnull;
+
 public class GuiButtonConfigSetting extends GuiButton {
 	
 	public final Property prop;
@@ -26,7 +28,7 @@ public class GuiButtonConfigSetting extends GuiButton {
 	}
 	
 	@Override
-	public void drawCenteredString(FontRenderer fontRendererIn, String text, int x, int y, int color) {
+	public void drawCenteredString(FontRenderer fontRendererIn, @Nonnull String text, int x, int y, int color) {
 		if(labeled) {
 			int width = fontRendererIn.getStringWidth(text);
 			fontRendererIn.drawStringWithShadow(text, this.x - width - 5, y, color);

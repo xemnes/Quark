@@ -1,12 +1,7 @@
 package vazkii.quark.world.feature;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-
 import net.minecraft.entity.IMerchant;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.init.Biomes;
@@ -20,19 +15,23 @@ import net.minecraft.village.MerchantRecipe;
 import net.minecraft.village.MerchantRecipeList;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.BiomeMushroomIsland;
 import net.minecraft.world.storage.MapData;
 import net.minecraft.world.storage.MapDecoration.Type;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.common.FMLLog;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.VillagerRegistry.VillagerCareer;
 import net.minecraftforge.fml.common.registry.VillagerRegistry.VillagerProfession;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import vazkii.arl.util.ItemNBTHelper;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.experimental.world.BiomeLocator;
+
+import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class PathfinderMaps extends Feature {
 
@@ -143,8 +142,9 @@ public class PathfinderMaps extends Feature {
 			try {
 				loadTradeInfo(s);
 			} catch(IllegalArgumentException e) {
-				FMLLog.warning("[Quark][Custom Pathfinder Maps] Error while reading custom map string \"%s\"", s);
-				FMLLog.warning("[Quark][Custom Pathfinder Maps] - %s", e.getMessage());
+				Logger logger = LogManager.getLogger("Quark");
+				logger.warn("[Custom Pathfinder Maps] Error while reading custom map string \"%s\"", s);
+				logger.warn("[Custom Pathfinder Maps] - %s", e.getMessage());
 			}
 	}
 
@@ -195,8 +195,9 @@ public class PathfinderMaps extends Feature {
 			this.level = level;
 		}
 
-		public void addMerchantRecipe(IMerchant merchant, MerchantRecipeList recipeList, Random random) {
-			List<TradeInfo> infos = new ArrayList(trades.get(level));
+		@Override
+		public void addMerchantRecipe(@Nonnull IMerchant merchant, @Nonnull MerchantRecipeList recipeList, @Nonnull Random random) {
+			List<TradeInfo> infos = new ArrayList<>(trades.get(level));
 			if(infos == null || infos.isEmpty())
 				return;
 			

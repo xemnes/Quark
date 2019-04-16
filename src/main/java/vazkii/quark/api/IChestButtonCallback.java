@@ -1,7 +1,5 @@
 package vazkii.quark.api;
 
-import java.util.function.Consumer;
-
 import net.minecraft.client.gui.GuiButton;
 
 /**
@@ -17,6 +15,6 @@ public interface IChestButtonCallback {
 	 * @param buttonType The type of the button, aka the ordinal() of the button type enum.
 	 * @return true to keep the button, false to not have it be added. 
 	 */
-	public boolean onAddChestButton(GuiButton button, int buttonType);
+    boolean onAddChestButton(GuiButton button, int buttonType);
 	
 }

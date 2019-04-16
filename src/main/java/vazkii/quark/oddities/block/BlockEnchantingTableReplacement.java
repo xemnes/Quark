@@ -16,6 +16,8 @@ import vazkii.quark.base.lib.LibGuiIDs;
 import vazkii.quark.oddities.tile.TileMatrixEnchanter;
 import vazkii.quark.oddities.tile.TileMatrixEnchanterBase;
 
+import javax.annotation.Nonnull;
+
 public class BlockEnchantingTableReplacement extends BlockEnchantmentTable {
 
 	public BlockEnchantingTableReplacement() {
@@ -29,7 +31,7 @@ public class BlockEnchantingTableReplacement extends BlockEnchantmentTable {
 	}
 
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World worldIn, @Nonnull BlockPos pos, IBlockState state, @Nonnull EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if(worldIn.getTileEntity(pos) instanceof TileEntityEnchantmentTable)
 			worldIn.setTileEntity(pos, createNewTileEntity(worldIn, 0));
 		
@@ -38,7 +40,7 @@ public class BlockEnchantingTableReplacement extends BlockEnchantmentTable {
 	}
 
 	@Override
-	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+	public void onBlockPlacedBy(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull IBlockState state, @Nonnull EntityLivingBase placer, ItemStack stack) {
 		super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
 
 		if(stack.hasDisplayName()) {
@@ -49,7 +51,8 @@ public class BlockEnchantingTableReplacement extends BlockEnchantmentTable {
 		}
 	}
 
-	public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
+	@Override
+    public void breakBlock(World worldIn, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
 		TileEntity tileentity = worldIn.getTileEntity(pos);
 
 		if(tileentity instanceof TileMatrixEnchanterBase) {

@@ -13,12 +13,12 @@ public interface ICustomSorting {
 	/**
 	 * Gets a comparator to compare the items. 
 	 */
-	public Comparator<ItemStack> getItemComparator();
+    Comparator<ItemStack> getItemComparator();
 	
 	/**
 	 * Gets this item's category. Items will only be compared together if they are in the same category.
 	 * Make sure your category is unique. Prefixing it with the mod ID is a good idea.
 	 */
-	public String getSortingCategory();
+    String getSortingCategory();
 	
 }

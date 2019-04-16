@@ -10,7 +10,6 @@
  */
 package vazkii.quark.management.client.gui;
 
-import com.google.common.base.Predicate;
 import com.google.common.collect.BiMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -27,20 +26,22 @@ import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.management.feature.FavoriteItems;
 import vazkii.quark.management.feature.StoreToChests;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
-public class GuiButtonChest<T extends GuiScreen> extends GuiButton implements IParentedGui {
+public class GuiButtonChest extends GuiButton implements IParentedGui {
 
 	public final Action action;
-	public final T parent;
+	public final GuiScreen parent;
 	
 	public final int shiftX, shiftY;
 	
-	Predicate<T> enabledPredicate = null;
+	Predicate<GuiScreen> enabledPredicate = null;
 	boolean ender = false;
 	
-	public GuiButtonChest(T parent, Action action, int id, int par2, int par3, int left, int top) {
+	public GuiButtonChest(GuiScreen parent, Action action, int id, int par2, int par3, int left, int top) {
 		super(id, par2 + left, par3 + top, 16, 16, "");
 		this.action = action;
 		this.parent = parent;
@@ -48,18 +49,18 @@ public class GuiButtonChest<T extends GuiScreen> extends GuiButton implements IP
 		this.shiftY = par3;
 	}
 
-	public GuiButtonChest(T parent, Action action, int id, int par2, int par3, int left, int top, Predicate<T> enabledPredicate) {
+	public GuiButtonChest(GuiScreen parent, Action action, int id, int par2, int par3, int left, int top, Predicate<GuiScreen> enabledPredicate) {
 		this(parent, action, id, par2, par3, left, top);
 		this.enabledPredicate = enabledPredicate;
 	}
 
 	@Override
-	public void drawButton(Minecraft par1Minecraft, int par2, int par3, float pticks) {
+	public void drawButton(@Nonnull Minecraft par1Minecraft, int par2, int par3, float pticks) {
 		if(par1Minecraft.player.isSpectator())
 			enabled = false;
 		
 		if(enabledPredicate != null)
-			enabled = enabledPredicate.apply(parent);
+			enabled = enabledPredicate.test(parent);
 
 		if(enabled) {
 			hovered = par2 >= x && par3 >= y && par2 < x + width && par3 < y + height;
@@ -91,13 +92,13 @@ public class GuiButtonChest<T extends GuiScreen> extends GuiButton implements IP
 				
 				int tooltipShift = action == Action.DROPOFF ? 0 : -len - 24;
 				
-				List<String> tooltipList = new ArrayList();
+				List<String> tooltipList = new ArrayList<>();
 				tooltipList.add(tooltip);
 				BiMap<IParentedGui, KeyBinding> map = ModKeybinds.keyboundButtons.inverse();
 				if(map.containsKey(this)) {
 					KeyBinding key = map.get(this);
 					if(key.getKeyCode() != 0) {
-						String press = String.format(I18n.format("quarkmisc.keyboundButton"), TextFormatting.GRAY, GameSettings.getKeyDisplayString(key.getKeyCode()));
+						String press = I18n.format("quarkmisc.keyboundButton", TextFormatting.GRAY, GameSettings.getKeyDisplayString(key.getKeyCode()));
 						tooltipList.add(press);
 						
 						if(action != Action.DROPOFF) {
@@ -136,7 +137,7 @@ public class GuiButtonChest<T extends GuiScreen> extends GuiButton implements IP
 		return parent;
 	}
 
-	public static enum Action {
+	public enum Action {
 
 		DROPOFF(0, 0),
 		DEPOSIT(0, 0),
@@ -146,7 +147,7 @@ public class GuiButtonChest<T extends GuiScreen> extends GuiButton implements IP
 		SORT(0, 16),
 		SORT_PLAYER(0, 16);
 		
-		private Action(int u, int v) {
+		Action(int u, int v) {
 			this.u = u;
 			this.v = v;
 		}

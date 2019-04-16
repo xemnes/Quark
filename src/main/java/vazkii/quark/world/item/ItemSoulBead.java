@@ -25,6 +25,8 @@ import vazkii.arl.item.ItemMod;
 import vazkii.quark.base.item.IQuarkItem;
 import vazkii.quark.world.feature.Wraiths;
 
+import javax.annotation.Nonnull;
+
 public class ItemSoulBead extends ItemMod implements IQuarkItem {
 
 	public ItemSoulBead() {
@@ -32,8 +34,9 @@ public class ItemSoulBead extends ItemMod implements IQuarkItem {
 		setCreativeTab(CreativeTabs.COMBAT);
 	}
 
-	@Override
-	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand) {
+	@Nonnull
+    @Override
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, @Nonnull EnumHand hand) {
 		ItemStack stack = playerIn.getHeldItem(hand);
 		if(Wraiths.enableCurse) {
 			PotionEffect effect = new PotionEffect(Wraiths.curse, Wraiths.curseTime, 0, true, true);

@@ -27,7 +27,7 @@ public class GuardianSound2UnderwaterBoogaloo extends GuardianSound {
 	@Override
 	public void update() {
 		EntityLivingBase target = visibleGuardian.getTargetedEntity();
-		if(target == null || !(target instanceof EntityPlayer)) {
+		if(!(target instanceof EntityPlayer)) {
 			donePlaying = true;
 			return;
 		}

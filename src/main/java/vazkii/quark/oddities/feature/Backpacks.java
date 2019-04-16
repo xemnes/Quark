@@ -35,6 +35,8 @@ import vazkii.quark.base.network.message.MessageHandleBackpack;
 import vazkii.quark.oddities.client.gui.GuiBackpackInventory;
 import vazkii.quark.oddities.item.ItemBackpack;
 
+import javax.annotation.Nonnull;
+
 public class Backpacks extends Feature {
 
 	public static Item backpack;
@@ -153,7 +155,7 @@ public class Backpacks extends Feature {
     public static class BackpackTrade implements EntityVillager.ITradeList {
 
     	@Override
-        public void addMerchantRecipe(IMerchant merchant, MerchantRecipeList recipeList, Random random) {
+        public void addMerchantRecipe(@Nonnull IMerchant merchant, @Nonnull MerchantRecipeList recipeList, @Nonnull Random random) {
         	int emeraldCount = random.nextInt(maxEmeralds - minEmeralds) + minEmeralds;
         	recipeList.add(new MerchantRecipe(new ItemStack(Items.LEATHER, leatherCount), new ItemStack(Items.EMERALD, emeraldCount), new ItemStack(backpack)));
         }

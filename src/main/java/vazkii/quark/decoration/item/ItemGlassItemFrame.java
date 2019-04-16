@@ -16,6 +16,8 @@ import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.decoration.entity.EntityGlassItemFrame;
 import vazkii.quark.decoration.feature.FlatItemFrames;
 
+import javax.annotation.Nonnull;
+
 public class ItemGlassItemFrame extends ItemMod implements IQuarkItem, IExtraVariantHolder {
 
 	private static final String[] EXTRA_VARIANTS = {
@@ -27,7 +29,8 @@ public class ItemGlassItemFrame extends ItemMod implements IQuarkItem, IExtraVar
 		setCreativeTab(CreativeTabs.DECORATIONS);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public EnumActionResult onItemUse(EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		ItemStack stack = playerIn.getHeldItem(hand);
 		BlockPos blockpos = pos.offset(facing);

@@ -13,10 +13,13 @@ package vazkii.quark.world.block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.util.IStringSerializable;
 import vazkii.arl.block.BlockMetaVariants;
 import vazkii.quark.base.block.IQuarkBlock;
 
-public class BlockBasalt extends BlockMetaVariants implements IQuarkBlock {
+import java.util.Locale;
+
+public class BlockBasalt extends BlockMetaVariants<BlockBasalt.Variants> implements IQuarkBlock {
 
 	public BlockBasalt() {
 		super("basalt", Material.ROCK, Variants.class);
@@ -26,9 +29,14 @@ public class BlockBasalt extends BlockMetaVariants implements IQuarkBlock {
 		setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
 	}
 
-	public enum Variants implements EnumBase {
+	public enum Variants implements IStringSerializable {
 		STONE_BASALT,
-		STONE_BASALT_SMOOTH
+		STONE_BASALT_SMOOTH;
+
+		@Override
+		public String getName() {
+			return name().toLowerCase(Locale.ROOT);
+		}
 	}
 
 }

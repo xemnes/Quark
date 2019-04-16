@@ -101,11 +101,11 @@ public class LightSource {
 	}
 
 	byte getIncidenceAtCoords(int[] coords) {
-		return (byte) (incidences[coords[0]][coords[1]][coords[2]]);
+		return (incidences[coords[0]][coords[1]][coords[2]]);
 	}
 
 	void pushByteToCoords(int[] coords, byte b) {
-		incidences[coords[0]][coords[1]][coords[2]] = (byte) b;
+		incidences[coords[0]][coords[1]][coords[2]] = b;
 	}
 
 

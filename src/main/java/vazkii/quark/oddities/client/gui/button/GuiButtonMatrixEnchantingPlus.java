@@ -5,6 +5,8 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import vazkii.quark.oddities.client.gui.GuiMatrixEnchanting;
 
+import javax.annotation.Nonnull;
+
 public class GuiButtonMatrixEnchantingPlus extends GuiButton {
 
 	public GuiButtonMatrixEnchantingPlus(int x, int y) {
@@ -12,7 +14,7 @@ public class GuiButtonMatrixEnchantingPlus extends GuiButton {
 	}
 	
 	@Override
-	public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks) {
+	public void drawButton(@Nonnull Minecraft mc, int mouseX, int mouseY, float partialTicks) {
 		hovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
 		if(!visible)
 			return;

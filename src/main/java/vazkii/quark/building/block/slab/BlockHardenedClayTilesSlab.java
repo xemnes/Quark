@@ -19,6 +19,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import vazkii.quark.base.block.BlockQuarkSlab;
 
+import javax.annotation.Nonnull;
+
 public class BlockHardenedClayTilesSlab extends BlockQuarkSlab {
 
 	public BlockHardenedClayTilesSlab(boolean doubleSlab) {
@@ -29,7 +31,9 @@ public class BlockHardenedClayTilesSlab extends BlockQuarkSlab {
 		setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
 	}
 
-	@Override
+	@Nonnull
+    @Override
+	@SuppressWarnings("deprecation")
 	public MapColor getMapColor(IBlockState state, IBlockAccess world, BlockPos pos) {
 		return MapColor.ADOBE;
 	}

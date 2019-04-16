@@ -15,6 +15,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumFacing.Axis;
+import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -22,13 +23,14 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
-import vazkii.arl.block.BlockMetaVariants.EnumBase;
 import vazkii.arl.block.BlockModContainer;
 import vazkii.quark.base.block.BlockQuarkWall;
 import vazkii.quark.base.block.IQuarkBlock;
 import vazkii.quark.oddities.tile.TilePipe;
 
+import javax.annotation.Nonnull;
 import java.util.List;
+import java.util.Locale;
 
 public class BlockPipe extends BlockModContainer implements IQuarkBlock {
 
@@ -49,6 +51,7 @@ public class BlockPipe extends BlockModContainer implements IQuarkBlock {
 	public static final PropertyEnum<ConnectionType> EAST = PropertyEnum.create("east", ConnectionType.class);
 	public static final PropertyBool ENABLED = PropertyBool.create("enabled");
 
+	@SuppressWarnings("unchecked")
 	private static final PropertyEnum<ConnectionType>[] CONNECTIONS = new PropertyEnum[] {
 			DOWN, UP, NORTH, SOUTH, WEST, EAST
 	};
@@ -74,14 +77,17 @@ public class BlockPipe extends BlockModContainer implements IQuarkBlock {
 	}
 
 	@Override
+    @SuppressWarnings("deprecation")
 	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
 		boolean flag = !worldIn.isBlockPowered(pos);
 
 		if(flag != state.getValue(ENABLED))
-			worldIn.setBlockState(pos, state.withProperty(ENABLED, Boolean.valueOf(flag)), 2 | 4);
+			worldIn.setBlockState(pos, state.withProperty(ENABLED, flag), 2 | 4);
 	}
 
+	@Nonnull
 	@Override
+    @SuppressWarnings("deprecation")
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
 		double minX = CENTER_AABB.minX, minY = CENTER_AABB.minY, minZ = CENTER_AABB.minZ, 
 				maxX = CENTER_AABB.maxX, maxY = CENTER_AABB.maxY, maxZ = CENTER_AABB.maxZ;
@@ -94,17 +100,19 @@ public class BlockPipe extends BlockModContainer implements IQuarkBlock {
 		if(hasAnyConnection(state, EnumFacing.WEST)) minX = 0;
 		if(hasAnyConnection(state, EnumFacing.EAST)) maxX = 1;
 
-		AxisAlignedBB aabb = new AxisAlignedBB(minX, minY, minZ, maxX, maxY, maxZ);
-		return aabb;
+		return new AxisAlignedBB(minX, minY, minZ, maxX, maxY, maxZ);
 	}
 
+	@Nonnull
 	@Override
-	public AxisAlignedBB getSelectedBoundingBox(IBlockState state, World worldIn, BlockPos pos) {
+    @SuppressWarnings("deprecation")
+	public AxisAlignedBB getSelectedBoundingBox(IBlockState state, @Nonnull World worldIn, @Nonnull BlockPos pos) {
 		return getBoundingBox(state, worldIn, pos).offset(pos);
 	}
 
 	@Override
-	public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, Entity entityIn, boolean isActualState) {
+	@SuppressWarnings("deprecation")
+	public void addCollisionBoxToList(IBlockState state, @Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull AxisAlignedBB entityBox, @Nonnull List<AxisAlignedBB> collidingBoxes, Entity entityIn, boolean isActualState) {
 		if(!isActualState)
 			state = getActualState(state, worldIn, pos);
 
@@ -120,6 +128,7 @@ public class BlockPipe extends BlockModContainer implements IQuarkBlock {
 		return state.getValue(prop).isSolid;
 	}
 
+	@Nonnull
 	@Override
 	@SideOnly(Side.CLIENT)
 	public BlockRenderLayer getRenderLayer() {
@@ -131,6 +140,7 @@ public class BlockPipe extends BlockModContainer implements IQuarkBlock {
 		return new IProperty[] { ENABLED };
 	}
 
+	@Nonnull
 	@Override
 	protected BlockStateContainer createBlockState() {
 		return new BlockStateContainer(this, UP, DOWN, NORTH, SOUTH, WEST, EAST, ENABLED);
@@ -141,13 +151,17 @@ public class BlockPipe extends BlockModContainer implements IQuarkBlock {
 		return (state.getValue(ENABLED) ? 0b0 : 1);
 	}
 
+	@Nonnull
 	@Override
+    @SuppressWarnings("deprecation")
 	public IBlockState getStateFromMeta(int meta) {
 		return getDefaultState().withProperty(ENABLED, (meta & 0b1) != 1);
 	}
 
+	@Nonnull
 	@Override
-	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
+    @SuppressWarnings("deprecation")
+	public IBlockState getActualState(@Nonnull IBlockState state, IBlockAccess worldIn, BlockPos pos) {
 		IBlockState actualState = state;
 		for(EnumFacing facing : EnumFacing.VALUES) {
 			PropertyEnum<ConnectionType> prop = CONNECTIONS[facing.ordinal()];
@@ -159,11 +173,13 @@ public class BlockPipe extends BlockModContainer implements IQuarkBlock {
 	}
 
 	@Override
+    @SuppressWarnings("deprecation")
 	public boolean hasComparatorInputOverride(IBlockState state) {
 		return true;
 	}
 
 	@Override
+    @SuppressWarnings("deprecation")
 	public int getComparatorInputOverride(IBlockState blockState, World worldIn, BlockPos pos) {
 		TileEntity tile = worldIn.getTileEntity(pos);
 		if(tile instanceof TilePipe)
@@ -172,38 +188,43 @@ public class BlockPipe extends BlockModContainer implements IQuarkBlock {
 	}
 
 	@Override
-	public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
+	public void breakBlock(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
 		TileEntity tileentity = worldIn.getTileEntity(pos);
 
 		if(tileentity instanceof TilePipe)
-			((TilePipe) tileentity).dropAllItems();;
+			((TilePipe) tileentity).dropAllItems();
 
 			super.breakBlock(worldIn, pos, state);
 	}
 
 	@Override
+    @SuppressWarnings("deprecation")
 	public boolean isFullCube(IBlockState state) {
 		return false;
 	}
 
 	@Override
+    @SuppressWarnings("deprecation")
 	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
+    @SuppressWarnings("deprecation")
+	public boolean shouldSideBeRendered(IBlockState blockState, @Nonnull IBlockAccess blockAccess, @Nonnull BlockPos pos, EnumFacing side) {
 		return true;
 	}
 	
+	@Nonnull
 	@Override
+    @SuppressWarnings("deprecation")
 	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
 		return BlockFaceShape.UNDEFINED;
 	}
 
 	@Override
-	public TileEntity createTileEntity(World world, IBlockState state) {
+	public TileEntity createTileEntity(@Nonnull World world, @Nonnull IBlockState state) {
 		return new TilePipe();
 	}
 
@@ -227,19 +248,24 @@ public class BlockPipe extends BlockModContainer implements IQuarkBlock {
 		return ConnectionType.NONE;
 	}
 
-	public static enum ConnectionType implements EnumBase {
+	public enum ConnectionType implements IStringSerializable {
 
 		NONE(false, false), 
 		PIPE(true, true), 
 		TERMINAL(true, true), 
 		PROP(true, false);
 
-		private ConnectionType(boolean isSolid, boolean allowsItems) {
+		ConnectionType(boolean isSolid, boolean allowsItems) {
 			this.isSolid = isSolid;
 			this.allowsItems = allowsItems;
 		}
 
 		public final boolean isSolid, allowsItems;
+
+		@Override
+		public String getName() {
+			return name().toLowerCase(Locale.ROOT);
+		}
 
 	}
 

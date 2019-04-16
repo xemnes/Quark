@@ -1,9 +1,5 @@
 package vazkii.quark.management.feature;
 
-import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.gui.inventory.GuiContainerCreative;
@@ -25,6 +21,10 @@ import vazkii.quark.base.network.message.MessageSortInventory;
 import vazkii.quark.management.client.gui.GuiButtonChest;
 import vazkii.quark.management.client.gui.GuiButtonChest.Action;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class InventorySorting extends Feature {
 
 	int xPos, yPos;
@@ -42,7 +42,7 @@ public class InventorySorting extends Feature {
 		enablePlayerButton = loadPropBool("Enable Button in Player Inventory", "", true);
 
 		String[] classnamesArr = loadPropStringList("Forced GUIs", "GUIs in which the sort button should be forced to show up. Use the \"Debug Classnames\" option in chest buttons to find the names.", new String[0]);
-		classnames = new ArrayList(Arrays.asList(classnamesArr));
+		classnames = new ArrayList<>(Arrays.asList(classnamesArr));
 	}
 	
 	@Override
@@ -68,13 +68,13 @@ public class InventorySorting extends Feature {
 			for(Slot s : container.inventorySlots)
 				if(creativeInv != null || s instanceof SlotCrafting) {
 					if(creativeInv == null)
-						ChestButtons.addButtonAndKeybind(event, Action.SORT, guiInv, 13212, s.xPos + xPos, s.yPos + yPos, s, ModKeybinds.playerSortKey);
+						ChestButtons.addButtonAndKeybind(event, Action.SORT, guiInv, 13212, s.xPos + xPos, s.yPos + yPos, ModKeybinds.playerSortKey);
 					else {
 						if(s.getSlotIndex() != 15)
 							continue;
 
-						ChestButtons.<GuiContainerCreative>addButtonAndKeybind(event, Action.SORT, guiInv, 132112, s.xPos + xPosC, s.yPos + yPosC, s, ModKeybinds.playerSortKey,
-								(gui) -> gui.getSelectedTabIndex() == CreativeTabs.INVENTORY.getIndex());
+						ChestButtons.addButtonAndKeybind(event, Action.SORT, guiInv, 132112, s.xPos + xPosC, s.yPos + yPosC, ModKeybinds.playerSortKey,
+								(gui) -> ((GuiContainerCreative) gui).getSelectedTabIndex() == CreativeTabs.INVENTORY.getIndex());
 					}
 
 					break;

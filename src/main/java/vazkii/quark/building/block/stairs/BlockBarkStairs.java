@@ -7,6 +7,7 @@ import vazkii.quark.building.feature.BarkBlocks;
 
 public class BlockBarkStairs extends BlockQuarkStairs implements IRecipeGrouped {
 
+	@SuppressWarnings("unchecked")
 	public BlockBarkStairs(BlockBark.Variants variant) {
 		super(variant.getName() + "_stairs", BarkBlocks.bark.getDefaultState().withProperty(BarkBlocks.bark.getVariantProp(), variant));
 	}

@@ -1,12 +1,5 @@
 package vazkii.quark.world.feature;
 
-import java.lang.reflect.Constructor;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Random;
-
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -23,14 +16,16 @@ import net.minecraft.world.gen.structure.template.PlacementSettings;
 import net.minecraft.world.gen.structure.template.Template;
 import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraftforge.common.DungeonHooks;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.terraingen.PopulateChunkEvent;
 import net.minecraftforge.event.terraingen.PopulateChunkEvent.Populate.EventType;
-import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.eventhandler.Event;
-import net.minecraftforge.fml.common.eventhandler.Event.Result;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import vazkii.quark.base.module.Feature;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Random;
 
 public class VariedDungeons extends Feature {
 
@@ -108,16 +103,16 @@ public class VariedDungeons extends Feature {
 		for(int x = 0; x < size.getX(); x++)
 			for(int y = 0; y < size.getY(); y++)
 				for(int z = 0; z < size.getZ(); z++) {
-					BlockPos checkPos = position.add(template.transformedBlockPos(settings, new BlockPos(x, y, z)));
+					BlockPos checkPos = position.add(Template.transformedBlockPos(settings, new BlockPos(x, y, z)));
 					IBlockState checkState = world.getBlockState(checkPos);
-					if(checkState.getBlock().getBlockHardness(checkState, world, checkPos) == -1 || world.canBlockSeeSky(checkPos))
+					if(checkState.getBlockHardness(world, checkPos) == -1 || world.canBlockSeeSky(checkPos))
 						return; // Obstructed or exposed, can't generate here
 				}
 
 		template.addBlocksToWorld(world, position, settings);
 
 		int spawners = 0;
-		List<BlockPos> chests = new ArrayList();
+		List<BlockPos> chests = new ArrayList<>();
 		Map<BlockPos, String> dataBlocks = template.getDataBlocks(position, settings);
 
 		for(Entry<BlockPos, String> entry : dataBlocks.entrySet()) {

@@ -10,13 +10,11 @@
  */
 package vazkii.quark.base.module;
 
-import org.apache.commons.io.input.ProxyReader;
-import org.apache.commons.lang3.text.WordUtils;
-
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.config.Property;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -27,8 +25,11 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
+import org.apache.commons.lang3.text.WordUtils;
 import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.lib.LibMisc;
+
+import javax.annotation.Nonnull;
 
 public class Feature implements Comparable<Feature> {
 
@@ -139,7 +140,7 @@ public class Feature implements Comparable<Feature> {
 	}
 
 	public static void registerTile(Class<? extends TileEntity> clazz, String key) {
-		GameRegistry.registerTileEntity(clazz, LibMisc.PREFIX_MOD + key);
+		GameRegistry.registerTileEntity(clazz, new ResourceLocation(LibMisc.MOD_ID, key));
 	}
 	
 	public static void addOreDict(String key, Item value) {
@@ -179,7 +180,7 @@ public class Feature implements Comparable<Feature> {
 	}
 
 	@Override
-	public int compareTo(Feature o) {
+	public int compareTo(@Nonnull Feature o) {
 		return configName.compareTo(o.configName);
 	}
 }

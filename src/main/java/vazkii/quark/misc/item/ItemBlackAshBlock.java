@@ -16,6 +16,8 @@ import net.minecraft.world.World;
 import vazkii.arl.item.ItemModBlock;
 import vazkii.quark.base.item.IQuarkItem;
 
+import javax.annotation.Nonnull;
+
 public class ItemBlackAshBlock extends ItemModBlock implements IQuarkItem {
 
 	public ItemBlackAshBlock(Block block, ResourceLocation res) {
@@ -23,8 +25,9 @@ public class ItemBlackAshBlock extends ItemModBlock implements IQuarkItem {
 	}
 	
 	// Complete copy of vanilla ItemBlock#onItemUse, but doesn't play the sound
-	@Override
-    public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+	@Nonnull
+    @Override
+    public EnumActionResult onItemUse(EntityPlayer player, World worldIn, @Nonnull BlockPos pos, @Nonnull EnumHand hand, @Nonnull EnumFacing facing, float hitX, float hitY, float hitZ) {
         IBlockState iblockstate = worldIn.getBlockState(pos);
         Block block = iblockstate.getBlock();
 

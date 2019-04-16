@@ -14,6 +14,8 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 
+import javax.annotation.Nonnull;
+
 public class EntityChestPassenger extends Entity implements IInventory {
 
 	private NonNullList<ItemStack> items = NonNullList.<ItemStack>withSize(27, ItemStack.EMPTY);
@@ -72,17 +74,20 @@ public class EntityChestPassenger extends Entity implements IInventory {
 		return true;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public ItemStack getStackInSlot(int index) {
 		return items.get(index);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public ItemStack decrStackSize(int index, int count) {
 		return ItemStackHelper.getAndSplit(items, index, count);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public ItemStack removeStackFromSlot(int index) {
 		ItemStack itemstack = items.get(index);
 
@@ -95,7 +100,7 @@ public class EntityChestPassenger extends Entity implements IInventory {
 	}
 
 	@Override
-	public void setInventorySlotContents(int index, ItemStack stack) {
+	public void setInventorySlotContents(int index, @Nonnull ItemStack stack) {
 		items.set(index, stack);
 	}
 
@@ -110,22 +115,22 @@ public class EntityChestPassenger extends Entity implements IInventory {
 	}
 
 	@Override
-	public boolean isUsableByPlayer(EntityPlayer player) {
+	public boolean isUsableByPlayer(@Nonnull EntityPlayer player) {
 		return !isDead && player.getDistanceSq(this) <= 64;
 	}
 
 	@Override
-	public void openInventory(EntityPlayer player) {
+	public void openInventory(@Nonnull EntityPlayer player) {
 		// NO-OP
 	}
 
 	@Override
-	public void closeInventory(EntityPlayer player) {
+	public void closeInventory(@Nonnull EntityPlayer player) {
 		// NO-OP
 	}
 
 	@Override
-	public boolean isItemValidForSlot(int index, ItemStack stack) {
+	public boolean isItemValidForSlot(int index, @Nonnull ItemStack stack) {
 		return true;
 	}
 
@@ -160,7 +165,7 @@ public class EntityChestPassenger extends Entity implements IInventory {
 	}
 
 	@Override
-	protected void writeEntityToNBT(NBTTagCompound compound) {
+	protected void writeEntityToNBT(@Nonnull NBTTagCompound compound) {
 		ItemStackHelper.saveAllItems(compound, items);
 		
 		NBTTagCompound itemCmp = new NBTTagCompound();
@@ -169,7 +174,7 @@ public class EntityChestPassenger extends Entity implements IInventory {
 	}
 
 	@Override
-	protected void readEntityFromNBT(NBTTagCompound compound) {
+	protected void readEntityFromNBT(@Nonnull NBTTagCompound compound) {
 		ItemStackHelper.loadAllItems(compound, items);
 		
 		NBTTagCompound itemCmp = compound.getCompoundTag(TAG_CHEST_TYPE);

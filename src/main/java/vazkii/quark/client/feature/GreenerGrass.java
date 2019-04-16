@@ -26,6 +26,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.registries.IRegistryDelegate;
 import vazkii.quark.base.module.Feature;
 
+import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -97,7 +98,7 @@ public class GreenerGrass extends Feature {
 		return new IBlockColor() {
 
 			@Override
-			public int colorMultiplier(IBlockState state, IBlockAccess world, BlockPos pos, int tintIndex) {
+			public int colorMultiplier(@Nonnull IBlockState state, IBlockAccess world, BlockPos pos, int tintIndex) {
 				int originalColor = color.colorMultiplier(state, world, pos, tintIndex);
 
 				int r = originalColor >> 16 & 0xFF;

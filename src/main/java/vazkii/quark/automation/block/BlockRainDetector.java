@@ -12,7 +12,6 @@ package vazkii.quark.automation.block;
 
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -28,6 +27,8 @@ import net.minecraft.world.World;
 import vazkii.arl.block.BlockModContainer;
 import vazkii.quark.automation.tile.TileRainDetector;
 import vazkii.quark.base.block.IQuarkBlock;
+
+import javax.annotation.Nonnull;
 
 public class BlockRainDetector extends BlockModContainer implements IQuarkBlock {
 
@@ -45,12 +46,15 @@ public class BlockRainDetector extends BlockModContainer implements IQuarkBlock 
 		setDefaultState(blockState.getBaseState().withProperty(POWER, false).withProperty(INVERTED, false));
 	}
 
-	@Override
+	@Nonnull
+    @Override
+	@SuppressWarnings("deprecation")
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
 		return RAIN_DETECTOR_AABB;
 	}
 
 	@Override
+	@SuppressWarnings("deprecation")
 	public int getWeakPower(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
 		return blockState.getValue(POWER) ? 15 : 0;
 	}
@@ -84,36 +88,42 @@ public class BlockRainDetector extends BlockModContainer implements IQuarkBlock 
 	}
 
 	@Override
+	@SuppressWarnings("deprecation")
 	public boolean isFullCube(IBlockState state) {
 		return false;
 	}
 
 	@Override
+	@SuppressWarnings("deprecation")
 	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
 
 	@Override
+	@SuppressWarnings("deprecation")
 	public boolean canProvidePower(IBlockState state) {
 		return true;
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World worldIn, int meta) {
+	public TileEntity createNewTileEntity(@Nonnull World worldIn, int meta) {
 		return new TileRainDetector();
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, new IProperty[] { POWER, INVERTED });
+		return new BlockStateContainer(this, POWER, INVERTED);
 	}
 
 	@Override
 	public int getMetaFromState(IBlockState state) {
-		return (state.getValue(POWER) ? 0b1 : 0) + (state.getValue(INVERTED) ? 0b10 : 0);
+		return (state.getValue(POWER) ? 0b1 : 0) | (state.getValue(INVERTED) ? 0b10 : 0);
 	}
 
-	@Override
+	@Nonnull
+    @Override
+	@SuppressWarnings("deprecation")
 	public IBlockState getStateFromMeta(int meta) {
 		return getDefaultState().withProperty(POWER, (meta & 0b1) != 0).withProperty(INVERTED, (meta & 0b10) != 0);
 	}

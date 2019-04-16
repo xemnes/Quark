@@ -25,6 +25,8 @@ import vazkii.quark.api.ICustomEnchantColor;
 import vazkii.quark.base.item.IQuarkItem;
 import vazkii.quark.misc.feature.ColorRunes;
 
+import javax.annotation.Nonnull;
+
 public class ItemRune extends ItemMod implements IItemColorProvider, ICustomEnchantColor, IQuarkItem {
 
 	private static final String[] VARIANTS = {
@@ -82,7 +84,7 @@ public class ItemRune extends ItemMod implements IItemColorProvider, ICustomEnch
 		return new IItemColor() {
 
 			@Override
-			public int colorMultiplier(ItemStack stack, int tintIndex) {
+			public int colorMultiplier(@Nonnull ItemStack stack, int tintIndex) {
 				return tintIndex == 1 ? ColorRunes.getColorFromStack(stack) : 0xFFFFFF;
 			}
 		};

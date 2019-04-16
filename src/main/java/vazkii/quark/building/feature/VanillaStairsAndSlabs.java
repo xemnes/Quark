@@ -58,6 +58,7 @@ public class VanillaStairsAndSlabs extends Feature {
 		add(name, block, meta, true, true, doit);
 	}
 
+	@SuppressWarnings("deprecation")
 	public void add(String name, Block block, int meta, boolean slab, boolean stairs, boolean doit) {
 		if(!doit)
 			return;

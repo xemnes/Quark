@@ -1,5 +1,6 @@
 package vazkii.quark.oddities.item;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import net.minecraft.creativetab.CreativeTabs;
@@ -62,13 +63,13 @@ public class ItemSoulCompass extends ItemMod implements IQuarkItem, IItemPropert
 
 	@Override
     @SideOnly(Side.CLIENT)
-    public float apply(ItemStack stack, World world, EntityLivingBase entityIn) {
+    public float apply(@Nonnull ItemStack stack, World world, EntityLivingBase entityIn) {
         if(entityIn == null && !stack.isOnItemFrame())
             return 0;
         
         else {
             boolean hasEntity = entityIn != null;
-            Entity entity = (Entity)(hasEntity ? entityIn : stack.getItemFrame());
+            Entity entity = (hasEntity ? entityIn : stack.getItemFrame());
 
             if(world == null)
                 world = entity.world;

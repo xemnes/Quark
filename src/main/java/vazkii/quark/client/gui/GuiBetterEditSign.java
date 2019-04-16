@@ -33,11 +33,12 @@ public class GuiBetterEditSign extends GuiScreen {
 		this.sign = sign;
 	}
 
-	public void initGui() {
+	@Override
+    public void initGui() {
 		buttonList.clear();
 		Keyboard.enableRepeatEvents(true);
 
-		textFields = new LinkedList();
+		textFields = new LinkedList<>();
 		defaultStrings = new String[4];
 		for(int i = 0; i < 4; i++) {
 			GuiTextField field = new GuiTextField(i, fontRenderer, width / 2 + 4, 75 + i * 24, 120, 20);

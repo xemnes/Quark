@@ -10,8 +10,8 @@
  */
 package vazkii.quark.management.feature;
 
-import com.google.common.base.Predicate;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiChest;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.gui.inventory.GuiShulkerBox;
@@ -23,13 +23,13 @@ import net.minecraft.inventory.ContainerChest;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraftforge.client.event.GuiScreenEvent;
-import net.minecraftforge.fml.common.FMLLog;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.SlotItemHandler;
 import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
 import vazkii.arl.network.NetworkHandler;
 import vazkii.quark.api.IChestButtonCallback;
 import vazkii.quark.base.client.ModKeybinds;
@@ -45,6 +45,7 @@ import vazkii.quark.management.client.gui.GuiButtonShulker;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Predicate;
 
 public class ChestButtons extends Feature {
 
@@ -94,7 +95,7 @@ public class ChestButtons extends Feature {
 			EntityPlayer player = Minecraft.getMinecraft().player;
 
 			if(debugClassnames)
-				FMLLog.log(Level.INFO, "[Quark] Opening GUI %s", guiInv.getClass().getName());
+				LogManager.getLogger("Quark").log(Level.INFO, "[Quark] Opening GUI %s", guiInv.getClass().getName());
 			
 			boolean accept = guiInv instanceof IChestButtonCallback || guiInv instanceof GuiChest || guiInv instanceof GuiShulkerBox 
 					|| classnames.contains(guiInv.getClass().getName());
@@ -117,20 +118,17 @@ public class ChestButtons extends Feature {
 				return;
 
 			chestButtons.clear();
-			
-			int guiLeft = guiInv.getGuiLeft();
-			int guiTop = guiInv.getGuiTop();
 
 			for(Slot s : container.inventorySlots)
 				if(s.inventory == player.inventory && s.getSlotIndex() == 9) {
-					addButtonAndKeybind(event, extract, Action.EXTRACT, guiInv, 13210, guiLeft, guiTop, s, ModKeybinds.chestExtractKey);
-					addButtonAndKeybind(event, restock, Action.RESTOCK, guiInv, 13211, guiLeft, guiTop, s, ModKeybinds.chestRestockKey);
-					addButtonAndKeybind(event, deposit, Action.DEPOSIT, guiInv, 13212, guiLeft, guiTop, s, ModKeybinds.chestDropoffKey);
-					addButtonAndKeybind(event, smartDeposit, Action.SMART_DEPOSIT, guiInv, 13213, guiLeft, guiTop, s, ModKeybinds.chestMergeKey);
+					addButtonAndKeybind(event, extract, Action.EXTRACT, guiInv, 13210, s, ModKeybinds.chestExtractKey);
+					addButtonAndKeybind(event, restock, Action.RESTOCK, guiInv, 13211, s, ModKeybinds.chestRestockKey);
+					addButtonAndKeybind(event, deposit, Action.DEPOSIT, guiInv, 13212, s, ModKeybinds.chestDropoffKey);
+					addButtonAndKeybind(event, smartDeposit, Action.SMART_DEPOSIT, guiInv, 13213, s, ModKeybinds.chestMergeKey);
 					
 					if(ModuleLoader.isFeatureEnabled(InventorySorting.class)) {
-						addButtonAndKeybind(event, sort, Action.SORT, guiInv, 13214, guiLeft, guiTop, s, ModKeybinds.chestSortKey);
-						addButtonAndKeybind(event, sortPlayer, Action.SORT_PLAYER, guiInv, 13215, guiLeft, guiTop, s, ModKeybinds.playerSortKey);
+						addButtonAndKeybind(event, sort, Action.SORT, guiInv, 13214, s, ModKeybinds.chestSortKey);
+						addButtonAndKeybind(event, sortPlayer, Action.SORT_PLAYER, guiInv, 13215, s, ModKeybinds.playerSortKey);
 					}
 					
 					break;
@@ -139,18 +137,18 @@ public class ChestButtons extends Feature {
 	}
 	
 	@SideOnly(Side.CLIENT)
-	public static void addButtonAndKeybind(GuiScreenEvent.InitGuiEvent.Post event, ButtonInfo info, Action action, GuiContainer guiInv, int index, int guiLeft, int guiTop, Slot s, KeyBinding kb) {
+	public static void addButtonAndKeybind(GuiScreenEvent.InitGuiEvent.Post event, ButtonInfo info, Action action, GuiContainer guiInv, int index, Slot s, KeyBinding kb) {
 		if(info.enabled)
-			addButtonAndKeybind(event, action, guiInv, index, info.xShift, s.yPos + info.yShift, s, kb);
+			addButtonAndKeybind(event, action, guiInv, index, info.xShift, s.yPos + info.yShift, kb);
 	}
 
 	@SideOnly(Side.CLIENT)
-	public static void addButtonAndKeybind(GuiScreenEvent.InitGuiEvent.Post event, Action action, GuiContainer guiInv, int index, int x, int y, Slot s, KeyBinding kb) {
-		addButtonAndKeybind(event, action, guiInv, index, x, y, s, kb, null);
+	public static void addButtonAndKeybind(GuiScreenEvent.InitGuiEvent.Post event, Action action, GuiContainer guiInv, int index, int x, int y, KeyBinding kb) {
+		addButtonAndKeybind(event, action, guiInv, index, x, y, kb, null);
 	}
 
 	@SideOnly(Side.CLIENT)
-	public static <T extends GuiContainer>void addButtonAndKeybind(GuiScreenEvent.InitGuiEvent.Post event, Action action, GuiContainer guiInv, int index, int x, int y, Slot s, KeyBinding kb, Predicate<T> pred) {
+	public static void addButtonAndKeybind(GuiScreenEvent.InitGuiEvent.Post event, Action action, GuiContainer guiInv, int index, int x, int y, KeyBinding kb, Predicate<GuiScreen> pred) {
 		int left = guiInv.getGuiLeft();
 		int top = guiInv.getGuiTop();
 		

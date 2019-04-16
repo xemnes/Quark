@@ -22,9 +22,9 @@ import vazkii.quark.base.module.Feature;
 
 public class DefaultWorldOptions extends Feature {
 
-	private static Map<String, Integer> intProps = new HashMap();
-	private static Map<String, Double> doubleProps = new HashMap();
-	private static Map<String, Boolean> boolProps = new HashMap();
+	private static Map<String, Integer> intProps = new HashMap<>();
+	private static Map<String, Double> doubleProps = new HashMap<>();
+	private static Map<String, Boolean> boolProps = new HashMap<>();
 
 	String config;
 

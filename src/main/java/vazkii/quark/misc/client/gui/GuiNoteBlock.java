@@ -67,8 +67,8 @@ public class GuiNoteBlock extends GuiScreen {
 		Keyboard.KEY_Q, Keyboard.KEY_J, Keyboard.KEY_K, Keyboard.KEY_X, Keyboard.KEY_B, Keyboard.KEY_M, Keyboard.KEY_W, Keyboard.KEY_V, Keyboard.KEY_Z
 	};
 	
-	private List<Key> whiteKeys = new ArrayList();
-	private List<Key> blackKeys = new ArrayList();
+	private List<Key> whiteKeys = new ArrayList<>();
+	private List<Key> blackKeys = new ArrayList<>();
 
 	Key hoveredKey = null;
 	boolean hoversNoteBlock = false;
@@ -173,7 +173,7 @@ public class GuiNoteBlock extends GuiScreen {
 		GlStateManager.popMatrix();
 
 		if(hoversNoteBlock)
-			vazkii.arl.util.RenderHelper.renderTooltip(mouseX, mouseY, Arrays.asList(new String[] { I18n.format("quarkmisc.incrementNote") }));
+			vazkii.arl.util.RenderHelper.renderTooltip(mouseX, mouseY, Arrays.asList(I18n.format("quarkmisc.incrementNote")));
 	}
 
 	@Override

@@ -17,6 +17,8 @@ import net.minecraft.world.IInteractionObject;
 import vazkii.arl.block.tile.TileSimpleInventory;
 import vazkii.quark.oddities.inventory.ContainerMatrixEnchanting;
 
+import javax.annotation.Nonnull;
+
 // mostly a copy of TileEntityEnchantmentTable
 public abstract class TileMatrixEnchanterBase extends TileSimpleInventory implements ITickable, IInteractionObject {
 
@@ -36,7 +38,8 @@ public abstract class TileMatrixEnchanterBase extends TileSimpleInventory implem
 		return false;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
 
@@ -141,7 +144,8 @@ public abstract class TileMatrixEnchanterBase extends TileSimpleInventory implem
 			InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), stack);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public String getName() {
 		return hasCustomName() ? customName : "container.enchant";
 	}
@@ -155,12 +159,14 @@ public abstract class TileMatrixEnchanterBase extends TileSimpleInventory implem
 		customName = customNameIn;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public ITextComponent getDisplayName() {
-		return hasCustomName() ? new TextComponentString(getName()) : new TextComponentTranslation(getName(), new Object[0]);
+		return hasCustomName() ? new TextComponentString(getName()) : new TextComponentTranslation(getName());
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public String getGuiID() {
 		return "minecraft:enchanting_table";
 	}

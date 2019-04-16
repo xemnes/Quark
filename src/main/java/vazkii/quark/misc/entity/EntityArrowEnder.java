@@ -28,6 +28,8 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.EnderTeleportEvent;
 import vazkii.quark.misc.feature.ExtraArrows;
 
+import javax.annotation.Nonnull;
+
 public class EntityArrowEnder extends EntityArrow {
 
 	public EntityArrowEnder(World worldIn) {
@@ -42,7 +44,8 @@ public class EntityArrowEnder extends EntityArrow {
 		super(worldIn, pos.getX(), pos.getY(), pos.getZ());
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	protected ItemStack getArrowStack() {
 		return new ItemStack(ExtraArrows.arrow_ender);
 	}
@@ -61,7 +64,7 @@ public class EntityArrowEnder extends EntityArrow {
 	public void spawnPotionParticles(int particleCount) {
 		if(particleCount > 0)
 			for(int i = 0; i < particleCount; i++)
-				getEntityWorld().spawnParticle(EnumParticleTypes.PORTAL, posX + (rand.nextDouble() - 0.5D) * width, posY + rand.nextDouble() * height, posZ + (rand.nextDouble() - 0.5D) * width, 0.0D, 0.0D, 0.0D, new int[0]);
+				getEntityWorld().spawnParticle(EnumParticleTypes.PORTAL, posX + (rand.nextDouble() - 0.5D) * width, posY + rand.nextDouble() * height, posZ + (rand.nextDouble() - 0.5D) * width, 0.0D, 0.0D, 0.0D);
 	}
 
 	@Override
@@ -117,7 +120,7 @@ public class EntityArrowEnder extends EntityArrow {
 
 			// Full copypasta from EntityEnderPearl
 			for(int i = 0; i < 32; ++i)
-				this.getEntityWorld().spawnParticle(EnumParticleTypes.PORTAL, this.posX, this.posY + this.rand.nextDouble() * 2.0D, this.posZ, this.rand.nextGaussian(), 0.0D, this.rand.nextGaussian(), new int[0]);
+				this.getEntityWorld().spawnParticle(EnumParticleTypes.PORTAL, this.posX, this.posY + this.rand.nextDouble() * 2.0D, this.posZ, this.rand.nextGaussian(), 0.0D, this.rand.nextGaussian());
 
 			setDead();
 		}

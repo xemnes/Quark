@@ -46,7 +46,7 @@ public class RandomAnimalTextures extends Feature {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void preInitClient(FMLPreInitializationEvent event) {
-		textures = Multimaps.newListMultimap(new EnumMap(RandomTextureType.class), () -> new ArrayList());
+		textures = Multimaps.newListMultimap(new EnumMap(RandomTextureType.class), () -> new ArrayList<>());
 		
 		registerTextures(RandomTextureType.COW, COW_COUNT, new ResourceLocation("textures/entity/cow/cow.png"));
 		registerTextures(RandomTextureType.PIG, PIG_COUNT, new ResourceLocation("textures/entity/pig/pig.png"));
@@ -93,7 +93,7 @@ public class RandomAnimalTextures extends Feature {
 		return true;
 	}
 	
-	public static enum RandomTextureType {
+	public enum RandomTextureType {
 		COW, PIG, CHICKEN, CHICK
 	}
 	

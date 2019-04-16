@@ -76,7 +76,7 @@ public class NoteBlocksMobSounds extends Feature {
 		for(EnumFacing face : SKULL_SERACH_FACINGS) {
 			BlockPos apos = pos.offset(face);
 			tile = world.getTileEntity(apos);
-			if(tile != null && tile instanceof TileEntitySkull) {
+			if(tile instanceof TileEntitySkull) {
 				IBlockState state = world.getBlockState(apos);
 				if(state.getValue(BlockSkull.FACING) == face) {
 					can = true;

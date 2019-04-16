@@ -17,6 +17,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.base.block.BlockQuarkDust;
 
+import javax.annotation.Nonnull;
+
 public class BlockGlowstoneDust extends BlockQuarkDust {
 
 	public BlockGlowstoneDust() {
@@ -25,6 +27,7 @@ public class BlockGlowstoneDust extends BlockQuarkDust {
 		disableStats();
 	}
 
+    @Override
     @SideOnly(Side.CLIENT)
     public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand) {
     	if(rand.nextFloat() < 0.1) {
@@ -46,7 +49,8 @@ public class BlockGlowstoneDust extends BlockQuarkDust {
 		return 0xfff000;
 	}
 	
-	@Override
+	@Nonnull
+    @Override
 	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
 		return Items.GLOWSTONE_DUST;
 	}

@@ -1,10 +1,5 @@
 package vazkii.quark.world.feature;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -14,6 +9,11 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import vazkii.quark.base.handler.DimensionConfig;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.world.world.FairyRingGenerator;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class FairyRings extends Feature {
 
@@ -49,9 +49,10 @@ public class FairyRings extends Feature {
 	public void postInit(FMLPostInitializationEvent event) {
 		loadOres();
 	}
-	
+
+	@SuppressWarnings("deprecation")
 	private void loadOres() {
-		ores = new ArrayList(oresArr.length);
+		ores = new ArrayList<>(oresArr.length);
 		for(String s : oresArr) {
 			int meta = 0;
 			Matcher m = BLOCKSTATE_PARSER.matcher(s);

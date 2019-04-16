@@ -27,17 +27,16 @@ public class ArmedArmorStands extends Feature {
 	}
 
 	private void setShowArms(EntityArmorStand e, boolean showArms) {
-		e.getDataManager().set(EntityArmorStand.STATUS, Byte.valueOf(func_184797_a(e.getDataManager().get(EntityArmorStand.STATUS).byteValue(), 4, showArms)));
+		e.getDataManager().set(EntityArmorStand.STATUS, setBit(e.getDataManager().get(EntityArmorStand.STATUS), 4, showArms));
 	}
 
-	// idk, copypasta from EntityArmorStand
-	private byte func_184797_a(byte p_184797_1_, int p_184797_2_, boolean p_184797_3_) {
-		if (p_184797_3_)
-			p_184797_1_ = (byte)(p_184797_1_ | p_184797_2_);
+	private byte setBit(byte status, int bitFlag, boolean value) {
+		if (value)
+			status = (byte)(status | bitFlag);
 		else
-			p_184797_1_ = (byte)(p_184797_1_ & ~p_184797_2_);
+			status = (byte)(status & ~bitFlag);
 
-		return p_184797_1_;
+		return status;
 	}
 
 	@Override

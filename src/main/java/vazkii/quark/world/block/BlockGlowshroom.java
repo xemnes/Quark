@@ -1,15 +1,7 @@
 package vazkii.quark.world.block;
 
-import java.util.Random;
-
-import net.minecraft.block.BlockMushroom;
 import net.minecraft.block.SoundType;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.renderer.ItemMeshDefinition;
-import net.minecraft.client.renderer.block.statemap.IStateMapper;
-import net.minecraft.item.EnumRarity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -18,9 +10,10 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.base.block.BlockQuarkBush;
-import vazkii.quark.base.block.IQuarkBlock;
 import vazkii.quark.world.feature.UndergroundBiomes;
-import vazkii.quark.world.world.underground.UndergroundBiome;
+
+import javax.annotation.Nonnull;
+import java.util.Random;
 
 public class BlockGlowshroom extends BlockQuarkBush {
 
@@ -33,7 +26,9 @@ public class BlockGlowshroom extends BlockQuarkBush {
 		setSoundType(SoundType.PLANT);
 	}
 
-	@Override
+	@Nonnull
+    @Override
+    @SuppressWarnings("deprecation")
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
         return MUSHROOM_AABB;
     }
@@ -43,7 +38,8 @@ public class BlockGlowshroom extends BlockQuarkBush {
 		return state.getBlock() == UndergroundBiomes.glowcelium;
 	}
 	
-    public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+    @Override
+    public void updateTick(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull IBlockState state, Random rand) {
         if(rand.nextInt(UndergroundBiomes.glowshroomGrowthRate) == 0) {
             int i = 5;
             int j = 4;
@@ -71,12 +67,13 @@ public class BlockGlowshroom extends BlockQuarkBush {
         }
     }
     
-	@SideOnly(Side.CLIENT)
+	@Override
+    @SideOnly(Side.CLIENT)
 	public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand) {
 		super.randomDisplayTick(stateIn, worldIn, pos, rand);
 
 		if(rand.nextInt(20) == 0)
-			worldIn.spawnParticle(EnumParticleTypes.END_ROD, pos.getX() + 0.2 + rand.nextFloat() * 0.6, pos.getY() + 0.3F, pos.getZ() + 0.2 + rand.nextFloat() * 0.6, 0, 0, 0, new int[0]);
+			worldIn.spawnParticle(EnumParticleTypes.END_ROD, pos.getX() + 0.2 + rand.nextFloat() * 0.6, pos.getY() + 0.3F, pos.getZ() + 0.2 + rand.nextFloat() * 0.6, 0, 0, 0);
 	}
 
 }

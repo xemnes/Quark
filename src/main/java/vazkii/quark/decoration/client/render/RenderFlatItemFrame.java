@@ -39,6 +39,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.decoration.entity.EntityFlatItemFrame;
 
+import javax.annotation.Nonnull;
+
 // Basically a copy of RenderItemFrame
 @SideOnly(Side.CLIENT)
 public class RenderFlatItemFrame extends RenderItemFrame {
@@ -173,7 +175,7 @@ public class RenderFlatItemFrame extends RenderItemFrame {
 	}
 
 	@Override
-	protected void renderName(EntityItemFrame entity, double x, double y, double z) {
+	protected void renderName(@Nonnull EntityItemFrame entity, double x, double y, double z) {
 		if(Minecraft.isGuiEnabled() && !entity.getDisplayedItem().isEmpty() && entity.getDisplayedItem().hasDisplayName() && renderManager.pointedEntity == entity) {
 			double d0 = entity.getDistanceSq(renderManager.renderViewEntity);
 			float f = entity.isSneaking() ? 32.0F : 64.0F;
