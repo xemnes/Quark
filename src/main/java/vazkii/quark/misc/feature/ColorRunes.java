@@ -101,6 +101,7 @@ public class ColorRunes extends Feature {
 			ItemNBTHelper.setInt(out, TAG_RUNE_COLOR, right.getItemDamage());
 			event.setOutput(out);
 			event.setCost(applyCost);
+			event.setMaterialCost(1);
 		}
 	}
 

@@ -1,7 +1,5 @@
 package vazkii.quark.vanity.feature;
 
-import java.awt.Color;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.init.Items;
@@ -17,6 +15,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.arl.util.ItemNBTHelper;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.management.feature.FavoriteItems;
+
+import java.awt.*;
 
 public class DyeItemNames extends Feature {
 
@@ -72,6 +72,7 @@ public class DyeItemNames extends Feature {
 			
 			ItemNBTHelper.setInt(out, TAG_DYE, right.getItemDamage());
 			event.setOutput(out);
+			event.setMaterialCost(1);
 			event.setCost(3);
 		}
 	}
