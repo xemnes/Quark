@@ -42,7 +42,7 @@ public class FairyRings extends Feature {
 	
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
-		GameRegistry.registerWorldGenerator(new FairyRingGenerator(), 100);
+		GameRegistry.registerWorldGenerator(new FairyRingGenerator(), 5);
 	}
 	
 	@Override
