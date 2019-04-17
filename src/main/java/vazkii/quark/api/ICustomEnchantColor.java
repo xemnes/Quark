@@ -11,9 +11,12 @@
 package vazkii.quark.api;
 
 import net.minecraft.item.ItemStack;
+import vazkii.quark.api.capability.IEnchantColorProvider;
 
 /**
  * Implement on an Item to allow it to have a custom glint color.
+ *
+ * This should not be manually checked for. Instead, check if the item provides {@link IEnchantColorProvider}.
  */
 public interface ICustomEnchantColor {
 

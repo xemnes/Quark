@@ -10,17 +10,34 @@
  */
 package vazkii.quark.api;
 
-import java.util.function.Supplier;
-
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.items.IItemHandler;
 
+import java.util.function.Supplier;
+
 /**
- * Implement on a TileEntity to allow it to receive dropoff, and to have
- * chest buttons on the client. 
+ * Implement on a TileEntity or provide as a capability
+ * to allow it to receive dropoff, and to have chest buttons
+ * on the client.
+ *
+ * You should not check for TileEntities implementing this.
+ * Instead, check if they provide this as a capability.
  */
 public interface IDropoffManager {
+
+	@CapabilityInject(IDropoffManager.class)
+	Capability<IDropoffManager> CAPABILITY = null;
+
+	static boolean hasProvider(TileEntity tile) {
+		return tile.hasCapability(CAPABILITY, null);
+	}
+
+	static IDropoffManager getProvider(TileEntity tile) {
+		return tile.getCapability(CAPABILITY, null);
+	}
 
 	boolean acceptsDropoff(EntityPlayer player);
 	

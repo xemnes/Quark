@@ -83,12 +83,14 @@ public class PistonsMoveTEs extends Feature {
 			IBlockState state = world.getBlockState(pos);
 			if(state.getBlock().hasTileEntity(state)) {
 				TileEntity tile = world.getTileEntity(pos);
-				if(tile instanceof IPistonCallback)
-					((IPistonCallback) tile).onPistonMovementStarted();
-				
-				world.removeTileEntity(pos);
-				
-				registerMovement(world, pos.offset(facing), tile);
+				if (tile != null) {
+					if (IPistonCallback.hasCallback(tile))
+						IPistonCallback.getCallback(tile).onPistonMovementStarted();
+
+					world.removeTileEntity(pos);
+
+					registerMovement(world, pos.offset(facing), tile);
+				}
 			}
 		}
 	}
@@ -170,8 +172,8 @@ public class PistonsMoveTEs extends Feature {
 	private static TileEntity getAndClearMovement(World world, BlockPos pos) {
 		TileEntity tile = getMovement(world, pos, true);
 		if(tile != null) {
-			if(tile instanceof IPistonCallback)
-				((IPistonCallback) tile).onPistonMovementFinished();
+			if (IPistonCallback.hasCallback(tile))
+				IPistonCallback.getCallback(tile).onPistonMovementFinished();
 			
 			tile.validate();
 			

@@ -30,6 +30,7 @@ import vazkii.arl.recipe.RecipeHandler;
 import vazkii.arl.util.ItemNBTHelper;
 import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.api.ICustomEnchantColor;
+import vazkii.quark.api.capability.IEnchantColorProvider;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.misc.item.ItemRune;
@@ -152,9 +153,10 @@ public class ColorRunes extends Feature {
 		int retColor = 0xFFFFFF;
 		boolean truncate = true;
 
-		if (stack.getItem() instanceof ICustomEnchantColor) {
-			int color = ((ICustomEnchantColor) stack.getItem()).getEnchantEffectColor(stack);
-			truncate = ((ICustomEnchantColor) stack.getItem()).shouldTruncateColorBrightness(stack);
+		if (IEnchantColorProvider.hasProvider(stack)) {
+			IEnchantColorProvider provider = IEnchantColorProvider.getProvider(stack);
+			int color = provider.getEnchantEffectColor();
+			truncate = provider.shouldTruncateColorBrightness();
 			retColor = 0xFF000000 | color;
 		} else if (doesStackHaveRune(stack)) {
 			int color = ItemRune.getColor(ItemNBTHelper.getInt(targetStack, TAG_RUNE_COLOR, 0));

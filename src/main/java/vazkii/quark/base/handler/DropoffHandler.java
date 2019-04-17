@@ -10,14 +10,6 @@
  */
 package vazkii.quark.base.handler;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.function.Supplier;
-
-import net.minecraftforge.items.SlotItemHandler;
-import org.apache.commons.lang3.tuple.Pair;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -32,7 +24,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
+import net.minecraftforge.items.SlotItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
+import org.apache.commons.lang3.tuple.Pair;
 import vazkii.arl.network.NetworkHandler;
 import vazkii.quark.api.IDropoffManager;
 import vazkii.quark.base.module.ModuleLoader;
@@ -42,6 +36,10 @@ import vazkii.quark.management.feature.FavoriteItems;
 import vazkii.quark.management.feature.StoreToChests;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.function.Supplier;
 
 public final class DropoffHandler {
 
@@ -85,17 +83,32 @@ public final class DropoffHandler {
 				return innerRet;
 			};
 			
-			if(te instanceof IDropoffManager)
-				return ((IDropoffManager) te).getDropoffItemHandler(supplier);
+			if(IDropoffManager.hasProvider(te))
+				return IDropoffManager.getProvider(te).getDropoffItemHandler(supplier);
 			else return supplier.get();
 		}
 		
 		return null;
 	}
 
+	private static boolean hasProvider(Object te) {
+		return te instanceof TileEntity && IDropoffManager.hasProvider((TileEntity) te);
+	}
+
+	private static IDropoffManager getProvider(Object te) {
+		return IDropoffManager.getProvider((TileEntity) te);
+	}
+
+
+	private static boolean accepts(Object te, EntityPlayer player) {
+		if (hasProvider(te))
+			return getProvider(te).acceptsDropoff(player);
+
+		return false;
+	}
 
 	public static boolean isValidChest(EntityPlayer player, TileEntity te) {
-		boolean accept = te instanceof IDropoffManager && ((IDropoffManager) te).acceptsDropoff(player);
+		boolean accept = accepts(te, player);
 		if(!accept) {
 			String name = te.getClass().getSimpleName().toLowerCase();
 			accept = (name.contains("chest") || te instanceof TileEntityChest) && !name.contains("void") && !name.contains("trash");
@@ -108,7 +121,7 @@ public final class DropoffHandler {
 	}
 
 	public static boolean isValidChest(EntityPlayer player, IInventory te) {
-		boolean accept = te instanceof IDropoffManager && ((IDropoffManager) te).acceptsDropoff(player);
+		boolean accept = accepts(te, player);
 		if(!accept) {
 			String name = te.getClass().getSimpleName().toLowerCase();
 			accept = (name.contains("chest") || te instanceof TileEntityChest) && !name.contains("void") && !name.contains("trash");
@@ -120,7 +133,7 @@ public final class DropoffHandler {
 	}
 
 	public static boolean isValidChest(EntityPlayer player, IItemHandler te) {
-		return te instanceof IDropoffManager && ((IDropoffManager) te).acceptsDropoff(player);
+		return accepts(te, player);
 	}
 
 	public static class Dropoff {
@@ -200,7 +213,7 @@ public final class DropoffHandler {
 							findHandler(pos);
 						}
 
-				Collections.sort(itemHandlers, (pair1, pair2) -> Double.compare(pair1.getRight(), pair2.getRight()));
+				itemHandlers.sort(Comparator.comparingDouble(Pair::getRight));
 			}
 		}
 
@@ -309,8 +322,8 @@ public final class DropoffHandler {
 		public static IItemHandler provideWrapper(Slot slot, Container container) {
 			if (slot instanceof SlotItemHandler) {
 				IItemHandler handler = ((SlotItemHandler) slot).getItemHandler();
-				if (handler instanceof IDropoffManager) {
-					return ((IDropoffManager) handler).getDropoffItemHandler(() -> handler);
+				if (hasProvider(handler)) {
+					return getProvider(handler).getDropoffItemHandler(() -> handler);
 				} else {
 					return handler;
 				}
@@ -320,8 +333,8 @@ public final class DropoffHandler {
 		}
 
 		public static IItemHandler provideWrapper(IInventory inv, Container container) {
-			if(inv instanceof IDropoffManager)
-				return ((IDropoffManager) inv).getDropoffItemHandler(() -> new ContainerWrapper(inv, container));
+			if(hasProvider(inv))
+				return getProvider(inv).getDropoffItemHandler(() -> new ContainerWrapper(inv, container));
 			return new ContainerWrapper(inv, container);
 		}
 		

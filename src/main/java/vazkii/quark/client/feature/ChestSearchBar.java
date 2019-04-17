@@ -34,9 +34,9 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import vazkii.arl.util.ItemNBTHelper;
-import vazkii.quark.api.ICustomSearchHandler;
 import vazkii.quark.api.ICustomSearchHandler.StringMatcher;
 import vazkii.quark.api.IItemSearchBar;
+import vazkii.quark.api.capability.ISearchHandler;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.management.feature.FavoriteItems;
@@ -44,6 +44,7 @@ import vazkii.quark.management.feature.FavoriteItems;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class ChestSearchBar extends Feature {
@@ -177,7 +178,7 @@ public class ChestSearchBar extends Feature {
 	
 	public static boolean namesMatch(ItemStack stack, String search) {
 		search = TextFormatting.getTextWithoutFormattingCodes(search.trim().toLowerCase());
-		if(search.isEmpty())
+		if(search == null || search.isEmpty())
 			return true;
 		
 		if(stack.isEmpty())
@@ -187,7 +188,7 @@ public class ChestSearchBar extends Feature {
 		if(item instanceof ItemShulkerBox) {
 			NBTTagCompound cmp = ItemNBTHelper.getCompound(stack, "BlockEntityTag", true);
 			if(cmp != null && cmp.hasKey("Items", 9)) {
-				NonNullList<ItemStack> itemList = NonNullList.<ItemStack>withSize(27, ItemStack.EMPTY);
+				NonNullList<ItemStack> itemList = NonNullList.withSize(27, ItemStack.EMPTY);
 				ItemStackHelper.loadAllItems(cmp, itemList);
 				
 				for(ItemStack innerStack : itemList)
@@ -199,11 +200,11 @@ public class ChestSearchBar extends Feature {
 		String name = stack.getDisplayName();
 		name = TextFormatting.getTextWithoutFormattingCodes(name.trim().toLowerCase());
 		
-		StringMatcher matcher = (s1, s2) -> s1.contains(s2);
+		StringMatcher matcher = String::contains;
 		
 		if(search.length() >= 3 && search.startsWith("\"") && search.endsWith("\"")) {
 			search = search.substring(1, search.length() - 1);
-			matcher = (s1, s2) -> s1.equals(s2);
+			matcher = String::equals;
 		}
 		
 		if(search.length() >= 3 && search.startsWith("/") && search.endsWith("/")) {
@@ -244,14 +245,14 @@ public class ChestSearchBar extends Feature {
 			return true;
 		
 		ResourceLocation itemName = Item.REGISTRY.getNameForObject(item);
-		ModContainer mod = Loader.instance().getIndexedModList().get(itemName.getNamespace());
+		ModContainer mod = Loader.instance().getIndexedModList().get(Objects.requireNonNull(itemName).getNamespace());
 		if(matcher.matches(mod.getName().toLowerCase(), search))
 			return true;
 		
 		if(matcher.matches(name, search))
 			return true;
 		
-		return item instanceof ICustomSearchHandler && ((ICustomSearchHandler) item).stackMatchesSearchQuery(stack, search, matcher, ChestSearchBar::namesMatch);
+		return ISearchHandler.hasHandler(stack) && ISearchHandler.getHandler(stack).stackMatchesSearchQuery(search, matcher, ChestSearchBar::namesMatch);
 	}
 	
 	@Override

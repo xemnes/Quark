@@ -1,10 +1,13 @@
 package vazkii.quark.api;
 
 import net.minecraft.item.ItemStack;
+import vazkii.quark.api.capability.ISearchHandler;
 
 /**
  * Implement on an Item to allow it to respond to chest search
  * bar queries.
+ *
+ * This should not be manually checked for. Instead, check if the stack provides {@link ISearchHandler}.
  */
 public interface ICustomSearchHandler {
 

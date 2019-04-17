@@ -31,7 +31,7 @@ import java.util.function.Predicate;
 public final class SortingHandler {
 
 	private static final Comparator<ItemStack> FALLBACK_COMPARATOR = jointComparator(
-			(ItemStack s1, ItemStack s2) -> Item.getIdFromItem(s1.getItem()) - Item.getIdFromItem(s2.getItem()),
+			Comparator.comparingInt((ItemStack s) -> Item.getIdFromItem(s.getItem())),
 			SortingHandler::damageCompare,
 			(ItemStack s1, ItemStack s2) -> s2.getCount() - s1.getCount(),
 			(ItemStack s1, ItemStack s2) -> s2.getDisplayName().compareTo(s1.getDisplayName()),
@@ -128,9 +128,7 @@ public final class SortingHandler {
 		private static void mergeStacks(List<ItemStack> list) {
 			for(int i = 0; i < list.size(); i++) {
 				ItemStack set = mergeStackWithOthers(list, i);
-				if(set.isEmpty())
-					list.remove(i);
-				else list.set(i, set);
+				list.set(i, set);
 			}
 
 			list.removeIf((ItemStack stack) -> stack.isEmpty() || stack.getCount() == 0);
@@ -164,7 +162,7 @@ public final class SortingHandler {
 		}
 
 		public static void sortStackList(List<ItemStack> list) {
-			Collections.sort(list, SortingHandler::stackCompare);
+			list.sort(SortingHandler::stackCompare);
 		}
 
 		private static int stackCompare(ItemStack stack1, ItemStack stack2) {
@@ -175,9 +173,9 @@ public final class SortingHandler {
 			if(stack2.isEmpty())
 				return 1;
 
-			if(stack1.getItem() instanceof ICustomSorting && stack2.getItem() instanceof ICustomSorting) {
-				ICustomSorting sort1 = (ICustomSorting) stack1.getItem();
-				ICustomSorting sort2 = (ICustomSorting) stack2.getItem();
+			if(ICustomSorting.hasSorting(stack1) && ICustomSorting.hasSorting(stack2)) {
+				ICustomSorting sort1 = ICustomSorting.getSorting(stack1);
+				ICustomSorting sort2 = ICustomSorting.getSorting(stack2);
 				if(sort1.getSortingCategory().equals(sort2.getSortingCategory()))
 					return sort1.getItemComparator().compare(stack1, stack2);
 			}
@@ -221,6 +219,7 @@ public final class SortingHandler {
 			return jointComparator(resizedArray);
 		}
 
+		@SafeVarargs
 		public static Comparator<ItemStack> jointComparator(Comparator<ItemStack>... comparators) {
 			return jointComparatorFallback((ItemStack s1, ItemStack s2) -> {
 				for(Comparator<ItemStack> comparator : comparators) {
@@ -376,6 +375,7 @@ public final class SortingHandler {
 			private Predicate<ItemStack> pred;
 			private Comparator<ItemStack> comparator;
 
+			@SafeVarargs
 			ItemType(List<Item> list, Comparator<ItemStack>... comparators) {
 				this(itemPred(list), jointComparator(listOrderComparator(list), comparators));
 			}
