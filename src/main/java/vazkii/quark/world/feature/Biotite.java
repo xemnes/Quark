@@ -10,18 +10,17 @@
  */
 package vazkii.quark.world.feature;
 
-import java.util.Random;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.boss.EntityDragon;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.oredict.OreDictionary;
 import vazkii.arl.block.BlockModSlab;
 import vazkii.arl.block.BlockModStairs;
 import vazkii.arl.recipe.RecipeHandler;
@@ -35,6 +34,8 @@ import vazkii.quark.world.block.slab.BlockBiotiteSlab;
 import vazkii.quark.world.block.stairs.BlockBiotiteStairs;
 import vazkii.quark.world.item.ItemBiotite;
 import vazkii.quark.world.world.BiotiteGenerator;
+
+import java.util.Random;
 
 public class Biotite extends Feature {
 
@@ -90,7 +91,12 @@ public class Biotite extends Feature {
 		
 		addOreDict("gemEnderBiotite", biotite);
 	}
-	
+
+	@Override
+	public void postInit(FMLPostInitializationEvent event) {
+		FurnaceRecipes.instance().addSmelting(Item.getItemFromBlock(biotite_ore), new ItemStack(biotite), 1);
+	}
+
 	@SubscribeEvent
 	public void onEntityTick(LivingUpdateEvent event) {
 		if(generateByDragon && event.getEntityLiving() instanceof EntityDragon && !event.getEntity().getEntityWorld().isRemote) {
