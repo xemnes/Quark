@@ -16,6 +16,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import vazkii.quark.base.Quark;
+import vazkii.quark.base.capability.CapabilityHandler;
 import vazkii.quark.base.command.CommandConfig;
 import vazkii.quark.base.module.GlobalConfig;
 import vazkii.quark.base.module.ModuleLoader;
@@ -26,6 +27,7 @@ import vazkii.quark.world.feature.DungeonTweaksCompat;
 public class CommonProxy {
 
 	public void preInit(FMLPreInitializationEvent event) {
+		CapabilityHandler.register();
 		ModuleLoader.preInit(event);
 
 		NetworkRegistry.INSTANCE.registerGuiHandler(Quark.instance, new GuiHandler());
