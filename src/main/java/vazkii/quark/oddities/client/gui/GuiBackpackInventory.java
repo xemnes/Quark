@@ -51,6 +51,7 @@ public class GuiBackpackInventory extends GuiInventory {
 		
 		if(!Backpacks.isEntityWearingBackpack(player)) {
 			ItemStack curr = player.inventory.getItemStack();
+			ContainerBackpack.saveCraftingInventory(player);
 			closeHack = true;
 			NetworkHandler.INSTANCE.sendToServer(new MessageHandleBackpack(false));
 			mc.displayGuiScreen(new GuiInventory(player));

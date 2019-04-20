@@ -2,6 +2,7 @@ package vazkii.quark.oddities.inventory;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ContainerPlayer;
+import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.SlotItemHandler;
@@ -49,6 +50,15 @@ public class ContainerBackpack extends ContainerPlayer {
 		}
 		
 		return super.transferStackInSlot(playerIn, index);
+	}
+	
+	public static void saveCraftingInventory(EntityPlayer player) {
+		InventoryCrafting crafting = ((ContainerPlayer) player.openContainer).craftMatrix;
+		for(int i = 0; i < crafting.getSizeInventory(); i++) {
+			ItemStack stack = crafting.getStackInSlot(i);
+			if(!stack.isEmpty() && !player.addItemStackToInventory(stack))
+				player.dropItem(stack, false);
+		}
 	}
 
 }
