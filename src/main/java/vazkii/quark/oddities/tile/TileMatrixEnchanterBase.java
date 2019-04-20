@@ -165,6 +165,12 @@ public abstract class TileMatrixEnchanterBase extends TileSimpleInventory implem
 		return hasCustomName() ? new TextComponentString(getName()) : new TextComponentTranslation(getName());
 	}
 
+	@Override
+	public void inventoryChanged(int i) {
+		super.inventoryChanged(i);
+		sync();
+	}
+	
 	@Nonnull
 	@Override
 	public String getGuiID() {
