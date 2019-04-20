@@ -59,7 +59,6 @@ public final class ModuleLoader {
 	public static Map<String, Feature> featureClassnames = new HashMap<>();
 
 	public static List<Module> enabledModules;
-	public static List<String> moduleNames;
 	public static List<Runnable> lazyOreDictRegisters = new ArrayList<>();
 
 	public static Configuration config;
@@ -91,7 +90,6 @@ public final class ModuleLoader {
 			try {
 				Module instance = clazz.newInstance();
 				moduleInstances.put(clazz, instance);
-				moduleNames.add(instance.name);
 			} catch (Exception e) {
 				throw new RuntimeException("Can't initialize module " + clazz, e);
 			}
