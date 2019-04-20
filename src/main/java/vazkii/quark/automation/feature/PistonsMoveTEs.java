@@ -1,6 +1,16 @@
 package vazkii.quark.automation.feature;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.WeakHashMap;
+
+import org.apache.commons.lang3.tuple.Pair;
+
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockChest;
 import net.minecraft.block.BlockJukebox;
 import net.minecraft.block.state.BlockPistonStructureHelper;
 import net.minecraft.block.state.IBlockState;
@@ -13,12 +23,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
-import org.apache.commons.lang3.tuple.Pair;
 import vazkii.quark.api.IPistonCallback;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.ModuleLoader;
-
-import java.util.*;
 
 public class PistonsMoveTEs extends Feature {
 
@@ -135,6 +142,10 @@ public class PistonsMoveTEs extends Feature {
 				else {
 					world.setTileEntity(pos, tile);
 					tile.updateContainingBlockInfo();
+
+					if(block instanceof BlockChest)
+						((BlockChest) block).checkForSurroundingChests(world, pos, state);
+					
 				}
 			}
 			world.notifyNeighborsOfStateChange(pos, block, true);
