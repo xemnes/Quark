@@ -215,7 +215,7 @@ public class ChestSearchBar extends Feature {
 		if(stack.isItemEnchanted()) {
 			Map<Enchantment, Integer> enchants = EnchantmentHelper.getEnchantments(stack);
 			for(Enchantment e : enchants.keySet())
-				if(matcher.matches(e.getTranslatedName(enchants.get(e)).toLowerCase(), search))
+				if(e != null && matcher.matches(e.getTranslatedName(enchants.get(e)).toLowerCase(), search))
 					return true;
 		}
 		
