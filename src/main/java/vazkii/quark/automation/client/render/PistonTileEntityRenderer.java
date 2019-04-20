@@ -40,6 +40,7 @@ public class PistonTileEntityRenderer {
 
 				GlStateManager.pushMatrix();
 				tile.setWorld(world);
+				tile.validate();
 
 				if(tile instanceof TileEntityChest) {
 					TileEntityChest chest = (TileEntityChest) tile;
