@@ -15,7 +15,7 @@ public class AxesBreakLeaves extends Feature {
 	@SubscribeEvent
 	public void calcBreakSpeed(BreakSpeed event) {
 		ItemStack stack = event.getEntityPlayer().getHeldItem(EnumHand.MAIN_HAND);
-		if(stack.getItem() instanceof ItemAxe && event.getState().getMaterial() == Material.LEAVES)
+		if(stack.getItem().getToolClasses(stack).contains("axe") && event.getState().getMaterial() == Material.LEAVES)
 			event.setNewSpeed(stack.getItem().getDestroySpeed(stack, Blocks.PLANKS.getDefaultState()));
 	}
 
