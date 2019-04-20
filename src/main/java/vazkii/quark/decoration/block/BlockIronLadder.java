@@ -2,6 +2,7 @@ package vazkii.quark.decoration.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockHorizontal;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockFaceShape;
@@ -33,6 +34,8 @@ public class BlockIronLadder extends BlockMod implements IQuarkBlock {
 	public BlockIronLadder() {
 		super("iron_ladder", Material.CIRCUITS);
 		setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
+		setHardness(0.8F);
+		setSoundType(SoundType.LADDER);
 		setCreativeTab(CreativeTabs.DECORATIONS);
 	}
 
