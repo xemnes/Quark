@@ -8,6 +8,7 @@ import vazkii.quark.client.feature.AutoJumpHotkey;
 import vazkii.quark.client.feature.BetterFireEffect;
 import vazkii.quark.client.feature.BetterVanillaTextures;
 import vazkii.quark.client.feature.ChestSearchBar;
+import vazkii.quark.client.feature.EnchantedBooksShowItems;
 import vazkii.quark.client.feature.FoodTooltip;
 import vazkii.quark.client.feature.GreenerGrass;
 import vazkii.quark.client.feature.ImprovedMountHUD;
@@ -44,6 +45,7 @@ public class QuarkClient extends Module {
 		registerFeature(new UsageTicker());
 		registerFeature(new ItemsFlashBeforeExpiring());
 		registerFeature(new BetterFireEffect());
+		registerFeature(new EnchantedBooksShowItems());
 	}
 	
 	@Override
