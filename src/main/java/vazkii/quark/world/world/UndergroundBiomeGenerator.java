@@ -48,7 +48,7 @@ public class UndergroundBiomeGenerator extends MultiChunkFeatureGenerator {
 
 	@Override
 	public BlockPos[] getSourcesInChunk(Random random, int chunkX, int chunkZ, World world) {
-		if(random.nextInt(info.rarity) == 0) {
+		if(info.rarity > 0 && random.nextInt(info.rarity) == 0) {
 			return new BlockPos[] {
 				new BlockPos(chunkX * 16 + random.nextInt(16), info.minY + random.nextInt(info.maxY - info.minY), chunkZ * 16 + random.nextInt(16))
 			};
