@@ -154,7 +154,7 @@ public class ItemBackpack extends ItemModArmor implements IQuarkItem, IItemColor
 	public ICapabilityProvider initCapabilities(ItemStack stack, NBTTagCompound oldCapNbt) {
 		ProxiedItemStackHandler handler = new ProxiedItemStackHandler(stack, 27);
 
-		if (oldCapNbt.hasKey("Parent")) {
+		if (oldCapNbt != null && oldCapNbt.hasKey("Parent")) {
 			NBTTagCompound itemData = oldCapNbt.getCompoundTag("Parent");
 			ItemStackHandler stacks = new ItemStackHandler();
 			stacks.deserializeNBT(itemData);
