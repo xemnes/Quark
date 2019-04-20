@@ -29,6 +29,7 @@ import vazkii.quark.base.block.IQuarkBlock;
 
 import javax.annotation.Nonnull;
 import java.util.EnumSet;
+import java.util.Random;
 
 public class BlockRedstoneRandomizer extends BlockMod implements IQuarkBlock {
 
@@ -48,6 +49,20 @@ public class BlockRedstoneRandomizer extends BlockMod implements IQuarkBlock {
 		setCreativeTab(CreativeTabs.REDSTONE);
 		setSoundType(SoundType.WOOD);
 	}
+	
+	@Override
+	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+		boolean isPowered = isPowered(state);
+		boolean willBePowered = shouldBePowered(worldIn, pos, state);
+		if(isPowered != willBePowered) {
+			IBlockState target = state.withProperty(POWERED, willBePowered);
+			
+			if(willBePowered)
+				target = target.withProperty(POWER_LEFT, worldIn.rand.nextBoolean());
+			
+			worldIn.setBlockState(pos, target);
+		}
+	}
 
 	protected int getActiveSignal(IBlockState state, EnumFacing side) {
 		return (isPowered(state) && side == getOutputFace(state)) ? 15 : 0; 
@@ -56,14 +71,8 @@ public class BlockRedstoneRandomizer extends BlockMod implements IQuarkBlock {
 	protected void updateState(World world, BlockPos pos, IBlockState currState) {
 		boolean isPowered = isPowered(currState);
 		boolean willBePowered = shouldBePowered(world, pos, currState);
-		if(isPowered != willBePowered) {
-			IBlockState target = currState.withProperty(POWERED, willBePowered);
-			
-			if(willBePowered)
-				target = target.withProperty(POWER_LEFT, world.rand.nextBoolean());
-			
-			world.setBlockState(pos, target);
-		}
+		if(isPowered != willBePowered)
+            world.updateBlockTick(pos, this, 2, -1);
 	}
 
 	private EnumFacing getOutputFace(IBlockState state) {
