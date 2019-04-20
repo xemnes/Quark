@@ -34,6 +34,7 @@ import vazkii.quark.building.feature.StainedPlanks;
 import vazkii.quark.building.feature.SturdyStone;
 import vazkii.quark.building.feature.Thatch;
 import vazkii.quark.building.feature.Trowel;
+import vazkii.quark.building.feature.Turf;
 import vazkii.quark.building.feature.VanillaStairsAndSlabs;
 import vazkii.quark.building.feature.VanillaWalls;
 import vazkii.quark.building.feature.VerticalWoodPlanks;
@@ -70,6 +71,7 @@ public class QuarkBuilding extends Module {
 		registerFeature(new MagmaBricks());
 		registerFeature(new WorldStonePavement());
 		registerFeature(new FramedGlass());
+		registerFeature(new Turf());
 	}
 
 	@Override
