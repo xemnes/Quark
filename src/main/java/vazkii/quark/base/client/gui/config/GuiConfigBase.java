@@ -1,20 +1,20 @@
 package vazkii.quark.base.client.gui.config;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.LinkedList;
+import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
+
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiConfirmOpenLink;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.config.Property;
-import org.apache.logging.log4j.LogManager;
-import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.base.module.ModuleLoader;
-
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.LinkedList;
-import java.util.List;
 
 public class GuiConfigBase extends GuiScreen {
 
@@ -25,6 +25,7 @@ public class GuiConfigBase extends GuiScreen {
 	public static boolean mayRequireRestart = false;
 
 	GuiButton backButton;
+	String targetUrl;
 
 	public GuiConfigBase(GuiScreen parent) {
 		this.parent = parent;
@@ -81,6 +82,7 @@ public class GuiConfigBase extends GuiScreen {
 	}
 
 	void tryOpenWebsite(String url) {
+		targetUrl = url;
 		GuiConfirmOpenLink gui = new GuiConfigLink(this, url);
 		mc.displayGuiScreen(gui);
 	}
@@ -90,7 +92,7 @@ public class GuiConfigBase extends GuiScreen {
 		if(id == 0) {
 			try {
 				if (result)
-					openWebLink(new URI(LibMisc.MOD_WEBSITE));
+					openWebLink(new URI(targetUrl));
 			} catch (URISyntaxException e) {
 				e.printStackTrace();
 			}

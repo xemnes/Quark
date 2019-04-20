@@ -103,7 +103,7 @@ public class GuiConfigRoot extends GuiConfigBase {
 			tryOpenWebsite("https://reddit.com/r/QuarkMod/");
 			break;
 		case 5: // Open Donate Page
-			tryOpenWebsite("https://vazkii.us/#donate");
+			tryOpenWebsite("https://vazkii.net/#donate");
 			break;
 		}
 	}
