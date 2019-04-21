@@ -1,12 +1,16 @@
 package vazkii.quark.world.block;
 
+import net.minecraft.block.IGrowable;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraft.world.gen.feature.WorldGenBigMushroom;
+import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.base.block.BlockQuarkBush;
@@ -15,7 +19,7 @@ import vazkii.quark.world.feature.UndergroundBiomes;
 import javax.annotation.Nonnull;
 import java.util.Random;
 
-public class BlockGlowshroom extends BlockQuarkBush {
+public class BlockGlowshroom extends BlockQuarkBush implements IGrowable {
 
 	protected static final AxisAlignedBB MUSHROOM_AABB = new AxisAlignedBB(0.2, 0, 0.2, 0.8, 0.6, 0.8);
 	
@@ -75,5 +79,24 @@ public class BlockGlowshroom extends BlockQuarkBush {
 		if(rand.nextInt(20) == 0)
 			worldIn.spawnParticle(EnumParticleTypes.END_ROD, pos.getX() + 0.2 + rand.nextFloat() * 0.6, pos.getY() + 0.3F, pos.getZ() + 0.2 + rand.nextFloat() * 0.6, 0, 0, 0);
 	}
+
+    @Override
+    public boolean canGrow(World worldIn, BlockPos pos, IBlockState state, boolean isClient) {
+        return UndergroundBiomes.bigGlowshroomsEnabled;
+    }
+
+    @Override
+    public boolean canUseBonemeal(World worldIn, Random rand, BlockPos pos, IBlockState state) {
+        return UndergroundBiomes.bigGlowshroomsEnabled && rand.nextFloat() < 0.4;
+    }
+
+    @Override
+    public void grow(World worldIn, Random rand, BlockPos pos, IBlockState state) {
+    	if(UndergroundBiomes.bigGlowshroomsEnabled) {
+        	worldIn.setBlockToAir(pos);
+            if(!BlockHugeGlowshroom.setInPosition(worldIn, rand, pos, true))
+            	worldIn.setBlockState(pos, getDefaultState());
+    	}
+    }
 
 }

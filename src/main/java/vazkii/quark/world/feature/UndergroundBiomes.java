@@ -27,6 +27,7 @@ import vazkii.quark.building.feature.VanillaWalls;
 import vazkii.quark.world.block.BlockBiomeCobblestone;
 import vazkii.quark.world.block.BlockGlowcelium;
 import vazkii.quark.world.block.BlockGlowshroom;
+import vazkii.quark.world.block.BlockHugeGlowshroom;
 import vazkii.quark.world.block.slab.BlockFireStoneSlab;
 import vazkii.quark.world.block.slab.BlockIcyStoneSlab;
 import vazkii.quark.world.block.stairs.BlockFireStoneStairs;
@@ -44,12 +45,13 @@ public class UndergroundBiomes extends Feature {
 	public static BlockMod biome_cobblestone;
 	public static BlockMod glowcelium;
 	public static Block glowshroom;
+	public static Block glowshroom_block;
 	
 	public static int glowshroomGrowthRate;
 	
 	public static IBlockState firestoneState, icystoneState;
 	
-	public static boolean firestoneEnabled, icystoneEnabled, glowceliumEnabled;
+	public static boolean firestoneEnabled, icystoneEnabled, glowceliumEnabled, bigGlowshroomsEnabled;
 	boolean enableStairsAndSlabs, enableWalls;
 	
 	@Override
@@ -59,6 +61,7 @@ public class UndergroundBiomes extends Feature {
 		firestoneEnabled = loadPropBool("Enable Firestone", "", true);
 		icystoneEnabled = loadPropBool("Enable Froststone", "", true);
 		glowceliumEnabled = loadPropBool("Enable Glowcelium and Glowshrooms", "", true);
+		bigGlowshroomsEnabled = loadPropBool("Enable Big Glowshrooms", "", true);
 		enableStairsAndSlabs = loadPropBool("Enable stairs and slabs", "", true)  && GlobalConfig.enableVariants;
 		enableWalls = loadPropBool("Enable walls", "", true)  && GlobalConfig.enableVariants;
 
@@ -98,6 +101,9 @@ public class UndergroundBiomes extends Feature {
 		if(glowceliumEnabled) {
 			glowcelium = new BlockGlowcelium();
 			glowshroom = new BlockGlowshroom();
+			
+			if(bigGlowshroomsEnabled)
+				glowshroom_block = new BlockHugeGlowshroom();
 			
 			RecipeHandler.addShapelessOreDictRecipe(new ItemStack(Items.MUSHROOM_STEW), "mushroomAny", "mushroomAny", new ItemStack(Items.BOWL));
 		}
