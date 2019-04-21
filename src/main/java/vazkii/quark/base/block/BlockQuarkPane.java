@@ -159,14 +159,23 @@ public class BlockQuarkPane extends BlockMod implements IQuarkBlock {
 	@SuppressWarnings("deprecation")
 	public IBlockState withRotation(@Nonnull IBlockState state, Rotation rot) {
 		switch (rot) {
-		case CLOCKWISE_180:
-			return state.withProperty(NORTH, state.getValue(SOUTH)).withProperty(EAST, state.getValue(WEST)).withProperty(SOUTH, state.getValue(NORTH)).withProperty(WEST, state.getValue(EAST));
-		case COUNTERCLOCKWISE_90:
-			return state.withProperty(NORTH, state.getValue(EAST)).withProperty(EAST, state.getValue(SOUTH)).withProperty(SOUTH, state.getValue(WEST)).withProperty(WEST, state.getValue(NORTH));
-		case CLOCKWISE_90:
-			return state.withProperty(NORTH, state.getValue(WEST)).withProperty(EAST, state.getValue(NORTH)).withProperty(SOUTH, state.getValue(EAST)).withProperty(WEST, state.getValue(SOUTH));
-		default:
-			return state;
+			case CLOCKWISE_180:
+				return state.withProperty(NORTH, state.getValue(SOUTH))
+						.withProperty(EAST, state.getValue(WEST))
+						.withProperty(SOUTH, state.getValue(NORTH))
+						.withProperty(WEST, state.getValue(EAST));
+			case COUNTERCLOCKWISE_90:
+				return state.withProperty(NORTH, state.getValue(EAST))
+						.withProperty(EAST, state.getValue(SOUTH))
+						.withProperty(SOUTH, state.getValue(WEST))
+						.withProperty(WEST, state.getValue(NORTH));
+			case CLOCKWISE_90:
+				return state.withProperty(NORTH, state.getValue(WEST))
+						.withProperty(EAST, state.getValue(NORTH))
+						.withProperty(SOUTH, state.getValue(EAST))
+						.withProperty(WEST, state.getValue(SOUTH));
+			default:
+				return state;
 		}
 	}
 
@@ -175,12 +184,14 @@ public class BlockQuarkPane extends BlockMod implements IQuarkBlock {
 	@SuppressWarnings("deprecation")
 	public IBlockState withMirror(@Nonnull IBlockState state, Mirror mirrorIn) {
 		switch (mirrorIn) {
-		case LEFT_RIGHT:
-			return state.withProperty(NORTH, state.getValue(SOUTH)).withProperty(SOUTH, state.getValue(NORTH));
-		case FRONT_BACK:
-			return state.withProperty(EAST, state.getValue(WEST)).withProperty(WEST, state.getValue(EAST));
-		default:
-			return super.withMirror(state, mirrorIn);
+			case LEFT_RIGHT:
+				return state.withProperty(NORTH, state.getValue(SOUTH))
+						.withProperty(SOUTH, state.getValue(NORTH));
+			case FRONT_BACK:
+				return state.withProperty(EAST, state.getValue(WEST))
+						.withProperty(WEST, state.getValue(EAST));
+			default:
+				return state;
 		}
 	}
 

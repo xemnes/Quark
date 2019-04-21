@@ -10,6 +10,7 @@
  */
 package vazkii.quark.management.feature;
 
+import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -34,8 +35,6 @@ import vazkii.quark.management.client.gui.GuiButtonChest;
 import vazkii.quark.management.client.gui.GuiButtonChest.Action;
 import vazkii.quark.management.gamerule.DropoffGamerule;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class StoreToChests extends Feature {
@@ -59,7 +58,7 @@ public class StoreToChests extends Feature {
 		yPosC = loadPropInt("Position Y (Creative)", "", -20);
 
 		String[] classnamesArr = loadPropStringList("Forced GUIs", "GUIs in which the drop off button should be forced to show up. Use the \"Debug Classnames\" option in chest buttons to find the names.", new String[0]);
-		classnames = new ArrayList<>(Arrays.asList(classnamesArr));
+		classnames = Lists.newArrayList(classnamesArr);
 	}
 
 	@Override

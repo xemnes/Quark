@@ -11,6 +11,7 @@
 package vazkii.quark.vanity.feature;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiChat;
@@ -44,8 +45,6 @@ import vazkii.quark.vanity.client.emotes.*;
 import vazkii.quark.vanity.client.gui.GuiButtonEmote;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -75,7 +74,7 @@ public class EmoteSystem extends Feature {
 			"zombie"
 	); 
 
-	private static List<String> EMOTE_NAME_LIST = new ArrayList<>(Arrays.asList(EMOTE_NAMES));
+	private static List<String> EMOTE_NAME_LIST = Lists.newArrayList(EMOTE_NAMES);
 
 	private static final int EMOTE_BUTTON_START = 1800;
 	static boolean emotesVisible = false;

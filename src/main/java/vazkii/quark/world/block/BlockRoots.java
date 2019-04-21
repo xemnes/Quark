@@ -1,18 +1,10 @@
 package vazkii.quark.world.block;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
+import com.google.common.collect.Lists;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockVine;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
@@ -22,13 +14,13 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Mirror;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -40,6 +32,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.arl.block.BlockMod;
 import vazkii.quark.base.block.IQuarkBlock;
 import vazkii.quark.world.feature.CaveRoots;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.List;
+import java.util.Random;
 
 public class BlockRoots extends BlockMod implements IQuarkBlock, IShearable, IGrowable {
 
@@ -56,15 +53,11 @@ public class BlockRoots extends BlockMod implements IQuarkBlock, IShearable, IGr
 	protected static final AxisAlignedBB NORTH_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 0.0625D);
 	protected static final AxisAlignedBB SOUTH_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.9375D, 1.0D, 1.0D, 1.0D);
 
-	private Random rng;
-	
 	public BlockRoots(String name) {
 		super(name, Material.VINE);
 		setDefaultState(blockState.getBaseState().withProperty(UP, false).withProperty(NORTH, false).withProperty(EAST, false).withProperty(SOUTH, false).withProperty(WEST, false));
 		setTickRandomly(true);
 		setCreativeTab(CreativeTabs.DECORATIONS);
-		
-		rng = new Random();
 	}
 
 	public BlockRoots() {
@@ -73,7 +66,7 @@ public class BlockRoots extends BlockMod implements IQuarkBlock, IShearable, IGr
 	
 	@Override
 	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
-		if(!worldIn.isRemote && worldIn.rand.nextInt(2) == 0)
+		if(!worldIn.isRemote && worldIn.rand.nextInt(4) == 0)
 			grow(worldIn, rand, pos, state);
 	}
 	
@@ -123,17 +116,17 @@ public class BlockRoots extends BlockMod implements IQuarkBlock, IShearable, IGr
 	}
 	
 	@Override
-	public boolean canGrow(World worldIn, BlockPos pos, IBlockState state, boolean isClient) {
+	public boolean canGrow(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull IBlockState state, boolean isClient) {
 		return worldIn.getLight(pos) < 7;
 	}
 	
 	@Override
-	public boolean canUseBonemeal(World worldIn, Random rand, BlockPos pos, IBlockState state) {
+	public boolean canUseBonemeal(@Nonnull World worldIn, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
 		return rand.nextFloat() < 0.4;
 	}
 
 	@Override
-	public void grow(World worldIn, Random rand, BlockPos pos, IBlockState state) {
+	public void grow(@Nonnull World worldIn, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
 		growAndReturnLastPos(worldIn, pos, state);
 	}
 	
@@ -147,24 +140,19 @@ public class BlockRoots extends BlockMod implements IQuarkBlock, IShearable, IGr
 		default: return CaveRoots.roots_white_flower.getDefaultState();
 		}
 	}
-	
-	protected ItemStack getRootDrop() {
-		return new ItemStack(CaveRoots.root);
-	}
-	
-	protected float getDropChance() {
-		return CaveRoots.rootDropChance;
-	}
 
 	// VANILLA COPY PASTA AHEAD ============================================================================================================
 
 	@Override
 	@Nullable
-	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
+	@SuppressWarnings("deprecation")
+	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, @Nonnull IBlockAccess worldIn, @Nonnull BlockPos pos) {
 		return NULL_AABB;
 	}
 
+	@Nonnull
 	@Override
+	@SuppressWarnings("deprecation")
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
 		state = state.getActualState(source, pos);
 		int i = 0;
@@ -193,29 +181,33 @@ public class BlockRoots extends BlockMod implements IQuarkBlock, IShearable, IGr
 		return i == 1 ? axisalignedbb : FULL_BLOCK_AABB;
 	}
 
+	@Nonnull
 	@Override
-	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
+	@SuppressWarnings("deprecation")
+	public IBlockState getActualState(@Nonnull IBlockState state, IBlockAccess worldIn, BlockPos pos) {
 		BlockPos blockpos = pos.up();
-		return state.withProperty(UP, Boolean.valueOf(worldIn.getBlockState(blockpos).getBlockFaceShape(worldIn, blockpos, EnumFacing.DOWN) == BlockFaceShape.SOLID));
+		return state.withProperty(UP, worldIn.getBlockState(blockpos).getBlockFaceShape(worldIn, blockpos, EnumFacing.DOWN) == BlockFaceShape.SOLID);
 	}
 
 	@Override
+	@SuppressWarnings("deprecation")
 	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
 
 	@Override
+	@SuppressWarnings("deprecation")
 	public boolean isFullCube(IBlockState state) {
 		return false;
 	}
 
 	@Override
-	public boolean isReplaceable(IBlockAccess worldIn, BlockPos pos) {
+	public boolean isReplaceable(IBlockAccess worldIn, @Nonnull BlockPos pos) {
 		return true;
 	}
 
 	@Override
-	public boolean canPlaceBlockOnSide(World worldIn, BlockPos pos, EnumFacing side) {
+	public boolean canPlaceBlockOnSide(@Nonnull World worldIn, @Nonnull BlockPos pos, EnumFacing side) {
 		return side != EnumFacing.DOWN && side != EnumFacing.UP && canAttachTo(worldIn, pos, side);
 	}
 
@@ -239,7 +231,7 @@ public class BlockRoots extends BlockMod implements IQuarkBlock, IShearable, IGr
 				IBlockState iblockstate1 = worldIn.getBlockState(pos.up());
 
 				if(iblockstate1.getBlock() != this || !iblockstate1.getValue(propertybool))
-					state = state.withProperty(propertybool, Boolean.valueOf(false));
+					state = state.withProperty(propertybool, Boolean.FALSE);
 			}
 		}
 
@@ -254,6 +246,7 @@ public class BlockRoots extends BlockMod implements IQuarkBlock, IShearable, IGr
 	}
 
 	@Override
+	@SuppressWarnings("deprecation")
 	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
 		if(!worldIn.isRemote && !recheckGrownSides(worldIn, pos, state)) {
 			dropBlockAsItem(worldIn, pos, state, 0);
@@ -261,21 +254,27 @@ public class BlockRoots extends BlockMod implements IQuarkBlock, IShearable, IGr
 		}
 	}
 
+	@Nonnull
 	@Override
+	@SuppressWarnings("deprecation")
 	public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
 		IBlockState iblockstate = getDefaultState().withProperty(UP, false).withProperty(NORTH, false).withProperty(EAST, false).withProperty(SOUTH, false).withProperty(WEST, false);
 		return facing.getAxis().isHorizontal() ? iblockstate.withProperty(getPropertyFor(facing.getOpposite()), true) : iblockstate;
 	}
-	
+
+	@Nonnull
 	@Override
-	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
-		if(rng.nextFloat() < getDropChance())
-			return NonNullList.withSize(1, getRootDrop());
-		return NonNullList.withSize(0, ItemStack.EMPTY);
+	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+		return Items.AIR;
 	}
-	
+
 	@Override
-	public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, @Nullable TileEntity te, ItemStack stack) {
+	public int quantityDropped(Random random) {
+		return 0;
+	}
+
+	@Override
+	public void harvestBlock(@Nonnull World worldIn, EntityPlayer player, @Nonnull BlockPos pos, @Nonnull IBlockState state, @Nullable TileEntity te, ItemStack stack) {
 		if(!worldIn.isRemote && stack.getItem() == Items.SHEARS) {
 			player.addStat(StatList.getBlockStats(this));
 			spawnAsEntity(worldIn, pos, new ItemStack(this, 1, 0));
@@ -283,11 +282,18 @@ public class BlockRoots extends BlockMod implements IQuarkBlock, IShearable, IGr
 		else super.harvestBlock(worldIn, player, pos, state, te, stack);
 	}
 
+	@Nonnull
 	@Override
+	@SuppressWarnings("deprecation")
 	public IBlockState getStateFromMeta(int meta) {
-		return this.getDefaultState().withProperty(SOUTH, Boolean.valueOf((meta & 1) > 0)).withProperty(WEST, Boolean.valueOf((meta & 2) > 0)).withProperty(NORTH, Boolean.valueOf((meta & 4) > 0)).withProperty(EAST, Boolean.valueOf((meta & 8) > 0));
+		return this.getDefaultState()
+				.withProperty(SOUTH, (meta & 1) != 0)
+				.withProperty(WEST, (meta & 2) != 0)
+				.withProperty(NORTH, (meta & 4) != 0)
+				.withProperty(EAST, (meta & 8) != 0);
 	}
 
+	@Nonnull
 	@Override
 	@SideOnly(Side.CLIENT)
 	public BlockRenderLayer getRenderLayer() {
@@ -310,36 +316,50 @@ public class BlockRoots extends BlockMod implements IQuarkBlock, IShearable, IGr
 		return i;
 	}
 
+	@Nonnull
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, new IProperty[] {UP, NORTH, EAST, SOUTH, WEST});
+		return new BlockStateContainer(this, UP, NORTH, EAST, SOUTH, WEST);
 	}
 
+	@Nonnull
 	@Override
-	public IBlockState withRotation(IBlockState state, Rotation rot) {
-		switch (rot)
-		{
-		case CLOCKWISE_180:
-			return state.withProperty(NORTH, state.getValue(SOUTH)).withProperty(EAST, state.getValue(WEST)).withProperty(SOUTH, state.getValue(NORTH)).withProperty(WEST, state.getValue(EAST));
-		case COUNTERCLOCKWISE_90:
-			return state.withProperty(NORTH, state.getValue(EAST)).withProperty(EAST, state.getValue(SOUTH)).withProperty(SOUTH, state.getValue(WEST)).withProperty(WEST, state.getValue(NORTH));
-		case CLOCKWISE_90:
-			return state.withProperty(NORTH, state.getValue(WEST)).withProperty(EAST, state.getValue(NORTH)).withProperty(SOUTH, state.getValue(EAST)).withProperty(WEST, state.getValue(SOUTH));
-		default:
-			return state;
+	@SuppressWarnings("deprecation")
+	public IBlockState withRotation(@Nonnull IBlockState state, Rotation rot) {
+		switch (rot) {
+			case CLOCKWISE_180:
+				return state.withProperty(NORTH, state.getValue(SOUTH))
+						.withProperty(EAST, state.getValue(WEST))
+						.withProperty(SOUTH, state.getValue(NORTH))
+						.withProperty(WEST, state.getValue(EAST));
+			case COUNTERCLOCKWISE_90:
+				return state.withProperty(NORTH, state.getValue(EAST))
+						.withProperty(EAST, state.getValue(SOUTH))
+						.withProperty(SOUTH, state.getValue(WEST))
+						.withProperty(WEST, state.getValue(NORTH));
+			case CLOCKWISE_90:
+				return state.withProperty(NORTH, state.getValue(WEST))
+						.withProperty(EAST, state.getValue(NORTH))
+						.withProperty(SOUTH, state.getValue(EAST))
+						.withProperty(WEST, state.getValue(SOUTH));
+			default:
+				return state;
 		}
 	}
 
+	@Nonnull
 	@Override
-	public IBlockState withMirror(IBlockState state, Mirror mirrorIn) {
-		switch (mirrorIn)
-		{
-		case LEFT_RIGHT:
-			return state.withProperty(NORTH, state.getValue(SOUTH)).withProperty(SOUTH, state.getValue(NORTH));
-		case FRONT_BACK:
-			return state.withProperty(EAST, state.getValue(WEST)).withProperty(WEST, state.getValue(EAST));
-		default:
-			return super.withMirror(state, mirrorIn);
+	@SuppressWarnings("deprecation")
+	public IBlockState withMirror(@Nonnull IBlockState state, Mirror mirrorIn) {
+		switch (mirrorIn) {
+			case LEFT_RIGHT:
+				return state.withProperty(NORTH, state.getValue(SOUTH))
+						.withProperty(SOUTH, state.getValue(NORTH));
+			case FRONT_BACK:
+				return state.withProperty(EAST, state.getValue(WEST))
+						.withProperty(WEST, state.getValue(EAST));
+			default:
+				return state;
 		}
 	}
 
@@ -372,16 +392,19 @@ public class BlockRoots extends BlockMod implements IQuarkBlock, IShearable, IGr
 	}
 
 	@Override 
-	public boolean isShearable(ItemStack item, IBlockAccess world, BlockPos pos) { 
+	public boolean isShearable(@Nonnull ItemStack item, IBlockAccess world, BlockPos pos) {
 		return true; 
 	}
 	
+	@Nonnull
 	@Override
-	public List<ItemStack> onSheared(ItemStack item, IBlockAccess world, BlockPos pos, int fortune) {
-		return Arrays.asList(new ItemStack(this, 1));
+	public List<ItemStack> onSheared(@Nonnull ItemStack item, IBlockAccess world, BlockPos pos, int fortune) {
+		return Lists.newArrayList(new ItemStack(this, 1));
 	}
 
+	@Nonnull
 	@Override
+	@SuppressWarnings("deprecation")
 	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
 		return BlockFaceShape.UNDEFINED;
 	}
