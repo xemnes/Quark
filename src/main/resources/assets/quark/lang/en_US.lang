@@ -621,6 +621,13 @@ item.quark:green_parrot_egg.name=Green Parrot Egg
 item.quark:gray_parrot_egg.name=Gray Parrot Egg
 item.quark:backpack.name=Backpack
 item.quark:soul_compass.name=Soul Compass
+item.quark:root.name=Cave Root
+item.quark:root_blue_flower.name=Blue Sprout
+item.quark:root_black_flower.name=Black Sprout
+item.quark:root_white_flower.name=White Sprout
+item.quark:dye_blue.name=Blue Dye
+item.quark:dye_black.name=Black Dye
+item.quark:dye_white.name=White Dye
 
 # ENTITY NAMES
 entity.quark:colored_item_frame.name=Colored Item Frame
