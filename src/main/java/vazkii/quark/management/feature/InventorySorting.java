@@ -1,5 +1,6 @@
 package vazkii.quark.management.feature;
 
+import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.gui.inventory.GuiContainerCreative;
@@ -21,8 +22,6 @@ import vazkii.quark.base.network.message.MessageSortInventory;
 import vazkii.quark.management.client.gui.GuiButtonChest;
 import vazkii.quark.management.client.gui.GuiButtonChest.Action;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class InventorySorting extends Feature {
@@ -42,7 +41,7 @@ public class InventorySorting extends Feature {
 		enablePlayerButton = loadPropBool("Enable Button in Player Inventory", "", true);
 
 		String[] classnamesArr = loadPropStringList("Forced GUIs", "GUIs in which the sort button should be forced to show up. Use the \"Debug Classnames\" option in chest buttons to find the names.", new String[0]);
-		classnames = new ArrayList<>(Arrays.asList(classnamesArr));
+		classnames = Lists.newArrayList(classnamesArr);
 	}
 	
 	@Override

@@ -10,6 +10,7 @@
  */
 package vazkii.quark.management.feature;
 
+import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiChest;
@@ -43,7 +44,6 @@ import vazkii.quark.management.client.gui.GuiButtonChest.Action;
 import vazkii.quark.management.client.gui.GuiButtonShulker;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -53,6 +53,7 @@ public class ChestButtons extends Feature {
 	
 	boolean debugClassnames;
 	List<String> classnames;
+	public static List<String> dropoffTiles;
 	
 	static List<GuiButtonChest> chestButtons = new ArrayList<>();
 	
@@ -67,7 +68,12 @@ public class ChestButtons extends Feature {
 		
 		debugClassnames = loadPropBool("Debug Classnames", "Set this to true to print out the names of all GUIs you open to the log. This is used to fill in the \"Forced GUIs\" list.", false);
 		String[] classnamesArr = loadPropStringList("Forced GUIs", "GUIs in which the chest buttons should be forced to show up. Use the \"Debug Classnames\" option to find the names.", new String[0]);
-		classnames = new ArrayList<>(Arrays.asList(classnamesArr));
+		classnames = Lists.newArrayList(classnamesArr);
+
+		String[] dropoffArr = loadPropStringList("Dropoff Enabled Blocks",
+				"Blocks with inventories which do not explicitly accept dropoffs, but should be treated as though they do.",
+				new String[] { "minecraft:chest", "minecraft:trapped_chest" });
+		dropoffTiles = Lists.newArrayList(dropoffArr);
 	}
 	
 	private ButtonInfo loadButtonInfo(String name, String comment, int xShift, int yShift) {

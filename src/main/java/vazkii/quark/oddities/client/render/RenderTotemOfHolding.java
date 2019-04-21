@@ -5,19 +5,14 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.RayTraceResult.Type;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import vazkii.arl.client.AtlasSpriteHelper;
 import vazkii.arl.util.ClientTicker;
-import vazkii.quark.management.client.render.RenderChestPassenger;
 import vazkii.quark.oddities.entity.EntityTotemOfHolding;
 import vazkii.quark.oddities.feature.TotemOfHolding;
-import vazkii.quark.world.client.render.RenderAshen;
-import net.minecraft.client.renderer.entity.Render;
-import vazkii.quark.oddities.entity.EntityTotemOfHolding;
 
 import javax.annotation.Nonnull;
 
@@ -69,8 +64,8 @@ public class RenderTotemOfHolding extends Render<EntityTotemOfHolding> {
 		return null;
 	}
 	
-	public static IRenderFactory factory() {
-		return manager -> new RenderTotemOfHolding(manager);
+	public static IRenderFactory<EntityTotemOfHolding> factory() {
+		return RenderTotemOfHolding::new;
 	}
 
 }

@@ -18,7 +18,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityChest;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -39,6 +39,7 @@ import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Supplier;
 
 public final class DropoffHandler {
@@ -110,26 +111,23 @@ public final class DropoffHandler {
 	public static boolean isValidChest(EntityPlayer player, TileEntity te) {
 		boolean accept = accepts(te, player);
 		if(!accept) {
-			String name = te.getClass().getSimpleName().toLowerCase();
-			accept = (name.contains("chest") || te instanceof TileEntityChest) && !name.contains("void") && !name.contains("trash");
+			ResourceLocation blockType = te.getBlockType().getRegistryName();
+			String regName = Objects.toString(blockType);
+			accept = ChestButtons.dropoffTiles.contains(regName);
 		}
 
 		if(te instanceof IInventory)
 			accept = accept && ((IInventory) te).isUsableByPlayer(player);
 
+
 		return accept;
 	}
 
 	public static boolean isValidChest(EntityPlayer player, IInventory te) {
-		boolean accept = accepts(te, player);
-		if(!accept) {
-			String name = te.getClass().getSimpleName().toLowerCase();
-			accept = (name.contains("chest") || te instanceof TileEntityChest) && !name.contains("void") && !name.contains("trash");
-		}
+		if (te instanceof TileEntity)
+			return isValidChest(player, (TileEntity) te);
 
-		accept = accept && te.isUsableByPlayer(player);
-
-		return accept;
+		return accepts(te, player) && te.isUsableByPlayer(player);
 	}
 
 	public static boolean isValidChest(EntityPlayer player, IItemHandler te) {

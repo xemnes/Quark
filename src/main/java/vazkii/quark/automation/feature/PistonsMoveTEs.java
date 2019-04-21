@@ -1,14 +1,6 @@
 package vazkii.quark.automation.feature;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.WeakHashMap;
-
-import org.apache.commons.lang3.tuple.Pair;
-
+import com.google.common.collect.Lists;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockChest;
 import net.minecraft.block.BlockJukebox;
@@ -23,9 +15,12 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
+import org.apache.commons.lang3.tuple.Pair;
 import vazkii.quark.api.IPistonCallback;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.ModuleLoader;
+
+import java.util.*;
 
 public class PistonsMoveTEs extends Feature {
 
@@ -45,9 +40,9 @@ public class PistonsMoveTEs extends Feature {
 		String[] delayedUpdateListArray = loadPropStringList("Delayed Update List", "List of blocks whose tile entity update should be delayed by one tick after placed to prevent corruption.", 
 				new String[] { "minecraft:dispenser", "minecraft:dropper" });
 		
-		renderBlacklist = new ArrayList<>(Arrays.asList(renderBlacklistArray));
-		movementBlacklist = new ArrayList<>(Arrays.asList(movementBlacklistArray));
-		delayedUpdateList = new ArrayList<>(Arrays.asList(delayedUpdateListArray));
+		renderBlacklist = Lists.newArrayList(renderBlacklistArray);
+		movementBlacklist = Lists.newArrayList(movementBlacklistArray);
+		delayedUpdateList = Lists.newArrayList(delayedUpdateListArray);
 	}
 	
 	@SubscribeEvent
