@@ -87,7 +87,7 @@ public class BlockRoots extends BlockMod implements IQuarkBlock, IShearable, IGr
 			if(state.getValue(prop)) {
 				BlockPos ret = growInFacing(world, down, facing);
 				if(ret != null) {
-					IBlockState setState = CaveRoots.roots.getDefaultState().withProperty(prop, true);
+					IBlockState setState = nextState(world.rand).withProperty(prop, true);
 					world.setBlockState(ret, setState);
 					return ret;
 				}
@@ -129,6 +129,17 @@ public class BlockRoots extends BlockMod implements IQuarkBlock, IShearable, IGr
 	@Override
 	public void grow(World worldIn, Random rand, BlockPos pos, IBlockState state) {
 		growAndReturnLastPos(worldIn, pos, state);
+	}
+	
+	private static IBlockState nextState(Random rand) {
+		if(!CaveRoots.enableFlowers || rand.nextFloat() > CaveRoots.flowerChance)
+			return CaveRoots.roots.getDefaultState();
+
+		switch(rand.nextInt(3)) {
+		case 0:  return CaveRoots.roots_blue_flower.getDefaultState();
+		case 1:  return CaveRoots.roots_black_flower.getDefaultState();
+		default: return CaveRoots.roots_white_flower.getDefaultState();
+		}
 	}
 
 	// VANILLA COPY PASTA AHEAD ============================================================================================================
@@ -196,7 +207,7 @@ public class BlockRoots extends BlockMod implements IQuarkBlock, IShearable, IGr
 
 	public boolean canAttachTo(World p_193395_1_, BlockPos p_193395_2_, EnumFacing p_193395_3_) {
 		Block block = p_193395_1_.getBlockState(p_193395_2_.up()).getBlock();
-		return isAcceptableNeighbor(p_193395_1_, p_193395_2_.offset(p_193395_3_.getOpposite()), p_193395_3_) && (block == Blocks.AIR || block == this || isAcceptableNeighbor(p_193395_1_, p_193395_2_.up(), EnumFacing.UP));
+		return isAcceptableNeighbor(p_193395_1_, p_193395_2_.offset(p_193395_3_.getOpposite()), p_193395_3_) && (block == Blocks.AIR || block instanceof BlockRoots || isAcceptableNeighbor(p_193395_1_, p_193395_2_.up(), EnumFacing.UP));
 	}
 
 	private static boolean isAcceptableNeighbor(World p_193396_1_, BlockPos p_193396_2_, EnumFacing p_193396_3_) {

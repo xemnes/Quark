@@ -527,6 +527,9 @@ tile.quark:turf_stairs.name=Turf Stairs
 tile.quark:turf_slab.name=Turf Slab
 tile.quark:glowshroom_block.name=Glowshroom
 tile.quark:roots.name=Cave Roots
+tile.quark:roots_blue_flower.name=Cave Roots
+tile.quark:roots_black_flower.name=Cave Roots
+tile.quark:roots_white_flower.name=Cave Roots
 
 # ITEM NAMES
 item.quark:glass_shard.name=Glass Shard
