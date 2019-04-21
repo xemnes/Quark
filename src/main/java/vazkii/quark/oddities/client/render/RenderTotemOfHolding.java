@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.RayTraceResult.Type;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import vazkii.arl.client.AtlasSpriteHelper;
 import vazkii.arl.util.ClientTicker;
@@ -44,6 +45,16 @@ public class RenderTotemOfHolding extends Render<EntityTotemOfHolding> {
 		GlStateManager.scale(scale, scale, scale);
 		renderTotemIcon(entity);
 		GlStateManager.popMatrix();
+	}
+	
+	@Override
+	protected boolean canRenderName(EntityTotemOfHolding entity) {
+		if(entity.hasCustomName()) {
+			Minecraft mc = Minecraft.getMinecraft();
+			return !mc.gameSettings.hideGUI && mc.objectMouseOver != null && mc.objectMouseOver.typeOfHit == Type.ENTITY && mc.objectMouseOver.entityHit == entity;
+		}
+		
+		return false;
 	}
 	
 	private void renderTotemIcon(EntityTotemOfHolding entity) { 
