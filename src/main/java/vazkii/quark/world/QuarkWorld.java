@@ -16,6 +16,7 @@ import vazkii.quark.base.module.Module;
 import vazkii.quark.world.feature.Basalt;
 import vazkii.quark.world.feature.Biotite;
 import vazkii.quark.world.feature.BuriedTreasure;
+import vazkii.quark.world.feature.CaveRoots;
 import vazkii.quark.world.feature.ClayGeneration;
 import vazkii.quark.world.feature.CrystalCaves;
 import vazkii.quark.world.feature.DefaultWorldOptions;
@@ -58,6 +59,7 @@ public class QuarkWorld extends Module {
 		registerFeature(new NetherFossils());
 		registerFeature(new Speleothems());
 		registerFeature(new FairyRings());
+		registerFeature(new CaveRoots());
 
 		registerFeature(new RealisticWorldType());
 		registerFeature(new DefaultWorldOptions());
