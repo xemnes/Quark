@@ -525,6 +525,7 @@ tile.quark:pipe.name=Item Pipe
 tile.quark:turf.name=Turf Block
 tile.quark:turf_stairs.name=Turf Stairs
 tile.quark:turf_slab.name=Turf Slab
+tile.quark:glowshroom_block.name=Glowshroom
 
 # ITEM NAMES
 item.quark:glass_shard.name=Glass Shard

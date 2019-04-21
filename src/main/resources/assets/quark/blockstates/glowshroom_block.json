@@ -1,5 +1,7 @@
 {
+    "forge_marker": 1,
     "variants": {
+        "inventory": { "model": "quark:glowshroom_block_cap_all" },
         "variant=north_west": { "model": "quark:glowshroom_block_nw" },
         "variant=north": { "model": "quark:glowshroom_block_n" },
         "variant=north_east": { "model": "quark:glowshroom_block_ne" },
