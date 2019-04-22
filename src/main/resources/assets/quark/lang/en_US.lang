@@ -530,6 +530,10 @@ tile.quark:roots.name=Cave Roots
 tile.quark:roots_blue_flower.name=Cave Roots
 tile.quark:roots_black_flower.name=Cave Roots
 tile.quark:roots_white_flower.name=Cave Roots
+tile.quark:elder_prismarine.name=Elder Prismarine
+tile.quark:elder_prismarine_bricks.name=Elder Prismarine Bricks
+tile.quark:elder_prismarine_dark.name=Dark Elder Prismarine
+tile.quark:elder_sea_lantern.name=Elder Sea Lantern
 
 # ITEM NAMES
 item.quark:glass_shard.name=Glass Shard

@@ -25,6 +25,8 @@ import vazkii.quark.base.module.GlobalConfig;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.building.feature.VanillaWalls;
 import vazkii.quark.world.block.BlockBiomeCobblestone;
+import vazkii.quark.world.block.BlockElderPrismarine;
+import vazkii.quark.world.block.BlockElderSeaLantern;
 import vazkii.quark.world.block.BlockGlowcelium;
 import vazkii.quark.world.block.BlockGlowshroom;
 import vazkii.quark.world.block.BlockHugeGlowshroom;
@@ -46,13 +48,17 @@ public class UndergroundBiomes extends Feature {
 	public static BlockMod glowcelium;
 	public static Block glowshroom;
 	public static Block glowshroom_block;
+	public static Block elder_prismarine;
+	public static Block elder_sea_lantern;
 	
 	public static int glowshroomGrowthRate;
 	
 	public static IBlockState firestoneState, icystoneState;
 	
-	public static boolean firestoneEnabled, icystoneEnabled, glowceliumEnabled, bigGlowshroomsEnabled;
+	public static boolean firestoneEnabled, icystoneEnabled, glowceliumEnabled, bigGlowshroomsEnabled, elderPrismarineEnabled;
 	boolean enableStairsAndSlabs, enableWalls;
+	
+	private static UndergroundBiomeGenerator prismarineBiomeGen;
 	
 	@Override
 	public void setupConfig() {
@@ -62,6 +68,7 @@ public class UndergroundBiomes extends Feature {
 		icystoneEnabled = loadPropBool("Enable Froststone", "", true);
 		glowceliumEnabled = loadPropBool("Enable Glowcelium and Glowshrooms", "", true);
 		bigGlowshroomsEnabled = loadPropBool("Enable Big Glowshrooms", "", true);
+		elderPrismarineEnabled = loadPropBool("Enable Elder Prismarine", "", true);
 		enableStairsAndSlabs = loadPropBool("Enable stairs and slabs", "", true)  && GlobalConfig.enableVariants;
 		enableWalls = loadPropBool("Enable walls", "", true)  && GlobalConfig.enableVariants;
 
@@ -70,18 +77,27 @@ public class UndergroundBiomes extends Feature {
 		biomes.add(loadUndergrondBiomeInfo("Lush", new UndergroundBiomeLush(), 160, Type.JUNGLE));
 		biomes.add(loadUndergrondBiomeInfo("Sandstone", new UndergroundBiomeSandstone(), 160, Type.SANDY));
 		biomes.add(loadUndergrondBiomeInfo("Slime", new UndergroundBiomeSlime(), 240, Type.SWAMP));
-		biomes.add(loadUndergrondBiomeInfo("Prismarine", new UndergroundBiomePrismarine(), 200, Type.OCEAN));
+		biomes.add(prismarineBiomeGen = loadUndergrondBiomeInfo("Prismarine", new UndergroundBiomePrismarine(), 200, Type.OCEAN));
 		biomes.add(loadUndergrondBiomeInfo("Spider", new UndergroundBiomeSpiderNest(), 160, Type.PLAINS));
 		biomes.add(loadUndergrondBiomeInfo("Overgrown", new UndergroundBiomeOvergrown(), 160, Type.FOREST));
 		biomes.add(loadUndergrondBiomeInfo("Icy", new UndergroundBiomeIcy(), 160, Type.COLD));
 		biomes.add(loadUndergrondBiomeInfo("Lava", new UndergroundBiomeLava(), 160, Type.MESA));
 		biomes.add(loadUndergrondBiomeInfo("Glowshroom", new UndergroundBiomeGlowshroom(), 160, Type.MOUNTAIN, Type.MUSHROOM));
+		
+		if(elder_prismarine != null)
+			((UndergroundBiomePrismarine) prismarineBiomeGen.info.biome).update();
 	}
 	
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
 		if(firestoneEnabled || icystoneEnabled)
 			biome_cobblestone = new BlockBiomeCobblestone();
+		
+		if(elderPrismarineEnabled) {
+			elder_prismarine = new BlockElderPrismarine();
+			elder_sea_lantern = new BlockElderSeaLantern();
+		}
+		((UndergroundBiomePrismarine) prismarineBiomeGen.info.biome).update();
 		
 		if(enableStairsAndSlabs) {
 			if(firestoneEnabled) {

@@ -6,13 +6,23 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import vazkii.quark.base.module.ModuleLoader;
+import vazkii.quark.world.feature.UndergroundBiomes;
 
 public class UndergroundBiomePrismarine extends BasicUndergroundBiome {
 
 	int seaLanternChance, waterChance;
+	IBlockState lanternState; 
 	
 	public UndergroundBiomePrismarine() {
 		super(Blocks.PRISMARINE.getDefaultState(), Blocks.PRISMARINE.getDefaultState(), Blocks.PRISMARINE.getDefaultState());
+		lanternState = Blocks.SEA_LANTERN.getDefaultState();
+	}
+	
+	public void update() {
+		IBlockState prismarineState = (UndergroundBiomes.elderPrismarineEnabled ? UndergroundBiomes.elder_prismarine : Blocks.PRISMARINE).getDefaultState();
+		ceilingState = floorState = wallState = prismarineState;
+		
+		lanternState = (UndergroundBiomes.elderPrismarineEnabled ? UndergroundBiomes.elder_sea_lantern : Blocks.SEA_LANTERN).getDefaultState();
 	}
 	
 	@Override
@@ -20,7 +30,7 @@ public class UndergroundBiomePrismarine extends BasicUndergroundBiome {
 		super.fillWall(world, pos, state);
 		
 		if(seaLanternChance > 0 && world.rand.nextInt(seaLanternChance) == 0)
-			world.setBlockState(pos, Blocks.SEA_LANTERN.getDefaultState(), 2);
+			world.setBlockState(pos, lanternState, 2);
 	}
 	
 	@Override
