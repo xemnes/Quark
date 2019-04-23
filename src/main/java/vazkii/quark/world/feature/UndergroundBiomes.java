@@ -87,15 +87,15 @@ public class UndergroundBiomes extends Feature {
 
 		glowshroomGrowthRate = loadPropInt("Glowshroom Growth Rate", "The smaller, the faster glowshrooms will spread. Vanilla mushroom speed is 25.", 20);
 		
-		biomes.add(loadUndergrondBiomeInfo("Lush", new UndergroundBiomeLush(), 160, Type.JUNGLE));
-		biomes.add(loadUndergrondBiomeInfo("Sandstone", new UndergroundBiomeSandstone(), 160, Type.SANDY));
-		biomes.add(loadUndergrondBiomeInfo("Slime", new UndergroundBiomeSlime(), 240, Type.SWAMP));
-		biomes.add(prismarineBiomeGen = loadUndergrondBiomeInfo("Prismarine", new UndergroundBiomePrismarine(), 200, Type.OCEAN));
-		biomes.add(loadUndergrondBiomeInfo("Spider", new UndergroundBiomeSpiderNest(), 160, Type.PLAINS));
-		biomes.add(loadUndergrondBiomeInfo("Overgrown", new UndergroundBiomeOvergrown(), 160, Type.FOREST));
-		biomes.add(loadUndergrondBiomeInfo("Icy", new UndergroundBiomeIcy(), 160, Type.COLD));
-		biomes.add(loadUndergrondBiomeInfo("Lava", new UndergroundBiomeLava(), 160, Type.MESA));
-		biomes.add(loadUndergrondBiomeInfo("Glowshroom", new UndergroundBiomeGlowshroom(), 160, Type.MOUNTAIN, Type.MUSHROOM));
+		biomes.add(loadUndergrondBiomeInfo("Lush", new UndergroundBiomeLush(), 80, Type.JUNGLE));
+		biomes.add(loadUndergrondBiomeInfo("Sandstone", new UndergroundBiomeSandstone(), 80, Type.SANDY));
+		biomes.add(loadUndergrondBiomeInfo("Slime", new UndergroundBiomeSlime(), 120, Type.SWAMP));
+		biomes.add(prismarineBiomeGen = loadUndergrondBiomeInfo("Prismarine", new UndergroundBiomePrismarine(), 100, Type.OCEAN));
+		biomes.add(loadUndergrondBiomeInfo("Spider", new UndergroundBiomeSpiderNest(), 80, Type.PLAINS));
+		biomes.add(loadUndergrondBiomeInfo("Overgrown", new UndergroundBiomeOvergrown(), 80, Type.FOREST));
+		biomes.add(loadUndergrondBiomeInfo("Icy", new UndergroundBiomeIcy(), 80, Type.COLD));
+		biomes.add(loadUndergrondBiomeInfo("Lava", new UndergroundBiomeLava(), 80, Type.MESA));
+		biomes.add(loadUndergrondBiomeInfo("Glowshroom", new UndergroundBiomeGlowshroom(), 80, Type.MOUNTAIN, Type.MUSHROOM));
 		
 		if(elder_prismarine != null)
 			((UndergroundBiomePrismarine) prismarineBiomeGen.info.biome).update();
