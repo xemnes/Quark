@@ -120,6 +120,7 @@ public class UndergroundBiomes extends Feature {
 					"PPP", "PBP", "PPP",
 					'P', ProxyRegistry.newStack(elder_prismarine),
 					'B', "dyeBlack");
+			RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(elder_sea_lantern), ProxyRegistry.newStack(elder_prismarine), ProxyRegistry.newStack(Blocks.SEA_LANTERN));
 		}
 		((UndergroundBiomePrismarine) prismarineBiomeGen.info.biome).update();
 		
