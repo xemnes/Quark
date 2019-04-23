@@ -12,6 +12,7 @@ public class UndergroundBiomePrismarine extends BasicUndergroundBiome {
 
 	int seaLanternChance, waterChance;
 	IBlockState lanternState; 
+	boolean spawnElderPrismarine;
 	
 	public UndergroundBiomePrismarine() {
 		super(Blocks.PRISMARINE.getDefaultState(), Blocks.PRISMARINE.getDefaultState(), Blocks.PRISMARINE.getDefaultState());
@@ -19,10 +20,12 @@ public class UndergroundBiomePrismarine extends BasicUndergroundBiome {
 	}
 	
 	public void update() {
-		IBlockState prismarineState = (UndergroundBiomes.elderPrismarineEnabled ? UndergroundBiomes.elder_prismarine : Blocks.PRISMARINE).getDefaultState();
+		boolean elder = UndergroundBiomes.elderPrismarineEnabled && spawnElderPrismarine;
+		
+		IBlockState prismarineState = (elder ? UndergroundBiomes.elder_prismarine : Blocks.PRISMARINE).getDefaultState();
 		ceilingState = floorState = wallState = prismarineState;
 		
-		lanternState = (UndergroundBiomes.elderPrismarineEnabled ? UndergroundBiomes.elder_sea_lantern : Blocks.SEA_LANTERN).getDefaultState();
+		lanternState = (elder ? UndergroundBiomes.elder_sea_lantern : Blocks.SEA_LANTERN).getDefaultState();
 	}
 	
 	@Override
@@ -44,6 +47,7 @@ public class UndergroundBiomePrismarine extends BasicUndergroundBiome {
 	public void setupConfig(String category) {
 		seaLanternChance = ModuleLoader.config.getInt("Sea Lantern Chance", category, 120, 0, Integer.MAX_VALUE, "The higher, the less sea lanterns will spawn");
 		waterChance = ModuleLoader.config.getInt("Water Chance", category, 4, 0, Integer.MAX_VALUE, "The higher, the less water will spawn");
+		spawnElderPrismarine = ModuleLoader.config.getBoolean("Spawn Elder Prismarine", category, true, "Set to false to spawn regular prismarine instead of elder prismarine (even if the block is enabled)");
 	}
 	
 	
