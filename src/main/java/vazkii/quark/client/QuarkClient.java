@@ -19,6 +19,7 @@ import vazkii.quark.client.feature.MapTooltip;
 import vazkii.quark.client.feature.NoPotionShift;
 import vazkii.quark.client.feature.PanoramaMaker;
 import vazkii.quark.client.feature.RandomAnimalTextures;
+import vazkii.quark.client.feature.ShowInvalidSlots;
 import vazkii.quark.client.feature.ShulkerBoxTooltip;
 import vazkii.quark.client.feature.UsageTicker;
 import vazkii.quark.client.feature.VisualStatDisplay;
@@ -46,6 +47,7 @@ public class QuarkClient extends Module {
 		registerFeature(new ItemsFlashBeforeExpiring());
 		registerFeature(new BetterFireEffect());
 		registerFeature(new EnchantedBooksShowItems());
+		registerFeature(new ShowInvalidSlots());
 	}
 	
 	@Override
