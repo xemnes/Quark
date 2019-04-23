@@ -30,11 +30,14 @@ import java.util.Random;
 public class VariedDungeons extends Feature {
 
 	ResourceLocation lootTable;
+	int tries;
 
 	@Override
 	public void setupConfig() {
-		String lootTableStr = loadPropString("Custom Loot Table", "Set this to anything other than null to load a custom loot table for the dungeons.", "");
+		String lootTableStr = loadPropString("Custom Loot Table", "Set this to anything other than an empty line to load a custom loot table for the dungeons.", "");
 		lootTable = lootTableStr.isEmpty() ? null : new ResourceLocation(lootTableStr);
+		
+		tries = loadPropInt("Tries Per Chunk", "How many times per chunk will the generator try to place a dungeon. The higher, the more dungeons you'll get", 20);
 	}
 
 	@SubscribeEvent
@@ -49,12 +52,17 @@ public class VariedDungeons extends Feature {
 		World world = event.getWorld();
 		Random rand = event.getRand();
 
-		int x = rand.nextInt(16) + 8;
-		int y = rand.nextInt(256);
-		int z = rand.nextInt(16) + 8;
-		BlockPos generatePos = blockpos.add(x, y, z);
-		if(couldDungeonGenerate(world, rand, generatePos) && world instanceof WorldServer)
-			placeDungeonAt((WorldServer) world, rand, generatePos);
+		if(world instanceof WorldServer)
+			for(int k = 0; k < tries; k++) {
+				int x = rand.nextInt(16) + 8;
+				int y = rand.nextInt(256);
+				int z = rand.nextInt(16) + 8;
+				BlockPos generatePos = blockpos.add(x, y, z);
+				if(couldDungeonGenerate(world, rand, generatePos)) {
+					placeDungeonAt((WorldServer) world, rand, generatePos);
+					break;
+				}
+			}
 	}
 
 	public boolean couldDungeonGenerate(World worldIn, Random rand, BlockPos position) {
