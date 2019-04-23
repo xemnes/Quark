@@ -534,6 +534,15 @@ tile.quark:elder_prismarine.name=Elder Prismarine
 tile.quark:elder_prismarine_bricks.name=Elder Prismarine Bricks
 tile.quark:elder_prismarine_dark.name=Dark Elder Prismarine
 tile.quark:elder_sea_lantern.name=Elder Sea Lantern
+tile.quark:elder_prismarine_stairs.name=Elder Prismarine Stairs
+tile.quark:elder_prismarine_bricks_stairs.name=Elder Prismarine Brick Stairs
+tile.quark:elder_prismarine_dark_stairs.name=Dark Elder Prismarine Stairs
+tile.quark:elder_prismarine_slab.name=Elder Prismarine Slab
+tile.quark:elder_prismarine_bricks_slab.name=Elder Prismarine Brick Slab
+tile.quark:elder_prismarine_dark_slab.name=Dark Elder Prismarine Slab
+tile.quark:elder_prismarine_wall.name=Elder Prismarine Wall
+tile.quark:elder_prismarine_bricks_wall.name=Elder Prismarine Brick Wall
+tile.quark:elder_prismarine_dark_wall.name=Dark Elder Prismarine Wall
 
 # ITEM NAMES
 item.quark:glass_shard.name=Glass Shard

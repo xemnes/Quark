@@ -1,5 +1,8 @@
 package vazkii.quark.world.feature;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -18,6 +21,7 @@ import vazkii.arl.block.BlockMod;
 import vazkii.arl.block.BlockModSlab;
 import vazkii.arl.block.BlockModStairs;
 import vazkii.arl.recipe.RecipeHandler;
+import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.handler.BiomeTypeConfigHandler;
 import vazkii.quark.base.handler.DimensionConfig;
 import vazkii.quark.base.module.Feature;
@@ -30,15 +34,23 @@ import vazkii.quark.world.block.BlockElderSeaLantern;
 import vazkii.quark.world.block.BlockGlowcelium;
 import vazkii.quark.world.block.BlockGlowshroom;
 import vazkii.quark.world.block.BlockHugeGlowshroom;
+import vazkii.quark.world.block.slab.BlockElderPrismarineSlab;
 import vazkii.quark.world.block.slab.BlockFireStoneSlab;
 import vazkii.quark.world.block.slab.BlockIcyStoneSlab;
+import vazkii.quark.world.block.stairs.BlockElderPrismarineStairs;
 import vazkii.quark.world.block.stairs.BlockFireStoneStairs;
 import vazkii.quark.world.block.stairs.BlockIcyStoneStairs;
 import vazkii.quark.world.world.UndergroundBiomeGenerator;
-import vazkii.quark.world.world.underground.*;
-
-import java.util.ArrayList;
-import java.util.List;
+import vazkii.quark.world.world.underground.UndergroundBiome;
+import vazkii.quark.world.world.underground.UndergroundBiomeGlowshroom;
+import vazkii.quark.world.world.underground.UndergroundBiomeIcy;
+import vazkii.quark.world.world.underground.UndergroundBiomeLava;
+import vazkii.quark.world.world.underground.UndergroundBiomeLush;
+import vazkii.quark.world.world.underground.UndergroundBiomeOvergrown;
+import vazkii.quark.world.world.underground.UndergroundBiomePrismarine;
+import vazkii.quark.world.world.underground.UndergroundBiomeSandstone;
+import vazkii.quark.world.world.underground.UndergroundBiomeSlime;
+import vazkii.quark.world.world.underground.UndergroundBiomeSpiderNest;
 
 public class UndergroundBiomes extends Feature {
 
@@ -56,7 +68,7 @@ public class UndergroundBiomes extends Feature {
 	public static IBlockState firestoneState, icystoneState;
 	
 	public static boolean firestoneEnabled, icystoneEnabled, glowceliumEnabled, bigGlowshroomsEnabled, elderPrismarineEnabled;
-	boolean enableStairsAndSlabs, enableWalls;
+	boolean enableStairsAndSlabs, enableWalls, allowCraftingElderPrismarine;
 	
 	private static UndergroundBiomeGenerator prismarineBiomeGen;
 	
@@ -71,6 +83,7 @@ public class UndergroundBiomes extends Feature {
 		elderPrismarineEnabled = loadPropBool("Enable Elder Prismarine", "", true);
 		enableStairsAndSlabs = loadPropBool("Enable stairs and slabs", "", true)  && GlobalConfig.enableVariants;
 		enableWalls = loadPropBool("Enable walls", "", true)  && GlobalConfig.enableVariants;
+		allowCraftingElderPrismarine = loadPropBool("Allow crafting Elder Prismarine", "", true);
 
 		glowshroomGrowthRate = loadPropInt("Glowshroom Growth Rate", "The smaller, the faster glowshrooms will spread. Vanilla mushroom speed is 25.", 20);
 		
@@ -96,6 +109,17 @@ public class UndergroundBiomes extends Feature {
 		if(elderPrismarineEnabled) {
 			elder_prismarine = new BlockElderPrismarine();
 			elder_sea_lantern = new BlockElderSeaLantern();
+			
+			if(allowCraftingElderPrismarine)
+				RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(elder_prismarine, 2), ProxyRegistry.newStack(elder_prismarine), ProxyRegistry.newStack(Blocks.PRISMARINE));
+			
+			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(elder_prismarine, 4, 1), 
+					"PPP", "PPP", "PPP",
+					'P', ProxyRegistry.newStack(elder_prismarine));
+			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(elder_prismarine, 1, 2), 
+					"PPP", "PBP", "PPP",
+					'P', ProxyRegistry.newStack(elder_prismarine),
+					'B', "dyeBlack");
 		}
 		((UndergroundBiomePrismarine) prismarineBiomeGen.info.biome).update();
 		
@@ -109,10 +133,19 @@ public class UndergroundBiomes extends Feature {
 				BlockModSlab.initSlab(biome_cobblestone, 1, new BlockIcyStoneSlab(false), new BlockIcyStoneSlab(true));
 				BlockModStairs.initStairs(biome_cobblestone, 1, new BlockIcyStoneStairs());
 			}
+			
+			if(elderPrismarineEnabled) {
+				for(BlockElderPrismarine.Variants v : BlockElderPrismarine.Variants.values())
+					BlockModSlab.initSlab(elder_prismarine, v.ordinal(), new BlockElderPrismarineSlab(v, false), new BlockElderPrismarineSlab(v, true));
+				for(BlockElderPrismarine.Variants v : BlockElderPrismarine.Variants.values())
+					BlockModStairs.initStairs(elder_prismarine, v.ordinal(), new BlockElderPrismarineStairs(v));
+			}
 		}
 
 		VanillaWalls.add("fire_stone", biome_cobblestone, 0, enableWalls && firestoneEnabled);
 		VanillaWalls.add("icy_stone", biome_cobblestone, 1, enableWalls && icystoneEnabled);
+		for(BlockElderPrismarine.Variants v : BlockElderPrismarine.Variants.values())
+			VanillaWalls.add(v.getName(), elder_prismarine, v.ordinal(), enableWalls && elderPrismarineEnabled);
 
 		if(glowceliumEnabled) {
 			glowcelium = new BlockGlowcelium();
