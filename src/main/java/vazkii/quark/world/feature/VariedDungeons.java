@@ -37,7 +37,7 @@ public class VariedDungeons extends Feature {
 		String lootTableStr = loadPropString("Custom Loot Table", "Set this to anything other than an empty line to load a custom loot table for the dungeons.", "");
 		lootTable = lootTableStr.isEmpty() ? null : new ResourceLocation(lootTableStr);
 		
-		tries = loadPropInt("Tries Per Chunk", "How many times per chunk will the generator try to place a dungeon. The higher, the more dungeons you'll get", 10);
+		tries = loadPropInt("Tries Per Chunk", "How many times per chunk will the generator try to place a dungeon. The higher, the more dungeons you'll get", 7);
 	}
 
 	@SubscribeEvent
