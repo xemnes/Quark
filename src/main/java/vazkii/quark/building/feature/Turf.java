@@ -50,6 +50,11 @@ public class Turf extends Feature {
 		}
 	}
 	
+	@Override
+	public boolean requiresMinecraftRestartToEnable() {
+		return true;
+	}
+	
 	public static interface ITurfBlock extends IQuarkBlock, IBlockColorProvider {
 		
 		@Override

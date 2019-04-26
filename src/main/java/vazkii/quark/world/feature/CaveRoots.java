@@ -61,4 +61,10 @@ public class CaveRoots extends Feature {
 		GameRegistry.registerWorldGenerator(new CaveRootGenerator(), 2000);
 	}
 	
+	@Override
+	public boolean requiresMinecraftRestartToEnable() {
+		return true;
+	}
+
+	
 }

@@ -48,4 +48,9 @@ public class Archeologist extends Feature {
 		RenderingRegistry.registerEntityRenderingHandler(EntityArcheologist.class, RenderArcheologist.FACTORY);
 	}
 
+	@Override
+	public boolean requiresMinecraftRestartToEnable() {
+		return true;
+	}
+	
 }
