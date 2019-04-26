@@ -27,6 +27,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -39,6 +40,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.village.MerchantRecipe;
 import net.minecraft.village.MerchantRecipeList;
 import net.minecraft.world.World;
+import vazkii.quark.world.feature.Archeologist;
 
 public class EntityArcheologist extends EntityLiving implements IMerchant {
 
@@ -51,15 +53,23 @@ public class EntityArcheologist extends EntityLiving implements IMerchant {
 	public EntityArcheologist(World worldIn) {
 		super(worldIn);
 		setSize(0.6F, 1.95F);
+		
+		setItemStackToSlot(EntityEquipmentSlot.HEAD, new ItemStack(Archeologist.archeologist_hat));
 	}
+	
+	@Override
+    protected void initEntityAI() {
+        tasks.addTask(0, new EntityAIWatchClosest2(this, EntityPlayer.class, 3.0F, 1.0F));
+    }
 	
 	private void populateBuyingList() {
         if(buyingList == null)
             buyingList = new MerchantRecipeList();
 		
-		// TODO
+		// TODO randomize these a bit
 		buyingList.add(new MerchantRecipe(new ItemStack(Items.EMERALD, 3), new ItemStack(Items.BONE, 4)));
-		buyingList.add(new MerchantRecipe(new ItemStack(Items.BONE, 20), new ItemStack(Items.EMERALD, 1)));
+		buyingList.add(new MerchantRecipe(new ItemStack(Items.BONE, 12), new ItemStack(Items.EMERALD, 1)));
+		buyingList.add(new MerchantRecipe(new ItemStack(Items.EMERALD, 8), new ItemStack(Archeologist.archeologist_hat, 1)));
 	}
 
 
@@ -212,3 +222,4 @@ public class EntityArcheologist extends EntityLiving implements IMerchant {
 	}
 
 }
+

@@ -641,6 +641,7 @@ item.quark:root_white_flower.name=White Sprout
 item.quark:dye_blue.name=Blue Dye
 item.quark:dye_black.name=Black Dye
 item.quark:dye_white.name=White Dye
+item.quark:archeologist_hat.name=Archaeologist Hat
 
 # ENTITY NAMES
 entity.quark:colored_item_frame.name=Colored Item Frame
@@ -652,7 +653,7 @@ entity.quark:pirate.name=Pirate
 entity.quark:wraith.name=Wraith
 entity.quark:chest_passenger.name=Boat Chest
 entity.quark:totem_of_holding.name=Totem of Holding
-entity.quark:archeologist.name=Archeologist
+entity.quark:archeologist.name=Archaeologist
 
 # POTION NAMES
 quark.potion.curse.name=Curse

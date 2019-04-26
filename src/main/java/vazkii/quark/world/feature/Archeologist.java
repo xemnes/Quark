@@ -1,5 +1,6 @@
 package vazkii.quark.world.feature;
 
+import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -10,9 +11,8 @@ import vazkii.quark.base.handler.DimensionConfig;
 import vazkii.quark.base.lib.LibEntityIDs;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.world.client.render.RenderArcheologist;
-import vazkii.quark.world.client.render.RenderDweller;
 import vazkii.quark.world.entity.EntityArcheologist;
-import vazkii.quark.world.entity.EntityDweller;
+import vazkii.quark.world.item.ItemArcheologistHat;
 import vazkii.quark.world.world.ArcheologistHouseGenerator;
 
 public class Archeologist extends Feature {
@@ -21,6 +21,8 @@ public class Archeologist extends Feature {
 
 	public static int chance, maxY, minY;
 	public static DimensionConfig dims;
+	
+	public static Item archeologist_hat;
 
 	@Override
 	public void setupConfig() {
@@ -32,6 +34,8 @@ public class Archeologist extends Feature {
 
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
+		archeologist_hat = new ItemArcheologistHat();
+		
 		String archeologistName = "quark:archeologist";
 		EntityRegistry.registerModEntity(new ResourceLocation(archeologistName), EntityArcheologist.class, archeologistName, LibEntityIDs.ARCHEOLOGIST, Quark.instance, 80, 3, true, 0xb5966e, 0xb37b62);
 

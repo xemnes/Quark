@@ -8,6 +8,8 @@ import net.minecraft.client.renderer.entity.layers.LayerCustomHead;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
+import vazkii.quark.world.client.layer.LayerArcheologistHat;
+import vazkii.quark.world.client.model.ModelArcheologistHat;
 import vazkii.quark.world.entity.EntityArcheologist;
 
 public class RenderArcheologist extends RenderLiving<EntityArcheologist> {
@@ -18,7 +20,7 @@ public class RenderArcheologist extends RenderLiving<EntityArcheologist> {
 	
 	public RenderArcheologist(RenderManager rendermanagerIn) {
 		super(rendermanagerIn, new ModelVillager(0.0F), 0.5F);
-        addLayer(new LayerCustomHead(getMainModel().villagerHead));
+		addLayer(new LayerArcheologistHat(this));
 	}
 
 	@Override
