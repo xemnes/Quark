@@ -119,6 +119,7 @@
 								<li>ZeroLevels for the old Iron Plate texture.</li>
 								<li>/u/CopherSans for the improved bow animation.</li>
 								<li>/u/darwinpatrick for the Soul Sandstone textures.</li>
+								<li>/u/Evtema3 for the Elder Prismarine and Elder Sea Lantern textures.</li>
 								<li>/u/FelitonC and /u/origamidragon412 for the banner textures.</li>
 								<li>/u/kopasz7 for the Midori block textures.</li>
 								<li>/u/Martwaza for the trapdoor textures.</li>
