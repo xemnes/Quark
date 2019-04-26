@@ -34,7 +34,8 @@ public class EntityArcheologist extends EntityLiving implements IMerchant {
 		super(worldIn);
 		setSize(0.6F, 1.95F);
 		
-		setItemStackToSlot(EntityEquipmentSlot.HEAD, new ItemStack(Archeologist.archeologist_hat));
+		if(Archeologist.enableHat && Archeologist.dropHat)
+			setItemStackToSlot(EntityEquipmentSlot.HEAD, new ItemStack(Archeologist.archeologist_hat));
 	}
 	
 	@Override
@@ -63,7 +64,8 @@ public class EntityArcheologist extends EntityLiving implements IMerchant {
         	else buyingList.add(new MerchantRecipe(new ItemStack(Items.EMERALD, 6 + rand.nextInt(4)), new ItemStack(Items.IRON_SHOVEL, 1)));
         }
         
-		buyingList.add(new MerchantRecipe(new ItemStack(Items.EMERALD, 6 + rand.nextInt(4)), ItemStack.EMPTY, new ItemStack(Archeologist.archeologist_hat, 1), 0, 1));
+		if(Archeologist.enableHat && Archeologist.sellHat)
+			buyingList.add(new MerchantRecipe(new ItemStack(Items.EMERALD, 6 + rand.nextInt(4)), ItemStack.EMPTY, new ItemStack(Archeologist.archeologist_hat, 1), 0, 1));
 	}
 
 
