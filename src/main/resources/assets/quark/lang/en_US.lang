@@ -652,6 +652,7 @@ entity.quark:pirate.name=Pirate
 entity.quark:wraith.name=Wraith
 entity.quark:chest_passenger.name=Boat Chest
 entity.quark:totem_of_holding.name=Totem of Holding
+entity.quark:archeologist.name=Archeologist
 
 # POTION NAMES
 quark.potion.curse.name=Curse

@@ -13,11 +13,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.chunk.IChunkProvider;
+import net.minecraft.world.chunk.Chunk.EnumCreateEntityType;
 import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraft.world.gen.structure.template.PlacementSettings;
 import net.minecraft.world.gen.structure.template.Template;
 import net.minecraftforge.fml.common.IWorldGenerator;
 import vazkii.arl.util.RotationHandler;
+import vazkii.quark.world.entity.EntityArcheologist;
 import vazkii.quark.world.feature.Archeologist;
 import vazkii.quark.world.feature.PirateShips;
 
@@ -73,7 +75,12 @@ public class ArcheologistHouseGenerator implements IWorldGenerator {
 		for(Entry<BlockPos, String> entry : dataBlocks.entrySet()) {
 			String s = entry.getValue();
 			if(s.equals("villager")) {
-				// TODO
+				BlockPos villagerPos = entry.getKey();
+				world.setBlockToAir(villagerPos);
+				
+				EntityArcheologist e = new EntityArcheologist(world);
+				e.setPosition(villagerPos.getX(), villagerPos.getY(), villagerPos.getZ());
+				world.spawnEntity(e);
 			}
 		}
 	}
