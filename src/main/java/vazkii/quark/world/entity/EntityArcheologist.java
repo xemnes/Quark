@@ -1,37 +1,17 @@
 package vazkii.quark.world.entity;
 
-import net.minecraft.advancements.CriteriaTriggers;
+import java.util.Random;
+
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.IMerchant;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAvoidEntity;
-import net.minecraft.entity.ai.EntityAIFollowGolem;
-import net.minecraft.entity.ai.EntityAILookAtTradePlayer;
-import net.minecraft.entity.ai.EntityAIMoveIndoors;
-import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
-import net.minecraft.entity.ai.EntityAIOpenDoor;
-import net.minecraft.entity.ai.EntityAIRestrictOpenDoor;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAITradePlayer;
-import net.minecraft.entity.ai.EntityAIVillagerInteract;
-import net.minecraft.entity.ai.EntityAIVillagerMate;
-import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.ai.EntityAIWatchClosest2;
-import net.minecraft.entity.monster.EntityEvoker;
-import net.minecraft.entity.monster.EntityVex;
-import net.minecraft.entity.monster.EntityVindicator;
-import net.minecraft.entity.monster.EntityZombie;
-import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
@@ -65,11 +45,25 @@ public class EntityArcheologist extends EntityLiving implements IMerchant {
 	private void populateBuyingList() {
         if(buyingList == null)
             buyingList = new MerchantRecipeList();
-		
-		// TODO randomize these a bit
-		buyingList.add(new MerchantRecipe(new ItemStack(Items.EMERALD, 3), new ItemStack(Items.BONE, 4)));
-		buyingList.add(new MerchantRecipe(new ItemStack(Items.BONE, 12), new ItemStack(Items.EMERALD, 1)));
-		buyingList.add(new MerchantRecipe(new ItemStack(Items.EMERALD, 8), new ItemStack(Archeologist.archeologist_hat, 1)));
+
+        Random r = world.rand;
+        
+        buyingList.add(new MerchantRecipe(new ItemStack(Items.EMERALD, 2 + rand.nextInt(3)), new ItemStack(Items.BONE, 3 + rand.nextInt(3))));
+        if(r.nextBoolean())
+        	buyingList.add(new MerchantRecipe(new ItemStack(Items.BONE, 10 + rand.nextInt(5)), new ItemStack(Items.EMERALD, 1)));
+        else buyingList.add(new MerchantRecipe(new ItemStack(Items.GUNPOWDER, 7 + rand.nextInt(10)), new ItemStack(Items.EMERALD, 1)));
+        
+        if(r.nextBoolean())
+        	buyingList.add(new MerchantRecipe(new ItemStack(Items.COAL, 16 + rand.nextInt(10)), new ItemStack(Items.EMERALD, 1)));
+        if(r.nextBoolean())
+        	buyingList.add(new MerchantRecipe(new ItemStack(Items.EMERALD, 12 + rand.nextInt(10)), new ItemStack(Items.DIAMOND, 1)));
+        if(r.nextBoolean()) {
+        	if(r.nextBoolean())
+            	buyingList.add(new MerchantRecipe(new ItemStack(Items.EMERALD, 8 + rand.nextInt(5)), new ItemStack(Items.IRON_PICKAXE, 1)));
+        	else buyingList.add(new MerchantRecipe(new ItemStack(Items.EMERALD, 6 + rand.nextInt(4)), new ItemStack(Items.IRON_SHOVEL, 1)));
+        }
+        
+		buyingList.add(new MerchantRecipe(new ItemStack(Items.EMERALD, 6 + rand.nextInt(4)), ItemStack.EMPTY, new ItemStack(Archeologist.archeologist_hat, 1), 0, 1));
 	}
 
 
@@ -218,7 +212,7 @@ public class EntityArcheologist extends EntityLiving implements IMerchant {
 	
 	@Override
 	protected float getSoundVolume() {
-		return 10F;
+		return 5F;
 	}
 
 }
