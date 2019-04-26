@@ -293,6 +293,13 @@
 				"description":"Crafting a 3x3 of any sort of the world stone types will make Pavement. This block is inspired by the Portuguese sidewalks, and is awesome for that very purpose.<br><br>For extra fun, these are designed to look amazing with the Chisels & Bits mod, so go ahead and make some crazy patterns.",
 				"image":"pavement.jpg",
 				"introduced":12
+			},
+			{
+				"name":"Turf",
+				"classname":"Turf",
+				"description":"Turf Blocks can be crafted using a few bits of Tall Grass.<br><br>These blocks have the grass texture and coloring on all sides, are available in stair and slab variants, and do not decay when a block is on top.",
+				"image":"turf.jpg",
+				"introduced":12
 			}
 		]
 	},
@@ -1007,6 +1014,20 @@
 				"description":"Speleothems (commonly known as Stalactites and Salagmites) will generate in caves and the Nether, in all stone type variants. These can be harvested only with Silk Touch (or crafted, if you want), and can grow up to 3 blocks high.<br><br>If you break the supporting blocks, the rest of the structure falls apart, which is actually really satisfying to do.",
 				"image":"speleothems.jpg",
 				"introduced":12
+			},
+			{
+				"name": "Cave Roots",
+				"classname":"CaveRoots",
+				"description":"Cave Roots will now spawn on the walls of caves. These blocks look like dried vines, but you can't climb them.<br><br>Breaking the roots has a chance to drop a Cave Root item, which you can eat, but takes longer to. There's also roots with flowers on them, which will drop Sprout items, that can be turned into Dyes. You can harvest the root blocks with Shears.<br><br>Roots will grow downwards, and potentially create more Sprouts, if left in an area with light level dark enough to spawn mobs.",
+				"image":"cave-roots.jpg",
+				"introduced":12
+			},
+			{
+				"name": "Archaeologist",
+				"classname":"Archaeologist",
+				"description":"Archaeologist Villagers will rarely install themselves in the walls of caves. You'll know you're close to one when you start hearing the classic \"Hmmmm\" sound effect.<br><br>These villagers trade in bones and other items they use in their expeditions. Additionally, you can buy their hat!<br><br>Wearing an Archaeologist Hat has a chance for any ores you mine that can be affected by fortune to drop one additional item, so put the hat on before mining those diamonds!",
+				"image":"archaeologist.jpg",
+				"introduced":12
 			}
 		]
 	},
@@ -1140,6 +1161,20 @@
 				"classname":"ItemsFlashBeforeExpiring",
 				"description":"10 seconds before an item would despawn, it starts flashing in and out.<br><br><i>I can't really show this in a static image so just take my word for it.</i>",
 				"image":"items-flashing.jpg",
+				"introduced":12
+			},
+			{
+				"name":"Enchanted Book Icons",
+				"classname":"EnchantedBooksShowItems",
+				"description":"Enchanted Books will now show in their tooltip small versions of the items that can be enchanted with the enchantments they contain.",
+				"image":"enchanted-book-icons.jpg",
+				"introduced":12
+			},
+			{
+				"name":"Slot Transfer Highlight",
+				"classname":"ShowInvalidSlots",
+				"description":"When looking at an item in your inventory, or holding the item in your cursor, inventory slots in which the item can not go into will be highlighted red.",
+				"image":"highlight-inventory-slots.jpg",
 				"introduced":12
 			}
 		]
