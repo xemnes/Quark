@@ -19,6 +19,8 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.event.RenderTooltipEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.base.module.Feature;
 
 public class EnchantedBooksShowItems extends Feature {
@@ -39,8 +41,9 @@ public class EnchantedBooksShowItems extends Feature {
 			testItems.add(new ItemStack(item));
 		}
 	}
-	
+
 	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
 	public void makeTooltip(ItemTooltipEvent event) {
 		if(Minecraft.getMinecraft().player == null)
 			return;
@@ -74,6 +77,7 @@ public class EnchantedBooksShowItems extends Feature {
 	}
 
 	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
 	public void renderTooltip(RenderTooltipEvent.PostText event) {
 		ItemStack stack = event.getStack();
 		
