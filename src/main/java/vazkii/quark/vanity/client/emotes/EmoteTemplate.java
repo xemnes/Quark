@@ -1,23 +1,19 @@
 package vazkii.quark.vanity.client.emotes;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Stack;
-
 import net.minecraft.client.model.ModelBiped;
 import net.minecraftforge.fml.common.FMLLog;
 import vazkii.aurelienribon.tweenengine.Timeline;
 import vazkii.aurelienribon.tweenengine.Tween;
 import vazkii.aurelienribon.tweenengine.TweenEquation;
 import vazkii.aurelienribon.tweenengine.TweenEquations;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.*;
 
 public class EmoteTemplate {
 
@@ -27,18 +23,18 @@ public class EmoteTemplate {
 	private static final Map<String, TweenEquation> equations = new HashMap<>();
 
 	static {
-		functions.put("name", EmoteTemplate::name);
-		functions.put("use", EmoteTemplate::use);
-		functions.put("unit", EmoteTemplate::unit);
-		functions.put("animation", EmoteTemplate::animation);
-		functions.put("section", EmoteTemplate::section);
-		functions.put("end", EmoteTemplate::end);
+		functions.put("name", (em, model, timeline, tokens) -> name(em, timeline, tokens));
+		functions.put("use", (em, model, timeline, tokens) -> use(em, timeline, tokens));
+		functions.put("unit", (em4, model4, timeline4, tokens4) -> unit(em4, timeline4, tokens4));
+		functions.put("animation", (em3, model3, timeline3, tokens3) -> animation(timeline3, tokens3));
+		functions.put("section", (em3, model3, timeline3, tokens3) -> section(em3, timeline3, tokens3));
+		functions.put("end", (em3, model3, timeline3, tokens3) -> end(em3, timeline3, tokens3));
 		functions.put("move", EmoteTemplate::move);
 		functions.put("reset", EmoteTemplate::reset);
-		functions.put("pause", EmoteTemplate::pause);
-		functions.put("yoyo", EmoteTemplate::yoyo);
-		functions.put("repeat", EmoteTemplate::repeat);
-		functions.put("tier", EmoteTemplate::tier);
+		functions.put("pause", (em2, model2, timeline2, tokens2) -> pause(em2, timeline2, tokens2));
+		functions.put("yoyo", (em1, model1, timeline1, tokens1) -> yoyo(em1, timeline1, tokens1));
+		functions.put("repeat", (em, model, timeline, tokens) -> repeat(em, timeline, tokens));
+		functions.put("tier", (em, model, timeline, tokens) -> tier(em, timeline, tokens));
 
 		Class<?> clazz = ModelAccessor.class;
 		Field[] fields = clazz.getDeclaredFields();
@@ -100,7 +96,7 @@ public class EmoteTemplate {
 			return readAndMakeTimeline(model);
 		else {
 			Timeline timeline = null;
-			timelineStack = new Stack();
+			timelineStack = new Stack<>();
 
 			int i = 0;
 			try {
@@ -121,7 +117,7 @@ public class EmoteTemplate {
 	public Timeline readAndMakeTimeline(ModelBiped model) {
 		Timeline timeline = null;
 		usedParts = new ArrayList<>();
-		timelineStack = new Stack();
+		timelineStack = new Stack<>();
 		int lines = 0;
 		
 		BufferedReader reader = null;
@@ -193,12 +189,12 @@ public class EmoteTemplate {
 	
 	void setName(String[] tokens) { }
 	
-	private static Timeline name(EmoteTemplate em, ModelBiped model, Timeline timeline, String[] tokens) throws IllegalArgumentException {
+	private static Timeline name(EmoteTemplate em, Timeline timeline, String[] tokens) throws IllegalArgumentException {
 		em.setName(tokens);
 		return timeline;
 	}
 
-	private static Timeline use(EmoteTemplate em, ModelBiped model, Timeline timeline, String[] tokens) throws IllegalArgumentException {
+	private static Timeline use(EmoteTemplate em, Timeline timeline, String[] tokens) throws IllegalArgumentException {
 		if(em.compiledOnce)
 			return timeline;
 		
@@ -213,19 +209,19 @@ public class EmoteTemplate {
 		return timeline;
 	}
 
-	private static Timeline unit(EmoteTemplate em, ModelBiped model, Timeline timeline, String[] tokens) throws IllegalArgumentException {
+	private static Timeline unit(EmoteTemplate em, Timeline timeline, String[] tokens) throws IllegalArgumentException {
 		assertParamSize(tokens, 2);
 		em.speed = Float.parseFloat(tokens[1]);
 		return timeline;
 	}
 
-	private static Timeline tier(EmoteTemplate em, ModelBiped model, Timeline timeline, String[] tokens) throws IllegalArgumentException {
+	private static Timeline tier(EmoteTemplate em, Timeline timeline, String[] tokens) throws IllegalArgumentException {
 		assertParamSize(tokens, 2);
 		em.tier = Integer.parseInt(tokens[1]);
 		return timeline;
 	}
 	
-	private static Timeline animation(EmoteTemplate em, ModelBiped model, Timeline timeline, String[] tokens) throws IllegalArgumentException {
+	private static Timeline animation(Timeline timeline, String[] tokens) throws IllegalArgumentException {
 		if(timeline != null)
 			throw new IllegalArgumentException("Illegal use of function animation, animation already started");
 
@@ -241,7 +237,7 @@ public class EmoteTemplate {
 		}
 	}
 
-	private static Timeline section(EmoteTemplate em, ModelBiped model, Timeline timeline, String[] tokens) throws IllegalArgumentException {
+	private static Timeline section(EmoteTemplate em, Timeline timeline, String[] tokens) throws IllegalArgumentException {
 		assertParamSize(tokens, 2);
 
 		String type = tokens[1];
@@ -260,7 +256,7 @@ public class EmoteTemplate {
 		return newTimeline;
 	}
 
-	private static Timeline end(EmoteTemplate em, ModelBiped model, Timeline timeline, String[] tokens) throws IllegalArgumentException {
+	private static Timeline end(EmoteTemplate em, Timeline timeline, String[] tokens) throws IllegalArgumentException {
 		assertParamSize(tokens, 1);
 
 		if(em.timelineStack.isEmpty()) {
@@ -321,8 +317,7 @@ public class EmoteTemplate {
 					assertParamSize("ease", tokens, 1, index);
 					String easeType = tokens[index++];
 					if(equations.containsKey(easeType)) {
-						if(valid)
-							tween = tween.ease(equations.get(easeType));
+						if(valid) tween.ease(equations.get(easeType));
 					} else throw new IllegalArgumentException("Easing type " + easeType + " doesn't exist");
 					break;
 				default:
@@ -373,20 +368,20 @@ public class EmoteTemplate {
 		return timeline;
 	}
 
-	private static Timeline pause(EmoteTemplate em, ModelBiped model, Timeline timeline, String[] tokens) throws IllegalArgumentException {
+	private static Timeline pause(EmoteTemplate em, Timeline timeline, String[] tokens) throws IllegalArgumentException {
 		assertParamSize(tokens, 2);
 		float ms = Float.parseFloat(tokens[1]) * em.speed;
 		return timeline.pushPause(ms);
 	}
 
-	private static Timeline yoyo(EmoteTemplate em, ModelBiped model, Timeline timeline, String[] tokens) throws IllegalArgumentException {
+	private static Timeline yoyo(EmoteTemplate em, Timeline timeline, String[] tokens) throws IllegalArgumentException {
 		assertParamSize(tokens, 3);
 		int times = Integer.parseInt(tokens[1]);
 		float delay = Float.parseFloat(tokens[2]) * em.speed;
 		return timeline.repeatYoyo(times, delay);
 	}
 
-	private static Timeline repeat(EmoteTemplate em, ModelBiped model, Timeline timeline, String[] tokens) throws IllegalArgumentException {
+	private static Timeline repeat(EmoteTemplate em, Timeline timeline, String[] tokens) throws IllegalArgumentException {
 		assertParamSize(tokens, 3);
 		int times = Integer.parseInt(tokens[1]);
 		float delay = Float.parseFloat(tokens[2]) * em.speed;

@@ -1,7 +1,5 @@
 package vazkii.quark.world.item;
 
-import javax.annotation.Nonnull;
-
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -14,6 +12,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.arl.item.ItemModArmor;
 import vazkii.quark.base.item.IQuarkItem;
 import vazkii.quark.world.client.model.ModelArcheologistHat;
+
+import javax.annotation.Nonnull;
 
 public class ItemArcheologistHat extends ItemModArmor implements IQuarkItem {
 
@@ -48,6 +48,7 @@ public class ItemArcheologistHat extends ItemModArmor implements IQuarkItem {
 
 	@Nonnull
 	@Override
+	@SuppressWarnings("deprecation")
 	public EnumRarity getRarity(ItemStack stack) {
 		return EnumRarity.RARE;
 	}

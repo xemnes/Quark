@@ -1,9 +1,5 @@
 package vazkii.quark.client.feature;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.enchantment.Enchantment;
@@ -23,10 +19,17 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.base.module.Feature;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class EnchantedBooksShowItems extends Feature {
 	
 	private static List<ItemStack> testItems;
-	
+
+	private static final Pattern RL_MATCHER = Pattern.compile("^((?:\\w+:)?\\w+)(@\\d+)?$");
+
 	@Override
 	public void setupConfig() {
 		String[] testItemsArr = loadPropStringList("Items to Test", "", new String[] {
@@ -34,11 +37,17 @@ public class EnchantedBooksShowItems extends Feature {
 				"minecraft:diamond_helmet", "minecraft:diamond_chestplate", "minecraft:diamond_leggings", "minecraft:diamond_boots",
 				"minecraft:shears", "minecraft:bow", "minecraft:fishing_rod", "minecraft:elytra"
 		});
-		
-		testItems = new LinkedList();
+
+		testItems = new ArrayList<>();
 		for(String s : testItemsArr) {
-			Item item = Item.REGISTRY.getObject(new ResourceLocation(s));
-			testItems.add(new ItemStack(item));
+
+			Matcher match = RL_MATCHER.matcher(s);
+			if (match.matches()) {
+				int meta = match.group(2).isEmpty() ? 0 : Integer.parseInt(match.group(2));
+				Item item = Item.REGISTRY.getObject(new ResourceLocation(match.group(1)));
+				if (item != null)
+					testItems.add(new ItemStack(item, 1, meta));
+			}
 		}
 	}
 
@@ -84,7 +93,6 @@ public class EnchantedBooksShowItems extends Feature {
 		if(stack.getItem() == Items.ENCHANTED_BOOK) {
 			Minecraft mc = Minecraft.getMinecraft();
 			List<String> tooltip = event.getLines();
-			int tooltipIndex = 0;
 
 			GlStateManager.pushMatrix();
 			GlStateManager.translate(event.getX(), event.getY() + 12, 0);
@@ -93,9 +101,9 @@ public class EnchantedBooksShowItems extends Feature {
 			List<EnchantmentData> enchants = getEnchantedBookEnchantments(stack);
 			for(EnchantmentData ed : enchants) {
 				String match = TextFormatting.getTextWithoutFormattingCodes(ed.enchantment.getTranslatedName(ed.enchantmentLevel));
-				for(; tooltipIndex < tooltip.size(); tooltipIndex++) {
+				for(int tooltipIndex = 0; tooltipIndex < tooltip.size(); tooltipIndex++) {
 					String line = TextFormatting.getTextWithoutFormattingCodes(tooltip.get(tooltipIndex));
-					if(line.equals(match)) {
+					if(line != null && line.equals(match)) {
 						int drawn = 0;
 						
 						List<ItemStack> items = getItemsForEnchantment(ed.enchantment);
@@ -119,7 +127,7 @@ public class EnchantedBooksShowItems extends Feature {
 	}
 	
 	public static List<ItemStack> getItemsForEnchantment(Enchantment e) {
-		List<ItemStack> list = new LinkedList();
+		List<ItemStack> list = new ArrayList<>();
 		for(ItemStack stack : testItems)
 			if(e.canApply(stack))
 				list.add(stack);
@@ -129,15 +137,16 @@ public class EnchantedBooksShowItems extends Feature {
 	
 	public static List<EnchantmentData> getEnchantedBookEnchantments(ItemStack stack) {
 		NBTTagList nbttaglist = ItemEnchantedBook.getEnchantments(stack);
-		List retList = new ArrayList(nbttaglist.tagCount() + 1);
+		List<EnchantmentData> retList = new ArrayList<>(nbttaglist.tagCount() + 1);
 		
         for(int i = 0; i < nbttaglist.tagCount(); i++) {
             NBTTagCompound nbttagcompound = nbttaglist.getCompoundTagAt(i);
             int j = nbttagcompound.getShort("id");
             Enchantment enchantment = Enchantment.getEnchantmentByID(j);
             short level = nbttagcompound.getShort("lvl");
-            
-            retList.add(new EnchantmentData(enchantment, level));
+
+            if (enchantment != null)
+            	retList.add(new EnchantmentData(enchantment, level));
         }
         
         return retList;
