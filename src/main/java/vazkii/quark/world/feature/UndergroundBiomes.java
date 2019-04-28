@@ -14,6 +14,7 @@ import net.minecraftforge.event.terraingen.OreGenEvent;
 import net.minecraftforge.event.terraingen.OreGenEvent.GenerateMinable.EventType;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import vazkii.arl.block.BlockMetaVariants;
 import vazkii.arl.block.BlockMod;
 import vazkii.arl.block.BlockModSlab;
 import vazkii.arl.block.BlockModStairs;
@@ -46,7 +47,7 @@ public class UndergroundBiomes extends Feature {
 	public static BlockMod glowcelium;
 	public static Block glowshroom;
 	public static Block glowshroom_block;
-	public static Block elder_prismarine;
+	public static BlockMetaVariants<BlockElderPrismarine.Variants> elder_prismarine;
 	public static Block elder_sea_lantern;
 	
 	public static int glowshroomGrowthRate;
