@@ -27,6 +27,10 @@ public class EntityGlassItemFrame extends EntityFlatItemFrame {
 	@Nonnull
 	@Override
 	public ItemStack getPickedResult(RayTraceResult target) {
-		return new ItemStack(GlassItemFrame.glass_item_frame, 1, 0);
+		ItemStack held = getDisplayedItem();
+		if (held.isEmpty())
+			return new ItemStack(GlassItemFrame.glass_item_frame);
+		else
+			return held.copy();
 	}
 }

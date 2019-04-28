@@ -52,11 +52,15 @@ public class EntityColoredItemFrame extends EntityFlatItemFrame {
 	protected void dropFrame() {
 		entityDropItem(new ItemStack(ColoredItemFrames.colored_item_frame, 1, getColor()), 0.0F);
 	}
-	
+
 	@Nonnull
 	@Override
 	public ItemStack getPickedResult(RayTraceResult target) {
-		return new ItemStack(ColoredItemFrames.colored_item_frame, 1, getColor());
+		ItemStack held = getDisplayedItem();
+		if (held.isEmpty())
+			return new ItemStack(ColoredItemFrames.colored_item_frame, 1, getColor());
+		else
+			return held.copy();
 	}
 
 	@Override
