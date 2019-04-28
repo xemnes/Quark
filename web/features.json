@@ -945,7 +945,7 @@
 			{
 				"name":"Realistic World Type",
 				"classname":"RealisticWorldType",
-				"description":"Alongside Amplified or Large Biomes, \"Realistic\" is a new world type that creates semi-realistic terrain. Expect rolling hills and very tall mountains. The cloud height is incresed to 260 in this world type.<br><br><i>If you want to use this in a server, set the world type to \"quark_realistic\".</i>",
+				"description":"Alongside Amplified or Large Biomes, \"Realistic\" is a new world type that creates semi-realistic terrain. Expect rolling hills and very tall mountains. The cloud height is increased to 260 in this world type.<br><br><i>If you want to use this in a server, set the world type to \"quark_realistic\".</i>",
 				"image":"realistic-world.jpg",
 				"album":"https://www.reddit.com/r/Minecraft/comments/4nfw3t/more_realistic_generation_preset_in_comment/",
 				"introduced":9

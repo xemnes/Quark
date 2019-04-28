@@ -1,8 +1,5 @@
 package vazkii.quark.world.feature;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -28,12 +25,7 @@ import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.GlobalConfig;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.building.feature.VanillaWalls;
-import vazkii.quark.world.block.BlockBiomeCobblestone;
-import vazkii.quark.world.block.BlockElderPrismarine;
-import vazkii.quark.world.block.BlockElderSeaLantern;
-import vazkii.quark.world.block.BlockGlowcelium;
-import vazkii.quark.world.block.BlockGlowshroom;
-import vazkii.quark.world.block.BlockHugeGlowshroom;
+import vazkii.quark.world.block.*;
 import vazkii.quark.world.block.slab.BlockElderPrismarineSlab;
 import vazkii.quark.world.block.slab.BlockFireStoneSlab;
 import vazkii.quark.world.block.slab.BlockIcyStoneSlab;
@@ -41,16 +33,10 @@ import vazkii.quark.world.block.stairs.BlockElderPrismarineStairs;
 import vazkii.quark.world.block.stairs.BlockFireStoneStairs;
 import vazkii.quark.world.block.stairs.BlockIcyStoneStairs;
 import vazkii.quark.world.world.UndergroundBiomeGenerator;
-import vazkii.quark.world.world.underground.UndergroundBiome;
-import vazkii.quark.world.world.underground.UndergroundBiomeGlowshroom;
-import vazkii.quark.world.world.underground.UndergroundBiomeIcy;
-import vazkii.quark.world.world.underground.UndergroundBiomeLava;
-import vazkii.quark.world.world.underground.UndergroundBiomeLush;
-import vazkii.quark.world.world.underground.UndergroundBiomeOvergrown;
-import vazkii.quark.world.world.underground.UndergroundBiomePrismarine;
-import vazkii.quark.world.world.underground.UndergroundBiomeSandstone;
-import vazkii.quark.world.world.underground.UndergroundBiomeSlime;
-import vazkii.quark.world.world.underground.UndergroundBiomeSpiderNest;
+import vazkii.quark.world.world.underground.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class UndergroundBiomes extends Feature {
 
@@ -101,6 +87,7 @@ public class UndergroundBiomes extends Feature {
 			((UndergroundBiomePrismarine) prismarineBiomeGen.info.biome).update();
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
 		if(firestoneEnabled || icystoneEnabled)

@@ -1,9 +1,6 @@
 package vazkii.quark.misc.block;
 
-import java.util.Random;
-
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.renderer.block.statemap.IStateMapper;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -18,6 +15,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.base.block.BlockQuarkDust;
 
 import javax.annotation.Nonnull;
+import java.util.Random;
 
 public class BlockGlowstoneDust extends BlockQuarkDust {
 

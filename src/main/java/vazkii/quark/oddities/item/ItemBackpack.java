@@ -140,6 +140,7 @@ public class ItemBackpack extends ItemModArmor implements IQuarkItem, IItemColor
 	
 	@Nonnull
 	@Override
+	@SuppressWarnings("deprecation")
 	public EnumRarity getRarity(ItemStack stack) {
 		return EnumRarity.COMMON;
 	}

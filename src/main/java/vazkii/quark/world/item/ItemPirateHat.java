@@ -56,6 +56,7 @@ public class ItemPirateHat extends ItemModArmor implements IQuarkItem {
 
 	@Nonnull
 	@Override
+	@SuppressWarnings("deprecation")
 	public EnumRarity getRarity(ItemStack stack) {
 		return EnumRarity.RARE;
 	}

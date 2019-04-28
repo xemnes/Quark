@@ -1,27 +1,24 @@
 package vazkii.quark.world.world;
 
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Random;
-
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.chunk.IChunkProvider;
-import net.minecraft.world.chunk.Chunk.EnumCreateEntityType;
 import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraft.world.gen.structure.template.PlacementSettings;
 import net.minecraft.world.gen.structure.template.Template;
 import net.minecraftforge.fml.common.IWorldGenerator;
-import vazkii.arl.util.RotationHandler;
 import vazkii.quark.world.entity.EntityArcheologist;
 import vazkii.quark.world.feature.Archeologist;
-import vazkii.quark.world.feature.PirateShips;
+
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Random;
 
 public class ArcheologistHouseGenerator implements IWorldGenerator {
 
@@ -54,7 +51,7 @@ public class ArcheologistHouseGenerator implements IWorldGenerator {
 			
 			IBlockState placeState = world.getBlockState(placePos);
 			if(placeState.getMaterial() == Material.ROCK && placeState.isFullBlock()) {
-				generateHouse((WorldServer) world, random, placePos, facing);
+				generateHouse((WorldServer) world, placePos, facing);
 				return true;
 			}
 		}
@@ -62,11 +59,11 @@ public class ArcheologistHouseGenerator implements IWorldGenerator {
 		return false;
 	}
 
-	private void generateHouse(WorldServer world, Random rand, BlockPos pos, EnumFacing face) {
+	private void generateHouse(WorldServer world, BlockPos pos, EnumFacing face) {
 		MinecraftServer server = world.getMinecraftServer();
 		Template template = world.getStructureTemplateManager().getTemplate(server, Archeologist.HOUSE_STRUCTURE);
 		PlacementSettings settings = new PlacementSettings();
-		settings.setRotation(RotationHandler.getRotationFromFacing(face));
+		settings.setRotation(Rotation.values()[face.getHorizontalIndex()]);
 		
 		BlockPos placePos = pos.offset(face, 7);
 		template.addBlocksToWorld(world, placePos, settings);
