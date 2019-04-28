@@ -70,6 +70,11 @@ public class MapPinningRecipe extends ModRecipe {
 		return true;
 	}
 
+	@Override
+	public boolean isDynamic() {
+		return true;
+	}
+
 	@Nonnull
 	@Override
 	public ItemStack getRecipeOutput() {

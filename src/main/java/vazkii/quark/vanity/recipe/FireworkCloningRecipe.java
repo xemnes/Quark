@@ -20,7 +20,6 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import vazkii.arl.recipe.ModRecipe;
-import vazkii.quark.misc.feature.EnderdragonScales;
 
 import javax.annotation.Nonnull;
 
@@ -92,6 +91,11 @@ public class FireworkCloningRecipe extends ModRecipe {
 	@Override
 	public ItemStack getRecipeOutput() {
 		return new ItemStack(Items.FIREWORKS);
+	}
+
+	@Override
+	public boolean isDynamic() {
+		return true;
 	}
 
 	@Nonnull

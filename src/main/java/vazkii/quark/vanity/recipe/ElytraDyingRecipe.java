@@ -19,7 +19,6 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.oredict.OreDictionary;
 import vazkii.arl.recipe.ModRecipe;
 import vazkii.arl.util.ItemNBTHelper;
@@ -87,10 +86,10 @@ public class ElytraDyingRecipe extends ModRecipe {
 			return stack.getItemDamage();
 		
 		int[] ids = OreDictionary.getOreIDs(stack);
-		for(int i = 0; i < ids.length; i++) {
-			String tag = OreDictionary.getOreName(ids[i]);
+		for (int id : ids) {
+			String tag = OreDictionary.getOreName(id);
 			int dye = LibMisc.OREDICT_DYES.indexOf(tag);
-			if(dye > -1)
+			if (dye > -1)
 				return dye;
 		}
 		
@@ -103,10 +102,9 @@ public class ElytraDyingRecipe extends ModRecipe {
 		return new ItemStack(Items.ELYTRA);
 	}
 
-	@Nonnull
 	@Override
-	public NonNullList<ItemStack> getRemainingItems(InventoryCrafting inv) {
-		return ForgeHooks.defaultRecipeGetRemainingItems(inv);
+	public boolean isDynamic() {
+		return true;
 	}
 
 	@Override

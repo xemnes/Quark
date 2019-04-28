@@ -43,7 +43,8 @@ public class EnchantedBooksShowItems extends Feature {
 
 			Matcher match = RL_MATCHER.matcher(s);
 			if (match.matches()) {
-				int meta = match.group(2).isEmpty() ? 0 : Integer.parseInt(match.group(2));
+				String metaGroup = match.group(2);
+				int meta = metaGroup == null || metaGroup.isEmpty() ? 0 : Integer.parseInt(metaGroup);
 				Item item = Item.REGISTRY.getObject(new ResourceLocation(match.group(1)));
 				if (item != null)
 					testItems.add(new ItemStack(item, 1, meta));

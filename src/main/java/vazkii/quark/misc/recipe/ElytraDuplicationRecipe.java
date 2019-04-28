@@ -76,6 +76,11 @@ public class ElytraDuplicationRecipe extends ModRecipe {
 	}
 
 	@Override
+	public boolean isDynamic() {
+		return true;
+	}
+
+	@Override
 	public boolean canFit(int x, int y) {
 		return true;
 	}
