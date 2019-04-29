@@ -18,7 +18,6 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -39,7 +38,6 @@ import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
 import java.util.function.Supplier;
 
 public final class DropoffHandler {
@@ -110,11 +108,7 @@ public final class DropoffHandler {
 
 	public static boolean isValidChest(EntityPlayer player, TileEntity te) {
 		boolean accept = accepts(te, player);
-		if(!accept) {
-			ResourceLocation blockType = te.getBlockType().getRegistryName();
-			String regName = Objects.toString(blockType);
-			accept = ChestButtons.dropoffTiles.contains(regName);
-		}
+		if(!accept) accept = ChestButtons.overriddenDropoff(te);
 
 		if(te instanceof IInventory)
 			accept = accept && ((IInventory) te).isUsableByPlayer(player);

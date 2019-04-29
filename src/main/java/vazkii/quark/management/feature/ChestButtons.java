@@ -23,6 +23,8 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ContainerChest;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -44,8 +46,10 @@ import vazkii.quark.management.client.gui.GuiButtonChest.Action;
 import vazkii.quark.management.client.gui.GuiButtonShulker;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class ChestButtons extends Feature {
 
@@ -53,9 +57,12 @@ public class ChestButtons extends Feature {
 	
 	boolean debugClassnames;
 	List<String> classnames;
-	public static List<String> dropoffTiles;
-	
-	static List<GuiButtonChest> chestButtons = new ArrayList<>();
+	private static List<ResourceLocation> dropoffTiles;
+	private static boolean dropoffAnyChestTile;
+	private static boolean dropoffAnyChestBlock;
+
+	@SideOnly(Side.CLIENT)
+	static List<GuiButtonChest> chestButtons;
 	
 	@Override
 	public void setupConfig() {
@@ -73,7 +80,27 @@ public class ChestButtons extends Feature {
 		String[] dropoffArr = loadPropStringList("Dropoff Enabled Blocks",
 				"Blocks with inventories which do not explicitly accept dropoffs, but should be treated as though they do.",
 				new String[] { "minecraft:chest", "minecraft:trapped_chest" });
-		dropoffTiles = Lists.newArrayList(dropoffArr);
+		dropoffTiles = Arrays.stream(dropoffArr).map(ResourceLocation::new).collect(Collectors.toList());
+
+		dropoffAnyChestTile = loadPropBool("Dropoff to Any Chest Tile",
+				"Allow anything with 'chest' in its TileEntity identifier to be used as a dropoff inventory?", true);
+		dropoffAnyChestBlock = loadPropBool("Dropoff to Any Chest Block",
+				"Allow anything with 'chest' in its block identifier to be used as a dropoff inventory?", true);
+	}
+
+	public static boolean overriddenDropoff(TileEntity tile) {
+		ResourceLocation blockType = tile.getBlockType().getRegistryName();
+		ResourceLocation tileType = TileEntity.getKey(tile.getClass());
+
+		if (blockType != null) {
+			if (dropoffTiles.contains(blockType))
+				return true;
+
+			if (dropoffAnyChestBlock && blockType.getPath().contains("chest"))
+				return true;
+		}
+
+		return tileType != null && dropoffAnyChestTile && tileType.getPath().contains("chest");
 	}
 	
 	private ButtonInfo loadButtonInfo(String name, String comment, int xShift, int yShift) {
@@ -89,6 +116,7 @@ public class ChestButtons extends Feature {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void preInitClient(FMLPreInitializationEvent event) {
+		chestButtons = new ArrayList<>();
 		ModKeybinds.initChestKeys();
 	}
 	
