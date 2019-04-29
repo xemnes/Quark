@@ -153,7 +153,7 @@ public class EnchantmentMatrix {
 			p.x = x;
 			p.y = y;
 			
-			benchedPieces.remove(id);
+			benchedPieces.remove((Integer) id);
 			placedPieces.add(id);
 			
 			computeMatrix();
@@ -166,7 +166,7 @@ public class EnchantmentMatrix {
 	public boolean remove(int id) {
 		Piece p = pieces.get(id);
 		if(p != null && placedPieces.contains(id)) {
-			placedPieces.remove(id);
+			placedPieces.remove((Integer) id);
 			benchedPieces.add(id);
 			
 			computeMatrix();
@@ -206,7 +206,7 @@ public class EnchantmentMatrix {
 				if(hoveredPiece.marked)
 					placedPiece.marked = true;
 				
-				benchedPieces.remove(Integer.valueOf(hover));
+				benchedPieces.remove((Integer) hover);
 				pieces.remove(hover);
 				return true;
 			}

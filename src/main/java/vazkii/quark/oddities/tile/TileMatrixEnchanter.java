@@ -142,11 +142,13 @@ public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 			for(int i : matrix.placedPieces) {
 				Piece p = matrix.pieces.get(i);
 
-				for(Enchantment o : enchantments.keySet())
-					if(o == p.enchant || !p.enchant.isCompatibleWith(o) || !o.isCompatibleWith(p.enchant))
-						return; // Incompatible
+				if (p != null && p.enchant != null) {
+					for (Enchantment o : enchantments.keySet())
+						if (o == p.enchant || !p.enchant.isCompatibleWith(o) || !o.isCompatibleWith(p.enchant))
+							return; // Incompatible
 
-				enchantments.put(p.enchant, p.level);
+					enchantments.put(p.enchant, p.level);
+				}
 			}
 
 			if(book) 
