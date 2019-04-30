@@ -1,13 +1,7 @@
 package vazkii.quark.client.feature;
 
-import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.List;
-import java.util.UUID;
-
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Multimaps;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.passive.EntityCow;
@@ -23,6 +17,11 @@ import vazkii.quark.base.module.Feature;
 import vazkii.quark.client.render.random.RenderChickenRandom;
 import vazkii.quark.client.render.random.RenderCowRandom;
 import vazkii.quark.client.render.random.RenderPigRandom;
+
+import java.util.ArrayList;
+import java.util.EnumMap;
+import java.util.List;
+import java.util.UUID;
 
 public class RandomAnimalTextures extends Feature {
 
@@ -46,7 +45,7 @@ public class RandomAnimalTextures extends Feature {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void preInitClient(FMLPreInitializationEvent event) {
-		textures = Multimaps.newListMultimap(new EnumMap(RandomTextureType.class), () -> new ArrayList<>());
+		textures = Multimaps.newListMultimap(new EnumMap<>(RandomTextureType.class), ArrayList::new);
 		
 		registerTextures(RandomTextureType.COW, COW_COUNT, new ResourceLocation("textures/entity/cow/cow.png"));
 		registerTextures(RandomTextureType.PIG, PIG_COUNT, new ResourceLocation("textures/entity/pig/pig.png"));

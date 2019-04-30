@@ -22,8 +22,8 @@ public class RenderItemFlashing extends RenderEntityItem {
 		super.doRender(entity, x, y, z, entityYaw, partialTicks);
 	}
 	
-	public static IRenderFactory factory() {
-		return manager -> new RenderItemFlashing(manager);
+	public static IRenderFactory<EntityItem> factory() {
+		return RenderItemFlashing::new;
 	}
 
 }

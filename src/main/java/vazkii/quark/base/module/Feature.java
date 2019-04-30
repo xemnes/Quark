@@ -27,11 +27,13 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 import org.apache.commons.lang3.text.WordUtils;
 import vazkii.arl.util.ProxyRegistry;
+import vazkii.quark.api.module.IFeature;
+import vazkii.quark.api.module.IModule;
 import vazkii.quark.base.lib.LibMisc;
 
 import javax.annotation.Nonnull;
 
-public class Feature implements Comparable<Feature> {
+public class Feature implements IFeature, Comparable<Feature> {
 
 	public Module module;
 	
@@ -50,13 +52,13 @@ public class Feature implements Comparable<Feature> {
 	public final void setupConstantConfig() {
 		String[] incompat = getIncompatibleMods();
 		if(incompat != null && incompat.length > 0) {
-			String desc = "This feature disables itself if any of the following mods are loaded: \n";
+			StringBuilder desc = new StringBuilder("This feature disables itself if any of the following mods are loaded: \n");
 			for(String s : incompat)
-				desc += (" - " + s + "\n");
-			desc += "This is done to prevent content overlap.\nYou can turn this on to force the feature to be loaded even if the above mods are also loaded.";
+				desc.append(" - ").append(s).append("\n");
+			desc.append("This is done to prevent content overlap.\nYou can turn this on to force the feature to be loaded even if the above mods are also loaded.");
 				
 			ConfigHelper.needsRestart = true;
-			forceLoad = loadPropBool("Force Enabled", desc, false);
+			forceLoad = loadPropBool("Force Enabled", desc.toString(), false);
 		}
 	}
 	
@@ -182,5 +184,20 @@ public class Feature implements Comparable<Feature> {
 	@Override
 	public int compareTo(@Nonnull Feature o) {
 		return configName.compareTo(o.configName);
+	}
+
+	@Override
+	public IModule getModule() {
+		return module;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	@Override
+	public String getName() {
+		return configName;
 	}
 }

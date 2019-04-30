@@ -16,6 +16,7 @@ import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -26,6 +27,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import vazkii.quark.api.module.ModuleLoadedEvent;
 import vazkii.quark.automation.QuarkAutomation;
 import vazkii.quark.base.handler.RecipeProcessor;
 import vazkii.quark.base.lib.LibMisc;
@@ -89,7 +91,8 @@ public final class ModuleLoader {
 		moduleClasses.forEach(clazz -> {
 			try {
 				Module instance = clazz.newInstance();
-				moduleInstances.put(clazz, instance);
+				if (!MinecraftForge.EVENT_BUS.post(new ModuleLoadedEvent(instance)))
+					moduleInstances.put(clazz, instance);
 			} catch (Exception e) {
 				throw new RuntimeException("Can't initialize module " + clazz, e);
 			}
@@ -147,8 +150,6 @@ public final class ModuleLoader {
 		config.load();
 		
 		loadConfig();
-
-		MinecraftForge.EVENT_BUS.register(EventHandler.class);
 	}
 	
 	public static void loadConfig() {
@@ -162,6 +163,7 @@ public final class ModuleLoader {
 				module.prop = ConfigHelper.lastProp;
 			}
 		});
+
 
 		enabledModules = new ArrayList<>(moduleInstances.values());
 		enabledModules.removeIf(module -> !module.enabled);
@@ -197,6 +199,7 @@ public final class ModuleLoader {
 			moduleClasses.add(clazz);
 	}
 
+	@Mod.EventBusSubscriber(modid = LibMisc.MOD_ID)
 	public static class EventHandler {
 
 		@SubscribeEvent

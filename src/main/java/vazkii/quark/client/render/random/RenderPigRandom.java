@@ -19,8 +19,8 @@ public class RenderPigRandom extends RenderPig {
 		return RandomAnimalTextures.getRandomTexture(entity, RandomTextureType.PIG);
 	}
 	
-	public static IRenderFactory factory() {
-		return manager -> new RenderPigRandom(manager);
+	public static IRenderFactory<EntityPig> factory() {
+		return RenderPigRandom::new;
 	}
 	
 }

@@ -7,7 +7,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import vazkii.quark.client.feature.RandomAnimalTextures;
 import vazkii.quark.client.feature.RandomAnimalTextures.RandomTextureType;
-import vazkii.quark.client.render.RenderCreeperAngry;
 
 public class RenderCowRandom extends RenderCow {
 
@@ -20,8 +19,8 @@ public class RenderCowRandom extends RenderCow {
 		return RandomAnimalTextures.getRandomTexture(entity, RandomTextureType.COW);
 	}
 	
-	public static IRenderFactory factory() {
-		return manager -> new RenderCowRandom(manager);
+	public static IRenderFactory<EntityCow> factory() {
+		return RenderCowRandom::new;
 	}
 
 }

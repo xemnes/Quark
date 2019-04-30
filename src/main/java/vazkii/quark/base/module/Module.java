@@ -22,6 +22,9 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.logging.log4j.LogManager;
+import vazkii.quark.api.module.FeatureEvent;
+import vazkii.quark.api.module.IFeature;
+import vazkii.quark.api.module.IModule;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -30,7 +33,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
-public class Module implements Comparable<Module> {
+public class Module implements IModule, Comparable<Module> {
 
 	public final String name = makeName();
 	public final Map<String, Feature> features = new HashMap<>();
@@ -63,17 +66,19 @@ public class Module implements Comparable<Module> {
 		Class<? extends Feature> clazz = feature.getClass();
 		if(ModuleLoader.featureInstances.containsKey(clazz))
 			throw new IllegalArgumentException("Feature " + clazz + " is already registered!");
-		
-		ModuleLoader.featureInstances.put(clazz, feature);
-		ModuleLoader.featureClassnames.put(clazz.getSimpleName(), feature);
-		features.put(name, feature);
 
-		feature.enabledByDefault = enabledByDefault;
-		feature.prevEnabled = false;
-		
-		feature.module = this;
-		feature.configName = name;
-		feature.configCategory = this.name + "." + name;
+        feature.enabledByDefault = enabledByDefault;
+        feature.prevEnabled = false;
+
+        feature.module = this;
+        feature.configName = name;
+        feature.configCategory = this.name + "." + name;
+
+        if (!MinecraftForge.EVENT_BUS.post(new FeatureEvent.Loaded(feature))) {
+            ModuleLoader.featureInstances.put(clazz, feature);
+            ModuleLoader.featureClassnames.put(clazz.getSimpleName(), feature);
+            features.put(name, feature);
+        }
 	}
 
 	public void setupConfig() {
@@ -110,12 +115,13 @@ public class Module implements Comparable<Module> {
 			
 			if(feature.enabled && !enabledFeatures.contains(feature))
 				enabledFeatures.add(feature);
-			else if(!feature.enabled && enabledFeatures.contains(feature))
+			else if(!feature.enabled)
 				enabledFeatures.remove(feature);
 			
 			feature.setupConfig();
 			
 			if(!feature.enabled && feature.prevEnabled) {
+                MinecraftForge.EVENT_BUS.post(new FeatureEvent.Disabled(feature));
 				if(feature.hasSubscriptions())
 					MinecraftForge.EVENT_BUS.unregister(feature);
 				if(feature.hasTerrainSubscriptions())
@@ -123,15 +129,18 @@ public class Module implements Comparable<Module> {
 				if(feature.hasOreGenSubscriptions())
 					MinecraftForge.ORE_GEN_BUS.unregister(feature);
 				feature.onDisabled();
-			} else if(feature.enabled && (feature.enabledAtLoadtime || !feature.requiresMinecraftRestartToEnable()) && !feature.prevEnabled) {
-				if(feature.hasSubscriptions())
+                MinecraftForge.EVENT_BUS.post(new FeatureEvent.PostDisable(feature));
+            } else if(feature.enabled && (feature.enabledAtLoadtime || !feature.requiresMinecraftRestartToEnable()) && !feature.prevEnabled) {
+                MinecraftForge.EVENT_BUS.post(new FeatureEvent.Enabled(feature));
+                if(feature.hasSubscriptions())
 					MinecraftForge.EVENT_BUS.register(feature);
 				if(feature.hasTerrainSubscriptions())
 					MinecraftForge.TERRAIN_GEN_BUS.register(feature);
 				if(feature.hasOreGenSubscriptions())
 					MinecraftForge.ORE_GEN_BUS.register(feature);
 				feature.onEnabled();
-			}
+				MinecraftForge.EVENT_BUS.post(new FeatureEvent.PostEnable(feature));
+            }
 			
 			feature.prevEnabled = feature.enabled;
 		});
@@ -225,4 +234,23 @@ public class Module implements Comparable<Module> {
 		return name.compareTo(o.name);
 	}
 
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    @Override
+    public Map<String, ? extends IFeature> getFeatures() {
+        return features;
+    }
+
+    @Override
+    public List<? extends IFeature> getEnabledFeatures() {
+        return enabledFeatures;
+    }
 }

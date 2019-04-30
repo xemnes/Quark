@@ -22,8 +22,8 @@ public class RenderChickenRandom extends RenderChicken {
 		return RandomAnimalTextures.getRandomTexture(entity, RandomTextureType.CHICKEN, RandomAnimalTextures.enableChicken);
 	}
 	
-	public static IRenderFactory factory() {
-		return manager -> new RenderChickenRandom(manager);
+	public static IRenderFactory<EntityChicken> factory() {
+		return RenderChickenRandom::new;
 	}
 
 
