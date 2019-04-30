@@ -33,7 +33,7 @@ import vazkii.quark.base.lib.LibMisc;
 
 import javax.annotation.Nonnull;
 
-public class Feature implements IFeature, Comparable<Feature> {
+public class Feature implements IFeature {
 
 	public Module module;
 	
@@ -179,11 +179,6 @@ public class Feature implements IFeature, Comparable<Feature> {
 
 	public final String[] loadPropStringList(String propName, String desc, String[] default_) {
 		return ConfigHelper.loadPropStringList(propName, configCategory, desc, default_);
-	}
-
-	@Override
-	public int compareTo(@Nonnull Feature o) {
-		return configName.compareTo(o.configName);
 	}
 
 	@Override

@@ -26,14 +26,13 @@ import vazkii.quark.api.module.FeatureEvent;
 import vazkii.quark.api.module.IFeature;
 import vazkii.quark.api.module.IModule;
 
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
-public class Module implements IModule, Comparable<Module> {
+public class Module implements IModule {
 
 	public final String name = makeName();
 	public final Map<String, Feature> features = new HashMap<>();
@@ -227,11 +226,6 @@ public class Module implements IModule, Comparable<Module> {
 
 	public final String loadPropString(String propName, String desc, String default_) {
 		return ConfigHelper.loadPropString(propName, name, desc, default_);
-	}
-
-	@Override
-	public int compareTo(@Nonnull Module o) {
-		return name.compareTo(o.name);
 	}
 
 	@Override

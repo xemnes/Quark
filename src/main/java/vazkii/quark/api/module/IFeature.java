@@ -10,7 +10,9 @@
  */
 package vazkii.quark.api.module;
 
-public interface IFeature {
+import javax.annotation.Nonnull;
+
+public interface IFeature extends Comparable<IFeature> {
 
 	IModule getModule();
 
@@ -19,4 +21,9 @@ public interface IFeature {
 	boolean isClient();
 
 	String getName();
+
+	@Override
+	default int compareTo(@Nonnull IFeature o) {
+		return getName().compareTo(o.getName());
+	}
 }

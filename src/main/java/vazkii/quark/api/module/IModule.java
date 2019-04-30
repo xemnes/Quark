@@ -10,10 +10,11 @@
  */
 package vazkii.quark.api.module;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Map;
 
-public interface IModule {
+public interface IModule extends Comparable<IModule> {
 
 	String getName();
 
@@ -22,4 +23,9 @@ public interface IModule {
 	Map<String, ? extends IFeature> getFeatures();
 
 	List<? extends IFeature> getEnabledFeatures();
+
+	@Override
+	default int compareTo(@Nonnull IModule o) {
+		return getName().compareTo(o.getName());
+	}
 }
