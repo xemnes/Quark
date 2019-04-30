@@ -80,22 +80,22 @@ public class BlockGlowshroom extends BlockQuarkBush implements IGrowable {
 			worldIn.spawnParticle(EnumParticleTypes.END_ROD, pos.getX() + 0.2 + rand.nextFloat() * 0.6, pos.getY() + 0.3F, pos.getZ() + 0.2 + rand.nextFloat() * 0.6, 0, 0, 0);
 	}
 
-    @Override
+	@Override
     public boolean canGrow(World worldIn, BlockPos pos, IBlockState state, boolean isClient) {
-        return UndergroundBiomes.bigGlowshroomsEnabled;
+    	return UndergroundBiomes.bigGlowshroomsEnabled;
     }
 
-    @Override
+	@Override
     public boolean canUseBonemeal(World worldIn, Random rand, BlockPos pos, IBlockState state) {
-        return UndergroundBiomes.bigGlowshroomsEnabled && rand.nextFloat() < 0.4;
+    	return UndergroundBiomes.bigGlowshroomsEnabled && rand.nextFloat() < 0.4;
     }
 
-    @Override
+	@Override
     public void grow(World worldIn, Random rand, BlockPos pos, IBlockState state) {
     	if(UndergroundBiomes.bigGlowshroomsEnabled) {
-        	worldIn.setBlockToAir(pos);
-            if(!BlockHugeGlowshroom.setInPosition(worldIn, rand, pos, true))
-            	worldIn.setBlockState(pos, getDefaultState());
+    		worldIn.setBlockToAir(pos);
+    		if(!BlockHugeGlowshroom.setInPosition(worldIn, rand, pos, true))
+    			worldIn.setBlockState(pos, getDefaultState());
     	}
     }
 

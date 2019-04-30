@@ -67,18 +67,18 @@ public class Module implements IModule, Comparable<Module> {
 		if(ModuleLoader.featureInstances.containsKey(clazz))
 			throw new IllegalArgumentException("Feature " + clazz + " is already registered!");
 
-        feature.enabledByDefault = enabledByDefault;
-        feature.prevEnabled = false;
+		feature.enabledByDefault = enabledByDefault;
+    	feature.prevEnabled = false;
 
-        feature.module = this;
-        feature.configName = name;
-        feature.configCategory = this.name + "." + name;
+		feature.module = this;
+    	feature.configName = name;
+    	feature.configCategory = this.name + "." + name;
 
-        if (!MinecraftForge.EVENT_BUS.post(new FeatureEvent.Loaded(feature))) {
-            ModuleLoader.featureInstances.put(clazz, feature);
-            ModuleLoader.featureClassnames.put(clazz.getSimpleName(), feature);
-            features.put(name, feature);
-        }
+		if (!MinecraftForge.EVENT_BUS.post(new FeatureEvent.Loaded(feature))) {
+    		ModuleLoader.featureInstances.put(clazz, feature);
+    		ModuleLoader.featureClassnames.put(clazz.getSimpleName(), feature);
+    		features.put(name, feature);
+    	}
 	}
 
 	public void setupConfig() {
@@ -121,7 +121,7 @@ public class Module implements IModule, Comparable<Module> {
 			feature.setupConfig();
 			
 			if(!feature.enabled && feature.prevEnabled) {
-                MinecraftForge.EVENT_BUS.post(new FeatureEvent.Disabled(feature));
+    			MinecraftForge.EVENT_BUS.post(new FeatureEvent.Disabled(feature));
 				if(feature.hasSubscriptions())
 					MinecraftForge.EVENT_BUS.unregister(feature);
 				if(feature.hasTerrainSubscriptions())
@@ -129,10 +129,10 @@ public class Module implements IModule, Comparable<Module> {
 				if(feature.hasOreGenSubscriptions())
 					MinecraftForge.ORE_GEN_BUS.unregister(feature);
 				feature.onDisabled();
-                MinecraftForge.EVENT_BUS.post(new FeatureEvent.PostDisable(feature));
-            } else if(feature.enabled && (feature.enabledAtLoadtime || !feature.requiresMinecraftRestartToEnable()) && !feature.prevEnabled) {
-                MinecraftForge.EVENT_BUS.post(new FeatureEvent.Enabled(feature));
-                if(feature.hasSubscriptions())
+    			MinecraftForge.EVENT_BUS.post(new FeatureEvent.PostDisable(feature));
+    		} else if(feature.enabled && (feature.enabledAtLoadtime || !feature.requiresMinecraftRestartToEnable()) && !feature.prevEnabled) {
+    			MinecraftForge.EVENT_BUS.post(new FeatureEvent.Enabled(feature));
+    			if(feature.hasSubscriptions())
 					MinecraftForge.EVENT_BUS.register(feature);
 				if(feature.hasTerrainSubscriptions())
 					MinecraftForge.TERRAIN_GEN_BUS.register(feature);
@@ -140,7 +140,7 @@ public class Module implements IModule, Comparable<Module> {
 					MinecraftForge.ORE_GEN_BUS.register(feature);
 				feature.onEnabled();
 				MinecraftForge.EVENT_BUS.post(new FeatureEvent.PostEnable(feature));
-            }
+    		}
 			
 			feature.prevEnabled = feature.enabled;
 		});
@@ -234,23 +234,23 @@ public class Module implements IModule, Comparable<Module> {
 		return name.compareTo(o.name);
 	}
 
-    @Override
+	@Override
     public String getName() {
-        return name;
+    	return name;
     }
 
-    @Override
+	@Override
     public boolean isEnabled() {
-        return enabled;
+    	return enabled;
     }
 
-    @Override
+	@Override
     public Map<String, ? extends IFeature> getFeatures() {
-        return features;
+    	return features;
     }
 
-    @Override
+	@Override
     public List<? extends IFeature> getEnabledFeatures() {
-        return enabledFeatures;
+    	return enabledFeatures;
     }
 }

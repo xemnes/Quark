@@ -24,26 +24,26 @@ public class SearchWrapper implements ISearchHandler, ICapabilityProvider {
     private final ItemStack stack;
     private final ICustomSearchHandler item;
 
-    public SearchWrapper(ItemStack stack) {
-        this.stack = stack;
-        this.item = (ICustomSearchHandler) stack.getItem();
+	public SearchWrapper(ItemStack stack) {
+    	this.stack = stack;
+    	this.item = (ICustomSearchHandler) stack.getItem();
     }
 
-    @Override
+	@Override
     @SuppressWarnings("ConstantConditions")
     public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
-        return capability == CAPABILITY;
+    	return capability == CAPABILITY;
     }
 
-    @Nullable
+	@Nullable
     @Override
     @SuppressWarnings("ConstantConditions")
     public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
-        return capability == CAPABILITY ? CAPABILITY.cast(this) : null;
+    	return capability == CAPABILITY ? CAPABILITY.cast(this) : null;
     }
 
-    @Override
+	@Override
     public boolean stackMatchesSearchQuery(String query, ICustomSearchHandler.StringMatcher matcher, ICustomSearchHandler.SearchMethod search) {
-        return item.stackMatchesSearchQuery(stack, query, matcher, search);
+    	return item.stackMatchesSearchQuery(stack, query, matcher, search);
     }
 }

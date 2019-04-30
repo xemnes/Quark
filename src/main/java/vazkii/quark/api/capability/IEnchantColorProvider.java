@@ -19,27 +19,27 @@ import net.minecraftforge.common.capabilities.CapabilityInject;
  */
 public interface IEnchantColorProvider {
 
-    @CapabilityInject(IEnchantColorProvider.class)
+	@CapabilityInject(IEnchantColorProvider.class)
     Capability<IEnchantColorProvider> CAPABILITY = null;
 
-    static boolean hasProvider(ItemStack stack) {
-        return stack.hasCapability(CAPABILITY, null);
+	static boolean hasProvider(ItemStack stack) {
+    	return stack.hasCapability(CAPABILITY, null);
     }
 
-    static IEnchantColorProvider getProvider(ItemStack stack) {
-        return stack.getCapability(CAPABILITY, null);
+	static IEnchantColorProvider getProvider(ItemStack stack) {
+    	return stack.getCapability(CAPABILITY, null);
     }
 
-    int getEnchantEffectColor();
+	int getEnchantEffectColor();
 
-    /**
-     * Due to how enchantment color blending works, by default, the brightness of the effect
-     * color is truncated so the sum of RGB is less or equal to 396, the sum of the RGB
-     * components of the vanilla purple color. Setting this to false allows the color to go
-     * as bright as possible, up to complete opaque if (255, 255, 255).
-     */
+	/**
+ 	* Due to how enchantment color blending works, by default, the brightness of the effect
+ 	* color is truncated so the sum of RGB is less or equal to 396, the sum of the RGB
+ 	* components of the vanilla purple color. Setting this to false allows the color to go
+ 	* as bright as possible, up to complete opaque if (255, 255, 255).
+ 	*/
     default boolean shouldTruncateColorBrightness() {
-        return true;
+    	return true;
     }
 
 }

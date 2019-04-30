@@ -70,7 +70,7 @@ public class BlockHugeGlowshroom extends BlockMod implements IQuarkBlock {
 	@Override
 	@SuppressWarnings("deprecation")
     public boolean isOpaqueCube(IBlockState state) {
-        return false;
+    	return false;
     }
 
 	public static boolean setInPosition(World worldIn, Random rand, BlockPos position, boolean update) {

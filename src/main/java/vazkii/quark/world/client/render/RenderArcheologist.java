@@ -1,15 +1,11 @@
 package vazkii.quark.world.client.render;
 
-import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelVillager;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.entity.layers.LayerCustomHead;
-import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import vazkii.quark.world.client.layer.LayerArcheologistHat;
-import vazkii.quark.world.client.model.ModelArcheologistHat;
 import vazkii.quark.world.entity.EntityArcheologist;
 
 public class RenderArcheologist extends RenderLiving<EntityArcheologist> {
@@ -25,12 +21,12 @@ public class RenderArcheologist extends RenderLiving<EntityArcheologist> {
 
 	@Override
     public ModelVillager getMainModel() {
-        return (ModelVillager) super.getMainModel();
+    	return (ModelVillager) super.getMainModel();
     }
 	
 	@Override
     protected ResourceLocation getEntityTexture(EntityArcheologist entity) {
-        return TEXTURE;
+    	return TEXTURE;
     }
 	
 }

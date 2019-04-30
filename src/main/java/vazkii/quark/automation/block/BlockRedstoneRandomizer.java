@@ -72,7 +72,7 @@ public class BlockRedstoneRandomizer extends BlockMod implements IQuarkBlock {
 		boolean isPowered = isPowered(currState);
 		boolean willBePowered = shouldBePowered(world, pos, currState);
 		if(isPowered != willBePowered)
-            world.updateBlockTick(pos, this, 2, -1);
+    		world.updateBlockTick(pos, this, 2, -1);
 	}
 
 	private EnumFacing getOutputFace(IBlockState state) {

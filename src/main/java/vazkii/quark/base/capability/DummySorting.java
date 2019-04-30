@@ -18,11 +18,11 @@ import java.util.Comparator;
 public class DummySorting implements ICustomSorting {
     @Override
     public Comparator<ItemStack> getItemComparator() {
-        return (first, second) -> 0;
+    	return (first, second) -> 0;
     }
 
-    @Override
+	@Override
     public String getSortingCategory() {
-        return "";
+    	return "";
     }
 }

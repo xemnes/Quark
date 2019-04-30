@@ -40,30 +40,30 @@ public class EntityArcheologist extends EntityLiving implements IMerchant {
 	
 	@Override
     protected void initEntityAI() {
-        tasks.addTask(0, new EntityAIWatchClosest2(this, EntityPlayer.class, 3.0F, 1.0F));
+    	tasks.addTask(0, new EntityAIWatchClosest2(this, EntityPlayer.class, 3.0F, 1.0F));
     }
 	
 	private void populateBuyingList() {
-        if(buyingList == null)
-            buyingList = new MerchantRecipeList();
+    	if(buyingList == null)
+    		buyingList = new MerchantRecipeList();
 
-        Random r = world.rand;
-        
-        buyingList.add(new MerchantRecipe(new ItemStack(Items.EMERALD, 2 + rand.nextInt(3)), new ItemStack(Items.BONE, 3 + rand.nextInt(3))));
-        if(r.nextBoolean())
-        	buyingList.add(new MerchantRecipe(new ItemStack(Items.BONE, 10 + rand.nextInt(5)), new ItemStack(Items.EMERALD, 1)));
-        else buyingList.add(new MerchantRecipe(new ItemStack(Items.GUNPOWDER, 7 + rand.nextInt(10)), new ItemStack(Items.EMERALD, 1)));
-        
-        if(r.nextBoolean())
-        	buyingList.add(new MerchantRecipe(new ItemStack(Items.COAL, 16 + rand.nextInt(10)), new ItemStack(Items.EMERALD, 1)));
-        if(r.nextBoolean())
-        	buyingList.add(new MerchantRecipe(new ItemStack(Items.EMERALD, 12 + rand.nextInt(10)), new ItemStack(Items.DIAMOND, 1)));
-        if(r.nextBoolean()) {
-        	if(r.nextBoolean())
-            	buyingList.add(new MerchantRecipe(new ItemStack(Items.EMERALD, 8 + rand.nextInt(5)), new ItemStack(Items.IRON_PICKAXE, 1)));
-        	else buyingList.add(new MerchantRecipe(new ItemStack(Items.EMERALD, 6 + rand.nextInt(4)), new ItemStack(Items.IRON_SHOVEL, 1)));
-        }
-        
+		Random r = world.rand;
+
+		buyingList.add(new MerchantRecipe(new ItemStack(Items.EMERALD, 2 + rand.nextInt(3)), new ItemStack(Items.BONE, 3 + rand.nextInt(3))));
+    	if(r.nextBoolean())
+    		buyingList.add(new MerchantRecipe(new ItemStack(Items.BONE, 10 + rand.nextInt(5)), new ItemStack(Items.EMERALD, 1)));
+    	else buyingList.add(new MerchantRecipe(new ItemStack(Items.GUNPOWDER, 7 + rand.nextInt(10)), new ItemStack(Items.EMERALD, 1)));
+
+		if(r.nextBoolean())
+    		buyingList.add(new MerchantRecipe(new ItemStack(Items.COAL, 16 + rand.nextInt(10)), new ItemStack(Items.EMERALD, 1)));
+    	if(r.nextBoolean())
+    		buyingList.add(new MerchantRecipe(new ItemStack(Items.EMERALD, 12 + rand.nextInt(10)), new ItemStack(Items.DIAMOND, 1)));
+    	if(r.nextBoolean()) {
+    		if(r.nextBoolean())
+    			buyingList.add(new MerchantRecipe(new ItemStack(Items.EMERALD, 8 + rand.nextInt(5)), new ItemStack(Items.IRON_PICKAXE, 1)));
+    		else buyingList.add(new MerchantRecipe(new ItemStack(Items.EMERALD, 6 + rand.nextInt(4)), new ItemStack(Items.IRON_SHOVEL, 1)));
+    	}
+
 		if(Archeologist.enableHat && Archeologist.sellHat)
 			buyingList.add(new MerchantRecipe(new ItemStack(Items.EMERALD, 6 + rand.nextInt(4)), ItemStack.EMPTY, new ItemStack(Archeologist.archeologist_hat, 1), 0, 1));
 	}

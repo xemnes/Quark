@@ -22,42 +22,42 @@ import javax.annotation.Nullable;
 
 public class SelfProvider<V> implements ICapabilityProvider {
 
-    private final Capability<V> capability;
-    private final V self;
+	private final Capability<V> capability;
+	private final V self;
 
-    public SelfProvider(Capability<V> capability, V self) {
-        this.capability = capability;
-        this.self = self;
-    }
+	public SelfProvider(Capability<V> capability, V self) {
+		this.capability = capability;
+		this.self = self;
+	}
 
-    @SuppressWarnings("unchecked")
-    public static <V> SelfProvider<V> provide(Capability<V> capability, Object self) {
-        return new SelfProvider<>(capability, (V) self);
-    }
+	@SuppressWarnings("unchecked")
+	public static <V> SelfProvider<V> provide(Capability<V> capability, Object self) {
+		return new SelfProvider<>(capability, (V) self);
+	}
 
-    @SuppressWarnings("unchecked")
-    public static <V> void attachItem(ResourceLocation location,
-                                     Capability<V> capability,
-                                     AttachCapabilitiesEvent<ItemStack> event) {
-        event.addCapability(location, provide(capability, event.getObject().getItem()));
-    }
+	@SuppressWarnings("unchecked")
+	public static <V> void attachItem(ResourceLocation location,
+									  Capability<V> capability,
+									  AttachCapabilitiesEvent<ItemStack> event) {
+		event.addCapability(location, provide(capability, event.getObject().getItem()));
+	}
 
-    @SuppressWarnings("unchecked")
-    public static <V, C extends ICapabilityProvider> void attach(ResourceLocation location,
-                                                                 Capability<V> capability,
-                                                                 AttachCapabilitiesEvent<C> event) {
-        event.addCapability(location, provide(capability, event.getObject()));
-    }
+	@SuppressWarnings("unchecked")
+	public static <V, C extends ICapabilityProvider> void attach(ResourceLocation location,
+																 Capability<V> capability,
+																 AttachCapabilitiesEvent<C> event) {
+		event.addCapability(location, provide(capability, event.getObject()));
+	}
 
 
-    @Override
-    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
-        return capability == this.capability;
-    }
+	@Override
+	public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
+		return capability == this.capability;
+	}
 
-    @Nullable
-    @Override
-    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
-        return capability == this.capability ? this.capability.cast(self) : null;
-    }
+	@Nullable
+	@Override
+	public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
+		return capability == this.capability ? this.capability.cast(self) : null;
+	}
 }

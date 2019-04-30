@@ -15,11 +15,11 @@ import java.util.Map;
 
 public interface IModule {
 
-    String getName();
+	String getName();
 
-    boolean isEnabled();
+	boolean isEnabled();
 
-    Map<String, ? extends IFeature> getFeatures();
+	Map<String, ? extends IFeature> getFeatures();
 
-    List<? extends IFeature> getEnabledFeatures();
+	List<? extends IFeature> getEnabledFeatures();
 }

@@ -12,11 +12,11 @@ package vazkii.quark.api.module;
 
 public interface IFeature {
 
-    IModule getModule();
+	IModule getModule();
 
-    boolean isEnabled();
+	boolean isEnabled();
 
-    boolean isClient();
+	boolean isClient();
 
-    String getName();
+	String getName();
 }

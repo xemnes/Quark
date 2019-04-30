@@ -28,31 +28,31 @@ public class BlockElderSeaLantern extends BlockMod implements IQuarkBlock {
 	
 	@Override
     public int quantityDropped(Random random) {
-        return 2 + random.nextInt(2);
+    	return 2 + random.nextInt(2);
     }
 
 	@Override
 	public int quantityDroppedWithBonus(int fortune, @Nonnull Random random) {
-        return MathHelper.clamp(quantityDropped(random) + random.nextInt(fortune + 1), 1, 5);
+    	return MathHelper.clamp(quantityDropped(random) + random.nextInt(fortune + 1), 1, 5);
     }
 
 	@Nonnull
 	@Override
 	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
-        return Items.PRISMARINE_CRYSTALS;
+    	return Items.PRISMARINE_CRYSTALS;
     }
 
 	@Nonnull
 	@Override
 	@SuppressWarnings("deprecation")
     public MapColor getMapColor(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
-        return MapColor.QUARTZ;
+    	return MapColor.QUARTZ;
     }
 
 	@Override
 	@SuppressWarnings("deprecation")
     protected boolean canSilkHarvest() {
-        return true;
+    	return true;
     }
 
 }

@@ -140,17 +140,17 @@ public class EnchantedBooksShowItems extends Feature {
 		NBTTagList nbttaglist = ItemEnchantedBook.getEnchantments(stack);
 		List<EnchantmentData> retList = new ArrayList<>(nbttaglist.tagCount() + 1);
 		
-        for(int i = 0; i < nbttaglist.tagCount(); i++) {
-            NBTTagCompound nbttagcompound = nbttaglist.getCompoundTagAt(i);
-            int j = nbttagcompound.getShort("id");
-            Enchantment enchantment = Enchantment.getEnchantmentByID(j);
-            short level = nbttagcompound.getShort("lvl");
+		for(int i = 0; i < nbttaglist.tagCount(); i++) {
+    		NBTTagCompound nbttagcompound = nbttaglist.getCompoundTagAt(i);
+    		int j = nbttagcompound.getShort("id");
+    		Enchantment enchantment = Enchantment.getEnchantmentByID(j);
+    		short level = nbttagcompound.getShort("lvl");
 
-            if (enchantment != null)
-            	retList.add(new EnchantmentData(enchantment, level));
-        }
-        
-        return retList;
+			if (enchantment != null)
+    			retList.add(new EnchantmentData(enchantment, level));
+    	}
+
+		return retList;
 	}
 	
 }

@@ -24,31 +24,31 @@ public class EnchantColorWrapper implements IEnchantColorProvider, ICapabilityPr
     private final ItemStack stack;
     private final ICustomEnchantColor item;
 
-    public EnchantColorWrapper(ItemStack stack) {
-        this.stack = stack;
-        this.item = (ICustomEnchantColor) stack.getItem();
+	public EnchantColorWrapper(ItemStack stack) {
+    	this.stack = stack;
+    	this.item = (ICustomEnchantColor) stack.getItem();
     }
 
-    @Override
+	@Override
     @SuppressWarnings("ConstantConditions")
     public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
-        return capability == CAPABILITY;
+    	return capability == CAPABILITY;
     }
 
-    @Nullable
+	@Nullable
     @Override
     @SuppressWarnings("ConstantConditions")
     public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
-        return capability == CAPABILITY ? CAPABILITY.cast(this) : null;
+    	return capability == CAPABILITY ? CAPABILITY.cast(this) : null;
     }
 
-    @Override
+	@Override
     public int getEnchantEffectColor() {
-        return item.getEnchantEffectColor(stack);
+    	return item.getEnchantEffectColor(stack);
     }
 
-    @Override
+	@Override
     public boolean shouldTruncateColorBrightness() {
-        return item.shouldTruncateColorBrightness(stack);
+    	return item.shouldTruncateColorBrightness(stack);
     }
 }
