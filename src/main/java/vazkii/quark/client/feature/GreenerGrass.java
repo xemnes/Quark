@@ -118,7 +118,7 @@ public class GreenerGrass extends Feature {
 	
 	@Override
 	public String[] getIncompatibleMods() {
-		return new String[] { "toughasnails" };
+		return new String[] { "sereneseasons" };
 	}
 
 }
