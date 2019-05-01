@@ -1,7 +1,5 @@
 package vazkii.quark.world.entity;
 
-import java.util.Random;
-
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.IMerchant;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -21,6 +19,9 @@ import net.minecraft.village.MerchantRecipe;
 import net.minecraft.village.MerchantRecipeList;
 import net.minecraft.world.World;
 import vazkii.quark.world.feature.Archeologist;
+
+import javax.annotation.Nonnull;
+import java.util.Random;
 
 public class EntityArcheologist extends EntityLiving implements IMerchant {
 
@@ -130,7 +131,7 @@ public class EntityArcheologist extends EntityLiving implements IMerchant {
 	}
 
 	@Override
-	public MerchantRecipeList getRecipes(EntityPlayer player) {
+	public MerchantRecipeList getRecipes(@Nonnull EntityPlayer player) {
 		if (buyingList == null)
 			populateBuyingList();
 
@@ -145,7 +146,7 @@ public class EntityArcheologist extends EntityLiving implements IMerchant {
 	}
 
 	@Override
-	public void useRecipe(MerchantRecipe recipe) {
+	public void useRecipe(@Nonnull MerchantRecipe recipe) {
 		recipe.incrementToolUses();
 
 		if(recipe.getToolUses() == 1 || rand.nextInt(5) == 0)
@@ -153,18 +154,20 @@ public class EntityArcheologist extends EntityLiving implements IMerchant {
 	}
 
 	@Override
-	public void verifySellingItem(ItemStack stack) {
+	public void verifySellingItem(@Nonnull ItemStack stack) {
 		if(!world.isRemote && livingSoundTime > -getTalkInterval() + 20) {
 			livingSoundTime = -getTalkInterval();
 			playSound(stack.isEmpty() ? SoundEvents.ENTITY_VILLAGER_NO : SoundEvents.ENTITY_VILLAGER_YES, getSoundVolume(), getSoundPitch());
 		}
 	}
 
+	@Nonnull
 	@Override
 	public World getWorld() {
 		return world;
 	}
 
+	@Nonnull
 	@Override
 	public BlockPos getPos() {
 		return getPosition();
@@ -210,11 +213,6 @@ public class EntityArcheologist extends EntityLiving implements IMerchant {
 	@Override
 	protected SoundEvent getDeathSound() {
 		return SoundEvents.ENTITY_VILLAGER_DEATH;
-	}
-	
-	@Override
-	protected float getSoundVolume() {
-		return 5F;
 	}
 
 }

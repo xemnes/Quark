@@ -1,7 +1,5 @@
 package vazkii.quark.world.feature;
 
-import java.util.List;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,6 +14,8 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.handler.DimensionConfig;
@@ -25,6 +25,8 @@ import vazkii.quark.world.client.render.RenderArcheologist;
 import vazkii.quark.world.entity.EntityArcheologist;
 import vazkii.quark.world.item.ItemArcheologistHat;
 import vazkii.quark.world.world.ArcheologistHouseGenerator;
+
+import java.util.List;
 
 public class Archeologist extends Feature {
 
@@ -65,6 +67,7 @@ public class Archeologist extends Feature {
 
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void preInitClient(FMLPreInitializationEvent event) {
 		RenderingRegistry.registerEntityRenderingHandler(EntityArcheologist.class, RenderArcheologist.FACTORY);
 	}
