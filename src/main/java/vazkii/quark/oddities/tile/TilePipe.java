@@ -42,8 +42,8 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 
 		int currentOut = getComparatorOutput();
 
-		if(!pipeItems.isEmpty() && !world.isRemote) {
-			if(Pipes.maxPipeItems > 0 && pipeItems.size() > Pipes.maxPipeItems) {
+		if(!pipeItems.isEmpty()) {
+			if(Pipes.maxPipeItems > 0 && pipeItems.size() > Pipes.maxPipeItems && !world.isRemote) {
 				world.playEvent(2001, pos, Block.getStateId(world.getBlockState(pos)));
 				dropItem(new ItemStack(getBlockType()));
 				world.setBlockToAir(getPos());
@@ -56,9 +56,11 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 				if(item.tick(this)) {
 					itemItr.remove();
 
-					if(item.valid)
-						passOut(item);
-					else dropItem(item.stack);
+					if (!world.isRemote) {
+						if (item.valid)
+							passOut(item);
+						else dropItem(item.stack);
+					}
 				}
 			}
 			iterating = false;
