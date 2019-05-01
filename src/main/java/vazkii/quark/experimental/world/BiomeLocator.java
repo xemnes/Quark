@@ -15,8 +15,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeProvider;
 import net.minecraft.world.gen.ChunkGeneratorSettings;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.relauncher.Side;
 
 public class BiomeLocator {
 
@@ -30,11 +28,14 @@ public class BiomeLocator {
 		if(maxDist <= 0 || sampleSpace <= 0) 
 			throw new IllegalArgumentException("maxDist and sampleSpace must be positive");
 
+		if (world.isRemote)
+			return null;
+
 		BiomeProvider chunkManager = world.getBiomeProvider();
+
 		double a = sampleSpace / Math.sqrt(Math.PI);
 		double b = 2 * Math.sqrt(Math.PI);
 		double dist = 0;
-		String biomeName = FMLCommonHandler.instance().getSide() == Side.CLIENT ? biomeToFind.getBiomeName() : "biome";
 		for (int n = 0; dist < maxDist; ++n) {
 			double rootN = Math.sqrt(n);
 			dist = a * rootN;

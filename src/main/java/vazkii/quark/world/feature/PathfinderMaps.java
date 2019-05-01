@@ -42,6 +42,13 @@ public class PathfinderMaps extends Feature {
 	public static boolean printAllBiomeNames;
 	
 	private String[] customs;
+
+	private static String getBiomeDescriptor(Biome biome) {
+		ResourceLocation rl = biome.getRegistryName();
+		if (rl == null)
+			return "unknown";
+		return rl.getPath();
+	}
 	
 	@Override
 	public void setupConfig() {
@@ -89,10 +96,12 @@ public class PathfinderMaps extends Feature {
 		loadCustomMaps(customs);
 		
 		VillagerProfession librarian = event.getRegistry().getValue(new ResourceLocation("minecraft:librarian"));
-		VillagerCareer cartographer = librarian.getCareer(1);
-		
-		for(Integer level : trades.keySet())
-			cartographer.addTrade(level, new PathfinderMapTrade(level));
+		if (librarian != null) {
+			VillagerCareer cartographer = librarian.getCareer(1);
+
+			for (int level : trades.keySet())
+				cartographer.addTrade(level, new PathfinderMapTrade(level));
+		}
  	}
 	
 	private void loadTradeInfo(Biome biome, boolean enabled, int level, int minPrice, int maxPrice, int color) {
@@ -107,7 +116,8 @@ public class PathfinderMaps extends Feature {
 		String category = configCategory + ".";
 		if(!overrideCategory.isEmpty())
 			category += overrideCategory;
-		else category += biome.getRegistryName().getPath();
+		else
+			category += getBiomeDescriptor(biome);
 		
 		TradeInfo info;
 		if(overrideName.isEmpty())
@@ -198,7 +208,7 @@ public class PathfinderMaps extends Feature {
 		@Override
 		public void addMerchantRecipe(@Nonnull IMerchant merchant, @Nonnull MerchantRecipeList recipeList, @Nonnull Random random) {
 			List<TradeInfo> infos = new ArrayList<>(trades.get(level));
-			if(infos == null || infos.isEmpty())
+			if(infos.isEmpty())
 				return;
 			
 			if(unlockAllAtOnce)
@@ -217,7 +227,6 @@ public class PathfinderMaps extends Feature {
 		
 		private void unlock(IMerchant merchant, MerchantRecipeList recipeList, Random random, TradeInfo info) {
 			int i = random.nextInt(info.maxPrice - info.minPrice + 1) + info.minPrice;
-			World world = merchant.getWorld();
 
 			ItemStack itemstack = createMap(merchant.getWorld(), merchant.getPos(), info); 
 			if(itemstack.isEmpty())
@@ -239,7 +248,7 @@ public class PathfinderMaps extends Feature {
 		public final String name;
 		
 		TradeInfo(String category, Biome biome, boolean enabled, int level, int minPrice, int maxPrice, int color) {
-			this(category, biome, enabled, level, minPrice, maxPrice, color, "quark.biomeMap." + biome.getRegistryName().getPath());
+			this(category, biome, enabled, level, minPrice, maxPrice, color, "quark.biomeMap." + getBiomeDescriptor(biome));
 		}
 		
 		TradeInfo(String category, Biome biome, boolean enabled, int level, int minPrice, int maxPrice, int color, String name) {
