@@ -23,13 +23,13 @@ public class RenderArcheologist extends RenderLiving<EntityArcheologist> {
 
 	@Nonnull
 	@Override
-    public ModelVillager getMainModel() {
-    	return (ModelVillager) super.getMainModel();
-    }
+	public ModelVillager getMainModel() {
+		return (ModelVillager) super.getMainModel();
+	}
 	
 	@Override
-    protected ResourceLocation getEntityTexture(@Nonnull EntityArcheologist entity) {
-    	return TEXTURE;
-    }
+	protected ResourceLocation getEntityTexture(@Nonnull EntityArcheologist entity) {
+		return TEXTURE;
+	}
 	
 }

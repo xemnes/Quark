@@ -21,29 +21,29 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class SearchWrapper implements ISearchHandler, ICapabilityProvider {
-    private final ItemStack stack;
-    private final ICustomSearchHandler item;
+	private final ItemStack stack;
+	private final ICustomSearchHandler item;
 
 	public SearchWrapper(ItemStack stack) {
-    	this.stack = stack;
-    	this.item = (ICustomSearchHandler) stack.getItem();
-    }
+		this.stack = stack;
+		this.item = (ICustomSearchHandler) stack.getItem();
+	}
 
 	@Override
-    @SuppressWarnings("ConstantConditions")
-    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
-    	return capability == CAPABILITY;
-    }
+	@SuppressWarnings("ConstantConditions")
+	public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
+		return capability == CAPABILITY;
+	}
 
 	@Nullable
-    @Override
-    @SuppressWarnings("ConstantConditions")
-    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
-    	return capability == CAPABILITY ? CAPABILITY.cast(this) : null;
-    }
+	@Override
+	@SuppressWarnings("ConstantConditions")
+	public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
+		return capability == CAPABILITY ? CAPABILITY.cast(this) : null;
+	}
 
 	@Override
-    public boolean stackMatchesSearchQuery(String query, ICustomSearchHandler.StringMatcher matcher, ICustomSearchHandler.SearchMethod search) {
-    	return item.stackMatchesSearchQuery(stack, query, matcher, search);
-    }
+	public boolean stackMatchesSearchQuery(String query, ICustomSearchHandler.StringMatcher matcher, ICustomSearchHandler.SearchMethod search) {
+		return item.stackMatchesSearchQuery(stack, query, matcher, search);
+	}
 }

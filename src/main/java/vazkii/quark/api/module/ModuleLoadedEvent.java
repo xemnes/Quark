@@ -22,11 +22,11 @@ public class ModuleLoadedEvent extends Event {
 	private final IModule module;
 
 	public ModuleLoadedEvent(IModule module) {
-    	this.module = module;
-    }
+		this.module = module;
+	}
 
 	public IModule getModule() {
-    	return module;
-    }
+		return module;
+	}
 
 }

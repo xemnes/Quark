@@ -19,15 +19,15 @@ import vazkii.quark.api.ICustomSearchHandler.StringMatcher;
 public interface ISearchHandler {
 
 	@CapabilityInject(ISearchHandler.class)
-    Capability<ISearchHandler> CAPABILITY = null;
+	Capability<ISearchHandler> CAPABILITY = null;
 
 	static boolean hasHandler(ItemStack stack) {
-    	return stack.hasCapability(CAPABILITY, null);
-    }
+		return stack.hasCapability(CAPABILITY, null);
+	}
 
 	static ISearchHandler getHandler(ItemStack stack) {
-    	return stack.getCapability(CAPABILITY, null);
-    }
+		return stack.getCapability(CAPABILITY, null);
+	}
 
 	/**
  	* Determines whether this item's name matches the given query. You should always leave the actual
@@ -48,5 +48,5 @@ public interface ISearchHandler {
  	*
  	* @return false if the item should be darkened, true otherwise
  	*/
-    boolean stackMatchesSearchQuery(String query, StringMatcher matcher, SearchMethod search);
+	boolean stackMatchesSearchQuery(String query, StringMatcher matcher, SearchMethod search);
 }

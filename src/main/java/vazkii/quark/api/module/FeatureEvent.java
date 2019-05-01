@@ -21,56 +21,56 @@ public class FeatureEvent extends Event {
 	private final IFeature feature;
 
 	public FeatureEvent(IFeature feature) {
-    	this.feature = feature;
-    }
+		this.feature = feature;
+	}
 
 	public IFeature getFeature() {
-    	return feature;
-    }
+		return feature;
+	}
 
 	/**
  	* Canceling this event will result in the feature being disabled completely.
  	*/
-    @Cancelable
-    public static class Loaded extends FeatureEvent {
-    	public Loaded(IFeature feature) {
-    		super(feature);
-    	}
-    }
+	@Cancelable
+	public static class Loaded extends FeatureEvent {
+		public Loaded(IFeature feature) {
+			super(feature);
+		}
+	}
 
 	/**
  	* This event is fired before a feature is enabled.
  	*/
-    public static class Enabled extends FeatureEvent {
-    	public Enabled(IFeature feature) {
-    		super(feature);
-    	}
-    }
+	public static class Enabled extends FeatureEvent {
+		public Enabled(IFeature feature) {
+			super(feature);
+		}
+	}
 
 	/**
  	* This event is fired after a feature is enabled.
  	*/
-    public static class PostEnable extends FeatureEvent {
-    	public PostEnable(IFeature feature) {
-    		super(feature);
-    	}
-    }
+	public static class PostEnable extends FeatureEvent {
+		public PostEnable(IFeature feature) {
+			super(feature);
+		}
+	}
 
 	/**
  	* This event is fired before a feature is disabled.
  	*/
-    public static class Disabled extends FeatureEvent {
-    	public Disabled(IFeature feature) {
-    		super(feature);
-    	}
-    }
+	public static class Disabled extends FeatureEvent {
+		public Disabled(IFeature feature) {
+			super(feature);
+		}
+	}
 
 	/**
  	* This event is fired after a feature is enabled.
  	*/
-    public static class PostDisable extends FeatureEvent {
-    	public PostDisable(IFeature feature) {
-    		super(feature);
-    	}
-    }
+	public static class PostDisable extends FeatureEvent {
+		public PostDisable(IFeature feature) {
+			super(feature);
+		}
+	}
 }

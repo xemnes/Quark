@@ -20,15 +20,15 @@ import net.minecraftforge.common.capabilities.CapabilityInject;
 public interface IEnchantColorProvider {
 
 	@CapabilityInject(IEnchantColorProvider.class)
-    Capability<IEnchantColorProvider> CAPABILITY = null;
+	Capability<IEnchantColorProvider> CAPABILITY = null;
 
 	static boolean hasProvider(ItemStack stack) {
-    	return stack.hasCapability(CAPABILITY, null);
-    }
+		return stack.hasCapability(CAPABILITY, null);
+	}
 
 	static IEnchantColorProvider getProvider(ItemStack stack) {
-    	return stack.getCapability(CAPABILITY, null);
-    }
+		return stack.getCapability(CAPABILITY, null);
+	}
 
 	int getEnchantEffectColor();
 
@@ -38,8 +38,8 @@ public interface IEnchantColorProvider {
  	* components of the vanilla purple color. Setting this to false allows the color to go
  	* as bright as possible, up to complete opaque if (255, 255, 255).
  	*/
-    default boolean shouldTruncateColorBrightness() {
-    	return true;
-    }
+	default boolean shouldTruncateColorBrightness() {
+		return true;
+	}
 
 }

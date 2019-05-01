@@ -32,63 +32,63 @@ import java.util.concurrent.Callable;
 
 @Mod.EventBusSubscriber(modid = LibMisc.MOD_ID)
 public class CapabilityHandler {
-    public static void register() {
-    	registerLambda(IEnchantColorProvider.class, () -> -1);
-    	registerLambda(IPistonCallback.class, () -> {});
-    	registerLambda(ISearchHandler.class, (query, matcher, search) -> false);
-    	registerLambda(IDropoffManager.class, (player) -> false);
-    	register(ICustomSorting.class, DummySorting::new);
-    }
+	public static void register() {
+		registerLambda(IEnchantColorProvider.class, () -> -1);
+		registerLambda(IPistonCallback.class, () -> {});
+		registerLambda(ISearchHandler.class, (query, matcher, search) -> false);
+		registerLambda(IDropoffManager.class, (player) -> false);
+		register(ICustomSorting.class, DummySorting::new);
+	}
 
 	private static <T> void registerLambda(Class<T> clazz, T provider) {
-    	register(clazz, () -> provider);
-    }
+		register(clazz, () -> provider);
+	}
 
 	private static <T> void register(Class<T> clazz, Callable<T> provider) {
-    	CapabilityManager.INSTANCE.register(clazz, new CapabilityFactory<>(), provider);
-    }
+		CapabilityManager.INSTANCE.register(clazz, new CapabilityFactory<>(), provider);
+	}
 
 	private static class CapabilityFactory<T> implements Capability.IStorage<T> {
 
 		@Override
-    	public NBTBase writeNBT(Capability<T> capability, T instance, EnumFacing side) {
-    		if (instance instanceof INBTSerializable)
-    			return ((INBTSerializable) instance).serializeNBT();
-    		return null;
-    	}
+		public NBTBase writeNBT(Capability<T> capability, T instance, EnumFacing side) {
+			if (instance instanceof INBTSerializable)
+				return ((INBTSerializable) instance).serializeNBT();
+			return null;
+		}
 
 		@Override
-    	@SuppressWarnings("unchecked")
-    	public void readNBT(Capability<T> capability, T instance, EnumFacing side, NBTBase nbt) {
-    		if (nbt instanceof NBTTagCompound)
-    			((INBTSerializable) instance).deserializeNBT(nbt);
-    	}
-    }
+		@SuppressWarnings("unchecked")
+		public void readNBT(Capability<T> capability, T instance, EnumFacing side, NBTBase nbt) {
+			if (nbt instanceof NBTTagCompound)
+				((INBTSerializable) instance).deserializeNBT(nbt);
+		}
+	}
 
 	private static final ResourceLocation PISTON_CALLBACK = new ResourceLocation(LibMisc.MOD_ID, "piston");
-    private static final ResourceLocation ENCHANT_COLOR = new ResourceLocation(LibMisc.MOD_ID, "glint");
-    private static final ResourceLocation SEARCH_HANDLER = new ResourceLocation(LibMisc.MOD_ID, "search");
-    private static final ResourceLocation DROPOFF_MANAGER = new ResourceLocation(LibMisc.MOD_ID, "dropoff");
-    private static final ResourceLocation SORTING_HANDLER = new ResourceLocation(LibMisc.MOD_ID, "sort");
+	private static final ResourceLocation ENCHANT_COLOR = new ResourceLocation(LibMisc.MOD_ID, "glint");
+	private static final ResourceLocation SEARCH_HANDLER = new ResourceLocation(LibMisc.MOD_ID, "search");
+	private static final ResourceLocation DROPOFF_MANAGER = new ResourceLocation(LibMisc.MOD_ID, "dropoff");
+	private static final ResourceLocation SORTING_HANDLER = new ResourceLocation(LibMisc.MOD_ID, "sort");
 
 
 	@SubscribeEvent
-    public static void attachItemCapabilities(AttachCapabilitiesEvent<ItemStack> event) {
-    	Item item = event.getObject().getItem();
+	public static void attachItemCapabilities(AttachCapabilitiesEvent<ItemStack> event) {
+		Item item = event.getObject().getItem();
 
 		if (item instanceof ICustomEnchantColor)
-    		event.addCapability(ENCHANT_COLOR, new EnchantColorWrapper(event.getObject()));
-    	if (item instanceof ISearchHandler)
-    		event.addCapability(SEARCH_HANDLER, new SearchWrapper(event.getObject()));
-    	if (item instanceof ICustomSorting)
-    		SelfProvider.attachItem(SORTING_HANDLER, ICustomSorting.CAPABILITY, event);
-    }
+			event.addCapability(ENCHANT_COLOR, new EnchantColorWrapper(event.getObject()));
+		if (item instanceof ISearchHandler)
+			event.addCapability(SEARCH_HANDLER, new SearchWrapper(event.getObject()));
+		if (item instanceof ICustomSorting)
+			SelfProvider.attachItem(SORTING_HANDLER, ICustomSorting.CAPABILITY, event);
+	}
 
 	@SubscribeEvent
-    public static void attachTileCapabilities(AttachCapabilitiesEvent<TileEntity> event) {
-    	if (event.getObject() instanceof IPistonCallback)
-    		SelfProvider.attach(PISTON_CALLBACK, IPistonCallback.CAPABILITY, event);
-    	if (event.getObject() instanceof IDropoffManager)
-    		SelfProvider.attach(DROPOFF_MANAGER, IDropoffManager.CAPABILITY, event);
-    }
+	public static void attachTileCapabilities(AttachCapabilitiesEvent<TileEntity> event) {
+		if (event.getObject() instanceof IPistonCallback)
+			SelfProvider.attach(PISTON_CALLBACK, IPistonCallback.CAPABILITY, event);
+		if (event.getObject() instanceof IDropoffManager)
+			SelfProvider.attach(DROPOFF_MANAGER, IDropoffManager.CAPABILITY, event);
+	}
 }

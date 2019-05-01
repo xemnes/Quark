@@ -16,13 +16,13 @@ import vazkii.quark.api.ICustomSorting;
 import java.util.Comparator;
 
 public class DummySorting implements ICustomSorting {
-    @Override
-    public Comparator<ItemStack> getItemComparator() {
-    	return (first, second) -> 0;
-    }
+	@Override
+	public Comparator<ItemStack> getItemComparator() {
+		return (first, second) -> 0;
+	}
 
 	@Override
-    public String getSortingCategory() {
-    	return "";
-    }
+	public String getSortingCategory() {
+		return "";
+	}
 }

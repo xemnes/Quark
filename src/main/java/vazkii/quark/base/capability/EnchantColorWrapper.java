@@ -21,34 +21,34 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class EnchantColorWrapper implements IEnchantColorProvider, ICapabilityProvider {
-    private final ItemStack stack;
-    private final ICustomEnchantColor item;
+	private final ItemStack stack;
+	private final ICustomEnchantColor item;
 
 	public EnchantColorWrapper(ItemStack stack) {
-    	this.stack = stack;
-    	this.item = (ICustomEnchantColor) stack.getItem();
-    }
+		this.stack = stack;
+		this.item = (ICustomEnchantColor) stack.getItem();
+	}
 
 	@Override
-    @SuppressWarnings("ConstantConditions")
-    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
-    	return capability == CAPABILITY;
-    }
+	@SuppressWarnings("ConstantConditions")
+	public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
+		return capability == CAPABILITY;
+	}
 
 	@Nullable
-    @Override
-    @SuppressWarnings("ConstantConditions")
-    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
-    	return capability == CAPABILITY ? CAPABILITY.cast(this) : null;
-    }
+	@Override
+	@SuppressWarnings("ConstantConditions")
+	public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
+		return capability == CAPABILITY ? CAPABILITY.cast(this) : null;
+	}
 
 	@Override
-    public int getEnchantEffectColor() {
-    	return item.getEnchantEffectColor(stack);
-    }
+	public int getEnchantEffectColor() {
+		return item.getEnchantEffectColor(stack);
+	}
 
 	@Override
-    public boolean shouldTruncateColorBrightness() {
-    	return item.shouldTruncateColorBrightness(stack);
-    }
+	public boolean shouldTruncateColorBrightness() {
+		return item.shouldTruncateColorBrightness(stack);
+	}
 }
