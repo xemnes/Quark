@@ -30,11 +30,11 @@ public class ArcheologistHouseGenerator implements IWorldGenerator {
 			int y = random.nextInt(Archeologist.maxY - Archeologist.minY) + Archeologist.minY;
 			
 			BlockPos pos = new BlockPos(x, y, z);
-			setHouseAt(random, chunkX, chunkZ, world, pos);
+			setHouseAt(random, world, pos);
 		}
 	}
 	
-	private boolean setHouseAt(Random random, int chunkX, int chunkZ, World world, BlockPos pos) {
+	private void setHouseAt(Random random, World world, BlockPos pos) {
 		if(world.isAirBlock(pos) && world instanceof WorldServer) {
 			BlockPos down = pos.down();
 			while(world.isAirBlock(down))
@@ -46,17 +46,15 @@ public class ArcheologistHouseGenerator implements IWorldGenerator {
 				placePos = placePos.offset(facing);
 				
 				if(world.isOutsideBuildHeight(placePos) || !world.isBlockLoaded(placePos))
-					return false;
+					return;
 			}
 			
 			IBlockState placeState = world.getBlockState(placePos);
 			if(placeState.getMaterial() == Material.ROCK && placeState.isFullBlock()) {
 				generateHouse((WorldServer) world, placePos, facing);
-				return true;
 			}
 		}
-		
-		return false;
+
 	}
 
 	private void generateHouse(WorldServer world, BlockPos pos, EnumFacing face) {
