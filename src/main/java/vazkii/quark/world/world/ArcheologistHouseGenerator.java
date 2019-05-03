@@ -37,8 +37,11 @@ public class ArcheologistHouseGenerator implements IWorldGenerator {
 	private void setHouseAt(Random random, World world, BlockPos pos) {
 		if(world.isAirBlock(pos) && world instanceof WorldServer) {
 			BlockPos down = pos.down();
-			while(world.isAirBlock(down))
+			while(world.isAirBlock(down)) {
 				down = down.down();
+				if (world.isOutsideBuildHeight(down))
+					return;
+			}
 			
 			EnumFacing facing = EnumFacing.HORIZONTALS[random.nextInt(EnumFacing.HORIZONTALS.length)];
 			BlockPos placePos = down.up();
