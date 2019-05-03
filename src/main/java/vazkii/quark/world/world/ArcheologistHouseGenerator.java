@@ -1,9 +1,5 @@
 package vazkii.quark.world.world;
 
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Random;
-
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.server.MinecraftServer;
@@ -19,6 +15,10 @@ import net.minecraftforge.fml.common.IWorldGenerator;
 import vazkii.arl.util.RotationHandler;
 import vazkii.quark.world.entity.EntityArcheologist;
 import vazkii.quark.world.feature.Archeologist;
+
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Random;
 
 public class ArcheologistHouseGenerator implements IWorldGenerator {
 
@@ -45,7 +45,7 @@ public class ArcheologistHouseGenerator implements IWorldGenerator {
 			while(world.isAirBlock(placePos)) {
 				placePos = placePos.offset(facing);
 				
-				if(!world.isBlockLoaded(placePos))
+				if(world.isOutsideBuildHeight(placePos) || !world.isBlockLoaded(placePos))
 					return false;
 			}
 			
