@@ -215,11 +215,6 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 		return 6;
 	}
 
-	@Override
-	protected boolean needsToSyncInventory() {
-		return false;
-	}
-
 	public static class PipeItem {
 
 		private static final String TAG_TICKS = "ticksInPipe";
