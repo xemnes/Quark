@@ -56,11 +56,9 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 				if(item.tick(this)) {
 					itemItr.remove();
 
-					if (!world.isRemote) {
-						if (item.valid)
-							passOut(item);
-						else dropItem(item.stack);
-					}
+					if (item.valid)
+						passOut(item);
+					else dropItem(item.stack);
 				}
 			}
 			iterating = false;
@@ -107,7 +105,7 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 		if(tile != null) {
 			if(tile instanceof TilePipe)
 				did = ((TilePipe) tile).passIn(item.stack, item.outgoingFace.getOpposite(), item.rngSeed, item.timeInWorld);
-			else if(!world.isRemote) {
+			else if (!world.isRemote) {
 				ItemStack result = putIntoInv(item.stack, tile, item.outgoingFace.getOpposite(), false);
 				if(result.getCount() != item.stack.getCount()) {
 					did = true;
