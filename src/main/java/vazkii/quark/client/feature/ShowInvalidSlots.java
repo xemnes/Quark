@@ -20,7 +20,7 @@ public class ShowInvalidSlots extends Feature {
 	
 	@Override
 	public void setupConfig() {
-		requiresShift = loadPropBool("Requires Shift", "Set this to true to only display the reds boxes when Shift is held", false);
+		requiresShift = loadPropBool("Requires Shift", "Set this to true to only display the reds boxes when Shift is held", true);
 	}
 	
 	@Override
