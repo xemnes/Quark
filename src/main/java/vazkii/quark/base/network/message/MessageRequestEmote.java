@@ -1,12 +1,5 @@
 package vazkii.quark.base.network.message;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-
-import com.google.common.io.Files;
-
-import net.minecraft.command.CommandException;
 import net.minecraft.command.FunctionObject;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.Entity;
@@ -17,11 +10,16 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import org.apache.commons.io.IOUtils;
 import vazkii.arl.network.NetworkHandler;
 import vazkii.arl.network.NetworkMessage;
 import vazkii.quark.vanity.feature.EmoteSystem;
 
 import javax.annotation.Nonnull;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 public class MessageRequestEmote extends NetworkMessage<MessageRequestEmote> {
 
@@ -37,7 +35,7 @@ public class MessageRequestEmote extends NetworkMessage<MessageRequestEmote> {
 	public IMessage handleMessage(MessageContext context) {
 		EntityPlayerMP player = context.getServerHandler().player;
 		MinecraftServer server = player.getServer();
-		server.addScheduledTask(() -> {
+		if (server != null) server.addScheduledTask(() -> {
 			NetworkHandler.INSTANCE.sendToAll(new MessageDoEmote(emoteName, player.getName()));
 
 			if(EmoteSystem.emoteCommands) {
@@ -48,7 +46,8 @@ public class MessageRequestEmote extends NetworkMessage<MessageRequestEmote> {
 
 				if(file.exists())
 					try {
-						FunctionObject func = FunctionObject.create(server.getFunctionManager(), Files.readLines(file, StandardCharsets.UTF_8));
+						FunctionObject func = FunctionObject.create(server.getFunctionManager(),
+								IOUtils.readLines(new FileInputStream(file), StandardCharsets.UTF_8));
 						server.getFunctionManager().execute(func, new EmoteCommandSender(server, player));
 					} catch(IOException e) {
 						e.printStackTrace();

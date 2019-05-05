@@ -136,7 +136,13 @@ public class EmoteSystem extends Feature {
 			list.add(new GuiButtonTranslucent(EMOTE_BUTTON_START, gui.width - 76, gui.height - 40, 75, 20, I18n.format("quark.gui.emotes")));
 
 			int i = 0;
-			int size = EmoteHandler.emoteMap.size() - 1;
+			int size = 0;
+			for (EmoteDescriptor desc : EmoteHandler.emoteMap.values()) {
+				if (desc.getTier() <= ContributorRewardHandler.localPatronTier)
+					size++;
+			}
+
+
 			for(String key : EmoteHandler.emoteMap.keySet()) {
 				EmoteDescriptor desc = EmoteHandler.emoteMap.get(key);
 				int tier = desc.getTier();
