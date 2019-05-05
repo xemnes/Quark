@@ -28,10 +28,11 @@ public class BlockPaperWall extends BlockQuarkPane {
 		setHardness(1.5F);
 		setSoundType(SoundType.WOOD);
 		setCreativeTab(CreativeTabs.DECORATIONS);
+		setHarvestLevel("axe", 0);
 	}
 
 	@Override
-	public boolean canPlaceTorchOnTop(IBlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos) {
+	public boolean canPlaceTorchOnTop(@Nonnull IBlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos) {
 		return !state.getValue(NORTH) && !state.getValue(SOUTH) && !state.getValue(EAST) && !state.getValue(WEST);
 	}
 	
@@ -39,5 +40,4 @@ public class BlockPaperWall extends BlockQuarkPane {
 	public boolean canPaneConnectTo(IBlockAccess world, BlockPos pos, EnumFacing dir) {
 		return super.canPaneConnectTo(world, pos, dir) || world.getBlockState(pos.offset(dir)).getBlock() instanceof BlockPaperWall;
 	}
-
 }
