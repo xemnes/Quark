@@ -3,6 +3,7 @@ package vazkii.quark.oddities.tile;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -13,6 +14,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -53,12 +55,15 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 			iterating = true;
 			while(itemItr.hasNext()) {
 				PipeItem item = itemItr.next();
+				EnumFacing lastFacing = item.outgoingFace;
 				if(item.tick(this)) {
 					itemItr.remove();
 
 					if (item.valid)
 						passOut(item);
-					else dropItem(item.stack);
+					else {
+						dropItem(item.stack, lastFacing, true);
+					}
 				}
 			}
 			iterating = false;
@@ -125,8 +130,31 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 	}
 
 	public void dropItem(ItemStack stack) {
+		dropItem(stack, null, false);
+	}
+
+	public void dropItem(ItemStack stack, EnumFacing facing, boolean playSound) {
 		if(!world.isRemote) {
-			EntityItem entity = new EntityItem(world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, stack);
+			double posX = pos.getX() + 0.5;
+			double posY = pos.getY() + 0.25;
+			double posZ = pos.getZ() + 0.5;
+
+			if (facing != null) {
+				posX -= facing.getXOffset() / 2.5;
+				posY -= facing.getYOffset() / 2.5;
+				posZ -= facing.getZOffset() / 2.5;
+			}
+
+			if (playSound)
+				world.playSound(null, posX, posY, posZ, SoundEvents.BLOCK_DISPENSER_LAUNCH, SoundCategory.BLOCKS, 0.5f, 2f);
+
+			EntityItem entity = new EntityItem(world, posX, posY, posZ, stack);
+
+			if (facing != null) {
+				entity.motionX = -facing.getXOffset() / 2.0;
+				entity.motionY = -facing.getYOffset() / 2.0;
+				entity.motionZ = -facing.getZOffset() / 2.0;
+			}
 			world.spawnEntity(entity);
 		}
 	}
@@ -211,6 +239,11 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 	@Override
 	public int getSizeInventory() {
 		return 6;
+	}
+
+	@Override
+	protected boolean needsToSyncInventory() {
+		return false;
 	}
 
 	public static class PipeItem {
