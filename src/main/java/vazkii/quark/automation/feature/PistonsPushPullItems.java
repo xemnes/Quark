@@ -60,11 +60,14 @@ public class PistonsPushPullItems extends Feature {
 
 	private static void nudgeItem(World world, EntityItem entity, EnumFacing whichWay, boolean showParticles) {
 		float x = force * whichWay.getXOffset();
-		float y = force * whichWay.getYOffset();
+		float y = force * whichWay.getYOffset() * 1.5f;
 		float z = force * whichWay.getZOffset();
 		float px = x == 0 ? 0.4F : 0;
 		float py = y == 0 ? 0.4F : 0;
 		float pz = z == 0 ? 0.4F : 0;
+		entity.setPosition(entity.posX + 0.5 * whichWay.getXOffset(),
+				entity.posY + 0.5 * whichWay.getYOffset(),
+				entity.posZ + 0.5 * whichWay.getZOffset());
 		entity.addVelocity(x, y, z);
 		if(showParticles && world instanceof WorldServer)
 			((WorldServer) world).spawnParticle(EnumParticleTypes.CRIT, entity.posX, entity.posY, entity.posZ, 12, px, py, pz, 0);
