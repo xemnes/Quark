@@ -140,9 +140,9 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 			double posZ = pos.getZ() + 0.5;
 
 			if (facing != null) {
-				posX -= facing.getXOffset() / 2.5;
-				posY -= facing.getYOffset() / 2.5;
-				posZ -= facing.getZOffset() / 2.5;
+				posX -= facing.getXOffset() * 0.4;
+				posY -= facing.getYOffset() * 0.65;
+				posZ -= facing.getZOffset() * 0.4;
 			}
 
 			if (playSound)
