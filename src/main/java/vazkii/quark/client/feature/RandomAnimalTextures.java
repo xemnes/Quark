@@ -72,7 +72,8 @@ public class RandomAnimalTextures extends Feature {
 		int choice = Math.abs((int) (id.getMostSignificantBits() % styles.size()));
 		return styles.get(choice);
 	}
-	
+
+	@SideOnly(Side.CLIENT)
 	private static void registerTextures(RandomTextureType type, int count, ResourceLocation vanilla) {
 		String name = type.name().toLowerCase();
 		for(int i = 1; i < count + 1; i++)
@@ -81,7 +82,8 @@ public class RandomAnimalTextures extends Feature {
 		if(vanilla != null)
 			textures.put(type, vanilla);
 	}
-	
+
+	@SideOnly(Side.CLIENT)
 	private static <T extends Entity>void registerOverride(Class<T> clazz, IRenderFactory<? super T> factory, boolean enabled) {
 		if(enabled)
 			RenderingRegistry.registerEntityRenderingHandler(clazz, factory);
