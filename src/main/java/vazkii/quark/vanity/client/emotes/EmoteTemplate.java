@@ -4,10 +4,10 @@ import com.google.common.collect.Lists;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.FMLLog;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.aurelienribon.tweenengine.*;
+import vazkii.quark.base.Quark;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -171,12 +171,12 @@ public class EmoteTemplate {
 	}
 	
 	private void logError(Exception e, int line) {
-		FMLLog.log.error("[Quark Custom Emotes] Error loading line " + (line + 1) + " of emote " + file);
+		Quark.LOG.error("[Custom Emotes] Error loading line " + (line + 1) + " of emote " + file);
 		if(!(e instanceof IllegalArgumentException)) {
-			FMLLog.log.error("[Quark Custom Emotes] This is an Internal Error, and not one in the emote file, please report it");
+			Quark.LOG.error("[Custom Emotes] This is an Internal Error, and not one in the emote file, please report it");
 			e.printStackTrace();
 		}
-		else FMLLog.log.error("[Quark Custom Emotes] " + e.getMessage());
+		else Quark.LOG.error("[Custom Emotes] " + e.getMessage());
 	}
 
 	private Timeline handle(ModelBiped model, EntityPlayer player, Timeline timeline, String s) throws IllegalArgumentException {
