@@ -392,7 +392,7 @@ public class EmoteTemplate {
 
 			try {
 				if (tokens.length >= 5)
-					volume = Float.parseFloat(tokens[4]);
+					volume = Math.min(Float.parseFloat(tokens[4]), 1.5f);
 
 				if (tokens.length >= 6)
 					pitch = Float.parseFloat(tokens[5]);
