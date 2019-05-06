@@ -61,6 +61,8 @@ public class EmoteState {
 		float rotY = states[ModelAccessor.MODEL_Y];
 		float rotZ = states[ModelAccessor.MODEL_Z];
 
+		GlStateManager.translate(0.5, 1, 0.5);
+
 		GlStateManager.translate(offsetX, offsetY, offsetZ);
 
 		if (rotY != 0)
@@ -69,6 +71,8 @@ public class EmoteState {
 			GlStateManager.rotate(rotX * 180 / PI_F, 1, 0, 0);
 		if (rotZ != 0)
 			GlStateManager.rotate(rotZ * 180 / PI_F, 0, 0, 1);
+
+		GlStateManager.translate(-0.5, -1, -0.5);
 	}
 }
 
