@@ -65,7 +65,7 @@ public class ConfigHelper {
 
 	private static void setNeedsRestart(Property prop) {
 		if(needsRestart)
-			prop.setRequiresMcRestart(needsRestart);
+			prop.setRequiresMcRestart(true);
 		needsRestart = allNeedRestart;
 	}
 	

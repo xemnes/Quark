@@ -31,10 +31,9 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.SlotItemHandler;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
 import vazkii.arl.network.NetworkHandler;
 import vazkii.quark.api.IChestButtonCallback;
+import vazkii.quark.base.Quark;
 import vazkii.quark.base.client.ModKeybinds;
 import vazkii.quark.base.handler.DropoffHandler;
 import vazkii.quark.base.module.Feature;
@@ -129,7 +128,7 @@ public class ChestButtons extends Feature {
 			EntityPlayer player = Minecraft.getMinecraft().player;
 
 			if(debugClassnames)
-				LogManager.getLogger("Quark").log(Level.INFO, "[Quark] Opening GUI %s", guiInv.getClass().getName());
+				Quark.LOG.info("[Quark] Opening GUI %s", guiInv.getClass().getName());
 			
 			boolean accept = guiInv instanceof IChestButtonCallback || guiInv instanceof GuiChest || guiInv instanceof GuiShulkerBox 
 					|| classnames.contains(guiInv.getClass().getName());

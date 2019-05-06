@@ -12,6 +12,7 @@ package vazkii.quark.vanity.client.gui;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.util.ResourceLocation;
 import vazkii.quark.base.client.gui.GuiButtonTranslucent;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.vanity.client.emotes.EmoteDescriptor;
@@ -35,6 +36,12 @@ public class GuiButtonEmote extends GuiButtonTranslucent {
 			mc.getTextureManager().bindTexture(desc.texture);
 			GlStateManager.color(1F, 1F, 1F);
 			drawModalRectWithCustomSizedTexture(x + 4, y + 4, 0, 0, 16, 16, 16, 16);
+
+			ResourceLocation tierTexture = desc.getTierTexture();
+			if (tierTexture != null) {
+				mc.getTextureManager().bindTexture(tierTexture);
+				drawModalRectWithCustomSizedTexture(x + 4, y + 4, 0, 0, 16, 16, 16, 16);
+			}
 			
 			boolean hovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
 			if(hovered) {

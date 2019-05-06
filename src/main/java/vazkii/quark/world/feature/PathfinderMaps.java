@@ -21,9 +21,8 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.VillagerRegistry.VillagerCareer;
 import net.minecraftforge.fml.common.registry.VillagerRegistry.VillagerProfession;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import vazkii.arl.util.ItemNBTHelper;
+import vazkii.quark.base.Quark;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.experimental.world.BiomeLocator;
@@ -152,9 +151,8 @@ public class PathfinderMaps extends Feature {
 			try {
 				loadTradeInfo(s);
 			} catch(IllegalArgumentException e) {
-				Logger logger = LogManager.getLogger("Quark");
-				logger.warn("[Custom Pathfinder Maps] Error while reading custom map string \"%s\"", s);
-				logger.warn("[Custom Pathfinder Maps] - %s", e.getMessage());
+				Quark.LOG.warn("[Custom Pathfinder Maps] Error while reading custom map string \"%s\"", s);
+				Quark.LOG.warn("[Custom Pathfinder Maps] - %s", e.getMessage());
 			}
 	}
 

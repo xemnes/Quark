@@ -27,15 +27,18 @@ public class GuiButtonTranslucent extends GuiButton {
 	}
 	
 	public void drawActualTexturedModalRect(int x, int y, int textureX, int textureY, int width, int height) {
-		float f = 0.00390625F;
-		float f1 = 0.00390625F;
+		float f = 0.00390625f;
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder bufferbuilder = tessellator.getBuffer();
 		bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
-		bufferbuilder.pos((double)(x + 0), (double)(y + height), (double)this.zLevel).tex((double)((float)(textureX + 0) * 0.00390625F), (double)((float)(textureY + height) * 0.00390625F)).endVertex();
-		bufferbuilder.pos((double)(x + width), (double)(y + height), (double)this.zLevel).tex((double)((float)(textureX + width) * 0.00390625F), (double)((float)(textureY + height) * 0.00390625F)).endVertex();
-		bufferbuilder.pos((double)(x + width), (double)(y + 0), (double)this.zLevel).tex((double)((float)(textureX + width) * 0.00390625F), (double)((float)(textureY + 0) * 0.00390625F)).endVertex();
-		bufferbuilder.pos((double)(x + 0), (double)(y + 0), (double)this.zLevel).tex((double)((float)(textureX + 0) * 0.00390625F), (double)((float)(textureY + 0) * 0.00390625F)).endVertex();
+		bufferbuilder.pos(x, y + height, this.zLevel)
+				.tex(textureX * f, (textureY + height) * f).endVertex();
+		bufferbuilder.pos(x + width, y + height, this.zLevel)
+				.tex((textureX + width) * f, (textureY + height) * f).endVertex();
+		bufferbuilder.pos(x + width, y, this.zLevel)
+				.tex((textureX + width) * f, textureY * f).endVertex();
+		bufferbuilder.pos(x, y, this.zLevel)
+				.tex(textureX * f, textureY * f).endVertex();
 		tessellator.draw();
 	}
 

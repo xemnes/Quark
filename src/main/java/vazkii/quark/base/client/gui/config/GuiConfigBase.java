@@ -1,20 +1,19 @@
 package vazkii.quark.base.client.gui.config;
 
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.LinkedList;
-import java.util.List;
-
-import org.apache.logging.log4j.LogManager;
-
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiConfirmOpenLink;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.config.Property;
+import vazkii.quark.base.Quark;
 import vazkii.quark.base.module.ModuleLoader;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.LinkedList;
+import java.util.List;
 
 public class GuiConfigBase extends GuiScreen {
 
@@ -108,7 +107,7 @@ public class GuiConfigBase extends GuiScreen {
 			oclass.getMethod("browse", URI.class).invoke(object, url);
 		} catch(Throwable throwable1) {
 			Throwable throwable = throwable1.getCause();
-			LogManager.getLogger("Quark").warn("Couldn't open link: {}", (throwable == null ? "<UNKNOWN>" : throwable.getMessage()));
+			Quark.LOG.warn("Couldn't open link: {}", (throwable == null ? "<UNKNOWN>" : throwable.getMessage()));
 		}
 	}
 

@@ -25,10 +25,9 @@ import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import vazkii.quark.api.module.ModuleLoadedEvent;
 import vazkii.quark.automation.QuarkAutomation;
+import vazkii.quark.base.Quark;
 import vazkii.quark.base.handler.RecipeProcessor;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.building.QuarkBuilding;
@@ -100,9 +99,7 @@ public final class ModuleLoader {
 
 		setupConfig(event);
 
-		Logger logger = LogManager.getLogger("Quark");
-
-		forEachModule(module -> logger.info("Module " + module.name + " is " + (module.enabled ? "enabled" : "disabled")));
+		forEachModule(module -> Quark.LOG.info("Module " + module.name + " is " + (module.enabled ? "enabled" : "disabled")));
 
 		forEachEnabled(module -> module.preInit(event));
 		forEachEnabled(module -> module.postPreInit(event));

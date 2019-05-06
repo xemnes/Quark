@@ -21,10 +21,10 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.apache.logging.log4j.LogManager;
 import vazkii.quark.api.module.FeatureEvent;
 import vazkii.quark.api.module.IFeature;
 import vazkii.quark.api.module.IModule;
+import vazkii.quark.base.Quark;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -103,7 +103,7 @@ public class Module implements IModule {
 						}
 					
 					if(!failiures.isEmpty())
-						LogManager.getLogger("Quark").info("'" + feature.configName + "' is forcefully disabled as it's incompatible with the following loaded mods: " + failiures);
+						Quark.LOG.info("'" + feature.configName + "' is forcefully disabled as it's incompatible with the following loaded mods: " + failiures);
 				}
 			}
 			
