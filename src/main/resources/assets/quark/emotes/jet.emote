@@ -4,6 +4,7 @@ use left_arm
 use right_arm
 use left_leg
 use right_leg
+use model
 
 tier 2
 
@@ -33,12 +34,7 @@ animation sequence
         move left_arm_off_x 100 -0.03 yoyo 11 0
         move left_arm_off_z 80 0.04 yoyo 13 0
 
-        move head_off_y 3000 -30    
-        move body_off_y 3000 -30
-        move left_arm_off_y 3000 -30
-        move right_arm_off_y 3000 -30
-        move left_leg_off_y 3000 -30
-        move right_leg_off_y 3000 -30
+        move model_off_y 3000 30
     end
 
     reset all all 500

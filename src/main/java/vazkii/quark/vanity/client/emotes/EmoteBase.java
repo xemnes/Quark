@@ -60,6 +60,10 @@ public abstract class EmoteBase {
 
 	public abstract boolean usesBodyPart(int part);
 
+	public void rotateAndOffset() {
+		state.rotateAndOffset();
+	}
+
 	public void update() {
 		state.load(model);
 		state.load(armorModel);

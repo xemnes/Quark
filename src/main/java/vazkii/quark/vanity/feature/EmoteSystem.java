@@ -22,14 +22,15 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.resources.IResourcePack;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
+import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -111,7 +112,7 @@ public class EmoteSystem extends Feature {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void preInitClient(FMLPreInitializationEvent event) {
-		Tween.registerAccessor(ModelBiped.class, new ModelAccessor());
+		Tween.registerAccessor(ModelBiped.class, ModelAccessor.INSTANCE);
 
 		for(String s : enabledEmotes)
 			if(EMOTE_NAME_LIST.contains(s))
@@ -228,7 +229,7 @@ public class EmoteSystem extends Feature {
 				GlStateManager.enableBlend();
 
 				String name = I18n.format(emote.desc.getTranslationKey());
-				mc.fontRenderer.drawStringWithShadow(name, res.getScaledWidth() / 2 - mc.fontRenderer.getStringWidth(name) / 2, y + 34, 0xFFFFFF + (((int) (transparency * 255F)) << 24));
+				mc.fontRenderer.drawStringWithShadow(name, res.getScaledWidth() / 2f - mc.fontRenderer.getStringWidth(name) / 2f, y + 34, 0xFFFFFF + (((int) (transparency * 255F)) << 24));
 				GlStateManager.popMatrix();
 			}
 		}
@@ -237,7 +238,21 @@ public class EmoteSystem extends Feature {
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void renderTick(RenderTickEvent event) {
-		EmoteHandler.onRenderTick(Minecraft.getMinecraft(), event.phase == Phase.START);
+		EmoteHandler.onRenderTick(Minecraft.getMinecraft());
+	}
+
+	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
+	public void preRenderLiving(RenderLivingEvent.Pre event) {
+		if (event.getEntity() instanceof EntityPlayer)
+			EmoteHandler.preRender((EntityPlayer) event.getEntity());
+	}
+
+	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
+	public void postRenderLiving(RenderLivingEvent.Post event) {
+		if (event.getEntity() instanceof EntityPlayer)
+			EmoteHandler.postRender((EntityPlayer) event.getEntity());
 	}
 
 	@Override

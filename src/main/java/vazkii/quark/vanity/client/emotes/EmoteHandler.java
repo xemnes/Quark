@@ -15,6 +15,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLivingBase;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderPlayer;
@@ -96,8 +97,23 @@ public final class EmoteHandler {
 			}
 		}
 	}
+
+	public static void preRender(EntityPlayer player) {
+		EmoteBase emote = getPlayerEmote(player);
+		if (emote != null) {
+			GlStateManager.pushMatrix();
+			emote.rotateAndOffset();
+		}
+	}
+
+	public static void postRender(EntityPlayer player) {
+		EmoteBase emote = getPlayerEmote(player);
+		if (emote != null) {
+			GlStateManager.popMatrix();
+		}
+	}
 	
-	public static void onRenderTick(Minecraft mc, boolean start) {
+	public static void onRenderTick(Minecraft mc) {
 		World world = mc.world;
 		if(world == null)
 			return;

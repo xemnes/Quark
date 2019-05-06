@@ -173,8 +173,7 @@ public class EmoteTemplate {
 	private void logError(Exception e, int line) {
 		Quark.LOG.error("[Custom Emotes] Error loading line " + (line + 1) + " of emote " + file);
 		if(!(e instanceof IllegalArgumentException)) {
-			Quark.LOG.error("[Custom Emotes] This is an Internal Error, and not one in the emote file, please report it");
-			e.printStackTrace();
+			Quark.LOG.error("[Custom Emotes] This is an Internal Error, and not one in the emote file, please report it", e);
 		}
 		else Quark.LOG.error("[Custom Emotes] " + e.getMessage());
 	}
@@ -359,7 +358,7 @@ public class EmoteTemplate {
 		if (timeline == null)
 			throw new IllegalArgumentException("Illegal use of function sound, animation not started");
 		if (tokens.length < 2)
-			throw new IllegalArgumentException("Expected sound action (continuous, instant, stop) for function play");
+			throw new IllegalArgumentException("Expected action (continuous, instant, stop) for function sound");
 
 		String playType = tokens[1];
 		if (playType.equals("stop")) {
@@ -451,10 +450,10 @@ public class EmoteTemplate {
 		if(model != null) {
 			Timeline parallel = Timeline.createParallel();
 			int lower = allParts ? 0 : partInt + (rot ? 0 : 3);
-			int upper = allParts ? ModelAccessor.STATE_COUNT : partInt + (off ? 6 : 3);
+			int upper = allParts ? ModelAccessor.STATE_COUNT : partInt + (off ? ModelAccessor.STATE_COUNT : 3);
 			
 			for(int i = lower; i < upper; i++) {
-				int piece = i / ModelAccessor.MODEL_PROPS * ModelAccessor.MODEL_PROPS;
+				int piece = (i / ModelAccessor.MODEL_PROPS) * ModelAccessor.MODEL_PROPS;
 				if(em.usedParts.contains(piece))
 					parallel.push(Tween.to(model, i, time));
 			}
