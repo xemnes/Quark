@@ -68,7 +68,9 @@ public class ColoredFlowerPots extends Feature {
 				"biomesoplenty:sapling_0->12",
 				"biomesoplenty:sapling_1->12",
 				"biomesoplenty:sapling_2->12",
-				"quark:glowshroom->1" // does not extend BlockMushroom, so comparator power is guessed wrongly
+				"quark:glowshroom->1", // does not extend BlockMushroom, so comparator power is guessed wrongly
+				"botania:specialflower->0",
+				"botania:floatingspecialflower->0"
 		});
 	}
 
