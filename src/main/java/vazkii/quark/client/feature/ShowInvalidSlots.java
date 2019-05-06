@@ -11,6 +11,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.RenderTooltipEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.base.module.Feature;
 
 public class ShowInvalidSlots extends Feature {
@@ -29,6 +31,7 @@ public class ShowInvalidSlots extends Feature {
 	}
 	
 	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
 	public void onRender(GuiScreenEvent.DrawScreenEvent.Post event) {
 		if(!skip)
 			renderElements(event.getGui());
@@ -36,11 +39,13 @@ public class ShowInvalidSlots extends Feature {
 	}
 	
 	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
 	public void drawTooltipEvent(RenderTooltipEvent.Pre event) {
 		renderElements(Minecraft.getMinecraft().currentScreen);
 		skip = true;
 	}
-	
+
+	@SideOnly(Side.CLIENT)
 	private void renderElements(GuiScreen gui) {
 		if(gui instanceof GuiContainer && (!requiresShift || GuiScreen.isShiftKeyDown())) {
 			GuiContainer guiContainer = (GuiContainer) gui;
@@ -58,16 +63,22 @@ public class ShowInvalidSlots extends Feature {
 			
 			int guiLeft = guiContainer.getGuiLeft();
 			int guiTop = guiContainer.getGuiTop();
-			
+
+			GlStateManager.disableLighting();
+			GlStateManager.pushMatrix();
+			GlStateManager.translate(0, 0, 0.0125);
+
 			for(Slot s : container.inventorySlots) {
 				if(!s.isItemValid(stack)) {
 					int x = guiLeft + s.xPos;
 					int y = guiTop + s.yPos;
-					
-					GlStateManager.disableDepth();
+
 					Gui.drawRect(x, y, x + 16, y + 16, 0x55FF0000);
 				}
 			}
+
+			GlStateManager.popMatrix();
+			GlStateManager.enableLighting();
 		}
 	}
 	
