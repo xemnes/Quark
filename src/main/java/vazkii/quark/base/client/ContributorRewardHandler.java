@@ -22,7 +22,8 @@ public class ContributorRewardHandler {
 
 	private static final ImmutableSet<String> UUIDS = ImmutableSet.of(
 			"8c826f34-113b-4238-a173-44639c53b6e6",
-			"0d054077-a977-4b19-9df9-8a4d5bf20ec3");
+			"0d054077-a977-4b19-9df9-8a4d5bf20ec3",
+			"458391f5-6303-4649-b416-e4c0d18f837a");
 
 	private static final Set<EntityPlayer> done = Collections.newSetFromMap(new WeakHashMap<>());
 	
