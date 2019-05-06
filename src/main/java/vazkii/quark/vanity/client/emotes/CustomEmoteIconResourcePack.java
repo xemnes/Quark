@@ -4,6 +4,8 @@ import com.google.common.collect.ImmutableSet;
 import net.minecraft.client.resources.AbstractResourcePack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.base.Quark;
 import vazkii.quark.vanity.feature.EmoteSystem;
 
@@ -16,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+@SideOnly(Side.CLIENT)
 public class CustomEmoteIconResourcePack extends AbstractResourcePack {
 
 	private List<String> verifiedNames = new ArrayList<>();

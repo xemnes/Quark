@@ -11,7 +11,10 @@
 package vazkii.quark.vanity.client.emotes;
 
 import net.minecraft.client.model.ModelBiped;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
+@SideOnly(Side.CLIENT)
 public class EmoteState {
 
 	float[] states = new float[0];
@@ -32,7 +35,6 @@ public class EmoteState {
 	public void load(ModelBiped model) {
 		if(states.length == 0) {
 			states = new float[ModelAccessor.STATE_COUNT];
-			return;
 		} else {
 			float[] values = new float[1];
 			for(int i = 0; i < ModelAccessor.STATE_COUNT; i++) {

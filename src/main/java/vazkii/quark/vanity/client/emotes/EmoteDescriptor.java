@@ -7,6 +7,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+@SideOnly(Side.CLIENT)
 public class EmoteDescriptor {
 
 	public static final ResourceLocation TIER_1 = new ResourceLocation("quark", "textures/emotes/patreon_t1.png");

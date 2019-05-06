@@ -1,5 +1,7 @@
 package vazkii.aurelienribon.tweenengine;
 
+import java.util.function.Consumer;
+
 /**
  * BaseTween is the base class of Tween and Timeline. It defines the
  * iteration engine used to play animations for any number of times, and in
@@ -176,13 +178,44 @@ public abstract class BaseTween<T> {
 	/**
 	 * Sets the callback. By default, it will be fired at the completion of the
 	 * tween or timeline (event COMPLETE). If you want to change this behavior
-	 * and add more triggers, use the {@link setCallbackTriggers()} method.
+	 * and add more triggers, use the {@link #setCallbackTriggers(int)} method.
 	 *
 	 * @see TweenCallback
 	 */
 	public T setCallback(TweenCallback callback) {
 		this.callback = callback;
 		return (T) this;
+	}
+
+	/**
+	 * Adds a callback. By default, it will be fired at the completion of the
+	 * tween or timeline (event COMPLETE). If you want to change this behavior
+	 * and add more triggers, use the {@link #setCallbackTriggers(int)} method.
+	 *
+	 * @see TweenCallback
+	 */
+	public T addCallback(TweenCallback callback) {
+		if (this.callback == null)
+			this.callback = callback;
+		else
+			this.callback = this.callback.andThen(callback);
+
+		return (T) this;
+	}
+
+	/**
+	 * Adds a callback at a specific flag, enabling that flag as well.
+	 *
+	 * @see TweenCallback
+	 * @see #setCallbackTriggers(int)
+	 */
+	public T addCallback(int flags, Consumer<BaseTween<?>> callback) {
+		this.callbackTriggers |= flags;
+
+		return addCallback(((type, source) -> {
+			if ((flags & type) != 0)
+				callback.accept(source);
+		}));
 	}
 
 	/**
@@ -319,7 +352,7 @@ public abstract class BaseTween<T> {
 	/**
 	 * Returns true if the tween is finished (i.e. if the tween has reached
 	 * its end or has been killed). If you don't use a TweenManager, you may
-	 * want to call {@link free()} to reuse the object later.
+	 * want to call {@link #free()} to reuse the object later.
 	 */
 	public boolean isFinished() {
 		return isFinished || isKilled;

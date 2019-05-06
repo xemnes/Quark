@@ -13,8 +13,11 @@ package vazkii.quark.vanity.client.emotes;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelPlayer;
 import net.minecraft.client.model.ModelRenderer;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.aurelienribon.tweenengine.TweenAccessor;
 
+@SideOnly(Side.CLIENT)
 public class ModelAccessor implements TweenAccessor<ModelBiped> {
 
 	public static final ModelAccessor INSTANCE = new ModelAccessor();
@@ -30,8 +33,8 @@ public class ModelAccessor implements TweenAccessor<ModelBiped> {
 	protected static final int BODY_PARTS = 6;
 	protected static final int STATE_COUNT = MODEL_PROPS * BODY_PARTS;
 	
-	public static final int HEAD = 0 * MODEL_PROPS;
-	public static final int BODY = 1 * MODEL_PROPS;
+	public static final int HEAD = 0;
+	public static final int BODY = MODEL_PROPS;
 	public static final int RIGHT_ARM = 2 * MODEL_PROPS;
 	public static final int LEFT_ARM = 3 * MODEL_PROPS;
 	public static final int RIGHT_LEG = 4 * MODEL_PROPS;

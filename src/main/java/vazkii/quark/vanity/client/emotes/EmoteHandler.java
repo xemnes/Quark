@@ -24,6 +24,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.base.lib.LibObfuscation;
 
 import java.util.HashMap;
@@ -31,6 +33,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+@SideOnly(Side.CLIENT)
 public final class EmoteHandler {
 
 	public static final String CUSTOM_EMOTE_NAMESPACE = "quark_custom";

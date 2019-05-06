@@ -12,10 +12,12 @@ package vazkii.quark.vanity.client.emotes;
 
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.player.EntityPlayer;
-import vazkii.arl.util.ClientTicker;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.aurelienribon.tweenengine.Timeline;
 import vazkii.aurelienribon.tweenengine.TweenManager;
 
+@SideOnly(Side.CLIENT)
 public abstract class EmoteBase {
 
 	public static final float PI_F = (float) Math.PI;
