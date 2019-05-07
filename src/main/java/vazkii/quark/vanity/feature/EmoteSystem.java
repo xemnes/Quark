@@ -63,7 +63,7 @@ public class EmoteSystem extends Feature {
 			"point", 
 			"shrug",
 			"headbang",
-			"weep", 
+			"weep",
 			"facepalm"
 	};
 
@@ -74,7 +74,10 @@ public class EmoteSystem extends Feature {
 			"jet",
 			"exorcist",
 			"zombie"
-	); 
+	);
+
+	private static final int EMOTE_BUTTON_WIDTH = 25;
+	private static final int EMOTES_PER_ROW = 3;
 
 	private static List<String> EMOTE_NAME_LIST = Lists.newArrayList(EMOTE_NAMES);
 
@@ -135,14 +138,18 @@ public class EmoteSystem extends Feature {
 		GuiScreen gui = event.getGui();
 		if(gui instanceof GuiChat) {
 			List<GuiButton> list = event.getButtonList();
-			list.add(new GuiButtonTranslucent(EMOTE_BUTTON_START, gui.width - 76, gui.height - 40, 75, 20, I18n.format("quark.gui.emotes")));
+			list.add(new GuiButtonTranslucent(EMOTE_BUTTON_START, gui.width - 1 - EMOTE_BUTTON_WIDTH * EMOTES_PER_ROW, gui.height - 40, EMOTE_BUTTON_WIDTH * EMOTES_PER_ROW, 20, I18n.format("quark.gui.emotes")));
 
 			int i = 0;
-			int size = -1;
+			int emotes = 0;
 			for (EmoteDescriptor desc : EmoteHandler.emoteMap.values()) {
 				if (desc.getTier() <= ContributorRewardHandler.localPatronTier)
-					size++;
+					emotes++;
 			}
+
+			int rows = emotes / EMOTES_PER_ROW;
+			if (emotes % EMOTES_PER_ROW != 0)
+				rows++;
 
 
 			for(String key : EmoteHandler.emoteMap.keySet()) {
@@ -152,8 +159,15 @@ public class EmoteSystem extends Feature {
 				if(tier > ContributorRewardHandler.localPatronTier)
 					continue;
 
-				int x = gui.width - ((i % 3) + 1) * 25 - 1;
-				int y = gui.height - 65 - 25 * ((size / 3) - i / 3);
+				int row = (i + 1) / EMOTES_PER_ROW;
+				if ((i + 1) % EMOTES_PER_ROW != 0)
+					row++;
+
+				int rowSize = (row == rows && emotes % 3 != 0) ? emotes % EMOTES_PER_ROW : EMOTES_PER_ROW;
+				int rowPosition = (i % EMOTES_PER_ROW) + 1;
+
+				int x = gui.width - ((rowPosition * 2 + EMOTES_PER_ROW - rowSize) * EMOTE_BUTTON_WIDTH / 2 + 1);
+				int y = gui.height - 65 - EMOTE_BUTTON_WIDTH * (rows - row);
 
 				GuiButton button = new GuiButtonEmote(EMOTE_BUTTON_START + i + 1, x, y, desc);
 				button.visible = emotesVisible;
