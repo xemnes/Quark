@@ -90,16 +90,16 @@ public class EmoteTemplate {
 	
 	public EmoteTemplate(String file) {
 		this.file = file;
-		readAndMakeTimeline(null, null);
+		readAndMakeTimeline(null, null, null);
 	}
 
-	public Timeline getTimeline(EntityPlayer player, ModelBiped model) {
+	public Timeline getTimeline(EmoteDescriptor desc, EntityPlayer player, ModelBiped model) {
 		compiled = false;
 		speed = 1;
 		tier = 0;
 
 		if(readLines == null)
-			return readAndMakeTimeline(player, model);
+			return readAndMakeTimeline(desc, player, model);
 		else {
 			Timeline timeline = null;
 			timelineStack = new Stack<>();
@@ -120,11 +120,13 @@ public class EmoteTemplate {
 		}
 	}
 	
-	public Timeline readAndMakeTimeline(EntityPlayer player, ModelBiped model) {
+	public Timeline readAndMakeTimeline(EmoteDescriptor desc, EntityPlayer player, ModelBiped model) {
 		Timeline timeline = null;
 		usedParts = new ArrayList<>();
 		timelineStack = new Stack<>();
 		int lines = 0;
+
+		tier = 0;
 		
 		BufferedReader reader = null;
 		compiled = compiledOnce = false;
@@ -153,6 +155,8 @@ public class EmoteTemplate {
 			return fallback();
 		} finally {
 			compiledOnce = true;
+			if (desc != null)
+				desc.updateTier(this);
 			try {
 				if(reader != null)
 					reader.close();

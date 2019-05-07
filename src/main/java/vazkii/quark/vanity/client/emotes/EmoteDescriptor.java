@@ -38,6 +38,10 @@ public class EmoteDescriptor {
 		this.template = template;
 		this.tier = template.tier;
 	}
+
+	public void updateTier(EmoteTemplate template) {
+		this.tier = template.tier;
+	}
 	
 	public String getTranslationKey() {
 		return "quark.emote." + name;

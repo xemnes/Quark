@@ -16,7 +16,7 @@ public class TemplateSourcedEmote extends EmoteBase {
 
 		if(shouldLoadTimelineOnLaunch()) {
 			Quark.LOG.debug("Loading emote " + desc.getTranslationKey());
-			desc.template.readAndMakeTimeline(player, model);
+			desc.template.readAndMakeTimeline(desc, player, model);
 		}
 	}
 	
@@ -26,7 +26,7 @@ public class TemplateSourcedEmote extends EmoteBase {
 
 	@Override
 	public Timeline getTimeline(EntityPlayer player, ModelBiped model) {
-		return desc.template.getTimeline(player, model);
+		return desc.template.getTimeline(desc, player, model);
 	}
 
 	@Override
