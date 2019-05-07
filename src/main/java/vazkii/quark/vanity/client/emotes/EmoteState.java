@@ -63,9 +63,8 @@ public class EmoteState {
 		float rotZ = states[ModelAccessor.MODEL_Z];
 
 		float height = player.height;
-		float width = player.width;
 
-		GlStateManager.translate(width / 2, height / 2, width / 2);
+		GlStateManager.translate(0, height / 2, 0);
 
 		GlStateManager.translate(offsetX, offsetY, offsetZ);
 
@@ -76,7 +75,7 @@ public class EmoteState {
 		if (rotZ != 0)
 			GlStateManager.rotate(rotZ * 180 / PI_F, 0, 0, 1);
 
-		GlStateManager.translate(-width / 2, -height / 2, -width / 2);
+		GlStateManager.translate(0, -height / 2, 0);
 	}
 }
 

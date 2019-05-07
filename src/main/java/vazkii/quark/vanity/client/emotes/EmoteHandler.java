@@ -10,7 +10,6 @@
  */
 package vazkii.quark.vanity.client.emotes;
 
-import com.google.common.collect.ImmutableSet;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.model.ModelBiped;
@@ -162,9 +161,9 @@ public final class EmoteHandler {
 			return null;
 		
 		List list = ObfuscationReflectionHelper.getPrivateValue(RenderLivingBase.class, render, LibObfuscation.LAYER_RENDERERS);
-		for(int i = 0; i < list.size(); i++)
-			if(list.get(i) instanceof LayerBipedArmor)
-				return ObfuscationReflectionHelper.getPrivateValue(LayerArmorBase.class, (LayerArmorBase) list.get(i), LibObfuscation.MODEL_ARMOR);
+		for (Object aList : list)
+			if (aList instanceof LayerBipedArmor)
+				return ObfuscationReflectionHelper.getPrivateValue(LayerArmorBase.class, (LayerArmorBase) aList, LibObfuscation.MODEL_ARMOR);
 
 		return null;
 	}
@@ -175,9 +174,9 @@ public final class EmoteHandler {
 			return null;
 		
 		List list = ObfuscationReflectionHelper.getPrivateValue(RenderLivingBase.class, render, LibObfuscation.LAYER_RENDERERS);
-		for(int i = 0; i < list.size(); i++)
-			if(list.get(i) instanceof LayerBipedArmor)
-				return ObfuscationReflectionHelper.getPrivateValue(LayerArmorBase.class, (LayerArmorBase) list.get(i), LibObfuscation.MODEL_LEGGINGS);
+		for (Object aList : list)
+			if (aList instanceof LayerBipedArmor)
+				return ObfuscationReflectionHelper.getPrivateValue(LayerArmorBase.class, (LayerArmorBase) aList, LibObfuscation.MODEL_LEGGINGS);
 		
 		return null;
 	}
@@ -189,8 +188,17 @@ public final class EmoteHandler {
 	}
 
 	private static void resetModel(ModelBiped model) {
-		if(model != null)
-			ImmutableSet.of(model.bipedHead, model.bipedHeadwear, model.bipedBody, model.bipedLeftArm, model.bipedRightArm, model.bipedLeftLeg, model.bipedRightLeg).forEach(EmoteHandler::resetPart);
+		if (model != null) {
+			resetPart(model.bipedHead);
+			resetPart(model.bipedHeadwear);
+			resetPart(model.bipedBody);
+			resetPart(model.bipedLeftArm);
+			resetPart(model.bipedRightArm);
+			resetPart(model.bipedLeftLeg);
+			resetPart(model.bipedRightLeg);
+
+			ModelAccessor.INSTANCE.resetModel(model);
+		}
 	}
 	
 	private static void resetPart(ModelRenderer part) {

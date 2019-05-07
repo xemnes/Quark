@@ -96,6 +96,10 @@ public class ModelAccessor implements TweenAccessor<ModelBiped> {
 		return model.boxList.get(model.boxList.indexOf(model.bipedLeftArm) - 2);
 	}
 
+	public void resetModel(ModelBiped model) {
+		MODEL_VALUES.remove(model);
+	}
+
 	@Override
 	public int getValues(ModelBiped target, int tweenType, float[] returnValues) {
 		int axis = tweenType % MODEL_PROPS;
