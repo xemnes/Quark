@@ -76,8 +76,8 @@ public class EmoteSystem extends Feature {
 			"zombie"
 	);
 
-	private static final int EMOTE_BUTTON_WIDTH = 25;
-	private static final int EMOTES_PER_ROW = 3;
+	public static final int EMOTE_BUTTON_WIDTH = 25;
+	public static final int EMOTES_PER_ROW = 3;
 
 	private static List<String> EMOTE_NAME_LIST = Lists.newArrayList(EMOTE_NAMES);
 
@@ -163,11 +163,11 @@ public class EmoteSystem extends Feature {
 				if ((i + 1) % EMOTES_PER_ROW != 0)
 					row++;
 
-				int rowSize = (row == rows && emotes % 3 != 0) ? emotes % EMOTES_PER_ROW : EMOTES_PER_ROW;
+				int rowSize = (row == rows && emotes % EMOTES_PER_ROW != 0) ? emotes % EMOTES_PER_ROW : EMOTES_PER_ROW;
 				int rowPosition = (i % EMOTES_PER_ROW) + 1;
 
 				int x = gui.width - ((rowPosition * 2 + EMOTES_PER_ROW - rowSize) * EMOTE_BUTTON_WIDTH / 2 + 1);
-				int y = gui.height - 65 - EMOTE_BUTTON_WIDTH * (rows - row);
+				int y = gui.height - (40 + EMOTE_BUTTON_WIDTH * (rows - row + 1));
 
 				GuiButton button = new GuiButtonEmote(EMOTE_BUTTON_START + i + 1, x, y, desc);
 				button.visible = emotesVisible;

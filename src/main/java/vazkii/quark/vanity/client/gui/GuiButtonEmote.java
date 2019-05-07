@@ -16,6 +16,7 @@ import net.minecraft.util.ResourceLocation;
 import vazkii.quark.base.client.gui.GuiButtonTranslucent;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.vanity.client.emotes.EmoteDescriptor;
+import vazkii.quark.vanity.feature.EmoteSystem;
 
 import javax.annotation.Nonnull;
 
@@ -24,7 +25,7 @@ public class GuiButtonEmote extends GuiButtonTranslucent {
 	public final EmoteDescriptor desc;
 
 	public GuiButtonEmote(int buttonId, int x, int y, EmoteDescriptor desc) {
-		super(buttonId, x, y, 24, 24, "");
+		super(buttonId, x, y, EmoteSystem.EMOTE_BUTTON_WIDTH - 1, EmoteSystem.EMOTE_BUTTON_WIDTH - 1, "");
 		this.desc = desc;
 	}
 
@@ -55,10 +56,10 @@ public class GuiButtonEmote extends GuiButtonTranslucent {
 				GlStateManager.pushMatrix();
 				GlStateManager.color(1F, 1F, 1F);
 				GlStateManager.translate(0, 0, 100);
-				drawActualTexturedModalRect(left, top, 242, 9, 5, 18);
+				drawActualTexturedModalRect(left, top, 242, 9, 5, 17);
 				for(int i = 0; i < w; i++)
-					drawActualTexturedModalRect(left + i + 5, top, 248, 9, 1, 18);
-				drawActualTexturedModalRect(left + w + 5, top, 250, 9, 6, 18);
+					drawActualTexturedModalRect(left + i + 5, top, 248, 9, 1, 17);
+				drawActualTexturedModalRect(left + w + 5, top, 250, 9, 6, 17);
 
 				mc.fontRenderer.drawString(name, left + 5, top + 3, 0);
 				GlStateManager.popMatrix();
