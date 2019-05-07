@@ -123,7 +123,7 @@ public class EnchantmentMatrix {
 		List<EnchantmentDataWrapper> validEnchants = new ArrayList<>();
 		for(Enchantment enchantment : Enchantment.REGISTRY) {
 			if ((!enchantment.isTreasureEnchantment() || MatrixEnchanting.allowTreasures)
-					&& !MatrixEnchanting.disallowedEnchantments.contains(enchantment.getRegistryName().toString())
+					&& !MatrixEnchanting.disallowedEnchantments.contains(Objects.toString(enchantment.getRegistryName()))
 					&& (enchantment.canApplyAtEnchantingTable(target) || (book && enchantment.isAllowedOnBooks()))) {
 				int enchantLevel = 1;
 				if (book) {
@@ -336,7 +336,7 @@ public class EnchantmentMatrix {
 			this.type = type;
 			this.marked = marked;
 			
-			Random rng = new Random(enchant.getRegistryName().toString().hashCode());
+			Random rng = new Random(Objects.toString(enchant.getRegistryName()).hashCode());
 			float h = rng.nextFloat();
 			float s = rng.nextFloat() * 0.2F + 0.8F;
 			float b = rng.nextFloat() * 0.25F + 0.75F;
@@ -384,7 +384,7 @@ public class EnchantmentMatrix {
 		public void writeToNBT(NBTTagCompound cmp) {
 			cmp.setInteger(TAG_COLOR, color);
 			cmp.setInteger(TAG_TYPE, type);
-			cmp.setString(TAG_ENCHANTMENT, enchant.getRegistryName().toString());
+			cmp.setString(TAG_ENCHANTMENT, Objects.toString(enchant.getRegistryName()));
 			cmp.setInteger(TAG_LEVEL, level);
 			cmp.setInteger(TAG_X, x);
 			cmp.setInteger(TAG_Y, y);
