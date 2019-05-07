@@ -29,6 +29,7 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
@@ -241,14 +242,14 @@ public class EmoteSystem extends Feature {
 		EmoteHandler.onRenderTick(Minecraft.getMinecraft());
 	}
 
-	@SubscribeEvent
+	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	@SideOnly(Side.CLIENT)
 	public void preRenderLiving(RenderLivingEvent.Pre event) {
 		if (event.getEntity() instanceof EntityPlayer)
 			EmoteHandler.preRender((EntityPlayer) event.getEntity());
 	}
 
-	@SubscribeEvent
+	@SubscribeEvent(priority = EventPriority.LOWEST)
 	@SideOnly(Side.CLIENT)
 	public void postRenderLiving(RenderLivingEvent.Post event) {
 		if (event.getEntity() instanceof EntityPlayer)

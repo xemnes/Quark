@@ -12,6 +12,7 @@ package vazkii.quark.vanity.client.emotes;
 
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -50,7 +51,7 @@ public class EmoteState {
 		}
 	}
 
-	public void rotateAndOffset() {
+	public void rotateAndOffset(EntityPlayer player) {
 		if(states.length == 0)
 			return;
 
@@ -61,7 +62,10 @@ public class EmoteState {
 		float rotY = states[ModelAccessor.MODEL_Y];
 		float rotZ = states[ModelAccessor.MODEL_Z];
 
-		GlStateManager.translate(0.5, 1, 0.5);
+		float height = player.height;
+		float width = player.width;
+
+		GlStateManager.translate(width / 2, height / 2, width / 2);
 
 		GlStateManager.translate(offsetX, offsetY, offsetZ);
 
@@ -72,7 +76,7 @@ public class EmoteState {
 		if (rotZ != 0)
 			GlStateManager.rotate(rotZ * 180 / PI_F, 0, 0, 1);
 
-		GlStateManager.translate(-0.5, -1, -0.5);
+		GlStateManager.translate(-width / 2, -height / 2, -width / 2);
 	}
 }
 

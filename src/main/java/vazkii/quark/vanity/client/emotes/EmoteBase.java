@@ -61,7 +61,7 @@ public abstract class EmoteBase {
 	public abstract boolean usesBodyPart(int part);
 
 	public void rotateAndOffset() {
-		state.rotateAndOffset();
+		state.rotateAndOffset(player);
 	}
 
 	public void update() {
