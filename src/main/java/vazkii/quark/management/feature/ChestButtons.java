@@ -11,6 +11,7 @@
 package vazkii.quark.management.feature;
 
 import com.google.common.collect.Lists;
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiChest;
@@ -87,8 +88,10 @@ public class ChestButtons extends Feature {
 				"Allow anything with 'chest' in its block identifier to be used as a dropoff inventory?", true);
 	}
 
+	@SuppressWarnings("ConstantConditions")
 	public static boolean overriddenDropoff(TileEntity tile) {
-		ResourceLocation blockType = tile.getBlockType().getRegistryName();
+		Block block = tile.getBlockType();
+		ResourceLocation blockType = block == null ? null : block.getRegistryName();
 		ResourceLocation tileType = TileEntity.getKey(tile.getClass());
 
 		if (blockType != null) {
