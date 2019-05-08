@@ -69,7 +69,7 @@ public class ShowInvalidSlots extends Feature {
 			GlStateManager.translate(0, 0, 0.0125);
 
 			for(Slot s : container.inventorySlots) {
-				if(!s.isItemValid(stack)) {
+				if(s.isEnabled() && !s.isItemValid(stack)) {
 					int x = guiLeft + s.xPos;
 					int y = guiTop + s.yPos;
 
