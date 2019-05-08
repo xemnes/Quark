@@ -12,6 +12,7 @@ package vazkii.quark.vanity.feature;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
+import gnu.trove.map.hash.TIntObjectHashMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiChat;
@@ -47,6 +48,7 @@ import vazkii.quark.vanity.client.emotes.*;
 import vazkii.quark.vanity.client.gui.GuiButtonEmote;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -86,6 +88,7 @@ public class EmoteSystem extends Feature {
 
 	public static boolean customEmoteDebug, emoteCommands;
 	public static File emotesDir;
+
 	@SideOnly(Side.CLIENT)
 	public static CustomEmoteIconResourcePack resourcePack;
 
@@ -140,40 +143,52 @@ public class EmoteSystem extends Feature {
 			List<GuiButton> list = event.getButtonList();
 			list.add(new GuiButtonTranslucent(EMOTE_BUTTON_START, gui.width - 1 - EMOTE_BUTTON_WIDTH * EMOTES_PER_ROW, gui.height - 40, EMOTE_BUTTON_WIDTH * EMOTES_PER_ROW, 20, I18n.format("quark.gui.emotes")));
 
-			int i = 0;
-			int emotes = 0;
+			TIntObjectHashMap<List<EmoteDescriptor>> descriptorSorting = new TIntObjectHashMap<>();
+
 			for (EmoteDescriptor desc : EmoteHandler.emoteMap.values()) {
-				if (desc.getTier() <= ContributorRewardHandler.localPatronTier)
-					emotes++;
+				if (desc.getTier() <= ContributorRewardHandler.localPatronTier) {
+					List<EmoteDescriptor> descriptors = descriptorSorting.get(desc.getTier());
+					if (descriptors == null)
+						descriptorSorting.put(desc.getTier(), descriptors = Lists.newArrayList());
+
+					descriptors.add(desc);
+				}
 			}
 
-			int rows = emotes / EMOTES_PER_ROW;
-			if (emotes % EMOTES_PER_ROW != 0)
-				rows++;
+			int i = 0;
+			int row = 0;
+			int tierRow, rowPos;
 
+			int[] keys = descriptorSorting.keys();
+			Arrays.sort(keys);
 
-			for(String key : EmoteHandler.emoteMap.keySet()) {
-				EmoteDescriptor desc = EmoteHandler.emoteMap.get(key);
-				int tier = desc.getTier();
+			for (int tier : keys) {
+				rowPos = 0;
+				tierRow = 0;
+				List<EmoteDescriptor> descriptors = descriptorSorting.get(tier);
+				if (descriptors != null) {
+					for (EmoteDescriptor desc : descriptors) {
+						int rowSize = Math.min(descriptors.size() - tierRow * EMOTES_PER_ROW, EMOTES_PER_ROW);
 
-				if(tier > ContributorRewardHandler.localPatronTier)
-					continue;
+						int x = gui.width - (((rowPos + 1) * 2 + EMOTES_PER_ROW - rowSize) * EMOTE_BUTTON_WIDTH / 2 + 1);
+						int y = gui.height - (40 + EMOTE_BUTTON_WIDTH * (row + 1));
 
-				int row = (i + 1) / EMOTES_PER_ROW;
-				if ((i + 1) % EMOTES_PER_ROW != 0)
+						GuiButton button = new GuiButtonEmote(EMOTE_BUTTON_START + i + 1, x, y, desc);
+						button.visible = emotesVisible;
+						button.enabled = emotesVisible;
+						list.add(button);
+
+						i++;
+
+						if (++rowPos == EMOTES_PER_ROW) {
+							tierRow++;
+							row++;
+							rowPos = 0;
+						}
+					}
+				}
+				if (rowPos != 0)
 					row++;
-
-				int rowSize = (row == rows && emotes % EMOTES_PER_ROW != 0) ? emotes % EMOTES_PER_ROW : EMOTES_PER_ROW;
-				int rowPosition = (i % EMOTES_PER_ROW) + 1;
-
-				int x = gui.width - ((rowPosition * 2 + EMOTES_PER_ROW - rowSize) * EMOTE_BUTTON_WIDTH / 2 + 1);
-				int y = gui.height - (40 + EMOTE_BUTTON_WIDTH * (rows - row + 1));
-
-				GuiButton button = new GuiButtonEmote(EMOTE_BUTTON_START + i + 1, x, y, desc);
-				button.visible = emotesVisible;
-				button.enabled = emotesVisible;
-				list.add(button);
-				i++;
 			}
 		}
 	}
