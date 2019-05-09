@@ -53,7 +53,7 @@ public class VisualStatDisplay extends Feature {
 
 	private String format(String attribute, double value) {
 		if (PERCENT_ATTRIBUTES.contains(attribute))
-			return ItemStack.DECIMALFORMAT.format(value * 100) + "%";
+			return (value > 0 ? "+" : "") + ItemStack.DECIMALFORMAT.format(value * 100) + "%";
 		else if (MULTIPLIER_ATTRIBUTES.contains(attribute))
 			return ItemStack.DECIMALFORMAT.format(value / baseValue(attribute)) + "x";
 		else
@@ -310,7 +310,7 @@ public class VisualStatDisplay extends Feature {
 		if (!PERCENT_ATTRIBUTES.contains(key)) {
 			IAttributeInstance attribute = player.getAttributeMap().getAttributeInstanceByName(key);
 			if (attribute != null)
-				value = attribute.getAttributeValue();
+				value = attribute.getBaseValue();
 		}
 
 		for (AttributeModifier modifier : collection) {
