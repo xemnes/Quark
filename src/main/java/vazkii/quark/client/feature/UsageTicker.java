@@ -1,12 +1,5 @@
 package vazkii.quark.client.feature;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.commons.lang3.text.WordUtils;
-
-import com.google.common.base.Predicate;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
@@ -29,8 +22,13 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.apache.commons.lang3.text.WordUtils;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.building.item.ItemTrowel;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Predicate;
 
 public class UsageTicker extends Feature {
 
@@ -211,7 +209,7 @@ public class UsageTicker extends Feature {
 				count = getStackCount(player,  displayStack);
 			displayStack.setCount(count);
 			
-			return  displayStack;
+			return displayStack;
 		}
 		
 		@SideOnly(Side.CLIENT)
@@ -219,7 +217,7 @@ public class UsageTicker extends Feature {
 			if(!stack.isStackable())
 				return 1;
 			
-			Predicate<ItemStack> pred = (stackAt) -> stack.isItemEqual(stackAt);	
+			Predicate<ItemStack> pred = (stackAt) -> ItemStack.areItemsEqual(stackAt, stack) && ItemStack.areItemStackTagsEqual(stackAt, stack);
 			
 			if(stack.getItem() == Items.ARROW)
 				pred = (stackAt) -> stackAt.getItem() instanceof ItemArrow;
@@ -227,7 +225,7 @@ public class UsageTicker extends Feature {
 			int total = 0;
 			for(int i = 0; i < player.inventory.getSizeInventory(); i++) {
 				ItemStack stackAt = player.inventory.getStackInSlot(i);
-				if(pred.apply(stackAt))
+				if(pred.test(stackAt))
 					total += stackAt.getCount();
 			}
 			
