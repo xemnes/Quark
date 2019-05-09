@@ -56,7 +56,8 @@ public class EntityChestPassenger extends Entity implements IInventory {
 		}
 		
 		Entity riding = getRidingEntity();
-		rotationYaw = riding.prevRotationYaw;
+		if (riding != null)
+			rotationYaw = riding.prevRotationYaw;
 		rotationPitch = 0F;
 	}
 

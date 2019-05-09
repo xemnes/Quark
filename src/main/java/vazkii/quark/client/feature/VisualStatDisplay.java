@@ -1,6 +1,7 @@
 package vazkii.quark.client.feature;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -8,6 +9,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -20,155 +22,234 @@ import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import vazkii.arl.util.ItemNBTHelper;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.base.module.Feature;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 public class VisualStatDisplay extends Feature {
 
 	public static final ImmutableSet<String> VALID_ATTRIBUTES = ImmutableSet.of("generic.attackDamage", "generic.attackSpeed", "generic.armor", "generic.armorToughness");
-	
+
+	private int renderPosition(String attribute) {
+		switch (attribute) {
+			case "generic.attackDamage":
+				return 238;
+			case "generic.attackSpeed":
+				return 247;
+			case "generic.armor":
+				return 229;
+			case "generic.armorToughness":
+				return 220;
+			default:
+				return 211;
+		}
+	}
+
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void makeTooltip(ItemTooltipEvent event) {
 		Minecraft mc = Minecraft.getMinecraft();
 		ItemStack stack = event.getItemStack();
 
-		if(!GuiScreen.isShiftKeyDown() && isAttributeStrippable(stack)) {
+		if(!GuiScreen.isShiftKeyDown() && canStripAttributes(stack)) {
 			List<String> tooltip = event.getToolTip();
-			String allDesc = "";
-			boolean clearedAny = false;
+			Map<EntityEquipmentSlot, StringBuilder> attributeTooltips = Maps.newEnumMap(EntityEquipmentSlot.class);
 
-			for(EntityEquipmentSlot slot : EntityEquipmentSlot.values()) {
+			boolean onlyInvalid = true;
+			int attributeHash = 0;
+			boolean allAreSame = true;
+
+			EntityEquipmentSlot[] slots = EntityEquipmentSlot.values();
+			for(EntityEquipmentSlot slot : slots) {
 				Multimap<String, AttributeModifier> slotAttributes = stack.getAttributeModifiers(slot);
-				
+
+				if (slot == EntityEquipmentSlot.MAINHAND)
+					attributeHash = slotAttributes.hashCode();
+				else if (allAreSame && attributeHash != slotAttributes.hashCode())
+					allAreSame = false;
+
 				if(!slotAttributes.isEmpty()) {
 					String slotDesc = I18n.format("item.modifiers." + slot.getName());
 					int index = tooltip.indexOf(slotDesc) - 1;
 					if(index < 0)
 						continue;
 					
-					tooltip.remove(index); // Remove twice to clear the empty space
-					tooltip.remove(index);
+					tooltip.remove(index); // Remove blank space
+					tooltip.remove(index); // Remove actual line
 				}
 
+				boolean anyInvalid = false;
 				for(String s : slotAttributes.keys()) {
-					if(VALID_ATTRIBUTES.contains(s))
-						allDesc += ItemStack.DECIMALFORMAT.format(getAttribute(event.getEntityPlayer(), stack, slotAttributes, s));
-						
-					String pattern = ".* ?\\+?\\d+ " + I18n.format("attribute.name." + s) + "$";
-					for(int i = 1; i < tooltip.size(); i++)
-						if(tooltip.get(i).matches(pattern)) {
+					if(VALID_ATTRIBUTES.contains(s)) {
+						onlyInvalid = false;
+						double attributeValue = getAttribute(event.getEntityPlayer(), stack, slotAttributes, s);
+						if (attributeValue != 0) {
+							if (!attributeTooltips.containsKey(slot))
+								attributeTooltips.put(slot, new StringBuilder());
+							attributeTooltips.get(slot).append(ItemStack.DECIMALFORMAT.format(attributeValue));
+						}
+					} else if (!anyInvalid) {
+						anyInvalid = true;
+						if (!attributeTooltips.containsKey(slot))
+							attributeTooltips.put(slot, new StringBuilder());
+						attributeTooltips.get(slot).append("[+]");
+					}
+
+					String pattern = ".* ?[+-]?\\d+%? " + I18n.format("attribute.name." + s) + "$";
+					for (int i = 1; i < tooltip.size(); i++) {
+						if (tooltip.get(i).matches(pattern)) {
 							tooltip.remove(i);
-							clearedAny = true;
 							break;
 						}
+					}
 				}
 			}
 
-			if(clearedAny) {
-				int len = mc.fontRenderer.getStringWidth(allDesc) + 32;
-				String spaces = "";
-				while(mc.fontRenderer.getStringWidth(spaces) < len)
-					spaces += " " ;
-				
-				tooltip.add(1, spaces);
+			EntityEquipmentSlot primarySlot = EntityLiving.getSlotForItemStack(stack);
+			boolean showSlots = !allAreSame && (onlyInvalid ||
+					(attributeTooltips.size() == 1 && attributeTooltips.containsKey(primarySlot)));
+
+			for (int i = 0; i < slots.length; i++) {
+				EntityEquipmentSlot slot = slots[slots.length - (i + 1)];
+				if (attributeTooltips.containsKey(slot)) {
+					int len = mc.fontRenderer.getStringWidth(attributeTooltips.get(slot).toString()) + 32;
+					if (showSlots)
+						len += 20;
+
+					int space = mc.fontRenderer.getCharWidth(' ');
+					StringBuilder spaces = new StringBuilder();
+					for (int j = 0; j < len / space; j++)
+						spaces.append(' ');
+
+					tooltip.add(1, spaces.toString());
+					if (allAreSame)
+						break;
+				}
 			}
 		}
+	}
+
+	@SideOnly(Side.CLIENT)
+	private int renderAttribute(String attribute, int x, int y, ItemStack stack, Multimap<String, AttributeModifier> slotAttributes, Minecraft mc) {
+		double value = getAttribute(mc.player, stack, slotAttributes, attribute);
+		if (value != 0) {
+			GlStateManager.color(1F, 1F, 1F);
+			mc.getTextureManager().bindTexture(LibMisc.GENERAL_ICONS_RESOURCE);
+			Gui.drawModalRectWithCustomSizedTexture(x, y, renderPosition(attribute), 0, 9, 9, 256, 256);
+
+			String valueStr = ItemStack.DECIMALFORMAT.format(value);
+
+			int color = value < 0 ? 0xFF5555 : 0xFFFFFF;
+
+			mc.fontRenderer.drawStringWithShadow(valueStr, x + 12, y + 1, color);
+			x += mc.fontRenderer.getStringWidth(valueStr) + 20;
+		}
+
+		return x;
 	}
 
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void renderTooltip(RenderTooltipEvent.PostText event) {
 		ItemStack stack = event.getStack();
-		if(!GuiScreen.isShiftKeyDown() && stack != null && isAttributeStrippable(stack)) {
-			Item item = stack.getItem();
+		if(!GuiScreen.isShiftKeyDown() && canStripAttributes(stack)) {
 			GlStateManager.pushMatrix();
 			GlStateManager.color(1F, 1F, 1F);
 			Minecraft mc = Minecraft.getMinecraft();
 
-			int x = event.getX() + 0;
+			int baseX = event.getX();
 			int y = event.getY() + 10;
 			
 			for(int i = 1; i < event.getLines().size(); i++) {
 				String s = event.getLines().get(i);
-				if(TextFormatting.getTextWithoutFormattingCodes(s).trim().isEmpty()) {
+				s = TextFormatting.getTextWithoutFormattingCodes(s);
+				if(s != null && s.trim().isEmpty()) {
 					y += 10 * (i - 1) + 1;
 					break;
 				}
 			}
-			
-			Multimap<String, AttributeModifier> slotAttributes = null;
-			if(item instanceof ItemSword || item instanceof ItemTool || item instanceof ItemHoe) {
-				slotAttributes = stack.getAttributeModifiers(EntityEquipmentSlot.MAINHAND);
 
-				double damage = getAttribute(mc.player, stack, slotAttributes, "generic.attackDamage");
-				if(damage > 0) {
-					GlStateManager.color(1F, 1F, 1F);
-					mc.getTextureManager().bindTexture(LibMisc.GENERAL_ICONS_RESOURCE);
-					Gui.drawModalRectWithCustomSizedTexture(x, y, 238, 0, 9, 9, 256, 256);
+			EntityEquipmentSlot primarySlot = EntityLiving.getSlotForItemStack(stack);
+			boolean onlyInvalid = true;
+			boolean showSlots = false;
+			int attributeHash = 0;
 
-					String dmgStr = ItemStack.DECIMALFORMAT.format(damage);
-					mc.fontRenderer.drawStringWithShadow(dmgStr, x + 12, y + 1, 0xFFFFFF);
-					x += mc.fontRenderer.getStringWidth(dmgStr) + 20;
-				}
+			boolean allAreSame = true;
 
-				double speed = getAttribute(mc.player, stack, slotAttributes, "generic.attackSpeed");
-				if(speed > 0) {
-					GlStateManager.color(1F, 1F, 1F);
-					mc.getTextureManager().bindTexture(LibMisc.GENERAL_ICONS_RESOURCE);
-					Gui.drawModalRectWithCustomSizedTexture(x, y, 247, 0, 9, 9, 256, 256);
-					
-					String spdStr = ItemStack.DECIMALFORMAT.format(speed);
-					mc.fontRenderer.drawStringWithShadow(spdStr, x + 12, y + 1, 0xFFFFFF);
-					x += mc.fontRenderer.getStringWidth(spdStr) + 20;
-				}
-			} else if(item instanceof ItemArmor) {
-				ItemArmor armor = (ItemArmor) item;
-				EntityEquipmentSlot slot = armor.getEquipmentSlot();
-				
-				slotAttributes = stack.getAttributeModifiers(slot);
-				
-				double armorLevel = getAttribute(mc.player, stack, slotAttributes, "generic.armor");
-				if(armorLevel > 0) {
-					GlStateManager.color(1F, 1F, 1F);
-					mc.getTextureManager().bindTexture(LibMisc.GENERAL_ICONS_RESOURCE);
-					Gui.drawModalRectWithCustomSizedTexture(x, y, 229, 0, 9, 9, 256, 256);
-					
-					String armorStr = ItemStack.DECIMALFORMAT.format(armorLevel);
-					mc.fontRenderer.drawStringWithShadow(armorStr, x + 12, y + 1, 0xFFFFFF);
-					x += mc.fontRenderer.getStringWidth(armorStr) + 20;
-				}
-				
-				double toughness = getAttribute(mc.player, stack, slotAttributes, "generic.armorToughness");
-				if(toughness > 0) {
-					GlStateManager.color(1F, 1F, 1F);
-					mc.getTextureManager().bindTexture(LibMisc.GENERAL_ICONS_RESOURCE);
-					Gui.drawModalRectWithCustomSizedTexture(x, y, 220, 0, 9, 9, 256, 256);
-					
-					String toughnessStr = ItemStack.DECIMALFORMAT.format(toughness);
-					mc.fontRenderer.drawStringWithShadow(toughnessStr, x + 12, y + 1, 0xFFFFFF);
-					x += mc.fontRenderer.getStringWidth(toughnessStr) + 20;
+			shouldShow: for (EntityEquipmentSlot slot : EntityEquipmentSlot.values()) {
+				Multimap<String, AttributeModifier> slotAttributes = stack.getAttributeModifiers(slot);
+				if (slot == EntityEquipmentSlot.MAINHAND)
+					attributeHash = slotAttributes.hashCode();
+				else if (allAreSame && attributeHash != slotAttributes.hashCode())
+					allAreSame = false;
+
+				for (String s : slotAttributes.keys()) {
+					if (VALID_ATTRIBUTES.contains(s)) {
+						onlyInvalid = false;
+						if (slot != primarySlot) {
+							showSlots = true;
+							break shouldShow;
+						}
+					}
 				}
 			}
-			
-			if(slotAttributes != null)
-				for(String s : slotAttributes.keySet())
-					if(!VALID_ATTRIBUTES.contains(s)) {
-						mc.fontRenderer.drawStringWithShadow(TextFormatting.YELLOW + "[+]", x, y + 1, 0xFFFFFF);
+
+			if (allAreSame)
+				showSlots = false;
+			else if (onlyInvalid)
+				showSlots = true;
+
+
+			for (EntityEquipmentSlot slot : EntityEquipmentSlot.values()) {
+				int x = baseX;
+
+				Multimap<String, AttributeModifier> slotAttributes = stack.getAttributeModifiers(slot);
+
+				boolean anyToRender = false;
+				for(String s : slotAttributes.keys()) {
+					double value = getAttribute(mc.player, stack, slotAttributes, s);
+					if (value != 0) {
+						anyToRender = true;
 						break;
 					}
+				}
+
+				if (!anyToRender)
+					continue;
+
+				if (showSlots) {
+					GlStateManager.color(1F, 1F, 1F);
+					mc.getTextureManager().bindTexture(LibMisc.GENERAL_ICONS_RESOURCE);
+					Gui.drawModalRectWithCustomSizedTexture(x, y, 202 + slot.ordinal() * 9, 35, 9, 9, 256, 256);
+					x += 20;
+				}
+
+				for (String key : VALID_ATTRIBUTES)
+					x = renderAttribute(key, x, y, stack, slotAttributes, mc);
+
+				for (String key : slotAttributes.keys())
+					if (!VALID_ATTRIBUTES.contains(key))
+						mc.fontRenderer.drawStringWithShadow("[+]", x + 1, y + 1, 0xFFFF55);
+
+				y += 10;
+
+				if (allAreSame)
+					break;
+			}
 			
 			GlStateManager.popMatrix();
 		}
 	}
 
-	private boolean isAttributeStrippable(ItemStack stack) {
-		Item item = stack.getItem();
-		boolean tool = !stack.isEmpty() && (item instanceof ItemTool || item instanceof ItemSword || item instanceof ItemArmor || item instanceof ItemHoe);
-		return tool && (!stack.hasTagCompound() || (stack.getTagCompound().getInteger("HideFlags") & 2) == 0);
+	private boolean canStripAttributes(ItemStack stack) {
+		if (stack.isEmpty())
+			return false;
+
+		return (ItemNBTHelper.getInt(stack, "HideFlags", 0) & 2) == 0;
 	}
 
 	private double getAttribute(EntityPlayer player, ItemStack stack, Multimap<String, AttributeModifier> map, String key) {
@@ -181,13 +262,11 @@ public class VisualStatDisplay extends Feature {
 		
 		AttributeModifier attributemodifier = collection.iterator().next();
 		double d0 = attributemodifier.getAmount();
-		boolean flag = false;
 
-		if(key.equals("generic.attackDamage")) {
+		if(key.equals(SharedMonsterAttributes.ATTACK_DAMAGE.getName())) {
 			d0 += player.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue();
 			d0 += (double) EnchantmentHelper.getModifierForCreature(stack, EnumCreatureAttribute.UNDEFINED);
-		}
-		else if(key.equals("generic.attackSpeed"))
+		} else if(key.equals(SharedMonsterAttributes.ATTACK_SPEED.getName()))
 			d0 += player.getEntityAttribute(SharedMonsterAttributes.ATTACK_SPEED).getBaseValue();
 
 		return d0;
