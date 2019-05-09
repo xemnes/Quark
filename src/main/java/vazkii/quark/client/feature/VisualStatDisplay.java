@@ -13,6 +13,7 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.*;
@@ -32,7 +33,41 @@ import java.util.Map;
 
 public class VisualStatDisplay extends Feature {
 
-	public static final ImmutableSet<String> VALID_ATTRIBUTES = ImmutableSet.of("generic.attackDamage", "generic.attackSpeed", "generic.armor", "generic.armorToughness");
+	public static final ImmutableSet<String> VALID_ATTRIBUTES = ImmutableSet.of(
+			"generic.attackDamage",
+			"generic.attackSpeed",
+			"generic.reachDistance",
+			"generic.armor",
+			"generic.armorToughness",
+			"generic.knockbackResistance",
+			"generic.maxHealth",
+			"generic.movementSpeed",
+			"generic.luck");
+
+	private static final ImmutableSet<String> MULTIPLIER_ATTRIBUTES = ImmutableSet.of(
+			"generic.movementSpeed");
+
+	private static final ImmutableSet<String> PERCENT_ATTRIBUTES = ImmutableSet.of(
+			"generic.knockbackResistance",
+			"generic.luck");
+
+	private String format(String attribute, double value) {
+		if (PERCENT_ATTRIBUTES.contains(attribute))
+			return ItemStack.DECIMALFORMAT.format(value * 100) + "%";
+		else if (MULTIPLIER_ATTRIBUTES.contains(attribute))
+			return ItemStack.DECIMALFORMAT.format(value / baseValue(attribute)) + "x";
+		else
+			return ItemStack.DECIMALFORMAT.format(value);
+	}
+
+	private double baseValue(String attribute) {
+		switch (attribute) {
+			case "generic.movementSpeed":
+				return 0.1;
+			default:
+				return 1;
+		}
+	}
 
 	private int renderPosition(String attribute) {
 		switch (attribute) {
@@ -40,10 +75,20 @@ public class VisualStatDisplay extends Feature {
 				return 238;
 			case "generic.attackSpeed":
 				return 247;
+			case "generic.reachDistance":
+				return 193;
 			case "generic.armor":
 				return 229;
 			case "generic.armorToughness":
 				return 220;
+			case "generic.knockbackResistance":
+				return 175;
+			case "generic.maxHealth":
+				return 211;
+			case "generic.movementSpeed":
+				return 184;
+			case "generic.luck":
+				return 202;
 			default:
 				return 211;
 		}
@@ -90,7 +135,7 @@ public class VisualStatDisplay extends Feature {
 						if (attributeValue != 0) {
 							if (!attributeTooltips.containsKey(slot))
 								attributeTooltips.put(slot, new StringBuilder());
-							attributeTooltips.get(slot).append(ItemStack.DECIMALFORMAT.format(attributeValue));
+							attributeTooltips.get(slot).append(format(s, attributeValue));
 						}
 					} else if (!anyInvalid) {
 						anyInvalid = true;
@@ -141,7 +186,7 @@ public class VisualStatDisplay extends Feature {
 			mc.getTextureManager().bindTexture(LibMisc.GENERAL_ICONS_RESOURCE);
 			Gui.drawModalRectWithCustomSizedTexture(x, y, renderPosition(attribute), 0, 9, 9, 256, 256);
 
-			String valueStr = ItemStack.DECIMALFORMAT.format(value);
+			String valueStr = format(attribute, value);
 
 			int color = value < 0 ? 0xFF5555 : 0xFFFFFF;
 
@@ -259,17 +304,37 @@ public class VisualStatDisplay extends Feature {
 		Collection<AttributeModifier> collection = map.get(key);
 		if(collection.isEmpty())
 			return 0;
-		
-		AttributeModifier attributemodifier = collection.iterator().next();
-		double d0 = attributemodifier.getAmount();
 
-		if(key.equals(SharedMonsterAttributes.ATTACK_DAMAGE.getName())) {
-			d0 += player.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue();
-			d0 += (double) EnchantmentHelper.getModifierForCreature(stack, EnumCreatureAttribute.UNDEFINED);
-		} else if(key.equals(SharedMonsterAttributes.ATTACK_SPEED.getName()))
-			d0 += player.getEntityAttribute(SharedMonsterAttributes.ATTACK_SPEED).getBaseValue();
+		double value = 0;
 
-		return d0;
+		if (!PERCENT_ATTRIBUTES.contains(key)) {
+			IAttributeInstance attribute = player.getAttributeMap().getAttributeInstanceByName(key);
+			if (attribute != null)
+				value = attribute.getAttributeValue();
+		}
+
+		for (AttributeModifier modifier : collection) {
+			if (modifier.getOperation() == 0)
+				value += modifier.getAmount();
+		}
+
+		double rawValue = value;
+
+		for (AttributeModifier modifier : collection) {
+			if (modifier.getOperation() == 1)
+				value += rawValue * modifier.getAmount();
+		}
+
+		for (AttributeModifier modifier : collection) {
+			if (modifier.getOperation() == 2)
+				value += value * modifier.getAmount();
+		}
+
+
+		if (key.equals(SharedMonsterAttributes.ATTACK_DAMAGE.getName()))
+			value += EnchantmentHelper.getModifierForCreature(stack, EnumCreatureAttribute.UNDEFINED);
+
+		return value;
 	}
 	
 	@Override
