@@ -90,8 +90,9 @@ public class StoreToChests extends Feature {
 
 			if(creativeInv == null && Minecraft.getMinecraft().player.capabilities.isCreativeMode)
 				return;
-			
-			ChestButtons.chestButtons.clear();
+
+			if (ChestButtons.chestButtons != null)
+				ChestButtons.chestButtons.clear();
 			
 			int left = guiInv.getGuiLeft();
 			int top = guiInv.getGuiTop();
