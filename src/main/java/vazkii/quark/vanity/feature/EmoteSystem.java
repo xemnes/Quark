@@ -155,12 +155,24 @@ public class EmoteSystem extends Feature {
 				}
 			}
 
+			int rows = 0;
+
 			int i = 0;
 			int row = 0;
 			int tierRow, rowPos;
 
 			int[] keys = descriptorSorting.keys();
 			Arrays.sort(keys);
+
+
+			for (int tier : keys) {
+				List<EmoteDescriptor> descriptors = descriptorSorting.get(tier);
+				if (descriptors != null) {
+					rows += descriptors.size() / 3;
+					if (descriptors.size() % 3 != 0)
+						rows++;
+				}
+			}
 
 			for (int tier : keys) {
 				rowPos = 0;
@@ -171,7 +183,7 @@ public class EmoteSystem extends Feature {
 						int rowSize = Math.min(descriptors.size() - tierRow * EMOTES_PER_ROW, EMOTES_PER_ROW);
 
 						int x = gui.width - (((rowPos + 1) * 2 + EMOTES_PER_ROW - rowSize) * EMOTE_BUTTON_WIDTH / 2 + 1);
-						int y = gui.height - (40 + EMOTE_BUTTON_WIDTH * (row + 1));
+						int y = gui.height - (40 + EMOTE_BUTTON_WIDTH * (rows - row));
 
 						GuiButton button = new GuiButtonEmote(EMOTE_BUTTON_START + i + 1, x, y, desc);
 						button.visible = emotesVisible;
