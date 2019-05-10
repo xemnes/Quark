@@ -1,7 +1,5 @@
 package vazkii.quark.oddities.feature;
 
-import java.util.List;
-
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
@@ -32,6 +30,8 @@ import vazkii.quark.oddities.client.render.RenderTotemOfHolding;
 import vazkii.quark.oddities.entity.EntityTotemOfHolding;
 import vazkii.quark.oddities.item.ItemSoulCompass;
 import vazkii.quark.world.feature.Wraiths;
+
+import java.util.List;
 
 public class TotemOfHolding extends Feature {
 	
@@ -100,7 +100,8 @@ public class TotemOfHolding extends Feature {
 				totem.setOwner(player);
 				totem.setCustomNameTag(player.getDisplayNameString());
 				drops.stream().map(EntityItem::getItem).forEach(totem::addItem);
-				player.world.spawnEntity(totem);
+				if (!player.world.isRemote)
+					player.world.spawnEntity(totem);
 				
 				persistent.setString(TAG_LAST_TOTEM, totem.getUniqueID().toString());
 				
