@@ -48,10 +48,11 @@ public class ShowInvalidSlots extends Feature {
 	@SideOnly(Side.CLIENT)
 	private void renderElements(GuiScreen gui) {
 		if(gui instanceof GuiContainer && (!requiresShift || GuiScreen.isShiftKeyDown())) {
+			Minecraft mc = Minecraft.getMinecraft();
 			GuiContainer guiContainer = (GuiContainer) gui;
 			Container container = guiContainer.inventorySlots;
 			
-			ItemStack stack = Minecraft.getMinecraft().player.inventory.getItemStack();
+			ItemStack stack = mc.player.inventory.getItemStack();
 			if(stack.isEmpty()) {
 				Slot slotUnder = guiContainer.getSlotUnderMouse();
 				if(slotUnder != null)
@@ -66,7 +67,7 @@ public class ShowInvalidSlots extends Feature {
 
 			GlStateManager.disableLighting();
 			GlStateManager.pushMatrix();
-			GlStateManager.translate(0, 0, 0.0125);
+			GlStateManager.translate(0, 0, mc.getRenderItem().zLevel + 100.125f);
 
 			for(Slot s : container.inventorySlots) {
 				if(s.isEnabled() && !s.isItemValid(stack)) {

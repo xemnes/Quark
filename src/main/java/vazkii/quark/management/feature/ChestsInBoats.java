@@ -38,7 +38,7 @@ public class ChestsInBoats extends Feature {
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
 		String name = LibMisc.PREFIX_MOD + "chest_passenger";
-		EntityRegistry.registerModEntity(new ResourceLocation(name), EntityChestPassenger.class, name, LibEntityIDs.CHEST_PASSENGER, Quark.instance, 64, 20, false);
+		EntityRegistry.registerModEntity(new ResourceLocation(name), EntityChestPassenger.class, name, LibEntityIDs.CHEST_PASSENGER, Quark.instance, 64, 128, false);
 	}
 
 	@Override
