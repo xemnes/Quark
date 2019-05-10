@@ -222,26 +222,26 @@ public class BlockRoots extends BlockMod implements IQuarkBlock, IShearable, IGr
 		return side != EnumFacing.DOWN && side != EnumFacing.UP && canAttachTo(worldIn, pos, side);
 	}
 
-	public boolean canAttachTo(World p_193395_1_, BlockPos p_193395_2_, EnumFacing p_193395_3_) {
-		Block block = p_193395_1_.getBlockState(p_193395_2_.up()).getBlock();
-		return isAcceptableNeighbor(p_193395_1_, p_193395_2_.offset(p_193395_3_.getOpposite()), p_193395_3_) && (block == Blocks.AIR || block instanceof BlockRoots || isAcceptableNeighbor(p_193395_1_, p_193395_2_.up(), EnumFacing.UP));
+	public boolean canAttachTo(World world, BlockPos pos, EnumFacing side) {
+		Block block = world.getBlockState(pos.up()).getBlock();
+		return isAcceptableNeighbor(world, pos.offset(side.getOpposite()), side) && (block == Blocks.AIR || block instanceof BlockRoots || isAcceptableNeighbor(world, pos.up(), EnumFacing.UP));
 	}
 
-	private static boolean isAcceptableNeighbor(World p_193396_1_, BlockPos p_193396_2_, EnumFacing p_193396_3_) {
-		IBlockState iblockstate = p_193396_1_.getBlockState(p_193396_2_);
-		return iblockstate.getBlockFaceShape(p_193396_1_, p_193396_2_, p_193396_3_) == BlockFaceShape.SOLID && iblockstate.getMaterial() == Material.ROCK;
+	private static boolean isAcceptableNeighbor(World world, BlockPos pos, EnumFacing side) {
+		IBlockState iblockstate = world.getBlockState(pos);
+		return iblockstate.getBlockFaceShape(world, pos, side) == BlockFaceShape.SOLID && iblockstate.getMaterial() == Material.ROCK;
 	}
 
 	private boolean recheckGrownSides(World worldIn, BlockPos pos, IBlockState state) {
-		IBlockState iblockstate = state;
+		IBlockState originalState = state;
 
 		for(EnumFacing enumfacing : EnumFacing.Plane.HORIZONTAL) {
 			PropertyBool propertybool = getPropertyFor(enumfacing);
 
 			if(state.getValue(propertybool) && !canAttachTo(worldIn, pos, enumfacing.getOpposite())) {
-				IBlockState iblockstate1 = worldIn.getBlockState(pos.up());
+				IBlockState stateAt = worldIn.getBlockState(pos.up());
 
-				if(iblockstate1.getBlock() != this || !iblockstate1.getValue(propertybool))
+				if(stateAt.getBlock() != this || !stateAt.getValue(propertybool))
 					state = state.withProperty(propertybool, Boolean.FALSE);
 			}
 		}
@@ -249,7 +249,7 @@ public class BlockRoots extends BlockMod implements IQuarkBlock, IShearable, IGr
 		if(getNumGrownFaces(state) == 0)
 			return false;
 		else {
-			if(iblockstate != state)
+			if(originalState != state)
 				worldIn.setBlockState(pos, state, 2);
 
 			return true;

@@ -1,7 +1,5 @@
 package vazkii.quark.management.feature;
 
-import java.util.List;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.entity.Entity;
@@ -10,16 +8,16 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.GuiOpenEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent.EntityInteract;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -33,12 +31,14 @@ import vazkii.quark.decoration.item.ItemChestBlock;
 import vazkii.quark.management.client.render.RenderChestPassenger;
 import vazkii.quark.management.entity.EntityChestPassenger;
 
+import java.util.List;
+
 public class ChestsInBoats extends Feature {
 
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
 		String name = LibMisc.PREFIX_MOD + "chest_passenger";
-		EntityRegistry.registerModEntity(new ResourceLocation(name), EntityChestPassenger.class, name, LibEntityIDs.CHEST_PASSENGER, Quark.instance, 64, Integer.MAX_VALUE, false);
+		EntityRegistry.registerModEntity(new ResourceLocation(name), EntityChestPassenger.class, name, LibEntityIDs.CHEST_PASSENGER, Quark.instance, 64, 20, false);
 	}
 
 	@Override
@@ -48,7 +48,7 @@ public class ChestsInBoats extends Feature {
 	}
 
 	@SubscribeEvent
-	public void onEntityInteract(EntityInteract event) {
+	public void onEntityInteract(PlayerInteractEvent.EntityInteractSpecific event) {
 		Entity target = event.getTarget();
 		EntityPlayer player = event.getEntityPlayer();
 
@@ -66,15 +66,16 @@ public class ChestsInBoats extends Feature {
 				passenger.setPosition(target.posX, target.posY, target.posZ);
 				passenger.rotationYaw = target.rotationYaw;
 				
-				if(!player.isCreative())
-					stack.shrink(1);
-				
-				world.spawnEntity(passenger);
-				passenger.startRiding(target);
+				if(!event.getWorld().isRemote) {
+					if (!player.isCreative())
+						stack.shrink(1);
+					world.spawnEntity(passenger);
+					passenger.startRiding(target);
+				}
 				
 				player.swingArm(hand);
-				if(!event.getWorld().isRemote)
-					event.setCanceled(true);
+				event.setCancellationResult(EnumActionResult.SUCCESS);
+				event.setCanceled(true);
 			}
 		}
 	}
