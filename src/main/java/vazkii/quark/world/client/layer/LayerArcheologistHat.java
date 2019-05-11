@@ -6,6 +6,8 @@ import vazkii.quark.world.client.model.ModelArcheologistHat;
 import vazkii.quark.world.entity.EntityArcheologist;
 import vazkii.quark.world.item.ItemArcheologistHat;
 
+import javax.annotation.Nonnull;
+
 public class LayerArcheologistHat implements LayerRenderer<EntityArcheologist> {
 
 	private final RenderLivingBase<?> render;
@@ -15,12 +17,12 @@ public class LayerArcheologistHat implements LayerRenderer<EntityArcheologist> {
 	}
 	
 	@Override
-	public void doRenderLayer(EntityArcheologist entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+	public void doRenderLayer(@Nonnull EntityArcheologist archaeologist, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
 		render.bindTexture(ItemArcheologistHat.TEXTURE);
 		
 		if(ItemArcheologistHat.headModel == null)
 			ItemArcheologistHat.headModel = new ModelArcheologistHat();
-		ItemArcheologistHat.headModel.render(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
+		ItemArcheologistHat.headModel.render(archaeologist, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
 	}
 
 	@Override
