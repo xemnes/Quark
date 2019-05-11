@@ -543,6 +543,7 @@ tile.quark:elder_prismarine_dark_slab.name=Dark Elder Prismarine Slab
 tile.quark:elder_prismarine_wall.name=Elder Prismarine Wall
 tile.quark:elder_prismarine_bricks_wall.name=Elder Prismarine Brick Wall
 tile.quark:elder_prismarine_dark_wall.name=Dark Elder Prismarine Wall
+tile.quark:monster_box.name=Monster Box
 
 # ITEM NAMES
 item.quark:glass_shard.name=Glass Shard
