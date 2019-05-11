@@ -16,6 +16,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.EnumDifficulty;
 import vazkii.arl.block.tile.TileMod;
+import vazkii.quark.world.feature.MonsterBoxes;
 
 public class TileMonsterBox extends TileMod implements ITickable {
 
@@ -60,7 +61,7 @@ public class TileMonsterBox extends TileMod implements ITickable {
 		
 		BlockPos pos = getPos();
 
-		int mobCount = 6 + world.rand.nextInt(5);
+		int mobCount = MonsterBoxes.minMobs + world.rand.nextInt(MonsterBoxes.minMobs - MonsterBoxes.maxMobs + 1);
 		for(int i = 0; i < mobCount; i++) {
 			Entity e = null;
 			
