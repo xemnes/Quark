@@ -1,7 +1,5 @@
 package vazkii.quark.world.tile;
 
-import java.util.List;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.monster.EntityCaveSpider;
@@ -17,6 +15,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.EnumDifficulty;
 import vazkii.arl.block.tile.TileMod;
 import vazkii.quark.world.feature.MonsterBoxes;
+
+import java.util.List;
 
 public class TileMonsterBox extends TileMod implements ITickable {
 
@@ -63,7 +63,7 @@ public class TileMonsterBox extends TileMod implements ITickable {
 
 		int mobCount = MonsterBoxes.minMobs + world.rand.nextInt(MonsterBoxes.maxMobs - MonsterBoxes.minMobs + 1);
 		for(int i = 0; i < mobCount; i++) {
-			Entity e = null;
+			Entity e;
 			
 			float r = world.rand.nextFloat();
 			if(r < 0.1)

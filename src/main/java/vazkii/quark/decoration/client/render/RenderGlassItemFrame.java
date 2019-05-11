@@ -22,7 +22,7 @@ import vazkii.quark.decoration.entity.EntityFlatItemFrame;
 
 public class RenderGlassItemFrame extends RenderFlatItemFrame {
 
-	public static final IRenderFactory FACTORY = (RenderManager manager) -> new RenderGlassItemFrame(manager);
+	public static final IRenderFactory<EntityItemFrame> FACTORY = RenderGlassItemFrame::new;
 	
 	private TileEntityBanner banner = new TileEntityBanner();
 	

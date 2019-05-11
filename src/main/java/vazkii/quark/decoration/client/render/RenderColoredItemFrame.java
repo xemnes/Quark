@@ -15,6 +15,7 @@ import net.minecraft.client.renderer.BlockRendererDispatcher;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ModelManager;
 import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.entity.item.EntityItemFrame;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemDye;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
@@ -26,7 +27,7 @@ import vazkii.quark.decoration.entity.EntityFlatItemFrame;
 
 @SideOnly(Side.CLIENT)
 public class RenderColoredItemFrame extends RenderFlatItemFrame {
-	public static final IRenderFactory FACTORY = (RenderManager manager) -> new RenderColoredItemFrame(manager);
+	public static final IRenderFactory<EntityItemFrame> FACTORY = RenderColoredItemFrame::new;
 
 	public RenderColoredItemFrame(RenderManager renderManagerIn) {
 		super(renderManagerIn);

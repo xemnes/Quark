@@ -779,6 +779,7 @@ public final class Tween extends BaseTween<Tween> {
 	// -------------------------------------------------------------------------
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public Tween build() {
 		if (target == null) return this;
 

@@ -10,13 +10,9 @@
  */
 package vazkii.quark.world.client.render;
 
-import org.lwjgl.opengl.GL11;
-
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import vazkii.quark.world.client.model.ModelWraith;
@@ -28,7 +24,7 @@ public class RenderWraith extends RenderLiving<EntityWraith> {
 
 	private static final ResourceLocation TEXTURE = new ResourceLocation("quark", "textures/entity/wraith.png");
 
-	public static final IRenderFactory FACTORY = (RenderManager manager) -> new RenderWraith(manager);
+	public static final IRenderFactory<EntityWraith> FACTORY = RenderWraith::new;
 
 	public RenderWraith(RenderManager renderManagerIn) {
 		super(renderManagerIn, new ModelWraith(), 0F);

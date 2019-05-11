@@ -46,7 +46,7 @@ public class ItemSoulPowder extends ItemMod implements IQuarkItem {
 		} else playerIn.swingArm(handIn);
 
 		playerIn.addStat(StatList.getObjectUseStats(this));
-		return new ActionResult(EnumActionResult.SUCCESS, itemstack);
+		return new ActionResult<>(EnumActionResult.SUCCESS, itemstack);
 	}
 
 }

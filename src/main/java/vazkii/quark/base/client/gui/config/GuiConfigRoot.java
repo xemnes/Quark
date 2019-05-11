@@ -31,10 +31,9 @@ public class GuiConfigRoot extends GuiConfigBase {
 		int startX = width / 2 - 175;
 		int startY = height / 6 + 5;
 
-		int x = 0, y = 0, i = 0;
+		int x, y, i = 0;
 
-		Set<Module> modules = new TreeSet();
-		modules.addAll(ModuleLoader.moduleInstances.values());
+		Set<Module> modules = new TreeSet<>(ModuleLoader.moduleInstances.values());
 
 		for(Module module : modules) {
 			x = startX + i % 2 * 180;

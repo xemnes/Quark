@@ -72,6 +72,7 @@ public abstract class BaseTween<T> {
 	 *
 	 * @return The current object, for chaining instructions.
 	 */
+	@SuppressWarnings("unchecked")
 	public T build() {
 		return (T) this;
 	}
@@ -83,6 +84,7 @@ public abstract class BaseTween<T> {
 	 *
 	 * @return The current object, for chaining instructions.
 	 */
+	@SuppressWarnings("unchecked")
 	public T start() {
 		build();
 		currentTime = 0;
@@ -96,6 +98,7 @@ public abstract class BaseTween<T> {
 	 *
 	 * @return The current object, for chaining instructions.
 	 */
+	@SuppressWarnings("unchecked")
 	public T start(TweenManager manager) {
 		manager.add(this);
 		return (T) this;
@@ -107,6 +110,7 @@ public abstract class BaseTween<T> {
 	 * @param delay A duration.
 	 * @return The current object, for chaining instructions.
 	 */
+	@SuppressWarnings("unchecked")
 	public T delay(float delay) {
 		this.delay += delay;
 		return (T) this;
@@ -150,6 +154,7 @@ public abstract class BaseTween<T> {
 	 * @param delay A delay between each iteration.
 	 * @return The current tween or timeline, for chaining instructions.
 	 */
+	@SuppressWarnings("unchecked")
 	public T repeat(int count, float delay) {
 		if (isStarted) throw new RuntimeException("You can't change the repetitions of a tween or timeline once it is started");
 		repeatCnt = count;
@@ -167,6 +172,7 @@ public abstract class BaseTween<T> {
 	 * @param delay A delay before each repetition.
 	 * @return The current tween or timeline, for chaining instructions.
 	 */
+	@SuppressWarnings("unchecked")
 	public T repeatYoyo(int count, float delay) {
 		if (isStarted) throw new RuntimeException("You can't change the repetitions of a tween or timeline once it is started");
 		repeatCnt = count;
@@ -182,6 +188,7 @@ public abstract class BaseTween<T> {
 	 *
 	 * @see TweenCallback
 	 */
+	@SuppressWarnings("unchecked")
 	public T setCallback(TweenCallback callback) {
 		this.callback = callback;
 		return (T) this;
@@ -194,6 +201,7 @@ public abstract class BaseTween<T> {
 	 *
 	 * @see TweenCallback
 	 */
+	@SuppressWarnings("unchecked")
 	public T addCallback(TweenCallback callback) {
 		if (this.callback == null)
 			this.callback = callback;
@@ -209,6 +217,7 @@ public abstract class BaseTween<T> {
 	 * @see TweenCallback
 	 * @see #setCallbackTriggers(int)
 	 */
+	@SuppressWarnings("unchecked")
 	public T addCallback(int flags, Consumer<BaseTween<?>> callback) {
 		this.callbackTriggers |= flags;
 
@@ -244,6 +253,7 @@ public abstract class BaseTween<T> {
 	 * @param flags one or more triggers, separated by the '|' operator.
 	 * @see TweenCallback
 	 */
+	@SuppressWarnings("unchecked")
 	public T setCallbackTriggers(int flags) {
 		this.callbackTriggers = flags;
 		return (T) this;
@@ -256,6 +266,7 @@ public abstract class BaseTween<T> {
 	 * @param data Any kind of object.
 	 * @return The current tween or timeline, for chaining instructions.
 	 */
+	@SuppressWarnings("unchecked")
 	public T setUserData(Object data) {
 		userData = data;
 		return (T) this;

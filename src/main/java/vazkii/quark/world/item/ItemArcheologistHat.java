@@ -7,6 +7,7 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.IRarity;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.arl.item.ItemModArmor;
@@ -48,8 +49,7 @@ public class ItemArcheologistHat extends ItemModArmor implements IQuarkItem {
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
-	public EnumRarity getRarity(ItemStack stack) {
+	public IRarity getForgeRarity(@Nonnull ItemStack stack) {
 		return EnumRarity.RARE;
 	}
 

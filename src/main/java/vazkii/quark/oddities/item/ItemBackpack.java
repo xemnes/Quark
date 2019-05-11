@@ -20,6 +20,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.common.IRarity;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -140,8 +141,7 @@ public class ItemBackpack extends ItemModArmor implements IQuarkItem, IItemColor
 	
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
-	public EnumRarity getRarity(ItemStack stack) {
+	public IRarity getForgeRarity(@Nonnull ItemStack stack) {
 		return EnumRarity.COMMON;
 	}
 	

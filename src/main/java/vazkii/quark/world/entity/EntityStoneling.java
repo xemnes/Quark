@@ -67,8 +67,8 @@ public class EntityStoneling extends EntityCreature {
 	@Override
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
-        getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(8.0D);
-        getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(1.0D);
+		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(8.0D);
+		getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(1.0D);
 	}
 
 	@Override
@@ -153,23 +153,23 @@ public class EntityStoneling extends EntityCreature {
 	}
 
 	// Vanilla copy pasta from EntityMob
-    protected boolean isValidLightLevel() {
-        BlockPos blockpos = new BlockPos(posX, getEntityBoundingBox().minY, posZ);
+	protected boolean isValidLightLevel() {
+		BlockPos blockpos = new BlockPos(posX, getEntityBoundingBox().minY, posZ);
 
-        if(world.getLightFor(EnumSkyBlock.SKY, blockpos) > rand.nextInt(32))
-            return false;
-        else {
-            int i = world.getLightFromNeighbors(blockpos);
+		if(world.getLightFor(EnumSkyBlock.SKY, blockpos) > rand.nextInt(32))
+			return false;
+		else {
+			int i = world.getLightFromNeighbors(blockpos);
 
-            if (world.isThundering()) {
-                int j = world.getSkylightSubtracted();
-                world.setSkylightSubtracted(10);
-                i = world.getLightFromNeighbors(blockpos);
-                world.setSkylightSubtracted(j);
-            }
+			if (world.isThundering()) {
+				int j = world.getSkylightSubtracted();
+				world.setSkylightSubtracted(10);
+				i = world.getLightFromNeighbors(blockpos);
+				world.setSkylightSubtracted(j);
+			}
 
-            return i <= rand.nextInt(8);
-        }
-    }
+			return i <= rand.nextInt(8);
+		}
+	}
 
 }

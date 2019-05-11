@@ -49,7 +49,7 @@ public class RenderFlatItemFrame extends RenderItemFrame {
 	private final ModelResourceLocation itemFrameModel = new ModelResourceLocation("item_frame", "normal");
 	private final ModelResourceLocation mapModel = new ModelResourceLocation("item_frame", "map");
 
-	public static final IRenderFactory FACTORY = (RenderManager manager) -> new RenderFlatItemFrame(manager);
+	public static final IRenderFactory<EntityItemFrame> FACTORY = RenderFlatItemFrame::new;
 
 	protected RenderItem itemRenderer;
 

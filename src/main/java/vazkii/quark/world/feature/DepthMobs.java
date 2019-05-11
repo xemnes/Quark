@@ -10,10 +10,6 @@
  */
 package vazkii.quark.world.feature;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.monster.EntitySkeleton;
@@ -31,6 +27,9 @@ import vazkii.quark.world.client.render.RenderAshen;
 import vazkii.quark.world.client.render.RenderDweller;
 import vazkii.quark.world.entity.EntityAshen;
 import vazkii.quark.world.entity.EntityDweller;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DepthMobs extends Feature {
 
@@ -82,18 +81,16 @@ public class DepthMobs extends Feature {
 
 	public static Biome[] getBiomesWithMob(Class<? extends Entity> clazz) {
 		List<Biome> biomes = new ArrayList<>();
-		Iterator<Biome> bIter = Biome.REGISTRY.iterator();
-		while(bIter.hasNext()) {
-			Biome b = bIter.next();
+		for (Biome b : Biome.REGISTRY) {
 			List<SpawnListEntry> spawnList = b.getSpawnableList(EnumCreatureType.MONSTER);
-			for(SpawnListEntry e : spawnList)
-				if(e.entityClass == clazz) {
+			for (SpawnListEntry e : spawnList)
+				if (e.entityClass == clazz) {
 					biomes.add(b);
 					break;
 				}
 		}
 
-		return biomes.toArray(new Biome[biomes.size()]);
+		return biomes.toArray(new Biome[0]);
 	}
 
 }

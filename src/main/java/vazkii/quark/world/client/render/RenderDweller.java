@@ -20,7 +20,7 @@ public class RenderDweller extends RenderZombie {
 
 	private static final ResourceLocation TEXTURE = new ResourceLocation("quark", "textures/entity/dweller.png");
 
-	public static final IRenderFactory FACTORY = (RenderManager manager) -> new RenderDweller(manager);
+	public static final IRenderFactory<EntityZombie> FACTORY = RenderDweller::new;
 
 	public RenderDweller(RenderManager renderManagerIn) {
 		super(renderManagerIn);

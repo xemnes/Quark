@@ -33,6 +33,10 @@ public class EntityAIActWary extends EntityAIWanderAvoidWater {
 		this.scaredBySuddenMovement = scaredBySuddenMovement;
 	}
 
+	public void startle() {
+		startled = true;
+	}
+
 	protected boolean shouldApplyPath() {
 		return super.shouldExecute();
 	}
