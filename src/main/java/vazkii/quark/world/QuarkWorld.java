@@ -34,6 +34,7 @@ import vazkii.quark.world.feature.PirateShips;
 import vazkii.quark.world.feature.RealisticWorldType;
 import vazkii.quark.world.feature.RevampStoneGen;
 import vazkii.quark.world.feature.Speleothems;
+import vazkii.quark.world.feature.Stonelings;
 import vazkii.quark.world.feature.UndergroundBiomes;
 import vazkii.quark.world.feature.VariedDungeons;
 import vazkii.quark.world.feature.Wraiths;
@@ -64,6 +65,7 @@ public class QuarkWorld extends Module {
 		registerFeature(new CaveRoots());
 		registerFeature(new Archeologist());
 		registerFeature(new MonsterBoxes());
+		registerFeature(new Stonelings());
 
 		registerFeature(new RealisticWorldType());
 		registerFeature(new DefaultWorldOptions());
