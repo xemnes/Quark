@@ -53,8 +53,9 @@ public class ShowInvalidSlots extends Feature {
 			Container container = guiContainer.inventorySlots;
 			
 			ItemStack stack = mc.player.inventory.getItemStack();
+			Slot slotUnder = guiContainer.getSlotUnderMouse();
+
 			if(stack.isEmpty()) {
-				Slot slotUnder = guiContainer.getSlotUnderMouse();
 				if(slotUnder != null)
 					stack = slotUnder.getStack();
 			}
@@ -70,7 +71,7 @@ public class ShowInvalidSlots extends Feature {
 			GlStateManager.translate(0, 0, mc.getRenderItem().zLevel + 100.125f);
 
 			for(Slot s : container.inventorySlots) {
-				if(s.isEnabled() && !s.isItemValid(stack)) {
+				if(s != slotUnder && s.isEnabled() && !s.isItemValid(stack)) {
 					int x = guiLeft + s.xPos;
 					int y = guiTop + s.yPos;
 
