@@ -51,6 +51,10 @@ public class DeployLaddersDown extends Feature {
 			BlockPos pos = event.getPos();
 			while(world.getBlockState(pos).getBlock() == block) {
 				BlockPos posDown = pos.down();
+
+				if (world.isOutsideBuildHeight(posDown))
+					break;
+
 				IBlockState stateDown = world.getBlockState(posDown);
 
 				if(stateDown.getBlock() == block)
