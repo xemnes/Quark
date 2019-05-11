@@ -44,8 +44,8 @@ public class DepthMobs extends Feature {
 		upperBound = loadPropInt("Highest Y level for spawns", "", 20);
 		enableAshen = loadPropBool("Enable Ashen", "", true);
 		enableDweller = loadPropBool("Enable Dweller", "", true);
-		ashenWeight = loadPropInt("Ashen Spawn Weight", "(Skeleton is 100. The higher, the more will spawn)", 10);
-		dwellerWeight = loadPropInt("Dweller Spawn Weight", "(Zombie is 100. The higher, the more will spawn)", 10);
+		ashenWeight = loadPropInt("Ashen Spawn Weight", "(Skeleton is 100. The higher, the more will spawn)", 30);
+		dwellerWeight = loadPropInt("Dweller Spawn Weight", "(Zombie is 100. The higher, the more will spawn)", 30);
 		ashenMaxPack = loadPropInt("Largest Ashen spawn group", "", 2);
 		dwellerMaxPack = loadPropInt("Largest Dweller spawn group", "", 2);
 		ashenMinPack = loadPropInt("Smallest Ashen spawn group", "", 1);
@@ -80,7 +80,7 @@ public class DepthMobs extends Feature {
 		return true;
 	}
 
-	private Biome[] getBiomesWithMob(Class<? extends Entity> clazz) {
+	public static Biome[] getBiomesWithMob(Class<? extends Entity> clazz) {
 		List<Biome> biomes = new ArrayList<>();
 		Iterator<Biome> bIter = Biome.REGISTRY.iterator();
 		while(bIter.hasNext()) {

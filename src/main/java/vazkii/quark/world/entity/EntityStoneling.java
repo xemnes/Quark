@@ -3,6 +3,7 @@ package vazkii.quark.world.entity;
 import java.util.List;
 
 import net.minecraft.entity.EntityCreature;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
 import net.minecraft.entity.ai.RandomPositionGenerator;
@@ -16,17 +17,23 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.Path;
 import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.pathfinding.PathPoint;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+import net.minecraft.world.storage.loot.LootContext;
+import vazkii.quark.world.feature.Stonelings;
 
 public class EntityStoneling extends EntityCreature {
 
+	public static final ResourceLocation STONELING_CARRY_LOOT_TABLE = new ResourceLocation("quark", "entities/stoneling_carry");
+	
 	private static final DataParameter<ItemStack> CARRYING_ITEM = EntityDataManager.createKey(EntityStoneling.class, DataSerializers.ITEM_STACK);
 
 	private static final String TAG_CARRYING_ITEM = "carryingItem";
@@ -51,32 +58,33 @@ public class EntityStoneling extends EntityCreature {
 		tasks.addTask(1, new EntityAIWanderAvoidWater(this, 0.2D, 1F));
 		tasks.addTask(2, new EntityAIRunAwayWhenStartled(this));
 	}
-
+	
 	@Override
-	public EnumActionResult applyPlayerInteraction(EntityPlayer player, Vec3d vec, EnumHand hand) {
-		if(hand == EnumHand.MAIN_HAND && !world.isRemote) {
-			ItemStack stack = player.getHeldItemMainhand();
-			dataManager.set(CARRYING_ITEM, stack);
-		}
-
-		return EnumActionResult.SUCCESS;
+	protected void applyEntityAttributes() {
+		super.applyEntityAttributes();
+        getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(8.0D);
+        getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(1.0D);
 	}
 
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
 
+		System.out.println("ALIVE AT " + getPosition());
+		
 		if(!world.isRemote) {
-			if(navigator.getPath() != null)
-				System.out.println(navigator.getPath().getFinalPathPoint());
+			if(dataManager.get(CARRYING_ITEM).isEmpty()) {
+				List<ItemStack> items = world.getLootTableManager().getLootTableFromLocation(STONELING_CARRY_LOOT_TABLE).generateLootForPools(rand, new LootContext.Builder((WorldServer) world).build());
+				if(!items.isEmpty())
+					dataManager.set(CARRYING_ITEM, items.get(0));
+			}
 			
 			if(!startled) {
 				AxisAlignedBB aabb = getEntityBoundingBox().grow(4);
-				List<EntityPlayer> playersAround = world.getEntitiesWithinAABB(EntityPlayer.class, aabb, player -> !player.isSneaking());
-				if(playersAround.size() > 0) {
-					startled = true;
-					world.playSound(null, posX, posY, posZ, SoundEvents.ENTITY_GHAST_SCREAM, SoundCategory.NEUTRAL, 1.0F, 1.0F);
-				}
+				List<EntityPlayer> playersAround = world.getEntitiesWithinAABB(EntityPlayer.class, aabb, 
+						player -> !player.isSneaking() && !player.isCreative());
+				if(playersAround.size() > 0)
+					startle();
 			} else if(navigator.getPath() != null && 
 					navigator.getPath().getFinalPathPoint().distanceTo(new PathPoint((int) posX, (int) posY, (int) posZ)) < 2) {
 				if(world instanceof WorldServer) {
@@ -87,6 +95,30 @@ public class EntityStoneling extends EntityCreature {
 				setDead();
 			}
 		}
+	}
+	
+	@Override
+	protected void damageEntity(DamageSource damageSrc, float damageAmount) {
+		super.damageEntity(damageSrc, damageAmount);
+		
+		if(damageSrc.getTrueSource() instanceof EntityPlayer)
+			startle();
+	}
+	
+	private void startle() {
+		if(!startled) {
+			startled = true;
+			world.playSound(null, posX, posY, posZ, SoundEvents.ENTITY_GHAST_SCREAM, SoundCategory.NEUTRAL, 1.0F, 1.0F);
+		}
+	}
+	
+	@Override
+	protected void dropEquipment(boolean wasRecentlyHit, int lootingModifier) {
+		super.dropEquipment(wasRecentlyHit, lootingModifier);
+		
+		ItemStack stack = getCarryingItem();
+		if(!stack.isEmpty())
+			entityDropItem(stack, 0F);
 	}
 
 	public ItemStack getCarryingItem() {
@@ -115,6 +147,31 @@ public class EntityStoneling extends EntityCreature {
 		compound.setTag(TAG_CARRYING_ITEM, itemCmp);
 		compound.setBoolean(TAG_STARTLED, startled);
 	}
+	
+	@Override
+	public boolean getCanSpawnHere() {
+		return Stonelings.dimensions.canSpawnHere(world) && posY < Stonelings.maxYLevel && isValidLightLevel() && super.getCanSpawnHere();
+	}
+	
+	// vanilla copy pasta
+    protected boolean isValidLightLevel() {
+        BlockPos blockpos = new BlockPos(posX, getEntityBoundingBox().minY, posZ);
+
+        if(world.getLightFor(EnumSkyBlock.SKY, blockpos) > rand.nextInt(32))
+            return false;
+        else {
+            int i = world.getLightFromNeighbors(blockpos);
+
+            if (world.isThundering()) {
+                int j = world.getSkylightSubtracted();
+                world.setSkylightSubtracted(10);
+                i = world.getLightFromNeighbors(blockpos);
+                world.setSkylightSubtracted(j);
+            }
+
+            return i <= rand.nextInt(8);
+        }
+    }
 
 	private static class EntityAIRunAwayWhenStartled extends EntityAIBase {
 
@@ -135,7 +192,7 @@ public class EntityStoneling extends EntityCreature {
 
 		@Override
 		public boolean shouldExecute() {
-			if(!stoneling.startled)
+			if(!stoneling.startled || !stoneling.onGround)
 				return false;
 
 			double avoidRange = 5;

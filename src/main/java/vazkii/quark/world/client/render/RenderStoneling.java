@@ -28,12 +28,15 @@ public class RenderStoneling extends RenderLiving<EntityStoneling> {
 	public static final IRenderFactory FACTORY = (RenderManager manager) -> new RenderStoneling(manager);
 	
 	protected RenderStoneling(RenderManager renderManager) {
-		super(renderManager, new ModelStoneling(), 0.2F);
+		super(renderManager, new ModelStoneling(), 0.3F);
 	}
 	
 	@Override
 	protected void renderLivingAt(EntityStoneling stoneling, double x, double y, double z) {
 		super.renderLivingAt(stoneling, x, y, z);
+		
+		if(stoneling.deathTime > 0)
+			return;
 		
 		float scale = 0.75F;
 		float rot = stoneling.rotationYaw * ClientTicker.partialTicks + stoneling.prevRotationYaw * (1F - ClientTicker.partialTicks);
