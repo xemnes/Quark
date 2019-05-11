@@ -32,8 +32,9 @@ import vazkii.quark.world.feature.Stonelings;
 
 public class EntityStoneling extends EntityCreature {
 
-	public static final ResourceLocation STONELING_CARRY_LOOT_TABLE = new ResourceLocation("quark", "entities/stoneling_carry");
-	
+	public static final ResourceLocation CARRY_LOOT_TABLE = new ResourceLocation("quark", "entities/stoneling_carry");
+	public static final ResourceLocation LOOT_TABLE = new ResourceLocation("quark", "entities/stoneling");
+
 	private static final DataParameter<ItemStack> CARRYING_ITEM = EntityDataManager.createKey(EntityStoneling.class, DataSerializers.ITEM_STACK);
 
 	private static final String TAG_CARRYING_ITEM = "carryingItem";
@@ -70,11 +71,9 @@ public class EntityStoneling extends EntityCreature {
 	public void onUpdate() {
 		super.onUpdate();
 
-		System.out.println("ALIVE AT " + getPosition());
-		
 		if(!world.isRemote) {
 			if(dataManager.get(CARRYING_ITEM).isEmpty()) {
-				List<ItemStack> items = world.getLootTableManager().getLootTableFromLocation(STONELING_CARRY_LOOT_TABLE).generateLootForPools(rand, new LootContext.Builder((WorldServer) world).build());
+				List<ItemStack> items = world.getLootTableManager().getLootTableFromLocation(CARRY_LOOT_TABLE).generateLootForPools(rand, new LootContext.Builder((WorldServer) world).build());
 				if(!items.isEmpty())
 					dataManager.set(CARRYING_ITEM, items.get(0));
 			}
@@ -119,6 +118,11 @@ public class EntityStoneling extends EntityCreature {
 		ItemStack stack = getCarryingItem();
 		if(!stack.isEmpty())
 			entityDropItem(stack, 0F);
+	}
+	
+	@Override
+	protected ResourceLocation getLootTable() {
+		return Stonelings.enableDiamondHeart ? LOOT_TABLE : null;
 	}
 
 	public ItemStack getCarryingItem() {

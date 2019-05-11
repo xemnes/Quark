@@ -39,4 +39,9 @@ public class MonsterBoxes extends Feature {
 		GameRegistry.registerWorldGenerator(new MonsterBoxGenerator(), 200);
 	}
 	
+	@Override
+	public boolean requiresMinecraftRestartToEnable() {
+		return true;
+	}
+	
 }
