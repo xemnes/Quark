@@ -17,12 +17,15 @@ import java.util.List;
 
 public final class LibMisc {
 
+	// Don't ask.
+	public static final String DEV_ENV_HACK = "[GRADLE.VERSION-GRADLE.BUILD,)";
+
 	// Mod Constants
 	public static final String MOD_ID = "quark";
 	public static final String MOD_NAME = MOD_ID;
 	public static final String BUILD = "GRADLE:BUILD";
 	public static final String VERSION = "GRADLE:VERSION-" + BUILD;
-	public static final String DEPENDENCIES = "required-after:forge@[14.23.5.2779,);required-before:autoreglib;after:jei@[4.6.0,);";
+	public static final String DEPENDENCIES = "required-after:forge@[14.23.5.2779,);required-before:autoreglib@[1.3-28,)" + DEV_ENV_HACK + ",;after:jei@[4.6.0,);";
 	public static final String PREFIX_MOD = MOD_ID + ":";
 
 	// Proxy Constants
