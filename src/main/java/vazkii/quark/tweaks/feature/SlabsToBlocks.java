@@ -38,8 +38,8 @@ import java.util.Map;
 public class SlabsToBlocks extends Feature {
 
 	public static Map<IBlockState, ItemStack> slabs = new HashMap<>();
-	
-	int originalSize;
+
+	public static int originalSize;
 	private MultiRecipe multiRecipe;
 	
 	@Override

@@ -24,8 +24,8 @@ import vazkii.quark.world.world.WorldTypeRealistic;
 
 public class RealisticWorldType extends Feature {
 
-	WorldType realistic;
-	boolean makeRealisticDefault;
+	public static WorldType realistic;
+	public static boolean makeRealisticDefault;
 	
 	@Override
 	public void setupConfig() {

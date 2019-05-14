@@ -46,10 +46,10 @@ public class ExtraPotions extends Feature {
 	
 	private boolean started = false;
 
-	boolean enableHaste, enableResistance, enableDangerSight;
-	boolean forceQuartzForResistance, forceClownfishForDangerSight;
-	
-	String[] replacements;
+	public static boolean enableHaste, enableResistance, enableDangerSight;
+	public static boolean forceQuartzForResistance, forceClownfishForDangerSight;
+
+	public static String[] replacements;
 
 	@Override
 	public void setupConfig() {

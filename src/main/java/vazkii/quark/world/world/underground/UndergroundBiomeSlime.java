@@ -1,8 +1,6 @@
 package vazkii.quark.world.world.underground;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockColored;
-import net.minecraft.block.BlockHardenedClay;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumDyeColor;
@@ -12,8 +10,8 @@ import vazkii.quark.base.module.ModuleLoader;
 
 public class UndergroundBiomeSlime extends BasicUndergroundBiome {
 
-	int slimeBlockChance;
-	boolean waterFloor;
+	public static int slimeBlockChance;
+	public static boolean waterFloor;
 	
 	public UndergroundBiomeSlime() {
 		super(Blocks.WATER.getDefaultState(), null, null);

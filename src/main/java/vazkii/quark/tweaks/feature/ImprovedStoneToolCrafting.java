@@ -13,9 +13,7 @@ package vazkii.quark.tweaks.feature;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.oredict.OreDictionary;
 import vazkii.arl.recipe.RecipeHandler;
 import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.module.Feature;
@@ -23,7 +21,7 @@ import vazkii.quark.world.feature.RevampStoneGen;
 
 public class ImprovedStoneToolCrafting extends Feature {
 
-	String mat = "materialStoneTool";
+	public static final String mat = "materialStoneTool";
 	
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {

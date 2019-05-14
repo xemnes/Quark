@@ -27,7 +27,7 @@ public class RenderExtraArrow<T extends EntityArrow> extends RenderArrow<T> {
 	public static final IRenderFactory<EntityArrowExplosive> FACTORY_EXPLOSIVE = (RenderManager manager) -> new RenderExtraArrow<>(manager, new ResourceLocation("quark", "textures/entity/arrow_explosive.png"));
 	public static final IRenderFactory<EntityArrowTorch> FACTORY_TORCH = (RenderManager manager) -> new RenderExtraArrow<>(manager, new ResourceLocation("quark", "textures/entity/arrow_torch.png"));
 	
-	ResourceLocation res;
+	private final ResourceLocation res;
 	
 	public RenderExtraArrow(RenderManager renderManagerIn, ResourceLocation res) {
 		super(renderManagerIn);

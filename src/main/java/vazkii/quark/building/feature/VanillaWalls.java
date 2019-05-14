@@ -19,7 +19,7 @@ import vazkii.quark.base.module.Feature;
 
 public class VanillaWalls extends Feature {
 
-	boolean stone, granite, diorite, andesite, sandstone, redSandstone, stoneBricks, bricks, quartz, prismarine, prismarineBricks, darkPrismarine, purpurBlock, endBricks;
+	public static boolean stone, granite, diorite, andesite, sandstone, redSandstone, stoneBricks, bricks, quartz, prismarine, prismarineBricks, darkPrismarine, purpurBlock, endBricks;
 
 	@Override
 	public void setupConfig() {

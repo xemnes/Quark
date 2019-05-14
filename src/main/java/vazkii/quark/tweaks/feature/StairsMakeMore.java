@@ -35,11 +35,11 @@ import java.util.*;
 public class StairsMakeMore extends Feature {
 
 	public static Map<IBlockState, ItemStack> stairs = new HashMap<>();
-	
-	int targetSize;
-	int originalSize;
-	boolean reversionRecipe;
-	boolean enableSlabToStair;
+
+	public static int targetSize;
+	public static int originalSize;
+	public static boolean reversionRecipe;
+	public static boolean enableSlabToStair;
 	
 	private MultiRecipe slabMultiRecipe, returnMultiRecipe;
 

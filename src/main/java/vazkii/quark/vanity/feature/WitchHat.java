@@ -27,10 +27,10 @@ public class WitchHat extends Feature {
 
 	public static Item witch_hat;
 
-	boolean halveDamage;
-	double dropRate;
-	double lootingBoost;
-	boolean verifyTruePlayer;
+	public static boolean halveDamage;
+	public static double dropRate;
+	public static double lootingBoost;
+	public static boolean verifyTruePlayer;
 
 	@Override
 	public void setupConfig() {

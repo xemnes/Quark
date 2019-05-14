@@ -22,9 +22,11 @@ import vazkii.quark.base.lib.LibGuiIDs;
 import vazkii.quark.base.lib.LibObfuscation;
 import vazkii.quark.base.module.Feature;
 
+import java.util.Objects;
+
 public class RightClickSignEdit extends Feature {
 
-	boolean emptyHand;
+	public static boolean emptyHand;
 
 	@Override
 	public void setupConfig() {
@@ -39,7 +41,7 @@ public class RightClickSignEdit extends Feature {
 		TileEntity tile = event.getWorld().getTileEntity(event.getPos());
 		if(tile instanceof TileEntitySign && (!emptyHand || event.getEntityPlayer().getHeldItemMainhand().isEmpty()) && event.getEntityPlayer().capabilities.allowEdit && !event.getEntity().isSneaking()) {
 			IBlockState state = event.getWorld().getBlockState(event.getPos());
-			if(state.getBlock().getRegistryName().toString().contains("tcguideposts"))
+			if(Objects.toString(state.getBlock().getRegistryName()).contains("tcguideposts"))
 				return;
 			
 			TileEntitySign sign = (TileEntitySign) tile;

@@ -60,8 +60,8 @@ public class MessageRequestEmote extends NetworkMessage<MessageRequestEmote> {
 	
 	private static class EmoteCommandSender implements ICommandSender {
 		
-		final MinecraftServer server;
-		final ICommandSender superSender;
+		public final MinecraftServer server;
+		public final ICommandSender superSender;
 		
 		public EmoteCommandSender(MinecraftServer server, ICommandSender superSender) {
 			this.server = server;

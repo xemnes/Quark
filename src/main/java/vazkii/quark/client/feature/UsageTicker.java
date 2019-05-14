@@ -32,9 +32,9 @@ import java.util.function.Predicate;
 
 public class UsageTicker extends Feature {
 
-	List<TickerElement> elements;
-	boolean invert;
-	int shiftLeft, shiftRight;
+	public static List<TickerElement> elements;
+	public static boolean invert;
+	public static int shiftLeft, shiftRight;
 	
 	@Override
 	public void setupConfig() {
@@ -57,7 +57,7 @@ public class UsageTicker extends Feature {
 		if(event.phase == Phase.START) {
 			Minecraft mc = Minecraft.getMinecraft();
 			if(mc.player != null)
-				elements.forEach((ticker) -> ticker.tick(event, mc.player));
+				elements.forEach((ticker) -> ticker.tick(mc.player));
 		}
 	}
 	
@@ -76,28 +76,27 @@ public class UsageTicker extends Feature {
 	public boolean hasSubscriptions() {
 		return isClient();
 	}
-	
-	class TickerElement {
+
+	public static class TickerElement {
 		
 		private static final int MAX_TIME = 60;
 		private static final int ANIM_TIME = 5;
-		
-		int liveTicks;
-		EntityEquipmentSlot slot;
-		ItemStack currStack = ItemStack.EMPTY;
-		int currCount;
+
+		public int liveTicks;
+		public EntityEquipmentSlot slot;
+		public ItemStack currStack = ItemStack.EMPTY;
+		public int currCount;
 		
 		public TickerElement(EntityEquipmentSlot slot) {
 			this.slot = slot;
 		}
 		
 		@SideOnly(Side.CLIENT)
-		public void tick(ClientTickEvent event, EntityPlayer player) {
+		public void tick(EntityPlayer player) {
 			ItemStack heldStack = getStack(player).copy();
 			
-			int count = 0;
+			int count = getStackCount(player, heldStack);
 
-			count = getStackCount(player, heldStack);
 			heldStack = getDisplayedStack(player, heldStack, count);
 
 			if(heldStack.isEmpty())

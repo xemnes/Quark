@@ -20,7 +20,7 @@ import vazkii.quark.base.module.Feature;
 
 public class QuickArmorSwapping extends Feature {
 
-	boolean offhandSwapping;
+	public static boolean offhandSwapping;
 
 	@Override
 	public void setupConfig() {

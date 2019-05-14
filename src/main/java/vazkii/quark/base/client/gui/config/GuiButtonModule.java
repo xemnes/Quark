@@ -13,9 +13,9 @@ import javax.annotation.Nonnull;
 
 public class GuiButtonModule extends GuiButton {
 
-	boolean projectRedCrashing = false;
+	private boolean projectRedCrashing = false;
 	
-	final Module module;
+	public final Module module;
 	
 	public GuiButtonModule(int x, int y, Module module) {
 		super(0, x, y, 150, 20, I18n.format("quark.config.module." + module.name));

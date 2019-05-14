@@ -215,8 +215,8 @@ public class LockDirectionHotkey extends Feature {
 	
 	public static class LockProfile {
 		
-		EnumFacing facing;
-		int half;
+		public final EnumFacing facing;
+		public final int half;
 		
 		public LockProfile(EnumFacing facing, int half) {
 			this.facing = facing;
@@ -230,7 +230,7 @@ public class LockDirectionHotkey extends Feature {
 			
 			int face = buf.readInt();
 			int half = buf.readInt();
-			return new LockProfile(EnumFacing.class.getEnumConstants()[face], half);
+			return new LockProfile(EnumFacing.byIndex(face), half);
 		}
 
 		public static void writeProfile(LockProfile p, ByteBuf buf) {
@@ -238,7 +238,7 @@ public class LockDirectionHotkey extends Feature {
 				buf.writeBoolean(false);
 			else {
 				buf.writeBoolean(true);
-				buf.writeInt(p.facing.ordinal());
+				buf.writeInt(p.facing.getIndex());
 				buf.writeInt(p.half);
 			}
 		}

@@ -1,12 +1,5 @@
 package vazkii.quark.world.world;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -16,11 +9,13 @@ import net.minecraft.world.biome.Biome;
 import vazkii.quark.base.handler.BiomeTypeConfigHandler;
 import vazkii.quark.world.feature.UndergroundBiomes.UndergroundBiomeInfo;
 
+import java.util.*;
+
 public class UndergroundBiomeGenerator extends MultiChunkFeatureGenerator {
 
 	public final UndergroundBiomeInfo info;
 	
-	long seedXor;
+	private final long seedXor;
 	
 	public UndergroundBiomeGenerator(UndergroundBiomeInfo info) {
 		this.info = info;

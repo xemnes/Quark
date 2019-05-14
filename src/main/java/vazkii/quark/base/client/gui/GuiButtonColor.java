@@ -7,7 +7,7 @@ import javax.annotation.Nonnull;
 
 public class GuiButtonColor extends GuiButton {
 	
-	final int color;
+	private final int color;
 		
 	public GuiButtonColor(int i, int x, int y, int w, String text, int color) {
 		super(i, x, y, w, 20, text);

@@ -26,11 +26,11 @@ import java.util.List;
 
 public class InventorySorting extends Feature {
 
-	int xPos, yPos;
-	int xPosC, yPosC;
+	public static int xPos, yPos;
+	public static int xPosC, yPosC;
 	public static boolean enablePlayerButton;
-	
-	List<String> classnames;
+
+	public static List<String> classnames;
 
 	@Override
 	public void setupConfig() {

@@ -8,7 +8,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.furnace.FurnaceFuelBurnTimeEvent;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.oredict.OreDictionary;
@@ -26,9 +25,9 @@ public class TallowAndCandles extends Feature {
 	
 	public static boolean candlesFall;
 	public static float enchantPower;
-	
-	boolean enableTallow;
-	int minDrop, maxDrop, candlesCrafted, tallowBurnTime;
+
+	public static boolean enableTallow;
+	public static int minDrop, maxDrop, candlesCrafted, tallowBurnTime;
 	
 	@Override
 	public void setupConfig() {

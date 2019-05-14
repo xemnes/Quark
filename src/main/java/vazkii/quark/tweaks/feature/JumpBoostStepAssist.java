@@ -10,9 +10,6 @@
  */
 package vazkii.quark.tweaks.feature;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
 import net.minecraft.potion.PotionEffect;
@@ -21,12 +18,15 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import vazkii.quark.base.module.Feature;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class JumpBoostStepAssist extends Feature {
 
 	public static List<String> playersWithStepup = new ArrayList<>();
 
-	int minimumLevel;
-	boolean canToggleWithSneak;
+	public static int minimumLevel;
+	public static boolean canToggleWithSneak;
 
 	@Override
 	public void setupConfig() {

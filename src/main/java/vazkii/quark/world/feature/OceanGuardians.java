@@ -32,9 +32,9 @@ import java.util.Set;
 
 public class OceanGuardians extends Feature {
 
-	boolean deepOceanOnly;
-	int weight, min, max;
-	boolean tweakSound;
+	public static boolean deepOceanOnly;
+	public static int weight, min, max;
+	public static boolean tweakSound;
 
 	@Override
 	public void setupConfig() {

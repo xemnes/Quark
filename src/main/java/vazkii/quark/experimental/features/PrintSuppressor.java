@@ -11,17 +11,16 @@
 package vazkii.quark.experimental.features;
 
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import org.apache.commons.io.output.NullOutputStream;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.module.Feature;
 
-import java.io.IOException;
-import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.function.Consumer;
 
 public class PrintSuppressor extends Feature {
 
-	boolean suppressOut, suppressErr;
+	public static boolean suppressOut, suppressErr;
 
 	@Override
 	public void setupConfig() {
@@ -40,12 +39,9 @@ public class PrintSuppressor extends Feature {
 	}
 
 	private void oppressFreedomOfSpeech(Consumer<PrintStream> consumer) {
-		PrintStream oppressedStream = new PrintStream(new OutputStream() {
-			@Override public void write(int b) throws IOException {
-				// NO-OP
-			}
-		});
+		PrintStream oppressedStream = new PrintStream(new NullOutputStream());
 
+		// Accept your oppression, consumer
 		consumer.accept(oppressedStream);
 	}
 

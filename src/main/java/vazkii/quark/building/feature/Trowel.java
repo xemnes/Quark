@@ -10,8 +10,8 @@ import vazkii.quark.building.item.ItemTrowel;
 public class Trowel extends Feature {
 
 	public static Item trowel;
-	
-	int damage;
+
+	public static int damage;
 	
 	@Override
 	public void setupConfig() {

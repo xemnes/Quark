@@ -33,12 +33,12 @@ import java.util.Map;
 
 public class GreenerGrass extends Feature {
 
-	boolean affectFolliage;
-	boolean alphaGrass;
-	boolean absoluteValues;
-	int redShift, greenShift, blueShift;
+	public static boolean affectFolliage;
+	public static boolean alphaGrass;
+	public static boolean absoluteValues;
+	public static int redShift, greenShift, blueShift;
 
-	List<String> extraBlocks;
+	public static List<String> extraBlocks;
 
 	@Override
 	public void setupConfig() {

@@ -32,8 +32,8 @@ public class WorldStoneBricks extends Feature {
 
 	public static BlockMod world_stone_bricks;
 
-	boolean enableStairsAndSlabs;
-	boolean enableWalls;
+	public static boolean enableStairsAndSlabs;
+	public static boolean enableWalls;
 
 	@Override
 	public void setupConfig() {

@@ -15,7 +15,7 @@ import vazkii.quark.base.module.ModuleLoader;
 
 public class UndergroundBiomeSpiderNest extends BasicUndergroundBiome {
 
-	int floorCobwebChance, ceilingCobwebChance, caveSpiderSpawnerChance, nestCobwebChance, nestCobwebRange;
+	public static int floorCobwebChance, ceilingCobwebChance, caveSpiderSpawnerChance, nestCobwebChance, nestCobwebRange;
 	
 	public UndergroundBiomeSpiderNest() {
 		super(Blocks.COBBLESTONE.getDefaultState(), Blocks.COBBLESTONE.getDefaultState(), Blocks.COBBLESTONE.getDefaultState());

@@ -29,8 +29,8 @@ import java.util.Random;
 
 public class VariedDungeons extends Feature {
 
-	ResourceLocation lootTable;
-	int tries;
+	public static ResourceLocation lootTable;
+	public static int tries;
 
 	@Override
 	public void setupConfig() {

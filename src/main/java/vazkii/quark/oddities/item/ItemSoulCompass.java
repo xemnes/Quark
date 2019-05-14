@@ -1,14 +1,12 @@
 package vazkii.quark.oddities.item;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItemFrame;
 import net.minecraft.item.IItemPropertyGetter;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -20,6 +18,8 @@ import vazkii.arl.util.ItemNBTHelper;
 import vazkii.quark.base.item.IQuarkItem;
 import vazkii.quark.oddities.feature.TotemOfHolding;
 
+import javax.annotation.Nonnull;
+
 public class ItemSoulCompass extends ItemMod implements IQuarkItem, IItemPropertyGetter {
 
 	private static final String TAG_POS_X = "posX";
@@ -27,10 +27,10 @@ public class ItemSoulCompass extends ItemMod implements IQuarkItem, IItemPropert
 	private static final String TAG_POS_Z = "posZ";
 	
 	@SideOnly(Side.CLIENT)
-	double rotation, rota;
+	private static double rotation, rota;
 
 	@SideOnly(Side.CLIENT)
-	long lastUpdateTick;
+	private static long lastUpdateTick;
 	
 	public ItemSoulCompass() {
 		super("soul_compass");
@@ -71,6 +71,9 @@ public class ItemSoulCompass extends ItemMod implements IQuarkItem, IItemPropert
 			boolean hasEntity = entityIn != null;
 			Entity entity = (hasEntity ? entityIn : stack.getItemFrame());
 
+			if (entity == null)
+				return 0;
+
 			if(world == null)
 				world = entity.world;
 
@@ -107,7 +110,10 @@ public class ItemSoulCompass extends ItemMod implements IQuarkItem, IItemPropert
 
 	@SideOnly(Side.CLIENT)
 	private double getFrameRotation(EntityItemFrame frame) {
-		return MathHelper.wrapDegrees(180 + frame.facingDirection.getHorizontalIndex() * 90);
+		EnumFacing facing = frame.facingDirection;
+		if (facing == null)
+			facing = EnumFacing.NORTH;
+		return MathHelper.wrapDegrees(180 + facing.getHorizontalAngle());
 	}
 
 	@SideOnly(Side.CLIENT)

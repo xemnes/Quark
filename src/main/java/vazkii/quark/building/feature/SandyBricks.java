@@ -27,8 +27,8 @@ public class SandyBricks extends Feature {
 
 	public static Block sandy_bricks;
 
-	boolean enableStairsAndSlabs;
-	boolean enableWalls;
+	public static boolean enableStairsAndSlabs;
+	public static boolean enableWalls;
 
 	@Override
 	public void setupConfig() {

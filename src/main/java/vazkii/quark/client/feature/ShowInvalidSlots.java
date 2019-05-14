@@ -17,8 +17,8 @@ import vazkii.quark.base.module.Feature;
 
 public class ShowInvalidSlots extends Feature {
 
-	boolean skip = false;
-	boolean requiresShift;
+	private static boolean skip = false;
+	public static boolean requiresShift;
 	
 	@Override
 	public void setupConfig() {

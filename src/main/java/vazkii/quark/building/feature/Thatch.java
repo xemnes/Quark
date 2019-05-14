@@ -27,7 +27,7 @@ public class Thatch extends Feature {
 
 	public static Block thatch;
 
-	boolean enableStairsAndSlabs;
+	public static boolean enableStairsAndSlabs;
 	public static float fallDamageMultiplier;
 
 	@Override

@@ -44,7 +44,7 @@ public class ExtraArrows extends Feature {
 	public static Item arrow_explosive;
 	public static Item arrow_torch;
 
-	boolean enableEnder, enableExplosive, enableTorch;
+	public static boolean enableEnder, enableExplosive, enableTorch;
 	
 	public static double explosiveArrowPower;
 	public static boolean explosiveArrowDestroysBlocks;
@@ -105,7 +105,7 @@ public class ExtraArrows extends Feature {
 
 	public static class ArrowBehaviour extends BehaviorProjectileDispense {
 
-		ArrowProvider provider;
+		private final ArrowProvider provider;
 		
 		public ArrowBehaviour(ArrowProvider provider) {
 			this.provider = provider;

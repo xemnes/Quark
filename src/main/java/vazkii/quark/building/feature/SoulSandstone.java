@@ -20,8 +20,8 @@ public class SoulSandstone extends Feature {
 
 	public static BlockMod soul_sandstone;
 
-	boolean enableStairs;
-	boolean enableWalls;
+	public static boolean enableStairs;
+	public static boolean enableWalls;
 
 	@Override
 	public void setupConfig() {

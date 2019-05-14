@@ -4,14 +4,13 @@ import net.minecraft.block.BlockDirt;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import vazkii.quark.base.module.ModuleLoader;
 
 public class UndergroundBiomeOvergrown extends BasicUndergroundBiome {
 
-	int rootChance, dirtChance;
+	public static int rootChance, dirtChance;
 	
 	public UndergroundBiomeOvergrown() {
 		super(Blocks.MOSSY_COBBLESTONE.getDefaultState(), Blocks.LEAVES.getDefaultState().withProperty(BlockLeaves.DECAYABLE, false), null);

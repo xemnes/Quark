@@ -1,7 +1,5 @@
 package vazkii.quark.tweaks.feature;
 
-import java.util.List;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.EntitySquid;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,9 +11,11 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import vazkii.quark.base.module.Feature;
 
+import java.util.List;
+
 public class SquidsInkYou extends Feature {
 
-	int time = 80;
+	public static int time = 80;
 	
 	@Override
 	public void setupConfig() {

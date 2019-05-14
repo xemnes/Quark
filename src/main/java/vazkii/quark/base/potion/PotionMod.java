@@ -24,7 +24,7 @@ public class PotionMod extends Potion {
 
 	public static ResourceLocation TEXTURE = new ResourceLocation("quark", "textures/misc/potions.png");
 
-	String bareName;
+	protected String bareName;
 
 	public PotionMod(String name, boolean badEffect, int color, int iconIndex) {
 		super(badEffect, color);

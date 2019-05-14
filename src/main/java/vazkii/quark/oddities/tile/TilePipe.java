@@ -32,9 +32,9 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 
 	private static final String TAG_PIPE_ITEMS = "pipeItems";
 
-	boolean iterating = false;
-	List<PipeItem> pipeItems = new LinkedList<>();
-	List<PipeItem> queuedItems = new LinkedList<>();
+	private boolean iterating = false;
+	public List<PipeItem> pipeItems = new LinkedList<>();
+	public List<PipeItem> queuedItems = new LinkedList<>();
 
 	@Override
 	public void update() {
@@ -350,10 +350,6 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 
 		public float getTimeFract(float pticks) {
 			return (ticksInPipe + pticks) / Pipes.pipeSpeed;
-		}
-
-		public float getTimeFract() {
-			return getTimeFract(0F);
 		}
 
 		public void writeToNBT(NBTTagCompound cmp) {

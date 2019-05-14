@@ -17,7 +17,7 @@ import net.minecraft.entity.player.EntityPlayer;
 
 public class GuardianSound2UnderwaterBoogaloo extends GuardianSound {
 
-	EntityGuardian visibleGuardian;
+	private final EntityGuardian visibleGuardian;
 
 	public GuardianSound2UnderwaterBoogaloo(EntityGuardian guardian) {
 		super(guardian);

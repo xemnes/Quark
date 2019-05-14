@@ -27,7 +27,7 @@ public class MushroomsInSwamps extends Feature {
 
 	private WorldGenerator bigMushroomGen = new WorldGenBigMushroom();
 
-	double bigMushroomsPerChunk;
+	public static double bigMushroomsPerChunk;
 
 	@Override
 	public void setupConfig() {

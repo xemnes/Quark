@@ -32,8 +32,8 @@ public class HardenedClayTiles extends Feature {
 	public static BlockMod hardened_clay_tiles;
 	public static BlockMod stained_clay_tiles;
 
-	boolean enableStainedClay;
-	boolean enableStairsAndSlabs;
+	public static boolean enableStainedClay;
+	public static boolean enableStairsAndSlabs;
 
 	@Override
 	public void setupConfig() {

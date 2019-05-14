@@ -17,14 +17,14 @@ import java.util.List;
 
 public class GuiConfigBase extends GuiScreen {
 
-	String title;
-	GuiScreen parent;
+	protected String title;
+	protected final GuiScreen parent;
 	
 	private static List<Property> restartRequiringProperties = new LinkedList<>();
 	public static boolean mayRequireRestart = false;
 
-	GuiButton backButton;
-	String targetUrl;
+	public GuiButton backButton;
+	public String targetUrl;
 
 	public GuiConfigBase(GuiScreen parent) {
 		this.parent = parent;

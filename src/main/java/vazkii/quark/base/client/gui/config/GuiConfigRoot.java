@@ -16,7 +16,7 @@ import java.util.TreeSet;
 
 public class GuiConfigRoot extends GuiConfigBase {
 	
-	boolean qEnabled;
+	private boolean qEnabled;
 	
 	public GuiConfigRoot(GuiScreen parent) {
 		super(parent);

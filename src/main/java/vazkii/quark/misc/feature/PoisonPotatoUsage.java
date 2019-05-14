@@ -1,6 +1,5 @@
 package vazkii.quark.misc.feature;
 
-import net.minecraft.client.particle.ParticleSpell.MobFactory;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.init.Items;
@@ -15,7 +14,7 @@ public class PoisonPotatoUsage extends Feature {
 
 	private static final String TAG_POISONED = "quark:poison_potato_applied";
 
-	double chance;
+	public static double chance;
 	
 	@Override
 	public void setupConfig() {

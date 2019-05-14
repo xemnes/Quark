@@ -29,7 +29,7 @@ public class MidoriBlocks extends Feature {
 	public static Block midori_block;
 	public static Block midori_pillar;
 
-	boolean enableWalls;
+	public static boolean enableWalls;
 
 	@Override
 	public void setupConfig() {

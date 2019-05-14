@@ -26,7 +26,7 @@ public class PlaceVanillaDusts extends Feature {
 	public static Block glowstone_dust_block;
 	public static Block gunpowder_block;
 
-	boolean enableGlowstone, enableGunpowder;
+	public static boolean enableGlowstone, enableGunpowder;
 	public static int gunpowderDelay;
 	public static int gunpowderDelayNetherrack;
 

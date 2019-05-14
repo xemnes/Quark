@@ -1,6 +1,5 @@
 package vazkii.quark.building.feature;
 
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.oredict.OreDictionary;
 import vazkii.arl.block.BlockMod;
@@ -19,7 +18,7 @@ public class StainedPlanks extends Feature {
 
 	public static BlockMod stained_planks;
 
-	boolean enableStairsAndSlabs;
+	public static boolean enableStairsAndSlabs;
 
 	@Override
 	public void setupConfig() {

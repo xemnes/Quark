@@ -1,8 +1,5 @@
 package vazkii.quark.world.world.underground;
 
-import java.util.Map;
-import java.util.Map.Entry;
-
 import net.minecraft.block.BlockChest;
 import net.minecraft.block.BlockSandStone;
 import net.minecraft.block.state.IBlockState;
@@ -25,12 +22,15 @@ import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraftforge.common.BiomeDictionary;
 import vazkii.quark.base.module.ModuleLoader;
 
+import java.util.Map;
+import java.util.Map.Entry;
+
 public class UndergroundBiomeSandstone extends BasicUndergroundBiome {
 
 	public static final ResourceLocation HUSK_GRAVE_STRUCTURE = new ResourceLocation("quark", "husk_grave");
-	
-	int stalactiteChance, chiseledSandstoneChance, deadBushChance;
-	boolean enableSand, allowGenInMesa;
+
+	public static int stalactiteChance, chiseledSandstoneChance, deadBushChance;
+	public static boolean enableSand, allowGenInMesa;
 	
 	public UndergroundBiomeSandstone() {
 		super(Blocks.SANDSTONE.getDefaultState(), Blocks.SANDSTONE.getDefaultState(), Blocks.SANDSTONE.getDefaultState());

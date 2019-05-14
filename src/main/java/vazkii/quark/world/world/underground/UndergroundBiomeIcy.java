@@ -5,13 +5,12 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import vazkii.quark.base.module.ModuleLoader;
-import vazkii.quark.world.block.BlockBiomeCobblestone;
 import vazkii.quark.world.feature.UndergroundBiomes;
 
 public class UndergroundBiomeIcy extends BasicUndergroundBiome {
 	
-	int stalagmiteChance;
-	boolean usePackedIce;
+	public static int stalagmiteChance;
+	public static boolean usePackedIce;
 
 	public UndergroundBiomeIcy() {
 		super(Blocks.ICE.getDefaultState(), null, null, true);

@@ -8,9 +8,8 @@ import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.world.feature.UndergroundBiomes;
 
 public class UndergroundBiomeLava extends BasicUndergroundBiome {
-	
-	int lavaChance, obsidianChance;
-	boolean usePackedIce;
+
+	public static int lavaChance, obsidianChance;
 
 	public UndergroundBiomeLava() {
 		super(Blocks.COBBLESTONE.getDefaultState(), Blocks.COBBLESTONE.getDefaultState(), Blocks.COBBLESTONE.getDefaultState(), true);

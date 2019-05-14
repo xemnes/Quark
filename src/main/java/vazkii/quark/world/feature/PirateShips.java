@@ -33,9 +33,9 @@ public class PirateShips extends Feature {
 
 	public static Item pirate_hat;
 
-	boolean onlyHat;
+	public static boolean onlyHat;
 	public static int rarity;
-	DimensionConfig dims;
+	public static DimensionConfig dims;
 
 	@Override
 	public void setupConfig() {

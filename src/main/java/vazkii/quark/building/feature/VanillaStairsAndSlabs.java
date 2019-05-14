@@ -23,7 +23,7 @@ import vazkii.quark.building.block.slab.BlockVanillaSlab;
 
 public class VanillaStairsAndSlabs extends Feature {
 
-	boolean stone, granite, diorite, andesite, endBricks, prismarine, prismarineBricks, darkPrismarine, redNetherBricks;
+	public static boolean stone, granite, diorite, andesite, endBricks, prismarine, prismarineBricks, darkPrismarine, redNetherBricks;
 
 	@Override
 	public void setupConfig() {

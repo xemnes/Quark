@@ -20,7 +20,7 @@ import vazkii.quark.base.module.Feature;
 
 public class MoreBanners extends Feature {
 
-	boolean dragon, eye, shield, sword;
+	public static boolean dragon, eye, shield, sword;
 
 	@Override
 	public void setupConfig() {

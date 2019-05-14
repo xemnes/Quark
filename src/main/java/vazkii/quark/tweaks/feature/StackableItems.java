@@ -23,13 +23,13 @@ import vazkii.quark.base.module.Feature;
 
 public class StackableItems extends Feature {
 
-	int minecarts, soups, saddle;
+	public static int minecarts, soups, saddle;
 
 	@Override
 	public void setupConfig() {
-		minecarts = loadPropInt("Minecarts", "", 16);
-		soups = loadPropInt("Soups", "", 64);
-		saddle = loadPropInt("Saddle", "", 8);
+		minecarts = Math.min(64, loadPropInt("Minecarts", "", 16));
+		soups = Math.min(64, loadPropInt("Soups", "", 64));
+		saddle = Math.min(64, loadPropInt("Saddle", "", 8));
 	}
 
 	@Override

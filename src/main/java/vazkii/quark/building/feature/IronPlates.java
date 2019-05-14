@@ -27,7 +27,7 @@ public class IronPlates extends Feature {
 
 	public static Block iron_plate;
 
-	boolean enableStairsAndSlabs;
+	public static boolean enableStairsAndSlabs;
 
 	@Override
 	public void setupConfig() {

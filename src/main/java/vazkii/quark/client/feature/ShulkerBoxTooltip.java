@@ -29,8 +29,7 @@ public class ShulkerBoxTooltip extends Feature {
 
 	public static ResourceLocation WIDGET_RESOURCE = new ResourceLocation("quark", "textures/misc/shulker_widget.png");
 
-	boolean useColors, requireShift;
-
+	public static boolean useColors, requireShift;
 
 	@Override
 	public void setupConfig() {
@@ -49,7 +48,7 @@ public class ShulkerBoxTooltip extends Feature {
 				for(int i = 1; i < tooltipCopy.size(); i++) {
 					String s = tooltipCopy.get(i);
 					if(!s.startsWith("\u00a7") || s.startsWith("\u00a7o"))
-						tooltip.remove(tooltip.indexOf(s));
+						tooltip.remove(s);
 				}
 				
 				if(requireShift && !GuiScreen.isShiftKeyDown())

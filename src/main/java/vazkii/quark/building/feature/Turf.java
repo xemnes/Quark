@@ -7,8 +7,6 @@ import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import vazkii.arl.block.BlockModSlab;
 import vazkii.arl.block.BlockModStairs;
@@ -28,8 +26,8 @@ public class Turf extends Feature {
 	private static final IBlockState GRASS_STATE = Blocks.GRASS.getDefaultState();
 	
 	public static Block turf;
-	
-	boolean enableStairsAndSlabs;
+
+	public static boolean enableStairsAndSlabs;
 	
 	@Override
 	public void setupConfig() {

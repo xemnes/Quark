@@ -11,8 +11,8 @@ import vazkii.quark.base.module.Feature;
 public class MetalButtons extends Feature {
 
 	public static Block iron_button, gold_button;
-	
-	boolean enableIron, enableGold;
+
+	public static boolean enableIron, enableGold;
 	
 	@Override
 	public void setupConfig() {

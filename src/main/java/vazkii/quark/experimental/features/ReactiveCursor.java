@@ -42,7 +42,7 @@ public class ReactiveCursor extends Feature {
 	private static final String CURSOR_CLOSED_HAND = "closed_hand";
 	private static final String CURSOR_SAW = "saw";
 
-	String currentCursor = "";
+	public static String currentCursor = "";
 
 	@Override
 	@SideOnly(Side.CLIENT)

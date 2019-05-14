@@ -41,9 +41,9 @@ public class RevampStoneGen extends Feature {
 	public static BlockMod marble;
 	public static BlockMod limestone;
 
-	boolean enableStairsAndSlabs;
-	boolean enableWalls;
-	boolean outputCSV;
+	public static boolean enableStairsAndSlabs;
+	public static boolean enableWalls;
+	public static boolean outputCSV;
 	
 	public static boolean generateBasedOnBiomes;
 	public static boolean enableMarble;

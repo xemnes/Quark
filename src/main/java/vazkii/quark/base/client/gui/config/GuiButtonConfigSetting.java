@@ -12,7 +12,7 @@ import javax.annotation.Nonnull;
 public class GuiButtonConfigSetting extends GuiButton {
 	
 	public final Property prop;
-	final boolean labeled;
+	private final boolean labeled;
 
 	public GuiButtonConfigSetting(int x, int y, Property prop, boolean labeled) {
 		this(x, y, prop, labeled, prop.getName());

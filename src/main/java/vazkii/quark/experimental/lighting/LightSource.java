@@ -14,7 +14,7 @@ public class LightSource {
 	public final IBlockState state;
 	public final byte brightness;
 
-	byte[][][] incidences = null;
+	public byte[][][] incidences = null;
 
 	public LightSource(World world, BlockPos pos, IBlockState state, int brightness) {
 		this.world = world;
@@ -116,15 +116,15 @@ public class LightSource {
 
 	private static class Edge {
 
-		final BlockPos pos;
-		final byte light;
+		public final BlockPos pos;
+		public final byte light;
 
-		private Edge(BlockPos pos, byte light) {
+		public Edge(BlockPos pos, byte light) {
 			this.pos = pos;
 			this.light = light;
 		}
 
-		Edge next(IBlockAccess world, EnumFacing face) {
+		public Edge next(IBlockAccess world, EnumFacing face) {
 			BlockPos nextPos = pos.offset(face);
 			byte opacity = (byte) world.getBlockState(nextPos).getLightOpacity(world, nextPos);
 			if(opacity < 0)

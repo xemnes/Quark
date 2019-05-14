@@ -12,7 +12,7 @@ import vazkii.quark.base.module.Feature;
 public class NoteBlockInterface extends Feature {
 
 	public static String keyboardLayout;
-	boolean emptyHand;
+	public static boolean emptyHand;
 
 	@Override
 	public void setupConfig() {

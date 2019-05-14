@@ -1,8 +1,5 @@
 package vazkii.quark.world.world;
 
-import java.util.Random;
-import java.util.function.Supplier;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
@@ -11,13 +8,16 @@ import net.minecraft.world.biome.Biome;
 import vazkii.quark.base.handler.BiomeTypeConfigHandler;
 import vazkii.quark.world.feature.RevampStoneGen.StoneInfo;
 
+import java.util.Random;
+import java.util.function.Supplier;
+
 public class StoneInfoBasedGenerator extends MultiChunkFeatureGenerator {
 
 	public Supplier<StoneInfo> infoSupplier;
 	public String name;
 	
-	IBlockState state;
-	long seedXor;
+	private final IBlockState state;
+	private final long seedXor;
 	
 	public StoneInfoBasedGenerator(Supplier<StoneInfo> infoSupplier, IBlockState state, String name) {
 		this.infoSupplier = infoSupplier;

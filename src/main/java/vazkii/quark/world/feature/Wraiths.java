@@ -10,8 +10,6 @@
  */
 package vazkii.quark.world.feature;
 
-import java.util.List;
-
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.IMob;
@@ -21,10 +19,8 @@ import net.minecraft.item.Item;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
@@ -43,6 +39,8 @@ import vazkii.quark.world.client.render.RenderWraith;
 import vazkii.quark.world.entity.EntityWraith;
 import vazkii.quark.world.item.ItemSoulBead;
 
+import java.util.List;
+
 public class Wraiths extends Feature {
 
 	public static Item soul_bead;
@@ -52,8 +50,8 @@ public class Wraiths extends Feature {
 	public static int curseTime;
 	public static boolean enableCurse;
 
-	int weight, min, max;
-	int curseRange;
+	public static int weight, min, max;
+	public static int curseRange;
 
 	@Override
 	public void setupConfig() {

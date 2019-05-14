@@ -19,7 +19,7 @@ import java.util.List;
 
 public class PistonsPushPullItems extends Feature {
 
-	static float force = 0.48F;
+	public static float force = 0.48F;
 
 	@Override
 	public void setupConfig() {

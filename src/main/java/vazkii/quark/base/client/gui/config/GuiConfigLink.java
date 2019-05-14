@@ -1,15 +1,11 @@
 package vazkii.quark.base.client.gui.config;
 
-import java.io.IOException;
-
 import net.minecraft.client.gui.GuiConfirmOpenLink;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiYesNoCallback;
-import vazkii.quark.base.lib.LibMisc;
 
 public class GuiConfigLink extends GuiConfirmOpenLink {
 	
-	GuiScreen parent;
+	private final GuiScreen parent;
 
 	public GuiConfigLink(GuiScreen parentScreenIn, String url) {
 		super(parentScreenIn, url, 0, true);
@@ -17,7 +13,7 @@ public class GuiConfigLink extends GuiConfirmOpenLink {
 	}
 	
 	@Override 
-	protected void keyTyped(char typedChar, int keyCode) throws IOException {
+	protected void keyTyped(char typedChar, int keyCode) {
 		if(keyCode == 1) // Esc
 			returnToParent();
 	}

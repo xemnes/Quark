@@ -1,6 +1,5 @@
 package vazkii.quark.world.world.underground;
 
-import net.minecraft.block.BlockPrismarine;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
@@ -10,9 +9,9 @@ import vazkii.quark.world.feature.UndergroundBiomes;
 
 public class UndergroundBiomePrismarine extends BasicUndergroundBiome {
 
-	int seaLanternChance, waterChance;
-	IBlockState lanternState; 
-	boolean spawnElderPrismarine;
+	public static int seaLanternChance, waterChance;
+	private IBlockState lanternState;
+	public static boolean spawnElderPrismarine;
 	
 	public UndergroundBiomePrismarine() {
 		super(Blocks.PRISMARINE.getDefaultState(), Blocks.PRISMARINE.getDefaultState(), Blocks.PRISMARINE.getDefaultState());

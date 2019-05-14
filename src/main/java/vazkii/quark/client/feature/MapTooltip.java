@@ -24,7 +24,7 @@ public class MapTooltip extends Feature {
 
 	private static final ResourceLocation RES_MAP_BACKGROUND = new ResourceLocation("textures/map/map_background.png");
 
-	boolean requireShift;
+	public static boolean requireShift;
 
 	@Override
 	public void setupConfig() {
@@ -42,7 +42,7 @@ public class MapTooltip extends Feature {
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void renderTooltip(RenderTooltipEvent.PostText event) {
-		if(event.getStack() != null && event.getStack().getItem() instanceof ItemMap && (!requireShift || GuiScreen.isShiftKeyDown())) {
+		if(!event.getStack().isEmpty() && event.getStack().getItem() instanceof ItemMap && (!requireShift || GuiScreen.isShiftKeyDown())) {
 			Minecraft mc = Minecraft.getMinecraft();
 			
 			MapData mapdata = Items.FILLED_MAP.getMapData(event.getStack(), mc.world);

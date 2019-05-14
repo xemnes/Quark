@@ -1,11 +1,5 @@
 package vazkii.quark.client.gui;
 
-import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
-
-import org.lwjgl.input.Keyboard;
-
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -19,15 +13,20 @@ import net.minecraft.network.play.client.CPacketUpdateSign;
 import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.util.ChatAllowedCharacters;
 import net.minecraft.util.text.TextComponentString;
+import org.lwjgl.input.Keyboard;
 import vazkii.quark.client.feature.ImprovedSignEdit;
+
+import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 
 public class GuiBetterEditSign extends GuiScreen {
 
-	TileEntitySign sign;
+	public final TileEntitySign sign;
 
-	static int focusedField = 0;
-	List<GuiTextField> textFields;
-	String[] defaultStrings;
+	private static int focusedField = 0;
+	private List<GuiTextField> textFields;
+	private String[] defaultStrings;
 
  	public GuiBetterEditSign(TileEntitySign sign) {
 		this.sign = sign;

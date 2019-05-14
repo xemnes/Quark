@@ -29,7 +29,7 @@ public class MoreSandstone extends Feature {
 
 	public static BlockMod sandstone_new;
 
-	boolean enableStairsAndSlabs;
+	public static boolean enableStairsAndSlabs;
 
 	@Override
 	public void setupConfig() {

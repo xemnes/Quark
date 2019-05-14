@@ -38,8 +38,8 @@ public class GuiButtonChest extends GuiButton implements IParentedGui {
 	
 	public final int shiftX, shiftY;
 	
-	Predicate<GuiScreen> enabledPredicate = null;
-	boolean ender = false;
+	private Predicate<GuiScreen> enabledPredicate = null;
+	private boolean ender = false;
 	
 	public GuiButtonChest(GuiScreen parent, Action action, int id, int par2, int par3, int left, int top) {
 		super(id, par2 + left, par3 + top, 16, 16, "");

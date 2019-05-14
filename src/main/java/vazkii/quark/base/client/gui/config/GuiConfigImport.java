@@ -16,9 +16,9 @@ import java.util.Set;
 
 public class GuiConfigImport extends GuiConfigBase {
 
-	boolean needsRestart = false;
-	int disabledFeatures;
-	GuiTextField textField;
+	private boolean needsRestart = false;
+	private int disabledFeatures;
+	private GuiTextField textField;
 	
 	public GuiConfigImport(GuiScreen parent) {
 		super(parent);

@@ -10,10 +10,6 @@
  */
 package vazkii.quark.tweaks.feature;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Function;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.entity.item.EntityMinecartEmpty;
@@ -27,13 +23,19 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.EntityInteract;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import vazkii.quark.base.module.Feature;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Function;
+
 public class MinecartInteraction extends Feature {
 
-	Map<Item, Function<EntityMinecartEmpty, EntityMinecart>> inserters = new HashMap<>();
-	boolean enableCommandAndSpawner;
+	public static Map<Item, Function<EntityMinecartEmpty, EntityMinecart>> inserters = new HashMap<>();
+	public static boolean enableCommandAndSpawner;
 
 	@Override
 	public void setupConfig() {
@@ -53,11 +55,14 @@ public class MinecartInteraction extends Feature {
 		}
 	}
 	
-	EntityMinecart getMinecart(ResourceLocation rl, World world, double x, double y, double z) {
+	private EntityMinecart getMinecart(ResourceLocation rl, World world, double x, double y, double z) {
 		try {
-			Class<? extends Entity> minecartClass = ForgeRegistries.ENTITIES.getValue(rl).getEntityClass();
-			return (EntityMinecart) minecartClass.getConstructor(World.class, double.class, double.class, double.class).newInstance(world, x, y, z);
-		} catch(Exception e) {
+			EntityEntry entry = ForgeRegistries.ENTITIES.getValue(rl);
+			if (entry != null) {
+				Class<? extends Entity> minecartClass = entry.getEntityClass();
+				return (EntityMinecart) minecartClass.getConstructor(World.class, double.class, double.class, double.class).newInstance(world, x, y, z);
+			}
+		} catch(InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
 			e.printStackTrace();
 		}
 		return null;

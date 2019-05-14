@@ -45,7 +45,7 @@ public class FavoriteItems extends Feature {
 	public static String TAG_FAVORITE_ITEM = "Quark:FavoriteItem";
 
 	public static boolean hovering;
-	boolean mouseDown = false;
+	private static boolean mouseDown = false;
 
 	@SubscribeEvent
 	public void itemPickedUp(EntityItemPickupEvent event) {

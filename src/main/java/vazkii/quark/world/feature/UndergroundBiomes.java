@@ -55,7 +55,7 @@ public class UndergroundBiomes extends Feature {
 	public static IBlockState firestoneState, icystoneState;
 	
 	public static boolean firestoneEnabled, icystoneEnabled, glowceliumEnabled, bigGlowshroomsEnabled, elderPrismarineEnabled;
-	boolean enableStairsAndSlabs, enableWalls, allowCraftingElderPrismarine;
+	public static boolean enableStairsAndSlabs, enableWalls, allowCraftingElderPrismarine;
 	
 	private static UndergroundBiomeGenerator prismarineBiomeGen;
 	

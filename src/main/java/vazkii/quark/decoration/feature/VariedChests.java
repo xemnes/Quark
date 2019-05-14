@@ -10,10 +10,6 @@
  */
 package vazkii.quark.decoration.feature;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import net.minecraft.block.BlockChest.Type;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.init.Blocks;
@@ -25,7 +21,6 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -42,6 +37,10 @@ import vazkii.quark.decoration.block.BlockCustomChest;
 import vazkii.quark.decoration.client.render.RenderTileCustomChest;
 import vazkii.quark.decoration.tile.TileCustomChest;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class VariedChests extends Feature {
 
 	public static final Type CUSTOM_TYPE_QUARK = EnumHelper.addEnum(Type.class, "QUARK", new Class[0]);
@@ -53,9 +52,9 @@ public class VariedChests extends Feature {
 	public static BlockCustomChest custom_chest;
 	public static BlockCustomChest custom_chest_trap;
 
-	boolean renameVanillaChests;
-	boolean addLogRecipe;
-	boolean reversionRecipe;
+	public static boolean renameVanillaChests;
+	public static boolean addLogRecipe;
+	public static boolean reversionRecipe;
 	
 	@Override
 	public void setupConfig() {

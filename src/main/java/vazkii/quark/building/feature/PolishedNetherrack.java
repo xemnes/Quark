@@ -17,8 +17,8 @@ public class PolishedNetherrack extends Feature {
 
 	public static BlockMod polished_netherrack;
 
-	boolean enableStairsAndSlabs;
-	boolean enableWalls;
+	public static boolean enableStairsAndSlabs;
+	public static boolean enableWalls;
 
 	@Override
 	public void setupConfig() {

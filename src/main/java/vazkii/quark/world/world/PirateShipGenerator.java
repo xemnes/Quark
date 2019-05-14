@@ -46,7 +46,7 @@ import java.util.Random;
 
 public class PirateShipGenerator implements IWorldGenerator {
 
-	DimensionConfig dims;
+	private final DimensionConfig dims;
 	
 	public PirateShipGenerator(DimensionConfig dims) {
 		this.dims = dims;

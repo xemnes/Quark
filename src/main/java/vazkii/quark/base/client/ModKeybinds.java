@@ -118,8 +118,8 @@ public class ModKeybinds {
 
 	private static class KeybindButtonHandler {
 
-		final KeyBinding ref;
-		boolean down;
+		private final KeyBinding ref;
+		private boolean down;
 
 		public KeybindButtonHandler(KeyBinding ref) {
 			this.ref = ref;

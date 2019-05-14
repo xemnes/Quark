@@ -22,7 +22,7 @@ public class GuiButtonTrash extends GuiButton implements IParentedGui {
 
 	public final GuiScreen parent;
 	public final int shiftX, shiftY;
-	final boolean needsShift;
+	private final boolean needsShift;
 	public boolean ready;
 
 	public GuiButtonTrash(GuiScreen parent, int id, int shiftX, int shiftY, boolean needsShift) {

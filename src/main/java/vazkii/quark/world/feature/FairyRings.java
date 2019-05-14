@@ -12,6 +12,7 @@ import vazkii.quark.world.world.FairyRingGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -22,9 +23,9 @@ public class FairyRings extends Feature {
 	public static int forestChance, plainsChance;
 	public static DimensionConfig dimensions;
 	public static List<IBlockState> ores;
-	
-	boolean initted = false;
-	String[] oresArr;
+
+	private static boolean initted = false;
+	public static String[] oresArr;
 	
 	@Override
 	public void setupConfig() {
@@ -33,8 +34,8 @@ public class FairyRings extends Feature {
 		dimensions = new DimensionConfig(configCategory, "0");
 		
 		oresArr = loadPropStringList("Spawnable Ores", "", new String[] {
-			Blocks.EMERALD_ORE.getRegistryName().toString(),
-			Blocks.DIAMOND_ORE.getRegistryName().toString()
+			Objects.toString(Blocks.EMERALD_ORE.getRegistryName()),
+				Objects.toString(Blocks.DIAMOND_ORE.getRegistryName())
 		});
 		if(initted)
 			loadOres();

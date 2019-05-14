@@ -21,7 +21,7 @@ import java.util.List;
 
 public class FoodTooltip extends Feature {
 
-	int divisor = 2;
+	public static int divisor = 2;
 	
 	@SubscribeEvent
 	@Optional.Method(modid = "betterwithmods")

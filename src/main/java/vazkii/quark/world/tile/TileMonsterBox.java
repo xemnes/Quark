@@ -20,7 +20,7 @@ import java.util.List;
 
 public class TileMonsterBox extends TileMod implements ITickable {
 
-	int breakProgress;
+	private int breakProgress;
 	
 	@Override
 	public void update() {

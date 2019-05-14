@@ -9,7 +9,7 @@ import vazkii.quark.world.feature.UndergroundBiomes;
 
 public class UndergroundBiomeGlowshroom extends BasicUndergroundBiome {
 
-	int mushroomChance;
+	public static int mushroomChance;
 	
 	public UndergroundBiomeGlowshroom() {
 		super(Blocks.DIRT.getDefaultState(), Blocks.DIRT.getDefaultState(), Blocks.DIRT.getDefaultState());

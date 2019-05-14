@@ -14,7 +14,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.crafting.Ingredient;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.oredict.OreDictionary;
 import vazkii.arl.block.BlockMod;
@@ -29,7 +28,7 @@ public class VariedBookshelves extends Feature {
 
 	public static BlockMod custom_bookshelf;
 
-	boolean renameVanillaBookshelves;
+	public static boolean renameVanillaBookshelves;
 	
 	@Override
 	public void setupConfig() {

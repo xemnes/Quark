@@ -2,7 +2,6 @@ package vazkii.quark.building.feature;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.oredict.OreDictionary;
 import vazkii.arl.recipe.RecipeHandler;
@@ -17,7 +16,7 @@ public class VerticalWoodPlanks extends Feature {
 	public static Block vertical_planks;
 	public static Block vertical_stained_planks;
 
-	boolean enableVerticalStained = true;
+	public static boolean enableVerticalStained = true;
 	
 	@Override
 	public void setupConfig() {

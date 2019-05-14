@@ -32,16 +32,16 @@ public class GuiMatrixEnchanting extends GuiContainer {
 
 	public static final ResourceLocation BACKGROUND = new ResourceLocation(LibMisc.MOD_ID, "textures/misc/matrix_enchanting.png");
 
-	InventoryPlayer playerInv;
-	TileMatrixEnchanter enchanter;
-	
-	GuiButton plusButton;
-	PieceList pieceList;
-	Piece hoveredPiece;
-	
-	int selectedPiece = -1;
-	int gridHoverX, gridHoverY;
-	List<Integer> listPieces = null;
+	protected final InventoryPlayer playerInv;
+	protected final TileMatrixEnchanter enchanter;
+
+	protected GuiButton plusButton;
+	protected PieceList pieceList;
+	protected Piece hoveredPiece;
+
+	protected int selectedPiece = -1;
+	protected int gridHoverX, gridHoverY;
+	protected List<Integer> listPieces = null;
 	
 	public GuiMatrixEnchanting(InventoryPlayer playerInv, TileMatrixEnchanter enchanter) {
 		super(new ContainerMatrixEnchanting(playerInv, enchanter));

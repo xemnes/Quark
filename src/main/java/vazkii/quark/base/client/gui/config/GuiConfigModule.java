@@ -16,10 +16,10 @@ public class GuiConfigModule extends GuiConfigBase {
 
 	private static final int FEATURES_PER_PAGE = 12;
 	
-	final Module module;
-	final List<Feature> features;
-	int page = 0;
-	int totalPages;
+	private final Module module;
+	private final List<Feature> features;
+	private int page = 0;
+	private int totalPages;
 	
 	private GuiButton left, right;
 	

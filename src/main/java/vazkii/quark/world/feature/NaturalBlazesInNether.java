@@ -10,9 +10,6 @@
  */
 package vazkii.quark.world.feature;
 
-import java.util.Arrays;
-import java.util.List;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.monster.EntityBlaze;
@@ -28,12 +25,15 @@ import net.minecraftforge.fml.common.eventhandler.Event.Result;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import vazkii.quark.base.module.Feature;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class NaturalBlazesInNether extends Feature {
 
-	int weight, min, max;
-	boolean restrictToNetherrack;
-	
-	List<String> allowedBlocks;
+	public static int weight, min, max;
+	public static boolean restrictToNetherrack;
+
+	public static List<String> allowedBlocks;
 
 	@Override
 	public void setupConfig() {

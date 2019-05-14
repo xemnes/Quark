@@ -36,9 +36,9 @@ public class ParrotEggs extends Feature {
 
 	public static Item parrot_egg;
 
-	Item item;
-	int chance, eggTime;
-	boolean enableKotobirb;
+	public static Item item;
+	public static int chance, eggTime;
+	public static boolean enableKotobirb;
 
 	@Override
 	public void setupConfig() {

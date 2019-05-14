@@ -46,18 +46,17 @@ public class PanoramaMaker extends Feature {
 
 	private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss");
 
-	File panoramaDir;
-	File fullresPanoramaDir;
-	File currentDir;
-	float rotationYaw, rotationPitch;
-	int panoramaStep;
-	boolean takingPanorama;
-	int currentWidth, currentHeight;
-	boolean overridenOnce;
+	private File panoramaDir;
+	private File currentDir;
+	private float rotationYaw, rotationPitch;
+	private int panoramaStep;
+	private boolean takingPanorama;
+	private int currentWidth, currentHeight;
+	private boolean overridenOnce;
 
-	boolean overrideMainMenu;
-	int panoramaSize;
-	boolean fullscreen;
+	public static boolean overrideMainMenu;
+	public static int panoramaSize;
+	public static boolean fullscreen;
 
 	@Override
 	public void setupConfig() {

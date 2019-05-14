@@ -22,7 +22,7 @@ public class PistonSpikes extends Feature {
 
 	public static Block iron_rod;
 
-	boolean ezRecipe;
+	public static boolean ezRecipe;
 	
 	@Override
 	public void setupConfig() {

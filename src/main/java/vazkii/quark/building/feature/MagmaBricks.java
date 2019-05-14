@@ -1,10 +1,7 @@
 package vazkii.quark.building.feature;
 
-import org.apache.commons.io.input.ProxyReader;
-
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import vazkii.arl.block.BlockModSlab;
 import vazkii.arl.block.BlockModStairs;
@@ -19,8 +16,8 @@ import vazkii.quark.building.block.stairs.BlockMagmaBricksStairs;
 public class MagmaBricks extends Feature {
 
 	public static Block magma_bricks;
-	
-	boolean enableStairsAndSlabs;
+
+	public static boolean enableStairsAndSlabs;
 
 	@Override
 	public void setupConfig() {

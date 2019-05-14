@@ -11,7 +11,7 @@ import vazkii.quark.base.module.Feature;
 
 public class UtilityRecipes extends Feature {
 
-	boolean enableDispenser, enableRepeater, enableMinecarts;
+	public static boolean enableDispenser, enableRepeater, enableMinecarts;
 	
 	@Override
 	public void setupConfig() {

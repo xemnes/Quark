@@ -43,11 +43,11 @@ public class StoreToChests extends Feature {
 
 	public static boolean clientDisabled;
 	public static boolean invert;
-	
-	int xPos, yPos;
-	int xPosC, yPosC;
 
-	List<String> classnames;
+	public static int xPos, yPos;
+	public static int xPosC, yPosC;
+
+	public static List<String> classnames;
 
 	@Override
 	public void setupConfig() {
