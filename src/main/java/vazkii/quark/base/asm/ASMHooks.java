@@ -5,6 +5,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -30,6 +31,9 @@ import vazkii.quark.tweaks.feature.ImprovedSleeping;
 import vazkii.quark.vanity.client.emotes.EmoteHandler;
 import vazkii.quark.vanity.client.render.BoatBannerRenderer;
 import vazkii.quark.vanity.feature.BoatSails;
+import vazkii.quark.vanity.feature.WitchHat;
+
+import javax.annotation.Nullable;
 
 @SuppressWarnings("unused")
 public final class ASMHooks {
@@ -143,6 +147,11 @@ public final class ASMHooks {
 	// ===== BETTER FIRE EFFECT ==== //
 	public static boolean renderFire(Entity entity, double x, double y, double z, float pticks) {
 		return BetterFireEffect.renderFire(entity, x, y, z, pticks);
+	}
+
+	// ===== WITCH HATS ==== //
+	public static boolean hasWitchHat(EntityLiving attacker, @Nullable EntityLivingBase target) {
+		return WitchHat.hasWitchHat(attacker, target);
 	}
 	
 }

@@ -141,7 +141,7 @@ public class EntityStoneling extends EntityCreature {
 	public void writeEntityToNBT(NBTTagCompound compound) {
 		super.writeEntityToNBT(compound);
 
-		compound.setTag(TAG_CARRYING_ITEM, getCarryingItem().writeToNBT(new NBTTagCompound()));
+		compound.setTag(TAG_CARRYING_ITEM, getCarryingItem().serializeNBT());
 
 		compound.setByte(TAG_VARIANT, getVariant());
 		compound.setFloat(TAG_HOLD_ANGLE, getItemAngle());

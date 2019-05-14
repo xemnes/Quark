@@ -13,24 +13,7 @@ package vazkii.quark.base.network;
 import net.minecraftforge.fml.relauncher.Side;
 import vazkii.arl.network.NetworkHandler;
 import vazkii.arl.network.NetworkMessage;
-import vazkii.quark.base.network.message.MessageChangeConfig;
-import vazkii.quark.base.network.message.MessageChangeHotbar;
-import vazkii.quark.base.network.message.MessageDeleteItem;
-import vazkii.quark.base.network.message.MessageDisableDropoffClient;
-import vazkii.quark.base.network.message.MessageDoEmote;
-import vazkii.quark.base.network.message.MessageDropoff;
-import vazkii.quark.base.network.message.MessageFavoriteItem;
-import vazkii.quark.base.network.message.MessageHandleBackpack;
-import vazkii.quark.base.network.message.MessageLinkItem;
-import vazkii.quark.base.network.message.MessageMatrixEnchanterOperation;
-import vazkii.quark.base.network.message.MessageRequestEmote;
-import vazkii.quark.base.network.message.MessageRequestPassengerChest;
-import vazkii.quark.base.network.message.MessageRestock;
-import vazkii.quark.base.network.message.MessageSetLockProfile;
-import vazkii.quark.base.network.message.MessageSortInventory;
-import vazkii.quark.base.network.message.MessageSwapItems;
-import vazkii.quark.base.network.message.MessageTuneNoteBlock;
-import vazkii.quark.base.network.message.MessageUpdateAfk;
+import vazkii.quark.base.network.message.*;
 import vazkii.quark.misc.feature.LockDirectionHotkey.LockProfile;
 
 public class MessageRegister {
@@ -54,6 +37,7 @@ public class MessageRegister {
 		NetworkHandler.register(MessageHandleBackpack.class, Side.SERVER);
 		NetworkHandler.register(MessageRequestEmote.class, Side.SERVER);
 		NetworkHandler.register(MessageMatrixEnchanterOperation.class, Side.SERVER);
+		NetworkHandler.register(MessageSyncBoatBanner.class, Side.CLIENT);
 
 		NetworkMessage.mapHandler(LockProfile.class, LockProfile::readProfile, LockProfile::writeProfile);
 	}

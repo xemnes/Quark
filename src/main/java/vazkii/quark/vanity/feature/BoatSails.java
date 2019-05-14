@@ -13,36 +13,70 @@ package vazkii.quark.vanity.feature;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemBanner;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
-import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.WorldServer;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.EntityInteract;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import vazkii.arl.network.NetworkHandler;
+import vazkii.quark.api.capability.IBoatBanner;
+import vazkii.quark.base.capability.BackedUpBoatBanner;
+import vazkii.quark.base.capability.SimpleProvider;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.ModuleLoader;
+import vazkii.quark.base.network.message.MessageSyncBoatBanner;
+
+import java.util.WeakHashMap;
 
 public class BoatSails extends Feature {
 
-	private static DataParameter<ItemStack> bannerData;
 	private static final String TAG_BANNER = "quark:banner";
+	private static final ResourceLocation BANNER_CAPABILITY = new ResourceLocation(TAG_BANNER);
 
-	@Override
-	public void preInit(FMLPreInitializationEvent event) {
-		bannerData = EntityDataManager.<ItemStack>createKey(EntityBoat.class, DataSerializers.ITEM_STACK);
-	}
-	
-	@SubscribeEvent
-	public void onEntityInit(EntityConstructing event) {
-		if(event.getEntity() instanceof EntityBoat) {
-			EntityDataManager manager = event.getEntity().getDataManager();
-			manager.register(bannerData, ItemStack.EMPTY);
+	private static final WeakHashMap<EntityBoat, ItemStack> cachedStacks = new WeakHashMap<>();
+
+	public static void setBanner(Entity entity, ItemStack banner, boolean sync) {
+		if (canHaveBanner(entity)) {
+			EntityBoat boat = (EntityBoat) entity;
+			ItemStack cached = cachedStacks.get(boat);
+			if (cached == null || !sync || !ItemStack.areItemStacksEqual(banner, cached)) {
+				IBoatBanner.getBoatBanner(boat).setStack(banner);
+				if (sync) {
+					cachedStacks.put(boat, banner);
+					if (boat.world instanceof WorldServer) {
+						WorldServer world = (WorldServer) boat.world;
+						for (EntityPlayer target : world.getEntityTracker().getTrackingPlayers(boat))
+							syncDataFor(boat, target);
+					}
+				}
+			}
 		}
+	}
+
+	private static void syncDataFor(Entity target, EntityPlayer player) {
+		if (player instanceof EntityPlayerMP && canHaveBanner(target)) {
+			ItemStack banner = getBanner(target);
+			NetworkHandler.INSTANCE.sendTo(new MessageSyncBoatBanner(target.getEntityId(), banner),
+					(EntityPlayerMP) player);
+		}
+	}
+
+	@SubscribeEvent
+	public void onBoatGenesis(AttachCapabilitiesEvent<Entity> event) {
+		if (event.getObject() instanceof EntityBoat)
+			event.addCapability(BANNER_CAPABILITY, new SimpleProvider<>(IBoatBanner.CAPABILITY,
+					new BackedUpBoatBanner((EntityBoat) event.getObject())));
+	}
+
+	@SubscribeEvent
+	public void onBoatArrive(PlayerEvent.StartTracking event) {
+		syncDataFor(event.getTarget(), event.getEntityPlayer());
 	}
 
 	@SubscribeEvent
@@ -50,8 +84,8 @@ public class BoatSails extends Feature {
 		Entity target = event.getTarget();
 		EntityPlayer player = event.getEntityPlayer();
 
-		if(target instanceof EntityBoat && !target.getPassengers().contains(player)) {
-			ItemStack banner = getBanner((EntityBoat) target);
+		if(canHaveBanner(target) && !target.getPassengers().contains(player)) {
+			ItemStack banner = getBanner(target);
 			if(!banner.isEmpty())
 				return;
 
@@ -65,14 +99,12 @@ public class BoatSails extends Feature {
 			if(!stack.isEmpty() && stack.getItem() instanceof ItemBanner) {
 				ItemStack copyStack = stack.copy();
 				player.swingArm(hand);
-				target.getDataManager().set(bannerData, copyStack);
 
-				NBTTagCompound cmp = new NBTTagCompound();
-				copyStack.writeToNBT(cmp);
-				target.getEntityData().setTag(TAG_BANNER, cmp);
+				setBanner(target, copyStack, !event.getWorld().isRemote);
 
 				if(!event.getWorld().isRemote) {
 					event.setCanceled(true);
+					event.setCancellationResult(EnumActionResult.SUCCESS);
 					if(!player.capabilities.isCreativeMode) {
 						stack.shrink(1);
 
@@ -84,21 +116,20 @@ public class BoatSails extends Feature {
 		}
 	}
 
-	public static ItemStack getBanner(EntityBoat boat) {
-		return boat.getDataManager().get(bannerData);
-	}
-	
 	public static void onBoatUpdate(EntityBoat boat) {
-		if(boat.getEntityWorld().isRemote || !ModuleLoader.isFeatureEnabled(BoatSails.class))
+		if (!ModuleLoader.isFeatureEnabled(BoatSails.class) || !canHaveBanner(boat))
 			return;
-		
-		ItemStack dataStack = boat.getDataManager().get(bannerData);
 
-		NBTTagCompound cmp = boat.getEntityData().getCompoundTag(TAG_BANNER);
-		ItemStack nbtStack = new ItemStack(cmp);
+		if (!boat.world.isRemote)
+			setBanner(boat, getBanner(boat), true);
+	}
 
-		if(dataStack != nbtStack)
-			boat.getDataManager().set(bannerData, nbtStack);
+	public static boolean canHaveBanner(Entity target) {
+		return target instanceof EntityBoat && IBoatBanner.hasBoatBanner(target);
+	}
+
+	public static ItemStack getBanner(Entity target) {
+		return IBoatBanner.getBoatBanner(target).getStack();
 	}
 
 	public static void dropBoatBanner(EntityBoat boat) {
@@ -121,5 +152,4 @@ public class BoatSails extends Feature {
 	public boolean requiresMinecraftRestartToEnable() {
 		return true;
 	}
-	
 }
