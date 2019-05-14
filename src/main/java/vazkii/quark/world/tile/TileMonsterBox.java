@@ -43,6 +43,7 @@ public class TileMonsterBox extends TileMod implements ITickable {
 		}
 		
 		if(doBreak) {
+			// TODO: 5/14/19 add new sound
 			if(breakProgress == 0)
 				world.playSound(null, pos, SoundEvents.ENTITY_ENDERDRAGON_GROWL, SoundCategory.BLOCKS, 0.3F, 10F);
 			

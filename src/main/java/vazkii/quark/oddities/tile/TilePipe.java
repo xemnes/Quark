@@ -64,6 +64,7 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 									entity.isEntityAlive() && EnumFacing.getFacingFromVector((float) entity.motionX, (float) entity.motionY, (float) entity.motionZ) == opposite)) {
 						passIn(item.getItem().copy(), side);
 						if (!world.isRemote)
+							// TODO: 5/14/19 add new sound
 							world.playSound(null, item.posX, item.posY, item.posZ, SoundEvents.BLOCK_LAVA_POP, SoundCategory.BLOCKS, 0.5f, 0.2f);
 
 						item.setDead();

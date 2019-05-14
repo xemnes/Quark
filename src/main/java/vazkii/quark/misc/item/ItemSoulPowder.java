@@ -41,6 +41,8 @@ public class ItemSoulPowder extends ItemMod implements IQuarkItem {
 				Vec3d look = playerIn.getLookVec();
 				entity.setPosition(playerIn.posX + look.x * 2, playerIn.posY + 0.25, playerIn.posZ + look.z * 2);
 				worldIn.spawnEntity(entity);
+
+				// TODO: 5/14/19 add new sound
 				worldIn.playSound(null, playerIn.posX, playerIn.posY, playerIn.posZ, SoundEvents.ENTITY_GHAST_DEATH, SoundCategory.PLAYERS, 1F, 1F);
 			}
 		} else playerIn.swingArm(handIn);
