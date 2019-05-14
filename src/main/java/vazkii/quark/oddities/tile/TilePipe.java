@@ -63,7 +63,7 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 							new AxisAlignedBB(minX, minY, minZ, maxX, maxY, maxZ), (entity) -> entity != null &&
 									entity.isEntityAlive() && EnumFacing.getFacingFromVector((float) entity.motionX, (float) entity.motionY, (float) entity.motionZ) == opposite)) {
 						passIn(item.getItem().copy(), side);
-						if (!world.isRemote)
+						if (!world.isRemote && Pipes.doPipesWhoosh)
 							// TODO: 5/14/19 add new sound
 							world.playSound(null, item.posX, item.posY, item.posZ, SoundEvents.BLOCK_LAVA_POP, SoundCategory.BLOCKS, 0.5f, 0.2f);
 
@@ -176,7 +176,7 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 				posZ -= facing.getZOffset() * 0.4;
 			}
 
-			if (playSound)
+			if (playSound && Pipes.doPipesWhoosh)
 				world.playSound(null, posX, posY, posZ, SoundEvents.BLOCK_DISPENSER_LAUNCH, SoundCategory.BLOCKS, 0.5f, 2f);
 
 			EntityItem entity = new EntityItem(world, posX, posY, posZ, stack);
