@@ -43,6 +43,20 @@ public class BlockPipe extends BlockModContainer implements IQuarkBlock {
 	private static final AxisAlignedBB WEST_AABB = new AxisAlignedBB(0, 0.3125, 0.3125, 0.6875, 0.6875, 0.6875);
 	private static final AxisAlignedBB EAST_AABB = new AxisAlignedBB(0.3125, 0.3125, 0.3125, 1, 0.6875, 0.6875);
 
+	private static final AxisAlignedBB DOWN_FLARE_AABB = new AxisAlignedBB(0.25, 0.25, 0.25, 0.75, 0.325, 0.75);
+	private static final AxisAlignedBB UP_FLARE_AABB = new AxisAlignedBB(0.25, 0.625, 0.25, 0.75, 0.75, 0.75);
+	private static final AxisAlignedBB NORTH_FLARE_AABB = new AxisAlignedBB(0.25, 0.25, 0.25, 0.75, 0.75, 0.325);
+	private static final AxisAlignedBB SOUTH_FLARE_AABB = new AxisAlignedBB(0.25, 0.25, 0.625, 0.75, 0.75, 0.75);
+	private static final AxisAlignedBB WEST_FLARE_AABB = new AxisAlignedBB(0.25, 0.25, 0.25, 0.325, 0.75, 0.75);
+	private static final AxisAlignedBB EAST_FLARE_AABB = new AxisAlignedBB(0.625, 0.25, 0.25, 0.75, 0.75, 0.75);
+
+	private static final AxisAlignedBB DOWN_TERMINAL_AABB = new AxisAlignedBB(0.25, 0, 0.25, 0.75, 0.125, 0.75);
+	private static final AxisAlignedBB UP_TERMINAL_AABB = new AxisAlignedBB(0.25, 0.875, 0.25, 0.75, 1, 0.75);
+	private static final AxisAlignedBB NORTH_TERMINAL_AABB = new AxisAlignedBB(0.25, 0.25, 0, 0.75, 0.75, 0.125);
+	private static final AxisAlignedBB SOUTH_TERMINAL_AABB = new AxisAlignedBB(0.25, 0.25, 0.875, 0.75, 0.75, 1);
+	private static final AxisAlignedBB WEST_TERMINAL_AABB = new AxisAlignedBB(0, 0.25, 0.25, 0.125, 0.75, 0.75);
+	private static final AxisAlignedBB EAST_TERMINAL_AABB = new AxisAlignedBB(0.875, 0.25, 0.25, 1, 0.75, 0.75);
+
 	public static final PropertyEnum<ConnectionType> DOWN = PropertyEnum.create("down", ConnectionType.class);
 	public static final PropertyEnum<ConnectionType> UP = PropertyEnum.create("up", ConnectionType.class);
 	public static final PropertyEnum<ConnectionType> NORTH = PropertyEnum.create("north", ConnectionType.class);
@@ -58,6 +72,16 @@ public class BlockPipe extends BlockModContainer implements IQuarkBlock {
 
 	private static final AxisAlignedBB[] SIDE_BOXES = new AxisAlignedBB[] {
 			DOWN_AABB, UP_AABB, NORTH_AABB, SOUTH_AABB, WEST_AABB, EAST_AABB
+	};
+
+	private static final AxisAlignedBB[] FLARE_BOXES = new AxisAlignedBB[] {
+			DOWN_FLARE_AABB, UP_FLARE_AABB, NORTH_FLARE_AABB,
+			SOUTH_FLARE_AABB, WEST_FLARE_AABB, EAST_FLARE_AABB
+	};
+
+	private static final AxisAlignedBB[] TERMINAL_BOXES = new AxisAlignedBB[] {
+			DOWN_TERMINAL_AABB, UP_TERMINAL_AABB, NORTH_TERMINAL_AABB,
+			SOUTH_TERMINAL_AABB, WEST_TERMINAL_AABB, EAST_TERMINAL_AABB
 	};
 
 	public BlockPipe() {
@@ -100,6 +124,35 @@ public class BlockPipe extends BlockModContainer implements IQuarkBlock {
 		if(hasAnyConnection(state, EnumFacing.WEST)) minX = 0;
 		if(hasAnyConnection(state, EnumFacing.EAST)) maxX = 1;
 
+		boolean downFlared = isFlared(state, EnumFacing.DOWN);
+		boolean upFlared = isFlared(state, EnumFacing.UP);
+		boolean northFlared = isFlared(state, EnumFacing.NORTH);
+		boolean southFlared = isFlared(state, EnumFacing.SOUTH);
+		boolean westFlared = isFlared(state, EnumFacing.WEST);
+		boolean eastFlared = isFlared(state, EnumFacing.EAST);
+
+		if(downFlared) minY = Math.min(minY, 0.25);
+		if(upFlared) maxY = Math.max(maxY, 0.75);
+		if(northFlared) minZ = Math.min(minZ, 0.25);
+		if(southFlared) maxZ = Math.max(maxZ, 0.75);
+		if(westFlared) minX = Math.min(minX, 0.25);
+		if(eastFlared) maxX = Math.max(maxX, 0.75);
+
+		if(downFlared || upFlared || northFlared || southFlared) {
+			maxX = Math.max(maxX, 0.75);
+			minX = Math.min(minX, 0.25);
+		}
+
+		if(northFlared || southFlared || westFlared || eastFlared) {
+			maxY = Math.max(maxY, 0.75);
+			minY = Math.min(minY, 0.25);
+		}
+
+		if(downFlared || upFlared || westFlared || eastFlared) {
+			maxZ = Math.max(maxZ, 0.75);
+			minZ = Math.min(minZ, 0.25);
+		}
+
 		return new AxisAlignedBB(minX, minY, minZ, maxX, maxY, maxZ);
 	}
 
@@ -114,18 +167,33 @@ public class BlockPipe extends BlockModContainer implements IQuarkBlock {
 	@SuppressWarnings("deprecation")
 	public void addCollisionBoxToList(IBlockState state, @Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull AxisAlignedBB entityBox, @Nonnull List<AxisAlignedBB> collidingBoxes, Entity entityIn, boolean isActualState) {
 		if(!isActualState)
-			state = getActualState(state, worldIn, pos);
+			state = state.getActualState(worldIn, pos);
 
 		addCollisionBoxToList(pos, entityBox, collidingBoxes, CENTER_AABB);
 		for(EnumFacing side : EnumFacing.VALUES) {
-			if(hasAnyConnection(state, side))
+			ConnectionType type = getType(state, side);
+
+			if (type.isSolid)
 				addCollisionBoxToList(pos, entityBox, collidingBoxes, SIDE_BOXES[side.ordinal()]);
+
+			if (type == ConnectionType.FLARE)
+				addCollisionBoxToList(pos, entityBox, collidingBoxes, FLARE_BOXES[side.ordinal()]);
+			else if (type == ConnectionType.TERMINAL)
+				addCollisionBoxToList(pos, entityBox, collidingBoxes, TERMINAL_BOXES[side.ordinal()]);
 		}
 	}
 
-	private boolean hasAnyConnection(IBlockState state, EnumFacing side) {
+	public static boolean hasAnyConnection(IBlockState state, EnumFacing side) {
+		return getType(state, side).isSolid;
+	}
+
+	public static boolean isFlared(IBlockState state, EnumFacing side) {
+		return getType(state, side).isFlared;
+	}
+
+	public static ConnectionType getType(IBlockState state, EnumFacing side) {
 		PropertyEnum<ConnectionType> prop = CONNECTIONS[side.ordinal()];
-		return state.getValue(prop).isSolid;
+		return state.getValue(prop);
 	}
 
 	@Nonnull
@@ -163,11 +231,27 @@ public class BlockPipe extends BlockModContainer implements IQuarkBlock {
 	@SuppressWarnings("deprecation")
 	public IBlockState getActualState(@Nonnull IBlockState state, IBlockAccess worldIn, BlockPos pos) {
 		IBlockState actualState = state;
+
+		boolean onlyOneSide = true;
+		EnumFacing onlySide = null;
+
 		for(EnumFacing facing : EnumFacing.VALUES) {
 			PropertyEnum<ConnectionType> prop = CONNECTIONS[facing.ordinal()];
 			ConnectionType type = getConnectionTo(worldIn, pos, facing);
+
+			if (type.allowsItems) {
+				if (onlySide != null)
+					onlyOneSide = false;
+				else
+					onlySide = facing;
+			}
+
 			actualState = actualState.withProperty(prop, type);
 		}
+
+		if (onlyOneSide && onlySide != null)
+			actualState = actualState.withProperty(CONNECTIONS[onlySide.getOpposite().ordinal()], ConnectionType.FLARE);
+
 
 		return actualState;
 	}
@@ -243,17 +327,19 @@ public class BlockPipe extends BlockModContainer implements IQuarkBlock {
 
 	public enum ConnectionType implements IStringSerializable {
 
-		NONE(false, false), 
-		PIPE(true, true), 
-		TERMINAL(true, true), 
-		PROP(true, false);
+		NONE(false, false, false),
+		FLARE(false, false, true),
+		PIPE(true, true, false),
+		TERMINAL(true, true, true),
+		PROP(true, false, false);
 
-		ConnectionType(boolean isSolid, boolean allowsItems) {
+		ConnectionType(boolean isSolid, boolean allowsItems, boolean isFlared) {
 			this.isSolid = isSolid;
 			this.allowsItems = allowsItems;
+			this.isFlared = isFlared;
 		}
 
-		public final boolean isSolid, allowsItems;
+		public final boolean isSolid, allowsItems, isFlared;
 
 		@Override
 		public String getName() {

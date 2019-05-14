@@ -1,6 +1,7 @@
 package vazkii.quark.oddities.tile;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.SoundEvents;
@@ -10,11 +11,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.*;
 import net.minecraft.util.EnumFacing.Axis;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.ITickable;
-import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -41,6 +40,37 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 	public void update() {
 		if(!isPipeEnabled() && world.getTotalWorldTime() % 10 == 0 && world instanceof WorldServer) 
 			((WorldServer) world).spawnParticle(EnumParticleTypes.REDSTONE, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 3, 0.2, 0.2, 0.2, 0);
+
+		IBlockState blockAt = world.getBlockState(pos);
+		if (blockAt.getBlock() instanceof BlockPipe) {
+			IBlockState actualState = blockAt.getActualState(world, pos);
+			for (EnumFacing side : EnumFacing.VALUES) {
+				BlockPos offset = pos.offset(side);
+				if (world.getBlockState(offset).getBlockFaceShape(world, offset, side.getOpposite()) != BlockFaceShape.UNDEFINED)
+					continue;
+
+				if (BlockPipe.getType(actualState, side) == BlockPipe.ConnectionType.FLARE) {
+					double minX = pos.getX() + 0.25 + 0.5 * Math.min(0, side.getXOffset());
+					double minY = pos.getY() + 0.25 + 0.5 * Math.min(0, side.getYOffset());
+					double minZ = pos.getZ() + 0.25 + 0.5 * Math.min(0, side.getZOffset());
+					double maxX = pos.getX() + 0.75 + 0.5 * Math.max(0, side.getXOffset());
+					double maxY = pos.getY() + 0.75 + 0.5 * Math.max(0, side.getYOffset());
+					double maxZ = pos.getZ() + 0.75 + 0.5 * Math.max(0, side.getZOffset());
+
+					EnumFacing opposite = side.getOpposite();
+
+					for (EntityItem item : world.getEntitiesWithinAABB(EntityItem.class,
+							new AxisAlignedBB(minX, minY, minZ, maxX, maxY, maxZ), (entity) -> entity != null &&
+									entity.isEntityAlive() && EnumFacing.getFacingFromVector((float) entity.motionX, (float) entity.motionY, (float) entity.motionZ) == opposite)) {
+						passIn(item.getItem().copy(), side);
+						if (!world.isRemote)
+							world.playSound(null, item.posX, item.posY, item.posZ, SoundEvents.BLOCK_LAVA_POP, SoundCategory.BLOCKS, 0.5f, 0.2f);
+
+						item.setDead();
+					}
+				}
+			}
+		}
 
 		int currentOut = getComparatorOutput();
 
@@ -149,6 +179,7 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 				world.playSound(null, posX, posY, posZ, SoundEvents.BLOCK_DISPENSER_LAUNCH, SoundCategory.BLOCKS, 0.5f, 2f);
 
 			EntityItem entity = new EntityItem(world, posX, posY, posZ, stack);
+			entity.setDefaultPickupDelay();
 
 			if (facing != null) {
 				entity.motionX = -facing.getXOffset() / 2.0;
@@ -218,7 +249,7 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 			handler = new InvWrapper((IInventory) tile);
 
 		if(handler != null)
-			return simulate ? ItemStack.EMPTY : ItemHandlerHelper.insertItem(handler, stack, simulate);
+			return ItemHandlerHelper.insertItem(handler, stack, simulate);
 		return stack;
 	}
 
