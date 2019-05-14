@@ -53,16 +53,16 @@ import java.util.stream.Collectors;
 
 public class ChestButtons extends Feature {
 
-	ButtonInfo deposit, smartDeposit, restock, extract, sort, sortPlayer;
-	
-	boolean debugClassnames;
-	List<String> classnames;
-	private static List<ResourceLocation> dropoffTiles;
-	private static boolean dropoffAnyChestTile;
-	private static boolean dropoffAnyChestBlock;
+	public static ButtonInfo deposit, smartDeposit, restock, extract, sort, sortPlayer;
+
+	public static boolean debugClassnames;
+	public static List<String> classnames;
+	public static List<ResourceLocation> dropoffTiles;
+	public static boolean dropoffAnyChestTile;
+	public static boolean dropoffAnyChestBlock;
 
 	@SideOnly(Side.CLIENT)
-	static List<GuiButtonChest> chestButtons;
+	public static List<GuiButtonChest> chestButtons;
 	
 	@Override
 	public void setupConfig() {
@@ -249,8 +249,8 @@ public class ChestButtons extends Feature {
 	}
 	
 	private static class ButtonInfo {
-		boolean enabled;
-		int xShift, yShift;
+		private boolean enabled;
+		private int xShift, yShift;
 	}
 
 }

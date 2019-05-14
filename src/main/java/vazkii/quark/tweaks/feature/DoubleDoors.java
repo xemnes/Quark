@@ -33,7 +33,7 @@ import java.util.Iterator;
 
 public class DoubleDoors extends Feature {
 
-	boolean allowVillagers = true;
+	public static boolean allowVillagers = true;
 	
 	@Override
 	public void setupConfig() {

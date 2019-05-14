@@ -28,7 +28,7 @@ public class EntityPirate extends EntitySkeleton {
 
 	private static final String TAG_CAPTAIN = "captain";
 	
-	boolean captain;
+	private boolean captain;
 	
 	public EntityPirate(World worldIn) {
 		super(worldIn);

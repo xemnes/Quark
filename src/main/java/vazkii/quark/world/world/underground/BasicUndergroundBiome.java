@@ -6,8 +6,8 @@ import net.minecraft.world.World;
 
 public class BasicUndergroundBiome extends UndergroundBiome {
 
-	IBlockState floorState, ceilingState, wallState;
-	boolean mimicInside;
+	public final IBlockState floorState, ceilingState, wallState;
+	public final boolean mimicInside;
 	
 	public BasicUndergroundBiome(IBlockState floorState, IBlockState ceilingState, IBlockState wallState) {
 		this(floorState, ceilingState, wallState, false);

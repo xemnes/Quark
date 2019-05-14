@@ -39,7 +39,7 @@ public class AutoJumpHotkey extends Feature {
 	private static final ResourceLocation AUTOJUMP_OFF = new ResourceLocation("quark", "textures/misc/autojump_off.png");
 	private static final ResourceLocation AUTOJUMP_ON = new ResourceLocation("quark", "textures/misc/autojump_on.png");
 
-	int hudTime;
+	public static int hudTime;
 
 	@Override
 	@SideOnly(Side.CLIENT)

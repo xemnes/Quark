@@ -28,7 +28,7 @@ public class CharredNetherBricks extends Feature {
 
 	public static Block charred_nether_bricks;
 
-	boolean enableStairsAndSlabs;
+	public static boolean enableStairsAndSlabs;
 
 	@Override
 	public void setupConfig() {

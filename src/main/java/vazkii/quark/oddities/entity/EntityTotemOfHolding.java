@@ -31,9 +31,9 @@ public class EntityTotemOfHolding extends Entity {
 	
 	public static final int DEATH_TIME = 40;
 
-	int deathTicks = 0;
-	String owner;
-	List<ItemStack> storedItems = new LinkedList<>();
+	private int deathTicks = 0;
+	private String owner;
+	private List<ItemStack> storedItems = new LinkedList<>();
 
 	public EntityTotemOfHolding(World worldIn) {
 		super(worldIn);

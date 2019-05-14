@@ -18,7 +18,7 @@ import vazkii.quark.world.world.ClayGenerator;
 public class ClayGeneration extends Feature {
 
 	public static int minHeight, maxHeight;
-	int clusterSize, clusterCount;
+	public static int clusterSize, clusterCount;
 
 	@Override
 	public void setupConfig() {

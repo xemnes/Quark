@@ -21,8 +21,8 @@ import static vazkii.quark.vanity.client.emotes.EmoteBase.PI_F;
 @SideOnly(Side.CLIENT)
 public class EmoteState {
 
-	float[] states = new float[0];
-	EmoteBase emote;
+	private float[] states = new float[0];
+	private EmoteBase emote;
 
 	public EmoteState(EmoteBase emote) {
 		this.emote = emote;

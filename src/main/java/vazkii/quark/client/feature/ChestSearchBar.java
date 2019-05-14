@@ -50,9 +50,9 @@ import java.util.regex.Pattern;
 public class ChestSearchBar extends Feature {
 
 	public static String text = "";
-	GuiTextField searchBar;
-	boolean skip;
-	boolean moveToCenterBar;
+	public static GuiTextField searchBar;
+	public static boolean skip;
+	public static boolean moveToCenterBar;
 	
 	private long lastClick;
 	private int matched;

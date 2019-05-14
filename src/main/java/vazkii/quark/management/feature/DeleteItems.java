@@ -1,42 +1,39 @@
 package vazkii.quark.management.feature;
 
-import javax.annotation.Nullable;
-
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.event.GuiScreenEvent;
-import net.minecraftforge.client.event.MouseEvent;
-import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import vazkii.arl.network.NetworkHandler;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.base.network.message.MessageDeleteItem;
-import vazkii.quark.management.client.gui.GuiButtonChest;
 import vazkii.quark.management.client.gui.GuiButtonTrash;
+
+import javax.annotation.Nullable;
 
 public class DeleteItems extends Feature {
 
-	boolean keyboardDown = false;
-	boolean mouseDown = false;
-	static GuiButtonTrash trash;
+	public static boolean keyboardDown = false;
+	public static boolean mouseDown = false;
 
-	boolean trashButton, playerInvOnly, needsShift;
-	int trashButtonX, trashButtonY;
+	@SideOnly(Side.CLIENT)
+	public static GuiButtonTrash trash;
+
+	public static boolean trashButton, playerInvOnly, needsShift;
+	public static int trashButtonX, trashButtonY;
 
 	@Override
 	public void setupConfig() {
@@ -53,7 +50,6 @@ public class DeleteItems extends Feature {
 		trash = null;
 		if(event.getGui() instanceof GuiContainer && trashButton) {
 			GuiContainer guiInv = (GuiContainer) event.getGui();
-			Container container = guiInv.inventorySlots;
 			EntityPlayer player = Minecraft.getMinecraft().player;
 
 			boolean isPlayerInv = guiInv instanceof GuiInventory;
@@ -71,6 +67,7 @@ public class DeleteItems extends Feature {
 	}
 
 	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
 	public void mouseEvent(GuiScreenEvent.MouseInputEvent.Pre event) {
 		boolean oldMouseDown = mouseDown;
 		mouseDown = Mouse.isButtonDown(0);
@@ -78,7 +75,6 @@ public class DeleteItems extends Feature {
 		Minecraft mc = Minecraft.getMinecraft();
 		GuiScreen current = Minecraft.getMinecraft().currentScreen;
 		if(mouseDown != oldMouseDown && current instanceof GuiContainer) {
-			GuiContainer gui = (GuiContainer) current;
 			if(trash != null && trash.ready) {
 				NetworkHandler.INSTANCE.sendToServer(new MessageDeleteItem(-1));
 				event.setCanceled(true);
@@ -88,9 +84,10 @@ public class DeleteItems extends Feature {
 	}
 
 	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
 	public void keyboardEvent(GuiScreenEvent.KeyboardInputEvent.Post event) {
 		boolean down = Keyboard.isKeyDown(Keyboard.KEY_DELETE);
-		if(GuiScreen.isCtrlKeyDown() && down && !this.keyboardDown && event.getGui() instanceof GuiContainer) {
+		if(GuiScreen.isCtrlKeyDown() && down && !keyboardDown && event.getGui() instanceof GuiContainer) {
 			GuiContainer gui = (GuiContainer) event.getGui();
 			Slot slot = gui.getSlotUnderMouse();
 			if(slot != null) {
@@ -106,7 +103,7 @@ public class DeleteItems extends Feature {
 				}
 			}
 		}
-		this.keyboardDown = down;
+		keyboardDown = down;
 	}
 
 
@@ -120,6 +117,7 @@ public class DeleteItems extends Feature {
 		}
 	}
 
+	@SideOnly(Side.CLIENT)
 	private void updateTrashPos(GuiContainer inv) {
 		if(trash != null) {
 			trash.x = inv.getGuiLeft() + trash.shiftX;

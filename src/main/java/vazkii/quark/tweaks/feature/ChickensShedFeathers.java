@@ -21,9 +21,9 @@ import vazkii.quark.base.module.Feature;
 
 public class ChickensShedFeathers extends Feature {
 
-	boolean chicksDropFeathers;
-	boolean dropAtLeastOne;
-	int dropFreq;
+	public static boolean chicksDropFeathers;
+	public static boolean dropAtLeastOne;
+	public static int dropFreq;
 
 	@Override
 	public void setupConfig() {

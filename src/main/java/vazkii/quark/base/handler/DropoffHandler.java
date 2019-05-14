@@ -130,11 +130,11 @@ public final class DropoffHandler {
 
 	public static class Dropoff {
 
-		final EntityPlayer player;
-		final boolean smart;
-		final boolean useContainer;
+		public final EntityPlayer player;
+		public final boolean smart;
+		public final boolean useContainer;
 
-		List<Pair<IItemHandler, Double>> itemHandlers = new ArrayList<>();
+		public final List<Pair<IItemHandler, Double>> itemHandlers = new ArrayList<>();
 
 		public Dropoff(EntityPlayer player, boolean smart, boolean useContainer) {
 			this.player = player;
@@ -309,7 +309,7 @@ public final class DropoffHandler {
 	
 	public static class ContainerWrapper extends InvWrapper {
 		
-		final Container container;
+		private final Container container;
 
 		public static IItemHandler provideWrapper(Slot slot, Container container) {
 			if (slot instanceof SlotItemHandler) {

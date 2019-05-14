@@ -84,7 +84,7 @@ public class EmoteSystem extends Feature {
 	private static List<String> EMOTE_NAME_LIST = Lists.newArrayList(EMOTE_NAMES);
 
 	private static final int EMOTE_BUTTON_START = 1800;
-	static boolean emotesVisible = false;
+	public static boolean emotesVisible = false;
 
 	public static boolean customEmoteDebug, emoteCommands;
 	public static File emotesDir;

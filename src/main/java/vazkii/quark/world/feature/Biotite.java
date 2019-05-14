@@ -45,11 +45,11 @@ public class Biotite extends Feature {
 	public static Item biotite;
 
 	public static boolean generateNatually;
-	boolean generateByDragon;
-	boolean enableWalls;
-	int clusterSize, clusterCount;
-	int generationDelay;
-	int clustersPerTick;
+	public static boolean generateByDragon;
+	public static boolean enableWalls;
+	public static int clusterSize, clusterCount;
+	public static int generationDelay;
+	public static int clustersPerTick;
 
 	@Override
 	public void setupConfig() {

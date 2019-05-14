@@ -31,11 +31,11 @@ import vazkii.quark.base.module.Feature;
 
 public class EndermenAntiCheese extends Feature {
 
-	int minimumDifficulty = 2;
-	boolean oldBehaviour;
-	int delay;
-	int lowerBound;
-	boolean ignoreMobGriefing;
+	public static int minimumDifficulty = 2;
+	public static boolean oldBehaviour;
+	public static int delay;
+	public static int lowerBound;
+	public static boolean ignoreMobGriefing;
 	
 	@Override
 	public void setupConfig() {

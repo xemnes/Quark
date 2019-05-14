@@ -23,8 +23,8 @@ public abstract class EmoteBase {
 	public static final float PI_F = (float) Math.PI;
 
 	public final EmoteDescriptor desc;
-	
-	TweenManager emoteManager;
+
+	private TweenManager emoteManager;
 	private ModelBiped model;
 	private ModelBiped armorModel;
 	private ModelBiped armorLegsModel;

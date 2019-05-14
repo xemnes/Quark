@@ -1,22 +1,20 @@
 package vazkii.quark.client.feature;
 
-import java.io.InputStreamReader;
-import java.util.List;
-import java.util.function.BiConsumer;
-
 import com.google.gson.Gson;
-
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.base.module.Feature;
 
+import java.io.InputStreamReader;
+import java.util.List;
+
 public class BetterVanillaTextures extends Feature {
 
 	private static final String OVERRIDES_JSON_FILE = "/assets/" + LibMisc.MOD_ID + "/overrides.json";
 	private static final Gson GSON = new Gson();
-	
-	OverrideHolder overrides = null;
+
+	public static OverrideHolder overrides = null;
 	
 	@Override
 	public void setupConfig() {
@@ -41,22 +39,22 @@ public class BetterVanillaTextures extends Feature {
 	
 	private static class OverrideHolder {
 		
-		List<OverrideEntry> overrides;
+		public List<OverrideEntry> overrides;
 		
 	}
 	
 	private static class OverrideEntry {
 		
-		String name;
-		String[] files;
-		boolean disabled = false;
+		public String name;
+		public String[] files;
+		public boolean disabled = false;
 		
-		boolean configVal;
+		public boolean configVal;
 		
 		void apply() {
 			if(configVal) 
 				for(String file : files) {
-					String[] tokens = file.split("\\/\\/");
+					String[] tokens = file.split("//");
 					Quark.proxy.addResourceOverride(tokens[0], tokens[1]);
 				}
 		}

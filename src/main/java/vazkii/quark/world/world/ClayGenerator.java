@@ -10,8 +10,6 @@
  */
 package vazkii.quark.world.world;
 
-import java.util.Random;
-
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -21,10 +19,12 @@ import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.fml.common.IWorldGenerator;
 import vazkii.quark.world.feature.ClayGeneration;
 
+import java.util.Random;
+
 public class ClayGenerator implements IWorldGenerator {
 
-	int clusterCount;
-	WorldGenMinable generator;
+	private final int clusterCount;
+	private final WorldGenMinable generator;
 
 	public ClayGenerator(int clusterSize, int clusterCount) {
 		this.clusterCount = clusterCount;

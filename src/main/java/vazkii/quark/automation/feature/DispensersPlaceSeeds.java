@@ -33,8 +33,8 @@ import java.util.Map;
 
 public class DispensersPlaceSeeds extends Feature {
 
-	String[] customSeedsArr;
-	Map<Item, IBlockState> customSeeds;
+	public static String[] customSeedsArr;
+	public static Map<Item, IBlockState> customSeeds;
 	
 	@Override
 	public void setupConfig() {
@@ -130,7 +130,7 @@ public class DispensersPlaceSeeds extends Feature {
 
 	public class BehaviourCocoaBeans extends BehaviorDefaultDispenseItem {
 
-		IBehaviorDispenseItem vanillaBehaviour;
+		private final IBehaviorDispenseItem vanillaBehaviour;
 		public BehaviourCocoaBeans(IBehaviorDispenseItem vanilla) {
 			vanillaBehaviour = vanilla;
 		}

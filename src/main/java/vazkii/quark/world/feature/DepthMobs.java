@@ -34,9 +34,9 @@ import java.util.List;
 public class DepthMobs extends Feature {
 
 	public static int upperBound;
-	boolean enableAshen, enableDweller;
-	int ashenWeight, dwellerWeight;
-	int ashenMaxPack, dwellerMaxPack, ashenMinPack, dwellerMinPack;
+	public static boolean enableAshen, enableDweller;
+	public static int ashenWeight, dwellerWeight;
+	public static int ashenMaxPack, dwellerMaxPack, ashenMinPack, dwellerMinPack;
 
 	@Override
 	public void setupConfig() {

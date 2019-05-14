@@ -26,7 +26,7 @@ public class BlockQuarkButton extends BlockButton implements IQuarkBlock {
 	private final String[] variants;
 	private final String bareName;
 	
-	boolean wooden;
+	private final boolean wooden;
 	
 	public BlockQuarkButton(String name, boolean wooden) {
 		super(wooden);

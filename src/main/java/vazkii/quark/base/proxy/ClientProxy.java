@@ -32,7 +32,7 @@ import java.util.List;
 
 public class ClientProxy extends CommonProxy {
 
-	static ResourceProxy resourceProxy;
+	private static ResourceProxy resourceProxy;
 	
 	static {
 		List<IResourcePack> packs = ObfuscationReflectionHelper.getPrivateValue(Minecraft.class, Minecraft.getMinecraft(), LibObfuscation.DEFAULT_RESOURCE_PACKS);

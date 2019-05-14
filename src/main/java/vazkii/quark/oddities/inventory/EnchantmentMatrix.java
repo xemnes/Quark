@@ -414,7 +414,7 @@ public class EnchantmentMatrix {
 	
 	private static class EnchantmentDataWrapper extends EnchantmentData {
 
-		boolean marked;
+		private boolean marked;
 		
 		public EnchantmentDataWrapper(Enchantment enchantmentObj, int enchLevel) {
 			super(enchantmentObj, enchLevel);

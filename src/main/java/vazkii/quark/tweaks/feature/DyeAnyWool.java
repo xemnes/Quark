@@ -14,7 +14,7 @@ import vazkii.quark.building.feature.QuiltedWool;
 
 public class DyeAnyWool extends Feature {
 
-	boolean add8WoolRecipe;
+	public static boolean add8WoolRecipe;
 
 	@Override
 	public void setupConfig() {

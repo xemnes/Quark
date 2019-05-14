@@ -47,7 +47,7 @@ public class AncientTomes extends Feature {
 	public static List<Enchantment> validEnchants = new ArrayList<>();
 	private String[] enchantNames;
 
-	int dungeonWeight, libraryWeight, itemQuality, mergeTomeCost, applyTomeCost;
+	public static int dungeonWeight, libraryWeight, itemQuality, mergeTomeCost, applyTomeCost;
 
 	@Override
 	public void setupConfig() {

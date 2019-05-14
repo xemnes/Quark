@@ -52,12 +52,10 @@ public class BuriedTreasure extends Feature {
 	public static String TAG_TREASURE_MAP = "Quark:TreasureMap";
 	public static String TAG_TREASURE_MAP_DELEGATE = "Quark:TreasureMapDelegate";
 
-	ImmutableSet<ResourceLocation> tablesToEdit = ImmutableSet.of(LootTableList.CHESTS_DESERT_PYRAMID, LootTableList.CHESTS_JUNGLE_TEMPLE, LootTableList.CHESTS_STRONGHOLD_CORRIDOR);
-	Map<ResourceLocation, String> customPools = new HashMap<ResourceLocation, String>() {{
-		put(PirateShips.PIRATE_CHEST_LOOT_TABLE, "quark:pirate_ship");
-	}};
+	public static ImmutableSet<ResourceLocation> tablesToEdit = ImmutableSet.of(LootTableList.CHESTS_DESERT_PYRAMID, LootTableList.CHESTS_JUNGLE_TEMPLE, LootTableList.CHESTS_STRONGHOLD_CORRIDOR);
+	public static Map<ResourceLocation, String> customPools = new HashMap<>();
 
-	int rarity, quality;
+	public static int rarity, quality;
 
 	@Override
 	public void setupConfig() {
@@ -68,6 +66,7 @@ public class BuriedTreasure extends Feature {
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
 		LootFunctionManager.registerFunction(new SetAsTreasureFunction.Serializer());
+		customPools.put(PirateShips.PIRATE_CHEST_LOOT_TABLE, "quark:pirate_ship");
 	}
 	
 	@SubscribeEvent

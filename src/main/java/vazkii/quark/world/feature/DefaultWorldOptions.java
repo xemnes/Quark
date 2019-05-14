@@ -10,9 +10,6 @@
  */
 package vazkii.quark.world.feature;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import net.minecraft.client.gui.GuiCreateWorld;
 import net.minecraftforge.client.event.GuiScreenEvent.InitGuiEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -20,34 +17,38 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.base.module.Feature;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class DefaultWorldOptions extends Feature {
 
 	private static Map<String, Integer> intProps = new HashMap<>();
 	private static Map<String, Double> doubleProps = new HashMap<>();
 	private static Map<String, Boolean> boolProps = new HashMap<>();
 
-	String config;
+	public static String config;
 
 	@Override
 	public void setupConfig() {
-		config = "{";
+		StringBuilder config = new StringBuilder();
+		config.append('{');
 
 		for(String s : intProps.keySet()) {
 			int i = loadPropInt(s, "", intProps.get(s));
-			config += "\"" + s + "\":" + i + ",";
+			config.append('"').append(s).append("\":").append(i).append(',');
 		}
 
 		for(String s : doubleProps.keySet()) {
 			double d = loadPropDouble(s, "", doubleProps.get(s));
-			config += "\"" + s + "\":" + d + ",";
+			config.append('"').append(s).append("\":").append(d).append(',');
 		}
 
 		for(String s : boolProps.keySet()) {
 			boolean b = loadPropBool(s, "", boolProps.get(s));
-			config += "\"" + s + "\":" + b + ",";
+			config.append('"').append(s).append("\":").append(b).append(',');
 		}
 
-		config = config.replaceAll(",$", "}");
+		DefaultWorldOptions.config = config.toString().replaceAll(",$", "}");
 	}
 
 	@SubscribeEvent

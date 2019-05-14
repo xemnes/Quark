@@ -40,7 +40,7 @@ public class CompassesWorkEverywhere extends Feature {
 				if(stack.getItem() == Items.COMPASS)
 					CompassAngleGetter.tickCompass(event.player, stack);
 				else if(stack.getItem() == Items.CLOCK)
-					ClockTimeGetter.tickClock(event.player, stack);
+					ClockTimeGetter.tickClock(stack);
 			}
 		}
 	}

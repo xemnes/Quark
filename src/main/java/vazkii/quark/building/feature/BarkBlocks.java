@@ -28,7 +28,7 @@ public class BarkBlocks extends Feature {
 
 	public static BlockMod bark;
 
-	boolean enableWalls, enableStairsAndSlabs, use2x2;
+	public static boolean enableWalls, enableStairsAndSlabs, use2x2;
 
 	@Override
 	public void setupConfig() {

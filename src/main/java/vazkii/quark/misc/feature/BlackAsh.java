@@ -1,7 +1,5 @@
 package vazkii.quark.misc.feature;
 
-import java.util.List;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.boss.EntityWither;
@@ -19,12 +17,14 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.misc.block.BlockBlackAsh;
 
+import java.util.List;
+
 public class BlackAsh extends Feature {
 
 	public static Block black_ash;
-	
-	int witherSkeletonMin, witherSkeletonMax, witherMin, witherMax;
-	boolean removeCoalDrops;
+
+	public static int witherSkeletonMin, witherSkeletonMax, witherMin, witherMax;
+	public static boolean removeCoalDrops;
 	
 	@Override
 	public void setupConfig() {

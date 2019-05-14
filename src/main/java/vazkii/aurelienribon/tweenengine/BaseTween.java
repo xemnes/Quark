@@ -16,6 +16,7 @@ import java.util.function.Consumer;
  * @see Timeline
  * @author Aurelien Ribon | http://www.aurelienribon.com/
  */
+@SuppressWarnings("PackageVisibleField")
 public abstract class BaseTween<T> {
 	// General
 	private int step;

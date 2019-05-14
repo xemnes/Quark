@@ -19,8 +19,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 
 public class EntityAIOpenDoubleDoor extends EntityAIDoorInteract {
-	boolean closeDoor;
-	int closeDoorTemporisation;
+	private boolean closeDoor;
+	private int closeDoorTemporisation;
 
 	public EntityAIOpenDoubleDoor(EntityLiving entitylivingIn, boolean shouldClose) {
 		super(entitylivingIn);

@@ -29,10 +29,10 @@ import java.util.Queue;
 
 public class AutomaticRecipeUnlock extends Feature {
 
-	List<String> ignored;
+	public static List<String> ignored;
 
-	boolean forceLimitedCrafting;
-	boolean disableRecipeBook;
+	public static boolean forceLimitedCrafting;
+	public static boolean disableRecipeBook;
 
 	@Override
 	public void setupConfig() {

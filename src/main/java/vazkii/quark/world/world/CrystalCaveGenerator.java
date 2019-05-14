@@ -19,7 +19,7 @@ import java.util.Random;
 
 public class CrystalCaveGenerator implements IWorldGenerator {
 
-	DimensionConfig dims;
+	private final DimensionConfig dims;
 	
 	public CrystalCaveGenerator(DimensionConfig dims) {
 		this.dims = dims;

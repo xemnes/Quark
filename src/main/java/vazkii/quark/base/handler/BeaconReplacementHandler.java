@@ -67,9 +67,9 @@ public final class BeaconReplacementHandler {
 	
 	private static class Replacer {
 		
-		final Block block;
-		final int meta, layer, effect;
-		final Potion potion;
+		private final Block block;
+		private final int meta, layer, effect;
+		private final Potion potion;
 		
 		public Replacer(Block block, int meta, int layer, int effect, Potion potion) {
 			this.block = block;

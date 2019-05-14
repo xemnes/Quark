@@ -76,17 +76,17 @@ public class EmoteTemplate {
 		}
 	}
 
-	final String file;
+	public final String file;
 	
-	List<String> readLines;
-	List<Integer> usedParts;
-	Stack<Timeline> timelineStack;
-	float speed;
-	int tier;
-	boolean compiled = false;
-	boolean compiledOnce = false;
+	public List<String> readLines;
+	public List<Integer> usedParts;
+	public Stack<Timeline> timelineStack;
+	public float speed;
+	public int tier;
+	public boolean compiled = false;
+	public boolean compiledOnce = false;
 
-	List<EmoteSound> activeSounds = Lists.newArrayList();
+	private List<EmoteSound> activeSounds = Lists.newArrayList();
 	
 	public EmoteTemplate(String file) {
 		this.file = file;

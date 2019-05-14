@@ -1,7 +1,5 @@
 package vazkii.quark.oddities.feature;
 
-import java.util.Random;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiInventory;
@@ -36,18 +34,18 @@ import vazkii.quark.oddities.client.gui.GuiBackpackInventory;
 import vazkii.quark.oddities.item.ItemBackpack;
 
 import javax.annotation.Nonnull;
+import java.util.Random;
 
 public class Backpacks extends Feature {
 
 	public static Item backpack;
 	
-	public static boolean superOpMode;
-	boolean enableTrades, enableCrafting;
-	
-	static int leatherCount, minEmeralds, maxEmeralds;
+	public static boolean superOpMode, enableTrades, enableCrafting;
+
+	public static  int leatherCount, minEmeralds, maxEmeralds;
 	
 	@SideOnly(Side.CLIENT)
-	boolean backpackRequested;
+	public static boolean backpackRequested;
 	
 	@Override
 	public void setupConfig() {

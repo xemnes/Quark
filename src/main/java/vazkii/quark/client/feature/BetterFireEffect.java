@@ -18,7 +18,7 @@ import vazkii.quark.base.module.ModuleLoader;
 
 public class BetterFireEffect extends Feature {
 	
-	static boolean enableParticles, enableDifferentRender;
+	public static boolean enableParticles, enableDifferentRender;
 	
 	@Override
 	public void setupConfig() {

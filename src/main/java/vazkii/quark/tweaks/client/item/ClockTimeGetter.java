@@ -1,32 +1,28 @@
 package vazkii.quark.tweaks.client.item;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.IItemPropertyGetter;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.DimensionType;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.arl.util.ItemNBTHelper;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 public class ClockTimeGetter implements IItemPropertyGetter {
 
 	private static final String TAG_CALCULATED = "quark:clock_calculated";
 	
-	double rotation;
-	double rota;
-	long lastUpdateTick;
+	private double rotation;
+	private double rota;
+	private long lastUpdateTick;
 	
-	public static void tickClock(EntityPlayer player, ItemStack stack) {
+	public static void tickClock(ItemStack stack) {
 		boolean calculated = isCalculated(stack);
-		boolean nether = player.world.provider.getDimensionType() == DimensionType.NETHER; 
 		if(!calculated)
 			ItemNBTHelper.setBoolean(stack, TAG_CALCULATED, true);
 	}
@@ -61,7 +57,7 @@ public class ClockTimeGetter implements IItemPropertyGetter {
 			return (float) angle;
 		}
 	}
-	@SideOnly(Side.CLIENT)
+
 	private double wobble(World world, double time) {
 		if(world.getTotalWorldTime() != lastUpdateTick) {
 			lastUpdateTick = world.getTotalWorldTime();

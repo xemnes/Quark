@@ -1,8 +1,5 @@
 package vazkii.quark.tweaks.client.item;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItemFrame;
@@ -10,6 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.IItemPropertyGetter;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DimensionType;
@@ -19,6 +17,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.arl.util.ItemNBTHelper;
 import vazkii.quark.tweaks.feature.CompassesWorkEverywhere;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 public class CompassAngleGetter implements IItemPropertyGetter {
 
 	private static final String TAG_CALCULATED = "quark:compass_calculated";
@@ -27,9 +28,9 @@ public class CompassAngleGetter implements IItemPropertyGetter {
 	private static final String TAG_NETHER_TARGET_X = "quark:nether_x";
 	private static final String TAG_NETHER_TARGET_Z = "quark:nether_z";
 
-	double rotation;
-	double rota;
-	long lastUpdateTick;
+	private double rotation;
+	private double rota;
+	private long lastUpdateTick;
 	
 	public static void tickCompass(EntityPlayer player, ItemStack stack) {
 		boolean calculated = isCalculated(stack);
@@ -69,6 +70,9 @@ public class CompassAngleGetter implements IItemPropertyGetter {
 		boolean carried = entityIn != null;
 		Entity entity = carried ? entityIn : stack.getItemFrame();
 
+		if (entity == null)
+			return 0;
+
 		if(worldIn == null)
 			worldIn = entity.world;
 
@@ -105,7 +109,6 @@ public class CompassAngleGetter implements IItemPropertyGetter {
 		return MathHelper.positiveModulo((float) angle, 1.0F);
 	}
 
-	@SideOnly(Side.CLIENT)
 	private double wobble(World worldIn, double angle) {
 		if(worldIn.getTotalWorldTime() != lastUpdateTick) {
 			lastUpdateTick = worldIn.getTotalWorldTime();
@@ -119,12 +122,12 @@ public class CompassAngleGetter implements IItemPropertyGetter {
 		return rotation;
 	}
 
-	@SideOnly(Side.CLIENT)
 	private double getFrameRotation(EntityItemFrame frame) {
-		return MathHelper.wrapDegrees(180 + frame.facingDirection.getHorizontalIndex() * 90);
+		EnumFacing facing = frame.facingDirection;
+		if (facing == null) facing = EnumFacing.NORTH;
+		return MathHelper.wrapDegrees(180 + facing.getHorizontalAngle());
 	}
 
-	@SideOnly(Side.CLIENT)
 	private double getAngleToPosition(Entity entity, BlockPos blockpos) {
 		return Math.atan2(blockpos.getZ() - entity.posZ, blockpos.getX() - entity.posX);
 	}

@@ -44,8 +44,8 @@ public class ColorRunes extends Feature {
 
 	public static Item rune;
 
-	int dungeonWeight, netherFortressWeight, jungleTempleWeight, desertTempleWeight, itemQuality, applyCost;
-	boolean enableRainbowRuneCrafting, enableRainbowRuneChests, stackable;
+	public static int dungeonWeight, netherFortressWeight, jungleTempleWeight, desertTempleWeight, itemQuality, applyCost;
+	public static boolean enableRainbowRuneCrafting, enableRainbowRuneChests, stackable;
 	
 	@Override
 	public void setupConfig() {

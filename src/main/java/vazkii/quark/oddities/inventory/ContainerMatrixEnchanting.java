@@ -1,8 +1,5 @@
 package vazkii.quark.oddities.inventory;
 
-import java.util.List;
-import java.util.Random;
-
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -20,16 +17,15 @@ import net.minecraftforge.oredict.OreDictionary;
 import vazkii.quark.oddities.tile.TileMatrixEnchanter;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 
 public class ContainerMatrixEnchanting extends Container {
 
 	private final List<ItemStack> lapisTypes = OreDictionary.getOres("gemLapis");
 
 	public TileMatrixEnchanter enchanter;
-	Random rand;
 
 	public ContainerMatrixEnchanting(InventoryPlayer playerInv, TileMatrixEnchanter tile) {
-		rand = new Random();
 		enchanter = tile;
 
 		// Item Slot

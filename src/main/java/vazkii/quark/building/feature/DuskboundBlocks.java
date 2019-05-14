@@ -20,8 +20,8 @@ public class DuskboundBlocks extends Feature {
 	public static Block duskbound_block;
 	public static Block duskbound_lantern;
 
-	boolean enableStairsAndSlabs;
-	boolean enableWalls;
+	public static boolean enableStairsAndSlabs;
+	public static boolean enableWalls;
 
 	@Override
 	public void setupConfig() {

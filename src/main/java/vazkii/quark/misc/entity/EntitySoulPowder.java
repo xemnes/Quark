@@ -20,8 +20,8 @@ public class EntitySoulPowder extends Entity {
 
 	private static final DataParameter<Integer> TARGET_X = EntityDataManager.<Integer>createKey(EntitySoulPowder.class, DataSerializers.VARINT);
 	private static final DataParameter<Integer> TARGET_Z = EntityDataManager.<Integer>createKey(EntitySoulPowder.class, DataSerializers.VARINT);
-	
-	int liveTicks = 0;
+
+	private int liveTicks = 0;
 	private static final String TAG_TARGET_X = "targetX";
 	private static final String TAG_TARGET_Z = "targetZ";
 	

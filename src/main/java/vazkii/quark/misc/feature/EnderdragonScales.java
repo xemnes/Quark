@@ -17,7 +17,7 @@ public class EnderdragonScales extends Feature {
 	
 	public static int required;
 	public static boolean dyeBlack;
-	int dropped;
+	public static int dropped;
 	
 	@Override
 	public void setupConfig() {

@@ -38,7 +38,7 @@ public class Archeologist extends Feature {
 	public static Item archeologist_hat;
 	
 	public static boolean enableHat, sellHat, dropHat, hatIncreasesOreYield;
-	float increaseChance;
+	public static float increaseChance;
 
 	@Override
 	public void setupConfig() {

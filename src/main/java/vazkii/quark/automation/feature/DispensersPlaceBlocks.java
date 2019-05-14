@@ -25,7 +25,7 @@ import java.util.List;
 
 public class DispensersPlaceBlocks extends Feature {
 
-	List<String> blacklist;
+	public static List<String> blacklist;
 	
 	@Override
 	public void setupConfig() {
@@ -67,8 +67,8 @@ public class DispensersPlaceBlocks extends Feature {
 	
 	public class BehaviourBlock extends BehaviorDefaultDispenseItem {
 
-		ItemBlock item;
-		Block block;
+		private final ItemBlock item;
+		private final Block block;
 
 		public BehaviourBlock(ItemBlock item, Block block) {
 			this.item = item;
