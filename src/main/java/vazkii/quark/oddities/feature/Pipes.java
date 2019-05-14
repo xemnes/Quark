@@ -26,7 +26,7 @@ public class Pipes extends Feature {
 		pipeSpeed = loadPropInt("Pipe Speed", "How long it takes for an item to cross a pipe. Bigger = slower.", 5) * 2;
 		maxPipeItems = loadPropInt("Max Pipe Items", "Set to 0 if you don't want pipes to have a max amount of items", 16);
 		pipesCrafted = loadPropInt("Pipes Crafted", "", 6);
-		enableRender = loadPropBool("Enable Pipe Render", "Freel free to disable so you don't see items going through pipes, good if your PC is a potato", true);
+		enableRender = loadPropBool("Enable Pipe Render", "Feel free to disable so you don't see items going through pipes, good if your PC is a potato", true);
 	}
 	
 	@Override

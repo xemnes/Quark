@@ -209,13 +209,6 @@ public class BlockPipe extends BlockModContainer implements IQuarkBlock {
 		return false;
 	}
 
-	@Override
-	@SideOnly(Side.CLIENT)
-	@SuppressWarnings("deprecation")
-	public boolean shouldSideBeRendered(IBlockState blockState, @Nonnull IBlockAccess blockAccess, @Nonnull BlockPos pos, EnumFacing side) {
-		return true;
-	}
-	
 	@Nonnull
 	@Override
 	@SuppressWarnings("deprecation")
