@@ -931,7 +931,7 @@
 			{
 				"name":"Guardians in Oceans",
 				"classname":"OceanGuardians",
-				"description":"Guardians spawn naturally in Deep Oceans, rarely. See the previous feature.<br><br>If this feature is enabled, the Guardian sound is changed to not ignore distance for its volume (it does so in vanilla), so it's no longer a massive pain if you live near the ocean, or an ocean monument.",
+				"description":"Guardians spawn naturally in Deep Oceans, rarely.<br><br>If this feature is enabled, the Guardian sound is changed to not ignore distance for its volume (it does so in vanilla), so it's no longer a massive pain if you live near the ocean, or an ocean monument.",
 				"image":"ocean-guardians.jpg",
 				"introduced":9
 			},
@@ -945,7 +945,7 @@
 			{
 				"name":"Realistic World Type",
 				"classname":"RealisticWorldType",
-				"description":"Alongside Amplified or Large Biomes, \"Realistic\" is a new world type that creates semi-realistic terrain. Expect rolling hills and very tall mountains. The cloud height is increased to 260 in this world type.<br><br><i>If you want to use this in a server, set the world type to \"quark_realistic\".</i>",
+				"description":"Alongside Amplified or Large Biomes, \"Realistic\" is a new world type that creates semi-realistic terrain. Expect rolling hills and very tall mountains. The cloud height is incresed to 260 in this world type.<br><br><i>If you want to use this in a server, set the world type to \"quark_realistic\".</i>",
 				"image":"realistic-world.jpg",
 				"album":"https://www.reddit.com/r/Minecraft/comments/4nfw3t/more_realistic_generation_preset_in_comment/",
 				"introduced":9
@@ -1027,6 +1027,20 @@
 				"classname":"Archaeologist",
 				"description":"Archaeologist Villagers will rarely install themselves in the walls of caves. You'll know you're close to one when you start hearing the classic \"Hmmmm\" sound effect.<br><br>These villagers trade in bones and other items they use in their expeditions. Additionally, you can buy their hat!<br><br>Wearing an Archaeologist Hat has a chance for any ores you mine that can be affected by fortune to drop one additional item, so put the hat on before mining those diamonds!",
 				"image":"archaeologist.jpg",
+				"introduced":12
+			},
+			{
+				"name": "Stonelings",
+				"classname":"Stonelings",
+				"description":"Stonelings are new passive mobs that spawn in the deep underground. These little guys will spawn in carrying an item, and will get startled if you get too close to them without sneaking. Once startled, they'll run away from you and eventually poof out of existance. If you manage to kill one, you'll get the item its carrying.<br><br>Additionally, Stonelings may drop a Heart of Diamond, a new item which you can use on any stone block to create your own tamed Stoneling! Tamed Stonelings can hold items you give them, eat Stone (they love it!), and follow you if you hold a Diamond.",
+				"image":"stonelings.jpg",
+				"introduced":12
+			},
+			{
+				"name": "Monster Boxes",
+				"classname":"MonsterBoxes",
+				"description":"When spelunking around caves, you may find Spawner-like Monster Boxes in your way. This block will \"ignite\" when you get close to it, and will quickly spout out a small batch of monsters before destroying itself. This adds a small and momentary challenge to break up the pace of caving.",
+				"image":"monster-box.jpg",
 				"introduced":12
 			}
 		]
