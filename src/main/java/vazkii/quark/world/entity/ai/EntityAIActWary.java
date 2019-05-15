@@ -10,15 +10,15 @@
  */
 package vazkii.quark.world.entity.ai;
 
-import net.minecraft.entity.EntityCreature;
+import java.util.List;
+
 import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
 import net.minecraft.entity.player.EntityPlayer;
-
-import java.util.List;
+import vazkii.quark.world.entity.EntityStoneling;
 
 public class EntityAIActWary extends EntityAIWanderAvoidWater {
 
-	private final EntityCreature creature;
+	private final EntityStoneling stoneling;
 
 	private final boolean scaredBySuddenMovement;
 
@@ -26,9 +26,9 @@ public class EntityAIActWary extends EntityAIWanderAvoidWater {
 
 	private boolean startled;
 
-	public EntityAIActWary(EntityCreature creature, double speed, double range, boolean scaredBySuddenMovement) {
-		super(creature, speed, 1F);
-		this.creature = creature;
+	public EntityAIActWary(EntityStoneling stoneling, double speed, double range, boolean scaredBySuddenMovement) {
+		super(stoneling, speed, 1F);
+		this.stoneling = stoneling;
 		this.range = range;
 		this.scaredBySuddenMovement = scaredBySuddenMovement;
 	}
@@ -43,7 +43,7 @@ public class EntityAIActWary extends EntityAIWanderAvoidWater {
 
 	@Override
 	public void updateTask() {
-		if (creature.getNavigator().noPath() && shouldApplyPath())
+		if (stoneling.getNavigator().noPath() && shouldApplyPath())
 			startExecuting();
 	}
 
@@ -54,16 +54,16 @@ public class EntityAIActWary extends EntityAIWanderAvoidWater {
 
 	@Override
 	public void resetTask() {
-		creature.getNavigator().clearPath();
+		stoneling.getNavigator().clearPath();
 	}
 
 	@Override
 	public boolean shouldExecute() {
-		if (startled)
+		if (startled || stoneling.isPlayerMade())
 			return false;
 
-		List<EntityPlayer> playersAround = creature.world.getEntitiesWithinAABB(EntityPlayer.class, creature.getEntityBoundingBox().grow(range),
-				(player) -> player != null && !player.capabilities.isCreativeMode && player.getDistanceSq(creature) < range * range);
+		List<EntityPlayer> playersAround = stoneling.world.getEntitiesWithinAABB(EntityPlayer.class, stoneling.getEntityBoundingBox().grow(range),
+				(player) -> player != null && !player.capabilities.isCreativeMode && player.getDistanceSq(stoneling) < range * range);
 
 		if (playersAround.isEmpty())
 			return false;

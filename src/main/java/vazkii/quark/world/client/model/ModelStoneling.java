@@ -4,7 +4,9 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelBox;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
+import vazkii.quark.world.entity.EntityStoneling;
 
 public class ModelStoneling extends ModelBase {
 
@@ -57,6 +59,16 @@ public class ModelStoneling extends ModelBase {
 	public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
 		leg_right.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * limbSwingAmount;
 		leg_left.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * limbSwingAmount;
+		
+		EntityStoneling stoneling = (EntityStoneling) entityIn;
+		ItemStack carry = stoneling.getCarryingItem();
+		if(carry.isEmpty()) {
+			arm_right.rotateAngleX = 0F;
+			arm_left.rotateAngleX = 0F;
+		} else {
+			arm_right.rotateAngleX = 3.1416F;
+			arm_left.rotateAngleX = 3.1416F;
+		}
 	}
 
 	@Override

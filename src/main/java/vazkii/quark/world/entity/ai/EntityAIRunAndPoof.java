@@ -18,18 +18,24 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+import vazkii.quark.world.entity.EntityStoneling;
 
 import java.util.function.Predicate;
 
 public class EntityAIRunAndPoof<T extends Entity> extends EntityAIAvoidEntity<T> {
-	public EntityAIRunAndPoof(EntityCreature entityIn, Class<T> classToAvoidIn, float avoidDistanceIn, double farSpeedIn, double nearSpeedIn) {
-		super(entityIn, classToAvoidIn, avoidDistanceIn, farSpeedIn, nearSpeedIn);
+	
+	private final EntityStoneling stoneling;
+	
+	public EntityAIRunAndPoof(EntityStoneling stoneling, Class<T> classToAvoidIn, float avoidDistanceIn, double farSpeedIn, double nearSpeedIn) {
+		super(stoneling, classToAvoidIn, avoidDistanceIn, farSpeedIn, nearSpeedIn);
+		this.stoneling = stoneling;
 	}
 
-	public EntityAIRunAndPoof(EntityCreature entityIn, Class<T> classToAvoidIn, Predicate<? super T> avoidTargetSelectorIn, float avoidDistanceIn, double farSpeedIn, double nearSpeedIn) {
-		super(entityIn, classToAvoidIn, avoidTargetSelectorIn::test, avoidDistanceIn, farSpeedIn, nearSpeedIn);
+	@Override
+	public boolean shouldExecute() {
+		return !stoneling.isPlayerMade() && super.shouldExecute();
 	}
-
+	
 	@Override
 	public void startExecuting() {
 		super.startExecuting();
