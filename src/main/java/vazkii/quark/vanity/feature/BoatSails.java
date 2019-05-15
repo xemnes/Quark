@@ -14,7 +14,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemBanner;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
@@ -33,6 +32,7 @@ import vazkii.quark.base.capability.SimpleProvider;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.base.network.message.MessageSyncBoatBanner;
+import vazkii.quark.base.sounds.QuarkSounds;
 
 import java.util.WeakHashMap;
 
@@ -105,8 +105,7 @@ public class BoatSails extends Feature {
 				setBanner(target, copyStack, !event.getWorld().isRemote);
 
 				if(!event.getWorld().isRemote) {
-					// TODO: 5/14/19 change into own sound event
-					event.getWorld().playSound(null, target.posX, target.posY, target.posZ, SoundEvents.ENTITY_ITEMFRAME_ADD_ITEM, SoundCategory.PLAYERS, 1f, 1f);
+					event.getWorld().playSound(null, target.posX, target.posY, target.posZ, QuarkSounds.ENTITY_BOAT_ADD_ITEM, SoundCategory.PLAYERS, 1f, 1f);
 
 					event.setCanceled(true);
 					event.setCancellationResult(EnumActionResult.SUCCESS);

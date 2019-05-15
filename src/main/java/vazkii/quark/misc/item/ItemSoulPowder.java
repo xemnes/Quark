@@ -2,7 +2,6 @@ package vazkii.quark.misc.item;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.ActionResult;
@@ -14,6 +13,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import vazkii.arl.item.ItemMod;
 import vazkii.quark.base.item.IQuarkItem;
+import vazkii.quark.base.sounds.QuarkSounds;
 import vazkii.quark.misc.entity.EntitySoulPowder;
 
 import javax.annotation.Nonnull;
@@ -42,8 +42,7 @@ public class ItemSoulPowder extends ItemMod implements IQuarkItem {
 				entity.setPosition(playerIn.posX + look.x * 2, playerIn.posY + 0.25, playerIn.posZ + look.z * 2);
 				worldIn.spawnEntity(entity);
 
-				// TODO: 5/14/19 add new sound
-				worldIn.playSound(null, playerIn.posX, playerIn.posY, playerIn.posZ, SoundEvents.ENTITY_GHAST_DEATH, SoundCategory.PLAYERS, 1F, 1F);
+				worldIn.playSound(null, playerIn.posX, playerIn.posY, playerIn.posZ, QuarkSounds.ITEM_SOUL_POWDER_SPAWN, SoundCategory.PLAYERS, 1F, 1F);
 			}
 		} else playerIn.swingArm(handIn);
 

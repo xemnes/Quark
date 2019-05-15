@@ -12,7 +12,6 @@ package vazkii.quark.world.item;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ActionResult;
@@ -21,6 +20,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 import vazkii.arl.item.ItemMod;
 import vazkii.quark.base.item.IQuarkItem;
+import vazkii.quark.base.sounds.QuarkSounds;
 import vazkii.quark.world.feature.Wraiths;
 
 import javax.annotation.Nonnull;
@@ -42,8 +42,7 @@ public class ItemSoulBead extends ItemMod implements IQuarkItem {
 			effect.setCurativeItems(Collections.emptyList());
 			playerIn.addPotionEffect(effect);
 
-			// TODO: 5/14/19 add new sound
-			worldIn.playSound(null, playerIn.posX, playerIn.posY, playerIn.posZ, SoundEvents.ENTITY_BLAZE_AMBIENT, SoundCategory.PLAYERS, 0.5F, 1F);
+			worldIn.playSound(null, playerIn.posX, playerIn.posY, playerIn.posZ, QuarkSounds.ITEM_SOUL_BEAD_CURSE, SoundCategory.PLAYERS, 0.5F, 1F);
 			playerIn.renderBrokenItemStack(stack);
 			stack.shrink(1);
 		}

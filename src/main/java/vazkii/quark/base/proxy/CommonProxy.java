@@ -22,12 +22,14 @@ import vazkii.quark.base.module.GlobalConfig;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.base.network.GuiHandler;
 import vazkii.quark.base.network.MessageRegister;
+import vazkii.quark.base.sounds.QuarkSounds;
 import vazkii.quark.world.feature.DungeonTweaksCompat;
 
 public class CommonProxy {
 
 	public void preInit(FMLPreInitializationEvent event) {
 		CapabilityHandler.register();
+		QuarkSounds.init();
 		ModuleLoader.preInit(event);
 
 		NetworkRegistry.INSTANCE.registerGuiHandler(Quark.instance, new GuiHandler());

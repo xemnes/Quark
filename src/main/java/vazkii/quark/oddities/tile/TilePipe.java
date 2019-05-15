@@ -4,15 +4,17 @@ import net.minecraft.block.Block;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.*;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumFacing.Axis;
+import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.ITickable;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldServer;
@@ -22,6 +24,7 @@ import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import vazkii.arl.block.tile.TileSimpleInventory;
+import vazkii.quark.base.sounds.QuarkSounds;
 import vazkii.quark.oddities.block.BlockPipe;
 import vazkii.quark.oddities.feature.Pipes;
 
@@ -64,8 +67,7 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 									entity.isEntityAlive() && EnumFacing.getFacingFromVector((float) entity.motionX, (float) entity.motionY, (float) entity.motionZ) == opposite)) {
 						passIn(item.getItem().copy(), side);
 						if (!world.isRemote && Pipes.doPipesWhoosh)
-							// TODO: 5/14/19 add new sound
-							world.playSound(null, item.posX, item.posY, item.posZ, SoundEvents.BLOCK_LAVA_POP, SoundCategory.BLOCKS, 0.5f, 0.2f);
+							world.playSound(null, item.posX, item.posY, item.posZ, QuarkSounds.BLOCK_PIPE_PICKUP, SoundCategory.BLOCKS, 0.5f, 0.2f);
 
 						item.setDead();
 					}
@@ -177,7 +179,7 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 			}
 
 			if (playSound && Pipes.doPipesWhoosh)
-				world.playSound(null, posX, posY, posZ, SoundEvents.BLOCK_DISPENSER_LAUNCH, SoundCategory.BLOCKS, 0.5f, 2f);
+				world.playSound(null, posX, posY, posZ, QuarkSounds.BLOCK_PIPE_SHOOT, SoundCategory.BLOCKS, 0.5f, 2f);
 
 			EntityItem entity = new EntityItem(world, posX, posY, posZ, stack);
 			entity.setDefaultPickupDelay();

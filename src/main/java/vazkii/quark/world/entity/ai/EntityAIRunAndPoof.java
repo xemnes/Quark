@@ -11,16 +11,13 @@
 package vazkii.quark.world.entity.ai;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+import vazkii.quark.base.sounds.QuarkSounds;
 import vazkii.quark.world.entity.EntityStoneling;
-
-import java.util.function.Predicate;
 
 public class EntityAIRunAndPoof<T extends Entity> extends EntityAIAvoidEntity<T> {
 	
@@ -40,7 +37,7 @@ public class EntityAIRunAndPoof<T extends Entity> extends EntityAIAvoidEntity<T>
 	public void startExecuting() {
 		super.startExecuting();
 		// TODO: 5/14/19 add new sound
-		entity.world.playSound(null, entity.posX, entity.posY, entity.posZ, SoundEvents.ENTITY_GHAST_SCREAM, SoundCategory.NEUTRAL, 1.0F, 1.0F);
+		entity.world.playSound(null, entity.posX, entity.posY, entity.posZ, QuarkSounds.ENTITY_STONELING_MEEP, SoundCategory.NEUTRAL, 1.0F, 1.0F);
 	}
 
 	@Override
