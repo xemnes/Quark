@@ -35,6 +35,7 @@ import vazkii.quark.management.client.gui.GuiButtonChest;
 import vazkii.quark.management.client.gui.GuiButtonChest.Action;
 import vazkii.quark.management.gamerule.DropoffGamerule;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class StoreToChests extends Feature {
@@ -91,8 +92,9 @@ public class StoreToChests extends Feature {
 			if(creativeInv == null && Minecraft.getMinecraft().player.capabilities.isCreativeMode)
 				return;
 
-			if (ChestButtons.chestButtons != null)
-				ChestButtons.chestButtons.clear();
+			if (ChestButtons.chestButtons == null)
+				ChestButtons.chestButtons = new ArrayList<>();
+			ChestButtons.chestButtons.clear();
 			
 			int left = guiInv.getGuiLeft();
 			int top = guiInv.getGuiTop();
@@ -131,6 +133,8 @@ public class StoreToChests extends Feature {
 		GuiScreen gui = Minecraft.getMinecraft().currentScreen;
 		if(gui instanceof GuiInventory) {
 			GuiInventory inv = (GuiInventory) gui;
+			if (ChestButtons.chestButtons == null)
+				ChestButtons.chestButtons = new ArrayList<>();
 			for(GuiButtonChest b : ChestButtons.chestButtons) {
 				b.x = inv.getGuiLeft() + b.shiftX;
 				b.y = inv.getGuiTop() + b.shiftY;

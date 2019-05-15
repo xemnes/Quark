@@ -118,7 +118,8 @@ public class ChestButtons extends Feature {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void preInitClient(FMLPreInitializationEvent event) {
-		chestButtons = new ArrayList<>();
+		if (chestButtons == null)
+			chestButtons = new ArrayList<>();
 		ModKeybinds.initChestKeys();
 	}
 	
@@ -153,6 +154,9 @@ public class ChestButtons extends Feature {
 			if(!accept)
 				return;
 
+
+			if (chestButtons == null)
+				chestButtons = new ArrayList<>();
 			chestButtons.clear();
 
 			for(Slot s : container.inventorySlots)
@@ -202,7 +206,9 @@ public class ChestButtons extends Feature {
 			if(chestInv.getName().equals(Blocks.ENDER_CHEST.getLocalizedName()))
 				button.setEnder(true);
 		}
-		
+
+		if (chestButtons == null)
+			chestButtons = new ArrayList<>();
 		chestButtons.add(button);
 		event.getButtonList().add(button);
 		if(kb != null)
