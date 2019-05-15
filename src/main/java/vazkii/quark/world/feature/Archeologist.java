@@ -87,17 +87,20 @@ public class Archeologist extends Feature {
 					if(!drop.isEmpty() && !(drop.getItem() instanceof ItemBlock) && drop.getCount() < drop.getMaxStackSize()) {
 						IBlockState state = event.getState();
 						Block block = state.getBlock();
-						int[] ids = OreDictionary.getOreIDs(new ItemStack(block));
-						
-						for(int i : ids) {
-							String name = OreDictionary.getOreName(i);
-							if(name.matches("^ore[A-Z][a-zA-Z]+$")) {
-								if(player.world.rand.nextFloat() < increaseChance) {
-									drop.grow(1);
-									System.out.println("GROWN " + drop);
+						ItemStack stack = new ItemStack(block);
+						if (!stack.isEmpty()) {
+							int[] ids = OreDictionary.getOreIDs(stack);
+
+							for (int i : ids) {
+								String name = OreDictionary.getOreName(i);
+								if (name.matches("^ore[A-Z][a-zA-Z]+$")) {
+									if (player.world.rand.nextFloat() < increaseChance) {
+										drop.grow(1);
+										System.out.println("GROWN " + drop);
+									}
+
+									break;
 								}
-									
-								break;
 							}
 						}
 					}
