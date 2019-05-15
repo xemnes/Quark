@@ -66,8 +66,14 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 							new AxisAlignedBB(minX, minY, minZ, maxX, maxY, maxZ), (entity) -> entity != null &&
 									entity.isEntityAlive() && EnumFacing.getFacingFromVector((float) entity.motionX, (float) entity.motionY, (float) entity.motionZ) == opposite)) {
 						passIn(item.getItem().copy(), side);
-						if (!world.isRemote && Pipes.doPipesWhoosh)
-							world.playSound(null, item.posX, item.posY, item.posZ, QuarkSounds.BLOCK_PIPE_PICKUP, SoundCategory.BLOCKS, 0.5f, 0.2f);
+						if (!world.isRemote && Pipes.doPipesWhoosh) {
+							Calendar calendar = this.world.getCurrentDate();
+
+							if (calendar.get(Calendar.MONTH) + 1 == 4 && calendar.get(Calendar.DAY_OF_MONTH) == 1)
+								world.playSound(null, item.posX, item.posY, item.posZ, QuarkSounds.BLOCK_PIPE_PICKUP_LENNY, SoundCategory.BLOCKS, 0.5f, 0.2f);
+							else
+								world.playSound(null, item.posX, item.posY, item.posZ, QuarkSounds.BLOCK_PIPE_PICKUP, SoundCategory.BLOCKS, 0.5f, 0.2f);
+						}
 
 						item.setDead();
 					}
@@ -178,8 +184,14 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 				posZ -= facing.getZOffset() * 0.4;
 			}
 
-			if (playSound && Pipes.doPipesWhoosh)
-				world.playSound(null, posX, posY, posZ, QuarkSounds.BLOCK_PIPE_SHOOT, SoundCategory.BLOCKS, 0.5f, 2f);
+			if (playSound && Pipes.doPipesWhoosh) {
+				Calendar calendar = this.world.getCurrentDate();
+
+				if (calendar.get(Calendar.MONTH) + 1 == 4 && calendar.get(Calendar.DAY_OF_MONTH) == 1)
+					world.playSound(null, posX, posY, posZ, QuarkSounds.BLOCK_PIPE_SHOOT_LENNY, SoundCategory.BLOCKS, 0.5f, 2f);
+				else
+					world.playSound(null, posX, posY, posZ, QuarkSounds.BLOCK_PIPE_SHOOT, SoundCategory.BLOCKS, 0.5f, 2f);
+			}
 
 			EntityItem entity = new EntityItem(world, posX, posY, posZ, stack);
 			entity.setDefaultPickupDelay();

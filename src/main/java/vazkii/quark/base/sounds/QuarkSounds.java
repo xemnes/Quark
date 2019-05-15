@@ -15,8 +15,10 @@ import vazkii.arl.util.ProxyRegistry;
 
 public class QuarkSounds {
 	public static final SoundEvent ITEM_SOUL_POWDER_SPAWN = new ModSoundEvent("item.soul_powder.spawn");
-	public static final SoundEvent BLOCK_PIPE_SHOOT = new ModSoundEvent("item.soul_powder.spawn");
+	public static final SoundEvent BLOCK_PIPE_SHOOT = new ModSoundEvent("block.pipe.shoot");
 	public static final SoundEvent BLOCK_PIPE_PICKUP = new ModSoundEvent("block.pipe.pickup");
+	public static final SoundEvent BLOCK_PIPE_SHOOT_LENNY = new ModSoundEvent("block.pipe.shoot.lenny");
+	public static final SoundEvent BLOCK_PIPE_PICKUP_LENNY = new ModSoundEvent("block.pipe.pickup.lenny");
 	public static final SoundEvent BLOCK_SPONGE_HISS = new ModSoundEvent("block.sponge.hiss");
 	public static final SoundEvent ENTITY_BOAT_ADD_ITEM = new ModSoundEvent("entity.boat.add_item");
 	public static final SoundEvent ITEM_SOUL_BEAD_CURSE = new ModSoundEvent("item.soul_bead.curse");

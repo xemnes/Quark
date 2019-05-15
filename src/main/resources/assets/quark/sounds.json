@@ -20,6 +20,20 @@
       "minecraft:liquid/lavapop"
     ]
   },
+  "block.pipe.shoot.lenny": {
+    "category": "blocks",
+    "subtitle": "quark.subtitles.pipe_shoot_lenny",
+    "sounds": [
+      "minecraft:random/bow"
+    ]
+  },
+  "block.pipe.pickup.lenny": {
+    "category": "blocks",
+    "subtitle": "quark.subtitles.pipe_pickup_lenny",
+    "sounds": [
+      "minecraft:liquid/lavapop"
+    ]
+  },
   "block.sponge.hiss": {
     "category": "blocks",
     "subtitle": "quark.subtitles.sponge_hiss",
