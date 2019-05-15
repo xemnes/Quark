@@ -10,13 +10,9 @@
  */
 package vazkii.quark.decoration.item;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.ItemMeshDefinition;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -30,6 +26,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.arl.interf.IExtraVariantHolder;
 import vazkii.arl.item.ItemModBlock;
+import vazkii.arl.util.ModelHandler;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.decoration.block.BlockCustomChest;
 import vazkii.quark.decoration.feature.VariedChests;
@@ -46,22 +43,14 @@ public class ItemChestBlock extends ItemModBlock implements IExtraVariantHolder 
 	}
 
 	@Override
-	public int getMetadata(int damage) {
-		return 0;
+	@SideOnly(Side.CLIENT)
+	public ItemMeshDefinition getCustomMeshDefinition() {
+		return stack -> ModelHandler.resourceLocations.get(getVariants()[0]);
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
-	public ItemMeshDefinition getCustomMeshDefinition() {
-		return new ItemMeshDefinition() {
-
-			@Nonnull
-			@Override
-			public ModelResourceLocation getModelLocation(@Nonnull ItemStack stack) {
-				ChestType type = VariedChests.custom_chest.getCustomType(stack);
-				return getBlock() == VariedChests.custom_chest_trap ? type.trapModel : type.normalModel;
-			}
-		};
+	public String[] getExtraVariants() {
+		return getVariants();
 	}
 
 	@Nonnull
@@ -110,17 +99,6 @@ public class ItemChestBlock extends ItemModBlock implements IExtraVariantHolder 
 		if(isInCreativeTab(tab))
 			for(ChestType type : VariedChests.ChestType.VALID_TYPES)
 				subItems.add(chest.setCustomType(new ItemStack(this, 1), type));
-	}
-
-	@Override
-	public String[] getExtraVariants() {
-		List<String> variants = new ArrayList<>();
-		for(ChestType type : VariedChests.ChestType.VALID_TYPES) {
-			variants.add("custom_chest_" + type.name);
-			variants.add("custom_chest_trap_" + type.name);
-		}
-
-		return variants.toArray(new String[variants.size()]);
 	}
 
 }

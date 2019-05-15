@@ -10,18 +10,17 @@
  */
 package vazkii.quark.decoration.client.render;
 
-import java.util.Calendar;
-
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.client.model.ModelChest;
 import net.minecraft.client.model.ModelLargeChest;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
 import vazkii.quark.base.module.GlobalConfig;
 import vazkii.quark.decoration.feature.VariedChests;
 import vazkii.quark.decoration.tile.TileCustomChest;
+
+import java.util.Calendar;
 
 public class RenderTileCustomChest extends TileEntitySpecialRenderer<TileCustomChest> {
 
@@ -51,7 +50,7 @@ public class RenderTileCustomChest extends TileEntitySpecialRenderer<TileCustomC
 			meta = te.getBlockMetadata();
 			te.checkForAdjacentChests();
 		} else
-			meta = 0;
+			meta = 3;
 
 		if(te.adjacentChestZNeg == null && te.adjacentChestXNeg == null) {
 			ModelChest model;
@@ -68,7 +67,12 @@ public class RenderTileCustomChest extends TileEntitySpecialRenderer<TileCustomC
 					GlStateManager.matrixMode(GL11.GL_MODELVIEW);
 				} else if(xmas)
 					bindTexture(TEXTURE_CHRISTMAS);
-				else bindTexture(te.chestType.nrmTex);
+				else {
+					if (te.getChestType() == VariedChests.CUSTOM_TYPE_QUARK_TRAP)
+						bindTexture(te.chestType.nrmTrapTex);
+					else
+						bindTexture(te.chestType.nrmTex);
+				}
 			} else {
 				model = largeChest;
 
@@ -81,7 +85,12 @@ public class RenderTileCustomChest extends TileEntitySpecialRenderer<TileCustomC
 					GlStateManager.matrixMode(GL11.GL_MODELVIEW);
 				} else if(xmas)
 					bindTexture(TEXTURE_CHRISTMAS_DOUBLE);
-				else bindTexture(te.chestType.dblTex);
+				else {
+					if (te.getChestType() == VariedChests.CUSTOM_TYPE_QUARK_TRAP)
+						bindTexture(te.chestType.dblTrapTex);
+					else
+						bindTexture(te.chestType.dblTex);
+				}
 			}
 
 			GlStateManager.pushMatrix();
@@ -93,18 +102,15 @@ public class RenderTileCustomChest extends TileEntitySpecialRenderer<TileCustomC
 			GlStateManager.translate(x, y + 1.0F, z + 1.0F);
 			GlStateManager.scale(1.0F, -1.0F, -1.0F);
 			GlStateManager.translate(0.5F, 0.5F, 0.5F);
-			int angle = 0;
+			int angle;
 
 			if(meta == 2)
 				angle = 180;
-
-			if(meta == 3)
+			else if(meta == 3)
 				angle = 0;
-
-			if(meta == 4)
+			else if(meta == 4)
 				angle = 90;
-
-			if(meta == 5)
+			else
 				angle = -90;
 
 			if(meta == 2 && te.adjacentChestXPos != null) {
@@ -137,22 +143,6 @@ public class RenderTileCustomChest extends TileEntitySpecialRenderer<TileCustomC
 			lidAngle = 1.0F - lidAngle * lidAngle * lidAngle;
 			model.chestLid.rotateAngleX = -(lidAngle * ((float) Math.PI / 2F));
 			model.renderAll();
-
-			if(te.getChestType() == VariedChests.CUSTOM_TYPE_QUARK_TRAP) {
-				if(model == simpleChest)
-					bindTexture(VariedChests.TRAP_RESOURCE);
-				else bindTexture(VariedChests.TRAP_DOUBLE_RESOURCE);
-
-				float scale = 1.002F;
-				GlStateManager.pushMatrix();
-				GlStateManager.enableBlend();
-				GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-				GlStateManager.scale(scale, scale, scale);
-				GlStateManager.translate(model == largeChest ? -0.002F : -0.001F, -0.001F, -0.001F);
-				model.renderAll();
-				GlStateManager.disableBlend();
-				GlStateManager.popMatrix();
-			}
 
 			GlStateManager.disableRescaleNormal();
 			GlStateManager.popMatrix();

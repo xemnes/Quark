@@ -27,6 +27,7 @@ import vazkii.quark.base.module.Feature;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class NaturalBlazesInNether extends Feature {
 
@@ -43,9 +44,9 @@ public class NaturalBlazesInNether extends Feature {
 		
 		restrictToNetherrack = loadPropBool("Block restrictions", "Make naturally spawned blazes only spawn in allowed blocks", true);
 		allowedBlocks = Arrays.asList(loadPropStringList("Allowed spawn blocks", "Only used if \" Block restrictions\" is enabled.", new String[] {
-				Blocks.NETHERRACK.getRegistryName().toString(),
-				Blocks.SOUL_SAND.getRegistryName().toString(),
-				Blocks.MAGMA.getRegistryName().toString(),
+				Objects.toString(Blocks.NETHERRACK.getRegistryName()),
+				Objects.toString(Blocks.SOUL_SAND.getRegistryName()),
+						Objects.toString(Blocks.MAGMA.getRegistryName()),
 				"quark:basalt"
 		}));
 	}

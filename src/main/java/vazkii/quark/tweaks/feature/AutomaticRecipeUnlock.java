@@ -22,10 +22,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.base.lib.LibObfuscation;
 import vazkii.quark.base.module.Feature;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 public class AutomaticRecipeUnlock extends Feature {
 
@@ -49,7 +46,7 @@ public class AutomaticRecipeUnlock extends Feature {
 	public void onPlayerLoggedIn(PlayerLoggedInEvent event) {
 		if(event.player instanceof EntityPlayerMP) {
 			ArrayList<IRecipe> recipes = Lists.newArrayList(CraftingManager.REGISTRY);
-			recipes.removeIf((recipe) -> ignored.contains(recipe.getRegistryName().toString()) || recipe.getRecipeOutput().isEmpty());
+			recipes.removeIf((recipe) -> ignored.contains(Objects.toString(recipe.getRegistryName())) || recipe.getRecipeOutput().isEmpty());
 			event.player.unlockRecipes(recipes);
 
 			if(forceLimitedCrafting)

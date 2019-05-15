@@ -35,6 +35,14 @@ public class TileCustomChest extends TileEntityChest {
 
 	public VariedChests.ChestType chestType = VariedChests.ChestType.NONE;
 
+	public TileCustomChest() {
+		super();
+	}
+
+	public TileCustomChest(BlockChest.Type typeIn) {
+		super(typeIn);
+	}
+
 	@Nonnull
 	@Override
 	public NBTTagCompound writeToNBT(@Nonnull NBTTagCompound nbt) {

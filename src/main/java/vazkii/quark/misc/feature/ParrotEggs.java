@@ -28,6 +28,7 @@ import vazkii.quark.misc.client.render.RenderParrotKoto;
 import vazkii.quark.misc.entity.EntityParrotEgg;
 import vazkii.quark.misc.item.ItemParrotEgg;
 
+import java.util.Objects;
 import java.util.Random;
 
 public class ParrotEggs extends Feature {
@@ -43,7 +44,7 @@ public class ParrotEggs extends Feature {
 	@Override
 	public void setupConfig() {
 		item = Items.BEETROOT_SEEDS;
-		String itemName = loadPropString("Feed Item", "", item.getRegistryName().toString());
+		String itemName = loadPropString("Feed Item", "", Objects.toString(item.getRegistryName()));
 		Item targetItem = Item.REGISTRY.getObject(new ResourceLocation(itemName));
 		if(targetItem != null)
 			item = targetItem;

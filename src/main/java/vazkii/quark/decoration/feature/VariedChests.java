@@ -11,7 +11,10 @@
 package vazkii.quark.decoration.feature;
 
 import net.minecraft.block.BlockChest.Type;
+import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.renderer.tileentity.TileEntityItemStackRenderer;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -19,9 +22,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
@@ -36,18 +41,17 @@ import vazkii.quark.base.module.Feature;
 import vazkii.quark.decoration.block.BlockCustomChest;
 import vazkii.quark.decoration.client.render.RenderTileCustomChest;
 import vazkii.quark.decoration.tile.TileCustomChest;
+import vazkii.quark.oddities.client.bakery.WrapperWithParticleTexture;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class VariedChests extends Feature {
 
 	public static final Type CUSTOM_TYPE_QUARK = EnumHelper.addEnum(Type.class, "QUARK", new Class[0]);
 	public static final Type CUSTOM_TYPE_QUARK_TRAP = EnumHelper.addEnum(Type.class, "QUARK_TRAP", new Class[0]);
-
-	public static final ResourceLocation TRAP_RESOURCE = new ResourceLocation(LibMisc.PREFIX_MOD + "textures/blocks/chests/trap.png");
-	public static final ResourceLocation TRAP_DOUBLE_RESOURCE = new ResourceLocation(LibMisc.PREFIX_MOD + "textures/blocks/chests/trap_double.png");
 
 	public static BlockCustomChest custom_chest;
 	public static BlockCustomChest custom_chest_trap;
@@ -77,10 +81,46 @@ public class VariedChests extends Feature {
 		addOreDict();
 	}
 
+	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
+	public void onModelBake(ModelBakeEvent event) {
+		overrideModel(custom_chest.getRegistryName(), event);
+		overrideModel(custom_chest_trap.getRegistryName(), event);
+	}
+
+	@SideOnly(Side.CLIENT)
+	private void overrideModel(ResourceLocation keyName, ModelBakeEvent event) {
+		ModelResourceLocation key = new ModelResourceLocation(keyName, "normal");
+		IBakedModel originalModel = event.getModelRegistry().getObject(key);
+		event.getModelRegistry().putObject(key, new WrapperWithParticleTexture(
+				event.getModelManager().getTextureMap().getAtlasSprite("minecraft:blocks/planks_oak"),
+				originalModel));
+	}
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void preInitClient(FMLPreInitializationEvent event) {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileCustomChest.class, new RenderTileCustomChest());
+
+		ProxyRegistry.getItemMapping(custom_chest).setTileEntityItemStackRenderer(new TileEntityItemStackRenderer() {
+			private final TileCustomChest chest = new TileCustomChest(CUSTOM_TYPE_QUARK);
+
+			@Override
+			public void renderByItem(ItemStack stack, float partialTicks) {
+				chest.chestType = VariedChests.custom_chest.getCustomType(stack);
+				TileEntityRendererDispatcher.instance.render(chest, 0.0D, 0.0D, 0.0D, 0.0F, partialTicks);
+			}
+		});
+
+		ProxyRegistry.getItemMapping(custom_chest_trap).setTileEntityItemStackRenderer(new TileEntityItemStackRenderer() {
+			private final TileCustomChest chest = new TileCustomChest(CUSTOM_TYPE_QUARK_TRAP);
+
+			@Override
+			public void renderByItem(ItemStack stack, float partialTicks) {
+				chest.chestType = VariedChests.custom_chest_trap.getCustomType(stack);
+				TileEntityRendererDispatcher.instance.render(chest, 0.0D, 0.0D, 0.0D, 0.0F, partialTicks);
+			}
+		});
 	}
 
 	@Override
@@ -165,7 +205,7 @@ public class VariedChests extends Feature {
 		if(fixedTrappedChest)
 			return;
 		
-		if(recipe.getRegistryName().toString().equals("minecraft:trapped_chest")) {
+		if(Objects.toString(recipe.getRegistryName()).equals("minecraft:trapped_chest")) {
 			List<Ingredient> ingredients = recipe.getIngredients();
 			for(int i = 0; i < ingredients.size(); i++) {
 				Ingredient ingr = ingredients.get(i);
@@ -179,7 +219,12 @@ public class VariedChests extends Feature {
 			fixedTrappedChest = true;
 		}
 	}
-	
+
+	@Override
+	public boolean hasSubscriptions() {
+		return isClient();
+	}
+
 	@Override
 	public boolean requiresMinecraftRestartToEnable() {
 		return true;
@@ -196,8 +241,8 @@ public class VariedChests extends Feature {
 		public final String name;
 		public final ResourceLocation nrmTex;
 		public final ResourceLocation dblTex;
-		public final ModelResourceLocation normalModel;
-		public final ModelResourceLocation trapModel;
+		public final ResourceLocation nrmTrapTex;
+		public final ResourceLocation dblTrapTex;
 
 		public static final ChestType[] VALID_TYPES;
 		public static final Map<String, ChestType> NAME_TO_TYPE;
@@ -206,13 +251,12 @@ public class VariedChests extends Feature {
 			this.name = name;
 			nrmTex = new ResourceLocation(LibMisc.PREFIX_MOD + "textures/blocks/chests/" + name + ".png");
 			dblTex = new ResourceLocation(LibMisc.PREFIX_MOD + "textures/blocks/chests/" + name + "_double.png");
-
-			normalModel = new ModelResourceLocation(new ResourceLocation("quark", "custom_chest_" + name), "inventory");
-			trapModel = new ModelResourceLocation(new ResourceLocation("quark", "custom_chest_trap_" + name), "inventory");
+			nrmTrapTex = new ResourceLocation(LibMisc.PREFIX_MOD + "textures/blocks/chests/" + name + "_trap.png");
+			dblTrapTex = new ResourceLocation(LibMisc.PREFIX_MOD + "textures/blocks/chests/" + name + "_trap_double.png");
 		}
 
 		public static ChestType getType(String type) {
-			return NAME_TO_TYPE.containsKey(type) ? NAME_TO_TYPE.get(type) : NONE;
+			return NAME_TO_TYPE.getOrDefault(type, NONE);
 		}
 
 		static {

@@ -184,7 +184,7 @@ public class AutomaticToolRestock extends Feature {
 			if(e != null && e.getRegistryName() != null)
 				strings.add(e.getRegistryName().toString());
 
-		return strings.toArray(new String[strings.size()]);
+		return strings.toArray(new String[0]);
 	}
 
 }

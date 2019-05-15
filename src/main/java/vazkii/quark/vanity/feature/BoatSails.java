@@ -14,11 +14,13 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemBanner;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -103,8 +105,12 @@ public class BoatSails extends Feature {
 				setBanner(target, copyStack, !event.getWorld().isRemote);
 
 				if(!event.getWorld().isRemote) {
+					// TODO: 5/14/19 change into own sound event
+					event.getWorld().playSound(null, target.posX, target.posY, target.posZ, SoundEvents.ENTITY_ITEMFRAME_ADD_ITEM, SoundCategory.PLAYERS, 1f, 1f);
+
 					event.setCanceled(true);
 					event.setCancellationResult(EnumActionResult.SUCCESS);
+
 					if(!player.capabilities.isCreativeMode) {
 						stack.shrink(1);
 

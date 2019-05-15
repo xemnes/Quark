@@ -15,7 +15,6 @@ import net.minecraft.block.BlockChest;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -35,8 +34,6 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.ILockableContainer;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.block.IQuarkBlock;
 import vazkii.quark.base.lib.LibMisc;
@@ -67,9 +64,10 @@ public class BlockCustomChest extends BlockChest implements IQuarkBlock {
 	@Override
 	public Block setTranslationKey(@Nonnull String name) {
 		super.setTranslationKey(name);
-		setRegistryName(LibMisc.PREFIX_MOD + name);
+		String key = LibMisc.PREFIX_MOD + name;
+		setRegistryName(key);
 		ProxyRegistry.register(this);
-		ProxyRegistry.register(new ItemChestBlock(this, new ResourceLocation(LibMisc.PREFIX_MOD + name)));
+		ProxyRegistry.register(new ItemChestBlock(this, new ResourceLocation(key)));
 
 		return this;
 	}
@@ -82,12 +80,6 @@ public class BlockCustomChest extends BlockChest implements IQuarkBlock {
 	@Override
 	public String[] getVariants() {
 		return variants;
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public ItemMeshDefinition getCustomMeshDefinition() {
-		return null;
 	}
 
 	@Override
