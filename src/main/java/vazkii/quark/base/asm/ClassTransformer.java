@@ -71,6 +71,9 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 
 		// Better Fire Effect
 		transformers.put("net.minecraft.client.renderer.entity.Render", ClassTransformer::transformRender);
+
+		// For witch hats
+		transformers.put("net.minecraft.entity.ai.EntityAITarget", ClassTransformer::transformEntityAITarget);
 	}
 
 	@Override
@@ -463,6 +466,25 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 			LabelNode label = new LabelNode();
 			newInstructions.add(new JumpInsnNode(IFEQ, label));
 			newInstructions.add(new InsnNode(RETURN));
+			newInstructions.add(label);
+
+			method.instructions.insertBefore(method.instructions.getFirst(), newInstructions);
+			return true;
+		}));
+	}
+
+	private static byte[] transformEntityAITarget(byte[] basicClass) {
+		MethodSignature sig = new MethodSignature("isSuitableTarget", "func_179445_a", "(Lnet/minecraft/entity/EntityLiving;Lnet/minecraft/entity/EntityLivingBase;ZZ)Z");
+
+		return transform(basicClass, forMethod(sig, (MethodNode method) -> { // Action
+			InsnList newInstructions = new InsnList();
+			newInstructions.add(new VarInsnNode(ALOAD, 0));
+			newInstructions.add(new VarInsnNode(ALOAD, 1));
+			newInstructions.add(new MethodInsnNode(INVOKESTATIC, ASM_HOOKS, "hasWitchHat", "(Lnet/minecraft/entity/EntityLiving;Lnet/minecraft/entity/EntityLivingBase;)Z", false));
+			LabelNode label = new LabelNode();
+			newInstructions.add(new JumpInsnNode(IFEQ, label));
+			newInstructions.add(new InsnNode(ICONST_0));
+			newInstructions.add(new InsnNode(IRETURN));
 			newInstructions.add(label);
 
 			method.instructions.insertBefore(method.instructions.getFirst(), newInstructions);

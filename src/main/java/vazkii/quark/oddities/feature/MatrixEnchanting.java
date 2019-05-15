@@ -10,6 +10,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.arl.util.ProxyRegistry;
+import vazkii.quark.base.Quark;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.oddities.block.BlockEnchantingTableReplacement;
 import vazkii.quark.oddities.client.render.RenderTileMatrixEnchanter;
@@ -53,6 +54,7 @@ public class MatrixEnchanting extends Feature {
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
 		enchantingTable = new BlockEnchantingTableReplacement();
+		Quark.LOG.info("Registering enchanting table override. This is intended!");
 		enchantingTable.setRegistryName("minecraft:enchanting_table");
 		enchantingTable.setTranslationKey("enchantmentTable");
 		ProxyRegistry.register(enchantingTable);

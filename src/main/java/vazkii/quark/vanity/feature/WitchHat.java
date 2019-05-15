@@ -10,6 +10,8 @@
  */
 package vazkii.quark.vanity.feature;
 
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityWitch;
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,11 +25,14 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.vanity.item.ItemWitchHat;
 
+import javax.annotation.Nullable;
+
 public class WitchHat extends Feature {
 
 	public static Item witch_hat;
 
 	public static boolean halveDamage;
+	public static boolean witchesIgnoreYou;
 	public static double dropRate;
 	public static double lootingBoost;
 	public static boolean verifyTruePlayer;
@@ -35,6 +40,7 @@ public class WitchHat extends Feature {
 	@Override
 	public void setupConfig() {
 		halveDamage = loadPropBool("Halve witch damage", "", true);
+		witchesIgnoreYou = loadPropBool("Make witches ignore players with witch hats", "", true);
 		dropRate = loadPropDouble("Drop Chance from witches", "", 0.025);
 		lootingBoost = loadPropDouble("Drop Chance boost per looting level", "", 0.01);
 		verifyTruePlayer = loadPropBool("Only Drop on Player Kills", "", true);
@@ -58,6 +64,14 @@ public class WitchHat extends Feature {
 			if(!hat.isEmpty() && hat.getItem() == witch_hat)
 				event.setAmount(event.getAmount() / 2);
 		}
+	}
+
+	public static boolean hasWitchHat(EntityLiving attacker, @Nullable EntityLivingBase target) {
+		if (!witchesIgnoreYou || !(attacker instanceof EntityWitch) || target == null)
+			return false;
+
+		ItemStack head = target.getItemStackFromSlot(EntityEquipmentSlot.HEAD);
+		return !head.isEmpty() && head.getItem() == witch_hat;
 	}
 
 	@Override

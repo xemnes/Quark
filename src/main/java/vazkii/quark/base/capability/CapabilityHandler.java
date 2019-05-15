@@ -24,6 +24,7 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import vazkii.quark.api.*;
+import vazkii.quark.api.capability.IBoatBanner;
 import vazkii.quark.api.capability.IEnchantColorProvider;
 import vazkii.quark.api.capability.ISearchHandler;
 import vazkii.quark.base.lib.LibMisc;
@@ -37,6 +38,7 @@ public class CapabilityHandler {
 		registerLambda(IPistonCallback.class, () -> {});
 		registerLambda(ISearchHandler.class, (query, matcher, search) -> false);
 		registerLambda(IDropoffManager.class, (player) -> false);
+		register(IBoatBanner.class, BoatBanner::new);
 		register(ICustomSorting.class, DummySorting::new);
 	}
 
