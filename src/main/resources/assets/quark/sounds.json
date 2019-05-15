@@ -1,0 +1,67 @@
+{
+  "item.soul_powder.spawn": {
+    "category": "players",
+    "subtitle": "quark.subtitles.soulpowder_scream",
+    "sounds": [
+      "minecraft:mob/ghast/death"
+    ]
+  },
+  "block.pipe.shoot": {
+    "category": "blocks",
+    "subtitle": "quark.subtitles.pipe_shoot",
+    "sounds": [
+      "minecraft:random/bow"
+    ]
+  },
+  "block.pipe.pickup": {
+    "category": "blocks",
+    "subtitle": "quark.subtitles.pipe_pickup",
+    "sounds": [
+      "minecraft:liquid/lavapop"
+    ]
+  },
+  "block.sponge.hiss": {
+    "category": "blocks",
+    "subtitle": "quark.subtitles.sponge_hiss",
+    "sounds": [
+      "minecraft:random/fizz"
+    ]
+  },
+  "entity.boat.add_item": {
+    "category": "players",
+    "subtitle": "quark.subtitles.boat_add_item",
+    "sounds": [
+      "minecraft:entity/itemframe/add_item1",
+      "minecraft:entity/itemframe/add_item2",
+      "minecraft:entity/itemframe/add_item3",
+      "minecraft:entity/itemframe/add_item4"
+    ]
+  },
+  "item.soul_bead.curse": {
+    "category": "players",
+    "subtitle": "quark.subtitles.cursed",
+    "sounds": [
+      "minecraft:mob/blaze/breathe1",
+      "minecraft:mob/blaze/breathe2",
+      "minecraft:mob/blaze/breathe3",
+      "minecraft:mob/blaze/breathe4"
+    ]
+  },
+  "block.monster_box.growl": {
+    "category": "blocks",
+    "subtitle": "quark.subtitles.growl",
+    "sounds": [
+      "minecraft:mob/enderdragon/growl1",
+      "minecraft:mob/enderdragon/growl2",
+      "minecraft:mob/enderdragon/growl3",
+      "minecraft:mob/enderdragon/growl4"
+    ]
+  },
+  "entity.stoneling.meep": {
+    "category": "neutral",
+    "subtitle": "quark.subtitles.meep",
+    "sounds": [
+      "minecraft:mob/ghast/affectionate_scream"
+    ]
+  }
+}

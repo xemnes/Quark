@@ -6,7 +6,6 @@ import net.minecraft.entity.monster.EntityCaveSpider;
 import net.minecraft.entity.monster.EntityWitch;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.SoundCategory;
@@ -14,6 +13,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.EnumDifficulty;
 import vazkii.arl.block.tile.TileMod;
+import vazkii.quark.base.sounds.QuarkSounds;
 import vazkii.quark.world.feature.MonsterBoxes;
 
 import java.util.List;
@@ -43,9 +43,8 @@ public class TileMonsterBox extends TileMod implements ITickable {
 		}
 		
 		if(doBreak) {
-			// TODO: 5/14/19 add new sound
 			if(breakProgress == 0)
-				world.playSound(null, pos, SoundEvents.ENTITY_ENDERDRAGON_GROWL, SoundCategory.BLOCKS, 0.3F, 10F);
+				world.playSound(null, pos, QuarkSounds.BLOCK_MONSTER_BOX_GROWL, SoundCategory.BLOCKS, 0.3F, 10F);
 			
 			breakProgress++;
 			if(breakProgress > 40) {

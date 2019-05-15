@@ -37,6 +37,16 @@ quarkmisc.matrixMin=Min: %d
 quarkmisc.matrixUpgrade=Upgrade: %d/%d
 quarkmisc.pendingEnchants=Has Pending Enchantments
 
+# SUBTITLES
+quark.subtitles.soulpowder_scream=Soul escapes
+quark.subtitles.pipe_shoot=Pipe ejects
+quark.subtitles.pipe_pickup=Pipe absorbs
+quark.subtitles.sponge_hiss=Sponge dries
+quark.subtitles.boat_add_item=Boat is decorated
+quark.subtitles.cursed=Something goes wrong
+quark.subtitles.growl=Monsters arise
+quark.subtitles.meep=Stoneling runs away
+
 # COMMANDS
 commands.quarkconfig.usage=/quarkconfig <module> <category> <key> <value> [save?] [player]
 
