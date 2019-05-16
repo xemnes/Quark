@@ -95,9 +95,6 @@ public class StoreToChests extends Feature {
 			if (ChestButtons.chestButtons == null)
 				ChestButtons.chestButtons = new ArrayList<>();
 			ChestButtons.chestButtons.clear();
-			
-			int left = guiInv.getGuiLeft();
-			int top = guiInv.getGuiTop();
 
 			Container container = guiInv.inventorySlots;
 			for(Slot s : container.inventorySlots)

@@ -2,6 +2,7 @@ package vazkii.quark.base.asm;
 
 import net.minecraft.block.state.BlockPistonStructureHelper;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.entity.Entity;
@@ -22,6 +23,7 @@ import vazkii.quark.automation.feature.PistonSpikes;
 import vazkii.quark.automation.feature.PistonsMoveTEs;
 import vazkii.quark.automation.feature.PistonsPushPullItems;
 import vazkii.quark.client.feature.BetterFireEffect;
+import vazkii.quark.client.feature.ShowInvalidSlots;
 import vazkii.quark.decoration.feature.MoreBannerLayers;
 import vazkii.quark.experimental.features.CollateralPistonMovement;
 import vazkii.quark.experimental.features.ColoredLights;
@@ -152,6 +154,13 @@ public final class ASMHooks {
 	// ===== WITCH HATS ==== //
 	public static boolean hasWitchHat(EntityLiving attacker, @Nullable EntityLivingBase target) {
 		return WitchHat.hasWitchHat(attacker, target);
+	}
+
+	// ===== INVALID SLOTS ==== //
+
+	@SideOnly(Side.CLIENT)
+	public static void drawInvalidSlotOverlays(GuiContainer container) {
+		ShowInvalidSlots.renderElements(container);
 	}
 	
 }

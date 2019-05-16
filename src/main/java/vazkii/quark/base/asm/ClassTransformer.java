@@ -12,6 +12,7 @@ package vazkii.quark.base.asm;
 
 import net.minecraft.launchwrapper.IClassTransformer;
 import net.minecraft.launchwrapper.Launch;
+import net.minecraftforge.fml.common.asm.transformers.deobf.FMLDeobfuscatingRemapper;
 import org.apache.logging.log4j.LogManager;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
@@ -74,6 +75,9 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 
 		// For witch hats
 		transformers.put("net.minecraft.entity.ai.EntityAITarget", ClassTransformer::transformEntityAITarget);
+
+		// For Show Invalid Slots
+		transformers.put("net.minecraft.client.gui.inventory.GuiContainer", ClassTransformer::transformGuiContainer);
 	}
 
 	@Override
@@ -492,6 +496,25 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 		}));
 	}
 
+	private static byte[] transformGuiContainer(byte[] basicClass) {
+		MethodSignature sig = new MethodSignature("drawScreen", "func_73863_a", "(IIF)V");
+		MethodSignature target = new MethodSignature("drawGuiContainerForegroundLayer", "func_146979_b", "(II)V");
+
+		return transform(basicClass, forMethod(sig, combine(
+				(AbstractInsnNode node) -> { // Filter
+					return (node.getOpcode() == INVOKEVIRTUAL || node.getOpcode() == INVOKESPECIAL) && target.matches((MethodInsnNode) node);
+				},
+				(MethodNode method, AbstractInsnNode node) -> { // Action
+					InsnList newInstructions = new InsnList();
+
+					newInstructions.add(new VarInsnNode(ALOAD, 0));
+					newInstructions.add(new MethodInsnNode(INVOKESTATIC, ASM_HOOKS, "drawInvalidSlotOverlays", "(Lnet/minecraft/client/gui/inventory/GuiContainer;)V", false));
+
+					method.instructions.insertBefore(node, newInstructions);
+					return false;
+				})));
+	}
+
 	// BOILERPLATE BELOW ==========================================================================================================================================
 
 	private static byte[] transform(byte[] basicClass, TransformerAction... methods) {
@@ -503,7 +526,8 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 
 		for (TransformerAction pair : methods) {
 			log("Applying Transformation to method (" + pair.sig + ")");
-			didAnything |= findMethodAndTransform(node, pair.sig, pair.action);
+			for (MethodAction action : pair.actions)
+				didAnything |= findMethodAndTransform(node, pair.sig, action);
 		}
 
 		if (didAnything) {
@@ -607,6 +631,10 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 			return matches(method.name, method.desc);
 		}
 
+		public String mappedName(String owner) {
+			return FMLDeobfuscatingRemapper.INSTANCE.mapMethodName(owner, srgName, funcDesc);
+		}
+
 	}
 
 	/**
@@ -665,17 +693,17 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 		// NO-OP
 	}
 
-	private static TransformerAction forMethod(MethodSignature sig, MethodAction action) {
-		return new TransformerAction(sig, action);
+	private static TransformerAction forMethod(MethodSignature sig, MethodAction... actions) {
+		return new TransformerAction(sig, actions);
 	}
 
 	private final static class TransformerAction {
 		private final MethodSignature sig;
-		private final MethodAction action;
+		private final MethodAction[] actions;
 
-		public TransformerAction(MethodSignature sig, MethodAction action) {
+		public TransformerAction(MethodSignature sig, MethodAction[] actions) {
 			this.sig = sig;
-			this.action = action;
+			this.actions = actions;
 		}
 	}
 
