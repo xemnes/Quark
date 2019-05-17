@@ -12,7 +12,8 @@ package vazkii.quark.building.feature;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import vazkii.arl.block.BlockMod;
 import vazkii.arl.block.BlockModSlab;
@@ -103,19 +104,19 @@ public class WorldStoneBricks extends Feature {
 	}
 
 	@Override
-	public void postInit(FMLPostInitializationEvent event) {
-		ModIntegrationHandler.registerChiselVariant("granite", ProxyRegistry.newStack(world_stone_bricks, 1, 0));
-		ModIntegrationHandler.registerChiselVariant("diorite", ProxyRegistry.newStack(world_stone_bricks, 1, 1));
-		ModIntegrationHandler.registerChiselVariant("andesite", ProxyRegistry.newStack(world_stone_bricks, 1, 2));
+	public void init(FMLInitializationEvent event) {
+		ModIntegrationHandler.registerChiselVariant("granite", new ItemStack(world_stone_bricks, 1, 0));
+		ModIntegrationHandler.registerChiselVariant("diorite", new ItemStack(world_stone_bricks, 1, 1));
+		ModIntegrationHandler.registerChiselVariant("andesite", new ItemStack(world_stone_bricks, 1, 2));
 
 		if(BlockWorldStoneBricks.Variants.STONE_BASALT_BRICKS.isEnabled())
-			ModIntegrationHandler.registerChiselVariant("basalt", ProxyRegistry.newStack(world_stone_bricks, 1, 3));
+			ModIntegrationHandler.registerChiselVariant("basalt", new ItemStack(world_stone_bricks, 1, 3));
 
 		if(BlockWorldStoneBricks.Variants.STONE_MARBLE_BRICKS.isEnabled())
-			ModIntegrationHandler.registerChiselVariant("marble", ProxyRegistry.newStack(world_stone_bricks, 1, 4));
+			ModIntegrationHandler.registerChiselVariant("marble", new ItemStack(world_stone_bricks, 1, 4));
 
 		if(BlockWorldStoneBricks.Variants.STONE_LIMESTONE_BRICKS.isEnabled())
-			ModIntegrationHandler.registerChiselVariant("limestone", ProxyRegistry.newStack(world_stone_bricks, 1, 5));
+			ModIntegrationHandler.registerChiselVariant("limestone", new ItemStack(world_stone_bricks, 1, 5));
 	}
 	
 	@Override
