@@ -60,6 +60,7 @@ public class ChestButtons extends Feature {
 	public static List<ResourceLocation> dropoffTiles;
 	public static boolean dropoffAnyChestTile;
 	public static boolean dropoffAnyChestBlock;
+	public static boolean dropoffAnyChestMod;
 
 	@SideOnly(Side.CLIENT)
 	public static List<GuiButtonChest> chestButtons;
@@ -86,6 +87,8 @@ public class ChestButtons extends Feature {
 				"Allow anything with 'chest' in its TileEntity identifier to be used as a dropoff inventory?", true);
 		dropoffAnyChestBlock = loadPropBool("Dropoff to Any Chest Block",
 				"Allow anything with 'chest' in its block identifier to be used as a dropoff inventory?", true);
+		dropoffAnyChestMod = loadPropBool("Dropoff to Any Chest Mod",
+				"Allow any block with 'chest' in its modid identifier to be used as a dropoff inventory?", true);
 	}
 
 	@SuppressWarnings("ConstantConditions")
@@ -99,6 +102,9 @@ public class ChestButtons extends Feature {
 				return true;
 
 			if (dropoffAnyChestBlock && blockType.getPath().contains("chest"))
+				return true;
+
+			if (dropoffAnyChestMod && blockType.getNamespace().contains("chest"))
 				return true;
 		}
 
