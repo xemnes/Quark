@@ -184,22 +184,32 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 				posZ -= facing.getZOffset() * 0.4;
 			}
 
+			boolean shootOut = isPipeEnabled();
+
+			float pitch = 2f;
+			if (!shootOut)
+				pitch = 0.05f;
+
 			if (playSound && Pipes.doPipesWhoosh) {
 				Calendar calendar = this.world.getCurrentDate();
 
 				if (calendar.get(Calendar.MONTH) + 1 == 4 && calendar.get(Calendar.DAY_OF_MONTH) == 1)
-					world.playSound(null, posX, posY, posZ, QuarkSounds.BLOCK_PIPE_SHOOT_LENNY, SoundCategory.BLOCKS, 0.5f, 2f);
+					world.playSound(null, posX, posY, posZ, QuarkSounds.BLOCK_PIPE_SHOOT_LENNY, SoundCategory.BLOCKS, 0.5f, pitch);
 				else
-					world.playSound(null, posX, posY, posZ, QuarkSounds.BLOCK_PIPE_SHOOT, SoundCategory.BLOCKS, 0.5f, 2f);
+					world.playSound(null, posX, posY, posZ, QuarkSounds.BLOCK_PIPE_SHOOT, SoundCategory.BLOCKS, 0.5f, pitch);
 			}
 
 			EntityItem entity = new EntityItem(world, posX, posY, posZ, stack);
 			entity.setDefaultPickupDelay();
 
+			double velocityMod = 0.5;
+			if (!shootOut)
+				velocityMod = 0.125;
+
 			if (facing != null) {
-				entity.motionX = -facing.getXOffset() / 2.0;
-				entity.motionY = -facing.getYOffset() / 2.0;
-				entity.motionZ = -facing.getZOffset() / 2.0;
+				entity.motionX = -facing.getXOffset() * velocityMod;
+				entity.motionY = -facing.getYOffset() * velocityMod;
+				entity.motionZ = -facing.getZOffset() * velocityMod;
 			}
 			world.spawnEntity(entity);
 		}
