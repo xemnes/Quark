@@ -518,7 +518,13 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 	// BOILERPLATE BELOW ==========================================================================================================================================
 
 	private static byte[] transform(byte[] basicClass, TransformerAction... methods) {
-		ClassReader reader = new ClassReader(basicClass);
+		ClassReader reader;
+		try {
+			reader = new ClassReader(basicClass);
+		} catch (NullPointerException ex) {
+			return basicClass;
+		}
+
 		ClassNode node = new ClassNode();
 		reader.accept(node, 0);
 
