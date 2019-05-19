@@ -1,10 +1,6 @@
 {
     "multipart": [
         {   
-        	"apply": { "model": "quark:pipe_center" }
-        },
-
-        {   
         	"when": { "north": "pipe|terminal" },
             "apply": { "model": "quark:pipe_side" }
         },
@@ -102,6 +98,30 @@
       {
         "when": { "up": "flare" },
         "apply": { "model": "quark:pipe_flare", "x": 270 }
+      },
+      {
+        "when": { "north": "none" },
+        "apply": { "model": "quark:pipe_center_side" }
+      },
+      {
+        "when": { "south": "none" },
+        "apply": { "model": "quark:pipe_center_side", "y": 180 }
+      },
+      {
+        "when": { "east": "none" },
+        "apply": { "model": "quark:pipe_center_side", "y": 90 }
+      },
+      {
+        "when": { "west": "none" },
+        "apply": { "model": "quark:pipe_center_side", "y": 270 }
+      },
+      {
+        "when": { "down": "none" },
+        "apply": { "model": "quark:pipe_center_side", "x": 90 }
+      },
+      {
+        "when": { "up": "none" },
+        "apply": { "model": "quark:pipe_center_side", "x": 270 }
       }
     ]
 }

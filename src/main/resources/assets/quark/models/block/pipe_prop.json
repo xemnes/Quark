@@ -1,7 +1,7 @@
 {
 	"__comment": "Designed by Wiiv with Cubik Studio - https://cubik.studio",
 	"textures": {
-		"particle": "quark:blocks/pipe_prop",
+		"particle": "quark:blocks/pipe_structure",
 		"texture": "quark:blocks/pipe_prop"
 	},
 	"elements": [ 	 
