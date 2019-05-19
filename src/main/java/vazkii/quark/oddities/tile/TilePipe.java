@@ -45,7 +45,7 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 			((WorldServer) world).spawnParticle(EnumParticleTypes.REDSTONE, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 3, 0.2, 0.2, 0.2, 0);
 
 		IBlockState blockAt = world.getBlockState(pos);
-		if (blockAt.getBlock() instanceof BlockPipe) {
+		if (isPipeEnabled() && blockAt.getBlock() instanceof BlockPipe) {
 			IBlockState actualState = blockAt.getActualState(world, pos);
 			for (EnumFacing side : EnumFacing.VALUES) {
 				BlockPos offset = pos.offset(side);
@@ -163,7 +163,7 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 			bounceBack(item, null);
 	}
 
-	void bounceBack(PipeItem item, ItemStack stack) {
+	private void bounceBack(PipeItem item, ItemStack stack) {
 		if(!world.isRemote)
 			passIn(stack == null ? item.stack : stack, item.outgoingFace, item.rngSeed, item.timeInWorld);
 	}
