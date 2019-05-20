@@ -17,7 +17,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
@@ -38,17 +37,17 @@ public class BlockSpringySlime extends BlockSlime {
 
 			switch (sideHit.getAxis()) {
 				case X:
-					if (Math.abs(entity.motionX) < 0.01)
+					if (Math.abs(entity.motionX) < 0.1)
 						return;
 					entity.motionX = 0.8 * Math.min(Math.abs(entity.motionX), 0.25) * sideHit.getXOffset();
 					break;
 				case Y:
-					if (Math.abs(entity.motionY) < 0.01)
+					if (Math.abs(entity.motionY) < 0.1)
 						return;
 					entity.motionY = 0.8 * Math.min(Math.abs(entity.motionY), 0.25) * sideHit.getYOffset();
 					break;
 				case Z:
-					if (Math.abs(entity.motionZ) < 0.01)
+					if (Math.abs(entity.motionZ) < 0.1)
 						return;
 					entity.motionZ = 0.8 * Math.min(Math.abs(entity.motionZ), 0.25) * sideHit.getZOffset();
 					break;
