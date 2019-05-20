@@ -55,7 +55,7 @@ public class MatrixEnchanting extends Feature {
 	public void preInit(FMLPreInitializationEvent event) {
 		enchantingTable = new BlockEnchantingTableReplacement();
 		enchantingTable.setTranslationKey("enchantmentTable");
-		OverrideRegistryHandler.registerBlock(enchantingTable, "enchantment_table");
+		OverrideRegistryHandler.registerBlock(enchantingTable, "enchanting_table");
 		
 		registerTile(TileMatrixEnchanter.class, "matrix_enchanter");
 	}
