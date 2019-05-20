@@ -52,7 +52,7 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 				if (world.getBlockState(offset).getBlockFaceShape(world, offset, side.getOpposite()) != BlockFaceShape.UNDEFINED)
 					continue;
 
-				if (BlockPipe.getType(actualState, side) == BlockPipe.ConnectionType.FLARE) {
+				if (!world.isRemote && BlockPipe.getType(actualState, side) == BlockPipe.ConnectionType.FLARE) {
 					double minX = pos.getX() + 0.25 + 0.5 * Math.min(0, side.getXOffset());
 					double minY = pos.getY() + 0.25 + 0.5 * Math.min(0, side.getYOffset());
 					double minZ = pos.getZ() + 0.25 + 0.5 * Math.min(0, side.getZOffset());
@@ -62,11 +62,12 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 
 					EnumFacing opposite = side.getOpposite();
 
+					boolean any = false;
 					for (EntityItem item : world.getEntitiesWithinAABB(EntityItem.class,
 							new AxisAlignedBB(minX, minY, minZ, maxX, maxY, maxZ), (entity) -> entity != null &&
 									entity.isEntityAlive() && EnumFacing.getFacingFromVector((float) entity.motionX, (float) entity.motionY, (float) entity.motionZ) == opposite)) {
 						passIn(item.getItem().copy(), side);
-						if (!world.isRemote && Pipes.doPipesWhoosh) {
+						if (Pipes.doPipesWhoosh) {
 							Calendar calendar = this.world.getCurrentDate();
 
 							if (calendar.get(Calendar.MONTH) + 1 == 4 && calendar.get(Calendar.DAY_OF_MONTH) == 1)
@@ -75,8 +76,12 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 								world.playSound(null, item.posX, item.posY, item.posZ, QuarkSounds.BLOCK_PIPE_PICKUP, SoundCategory.BLOCKS, 0.5f, 0.2f);
 						}
 
+						any = true;
 						item.setDead();
 					}
+
+					if (any)
+						sync();
 				}
 			}
 		}

@@ -78,6 +78,9 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 
 		// For Show Invalid Slots
 		transformers.put("net.minecraft.client.gui.inventory.GuiContainer", ClassTransformer::transformGuiContainer);
+
+		// For Springy Slime
+		transformers.put("net.minecraft.entity.Entity", ClassTransformer::transformEntity);
 	}
 
 	@Override
@@ -513,6 +516,46 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 					method.instructions.insertBefore(node, newInstructions);
 					return false;
 				})));
+	}
+
+	private static byte[] transformEntity(byte[] basicClass) {
+		MethodSignature sig = new MethodSignature("move", "func_70091_d", "(Lnet/minecraft/entity/MoverType;DDD)V");
+		MethodSignature target1 = new MethodSignature("updateFallState", "func_184231_a", "(DZLnet/minecraft/block/state/IBlockState;Lnet/minecraft/util/math/BlockPos;)V");
+		MethodSignature target2 = new MethodSignature("doBlockCollisions", "func_145775_I", "()V");
+
+		return transform(basicClass, forMethod(sig, combine(
+				(AbstractInsnNode node) -> { // Filter
+					return (node.getOpcode() == INVOKEVIRTUAL || node.getOpcode() == INVOKESPECIAL) && target1.matches((MethodInsnNode) node);
+				},
+				(MethodNode method, AbstractInsnNode node) -> { // Action
+					InsnList newInstructions = new InsnList();
+
+					newInstructions.add(new VarInsnNode(ALOAD, 0));
+					newInstructions.add(new MethodInsnNode(INVOKESTATIC, ASM_HOOKS, "recordMotion", "(Lnet/minecraft/entity/Entity;)V", false));
+
+					method.instructions.insert(node, newInstructions);
+					return false;
+				}
+		), combine(
+				(AbstractInsnNode node) -> { // Filter
+					return (node.getOpcode() == INVOKEVIRTUAL || node.getOpcode() == INVOKESPECIAL) && target2.matches((MethodInsnNode) node);
+				},
+				(MethodNode method, AbstractInsnNode node) -> { // Action
+					InsnList newInstructions = new InsnList();
+
+					newInstructions.add(new VarInsnNode(ALOAD, 0));
+					newInstructions.add(new VarInsnNode(DLOAD, 14));
+					newInstructions.add(new VarInsnNode(DLOAD, 16));
+					newInstructions.add(new VarInsnNode(DLOAD, 18));
+					newInstructions.add(new VarInsnNode(DLOAD, 2));
+					newInstructions.add(new VarInsnNode(DLOAD, 4));
+					newInstructions.add(new VarInsnNode(DLOAD, 6));
+					newInstructions.add(new MethodInsnNode(INVOKESTATIC, ASM_HOOKS, "applyCollisionLogic", "(Lnet/minecraft/entity/Entity;DDDDDD)V", false));
+
+					method.instructions.insert(node, newInstructions);
+					return false;
+				}
+		)));
 	}
 
 	// BOILERPLATE BELOW ==========================================================================================================================================

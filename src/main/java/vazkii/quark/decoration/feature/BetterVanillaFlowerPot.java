@@ -13,8 +13,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import vazkii.arl.client.RetexturedModel;
-import vazkii.arl.util.ProxyRegistry;
-import vazkii.quark.base.Quark;
+import vazkii.quark.base.handler.OverrideRegistryHandler;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.decoration.block.BlockCustomFlowerPot;
 import vazkii.quark.decoration.client.state.FlowerPotStateMapper;
@@ -26,10 +25,8 @@ public class BetterVanillaFlowerPot extends Feature {
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
 		flowerPot = new BlockCustomFlowerPot();
-		Quark.LOG.info("Registering flower pot override. This is intended!");
-		flowerPot.setRegistryName("minecraft:flower_pot");
 		flowerPot.setTranslationKey("flowerPot");
-		ProxyRegistry.register(flowerPot);
+		OverrideRegistryHandler.registerBlock(flowerPot, "flower_pot");
 	}
 
 	@Override

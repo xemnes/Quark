@@ -30,6 +30,7 @@ import vazkii.quark.experimental.features.ColoredLights;
 import vazkii.quark.management.feature.BetterCraftShifting;
 import vazkii.quark.misc.feature.ColorRunes;
 import vazkii.quark.tweaks.feature.ImprovedSleeping;
+import vazkii.quark.tweaks.feature.SpringySlime;
 import vazkii.quark.vanity.client.emotes.EmoteHandler;
 import vazkii.quark.vanity.client.render.BoatBannerRenderer;
 import vazkii.quark.vanity.feature.BoatSails;
@@ -161,6 +162,15 @@ public final class ASMHooks {
 	@SideOnly(Side.CLIENT)
 	public static void drawInvalidSlotOverlays(GuiContainer container) {
 		ShowInvalidSlots.renderElements(container);
+	}
+
+	// ===== SPRINGY SLIME ==== //
+	public static void applyCollisionLogic(Entity entity, double attemptedX, double attemptedY, double attemptedZ, double dX, double dY, double dZ) {
+		SpringySlime.onEntityCollision(entity, attemptedX, attemptedY, attemptedZ, dX, dY, dZ);
+	}
+
+	public static void recordMotion(Entity entity) {
+		SpringySlime.recordMotion(entity);
 	}
 	
 }
