@@ -132,7 +132,7 @@ public class EntityStoneling extends EntityCreature {
 		dataManager.set(VARIANT, (byte) world.rand.nextInt(VARIANTS));
 		dataManager.set(HOLD_ANGLE, world.rand.nextFloat() * 90 - 45);
 
-		if(!dataManager.get(PLAYER_MADE)) {
+		if(!dataManager.get(PLAYER_MADE) && !world.isRemote) {
 			List<ItemStack> items = world.getLootTableManager().getLootTableFromLocation(CARRY_LOOT_TABLE).generateLootForPools(rand, new LootContext.Builder((WorldServer) world).build());
 			if(!items.isEmpty())
 				dataManager.set(CARRYING_ITEM, items.get(0));	
