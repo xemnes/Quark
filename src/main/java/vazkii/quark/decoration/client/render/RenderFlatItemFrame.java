@@ -28,12 +28,15 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemCompass;
+import net.minecraft.item.ItemMap;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.storage.MapData;
+import net.minecraftforge.client.event.RenderItemInFrameEvent;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -104,7 +107,7 @@ public class RenderFlatItemFrame extends RenderItemFrame {
 		ModelManager modelmanager = blockrendererdispatcher.getBlockModelShapes().getModelManager();
 		ItemStack displayStack = entity.getDisplayedItem();
 
-		if(!displayStack.isEmpty() && displayStack.getItem() instanceof net.minecraft.item.ItemMap && Items.FILLED_MAP.getMapData(displayStack, mc.world) != null) {
+		if(!displayStack.isEmpty() && displayStack.getItem() instanceof ItemMap && Items.FILLED_MAP.getMapData(displayStack, mc.world) != null) {
 			ibakedmodel = modelmanager.getModel(mapModel);
 		} else {
 			ibakedmodel = modelmanager.getModel(itemFrameModel);
@@ -130,14 +133,14 @@ public class RenderFlatItemFrame extends RenderItemFrame {
 			GlStateManager.disableLighting();
 			int i = itemFrame.getRotation();
 
-			if(item instanceof net.minecraft.item.ItemMap)
+			if(item instanceof ItemMap)
 				i = i % 4 * 2;
 
 			GlStateManager.rotate(i * 360.0F / 8.0F, 0.0F, 0.0F, 1.0F);
 
-			net.minecraftforge.client.event.RenderItemInFrameEvent event = new net.minecraftforge.client.event.RenderItemInFrameEvent(itemFrame, this);
-			if (!net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(event)) {
-				if(item instanceof net.minecraft.item.ItemMap) {
+			RenderItemInFrameEvent event = new RenderItemInFrameEvent(itemFrame, this);
+			if (!MinecraftForge.EVENT_BUS.post(event)) {
+				if(item instanceof ItemMap) {
 					renderManager.renderEngine.bindTexture(MAP_BACKGROUND_TEXTURES);
 					GlStateManager.rotate(180.0F, 0.0F, 0.0F, 1.0F);
 					float f = 0.0078125F;
