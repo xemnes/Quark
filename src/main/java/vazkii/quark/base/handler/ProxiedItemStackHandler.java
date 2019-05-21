@@ -55,7 +55,7 @@ public class ProxiedItemStackHandler implements IItemHandler, IItemHandlerModifi
 	}
 
 	private void writeStack(int index, @Nonnull ItemStack stack) {
-		stack.writeToNBT(getStackList().getCompoundTagAt(index));
+		getStackList().set(index, stack.writeToNBT(new NBTTagCompound()));
 		onContentsChanged(index);
 	}
 
