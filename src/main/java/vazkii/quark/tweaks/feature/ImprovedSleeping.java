@@ -152,7 +152,7 @@ public class ImprovedSleeping extends Feature {
 				sibling.getStyle().setHoverEvent(hover);
 				sibling.getStyle().setUnderlined(true);
 
-				server.getPlayerList().sendMessage(message, false);
+				server.getPlayerList().sendMessage(message, true);
 			}
 		}
 	}
