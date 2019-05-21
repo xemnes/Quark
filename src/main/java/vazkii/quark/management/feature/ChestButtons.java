@@ -80,7 +80,7 @@ public class ChestButtons extends Feature {
 
 		String[] dropoffArr = loadPropStringList("Dropoff Enabled Blocks",
 				"Blocks with inventories which do not explicitly accept dropoffs, but should be treated as though they do.",
-				new String[] { "minecraft:chest", "minecraft:trapped_chest" });
+				new String[] { "minecraft:chest", "minecraft:trapped_chest", "minecraft:shulker_box" });
 		dropoffTiles = Arrays.stream(dropoffArr).map(ResourceLocation::new).collect(Collectors.toList());
 
 		dropoffAnyChestTile = loadPropBool("Dropoff to Any Chest Tile",
