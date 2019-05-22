@@ -17,6 +17,8 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumFacing.Axis;
+import net.minecraft.util.EnumFacing.AxisDirection;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import vazkii.quark.base.handler.OverrideRegistryHandler;
@@ -61,64 +63,49 @@ public class SpringySlime extends Feature {
 		double maxY = entity.posY + height;
 		double maxZ = entity.posZ + width / 2;
 
-		if (attemptedX != dX) {
-			double xBase = dX < 0 ? minX : maxX;
-			double x1 = xBase + dX;
-			double x2 = xBase + attemptedX;
-			EnumFacing impactedSide = dX < 0 ? EnumFacing.EAST : EnumFacing.WEST;
+		if (attemptedX != dX)
+			applyForAxis(entity, Axis.X, minX, minY, minZ, maxX, maxY, maxZ, dX, attemptedX);
 
-			int lowXBound = (int) Math.floor(Math.min(x1, x2));
-			int highXBound = (int) Math.floor(Math.max(x1, x2));
-			int lowYBound = (int) Math.floor(minY);
-			int highYBound = (int) Math.floor(maxY);
-			int lowZBound = (int) Math.floor(minZ);
-			int highZBound = (int) Math.floor(maxZ);
+		if (attemptedY != dY)
+			applyForAxis(entity, Axis.Y, minX, minY, minZ, maxX, maxY, maxZ, dY, attemptedY);
 
-			boolean restoredX = false;
-			for (BlockPos position : BlockPos.getAllInBoxMutable(lowXBound, lowYBound, lowZBound,
-					highXBound, highYBound, highZBound)) {
-				restoredX = applyCollision(entity, position, impactedSide, restoredX);
-			}
+		if (attemptedZ != dZ)
+			applyForAxis(entity, Axis.Z, minX, minY, minZ, maxX, maxY, maxZ, dZ, attemptedZ);
+	}
+
+	private static double axial(Axis axis, double we, double ud, double ns) {
+		switch (axis) {
+			case X:
+				return we;
+			case Y:
+				return ud;
+			default:
+				return ns;
 		}
+	}
 
-		if (attemptedY != dY) {
-			double yBase = dY < 0 ? minY : maxY;
-			double y1 = yBase + dY;
-			double y2 = yBase + attemptedY;
-			EnumFacing impactedSide = dY < 0 ? EnumFacing.UP : EnumFacing.DOWN;
+	private static void applyForAxis(Entity entity, Axis axis, double minX, double minY, double minZ, double maxX, double maxY, double maxZ, double dV, double attemptedV) {
+		double baseValue = dV < 0 ? axial(axis, minX, minY, minZ) : axial(axis, maxX, maxY, maxZ);
+		double clampedAttempt = attemptedV;
+		if (Math.abs(attemptedV) > Math.abs(dV) + 1)
+			clampedAttempt = dV + Math.signum(dV);
+		double v1 = baseValue + dV;
+		double v2 = baseValue + clampedAttempt;
+		double minV = Math.min(v1, v2);
+		double maxV = Math.max(v1, v2);
+		EnumFacing impactedSide = EnumFacing.getFacingFromAxis(dV < 0 ? AxisDirection.POSITIVE : AxisDirection.NEGATIVE, axis);
 
-			int lowXBound = (int) Math.floor(minX);
-			int highXBound = (int) Math.floor(maxX);
-			int lowYBound = (int) Math.floor(Math.min(y1, y2));
-			int highYBound = (int) Math.floor(Math.max(y1, y2));
-			int lowZBound = (int) Math.floor(minZ);
-			int highZBound = (int) Math.floor(maxZ);
+		int lowXBound = (int) Math.floor(axial(axis, minV, minX, minX));
+		int highXBound = (int) Math.floor(axial(axis, maxV, maxX, maxX));
+		int lowYBound = (int) Math.floor(axial(axis, minY, minV, minY));
+		int highYBound = (int) Math.floor(axial(axis, maxY, maxV, maxY));
+		int lowZBound = (int) Math.floor(axial(axis, minZ, minZ, minV));
+		int highZBound = (int) Math.floor(axial(axis, maxZ, maxZ, maxV));
 
-			boolean restoredY = false;
-			for (BlockPos position : BlockPos.getAllInBoxMutable(lowXBound, lowYBound, lowZBound,
-					highXBound, highYBound, highZBound)) {
-				restoredY = applyCollision(entity, position, impactedSide, restoredY);
-			}
-		}
-
-		if (attemptedZ != dZ) {
-			double zBase = dZ < 0 ? minZ : maxZ;
-			double z1 = zBase + dZ;
-			double z2 = zBase + attemptedZ;
-			EnumFacing impactedSide = dZ < 0 ? EnumFacing.SOUTH : EnumFacing.NORTH;
-
-			int lowXBound = (int) Math.floor(minX);
-			int highXBound = (int) Math.floor(maxX);
-			int lowYBound = (int) Math.floor(minY);
-			int highYBound = (int) Math.floor(maxY);
-			int lowZBound = (int) Math.floor(Math.min(z1, z2));
-			int highZBound = (int) Math.floor(Math.max(z1, z2));
-
-			boolean restoredZ = false;
-			for (BlockPos position : BlockPos.getAllInBoxMutable(lowXBound, lowYBound, lowZBound,
-					highXBound, highYBound, highZBound)) {
-				restoredZ = applyCollision(entity, position, impactedSide, restoredZ);
-			}
+		boolean restoredZ = false;
+		for (BlockPos position : BlockPos.getAllInBoxMutable(lowXBound, lowYBound, lowZBound,
+				highXBound, highYBound, highZBound)) {
+			restoredZ = applyCollision(entity, position, impactedSide, restoredZ);
 		}
 	}
 
