@@ -77,5 +77,12 @@
     "sounds": [
       "minecraft:mob/ghast/affectionate_scream"
     ]
+  },
+  "wednesday": {
+    "category": "neutral",
+    "subtitle": "quark.subtitles.sponge_hiss",
+    "sounds": [
+      "quark:wednesday"
+    ]
   }
 }

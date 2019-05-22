@@ -19,6 +19,7 @@ import vazkii.quark.experimental.features.ColoredLights;
 import vazkii.quark.experimental.features.ParrotsSayDespacito;
 import vazkii.quark.experimental.features.PrintSuppressor;
 import vazkii.quark.experimental.features.ReactiveCursor;
+import vazkii.quark.experimental.features.WednesdayFrog;
 
 public class QuarkExperimental extends Module {
 
@@ -30,6 +31,7 @@ public class QuarkExperimental extends Module {
 		registerFeature(new ReactiveCursor(), false);
 		registerFeature(new ParrotsSayDespacito(), false);
 		registerFeature(new CollateralPistonMovement(), false);
+		registerFeature(new WednesdayFrog(), false);
 	}
 
 	@Override
