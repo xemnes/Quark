@@ -51,6 +51,8 @@ quark.subtitles.meep=Stoneling runs away
 quark.subtitles.give_stoneling=Stoneling takes item
 quark.subtitles.take_stoneling=Stoneling gives item
 quark.subtitles.feed_stoneling=Stoneling is fed
+quark.subtitles.hurt_stoneling=Stoneling cries
+quark.subtitles.kill_stoneling=Stoneling breaks
 quark.subtitles.purr=Stoneling "purrs"
 quark.subtitles.hump_day=Wednesday is, my dudes
 

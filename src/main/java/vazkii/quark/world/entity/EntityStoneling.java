@@ -263,6 +263,23 @@ public class EntityStoneling extends EntityCreature {
 		return Stonelings.dimensions.canSpawnHere(world) && posY < Stonelings.maxYLevel && isValidLightLevel() && super.getCanSpawnHere();
 	}
 
+	@Nullable
+	@Override
+	protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+		return QuarkSounds.ENTITY_STONELING_CRY;
+	}
+
+	@Nullable
+	@Override
+	protected SoundEvent getDeathSound() {
+		return QuarkSounds.ENTITY_STONELING_DIE;
+	}
+
+	@Override
+	protected float getSoundPitch() {
+		return 2f;
+	}
+
 	// Vanilla copy pasta from EntityMob
 	protected boolean isValidLightLevel() {
 		BlockPos blockpos = new BlockPos(posX, getEntityBoundingBox().minY, posZ);

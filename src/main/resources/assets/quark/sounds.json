@@ -115,6 +115,24 @@
       "minecraft:dig/stone4"
     ]
   },
+  "entity.stoneling.cry": {
+    "category": "neutral",
+    "subtitle": "quark.subtitles.hurt_stoneling",
+    "sounds": [
+      "minecraft:mob/ghast/scream1",
+      "minecraft:mob/ghast/scream2",
+      "minecraft:mob/ghast/scream3",
+      "minecraft:mob/ghast/scream4",
+      "minecraft:mob/ghast/scream5"
+    ]
+  },
+  "entity.stoneling.die": {
+    "category": "neutral",
+    "subtitle": "quark.subtitles.kill_stoneling",
+    "sounds": [
+      "minecraft:mob/ghast/death"
+    ]
+  },
   "entity.frog.wednesday": {
     "category": "neutral",
     "subtitle": "quark.subtitles.hump_day",
