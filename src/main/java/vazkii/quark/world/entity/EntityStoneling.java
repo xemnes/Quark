@@ -46,7 +46,7 @@ public class EntityStoneling extends EntityCreature {
 	private static final DataParameter<Float> HOLD_ANGLE = EntityDataManager.createKey(EntityStoneling.class, DataSerializers.FLOAT);
 	private static final DataParameter<Boolean> PLAYER_MADE = EntityDataManager.createKey(EntityStoneling.class, DataSerializers.BOOLEAN);
 
-	public static final int VARIANTS = 5;
+	public static final int VARIANTS = 7;
 
 	private static final String TAG_CARRYING_ITEM = "carryingItem";
 	private static final String TAG_VARIANT = "variant";

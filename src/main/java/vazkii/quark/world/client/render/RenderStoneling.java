@@ -21,7 +21,9 @@ public class RenderStoneling extends RenderLiving<EntityStoneling> {
 			new ResourceLocation("quark", "textures/entity/stoneling_andesite.png"),
 			new ResourceLocation("quark", "textures/entity/stoneling_diorite.png"),
 			new ResourceLocation("quark", "textures/entity/stoneling_granite.png"),
-			new ResourceLocation("quark", "textures/entity/stoneling_limestone.png")
+			new ResourceLocation("quark", "textures/entity/stoneling_limestone.png"),
+			new ResourceLocation("quark", "textures/entity/stoneling_marble.png"),
+			new ResourceLocation("quark", "textures/entity/stoneling_basalt.png")
 	};
 
 	public static final IRenderFactory<EntityStoneling> FACTORY = RenderStoneling::new;

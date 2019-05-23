@@ -29,8 +29,10 @@ public class ModelStoneling extends ModelBase {
 		body.addChild(head);
 		head.cubeList.add(new ModelBox(head, 0, 0, -3.0F, -2.0F, -3.0F, 6, 8, 6, 0.0F, false));
 		head.cubeList.add(new ModelBox(head, 8, 24, -1.0F, -4.0F, -5.0F, 2, 4, 2, 0.0F, false));
-		head.cubeList.add(new ModelBox(head, 16, 24, -1.0F, 4.0F, -4.0F, 2, 4, 2, 0.0F, false));
+		head.cubeList.add(new ModelBox(head, 16, 20, -1.0F, 6.0F, -3.0F, 2, 2, 2, 0.0F, false));
 		head.cubeList.add(new ModelBox(head, 0, 24, -1.0F, -4.0F, 3.0F, 2, 4, 2, 0.0F, false));
+		head.cubeList.add(new ModelBox(head, 16, 24, -1.0F, -4.0F, -3.0F, 2, 2, 6, 0.0F, false));
+		head.cubeList.add(new ModelBox(head, 24, 20, -1.0F, -4.0F, -1.0F, 2, 2, 2, 0.0F, false));
 
 		arm_right = new ModelRenderer(this);
 		arm_right.setRotationPoint(-3.0F, 2.0F, 0.0F);
