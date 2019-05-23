@@ -176,6 +176,21 @@ public class EntityStoneling extends EntityCreature {
 	}
 
 	@Override
+	public boolean isEntityInvulnerable(@Nonnull DamageSource source) {
+		return source == DamageSource.CACTUS || source.isProjectile();
+	}
+
+	@Override
+	protected int decreaseAirSupply(int air) {
+		return air;
+	}
+
+	@Override
+	public void fall(float distance, float damageMultiplier) {
+		// NO-OP
+	}
+
+	@Override
 	protected void damageEntity(@Nonnull DamageSource damageSrc, float damageAmount) {
 		super.damageEntity(damageSrc, damageAmount);
 
