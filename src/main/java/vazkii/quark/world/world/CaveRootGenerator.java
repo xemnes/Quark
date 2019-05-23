@@ -17,6 +17,9 @@ public class CaveRootGenerator implements IWorldGenerator {
 
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
+		if(!CaveRoots.dimensions.canSpawnHere(world))
+			return;
+		
 		for(int i = 0; i < CaveRoots.chunkAttempts; i++) {
 			int x = chunkX * 16 + 8 + random.nextInt(16);
 			int z = chunkZ * 16 + 8 + random.nextInt(16);

@@ -4,9 +4,9 @@ import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.oredict.OreDictionary;
 import vazkii.arl.recipe.RecipeHandler;
 import vazkii.arl.util.ProxyRegistry;
+import vazkii.quark.base.handler.DimensionConfig;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.world.block.BlockRoots;
 import vazkii.quark.world.block.BlockRootsFlower;
@@ -20,6 +20,7 @@ public class CaveRoots extends Feature {
 	public static int chunkAttempts, minY, maxY;
 	public static boolean enableFlowers;
 	public static float flowerChance, rootDropChance, rootFlowerDropChance;
+	public static DimensionConfig dimensions;
 	
 	public static Block roots;
 	public static Block roots_blue_flower, roots_black_flower, roots_white_flower;
@@ -35,6 +36,8 @@ public class CaveRoots extends Feature {
 		flowerChance = (float) loadPropDouble("Flower Chance", "The chance for a root to sprout a flower when it grows. 0 is 0%, 1 is 100%", 0.2);
 		rootDropChance = (float) loadPropDouble("Root Drop Chance", "The chance for a root to drop the root item when broken. 0 is 0%, 1 is 100%", 0.1);
 		rootFlowerDropChance = (float) loadPropDouble("Root Flower Drop Chance", "The chance for a flower root to drop the sprout item when broken. 0 is 0%, 1 is 100%", 1);
+		
+		dimensions = new DimensionConfig(configCategory);
 	}
 	
 	@Override
