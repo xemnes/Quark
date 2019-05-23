@@ -13,6 +13,8 @@ public class ModelFrog extends ModelBase {
     public ModelRenderer RightEye;
     public ModelRenderer LeftEye;
 
+    // Todo make the frog's mouth open when active
+
     public ModelFrog() {
         textureWidth = 64;
         textureHeight = 32;
