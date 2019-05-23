@@ -137,12 +137,14 @@ public class EntityStoneling extends EntityCreature {
 
 				ItemStack stonelingItem = dataManager.get(CARRYING_ITEM);
 
-				player.setHeldItem(hand, stonelingItem.copy());
-				dataManager.set(CARRYING_ITEM, playerItem.copy());
+				if (!stonelingItem.isEmpty() && !playerItem.isEmpty()) {
+					player.setHeldItem(hand, stonelingItem.copy());
+					dataManager.set(CARRYING_ITEM, playerItem.copy());
 
-				if(playerItem.isEmpty())
-					playSound(QuarkSounds.ENTITY_STONELING_GIVE, 1.0F, 1.0F);
-				else playSound(QuarkSounds.ENTITY_STONELING_TAKE, 1.0F, 1.0F);
+					if (playerItem.isEmpty())
+						playSound(QuarkSounds.ENTITY_STONELING_GIVE, 1.0F, 1.0F);
+					else playSound(QuarkSounds.ENTITY_STONELING_TAKE, 1.0F, 1.0F);
+				}
 			}
 
 
