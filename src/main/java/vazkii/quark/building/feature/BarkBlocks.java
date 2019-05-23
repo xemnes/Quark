@@ -55,7 +55,7 @@ public class BarkBlocks extends Feature {
 			RecipeHandler.addShapelessOreDictRecipe(log, ProxyRegistry.newStack(bark, 1, i));
 		}
 
-		for(BlockBark.Variants variant : BlockBark.Variants.class.getEnumConstants()) {
+		for(BlockBark.Variants variant : BlockBark.Variants.values()) {
 			bark.getDefaultState().withProperty(bark.getVariantProp(), variant);
 			String name = variant.getName();
 			VanillaWalls.add(name, bark, variant.ordinal(), enableWalls);

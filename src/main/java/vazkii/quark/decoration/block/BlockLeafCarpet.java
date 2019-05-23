@@ -64,7 +64,7 @@ public class BlockLeafCarpet extends BlockMetaVariants<BlockLeafCarpet.Variants>
 	@SideOnly(Side.CLIENT)
 	public IItemColor getItemColor() {
 		return (stack, tintIndex) -> {
-			ItemStack baseStack = Variants.class.getEnumConstants()[Math.min(5, stack.getItemDamage())].baseStack;
+			ItemStack baseStack = Variants.values()[Math.min(5, stack.getItemDamage())].baseStack;
 			return Minecraft.getMinecraft().getItemColors().colorMultiplier(baseStack, tintIndex);
 		};
 	}

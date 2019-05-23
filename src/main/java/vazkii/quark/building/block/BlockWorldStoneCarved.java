@@ -25,10 +25,10 @@ import vazkii.quark.world.feature.RevampStoneGen;
 import java.util.Locale;
 import java.util.function.Supplier;
 
-public class BlockWorldStonePavement extends BlockMetaVariants<BlockWorldStonePavement.Variants> implements IQuarkBlock {
+public class BlockWorldStoneCarved extends BlockMetaVariants<BlockWorldStoneCarved.Variants> implements IQuarkBlock {
 
-	public BlockWorldStonePavement() {
-		super("world_stone_pavement", Material.ROCK, Variants.class);
+	public BlockWorldStoneCarved() {
+		super("world_stone_carved", Material.ROCK, Variants.class);
 		setHardness(1.5F);
 		setResistance(10.0F);
 		setSoundType(SoundType.STONE);
@@ -42,12 +42,12 @@ public class BlockWorldStonePavement extends BlockMetaVariants<BlockWorldStonePa
 
 	public enum Variants implements IStringSerializable {
 		
-		STONE_GRANITE_PAVEMENT(WorldStoneBricks.class),
-		STONE_DIORITE_PAVEMENT(WorldStoneBricks.class),
-		STONE_ANDESITE_PAVEMENT(WorldStoneBricks.class),
-		STONE_BASALT_PAVEMENT(Basalt.class),
-		STONE_MARBLE_PAVEMENT(RevampStoneGen.class, () -> RevampStoneGen.enableMarble),
-		STONE_LIMESTONE_PAVEMENT(RevampStoneGen.class, () -> RevampStoneGen.enableLimestone);
+		STONE_GRANITE_CARVED(WorldStoneBricks.class),
+		STONE_DIORITE_CARVED(WorldStoneBricks.class),
+		STONE_ANDESITE_CARVED(WorldStoneBricks.class),
+		STONE_BASALT_CARVED(Basalt.class),
+		STONE_MARBLE_CARVED(RevampStoneGen.class, () -> RevampStoneGen.enableMarble),
+		STONE_LIMESTONE_CARVED(RevampStoneGen.class, () -> RevampStoneGen.enableLimestone);
 		
 		Variants(Class<? extends Feature> clazz) {
 			this(clazz, () -> true);

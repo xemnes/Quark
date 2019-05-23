@@ -27,7 +27,7 @@ public class LeafCarpets extends Feature {
 	public void preInit(FMLPreInitializationEvent event) {
 		leaf_carpet = new BlockLeafCarpet();
 
-		Variants[] variants = Variants.class.getEnumConstants();
+		Variants[] variants = Variants.values();
 		for(int i = 0; i < variants.length; i++) {
 			ItemStack stack = variants[i].baseStack;
 			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(leaf_carpet, 3, i),

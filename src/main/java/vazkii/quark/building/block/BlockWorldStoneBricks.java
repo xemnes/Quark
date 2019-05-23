@@ -37,7 +37,7 @@ public class BlockWorldStoneBricks extends BlockMetaVariants<BlockWorldStoneBric
 
 	@Override
 	public boolean shouldDisplayVariant(int variant) {
-		return Variants.class.getEnumConstants()[variant].isEnabled();
+		return Variants.values()[variant].isEnabled();
 	}
 
 	public enum Variants implements IStringSerializable {

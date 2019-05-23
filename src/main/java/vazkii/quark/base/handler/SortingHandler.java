@@ -205,7 +205,7 @@ public final class SortingHandler {
 	}
 
 	private static ItemType getType(ItemStack stack) {
-		for (ItemType type : ItemType.class.getEnumConstants())
+		for (ItemType type : ItemType.values())
 			if (type.fitsInType(stack))
 				return type;
 

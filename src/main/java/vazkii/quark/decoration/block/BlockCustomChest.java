@@ -296,7 +296,7 @@ public class BlockCustomChest extends BlockChest implements IQuarkBlock {
 	}
 
 	public VariedChests.ChestType getCustomType(ItemStack stack) {
-		return VariedChests.ChestType.class.getEnumConstants()[Math.min(5, stack.getItemDamage() + 1)];
+		return VariedChests.ChestType.values()[Math.min(5, stack.getItemDamage() + 1)];
 	}
 
 	public ItemStack setCustomType(ItemStack stack, VariedChests.ChestType type) {

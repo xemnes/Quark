@@ -30,9 +30,9 @@ public class StainedPlanks extends Feature {
 		stained_planks = new BlockStainedPlanks();
 
 		if(enableStairsAndSlabs) {
-			for(BlockStainedPlanks.Variants variant : BlockStainedPlanks.Variants.class.getEnumConstants())
+			for(BlockStainedPlanks.Variants variant : BlockStainedPlanks.Variants.values())
 				BlockModStairs.initStairs(stained_planks, variant.ordinal(), new BlockStainedPlanksStairs(variant));
-			for(BlockStainedPlanks.Variants variant : BlockStainedPlanks.Variants.class.getEnumConstants())
+			for(BlockStainedPlanks.Variants variant : BlockStainedPlanks.Variants.values())
 				BlockModSlab.initSlab(stained_planks, variant.ordinal(), new BlockStainedPlanksSlab(variant, false), new BlockStainedPlanksSlab(variant, true));
 		}
 		

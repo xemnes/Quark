@@ -23,7 +23,7 @@ public class BlockBiomeCobblestone extends BlockMetaVariants<BlockBiomeCobblesto
 	
 	@Override
 	public boolean shouldDisplayVariant(int variant) {
-		return Variants.class.getEnumConstants()[variant].isEnabled();
+		return Variants.values()[variant].isEnabled();
 	}
 
 	public enum Variants implements IStringSerializable {

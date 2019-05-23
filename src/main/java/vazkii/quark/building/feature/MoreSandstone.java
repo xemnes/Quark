@@ -56,7 +56,7 @@ public class MoreSandstone extends Feature {
 		if(enableStairsAndSlabs) {
 			boolean soulSandstone = ModuleLoader.isFeatureEnabled(SoulSandstone.class);
 			
-			for(BlockNewSandstone.Variants variant : BlockNewSandstone.Variants.class.getEnumConstants()) {
+			for(BlockNewSandstone.Variants variant : BlockNewSandstone.Variants.values()) {
 				if(!variant.stairs)
 					continue;
 				if(variant.ordinal() > 3 && !soulSandstone)
@@ -67,7 +67,7 @@ public class MoreSandstone extends Feature {
 				BlockModStairs.initStairs(sandstone_new, variant.ordinal(), new BlockVanillaStairs(name, state));
 			}
 
-			for(BlockNewSandstone.Variants variant : BlockNewSandstone.Variants.class.getEnumConstants()) {
+			for(BlockNewSandstone.Variants variant : BlockNewSandstone.Variants.values()) {
 				if(!variant.slabs)
 					continue;
 				if(variant.ordinal() > 3 && !soulSandstone)

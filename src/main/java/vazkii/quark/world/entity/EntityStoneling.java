@@ -113,9 +113,9 @@ public class EntityStoneling extends EntityCreature {
 
 					if (targetVariant != null) {
 						if (world instanceof WorldServer) {
-							((WorldServer) world).spawnParticle(EnumParticleTypes.HEART, posX, posY + 0.75, posZ, 1, 0.1, 0.1, 0.1, 0.1);
+							((WorldServer) world).spawnParticle(EnumParticleTypes.HEART, posX, posY + height, posZ, 1, 0.1, 0.1, 0.1, 0.1);
 							if (targetVariant != currentVariant)
-								((WorldServer) world).spawnParticle(EnumParticleTypes.BLOCK_CRACK, posX, posY + 0.75, posZ, 16, 0.1, 0.1, 0.1, 0.25,
+								((WorldServer) world).spawnParticle(EnumParticleTypes.BLOCK_CRACK, posX, posY + height / 2, posZ, 16, 0.1, 0.1, 0.1, 0.25,
 										Block.getStateId(targetVariant.getDisplayState()));
 						}
 

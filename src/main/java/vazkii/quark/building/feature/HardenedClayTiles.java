@@ -58,9 +58,9 @@ public class HardenedClayTiles extends Feature {
 			stained_clay_tiles = new BlockStainedClayTiles();
 
 			if(enableStairsAndSlabs) {
-				for(BlockStainedClayTiles.Variants variant : BlockStainedClayTiles.Variants.class.getEnumConstants())
+				for(BlockStainedClayTiles.Variants variant : BlockStainedClayTiles.Variants.values())
 					BlockModStairs.initStairs(stained_clay_tiles, variant.ordinal(), new BlockStainedClayTilesStairs(variant));
-				for(BlockStainedClayTiles.Variants variant : BlockStainedClayTiles.Variants.class.getEnumConstants())
+				for(BlockStainedClayTiles.Variants variant : BlockStainedClayTiles.Variants.values())
 					BlockModSlab.initSlab(stained_clay_tiles, variant.ordinal(), new BlockStainedClayTilesSlab(variant, false), new BlockStainedClayTilesSlab(variant, true));
 			}
 
