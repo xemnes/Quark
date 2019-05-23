@@ -36,7 +36,6 @@ public class EntityAIRunAndPoof<T extends Entity> extends EntityAIAvoidEntity<T>
 	@Override
 	public void startExecuting() {
 		super.startExecuting();
-		// TODO: 5/14/19 add new sound
 		entity.world.playSound(null, entity.posX, entity.posY, entity.posZ, QuarkSounds.ENTITY_STONELING_MEEP, SoundCategory.NEUTRAL, 1.0F, 1.0F);
 	}
 

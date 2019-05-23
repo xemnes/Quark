@@ -48,6 +48,10 @@ quark.subtitles.boat_add_item=Boat is decorated
 quark.subtitles.cursed=Something goes wrong
 quark.subtitles.growl=Monsters arise
 quark.subtitles.meep=Stoneling runs away
+quark.subtitles.give_stoneling=Stoneling takes item
+quark.subtitles.take_stoneling=Stoneling gives item
+quark.subtitles.feed_stoneling=Stoneling is fed
+quark.subtitles.purr=Stoneling "purrs"
 quark.subtitles.hump_day=Wednesday is, my dudes
 
 # COMMANDS

@@ -39,7 +39,7 @@ public class EntityFrog extends EntityLiving {
 	protected boolean processInteract(EntityPlayer player, EnumHand hand) {
 		spawnCd = 50;
 		if(!world.isRemote)
-			world.playSound(null, posX, posY, posZ, QuarkSounds.WEDNESDAY, SoundCategory.NEUTRAL, 1F, 1F);
+			world.playSound(null, posX, posY, posZ, QuarkSounds.ENTITY_FROG_WEDNESDAY, SoundCategory.NEUTRAL, 1F, 1F);
 		
 		return true;
 	}

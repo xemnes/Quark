@@ -1,26 +1,19 @@
 package vazkii.quark.world.entity;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAITempt;
 import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.DifficultyInstance;
@@ -28,6 +21,9 @@ import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.storage.loot.LootContext;
+import net.minecraftforge.oredict.OreDictionary;
+import vazkii.quark.base.sounds.QuarkSounds;
+import vazkii.quark.world.base.EnumStonelingVariant;
 import vazkii.quark.world.entity.ai.EntityAIActWary;
 import vazkii.quark.world.entity.ai.EntityAIRunAndPoof;
 import vazkii.quark.world.feature.Stonelings;
@@ -44,9 +40,6 @@ public class EntityStoneling extends EntityCreature {
 	private static final DataParameter<ItemStack> CARRYING_ITEM = EntityDataManager.createKey(EntityStoneling.class, DataSerializers.ITEM_STACK);
 	private static final DataParameter<Byte> VARIANT = EntityDataManager.createKey(EntityStoneling.class, DataSerializers.BYTE);
 	private static final DataParameter<Float> HOLD_ANGLE = EntityDataManager.createKey(EntityStoneling.class, DataSerializers.FLOAT);
-	private static final DataParameter<Boolean> PLAYER_MADE = EntityDataManager.createKey(EntityStoneling.class, DataSerializers.BOOLEAN);
-
-	public static final int VARIANTS = 7;
 
 	private static final String TAG_CARRYING_ITEM = "carryingItem";
 	private static final String TAG_VARIANT = "variant";
@@ -54,6 +47,8 @@ public class EntityStoneling extends EntityCreature {
 	private static final String TAG_PLAYER_MADE = "playerMade";
 
 	private EntityAIActWary waryTask;
+
+	private boolean isTame;
 
 	public EntityStoneling(World worldIn) {
 		super(worldIn);
@@ -67,15 +62,15 @@ public class EntityStoneling extends EntityCreature {
 		dataManager.register(CARRYING_ITEM, ItemStack.EMPTY);
 		dataManager.register(VARIANT, (byte) 0);
 		dataManager.register(HOLD_ANGLE, 0F);
-		dataManager.register(PLAYER_MADE, false);
 	}
 
 	@Override
 	protected void initEntityAI() {
-		if(Stonelings.enableDiamondHeart)
-			tasks.addTask(4, new EntityAITempt(this, 0.6, Items.DIAMOND, false));
+		tasks.addTask(4, new EntityAIWanderAvoidWater(this, 0.2, 1F));
 
-		tasks.addTask(3, new EntityAIWanderAvoidWater(this, 0.2, 1F));
+		if(Stonelings.enableDiamondHeart)
+			tasks.addTask(3, new EntityAITempt(this, 0.6, Items.DIAMOND, false));
+
 		tasks.addTask(2, new EntityAIRunAndPoof<>(this, EntityPlayer.class, 4, 0.5, 0.5));
 		tasks.addTask(1, waryTask = new EntityAIActWary(this, 0.1, 6, false));
 	}
@@ -83,8 +78,8 @@ public class EntityStoneling extends EntityCreature {
 	@Override
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(8.0D);
-		getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(1.0D);
+		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(8);
+		getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(1);
 	}
 
 
@@ -95,28 +90,59 @@ public class EntityStoneling extends EntityCreature {
 		this.renderYawOffset = this.rotationYaw;
 	}
 
+	@Nonnull
 	@Override
 	public EnumActionResult applyPlayerInteraction(EntityPlayer player, Vec3d vec, EnumHand hand) {
 		if(isPlayerMade() && hand == EnumHand.MAIN_HAND) {
 			ItemStack playerItem = player.getHeldItem(hand);
 
 			if(!world.isRemote) {
-				if(playerItem.getItem() == Item.getItemFromBlock(Blocks.STONE) && playerItem.getMetadata() == 0 && !player.isSneaking()) {
-					if(world instanceof WorldServer)
-						((WorldServer) world).spawnParticle(EnumParticleTypes.HEART, posX, posY + 0.75, posZ, 1, 0.1, 0.1, 0.1, 0.1);
-					
-					world.playSound(null, posX, posY, posZ, SoundEvents.ENTITY_GHAST_SCREAM, SoundCategory.NEUTRAL, 0.25F, 0.25F + world.rand.nextFloat() * 0.25F);
-					playerItem.shrink(1);
-				} else {
-					ItemStack stonelingItem = dataManager.get(CARRYING_ITEM);
+				if(!player.isSneaking() && !playerItem.isEmpty()) {
+					int[] ids = OreDictionary.getOreIDs(playerItem);
+					EnumStonelingVariant currentVariant = getVariant();
+					EnumStonelingVariant targetVariant = null;
+					for (EnumStonelingVariant variant : EnumStonelingVariant.values()) {
+						int oreKey = OreDictionary.getOreID(variant.getOreKey());
+						for (int id : ids) {
+							if (id == oreKey) {
+								targetVariant = variant;
+								break;
+							}
+						}
+					}
 
-					player.setHeldItem(hand, stonelingItem.copy());
-					dataManager.set(CARRYING_ITEM, playerItem.copy());
-					
-					if(playerItem.isEmpty())
-						playSound(SoundEvents.ENTITY_ITEMFRAME_REMOVE_ITEM, 1.0F, 1.0F);
-					else playSound(SoundEvents.ENTITY_ITEMFRAME_ADD_ITEM, 1.0F, 1.0F);
+					if (targetVariant != null) {
+						if (world instanceof WorldServer) {
+							((WorldServer) world).spawnParticle(EnumParticleTypes.HEART, posX, posY + 0.75, posZ, 1, 0.1, 0.1, 0.1, 0.1);
+							if (targetVariant != currentVariant)
+								((WorldServer) world).spawnParticle(EnumParticleTypes.BLOCK_CRACK, posX, posY + 0.75, posZ, 16, 0.1, 0.1, 0.1, 0.25,
+										Block.getStateId(targetVariant.getDisplayState()));
+						}
+
+						if (targetVariant != currentVariant) {
+							playSound(QuarkSounds.ENTITY_STONELING_EAT, 1F, 0.8F);
+							dataManager.set(VARIANT, targetVariant.getIndex());
+						}
+
+						playSound(QuarkSounds.ENTITY_STONELING_PURR, 0.25F, 0.25F + world.rand.nextFloat() * 0.25F);
+
+						heal(1);
+
+						if (!player.capabilities.isCreativeMode)
+							playerItem.shrink(1);
+
+						return EnumActionResult.SUCCESS;
+					}
 				}
+
+				ItemStack stonelingItem = dataManager.get(CARRYING_ITEM);
+
+				player.setHeldItem(hand, stonelingItem.copy());
+				dataManager.set(CARRYING_ITEM, playerItem.copy());
+
+				if(playerItem.isEmpty())
+					playSound(QuarkSounds.ENTITY_STONELING_GIVE, 1.0F, 1.0F);
+				else playSound(QuarkSounds.ENTITY_STONELING_TAKE, 1.0F, 1.0F);
 			}
 
 
@@ -129,10 +155,16 @@ public class EntityStoneling extends EntityCreature {
 	@Nullable
 	@Override
 	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData data) {
-		dataManager.set(VARIANT, (byte) world.rand.nextInt(VARIANTS));
+		byte variant;
+		if (data instanceof EnumStonelingVariant)
+			variant = ((EnumStonelingVariant) data).getIndex();
+		else
+			variant = (byte) world.rand.nextInt(EnumStonelingVariant.values().length);
+
+		dataManager.set(VARIANT, variant);
 		dataManager.set(HOLD_ANGLE, world.rand.nextFloat() * 90 - 45);
 
-		if(!dataManager.get(PLAYER_MADE) && !world.isRemote) {
+		if(!isTame && !world.isRemote) {
 			List<ItemStack> items = world.getLootTableManager().getLootTableFromLocation(CARRY_LOOT_TABLE).generateLootForPools(rand, new LootContext.Builder((WorldServer) world).build());
 			if(!items.isEmpty())
 				dataManager.set(CARRYING_ITEM, items.get(0));	
@@ -163,16 +195,16 @@ public class EntityStoneling extends EntityCreature {
 		return Stonelings.enableDiamondHeart ? LOOT_TABLE : null;
 	}
 
-	public void setPlayerMade() {
-		dataManager.set(PLAYER_MADE, true);
+	public void setPlayerMade(boolean value) {
+		isTame = value;
 	}
 
 	public ItemStack getCarryingItem() {
 		return dataManager.get(CARRYING_ITEM);
 	}
 
-	public byte getVariant() {
-		return dataManager.get(VARIANT);
+	public EnumStonelingVariant getVariant() {
+		return EnumStonelingVariant.byIndex(dataManager.get(VARIANT));
 	}
 
 	public float getItemAngle() {
@@ -180,7 +212,7 @@ public class EntityStoneling extends EntityCreature {
 	}
 
 	public boolean isPlayerMade() {
-		return dataManager.get(PLAYER_MADE);
+		return isTame;
 	}
 
 	@Override
@@ -195,7 +227,7 @@ public class EntityStoneling extends EntityCreature {
 
 		dataManager.set(VARIANT, compound.getByte(TAG_VARIANT));
 		dataManager.set(HOLD_ANGLE, compound.getFloat(TAG_HOLD_ANGLE));
-		dataManager.set(PLAYER_MADE, compound.getBoolean(TAG_PLAYER_MADE));
+		setPlayerMade(compound.getBoolean(TAG_PLAYER_MADE));
 	}
 
 	@Override
@@ -204,7 +236,7 @@ public class EntityStoneling extends EntityCreature {
 
 		compound.setTag(TAG_CARRYING_ITEM, getCarryingItem().serializeNBT());
 
-		compound.setByte(TAG_VARIANT, getVariant());
+		compound.setByte(TAG_VARIANT, getVariant().getIndex());
 		compound.setFloat(TAG_HOLD_ANGLE, getItemAngle());
 		compound.setBoolean(TAG_PLAYER_MADE, isPlayerMade());
 	}

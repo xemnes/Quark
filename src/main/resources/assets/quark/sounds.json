@@ -78,7 +78,44 @@
       "minecraft:mob/ghast/affectionate_scream"
     ]
   },
-  "wednesday": {
+  "entity.stoneling.purr": {
+    "category": "neutral",
+    "subtitle": "quark.subtitles.purr",
+    "sounds": [
+      "minecraft:mob/ghast/affectionate_scream"
+    ]
+  },
+  "entity.stoneling.give": {
+    "category": "neutral",
+    "subtitle": "quark.subtitles.give_stoneling",
+    "sounds": [
+      "minecraft:entity/itemframe/add_item1",
+      "minecraft:entity/itemframe/add_item2",
+      "minecraft:entity/itemframe/add_item3",
+      "minecraft:entity/itemframe/add_item4"
+    ]
+  },
+  "entity.stoneling.take": {
+    "category": "neutral",
+    "subtitle": "quark.subtitles.take_stoneling",
+    "sounds": [
+      "minecraft:entity/itemframe/remove_item1",
+      "minecraft:entity/itemframe/remove_item2",
+      "minecraft:entity/itemframe/remove_item3",
+      "minecraft:entity/itemframe/remove_item4"
+    ]
+  },
+  "entity.stoneling.eat": {
+    "category": "neutral",
+    "subtitle": "quark.subtitles.feed_stoneling",
+    "sounds": [
+      "minecraft:dig/stone1",
+      "minecraft:dig/stone2",
+      "minecraft:dig/stone3",
+      "minecraft:dig/stone4"
+    ]
+  },
+  "entity.frog.wednesday": {
     "category": "neutral",
     "subtitle": "quark.subtitles.hump_day",
     "sounds": [

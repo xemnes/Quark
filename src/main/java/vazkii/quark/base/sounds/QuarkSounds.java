@@ -24,7 +24,11 @@ public class QuarkSounds {
 	public static final SoundEvent ITEM_SOUL_BEAD_CURSE = new ModSoundEvent("item.soul_bead.curse");
 	public static final SoundEvent BLOCK_MONSTER_BOX_GROWL = new ModSoundEvent("block.monster_box.growl");
 	public static final SoundEvent ENTITY_STONELING_MEEP = new ModSoundEvent("entity.stoneling.meep");
-	public static final SoundEvent WEDNESDAY = new ModSoundEvent("wednesday");
+	public static final SoundEvent ENTITY_STONELING_PURR = new ModSoundEvent("entity.stoneling.purr");
+	public static final SoundEvent ENTITY_STONELING_GIVE = new ModSoundEvent("entity.stoneling.give");
+	public static final SoundEvent ENTITY_STONELING_TAKE = new ModSoundEvent("entity.stoneling.take");
+	public static final SoundEvent ENTITY_STONELING_EAT = new ModSoundEvent("entity.stoneling.eat");
+	public static final SoundEvent ENTITY_FROG_WEDNESDAY = new ModSoundEvent("entity.frog.wednesday");
 
 	public static void init() {
 		for (ModSoundEvent event : ModSoundEvent.allEvents)
