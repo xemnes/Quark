@@ -137,7 +137,7 @@ public class EntityStoneling extends EntityCreature {
 
 				ItemStack stonelingItem = dataManager.get(CARRYING_ITEM);
 
-				if (!stonelingItem.isEmpty() && !playerItem.isEmpty()) {
+				if (!stonelingItem.isEmpty() || !playerItem.isEmpty()) {
 					player.setHeldItem(hand, stonelingItem.copy());
 					dataManager.set(CARRYING_ITEM, playerItem.copy());
 
