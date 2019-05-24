@@ -31,5 +31,6 @@ public final class LibEntityIDs {
 	public static final int ARCHEOLOGIST = 16;
 	public static final int STONELING = 17;
 	public static final int FROG = 18;
+	public static final int LEASH_KNOT = 19;
 
 }
