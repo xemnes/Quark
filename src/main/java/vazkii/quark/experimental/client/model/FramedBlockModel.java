@@ -1,11 +1,6 @@
 package vazkii.quark.experimental.client.model;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.google.common.collect.ImmutableMap;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.BakedQuad;
@@ -24,11 +19,16 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import vazkii.quark.experimental.block.FramedBlockCommons;
 
+import javax.annotation.Nonnull;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 // referenced from BlockCraftery BakedModelEditable
 // https://github.com/EpicSquid/Blockcraftery/blob/master/src/main/java/epicsquid/blockcraftery/model/BakedModelEditable.java
 public class FramedBlockModel extends BakedModelWrapper<IBakedModel> {
 
-	public static Map<String, RetextureData> cache = new HashMap();
+	public static Map<String, RetextureData> cache = new HashMap<>();
 
 	private final IModel model;
 
@@ -37,6 +37,7 @@ public class FramedBlockModel extends BakedModelWrapper<IBakedModel> {
 		this.model = model;
 	}
 
+	@Nonnull
 	@Override
 	public List<BakedQuad> getQuads(IBlockState state, EnumFacing side, long rand) {
 		IBakedModel bakedModel = this.originalModel;
@@ -86,7 +87,7 @@ public class FramedBlockModel extends BakedModelWrapper<IBakedModel> {
 	private static class FramedBlockColor implements IBlockColor {
 
 		@Override
-		public int colorMultiplier(IBlockState state, IBlockAccess worldIn, BlockPos pos, int tintIndex) {
+		public int colorMultiplier(@Nonnull IBlockState state, IBlockAccess worldIn, BlockPos pos, int tintIndex) {
 			if(state instanceof IExtendedBlockState) {
 				IExtendedBlockState extendedState = (IExtendedBlockState) state;
 				IBlockState texState = extendedState.getValue(FramedBlockCommons.STATE);
@@ -122,7 +123,7 @@ public class FramedBlockModel extends BakedModelWrapper<IBakedModel> {
 		}
 
 		private IModel retextureModel(IModel model) {
-			Map<String, String> retextureMap = new HashMap();
+			Map<String, String> retextureMap = new HashMap<>();
 			for(int i = 0; i < SIDES.length; i++)
 				retextureMap.put(SIDES[i], getSprite(i).getIconName());
 

@@ -14,10 +14,10 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.Event.Result;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import vazkii.arl.block.BlockMod;
-import vazkii.arl.block.BlockModSlab;
 import vazkii.arl.block.BlockModStairs;
 import vazkii.arl.recipe.RecipeHandler;
 import vazkii.arl.util.ProxyRegistry;
+import vazkii.quark.base.block.BlockQuarkStairs;
 import vazkii.quark.base.handler.BiomeTypeConfigHandler;
 import vazkii.quark.base.handler.DimensionConfig;
 import vazkii.quark.base.handler.ModIntegrationHandler;
@@ -27,10 +27,7 @@ import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.building.feature.VanillaWalls;
 import vazkii.quark.world.block.BlockLimestone;
 import vazkii.quark.world.block.BlockMarble;
-import vazkii.quark.world.block.slab.BlockLimestoneSlab;
-import vazkii.quark.world.block.slab.BlockMarbleSlab;
-import vazkii.quark.world.block.stairs.BlockLimestoneStairs;
-import vazkii.quark.world.block.stairs.BlockMarbleStairs;
+import vazkii.quark.world.block.slab.BlockBasicStoneSlab;
 import vazkii.quark.world.world.StoneInfoBasedGenerator;
 
 import java.util.ArrayList;
@@ -88,8 +85,8 @@ public class RevampStoneGen extends Feature {
 			marble = new BlockMarble();
 
 			if(enableStairsAndSlabs) {
-				BlockModSlab.initSlab(marble, 0, new BlockMarbleSlab(false), new BlockMarbleSlab(true));
-				BlockModStairs.initStairs(marble, 0, new BlockMarbleStairs());
+				BlockBasicStoneSlab.initSlab(marble, 0, "stone_marble_slab");
+				BlockModStairs.initStairs(marble, 0, new BlockQuarkStairs("stone_marble_stairs", marble.getDefaultState()));
 			}
 
 			VanillaWalls.add("marble", marble, 0, enableWalls);
@@ -103,8 +100,8 @@ public class RevampStoneGen extends Feature {
 			limestone = new BlockLimestone();
 
 			if(enableStairsAndSlabs) {
-				BlockModSlab.initSlab(limestone, 0, new BlockLimestoneSlab(false), new BlockLimestoneSlab(true));
-				BlockModStairs.initStairs(limestone, 0, new BlockLimestoneStairs());
+				BlockBasicStoneSlab.initSlab(limestone, 0, "stone_limestone_slab");
+				BlockModStairs.initStairs(limestone, 0, new BlockQuarkStairs("stone_limestone_stairs", limestone.getDefaultState()));
 			}
 
 			VanillaWalls.add("limestone", limestone, 0, enableWalls);

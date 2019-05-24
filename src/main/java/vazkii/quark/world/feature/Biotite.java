@@ -25,13 +25,13 @@ import vazkii.arl.block.BlockModSlab;
 import vazkii.arl.block.BlockModStairs;
 import vazkii.arl.recipe.RecipeHandler;
 import vazkii.arl.util.ProxyRegistry;
+import vazkii.quark.base.block.BlockQuarkStairs;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.GlobalConfig;
 import vazkii.quark.building.feature.VanillaWalls;
 import vazkii.quark.world.block.BlockBiotite;
 import vazkii.quark.world.block.BlockBiotiteOre;
 import vazkii.quark.world.block.slab.BlockBiotiteSlab;
-import vazkii.quark.world.block.stairs.BlockBiotiteStairs;
 import vazkii.quark.world.item.ItemBiotite;
 import vazkii.quark.world.world.BiotiteGenerator;
 
@@ -71,7 +71,7 @@ public class Biotite extends Feature {
 
 		BlockModSlab singleSlab = new BlockBiotiteSlab(false);
 		BlockModSlab.initSlab(biotite_block, 0, singleSlab, new BlockBiotiteSlab(true));
-		BlockModStairs.initStairs(biotite_block, 0, new BlockBiotiteStairs());
+		BlockModStairs.initStairs(biotite_block, 0, new BlockQuarkStairs("biotite_stairs", biotite_block.getDefaultState()));
 
 		VanillaWalls.add("biotite", biotite_block, 0, enableWalls);
 

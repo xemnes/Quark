@@ -10,6 +10,7 @@
  */
 package vazkii.quark.building.block.slab;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
@@ -17,6 +18,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
+import vazkii.arl.block.BlockModSlab;
 import vazkii.quark.base.block.BlockQuarkSlab;
 
 import javax.annotation.Nonnull;
@@ -49,5 +51,11 @@ public class BlockVanillaSlab extends BlockQuarkSlab {
 	@Override
 	public SoundType getSoundType(IBlockState state, World world, BlockPos pos, @Nullable Entity entity) {
 		return parent.getBlock().getSoundType(parent, world, pos, entity);
+	}
+
+	public static BlockModSlab initSlab(Block base, int meta, IBlockState state, String name) {
+		BlockModSlab slab = new BlockVanillaSlab(name, state, false);
+		BlockModSlab.initSlab(base, meta, slab, new BlockVanillaSlab(name, state, true));
+		return slab;
 	}
 }

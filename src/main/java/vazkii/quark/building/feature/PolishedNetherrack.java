@@ -3,15 +3,14 @@ package vazkii.quark.building.feature;
 import net.minecraft.init.Blocks;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import vazkii.arl.block.BlockMod;
-import vazkii.arl.block.BlockModSlab;
 import vazkii.arl.block.BlockModStairs;
 import vazkii.arl.recipe.RecipeHandler;
 import vazkii.arl.util.ProxyRegistry;
+import vazkii.quark.base.block.BlockQuarkStairs;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.GlobalConfig;
 import vazkii.quark.building.block.BlockPolishedNetherrack;
-import vazkii.quark.building.block.slab.BlockPolishedNetherrackBricksSlab;
-import vazkii.quark.building.block.stairs.BlockPolishedNetherrackBricksStairs;
+import vazkii.quark.world.block.slab.BlockBasicStoneSlab;
 
 public class PolishedNetherrack extends Feature {
 
@@ -27,13 +26,16 @@ public class PolishedNetherrack extends Feature {
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public void preInit(FMLPreInitializationEvent event) {
 		polished_netherrack = new BlockPolishedNetherrack();
 
 		if(enableStairsAndSlabs) {
-			BlockModStairs.initStairs(polished_netherrack, 1, new BlockPolishedNetherrackBricksStairs());
-			BlockModSlab.initSlab(polished_netherrack, 1, new BlockPolishedNetherrackBricksSlab(false), new BlockPolishedNetherrackBricksSlab(true));
+			BlockModStairs.initStairs(polished_netherrack, 1, new BlockQuarkStairs("polished_netherrack_bricks_stairs",
+					PolishedNetherrack.polished_netherrack.getDefaultState().withProperty(PolishedNetherrack.polished_netherrack.getVariantProp(), BlockPolishedNetherrack.Variants.POLISHED_NETHERRACK_BRICKS)));
+			BlockBasicStoneSlab.initSlab(polished_netherrack, 1, "polished_netherrack_bricks_slab");
 		}
+
 		VanillaWalls.add("polished_netherrack_bricks", polished_netherrack, 1, enableWalls);
 		
 		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(polished_netherrack), 

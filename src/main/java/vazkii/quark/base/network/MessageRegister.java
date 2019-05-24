@@ -18,6 +18,7 @@ import vazkii.quark.misc.feature.LockDirectionHotkey.LockProfile;
 
 public class MessageRegister {
 
+	@SuppressWarnings("unchecked")
 	public static void init() {
 		NetworkHandler.register(MessageDoEmote.class, Side.CLIENT);
 		NetworkHandler.register(MessageDropoff.class, Side.SERVER);

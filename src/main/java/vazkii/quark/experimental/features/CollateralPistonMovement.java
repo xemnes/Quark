@@ -189,7 +189,8 @@ public class CollateralPistonMovement extends Feature {
 			
 		return !block.isAir(state, world, pos) && state.getPushReaction() == EnumPushReaction.NORMAL && (!block.hasTileEntity() || !PistonsMoveTEs.shouldMoveTE(true, state));
 	}
-	
+
+	@SuppressWarnings("unchecked")
 	private static EnumFacing getStateFacing(IBlockState state) {
 		Collection<IProperty<?>> props = state.getPropertyKeys();
 		for(IProperty prop : props)

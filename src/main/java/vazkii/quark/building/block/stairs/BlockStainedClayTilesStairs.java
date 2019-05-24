@@ -17,6 +17,7 @@ import vazkii.quark.building.feature.HardenedClayTiles;
 
 public class BlockStainedClayTilesStairs extends BlockQuarkStairs implements IRecipeGrouped {
 
+	@SuppressWarnings("unchecked")
 	public BlockStainedClayTilesStairs(BlockStainedClayTiles.Variants variant) {
 		super(variant.getName() + "_stairs", HardenedClayTiles.stained_clay_tiles.getDefaultState().withProperty(HardenedClayTiles.stained_clay_tiles.getVariantProp(), variant));
 	}

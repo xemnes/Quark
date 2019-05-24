@@ -1,11 +1,8 @@
 package vazkii.quark.experimental.block;
 
-import javax.annotation.Nonnull;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
@@ -19,15 +16,13 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.property.ExtendedBlockState;
-import net.minecraftforge.common.property.IExtendedBlockState;
-import net.minecraftforge.common.property.IUnlistedProperty;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.arl.block.BlockModContainer;
-import vazkii.arl.block.property.PropertyBlockState;
 import vazkii.quark.base.block.IQuarkBlock;
 import vazkii.quark.experimental.tile.TileFramed;
+
+import javax.annotation.Nonnull;
 
 public class BlockFramed extends BlockModContainer implements IQuarkBlock, ITileEntityProvider {
 	

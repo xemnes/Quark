@@ -37,6 +37,7 @@ public class MoreSandstone extends Feature {
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public void preInit(FMLPreInitializationEvent event) {
 		sandstone_new = new BlockNewSandstone();
 		

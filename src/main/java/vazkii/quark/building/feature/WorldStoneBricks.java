@@ -35,7 +35,7 @@ public class WorldStoneBricks extends Feature {
 	public static BlockMod world_stone_bricks;
 	public static BlockMod world_stone_chiseled;
 
-	public static BlockVanillaSlab[] slabs = new BlockVanillaSlab[BlockWorldStoneBricks.Variants.values().length];
+	public static BlockModSlab[] slabs = new BlockVanillaSlab[BlockWorldStoneBricks.Variants.values().length];
 
 	public static boolean enableStairsAndSlabs;
 	public static boolean enableWalls;
@@ -47,6 +47,7 @@ public class WorldStoneBricks extends Feature {
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public void preInit(FMLPreInitializationEvent event) {
 		world_stone_bricks = new BlockWorldStoneBricks();
 		world_stone_chiseled = new BlockWorldStoneCarved();
@@ -57,17 +58,9 @@ public class WorldStoneBricks extends Feature {
 					continue;
 
 				IBlockState state = world_stone_bricks.getDefaultState().withProperty(world_stone_bricks.getVariantProp(), variant);
-				String name = variant.getName() + "_stairs";
-				BlockModStairs.initStairs(world_stone_bricks, variant.ordinal(), new BlockVanillaStairs(name, state));
-			}
+				BlockModStairs.initStairs(world_stone_bricks, variant.ordinal(), new BlockVanillaStairs(variant.getName() + "_stairs", state));
 
-			for(BlockWorldStoneBricks.Variants variant : BlockWorldStoneBricks.Variants.values()) {
-				if(!variant.isEnabled())
-					continue;
-
-				IBlockState state = world_stone_bricks.getDefaultState().withProperty(world_stone_bricks.getVariantProp(), variant);
-				String name = variant.getName() + "_slab";
-				BlockModSlab.initSlab(world_stone_bricks, variant.ordinal(), slabs[variant.ordinal()] = new BlockVanillaSlab(name, state, false), new BlockVanillaSlab(name, state, true));
+				slabs[variant.ordinal()] = BlockVanillaSlab.initSlab(world_stone_bricks, variant.ordinal(), state, variant.getName() + "_slab");
 			}
 		}
 
