@@ -3,6 +3,7 @@ package vazkii.quark.experimental.block;
 import javax.annotation.Nonnull;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
@@ -12,6 +13,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
@@ -27,10 +29,8 @@ import vazkii.arl.block.property.PropertyBlockState;
 import vazkii.quark.base.block.IQuarkBlock;
 import vazkii.quark.experimental.tile.TileFramed;
 
-public class BlockFramed extends BlockModContainer implements IQuarkBlock {
-
-	public static final PropertyBlockState STATE = new PropertyBlockState();
-
+public class BlockFramed extends BlockModContainer implements IQuarkBlock, ITileEntityProvider {
+	
 	public BlockFramed() {
 		super("frame", Material.WOOD);
 		setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
@@ -38,24 +38,17 @@ public class BlockFramed extends BlockModContainer implements IQuarkBlock {
 	
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return  new ExtendedBlockState(this, getNormalProperties(), new IUnlistedProperty[] { STATE });
+		return FramedBlockCommons.createStateContainer(this, super.createBlockState());
 	}
 	
 	@Override
 	public IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos) {
-		IBlockState actualState = getActualState(state, world, pos);
-		TileEntity tile = world.getTileEntity(pos);
-		if(tile instanceof TileFramed && actualState instanceof IExtendedBlockState) {
-			TileFramed frame = (TileFramed) tile;
-			IExtendedBlockState extend = (IExtendedBlockState) actualState;
-			return extend.withProperty(STATE, frame.getState());
-		}
-		
-		return super.getExtendedState(state, world, pos);
+		return FramedBlockCommons.getExtendedState(this, state, world, pos);
 	}
 	
-	public IProperty[] getNormalProperties() {
-		return new IProperty[0];
+	@Override
+	public TileEntity createNewTileEntity(World worldIn, int meta) {
+		return new TileFramed();
 	}
 
 	@Override
@@ -82,6 +75,11 @@ public class BlockFramed extends BlockModContainer implements IQuarkBlock {
 	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
+	
+	@Override
+	public BlockRenderLayer getRenderLayer() {
+		return BlockRenderLayer.CUTOUT;
+	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -91,11 +89,6 @@ public class BlockFramed extends BlockModContainer implements IQuarkBlock {
 		Block block = iblockstate.getBlock();
 
 		return block != this && super.shouldSideBeRendered(blockState, blockAccess, pos, side);
-	}
-
-	@Override
-	public TileEntity createNewTileEntity(World worldIn, int meta) {
-		return new TileFramed();
 	}
 
 }

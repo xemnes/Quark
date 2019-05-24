@@ -3,25 +3,26 @@ package vazkii.quark.experimental.client.model;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.IBakedModel;
+import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.model.BakedModelWrapper;
 import net.minecraftforge.client.model.IModel;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.property.IExtendedBlockState;
-import vazkii.quark.experimental.block.BlockFramed;
+import vazkii.quark.experimental.block.FramedBlockCommons;
 
 // referenced from BlockCraftery BakedModelEditable
 // https://github.com/EpicSquid/Blockcraftery/blob/master/src/main/java/epicsquid/blockcraftery/model/BakedModelEditable.java
@@ -41,7 +42,7 @@ public class FramedBlockModel extends BakedModelWrapper<IBakedModel> {
 		IBakedModel bakedModel = this.originalModel;
 		if(state instanceof IExtendedBlockState) {
 			IExtendedBlockState extendedState = (IExtendedBlockState) state;
-			IBlockState texState = extendedState.getValue(BlockFramed.STATE);
+			IBlockState texState = extendedState.getValue(FramedBlockCommons.STATE);
 			String cacheId = (texState == null ? "null" : texState.toString()) + "_" + state.toString() + "_" + (side == null ? "null" : side.toString()) + 
 					(MinecraftForgeClient.getRenderLayer() == null ? "null" : MinecraftForgeClient.getRenderLayer().toString());
 
@@ -80,6 +81,22 @@ public class FramedBlockModel extends BakedModelWrapper<IBakedModel> {
 		}
 		
 		return bakedModel.getQuads(state, side, rand);
+	}
+	
+	private static class FramedBlockColor implements IBlockColor {
+
+		@Override
+		public int colorMultiplier(IBlockState state, IBlockAccess worldIn, BlockPos pos, int tintIndex) {
+			if(state instanceof IExtendedBlockState) {
+				IExtendedBlockState extendedState = (IExtendedBlockState) state;
+				IBlockState texState = extendedState.getValue(FramedBlockCommons.STATE);
+
+			}
+				
+//			Minecraft.getMinecraft().getBlockColors().colorMultiplier(camoState, worldIn, pos, tintIndex);
+			return 0;
+		}
+		
 	}
 
 	private static class RetextureData {

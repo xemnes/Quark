@@ -11,28 +11,46 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import vazkii.arl.block.BlockModSlab;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.experimental.block.BlockFramed;
+import vazkii.quark.experimental.block.BlockFramedSlab;
 import vazkii.quark.experimental.client.model.FramedBlockModel;
+import vazkii.quark.experimental.tile.TileFramed;
 
 public class FramedBlocks extends Feature {
 
 	public static Block frame;
+	public static BlockModSlab frameSlab;
+	public static BlockModSlab frameSlabDouble;
 	
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
 		frame = new BlockFramed();
+		
+		frameSlab = new BlockFramedSlab(false);
+		frameSlabDouble = new BlockFramedSlab(true);
+		BlockModSlab.initSlab(frame, 0, frameSlab, frameSlabDouble);
+		
+		registerTile(TileFramed.class, "framed");
 	}
 
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void onModelBake(ModelBakeEvent event) {
-		applyCustomModel(event, "frame");
+		applyCustomModel(event, "frame", "normal");
+		
+		applyCustomModel(event, "frame_slab", "half=top");
+		applyCustomModel(event, "frame_slab", "half=bottom");
+		applyCustomModel(event, "frame_slab", "normal");
+		
+		applyCustomModel(event, "frame_slab_double", "normal");
+		applyCustomModel(event, "frame_slab_double", "prop=blarg");
 	}
 	
-	private void applyCustomModel(ModelBakeEvent event, String modelName) {
-		ModelResourceLocation location = new ModelResourceLocation(new ResourceLocation(LibMisc.MOD_ID, modelName), "normal");
+	private void applyCustomModel(ModelBakeEvent event, String modelName, String prop) {
+		ModelResourceLocation location = new ModelResourceLocation(new ResourceLocation(LibMisc.MOD_ID, modelName), prop);
 		IModel model = ModelLoaderRegistry.getModelOrLogError(location, "Error loading model for " + location);
 		IBakedModel standard = event.getModelRegistry().getObject(location);
 		IBakedModel finalModel = new FramedBlockModel(standard, model);
