@@ -43,8 +43,8 @@ public class RenderLeashKnot2 extends Render<EntityLeashKnot2TheKnotting> {
 	public void doRender(EntityLeashKnot2TheKnotting entity, double x, double y, double z, float entityYaw, float partialTicks) {
 		GlStateManager.pushMatrix();
 		GlStateManager.disableCull();
-		GlStateManager.translate(x, y, z);
-		float f = 0.0625F;
+		float f = 1F / 8F;
+		GlStateManager.translate(x, y + f, z);
 		GlStateManager.enableRescaleNormal();
 		GlStateManager.scale(-1.0F, -1.0F, 1.0F);
 		GlStateManager.enableAlpha();

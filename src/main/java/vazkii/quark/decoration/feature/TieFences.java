@@ -2,10 +2,14 @@ package vazkii.quark.decoration.feature;
 
 import net.minecraft.block.BlockFence;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
@@ -42,13 +46,19 @@ public class TieFences extends Feature {
 		
 		if(stack.getItem() == Items.LEAD && state.getBlock() instanceof BlockFence) {
 			if(!world.isRemote) {
+		        for(EntityLiving entityliving : world.getEntitiesWithinAABB(EntityLiving.class, new AxisAlignedBB(player.posX - 7, player.posY - 7, player.posZ - 7, player.posX + 7, player.posY + 7, player.posZ + 7))) {
+		        	if(entityliving.getLeashHolder() == player)
+		        		return;
+		        }
+				
 				EntityLeashKnot2TheKnotting knot = new EntityLeashKnot2TheKnotting(world);
-				knot.setPosition(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
+				knot.setPosition(pos.getX() + 0.5, pos.getY() + 0.5 - 1F / 8F, pos.getZ() + 0.5);
 				world.spawnEntity(knot);
 				knot.setLeashHolder(player, true);
 				
 				if(!player.isCreative())
 					stack.shrink(1);
+				world.playSound(null, pos, SoundEvents.ENTITY_LEASHKNOT_PLACE, SoundCategory.BLOCKS, 1F, 1F);
 				event.setCanceled(true);
 			}
 		}
