@@ -8,6 +8,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.chunk.IChunkProvider;
+import net.minecraft.world.gen.ChunkGeneratorFlat;
 import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraft.world.gen.structure.template.PlacementSettings;
 import net.minecraft.world.gen.structure.template.Template;
@@ -24,7 +25,7 @@ public class ArcheologistHouseGenerator implements IWorldGenerator {
 
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
-		if(Archeologist.dims.canSpawnHere(world) && random.nextInt(Archeologist.chance) == 0) {
+		if(!(chunkGenerator instanceof ChunkGeneratorFlat) && Archeologist.dims.canSpawnHere(world) && random.nextInt(Archeologist.chance) == 0) {
 			int x = chunkX * 16 + 8 + random.nextInt(16);
 			int z = chunkZ * 16 + 8 + random.nextInt(16);
 			int y = random.nextInt(Archeologist.maxY - Archeologist.minY) + Archeologist.minY;

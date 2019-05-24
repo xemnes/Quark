@@ -7,6 +7,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
+import net.minecraft.world.gen.ChunkGeneratorFlat;
 import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraftforge.fml.common.IWorldGenerator;
 import vazkii.quark.building.block.BlockCarvedWood;
@@ -17,7 +18,7 @@ public class CaveRootGenerator implements IWorldGenerator {
 
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
-		if(!CaveRoots.dimensions.canSpawnHere(world))
+		if(!CaveRoots.dimensions.canSpawnHere(world) || chunkGenerator instanceof ChunkGeneratorFlat)
 			return;
 		
 		for(int i = 0; i < CaveRoots.chunkAttempts; i++) {
