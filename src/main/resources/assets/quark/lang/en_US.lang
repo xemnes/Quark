@@ -55,6 +55,7 @@ quark.subtitles.hurt_stoneling=Stoneling cries
 quark.subtitles.kill_stoneling=Stoneling breaks
 quark.subtitles.purr=Stoneling "purrs"
 quark.subtitles.hump_day=Wednesday is, my dudes
+quark.subtitles.throw_pickarang=Pickarang is flung
 
 # COMMANDS
 commands.quarkconfig.usage=/quarkconfig <module> <category> <key> <value> [save?] [player]

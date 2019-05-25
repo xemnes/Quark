@@ -139,5 +139,12 @@
     "sounds": [
       "quark:wednesday"
     ]
+  },
+  "entity.pickarang.throw": {
+    "category": "players",
+    "subtitle": "quark.subtitles.throw_pickarang",
+    "sounds": [
+      "minecraft:random/bow"
+    ]
   }
 }
