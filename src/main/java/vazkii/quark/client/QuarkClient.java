@@ -29,7 +29,6 @@ public class QuarkClient extends Module {
 		registerFeature(new BetterFireEffect());
 		registerFeature(new EnchantedBooksShowItems());
 		registerFeature(new ShowInvalidSlots());
-		registerFeature(new TextureDump(), "Dump texture atlases as images", false);
 	}
 	
 	@Override

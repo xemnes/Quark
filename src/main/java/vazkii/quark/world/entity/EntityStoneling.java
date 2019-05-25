@@ -72,7 +72,7 @@ public class EntityStoneling extends EntityCreature {
 			tasks.addTask(3, new EntityAITempt(this, 0.6, Items.DIAMOND, false));
 
 		tasks.addTask(2, new EntityAIRunAndPoof<>(this, EntityPlayer.class, 4, 0.5, 0.5));
-		tasks.addTask(1, waryTask = new EntityAIActWary(this, 0.1, 6, false));
+		tasks.addTask(1, waryTask = new EntityAIActWary(this, 0.1, 6, Stonelings.cautiousStonelings));
 	}
 
 	@Override

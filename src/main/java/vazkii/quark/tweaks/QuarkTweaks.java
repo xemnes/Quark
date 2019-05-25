@@ -52,7 +52,7 @@ public class QuarkTweaks extends Module {
 		registerFeature(new BlastproofShulkerBoxes());
 		registerFeature(new DyeAnyWool());
 		registerFeature(new SquidsInkYou());
-		registerFeature(new SpringySlime(), "Slime blocks bounce off sides, and items bounce off slime blocks");
+		registerFeature(new SpringySlime(), "Slime blocks bounce off sides");
 	}
 	
 	@Override

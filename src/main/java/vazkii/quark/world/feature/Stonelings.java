@@ -22,6 +22,7 @@ public class Stonelings extends Feature {
 	public static int maxYLevel, weight;
 	public static DimensionConfig dimensions;
 	public static boolean enableDiamondHeart;
+	public static boolean cautiousStonelings;
 
 	public static Item diamond_heart;
 
@@ -30,6 +31,7 @@ public class Stonelings extends Feature {
 		maxYLevel = loadPropInt("Max Y Level", "", 24);
 		weight = loadPropInt("Spawning Weight", "Higher = more stonelings", 80);
 		enableDiamondHeart = loadPropBool("Enable Diamond Heart", "", true);
+		cautiousStonelings = loadPropBool("Cautious Stonelings", "Do stonelings get spooked when players move suddenly near them?", true);
 
 		dimensions = new DimensionConfig(configCategory);
 	}

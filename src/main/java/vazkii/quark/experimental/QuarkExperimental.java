@@ -13,14 +13,8 @@ package vazkii.quark.experimental;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import vazkii.quark.base.module.Module;
-import vazkii.quark.experimental.features.BiggerCaves;
-import vazkii.quark.experimental.features.CollateralPistonMovement;
-import vazkii.quark.experimental.features.ColoredLights;
-import vazkii.quark.experimental.features.FramedBlocks;
-import vazkii.quark.experimental.features.ParrotsSayDespacito;
-import vazkii.quark.experimental.features.PrintSuppressor;
-import vazkii.quark.experimental.features.ReactiveCursor;
-import vazkii.quark.experimental.features.WednesdayFrog;
+import vazkii.quark.client.feature.TextureDump;
+import vazkii.quark.experimental.features.*;
 
 public class QuarkExperimental extends Module {
 
@@ -34,6 +28,7 @@ public class QuarkExperimental extends Module {
 		registerFeature(new CollateralPistonMovement(), false);
 		registerFeature(new WednesdayFrog(), false);
 		registerFeature(new FramedBlocks(), false);
+		registerFeature(new TextureDump(), "Dump texture atlases", false);
 	}
 
 	@Override
