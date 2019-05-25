@@ -679,6 +679,7 @@ item.quark:dye_black.name=Black Dye
 item.quark:dye_white.name=White Dye
 item.quark:archeologist_hat.name=Archaeologist Hat
 item.quark:diamond_heart.name=Heart of Diamond
+item.quark:pickarang.name=Pickarang
 
 # ENTITY NAMES
 entity.quark:colored_item_frame.name=Colored Item Frame
