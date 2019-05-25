@@ -459,6 +459,13 @@
 				"description":"You can now make Buttons and Pressure Plates out of all wood types. They act exactly the same to the oak wood counterparts.<br><br><i>This feature was added as a backport of a 1.13 feature, and will be removed upon the release of 1.13</i>",
 				"image":"pressure-plates-buttons.jpg",
 				"introduced":12
+			},
+			{
+				"name":"Tie Leads to Fences",
+				"classname":"TieFences",
+				"description":"Right click a Lead onto a Fence to tie the Lead to it, after this just right click on another fence to make a connection. This allows you to use the fence look at will without needing mobs.",
+				"image":"tie-leads.jpg",
+				"introduced":12
 			}
 		]
 	},
@@ -801,6 +808,14 @@
 				"classname":"SquidsInkYou",
 				"description":"Upon being attacked, Squids will release some ink, which inflicts blindness on nearby players.",
 				"image":"squid-inking.jpg",
+				"introduced":12
+			},
+			{
+				"name":"Springy Slime",
+				"classname":"SpringySlime",
+				"description":"Slime Blocks will now bounce entities that hit them from the side rather than just the top. Furthermore, items will also bounce on them.",
+				"image":"springy-slime.jpg",
+				"contributor": "WireSegal",
 				"introduced":12
 			}
 		]
@@ -1330,6 +1345,13 @@
 				"classname":"ParrotEggs",
 				"description":"Feeding a parrot Beetroot Seeds has a chance to make the parrot start making an egg. After a few minutes, the parrot will pop out a Parrot Egg, which you throw like a normal egg to get a guaranteed parrot of the egg's color.<br><br>The color of the egg that is produced deepnds on the color of the parrot laying it. Every parrot can lay every color, but it's much more likely you'll get an egg of the same color.<br><br>There's also a secret parrot added...",
 				"image":"parrot-eggs.jpg",
+				"introduced":12
+			},
+			{
+				"name":"Pickarang",
+				"classname":"Pickarang",
+				"description":"A new tool for mining! The pickarang is a boomerang pickaxe - throw it, it breaks whatever it hits, and comes back to you with the drops.<br><br>The Pickarang is crafted witn a Heart of Diamond (from Stonelings, in the World module, or just diamonds if it's disabled), and can be enchanted with Unbreaking, Fortune, and Silk Touch.<br><br>Check it out in action <a href='https://twitter.com/VazkiiMods/status/1132097540902535168'>here</a>.",
+				"image":"pickarang.jpg",
 				"introduced":12
 			}
 		]
