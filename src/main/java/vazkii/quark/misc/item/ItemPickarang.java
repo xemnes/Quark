@@ -46,7 +46,9 @@ public class ItemPickarang extends ItemMod implements IQuarkItem {
             worldIn.spawnEntity(entity);
         }
 
-        playerIn.getCooldownTracker().setCooldown(this, 10);
+        if(!Pickarang.noCooldown)
+        	playerIn.getCooldownTracker().setCooldown(this, 10);
+        
         playerIn.addStat(StatList.getObjectUseStats(this));
         return new ActionResult(EnumActionResult.SUCCESS, itemstack);
     }

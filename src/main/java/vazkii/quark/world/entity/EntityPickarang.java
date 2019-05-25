@@ -5,11 +5,13 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockShulkerBox;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
+import net.minecraft.init.Enchantments;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
@@ -63,9 +65,15 @@ public class EntityPickarang extends EntityThrowable {
 		if(dataManager.get(RETURNING))
 			return;
 		
+		EntityLivingBase owner = getThrower();
+
 		if(result.typeOfHit == Type.BLOCK) {
 			dataManager.set(RETURNING, true);
 			
+			if(!(owner instanceof EntityPlayer))
+				return;
+			
+			EntityPlayer player = (EntityPlayer) owner;
 			BlockPos hit = result.getBlockPos();
 			IBlockState state = world.getBlockState(hit);
 			Block block = state.getBlock();
@@ -73,28 +81,16 @@ public class EntityPickarang extends EntityThrowable {
 			float hardness = state.getBlockHardness(world, hit);
 			int neededHarvestLevel = block.getHarvestLevel(state);
 			int harvestLevel = 3;
-			
-			if(neededHarvestLevel <= harvestLevel && hardness != -1 && hardness < 50F) {
-				// TODO if not play clink sound
-				NonNullList<ItemStack> items = NonNullList.create();
-				block.getDrops(items, world, hit, world.getBlockState(hit), 0);
-				float chance = ForgeEventFactory.fireBlockHarvesting(items, world, hit, state, 0, 1F, false, null);
 
+			// TODO if not play clink sound
+			if(neededHarvestLevel <= harvestLevel && hardness != -1 && hardness < 50F) {
 				world.setBlockToAir(hit);
 				world.playEvent(2001, hit, Block.getStateId(state));
 
-				for(ItemStack stack_ : items) {
-					// Shulker boxes do weird things and drop themselves in breakBlock, so don't drop any dupes
-					if(block instanceof BlockShulkerBox && Block.getBlockFromItem(stack_.getItem()) instanceof BlockShulkerBox)
-						continue;
-					if(world.rand.nextFloat() <= chance)
-						Block.spawnAsEntity(world, hit, stack_);
-				}
+				block.harvestBlock(world, player, hit, state, world.getTileEntity(hit), stack);
 			}
 		} else if(result.typeOfHit == Type.ENTITY) {
 			Entity hit = result.entityHit;
-			EntityLivingBase owner = getThrower();
-			
 			if(hit != owner) {
 				dataManager.set(RETURNING, true);
 				
@@ -132,8 +128,7 @@ public class EntityPickarang extends EntityThrowable {
 				item.motionY = motion.y;
 				item.motionZ = motion.z;
 				
-				if(!item.cannotPickup())
-					item.setPickupDelay(2);
+				item.setPickupDelay(2);
 			}
 			
 			EntityLivingBase owner = getThrower();
@@ -156,7 +151,7 @@ public class EntityPickarang extends EntityThrowable {
 		        if(stack.isItemStackDamageable())
 		        	stack.damageItem(1, player);
 				
-		        if(!world.isRemote) {
+		        if(!world.isRemote) { // TODO return sfx
 			        if(!stack.isEmpty()) {
 						if(stackInSlot.isEmpty())
 							player.inventory.setInventorySlotContents(slot, stack);
