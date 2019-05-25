@@ -68,8 +68,10 @@ public class EntityStoneling extends EntityCreature {
 	protected void initEntityAI() {
 		tasks.addTask(4, new EntityAIWanderAvoidWater(this, 0.2, 1F));
 
-		if(Stonelings.enableDiamondHeart)
-			tasks.addTask(3, new EntityAITempt(this, 0.6, Items.DIAMOND, false));
+		if(Stonelings.enableDiamondHeart || Stonelings.tamableStonelings) {
+			int priority = Stonelings.tamableStonelings ? 0 : 3;
+			tasks.addTask(priority, new EntityAITempt(this, 0.6, Items.DIAMOND, false));
+		}
 
 		tasks.addTask(2, new EntityAIRunAndPoof<>(this, EntityPlayer.class, 4, 0.5, 0.5));
 		tasks.addTask(1, waryTask = new EntityAIActWary(this, 0.1, 6, Stonelings.cautiousStonelings));
@@ -95,60 +97,79 @@ public class EntityStoneling extends EntityCreature {
 		return !isTame;
 	}
 
+	private static boolean fitsOreKey(ItemStack stack, String key) {
+		if (stack.isEmpty())
+			return false;
+
+		int[] ids = OreDictionary.getOreIDs(stack);
+		int oreKey = OreDictionary.getOreID(key);
+		for (int id : ids) {
+			if (id == oreKey)
+				return true;
+		}
+		return false;
+	}
+
 	@Nonnull
 	@Override
 	public EnumActionResult applyPlayerInteraction(EntityPlayer player, Vec3d vec, EnumHand hand) {
-		if(isPlayerMade() && hand == EnumHand.MAIN_HAND) {
+		if(hand == EnumHand.MAIN_HAND) {
 			ItemStack playerItem = player.getHeldItem(hand);
 
 			if(!world.isRemote) {
-				if(!player.isSneaking() && !playerItem.isEmpty()) {
-					int[] ids = OreDictionary.getOreIDs(playerItem);
-					EnumStonelingVariant currentVariant = getVariant();
-					EnumStonelingVariant targetVariant = null;
-					for (EnumStonelingVariant variant : EnumStonelingVariant.values()) {
-						int oreKey = OreDictionary.getOreID(variant.getOreKey());
-						for (int id : ids) {
-							if (id == oreKey) {
+				if (isPlayerMade()) {
+					if (!player.isSneaking() && !playerItem.isEmpty()) {
+						EnumStonelingVariant currentVariant = getVariant();
+						EnumStonelingVariant targetVariant = null;
+						for (EnumStonelingVariant variant : EnumStonelingVariant.values()) {
+							if (fitsOreKey(playerItem, variant.getOreKey()))
 								targetVariant = variant;
-								break;
+						}
+
+						if (targetVariant != null) {
+							if (world instanceof WorldServer) {
+								((WorldServer) world).spawnParticle(EnumParticleTypes.HEART, posX, posY + height, posZ, 1, 0.1, 0.1, 0.1, 0.1);
+								if (targetVariant != currentVariant)
+									((WorldServer) world).spawnParticle(EnumParticleTypes.BLOCK_CRACK, posX, posY + height / 2, posZ, 16, 0.1, 0.1, 0.1, 0.25,
+											Block.getStateId(targetVariant.getDisplayState()));
 							}
+
+							if (targetVariant != currentVariant) {
+								playSound(QuarkSounds.ENTITY_STONELING_EAT, 1F, 0.8F);
+								dataManager.set(VARIANT, targetVariant.getIndex());
+							}
+
+							playSound(QuarkSounds.ENTITY_STONELING_PURR, 0.25F, 0.25F + world.rand.nextFloat() * 0.25F);
+
+							heal(1);
+
+							if (!player.capabilities.isCreativeMode)
+								playerItem.shrink(1);
+
+							return EnumActionResult.SUCCESS;
 						}
 					}
 
-					if (targetVariant != null) {
-						if (world instanceof WorldServer) {
-							((WorldServer) world).spawnParticle(EnumParticleTypes.HEART, posX, posY + height, posZ, 1, 0.1, 0.1, 0.1, 0.1);
-							if (targetVariant != currentVariant)
-								((WorldServer) world).spawnParticle(EnumParticleTypes.BLOCK_CRACK, posX, posY + height / 2, posZ, 16, 0.1, 0.1, 0.1, 0.25,
-										Block.getStateId(targetVariant.getDisplayState()));
-						}
+					ItemStack stonelingItem = dataManager.get(CARRYING_ITEM);
 
-						if (targetVariant != currentVariant) {
-							playSound(QuarkSounds.ENTITY_STONELING_EAT, 1F, 0.8F);
-							dataManager.set(VARIANT, targetVariant.getIndex());
-						}
+					if (!stonelingItem.isEmpty() || !playerItem.isEmpty()) {
+						player.setHeldItem(hand, stonelingItem.copy());
+						dataManager.set(CARRYING_ITEM, playerItem.copy());
 
-						playSound(QuarkSounds.ENTITY_STONELING_PURR, 0.25F, 0.25F + world.rand.nextFloat() * 0.25F);
-
-						heal(1);
-
-						if (!player.capabilities.isCreativeMode)
-							playerItem.shrink(1);
-
-						return EnumActionResult.SUCCESS;
+						if (playerItem.isEmpty())
+							playSound(QuarkSounds.ENTITY_STONELING_GIVE, 1.0F, 1.0F);
+						else playSound(QuarkSounds.ENTITY_STONELING_TAKE, 1.0F, 1.0F);
 					}
-				}
+				} else if (Stonelings.tamableStonelings && fitsOreKey(playerItem, "gemDiamond")) {
+					heal(8);
 
-				ItemStack stonelingItem = dataManager.get(CARRYING_ITEM);
+					playSound(QuarkSounds.ENTITY_STONELING_PURR, 0.25F, 0.25F + world.rand.nextFloat() * 0.25F);
 
-				if (!stonelingItem.isEmpty() || !playerItem.isEmpty()) {
-					player.setHeldItem(hand, stonelingItem.copy());
-					dataManager.set(CARRYING_ITEM, playerItem.copy());
+					if (!player.capabilities.isCreativeMode)
+						playerItem.shrink(1);
 
-					if (playerItem.isEmpty())
-						playSound(QuarkSounds.ENTITY_STONELING_GIVE, 1.0F, 1.0F);
-					else playSound(QuarkSounds.ENTITY_STONELING_TAKE, 1.0F, 1.0F);
+					if (world instanceof WorldServer)
+						((WorldServer) world).spawnParticle(EnumParticleTypes.HEART, posX, posY + height, posZ, 4, 0.1, 0.1, 0.1, 0.1);
 				}
 			}
 

@@ -23,6 +23,7 @@ public class Stonelings extends Feature {
 	public static DimensionConfig dimensions;
 	public static boolean enableDiamondHeart;
 	public static boolean cautiousStonelings;
+	public static boolean tamableStonelings;
 
 	public static Item diamond_heart;
 
@@ -32,6 +33,7 @@ public class Stonelings extends Feature {
 		weight = loadPropInt("Spawning Weight", "Higher = more stonelings", 80);
 		enableDiamondHeart = loadPropBool("Enable Diamond Heart", "", true);
 		cautiousStonelings = loadPropBool("Cautious Stonelings", "Do stonelings get spooked when players move suddenly near them?", true);
+		tamableStonelings = loadPropBool("Tamable Stonelings", "Can stonelings be tamed by feeding them diamonds?", true);
 
 		dimensions = new DimensionConfig(configCategory);
 	}
