@@ -10,11 +10,16 @@
  */
 package vazkii.quark.world.entity.ai;
 
-import java.util.List;
-
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.text.TextComponentString;
+import vazkii.quark.base.util.MutableVectorHolder;
 import vazkii.quark.world.entity.EntityStoneling;
+
+import java.util.List;
+import java.util.Map;
+import java.util.WeakHashMap;
 
 public class EntityAIActWary extends EntityAIWanderAvoidWater {
 
@@ -26,11 +31,32 @@ public class EntityAIActWary extends EntityAIWanderAvoidWater {
 
 	private boolean startled;
 
+	private final Map<EntityPlayer, MutableVectorHolder> lastPositions = new WeakHashMap<>();
+	private final Map<EntityPlayer, MutableVectorHolder> lastSpeeds = new WeakHashMap<>();
+
 	public EntityAIActWary(EntityStoneling stoneling, double speed, double range, boolean scaredBySuddenMovement) {
 		super(stoneling, speed, 1F);
 		this.stoneling = stoneling;
 		this.range = range;
 		this.scaredBySuddenMovement = scaredBySuddenMovement;
+	}
+
+	private static void updateMotion(MutableVectorHolder holder, double x, double y, double z) {
+		holder.x = x;
+		holder.y = y;
+		holder.z = z;
+	}
+
+	private static void updatePos(MutableVectorHolder holder, Entity entity) {
+		holder.x = entity.posX;
+		holder.y = entity.posY;
+		holder.z = entity.posZ;
+	}
+
+	private static MutableVectorHolder initPos(EntityPlayer p) {
+		MutableVectorHolder holder = new MutableVectorHolder();
+		updatePos(holder, p);
+		return holder;
 	}
 
 	public void startle() {
@@ -71,10 +97,24 @@ public class EntityAIActWary extends EntityAIWanderAvoidWater {
 		for (EntityPlayer player : playersAround) {
 			if (player.isSneaking()) {
 				if (scaredBySuddenMovement) {
-					double dX = player.posX - player.lastTickPosX;
-					double dY = player.posY - player.lastTickPosY;
-					double dZ = player.posZ - player.lastTickPosZ;
-					double displacementSq = dX * dX + dY * dY + dZ * dZ;
+					MutableVectorHolder lastSpeed = lastSpeeds.computeIfAbsent(player, p -> new MutableVectorHolder());
+					MutableVectorHolder lastPos = lastPositions.computeIfAbsent(player, EntityAIActWary::initPos);
+					double dX = player.posX - lastPos.x;
+					double dY = player.posY - lastPos.y;
+					double dZ = player.posZ - lastPos.z;
+
+					double xDisplacement = dX - lastSpeed.x;
+					double yDisplacement = dY - lastSpeed.y;
+					double zDisplacement = dZ - lastSpeed.z;
+
+					updateMotion(lastSpeed, dX, dY, dZ);
+					updatePos(lastPos, player);
+
+					double displacementSq = xDisplacement * xDisplacement +
+							yDisplacement * yDisplacement +
+							zDisplacement * zDisplacement;
+
+					player.sendStatusMessage(new TextComponentString("" + displacementSq), true);
 					if (displacementSq < 0.01)
 						return true;
 

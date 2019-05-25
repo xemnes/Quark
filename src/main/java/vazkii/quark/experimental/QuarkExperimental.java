@@ -13,7 +13,7 @@ package vazkii.quark.experimental;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import vazkii.quark.base.module.Module;
-import vazkii.quark.client.feature.TextureDump;
+import vazkii.quark.experimental.client.TextureDump;
 import vazkii.quark.experimental.features.*;
 
 public class QuarkExperimental extends Module {

@@ -8,7 +8,7 @@
  * <p>
  * File Created @ [May 14, 2019, 12:16 AM (EST)]
  */
-package vazkii.quark.client.feature;
+package vazkii.quark.experimental.client;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureMap;
