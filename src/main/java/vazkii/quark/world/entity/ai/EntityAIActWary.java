@@ -114,7 +114,6 @@ public class EntityAIActWary extends EntityAIWanderAvoidWater {
 							yDisplacement * yDisplacement +
 							zDisplacement * zDisplacement;
 
-					player.sendStatusMessage(new TextComponentString("" + displacementSq), true);
 					if (displacementSq < 0.01)
 						return true;
 
