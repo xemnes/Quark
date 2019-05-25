@@ -543,10 +543,28 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 				(MethodNode method, AbstractInsnNode node) -> { // Action
 					InsnList newInstructions = new InsnList();
 
+					int d2 = 14;
+					int d3 = 16;
+					int d4 = 18;
+					for (LocalVariableNode lvn : method.localVariables) {
+						switch (lvn.name) {
+							case "d2":
+								d2 = lvn.index;
+								break;
+							case "d3":
+								d3 = lvn.index;
+								break;
+							case "d4":
+								d4 = lvn.index;
+								break;
+						}
+					}
+
+
 					newInstructions.add(new VarInsnNode(ALOAD, 0));
-					newInstructions.add(new VarInsnNode(DLOAD, 14));
-					newInstructions.add(new VarInsnNode(DLOAD, 16));
-					newInstructions.add(new VarInsnNode(DLOAD, 18));
+					newInstructions.add(new VarInsnNode(DLOAD, d2));
+					newInstructions.add(new VarInsnNode(DLOAD, d3));
+					newInstructions.add(new VarInsnNode(DLOAD, d4));
 					newInstructions.add(new VarInsnNode(DLOAD, 2));
 					newInstructions.add(new VarInsnNode(DLOAD, 4));
 					newInstructions.add(new VarInsnNode(DLOAD, 6));
@@ -580,7 +598,7 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 		}
 
 		if (didAnything) {
-			ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
+			ClassWriter writer = new SafeClassWriter(ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
 			node.accept(writer);
 			return writer.toByteArray();
 		}
@@ -684,6 +702,44 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 			return FMLDeobfuscatingRemapper.INSTANCE.mapMethodName(owner, srgName, funcDesc);
 		}
 
+	}
+	/**
+	 * Safe class writer.
+	 * The way COMPUTE_FRAMES works may require loading additional classes. This can cause ClassCircularityErrors.
+	 * The override for getCommonSuperClass will ensure that COMPUTE_FRAMES works properly by using the right ClassLoader.
+	 * <p>
+	 * Code from: https://github.com/JamiesWhiteShirt/clothesline/blob/master/src/core/java/com/jamieswhiteshirt/clothesline/core/SafeClassWriter.java
+	 */
+	public static class SafeClassWriter extends ClassWriter {
+		public SafeClassWriter(int flags) {
+			super(flags);
+		}
+
+		@Override
+		protected String getCommonSuperClass(String type1, String type2) {
+			Class<?> c, d;
+			ClassLoader classLoader = Launch.classLoader;
+			try {
+				c = Class.forName(type1.replace('/', '.'), false, classLoader);
+				d = Class.forName(type2.replace('/', '.'), false, classLoader);
+			} catch (Exception e) {
+				throw new RuntimeException(e.toString());
+			}
+			if (c.isAssignableFrom(d)) {
+				return type1;
+			}
+			if (d.isAssignableFrom(c)) {
+				return type2;
+			}
+			if (c.isInterface() || d.isInterface()) {
+				return "java/lang/Object";
+			} else {
+				do {
+					c = c.getSuperclass();
+				} while (!c.isAssignableFrom(d));
+				return c.getName().replace('.', '/');
+			}
+		}
 	}
 
 	// Basic interface aliases to not have to clutter up the code with generics over and over again
