@@ -13,7 +13,6 @@ package vazkii.quark.world.entity.ai;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.text.TextComponentString;
 import vazkii.quark.base.util.MutableVectorHolder;
 import vazkii.quark.world.entity.EntityStoneling;
 

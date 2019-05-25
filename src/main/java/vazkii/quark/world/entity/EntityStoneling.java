@@ -90,6 +90,11 @@ public class EntityStoneling extends EntityCreature {
 		this.renderYawOffset = this.rotationYaw;
 	}
 
+	@Override
+	protected boolean canDespawn() {
+		return !isTame;
+	}
+
 	@Nonnull
 	@Override
 	public EnumActionResult applyPlayerInteraction(EntityPlayer player, Vec3d vec, EnumHand hand) {
