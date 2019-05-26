@@ -71,4 +71,9 @@ public class CustomEmoteIconResourcePack extends AbstractResourcePack {
 		return new File(EmoteSystem.emotesDir, filename);
 	}
 
+	@Nonnull
+	@Override
+	public String getPackName() {
+		return "quark-emote-pack";
+	}
 }

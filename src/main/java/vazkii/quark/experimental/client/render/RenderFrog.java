@@ -16,7 +16,7 @@ public class RenderFrog extends RenderLiving<EntityFrog> {
 	public static final IRenderFactory<EntityFrog> FACTORY = RenderFrog::new;
 	
 	public RenderFrog(RenderManager manager) {
-		super(manager, new ModelFrog(), 0.4F);
+		super(manager, new ModelFrog(), 0.2F);
 	}
 
 	@Override

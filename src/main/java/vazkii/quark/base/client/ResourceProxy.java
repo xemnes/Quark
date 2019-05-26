@@ -42,8 +42,6 @@ public class ResourceProxy extends AbstractResourcePack {
 	@Nonnull
 	@Override
 	protected InputStream getInputStreamByName(@Nonnull String name) {
-
-		String file = overrides.get(name);
 		return Quark.class.getResourceAsStream(overrides.get(name));
 	}
 
