@@ -1,12 +1,14 @@
 package vazkii.quark.experimental.entity;
 
-import net.minecraft.entity.EntityCreature;
+import com.google.common.collect.Sets;
+import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.ai.*;
+import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -16,11 +18,15 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 import vazkii.quark.base.sounds.QuarkSounds;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Calendar;
+import java.util.Set;
 
-public class EntityFrog extends EntityCreature {
+public class EntityFrog extends EntityAnimal {
 
 	private static final DataParameter<Integer> TALK_TIME = EntityDataManager.createKey(EntityFrog.class, DataSerializers.VARINT);
+	private static final Set<Item> TEMPTATION_ITEMS = Sets.newHashSet(Items.FISH, Items.EGG, Items.SPIDER_EYE);
 
 	public int spawnCd = -1;
 	public int spawnChain = 30;
@@ -40,9 +46,13 @@ public class EntityFrog extends EntityCreature {
 	@Override
 	protected void initEntityAI() {
 		tasks.addTask(0, new EntityAISwimming(this));
-		tasks.addTask(1, new EntityAIWanderAvoidWater(this, 1));
-		tasks.addTask(2, new EntityAIWatchClosest(this, EntityPlayer.class, 6));
-		tasks.addTask(3, new EntityAILookIdle(this));
+		tasks.addTask(1, new EntityAIPanic(this, 1.25));
+		tasks.addTask(3, new EntityAIMate(this, 1.0));
+		tasks.addTask(4, new EntityAITempt(this, 1.2, false, TEMPTATION_ITEMS));
+		tasks.addTask(5, new EntityAIFollowParent(this, 1.1));
+		tasks.addTask(6, new EntityAIWanderAvoidWater(this, 1));
+		tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 6));
+		tasks.addTask(8, new EntityAILookIdle(this));
 	}
 
 	@Override
@@ -90,18 +100,33 @@ public class EntityFrog extends EntityCreature {
 	}
 
 	@Override
-	protected boolean processInteract(EntityPlayer player, EnumHand hand) {
-		if(!world.isRemote) {
-			Calendar calendar = world.getCurrentDate();
-
-			if (spawnChain > 0 && calendar.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY) {
-				spawnCd = 50;
-				dataManager.set(TALK_TIME, 80);
-				world.playSound(null, posX, posY, posZ, QuarkSounds.ENTITY_FROG_WEDNESDAY, SoundCategory.NEUTRAL, 1F, 1F);
+	public boolean processInteract(EntityPlayer player, @Nonnull EnumHand hand) {
+		Calendar calendar = world.getCurrentDate();
+		if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY) {
+			if (!world.isRemote) {
+				if (spawnChain > 0) {
+					spawnCd = 50;
+					dataManager.set(TALK_TIME, 80);
+					world.playSound(null, posX, posY, posZ, QuarkSounds.ENTITY_FROG_WEDNESDAY, SoundCategory.NEUTRAL, 1F, 1F);
+				}
 			}
+
+			return true;
 		}
 		
-		return true;
+		return super.processInteract(player, hand);
+	}
+
+	@Nullable
+	@Override
+	public EntityAgeable createChild(@Nonnull EntityAgeable otherParent) {
+		return new EntityFrog(world);
+	}
+
+	@Override
+	public boolean isBreedingItem(ItemStack stack) {
+		return !stack.isEmpty() && TEMPTATION_ITEMS.contains(stack.getItem());
+
 	}
 
 	@Override

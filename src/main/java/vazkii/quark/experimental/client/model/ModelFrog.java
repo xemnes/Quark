@@ -2,6 +2,7 @@ package vazkii.quark.experimental.client.model;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.math.MathHelper;
@@ -74,6 +75,12 @@ public class ModelFrog extends ModelBase {
 
     @Override
     public void render(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+        if (isChild) {
+            GlStateManager.pushMatrix();
+            GlStateManager.translate(0, 0.75, 0);
+            GlStateManager.scale(0.5, 0.5, 0.5);
+        }
+
         rightArm.render(scale);
         leftArm.render(scale);
         body.render(scale);
@@ -81,6 +88,10 @@ public class ModelFrog extends ModelBase {
         headBottom.render(scale);
         rightEye.render(scale);
         leftEye.render(scale);
+
+        if (isChild) {
+            GlStateManager.popMatrix();
+        }
     }
     
 }
