@@ -139,7 +139,6 @@ public class EntityFrog extends EntityAnimal {
 	@Override
 	public boolean isBreedingItem(ItemStack stack) {
 		return !stack.isEmpty() && TEMPTATION_ITEMS.contains(stack.getItem());
-
 	}
 
 	@Override
