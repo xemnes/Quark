@@ -113,6 +113,9 @@ public class EntityFrog extends EntityAnimal {
 
 	@Override
 	public boolean processInteract(EntityPlayer player, @Nonnull EnumHand hand) {
+		if (super.processInteract(player, hand))
+			return true;
+
 		Calendar calendar = world.getCurrentDate();
 		if (Frogs.frogsDoTheFunny && calendar.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY) {
 			if (!world.isRemote) if (spawnChain > 0) {
@@ -124,7 +127,7 @@ public class EntityFrog extends EntityAnimal {
 			return true;
 		}
 
-		return super.processInteract(player, hand);
+		return false;
 	}
 
 	@Nullable
