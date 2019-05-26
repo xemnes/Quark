@@ -65,8 +65,8 @@ public class ModelFrog extends ModelBase {
 
     @Override
     public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
-        rightArm.rotateAngleX = MathHelper.cos(limbSwing * 2 / 3) * 1.4F * limbSwingAmount;
-        leftArm.rotateAngleX = MathHelper.cos(limbSwing * 2 / 3) * 1.4F * limbSwingAmount;
+        rightArm.rotateAngleX = MathHelper.cos(limbSwing * 2 / 3) * 1F * limbSwingAmount;
+        leftArm.rotateAngleX = MathHelper.cos(limbSwing * 2 / 3) * 1F * limbSwingAmount;
 
         headTop.rotateAngleX = headPitch * (float) Math.PI / 180;
         rightEye.rotateAngleX = leftEye.rotateAngleX = headTop.rotateAngleX;
