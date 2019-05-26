@@ -34,7 +34,7 @@ import java.util.Set;
 public class EntityFrog extends EntityAnimal {
 
 	private static final DataParameter<Integer> TALK_TIME = EntityDataManager.createKey(EntityFrog.class, DataSerializers.VARINT);
-	private static final Set<Item> TEMPTATION_ITEMS = Sets.newHashSet(Items.FISH, Items.EGG, Items.SPIDER_EYE);
+	private static final Set<Item> TEMPTATION_ITEMS = Sets.newHashSet(Items.FISH, Items.SPIDER_EYE);
 
 	public int spawnCd = -1;
 	public int spawnChain = 30;
