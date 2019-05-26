@@ -2,6 +2,7 @@ package vazkii.quark.world.entity;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityCreature;
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAITempt;
@@ -16,10 +17,7 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.EnumSkyBlock;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
+import net.minecraft.world.*;
 import net.minecraft.world.storage.loot.LootContext;
 import net.minecraftforge.oredict.OreDictionary;
 import vazkii.quark.base.sounds.QuarkSounds;
@@ -88,8 +86,19 @@ public class EntityStoneling extends EntityCreature {
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
+
+		if (!world.isRemote && world.getDifficulty() == EnumDifficulty.PEACEFUL && !isTame)
+			setDead();
+
 		this.prevRenderYawOffset = this.prevRotationYaw;
 		this.renderYawOffset = this.rotationYaw;
+	}
+
+	@Override
+	public boolean isCreatureType(@Nonnull EnumCreatureType type, boolean forSpawnCount) {
+		if (isTame)
+			return type == EnumCreatureType.CREATURE;
+		return type == EnumCreatureType.MONSTER;
 	}
 
 	@Override
