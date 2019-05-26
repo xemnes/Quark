@@ -52,7 +52,7 @@ public class PanoramaMaker extends Feature {
 	private int panoramaStep;
 	private boolean takingPanorama;
 	private int currentWidth, currentHeight;
-	private boolean overridenOnce;
+	private boolean overriddenOnce;
 
 	public static boolean overrideMainMenu;
 	public static int panoramaSize;
@@ -67,7 +67,7 @@ public class PanoramaMaker extends Feature {
 
 	@SubscribeEvent
 	public void loadMainMenu(GuiOpenEvent event) {
-		if(overrideMainMenu && !overridenOnce && event.getGui() instanceof GuiMainMenu) {
+		if(overrideMainMenu && !overriddenOnce && event.getGui() instanceof GuiMainMenu) {
 			File mcDir = ModuleLoader.configFile.getParentFile().getParentFile();
 			File panoramasDir = new File(mcDir, "/screenshots/panoramas");
 			
@@ -83,9 +83,10 @@ public class PanoramaMaker extends Feature {
 					subDirs = new File[] { mainMenu };
 				else subDirs = panoramasDir.listFiles((File f) -> f.isDirectory() && !f.getName().endsWith("fullres"));
 
-				for(File f : subDirs)
-					if(set.stream().allMatch((String s) -> new File(f, s).exists()))
-						validFiles.add(f.listFiles((File f1) -> set.contains(f1.getName())));
+				if (subDirs != null)
+					for(File f : subDirs)
+						if(set.stream().allMatch((String s) -> new File(f, s).exists()))
+							validFiles.add(f.listFiles((File f1) -> set.contains(f1.getName())));
 			}
 
 			if(!validFiles.isEmpty()) {
@@ -114,9 +115,9 @@ public class PanoramaMaker extends Feature {
 					field.setAccessible(true);
 
 					if(Modifier.isFinal(field.getModifiers())) {
-						Field modfield = Field.class.getDeclaredField("modifiers");
-						modfield.setAccessible(true);
-						modfield.setInt(field, field.getModifiers() & ~Modifier.FINAL);
+						Field modifiers = Field.class.getDeclaredField("modifiers");
+						modifiers.setAccessible(true);
+						modifiers.setInt(field, field.getModifiers() & ~Modifier.FINAL);
 					}
 
 					field.set(null, resources);
@@ -125,7 +126,7 @@ public class PanoramaMaker extends Feature {
 				}
 			}
 
-			overridenOnce = true;
+			overriddenOnce = true;
 		}
 	}
 
@@ -141,23 +142,20 @@ public class PanoramaMaker extends Feature {
 			if(panoramaDir == null)
 				panoramaDir = new File(event.getScreenshotFile().getParentFile(), "panoramas");
 			if(!panoramaDir.exists())
-				panoramaDir.mkdirs();
+				if (!panoramaDir.mkdirs())
+					return;
 
-			int i = 0;
 			String ts = getTimestamp();
 			do {
 				if(fullscreen) {
-					if(i == 0)
-						currentDir = new File(panoramaDir + "_fullres", ts);
-					else currentDir = new File(panoramaDir, ts + "_" + i + "_fullres");
+					currentDir = new File(panoramaDir + "_fullres", ts);
 				} else {
-					if(i == 0)
-						currentDir = new File(panoramaDir, ts);
-					else currentDir = new File(panoramaDir, ts + "_" + i);
+					currentDir = new File(panoramaDir, ts);
 				}
 			} while(currentDir.exists());
 
-			currentDir.mkdirs();
+			if (!currentDir.mkdirs())
+				return;
 
 			event.setCanceled(true);
 			
@@ -238,12 +236,11 @@ public class PanoramaMaker extends Feature {
 
 			net.minecraftforge.client.ForgeHooksClient.onScreenshot(bufferedimage, file2);
 			ImageIO.write(bufferedimage, "png", file2);
-		} catch(Exception exception) { }
+		} catch(Exception ignored) { }
 	}
 
 	private static String getTimestamp() {
-		String s = DATE_FORMAT.format(new Date()).toString();
-		return s;
+		return DATE_FORMAT.format(new Date());
 	}
 
 	@Override

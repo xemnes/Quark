@@ -117,7 +117,7 @@ public class BlockQuarkWall extends BlockMod implements IQuarkBlock {
 	}
 
 	@Override
-	public boolean canPlaceTorchOnTop(IBlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos) {
+	public boolean canPlaceTorchOnTop(@Nonnull IBlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos) {
 		return true;
 	}
 

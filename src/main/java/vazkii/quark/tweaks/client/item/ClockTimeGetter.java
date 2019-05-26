@@ -49,7 +49,7 @@ public class ClockTimeGetter implements IItemPropertyGetter {
 			double angle;
 
 			if (worldIn.provider.isSurfaceWorld())
-				angle = (double)worldIn.getCelestialAngle(1.0F);
+				angle = worldIn.getCelestialAngle(1.0F);
 			else
 				angle = Math.random();
 

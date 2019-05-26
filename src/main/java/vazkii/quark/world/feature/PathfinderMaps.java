@@ -205,20 +205,20 @@ public class PathfinderMaps extends Feature {
 
 		@Override
 		public void addMerchantRecipe(@Nonnull IMerchant merchant, @Nonnull MerchantRecipeList recipeList, @Nonnull Random random) {
-			List<TradeInfo> infos = new ArrayList<>(trades.get(level));
-			if(infos.isEmpty())
+			List<TradeInfo> tradeInfo = new ArrayList<>(trades.get(level));
+			if(tradeInfo.isEmpty())
 				return;
 			
 			if(unlockAllAtOnce)
-				for(TradeInfo info : infos)
+				for(TradeInfo info : tradeInfo)
 					unlock(merchant, recipeList, random, info);
 			else {
-				int amount = (level == 2 && multipleAtFirstUnlock) ? Math.min(infos.size(), 2 + random.nextInt(2)) : 1;
+				int amount = (level == 2 && multipleAtFirstUnlock) ? Math.min(tradeInfo.size(), 2 + random.nextInt(2)) : 1;
 				
 				for(int i = 0; i < amount; i++) {
-					TradeInfo info = infos.get(random.nextInt(infos.size()));
+					TradeInfo info = tradeInfo.get(random.nextInt(tradeInfo.size()));
 					unlock(merchant, recipeList, random, info);
-					infos.remove(info);
+					tradeInfo.remove(info);
 				}
 			}
 		}

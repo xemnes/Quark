@@ -56,7 +56,7 @@ public class ItemSlimeBucket extends ItemMod implements IQuarkItem {
 	}
 
 	@Override
-	public void onUpdate(ItemStack stack, World world, Entity entity, int something, boolean somethingelse) {
+	public void onUpdate(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected) {
 		if(!world.isRemote) {
 			int x = MathHelper.floor(entity.posX);
 			int z = MathHelper.floor(entity.posZ);
@@ -108,11 +108,6 @@ public class ItemSlimeBucket extends ItemMod implements IQuarkItem {
 		}
 		
 		return super.getItemStackDisplayName(stack);
-	}
-
-	@Override
-	public boolean shouldCauseReequipAnimation(ItemStack oldStack, @Nonnull ItemStack newStack, boolean slotChanged) {
-		return super.shouldCauseReequipAnimation(oldStack, newStack, slotChanged);
 	}
 
 	public static boolean isSlimeChunk(World world, int x, int z) {

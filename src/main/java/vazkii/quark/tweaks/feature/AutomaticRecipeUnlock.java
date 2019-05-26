@@ -73,8 +73,8 @@ public class AutomaticRecipeUnlock extends Feature {
 			Queue<IToast> toastQueue = ObfuscationReflectionHelper.getPrivateValue(GuiToast.class, toasts, LibObfuscation.TOASTS_QUEUE);
 			for(IToast toast : toastQueue)
 				if(toast instanceof RecipeToast) {
-					RecipeToast rtoast = (RecipeToast) toast;
-					List<ItemStack> stacks = ObfuscationReflectionHelper.getPrivateValue(RecipeToast.class, rtoast, LibObfuscation.RECIPES_OUTPUTS);
+					RecipeToast recipeToast = (RecipeToast) toast;
+					List<ItemStack> stacks = ObfuscationReflectionHelper.getPrivateValue(RecipeToast.class, recipeToast, LibObfuscation.RECIPES_OUTPUTS);
 					if(stacks.size() > 100) {
 						toastQueue.remove(toast);
 						return;

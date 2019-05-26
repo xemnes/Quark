@@ -22,8 +22,6 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import vazkii.arl.recipe.MultiRecipe;
@@ -35,9 +33,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static vazkii.quark.tweaks.feature.StairsMakeMore.findResult;
+
 public class SlabsToBlocks extends Feature {
 
-	public static Map<IBlockState, ItemStack> slabs = new HashMap<>();
+	public static final Map<IBlockState, ItemStack> slabs = new HashMap<>();
 
 	public static int originalSize;
 	private MultiRecipe multiRecipe;
@@ -48,13 +48,13 @@ public class SlabsToBlocks extends Feature {
 	}
 	
 	@Override
-	public void postPreInit(FMLPreInitializationEvent event) {
+	public void postPreInit() {
 		multiRecipe = new MultiRecipe(new ResourceLocation("quark", "slabs_to_blocks"));
 	}
 	
 	@Override
 	@SuppressWarnings("deprecation")
-	public void postInit(FMLPostInitializationEvent event) {
+	public void postInit() {
 		List<ResourceLocation> recipeList = new ArrayList<>(CraftingManager.REGISTRY.getKeys());
 		for(ResourceLocation res : recipeList) {
 			IRecipe recipe = CraftingManager.REGISTRY.getObject(res);
@@ -69,29 +69,9 @@ public class SlabsToBlocks extends Feature {
 					Item outputItem = output.getItem();
 					Block outputBlock = Block.getBlockFromItem(outputItem);
 					if(outputBlock instanceof BlockSlab) {
-						ItemStack outStack = ItemStack.EMPTY;
-						int inputItems = 0;
+						ItemStack outStack = findResult(recipeItems, 3);
 
-						for(Ingredient ingredient : recipeItems) {
-							ItemStack recipeItem = ItemStack.EMPTY;
-							ItemStack[] matches = ingredient.getMatchingStacks();
-							if(matches.length > 0)
-								recipeItem = matches[0];
-							
-							if(recipeItem != null && !recipeItem.isEmpty()) {
-								if(outStack.isEmpty())
-									outStack = recipeItem;
-								
-								if(ItemStack.areItemsEqual(outStack, recipeItem))
-									inputItems++;
-								else {
-									outStack = ItemStack.EMPTY;
-									break;
-								}
-							}
-						}
-
-						if(!outStack.isEmpty() && inputItems == 3) {
+						if(!outStack.isEmpty()) {
 							ItemStack outCopy = outStack.copy();
 							if(outCopy.getItemDamage() == OreDictionary.WILDCARD_VALUE)
 								outCopy.setItemDamage(0);

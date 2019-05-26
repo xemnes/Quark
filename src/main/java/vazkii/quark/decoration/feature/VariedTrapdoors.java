@@ -51,7 +51,7 @@ public class VariedTrapdoors extends Feature {
 	}
 
 	@Override
-	public void postPreInit(FMLPreInitializationEvent event) {		
+	public void postPreInit() {
 		RecipeProcessor.addWoodReplacements(recipeOutput, Blocks.TRAPDOOR);
 		
 		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(spruce_trapdoor, recipeOutput),

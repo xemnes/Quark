@@ -45,7 +45,7 @@ public class ColoredItemFrames extends Feature {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void preInitClient(FMLPreInitializationEvent event) {
+	public void preInitClient() {
 		RenderingRegistry.registerEntityRenderingHandler(EntityColoredItemFrame.class, RenderColoredItemFrame.FACTORY);
 	}
 	

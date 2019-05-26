@@ -23,7 +23,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import vazkii.quark.base.module.ConfigHelper;
 import vazkii.quark.base.module.Feature;
 
@@ -43,7 +42,7 @@ public class DispensersPlaceSeeds extends Feature {
 	}
 	
 	@Override
-	public void init(FMLInitializationEvent event) {
+	public void init() {
 		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(Items.WHEAT_SEEDS, new BehaviourSeeds(Blocks.WHEAT));
 		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(Items.POTATO, new BehaviourSeeds(Blocks.POTATOES));
 		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(Items.CARROT, new BehaviourSeeds(Blocks.CARROTS));

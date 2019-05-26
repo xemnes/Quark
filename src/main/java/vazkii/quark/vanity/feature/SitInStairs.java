@@ -105,15 +105,15 @@ public class SitInStairs extends Feature {
 			super.onUpdate();
 
 			BlockPos pos = getPosition();
-			if(pos != null && !(getEntityWorld().getBlockState(pos).getBlock() instanceof BlockStairs) || !canBeAbove(getEntityWorld(), pos)) {
+			if(!(getEntityWorld().getBlockState(pos).getBlock() instanceof BlockStairs) || !canBeAbove(getEntityWorld(), pos)) {
 				setDead();
 				return;
 			}
 
-			List<Entity> passangers = getPassengers();
-			if(passangers.isEmpty())
+			List<Entity> passengers = getPassengers();
+			if(passengers.isEmpty())
 				setDead();
-			for(Entity e : passangers)
+			for(Entity e : passengers)
 				if(e.isSneaking())
 					setDead();
 		}

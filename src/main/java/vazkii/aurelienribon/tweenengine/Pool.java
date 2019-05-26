@@ -3,7 +3,7 @@ package vazkii.aurelienribon.tweenengine;
 import java.util.ArrayList;
 
 /**
- * A light pool of objects that can be resused to avoid allocation.
+ * A light pool of objects that can be reused to avoid allocation.
  * Based on Nathan Sweet pool implementation
  */
 abstract class Pool<T> {
@@ -13,7 +13,7 @@ abstract class Pool<T> {
 	protected abstract T create();
 
 	public Pool(int initCapacity, Callback<T> callback) {
-		this.objects = new ArrayList<T>(initCapacity);
+		this.objects = new ArrayList<>(initCapacity);
 		this.callback = callback;
 	}
 
@@ -43,7 +43,7 @@ abstract class Pool<T> {
 	}
 
 	public interface Callback<T> {
-		public void onPool(T obj);
-		public void onUnPool(T obj);
+		void onPool(T obj);
+		void onUnPool(T obj);
 	}
 }

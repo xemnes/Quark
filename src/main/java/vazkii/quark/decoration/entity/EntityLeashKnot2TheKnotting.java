@@ -31,7 +31,7 @@ public class EntityLeashKnot2TheKnotting extends EntityLiving {
 			dismantle();
 		} else {
 			Entity holder = getLeashHolder();
-			if(holder == null || holder.isDead)
+			if(holder.isDead)
 				dismantle();
 			else if(holder.posY < posY && holder instanceof EntityLeashKnot) {
 				double targetX = holder.posX;

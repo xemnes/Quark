@@ -146,7 +146,10 @@ public class PirateShipGenerator implements IWorldGenerator {
 				}
 
 				String chestOrientation = tokens[1];
-				EnumFacing chestFacing = settings.getRotation().rotate(EnumFacing.byName(chestOrientation));
+				EnumFacing chestFacing = EnumFacing.byName(chestOrientation);
+				if (chestFacing == null)
+					chestFacing = EnumFacing.NORTH;
+				chestFacing = settings.getRotation().rotate(chestFacing);
 				IBlockState chestState = Blocks.CHEST.getDefaultState().withProperty(BlockChest.FACING, chestFacing);
 				world.setBlockState(dataPos, chestState);
 
@@ -156,7 +159,10 @@ public class PirateShipGenerator implements IWorldGenerator {
 				break;
 			case "cannon":
 				String dispenserOrientation = tokens[1];
-				EnumFacing dispenserFacing = settings.getRotation().rotate(EnumFacing.byName(dispenserOrientation));
+				EnumFacing dispenserFacing = EnumFacing.byName(dispenserOrientation);
+				if (dispenserFacing == null)
+					dispenserFacing = EnumFacing.NORTH;
+				dispenserFacing = settings.getRotation().rotate(dispenserFacing);
 				IBlockState dispenserState = Blocks.DISPENSER.getDefaultState().withProperty(BlockDispenser.FACING, dispenserFacing);
 				world.setBlockState(dataPos, dispenserState);
 
@@ -170,18 +176,18 @@ public class PirateShipGenerator implements IWorldGenerator {
 
 	private static BlockPos getTopLiquidBlock(World world, BlockPos pos) {
 		Chunk chunk = world.getChunk(pos);
-		BlockPos blockpos;
-		BlockPos blockpos1;
+		BlockPos checkPos;
+		BlockPos nextPos;
 
-		for(blockpos = new BlockPos(pos.getX(), chunk.getTopFilledSegment() + 16, pos.getZ()); blockpos.getY() >= 0; blockpos = blockpos1) {
-			blockpos1 = blockpos.down();
-			IBlockState state = chunk.getBlockState(blockpos1);
+		for(checkPos = new BlockPos(pos.getX(), chunk.getTopFilledSegment() + 16, pos.getZ()); checkPos.getY() >= 0; checkPos = nextPos) {
+			nextPos = checkPos.down();
+			IBlockState state = chunk.getBlockState(nextPos);
 
 			if(state.getBlock() instanceof BlockLiquid)
 				break;
 		}
 
-		return blockpos;
+		return checkPos;
 	}
 
 }

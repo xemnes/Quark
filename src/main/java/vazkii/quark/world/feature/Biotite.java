@@ -17,7 +17,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -44,7 +43,7 @@ public class Biotite extends Feature {
 
 	public static Item biotite;
 
-	public static boolean generateNatually;
+	public static boolean generateNaturally;
 	public static boolean generateByDragon;
 	public static boolean enableWalls;
 	public static int clusterSize, clusterCount;
@@ -54,7 +53,7 @@ public class Biotite extends Feature {
 	@Override
 	public void setupConfig() {
 		enableWalls = loadPropBool("Enable walls", "", true) && GlobalConfig.enableVariants;
-		generateNatually = loadPropBool("Generate naturally", "", false);
+		generateNaturally = loadPropBool("Generate naturally", "", false);
 		generateByDragon = loadPropBool("Generate by dragon kill", "", true);
 		clusterSize = loadPropInt("Cluster size", "", 14);
 		clusterCount = loadPropInt("Cluster count for natural generation", "", 16);
@@ -93,7 +92,7 @@ public class Biotite extends Feature {
 	}
 
 	@Override
-	public void postInit(FMLPostInitializationEvent event) {
+	public void postInit() {
 		FurnaceRecipes.instance().addSmelting(Item.getItemFromBlock(biotite_ore), new ItemStack(biotite), 1);
 	}
 

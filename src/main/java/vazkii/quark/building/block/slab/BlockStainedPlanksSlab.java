@@ -12,7 +12,6 @@ package vazkii.quark.building.block.slab;
 
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.block.statemap.IStateMapper;
 import net.minecraft.creativetab.CreativeTabs;
 import vazkii.arl.interf.IRecipeGrouped;
 import vazkii.quark.base.block.BlockQuarkSlab;

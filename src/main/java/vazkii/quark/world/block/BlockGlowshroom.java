@@ -3,14 +3,11 @@ package vazkii.quark.world.block;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.WorldGenBigMushroom;
-import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.base.block.BlockQuarkBush;
@@ -46,10 +43,9 @@ public class BlockGlowshroom extends BlockQuarkBush implements IGrowable {
 	public void updateTick(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull IBlockState state, Random rand) {
 		if(rand.nextInt(UndergroundBiomes.glowshroomGrowthRate) == 0) {
 			int i = 5;
-			int j = 4;
 
-			for(BlockPos blockpos : BlockPos.getAllInBoxMutable(pos.add(-4, -1, -4), pos.add(4, 1, 4))) {
-				if(worldIn.getBlockState(blockpos).getBlock() == this) {
+			for(BlockPos targetPos : BlockPos.getAllInBoxMutable(pos.add(-4, -1, -4), pos.add(4, 1, 4))) {
+				if(worldIn.getBlockState(targetPos).getBlock() == this) {
 					--i;
 
 					if(i <= 0)
@@ -57,17 +53,17 @@ public class BlockGlowshroom extends BlockQuarkBush implements IGrowable {
 				}
 			}
 
-			BlockPos blockpos1 = pos.add(rand.nextInt(3) - 1, rand.nextInt(2) - rand.nextInt(2), rand.nextInt(3) - 1);
+			BlockPos shiftedPos = pos.add(rand.nextInt(3) - 1, rand.nextInt(2) - rand.nextInt(2), rand.nextInt(3) - 1);
 
 			for(int k = 0; k < 4; ++k) {
-				if (worldIn.isAirBlock(blockpos1) && canBlockStay(worldIn, blockpos1, getDefaultState()))
-					pos = blockpos1;
+				if (worldIn.isAirBlock(shiftedPos) && canBlockStay(worldIn, shiftedPos, getDefaultState()))
+					pos = shiftedPos;
 
-				blockpos1 = pos.add(rand.nextInt(3) - 1, rand.nextInt(2) - rand.nextInt(2), rand.nextInt(3) - 1);
+				shiftedPos = pos.add(rand.nextInt(3) - 1, rand.nextInt(2) - rand.nextInt(2), rand.nextInt(3) - 1);
 			}
 
-			if(worldIn.isAirBlock(blockpos1) && canBlockStay(worldIn, blockpos1, getDefaultState()))
-				worldIn.setBlockState(blockpos1, getDefaultState(), 2);
+			if(worldIn.isAirBlock(shiftedPos) && canBlockStay(worldIn, shiftedPos, getDefaultState()))
+				worldIn.setBlockState(shiftedPos, getDefaultState(), 2);
 		}
 	}
 
@@ -81,17 +77,17 @@ public class BlockGlowshroom extends BlockQuarkBush implements IGrowable {
 	}
 
 	@Override
-	public boolean canGrow(World worldIn, BlockPos pos, IBlockState state, boolean isClient) {
+	public boolean canGrow(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull IBlockState state, boolean isClient) {
 		return UndergroundBiomes.bigGlowshroomsEnabled;
 	}
 
 	@Override
-	public boolean canUseBonemeal(World worldIn, Random rand, BlockPos pos, IBlockState state) {
+	public boolean canUseBonemeal(@Nonnull World worldIn, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
 		return UndergroundBiomes.bigGlowshroomsEnabled && rand.nextFloat() < 0.4;
 	}
 
 	@Override
-	public void grow(World worldIn, Random rand, BlockPos pos, IBlockState state) {
+	public void grow(@Nonnull World worldIn, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
 		if(UndergroundBiomes.bigGlowshroomsEnabled) {
 			worldIn.setBlockToAir(pos);
 			if(!BlockHugeGlowshroom.setInPosition(worldIn, rand, pos, true))

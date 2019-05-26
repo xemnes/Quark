@@ -18,5 +18,5 @@ public interface TweenPath {
 	 * @param pointsCnt The number of valid points in the array.
 	 * @return The next value of the interpolation.
 	 */
-	public float compute(float t, float[] points, int pointsCnt);
+	float compute(float t, float[] points, int pointsCnt);
 }

@@ -25,7 +25,7 @@ public class TweenManager {
 	/**
 	 * Disables or enables the "auto remove" mode of any tween manager for a
 	 * particular tween or timeline. This mode is activated by default. The
-	 * interest of desactivating it is to prevent some tweens or timelines from
+	 * interest of deactivating it is to prevent some tweens or timelines from
 	 * being automatically removed from a manager once they are finished.
 	 * Therefore, if you update a manager backwards, the tweens or timelines
 	 * will be played again, even if they were finished.
@@ -48,7 +48,7 @@ public class TweenManager {
 	// Public API
 	// -------------------------------------------------------------------------
 
-	private final ArrayList<BaseTween<?>> objects = new ArrayList<BaseTween<?>>(20);
+	private final ArrayList<BaseTween<?>> objects = new ArrayList<>(20);
 	private boolean isPaused = false;
 
 	/**
@@ -67,8 +67,7 @@ public class TweenManager {
 	 * to the given target object.
 	 */
 	public boolean containsTarget(Object target) {
-		for (int i=0, n=objects.size(); i<n; i++) {
-			BaseTween<?> obj = objects.get(i);
+		for (BaseTween<?> obj : objects) {
 			if (obj.containsTarget(target)) return true;
 		}
 		return false;
@@ -79,8 +78,7 @@ public class TweenManager {
 	 * to the given target object and to the given tween type.
 	 */
 	public boolean containsTarget(Object target, int tweenType) {
-		for (int i=0, n=objects.size(); i<n; i++) {
-			BaseTween<?> obj = objects.get(i);
+		for (BaseTween<?> obj : objects) {
 			if (obj.containsTarget(target, tweenType)) return true;
 		}
 		return false;
@@ -90,8 +88,7 @@ public class TweenManager {
 	 * Kills every managed tweens and timelines.
 	 */
 	public void killAll() {
-		for (int i=0, n=objects.size(); i<n; i++) {
-			BaseTween<?> obj = objects.get(i);
+		for (BaseTween<?> obj : objects) {
 			obj.kill();
 		}
 	}
@@ -101,8 +98,7 @@ public class TweenManager {
 	 * timelines containing a tween associated to the given target.
 	 */
 	public void killTarget(Object target) {
-		for (int i=0, n=objects.size(); i<n; i++) {
-			BaseTween<?> obj = objects.get(i);
+		for (BaseTween<?> obj : objects) {
 			obj.killTarget(target);
 		}
 	}
@@ -113,8 +109,7 @@ public class TweenManager {
 	 * target and tween type.
 	 */
 	public void killTarget(Object target, int tweenType) {
-		for (int i=0, n=objects.size(); i<n; i++) {
-			BaseTween<?> obj = objects.get(i);
+		for (BaseTween<?> obj : objects) {
 			obj.killTarget(target, tweenType);
 		}
 	}
@@ -163,7 +158,7 @@ public class TweenManager {
 
 		if (!isPaused) {
 			if (delta >= 0) {
-				for (int i=0, n=objects.size(); i<n; i++) objects.get(i).update(delta);
+				for (BaseTween<?> object : objects) object.update(delta);
 			} else {
 				for (int i=objects.size()-1; i>=0; i--) objects.get(i).update(delta);
 			}
@@ -214,22 +209,20 @@ public class TweenManager {
 	// Helpers
 	// -------------------------------------------------------------------------
 
-	private static int getTweensCount(List<BaseTween<?>> objs) {
+	private static int getTweensCount(List<BaseTween<?>> objects) {
 		int cnt = 0;
-		for (int i=0, n=objs.size(); i<n; i++) {
-			BaseTween<?> obj = objs.get(i);
+		for (BaseTween<?> obj : objects) {
 			if (obj instanceof Tween) cnt += 1;
-			else cnt += getTweensCount(((Timeline)obj).getChildren());
+			else cnt += getTweensCount(((Timeline) obj).getChildren());
 		}
 		return cnt;
 	}
 
-	private static int getTimelinesCount(List<BaseTween<?>> objs) {
+	private static int getTimelinesCount(List<BaseTween<?>> objects) {
 		int cnt = 0;
-		for (int i=0, n=objs.size(); i<n; i++) {
-			BaseTween<?> obj = objs.get(i);
+		for (BaseTween<?> obj : objects) {
 			if (obj instanceof Timeline) {
-				cnt += 1 + getTimelinesCount(((Timeline)obj).getChildren());
+				cnt += 1 + getTimelinesCount(((Timeline) obj).getChildren());
 			}
 		}
 		return cnt;

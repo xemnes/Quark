@@ -29,7 +29,7 @@ import javax.annotation.Nonnull;
 
 public class BlockEnderWatcher extends BlockModContainer implements IQuarkBlock {
 
-	public static PropertyBool WATCHED = PropertyBool.create("watched");
+	public static final PropertyBool WATCHED = PropertyBool.create("watched");
 
 	public BlockEnderWatcher() {
 		super("ender_watcher", Material.IRON);

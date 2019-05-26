@@ -24,8 +24,8 @@ import java.util.*;
 
 public class PistonsMoveTEs extends Feature {
 
-	private static WeakHashMap<World, Map<BlockPos, TileEntity>> movements = new WeakHashMap<>();
-	private static WeakHashMap<World, List<Pair<BlockPos, TileEntity>>> delayedUpdates = new WeakHashMap<>();
+	private static final WeakHashMap<World, Map<BlockPos, TileEntity>> movements = new WeakHashMap<>();
+	private static final WeakHashMap<World, List<Pair<BlockPos, TileEntity>>> delayedUpdates = new WeakHashMap<>();
 
 	public static List<String> renderBlacklist;
 	public static List<String> movementBlacklist;
@@ -75,7 +75,7 @@ public class PistonsMoveTEs extends Feature {
 		return PistonsMoveTEs.movementBlacklist.contains(res.toString()) || PistonsMoveTEs.movementBlacklist.contains(res.getNamespace());
 	}
 	
-	public static void detachTileEntities(World world, BlockPos sourcePos, BlockPistonStructureHelper helper, EnumFacing facing, boolean extending) {
+	public static void detachTileEntities(World world, BlockPistonStructureHelper helper, EnumFacing facing) {
 		if(!ModuleLoader.isFeatureEnabled(PistonsMoveTEs.class))
 			return;
 		

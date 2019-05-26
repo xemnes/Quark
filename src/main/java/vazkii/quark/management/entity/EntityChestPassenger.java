@@ -18,9 +18,9 @@ import javax.annotation.Nonnull;
 
 public class EntityChestPassenger extends Entity implements IInventory {
 
-	private NonNullList<ItemStack> items = NonNullList.<ItemStack>withSize(27, ItemStack.EMPTY);
+	private final NonNullList<ItemStack> items = NonNullList.withSize(27, ItemStack.EMPTY);
 	
-	private static final DataParameter<ItemStack> CHEST_TYPE = EntityDataManager.<ItemStack>createKey(EntityChestPassenger.class, DataSerializers.ITEM_STACK);
+	private static final DataParameter<ItemStack> CHEST_TYPE = EntityDataManager.createKey(EntityChestPassenger.class, DataSerializers.ITEM_STACK);
 	private static final String TAG_CHEST_TYPE = "chestType";
 
 	public EntityChestPassenger(World worldIn) {

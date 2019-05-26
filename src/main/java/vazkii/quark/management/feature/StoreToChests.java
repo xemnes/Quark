@@ -69,7 +69,7 @@ public class StoreToChests extends Feature {
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void preInitClient(FMLPreInitializationEvent event) {
+	public void preInitClient() {
 		ModKeybinds.initDropoffKey();
 	}
 

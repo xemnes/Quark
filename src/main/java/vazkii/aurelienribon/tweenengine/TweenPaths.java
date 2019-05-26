@@ -9,6 +9,6 @@ import vazkii.aurelienribon.tweenengine.paths.Linear;
  * @author Aurelien Ribon | http://www.aurelienribon.com/
  */
 public interface TweenPaths {
-	public static final Linear linear = new Linear();
-	public static final CatmullRom catmullRom = new CatmullRom();
+	Linear linear = new Linear();
+	CatmullRom catmullRom = new CatmullRom();
 }

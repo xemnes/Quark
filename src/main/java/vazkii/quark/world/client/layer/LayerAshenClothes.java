@@ -22,7 +22,7 @@ public class LayerAshenClothes implements LayerRenderer<EntitySkeleton> {
 
 	private static final ResourceLocation TEXTURE = new ResourceLocation("quark", "textures/entity/ashen_overlay.png");
 	private final RenderLivingBase<?> render;
-	private ModelSkeleton model;
+	private final ModelSkeleton model;
 
 	public LayerAshenClothes(RenderLivingBase<?> render) {
 		this.render = render;

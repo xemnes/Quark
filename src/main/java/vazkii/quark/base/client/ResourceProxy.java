@@ -1,13 +1,12 @@
-package vazkii.quark.base.client;	
+package vazkii.quark.base.client;
 
 import com.google.common.collect.ImmutableSet;
 import net.minecraft.client.resources.AbstractResourcePack;
-import net.minecraftforge.fml.common.Loader;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.lib.LibMisc;
 
 import javax.annotation.Nonnull;
-import java.io.IOException;
+import java.io.File;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,8 +22,8 @@ public class ResourceProxy extends AbstractResourcePack {
 
 	private static final Map<String, String> overrides = new HashMap<>();
 
-	public ResourceProxy() {
-		super(Loader.instance().activeModContainer().getSource());
+	public ResourceProxy(File file) {
+		super(file);
 		overrides.put("pack.mcmeta", "/proxypack.mcmeta");
 	}
 
@@ -42,10 +41,8 @@ public class ResourceProxy extends AbstractResourcePack {
 
 	@Nonnull
 	@Override
-	protected InputStream getInputStreamByName(@Nonnull String name) throws IOException {
-		if(name == null)
-			return null;
-		
+	protected InputStream getInputStreamByName(@Nonnull String name) {
+
 		String file = overrides.get(name);
 		return Quark.class.getResourceAsStream(overrides.get(name));
 	}

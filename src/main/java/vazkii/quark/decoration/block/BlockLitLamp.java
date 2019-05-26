@@ -11,7 +11,6 @@
 package vazkii.quark.decoration.block;
 
 import net.minecraft.block.BlockColored;
-import net.minecraft.block.BlockStainedGlass;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;

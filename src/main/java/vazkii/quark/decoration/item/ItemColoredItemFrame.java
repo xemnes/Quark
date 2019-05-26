@@ -76,19 +76,23 @@ public class ItemColoredItemFrame extends ItemMod implements IItemColorProvider,
 		if((ModuleLoader.isFeatureEnabled(FlatItemFrames.class) || facing.getAxis() != EnumFacing.Axis.Y) && playerIn.canPlayerEdit(blockpos, facing, stack)) {
 			EntityHanging entityhanging = createEntity(worldIn, blockpos, facing, stack.getItemDamage());
 
-			if(entityhanging != null && entityhanging.onValidSurface()) {
-				if(!worldIn.isRemote) {
-					entityhanging.playPlaceSound();
-					worldIn.spawnEntity(entityhanging);
-				}
-
-				stack.shrink(1);
-			}
+			placeHangingEntity(worldIn, stack, entityhanging);
 
 			return EnumActionResult.SUCCESS;
 		}
 
 		return EnumActionResult.FAIL;
+	}
+
+	public static void placeHangingEntity(World worldIn, ItemStack stack, EntityHanging entityhanging) {
+		if(entityhanging.onValidSurface()) {
+			if(!worldIn.isRemote) {
+				entityhanging.playPlaceSound();
+				worldIn.spawnEntity(entityhanging);
+			}
+
+			stack.shrink(1);
+		}
 	}
 
 	private EntityHanging createEntity(World worldIn, BlockPos pos, EnumFacing clickedSide, int color) {
@@ -108,13 +112,7 @@ public class ItemColoredItemFrame extends ItemMod implements IItemColorProvider,
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IItemColor getItemColor() {
-		return new IItemColor() {
-
-			@Override
-			public int colorMultiplier(@Nonnull ItemStack stack, int tintIndex) {
-				return tintIndex == 1 ? ItemDye.DYE_COLORS[15 - Math.min(15, stack.getItemDamage())] : 0xFFFFFF;
-			}
-		};
+		return (stack, tintIndex) -> tintIndex == 1 ? ItemDye.DYE_COLORS[15 - Math.min(15, stack.getItemDamage())] : 0xFFFFFF;
 	}
 
 }

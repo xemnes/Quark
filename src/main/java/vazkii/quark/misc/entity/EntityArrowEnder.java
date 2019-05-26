@@ -68,11 +68,11 @@ public class EntityArrowEnder extends EntityArrow {
 	}
 
 	@Override
-	protected void onHit(RayTraceResult raytraceResultIn) {
-		super.onHit(raytraceResultIn);
+	protected void onHit(RayTraceResult rayTrace) {
+		super.onHit(rayTrace);
 
-		if (raytraceResultIn.typeOfHit == RayTraceResult.Type.BLOCK) {
-			BlockPos blockpos = raytraceResultIn.getBlockPos();
+		if (rayTrace.typeOfHit == RayTraceResult.Type.BLOCK) {
+			BlockPos blockpos = rayTrace.getBlockPos();
 			TileEntity tileentity = this.world.getTileEntity(blockpos);
 
 			if (tileentity instanceof TileEntityEndGateway) {

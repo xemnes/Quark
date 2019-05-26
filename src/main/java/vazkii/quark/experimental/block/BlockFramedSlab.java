@@ -1,15 +1,11 @@
 package vazkii.quark.experimental.block;
 
-import javax.annotation.Nonnull;
-
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
@@ -19,7 +15,10 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import vazkii.arl.block.BlockModSlab;
 import vazkii.quark.base.block.IQuarkBlock;
+import vazkii.quark.experimental.features.FramedBlocks;
 import vazkii.quark.experimental.tile.TileFramed;
+
+import javax.annotation.Nonnull;
 
 public class BlockFramedSlab extends BlockModSlab implements IQuarkBlock, ITileEntityProvider {
 
@@ -35,21 +34,24 @@ public class BlockFramedSlab extends BlockModSlab implements IQuarkBlock, ITileE
 		worldIn.removeTileEntity(pos);
 	}
 	
+	@Nonnull
 	@Override
 	public BlockStateContainer createBlockState() {
 		return FramedBlockCommons.createStateContainer(this, super.createBlockState());
 	}
 	
+	@Nonnull
 	@Override
-	public IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos) {
-		return FramedBlockCommons.getExtendedState(this, state, world, pos);
+	public IBlockState getExtendedState(@Nonnull IBlockState state, IBlockAccess world, BlockPos pos) {
+		return FramedBlockCommons.getExtendedState(state, world, pos);
 	}
 	
 	@Override
-	public TileEntity createNewTileEntity(World worldIn, int meta) {
+	public TileEntity createNewTileEntity(@Nonnull World worldIn, int meta) {
 		return new TileFramed();
 	}
 	
+	@Nonnull
 	@Override
 	public BlockRenderLayer getRenderLayer() {
 		return BlockRenderLayer.CUTOUT;
@@ -69,15 +71,7 @@ public class BlockFramedSlab extends BlockModSlab implements IQuarkBlock, ITileE
 	
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		TileFramed tile = (TileFramed) worldIn.getTileEntity(pos);
-		
-		ItemStack stack = playerIn.getHeldItem(hand);
-		if(stack.getItem() instanceof ItemBlock)
-			tile.setInventorySlotContents(0, stack.copy());
-		
-		worldIn.markBlockRangeForRenderUpdate(pos, pos);
-
-		return true;
+		return FramedBlocks.setFrame(worldIn, pos, playerIn, hand);
 	}
 
 }

@@ -10,7 +10,6 @@ import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.ChunkGeneratorFlat;
 import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraftforge.fml.common.IWorldGenerator;
-import vazkii.quark.building.block.BlockCarvedWood;
 import vazkii.quark.world.block.BlockRoots;
 import vazkii.quark.world.feature.CaveRoots;
 

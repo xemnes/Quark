@@ -42,7 +42,7 @@ public class MatrixEnchanting extends Feature {
 		minLevelCutoff = loadPropInt("Min Level Cutoff", "At which piece count the calculation for the min level should default to increasing one per piece rather than using the scale factor", 10);
 		minLevelScaleFactor = (float) loadPropDouble("Min Level Scale Factor", "How much the min level requirement for adding a new piece should increase for each piece added (up until the value of Min Level Cutoff)", 1.5F);
 		minLevelScaleFactorBook = (float) loadPropDouble("Book Min Level Scale Factor", "How much the min level requirement for adding a new piece to a book should increase per each bookshelf being used", 2F);
-		normalizeRarity = loadPropBool("Normalize Rarity", "By default, enchantment rarities are fuzzied a bit to work better with the new system. Set this to false to override this behaviour.", true);
+		normalizeRarity = loadPropBool("Normalize Rarity", "By default, enchantment rarities are fuzzed a bit to work better with the new system. Set this to false to override this behaviour.", true);
 		chargePerLapis = loadPropInt("Charge per Lapis", "How many pieces a single Lapis can generate", 4);
 		dupeMultiplier = (float) loadPropDouble("Dupe Multiplier", "How much to multiply the frequency of pieces where at least one of the same type has been generated", 1.4);
 		incompatibleMultiplier = (float) loadPropDouble("Incompatible Multiplier", "How much to multiply the frequency of pieces where incompatible pieces have been generated", 0);
@@ -62,7 +62,7 @@ public class MatrixEnchanting extends Feature {
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void preInitClient(FMLPreInitializationEvent event) {
+	public void preInitClient() {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileMatrixEnchanter.class, new RenderTileMatrixEnchanter());
 	}
 	

@@ -22,7 +22,7 @@ public class LayerPirateClothes implements LayerRenderer<EntitySkeleton> {
 
 	private static final ResourceLocation TEXTURE = new ResourceLocation("quark", "textures/entity/pirate_overlay.png");
 	private final RenderLivingBase<?> render;
-	private ModelSkeleton model;
+	private final ModelSkeleton model;
 
 	public LayerPirateClothes(RenderLivingBase<?> render) {
 		this.render = render;

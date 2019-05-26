@@ -1,10 +1,10 @@
 package vazkii.quark.base.handler;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.world.World;
 import vazkii.quark.base.module.ModuleLoader;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DimensionConfig {
 
@@ -19,16 +19,16 @@ public class DimensionConfig {
 		this(parent, false, dimStr.split(","));
 	}
 	
-	public DimensionConfig(String parent, boolean blacklist, String... defaultStrs) {
+	public DimensionConfig(String parent, boolean blacklist, String... defaultValues) {
 		String category = parent + ".dimensions";
 		this.blacklist = ModuleLoader.config.getBoolean("Is Blacklist", category, blacklist, "");
 		
-		String[] dimStrs = ModuleLoader.config.getStringList("Dimensions", category, defaultStrs, "");
+		String[] dimensionValues = ModuleLoader.config.getStringList("Dimensions", category, defaultValues, "");
 		dims = new ArrayList<>();
-		for(String s : dimStrs)
+		for(String s : dimensionValues)
 			try {
 				dims.add(Integer.parseInt(s));
-			} catch(NumberFormatException e) {}
+			} catch(NumberFormatException ignored) {}
 	}
 	
 	public boolean canSpawnHere(World world) {

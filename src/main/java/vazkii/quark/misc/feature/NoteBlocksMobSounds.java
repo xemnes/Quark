@@ -27,7 +27,7 @@ import vazkii.quark.base.module.Feature;
 
 public class NoteBlocksMobSounds extends Feature {
 
-	public static final EnumFacing[] SKULL_SERACH_FACINGS = new EnumFacing[] {
+	public static final EnumFacing[] SKULL_SEARCH_FACINGS = new EnumFacing[] {
 			EnumFacing.NORTH,
 			EnumFacing.SOUTH,
 			EnumFacing.EAST,
@@ -73,11 +73,11 @@ public class NoteBlocksMobSounds extends Feature {
 	public static int getSkullType(World world, BlockPos pos) {
 		TileEntity tile = null;
 		boolean can = false;
-		for(EnumFacing face : SKULL_SERACH_FACINGS) {
-			BlockPos apos = pos.offset(face);
-			tile = world.getTileEntity(apos);
+		for(EnumFacing face : SKULL_SEARCH_FACINGS) {
+			BlockPos offsetPos = pos.offset(face);
+			tile = world.getTileEntity(offsetPos);
 			if(tile instanceof TileEntitySkull) {
-				IBlockState state = world.getBlockState(apos);
+				IBlockState state = world.getBlockState(offsetPos);
 				if(state.getValue(BlockSkull.FACING) == face) {
 					can = true;
 					break;
@@ -85,10 +85,7 @@ public class NoteBlocksMobSounds extends Feature {
 			}
 		}
 
-		if(can && tile != null) {
-			int type = ((TileEntitySkull) tile).getSkullType();
-			return type;
-		}
+		if(can) return ((TileEntitySkull) tile).getSkullType();
 
 		return -1;
 	}

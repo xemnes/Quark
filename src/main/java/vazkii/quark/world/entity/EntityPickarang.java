@@ -1,40 +1,36 @@
 package vazkii.quark.world.entity;
 
-import java.util.List;
-
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockShulkerBox;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
-import net.minecraft.init.Enchantments;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.RayTraceResult.Type;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraftforge.event.ForgeEventFactory;
 import vazkii.quark.misc.feature.Pickarang;
+
+import javax.annotation.Nonnull;
+import java.util.List;
 
 public class EntityPickarang extends EntityThrowable {
 
+	private static final DataParameter<ItemStack> STACK = EntityDataManager.createKey(EntityPickarang.class, DataSerializers.ITEM_STACK);
 	private static final DataParameter<Boolean> RETURNING = EntityDataManager.createKey(EntityPickarang.class, DataSerializers.BOOLEAN);
 	
 	private int liveTime;
 	private int slot;
-	private ItemStack stack;
-	
+
 	private static final String TAG_RETURNING = "returning";
 	private static final String TAG_LIVE_TIME = "liveTime";
 	private static final String TAG_RETURN_SLOT = "returnSlot";
@@ -50,18 +46,19 @@ public class EntityPickarang extends EntityThrowable {
     
     public void setThrowData(int slot, ItemStack stack) {
     	this.slot = slot;
-    	this.stack = stack.copy();
+    	setStack(stack.copy());
     }
     
     @Override
     protected void entityInit() {
     	super.entityInit();
-    	
+
+		dataManager.register(STACK, ItemStack.EMPTY);
     	dataManager.register(RETURNING, false);
     }
 
 	@Override
-	protected void onImpact(RayTraceResult result) {
+	protected void onImpact(@Nonnull RayTraceResult result) {
 		if(dataManager.get(RETURNING))
 			return;
 		
@@ -87,7 +84,7 @@ public class EntityPickarang extends EntityThrowable {
 				world.setBlockToAir(hit);
 				world.playEvent(2001, hit, Block.getStateId(state));
 
-				block.harvestBlock(world, player, hit, state, world.getTileEntity(hit), stack);
+				block.harvestBlock(world, player, hit, state, world.getTileEntity(hit), getStack());
 			}
 		} else if(result.typeOfHit == Type.ENTITY) {
 			Entity hit = result.entityHit;
@@ -115,6 +112,8 @@ public class EntityPickarang extends EntityThrowable {
 				dataManager.set(RETURNING, true);
 		} else {
 			noClip = true;
+
+			ItemStack stack = getStack();
 			
 			List<EntityItem> items = world.getEntitiesWithinAABB(EntityItem.class, getEntityBoundingBox().grow(2));
 			Vec3d ourPos = getPositionVector();
@@ -169,7 +168,15 @@ public class EntityPickarang extends EntityThrowable {
 			}
 		}
 	}
-	
+
+	public ItemStack getStack() {
+		return dataManager.get(STACK);
+	}
+
+	public void setStack(ItemStack stack) {
+		dataManager.set(STACK, stack);
+	}
+
 	@Override
 	public void readEntityFromNBT(NBTTagCompound compound) {
 		super.readEntityFromNBT(compound);
@@ -178,7 +185,7 @@ public class EntityPickarang extends EntityThrowable {
 		liveTime = compound.getInteger(TAG_LIVE_TIME);
 		slot = compound.getInteger(TAG_RETURN_SLOT);
 		
-		stack = new ItemStack(compound.getCompoundTag(TAG_ITEM_STACK));
+		setStack(new ItemStack(compound.getCompoundTag(TAG_ITEM_STACK)));
 	}
 	
 	@Override
@@ -188,10 +195,8 @@ public class EntityPickarang extends EntityThrowable {
 		compound.setBoolean(TAG_RETURNING, dataManager.get(RETURNING));
 		compound.setInteger(TAG_LIVE_TIME, liveTime);
 		compound.setInteger(TAG_RETURN_SLOT, slot);
-		
-		NBTTagCompound stackCmp = new NBTTagCompound();
-		stack.writeToNBT(stackCmp);
-		compound.setTag(TAG_ITEM_STACK, stackCmp);
+
+		compound.setTag(TAG_ITEM_STACK, getStack().serializeNBT());
 	}
 	
 	@Override

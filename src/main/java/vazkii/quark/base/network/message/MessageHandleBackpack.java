@@ -1,9 +1,6 @@
 package vazkii.quark.base.network.message;
 
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.inventory.ContainerPlayer;
-import net.minecraft.inventory.InventoryCrafting;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import vazkii.arl.network.NetworkMessage;
@@ -24,7 +21,7 @@ public class MessageHandleBackpack extends NetworkMessage<MessageHandleBackpack>
 	@Override
 	public IMessage handleMessage(MessageContext context) {
 		EntityPlayerMP player = context.getServerHandler().player;
-		player.getServer().addScheduledTask(() -> {
+		player.server.addScheduledTask(() -> {
 			if(open)
 				player.openGui(Quark.instance, LibGuiIDs.BACKPACK, player.world, 0, 0, 0);
 			else {

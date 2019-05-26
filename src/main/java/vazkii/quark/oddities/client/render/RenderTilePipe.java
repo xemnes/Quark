@@ -26,14 +26,14 @@ public class RenderTilePipe extends TileEntitySpecialRenderer<TilePipe> {
 		GlStateManager.popMatrix();
 	}
 
-	private void renderItem(PipeItem item, RenderItem render, float pticks) { 
+	private void renderItem(PipeItem item, RenderItem render, float partial) {
 		GlStateManager.pushMatrix();
 		GlStateManager.pushAttrib();
 		RenderHelper.enableStandardItemLighting();
 
 		float scale = 0.4F;
-		float fract = item.getTimeFract(pticks);
-		float afract = fract - 0.5F;
+		float fract = item.getTimeFract(partial);
+		float shiftFract = fract - 0.5F;
 		EnumFacing face = item.outgoingFace;
 		if(fract < 0.5)
 			face = item.incomingFace.getOpposite();
@@ -41,12 +41,12 @@ public class RenderTilePipe extends TileEntitySpecialRenderer<TilePipe> {
 		float offX = (face.getXOffset() * 1F);
 		float offY = (face.getYOffset() * 1F);
 		float offZ = (face.getZOffset() * 1F);
-		GlStateManager.translate(offX * afract, offY * afract, offZ * afract);
+		GlStateManager.translate(offX * shiftFract, offY * shiftFract, offZ * shiftFract);
 
 		GlStateManager.scale(scale, scale, scale);
 		
 		float speed = 4F;
-		GlStateManager.rotate((item.timeInWorld + pticks) * speed, 0F, 1F, 0F);
+		GlStateManager.rotate((item.timeInWorld + partial) * speed, 0F, 1F, 0F);
 		
 		render.renderItem(item.stack, ItemCameraTransforms.TransformType.FIXED);
 

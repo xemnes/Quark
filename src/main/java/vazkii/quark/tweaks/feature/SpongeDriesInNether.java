@@ -23,6 +23,7 @@ import vazkii.quark.base.sounds.QuarkSounds;
 public class SpongeDriesInNether extends Feature {
 
 	@SubscribeEvent
+	@SuppressWarnings("deprecation")
 	public void onItemPlaced(BlockEvent.PlaceEvent event) {
 		if (event.getPlacedBlock().equals(Blocks.SPONGE.getDefaultState().withProperty(BlockSponge.WET, true)) &&
 				BiomeDictionary.getTypes(event.getWorld().getBiome(event.getPos())).contains(BiomeDictionary.Type.NETHER)) {

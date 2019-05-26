@@ -1,16 +1,11 @@
 package vazkii.quark.building.item;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -25,6 +20,9 @@ import vazkii.arl.util.ItemNBTHelper;
 import vazkii.quark.base.item.IQuarkItem;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class ItemTrowel extends ItemMod implements IQuarkItem {
 
@@ -59,8 +57,7 @@ public class ItemTrowel extends ItemMod implements IQuarkItem {
 		ItemStack target = targets.get(rand.nextInt(targets.size()));
 		EnumActionResult result = placeBlock(target, player, pos, facing, worldIn, hand, hitX, hitY, hitZ);
 		if(result == EnumActionResult.SUCCESS) {
-			NBTTagCompound cmp = new NBTTagCompound();
-			target.writeToNBT(cmp);
+			NBTTagCompound cmp = target.serializeNBT();
 			ItemNBTHelper.setCompound(ourStack, TAG_LAST_STACK, cmp);
 			
 			if(ourStack.isItemStackDamageable())

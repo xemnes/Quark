@@ -64,7 +64,7 @@ public class ParrotEggs extends Feature {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void preInitClient(FMLPreInitializationEvent event) {
+	public void preInitClient() {
 		RenderingRegistry.registerEntityRenderingHandler(EntityParrotEgg.class, RenderParrotEgg.factory());
 		
 		if(enableKotobirb)

@@ -16,17 +16,13 @@ import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.arl.interf.IBlockColorProvider;
 import vazkii.arl.interf.IRecipeGrouped;
-import vazkii.arl.item.ItemModBlock;
-import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.block.IQuarkBlock;
-import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.decoration.client.state.ColoredFlowerPotStateMapper;
 
 import javax.annotation.Nonnull;
@@ -50,9 +46,7 @@ public class BlockColoredFlowerPot extends BlockCustomFlowerPot implements IQuar
 	@Override
 	public Block setTranslationKey(@Nonnull String name) {
 		super.setTranslationKey(name);
-		setRegistryName(LibMisc.PREFIX_MOD + name);
-		ProxyRegistry.register(this);
-		ProxyRegistry.register(new ItemModBlock(this, new ResourceLocation(LibMisc.PREFIX_MOD + name)));
+		register(name);
 		return this;
 	}
 	

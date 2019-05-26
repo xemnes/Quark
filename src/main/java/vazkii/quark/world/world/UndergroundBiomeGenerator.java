@@ -24,7 +24,7 @@ public class UndergroundBiomeGenerator extends MultiChunkFeatureGenerator {
 	}
 	
 	@Override
-	public boolean canGenerate(World world, int chunkX, int chunkZ) {
+	public boolean canGenerate(World world) {
 		return info.enabled && info.dims.canSpawnHere(world);
 	}
 	
@@ -42,7 +42,7 @@ public class UndergroundBiomeGenerator extends MultiChunkFeatureGenerator {
 	}
 
 	@Override
-	public BlockPos[] getSourcesInChunk(Random random, int chunkX, int chunkZ, World world) {
+	public BlockPos[] getSourcesInChunk(Random random, int chunkX, int chunkZ) {
 		if(info.rarity > 0 && random.nextInt(info.rarity) == 0) {
 			return new BlockPos[] {
 				new BlockPos(chunkX * 16 + random.nextInt(16), info.minY + random.nextInt(info.maxY - info.minY), chunkZ * 16 + random.nextInt(16))
@@ -113,11 +113,11 @@ public class UndergroundBiomeGenerator extends MultiChunkFeatureGenerator {
 	
 	public static class UndergroundBiomeGenerationContext {
 		
-		public List<BlockPos> floorList = new LinkedList<>();
-		public List<BlockPos> ceilingList = new LinkedList<>();
-		public List<BlockPos> insideList = new LinkedList<>();
+		public final List<BlockPos> floorList = new LinkedList<>();
+		public final List<BlockPos> ceilingList = new LinkedList<>();
+		public final List<BlockPos> insideList = new LinkedList<>();
 		
-		public Map<BlockPos, EnumFacing> wallMap = new HashMap<>();
+		public final Map<BlockPos, EnumFacing> wallMap = new HashMap<>();
 		
 	}
 }

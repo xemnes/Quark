@@ -20,7 +20,6 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.client.model.IModel;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -44,7 +43,7 @@ public class ColoredFlowerPots extends Feature {
 	public static BlockColoredFlowerPot[] pots;
 	public static boolean enableComparatorLogic;
 	public static String[] overrides;
-	private static Map<Pair<Item,Integer>,Integer> flowers = new HashMap<>();
+	private static final Map<Pair<Item, Integer>, Integer> flowers = new HashMap<>();
 	private static boolean loadedConfig = false;
 
 	@Override
@@ -59,7 +58,7 @@ public class ColoredFlowerPots extends Feature {
 	@Override
 	public void setupConfig() {
 		enableComparatorLogic = loadPropBool("Comparator Logic", "If true, filled flower pots will respond to comparators based on the contents.", true);
-		overrides = loadPropStringList("Flower Overrides", "List of itemstacks to override default flower behavior, default checks for BlockBush.\n"
+		overrides = loadPropStringList("Flower Overrides", "List of stacks to override default flower behavior, default checks for BlockBush.\n"
 				+ "Format is 'modid:name[:meta]->power'. Unset meta will default wildcard. Power refers to comparator power, non-zero makes it valid for a flower pot. Specific values:\n"
 				+ "* 0 - not flower, blacklists from placing in a flower pot\n* 1 - mushroom\n* 4 - fern\n* 7 - flower\n* 10 - dead bush\n* 12 - sapling\n* 15 - cactus", new String[] {
 				"biomesoplenty:mushroom->1",
@@ -75,7 +74,7 @@ public class ColoredFlowerPots extends Feature {
 	}
 
 	@Override
-	public void init(FMLInitializationEvent event) {
+	public void init() {
 		loadFlowersFromConfig();
 	}
 
@@ -165,7 +164,7 @@ public class ColoredFlowerPots extends Feature {
 			Block block = Block.getBlockFromItem(key.getLeft());
 
 			// not a flower means 0 override
-			// this handles vanilla logic excluding cactuses and ferns, which are registered directly above
+			// this handles vanilla logic excluding cacti and ferns, which are registered directly above
 			if(!(block instanceof BlockBush)
 					|| block instanceof BlockDoublePlant
 					|| block instanceof BlockTallGrass
@@ -200,10 +199,10 @@ public class ColoredFlowerPots extends Feature {
 		flowers.put(Pair.of(stack.getItem(), stack.getMetadata()), power);
 	}
 	/** Any items which have blockColors methods that throw an exception */
-	private static Set<Item> unsafeBlockColors = new HashSet<>();
+	private static final Set<Item> unsafeBlockColors = new HashSet<>();
 
 	/**
-	 * Gets the block colors for a block from an itemstack, logging an exception if it fails. Use this to get block colors when the implementation is unknown
+	 * Gets the block colors for a block from a stack, logging an exception if it fails. Use this to get block colors when the implementation is unknown
 	 * @param stack  Stack to use
 	 * @param world  World
 	 * @param pos	Pos
@@ -260,11 +259,14 @@ public class ColoredFlowerPots extends Feature {
 	@SubscribeEvent
 	public void onModelBake(ModelBakeEvent event) {
 		for(EnumDyeColor color : EnumDyeColor.values()) {
-			ModelResourceLocation location = new ModelResourceLocation(pots[color.getMetadata()].getRegistryName(), "contents=custom");
-			IModel model = ModelLoaderRegistry.getModelOrLogError(location, "Error loading model for " + location);
-			IBakedModel standard = event.getModelRegistry().getObject(location);
-			IBakedModel finalModel = new RetexturedModel(standard, model, DefaultVertexFormats.BLOCK, "plant");
-			event.getModelRegistry().putObject(location, finalModel);
+			ResourceLocation loc = pots[color.getMetadata()].getRegistryName();
+			if (loc != null) {
+				ModelResourceLocation location = new ModelResourceLocation(loc, "contents=custom");
+				IModel model = ModelLoaderRegistry.getModelOrLogError(location, "Error loading model for " + location);
+				IBakedModel standard = event.getModelRegistry().getObject(location);
+				IBakedModel finalModel = new RetexturedModel(standard, model, DefaultVertexFormats.BLOCK, "plant");
+				event.getModelRegistry().putObject(location, finalModel);
+			}
 		}
 	}
 }

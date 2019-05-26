@@ -28,7 +28,7 @@ public final class LibEntityIDs {
 	public static final int CHEST_PASSENGER = 13;
 	public static final int PARROT_EGG = 14;
 	public static final int TOTEM_OF_HOLDING = 15;
-	public static final int ARCHEOLOGIST = 16;
+	public static final int ARCHAEOLOGIST = 16;
 	public static final int STONELING = 17;
 	public static final int FROG = 18;
 	public static final int LEASH_KNOT = 19;

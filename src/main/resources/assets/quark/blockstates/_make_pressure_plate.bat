@@ -1,7 +1,7 @@
 @echo off
 :: Vazkii's JSON creator for blocks
 :: Put in your /resources/assets/%modid%/models/block
-:: Makes basic block JSON files as well as the acossiated item and simple blockstate
+:: Makes basic block JSON files as well as the associated item and simple blockstate
 :: Can make multiple blocks at once
 ::
 :: Usage:

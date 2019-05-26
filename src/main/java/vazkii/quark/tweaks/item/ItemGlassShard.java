@@ -11,7 +11,6 @@
 package vazkii.quark.tweaks.item;
 
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraftforge.oredict.OreDictionary;
 import vazkii.arl.item.ItemMod;
 import vazkii.quark.base.item.IQuarkItem;
 

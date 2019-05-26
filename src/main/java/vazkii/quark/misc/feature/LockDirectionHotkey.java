@@ -24,7 +24,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.event.world.BlockEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.Event.Result;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
@@ -50,11 +49,12 @@ public class LockDirectionHotkey extends Feature {
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void preInitClient(FMLPreInitializationEvent event) {
+	public void preInitClient() {
 		ModKeybinds.initLockKey();
 	}
 	
 	@SubscribeEvent
+	@SuppressWarnings("deprecation")
 	public void onBlockPlaced(BlockEvent.PlaceEvent event) {
 		if(event.isCanceled() || event.getResult() == Result.DENY)
 			return;

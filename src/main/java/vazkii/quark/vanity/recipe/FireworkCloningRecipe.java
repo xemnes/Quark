@@ -20,6 +20,7 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import vazkii.arl.recipe.ModRecipe;
+import vazkii.arl.util.ItemNBTHelper;
 
 import javax.annotation.Nonnull;
 
@@ -77,7 +78,7 @@ public class FireworkCloningRecipe extends ModRecipe {
 		if(!source.isEmpty() && !target.isEmpty()) {
 			ItemStack copy = target.copy();
 			NBTTagCompound cmp = new NBTTagCompound();
-			cmp.setTag("Fireworks", source.getTagCompound().getTag("Fireworks"));
+			cmp.setTag("Fireworks", ItemNBTHelper.getCompound(source, "Fireworks", false));
 			copy.setTagCompound(cmp);
 			copy.setCount(1);
 
@@ -119,11 +120,11 @@ public class FireworkCloningRecipe extends ModRecipe {
 		if(!stack.hasTagCompound())
 			return 0;
 		
-		return stack.getTagCompound().getCompoundTag("Fireworks").getByte("Flight");
+		return ItemNBTHelper.getCompound(stack, "Fireworks", false).getByte("Flight");
 	}
 	
 	private boolean hasExplosions(ItemStack stack) {
-		return stack.hasTagCompound() && stack.getTagCompound().hasKey("Fireworks") && stack.getTagCompound().getCompoundTag("Fireworks").hasKey("Explosions");
+		return ItemNBTHelper.getCompound(stack, "Fireworks", false).hasKey("Explosions");
 	}
 
 	@Override

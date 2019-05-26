@@ -41,7 +41,7 @@ public class FlatItemFrames extends Feature {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void preInitClient(FMLPreInitializationEvent event) {
+	public void preInitClient() {
 		RenderingRegistry.registerEntityRenderingHandler(EntityFlatItemFrame.class, RenderFlatItemFrame.FACTORY);
 	}
 	

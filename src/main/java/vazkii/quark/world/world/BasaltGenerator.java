@@ -19,9 +19,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.IChunkGenerator;
-import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.fml.common.IWorldGenerator;
-import vazkii.quark.base.handler.DimensionConfig;
 import vazkii.quark.world.feature.Basalt;
 import vazkii.quark.world.feature.RevampStoneGen.StoneInfo;
 

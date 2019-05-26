@@ -21,14 +21,10 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import vazkii.arl.item.ItemModBlock;
-import vazkii.arl.util.ProxyRegistry;
-import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.decoration.feature.IronLadders;
 
 import javax.annotation.Nonnull;
@@ -66,9 +62,7 @@ public class BlockQuarkTrapdoor extends BlockTrapDoor implements IQuarkBlock {
 	@Override
 	public Block setTranslationKey(@Nonnull String name) {
 		super.setTranslationKey(name);
-		setRegistryName(LibMisc.PREFIX_MOD + name);
-		ProxyRegistry.register(this);
-		ProxyRegistry.register(new ItemModBlock(this, new ResourceLocation(LibMisc.PREFIX_MOD + name)));
+		register(name);
 		return this;
 	}
 

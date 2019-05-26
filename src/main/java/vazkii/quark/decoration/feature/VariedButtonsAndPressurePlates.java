@@ -50,7 +50,7 @@ public class VariedButtonsAndPressurePlates extends Feature {
 	}
 
 	@Override
-	public void postPreInit(FMLPreInitializationEvent event) {
+	public void postPreInit() {
 		if(enablePressurePlates) {
 	 		RecipeProcessor.addWoodReplacements(1, Blocks.WOODEN_PRESSURE_PLATE);
 			

@@ -27,7 +27,7 @@ import java.util.List;
 
 public class ShulkerBoxTooltip extends Feature {
 
-	public static ResourceLocation WIDGET_RESOURCE = new ResourceLocation("quark", "textures/misc/shulker_widget.png");
+	public static final ResourceLocation WIDGET_RESOURCE = new ResourceLocation("quark", "textures/misc/shulker_widget.png");
 
 	public static boolean useColors, requireShift;
 
@@ -59,7 +59,7 @@ public class ShulkerBoxTooltip extends Feature {
 
 	@SubscribeEvent
 	public void renderTooltip(RenderTooltipEvent.PostText event) {
-		if(event.getStack() != null && event.getStack().getItem() instanceof ItemShulkerBox && event.getStack().hasTagCompound() && (!requireShift || GuiScreen.isShiftKeyDown())) {
+		if(!event.getStack().isEmpty() && event.getStack().getItem() instanceof ItemShulkerBox && event.getStack().hasTagCompound() && (!requireShift || GuiScreen.isShiftKeyDown())) {
 			NBTTagCompound cmp = ItemNBTHelper.getCompound(event.getStack(), "BlockEntityTag", true);
 			if(cmp != null && cmp.hasKey("Items", 9)) {
 				ItemStack currentBox = event.getStack();
@@ -92,13 +92,13 @@ public class ShulkerBoxTooltip extends Feature {
 					EnumDyeColor dye = ((BlockShulkerBox) ((ItemBlock) currentBox.getItem()).getBlock()).getColor();
 					int color = ItemDye.DYE_COLORS[dye.getDyeDamage()];
 					Color colorObj = new Color(color);
-					GlStateManager.color((float) colorObj.getRed() / 255F, (float) colorObj.getGreen() / 255F, (float) colorObj.getBlue() / 255F);
+					GlStateManager.color(colorObj.getRed() / 255F, colorObj.getGreen() / 255F, colorObj.getBlue() / 255F);
 				}
 				Gui.drawModalRectWithCustomSizedTexture(currentX, currentY, 0, 0, texWidth, texHeight, 256, 256);
 				
 				GlStateManager.color(1F, 1F, 1F);
 
-				NonNullList<ItemStack> itemList = NonNullList.<ItemStack>withSize(27, ItemStack.EMPTY);
+				NonNullList<ItemStack> itemList = NonNullList.withSize(27, ItemStack.EMPTY);
 				ItemStackHelper.loadAllItems(cmp, itemList);
 
 				RenderItem render = mc.getRenderItem();

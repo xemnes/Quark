@@ -59,8 +59,8 @@ public final class BeaconReplacementHandler {
 				if(i == 0 && j == 0)
 					continue;
 				
-				BlockPos tpos = pos.add(i, 0, j);
-				IBlockState state = world.getBlockState(tpos);
+				BlockPos targetPos = pos.add(i, 0, j);
+				IBlockState state = world.getBlockState(targetPos);
 				replacers.forEach(r -> r.replace(state));
 			}
 	}

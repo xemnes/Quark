@@ -41,7 +41,7 @@ public class DyeItemNames extends Feature {
 	@SideOnly(Side.CLIENT)
 	public void renderTooltip(RenderTooltipEvent.PostText event) {
 		ItemStack stack = event.getStack(); 
-		if(stack != null && !stack.isEmpty() && stack.hasTagCompound()) {
+		if(!stack.isEmpty() && stack.hasTagCompound()) {
 			int dye = ItemNBTHelper.getInt(stack, TAG_DYE, -1);
 			if(dye != -1) {
 				int rgb = ItemDye.DYE_COLORS[Math.min(15, dye)];

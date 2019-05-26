@@ -74,9 +74,9 @@ public class CommandConfig extends CommandBase {
 		
 		String player = matches.size() > 5 ? matches.get(5) : null;
 		if(player != null) {
-			EntityPlayerMP playermp = getPlayer(server, sender, player);
-			NetworkHandler.INSTANCE.sendTo(new MessageChangeConfig(moduleName, category, key, value, save), playermp);
-		} else NetworkHandler.INSTANCE.sendToAll(new MessageChangeConfig(moduleName, category, key, value, save));
+			EntityPlayerMP playerMP = getPlayer(server, sender, player);
+			NetworkHandler.INSTANCE.sendTo(new MessageChangeConfig(moduleName, category, key, value), playerMP);
+		} else NetworkHandler.INSTANCE.sendToAll(new MessageChangeConfig(moduleName, category, key, value));
 	}
 
 }

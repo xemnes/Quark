@@ -18,25 +18,24 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.village.MerchantRecipe;
 import net.minecraft.village.MerchantRecipeList;
 import net.minecraft.world.World;
-import vazkii.quark.world.feature.Archeologist;
+import vazkii.quark.world.feature.Archaeologist;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
 
-public class EntityArcheologist extends EntityLiving implements IMerchant {
+public class EntityArchaeologist extends EntityLiving implements IMerchant {
 
 	private MerchantRecipeList buyingList;
 	private EntityPlayer buyingPlayer;
-	private boolean needsInitilization;
 	private int timeUntilReset;
 	private int randomTickDivider;
 
-	public EntityArcheologist(World worldIn) {
+	public EntityArchaeologist(World worldIn) {
 		super(worldIn);
 		setSize(0.6F, 1.95F);
 		
-		if(Archeologist.enableHat && Archeologist.dropHat)
-			setItemStackToSlot(EntityEquipmentSlot.HEAD, new ItemStack(Archeologist.archeologist_hat));
+		if(Archaeologist.enableHat && Archaeologist.dropHat)
+			setItemStackToSlot(EntityEquipmentSlot.HEAD, new ItemStack(Archaeologist.archaeologist_hat));
 	}
 	
 	@Override
@@ -65,8 +64,8 @@ public class EntityArcheologist extends EntityLiving implements IMerchant {
 			else buyingList.add(new MerchantRecipe(new ItemStack(Items.EMERALD, 6 + rand.nextInt(4)), new ItemStack(Items.IRON_SHOVEL, 1)));
 		}
 
-		if(Archeologist.enableHat && Archeologist.sellHat)
-			buyingList.add(new MerchantRecipe(new ItemStack(Items.EMERALD, 6 + rand.nextInt(4)), ItemStack.EMPTY, new ItemStack(Archeologist.archeologist_hat, 1), 0, 1));
+		if(Archaeologist.enableHat && Archaeologist.sellHat)
+			buyingList.add(new MerchantRecipe(new ItemStack(Items.EMERALD, 6 + rand.nextInt(4)), ItemStack.EMPTY, new ItemStack(Archaeologist.archaeologist_hat, 1), 0, 1));
 	}
 
 
@@ -84,7 +83,7 @@ public class EntityArcheologist extends EntityLiving implements IMerchant {
 			if(!isTrading() && timeUntilReset > 0) {
 				--timeUntilReset;
 
-				if(timeUntilReset <= 0 && needsInitilization)
+				if(timeUntilReset <= 0)
 					for(MerchantRecipe merchantrecipe : buyingList)
 						if(merchantrecipe.isRecipeDisabled())
 							merchantrecipe.increaseMaxTradeUses(rand.nextInt(6) + rand.nextInt(6) + 2);

@@ -8,10 +8,12 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
@@ -21,28 +23,28 @@ import vazkii.quark.base.Quark;
 import vazkii.quark.base.handler.DimensionConfig;
 import vazkii.quark.base.lib.LibEntityIDs;
 import vazkii.quark.base.module.Feature;
-import vazkii.quark.world.client.render.RenderArcheologist;
-import vazkii.quark.world.entity.EntityArcheologist;
-import vazkii.quark.world.item.ItemArcheologistHat;
-import vazkii.quark.world.world.ArcheologistHouseGenerator;
+import vazkii.quark.world.client.render.RenderArchaeologist;
+import vazkii.quark.world.entity.EntityArchaeologist;
+import vazkii.quark.world.item.ItemArchaeologistHat;
+import vazkii.quark.world.world.ArchaeologistHouseGenerator;
 
 import java.util.List;
 
-public class Archeologist extends Feature {
+public class Archaeologist extends Feature {
 
-	public static final ResourceLocation HOUSE_STRUCTURE = new ResourceLocation("quark", "archeologist_house");
+	public static final ResourceLocation HOUSE_STRUCTURE = new ResourceLocation("quark", "archaeologist_house");
 
 	public static int chance, maxY, minY;
 	public static DimensionConfig dims;
 	
-	public static Item archeologist_hat;
+	public static Item archaeologist_hat;
 	
 	public static boolean enableHat, sellHat, dropHat, hatIncreasesOreYield;
 	public static float increaseChance;
 
 	@Override
 	public void setupConfig() {
-		chance = loadPropInt("Chance Per Chunk", "The chance (1/N) that the generator will attempt to place an Archeologist per chunk. More = less spawns", 5);
+		chance = loadPropInt("Chance Per Chunk", "The chance (1/N) that the generator will attempt to place an Archaeologist per chunk. More = less spawns", 5);
 		maxY = loadPropInt("Max Y", "", 50);
 		minY = loadPropInt("Min Y", "", 20);
 		dims = new DimensionConfig(configCategory);
@@ -57,19 +59,19 @@ public class Archeologist extends Feature {
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
 		if(enableHat)
-			archeologist_hat = new ItemArcheologistHat();
+			archaeologist_hat = new ItemArchaeologistHat();
 		
-		String archeologistName = "quark:archeologist";
-		EntityRegistry.registerModEntity(new ResourceLocation(archeologistName), EntityArcheologist.class, archeologistName, LibEntityIDs.ARCHEOLOGIST, Quark.instance, 80, 3, true, 0xb5966e, 0xb37b62);
+		String archaeologistName = "quark:archaeologist";
+		EntityRegistry.registerModEntity(new ResourceLocation(archaeologistName), EntityArchaeologist.class, archaeologistName, LibEntityIDs.ARCHAEOLOGIST, Quark.instance, 80, 3, true, 0xb5966e, 0xb37b62);
 
-		GameRegistry.registerWorldGenerator(new ArcheologistHouseGenerator(), 3000);
+		GameRegistry.registerWorldGenerator(new ArchaeologistHouseGenerator(), 3000);
 	}
 
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void preInitClient(FMLPreInitializationEvent event) {
-		RenderingRegistry.registerEntityRenderingHandler(EntityArcheologist.class, RenderArcheologist.FACTORY);
+	public void preInitClient() {
+		RenderingRegistry.registerEntityRenderingHandler(EntityArchaeologist.class, RenderArchaeologist.FACTORY);
 	}
 	
 	@SubscribeEvent
@@ -80,7 +82,7 @@ public class Archeologist extends Feature {
 				return;
 			
 			ItemStack hat = player.getItemStackFromSlot(EntityEquipmentSlot.HEAD);
-			if(hat.getItem() ==  archeologist_hat) {
+			if(hat.getItem() == archaeologist_hat) {
 				List<ItemStack> drops = event.getDrops();
 				if(drops.size() == 1) {
 					ItemStack drop = drops.get(0);
@@ -105,6 +107,27 @@ public class Archeologist extends Feature {
 						}
 					}
 				}
+			}
+		}
+	}
+
+	@SubscribeEvent
+	@SuppressWarnings("SpellCheckingInspection")
+	public void missingItemMappings(RegistryEvent.MissingMappings<Item> event) {
+		for (RegistryEvent.MissingMappings.Mapping<Item> mapping : event.getMappings()) {
+			if (mapping.key.getPath().equals("archeologist_hat"))
+				mapping.remap(archaeologist_hat);
+		}
+	}
+
+	@SubscribeEvent
+	@SuppressWarnings("SpellCheckingInspection")
+	public void missingEntityMappings(RegistryEvent.MissingMappings<EntityEntry> event) {
+		for (RegistryEvent.MissingMappings.Mapping<EntityEntry> mapping : event.getMappings()) {
+			if (mapping.key.getPath().equals("archeologist")) {
+				EntityEntry entry = EntityRegistry.getEntry(EntityArchaeologist.class);
+				if (entry != null)
+					mapping.remap(entry);
 			}
 		}
 	}

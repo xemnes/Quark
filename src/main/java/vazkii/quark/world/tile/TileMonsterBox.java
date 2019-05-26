@@ -72,11 +72,11 @@ public class TileMonsterBox extends TileMod implements ITickable {
 				e = new EntityCaveSpider(world);
 			else e = new EntityZombie(world);
 			
-			double motionMult = 0.4;
+			double motionMultiplier = 0.4;
 			e.setPosition(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
-			e.motionX = (world.rand.nextFloat() - 0.5) * motionMult;
-			e.motionY = (world.rand.nextFloat() - 0.5) * motionMult;
-			e.motionZ = (world.rand.nextFloat() - 0.5) * motionMult;
+			e.motionX = (world.rand.nextFloat() - 0.5) * motionMultiplier;
+			e.motionY = (world.rand.nextFloat() - 0.5) * motionMultiplier;
+			e.motionZ = (world.rand.nextFloat() - 0.5) * motionMultiplier;
 			
 			world.spawnEntity(e);
 		}

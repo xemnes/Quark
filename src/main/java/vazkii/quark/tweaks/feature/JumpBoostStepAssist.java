@@ -23,7 +23,7 @@ import java.util.List;
 
 public class JumpBoostStepAssist extends Feature {
 
-	public static List<String> playersWithStepup = new ArrayList<>();
+	public static final List<String> playersWithStepup = new ArrayList<>();
 
 	public static int minimumLevel;
 	public static boolean canToggleWithSneak;

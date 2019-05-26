@@ -28,7 +28,7 @@ public class BlockTinter {
 			colors = cullColorsToLightmap(colors, lightColor);
 		
 		if(colors.length > 0) {
-			float[] quadTint = tintQuad(quad, state, world, pos, buffer);
+			float[] quadTint = tintQuad(quad, state, world, pos);
 			if(quadTint != null)
 				for(int i = 0; i < 3; i++)
 					colors[i] *= quadTint[i];
@@ -39,16 +39,16 @@ public class BlockTinter {
 	}
 	
 	// Copied from vanilla BlockModelRenderer
-	private static float[] tintQuad(BakedQuad bakedquad, IBlockState stateIn, IBlockAccess blockAccessIn, BlockPos posIn, BufferBuilder buffer) {
+	private static float[] tintQuad(BakedQuad bakedquad, IBlockState stateIn, IBlockAccess blockAccessIn, BlockPos posIn) {
 		if(bakedquad.hasTintIndex()) {
 			int k = Minecraft.getMinecraft().getBlockColors().colorMultiplier(stateIn, blockAccessIn, posIn, bakedquad.getTintIndex());
 
 			if(EntityRenderer.anaglyphEnable)
 				k = TextureUtil.anaglyphColor(k);
 
-			float f = (float)(k >> 16 & 255) / 255.0F;
-			float f1 = (float)(k >> 8 & 255) / 255.0F;
-			float f2 = (float)(k & 255) / 255.0F;
+			float f = (k >> 16 & 255) / 255.0F;
+			float f1 = (k >> 8 & 255) / 255.0F;
+			float f2 = (k & 255) / 255.0F;
 			if(bakedquad.shouldApplyDiffuseLighting()) {
 				float diffuse = LightUtil.diffuseLight(bakedquad.getFace());
 				f *= diffuse;

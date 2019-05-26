@@ -1,7 +1,6 @@
 package vazkii.quark.base.client.gui.config;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import vazkii.quark.base.client.ContributorRewardHandler;
 import vazkii.quark.base.client.gui.GuiButtonColor;

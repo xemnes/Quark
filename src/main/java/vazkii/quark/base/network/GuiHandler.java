@@ -40,10 +40,14 @@ public class GuiHandler implements IGuiHandler {
 	@Override
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		switch(ID) {
-		case LibGuiIDs.SIGN: return new GuiEditSign((TileEntitySign) world.getTileEntity(new BlockPos(x, y, z)));
-		case LibGuiIDs.NOTE_BLOCK: return new GuiNoteBlock((TileEntityNote) world.getTileEntity(new BlockPos(x, y, z)));
-		case LibGuiIDs.BACKPACK: return new GuiBackpackInventory(player);
-		case LibGuiIDs.MATRIX_ENCHANTING: return new GuiMatrixEnchanting(player.inventory, (TileMatrixEnchanter) world.getTileEntity(new BlockPos(x, y, z)));
+			case LibGuiIDs.SIGN:
+				TileEntitySign sign = (TileEntitySign) world.getTileEntity(new BlockPos(x, y, z));
+				if (sign != null)
+					return new GuiEditSign(sign);
+				break;
+			case LibGuiIDs.NOTE_BLOCK: return new GuiNoteBlock((TileEntityNote) world.getTileEntity(new BlockPos(x, y, z)));
+			case LibGuiIDs.BACKPACK: return new GuiBackpackInventory(player);
+			case LibGuiIDs.MATRIX_ENCHANTING: return new GuiMatrixEnchanting(player.inventory, (TileMatrixEnchanter) world.getTileEntity(new BlockPos(x, y, z)));
 		}
 		return null;
 	}

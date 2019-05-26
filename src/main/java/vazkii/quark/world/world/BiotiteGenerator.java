@@ -38,7 +38,7 @@ public class BiotiteGenerator implements IWorldGenerator {
 	public void generate(Random rand, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
 		boolean isEnd = world.provider instanceof WorldProviderEnd;
 
-		if(!isEnd || !Biotite.generateNatually)
+		if(!isEnd || !Biotite.generateNaturally)
 			return;
 
 		for(int i = 0; i < clusterCount; i++) {

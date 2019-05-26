@@ -43,11 +43,11 @@ public class TileEnderWatcher extends TileMod implements ITickable {
 		boolean looking = false;
 		for(EntityPlayer player : players) {
 			ItemStack helm = player.getItemStackFromSlot(EntityEquipmentSlot.HEAD);
-			if(helm != null && helm.getItem() == Item.getItemFromBlock(Blocks.PUMPKIN))
+			if(!helm.isEmpty() && helm.getItem() == Item.getItemFromBlock(Blocks.PUMPKIN))
 				continue;
 
 			RayTraceResult pos = raytraceFromEntity(getWorld(), player, true, 64);
-			if(pos != null && pos.getBlockPos() != null && pos.getBlockPos().equals(getPos())) {
+			if(pos != null && pos.getBlockPos().equals(getPos())) {
 				looking = true;
 				break;
 			}
@@ -81,8 +81,7 @@ public class TileEnderWatcher extends TileMod implements ITickable {
 		float f6 = MathHelper.sin(-f1 * 0.017453292F);
 		float f7 = f4 * f5;
 		float f8 = f3 * f5;
-		double d3 = range;
-		Vec3d vec31 = vec3.add(f7 * d3, f6 * d3, f8 * d3);
+		Vec3d vec31 = vec3.add(f7 * range, f6 * range, f8 * range);
 		return world.rayTraceBlocks(vec3, vec31, par3);
 	}
 

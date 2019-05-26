@@ -21,7 +21,7 @@ public class FramedBlockCommons {
 		return new ExtendedBlockState(block, normalContainer.getProperties().toArray(new IProperty[0]), new IUnlistedProperty[] { STATE });
 	}
 	
-	public static IBlockState getExtendedState(Block block, IBlockState state, IBlockAccess world, BlockPos pos) {
+	public static IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos) {
 		IBlockState actualState = state.getActualState(world, pos);
 		TileEntity tile = world.getTileEntity(pos);
 		if(tile instanceof TileFramed && actualState instanceof IExtendedBlockState) {

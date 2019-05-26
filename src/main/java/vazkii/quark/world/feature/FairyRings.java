@@ -3,7 +3,6 @@ package vazkii.quark.world.feature;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import vazkii.quark.base.handler.DimensionConfig;
@@ -24,7 +23,7 @@ public class FairyRings extends Feature {
 	public static DimensionConfig dimensions;
 	public static List<IBlockState> ores;
 
-	private static boolean initted = false;
+	private static boolean initialized = false;
 	public static String[] oresArr;
 	
 	@Override
@@ -37,7 +36,7 @@ public class FairyRings extends Feature {
 			Objects.toString(Blocks.EMERALD_ORE.getRegistryName()),
 				Objects.toString(Blocks.DIAMOND_ORE.getRegistryName())
 		});
-		if(initted)
+		if(initialized)
 			loadOres();
 	}
 	
@@ -47,7 +46,7 @@ public class FairyRings extends Feature {
 	}
 	
 	@Override
-	public void postInit(FMLPostInitializationEvent event) {
+	public void postInit() {
 		loadOres();
 	}
 
@@ -68,7 +67,7 @@ public class FairyRings extends Feature {
 			else ores.add(b.getStateFromMeta(meta));
 		}
 			
-		initted = true;
+		initialized = true;
 	}
 	
 	@Override

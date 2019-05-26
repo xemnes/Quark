@@ -79,7 +79,7 @@ public class GuiBetterEditSign extends GuiScreen {
 	}
 	
 	@Override
-	protected void keyTyped(char typedChar, int keyCode) throws IOException {
+	protected void keyTyped(char typedChar, int keyCode) {
 		switch(keyCode) {
 		case 1: // Escape
 			exit();
@@ -148,7 +148,7 @@ public class GuiBetterEditSign extends GuiScreen {
 		Block block = sign.getBlockType();
 
 		if(block == Blocks.STANDING_SIGN) {
-			float f1 = (float)(sign.getBlockMetadata() * 360) / 16.0F;
+			float f1 = (sign.getBlockMetadata() * 360) / 16.0F;
 			GlStateManager.rotate(f1, 0.0F, 1.0F, 0.0F);
 			GlStateManager.translate(0.0F, -1.0625F, 0.0F);
 		}
@@ -173,7 +173,7 @@ public class GuiBetterEditSign extends GuiScreen {
 		TileEntityRendererDispatcher.instance.render(sign, -0.5D, -0.75D, -0.5D, 0.0F);
 		GlStateManager.popMatrix();
 
-		textFields.forEach((field) -> field.drawTextBox());
+		textFields.forEach(GuiTextField::drawTextBox);
 
 		super.drawScreen(mouseX, mouseY, partialTicks);
 	}

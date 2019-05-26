@@ -123,9 +123,9 @@ public class TileCustomChest extends TileEntityChest {
 			TileEntity tileentity = getWorld().getTileEntity(blockpos);
 
 			if(tileentity instanceof TileCustomChest) {
-				TileCustomChest tileentitychest = (TileCustomChest)tileentity;
-				tileentitychest.setNeighbor(this, side.getOpposite());
-				return tileentitychest;
+				TileCustomChest chest = (TileCustomChest)tileentity;
+				chest.setNeighbor(this, side.getOpposite());
+				return chest;
 			}
 		}
 

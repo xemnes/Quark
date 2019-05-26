@@ -14,21 +14,21 @@ import net.minecraft.world.gen.structure.template.PlacementSettings;
 import net.minecraft.world.gen.structure.template.Template;
 import net.minecraftforge.fml.common.IWorldGenerator;
 import vazkii.arl.util.RotationHandler;
-import vazkii.quark.world.entity.EntityArcheologist;
-import vazkii.quark.world.feature.Archeologist;
+import vazkii.quark.world.entity.EntityArchaeologist;
+import vazkii.quark.world.feature.Archaeologist;
 
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 
-public class ArcheologistHouseGenerator implements IWorldGenerator {
+public class ArchaeologistHouseGenerator implements IWorldGenerator {
 
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
-		if(!(chunkGenerator instanceof ChunkGeneratorFlat) && Archeologist.dims.canSpawnHere(world) && random.nextInt(Archeologist.chance) == 0) {
+		if(!(chunkGenerator instanceof ChunkGeneratorFlat) && Archaeologist.dims.canSpawnHere(world) && random.nextInt(Archaeologist.chance) == 0) {
 			int x = chunkX * 16 + 8 + random.nextInt(16);
 			int z = chunkZ * 16 + 8 + random.nextInt(16);
-			int y = random.nextInt(Archeologist.maxY - Archeologist.minY) + Archeologist.minY;
+			int y = random.nextInt(Archaeologist.maxY - Archaeologist.minY) + Archaeologist.minY;
 			
 			BlockPos pos = new BlockPos(x, y, z);
 			setHouseAt(random, world, pos);
@@ -63,7 +63,7 @@ public class ArcheologistHouseGenerator implements IWorldGenerator {
 
 	private void generateHouse(WorldServer world, BlockPos pos, EnumFacing face) {
 		MinecraftServer server = world.getMinecraftServer();
-		Template template = world.getStructureTemplateManager().getTemplate(server, Archeologist.HOUSE_STRUCTURE);
+		Template template = world.getStructureTemplateManager().getTemplate(server, Archaeologist.HOUSE_STRUCTURE);
 		PlacementSettings settings = new PlacementSettings();
 		settings.setRotation(RotationHandler.getRotationFromFacing(face));
 		
@@ -77,7 +77,7 @@ public class ArcheologistHouseGenerator implements IWorldGenerator {
 				BlockPos villagerPos = entry.getKey();
 				world.setBlockToAir(villagerPos);
 				
-				EntityArcheologist e = new EntityArcheologist(world);
+				EntityArchaeologist e = new EntityArchaeologist(world);
 				e.setPosition(villagerPos.getX(), villagerPos.getY(), villagerPos.getZ());
 				world.spawnEntity(e);
 			}

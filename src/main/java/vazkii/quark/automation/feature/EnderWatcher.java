@@ -13,8 +13,6 @@ package vazkii.quark.automation.feature;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import vazkii.arl.recipe.RecipeHandler;
 import vazkii.arl.util.ProxyRegistry;
@@ -37,7 +35,7 @@ public class EnderWatcher extends Feature {
 	}
 
 	@Override
-	public void postPreInit(FMLPreInitializationEvent event) {		
+	public void postPreInit() {
 		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(ender_watcher),
 				"BRB", "RER", "BRB",
 				'R', ProxyRegistry.newStack(Items.REDSTONE),

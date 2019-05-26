@@ -23,7 +23,7 @@ public class BoatBannerRenderer {
 	private static final TileEntityBanner BANNER_TE = new TileEntityBanner();
 
 	// Called from ASM. See ClassTransformer
-	public static void renderBanner(EntityBoat boat, float pticks) {
+	public static void renderBanner(EntityBoat boat, float partialTicks) {
 		if(!ModuleLoader.isFeatureEnabled(BoatSails.class))
 			return;
 
@@ -35,7 +35,7 @@ public class BoatBannerRenderer {
 			GlStateManager.rotate(90F, 0F, 1F, 0F);
 			GlStateManager.translate(-0.5F, 0.15F, -1.45F);
 
-			TileEntityRendererDispatcher.instance.render(BANNER_TE, 0, 0, 0, pticks);
+			TileEntityRendererDispatcher.instance.render(BANNER_TE, 0, 0, 0, partialTicks);
 			GlStateManager.popMatrix();
 		}
 	}

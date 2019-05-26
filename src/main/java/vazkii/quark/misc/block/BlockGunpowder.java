@@ -2,7 +2,6 @@ package vazkii.quark.misc.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockTNT;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -85,10 +84,12 @@ public class BlockGunpowder extends BlockQuarkDust {
 		Block block = state.getBlock();
 		if(block == this) {
 			IBlockState belowState = world.getBlockState(pos.down());
+			ResourceLocation loc = belowState.getBlock().getRegistryName();
+
 			IBlockState newState = state.withProperty(LIT, true);
 			world.setBlockState(pos, newState);
 			world.scheduleUpdate(pos, newState.getBlock(),
-					belowState.getBlock().getRegistryName().getPath().contains("netherrack")
+					loc != null && loc.getPath().contains("netherrack")
 						? PlaceVanillaDusts.gunpowderDelayNetherrack 
 						: PlaceVanillaDusts.gunpowderDelay);
 			
@@ -108,7 +109,7 @@ public class BlockGunpowder extends BlockQuarkDust {
 
 			return true;
 		} else if(block instanceof IFuseIgnitable) {
-			((IFuseIgnitable) block).onIngitedByFuse(world, pos, state);
+			((IFuseIgnitable) block).onIgnitedByFuse(world, pos, state);
 			
 			return true;
 		}

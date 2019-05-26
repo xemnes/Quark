@@ -55,7 +55,7 @@ public class ProxiedItemStackHandler implements IItemHandler, IItemHandlerModifi
 	}
 
 	private void writeStack(int index, @Nonnull ItemStack stack) {
-		getStackList().set(index, stack.writeToNBT(new NBTTagCompound()));
+		getStackList().set(index, stack.serializeNBT());
 		onContentsChanged(index);
 	}
 
@@ -159,7 +159,7 @@ public class ProxiedItemStackHandler implements IItemHandler, IItemHandlerModifi
 			throw new RuntimeException("Slot " + slot + " not in valid range - [0," + size + ")");
 	}
 
-	@SuppressWarnings("unused")
+	@SuppressWarnings({"unused", "EmptyMethod"})
 	protected void onContentsChanged(int slot) {
 		// NO-OP
 	}

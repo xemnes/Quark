@@ -29,7 +29,7 @@ public class EnchantmentMatrix {
 	private static final String TAG_COUNT = "count";
 	private static final String TAG_TYPE_COUNT = "typeCount";
 
-	public Map<Integer, Piece> pieces = new HashMap<>();
+	public final Map<Integer, Piece> pieces = new HashMap<>();
 	public List<Integer> benchedPieces = new ArrayList<>();
 	public List<Integer> placedPieces = new ArrayList<>();
 	
@@ -66,11 +66,11 @@ public class EnchantmentMatrix {
 		}
 	}
 	
-	public boolean validateXp(EntityPlayer player, int bookshelfPower, int enchantability) {
-		return player.isCreative() || (player.experienceLevel >= getMinXpLevel(bookshelfPower, enchantability) && player.experienceLevel >= getNewPiecePrice());
+	public boolean validateXp(EntityPlayer player, int bookshelfPower) {
+		return player.isCreative() || (player.experienceLevel >= getMinXpLevel(bookshelfPower) && player.experienceLevel >= getNewPiecePrice());
 	}
 	
-	public int getMinXpLevel(int bookshelfPower, int enchantability) {
+	public int getMinXpLevel(int bookshelfPower) {
 		float scale = MatrixEnchanting.minLevelScaleFactor;
 		int cutoff = MatrixEnchanting.minLevelCutoff;
 		
@@ -84,8 +84,8 @@ public class EnchantmentMatrix {
 		return 1 + (MatrixEnchanting.piecePriceScale == 0 ? 0 : count / MatrixEnchanting.piecePriceScale); 
 	}
 	
-	public boolean generatePiece(int bookshelfPower, int enchantability) {
-		EnchantmentDataWrapper data = generateRandomEnchantment(bookshelfPower, enchantability);
+	public boolean generatePiece(int bookshelfPower) {
+		EnchantmentDataWrapper data = generateRandomEnchantment(bookshelfPower);
 		if (data == null)
 			return false;
 		
@@ -115,7 +115,7 @@ public class EnchantmentMatrix {
 		return true;
 	}
 	
-	private EnchantmentDataWrapper generateRandomEnchantment(int bookshelfPower, int enchantability) {
+	private EnchantmentDataWrapper generateRandomEnchantment(int bookshelfPower) {
 		int level = book ? (MatrixEnchanting.bookEnchantability + rng.nextInt(Math.max(1, bookshelfPower) * 2)) : 0;
 		
 		List<Piece> marked = pieces.values().stream().filter(p -> p.marked).collect(Collectors.toList());
@@ -218,12 +218,12 @@ public class EnchantmentMatrix {
 	public void writeToNBT(NBTTagCompound cmp) {
 		NBTTagList list = new NBTTagList();
 		for(Integer i : pieces.keySet()) {
-			NBTTagCompound pcmp = new NBTTagCompound();
+			NBTTagCompound pieceTag = new NBTTagCompound();
 			
-			pcmp.setInteger(TAG_PIECE_ID, i);
-			pieces.get(i).writeToNBT(pcmp);
+			pieceTag.setInteger(TAG_PIECE_ID, i);
+			pieces.get(i).writeToNBT(pieceTag);
 			
-			list.appendTag(pcmp);
+			list.appendTag(pieceTag);
 		}
 		
 		cmp.setTag(TAG_PIECES, list);
@@ -237,11 +237,11 @@ public class EnchantmentMatrix {
 		pieces.clear();
 		NBTTagList plist = cmp.getTagList(TAG_PIECES, cmp.getId());
 		for(int i = 0; i < plist.tagCount(); i++) {
-			NBTTagCompound pcmp = plist.getCompoundTagAt(i);
+			NBTTagCompound pieceTag = plist.getCompoundTagAt(i);
 			
-			int id = pcmp.getInteger(TAG_PIECE_ID);
+			int id = pieceTag.getInteger(TAG_PIECE_ID);
 			Piece piece = new Piece();
-			piece.readFromNBT(pcmp);
+			piece.readFromNBT(pieceTag);
 			pieces.put(id, piece);
 		}
 		

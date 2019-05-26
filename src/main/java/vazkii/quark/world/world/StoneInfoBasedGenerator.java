@@ -13,8 +13,8 @@ import java.util.function.Supplier;
 
 public class StoneInfoBasedGenerator extends MultiChunkFeatureGenerator {
 
-	public Supplier<StoneInfo> infoSupplier;
-	public String name;
+	public final Supplier<StoneInfo> infoSupplier;
+	public final String name;
 	
 	private final IBlockState state;
 	private final long seedXor;
@@ -28,7 +28,7 @@ public class StoneInfoBasedGenerator extends MultiChunkFeatureGenerator {
 	}
 
 	@Override
-	public boolean canGenerate(World world, int chunkX, int chunkZ) {
+	public boolean canGenerate(World world) {
 		StoneInfo info = infoSupplier.get();
 		return info.enabled && info.dims.canSpawnHere(world);
 	}
@@ -67,7 +67,7 @@ public class StoneInfoBasedGenerator extends MultiChunkFeatureGenerator {
 	}
 
 	@Override
-	public BlockPos[] getSourcesInChunk(Random random, int chunkX, int chunkZ, World world) {
+	public BlockPos[] getSourcesInChunk(Random random, int chunkX, int chunkZ) {
 		StoneInfo info = infoSupplier.get();
 		int chance = info.clusterRarity;
 		int amount = 1;

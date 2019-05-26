@@ -5,11 +5,11 @@ import net.minecraft.client.model.ModelBox;
 import net.minecraft.client.model.ModelRenderer;
 import vazkii.arl.item.ModelModArmor;
 
-public class ModelArcheologistHat extends ModelModArmor {
+public class ModelArchaeologistHat extends ModelModArmor {
 	
 	public final ModelRenderer hat;
 
-	public ModelArcheologistHat() {
+	public ModelArchaeologistHat() {
 		textureWidth = 64;
 		textureHeight = 64;
 

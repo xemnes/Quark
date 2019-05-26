@@ -33,17 +33,15 @@ import java.util.List;
 public class ClientProxy extends CommonProxy {
 
 	private static ResourceProxy resourceProxy;
-	
-	static {
-		List<IResourcePack> packs = ObfuscationReflectionHelper.getPrivateValue(Minecraft.class, Minecraft.getMinecraft(), LibObfuscation.DEFAULT_RESOURCE_PACKS);
-		resourceProxy = new ResourceProxy();
-		packs.add(resourceProxy);
-		
-		EmoteSystem.addResourcePack(packs);
-	}
 
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
+		List<IResourcePack> packs = ObfuscationReflectionHelper.getPrivateValue(Minecraft.class, Minecraft.getMinecraft(), LibObfuscation.DEFAULT_RESOURCE_PACKS);
+		resourceProxy = new ResourceProxy(event.getSourceFile());
+		packs.add(resourceProxy);
+
+		EmoteSystem.addResourcePack(packs);
+
 		super.preInit(event);
 		ModuleLoader.preInitClient(event);
 	}

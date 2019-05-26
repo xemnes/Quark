@@ -37,7 +37,7 @@ public class GlassItemFrame extends Feature {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void preInitClient(FMLPreInitializationEvent event) {
+	public void preInitClient() {
 		RenderingRegistry.registerEntityRenderingHandler(EntityGlassItemFrame.class, RenderGlassItemFrame.FACTORY);
 	}
 	

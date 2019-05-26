@@ -38,14 +38,7 @@ public class ItemGlassItemFrame extends ItemMod implements IQuarkItem, IExtraVar
 		if((ModuleLoader.isFeatureEnabled(FlatItemFrames.class) || facing.getAxis() != EnumFacing.Axis.Y) && playerIn.canPlayerEdit(blockpos, facing, stack)) {
 			EntityHanging entityhanging = createEntity(worldIn, blockpos, facing);
 
-			if(entityhanging != null && entityhanging.onValidSurface()) {
-				if(!worldIn.isRemote) {
-					entityhanging.playPlaceSound();
-					worldIn.spawnEntity(entityhanging);
-				}
-
-				stack.shrink(1);
-			}
+			ItemColoredItemFrame.placeHangingEntity(worldIn, stack, entityhanging);
 
 			return EnumActionResult.SUCCESS;
 		}

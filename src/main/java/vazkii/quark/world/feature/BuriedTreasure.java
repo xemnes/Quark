@@ -49,11 +49,11 @@ import java.util.Random;
 
 public class BuriedTreasure extends Feature {
 
-	public static String TAG_TREASURE_MAP = "Quark:TreasureMap";
-	public static String TAG_TREASURE_MAP_DELEGATE = "Quark:TreasureMapDelegate";
+	public static final String TAG_TREASURE_MAP = "Quark:TreasureMap";
+	public static final String TAG_TREASURE_MAP_DELEGATE = "Quark:TreasureMapDelegate";
 
-	public static ImmutableSet<ResourceLocation> tablesToEdit = ImmutableSet.of(LootTableList.CHESTS_DESERT_PYRAMID, LootTableList.CHESTS_JUNGLE_TEMPLE, LootTableList.CHESTS_STRONGHOLD_CORRIDOR);
-	public static Map<ResourceLocation, String> customPools = new HashMap<>();
+	public static final ImmutableSet<ResourceLocation> tablesToEdit = ImmutableSet.of(LootTableList.CHESTS_DESERT_PYRAMID, LootTableList.CHESTS_JUNGLE_TEMPLE, LootTableList.CHESTS_STRONGHOLD_CORRIDOR);
+	public static final Map<ResourceLocation, String> customPools = new HashMap<>();
 
 	public static int rarity, quality;
 

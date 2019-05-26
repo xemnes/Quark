@@ -17,6 +17,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityBanner;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
+import org.lwjgl.opengl.GL11;
 import vazkii.arl.util.ModelHandler;
 import vazkii.quark.decoration.entity.EntityFlatItemFrame;
 
@@ -24,7 +25,7 @@ public class RenderGlassItemFrame extends RenderFlatItemFrame {
 
 	public static final IRenderFactory<EntityItemFrame> FACTORY = RenderGlassItemFrame::new;
 	
-	private TileEntityBanner banner = new TileEntityBanner();
+	private final TileEntityBanner banner = new TileEntityBanner();
 	
 	public RenderGlassItemFrame(RenderManager renderManagerIn) {
 		super(renderManagerIn);
@@ -46,26 +47,28 @@ public class RenderGlassItemFrame extends RenderFlatItemFrame {
 		if(stack.getItem() instanceof ItemBanner) {
 			banner.setItemValues(stack, false);
 			ResourceLocation res = BannerTextures.BANNER_DESIGNS.getResourceLocation(banner.getPatternResourceLocation(), banner.getPatternList(), banner.getColorList());
-			Minecraft.getMinecraft().renderEngine.bindTexture(res);
-			Tessellator tessellator = Tessellator.getInstance();
-			BufferBuilder vertexbuffer = tessellator.getBuffer();
-			
-			float f = 1F / 64F;
-			float u = 1 * f;
-			float v = 1 * f;
-			float w = 20 * f;
-			float h = 40 * f;
-			
-			GlStateManager.pushMatrix();
-			GlStateManager.rotate(180, 0F, 0F, 1F);
-			GlStateManager.translate(-0.5F, -0.5F, 0.058F);
-			vertexbuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
-			vertexbuffer.pos(0, 1, 0).tex(u + 0, v + h).endVertex();
-			vertexbuffer.pos(1, 1, 0).tex(u + w, v + h).endVertex();
-			vertexbuffer.pos(1, 0, 0).tex(u + w, v + 0).endVertex();
-			vertexbuffer.pos(0, 0, 0).tex(u + 0, v + 0).endVertex();
-			tessellator.draw();
-			GlStateManager.popMatrix();
+			if (res != null) {
+				Minecraft.getMinecraft().renderEngine.bindTexture(res);
+				Tessellator tessellator = Tessellator.getInstance();
+				BufferBuilder buffer = tessellator.getBuffer();
+
+				float f = 1F / 64F;
+				float u = 1 * f;
+				float v = 1 * f;
+				float w = 20 * f;
+				float h = 40 * f;
+
+				GlStateManager.pushMatrix();
+				GlStateManager.rotate(180, 0F, 0F, 1F);
+				GlStateManager.translate(-0.5F, -0.5F, 0.058F);
+				buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+				buffer.pos(0, 1, 0).tex(u + 0, v + h).endVertex();
+				buffer.pos(1, 1, 0).tex(u + w, v + h).endVertex();
+				buffer.pos(1, 0, 0).tex(u + w, v + 0).endVertex();
+				buffer.pos(0, 0, 0).tex(u + 0, v + 0).endVertex();
+				tessellator.draw();
+				GlStateManager.popMatrix();
+			}
 		}
 		else super.renderItemStack(itemFrame, stack);
 	}

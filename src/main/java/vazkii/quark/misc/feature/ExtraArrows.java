@@ -65,7 +65,7 @@ public class ExtraArrows extends Feature {
 			String enderArrowName = "quark:arrow_ender";
 			arrow_ender = new ItemModArrow("arrow_ender", (World worldIn, ItemStack stack, EntityLivingBase shooter) -> new EntityArrowEnder(worldIn, shooter));
 			EntityRegistry.registerModEntity(new ResourceLocation(enderArrowName), EntityArrowEnder.class, enderArrowName, LibEntityIDs.ARROW_ENDER, Quark.instance, 64, 10, true);
-			BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(arrow_ender, new ArrowBehaviour((World world, IPosition pos) -> new EntityArrowEnder(world, pos)));
+			BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(arrow_ender, new ArrowBehaviour(EntityArrowEnder::new));
 			RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(arrow_ender), ProxyRegistry.newStack(Items.ARROW), ProxyRegistry.newStack(Items.ENDER_PEARL));
 		}
 		
@@ -73,7 +73,7 @@ public class ExtraArrows extends Feature {
 			String explosiveArrowName = "quark:arrow_explosive";
 			arrow_explosive = new ItemModArrow("arrow_explosive", (World worldIn, ItemStack stack, EntityLivingBase shooter) -> new EntityArrowExplosive(worldIn, shooter));
 			EntityRegistry.registerModEntity(new ResourceLocation(explosiveArrowName), EntityArrowExplosive.class, explosiveArrowName, LibEntityIDs.ARROW_EXPLOSIVE, Quark.instance, 64, 10, true);
-			BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(arrow_explosive, new ArrowBehaviour((World world, IPosition pos) -> new EntityArrowExplosive(world, pos)));
+			BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(arrow_explosive, new ArrowBehaviour(EntityArrowExplosive::new));
 			RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(arrow_explosive), ProxyRegistry.newStack(Items.ARROW), ProxyRegistry.newStack(Items.GUNPOWDER), ProxyRegistry.newStack(Items.GUNPOWDER));
 		}
 		
@@ -81,13 +81,13 @@ public class ExtraArrows extends Feature {
 			String torchArrowName = "quark:arrow_torch";
 			arrow_torch = new ItemModArrow("arrow_torch", (World worldIn, ItemStack stack, EntityLivingBase shooter) -> new EntityArrowTorch(worldIn, shooter));
 			EntityRegistry.registerModEntity(new ResourceLocation(torchArrowName), EntityArrowTorch.class, torchArrowName, LibEntityIDs.ARROW_TORCH, Quark.instance, 64, 10, true);
-			BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(arrow_torch, new ArrowBehaviour((World world, IPosition pos) -> new EntityArrowTorch(world, pos)));
+			BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(arrow_torch, new ArrowBehaviour(EntityArrowTorch::new));
 			RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(arrow_torch), ProxyRegistry.newStack(Items.ARROW), ProxyRegistry.newStack(Blocks.TORCH));
 		}
 	}
 	
 	@Override
-	public void preInitClient(FMLPreInitializationEvent event) {
+	public void preInitClient() {
 		if(enableEnder)
 			RenderingRegistry.registerEntityRenderingHandler(EntityArrowEnder.class, RenderExtraArrow.FACTORY_ENDER);
 		

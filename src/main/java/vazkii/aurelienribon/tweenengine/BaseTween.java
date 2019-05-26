@@ -300,7 +300,7 @@ public abstract class BaseTween<T> {
 	}
 
 	/**
-	 * Gets the delay occuring between two iterations.
+	 * Gets the delay occurring between two iterations.
 	 */
 	public float getRepeatDelay() {
 		return repeatDelay;
@@ -546,7 +546,7 @@ public abstract class BaseTween<T> {
 				deltaTime -= delta;
 				currentTime = 0;
 
-				updateOverride(step, step+1, isIterationStep, delta);
+				updateOverride(step, step+1, false, delta);
 				callCallback(TweenCallback.BACK_END);
 
 				if (step < 0 && repeatCnt >= 0) callCallback(TweenCallback.BACK_COMPLETE);
@@ -560,7 +560,7 @@ public abstract class BaseTween<T> {
 				deltaTime -= delta;
 				currentTime = duration;
 
-				updateOverride(step, step-1, isIterationStep, delta);
+				updateOverride(step, step-1, false, delta);
 				callCallback(TweenCallback.END);
 
 				if (step > repeatCnt*2 && repeatCnt >= 0) callCallback(TweenCallback.COMPLETE);
@@ -570,7 +570,7 @@ public abstract class BaseTween<T> {
 				float delta = deltaTime;
 				deltaTime -= delta;
 				currentTime += delta;
-				updateOverride(step, step, isIterationStep, delta);
+				updateOverride(step, step, true, delta);
 				break;
 
 			} else {

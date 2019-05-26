@@ -1,6 +1,5 @@
 package vazkii.quark.world.world.underground;
 
-import com.google.common.base.Predicate;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockStone;
 import net.minecraft.block.state.IBlockState;
@@ -15,6 +14,8 @@ import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.world.feature.RevampStoneGen;
 import vazkii.quark.world.world.UndergroundBiomeGenerator.UndergroundBiomeGenerationContext;
 
+import java.util.function.Predicate;
+
 public abstract class UndergroundBiome {
 
 	public float dungeonChance;
@@ -23,8 +24,8 @@ public abstract class UndergroundBiome {
 		if(state != null) {
 			Block block = state.getBlock();
 			if(block == Blocks.STONE) {
-				BlockStone.EnumType blockstone$enumtype = state.getValue(BlockStone.VARIANT);
-				return blockstone$enumtype.isNatural();
+				BlockStone.EnumType type = state.getValue(BlockStone.VARIANT);
+				return type.isNatural();
 			}
 			
 			return block == RevampStoneGen.limestone || block == RevampStoneGen.marble;
@@ -47,7 +48,7 @@ public abstract class UndergroundBiome {
 		} else if(isWall(world, pos, state)) {
 			context.wallMap.put(pos, getBorderSide(world, pos));
 			fillWall(world, pos, state);
-		} else if(isInside(world, pos, state)) {
+		} else if(isInside(state)) {
 			context.insideList.add(pos);
 			fillInside(world, pos, state);
 		}
@@ -69,7 +70,8 @@ public abstract class UndergroundBiome {
 	public void finalWallPass(World world, BlockPos pos) {
 		// NO-OP
 	}
-	
+
+	@SuppressWarnings({"unused", "EmptyMethod"})
 	public void finalInsidePass(World world, BlockPos pos) {
 		// NO-OP
 	}
@@ -118,10 +120,10 @@ public abstract class UndergroundBiome {
 	}
 
 	public boolean isWall(World world, BlockPos pos, IBlockState state) {
-		if(!state.isFullBlock() || !state.isOpaqueCube() || !STONE_PREDICATE.apply(state))
+		if(!state.isFullBlock() || !state.isOpaqueCube() || !STONE_PREDICATE.test(state))
 			return false;
 
-		return isBorder(world, pos, state);
+		return isBorder(world, pos);
 	}
 	
 	EnumFacing getBorderSide(World world, BlockPos pos) {
@@ -136,12 +138,12 @@ public abstract class UndergroundBiome {
 		return null;
 	}
 	
-	boolean isBorder(World world, BlockPos pos, IBlockState state) {
+	boolean isBorder(World world, BlockPos pos) {
 		return getBorderSide(world, pos) != null;
 	}
 	
-	boolean isInside(World world, BlockPos pos, IBlockState state) {
-		return STONE_PREDICATE.apply(state);
+	boolean isInside(IBlockState state) {
+		return STONE_PREDICATE.test(state);
 	}
 	
 	public static Rotation rotationFromFacing(EnumFacing facing) {

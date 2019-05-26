@@ -1,28 +1,21 @@
 package vazkii.quark.base.block;
 
-import java.util.List;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockPressurePlate;
-import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import vazkii.arl.item.ItemModBlock;
-import vazkii.arl.util.ProxyRegistry;
-import vazkii.quark.base.lib.LibMisc;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 
 public abstract class BlockQuarkPressurePlate extends BlockPressurePlate implements IQuarkBlock {
 
@@ -57,9 +50,7 @@ public abstract class BlockQuarkPressurePlate extends BlockPressurePlate impleme
 	@Override
 	public Block setTranslationKey(@Nonnull String name) {
 		super.setTranslationKey(name);
-		setRegistryName(LibMisc.PREFIX_MOD + name);
-		ProxyRegistry.register(this);
-		ProxyRegistry.register(new ItemModBlock(this, new ResourceLocation(LibMisc.PREFIX_MOD + name)));
+		register(name);
 		return this;
 	}
 

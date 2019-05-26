@@ -109,7 +109,7 @@ public class GuiConfigImport extends GuiConfigBase {
 		}
 		
 		if(needsRestart) {
-			String s = "";
+			String s;
 			if(disabledFeatures == 1)
 				s = I18n.format("quark.config.disabledcount1");
 			else s = I18n.format("quark.config.disabledcount", disabledFeatures);

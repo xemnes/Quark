@@ -12,9 +12,6 @@ package vazkii.quark.base.lib;
 
 public final class LibObfuscation {
 
-	// PotionHelper
-	public static final String POTION_ITEM_CONVERSIONS = "field_185214_b";
-
 	// RenderLivingBase
 	public static final String LAYER_RENDERERS = "field_177097_h";
 
@@ -26,7 +23,7 @@ public final class LibObfuscation {
 	public static final String IS_EDITABLE = "field_145916_j";
 
 	// NetHandlerPlayServer
-	public static final String CHAT_SPAM_TRESHOLD_COUNT = "field_147374_l";
+	public static final String CHAT_SPAM_THRESHOLD_COUNT = "field_147374_l";
 
 	// GuiMainMenu
 	public static final String TITLE_PANORAMA_PATHS = "field_73978_o";
@@ -74,8 +71,5 @@ public final class LibObfuscation {
 	
 	// TileEntityBeacon 
 	public static final String VALID_EFFECTS = "field_184280_f";
-
-	// GuiBeacon
-	public static final String TILE_BEACON = "field_147024_w";
 	
 }

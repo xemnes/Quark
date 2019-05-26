@@ -20,7 +20,6 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biome.SpawnListEntry;
 import net.minecraftforge.client.event.sound.PlaySoundEvent;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -46,7 +45,7 @@ public class OceanGuardians extends Feature {
 	}
 
 	@Override
-	public void init(FMLInitializationEvent event) {
+	public void init() {
 		Set<Biome> set = deepOceanOnly ? ImmutableSet.of(Biomes.DEEP_OCEAN) : ImmutableSet.of(Biomes.OCEAN, Biomes.DEEP_OCEAN);
 
 		for(Biome b : set)
@@ -61,8 +60,8 @@ public class OceanGuardians extends Feature {
 
 		ISound sound = event.getSound();
 		if(sound instanceof GuardianSound) {
-			GuardianSound gsound = (GuardianSound) sound;
-			EntityGuardian guardian = ObfuscationReflectionHelper.getPrivateValue(GuardianSound.class, gsound, LibObfuscation.GUARDIAN);
+			GuardianSound guardianSound = (GuardianSound) sound;
+			EntityGuardian guardian = ObfuscationReflectionHelper.getPrivateValue(GuardianSound.class, guardianSound, LibObfuscation.GUARDIAN);
 			event.setResultSound(new GuardianSound2UnderwaterBoogaloo(guardian));
 		}
 	}

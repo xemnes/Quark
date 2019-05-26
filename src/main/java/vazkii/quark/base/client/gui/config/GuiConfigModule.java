@@ -19,7 +19,7 @@ public class GuiConfigModule extends GuiConfigBase {
 	private final Module module;
 	private final List<Feature> features;
 	private int page = 0;
-	private int totalPages;
+	private final int totalPages;
 	
 	private GuiButton left, right;
 	
@@ -55,19 +55,17 @@ public class GuiConfigModule extends GuiConfigBase {
 		addFeatureButtons();
 	}
 
-	void addFeatureButtons() {
+	public void addFeatureButtons() {
 		int startX = width / 2 - 195;
 		int startY = height / 6 + 20;
 		
 		buttonList.removeIf((b) -> b instanceof GuiButtonConfigSetting || b instanceof GuiButtonFeatureSettings);
-		
-		int x = 0, y = 0;
-		
+
 		int start = page * FEATURES_PER_PAGE;
 		for(int i = start; i < Math.min(start + FEATURES_PER_PAGE, features.size()); i++) {
 			int j = i - start;
-			x = startX + j % 2 * 200;
-			y = startY + j / 2 * 22;
+			int x = startX + j % 2 * 200;
+			int y = startY + j / 2 * 22;
 			
 			Feature feature = features.get(i);
 			

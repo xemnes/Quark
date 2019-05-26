@@ -23,7 +23,7 @@ public class ContainerMatrixEnchanting extends Container {
 
 	private final List<ItemStack> lapisTypes = OreDictionary.getOres("gemLapis");
 
-	public TileMatrixEnchanter enchanter;
+	public final TileMatrixEnchanter enchanter;
 
 	public ContainerMatrixEnchanting(InventoryPlayer playerInv, TileMatrixEnchanter tile) {
 		enchanter = tile;
@@ -99,45 +99,45 @@ public class ContainerMatrixEnchanting extends Container {
 	@Nonnull
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
-		ItemStack itemstack = ItemStack.EMPTY;
+		ItemStack originalStack = ItemStack.EMPTY;
 		Slot slot = inventorySlots.get(index);
 
 		if (slot != null && slot.getHasStack()) {
-			ItemStack itemstack1 = slot.getStack();
-			itemstack = itemstack1.copy();
+			ItemStack stackInSlot = slot.getStack();
+			originalStack = stackInSlot.copy();
 
 			if(index < 3) {
-				if (!mergeItemStack(itemstack1, 3, 39, true))
+				if (!mergeItemStack(stackInSlot, 3, 39, true))
 					return ItemStack.EMPTY;
 			}
-			else if(isLapis(itemstack1)) {
-				if(!mergeItemStack(itemstack1, 1, 2, true))
+			else if(isLapis(stackInSlot)) {
+				if(!mergeItemStack(stackInSlot, 1, 2, true))
 					return ItemStack.EMPTY;
 			}
 			else {
-				if(inventorySlots.get(0).getHasStack() || !inventorySlots.get(0).isItemValid(itemstack1))
+				if(inventorySlots.get(0).getHasStack() || !inventorySlots.get(0).isItemValid(stackInSlot))
 					return ItemStack.EMPTY;
 
-				if(itemstack1.hasTagCompound()) // Forge: Fix MC-17431
-					inventorySlots.get(0).putStack(itemstack1.splitStack(1));
+				if(stackInSlot.hasTagCompound()) // Forge: Fix MC-17431
+					inventorySlots.get(0).putStack(stackInSlot.splitStack(1));
 
-				else if(!itemstack1.isEmpty()) {
-					inventorySlots.get(0).putStack(new ItemStack(itemstack1.getItem(), 1, itemstack1.getMetadata()));
-					itemstack1.shrink(1);
+				else if(!stackInSlot.isEmpty()) {
+					inventorySlots.get(0).putStack(new ItemStack(stackInSlot.getItem(), 1, stackInSlot.getMetadata()));
+					stackInSlot.shrink(1);
 				}
 			}
 
-			if(itemstack1.isEmpty())
+			if(stackInSlot.isEmpty())
 				slot.putStack(ItemStack.EMPTY);
 			else slot.onSlotChanged();
 
-			if(itemstack1.getCount() == itemstack.getCount())
+			if(stackInSlot.getCount() == originalStack.getCount())
 				return ItemStack.EMPTY;
 
-			slot.onTake(playerIn, itemstack1);
+			slot.onTake(playerIn, stackInSlot);
 		}
 
-		return itemstack;
+		return originalStack;
 	}
 
 }

@@ -20,7 +20,7 @@ import java.util.*;
 
 public class ContributorRewardHandler {
 
-	private static final ImmutableSet<String> UUIDS = ImmutableSet.of(
+	private static final ImmutableSet<String> DEV_UUID = ImmutableSet.of(
 			"8c826f34-113b-4238-a173-44639c53b6e6",
 			"0d054077-a977-4b19-9df9-8a4d5bf20ec3",
 			"458391f5-6303-4649-b416-e4c0d18f837a");
@@ -39,10 +39,10 @@ public class ContributorRewardHandler {
 	public static void onRenderPlayer(RenderPlayerEvent.Post event) {
 		EntityPlayer player = event.getEntityPlayer();
 		String uuid = EntityPlayer.getUUID(player.getGameProfile()).toString();
-		if(player instanceof AbstractClientPlayer && UUIDS.contains(uuid) && !done.contains(player)) {
-			AbstractClientPlayer clplayer = (AbstractClientPlayer) player;
-			if(clplayer.hasPlayerInfo()) {
-				NetworkPlayerInfo info = ObfuscationReflectionHelper.getPrivateValue(AbstractClientPlayer.class, clplayer, LibObfuscation.PLAYER_INFO);
+		if(player instanceof AbstractClientPlayer && DEV_UUID.contains(uuid) && !done.contains(player)) {
+			AbstractClientPlayer clientPlayer = (AbstractClientPlayer) player;
+			if(clientPlayer.hasPlayerInfo()) {
+				NetworkPlayerInfo info = ObfuscationReflectionHelper.getPrivateValue(AbstractClientPlayer.class, clientPlayer, LibObfuscation.PLAYER_INFO);
 				Map<Type, ResourceLocation> textures = ObfuscationReflectionHelper.getPrivateValue(NetworkPlayerInfo.class, info, LibObfuscation.PLAYER_TEXTURES);
 				ResourceLocation loc = new ResourceLocation("quark", "textures/misc/dev_cape.png");
 				textures.put(Type.CAPE, loc);

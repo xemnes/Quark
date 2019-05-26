@@ -26,7 +26,7 @@ public class DungeonTweaksCompat {
 	public static boolean isLoaded = false;
 
 	/**
-	 * make backwards compatability when isLegacy becomes true
+	 * make backwards compatibility when isLegacy becomes true
 	 */
 	public static void legacyCheck() {
 		isLoaded = Loader.isModLoaded("dungeontweaks");

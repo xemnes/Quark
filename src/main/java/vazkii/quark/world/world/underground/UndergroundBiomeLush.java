@@ -14,7 +14,7 @@ import vazkii.quark.base.module.ModuleLoader;
 
 public class UndergroundBiomeLush extends BasicUndergroundBiome {
 
-	private WorldGenShrub shrubGen = new WorldGenShrub(Blocks.LOG.getDefaultState(), Blocks.LEAVES.getDefaultState());
+	private final WorldGenShrub shrubGen = new WorldGenShrub(Blocks.LOG.getDefaultState(), Blocks.LEAVES.getDefaultState());
 
 	public static int grassChance, shrubChance, vineChance;
 

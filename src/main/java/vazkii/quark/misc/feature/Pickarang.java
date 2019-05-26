@@ -42,7 +42,7 @@ public class Pickarang extends Feature {
 	}
 	
 	@Override
-	public void postPreInit(FMLPreInitializationEvent event) {
+	public void postPreInit() {
 		if(Stonelings.diamond_heart != null && !neverUseHeartOfDiamond)
 			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(pickarang), 
 					"DWC", "  W", "  D",
@@ -58,7 +58,7 @@ public class Pickarang extends Feature {
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void preInitClient(FMLPreInitializationEvent event) {
+	public void preInitClient() {
 		RenderingRegistry.registerEntityRenderingHandler(EntityPickarang.class, RenderPickarang.FACTORY);
 	}
 	

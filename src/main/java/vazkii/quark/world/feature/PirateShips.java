@@ -59,7 +59,7 @@ public class PirateShips extends Feature {
 	}
 
 	@Override
-	public void preInitClient(FMLPreInitializationEvent event) {
+	public void preInitClient() {
 		if(!onlyHat)
 			RenderingRegistry.registerEntityRenderingHandler(EntityPirate.class, RenderPirate.FACTORY);
 	}

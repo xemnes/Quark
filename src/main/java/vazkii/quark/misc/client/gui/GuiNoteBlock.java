@@ -28,7 +28,7 @@ import java.util.List;
 
 public class GuiNoteBlock extends GuiScreen {
 
-	private static ResourceLocation noteblockResource = new ResourceLocation("quark", "textures/misc/noteblock.png");
+	private static final ResourceLocation noteblockResource = new ResourceLocation("quark", "textures/misc/noteblock.png");
 	private static final int TEXTURE_WIDTH = 512;
 	private static final int TEXTURE_HEIGHT = 256;
 
@@ -58,14 +58,14 @@ public class GuiNoteBlock extends GuiScreen {
 		Keyboard.KEY_Q, Keyboard.KEY_J, Keyboard.KEY_K, Keyboard.KEY_X, Keyboard.KEY_B, Keyboard.KEY_M, Keyboard.KEY_W, Keyboard.KEY_V, Keyboard.KEY_Z
 	};
 	
-	private List<Key> whiteKeys = new ArrayList<>();
-	private List<Key> blackKeys = new ArrayList<>();
+	private final List<Key> whiteKeys = new ArrayList<>();
+	private final List<Key> blackKeys = new ArrayList<>();
 
 	protected Key hoveredKey = null;
 	protected boolean hoversNoteBlock = false;
 
-	protected TileEntityNote noteBlock;
-	protected CoordinateHolder coords = new CoordinateHolder();
+	protected final TileEntityNote noteBlock;
+	protected final CoordinateHolder coords = new CoordinateHolder();
 
 	public GuiNoteBlock(TileEntityNote noteBlock) {
 		this.noteBlock = noteBlock;
@@ -275,7 +275,7 @@ public class GuiNoteBlock extends GuiScreen {
 			int y = c.baseY + this.y;
 			int sw = mc.fontRenderer.getStringWidth(desc);
 
-			int color = Color.HSBtoRGB((float) (24 - clicks) / 24F - 0.6F, 1F, 1F);
+			int color = Color.HSBtoRGB((24 - clicks) / 24F - 0.6F, 1F, 1F);
 			mc.fontRenderer.drawString(desc, x + w / 2 - sw / 2, y + h - 24, color);
 
 			String s = Integer.toString(clicks);

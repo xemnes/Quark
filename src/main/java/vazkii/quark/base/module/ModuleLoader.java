@@ -55,12 +55,12 @@ public final class ModuleLoader {
 	public static final boolean DEBUG_MODE = ManagementFactory.getRuntimeMXBean().getInputArguments().toString().contains("-agentlib:jdwp"); 
 
 	private static List<Class<? extends Module>> moduleClasses;
-	public static Map<Class<? extends Module>, Module> moduleInstances = new HashMap<>();
-	public static Map<Class<? extends Feature>, Feature> featureInstances = new HashMap<>();
-	public static Map<String, Feature> featureClassnames = new HashMap<>();
+	public static final Map<Class<? extends Module>, Module> moduleInstances = new HashMap<>();
+	public static final Map<Class<? extends Feature>, Feature> featureInstances = new HashMap<>();
+	public static final Map<String, Feature> featureClassnames = new HashMap<>();
 
 	public static List<Module> enabledModules;
-	public static List<Runnable> lazyOreDictRegisters = new ArrayList<>();
+	public static final List<Runnable> lazyOreDictRegisters = new ArrayList<>();
 
 	public static Configuration config;
 	public static File configFile;
@@ -102,40 +102,40 @@ public final class ModuleLoader {
 		forEachModule(module -> Quark.LOG.info("Module " + module.name + " is " + (module.enabled ? "enabled" : "disabled")));
 
 		forEachEnabled(module -> module.preInit(event));
-		forEachEnabled(module -> module.postPreInit(event));
+		forEachEnabled(module -> module.postPreInit());
 		
 		RecipeProcessor.runConsumers();
 	}
 	
 	public static void init(FMLInitializationEvent event) {
-		forEachEnabled(module -> module.init(event));
+		forEachEnabled(module -> module.init());
 	}
 
 	public static void postInit(FMLPostInitializationEvent event) {
-		forEachEnabled(module -> module.postInit(event));
+		forEachEnabled(module -> module.postInit());
 	}
 
 	public static void finalInit(FMLPostInitializationEvent event) {
-		forEachEnabled(module -> module.finalInit(event));
+		forEachEnabled(module -> module.finalInit());
 	}
 	
 	@SideOnly(Side.CLIENT)
 	public static void preInitClient(FMLPreInitializationEvent event) {
-		forEachEnabled(module -> module.preInitClient(event));
+		forEachEnabled(module -> module.preInitClient());
 	}
 
 	@SideOnly(Side.CLIENT)
 	public static void initClient(FMLInitializationEvent event) {
-		forEachEnabled(module -> module.initClient(event));
+		forEachEnabled(module -> module.initClient());
 	}
 
 	@SideOnly(Side.CLIENT)
 	public static void postInitClient(FMLPostInitializationEvent event) {
-		forEachEnabled(module -> module.postInitClient(event));
+		forEachEnabled(module -> module.postInitClient());
 	}
 
 	public static void serverStarting(FMLServerStartingEvent event) {
-		forEachEnabled(module -> module.serverStarting(event));
+		forEachEnabled(module -> module.serverStarting());
 	}
 
 	public static void setupConfig(FMLPreInitializationEvent event) {

@@ -22,7 +22,7 @@ import static vazkii.quark.vanity.client.emotes.EmoteBase.PI_F;
 public class EmoteState {
 
 	private float[] states = new float[0];
-	private EmoteBase emote;
+	private final EmoteBase emote;
 
 	public EmoteState(EmoteBase emote) {
 		this.emote = emote;

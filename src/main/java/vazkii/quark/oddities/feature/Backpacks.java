@@ -74,9 +74,11 @@ public class Backpacks extends Feature {
 			return;
 		
 		VillagerProfession butcher = event.getRegistry().getValue(new ResourceLocation("minecraft:butcher"));
-		VillagerCareer leatherworker = butcher.getCareer(1);
-		
-		leatherworker.addTrade(1, new BackpackTrade());
+		if (butcher != null) {
+			VillagerCareer leatherworker = butcher.getCareer(1);
+
+			leatherworker.addTrade(1, new BackpackTrade());
+		}
  	}
 	
 	@SubscribeEvent

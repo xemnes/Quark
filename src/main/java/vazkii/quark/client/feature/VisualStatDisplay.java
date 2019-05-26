@@ -16,7 +16,7 @@ import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.*;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.event.RenderTooltipEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
@@ -30,6 +30,7 @@ import vazkii.quark.base.module.Feature;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 public class VisualStatDisplay extends Feature {
 
@@ -105,16 +106,16 @@ public class VisualStatDisplay extends Feature {
 			Map<EntityEquipmentSlot, StringBuilder> attributeTooltips = Maps.newEnumMap(EntityEquipmentSlot.class);
 
 			boolean onlyInvalid = true;
-			int attributeHash = 0;
+			Multimap<String, AttributeModifier> baseCheck = null;
 			boolean allAreSame = true;
 
 			EntityEquipmentSlot[] slots = EntityEquipmentSlot.values();
 			for(EntityEquipmentSlot slot : slots) {
 				Multimap<String, AttributeModifier> slotAttributes = stack.getAttributeModifiers(slot);
 
-				if (slot == EntityEquipmentSlot.MAINHAND)
-					attributeHash = slotAttributes.hashCode();
-				else if (allAreSame && attributeHash != slotAttributes.hashCode())
+				if (baseCheck == null)
+					baseCheck = slotAttributes;
+				else if (allAreSame && !slotAttributes.equals(baseCheck))
 					allAreSame = false;
 
 				if(!slotAttributes.isEmpty()) {
@@ -127,31 +128,7 @@ public class VisualStatDisplay extends Feature {
 					tooltip.remove(index); // Remove actual line
 				}
 
-				boolean anyInvalid = false;
-				for(String s : slotAttributes.keys()) {
-					if(VALID_ATTRIBUTES.contains(s)) {
-						onlyInvalid = false;
-						double attributeValue = getAttribute(event.getEntityPlayer(), stack, slotAttributes, s);
-						if (attributeValue != 0) {
-							if (!attributeTooltips.containsKey(slot))
-								attributeTooltips.put(slot, new StringBuilder());
-							attributeTooltips.get(slot).append(format(s, attributeValue));
-						}
-					} else if (!anyInvalid) {
-						anyInvalid = true;
-						if (!attributeTooltips.containsKey(slot))
-							attributeTooltips.put(slot, new StringBuilder());
-						attributeTooltips.get(slot).append("[+]");
-					}
-
-					String pattern = ".* ?[+-]?\\d+%? " + I18n.format("attribute.name." + s) + "$";
-					for (int i = 1; i < tooltip.size(); i++) {
-						if (tooltip.get(i).matches(pattern)) {
-							tooltip.remove(i);
-							break;
-						}
-					}
-				}
+				onlyInvalid = extractAttributeValues(event, stack, tooltip, attributeTooltips, onlyInvalid, slot, slotAttributes);
 			}
 
 			EntityEquipmentSlot primarySlot = EntityLiving.getSlotForItemStack(stack);
@@ -176,6 +153,35 @@ public class VisualStatDisplay extends Feature {
 				}
 			}
 		}
+	}
+
+	public boolean extractAttributeValues(ItemTooltipEvent event, ItemStack stack, List<String> tooltip, Map<EntityEquipmentSlot, StringBuilder> attributeTooltips, boolean onlyInvalid, EntityEquipmentSlot slot, Multimap<String, AttributeModifier> slotAttributes) {
+		boolean anyInvalid = false;
+		for(String s : slotAttributes.keys()) {
+			if(VALID_ATTRIBUTES.contains(s)) {
+				onlyInvalid = false;
+				double attributeValue = getAttribute(event.getEntityPlayer(), stack, slotAttributes, s);
+				if (attributeValue != 0) {
+					if (!attributeTooltips.containsKey(slot))
+						attributeTooltips.put(slot, new StringBuilder());
+					attributeTooltips.get(slot).append(format(s, attributeValue));
+				}
+			} else if (!anyInvalid) {
+				anyInvalid = true;
+				if (!attributeTooltips.containsKey(slot))
+					attributeTooltips.put(slot, new StringBuilder());
+				attributeTooltips.get(slot).append("[+]");
+			}
+
+			String pattern = ".* ?[+-]?\\d+%? " + Pattern.quote(I18n.format("attribute.name." + s)) + "$";
+			for (int i = 1; i < tooltip.size(); i++) {
+				if (tooltip.get(i).matches(pattern)) {
+					tooltip.remove(i);
+					break;
+				}
+			}
+		}
+		return onlyInvalid;
 	}
 
 	@SideOnly(Side.CLIENT)

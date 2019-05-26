@@ -3,7 +3,13 @@ package vazkii.quark.experimental.features;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.client.model.IModel;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
@@ -24,7 +30,19 @@ public class FramedBlocks extends Feature {
 	public static Block frame;
 	public static BlockModSlab frameSlab;
 	public static BlockModSlab frameSlabDouble;
-	
+
+	public static boolean setFrame(World worldIn, BlockPos pos, EntityPlayer playerIn, EnumHand hand) {
+		TileFramed tile = (TileFramed) worldIn.getTileEntity(pos);
+
+		ItemStack stack = playerIn.getHeldItem(hand);
+		if(stack.getItem() instanceof ItemBlock && tile != null)
+			tile.setInventorySlotContents(0, stack.copy());
+
+		worldIn.markBlockRangeForRenderUpdate(pos, pos);
+
+		return true;
+	}
+
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
 		frame = new BlockFramed();

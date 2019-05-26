@@ -19,23 +19,23 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 
 public class EntityAIOpenDoubleDoor extends EntityAIDoorInteract {
-	private boolean closeDoor;
-	private int closeDoorTemporisation;
+	private final boolean closeDoor;
+	private int closingDoorTime;
 
-	public EntityAIOpenDoubleDoor(EntityLiving entitylivingIn, boolean shouldClose) {
-		super(entitylivingIn);
-		entity = entitylivingIn;
+	public EntityAIOpenDoubleDoor(EntityLiving living, boolean shouldClose) {
+		super(living);
+		entity = living;
 		closeDoor = shouldClose;
 	}
 
 	@Override
 	public boolean shouldContinueExecuting() {
-		return closeDoor && closeDoorTemporisation > 0 && super.shouldContinueExecuting();
+		return closeDoor && closingDoorTime > 0 && super.shouldContinueExecuting();
 	}
 
 	@Override
 	public void startExecuting() {
-		closeDoorTemporisation = 20;
+		closingDoorTime = 20;
 
 		IBlockState state = entity.world.getBlockState(doorPosition).getActualState(entity.world, doorPosition);
 
@@ -81,7 +81,7 @@ public class EntityAIOpenDoubleDoor extends EntityAIDoorInteract {
 
 	@Override
 	public void updateTask() {
-		--closeDoorTemporisation;
+		--closingDoorTime;
 		super.updateTask();
 	}
 }

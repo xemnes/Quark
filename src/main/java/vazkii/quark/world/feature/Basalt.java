@@ -62,7 +62,7 @@ public class Basalt extends Feature {
 	}
 	
 	@Override
-	public void postPreInit(FMLPreInitializationEvent event) {
+	public void postPreInit() {
 		Object blackItem = ProxyRegistry.newStack(Items.COAL);
 		if(ModuleLoader.isFeatureEnabled(Biotite.class))
 			blackItem = "gemBiotite";

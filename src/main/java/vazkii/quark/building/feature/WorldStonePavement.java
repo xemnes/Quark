@@ -21,7 +21,7 @@ public class WorldStonePavement extends Feature {
 	}
 	
 	@Override
-	public void postPreInit(FMLPreInitializationEvent event) {		
+	public void postPreInit() {
 		for(int i = 0; i < 3; i++)
 			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(world_stone_pavement, 9, i),
 					"SSS", "SSS", "SSS",

@@ -13,7 +13,7 @@ package vazkii.quark.world;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import vazkii.quark.base.module.Module;
-import vazkii.quark.world.feature.Archeologist;
+import vazkii.quark.world.feature.Archaeologist;
 import vazkii.quark.world.feature.Basalt;
 import vazkii.quark.world.feature.Biotite;
 import vazkii.quark.world.feature.BuriedTreasure;
@@ -63,7 +63,7 @@ public class QuarkWorld extends Module {
 		registerFeature(new Speleothems());
 		registerFeature(new FairyRings());
 		registerFeature(new CaveRoots());
-		registerFeature(new Archeologist());
+		registerFeature(new Archaeologist());
 		registerFeature(new MonsterBoxes());
 		registerFeature(new Stonelings());
 

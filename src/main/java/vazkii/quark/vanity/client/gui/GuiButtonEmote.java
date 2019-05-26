@@ -30,8 +30,8 @@ public class GuiButtonEmote extends GuiButtonTranslucent {
 	}
 
 	@Override
-	public void drawButton(@Nonnull Minecraft mc, int mouseX, int mouseY, float pticks) {
-		super.drawButton(mc, mouseX, mouseY, pticks);
+	public void drawButton(@Nonnull Minecraft mc, int mouseX, int mouseY, float partial) {
+		super.drawButton(mc, mouseX, mouseY, partial);
 
 		if(visible) {
 			mc.getTextureManager().bindTexture(desc.texture);

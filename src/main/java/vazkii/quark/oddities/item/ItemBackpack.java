@@ -56,6 +56,8 @@ public class ItemBackpack extends ItemModArmor implements IQuarkItem, IItemColor
 	
 	public static boolean doesBackpackHaveItems(ItemStack stack) {
 		IItemHandler handler = stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+		if (handler == null)
+			return false;
 		for(int i = 0; i < handler.getSlots(); i++)
 			if(!handler.getStackInSlot(i).isEmpty())
 				return true;
@@ -108,6 +110,9 @@ public class ItemBackpack extends ItemModArmor implements IQuarkItem, IItemColor
 		ItemStack stack = entityItem.getItem();
 		
 		IItemHandler handler = stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+		if (handler == null)
+			return false;
+
 		for(int i = 0; i < handler.getSlots(); i++) {
 			ItemStack stackAt = handler.getStackInSlot(i);
 			if(!stackAt.isEmpty()) {

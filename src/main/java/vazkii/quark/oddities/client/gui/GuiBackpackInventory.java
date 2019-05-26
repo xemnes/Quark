@@ -16,7 +16,7 @@ public class GuiBackpackInventory extends GuiInventory {
 	
 	private static final ResourceLocation BACKPACK_INVENTORY_BACKGROUND = new ResourceLocation(LibMisc.MOD_ID, "textures/misc/backpack_gui.png");
 	
-	private EntityPlayer player;
+	private final EntityPlayer player;
 	private GuiButton recipeButton;
 	private int recipeButtonY;
 	

@@ -23,9 +23,9 @@ import java.util.List;
 
 public class ModKeybinds {
 
-	public static HashMap<KeyBinding, String> emoteKeys = new HashMap<>();
+	public static final HashMap<KeyBinding, String> emoteKeys = new HashMap<>();
 
-	public static BiMap<KeyBinding, IParentedGui> keyboundButtons = HashBiMap.create();
+	public static final BiMap<KeyBinding, IParentedGui> keyboundButtons = HashBiMap.create();
 
 	public static KeyBinding lockKey = null;
 	public static KeyBinding autoJumpKey = null;
@@ -127,7 +127,7 @@ public class ModKeybinds {
 		}
 
 		@SubscribeEvent
-		public void onKeyinput(KeyboardInputEvent.Post event) {
+		public void onKeyInput(KeyboardInputEvent.Post event) {
 			boolean wasDown = down;
 			down = isKeyDown(ref);
 			

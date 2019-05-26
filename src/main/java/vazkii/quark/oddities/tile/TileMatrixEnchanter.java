@@ -107,11 +107,11 @@ public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 	}
 
 	private boolean generateAndPay(EnchantmentMatrix matrix, EntityPlayer player) {
-		if(matrix.canGeneratePiece(bookshelfPower, enchantability) && matrix.validateXp(player, bookshelfPower, enchantability)) {
+		if(matrix.canGeneratePiece(bookshelfPower, enchantability) && matrix.validateXp(player, bookshelfPower)) {
 			boolean creative = player.isCreative();
 			int cost = matrix.getNewPiecePrice();
 			if(charge > 0 || creative) {
-				if (matrix.generatePiece(bookshelfPower, enchantability)) {
+				if (matrix.generatePiece(bookshelfPower)) {
 					if (!creative)
 						player.addExperienceLevel(-cost);
 
@@ -156,7 +156,7 @@ public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 					ItemEnchantedBook.addEnchantment(out, new EnchantmentData(e.getKey(), e.getValue()));
 			else {
 				EnchantmentHelper.setEnchantments(enchantments, out);
-				out.getTagCompound().removeTag(TAG_STACK_MATRIX);
+				ItemNBTHelper.getNBT(out).removeTag(TAG_STACK_MATRIX);
 			}
 
 			setInventorySlotContents(2, out);
@@ -174,7 +174,7 @@ public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 				matrixDirty = true;
 				makeUUID();
 
-				if(stack.hasTagCompound() && stack.getTagCompound().hasKey(TAG_STACK_MATRIX)) {
+				if(ItemNBTHelper.verifyExistence(stack, TAG_STACK_MATRIX)) {
 					NBTTagCompound cmp = ItemNBTHelper.getCompound(stack, TAG_STACK_MATRIX, true);
 					if(cmp != null)
 						matrix.readFromNBT(cmp);

@@ -10,6 +10,6 @@ import net.minecraft.world.IBlockAccess;
  */
 public interface IFuseIgnitable {
 
-	void onIngitedByFuse(IBlockAccess world, BlockPos pos, IBlockState state);
+	void onIgnitedByFuse(IBlockAccess world, BlockPos pos, IBlockState state);
 	
 }

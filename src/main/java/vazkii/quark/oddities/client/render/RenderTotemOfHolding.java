@@ -38,7 +38,7 @@ public class RenderTotemOfHolding extends Render<EntityTotemOfHolding> {
 		GlStateManager.rotate(rotation, 0F, 1F, 0F);
 		GlStateManager.translate(-0.5, translation, 0);
 		GlStateManager.scale(scale, scale, scale);
-		renderTotemIcon(entity);
+		renderTotemIcon();
 		GlStateManager.popMatrix();
 	}
 	
@@ -52,7 +52,7 @@ public class RenderTotemOfHolding extends Render<EntityTotemOfHolding> {
 		return false;
 	}
 	
-	private void renderTotemIcon(EntityTotemOfHolding entity) { 
+	private void renderTotemIcon() {
 		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240, 240);
 		Minecraft mc = Minecraft.getMinecraft();
 		mc.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);

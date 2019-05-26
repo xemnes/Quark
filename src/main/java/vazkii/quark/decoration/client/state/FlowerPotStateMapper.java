@@ -1,9 +1,6 @@
 package vazkii.quark.decoration.client.state;
 
-import java.util.LinkedHashMap;
-
 import com.google.common.collect.Maps;
-
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -12,6 +9,8 @@ import net.minecraft.util.ResourceLocation;
 import vazkii.quark.decoration.block.BlockCustomFlowerPot;
 
 import javax.annotation.Nonnull;
+import java.util.LinkedHashMap;
+import java.util.Objects;
 
 public class FlowerPotStateMapper extends StateMapperBase {
 	
@@ -28,6 +27,6 @@ public class FlowerPotStateMapper extends StateMapperBase {
 		map.remove(BlockCustomFlowerPot.CUSTOM);
 		map.remove(BlockCustomFlowerPot.LEGACY_DATA);
 
-		return new ModelResourceLocation(state.getBlock().getRegistryName(), this.getPropertyString(map));
+		return new ModelResourceLocation(Objects.requireNonNull(state.getBlock().getRegistryName()), this.getPropertyString(map));
 	}
 }

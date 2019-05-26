@@ -21,7 +21,7 @@ import java.util.Random;
 public class BigCaveGenerator extends MapGenCaves {
 
 	// We need to use a second RNG since changing the amount of calls in the built-in one will change the way the caves generate
-	private Random rand2 = new Random();
+	private final Random rand2 = new Random();
 
 	@Override
 	protected void recursiveGenerate(World worldIn, int chunkX, int chunkZ, int originalX, int originalZ, @Nonnull ChunkPrimer chunkPrimerIn) {

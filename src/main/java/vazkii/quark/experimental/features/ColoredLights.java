@@ -1,22 +1,17 @@
 package vazkii.quark.experimental.features;
 
-import java.util.HashSet;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeModContainer;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.experimental.lighting.BlockTinter;
 import vazkii.quark.experimental.lighting.ColoredLightSystem;
-import vazkii.quark.experimental.lighting.IColoredLightSource;
 
 public class ColoredLights extends Feature {
 

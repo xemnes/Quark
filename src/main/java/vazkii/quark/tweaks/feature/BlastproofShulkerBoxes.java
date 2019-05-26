@@ -2,7 +2,6 @@ package vazkii.quark.tweaks.feature;
 
 import com.google.common.collect.ImmutableSet;
 
-import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import vazkii.quark.base.module.Feature;

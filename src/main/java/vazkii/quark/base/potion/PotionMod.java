@@ -22,9 +22,9 @@ import javax.annotation.Nonnull;
 
 public class PotionMod extends Potion {
 
-	public static ResourceLocation TEXTURE = new ResourceLocation("quark", "textures/misc/potions.png");
+	public static final ResourceLocation TEXTURE = new ResourceLocation("quark", "textures/misc/potions.png");
 
-	protected String bareName;
+	protected final String bareName;
 
 	public PotionMod(String name, boolean badEffect, int color, int iconIndex) {
 		super(badEffect, color);

@@ -20,7 +20,6 @@ import net.minecraft.world.WorldServer;
 import net.minecraft.world.biome.Biome.SpawnListEntry;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.Event.Result;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import vazkii.quark.base.module.Feature;
@@ -52,7 +51,7 @@ public class NaturalBlazesInNether extends Feature {
 	}
 
 	@Override
-	public void init(FMLInitializationEvent event) {
+	public void init() {
 		SpawnListEntry blazeEntry = new SpawnListEntry(EntityBlaze.class, weight, min, max);
 		BiomeDictionary.getBiomes(BiomeDictionary.Type.NETHER).forEach(biome -> biome.getSpawnableList(EnumCreatureType.MONSTER).add(blazeEntry));
 	}

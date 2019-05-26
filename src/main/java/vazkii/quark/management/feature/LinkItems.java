@@ -19,6 +19,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.NetHandlerPlayServer;
+import net.minecraft.server.management.PlayerList;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
@@ -58,16 +59,18 @@ public class LinkItems extends Feature {
 			comp.appendSibling(new TextComponentString("> "));
 			comp.appendSibling(item.getTextComponent());
 
-			player.getServer().getPlayerList().sendMessage(comp, false);
+			PlayerList players = ((EntityPlayerMP) player).server.getPlayerList();
+
+			players.sendMessage(comp, false);
 
 			NetHandlerPlayServer handler = ((EntityPlayerMP) player).connection;
-			int treshold = ObfuscationReflectionHelper.getPrivateValue(NetHandlerPlayServer.class, handler, LibObfuscation.CHAT_SPAM_TRESHOLD_COUNT);
-			treshold += 20;
+			int threshold = ObfuscationReflectionHelper.getPrivateValue(NetHandlerPlayServer.class, handler, LibObfuscation.CHAT_SPAM_THRESHOLD_COUNT);
+			threshold += 20;
 
-			if(treshold > 200 && !player.getServer().getPlayerList().canSendCommands(player.getGameProfile()))
+			if(threshold > 200 && !players.canSendCommands(player.getGameProfile()))
 				handler.onDisconnect(new TextComponentTranslation("disconnect.spam"));
 
-			ObfuscationReflectionHelper.setPrivateValue(NetHandlerPlayServer.class, handler, treshold, LibObfuscation.CHAT_SPAM_TRESHOLD_COUNT);
+			ObfuscationReflectionHelper.setPrivateValue(NetHandlerPlayServer.class, handler, threshold, LibObfuscation.CHAT_SPAM_THRESHOLD_COUNT);
 		}
 
 	}

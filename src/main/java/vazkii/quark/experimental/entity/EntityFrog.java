@@ -9,7 +9,7 @@ import vazkii.quark.base.sounds.QuarkSounds;
 
 public class EntityFrog extends EntityLiving {
 
-	int spawnCd;
+	public int spawnCd;
 	
 	public EntityFrog(World worldIn) {
 		super(worldIn);
@@ -21,12 +21,12 @@ public class EntityFrog extends EntityLiving {
 		if(spawnCd > 0) {
 			spawnCd--;
 			if(spawnCd == 0 && !world.isRemote) {
-				float mult = 0.8F;
+				float multiplier = 0.8F;
 				EntityFrog newFrog = new EntityFrog(world);
 				newFrog.setPosition(posX, posY, posZ);
-				newFrog.motionX = (Math.random() - 0.5) * mult;
-				newFrog.motionY = (Math.random() - 0.5) * mult;
-				newFrog.motionZ = (Math.random() - 0.5) * mult;
+				newFrog.motionX = (Math.random() - 0.5) * multiplier;
+				newFrog.motionY = (Math.random() - 0.5) * multiplier;
+				newFrog.motionZ = (Math.random() - 0.5) * multiplier;
 				world.spawnEntity(newFrog);
 				newFrog.spawnCd = 2;
 			}

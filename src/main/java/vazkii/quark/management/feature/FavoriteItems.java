@@ -42,7 +42,7 @@ import vazkii.quark.base.network.message.MessageFavoriteItem;
 
 public class FavoriteItems extends Feature {
 
-	public static String TAG_FAVORITE_ITEM = "Quark:FavoriteItem";
+	public static final String TAG_FAVORITE_ITEM = "Quark:FavoriteItem";
 
 	public static boolean hovering;
 	private static boolean mouseDown = false;
@@ -155,9 +155,11 @@ public class FavoriteItems extends Feature {
 		if(!stack.isEmpty()) {
 			if(isItemFavorited(stack)) {
 				NBTTagCompound cmp = stack.getTagCompound();
-				cmp.removeTag(TAG_FAVORITE_ITEM);
-				if(cmp.isEmpty())
-					stack.setTagCompound(null);
+				if (cmp != null) {
+					cmp.removeTag(TAG_FAVORITE_ITEM);
+					if (cmp.isEmpty())
+						stack.setTagCompound(null);
+				}
 			} else ItemNBTHelper.setBoolean(stack, TAG_FAVORITE_ITEM, true);
 		}
 	}

@@ -76,18 +76,18 @@ public final class ASMHooks {
 	}
 	
 	@SideOnly(Side.CLIENT)
-	public static void renderBannerOnBoat(EntityBoat boat, float pticks) {
-		BoatBannerRenderer.renderBanner(boat, pticks);
+	public static void renderBannerOnBoat(EntityBoat boat, float partial) {
+		BoatBannerRenderer.renderBanner(boat, partial);
 	}
 
 	// ===== PISTON BLOCK BREAKERS & PISTONS MOVE TES & COLLATERAL PISTON MOVEMENT ===== //
 	
 	public static void onPistonMove(World world, BlockPos sourcePos, BlockPistonStructureHelper helper, EnumFacing facing, boolean extending) {
-		EnumFacing rfacing = extending ? facing : facing.getOpposite();
+		EnumFacing realFacing = extending ? facing : facing.getOpposite();
 		
-		PistonSpikes.breakStuffWithSpikes(world, sourcePos, helper, rfacing, extending);
-		CollateralPistonMovement.applyCollateralMovements(world, sourcePos, helper, rfacing, extending);
-		PistonsMoveTEs.detachTileEntities(world, sourcePos, helper, rfacing, extending);
+		PistonSpikes.breakStuffWithSpikes(world, sourcePos, helper, realFacing, extending);
+		CollateralPistonMovement.applyCollateralMovements(world, helper, realFacing, extending);
+		PistonsMoveTEs.detachTileEntities(world, helper, realFacing);
 	}	
 	
 	// ===== BETTER CRAFT SHIFTING ===== //
@@ -148,8 +148,8 @@ public final class ASMHooks {
 	}
 
 	// ===== BETTER FIRE EFFECT ==== //
-	public static boolean renderFire(Entity entity, double x, double y, double z, float pticks) {
-		return BetterFireEffect.renderFire(entity, x, y, z, pticks);
+	public static boolean renderFire(Entity entity, double x, double y, double z) {
+		return BetterFireEffect.renderFire(entity, x, y, z);
 	}
 
 	// ===== WITCH HATS ==== //

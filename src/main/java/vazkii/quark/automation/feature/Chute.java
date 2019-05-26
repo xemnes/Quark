@@ -1,7 +1,6 @@
 package vazkii.quark.automation.feature;
 
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import vazkii.arl.recipe.RecipeHandler;
 import vazkii.arl.util.ProxyRegistry;
@@ -9,8 +8,6 @@ import vazkii.quark.automation.block.BlockChute;
 import vazkii.quark.automation.tile.TileChute;
 import vazkii.quark.base.handler.ModIntegrationHandler;
 import vazkii.quark.base.module.Feature;
-import vazkii.quark.base.module.ModuleLoader;
-import vazkii.quark.world.feature.Biotite;
 
 public class Chute extends Feature {
 

@@ -29,7 +29,7 @@ public class SoulPowder extends Feature {
 	}
 	
 	@Override
-	public void postPreInit(FMLPreInitializationEvent event) {
+	public void postPreInit() {
 		if(ModuleLoader.isFeatureEnabled(Wraiths.class))
 			RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(soul_powder), ProxyRegistry.newStack(Wraiths.soul_bead), ProxyRegistry.newStack(Blocks.SOUL_SAND), ProxyRegistry.newStack(Blocks.SOUL_SAND), ProxyRegistry.newStack(Blocks.SOUL_SAND));
 		else RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(soul_powder), ProxyRegistry.newStack(Items.MAGMA_CREAM), ProxyRegistry.newStack(Blocks.SOUL_SAND), ProxyRegistry.newStack(Blocks.SOUL_SAND), ProxyRegistry.newStack(Blocks.SOUL_SAND));

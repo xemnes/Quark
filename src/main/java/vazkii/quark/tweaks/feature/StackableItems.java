@@ -14,10 +14,8 @@ import com.google.common.collect.ImmutableSet;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import vazkii.quark.base.module.Feature;
 
@@ -33,11 +31,11 @@ public class StackableItems extends Feature {
 	}
 
 	@Override
-	public void init(FMLInitializationEvent event) {
-		ImmutableSet.<Item>of(Items.MINECART, Items.CHEST_MINECART, Items.COMMAND_BLOCK_MINECART, Items.FURNACE_MINECART, Items.HOPPER_MINECART, Items.TNT_MINECART)
+	public void init() {
+		ImmutableSet.of(Items.MINECART, Items.CHEST_MINECART, Items.COMMAND_BLOCK_MINECART, Items.FURNACE_MINECART, Items.HOPPER_MINECART, Items.TNT_MINECART)
 		.forEach(item -> item.setMaxStackSize(minecarts));
 		
-		ImmutableSet.<Item>of(Items.MUSHROOM_STEW, Items.RABBIT_STEW, Items.BEETROOT_SOUP)
+		ImmutableSet.of(Items.MUSHROOM_STEW, Items.RABBIT_STEW, Items.BEETROOT_SOUP)
 		.forEach(item -> item.setMaxStackSize(soups));
 
 		Items.SADDLE.setMaxStackSize(saddle);

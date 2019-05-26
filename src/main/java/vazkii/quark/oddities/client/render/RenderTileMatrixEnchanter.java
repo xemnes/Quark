@@ -7,7 +7,6 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
@@ -24,10 +23,11 @@ public class RenderTileMatrixEnchanter extends TileEntitySpecialRenderer<TileMat
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(x, y, z);
 		
-		float time = (float)te.tickCount + partialTicks;
+		float time = te.tickCount + partialTicks;
 
-		float f1;
-		for (f1 = te.bookRotation - te.bookRotationPrev; f1 >= Math.PI; f1 -= (Math.PI * 2F));
+		float f1 = te.bookRotation - te.bookRotationPrev;
+		while (f1 >= Math.PI)
+			f1 -= (Math.PI * 2F);
 		while (f1 < -Math.PI)
 			f1 += (Math.PI * 2F);
 
@@ -77,8 +77,8 @@ public class RenderTileMatrixEnchanter extends TileEntitySpecialRenderer<TileMat
 		this.bindTexture(TEXTURE_BOOK);
 		float f3 = te.pageFlipPrev + (te.pageFlip - te.pageFlipPrev) * partialTicks + 0.25F;
 		float f4 = te.pageFlipPrev + (te.pageFlip - te.pageFlipPrev) * partialTicks + 0.75F;
-		f3 = (f3 - (float)MathHelper.fastFloor((double)f3)) * 1.6F - 0.3F;
-		f4 = (f4 - (float)MathHelper.fastFloor((double)f4)) * 1.6F - 0.3F;
+		f3 = (f3 - MathHelper.fastFloor(f3)) * 1.6F - 0.3F;
+		f4 = (f4 - MathHelper.fastFloor(f4)) * 1.6F - 0.3F;
 
 		if (f3 < 0.0F)
 		{

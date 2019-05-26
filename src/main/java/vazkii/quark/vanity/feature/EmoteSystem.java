@@ -29,7 +29,6 @@ import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.RenderLivingEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
@@ -81,7 +80,7 @@ public class EmoteSystem extends Feature {
 	public static final int EMOTE_BUTTON_WIDTH = 25;
 	public static final int EMOTES_PER_ROW = 3;
 
-	private static List<String> EMOTE_NAME_LIST = Lists.newArrayList(EMOTE_NAMES);
+	private static final List<String> EMOTE_NAME_LIST = Lists.newArrayList(EMOTE_NAMES);
 
 	private static final int EMOTE_BUTTON_START = 1800;
 	public static boolean emotesVisible = false;
@@ -109,7 +108,8 @@ public class EmoteSystem extends Feature {
 
 		emotesDir = new File(ModuleLoader.configFile.getParent(), "quark_emotes");
 		if(!emotesDir.exists())
-			emotesDir.mkdir();
+			if (!emotesDir.mkdir())
+				customEmotes = new String[0];
 	}
 
 	public static void addResourcePack(List<IResourcePack> packs) {
@@ -118,7 +118,7 @@ public class EmoteSystem extends Feature {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void preInitClient(FMLPreInitializationEvent event) {
+	public void preInitClient() {
 		Tween.registerAccessor(ModelBiped.class, ModelAccessor.INSTANCE);
 
 		for(String s : enabledEmotes)

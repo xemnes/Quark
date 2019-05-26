@@ -47,7 +47,7 @@ public class UsageTicker extends Feature {
 		}
 		
 		invert = loadPropBool("Invert Displays", "Switch the armor display to the off hand side and the hand display to the main hand side", false);
-		shiftLeft = loadPropInt("Left Side Offeset", "", 0);
+		shiftLeft = loadPropInt("Left Side Offset", "", 0);
 		shiftRight = loadPropInt("Right Side Offset", "", 0);
 	}
 	
@@ -67,8 +67,8 @@ public class UsageTicker extends Feature {
 		if(event.getType() == ElementType.HOTBAR) {
 			ScaledResolution res = event.getResolution();
 			EntityPlayer player = Minecraft.getMinecraft().player;
-			float pticks = event.getPartialTicks();
-			elements.forEach((ticker) -> ticker.render(res, player, invert, pticks));
+			float partial = event.getPartialTicks();
+			elements.forEach((ticker) -> ticker.render(res, player, invert, partial));
 		}
 	}
 	
@@ -83,7 +83,7 @@ public class UsageTicker extends Feature {
 		private static final int ANIM_TIME = 5;
 
 		public int liveTicks;
-		public EntityEquipmentSlot slot;
+		public final EntityEquipmentSlot slot;
 		public ItemStack currStack = ItemStack.EMPTY;
 		public int currCount;
 		
@@ -97,7 +97,7 @@ public class UsageTicker extends Feature {
 			
 			int count = getStackCount(player, heldStack);
 
-			heldStack = getDisplayedStack(player, heldStack, count);
+			heldStack = getDisplayedStack(heldStack, count);
 
 			if(heldStack.isEmpty())
 				liveTicks = 0;
@@ -130,7 +130,7 @@ public class UsageTicker extends Feature {
 				
 				float anim = -animProgress * (animProgress - 2) * 20F;
 				
-				float x = res.getScaledWidth() / 2;
+				float x = res.getScaledWidth() / 2f;
 				float y = res.getScaledHeight() - anim;
 				
 				int armorWidth = 80;
@@ -149,7 +149,7 @@ public class UsageTicker extends Feature {
 					barWidth += 58;
 				
 				Minecraft mc = Minecraft.getMinecraft();
-				x += (barWidth / 2) * mul + index * 20;
+				x += (barWidth / 2f) * mul + index * 20;
 				if(ourSide == EnumHandSide.LEFT) {
 					x -= slots * 20;
 					x += shiftLeft;
@@ -178,7 +178,7 @@ public class UsageTicker extends Feature {
 		}
 		
 		@SideOnly(Side.CLIENT)
-		public ItemStack getDisplayedStack(EntityPlayer player, ItemStack stack, int count) {
+		public ItemStack getDisplayedStack(ItemStack stack, int count) {
 			boolean verifySize = true;
 			if(stack.getItem() instanceof ItemBow && EnchantmentHelper.getEnchantmentLevel(Enchantments.INFINITY, stack) == 0) {
 				stack = new ItemStack(Items.ARROW);
@@ -203,7 +203,7 @@ public class UsageTicker extends Feature {
 		public ItemStack getRenderedStack(EntityPlayer player) {
 			ItemStack stack = getStack(player);
 			int count = getStackCount(player, stack);
-			ItemStack displayStack = getDisplayedStack(player, stack, count).copy();
+			ItemStack displayStack = getDisplayedStack(stack, count).copy();
 			if(displayStack != stack)
 				count = getStackCount(player,  displayStack);
 			displayStack.setCount(count);
@@ -216,15 +216,15 @@ public class UsageTicker extends Feature {
 			if(!stack.isStackable())
 				return 1;
 			
-			Predicate<ItemStack> pred = (stackAt) -> ItemStack.areItemsEqual(stackAt, stack) && ItemStack.areItemStackTagsEqual(stackAt, stack);
+			Predicate<ItemStack> predicate = (stackAt) -> ItemStack.areItemsEqual(stackAt, stack) && ItemStack.areItemStackTagsEqual(stackAt, stack);
 			
 			if(stack.getItem() == Items.ARROW)
-				pred = (stackAt) -> stackAt.getItem() instanceof ItemArrow;
+				predicate = (stackAt) -> stackAt.getItem() instanceof ItemArrow;
 			
 			int total = 0;
 			for(int i = 0; i < player.inventory.getSizeInventory(); i++) {
 				ItemStack stackAt = player.inventory.getStackInSlot(i);
-				if(pred.test(stackAt))
+				if(predicate.test(stackAt))
 					total += stackAt.getCount();
 			}
 			

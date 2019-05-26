@@ -22,9 +22,9 @@ import java.util.Map;
 
 public class DefaultWorldOptions extends Feature {
 
-	private static Map<String, Integer> intProps = new HashMap<>();
-	private static Map<String, Double> doubleProps = new HashMap<>();
-	private static Map<String, Boolean> boolProps = new HashMap<>();
+	private static final Map<String, Integer> intProps = new HashMap<>();
+	private static final Map<String, Double> doubleProps = new HashMap<>();
+	private static final Map<String, Boolean> boolProps = new HashMap<>();
 
 	public static String config;
 

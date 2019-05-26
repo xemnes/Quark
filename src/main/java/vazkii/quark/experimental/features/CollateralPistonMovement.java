@@ -37,7 +37,7 @@ public class CollateralPistonMovement extends Feature {
 				+ "above_below_edge - moves all equal blocks above and below it, and one more block of any type that's above or below the stack\n"
 				+ "directional - moves the block its facing to (only works on directional blocks)\n"
 				+ "sides - moves the blocks on all adjacent sides\n"
-				+ "horiozntals - moves the blocks on all adjacent horizontal sides\n"
+				+ "horizontals - moves the blocks on all adjacent horizontal sides\n"
 				+ "verticals - moves the blocks on all adjacent vertical sides";
 		
 		String[] actionArr = loadPropStringList("Actions", desc, new String[] {
@@ -45,25 +45,25 @@ public class CollateralPistonMovement extends Feature {
 		});
 		
 		for(String s : actionArr) {
-			String[] toks = s.split("=");
-			if(toks.length == 2) {
-				String res = toks[0];
-				String actionStr = toks[1];
+			String[] tokens = s.split("=");
+			if(tokens.length == 2) {
+				String res = tokens[0];
+				String actionStr = tokens[1];
 				
 				MoveAction action = null;
 				switch(actionStr) {
-				case "above": action = CollateralPistonMovement::moveAllAbove; break;
-				case "below": action = CollateralPistonMovement::moveAllBelow; break;
-				case "above_below": action = CollateralPistonMovement::moveAllAboveBelow; break;
+				case "above": action = (world8, pos8, state8, facing8, extending8, list8) -> moveAllAbove(world8, pos8, state8, list8); break;
+				case "below": action = (world7, pos7, state7, facing7, extending7, list7) -> moveAllBelow(world7, pos7, state7, list7); break;
+				case "above_below": action = (world6, pos6, state6, facing6, extending6, list6) -> moveAllAboveBelow(world6, pos6, state6, list6); break;
 				
-				case "above_edge": action = CollateralPistonMovement::moveAllAboveAndEdge; break;
-				case "below_edge": action = CollateralPistonMovement::moveAllAboveAndEdge; break;
-				case "above_below_edge": action = CollateralPistonMovement::moveAllAboveBelowAndEdge; break;
+				case "above_edge": action = (world5, pos5, state5, facing5, extending5, list5) -> moveAllAboveAndEdge(world5, pos5, state5, list5); break;
+				case "below_edge": action = (world5, pos5, state5, facing5, extending5, list5) -> moveAllAboveAndEdge(world5, pos5, state5, list5); break;
+				case "above_below_edge": action = (world4, pos4, state4, facing4, extending4, list4) -> moveAllAboveBelowAndEdge(world4, pos4, state4, list4); break;
 				
-				case "directional": action = CollateralPistonMovement::moveNextDirectional; break;
-				case "sides": action = CollateralPistonMovement::moveSides; break;
-				case "horizontals": action = CollateralPistonMovement::moveHorizontals; break;
-				case "verticals": action = CollateralPistonMovement::moveVerticals; break;
+				case "directional": action = (world3, pos3, state3, facing3, extending3, list3) -> moveNextDirectional(world3, pos3, state3, facing3, list3); break;
+				case "sides": action = (world2, pos2, state2, facing2, extending2, list2) -> moveSides(world2, pos2, facing2, list2); break;
+				case "horizontals": action = (world1, pos1, state1, facing1, extending1, list1) -> moveHorizontals(world1, pos1, facing1, list1); break;
+				case "verticals": action = (world, pos, state, facing, extending, list) -> moveVerticals(world, pos, facing, list); break;
 				}
 				
 				if(action != null)
@@ -72,7 +72,7 @@ public class CollateralPistonMovement extends Feature {
 		}
 	}
 	
-	public static void applyCollateralMovements(World world, BlockPos sourcePos, BlockPistonStructureHelper helper, EnumFacing facing, boolean extending) {
+	public static void applyCollateralMovements(World world, BlockPistonStructureHelper helper, EnumFacing facing, boolean extending) {
 		if(!ModuleLoader.isFeatureEnabled(CollateralPistonMovement.class))
 			return;
 
@@ -127,47 +127,47 @@ public class CollateralPistonMovement extends Feature {
 			list.add(edge);
 	}
 	
-	private static void moveAllAbove(World world, BlockPos pos, IBlockState state, EnumFacing facing, boolean extending, List<BlockPos> list) {
+	private static void moveAllAbove(World world, BlockPos pos, IBlockState state, List<BlockPos> list) {
 		moveAllEqualSide(world, pos, state, EnumFacing.UP, list);
 	}
 	
-	private static void moveAllBelow(World world, BlockPos pos, IBlockState state, EnumFacing facing, boolean extending, List<BlockPos> list) {
+	private static void moveAllBelow(World world, BlockPos pos, IBlockState state, List<BlockPos> list) {
 		moveAllEqualSide(world, pos, state, EnumFacing.DOWN, list);
 	}
 	
-	private static void moveAllAboveBelow(World world, BlockPos pos, IBlockState state, EnumFacing facing, boolean extending, List<BlockPos> list) {
+	private static void moveAllAboveBelow(World world, BlockPos pos, IBlockState state, List<BlockPos> list) {
 		moveAllEqualSide(world, pos, state, EnumFacing.UP, list);
 		moveAllEqualSide(world, pos, state, EnumFacing.DOWN, list);
 	}
 
-	private static void moveAllAboveAndEdge(World world, BlockPos pos, IBlockState state, EnumFacing facing, boolean extending, List<BlockPos> list) {
+	private static void moveAllAboveAndEdge(World world, BlockPos pos, IBlockState state, List<BlockPos> list) {
 		moveAllEqualSideAndOneMore(world, pos, state, EnumFacing.UP, list);
 	}
 	
-	private static void moveAllBelowAndEdge(World world, BlockPos pos, IBlockState state, EnumFacing facing, boolean extending, List<BlockPos> list) {
+	private static void moveAllBelowAndEdge(World world, BlockPos pos, IBlockState state, List<BlockPos> list) {
 		moveAllEqualSideAndOneMore(world, pos, state, EnumFacing.DOWN, list);
 	}
 	
-	private static void moveAllAboveBelowAndEdge(World world, BlockPos pos, IBlockState state, EnumFacing facing, boolean extending, List<BlockPos> list) {
+	private static void moveAllAboveBelowAndEdge(World world, BlockPos pos, IBlockState state, List<BlockPos> list) {
 		moveAllEqualSideAndOneMore(world, pos, state, EnumFacing.UP, list);
 		moveAllEqualSideAndOneMore(world, pos, state, EnumFacing.DOWN, list);
 	}
 	
-	private static void moveNextDirectional(World world, BlockPos pos, IBlockState state, EnumFacing facing, boolean extending, List<BlockPos> list) {
+	private static void moveNextDirectional(World world, BlockPos pos, IBlockState state, EnumFacing facing, List<BlockPos> list) {
 		EnumFacing direction = getStateFacing(state);
 		if(direction != null)
 			moveSideIterable(world, pos, facing, list, new EnumFacing[] { direction });
 	}
 	
-	private static void moveSides(World world, BlockPos pos, IBlockState state, EnumFacing facing, boolean extending, List<BlockPos> list) {
+	private static void moveSides(World world, BlockPos pos, EnumFacing facing, List<BlockPos> list) {
 		moveSideIterable(world, pos, facing, list, EnumFacing.VALUES);
 	}
 	
-	private static void moveHorizontals(World world, BlockPos pos, IBlockState state, EnumFacing facing, boolean extending, List<BlockPos> list) {
+	private static void moveHorizontals(World world, BlockPos pos, EnumFacing facing, List<BlockPos> list) {
 		moveSideIterable(world, pos, facing, list, EnumFacing.HORIZONTALS);
 	}
 	
-	private static void moveVerticals(World world, BlockPos pos, IBlockState state, EnumFacing facing, boolean extending, List<BlockPos> list) {
+	private static void moveVerticals(World world, BlockPos pos, EnumFacing facing, List<BlockPos> list) {
 		moveSideIterable(world, pos, facing, list, new EnumFacing[] { EnumFacing.UP, EnumFacing.DOWN });
 	}
 	

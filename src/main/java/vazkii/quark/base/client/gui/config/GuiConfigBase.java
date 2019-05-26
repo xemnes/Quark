@@ -20,7 +20,7 @@ public class GuiConfigBase extends GuiScreen {
 	protected String title;
 	protected final GuiScreen parent;
 	
-	private static List<Property> restartRequiringProperties = new LinkedList<>();
+	private static final List<Property> restartRequiringProperties = new LinkedList<>();
 	public static boolean mayRequireRestart = false;
 
 	public GuiButton backButton;
@@ -102,9 +102,9 @@ public class GuiConfigBase extends GuiScreen {
 
 	private void openWebLink(URI url) {
 		try {
-			Class<?> oclass = Class.forName("java.awt.Desktop");
-			Object object = oclass.getMethod("getDesktop").invoke(null);
-			oclass.getMethod("browse", URI.class).invoke(object, url);
+			Class<?> desktopClass = Class.forName("java.awt.Desktop");
+			Object object = desktopClass.getMethod("getDesktop").invoke(null);
+			desktopClass.getMethod("browse", URI.class).invoke(object, url);
 		} catch(Throwable throwable1) {
 			Throwable throwable = throwable1.getCause();
 			Quark.LOG.warn("Couldn't open link: {}", (throwable == null ? "<UNKNOWN>" : throwable.getMessage()));

@@ -27,8 +27,6 @@ public class NoteBlockInterface extends Feature {
 		
 		TileEntity tile = event.getWorld().getTileEntity(event.getPos());
 		if(tile instanceof TileEntityNote && (!emptyHand || event.getEntityPlayer().getHeldItemMainhand().isEmpty()) && event.getEntityPlayer().capabilities.allowEdit && !event.getEntity().isSneaking()) {
-			TileEntityNote noteBlock = (TileEntityNote) tile;
-
 			event.getEntityPlayer().openGui(Quark.instance, LibGuiIDs.NOTE_BLOCK, event.getWorld(), event.getPos().getX(), event.getPos().getY(), event.getPos().getZ());
 			event.setCanceled(true);
 		}

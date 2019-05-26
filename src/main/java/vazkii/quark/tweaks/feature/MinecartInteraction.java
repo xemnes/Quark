@@ -21,7 +21,6 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.EntityInteract;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
@@ -34,7 +33,7 @@ import java.util.function.Function;
 
 public class MinecartInteraction extends Feature {
 
-	public static Map<Item, Function<EntityMinecartEmpty, EntityMinecart>> inserters = new HashMap<>();
+	public static final Map<Item, Function<EntityMinecartEmpty, EntityMinecart>> inserters = new HashMap<>();
 	public static boolean enableCommandAndSpawner;
 
 	@Override
@@ -43,7 +42,7 @@ public class MinecartInteraction extends Feature {
 	}
 
 	@Override
-	public void init(FMLInitializationEvent event) {
+	public void init() {
 		inserters.put(Item.getItemFromBlock(Blocks.CHEST), (EntityMinecartEmpty e) -> getMinecart(new ResourceLocation("minecraft", "chest_minecart"), e.getEntityWorld(), e.posX, e.posY, e.posZ));
 		inserters.put(Item.getItemFromBlock(Blocks.TNT), (EntityMinecartEmpty e) -> getMinecart(new ResourceLocation("minecraft", "tnt_minecart"), e.getEntityWorld(), e.posX, e.posY, e.posZ));
 		inserters.put(Item.getItemFromBlock(Blocks.FURNACE), (EntityMinecartEmpty e) -> getMinecart(new ResourceLocation("minecraft", "furnace_minecart"), e.getEntityWorld(), e.posX, e.posY, e.posZ));

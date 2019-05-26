@@ -9,7 +9,6 @@ import net.minecraft.inventory.SlotCrafting;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
@@ -46,7 +45,7 @@ public class ReactiveCursor extends Feature {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void initClient(FMLInitializationEvent event) {
+	public void initClient() {
 		putCursor(CURSOR_POINTER, 0, 1);
 		putCursor(CURSOR_FINGER, 0.4, 1);
 		putCursor(CURSOR_OPEN_HAND, 0.4, 1);
@@ -151,8 +150,8 @@ public class ReactiveCursor extends Feature {
 
 			buf.flip();
 
-			int xHotspot = MathHelper.clamp((int) ((double) width * xAnchor), 0, width - 1);
-			int yHotspot = MathHelper.clamp((int) ((double) height * yAnchor), 0, height - 1);
+			int xHotspot = MathHelper.clamp((int) (width * xAnchor), 0, width - 1);
+			int yHotspot = MathHelper.clamp((int) (height * yAnchor), 0, height - 1);
 
 			Cursor cursor = new Cursor(width, height, xHotspot, yHotspot, 1, buf.asIntBuffer(), null);
 			CURSORS.put(name, cursor);

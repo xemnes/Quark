@@ -27,7 +27,7 @@ public class EntityTotemOfHolding extends Entity {
 	private static final String TAG_DYING = "dying";
 	private static final String TAG_OWNER = "owner";
 	
-	private static final DataParameter<Boolean> DYING = EntityDataManager.<Boolean>createKey(EntityTotemOfHolding.class, DataSerializers.BOOLEAN);
+	private static final DataParameter<Boolean> DYING = EntityDataManager.createKey(EntityTotemOfHolding.class, DataSerializers.BOOLEAN);
 	
 	public static final int DEATH_TIME = 40;
 
@@ -181,9 +181,7 @@ public class EntityTotemOfHolding extends Entity {
 	protected void writeEntityToNBT(@Nonnull NBTTagCompound compound) {
 		NBTTagList list = new NBTTagList();
 		for(ItemStack stack : storedItems) {
-			NBTTagCompound cmp = new NBTTagCompound();
-			stack.writeToNBT(cmp);
-			list.appendTag(cmp);
+			list.appendTag(stack.serializeNBT());
 		}
 
 		compound.setTag(TAG_ITEMS, list);

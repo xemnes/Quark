@@ -70,15 +70,15 @@ public class UndergroundBiomes extends Feature {
 
 		glowshroomGrowthRate = loadPropInt("Glowshroom Growth Rate", "The smaller, the faster glowshrooms will spread. Vanilla mushroom speed is 25.", 20);
 		
-		biomes.add(loadUndergrondBiomeInfo("Lush", new UndergroundBiomeLush(), 80, Type.JUNGLE));
-		biomes.add(loadUndergrondBiomeInfo("Sandstone", new UndergroundBiomeSandstone(), 80, Type.SANDY));
-		biomes.add(loadUndergrondBiomeInfo("Slime", new UndergroundBiomeSlime(), 120, Type.SWAMP));
-		biomes.add(prismarineBiomeGen = loadUndergrondBiomeInfo("Prismarine", new UndergroundBiomePrismarine(), 100, Type.OCEAN));
-		biomes.add(loadUndergrondBiomeInfo("Spider", new UndergroundBiomeSpiderNest(), 80, Type.PLAINS));
-		biomes.add(loadUndergrondBiomeInfo("Overgrown", new UndergroundBiomeOvergrown(), 80, Type.FOREST));
-		biomes.add(loadUndergrondBiomeInfo("Icy", new UndergroundBiomeIcy(), 80, Type.COLD));
-		biomes.add(loadUndergrondBiomeInfo("Lava", new UndergroundBiomeLava(), 80, Type.MESA));
-		biomes.add(loadUndergrondBiomeInfo("Glowshroom", new UndergroundBiomeGlowshroom(), 80, Type.MOUNTAIN, Type.MUSHROOM));
+		biomes.add(loadUndergroundBiomeInfo("Lush", new UndergroundBiomeLush(), 80, Type.JUNGLE));
+		biomes.add(loadUndergroundBiomeInfo("Sandstone", new UndergroundBiomeSandstone(), 80, Type.SANDY));
+		biomes.add(loadUndergroundBiomeInfo("Slime", new UndergroundBiomeSlime(), 120, Type.SWAMP));
+		biomes.add(prismarineBiomeGen = loadUndergroundBiomeInfo("Prismarine", new UndergroundBiomePrismarine(), 100, Type.OCEAN));
+		biomes.add(loadUndergroundBiomeInfo("Spider", new UndergroundBiomeSpiderNest(), 80, Type.PLAINS));
+		biomes.add(loadUndergroundBiomeInfo("Overgrown", new UndergroundBiomeOvergrown(), 80, Type.FOREST));
+		biomes.add(loadUndergroundBiomeInfo("Icy", new UndergroundBiomeIcy(), 80, Type.COLD));
+		biomes.add(loadUndergroundBiomeInfo("Lava", new UndergroundBiomeLava(), 80, Type.MESA));
+		biomes.add(loadUndergroundBiomeInfo("Glowshroom", new UndergroundBiomeGlowshroom(), 80, Type.MOUNTAIN, Type.MUSHROOM));
 		
 		if(elder_prismarine != null)
 			((UndergroundBiomePrismarine) prismarineBiomeGen.info.biome).update();
@@ -153,7 +153,7 @@ public class UndergroundBiomes extends Feature {
 	}
 
 	@Override
-	public void postPreInit(FMLPreInitializationEvent event) {
+	public void postPreInit() {
 		if (firestoneEnabled)
 			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(biome_brick, 4),
 					"SS",
@@ -234,7 +234,7 @@ public class UndergroundBiomes extends Feature {
 		return true;
 	}
 	
-	private UndergroundBiomeGenerator loadUndergrondBiomeInfo(String name, UndergroundBiome biome, int rarity, BiomeDictionary.Type... biomes) {
+	private UndergroundBiomeGenerator loadUndergroundBiomeInfo(String name, UndergroundBiome biome, int rarity, BiomeDictionary.Type... biomes) {
 		String category = configCategory + "." + name;
 		UndergroundBiomeInfo info = new UndergroundBiomeInfo(category, biome, rarity, biomes);
 

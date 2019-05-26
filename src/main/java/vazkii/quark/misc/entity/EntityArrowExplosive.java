@@ -56,8 +56,8 @@ public class EntityArrowExplosive extends EntityArrow {
 	}
 
 	@Override
-	protected void onHit(RayTraceResult raytraceResultIn) {
-		super.onHit(raytraceResultIn);
+	protected void onHit(RayTraceResult rayTrace) {
+		super.onHit(rayTrace);
 
 		if(!getEntityWorld().isRemote)
 			getEntityWorld().createExplosion(this, posX, posY, posZ, (float) ExtraArrows.explosiveArrowPower, ExtraArrows.explosiveArrowDestroysBlocks);

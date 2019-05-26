@@ -99,7 +99,7 @@ public class VariedChests extends Feature {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void preInitClient(FMLPreInitializationEvent event) {
+	public void preInitClient() {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileCustomChest.class, new RenderTileCustomChest());
 
 		ProxyRegistry.getItemMapping(custom_chest).setTileEntityItemStackRenderer(new TileEntityItemStackRenderer() {
@@ -124,7 +124,7 @@ public class VariedChests extends Feature {
 	}
 
 	@Override
-	public void postPreInit(FMLPreInitializationEvent event) {		
+	public void postPreInit() {
 		if(renameVanillaChests) {
 			Blocks.CHEST.setTranslationKey("oak_chest");
 			Blocks.TRAPPED_CHEST.setTranslationKey("oak_chest_trap");
@@ -208,8 +208,8 @@ public class VariedChests extends Feature {
 		if(Objects.toString(recipe.getRegistryName()).equals("minecraft:trapped_chest")) {
 			List<Ingredient> ingredients = recipe.getIngredients();
 			for(int i = 0; i < ingredients.size(); i++) {
-				Ingredient ingr = ingredients.get(i);
-				if(ingr instanceof OreIngredient) {
+				Ingredient ingredient = ingredients.get(i);
+				if(ingredient instanceof OreIngredient) {
 					Ingredient chest = new BlacklistOreIngredient("chestWood", (stack) -> stack.getItem() == Item.getItemFromBlock(custom_chest));
 					ingredients.set(i, chest);
 					break;

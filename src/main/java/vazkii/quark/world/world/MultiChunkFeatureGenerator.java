@@ -5,18 +5,15 @@ import java.util.function.Consumer;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.IChunkProvider;
-import net.minecraft.world.gen.IChunkGenerator;
-import net.minecraftforge.fml.common.IWorldGenerator;
 
 public abstract class MultiChunkFeatureGenerator {
 
 	public void generate(int chunkX, int chunkZ, World world) {
-		if(!canGenerate(world, chunkX, chunkZ))
+		if(!canGenerate(world))
 			return;
 		
 		int radius = getFeatureRadius();
-		int chunkRadius = (int) Math.ceil((double) radius / 16.0);
+		int chunkRadius = (int) Math.ceil(radius / 16.0);
 		
 		long worldSeed = modifyWorldSeed(world.getSeed());
 		Random worldRandom = new Random(worldSeed);
@@ -30,7 +27,7 @@ public abstract class MultiChunkFeatureGenerator {
 				long chunkSeed = (xSeed * x + zSeed * z) ^ worldSeed;
 				Random chunkRandom = new Random(chunkSeed);
 
-				BlockPos[] sources = getSourcesInChunk(chunkRandom, x, z, world);
+				BlockPos[] sources = getSourcesInChunk(chunkRandom, x, z);
 				for(BlockPos source : sources)
 					if(source != null && isSourceValid(world, source))
 						generateChunkPart(source, chunkRandom, chunkX, chunkZ, world);
@@ -45,7 +42,7 @@ public abstract class MultiChunkFeatureGenerator {
 		return true;
 	}
 	
-	public boolean canGenerate(World world, int chunkX, int chunkZ) {
+	public boolean canGenerate(World world) {
 		return true;
 	}
 	
@@ -57,7 +54,7 @@ public abstract class MultiChunkFeatureGenerator {
 	
 	public abstract void generateChunkPart(BlockPos src, Random random, int chunkX, int chunkZ, World world);
 	
-	public abstract BlockPos[] getSourcesInChunk(Random random, int chunkX, int chunkZ, World world);
+	public abstract BlockPos[] getSourcesInChunk(Random random, int chunkX, int chunkZ);
 	
 	public void forEachChunkBlock(int chunkX, int chunkZ, int minY, int maxY, Consumer<BlockPos> func) {
 		BlockPos first = new BlockPos(chunkX * 16, 0, chunkZ * 16);

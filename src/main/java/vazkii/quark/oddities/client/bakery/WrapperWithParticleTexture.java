@@ -51,7 +51,7 @@ public class WrapperWithParticleTexture implements IBakedModel {
 
 	@Nonnull
 	@Override
-	public Pair<? extends IBakedModel, Matrix4f> handlePerspective(ItemCameraTransforms.TransformType cameraTransformType) {
+	public Pair<? extends IBakedModel, Matrix4f> handlePerspective(@Nonnull ItemCameraTransforms.TransformType cameraTransformType) {
 		return parent.handlePerspective(cameraTransformType);
 	}
 

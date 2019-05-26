@@ -215,35 +215,35 @@ public class BlockCustomChest extends BlockChest implements IQuarkBlock {
 	public IBlockState correctFacing(World worldIn, BlockPos pos, IBlockState state, VariedChests.ChestType myType) {
 		EnumFacing facing = null;
 
-		for(EnumFacing horizFace : EnumFacing.Plane.HORIZONTAL) {
-			if(getCustomType(worldIn, pos.offset(horizFace)) == myType)
+		for(EnumFacing horizontal : EnumFacing.Plane.HORIZONTAL) {
+			if(getCustomType(worldIn, pos.offset(horizontal)) == myType)
 				return state;
 
-			if(worldIn.getBlockState(pos.offset(horizFace)).isFullBlock()) {
+			if(worldIn.getBlockState(pos.offset(horizontal)).isFullBlock()) {
 				if(facing != null) {
 					facing = null;
 					break;
 				}
 
-				facing = horizFace;
+				facing = horizontal;
 			}
 		}
 
 		if(facing != null) {
 			return state.withProperty(FACING, facing.getOpposite());
 		} else {
-			EnumFacing enumfacing2 = state.getValue(FACING);
+			EnumFacing stateFacing = state.getValue(FACING);
 
-			if(worldIn.getBlockState(pos.offset(enumfacing2)).isFullBlock())
-				enumfacing2 = enumfacing2.getOpposite();
+			if(worldIn.getBlockState(pos.offset(stateFacing)).isFullBlock())
+				stateFacing = stateFacing.getOpposite();
 
-			if(worldIn.getBlockState(pos.offset(enumfacing2)).isFullBlock())
-				enumfacing2 = enumfacing2.rotateY();
+			if(worldIn.getBlockState(pos.offset(stateFacing)).isFullBlock())
+				stateFacing = stateFacing.rotateY();
 
-			if(worldIn.getBlockState(pos.offset(enumfacing2)).isFullBlock())
-				enumfacing2 = enumfacing2.getOpposite();
+			if(worldIn.getBlockState(pos.offset(stateFacing)).isFullBlock())
+				stateFacing = stateFacing.getOpposite();
 
-			return state.withProperty(FACING, enumfacing2);
+			return state.withProperty(FACING, stateFacing);
 		}
 	}
 

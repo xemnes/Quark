@@ -2,16 +2,10 @@ package vazkii.quark.base.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
-import net.minecraft.block.SoundType;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import vazkii.arl.item.ItemModBlock;
-import vazkii.arl.util.ProxyRegistry;
-import vazkii.quark.base.lib.LibMisc;
 
 import javax.annotation.Nonnull;
 
@@ -31,9 +25,7 @@ public class BlockQuarkBush extends BlockBush implements IQuarkBlock {
 	@Override
 	public Block setTranslationKey(@Nonnull String name) {
 		super.setTranslationKey(name);
-		setRegistryName(LibMisc.PREFIX_MOD + name);
-		ProxyRegistry.register(this);
-		ProxyRegistry.register(new ItemModBlock(this, new ResourceLocation(LibMisc.PREFIX_MOD + name)));
+		register(name);
 		return this;
 	}
 

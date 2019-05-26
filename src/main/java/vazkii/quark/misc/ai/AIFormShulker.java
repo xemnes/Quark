@@ -1,7 +1,5 @@
 package vazkii.quark.misc.ai;
 
-import java.util.Random;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.monster.EntityEndermite;
@@ -11,6 +9,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import vazkii.quark.misc.feature.EndermitesIntoShulkers;
+
+import java.util.Random;
 
 public class AIFormShulker extends EntityAIWander
 {
@@ -53,7 +53,7 @@ public class AIFormShulker extends EntityAIWander
 
 	@Override
 	public boolean shouldContinueExecuting() {
-		return doMerge ? false : super.shouldContinueExecuting();
+		return !doMerge && super.shouldContinueExecuting();
 	}
 	
 	@Override

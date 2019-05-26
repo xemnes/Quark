@@ -62,22 +62,21 @@ public class EntityArrowTorch extends EntityArrow {
 	}
 
 	@Override
-	protected void onHit(RayTraceResult raytraceResultIn) {
-		super.onHit(raytraceResultIn);
+	protected void onHit(RayTraceResult rayTrace) {
+		super.onHit(rayTrace);
 
 		if(isDead)
 			return;
 		
 		if(!getEntityWorld().isRemote) {
-			BlockPos pos = raytraceResultIn.getBlockPos();
-			if(pos == null)
+			if(rayTrace.typeOfHit != RayTraceResult.Type.BLOCK)
 				return;
-			
-			BlockPos finalPos = pos.offset(raytraceResultIn.sideHit);
+			BlockPos pos = rayTrace.getBlockPos();
+			BlockPos finalPos = pos.offset(rayTrace.sideHit);
 			IBlockState state = getEntityWorld().getBlockState(finalPos);
 			Block block = state.getBlock();
-			if((block.isAir(state, getEntityWorld(), finalPos) || block.isReplaceable(getEntityWorld(), finalPos)) && raytraceResultIn.sideHit != EnumFacing.DOWN) {
-				getEntityWorld().setBlockState(finalPos, Blocks.TORCH.getDefaultState().withProperty(BlockTorch.FACING, raytraceResultIn.sideHit));
+			if((block.isAir(state, getEntityWorld(), finalPos) || block.isReplaceable(getEntityWorld(), finalPos)) && rayTrace.sideHit != EnumFacing.DOWN) {
+				getEntityWorld().setBlockState(finalPos, Blocks.TORCH.getDefaultState().withProperty(BlockTorch.FACING, rayTrace.sideHit));
 				setDead();
 			}
 		}

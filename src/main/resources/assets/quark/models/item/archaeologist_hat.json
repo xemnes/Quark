@@ -1,6 +1,6 @@
 {
 	"parent": "item/generated",
 	"textures": { 
-		"layer0": "quark:items/archeologist_hat"
+		"layer0": "quark:items/archaeologist_hat"
 	}
 }

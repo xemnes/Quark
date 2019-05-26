@@ -1,7 +1,6 @@
 package vazkii.quark.world.feature;
 
 import net.minecraft.block.Block;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import vazkii.arl.recipe.RecipeHandler;
@@ -55,7 +54,7 @@ public class Speleothems extends Feature {
 	}
 
 	@Override
-	public void postPreInit(FMLPreInitializationEvent event) {
+	public void postPreInit() {
 		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(stone_speleothem, 6), 
 				"S", "S", "S", 'S', "stone");
 		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(granite_speleothem, 6), 

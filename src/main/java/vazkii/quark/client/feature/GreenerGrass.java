@@ -11,29 +11,24 @@
 package vazkii.quark.client.feature;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.registries.IRegistryDelegate;
 import vazkii.quark.base.module.Feature;
 
-import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 public class GreenerGrass extends Feature {
 
-	public static boolean affectFolliage;
+	public static boolean affectFoliage;
 	public static boolean alphaGrass;
 	public static boolean absoluteValues;
 	public static int redShift, greenShift, blueShift;
@@ -42,7 +37,7 @@ public class GreenerGrass extends Feature {
 
 	@Override
 	public void setupConfig() {
-		affectFolliage = loadPropBool("Should affect folliage", "", true);
+		affectFoliage = loadPropBool("Should affect foliage", "", true);
 		alphaGrass = loadPropBool("Alpha grass", "Sets the grass color to be a \"Minecraft Alpha\" tone.\nThis will override all manual shift values.", false);
 		absoluteValues = loadPropBool("Treat shifts as absolute and ignore biome colors", "", false);
 		redShift = loadPropInt("Shift reds by", "", -30);
@@ -69,15 +64,14 @@ public class GreenerGrass extends Feature {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void postInitClient(FMLPostInitializationEvent event) {
+	public void postInitClient() {
 		registerGreenerColor(Blocks.GRASS, Blocks.TALLGRASS, Blocks.DOUBLE_PLANT, Blocks.REEDS);
-		if(affectFolliage)
+		if(affectFoliage)
 			registerGreenerColor(Blocks.LEAVES, Blocks.LEAVES2, Blocks.VINE);
 
 		for(String s : extraBlocks) {
 			Block b = Block.REGISTRY.getObject(new ResourceLocation(s));
-			if(b != null)
-				registerGreenerColor(b);
+			registerGreenerColor(b);
 		}	
 	}
 
@@ -95,24 +89,20 @@ public class GreenerGrass extends Feature {
 
 	@SideOnly(Side.CLIENT)
 	private IBlockColor getGreenerColor(IBlockColor color) {
-		return new IBlockColor() {
+		return (state, world, pos, tintIndex) -> {
+			int originalColor = color.colorMultiplier(state, world, pos, tintIndex);
 
-			@Override
-			public int colorMultiplier(@Nonnull IBlockState state, IBlockAccess world, BlockPos pos, int tintIndex) {
-				int originalColor = color.colorMultiplier(state, world, pos, tintIndex);
+			int r = originalColor >> 16 & 0xFF;
+			int g = originalColor >> 8 & 0xFF;
+			int b = originalColor & 0xFF;
 
-				int r = originalColor >> 16 & 0xFF;
-				int g = originalColor >> 8 & 0xFF;
-				int b = originalColor & 0xFF;
+			int shiftRed = alphaGrass ? 30 : redShift;
+			int shiftGreen = alphaGrass ? 120 : greenShift;
+			int shiftBlue = alphaGrass ? 30 : blueShift;
 
-				int shiftRed = alphaGrass ? 30 : redShift;
-				int shiftGreen = alphaGrass ? 120 : greenShift;
-				int shiftBlue = alphaGrass ? 30 : blueShift;
-
-				if(absoluteValues)
-					return (Math.max(0, Math.min(0xFF, redShift)) << 16) + Math.max(0, Math.min(0xFF, greenShift) << 8) + Math.max(0, Math.min(0xFF, blueShift));
-				return (Math.max(0, Math.min(0xFF, r + shiftRed)) << 16) + Math.max(0, Math.min(0xFF, g + shiftGreen) << 8) + Math.max(0, Math.min(0xFF, b + shiftBlue));
-			}
+			if(absoluteValues)
+				return (Math.max(0, Math.min(0xFF, redShift)) << 16) + Math.max(0, Math.min(0xFF, greenShift) << 8) + Math.max(0, Math.min(0xFF, blueShift));
+			return (Math.max(0, Math.min(0xFF, r + shiftRed)) << 16) + Math.max(0, Math.min(0xFF, g + shiftGreen) << 8) + Math.max(0, Math.min(0xFF, b + shiftBlue));
 		};
 	}
 	

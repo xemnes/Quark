@@ -38,7 +38,7 @@ public class Pipes extends Feature {
 	}
 	
 	@Override
-	public void postPreInit(FMLPreInitializationEvent event) {
+	public void postPreInit() {
 		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(pipe, pipesCrafted), 
 				"I", "G", "I",
 				'I', "ingotIron",
@@ -47,7 +47,7 @@ public class Pipes extends Feature {
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void preInitClient(FMLPreInitializationEvent event) {
+	public void preInitClient() {
 		if(enableRender)
 			ClientRegistry.bindTileEntitySpecialRenderer(TilePipe.class, new RenderTilePipe());
 	}

@@ -212,16 +212,15 @@ public final class SortingHandler {
 		throw new RuntimeException("Having an ItemStack that doesn't fit in any type is impossible.");
 	}
 
-	private static Predicate<ItemStack> classPred(Class<? extends Item> clazz) {
+	private static Predicate<ItemStack> classPredicate(Class<? extends Item> clazz) {
 		return (ItemStack s) -> !s.isEmpty() && clazz.isInstance(s.getItem());
 	}
 
-	private static Predicate<ItemStack> negClassPred(Class<? extends Item> clazz) {
-		Predicate<ItemStack> classPred = classPred(clazz);
-		return (ItemStack s) -> !classPred.test(s);
+	private static Predicate<ItemStack> inverseClassPredicate(Class<? extends Item> clazz) {
+		return classPredicate(clazz).negate();
 	}
 
-	private static Predicate<ItemStack> itemPred(List<Item> list) {
+	private static Predicate<ItemStack> itemPredicate(List<Item> list) {
 		return (ItemStack s) -> !s.isEmpty() && list.contains(s.getItem());
 	}
 
@@ -315,10 +314,10 @@ public final class SortingHandler {
 		if (!stack.isItemEnchanted())
 			return 0;
 
-		Map<Enchantment, Integer> enchs = EnchantmentHelper.getEnchantments(stack);
+		Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(stack);
 		int total = 0;
 
-		for (Integer i : enchs.values())
+		for (Integer i : enchantments.values())
 			total += i;
 
 		return total;
@@ -353,43 +352,43 @@ public final class SortingHandler {
 
 	private enum ItemType {
 
-		FOOD(classPred(ItemFood.class), FOOD_COMPARATOR),
+		FOOD(classPredicate(ItemFood.class), FOOD_COMPARATOR),
 		TORCH(list(Blocks.TORCH)),
-		TOOL_PICKAXE(classPred(ItemPickaxe.class), TOOL_COMPARATOR),
-		TOOL_SHOVEL(classPred(ItemSpade.class), TOOL_COMPARATOR),
-		TOOL_AXE(classPred(ItemAxe.class), TOOL_COMPARATOR),
-		TOOL_SWORD(classPred(ItemSword.class), SWORD_COMPARATOR),
-		TOOL_GENERIC(classPred(ItemTool.class), TOOL_COMPARATOR),
-		ARMOR(classPred(ItemArmor.class), ARMOR_COMPARATOR),
-		BOW(classPred(ItemBow.class), BOW_COMPARATOR),
-		ARROWS(classPred(ItemArrow.class)),
-		POTION(classPred(ItemPotion.class)),
+		TOOL_PICKAXE(classPredicate(ItemPickaxe.class), TOOL_COMPARATOR),
+		TOOL_SHOVEL(classPredicate(ItemSpade.class), TOOL_COMPARATOR),
+		TOOL_AXE(classPredicate(ItemAxe.class), TOOL_COMPARATOR),
+		TOOL_SWORD(classPredicate(ItemSword.class), SWORD_COMPARATOR),
+		TOOL_GENERIC(classPredicate(ItemTool.class), TOOL_COMPARATOR),
+		ARMOR(classPredicate(ItemArmor.class), ARMOR_COMPARATOR),
+		BOW(classPredicate(ItemBow.class), BOW_COMPARATOR),
+		ARROWS(classPredicate(ItemArrow.class)),
+		POTION(classPredicate(ItemPotion.class)),
 		REDSTONE(list(Items.REDSTONE, Blocks.REDSTONE_TORCH, Items.REPEATER, Items.COMPARATOR, Blocks.LEVER, Blocks.STONE_BUTTON, Blocks.WOODEN_BUTTON)),
-		MINECART(classPred(ItemMinecart.class)),
+		MINECART(classPredicate(ItemMinecart.class)),
 		RAIL(list(Blocks.RAIL, Blocks.GOLDEN_RAIL, Blocks.DETECTOR_RAIL, Blocks.ACTIVATOR_RAIL)),
-		DYE(classPred(ItemDye.class)),
-		ANY(negClassPred(ItemBlock.class)),
-		BLOCK(classPred(ItemBlock.class));
+		DYE(classPredicate(ItemDye.class)),
+		ANY(inverseClassPredicate(ItemBlock.class)),
+		BLOCK(classPredicate(ItemBlock.class));
 
-		private Predicate<ItemStack> pred;
-		private Comparator<ItemStack> comparator;
+		private final Predicate<ItemStack> predicate;
+		private final Comparator<ItemStack> comparator;
 
 		@SafeVarargs
 		ItemType(List<Item> list, Comparator<ItemStack>... comparators) {
-			this(itemPred(list), jointComparator(listOrderComparator(list), comparators));
+			this(itemPredicate(list), jointComparator(listOrderComparator(list), comparators));
 		}
 
-		ItemType(Predicate<ItemStack> pred) {
-			this(pred, FALLBACK_COMPARATOR);
+		ItemType(Predicate<ItemStack> predicate) {
+			this(predicate, FALLBACK_COMPARATOR);
 		}
 
-		ItemType(Predicate<ItemStack> pred, Comparator<ItemStack> comparator) {
-			this.pred = pred;
+		ItemType(Predicate<ItemStack> predicate, Comparator<ItemStack> comparator) {
+			this.predicate = predicate;
 			this.comparator = comparator;
 		}
 
 		public boolean fitsInType(ItemStack stack) {
-			return pred.test(stack);
+			return predicate.test(stack);
 		}
 
 	}

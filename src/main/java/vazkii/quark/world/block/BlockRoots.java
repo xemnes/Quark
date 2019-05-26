@@ -34,6 +34,9 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
+import static vazkii.quark.base.block.BlockQuarkPane.mirror;
+import static vazkii.quark.base.block.BlockQuarkPane.rotate;
+
 public class BlockRoots extends BlockMod implements IQuarkBlock, IShearable, IGrowable {
 
 	public static final PropertyBool UP = BlockVine.UP;
@@ -49,7 +52,7 @@ public class BlockRoots extends BlockMod implements IQuarkBlock, IShearable, IGr
 	protected static final AxisAlignedBB NORTH_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 0.0625D);
 	protected static final AxisAlignedBB SOUTH_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.9375D, 1.0D, 1.0D, 1.0D);
 
-	private Random rng;
+	private final Random rng;
 	
 	public BlockRoots(String name) {
 		super(name, Material.VINE);
@@ -335,41 +338,14 @@ public class BlockRoots extends BlockMod implements IQuarkBlock, IShearable, IGr
 	@Override
 	@SuppressWarnings("deprecation")
 	public IBlockState withRotation(@Nonnull IBlockState state, Rotation rot) {
-		switch (rot) {
-			case CLOCKWISE_180:
-				return state.withProperty(NORTH, state.getValue(SOUTH))
-						.withProperty(EAST, state.getValue(WEST))
-						.withProperty(SOUTH, state.getValue(NORTH))
-						.withProperty(WEST, state.getValue(EAST));
-			case COUNTERCLOCKWISE_90:
-				return state.withProperty(NORTH, state.getValue(EAST))
-						.withProperty(EAST, state.getValue(SOUTH))
-						.withProperty(SOUTH, state.getValue(WEST))
-						.withProperty(WEST, state.getValue(NORTH));
-			case CLOCKWISE_90:
-				return state.withProperty(NORTH, state.getValue(WEST))
-						.withProperty(EAST, state.getValue(NORTH))
-						.withProperty(SOUTH, state.getValue(EAST))
-						.withProperty(WEST, state.getValue(SOUTH));
-			default:
-				return state;
-		}
+		return rotate(state, rot, NORTH, SOUTH, EAST, WEST);
 	}
 
 	@Nonnull
 	@Override
 	@SuppressWarnings("deprecation")
 	public IBlockState withMirror(@Nonnull IBlockState state, Mirror mirrorIn) {
-		switch (mirrorIn) {
-			case LEFT_RIGHT:
-				return state.withProperty(NORTH, state.getValue(SOUTH))
-						.withProperty(SOUTH, state.getValue(NORTH));
-			case FRONT_BACK:
-				return state.withProperty(EAST, state.getValue(WEST))
-						.withProperty(WEST, state.getValue(EAST));
-			default:
-				return state;
-		}
+		return mirror(state, mirrorIn, NORTH, SOUTH, EAST, WEST);
 	}
 
 	public static PropertyBool getPropertyFor(EnumFacing side) {

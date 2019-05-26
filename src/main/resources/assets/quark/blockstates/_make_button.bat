@@ -1,7 +1,7 @@
 @echo off
 :: Vazkii's JSON creator for blocks
 :: Put in your /resources/assets/%modid%/models/block
-:: Makes basic block JSON files as well as the acossiated item and simple blockstate
+:: Makes basic block JSON files as well as the associated item and simple blockstate
 :: Can make multiple blocks at once
 ::
 :: Usage:
@@ -26,7 +26,6 @@ for %%x in (%*) do (
 		echo 	},
 		echo     "variants": {
 		echo         "inventory":                  { "model": "minecraft:button_inventory" },
-		echo         "facing=up,powered=false":    { "model": "minecraft:button", "uvlock": true },
 		echo         "facing=up,powered=false":    { "model": "minecraft:button", "uvlock": true },
 		echo         "facing=down,powered=false":  { "model": "minecraft:button", "uvlock": true, "x": 180 },
 		echo         "facing=east,powered=false":  { "model": "minecraft:button", "uvlock": true, "x": 90, "y": 90 },

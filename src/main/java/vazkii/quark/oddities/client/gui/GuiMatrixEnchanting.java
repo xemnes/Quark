@@ -86,8 +86,8 @@ public class GuiMatrixEnchanting extends GuiContainer {
 			int x = i + 74;
 			int y = j + 58;
 			int xpCost = enchanter.matrix.getNewPiecePrice();
-			int xpMin = enchanter.matrix.getMinXpLevel(enchanter.bookshelfPower, enchanter.enchantability);
-			boolean has = enchanter.matrix.validateXp(mc.player, enchanter.bookshelfPower, enchanter.enchantability);
+			int xpMin = enchanter.matrix.getMinXpLevel(enchanter.bookshelfPower);
+			boolean has = enchanter.matrix.validateXp(mc.player, enchanter.bookshelfPower);
 			drawTexturedModalRect(x, y, 0, ySize, 10, 10);
 			String text = String.valueOf(xpCost);
 
@@ -141,7 +141,7 @@ public class GuiMatrixEnchanting extends GuiContainer {
 				tooltip.add(TextFormatting.GRAY + I18n.format("quarkmisc.matrixRightClick"));
 			} else if(selectedPiece != -1) {
 				Piece p = getPiece(selectedPiece);
-				if(p.enchant == hoveredPiece.enchant && hoveredPiece.level < hoveredPiece.enchant.getMaxLevel()) {
+				if(p != null && p.enchant == hoveredPiece.enchant && hoveredPiece.level < hoveredPiece.enchant.getMaxLevel()) {
 					tooltip.add("");
 					tooltip.add(TextFormatting.GRAY + I18n.format("quarkmisc.matrixMerge"));
 				}
@@ -188,7 +188,7 @@ public class GuiMatrixEnchanting extends GuiContainer {
 			if(selectedPiece != -1) {
 				if(hover == -1)
 					place(selectedPiece, gridHoverX, gridHoverY);
-				else merge(selectedPiece, gridHoverX, gridHoverY);
+				else merge(selectedPiece);
 			} else {
 				remove(hover);
 				if(!isShiftKeyDown())
@@ -205,10 +205,12 @@ public class GuiMatrixEnchanting extends GuiContainer {
 		
 		for(int i : matrix.placedPieces) {
 			Piece piece = getPiece(i);
-			GlStateManager.pushMatrix();
-			GlStateManager.translate(piece.x * 10, piece.y * 10, 0);
-			renderPiece(piece, 1F);
-			GlStateManager.popMatrix();
+			if (piece != null) {
+				GlStateManager.pushMatrix();
+				GlStateManager.translate(piece.x * 10, piece.y * 10, 0);
+				renderPiece(piece, 1F);
+				GlStateManager.popMatrix();
+			}
 		}
 		
 		if(selectedPiece != -1 && gridHoverX != -1) {
@@ -233,9 +235,9 @@ public class GuiMatrixEnchanting extends GuiContainer {
 	}
 	
 	private void renderPiece(Piece piece, float a) {
-		float r = (float) ((piece.color >> 16) & 0xFF) / 255F;
-		float g = (float) ((piece.color >> 8) & 0xFF) / 255F;
-		float b = (float) (piece.color & 0xFF) / 255F;
+		float r = ((piece.color >> 16) & 0xFF) / 255F;
+		float g = ((piece.color >> 8) & 0xFF) / 255F;
+		float b = (piece.color & 0xFF) / 255F;
 		
 		boolean hovered = hoveredPiece == piece;
 		
@@ -257,7 +259,7 @@ public class GuiMatrixEnchanting extends GuiContainer {
 	}
 	
 	@Override
-	protected void actionPerformed(GuiButton button) throws IOException {
+	protected void actionPerformed(GuiButton button) {
 		if(button == plusButton)
 			add();
 	}
@@ -280,7 +282,7 @@ public class GuiMatrixEnchanting extends GuiContainer {
 		send(TileMatrixEnchanter.OPER_ROTATE, id, 0, 0);
 	}
 	
-	public void merge(int id, int x, int y) {
+	public void merge(int id) {
 		int hover = enchanter.matrix.matrix[gridHoverX][gridHoverY];
 		Piece p = getPiece(hover);
 		Piece p1 = getPiece(selectedPiece);
@@ -303,7 +305,7 @@ public class GuiMatrixEnchanting extends GuiContainer {
 	private void updateButtonStatus() {
 		plusButton.enabled = (enchanter.matrix != null 
 				&& enchanter.charge > 0
-				&& enchanter.matrix.validateXp(mc.player, enchanter.bookshelfPower, enchanter.enchantability)
+				&& enchanter.matrix.validateXp(mc.player, enchanter.bookshelfPower)
 				&& enchanter.matrix.canGeneratePiece(enchanter.bookshelfPower, enchanter.enchantability));
 	}
 	
@@ -317,7 +319,7 @@ public class GuiMatrixEnchanting extends GuiContainer {
 	
 	public static class PieceList extends GuiScrollingList {
 
-		private GuiMatrixEnchanting parent;
+		private final GuiMatrixEnchanting parent;
 		private int mouseX, mouseY;
 		
 		public PieceList(GuiMatrixEnchanting parent, int width, int height, int top, int left, int entryHeight) {
@@ -367,7 +369,7 @@ public class GuiMatrixEnchanting extends GuiContainer {
 				
 				parent.mc.getTextureManager().bindTexture(BACKGROUND);
 				GlStateManager.pushMatrix();
-				GlStateManager.translate(left + (listWidth - 7) / 2, slotTop + slotHeight / 2, 0);
+				GlStateManager.translate(left + (listWidth - 7) / 2f, slotTop + slotHeight / 2f, 0);
 				GlStateManager.scale(0.5, 0.5, 0.5);
 				GlStateManager.translate(-4, -8, 0);
 				parent.renderPiece(piece, 1F);

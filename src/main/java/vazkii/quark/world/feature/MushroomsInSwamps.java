@@ -25,7 +25,7 @@ import java.util.Random;
 
 public class MushroomsInSwamps extends Feature {
 
-	private WorldGenerator bigMushroomGen = new WorldGenBigMushroom();
+	private final WorldGenerator bigMushroomGen = new WorldGenBigMushroom();
 
 	public static double bigMushroomsPerChunk;
 

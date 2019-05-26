@@ -39,7 +39,7 @@ public class ThrowableDragonBreath extends Feature {
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void preInitClient(FMLPreInitializationEvent event) {
+	public void preInitClient() {
 		RenderingRegistry.registerEntityRenderingHandler(EntityDragonBreathBottle.class, renderManager -> new RenderSnowball<>(renderManager, Items.DRAGON_BREATH, Minecraft.getMinecraft().getRenderItem()));
 	}
 	

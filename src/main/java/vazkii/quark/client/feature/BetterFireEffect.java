@@ -12,12 +12,12 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
-import vazkii.arl.util.ClientTicker;
+import org.lwjgl.opengl.GL11;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.ModuleLoader;
 
 public class BetterFireEffect extends Feature {
-	
+
 	public static boolean enableParticles, enableDifferentRender;
 	
 	@Override
@@ -26,7 +26,7 @@ public class BetterFireEffect extends Feature {
 		enableDifferentRender = loadPropBool("Enable Different Render", "", true);
 	}
 
-	public static boolean renderFire(Entity entity, double x, double y, double z, float pticks) {
+	public static boolean renderFire(Entity entity, double x, double y, double z) {
 		if(!ModuleLoader.isFeatureEnabled(BetterFireEffect.class) || !enableDifferentRender)
 			return false;
 
@@ -52,14 +52,14 @@ public class BetterFireEffect extends Feature {
 
 		Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 
-		int itrs = 8;
-		float rot = (360F / itrs);
-		for(int i = 0; i < itrs; i++) {
-			bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
-			bufferbuilder.pos((double)(f1 - 0.0F), (double)(0.0F - f4), (double)f5).tex((double)f8, (double)f9).endVertex();
-			bufferbuilder.pos((double)(-f1 - 0.0F), (double)(0.0F - f4), (double)f5).tex((double)f6, (double)f9).endVertex();
-			bufferbuilder.pos((double)(-f1 - 0.0F), (double)(1.4F - f4), (double)f5).tex((double)f6, (double)f7).endVertex();
-			bufferbuilder.pos((double)(f1 - 0.0F), (double)(1.4F - f4), (double)f5).tex((double)f8, (double)f7).endVertex();
+		int iterations = 8;
+		float rot = (360F / iterations);
+		for(int i = 0; i < iterations; i++) {
+			bufferbuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+			bufferbuilder.pos((f1 - 0.0F), (0.0F - f4), f5).tex(f8, f9).endVertex();
+			bufferbuilder.pos((-f1 - 0.0F), (0.0F - f4), f5).tex(f6, f9).endVertex();
+			bufferbuilder.pos((-f1 - 0.0F), (1.4F - f4), f5).tex(f6, f7).endVertex();
+			bufferbuilder.pos((f1 - 0.0F), (1.4F - f4), f5).tex(f8, f7).endVertex();
 			tessellator.draw();
 			GlStateManager.rotate(rot, 0F, 1F, 0F);
 		}
@@ -74,12 +74,11 @@ public class BetterFireEffect extends Feature {
 	public void onTick(ClientTickEvent event) {
 		if(!enableParticles)
 			return;
-		
-		final int delay = 1;
+
 		final int count = 2;
 
 		Minecraft mc = Minecraft.getMinecraft();
-		if(event.phase == Phase.END && mc.world != null && ClientTicker.ticksInGame % delay == 0 && (mc.currentScreen == null || !mc.currentScreen.doesGuiPauseGame())) {
+		if(event.phase == Phase.END && mc.world != null && (mc.currentScreen == null || !mc.currentScreen.doesGuiPauseGame())) {
 			for(Entity e : mc.world.loadedEntityList)
 				if(e.canRenderOnFire()) {
 					double w = e.width;

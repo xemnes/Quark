@@ -45,28 +45,26 @@ public class TieFences extends Feature {
 		IBlockState state = world.getBlockState(pos);
 		
 		if(stack.getItem() == Items.LEAD && state.getBlock() instanceof BlockFence) {
-			if(!world.isRemote) {
-		        for(EntityLiving entityliving : world.getEntitiesWithinAABB(EntityLiving.class, new AxisAlignedBB(player.posX - 7, player.posY - 7, player.posZ - 7, player.posX + 7, player.posY + 7, player.posZ + 7))) {
-		        	if(entityliving.getLeashHolder() == player)
-		        		return;
-		        }
-				
-				EntityLeashKnot2TheKnotting knot = new EntityLeashKnot2TheKnotting(world);
-				knot.setPosition(pos.getX() + 0.5, pos.getY() + 0.5 - 1F / 8F, pos.getZ() + 0.5);
-				world.spawnEntity(knot);
-				knot.setLeashHolder(player, true);
-				
-				if(!player.isCreative())
-					stack.shrink(1);
-				world.playSound(null, pos, SoundEvents.ENTITY_LEASHKNOT_PLACE, SoundCategory.BLOCKS, 1F, 1F);
-				event.setCanceled(true);
+			for(EntityLiving entityliving : world.getEntitiesWithinAABB(EntityLiving.class, new AxisAlignedBB(player.posX - 7, player.posY - 7, player.posZ - 7, player.posX + 7, player.posY + 7, player.posZ + 7))) {
+				if(entityliving.getLeashHolder() == player)
+					return;
 			}
+
+			EntityLeashKnot2TheKnotting knot = new EntityLeashKnot2TheKnotting(world);
+			knot.setPosition(pos.getX() + 0.5, pos.getY() + 0.5 - 1F / 8F, pos.getZ() + 0.5);
+			world.spawnEntity(knot);
+			knot.setLeashHolder(player, true);
+
+			if(!player.isCreative())
+				stack.shrink(1);
+			world.playSound(null, pos, SoundEvents.ENTITY_LEASHKNOT_PLACE, SoundCategory.BLOCKS, 1F, 1F);
+			event.setCanceled(true);
 		}
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void preInitClient(FMLPreInitializationEvent event) {
+	public void preInitClient() {
 		RenderingRegistry.registerEntityRenderingHandler(EntityLeashKnot2TheKnotting.class, RenderLeashKnot2.FACTORY);
 	}
 	

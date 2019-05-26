@@ -25,7 +25,7 @@ public class MessageChangeConfig extends NetworkMessage<MessageChangeConfig> {
 	
 	public MessageChangeConfig() { }
 
-	public MessageChangeConfig(String moduleName, String category, String key, String value, boolean saveToFile) {
+	public MessageChangeConfig(String moduleName, String category, String key, String value) {
 		this.moduleName = moduleName;
 		this.category = category;
 		this.key = key;

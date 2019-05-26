@@ -1,7 +1,5 @@
 package vazkii.quark.world.block;
 
-import java.util.Random;
-
 import net.minecraft.block.BlockDirt;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -18,6 +16,7 @@ import vazkii.arl.block.BlockMod;
 import vazkii.quark.base.block.IQuarkBlock;
 
 import javax.annotation.Nonnull;
+import java.util.Random;
 
 public class BlockGlowcelium extends BlockMod implements IQuarkBlock {
 
@@ -37,10 +36,10 @@ public class BlockGlowcelium extends BlockMod implements IQuarkBlock {
 				worldIn.setBlockState(pos, Blocks.DIRT.getDefaultState().withProperty(BlockDirt.VARIANT, BlockDirt.DirtType.DIRT));
 			else for(int i = 0; i < 4; ++i) {
 					BlockPos blockpos = pos.add(rand.nextInt(3) - 1, rand.nextInt(5) - 3, rand.nextInt(3) - 1);
-					IBlockState iblockstate = worldIn.getBlockState(blockpos);
-					IBlockState iblockstate1 = worldIn.getBlockState(blockpos.up());
+					IBlockState stateAt = worldIn.getBlockState(blockpos);
+					IBlockState stateAbove = worldIn.getBlockState(blockpos.up());
 
-					if(iblockstate.getBlock() == Blocks.DIRT && iblockstate.getValue(BlockDirt.VARIANT) == BlockDirt.DirtType.DIRT && iblockstate1.getLightOpacity(worldIn, blockpos.up()) <= 2)
+					if(stateAt.getBlock() == Blocks.DIRT && stateAt.getValue(BlockDirt.VARIANT) == BlockDirt.DirtType.DIRT && stateAbove.getLightOpacity(worldIn, blockpos.up()) <= 2)
 						worldIn.setBlockState(blockpos, getDefaultState());
 				}
 		}

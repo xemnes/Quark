@@ -31,6 +31,7 @@ import java.util.function.BiPredicate;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
+@SuppressWarnings("unused")
 public class ClassTransformer implements IClassTransformer, Opcodes {
 
 	private static final String ASM_HOOKS = "vazkii/quark/base/asm/ASMHooks";
@@ -60,7 +61,7 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 		transformers.put("net.minecraft.tileentity.TileEntityPiston", ClassTransformer::transformTileEntityPiston);
 		transformers.put("net.minecraft.client.renderer.tileentity.TileEntityPistonRenderer", ClassTransformer::transformTileEntityPistonRenderer);
 
-		// For Imrpoved Sleeping
+		// For Improved Sleeping
 		transformers.put("net.minecraft.world.WorldServer", ClassTransformer::transformWorldServer);
 
 		// For Colored Lights
@@ -434,9 +435,9 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 				})));
 	}
 
-	private static MethodSignature layerCountIndex = new MethodSignature("getPatterns", "func_175113_c", "(Lnet/minecraft/item/ItemStack;)I");
+	private static final MethodSignature layerCountIndex = new MethodSignature("getPatterns", "func_175113_c", "(Lnet/minecraft/item/ItemStack;)I");
 
-	private static MethodAction layerCountTransformer = combine(
+	private static final MethodAction layerCountTransformer = combine(
 			(AbstractInsnNode node) -> { // Filter
 				return node.getOpcode() == INVOKESTATIC && layerCountIndex.matches((MethodInsnNode) node);
 			},
@@ -468,8 +469,7 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 			newInstructions.add(new VarInsnNode(DLOAD, 2));
 			newInstructions.add(new VarInsnNode(DLOAD, 4));
 			newInstructions.add(new VarInsnNode(DLOAD, 6));
-			newInstructions.add(new VarInsnNode(FLOAD, 8));
-			newInstructions.add(new MethodInsnNode(INVOKESTATIC, ASM_HOOKS, "renderFire", "(Lnet/minecraft/entity/Entity;DDDF)Z", false));
+			newInstructions.add(new MethodInsnNode(INVOKESTATIC, ASM_HOOKS, "renderFire", "(Lnet/minecraft/entity/Entity;DDD)Z", false));
 			LabelNode label = new LabelNode();
 			newInstructions.add(new JumpInsnNode(IFEQ, label));
 			newInstructions.add(new InsnNode(RETURN));
@@ -606,12 +606,12 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 		return basicClass;
 	}
 
-	public static boolean findMethodAndTransform(ClassNode node, MethodSignature sig, MethodAction pred) {
+	public static boolean findMethodAndTransform(ClassNode node, MethodSignature sig, MethodAction predicate) {
 		for (MethodNode method : node.methods) {
 			if (sig.matches(method)) {
 				log("Located Method, patching...");
 
-				boolean finish = pred.test(method);
+				boolean finish = predicate.test(method);
 				log("Patch result: " + finish);
 
 				return finish;
@@ -623,7 +623,7 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 	}
 
 	public static MethodAction combine(NodeFilter filter, NodeAction action) {
-		return (MethodNode mnode) -> applyOnNode(mnode, filter, action);
+		return (MethodNode node) -> applyOnNode(node, filter, action);
 	}
 
 	public static boolean applyOnNode(MethodNode method, NodeFilter filter, NodeAction action) {

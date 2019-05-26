@@ -1,16 +1,11 @@
 package vazkii.quark.world.block;
 
-import java.util.List;
-
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
 import vazkii.quark.world.feature.CaveRoots;
 
 public class BlockRootsFlower extends BlockRoots {
 
-	private int meta;
+	private final int meta;
 	
 	public BlockRootsFlower(String name, int meta) {	
 		super(name);

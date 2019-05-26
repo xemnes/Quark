@@ -1,7 +1,5 @@
 package vazkii.quark.base.item;
 
-import java.util.List;
-
 import javax.annotation.Nonnull;
 
 import net.minecraft.creativetab.CreativeTabs;
@@ -10,10 +8,7 @@ import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.arl.util.ProxyRegistry;
-import vazkii.arl.util.TooltipHandler;
 
 public class ItemQuarkFood extends ItemFood implements IQuarkItem {
 

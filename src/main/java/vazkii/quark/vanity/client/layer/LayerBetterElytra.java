@@ -10,8 +10,6 @@
  */
 package vazkii.quark.vanity.client.layer;
 
-import java.awt.Color;
-
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.model.ModelElytra;
 import net.minecraft.client.renderer.GlStateManager;
@@ -32,6 +30,7 @@ import vazkii.quark.misc.feature.ColorRunes;
 import vazkii.quark.vanity.feature.DyableElytra;
 
 import javax.annotation.Nonnull;
+import java.awt.*;
 
 @SideOnly(Side.CLIENT)
 public class LayerBetterElytra implements LayerRenderer<AbstractClientPlayer> {
@@ -46,8 +45,8 @@ public class LayerBetterElytra implements LayerRenderer<AbstractClientPlayer> {
 	}
 
 	@Override
-	public void doRenderLayer(@Nonnull AbstractClientPlayer entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-		ItemStack itemstack = entitylivingbaseIn.getItemStackFromSlot(EntityEquipmentSlot.CHEST);
+	public void doRenderLayer(@Nonnull AbstractClientPlayer living, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+		ItemStack itemstack = living.getItemStackFromSlot(EntityEquipmentSlot.CHEST);
 
 		if(!itemstack.isEmpty() && itemstack.getItem() == Items.ELYTRA) {
 			int colorIndex = ItemNBTHelper.getInt(itemstack, DyableElytra.TAG_ELYTRA_DYE, -1);
@@ -63,22 +62,22 @@ public class LayerBetterElytra implements LayerRenderer<AbstractClientPlayer> {
 				GlStateManager.color(r, g, b);
 			}
 
-			if(entitylivingbaseIn.isPlayerInfoSet() && entitylivingbaseIn.getLocationElytra() != null)
-				renderPlayer.bindTexture(entitylivingbaseIn.getLocationElytra());
-			else if(entitylivingbaseIn.hasPlayerInfo() && entitylivingbaseIn.getLocationCape() != null && entitylivingbaseIn.isWearing(EnumPlayerModelParts.CAPE))
-				renderPlayer.bindTexture(entitylivingbaseIn.getLocationCape());
+			if(living.isPlayerInfoSet() && living.getLocationElytra() != null)
+				renderPlayer.bindTexture(living.getLocationElytra());
+			else if(living.hasPlayerInfo() && living.getLocationCape() != null && living.isWearing(EnumPlayerModelParts.CAPE))
+				renderPlayer.bindTexture(living.getLocationCape());
 			else if(dyed)
 				renderPlayer.bindTexture(TEXTURE_ELYTRA_DYED);
 			else renderPlayer.bindTexture(TEXTURE_ELYTRA);
 
 			GlStateManager.pushMatrix();
 			GlStateManager.translate(0.0F, 0.0F, 0.125F);
-			modelElytra.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale, entitylivingbaseIn);
-			modelElytra.render(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
+			modelElytra.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale, living);
+			modelElytra.render(living, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
 
 			if(itemstack.isItemEnchanted()) {
 				ColorRunes.setTargetStack(itemstack);
-				LayerArmorBase.renderEnchantedGlint(renderPlayer, entitylivingbaseIn, modelElytra, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch, scale);
+				LayerArmorBase.renderEnchantedGlint(renderPlayer, living, modelElytra, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch, scale);
 			}
 			
 			GlStateManager.color(1F, 1F, 1F);

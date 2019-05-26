@@ -27,19 +27,19 @@ import vazkii.quark.vanity.feature.DyableElytra;
 
 import javax.annotation.Nonnull;
 
-public class ElytraDyingRecipe extends ModRecipe {
+public class ElytraDyeingRecipe extends ModRecipe {
 	
-	public ElytraDyingRecipe() {
-		super(new ResourceLocation("quark", "elytra_dying"));
+	public ElytraDyeingRecipe() {
+		super(new ResourceLocation("quark", "elytra_dyeing"));
 	}
 	
 	@Override
-	public boolean matches(@Nonnull InventoryCrafting var1, @Nonnull World var2) {
+	public boolean matches(@Nonnull InventoryCrafting inv, @Nonnull World world) {
 		boolean foundSource = false;
 		boolean foundTarget = false;
 
-		for(int i = 0; i < var1.getSizeInventory(); i++) {
-			ItemStack stack = var1.getStackInSlot(i);
+		for(int i = 0; i < inv.getSizeInventory(); i++) {
+			ItemStack stack = inv.getStackInSlot(i);
 			if(!stack.isEmpty()) {
 				if(stack.getItem() instanceof ItemElytra) {
 					if(foundTarget)
@@ -58,12 +58,12 @@ public class ElytraDyingRecipe extends ModRecipe {
 
 	@Nonnull
 	@Override
-	public ItemStack getCraftingResult(@Nonnull InventoryCrafting var1) {
+	public ItemStack getCraftingResult(@Nonnull InventoryCrafting inv) {
 		int source = -1;
 		ItemStack target = ItemStack.EMPTY;
 
-		for(int i = 0; i < var1.getSizeInventory(); i++) {
-			ItemStack stack = var1.getStackInSlot(i);
+		for(int i = 0; i < inv.getSizeInventory(); i++) {
+			ItemStack stack = inv.getStackInSlot(i);
 			if(!stack.isEmpty()) {
 				int dye = getDye(stack);
 				if(dye != -1)

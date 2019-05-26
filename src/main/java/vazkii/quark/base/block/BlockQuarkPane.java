@@ -158,38 +158,49 @@ public class BlockQuarkPane extends BlockMod implements IQuarkBlock {
 	@Override
 	@SuppressWarnings("deprecation")
 	public IBlockState withRotation(@Nonnull IBlockState state, Rotation rot) {
-		switch (rot) {
-			case CLOCKWISE_180:
-				return state.withProperty(NORTH, state.getValue(SOUTH))
-						.withProperty(EAST, state.getValue(WEST))
-						.withProperty(SOUTH, state.getValue(NORTH))
-						.withProperty(WEST, state.getValue(EAST));
-			case COUNTERCLOCKWISE_90:
-				return state.withProperty(NORTH, state.getValue(EAST))
-						.withProperty(EAST, state.getValue(SOUTH))
-						.withProperty(SOUTH, state.getValue(WEST))
-						.withProperty(WEST, state.getValue(NORTH));
-			case CLOCKWISE_90:
-				return state.withProperty(NORTH, state.getValue(WEST))
-						.withProperty(EAST, state.getValue(NORTH))
-						.withProperty(SOUTH, state.getValue(EAST))
-						.withProperty(WEST, state.getValue(SOUTH));
-			default:
-				return state;
-		}
+		return rotate(state, rot, NORTH, SOUTH, EAST, WEST);
 	}
 
 	@Nonnull
 	@Override
 	@SuppressWarnings("deprecation")
 	public IBlockState withMirror(@Nonnull IBlockState state, Mirror mirrorIn) {
+		return mirror(state, mirrorIn, NORTH, SOUTH, EAST, WEST);
+	}
+
+
+	@Nonnull
+	public static IBlockState rotate(@Nonnull IBlockState state, Rotation rot, PropertyBool north, PropertyBool south, PropertyBool east, PropertyBool west) {
+		switch (rot) {
+			case CLOCKWISE_180:
+				return state.withProperty(north, state.getValue(south))
+						.withProperty(east, state.getValue(west))
+						.withProperty(south, state.getValue(north))
+						.withProperty(west, state.getValue(east));
+			case COUNTERCLOCKWISE_90:
+				return state.withProperty(north, state.getValue(east))
+						.withProperty(east, state.getValue(south))
+						.withProperty(south, state.getValue(west))
+						.withProperty(west, state.getValue(north));
+			case CLOCKWISE_90:
+				return state.withProperty(north, state.getValue(west))
+						.withProperty(east, state.getValue(north))
+						.withProperty(south, state.getValue(east))
+						.withProperty(west, state.getValue(south));
+			default:
+				return state;
+		}
+	}
+
+	@Nonnull
+	public static IBlockState mirror(@Nonnull IBlockState state, Mirror mirrorIn, PropertyBool north, PropertyBool south, PropertyBool east, PropertyBool west) {
 		switch (mirrorIn) {
 			case LEFT_RIGHT:
-				return state.withProperty(NORTH, state.getValue(SOUTH))
-						.withProperty(SOUTH, state.getValue(NORTH));
+				return state.withProperty(north, state.getValue(south))
+						.withProperty(south, state.getValue(north));
 			case FRONT_BACK:
-				return state.withProperty(EAST, state.getValue(WEST))
-						.withProperty(WEST, state.getValue(EAST));
+				return state.withProperty(east, state.getValue(west))
+						.withProperty(west, state.getValue(east));
 			default:
 				return state;
 		}

@@ -1,16 +1,14 @@
 package vazkii.quark.base.client.gui.config;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.common.config.ConfigElement;
-import net.minecraftforge.fml.client.config.DummyConfigElement;
 import net.minecraftforge.fml.client.config.GuiConfig;
 import net.minecraftforge.fml.client.config.IConfigElement;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.base.module.ModuleLoader;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GuiConfigCategory extends GuiConfig {
 
@@ -19,10 +17,7 @@ public class GuiConfigCategory extends GuiConfig {
 	}
 
 	public static List<IConfigElement> getAllElements(String baseCategory) {
-		List<IConfigElement> list = new ArrayList<>();
-		list.addAll(new ConfigElement(ModuleLoader.config.getCategory(baseCategory)).getChildElements());
-
-		return list;
+		return new ArrayList<>(new ConfigElement(ModuleLoader.config.getCategory(baseCategory)).getChildElements());
 	}
 
 }

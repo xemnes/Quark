@@ -53,7 +53,9 @@ public class UndergroundBiomeSpiderNest extends BasicUndergroundBiome {
 		Class<? extends Entity> e = EntitySpider.class;
 		if(caveSpiderSpawnerChance > 0 && world.rand.nextInt(caveSpiderSpawnerChance) == 0)
 			e = EntityCaveSpider.class;
-		((TileEntityMobSpawner) world.getTileEntity(spawnerPos)).getSpawnerBaseLogic().setEntityId(EntityList.getKey(e));
+		TileEntityMobSpawner spawner = (TileEntityMobSpawner) world.getTileEntity(spawnerPos);
+		if (spawner != null)
+		spawner.getSpawnerBaseLogic().setEntityId(EntityList.getKey(e));
 		
 		int range = 3;
 		for(int x = -range; x < range + 1; x++)

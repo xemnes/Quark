@@ -1,7 +1,6 @@
 package vazkii.quark.decoration.feature;
 
 import net.minecraft.block.Block;
-import net.minecraft.init.Items;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import vazkii.arl.recipe.RecipeHandler;
 import vazkii.arl.util.ProxyRegistry;

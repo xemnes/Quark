@@ -23,8 +23,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.GuiOpenEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
@@ -70,7 +68,7 @@ public class ExtraPotions extends Feature {
 				+ "meta: The metadata of the block to check against, or -1 if any metadata will work. You must include this even if block is empty\n"
 				+ "layer: The layer of the beacon that contains the effect you want to replace (range: 0-3)\n"
 				+ "index: The effect in that layer you want to replace (range: 0-1, just 0 if it's layers 2 or 3)\n"
-				+ "potion: The ID for the potion to replace. Note: modded potions won't dispay the icons properly\n\n"
+				+ "potion: The ID for the potion to replace. Note: modded potions won't display the icons properly\n\n"
 				+ ""
 				+ "Examples:\n"
 				+ "minecraft:sea_lantern,-1,0,1,minecraft:water_breathing -> Replace Haste with Water Breathing if there's a Sea Lantern next to the beacon\n"
@@ -84,7 +82,7 @@ public class ExtraPotions extends Feature {
 	}
 
 	@Override
-	public void postPreInit(FMLPreInitializationEvent event) {
+	public void postPreInit() {
 		if(enableHaste)
 			addStandardBlend(MobEffects.HASTE, Items.PRISMARINE_CRYSTALS, MobEffects.MINING_FATIGUE);
 
@@ -100,7 +98,7 @@ public class ExtraPotions extends Feature {
 	}
 	
 	@Override
-	public void postInit(FMLPostInitializationEvent event) {
+	public void postInit() {
 		BeaconReplacementHandler.parse(replacements);
 	}
 	
@@ -161,43 +159,49 @@ public class ExtraPotions extends Feature {
 	}
 
 	private void addStandardBlend(Potion type, Object reagent, Potion negation, int normalTime, int longTime, int strongTime) {
-		String baseName = type.getRegistryName().getPath();
-		boolean hasStrong = strongTime > 0;
+		ResourceLocation loc = type.getRegistryName();
+		if (loc != null) {
+			String baseName = loc.getPath();
+			boolean hasStrong = strongTime > 0;
 
-		PotionType normalType = addPotion(new PotionEffect(type, normalTime), baseName, baseName);
-		PotionType longType = addPotion(new PotionEffect(type, longTime), baseName, "long_" + baseName);
-		PotionType strongType = !hasStrong ? null : addPotion(new PotionEffect(type, strongTime, 1), baseName, "strong_" + baseName);
+			PotionType normalType = addPotion(new PotionEffect(type, normalTime), baseName, baseName);
+			PotionType longType = addPotion(new PotionEffect(type, longTime), baseName, "long_" + baseName);
+			PotionType strongType = !hasStrong ? null : addPotion(new PotionEffect(type, strongTime, 1), baseName, "strong_" + baseName);
 
-		if(reagent instanceof Item)
-			reagent = Ingredient.fromItem((Item) reagent);
-		else if(reagent instanceof Block)
-			reagent = Ingredient.fromStacks(ProxyRegistry.newStack((Block) reagent));
-		else if(reagent instanceof ItemStack)
-			reagent = Ingredient.fromStacks((ItemStack) reagent);
-		else if(reagent instanceof String)
-			reagent = new OreIngredient((String) reagent);
-		
-		if(reagent instanceof Ingredient) {
-			PotionHelper.addMix(PotionTypes.AWKWARD, (Ingredient) reagent, normalType);
-			PotionHelper.addMix(PotionTypes.WATER, (Ingredient) reagent, PotionTypes.MUNDANE);
-		} else throw new IllegalArgumentException("Reagent can't be " + reagent.getClass());
+			if (reagent instanceof Item)
+				reagent = Ingredient.fromItem((Item) reagent);
+			else if (reagent instanceof Block)
+				reagent = Ingredient.fromStacks(ProxyRegistry.newStack((Block) reagent));
+			else if (reagent instanceof ItemStack)
+				reagent = Ingredient.fromStacks((ItemStack) reagent);
+			else if (reagent instanceof String)
+				reagent = new OreIngredient((String) reagent);
 
-		if(hasStrong)
-			PotionHelper.addMix(normalType, Items.GLOWSTONE_DUST, strongType);
-		PotionHelper.addMix(normalType, Items.REDSTONE, longType);
+			if (reagent instanceof Ingredient) {
+				PotionHelper.addMix(PotionTypes.AWKWARD, (Ingredient) reagent, normalType);
+				PotionHelper.addMix(PotionTypes.WATER, (Ingredient) reagent, PotionTypes.MUNDANE);
+			} else throw new IllegalArgumentException("Reagent can't be " + reagent.getClass());
 
-		if(negation != null) {
-			String negationBaseName = negation.getRegistryName().getPath();
+			if (hasStrong)
+				PotionHelper.addMix(normalType, Items.GLOWSTONE_DUST, strongType);
+			PotionHelper.addMix(normalType, Items.REDSTONE, longType);
 
-			PotionType normalNegationType = addPotion(new PotionEffect(negation, normalTime), negationBaseName, negationBaseName);
-			PotionType longNegationType = addPotion(new PotionEffect(negation, longTime), negationBaseName, "long_" + negationBaseName);
-			PotionType strongNegationType = !hasStrong ? null : addPotion(new PotionEffect(negation, strongTime, 1), negationBaseName, "strong_" + negationBaseName);
+			if (negation != null) {
+				ResourceLocation negationLoc = negation.getRegistryName();
+				if (negationLoc != null) {
+					String negationBaseName = negationLoc.getPath();
 
-			PotionHelper.addMix(normalType, Items.FERMENTED_SPIDER_EYE, normalNegationType);
+					PotionType normalNegationType = addPotion(new PotionEffect(negation, normalTime), negationBaseName, negationBaseName);
+					PotionType longNegationType = addPotion(new PotionEffect(negation, longTime), negationBaseName, "long_" + negationBaseName);
+					PotionType strongNegationType = !hasStrong ? null : addPotion(new PotionEffect(negation, strongTime, 1), negationBaseName, "strong_" + negationBaseName);
 
-			if(hasStrong)
-				PotionHelper.addMix(strongType, Items.FERMENTED_SPIDER_EYE, strongNegationType);
-			PotionHelper.addMix(longType, Items.FERMENTED_SPIDER_EYE, longNegationType);
+					PotionHelper.addMix(normalType, Items.FERMENTED_SPIDER_EYE, normalNegationType);
+
+					if (hasStrong)
+						PotionHelper.addMix(strongType, Items.FERMENTED_SPIDER_EYE, strongNegationType);
+					PotionHelper.addMix(longType, Items.FERMENTED_SPIDER_EYE, longNegationType);
+				}
+			}
 		}
 	}
 

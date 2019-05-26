@@ -14,7 +14,6 @@ import net.minecraft.client.gui.GuiCreateWorld;
 import net.minecraft.world.WorldType;
 import net.minecraftforge.client.event.GuiScreenEvent.InitGuiEvent;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -33,7 +32,7 @@ public class RealisticWorldType extends Feature {
 	}
 	
 	@Override
-	public void postInit(FMLPostInitializationEvent event) {
+	public void postInit() {
 		realistic = new WorldTypeRealistic("quark_realistic");
 	}
 

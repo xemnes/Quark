@@ -67,7 +67,7 @@ public class DepthMobs extends Feature {
 	}
 
 	@Override
-	public void preInitClient(FMLPreInitializationEvent event) {
+	public void preInitClient() {
 		if(enableDweller)
 			RenderingRegistry.registerEntityRenderingHandler(EntityDweller.class, RenderDweller.FACTORY);
 		if(enableAshen)

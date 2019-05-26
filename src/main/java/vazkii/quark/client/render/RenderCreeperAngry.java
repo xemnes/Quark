@@ -31,17 +31,17 @@ public class RenderCreeperAngry extends RenderCreeper {
 	}
 	
 	@Override
-	protected void renderModel(@Nonnull EntityCreeper entitylivingbaseIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
+	protected void renderModel(@Nonnull EntityCreeper living, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
 		GlStateManager.color(1F, 1F, 1F);
-		super.renderModel(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
+		super.renderModel(living, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
 		GlStateManager.color(1F, 1F, 1F);
 	}
 
 	@Override
 	protected ResourceLocation getEntityTexture(EntityCreeper entity) {
 		if(entity.getCreeperState() == 1) {
-			float antired = 1F - (entity.getCreeperFlashIntensity(0F) / 1.17F + 0.1F);
-			GL11.glColor3f(1F, antired, antired);
+			float inverseRed = 1F - (entity.getCreeperFlashIntensity(0F) / 1.17F + 0.1F);
+			GL11.glColor3f(1F, inverseRed, inverseRed);
 		}
 		return super.getEntityTexture(entity);
 	}

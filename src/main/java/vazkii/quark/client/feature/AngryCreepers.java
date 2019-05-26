@@ -12,7 +12,6 @@ package vazkii.quark.client.feature;
 
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.base.module.Feature;
@@ -22,7 +21,7 @@ public class AngryCreepers extends Feature {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void preInitClient(FMLPreInitializationEvent event) {
+	public void preInitClient() {
 		RenderingRegistry.registerEntityRenderingHandler(EntityCreeper.class, RenderCreeperAngry.factory());
 	}
 	

@@ -32,12 +32,12 @@ public class LayerAshenHeldItem implements LayerRenderer<EntitySkeleton> {
 	}
 
 	@Override
-	public void doRenderLayer(@Nonnull EntitySkeleton entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-		boolean flag = entitylivingbaseIn.getPrimaryHand() == EnumHandSide.RIGHT;
-		ItemStack itemstack = flag ? entitylivingbaseIn.getHeldItemOffhand() : entitylivingbaseIn.getHeldItemMainhand();
-		ItemStack itemstack1 = flag ? entitylivingbaseIn.getHeldItemMainhand() : entitylivingbaseIn.getHeldItemOffhand();
+	public void doRenderLayer(@Nonnull EntitySkeleton living, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+		boolean flag = living.getPrimaryHand() == EnumHandSide.RIGHT;
+		ItemStack leftHand = flag ? ItemStack.EMPTY : living.getHeldItemMainhand();
+		ItemStack rightHand = flag ? living.getHeldItemMainhand() : ItemStack.EMPTY;
 
-		if(!itemstack.isEmpty() || !itemstack1.isEmpty()) {
+		if(!leftHand.isEmpty() || !rightHand.isEmpty()) {
 			GlStateManager.pushMatrix();
 
 			if(livingEntityRenderer.getMainModel().isChild) {
@@ -46,8 +46,8 @@ public class LayerAshenHeldItem implements LayerRenderer<EntitySkeleton> {
 				GlStateManager.scale(0.5F, 0.5F, 0.5F);
 			}
 
-			renderHeldItem(entitylivingbaseIn, itemstack1, ItemCameraTransforms.TransformType.THIRD_PERSON_RIGHT_HAND, EnumHandSide.RIGHT);
-			//			renderHeldItem(entitylivingbaseIn, itemstack, ItemCameraTransforms.TransformType.THIRD_PERSON_LEFT_HAND, EnumHandSide.LEFT);
+			renderHeldItem(living, rightHand, ItemCameraTransforms.TransformType.THIRD_PERSON_RIGHT_HAND, EnumHandSide.RIGHT);
+			renderHeldItem(living, leftHand, ItemCameraTransforms.TransformType.THIRD_PERSON_LEFT_HAND, EnumHandSide.LEFT);
 			GlStateManager.popMatrix();
 		}
 	}

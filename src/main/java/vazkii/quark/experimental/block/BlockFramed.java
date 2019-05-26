@@ -7,8 +7,6 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
@@ -24,6 +22,8 @@ import vazkii.quark.experimental.tile.TileFramed;
 
 import javax.annotation.Nonnull;
 
+import static vazkii.quark.experimental.features.FramedBlocks.setFrame;
+
 public class BlockFramed extends BlockModContainer implements IQuarkBlock, ITileEntityProvider {
 	
 	public BlockFramed() {
@@ -31,32 +31,26 @@ public class BlockFramed extends BlockModContainer implements IQuarkBlock, ITile
 		setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
 	}
 	
+	@Nonnull
 	@Override
 	protected BlockStateContainer createBlockState() {
 		return FramedBlockCommons.createStateContainer(this, super.createBlockState());
 	}
 	
+	@Nonnull
 	@Override
-	public IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos) {
-		return FramedBlockCommons.getExtendedState(this, state, world, pos);
+	public IBlockState getExtendedState(@Nonnull IBlockState state, IBlockAccess world, BlockPos pos) {
+		return FramedBlockCommons.getExtendedState(state, world, pos);
 	}
 	
 	@Override
-	public TileEntity createNewTileEntity(World worldIn, int meta) {
+	public TileEntity createNewTileEntity(@Nonnull World worldIn, int meta) {
 		return new TileFramed();
 	}
 
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		TileFramed tile = (TileFramed) worldIn.getTileEntity(pos);
-		
-		ItemStack stack = playerIn.getHeldItem(hand);
-		if(stack.getItem() instanceof ItemBlock)
-			tile.setInventorySlotContents(0, stack.copy());
-		
-		worldIn.markBlockRangeForRenderUpdate(pos, pos);
-
-		return true;
+		return setFrame(worldIn, pos, playerIn, hand);
 	}
 
 	@Override
@@ -71,6 +65,7 @@ public class BlockFramed extends BlockModContainer implements IQuarkBlock, ITile
 		return false;
 	}
 	
+	@Nonnull
 	@Override
 	public BlockRenderLayer getRenderLayer() {
 		return BlockRenderLayer.CUTOUT;

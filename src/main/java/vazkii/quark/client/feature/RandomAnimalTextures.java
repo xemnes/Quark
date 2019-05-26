@@ -9,7 +9,6 @@ import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.base.lib.LibMisc;
@@ -44,7 +43,7 @@ public class RandomAnimalTextures extends Feature {
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void preInitClient(FMLPreInitializationEvent event) {
+	public void preInitClient() {
 		textures = Multimaps.newListMultimap(new EnumMap<>(RandomTextureType.class), ArrayList::new);
 		
 		registerTextures(RandomTextureType.COW, COW_COUNT, new ResourceLocation("textures/entity/cow/cow.png"));

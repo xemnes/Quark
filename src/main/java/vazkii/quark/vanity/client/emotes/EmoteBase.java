@@ -24,12 +24,12 @@ public abstract class EmoteBase {
 
 	public final EmoteDescriptor desc;
 
-	private TweenManager emoteManager;
-	private ModelBiped model;
-	private ModelBiped armorModel;
-	private ModelBiped armorLegsModel;
-	private EmoteState state;
-	private EntityPlayer player;
+	private final TweenManager emoteManager;
+	private final ModelBiped model;
+	private final ModelBiped armorModel;
+	private final ModelBiped armorLegsModel;
+	private final EmoteState state;
+	private final EntityPlayer player;
 	
 	public float timeDone, totalTime, animatedTime;
 	private long lastMs;

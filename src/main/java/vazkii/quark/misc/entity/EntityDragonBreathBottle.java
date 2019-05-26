@@ -1,12 +1,5 @@
 package vazkii.quark.misc.entity;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import javax.annotation.Nonnull;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.block.state.pattern.BlockStateMatcher;
@@ -20,6 +13,12 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import vazkii.quark.misc.feature.ThrowableDragonBreath;
 
+import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class EntityDragonBreathBottle extends EntityThrowable {
 
 	public EntityDragonBreathBottle(World world) {
@@ -32,7 +31,7 @@ public class EntityDragonBreathBottle extends EntityThrowable {
 
 	@Override
 	protected void onImpact(@Nonnull RayTraceResult pos) {
-		if(pos.getBlockPos() != null && !world.isRemote) {
+		if(!world.isRemote) {
 			List<BlockPos> coordsList = getCoordsToPut(pos.getBlockPos());
 			for(BlockPos coords : coordsList) {
 				world.playEvent(2001, coords, Block.getStateId(world.getBlockState(coords)));

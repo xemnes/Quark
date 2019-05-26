@@ -113,16 +113,15 @@ public class BlockPipe extends BlockModContainer implements IQuarkBlock {
 	@Override
 	@SuppressWarnings("deprecation")
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-		double minX = CENTER_AABB.minX, minY = CENTER_AABB.minY, minZ = CENTER_AABB.minZ, 
-				maxX = CENTER_AABB.maxX, maxY = CENTER_AABB.maxY, maxZ = CENTER_AABB.maxZ;
 
 		state = getActualState(state, source, pos);
-		if(hasAnyConnection(state, EnumFacing.DOWN)) minY = 0;
-		if(hasAnyConnection(state, EnumFacing.UP)) maxY = 1;
-		if(hasAnyConnection(state, EnumFacing.NORTH)) minZ = 0;
-		if(hasAnyConnection(state, EnumFacing.SOUTH)) maxZ = 1;
-		if(hasAnyConnection(state, EnumFacing.WEST)) minX = 0;
-		if(hasAnyConnection(state, EnumFacing.EAST)) maxX = 1;
+
+		double minX = connectionHeight(state, EnumFacing.DOWN);
+		double minY = connectionHeight(state, EnumFacing.UP);
+		double minZ = connectionHeight(state, EnumFacing.NORTH);
+		double maxX = connectionHeight(state, EnumFacing.SOUTH);
+		double maxY = connectionHeight(state, EnumFacing.EAST);
+		double maxZ = connectionHeight(state, EnumFacing.WEST);
 
 		boolean downFlared = isFlared(state, EnumFacing.DOWN);
 		boolean upFlared = isFlared(state, EnumFacing.UP);
@@ -130,13 +129,6 @@ public class BlockPipe extends BlockModContainer implements IQuarkBlock {
 		boolean southFlared = isFlared(state, EnumFacing.SOUTH);
 		boolean westFlared = isFlared(state, EnumFacing.WEST);
 		boolean eastFlared = isFlared(state, EnumFacing.EAST);
-
-		if(downFlared) minY = Math.min(minY, 0.25);
-		if(upFlared) maxY = Math.max(maxY, 0.75);
-		if(northFlared) minZ = Math.min(minZ, 0.25);
-		if(southFlared) maxZ = Math.max(maxZ, 0.75);
-		if(westFlared) minX = Math.min(minX, 0.25);
-		if(eastFlared) maxX = Math.max(maxX, 0.75);
 
 		if(downFlared || upFlared || northFlared || southFlared) {
 			maxX = Math.max(maxX, 0.75);
@@ -183,8 +175,11 @@ public class BlockPipe extends BlockModContainer implements IQuarkBlock {
 		}
 	}
 
-	public static boolean hasAnyConnection(IBlockState state, EnumFacing side) {
-		return getType(state, side).isSolid;
+	public static double connectionHeight(IBlockState state, EnumFacing side) {
+		ConnectionType type = getType(state, side);
+		int direction = side.getAxisDirection().getOffset();
+		double base = 0.5 + 0.1875 * direction;
+		return base + direction * (type.isSolid ? 0.3125 : (type.isFlared ? 0.0625 : 0));
 	}
 
 	public static boolean isFlared(IBlockState state, EnumFacing side) {

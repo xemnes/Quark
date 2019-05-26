@@ -30,7 +30,6 @@ import net.minecraft.world.storage.loot.functions.LootFunction;
 import net.minecraft.world.storage.loot.functions.LootFunctionManager;
 import net.minecraftforge.event.AnvilUpdateEvent;
 import net.minecraftforge.event.LootTableLoadEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import vazkii.arl.util.ProxyRegistry;
@@ -44,7 +43,7 @@ import java.util.*;
 public class AncientTomes extends Feature {
 
 	public static Item ancient_tome;
-	public static List<Enchantment> validEnchants = new ArrayList<>();
+	public static final List<Enchantment> validEnchants = new ArrayList<>();
 	private String[] enchantNames;
 
 	public static int dungeonWeight, libraryWeight, itemQuality, mergeTomeCost, applyTomeCost;
@@ -67,14 +66,8 @@ public class AncientTomes extends Feature {
 	}
 
 	@Override
-	public void postInit(FMLPostInitializationEvent event) {
-		validEnchants.clear();
-		for(String s : enchantNames) {
-			ResourceLocation r = new ResourceLocation(s);
-			Enchantment e = Enchantment.REGISTRY.getObject(r);
-			if(e != null)
-				validEnchants.add(e);
-		}
+	public void postInit() {
+		initializeEnchantmentList(enchantNames, validEnchants);
 	}
 
 	@Override
@@ -107,41 +100,41 @@ public class AncientTomes extends Feature {
 				boolean hasOverLevel = false;
 				boolean hasMatching = false;
 				for (Map.Entry<Enchantment, Integer> entry : enchants.entrySet()) {
-					Enchantment ench = entry.getKey();
-					if(ench == null)
+					Enchantment enchantment = entry.getKey();
+					if(enchantment == null)
 						continue;
 					
 					int level = entry.getValue();
-					if (level > ench.getMaxLevel()) {
+					if (level > enchantment.getMaxLevel()) {
 						hasOverLevel = true;
-						if (ench.canApply(left)) {
+						if (enchantment.canApply(left)) {
 							hasMatching = true;
 							//remove incompatible enchantments
 							for (Iterator<Enchantment> iterator = currentEnchants.keySet().iterator(); iterator.hasNext(); ) {
-								Enchantment enchCompare = iterator.next();
-								if (enchCompare == ench)
+								Enchantment comparingEnchantment = iterator.next();
+								if (comparingEnchantment == enchantment)
 									continue;
 
-								if (!enchCompare.isCompatibleWith(ench)) {
+								if (!comparingEnchantment.isCompatibleWith(enchantment)) {
 									iterator.remove();
 								}
 							}
-							currentEnchants.put(ench, level);
+							currentEnchants.put(enchantment, level);
 						}
-					} else if (ench.canApply(left)) {
+					} else if (enchantment.canApply(left)) {
 						boolean compatible = true;
 						//don't apply incompatible enchantments
-						for (Enchantment enchCompare : currentEnchants.keySet()) {
-							if (enchCompare == ench)
+						for (Enchantment comparingEnchantment : currentEnchants.keySet()) {
+							if (comparingEnchantment == enchantment)
 								continue;
 
-							if (enchCompare != null && !enchCompare.isCompatibleWith(ench)) {
+							if (comparingEnchantment != null && !comparingEnchantment.isCompatibleWith(enchantment)) {
 								compatible = false;
 								break;
 							}
 						}
 						if (compatible) {
-							currentEnchants.put(ench, level);
+							currentEnchants.put(enchantment, level);
 						}
 					}
 				}

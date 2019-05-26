@@ -4,7 +4,6 @@ import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Biomes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import vazkii.quark.base.Quark;
@@ -22,12 +21,12 @@ public class WednesdayFrog extends Feature {
 	}
 	
 	@Override
-	public void init(FMLInitializationEvent event) {
+	public void init() {
 		EntityRegistry.addSpawn(EntityFrog.class, 40, 1, 3, EnumCreatureType.CREATURE, Biomes.SWAMPLAND);
 	}
 	
 	@Override
-	public void preInitClient(FMLPreInitializationEvent event) {
+	public void preInitClient() {
 		RenderingRegistry.registerEntityRenderingHandler(EntityFrog.class, RenderFrog.FACTORY);
 	}
 	

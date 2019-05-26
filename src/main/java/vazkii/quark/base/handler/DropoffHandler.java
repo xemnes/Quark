@@ -215,25 +215,25 @@ public final class DropoffHandler {
 				itemHandlers.add(Pair.of(handler, player.getDistanceSq(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5)));
 		}
 
-		public void dropoff(DropoffPredicate pred) {
+		public void dropoff(DropoffPredicate predicate) {
 			InventoryPlayer inv = player.inventory;
 
 			for(int i = InventoryPlayer.getHotbarSize(); i < inv.mainInventory.size(); i++) {
 				ItemStack stackAt = inv.getStackInSlot(i);
 
 				if(!stackAt.isEmpty() && !FavoriteItems.isItemFavorited(stackAt)) {
-					ItemStack ret = insert(stackAt, pred);
+					ItemStack ret = insert(stackAt, predicate);
 					if(!ItemStack.areItemStacksEqual(stackAt, ret))
 						inv.setInventorySlotContents(i, ret);
 				}
 			}
 		}
 
-		public ItemStack insert(ItemStack stack, DropoffPredicate pred) {
+		public ItemStack insert(ItemStack stack, DropoffPredicate predicate) {
 			ItemStack ret = stack.copy();
 			for(Pair<IItemHandler, Double> pair : itemHandlers) {
 				IItemHandler handler = pair.getLeft();
-				ret = insertInHandler(handler, ret, pred);
+				ret = insertInHandler(handler, ret, predicate);
 				if(ret.isEmpty())
 					return ItemStack.EMPTY;
 			}
@@ -241,8 +241,8 @@ public final class DropoffHandler {
 			return ret;
 		}
 
-		public ItemStack insertInHandler(IItemHandler handler, final ItemStack stack, DropoffPredicate pred) {
-			if(pred.apply(stack, handler)) {
+		public ItemStack insertInHandler(IItemHandler handler, final ItemStack stack, DropoffPredicate predicate) {
+			if(predicate.apply(stack, handler)) {
 				ItemStack retStack = ItemHandlerHelper.insertItemStacked(handler, stack, false);
 				if(!retStack.isEmpty())
 					retStack = retStack.copy();
@@ -264,7 +264,7 @@ public final class DropoffHandler {
 		}
 
 		@Override
-		public void dropoff(DropoffPredicate pred) {
+		public void dropoff(DropoffPredicate predicate) {
 			IItemHandler inv = itemHandlers.get(0).getLeft();
 			IItemHandler playerInv = new PlayerInvWrapper(player.inventory);
 
@@ -273,7 +273,7 @@ public final class DropoffHandler {
 
 				if(!stackAt.isEmpty()) {
 					ItemStack copy = stackAt.copy();
-					ItemStack ret = insertInHandler(playerInv, copy, pred);
+					ItemStack ret = insertInHandler(playerInv, copy, predicate);
 					
 					if(!ItemStack.areItemStacksEqual(stackAt, ret)) {
 						inv.extractItem(i, stackAt.getMaxStackSize(), false);

@@ -55,7 +55,7 @@ public class GuiButtonChest extends GuiButton implements IParentedGui {
 	}
 
 	@Override
-	public void drawButton(@Nonnull Minecraft par1Minecraft, int par2, int par3, float pticks) {
+	public void drawButton(@Nonnull Minecraft par1Minecraft, int par2, int par3, float partial) {
 		if(par1Minecraft.player.isSpectator())
 			enabled = false;
 		

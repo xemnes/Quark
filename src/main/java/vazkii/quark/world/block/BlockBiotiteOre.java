@@ -10,8 +10,6 @@
  */
 package vazkii.quark.world.block;
 
-import java.util.Random;
-
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -28,6 +26,7 @@ import vazkii.quark.base.block.IQuarkBlock;
 import vazkii.quark.world.feature.Biotite;
 
 import javax.annotation.Nonnull;
+import java.util.Random;
 
 public class BlockBiotiteOre extends BlockMod implements IQuarkBlock  {
 
@@ -62,11 +61,6 @@ public class BlockBiotiteOre extends BlockMod implements IQuarkBlock  {
 		}
 
 		return this.quantityDropped(random);
-	}
-
-	@Override
-	public void dropBlockAsItemWithChance(World worldIn, @Nonnull BlockPos pos, @Nonnull IBlockState state, float chance, int fortune) {
-		super.dropBlockAsItemWithChance(worldIn, pos, state, chance, fortune);
 	}
 
 	@Override

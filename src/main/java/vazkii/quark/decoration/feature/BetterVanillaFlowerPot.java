@@ -9,7 +9,6 @@ import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.IModel;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import vazkii.arl.client.RetexturedModel;
@@ -30,7 +29,7 @@ public class BetterVanillaFlowerPot extends Feature {
 	}
 
 	@Override
-	public void init(FMLInitializationEvent event) {
+	public void init() {
 		ColoredFlowerPots.loadFlowersFromConfig();
 	}
 

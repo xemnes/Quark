@@ -10,7 +10,6 @@
  */
 package vazkii.quark.experimental.features;
 
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import org.apache.commons.io.output.NullOutputStream;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.module.Feature;
@@ -29,7 +28,7 @@ public class PrintSuppressor extends Feature {
 	}
 
 	@Override
-	public void postInit(FMLPostInitializationEvent event) {
+	public void postInit() {
 		Quark.LOG.warn("Quark print suppression is enabled. Important info might be missing. Suppressing STDOUT=%b, STDERR=%b", suppressOut, suppressErr);
 
 		if(suppressOut)

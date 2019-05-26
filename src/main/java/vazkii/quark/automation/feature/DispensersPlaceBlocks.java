@@ -15,7 +15,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.misc.feature.LockDirectionHotkey;
 
@@ -42,12 +41,12 @@ public class DispensersPlaceBlocks extends Feature {
 	}
 	
 	@Override
-	public void postInit(FMLPostInitializationEvent event) {
+	public void postInit() {
 		for(ResourceLocation r : Block.REGISTRY.getKeys()) {
 			Block block = Block.REGISTRY.getObject(r);
 			Item item = Item.getItemFromBlock(block);
 
-			if(block == null || !(item instanceof ItemBlock) || blacklist.contains(r.toString()))
+			if(!(item instanceof ItemBlock) || blacklist.contains(r.toString()))
 				continue;
 
 			if(!BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.containsKey(item))

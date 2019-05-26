@@ -11,7 +11,6 @@
 package vazkii.quark.vanity.feature;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.client.renderer.entity.RenderLivingBase;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderPlayer;
@@ -24,7 +23,6 @@ import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -33,9 +31,8 @@ import vazkii.arl.util.ItemNBTHelper;
 import vazkii.quark.base.lib.LibObfuscation;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.vanity.client.layer.LayerBetterElytra;
-import vazkii.quark.vanity.recipe.ElytraDyingRecipe;
+import vazkii.quark.vanity.recipe.ElytraDyeingRecipe;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Map;
 
@@ -45,29 +42,24 @@ public class DyableElytra extends Feature {
 
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
-		new ElytraDyingRecipe();
+		new ElytraDyeingRecipe();
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void postInitClient(FMLPostInitializationEvent event) {
+	public void postInitClient() {
 		Minecraft mc = Minecraft.getMinecraft();
 		RenderManager manager = mc.getRenderManager();
 		Map<String, RenderPlayer> renders = manager.getSkinMap();
 		for(RenderPlayer render : renders.values())
 			messWithRender(render);
 
-		mc.getItemColors().registerItemColorHandler(new IItemColor() {
+		mc.getItemColors().registerItemColorHandler((stack, tintIndex) -> {
+			int color = ItemNBTHelper.getInt(stack, TAG_ELYTRA_DYE, -1);
+			if(color == -1 || color == 15)
+				return -1;
 
-			@Override
-			public int colorMultiplier(@Nonnull ItemStack stack, int tintIndex) {
-				int color = ItemNBTHelper.getInt(stack, TAG_ELYTRA_DYE, -1);
-				if(color == -1 || color == 15)
-					return -1;
-
-				return ItemDye.DYE_COLORS[color];
-			}
-
+			return ItemDye.DYE_COLORS[color];
 		}, Items.ELYTRA);
 	}
 

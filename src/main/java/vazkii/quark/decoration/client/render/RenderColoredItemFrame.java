@@ -38,23 +38,23 @@ public class RenderColoredItemFrame extends RenderFlatItemFrame {
 		EntityColoredItemFrame entityColored = (EntityColoredItemFrame) entity;
 		BlockRendererDispatcher blockrendererdispatcher = mc.getBlockRendererDispatcher();
 		ModelManager modelmanager = blockrendererdispatcher.getBlockModelShapes().getModelManager();
-		IBakedModel ibakedmodel1, ibakedmodel2;
+		IBakedModel woodModel, coloredModel;
 
 		if(!entity.getDisplayedItem().isEmpty() && entity.getDisplayedItem().getItem() == Items.FILLED_MAP) {
-			ibakedmodel1 = modelmanager.getModel(ModelHandler.resourceLocations.get("colored_item_frame_map_wood"));
-			ibakedmodel2 = modelmanager.getModel(ModelHandler.resourceLocations.get("colored_item_frame_map"));
+			woodModel = modelmanager.getModel(ModelHandler.resourceLocations.get("colored_item_frame_map_wood"));
+			coloredModel = modelmanager.getModel(ModelHandler.resourceLocations.get("colored_item_frame_map"));
 		} else {
-			ibakedmodel1 = modelmanager.getModel(ModelHandler.resourceLocations.get("colored_item_frame_wood"));
-			ibakedmodel2 = modelmanager.getModel(ModelHandler.resourceLocations.get("colored_item_frame_normal"));
+			woodModel = modelmanager.getModel(ModelHandler.resourceLocations.get("colored_item_frame_wood"));
+			coloredModel = modelmanager.getModel(ModelHandler.resourceLocations.get("colored_item_frame_normal"));
 		}
 
-		blockrendererdispatcher.getBlockModelRenderer().renderModelBrightnessColor(ibakedmodel1, 1.0F, 1.0F, 1.0F, 1.0F);
+		blockrendererdispatcher.getBlockModelRenderer().renderModelBrightnessColor(woodModel, 1.0F, 1.0F, 1.0F, 1.0F);
 
 		int color = ItemDye.DYE_COLORS[15 - entityColored.getColor()];
 		float r = (color >> 16 & 0xFF) / 255F;
 		float g = (color >> 8 & 0xFF) / 255F;
 		float b = (color & 0xFF) / 255F;
 
-		blockrendererdispatcher.getBlockModelRenderer().renderModelBrightnessColor(ibakedmodel2, 1.0F, r, g, b);
+		blockrendererdispatcher.getBlockModelRenderer().renderModelBrightnessColor(coloredModel, 1.0F, r, g, b);
 	}
 }

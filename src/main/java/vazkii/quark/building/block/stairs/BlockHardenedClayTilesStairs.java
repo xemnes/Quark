@@ -10,8 +10,6 @@
  */
 package vazkii.quark.building.block.stairs;
 
-import net.minecraft.client.renderer.block.statemap.IStateMapper;
-import vazkii.arl.interf.IRecipeGrouped;
 import vazkii.quark.base.block.BlockQuarkStairs;
 import vazkii.quark.building.feature.HardenedClayTiles;
 

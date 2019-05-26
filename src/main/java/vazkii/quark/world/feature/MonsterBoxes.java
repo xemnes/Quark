@@ -7,7 +7,6 @@ import vazkii.quark.base.handler.DimensionConfig;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.world.block.BlockMonsterBox;
 import vazkii.quark.world.tile.TileMonsterBox;
-import vazkii.quark.world.world.FairyRingGenerator;
 import vazkii.quark.world.world.MonsterBoxGenerator;
 
 public class MonsterBoxes extends Feature {

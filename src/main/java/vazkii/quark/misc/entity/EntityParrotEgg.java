@@ -1,7 +1,6 @@
 package vazkii.quark.misc.entity;
 
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.passive.EntityParrot;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Items;
@@ -21,7 +20,7 @@ import javax.annotation.Nonnull;
 
 public class EntityParrotEgg extends EntityThrowable {
 
-	private static final DataParameter<Integer> COLOR = EntityDataManager.<Integer>createKey(EntityParrotEgg.class, DataSerializers.VARINT);
+	private static final DataParameter<Integer> COLOR = EntityDataManager.createKey(EntityParrotEgg.class, DataSerializers.VARINT);
 	private static final String TAG_COLOR = "color";
 
 	public EntityParrotEgg(World worldIn) {
@@ -64,7 +63,7 @@ public class EntityParrotEgg extends EntityThrowable {
 			double d0 = 0.08D;
 
 			for(int i = 0; i < 8; ++i)
-				this.world.spawnParticle(EnumParticleTypes.ITEM_CRACK, this.posX, this.posY, this.posZ, ((double)this.rand.nextFloat() - 0.5D) * 0.08D, ((double)this.rand.nextFloat() - 0.5D) * 0.08D, ((double)this.rand.nextFloat() - 0.5D) * 0.08D, Item.getIdFromItem(Items.EGG));
+				this.world.spawnParticle(EnumParticleTypes.ITEM_CRACK, this.posX, this.posY, this.posZ, (this.rand.nextFloat() - 0.5D) * 0.08D, (this.rand.nextFloat() - 0.5D) * 0.08D, (this.rand.nextFloat() - 0.5D) * 0.08D, Item.getIdFromItem(Items.EGG));
 		}
 	}
 

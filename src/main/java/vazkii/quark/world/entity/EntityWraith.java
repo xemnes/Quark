@@ -41,7 +41,7 @@ public class EntityWraith extends EntityZombie {
 	private static final DataParameter<Integer> SOUND_TYPE = EntityDataManager.createKey(EntityWraith.class, DataSerializers.VARINT);
 	private static final String TAG_SOUND_TYPE = "SoundType";
 
-	private static SoundEvent[][] SOUNDS = new SoundEvent[][] {
+	private static final SoundEvent[][] SOUNDS = new SoundEvent[][] {
 		{ SoundEvents.ENTITY_SHEEP_AMBIENT, SoundEvents.ENTITY_SHEEP_HURT, SoundEvents.ENTITY_SHEEP_DEATH },
 		{ SoundEvents.ENTITY_COW_AMBIENT, SoundEvents.ENTITY_COW_HURT, SoundEvents.ENTITY_COW_DEATH },
 		{ SoundEvents.ENTITY_PIG_AMBIENT, SoundEvents.ENTITY_PIG_HURT, SoundEvents.ENTITY_PIG_DEATH },

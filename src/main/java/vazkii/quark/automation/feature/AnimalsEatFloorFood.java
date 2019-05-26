@@ -1,7 +1,5 @@
 package vazkii.quark.automation.feature;
 
-import java.util.List;
-
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.init.Items;
@@ -9,6 +7,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import vazkii.quark.base.module.Feature;
+
+import java.util.List;
 
 public class AnimalsEatFloorFood extends Feature {
 
@@ -18,8 +18,8 @@ public class AnimalsEatFloorFood extends Feature {
 			EntityAnimal animal = (EntityAnimal) event.getEntityLiving();
 			if(animal.getGrowingAge() == 0 && !animal.isInLove() && !animal.isDead) {
 				double range = 2;
-				List<EntityItem> nearbyFood = animal.getEntityWorld().<EntityItem>getEntitiesWithinAABB(EntityItem.class, animal.getEntityBoundingBox().expand(range, 0, range),
-						(EntityItem i) -> !i.getItem().isEmpty() && !i.isDead && animal.isBreedingItem(i.getItem()) && i.getItem().getItem() != Items.ROTTEN_FLESH);
+				List<EntityItem> nearbyFood = animal.getEntityWorld().getEntitiesWithinAABB(EntityItem.class, animal.getEntityBoundingBox().expand(range, 0, range),
+						(EntityItem i) -> i != null && !i.getItem().isEmpty() && !i.isDead && animal.isBreedingItem(i.getItem()) && i.getItem().getItem() != Items.ROTTEN_FLESH);
 				
 				if(!nearbyFood.isEmpty()) {
 					EntityItem e = nearbyFood.get(0);

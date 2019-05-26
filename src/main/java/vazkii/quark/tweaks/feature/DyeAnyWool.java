@@ -3,7 +3,6 @@ package vazkii.quark.tweaks.feature;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.oredict.OreDictionary;
 import vazkii.arl.recipe.RecipeHandler;
 import vazkii.arl.util.ProxyRegistry;
@@ -22,7 +21,7 @@ public class DyeAnyWool extends Feature {
 	}
 
 	@Override
-	public void postPreInit(FMLPreInitializationEvent event) {
+	public void postPreInit() {
 		for(int i = 0; i < 16; i++) {
 			String dye = LibMisc.OREDICT_DYES.get(15 - i);
 

@@ -433,23 +433,13 @@ entity.quark:wraith.name=Gespenst
 quark.potion.curse.name=Fluch
 
 # KEYBINDS
-quark.gui.keygroup=Quark Keybinds
-quark.keybind.emote.wave=Emote: Winken
-quark.keybind.emote.yes=Emote: Ja
-quark.keybind.emote.no=Emote: Nein
-quark.keybind.emote.cheer=Emote: Jubeln
-quark.keybind.emote.clap=Emote: Klatschen
-quark.keybind.emote.salute=Emote: Salutieren
-quark.keybind.emote.facepalm=Emote: Facepalm
-quark.keybind.emote.shrug=Emote: Zucken
-quark.keybind.emote.point=Emote: Zeigen
-quark.keybind.emote.headbang=Emote: Headbang
+quark.gui.keygroupMisc=Quark Keybinds
 quark.keybind.lockBuilding=Orientation sperren
 quark.keybind.changeHotbar=Hotbar ändern
 
 # GUI STUFF
 quark.gui.emotes=Emotionen
-quark.gui.emotesKeygroup=Quark Emotionen
+quark.gui.keygroupEmote=Quark Emotionen
 quark.gui.favorited=Favorisiert
 quark.emote.wave=Winken
 quark.emote.yes=Ja

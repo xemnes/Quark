@@ -55,7 +55,7 @@ public class SpeleothemGenerator implements IWorldGenerator {
 			return false;
 		
 		for(int i = 0; i < tries; i++) {
-			BlockPos target = pos.add(random.nextInt(spread * 2 + 1) - spread, random.nextInt(spread + 1) - spread / 1, random.nextInt(spread * 2 + 1) - spread);
+			BlockPos target = pos.add(random.nextInt(spread * 2 + 1) - spread, random.nextInt(spread + 1) - spread, random.nextInt(spread * 2 + 1) - spread);
 			findAndPlaceSpeleothem(random, world, target);
 		}
 		
@@ -73,7 +73,7 @@ public class SpeleothemGenerator implements IWorldGenerator {
 		if(!up && world.canBlockSeeSky(pos))
  			return false;
 		
-		IBlockState stateAt = null;
+		IBlockState stateAt;
 		do {
 			pos = pos.offset(diff);
 			stateAt = world.getBlockState(pos);

@@ -15,7 +15,6 @@ import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.arl.util.ModelHandler;
@@ -28,7 +27,7 @@ public class LessIntrusiveShields extends Feature {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void preInitClient(FMLPreInitializationEvent event) {
+	public void preInitClient() {
 		ModelHandler.registerModels(Items.SHIELD, LibMisc.PREFIX_MOD, new String[] { "shield_override" }, null, true);
 
 		ModelLoader.setCustomMeshDefinition(Items.SHIELD, new ItemMeshDefinition() {

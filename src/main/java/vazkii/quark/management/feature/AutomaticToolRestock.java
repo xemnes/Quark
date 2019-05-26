@@ -6,9 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Enchantments;
 import net.minecraft.item.*;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
@@ -22,7 +20,7 @@ public class AutomaticToolRestock extends Feature {
 
 	private static final WeakHashMap<EntityPlayer, Stack<Pair<Integer, Integer>>> replacements = new WeakHashMap<>();
 
-	public List<Enchantment> importantEnchants = new ArrayList<>();
+	public final List<Enchantment> importantEnchants = new ArrayList<>();
 	private String[] enchantNames;
 	private boolean enableLooseMatching;
 	private boolean enableEnchantMatching;
@@ -37,14 +35,8 @@ public class AutomaticToolRestock extends Feature {
 	}
 
 	@Override
-	public void postInit(FMLPostInitializationEvent event) {
-		importantEnchants.clear();
-		for(String s : enchantNames) {
-			ResourceLocation r = new ResourceLocation(s);
-			Enchantment e = Enchantment.REGISTRY.getObject(r);
-			if(e != null)
-				importantEnchants.add(e);
-		}
+	public void postInit() {
+		initializeEnchantmentList(enchantNames, importantEnchants);
 	}
 
 	@SubscribeEvent

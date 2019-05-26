@@ -16,7 +16,7 @@ import java.util.ListIterator;
 
 public final class ColoredLightSystem {
 
-	private static List<LightSource> lightSources = new ArrayList<>();
+	private static final List<LightSource> lightSources = new ArrayList<>();
 	private static List<LightSource> currentSources = new ArrayList<>();
 	
 	private static int lastFrame;
@@ -54,12 +54,12 @@ public final class ColoredLightSystem {
 				continue;
 			
 			int srcLight = srcState.getLightValue(world, srcPos);
-			float brightness = (float) srcLight / 15F;
+			float brightness = srcLight / 15F;
 
-			int incidence = src.getIndidence(pos);
+			int incidence = src.getIncidence(pos);
 			
 			if(incidence > 0) {
-				float incidenceF = (float) incidence / 15F;
+				float incidenceF = incidence / 15F;
 				float localBrightness = brightness * incidenceF;
 				
 				float[] colors = ((IColoredLightSource) srcBlock).getColoredLight(world, srcPos);

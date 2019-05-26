@@ -31,7 +31,7 @@ public class UndergroundBiomeLava extends BasicUndergroundBiome {
 	
 	@Override
 	public void fillFloor(World world, BlockPos pos, IBlockState state) {
-		if(lavaChance > 0 && !isBorder(world, pos, state) && world.rand.nextInt(lavaChance) == 0)
+		if(lavaChance > 0 && !isBorder(world, pos) && world.rand.nextInt(lavaChance) == 0)
 			world.setBlockState(pos, Blocks.LAVA.getDefaultState());
 		else if(obsidianChance > 0 && world.rand.nextInt(obsidianChance) == 0)
 			world.setBlockState(pos, Blocks.OBSIDIAN.getDefaultState(), 2);

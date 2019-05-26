@@ -1,7 +1,6 @@
 package vazkii.quark.client.feature;
 
 import com.google.gson.Gson;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.base.module.Feature;
@@ -28,7 +27,7 @@ public class BetterVanillaTextures extends Feature {
 	}
 	
 	@Override
-	public void preInitClient(FMLPreInitializationEvent event) {
+	public void preInitClient() {
 		overrides.overrides.forEach(OverrideEntry::apply);
 	}
 	
@@ -47,8 +46,8 @@ public class BetterVanillaTextures extends Feature {
 		
 		public String name;
 		public String[] files;
-		public boolean disabled = false;
-		
+		public boolean disabled;
+
 		public boolean configVal;
 		
 		void apply() {

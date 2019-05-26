@@ -26,7 +26,7 @@ import java.util.Random;
 
 public class BlockSpeleothem extends BlockMod implements IQuarkBlock {
 
-	public static PropertyEnum<EnumSize> SIZE = PropertyEnum.create("size", EnumSize.class);
+	public static final PropertyEnum<EnumSize> SIZE = PropertyEnum.create("size", EnumSize.class);
 	
 	public BlockSpeleothem(String name) {
 		super(name + "_speleothem", Material.ROCK);
@@ -133,7 +133,7 @@ public class BlockSpeleothem extends BlockMod implements IQuarkBlock {
 	}
 	
 	@Override
-	public boolean canPlaceTorchOnTop(IBlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos) {
+	public boolean canPlaceTorchOnTop(@Nonnull IBlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos) {
 		return true;
 	}
 
@@ -164,7 +164,7 @@ public class BlockSpeleothem extends BlockMod implements IQuarkBlock {
 		EnumSize(int strength, int width) {
 			this.strength = strength;
 			
-			float pad = ((float) ((16 - width) / 2) / 16F);
+			float pad = (((16 - width) / 2f) / 16F);
 			aabb = new AxisAlignedBB(pad, 0F, pad, 1F - pad, 1F, 1F - pad);
 		}
 		

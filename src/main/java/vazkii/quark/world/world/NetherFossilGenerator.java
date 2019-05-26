@@ -1,7 +1,5 @@
 package vazkii.quark.world.world;
 
-import java.util.Random;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.server.MinecraftServer;
@@ -19,6 +17,8 @@ import net.minecraft.world.gen.structure.template.Template;
 import net.minecraft.world.gen.structure.template.TemplateManager;
 import net.minecraftforge.fml.common.IWorldGenerator;
 import vazkii.quark.world.feature.NetherFossils;
+
+import java.util.Random;
 
 public class NetherFossilGenerator implements IWorldGenerator {
 
@@ -39,7 +39,7 @@ public class NetherFossilGenerator implements IWorldGenerator {
 			int z = chunkZ * 16 + random.nextInt(16) + 8;
 			int y = 40;
 			BlockPos pos = new BlockPos(x, y, z);
-			IBlockState stateAt = null;
+			IBlockState stateAt;
 			do {
 				stateAt = world.getBlockState(pos);
 				pos = pos.down();
@@ -53,19 +53,17 @@ public class NetherFossilGenerator implements IWorldGenerator {
 	// stolen from WorldGenFossils
 	private void generateFossil(World world, Random random, BlockPos pos) {
 		MinecraftServer minecraftserver = world.getMinecraftServer();
-		Rotation[] arotation = Rotation.values();
-		Rotation rotation = arotation[random.nextInt(arotation.length)];
+		Rotation[] rotations = Rotation.values();
+		Rotation rotation = rotations[random.nextInt(rotations.length)];
 		int i = random.nextInt(FOSSILS.length);
 		TemplateManager templatemanager = world.getSaveHandler().getStructureTemplateManager();
 		Template template = templatemanager.getTemplate(minecraftserver, FOSSILS[i]);
 		ChunkPos chunkpos = new ChunkPos(pos);
 		StructureBoundingBox structureboundingbox = new StructureBoundingBox(chunkpos.getXStart(), 0, chunkpos.getZStart(), chunkpos.getXEnd(), 256, chunkpos.getZEnd());
 		PlacementSettings placementsettings = (new PlacementSettings()).setRotation(rotation).setBoundingBox(structureboundingbox).setRandom(random);
-		BlockPos blockpos = template.transformedSize(rotation);
-
-		BlockPos blockpos1 = template.getZeroPositionWithTransform(pos, Mirror.NONE, rotation);
+		BlockPos basePos = template.getZeroPositionWithTransform(pos, Mirror.NONE, rotation);
 		placementsettings.setIntegrity(1F);
-		template.addBlocksToWorld(world, blockpos1, placementsettings, 20);
+		template.addBlocksToWorld(world, basePos, placementsettings, 20);
 	}
 
 }

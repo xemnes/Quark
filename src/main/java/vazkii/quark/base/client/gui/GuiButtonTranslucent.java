@@ -14,6 +14,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import org.lwjgl.opengl.GL11;
 
 public class GuiButtonTranslucent extends GuiButton {
 
@@ -30,7 +31,7 @@ public class GuiButtonTranslucent extends GuiButton {
 		float f = 0.00390625f;
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder bufferbuilder = tessellator.getBuffer();
-		bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
+		bufferbuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
 		bufferbuilder.pos(x, y + height, this.zLevel)
 				.tex(textureX * f, (textureY + height) * f).endVertex();
 		bufferbuilder.pos(x + width, y + height, this.zLevel)

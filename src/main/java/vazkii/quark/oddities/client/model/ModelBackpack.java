@@ -1,7 +1,6 @@
 package vazkii.quark.oddities.client.model;
 
 import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.entity.Entity;
 import vazkii.arl.item.ModelModArmor;
 
 /**
@@ -10,9 +9,11 @@ import vazkii.arl.item.ModelModArmor;
  */
 public class ModelBackpack extends ModelModArmor {
 	
-	private ModelRenderer straps, backpack, fitting, lock;
+	private final ModelRenderer straps;
+	private final ModelRenderer backpack;
+	private final ModelRenderer fitting;
 
-	private ModelRenderer base;
+	private final ModelRenderer base;
 
 	public ModelBackpack() {
 		base = new ModelRenderer(this);

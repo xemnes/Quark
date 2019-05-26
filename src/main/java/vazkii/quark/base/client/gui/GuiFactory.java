@@ -10,20 +10,12 @@
  */
 package vazkii.quark.base.client.gui;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.fml.client.IModGuiFactory;
-import net.minecraftforge.fml.client.config.DummyConfigElement;
-import net.minecraftforge.fml.client.config.GuiConfig;
-import net.minecraftforge.fml.client.config.IConfigElement;
 import vazkii.quark.base.client.gui.config.GuiConfigRoot;
-import vazkii.quark.base.lib.LibMisc;
-import vazkii.quark.base.module.ModuleLoader;
 
 public class GuiFactory implements IModGuiFactory {
 

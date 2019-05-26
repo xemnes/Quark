@@ -27,7 +27,6 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.GuiScreenEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -123,7 +122,7 @@ public class ChestButtons extends Feature {
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void preInitClient(FMLPreInitializationEvent event) {
+	public void preInitClient() {
 		if (chestButtons == null)
 			chestButtons = new ArrayList<>();
 		ModKeybinds.initChestKeys();
@@ -194,14 +193,14 @@ public class ChestButtons extends Feature {
 	}
 
 	@SideOnly(Side.CLIENT)
-	public static void addButtonAndKeybind(GuiScreenEvent.InitGuiEvent.Post event, Action action, GuiContainer guiInv, int index, int x, int y, KeyBinding kb, Predicate<GuiScreen> pred) {
+	public static void addButtonAndKeybind(GuiScreenEvent.InitGuiEvent.Post event, Action action, GuiContainer guiInv, int index, int x, int y, KeyBinding kb, Predicate<GuiScreen> predicate) {
 		int left = guiInv.getGuiLeft();
 		int top = guiInv.getGuiTop();
 		
 		GuiButtonChest button;
 		if(guiInv instanceof GuiShulkerBox)
 			button = new GuiButtonShulker((GuiShulkerBox) guiInv, action, index, x, y, left, top);
-		else button = new GuiButtonChest(guiInv, action, index, x, y, left, top, pred);
+		else button = new GuiButtonChest(guiInv, action, index, x, y, left, top, predicate);
 		
 		if(guiInv instanceof IChestButtonCallback && !((IChestButtonCallback) guiInv).onAddChestButton(button, action.ordinal()))
 			return;

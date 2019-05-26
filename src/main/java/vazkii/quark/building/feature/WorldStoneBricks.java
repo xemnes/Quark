@@ -13,7 +13,6 @@ package vazkii.quark.building.feature;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import vazkii.arl.block.BlockMod;
 import vazkii.arl.block.BlockModSlab;
@@ -35,7 +34,7 @@ public class WorldStoneBricks extends Feature {
 	public static BlockMod world_stone_bricks;
 	public static BlockMod world_stone_chiseled;
 
-	public static BlockModSlab[] slabs = new BlockVanillaSlab[BlockWorldStoneBricks.Variants.values().length];
+	public static final BlockModSlab[] slabs = new BlockVanillaSlab[BlockWorldStoneBricks.Variants.values().length];
 
 	public static boolean enableStairsAndSlabs;
 	public static boolean enableWalls;
@@ -77,7 +76,7 @@ public class WorldStoneBricks extends Feature {
 	}
 
 	@Override
-	public void postPreInit(FMLPreInitializationEvent event) {		
+	public void postPreInit() {
 		for(int i = 0; i < 3; i++) {
 			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(world_stone_bricks, 4, i),
 					"SS", "SS",
@@ -141,7 +140,7 @@ public class WorldStoneBricks extends Feature {
 	}
 
 	@Override
-	public void init(FMLInitializationEvent event) {
+	public void init() {
 		ModIntegrationHandler.registerChiselVariant("granite", new ItemStack(world_stone_bricks, 1, 0));
 		ModIntegrationHandler.registerChiselVariant("diorite", new ItemStack(world_stone_bricks, 1, 1));
 		ModIntegrationHandler.registerChiselVariant("andesite", new ItemStack(world_stone_bricks, 1, 2));

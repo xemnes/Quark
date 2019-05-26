@@ -35,7 +35,7 @@ public class ImprovedSleeping extends Feature {
 	private static boolean enableAfk;
 	private static int afkTime, percentReq;
 	
-	private static String TAG_AFK = "quark:afk";
+	private static final String TAG_AFK = "quark:afk";
 
 	@Override
 	public void setupConfig() {
@@ -71,7 +71,7 @@ public class ImprovedSleeping extends Feature {
 		int legitPlayers = counts.getLeft();
 		int sleepingPlayers = counts.getRight();
 
-		boolean everybody = (legitPlayers > 0 && ((float) sleepingPlayers / (float) legitPlayers) * 100 >= percentReq);
+		boolean everybody = (legitPlayers > 0 && ((float) sleepingPlayers / legitPlayers) * 100 >= percentReq);
 		return everybody ? 2 : 1;
 	}
 

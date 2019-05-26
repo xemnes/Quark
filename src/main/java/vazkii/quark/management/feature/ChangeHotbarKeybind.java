@@ -11,7 +11,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
@@ -45,7 +44,7 @@ public class ChangeHotbarKeybind extends Feature {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void preInitClient(FMLPreInitializationEvent event) {
+	public void preInitClient() {
 		ModKeybinds.initChangeHotbarKey();
 	}
 
@@ -97,7 +96,7 @@ public class ChangeHotbarKeybind extends Feature {
 		if(event.getType() == ElementType.HOTBAR) {
 			ScaledResolution res = event.getResolution();
 			float realHeight = getRealHeight(event.getPartialTicks());
-			float xStart = res.getScaledWidth() / 2 - 91;
+			float xStart = res.getScaledWidth() / 2f - 91;
 			float yStart = res.getScaledHeight() - realHeight;
 
 			RenderItem render = mc.getRenderItem();

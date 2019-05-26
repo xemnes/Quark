@@ -18,6 +18,7 @@ import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.opengl.GL11;
 import vazkii.quark.base.module.Feature;
 
 public class MapTooltip extends Feature {
@@ -54,7 +55,7 @@ public class MapTooltip extends Feature {
 			RenderHelper.disableStandardItemLighting();
 			mc.getTextureManager().bindTexture(RES_MAP_BACKGROUND);
 			Tessellator tessellator = Tessellator.getInstance();
-			BufferBuilder vertexbuffer = tessellator.getBuffer();
+			BufferBuilder buffer = tessellator.getBuffer();
 
 			int pad = 7;
 			float size = 135;
@@ -63,11 +64,11 @@ public class MapTooltip extends Feature {
 			GlStateManager.translate(event.getX(), event.getY() - size * scale - 5, 0);
 			GlStateManager.scale(scale, scale, scale);
 
-			vertexbuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
-			vertexbuffer.pos(-pad, size, 0.0D).tex(0.0D, 1.0D).endVertex();
-			vertexbuffer.pos(size, size, 0.0D).tex(1.0D, 1.0D).endVertex();
-			vertexbuffer.pos(size, -pad, 0.0D).tex(1.0D, 0.0D).endVertex();
-			vertexbuffer.pos(-pad, -pad, 0.0D).tex(0.0D, 0.0D).endVertex();
+			buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+			buffer.pos(-pad, size, 0.0D).tex(0.0D, 1.0D).endVertex();
+			buffer.pos(size, size, 0.0D).tex(1.0D, 1.0D).endVertex();
+			buffer.pos(size, -pad, 0.0D).tex(1.0D, 0.0D).endVertex();
+			buffer.pos(-pad, -pad, 0.0D).tex(0.0D, 0.0D).endVertex();
 			tessellator.draw();
 
 			mc.entityRenderer.getMapItemRenderer().renderMap(mapdata, false);

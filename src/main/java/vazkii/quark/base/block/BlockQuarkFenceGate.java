@@ -18,10 +18,6 @@ import net.minecraft.block.properties.IProperty;
 import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import vazkii.arl.item.ItemModBlock;
-import vazkii.arl.util.ProxyRegistry;
-import vazkii.quark.base.lib.LibMisc;
 
 import javax.annotation.Nonnull;
 
@@ -46,9 +42,7 @@ public class BlockQuarkFenceGate extends BlockFenceGate implements IQuarkBlock {
 	@Override
 	public Block setTranslationKey(@Nonnull String name) {
 		super.setTranslationKey(name);
-		setRegistryName(LibMisc.PREFIX_MOD + name);
-		ProxyRegistry.register(this);
-		ProxyRegistry.register(new ItemModBlock(this, new ResourceLocation(LibMisc.PREFIX_MOD + name)));
+		register(name);
 		return this;
 	}
 

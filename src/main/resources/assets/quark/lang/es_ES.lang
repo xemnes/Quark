@@ -169,8 +169,6 @@ tile.quark:sandstone_bricks.name=Ladrillos de Arenisca
 tile.quark:red_sandstone_smooth.name=Arenisca Roja Lisa
 tile.quark:red_sandstone_bricks.name=Ladrillos de Arenisca Roja
 tile.quark:sandstone_bricks_stairs.name=Escaleras de Ladrillos de Arenisca
-tile.quark:red_sandstone_smooth.name=Arenisca Roja Lisa
-tile.quark:red_sandstone_bricks.name=Ladrillos de Arenisca Roja
 tile.quark:sandstone_smooth_slab.name=Losa de Arenisca Lisa
 tile.quark:sandstone_bricks_slab.name=Losa de Ladrillos de Arenisca
 tile.quark:red_sandstone_smooth_slab.name=Losa de Arenisca Roja Lisa
@@ -180,7 +178,6 @@ tile.quark:soul_sandstone_smooth_slab.name=Losa de Arenisca de Almas Lisa
 tile.quark:soul_sandstone_bricks_slab.name=Losa de Ladrillos de Arenisca de Almas
 tile.quark:soul_sandstone_bricks_stairs.name=Escaleras de Ladrillos de Arenisca de Almas
 tile.quark:red_sandstone_bricks_slab.name=Losa de Ladrillos de Arenisca Roja
-tile.quark:sandstone_bricks_stairs.name=Escaleras de Ladrillos de Arenisca
 tile.quark:red_sandstone_bricks_stairs.name=Escaleras de Ladrillos de Arenisca Roja
 tile.quark:nether_brick_fence_gate.name=Puerta de Valla de Ladrillos del Nether
 tile.quark:charcoal_block.name=Bloque de Carbon Vegetal
@@ -310,18 +307,18 @@ item.quark:arrow_explosive.name=Flecha Explosiva
 item.quark:arrow_torch.name=Flecha con Antorcha
 
 # ENTITY NAMES
-entity.Quark.quark:colored_item_frame.name=Marco Tintado
-entity.Quark.dweller.name=Dweller
-entity.Quark.ashen.name=Ashen
-entity.Quark.pirate.name=Pirata
-entity.Quark.wraith.name=Fantasma
+entity.quark:colored_item_frame.name=Marco Tintado
+entity.quark:dweller.name=Dweller
+entity.quark:ashen.name=Ashen
+entity.quark:pirate.name=Pirata
+entity.quark:wraith.name=Fantasma
 
 # POTION NAMES
 quark.potion.curse.name=Maldicion
 
 # GUI STUFF
 quark.gui.emotes=Emoticones
-quark.gui.emotesKeygroup=Emoticones de Quark
+quark.gui.keygroupEmote=Emoticones de Quark
 quark.gui.favorited=Favorito
 quark.emote.wave=Onda
 quark.emote.yes=Si
@@ -353,8 +350,6 @@ quark.dye.black=Negro
 generator.quark_realistic=Realistico
 generator.quark_realistic.info=[Quark] Generacion de Mundo RealisticO por /u/Soniop
 quark.keybind.toggleAutojump=Cambiar Salto Automatico
-quark.autojump0=Activar Salto Automatico.
-quark.autojump1=Desactivar Salto Automatico.
 
 # BANNER NAMES
 item.banner.quark_dragon.black=Dragon Negro

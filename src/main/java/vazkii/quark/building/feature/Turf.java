@@ -53,16 +53,16 @@ public class Turf extends Feature {
 		return true;
 	}
 	
-	public static interface ITurfBlock extends IQuarkBlock, IBlockColorProvider {
+	public interface ITurfBlock extends IQuarkBlock, IBlockColorProvider {
 		
 		@Override
-		public default IItemColor getItemColor() {
-			return (Itemstack, tintIndex) -> 
+		default IItemColor getItemColor() {
+			return (stack, tintIndex) ->
 				Minecraft.getMinecraft().getItemColors().colorMultiplier(GRASS_STACK, 1);
 		}
 
 		@Override
-		public default IBlockColor getBlockColor() {
+		default IBlockColor getBlockColor() {
 			return (state, worldIn, pos, tintIndex) -> 
 				Minecraft.getMinecraft().getBlockColors().colorMultiplier(GRASS_STATE, worldIn, pos, 1);
 		}

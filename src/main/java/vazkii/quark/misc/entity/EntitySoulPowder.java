@@ -18,8 +18,8 @@ import javax.annotation.Nonnull;
 
 public class EntitySoulPowder extends Entity {
 
-	private static final DataParameter<Integer> TARGET_X = EntityDataManager.<Integer>createKey(EntitySoulPowder.class, DataSerializers.VARINT);
-	private static final DataParameter<Integer> TARGET_Z = EntityDataManager.<Integer>createKey(EntitySoulPowder.class, DataSerializers.VARINT);
+	private static final DataParameter<Integer> TARGET_X = EntityDataManager.createKey(EntitySoulPowder.class, DataSerializers.VARINT);
+	private static final DataParameter<Integer> TARGET_Z = EntityDataManager.createKey(EntitySoulPowder.class, DataSerializers.VARINT);
 
 	private int liveTicks = 0;
 	private static final String TAG_TARGET_X = "targetX";
@@ -52,7 +52,7 @@ public class EntitySoulPowder extends Entity {
 		double rise = 0.05;
 		int maxLiveTime = 6000;
 		int particles = 20;
-		double trigArg = (double) liveTicks * 0.32;
+		double trigArg = liveTicks * 0.32;
 		
 		if((maxLiveTime - liveTicks) < particles)
 			particles = (maxLiveTime - liveTicks);

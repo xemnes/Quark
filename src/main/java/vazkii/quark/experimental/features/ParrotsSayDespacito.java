@@ -4,7 +4,6 @@ import com.mojang.text2speech.Narrator;
 
 import net.minecraft.entity.passive.EntityParrot;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.EntityInteract;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import vazkii.quark.base.module.Feature;

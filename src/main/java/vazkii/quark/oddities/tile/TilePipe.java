@@ -17,6 +17,7 @@ import net.minecraft.util.ITickable;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
@@ -36,8 +37,15 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 	private static final String TAG_PIPE_ITEMS = "pipeItems";
 
 	private boolean iterating = false;
-	public List<PipeItem> pipeItems = new LinkedList<>();
-	public List<PipeItem> queuedItems = new LinkedList<>();
+	public final List<PipeItem> pipeItems = new LinkedList<>();
+	public final List<PipeItem> queuedItems = new LinkedList<>();
+
+	@SuppressWarnings("MagicConstant")
+	public static boolean isTheGoodDay(World world) {
+		Calendar calendar = world.getCurrentDate();
+
+		return calendar.get(Calendar.MONTH) + 1 == 4 && calendar.get(Calendar.DAY_OF_MONTH) == 1;
+	}
 
 	@Override
 	public void update() {
@@ -68,9 +76,7 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 									entity.isEntityAlive() && EnumFacing.getFacingFromVector((float) entity.motionX, (float) entity.motionY, (float) entity.motionZ) == opposite)) {
 						passIn(item.getItem().copy(), side);
 						if (Pipes.doPipesWhoosh) {
-							Calendar calendar = this.world.getCurrentDate();
-
-							if (calendar.get(Calendar.MONTH) + 1 == 4 && calendar.get(Calendar.DAY_OF_MONTH) == 1)
+							if (isTheGoodDay(world))
 								world.playSound(null, item.posX, item.posY, item.posZ, QuarkSounds.BLOCK_PIPE_PICKUP_LENNY, SoundCategory.BLOCKS, 0.5f, 0.2f);
 							else
 								world.playSound(null, item.posX, item.posY, item.posZ, QuarkSounds.BLOCK_PIPE_PICKUP, SoundCategory.BLOCKS, 0.5f, 0.2f);
@@ -196,9 +202,7 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 				pitch = 0.05f;
 
 			if (playSound && Pipes.doPipesWhoosh) {
-				Calendar calendar = this.world.getCurrentDate();
-
-				if (calendar.get(Calendar.MONTH) + 1 == 4 && calendar.get(Calendar.DAY_OF_MONTH) == 1)
+				if (isTheGoodDay(world))
 					world.playSound(null, posX, posY, posZ, QuarkSounds.BLOCK_PIPE_SHOOT_LENNY, SoundCategory.BLOCKS, 0.5f, pitch);
 				else
 					world.playSound(null, posX, posY, posZ, QuarkSounds.BLOCK_PIPE_SHOOT, SoundCategory.BLOCKS, 0.5f, pitch);
@@ -319,7 +323,7 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 
 		public final ItemStack stack;
 		public int ticksInPipe;
-		public EnumFacing incomingFace;
+		public final EnumFacing incomingFace;
 		public EnumFacing outgoingFace;
 		public long rngSeed;
 		public int timeInWorld = 0;
@@ -377,8 +381,8 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 			return null;
 		}
 
-		public float getTimeFract(float pticks) {
-			return (ticksInPipe + pticks) / Pipes.pipeSpeed;
+		public float getTimeFract(float partial) {
+			return (ticksInPipe + partial) / Pipes.pipeSpeed;
 		}
 
 		public void writeToNBT(NBTTagCompound cmp) {

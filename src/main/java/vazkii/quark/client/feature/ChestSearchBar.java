@@ -98,7 +98,7 @@ public class ChestSearchBar extends Feature {
 	}
 	
 	@SubscribeEvent
-	public void onMouseclick(GuiScreenEvent.MouseInputEvent.Pre event) {
+	public void onClick(GuiScreenEvent.MouseInputEvent.Pre event) {
 		if(searchBar != null && Mouse.getEventButtonState()) {
 			Minecraft mc = Minecraft.getMinecraft();
 			GuiScreen gui = event.getGui();

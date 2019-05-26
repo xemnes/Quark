@@ -11,13 +11,13 @@
 package vazkii.quark.tweaks.feature;
 
 import net.minecraft.init.Items;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import vazkii.quark.base.module.Feature;
 
 public class DragonsBreathBottleless extends Feature {
 
 	@Override
-	public void postInit(FMLPostInitializationEvent event) {
+	@SuppressWarnings("ConstantConditions")
+	public void postInit() {
 		Items.DRAGON_BREATH.setContainerItem(null);
 	}
 	

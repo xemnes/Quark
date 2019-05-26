@@ -28,7 +28,7 @@ import java.util.Map;
 // https://github.com/EpicSquid/Blockcraftery/blob/master/src/main/java/epicsquid/blockcraftery/model/BakedModelEditable.java
 public class FramedBlockModel extends BakedModelWrapper<IBakedModel> {
 
-	public static Map<String, RetextureData> cache = new HashMap<>();
+	public static final Map<String, RetextureData> cache = new HashMap<>();
 
 	private final IModel model;
 
@@ -47,7 +47,7 @@ public class FramedBlockModel extends BakedModelWrapper<IBakedModel> {
 			String cacheId = (texState == null ? "null" : texState.toString()) + "_" + state.toString() + "_" + (side == null ? "null" : side.toString()) + 
 					(MinecraftForgeClient.getRenderLayer() == null ? "null" : MinecraftForgeClient.getRenderLayer().toString());
 
-			RetextureData data = null;
+			RetextureData data;
 
 			if(!cache.containsKey(cacheId)) {
 				TextureAtlasSprite[] sprites = new TextureAtlasSprite[] { getParticleTexture() };

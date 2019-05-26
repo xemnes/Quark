@@ -15,10 +15,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Property;
 import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.api.module.FeatureEvent;
@@ -94,16 +91,16 @@ public class Module implements IModule {
 			if(!feature.forceLoad && GlobalConfig.enableAntiOverlap) {
 				String[] incompatibilities = feature.getIncompatibleMods();
 				if(incompatibilities != null) {
-					List<String> failiures = new ArrayList<>();
+					List<String> failures = new ArrayList<>();
 
 					for(String s : incompatibilities)
 						if(Loader.isModLoaded(s)) {
 							feature.enabled = false;
-							failiures.add(s);
+							failures.add(s);
 						}
 					
-					if(!failiures.isEmpty())
-						Quark.LOG.info("'" + feature.configName + "' is forcefully disabled as it's incompatible with the following loaded mods: " + failiures);
+					if(!failures.isEmpty())
+						Quark.LOG.info("'" + feature.configName + "' is forcefully disabled as it's incompatible with the following loaded mods: " + failures);
 				}
 			}
 			
@@ -149,39 +146,39 @@ public class Module implements IModule {
 		forEachEnabled(feature -> feature.preInit(event));
 	}
 	
-	public void postPreInit(FMLPreInitializationEvent event) {
-		forEachEnabled(feature -> feature.postPreInit(event));
+	public void postPreInit() {
+		forEachEnabled(Feature::postPreInit);
 	}
 
-	public void init(FMLInitializationEvent event) {
-		forEachEnabled(feature -> feature.init(event));
+	public void init() {
+		forEachEnabled(Feature::init);
 	}
 
-	public void postInit(FMLPostInitializationEvent event) {
-		forEachEnabled(feature -> feature.postInit(event));
+	public void postInit() {
+		forEachEnabled(Feature::postInit);
 	}
 	
-	public void finalInit(FMLPostInitializationEvent event) {
-		forEachEnabled(feature -> feature.finalInit(event));
+	public void finalInit() {
+		forEachEnabled(Feature::finalInit);
 	}
 	
 	@SideOnly(Side.CLIENT)
-	public void preInitClient(FMLPreInitializationEvent event) {
-		forEachEnabled(feature -> feature.preInitClient(event));
+	public void preInitClient() {
+		forEachEnabled(Feature::preInitClient);
 	}
 
 	@SideOnly(Side.CLIENT)
-	public void initClient(FMLInitializationEvent event) {
-		forEachEnabled(feature -> feature.initClient(event));
+	public void initClient() {
+		forEachEnabled(Feature::initClient);
 	}
 
 	@SideOnly(Side.CLIENT)
-	public void postInitClient(FMLPostInitializationEvent event) {
-		forEachEnabled(feature -> feature.postInitClient(event));
+	public void postInitClient() {
+		forEachEnabled(Feature::postInitClient);
 	}
 
-	public void serverStarting(FMLServerStartingEvent event) {
-		forEachEnabled(feature -> feature.serverStarting(event));
+	public void serverStarting() {
+		forEachEnabled(Feature::serverStarting);
 	}
 
 	public boolean canBeDisabled() {

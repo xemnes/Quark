@@ -9,7 +9,6 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.event.terraingen.OreGenEvent;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.Event.Result;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -145,7 +144,7 @@ public class RevampStoneGen extends Feature {
 	}
 
 	@Override
-	public void init(FMLInitializationEvent event) {
+	public void init() {
 		if(enableMarble) {
 			ModIntegrationHandler.registerChiselVariant("marble", ProxyRegistry.newStack(marble, 1, 0));
 			ModIntegrationHandler.registerChiselVariant("marble", ProxyRegistry.newStack(marble, 1, 1));
@@ -174,7 +173,7 @@ public class RevampStoneGen extends Feature {
 			
 			generateNewStones(event);
 			break;
-		default: return;
+		default:
 		}
 	}
 
