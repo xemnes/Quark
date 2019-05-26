@@ -1,9 +1,10 @@
 package vazkii.quark.experimental.entity;
 
 import net.minecraft.entity.EntityCreature;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAIWander;
+import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -39,9 +40,16 @@ public class EntityFrog extends EntityCreature {
 	@Override
 	protected void initEntityAI() {
 		tasks.addTask(0, new EntityAISwimming(this));
-		tasks.addTask(1, new EntityAIWander(this, 0.001));
+		tasks.addTask(1, new EntityAIWanderAvoidWater(this, 1));
 		tasks.addTask(2, new EntityAIWatchClosest(this, EntityPlayer.class, 6));
 		tasks.addTask(3, new EntityAILookIdle(this));
+	}
+
+	@Override
+	protected void applyEntityAttributes() {
+		super.applyEntityAttributes();
+		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(10);
+		this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.25);
 	}
 
 	public int getTalkTime() {
@@ -74,11 +82,6 @@ public class EntityFrog extends EntityCreature {
 
 		this.prevRotationYaw = this.prevRotationYawHead;
 		this.rotationYaw = this.rotationYawHead;
-	}
-
-	@Override
-	protected float getJumpUpwardsMotion() {
-		return 0.65f;
 	}
 
 	@Override
