@@ -8,6 +8,7 @@ import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import vazkii.quark.base.module.Feature;
 
+import java.util.Comparator;
 import java.util.List;
 
 public class AnimalsEatFloorFood extends Feature {
@@ -22,6 +23,7 @@ public class AnimalsEatFloorFood extends Feature {
 						(EntityItem i) -> i != null && !i.getItem().isEmpty() && !i.isDead && animal.isBreedingItem(i.getItem()) && i.getItem().getItem() != Items.ROTTEN_FLESH);
 				
 				if(!nearbyFood.isEmpty()) {
+					nearbyFood.sort(Comparator.comparingDouble(ent -> ent.getDistanceSq(animal)));
 					EntityItem e = nearbyFood.get(0);
 					
 					ItemStack stack = e.getItem();
