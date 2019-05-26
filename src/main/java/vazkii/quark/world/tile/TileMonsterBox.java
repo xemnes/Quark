@@ -44,7 +44,7 @@ public class TileMonsterBox extends TileMod implements ITickable {
 		
 		if(doBreak) {
 			if(breakProgress == 0)
-				world.playSound(null, pos, QuarkSounds.BLOCK_MONSTER_BOX_GROWL, SoundCategory.BLOCKS, 0.3F, 10F);
+				world.playSound(null, pos, QuarkSounds.BLOCK_MONSTER_BOX_GROWL, SoundCategory.BLOCKS, 1F, 1F);
 			
 			breakProgress++;
 			if(breakProgress > 40) {

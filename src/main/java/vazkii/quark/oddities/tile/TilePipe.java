@@ -77,9 +77,9 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 						passIn(item.getItem().copy(), side);
 						if (Pipes.doPipesWhoosh) {
 							if (isTheGoodDay(world))
-								world.playSound(null, item.posX, item.posY, item.posZ, QuarkSounds.BLOCK_PIPE_PICKUP_LENNY, SoundCategory.BLOCKS, 0.5f, 0.2f);
+								world.playSound(null, item.posX, item.posY, item.posZ, QuarkSounds.BLOCK_PIPE_PICKUP_LENNY, SoundCategory.BLOCKS, 1f, 1f);
 							else
-								world.playSound(null, item.posX, item.posY, item.posZ, QuarkSounds.BLOCK_PIPE_PICKUP, SoundCategory.BLOCKS, 0.5f, 0.2f);
+								world.playSound(null, item.posX, item.posY, item.posZ, QuarkSounds.BLOCK_PIPE_PICKUP, SoundCategory.BLOCKS, 1f, 1f);
 						}
 
 						any = true;
@@ -197,15 +197,15 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 
 			boolean shootOut = isPipeEnabled();
 
-			float pitch = 2f;
+			float pitch = 1f;
 			if (!shootOut)
-				pitch = 0.05f;
+				pitch = 0.025f;
 
 			if (playSound && Pipes.doPipesWhoosh) {
 				if (isTheGoodDay(world))
-					world.playSound(null, posX, posY, posZ, QuarkSounds.BLOCK_PIPE_SHOOT_LENNY, SoundCategory.BLOCKS, 0.5f, pitch);
+					world.playSound(null, posX, posY, posZ, QuarkSounds.BLOCK_PIPE_SHOOT_LENNY, SoundCategory.BLOCKS, 1f, pitch);
 				else
-					world.playSound(null, posX, posY, posZ, QuarkSounds.BLOCK_PIPE_SHOOT, SoundCategory.BLOCKS, 0.5f, pitch);
+					world.playSound(null, posX, posY, posZ, QuarkSounds.BLOCK_PIPE_SHOOT, SoundCategory.BLOCKS, 1f, pitch);
 			}
 
 			EntityItem entity = new EntityItem(world, posX, posY, posZ, stack);

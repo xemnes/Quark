@@ -144,11 +144,11 @@ public class EntityStoneling extends EntityCreature {
 							}
 
 							if (targetVariant != currentVariant) {
-								playSound(QuarkSounds.ENTITY_STONELING_EAT, 1F, 0.8F);
+								playSound(QuarkSounds.ENTITY_STONELING_EAT, 1F, 1F);
 								dataManager.set(VARIANT, targetVariant.getIndex());
 							}
 
-							playSound(QuarkSounds.ENTITY_STONELING_PURR, 0.25F, 0.25F + world.rand.nextFloat() * 0.25F);
+							playSound(QuarkSounds.ENTITY_STONELING_PURR, 1F, 1F + world.rand.nextFloat() * 1F);
 
 							heal(1);
 
@@ -166,13 +166,13 @@ public class EntityStoneling extends EntityCreature {
 						dataManager.set(CARRYING_ITEM, playerItem.copy());
 
 						if (playerItem.isEmpty())
-							playSound(QuarkSounds.ENTITY_STONELING_GIVE, 1.0F, 1.0F);
-						else playSound(QuarkSounds.ENTITY_STONELING_TAKE, 1.0F, 1.0F);
+							playSound(QuarkSounds.ENTITY_STONELING_GIVE, 1F, 1F);
+						else playSound(QuarkSounds.ENTITY_STONELING_TAKE, 1F, 1F);
 					}
 				} else if (Stonelings.tamableStonelings && fitsOreKey(playerItem, "gemDiamond")) {
 					heal(8);
 
-					playSound(QuarkSounds.ENTITY_STONELING_PURR, 0.25F, 0.25F + world.rand.nextFloat() * 0.25F);
+					playSound(QuarkSounds.ENTITY_STONELING_PURR, 1F, 1F + world.rand.nextFloat() * 1F);
 
 					if (!player.capabilities.isCreativeMode)
 						playerItem.shrink(1);
@@ -308,11 +308,6 @@ public class EntityStoneling extends EntityCreature {
 	@Override
 	protected SoundEvent getDeathSound() {
 		return QuarkSounds.ENTITY_STONELING_DIE;
-	}
-
-	@Override
-	protected float getSoundPitch() {
-		return 2f;
 	}
 
 	// Vanilla copy pasta from EntityMob

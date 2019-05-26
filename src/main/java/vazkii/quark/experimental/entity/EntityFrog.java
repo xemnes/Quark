@@ -13,9 +13,16 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.pathfinding.Path;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.base.sounds.QuarkSounds;
 import vazkii.quark.experimental.features.Frogs;
 
@@ -35,6 +42,10 @@ public class EntityFrog extends EntityAnimal {
 	public EntityFrog(World worldIn) {
 		super(worldIn);
 		setSize(0.9f, 0.5f);
+
+		this.jumpHelper = new FrogJumpHelper();
+		this.moveHelper = new FrogMoveHelper();
+		this.setMovementSpeed(0.0D);
 	}
 
 	@Override
@@ -47,7 +58,7 @@ public class EntityFrog extends EntityAnimal {
 	@Override
 	protected void initEntityAI() {
 		tasks.addTask(0, new EntityAISwimming(this));
-		tasks.addTask(1, new EntityAIPanic(this, 1.25));
+		tasks.addTask(1, new AIPanic(1.25));
 		tasks.addTask(3, new EntityAIMate(this, 1.0));
 		tasks.addTask(4, new EntityAITempt(this, 1.2, false, TEMPTATION_ITEMS));
 		tasks.addTask(5, new EntityAIFollowParent(this, 1.1));
@@ -75,9 +86,9 @@ public class EntityFrog extends EntityAnimal {
 		if (talkTime > 0)
 			dataManager.set(TALK_TIME, talkTime - 1);
 
-		if(Frogs.frogsDoTheFunny && spawnCd > 0 && spawnChain > 0) {
+		if (Frogs.frogsDoTheFunny && spawnCd > 0 && spawnChain > 0) {
 			spawnCd--;
-			if(spawnCd == 0 && !world.isRemote) {
+			if (spawnCd == 0 && !world.isRemote) {
 				float multiplier = 0.8F;
 				EntityFrog newFrog = new EntityFrog(world);
 				newFrog.setPosition(posX, posY, posZ);
@@ -104,17 +115,15 @@ public class EntityFrog extends EntityAnimal {
 	public boolean processInteract(EntityPlayer player, @Nonnull EnumHand hand) {
 		Calendar calendar = world.getCurrentDate();
 		if (Frogs.frogsDoTheFunny && calendar.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY) {
-			if (!world.isRemote) {
-				if (spawnChain > 0) {
-					spawnCd = 50;
-					dataManager.set(TALK_TIME, 80);
-					world.playSound(null, posX, posY, posZ, QuarkSounds.ENTITY_FROG_WEDNESDAY, SoundCategory.NEUTRAL, 1F, 1F);
-				}
+			if (!world.isRemote) if (spawnChain > 0) {
+				spawnCd = 50;
+				dataManager.set(TALK_TIME, 80);
+				world.playSound(null, posX, posY, posZ, QuarkSounds.ENTITY_FROG_WEDNESDAY, SoundCategory.NEUTRAL, 1F, 1F);
 			}
 
 			return true;
 		}
-		
+
 		return super.processInteract(player, hand);
 	}
 
@@ -144,5 +153,211 @@ public class EntityFrog extends EntityAnimal {
 		compound.setInteger("Cooldown", spawnCd);
 		compound.setInteger("Chain", spawnChain);
 		compound.setInteger("DudeAmount", getTalkTime());
+	}
+
+	@Override
+	protected SoundEvent getAmbientSound() {
+		return QuarkSounds.ENTITY_FROG_IDLE;
+	}
+
+	@Override
+	protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+		return QuarkSounds.ENTITY_FROG_HURT;
+	}
+
+	@Override
+	protected SoundEvent getDeathSound() {
+		return QuarkSounds.ENTITY_FROG_DIE;
+	}
+
+	protected SoundEvent getJumpSound() {
+		return QuarkSounds.ENTITY_FROG_JUMP;
+	}
+
+	// Begin copypasta from EntityRabbit
+
+	private int jumpTicks;
+	private int jumpDuration;
+	private boolean wasOnGround;
+	private int currentMoveTypeDuration;
+
+	@Override
+	public void updateAITasks() {
+		if (this.currentMoveTypeDuration > 0) --this.currentMoveTypeDuration;
+
+		if (this.onGround) {
+			if (!this.wasOnGround) {
+				this.setJumping(false);
+				this.checkLandingDelay();
+			}
+
+			FrogJumpHelper jumpHelper = (FrogJumpHelper) this.jumpHelper;
+
+			if (!jumpHelper.getIsJumping()) {
+				if (this.moveHelper.isUpdating() && this.currentMoveTypeDuration == 0) {
+					Path path = this.navigator.getPath();
+					Vec3d vec3d = new Vec3d(this.moveHelper.getX(), this.moveHelper.getY(), this.moveHelper.getZ());
+
+					if (path != null && path.getCurrentPathIndex() < path.getCurrentPathLength())
+						vec3d = path.getPosition(this);
+
+					this.calculateRotationYaw(vec3d.x, vec3d.z);
+					this.startJumping();
+				}
+			} else if (!jumpHelper.canJump()) this.enableJumpControl();
+		}
+
+		this.wasOnGround = this.onGround;
+	}
+
+	@Override
+	public void spawnRunningParticles() {
+		// NO-OP
+	}
+
+	private void calculateRotationYaw(double x, double z) {
+		this.rotationYaw = (float) (MathHelper.atan2(z - this.posZ, x - this.posX) * (180D / Math.PI)) - 90.0F;
+	}
+
+	private void enableJumpControl() {
+		((FrogJumpHelper) this.jumpHelper).setCanJump(true);
+	}
+
+	private void disableJumpControl() {
+		((FrogJumpHelper) this.jumpHelper).setCanJump(false);
+	}
+
+	private void updateMoveTypeDuration() {
+		if (this.moveHelper.getSpeed() < 2.2D)
+			this.currentMoveTypeDuration = 10;
+		else
+			this.currentMoveTypeDuration = 1;
+	}
+
+	private void checkLandingDelay() {
+		this.updateMoveTypeDuration();
+		this.disableJumpControl();
+	}
+
+	@Override
+	public void onLivingUpdate() {
+		super.onLivingUpdate();
+
+		if (this.jumpTicks != this.jumpDuration) ++this.jumpTicks;
+		else if (this.jumpDuration != 0) {
+			this.jumpTicks = 0;
+			this.jumpDuration = 0;
+			this.setJumping(false);
+		}
+	}
+
+	@Override
+	protected void jump() {
+		super.jump();
+		double d0 = this.moveHelper.getSpeed();
+
+		if (d0 > 0.0D) {
+			double d1 = this.motionX * this.motionX + this.motionZ * this.motionZ;
+
+			if (d1 < 0.01) this.moveRelative(0.0F, 0.0F, 1.0F, 0.1F);
+		}
+
+		if (!this.world.isRemote)
+			this.world.setEntityState(this, (byte) 1);
+	}
+
+	public void setMovementSpeed(double newSpeed) {
+		this.getNavigator().setSpeed(newSpeed);
+		this.moveHelper.setMoveTo(this.moveHelper.getX(), this.moveHelper.getY(), this.moveHelper.getZ(), newSpeed);
+	}
+
+	@Override
+	public void setJumping(boolean jumping) {
+		super.setJumping(jumping);
+
+		if (jumping)
+			this.playSound(this.getJumpSound(), this.getSoundVolume(), ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F) * 0.8F);
+	}
+
+	public void startJumping() {
+		this.setJumping(true);
+		this.jumpDuration = 10;
+		this.jumpTicks = 0;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void handleStatusUpdate(byte id) {
+		if (id == 1) {
+			this.createRunningParticles();
+			this.jumpDuration = 10;
+			this.jumpTicks = 0;
+		}
+	}
+
+	public class FrogJumpHelper extends EntityJumpHelper {
+		private boolean canJump;
+
+		public FrogJumpHelper() {
+			super(EntityFrog.this);
+		}
+
+		public boolean getIsJumping() {
+			return this.isJumping;
+		}
+
+		public boolean canJump() {
+			return this.canJump;
+		}
+
+		public void setCanJump(boolean canJumpIn) {
+			this.canJump = canJumpIn;
+		}
+
+		@Override
+		public void doJump() {
+			if (this.isJumping) {
+				startJumping();
+				this.isJumping = false;
+			}
+		}
+	}
+
+	public class FrogMoveHelper extends EntityMoveHelper {
+		private double nextJumpSpeed;
+
+		public FrogMoveHelper() {
+			super(EntityFrog.this);
+		}
+
+		@Override
+		public void onUpdateMoveHelper() {
+			if (onGround && !isJumping && !((EntityFrog.FrogJumpHelper) jumpHelper).getIsJumping())
+				setMovementSpeed(0.0D);
+			else if (this.isUpdating()) setMovementSpeed(this.nextJumpSpeed);
+
+			super.onUpdateMoveHelper();
+		}
+
+		@Override
+		public void setMoveTo(double x, double y, double z, double speedIn) {
+			if (isInWater()) speedIn = 1.5D;
+
+			super.setMoveTo(x, y, z, speedIn);
+
+			if (speedIn > 0.0D) this.nextJumpSpeed = speedIn;
+		}
+	}
+
+	public class AIPanic extends EntityAIPanic {
+
+		public AIPanic(double speedIn) {
+			super(EntityFrog.this, speedIn);
+		}
+
+		public void updateTask() {
+			super.updateTask();
+			setMovementSpeed(this.speed);
+		}
 	}
 }

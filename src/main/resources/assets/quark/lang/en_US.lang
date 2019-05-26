@@ -56,6 +56,10 @@ quark.subtitles.kill_stoneling=Stoneling breaks
 quark.subtitles.purr=Stoneling "purrs"
 quark.subtitles.hump_day=Wednesday is, my dudes
 quark.subtitles.throw_pickarang=Pickarang is flung
+quark.subtitles.frog_die=Frog croaks
+quark.subtitles.frog_hurt=Frog squeaks
+quark.subtitles.frog_idle=Frog ribbits
+quark.subtitles.frog_jump=Frog hops
 
 # COMMANDS
 commands.quarkconfig.usage=/quarkconfig <module> <category> <key> <value> [save?] [player]

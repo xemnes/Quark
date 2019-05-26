@@ -42,7 +42,7 @@ public class ItemSoulBead extends ItemMod implements IQuarkItem {
 			effect.setCurativeItems(Collections.emptyList());
 			playerIn.addPotionEffect(effect);
 
-			worldIn.playSound(null, playerIn.posX, playerIn.posY, playerIn.posZ, QuarkSounds.ITEM_SOUL_BEAD_CURSE, SoundCategory.PLAYERS, 0.5F, 1F);
+			worldIn.playSound(null, playerIn.posX, playerIn.posY, playerIn.posZ, QuarkSounds.ITEM_SOUL_BEAD_CURSE, SoundCategory.PLAYERS, 1F, 1F);
 			playerIn.renderBrokenItemStack(stack);
 			stack.shrink(1);
 		}

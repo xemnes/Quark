@@ -10,28 +10,28 @@
     "category": "blocks",
     "subtitle": "quark.subtitles.pipe_shoot",
     "sounds": [
-      "minecraft:random/bow"
+      { "name": "minecraft:random/bow", "volume": 0.5, "pitch": 0.2 }
     ]
   },
   "block.pipe.pickup": {
     "category": "blocks",
     "subtitle": "quark.subtitles.pipe_pickup",
     "sounds": [
-      "minecraft:liquid/lavapop"
+      { "name": "minecraft:liquid/lavapop", "volume": 0.5, "pitch": 2.0 }
     ]
   },
   "block.pipe.shoot.lenny": {
     "category": "blocks",
     "subtitle": "quark.subtitles.pipe_shoot_lenny",
     "sounds": [
-      "minecraft:random/bow"
+      { "name": "minecraft:random/bow", "volume": 0.5, "pitch": 0.2 }
     ]
   },
   "block.pipe.pickup.lenny": {
     "category": "blocks",
     "subtitle": "quark.subtitles.pipe_pickup_lenny",
     "sounds": [
-      "minecraft:liquid/lavapop"
+      { "name": "minecraft:liquid/lavapop", "volume": 0.5, "pitch": 2.0 }
     ]
   },
   "block.sponge.hiss": {
@@ -55,20 +55,20 @@
     "category": "players",
     "subtitle": "quark.subtitles.cursed",
     "sounds": [
-      "minecraft:mob/blaze/breathe1",
-      "minecraft:mob/blaze/breathe2",
-      "minecraft:mob/blaze/breathe3",
-      "minecraft:mob/blaze/breathe4"
+      { "name": "minecraft:mob/blaze/breathe1", "volume": 0.5 },
+      { "name": "minecraft:mob/blaze/breathe2", "volume": 0.5 },
+      { "name": "minecraft:mob/blaze/breathe3", "volume": 0.5 },
+      { "name": "minecraft:mob/blaze/breathe4", "volume": 0.5 }
     ]
   },
   "block.monster_box.growl": {
     "category": "blocks",
     "subtitle": "quark.subtitles.growl",
     "sounds": [
-      "minecraft:mob/enderdragon/growl1",
-      "minecraft:mob/enderdragon/growl2",
-      "minecraft:mob/enderdragon/growl3",
-      "minecraft:mob/enderdragon/growl4"
+      { "name": "minecraft:mob/enderdragon/growl1", "volume": 0.3, "pitch": 10.0 },
+      { "name": "minecraft:mob/enderdragon/growl2", "volume": 0.3, "pitch": 10.0 },
+      { "name": "minecraft:mob/enderdragon/growl3", "volume": 0.3, "pitch": 10.0 },
+      { "name": "minecraft:mob/enderdragon/growl4", "volume": 0.3, "pitch": 10.0 }
     ]
   },
   "entity.stoneling.meep": {
@@ -82,7 +82,7 @@
     "category": "neutral",
     "subtitle": "quark.subtitles.purr",
     "sounds": [
-      "minecraft:mob/ghast/affectionate_scream"
+      { "name": "minecraft:mob/ghast/affectionate_scream", "pitch": 0.25, "volume": 0.25 }
     ]
   },
   "entity.stoneling.give": {
@@ -109,35 +109,72 @@
     "category": "neutral",
     "subtitle": "quark.subtitles.feed_stoneling",
     "sounds": [
-      "minecraft:dig/stone1",
-      "minecraft:dig/stone2",
-      "minecraft:dig/stone3",
-      "minecraft:dig/stone4"
+      { "name": "minecraft:dig/stone1", "pitch": 0.8 },
+      { "name": "minecraft:dig/stone2", "pitch": 0.8 },
+      { "name": "minecraft:dig/stone3", "pitch": 0.8 },
+      { "name": "minecraft:dig/stone4", "pitch": 0.8 }
     ]
   },
   "entity.stoneling.cry": {
     "category": "neutral",
     "subtitle": "quark.subtitles.hurt_stoneling",
     "sounds": [
-      "minecraft:mob/ghast/scream1",
-      "minecraft:mob/ghast/scream2",
-      "minecraft:mob/ghast/scream3",
-      "minecraft:mob/ghast/scream4",
-      "minecraft:mob/ghast/scream5"
+      { "name": "minecraft:mob/ghast/scream1", "pitch": 2.0 },
+      { "name": "minecraft:mob/ghast/scream2", "pitch": 2.0 },
+      { "name": "minecraft:mob/ghast/scream3", "pitch": 2.0 },
+      { "name": "minecraft:mob/ghast/scream4", "pitch": 2.0 },
+      { "name": "minecraft:mob/ghast/scream5", "pitch": 2.0 }
     ]
   },
   "entity.stoneling.die": {
     "category": "neutral",
     "subtitle": "quark.subtitles.kill_stoneling",
     "sounds": [
-      "minecraft:mob/ghast/death"
+      { "name": "minecraft:mob/ghast/death", "pitch": 2.0 }
     ]
   },
   "entity.frog.wednesday": {
     "category": "neutral",
     "subtitle": "quark.subtitles.hump_day",
     "sounds": [
-      "quark:wednesday"
+      "quark:entity/frog/wednesday"
+    ]
+  },
+  "entity.frog.die": {
+    "category": "neutral",
+    "subtitle": "quark.subtitles.frog_die",
+    "sounds": [
+      { "name": "quark:entity/frog/die", "volume": 0.5 }
+    ]
+  },
+  "entity.frog.hurt": {
+    "category": "neutral",
+    "subtitle": "quark.subtitles.frog_hurt",
+    "sounds": [
+      { "name": "quark:entity/frog/hurt1", "volume": 0.5 },
+      { "name": "quark:entity/frog/hurt2", "volume": 0.5 },
+      { "name": "quark:entity/frog/hurt3", "volume": 0.5 },
+      { "name": "quark:entity/frog/hurt4", "volume": 0.5 }
+    ]
+  },
+  "entity.frog.idle": {
+    "category": "neutral",
+    "subtitle": "quark.subtitles.frog_idle",
+    "sounds": [
+      { "name": "quark:entity/frog/idle1", "volume": 0.25 },
+      { "name": "quark:entity/frog/idle2", "volume": 0.25 },
+      { "name": "quark:entity/frog/idle3", "volume": 0.25 },
+      { "name": "quark:entity/frog/idle4", "volume": 0.25 }
+    ]
+  },
+  "entity.frog.jump": {
+    "category": "neutral",
+    "subtitle": "quark.subtitles.frog_jump",
+    "sounds": [
+      { "name": "minecraft:mob/rabbit/hop1", "volume": 0.1 },
+      { "name": "minecraft:mob/rabbit/hop2", "volume": 0.1 },
+      { "name": "minecraft:mob/rabbit/hop3", "volume": 0.1 },
+      { "name": "minecraft:mob/rabbit/hop4", "volume": 0.1 }
     ]
   },
   "entity.pickarang.throw": {
