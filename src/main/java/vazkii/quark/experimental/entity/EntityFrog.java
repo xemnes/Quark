@@ -292,7 +292,8 @@ public class EntityFrog extends EntityAnimal {
 			this.createRunningParticles();
 			this.jumpDuration = 10;
 			this.jumpTicks = 0;
-		}
+		} else
+			super.handleStatusUpdate(id);
 	}
 
 	public class FrogJumpHelper extends EntityJumpHelper {
