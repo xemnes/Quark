@@ -1,4 +1,4 @@
-package vazkii.quark.world.entity;
+package vazkii.quark.experimental.entity;
 
 import com.google.common.collect.Sets;
 import net.minecraft.entity.EntityAgeable;
@@ -17,7 +17,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 import vazkii.quark.base.sounds.QuarkSounds;
-import vazkii.quark.world.feature.Frogs;
+import vazkii.quark.experimental.features.Frogs;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

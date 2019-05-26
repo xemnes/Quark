@@ -27,6 +27,7 @@ public class QuarkExperimental extends Module {
 		registerFeature(new ParrotsSayDespacito(), false);
 		registerFeature(new CollateralPistonMovement(), false);
 		registerFeature(new FramedBlocks(), false);
+		registerFeature(new Frogs(), false);
 		registerFeature(new TextureDump(), "Dump texture atlases", false);
 	}
 

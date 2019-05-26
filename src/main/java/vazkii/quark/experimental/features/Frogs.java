@@ -1,4 +1,4 @@
-package vazkii.quark.world.feature;
+package vazkii.quark.experimental.features;
 
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Biomes;
@@ -11,8 +11,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.lib.LibEntityIDs;
 import vazkii.quark.base.module.Feature;
-import vazkii.quark.world.client.render.RenderFrog;
-import vazkii.quark.world.entity.EntityFrog;
+import vazkii.quark.experimental.client.render.RenderFrog;
+import vazkii.quark.experimental.entity.EntityFrog;
 
 public class Frogs extends Feature {
 
