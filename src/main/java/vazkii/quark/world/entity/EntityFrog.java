@@ -1,4 +1,4 @@
-package vazkii.quark.experimental.entity;
+package vazkii.quark.world.entity;
 
 import com.google.common.collect.Sets;
 import net.minecraft.entity.EntityAgeable;
@@ -17,6 +17,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 import vazkii.quark.base.sounds.QuarkSounds;
+import vazkii.quark.world.feature.Frogs;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -74,7 +75,7 @@ public class EntityFrog extends EntityAnimal {
 		if (talkTime > 0)
 			dataManager.set(TALK_TIME, talkTime - 1);
 
-		if(spawnCd > 0 && spawnChain > 0) {
+		if(Frogs.frogsDoTheFunny && spawnCd > 0 && spawnChain > 0) {
 			spawnCd--;
 			if(spawnCd == 0 && !world.isRemote) {
 				float multiplier = 0.8F;
@@ -102,7 +103,7 @@ public class EntityFrog extends EntityAnimal {
 	@Override
 	public boolean processInteract(EntityPlayer player, @Nonnull EnumHand hand) {
 		Calendar calendar = world.getCurrentDate();
-		if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY) {
+		if (Frogs.frogsDoTheFunny && calendar.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY) {
 			if (!world.isRemote) {
 				if (spawnChain > 0) {
 					spawnCd = 50;

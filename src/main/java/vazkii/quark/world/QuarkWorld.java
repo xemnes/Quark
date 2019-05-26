@@ -13,31 +13,7 @@ package vazkii.quark.world;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import vazkii.quark.base.module.Module;
-import vazkii.quark.world.feature.Archaeologist;
-import vazkii.quark.world.feature.Basalt;
-import vazkii.quark.world.feature.Biotite;
-import vazkii.quark.world.feature.BuriedTreasure;
-import vazkii.quark.world.feature.CaveRoots;
-import vazkii.quark.world.feature.ClayGeneration;
-import vazkii.quark.world.feature.CrystalCaves;
-import vazkii.quark.world.feature.DefaultWorldOptions;
-import vazkii.quark.world.feature.DepthMobs;
-import vazkii.quark.world.feature.FairyRings;
-import vazkii.quark.world.feature.MonsterBoxes;
-import vazkii.quark.world.feature.MushroomsInSwamps;
-import vazkii.quark.world.feature.NaturalBlazesInNether;
-import vazkii.quark.world.feature.NetherFossils;
-import vazkii.quark.world.feature.NetherSmoker;
-import vazkii.quark.world.feature.OceanGuardians;
-import vazkii.quark.world.feature.PathfinderMaps;
-import vazkii.quark.world.feature.PirateShips;
-import vazkii.quark.world.feature.RealisticWorldType;
-import vazkii.quark.world.feature.RevampStoneGen;
-import vazkii.quark.world.feature.Speleothems;
-import vazkii.quark.world.feature.Stonelings;
-import vazkii.quark.world.feature.UndergroundBiomes;
-import vazkii.quark.world.feature.VariedDungeons;
-import vazkii.quark.world.feature.Wraiths;
+import vazkii.quark.world.feature.*;
 
 public class QuarkWorld extends Module {
 
@@ -66,6 +42,7 @@ public class QuarkWorld extends Module {
 		registerFeature(new Archaeologist());
 		registerFeature(new MonsterBoxes());
 		registerFeature(new Stonelings());
+		registerFeature(new Frogs());
 
 		registerFeature(new RealisticWorldType());
 		registerFeature(new DefaultWorldOptions());

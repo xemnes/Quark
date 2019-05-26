@@ -1,4 +1,4 @@
-package vazkii.quark.experimental.features;
+package vazkii.quark.world.feature;
 
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Biomes;
@@ -11,10 +11,22 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.lib.LibEntityIDs;
 import vazkii.quark.base.module.Feature;
-import vazkii.quark.experimental.client.render.RenderFrog;
-import vazkii.quark.experimental.entity.EntityFrog;
+import vazkii.quark.world.client.render.RenderFrog;
+import vazkii.quark.world.entity.EntityFrog;
 
-public class WednesdayFrog extends Feature {
+public class Frogs extends Feature {
+
+	public static boolean frogsDoTheFunny;
+	public static int weight, min, max;
+
+	@Override
+	public void setupConfig() {
+		frogsDoTheFunny = loadPropBool("Frogs know what day it is", "", false);
+
+		weight = loadPropInt("Spawn Weight", "The higher, the more will spawn", 40);
+		min = loadPropInt("Smallest spawn group", "", 1);
+		max = loadPropInt("Largest spawn group", "", 3);
+	}
 
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
@@ -24,7 +36,7 @@ public class WednesdayFrog extends Feature {
 	
 	@Override
 	public void init() {
-		EntityRegistry.addSpawn(EntityFrog.class, 40, 1, 3, EnumCreatureType.CREATURE, Biomes.SWAMPLAND);
+		EntityRegistry.addSpawn(EntityFrog.class, weight, min, max, EnumCreatureType.CREATURE, Biomes.SWAMPLAND);
 	}
 	
 	@Override
