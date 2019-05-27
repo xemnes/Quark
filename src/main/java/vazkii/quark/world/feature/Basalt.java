@@ -12,6 +12,7 @@ package vazkii.quark.world.feature;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -20,6 +21,7 @@ import vazkii.arl.block.BlockModStairs;
 import vazkii.arl.recipe.RecipeHandler;
 import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.block.BlockQuarkStairs;
+import vazkii.quark.base.handler.ModIntegrationHandler;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.GlobalConfig;
 import vazkii.quark.base.module.ModuleLoader;
@@ -79,7 +81,13 @@ public class Basalt extends Feature {
 				"BB", "BB",
 				'B', "stoneBasalt");
 	}
-	
+
+	@Override
+	public void init() {
+		ModIntegrationHandler.registerChiselVariant("basalt", new ItemStack(basalt, 1, 0));
+		ModIntegrationHandler.registerChiselVariant("basalt", new ItemStack(basalt, 1, 1));
+	}
+
 	@Override
 	public boolean requiresMinecraftRestartToEnable() {
 		return true;
