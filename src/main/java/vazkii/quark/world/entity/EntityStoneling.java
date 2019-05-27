@@ -10,6 +10,7 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAITempt;
 import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -25,6 +26,7 @@ import net.minecraftforge.oredict.OreDictionary;
 import vazkii.quark.base.sounds.QuarkSounds;
 import vazkii.quark.world.base.EnumStonelingVariant;
 import vazkii.quark.world.entity.ai.EntityAIActWary;
+import vazkii.quark.world.entity.ai.EntityAIFavorBlock;
 import vazkii.quark.world.entity.ai.EntityAIRunAndPoof;
 import vazkii.quark.world.feature.Stonelings;
 
@@ -66,7 +68,8 @@ public class EntityStoneling extends EntityCreature {
 
 	@Override
 	protected void initEntityAI() {
-		tasks.addTask(4, new EntityAIWanderAvoidWater(this, 0.2, 1F));
+		tasks.addTask(5, new EntityAIWanderAvoidWater(this, 0.2, 1F));
+		tasks.addTask(4, new EntityAIFavorBlock(this, 0.2, Blocks.DIAMOND_ORE));
 
 		if(Stonelings.enableDiamondHeart || Stonelings.tamableStonelings) {
 			int priority = Stonelings.tamableStonelings ? 0 : 3;

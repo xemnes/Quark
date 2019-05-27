@@ -6,6 +6,7 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -25,6 +26,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.base.sounds.QuarkSounds;
 import vazkii.quark.experimental.features.Frogs;
+import vazkii.quark.world.entity.ai.EntityAIFavorBlock;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -59,10 +61,11 @@ public class EntityFrog extends EntityAnimal {
 	protected void initEntityAI() {
 		tasks.addTask(0, new EntityAISwimming(this));
 		tasks.addTask(1, new AIPanic(1.25));
-		tasks.addTask(3, new EntityAIMate(this, 1.0));
-		tasks.addTask(4, new EntityAITempt(this, 1.2, false, TEMPTATION_ITEMS));
-		tasks.addTask(5, new EntityAIFollowParent(this, 1.1));
-		tasks.addTask(6, new EntityAIWanderAvoidWater(this, 1));
+		tasks.addTask(2, new EntityAIMate(this, 1.0));
+		tasks.addTask(3, new EntityAITempt(this, 1.2, false, TEMPTATION_ITEMS));
+		tasks.addTask(4, new EntityAIFollowParent(this, 1.1));
+		tasks.addTask(5, new EntityAIWanderAvoidWater(this, 1));
+		tasks.addTask(6, new EntityAIFavorBlock(this, 1, Blocks.WATERLILY));
 		tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 6));
 		tasks.addTask(8, new EntityAILookIdle(this));
 	}
