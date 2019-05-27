@@ -10,8 +10,6 @@
  */
 package vazkii.quark.management.feature;
 
-import org.lwjgl.input.Mouse;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiScreen;
@@ -22,7 +20,6 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.client.event.GuiScreenEvent;
@@ -33,6 +30,7 @@ import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.input.Mouse;
 import vazkii.arl.network.NetworkHandler;
 import vazkii.arl.util.ItemNBTHelper;
 import vazkii.quark.base.lib.LibMisc;
@@ -130,9 +128,7 @@ public class FavoriteItems extends Feature {
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void renderTooltip(RenderTooltipEvent.PostText event) {
-		ItemStack stack = event.getStack();
 		if(isItemFavorited(event.getStack())) {
-			Item item = stack.getItem();
 			GlStateManager.pushMatrix();
 			GlStateManager.color(1F, 1F, 1F);
 			Minecraft mc = Minecraft.getMinecraft();
@@ -141,7 +137,7 @@ public class FavoriteItems extends Feature {
 			int y = event.getY() - 1;
 			
 			mc.getTextureManager().bindTexture(LibMisc.GENERAL_ICONS_RESOURCE);
-			Gui.drawModalRectWithCustomSizedTexture(x, y, 211, 0, 9, 9, 256, 256);
+			Gui.drawModalRectWithCustomSizedTexture(x, y, 166, 0, 9, 9, 256, 256);
 			
 			GlStateManager.popMatrix();
 		}
