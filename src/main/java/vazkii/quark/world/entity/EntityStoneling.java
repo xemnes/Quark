@@ -1,6 +1,8 @@
 package vazkii.quark.world.entity;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.IEntityLivingData;
@@ -295,6 +297,9 @@ public class EntityStoneling extends EntityCreature {
 
 	@Override
 	public boolean getCanSpawnHere() {
+		IBlockState state = this.world.getBlockState((new BlockPos(this)).down());
+		if (state.getMaterial() != Material.ROCK)
+			return false;
 		return Stonelings.dimensions.canSpawnHere(world) && posY < Stonelings.maxYLevel && isValidLightLevel() && super.getCanSpawnHere();
 	}
 
@@ -314,7 +319,7 @@ public class EntityStoneling extends EntityCreature {
 	protected boolean isValidLightLevel() {
 		BlockPos blockpos = new BlockPos(posX, getEntityBoundingBox().minY, posZ);
 
-		if(world.getLightFor(EnumSkyBlock.SKY, blockpos) > rand.nextInt(32))
+		if(world.getLightFor(EnumSkyBlock.SKY, blockpos) != 0)
 			return false;
 		else {
 			int i = world.getLightFromNeighbors(blockpos);
