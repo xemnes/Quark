@@ -68,8 +68,8 @@ public class EntityStoneling extends EntityCreature {
 
 	@Override
 	protected void initEntityAI() {
-		tasks.addTask(5, new EntityAIWanderAvoidWater(this, 0.2, 1F));
-		tasks.addTask(4, new EntityAIFavorBlock(this, 0.2, Blocks.DIAMOND_ORE));
+		tasks.addTask(5, new EntityAIFavorBlock(this, 0.2, Blocks.DIAMOND_ORE));
+		tasks.addTask(4, new EntityAIWanderAvoidWater(this, 0.2, 0.98F));
 
 		if(Stonelings.enableDiamondHeart || Stonelings.tamableStonelings) {
 			int priority = Stonelings.tamableStonelings ? 0 : 3;
