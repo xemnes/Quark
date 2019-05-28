@@ -40,16 +40,95 @@ public class ContainerBackpack extends ContainerPlayer {
 	@Nonnull
 	@Override
 	public ItemStack transferStackInSlot(@Nonnull EntityPlayer playerIn, int index) {
-		ItemStack itemstack = ItemStack.EMPTY;
 		Slot slot = inventorySlots.get(index);
 
 		if(index >= 9 && index < 36 && slot != null && slot.getHasStack()) {
 			ItemStack stack = slot.getStack();
-			if(!mergeItemStack(stack, 46, 72, false))
+			ItemStack origStack = stack.copy();
+			if (!mergeItemStack(stack, 46, 72, false))
 				return ItemStack.EMPTY;
+
+			if (stack.isEmpty()) slot.putStack(ItemStack.EMPTY);
+			else slot.onSlotChanged();
+
+			if (origStack.getCount() == stack.getCount()) return ItemStack.EMPTY;
+
+			slot.onTake(playerIn, stack);
 		}
 		
 		return super.transferStackInSlot(playerIn, index);
+	}
+
+	// Shamelessly stolen from CoFHCore because KL is awesome
+	// and was like yeah just take whatever you want lol
+	// https://github.com/CoFH/CoFHCore/blob/d4a79b078d257e88414f5eed598d57490ec8e97f/src/main/java/cofh/core/util/helpers/InventoryHelper.java
+	@Override
+	public boolean mergeItemStack(ItemStack stack, int start, int length, boolean r) {
+		boolean successful = false;
+		int i = !r ? start : length - 1;
+		int iterOrder = !r ? 1 : -1;
+
+		Slot slot;
+		ItemStack existingStack;
+
+		if(stack.isStackable()) {
+			while(stack.getCount() > 0 && (!r && i < length || r && i >= start)) {
+				slot = inventorySlots.get(i);
+
+				existingStack = slot.getStack();
+
+				if(!existingStack.isEmpty()) {
+					int maxStack = Math.min(stack.getMaxStackSize(), slot.getSlotStackLimit());
+					int rmv = Math.min(maxStack, stack.getCount());
+
+					if(slot.isItemValid(cloneStack(stack, rmv)) && existingStack.getItem().equals(stack.getItem()) && (!stack.getHasSubtypes() || stack.getItemDamage() == existingStack.getItemDamage()) && ItemStack.areItemStackTagsEqual(stack, existingStack)) {
+						int existingSize = existingStack.getCount() + stack.getCount();
+
+						if(existingSize <= maxStack) {
+							stack.setCount(0);
+							existingStack.setCount(existingSize);
+							slot.putStack(existingStack);
+							successful = true;
+						} else if(existingStack.getCount() < maxStack) {
+							stack.shrink(maxStack - existingStack.getCount());
+							existingStack.setCount(maxStack);
+							slot.putStack(existingStack);
+							successful = true;
+						}
+					}
+				}
+				i += iterOrder;
+			}
+		}
+		if(stack.getCount() > 0) {
+			i = !r ? start : length - 1;
+			while(stack.getCount() > 0 && (!r && i < length || r && i >= start)) {
+				slot = inventorySlots.get(i);
+				existingStack = slot.getStack();
+
+				if(existingStack.isEmpty()) {
+					int maxStack = Math.min(stack.getMaxStackSize(), slot.getSlotStackLimit());
+					int rmv = Math.min(maxStack, stack.getCount());
+
+					if(slot.isItemValid(cloneStack(stack, rmv))) {
+						existingStack = stack.splitStack(rmv);
+						slot.putStack(existingStack);
+						successful = true;
+					}
+				}
+				i += iterOrder;
+			}
+		}
+		return successful;
+	}
+
+	private static ItemStack cloneStack(ItemStack stack, int size) {
+		if(stack.isEmpty())
+			return ItemStack.EMPTY;
+
+		ItemStack copy = stack.copy();
+		copy.setCount(size);
+		return copy;
 	}
 	
 	public static void saveCraftingInventory(EntityPlayer player) {
