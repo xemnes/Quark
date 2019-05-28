@@ -116,12 +116,12 @@ public class BlockPipe extends BlockModContainer implements IQuarkBlock {
 
 		state = getActualState(state, source, pos);
 
-		double minX = connectionHeight(state, EnumFacing.DOWN);
-		double minY = connectionHeight(state, EnumFacing.UP);
+		double minX = connectionHeight(state, EnumFacing.WEST);
+		double minY = connectionHeight(state, EnumFacing.DOWN);
 		double minZ = connectionHeight(state, EnumFacing.NORTH);
-		double maxX = connectionHeight(state, EnumFacing.SOUTH);
-		double maxY = connectionHeight(state, EnumFacing.EAST);
-		double maxZ = connectionHeight(state, EnumFacing.WEST);
+		double maxX = connectionHeight(state, EnumFacing.EAST);
+		double maxY = connectionHeight(state, EnumFacing.UP);
+		double maxZ = connectionHeight(state, EnumFacing.SOUTH);
 
 		boolean downFlared = isFlared(state, EnumFacing.DOWN);
 		boolean upFlared = isFlared(state, EnumFacing.UP);
