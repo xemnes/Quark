@@ -19,27 +19,26 @@ import javax.annotation.Nonnull;
 
 // Basically a copy of RenderLeashKnot but with a 2 cuz of some render things
 public class RenderLeashKnot2 extends Render<EntityLeashKnot2TheKnotting> {
-	
+
 	private static final ResourceLocation LEASH_KNOT_TEXTURES = new ResourceLocation("textures/entity/lead_knot.png");
 	private final ModelLeashKnot leashKnotModel = new ModelLeashKnot();
 
 	public static final IRenderFactory<EntityLeashKnot2TheKnotting> FACTORY = RenderLeashKnot2::new;
-	
+
 	public RenderLeashKnot2(RenderManager renderManagerIn) {
 		super(renderManagerIn);
 	}
 
 	@Override
-    public boolean shouldRender(EntityLeashKnot2TheKnotting livingEntity, @Nonnull ICamera camera, double camX, double camY, double camZ)  {
-        if(super.shouldRender(livingEntity, camera, camX, camY, camZ))
-            return true;
-        else if(livingEntity.getLeashed()) {
-            Entity entity = livingEntity.getLeashHolder();
-            return camera.isBoundingBoxInFrustum(entity.getRenderBoundingBox());
-        }
-        else return false;
-    }
-	
+	public boolean shouldRender(EntityLeashKnot2TheKnotting livingEntity, @Nonnull ICamera camera, double camX, double camY, double camZ) {
+		if (super.shouldRender(livingEntity, camera, camX, camY, camZ))
+			return true;
+		else if (livingEntity.getLeashed()) {
+			Entity entity = livingEntity.getLeashHolder();
+			return camera.isBoundingBoxInFrustum(entity.getRenderBoundingBox());
+		} else return false;
+	}
+
 	@Override
 	public void doRender(@Nonnull EntityLeashKnot2TheKnotting entity, double x, double y, double z, float entityYaw, float partialTicks) {
 		GlStateManager.pushMatrix();
@@ -51,23 +50,23 @@ public class RenderLeashKnot2 extends Render<EntityLeashKnot2TheKnotting> {
 		GlStateManager.enableAlpha();
 		bindEntityTexture(entity);
 
-		if(renderOutlines) {
+		if (renderOutlines) {
 			GlStateManager.enableColorMaterial();
 			GlStateManager.enableOutlineMode(getTeamColor(entity));
 		}
 
 		leashKnotModel.render(entity, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
 
-		if(renderOutlines) {
+		if (renderOutlines) {
 			GlStateManager.disableOutlineMode();
 			GlStateManager.disableColorMaterial();
 		}
 
 		GlStateManager.popMatrix();
-		
+
 		super.doRender(entity, x, y, z, entityYaw, partialTicks);
-		
-		if(!renderOutlines)
+
+		if (!renderOutlines && entity.getLeashed())
 			renderLeash(entity, x, y, z, partialTicks);
 	}
 
@@ -75,14 +74,16 @@ public class RenderLeashKnot2 extends Render<EntityLeashKnot2TheKnotting> {
 	protected ResourceLocation getEntityTexture(@Nonnull EntityLeashKnot2TheKnotting entity) {
 		return LEASH_KNOT_TEXTURES;
 	}
-	
-	// ================================ LEASH RENDER THINGS ================================ 
-	
-    protected void renderLeash(EntityLeashKnot2TheKnotting entityLivingIn, double x, double y, double z, float partialTicks)
-    {
-        Entity entity = entityLivingIn.getLeashHolder();
 
-		y = y - (2.9D - entityLivingIn.height) * 0.5D;
+	// ================================ LEASH RENDER THINGS ================================ 
+
+	@SuppressWarnings("ConstantConditions")
+	protected void renderLeash(EntityLeashKnot2TheKnotting leash, double x, double y, double z, float partialTicks) {
+		Entity entity = leash.getLeashHolder();
+		if (entity == null)
+			return;
+
+		y = y - (2.9D - leash.height) * 0.5D;
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder bufferbuilder = tessellator.getBuffer();
 		double d0 = this.interpolateValue(entity.prevRotationYaw, entity.rotationYaw, (partialTicks * 0.5F)) * 0.01745329238474369D;
@@ -92,8 +93,7 @@ public class RenderLeashKnot2 extends Render<EntityLeashKnot2TheKnotting> {
 		double d4 = Math.sin(d1);
 
 		float off = 1.3F;
-		if (entity instanceof EntityHanging)
-		{
+		if (entity instanceof EntityHanging) {
 			off = 1.1F;
 			d2 = 0.0D;
 			d3 = 0.0D;
@@ -105,30 +105,28 @@ public class RenderLeashKnot2 extends Render<EntityLeashKnot2TheKnotting> {
 		double d6 = this.interpolateValue(entity.prevPosX, entity.posX, partialTicks) - d2 * 0.7D - d3 * 0.5D * d5;
 		double d7 = this.interpolateValue(entity.prevPosY + entity.getEyeHeight() * 0.7D + off, entity.posY + entity.getEyeHeight() * 0.7D + off, partialTicks) - d4 * 0.5D - 0.25D;
 		double d8 = this.interpolateValue(entity.prevPosZ, entity.posZ, partialTicks) - d3 * 0.7D + d2 * 0.5D * d5;
-		double d9 = this.interpolateValue(entityLivingIn.prevRenderYawOffset, entityLivingIn.renderYawOffset, partialTicks) * 0.01745329238474369D + (Math.PI / 2D);
-		d2 = Math.cos(d9) * entityLivingIn.width * 0.4D;
-		d3 = Math.sin(d9) * entityLivingIn.width * 0.4D;
-		double d10 = this.interpolateValue(entityLivingIn.prevPosX, entityLivingIn.posX, partialTicks) + d2;
-		double d11 = this.interpolateValue(entityLivingIn.prevPosY, entityLivingIn.posY, partialTicks);
-		double d12 = this.interpolateValue(entityLivingIn.prevPosZ, entityLivingIn.posZ, partialTicks) + d3;
+		double d9 = this.interpolateValue(leash.prevRenderYawOffset, leash.renderYawOffset, partialTicks) * 0.01745329238474369D + (Math.PI / 2D);
+		d2 = Math.cos(d9) * leash.width * 0.4D;
+		d3 = Math.sin(d9) * leash.width * 0.4D;
+		double d10 = this.interpolateValue(leash.prevPosX, leash.posX, partialTicks) + d2;
+		double d11 = this.interpolateValue(leash.prevPosY, leash.posY, partialTicks);
+		double d12 = this.interpolateValue(leash.prevPosZ, leash.posZ, partialTicks) + d3;
 		x = x + d2;
 		z = z + d3;
-		double d13 = ((float)(d6 - d10));
-		double d14 = ((float)(d7 - d11));
-		double d15 = ((float)(d8 - d12));
+		double d13 = ((float) (d6 - d10));
+		double d14 = ((float) (d7 - d11));
+		double d15 = ((float) (d8 - d12));
 		GlStateManager.disableTexture2D();
 		GlStateManager.disableLighting();
 		GlStateManager.disableCull();
 		bufferbuilder.begin(GL11.GL_TRIANGLE_STRIP, DefaultVertexFormats.POSITION_COLOR);
 
-		for (int j = 0; j <= 24; ++j)
-		{
+		for (int j = 0; j <= 24; ++j) {
 			float f = 0.5F;
 			float f1 = 0.4F;
 			float f2 = 0.3F;
 
-			if (j % 2 == 0)
-			{
+			if (j % 2 == 0) {
 				f *= 0.7F;
 				f1 *= 0.7F;
 				f2 *= 0.7F;
@@ -142,14 +140,12 @@ public class RenderLeashKnot2 extends Render<EntityLeashKnot2TheKnotting> {
 		tessellator.draw();
 		bufferbuilder.begin(GL11.GL_TRIANGLE_STRIP, DefaultVertexFormats.POSITION_COLOR);
 
-		for (int k = 0; k <= 24; ++k)
-		{
+		for (int k = 0; k <= 24; ++k) {
 			float f4 = 0.5F;
 			float f5 = 0.4F;
 			float f6 = 0.3F;
 
-			if (k % 2 == 0)
-			{
+			if (k % 2 == 0) {
 				f4 *= 0.7F;
 				f5 *= 0.7F;
 				f6 *= 0.7F;
@@ -165,9 +161,8 @@ public class RenderLeashKnot2 extends Render<EntityLeashKnot2TheKnotting> {
 		GlStateManager.enableTexture2D();
 		GlStateManager.enableCull();
 	}
-    
-    private double interpolateValue(double start, double end, double pct)
-    {
-        return start + (end - start) * pct;
-    }
+
+	private double interpolateValue(double start, double end, double pct) {
+		return start + (end - start) * pct;
+	}
 }
