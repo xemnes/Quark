@@ -29,6 +29,7 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import vazkii.arl.interf.IItemColorProvider;
 import vazkii.arl.item.ItemModArmor;
+import vazkii.arl.util.ItemNBTHelper;
 import vazkii.quark.base.handler.ProxiedItemStackHandler;
 import vazkii.quark.base.item.IQuarkItem;
 import vazkii.quark.base.lib.LibMisc;
@@ -108,6 +109,9 @@ public class ItemBackpack extends ItemModArmor implements IQuarkItem, IItemColor
 			return false;
 		
 		ItemStack stack = entityItem.getItem();
+
+		if (!ItemNBTHelper.detectNBT(stack))
+			return false;
 		
 		IItemHandler handler = stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
 		if (handler == null)
@@ -117,10 +121,14 @@ public class ItemBackpack extends ItemModArmor implements IQuarkItem, IItemColor
 			ItemStack stackAt = handler.getStackInSlot(i);
 			if(!stackAt.isEmpty()) {
 				ItemStack copy = stackAt.copy();
-				stackAt.setCount(0);
 				InventoryHelper.spawnItemStack(entityItem.world, entityItem.posX, entityItem.posY, entityItem.posZ, copy);
 			}
 		}
+
+		NBTTagCompound comp = ItemNBTHelper.getNBT(stack);
+		comp.removeTag("Inventory");
+		if (comp.getSize() == 0)
+			stack.setTagCompound(null);
 		
 		return false;
 	}

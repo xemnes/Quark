@@ -65,7 +65,7 @@ public class EntityFrog extends EntityAnimal {
 		tasks.addTask(3, new EntityAITempt(this, 1.2, false, TEMPTATION_ITEMS));
 		tasks.addTask(4, new EntityAIFollowParent(this, 1.1));
 		tasks.addTask(5, new EntityAIFavorBlock(this, 1, Blocks.WATERLILY));
-		tasks.addTask(6, new EntityAIWanderAvoidWater(this, 1));
+		tasks.addTask(6, new EntityAIWanderAvoidWater(this, 1, 0.5F));
 		tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 6));
 		tasks.addTask(8, new EntityAILookIdle(this));
 	}
