@@ -4,6 +4,7 @@ import com.google.common.collect.Sets;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -15,10 +16,7 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.Path;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
+import net.minecraft.util.*;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -34,6 +32,8 @@ import java.util.Calendar;
 import java.util.Set;
 
 public class EntityFrog extends EntityAnimal {
+
+	public static final ResourceLocation FROG_LOOT_TABLE = new ResourceLocation("quark", "entities/frog");
 
 	private static final DataParameter<Integer> TALK_TIME = EntityDataManager.createKey(EntityFrog.class, DataSerializers.VARINT);
 	private static final Set<Item> TEMPTATION_ITEMS = Sets.newHashSet(Items.FISH, Items.SPIDER_EYE);
@@ -112,6 +112,44 @@ public class EntityFrog extends EntityAnimal {
 	@Override
 	protected boolean canDropLoot() {
 		return spawnChain != 0;
+	}
+
+	@Nullable
+	@Override
+	protected ResourceLocation getLootTable() {
+		return FROG_LOOT_TABLE;
+	}
+
+	private int droppedLegs = -1;
+
+	@Override
+	protected void dropLoot(boolean wasRecentlyHit, int lootingModifier, @Nonnull DamageSource source) {
+		droppedLegs = 0;
+		super.dropLoot(wasRecentlyHit, lootingModifier, source);
+		droppedLegs = -1;
+	}
+
+	@Nullable
+	@Override
+	public EntityItem entityDropItem(ItemStack stack, float offsetY) {
+		if (droppedLegs >= 0) {
+			int count = Math.max(4 - droppedLegs, 0);
+			droppedLegs += stack.getCount();
+
+			if (stack.getCount() > count) {
+				ItemStack copy = stack.copy();
+				copy.shrink(count);
+				copy.getOrCreateSubCompound("display")
+						.setString("LocName", "item.quark:frog_maybe_leg.name");
+
+				stack = stack.copy();
+				stack.shrink(copy.getCount());
+
+				super.entityDropItem(copy, offsetY);
+			}
+		}
+
+		return super.entityDropItem(stack, offsetY);
 	}
 
 	@Override

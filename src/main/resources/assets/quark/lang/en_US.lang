@@ -685,6 +685,10 @@ item.quark:dye_white.name=White Dye
 item.quark:archaeologist_hat.name=Archaeologist Hat
 item.quark:diamond_heart.name=Heart of Diamond
 item.quark:pickarang.name=Pickarang
+item.quark:frog_leg.name=Frog Leg
+item.quark:frog_maybe_leg.name=Frog "Leg"
+item.quark:cooked_frog_leg.name=Cooked Frog Leg
+item.quark:golden_frog_leg.name=Golden Frog Leg
 
 # ENTITY NAMES
 entity.quark:colored_item_frame.name=Colored Item Frame
