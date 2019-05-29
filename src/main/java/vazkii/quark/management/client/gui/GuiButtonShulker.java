@@ -19,19 +19,22 @@ public class GuiButtonShulker extends GuiButtonChest {
 	}
 
 	@Override
+	@SuppressWarnings("ConstantConditions")
 	protected void drawChest() {
 		Minecraft mc = Minecraft.getMinecraft();
 		BlockPos pos = mc.objectMouseOver.getBlockPos();
-		TileEntity tile = mc.world.getTileEntity(pos);
-		if(tile instanceof TileEntityShulkerBox) {
-			TileEntityShulkerBox shulker = (TileEntityShulkerBox) tile;
-			EnumDyeColor dye = ((BlockShulkerBox) shulker.getBlockType()).getColor();
-			int color = ItemDye.DYE_COLORS[dye.getDyeDamage()];
-			Color colorObj = new Color(color).brighter();
-			GlStateManager.color(colorObj.getRed() / 255F, colorObj.getGreen() / 255F, colorObj.getBlue() / 255F);
-			super.drawIcon(16, 128);
-			GlStateManager.color(1F, 1F, 1F);
-			return;
+		if (pos != null) {
+			TileEntity tile = mc.world.getTileEntity(pos);
+			if (tile instanceof TileEntityShulkerBox) {
+				TileEntityShulkerBox shulker = (TileEntityShulkerBox) tile;
+				EnumDyeColor dye = ((BlockShulkerBox) shulker.getBlockType()).getColor();
+				int color = ItemDye.DYE_COLORS[dye.getDyeDamage()];
+				Color colorObj = new Color(color).brighter();
+				GlStateManager.color(colorObj.getRed() / 255F, colorObj.getGreen() / 255F, colorObj.getBlue() / 255F);
+				super.drawIcon(16, 128);
+				GlStateManager.color(1F, 1F, 1F);
+				return;
+			}
 		}
 
 		super.drawChest();
