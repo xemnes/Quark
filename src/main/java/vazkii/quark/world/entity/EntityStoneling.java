@@ -124,6 +124,17 @@ public class EntityStoneling extends EntityCreature {
 		return false;
 	}
 
+	@Override
+	protected boolean processInteract(EntityPlayer player, EnumHand hand) {
+		ItemStack stack = player.getHeldItem(hand);
+
+		if(!stack.isEmpty() && stack.getItem() == Items.NAME_TAG) {
+			stack.interactWithEntity(player, this, hand);
+			return true;
+		} else
+			return super.processInteract(player, hand);
+	}
+
 	@Nonnull
 	@Override
 	public EnumActionResult applyPlayerInteraction(EntityPlayer player, Vec3d vec, EnumHand hand) {
@@ -133,6 +144,7 @@ public class EntityStoneling extends EntityCreature {
 			if(!world.isRemote) {
 				if (isPlayerMade()) {
 					if (!player.isSneaking() && !playerItem.isEmpty()) {
+
 						EnumStonelingVariant currentVariant = getVariant();
 						EnumStonelingVariant targetVariant = null;
 						for (EnumStonelingVariant variant : EnumStonelingVariant.values()) {

@@ -15,6 +15,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.village.MerchantRecipe;
 import net.minecraft.village.MerchantRecipeList;
 import net.minecraft.world.World;
@@ -108,10 +109,22 @@ public class EntityArchaeologist extends EntityLiving implements IMerchant {
 				player.addStat(StatList.TALKED_TO_VILLAGER);
 
 			if(!world.isRemote && !buyingList.isEmpty()) {
+				boolean any = false;
+				for (MerchantRecipe recipe : buyingList) {
+					if (!recipe.isRecipeDisabled()) {
+						any = true;
+						break;
+					}
+				}
+
+				if (!any) {
+					player.sendStatusMessage(new TextComponentTranslation("quarkmisc.out_of_stock", getDisplayName()), true);
+					return true;
+				}
+
 				setCustomer(player);
 				player.displayVillagerTradeGui(this);
-			}
-			else if(buyingList.isEmpty())
+			} else if(buyingList.isEmpty())
 				return super.processInteract(player, hand);
 
 			return true;
