@@ -25,7 +25,7 @@ public class EntityAIWantLove extends EntityAIBase {
 	}
 
 	public static boolean needsPets(EntityTameable entity) {
-		if (PatTheDogs.dogsWantLove <= 0)
+		if (PatTheDogs.dogsWantLove <= 0 || !entity.isTamed())
 			return false;
 
 		long lastPetAt = entity.getEntityData().getLong(PET_TIME);
