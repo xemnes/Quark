@@ -9,6 +9,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityBoat;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityPiston;
@@ -23,6 +24,7 @@ import vazkii.quark.automation.feature.PistonSpikes;
 import vazkii.quark.automation.feature.PistonsMoveTEs;
 import vazkii.quark.automation.feature.PistonsPushPullItems;
 import vazkii.quark.client.feature.BetterFireEffect;
+import vazkii.quark.client.feature.ItemsFlashBeforeExpiring;
 import vazkii.quark.client.feature.ShowInvalidSlots;
 import vazkii.quark.decoration.feature.MoreBannerLayers;
 import vazkii.quark.experimental.features.CollateralPistonMovement;
@@ -171,6 +173,11 @@ public final class ASMHooks {
 
 	public static void recordMotion(Entity entity) {
 		SpringySlime.recordMotion(entity);
+	}
+
+	// ===== ITEMS FLASH BEFORE EXPIRING ==== //
+	public static void ensureUpdatedItemAge(EntityItem entityItem) {
+		ItemsFlashBeforeExpiring.updateItemInfo(entityItem);
 	}
 	
 }

@@ -39,6 +39,7 @@ public class MessageRegister {
 		NetworkHandler.register(MessageRequestEmote.class, Side.SERVER);
 		NetworkHandler.register(MessageMatrixEnchanterOperation.class, Side.SERVER);
 		NetworkHandler.register(MessageSyncBoatBanner.class, Side.CLIENT);
+		NetworkHandler.register(MessageItemUpdate.class, Side.CLIENT);
 
 		NetworkMessage.mapHandler(LockProfile.class, LockProfile::readProfile, LockProfile::writeProfile);
 	}

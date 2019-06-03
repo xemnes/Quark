@@ -82,6 +82,9 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 
 		// For Springy Slime
 		transformers.put("net.minecraft.entity.Entity", ClassTransformer::transformEntity);
+
+		// For Items Flash Before Expiring
+		transformers.put("net.minecraft.entity.item.EntityItem", ClassTransformer::transformEntityItem);
 	}
 
 	@Override
@@ -574,6 +577,20 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 					return false;
 				}
 		)));
+	}
+
+	private static byte[] transformEntityItem(byte[] basicClass) {
+		MethodSignature sig = new MethodSignature("onUpdate", "func_70071_h_", "()V");
+
+		return transform(basicClass, forMethod(sig, (MethodNode method) -> { // Action
+			InsnList newInstructions = new InsnList();
+
+			newInstructions.add(new VarInsnNode(ALOAD, 0));
+			newInstructions.add(new MethodInsnNode(INVOKESTATIC, ASM_HOOKS, "ensureUpdatedItemAge", "(Lnet/minecraft/entity/item/EntityItem;)V", false));
+
+			method.instructions.insertBefore(method.instructions.getFirst(), newInstructions);
+			return false;
+		}));
 	}
 
 	// BOILERPLATE BELOW ==========================================================================================================================================
