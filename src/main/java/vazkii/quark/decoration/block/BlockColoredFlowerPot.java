@@ -8,7 +8,6 @@ import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.client.renderer.block.statemap.IStateMapper;
 import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraft.client.renderer.color.IItemColor;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -65,11 +64,12 @@ public class BlockColoredFlowerPot extends BlockCustomFlowerPot implements IQuar
 	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
 		return Item.getItemFromBlock(this);
 	}
-	
+
 	@Nonnull
 	@Override
+	@SuppressWarnings("deprecation")
 	public String getLocalizedName() {
-		return I18n.format(getTranslationKey() + ".name");
+		return net.minecraft.util.text.translation.I18n.translateToLocal(getTranslationKey() + ".name");
 	}
 	
 	@Override
