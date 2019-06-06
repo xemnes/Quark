@@ -211,6 +211,7 @@ public class VisualStatDisplay extends Feature {
 			GlStateManager.pushMatrix();
 			GlStateManager.color(1F, 1F, 1F);
 			Minecraft mc = Minecraft.getMinecraft();
+			GlStateManager.translate(0F, 0F, mc.getRenderItem().zLevel);
 
 			int baseX = event.getX();
 			int y = event.getY() + 10;
@@ -282,9 +283,13 @@ public class VisualStatDisplay extends Feature {
 				for (String key : VALID_ATTRIBUTES)
 					x = renderAttribute(key, x, y, stack, slotAttributes, mc);
 
-				for (String key : slotAttributes.keys())
-					if (!VALID_ATTRIBUTES.contains(key))
+				for (String key : slotAttributes.keys()) {
+					if (!VALID_ATTRIBUTES.contains(key)) {
 						mc.fontRenderer.drawStringWithShadow("[+]", x + 1, y + 1, 0xFFFF55);
+						break;
+					}
+				}
+
 
 				y += 10;
 
