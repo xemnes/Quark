@@ -10,6 +10,7 @@
  */
 package vazkii.quark.vanity.feature;
 
+import gnu.trove.map.hash.TIntObjectHashMap;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.entity.player.EntityPlayer;
@@ -22,6 +23,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.EntityInteract;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -42,6 +44,7 @@ public class BoatSails extends Feature {
 	private static final ResourceLocation BANNER_CAPABILITY = new ResourceLocation(TAG_BANNER);
 
 	private static final WeakHashMap<EntityBoat, ItemStack> cachedStacks = new WeakHashMap<>();
+	private static final TIntObjectHashMap<ItemStack> uninitializedStacks = new TIntObjectHashMap<>();
 
 	public static void setBanner(Entity entity, ItemStack banner, boolean sync) {
 		if (canHaveBanner(entity)) {
@@ -69,6 +72,10 @@ public class BoatSails extends Feature {
 		}
 	}
 
+	public static void queueBannerUpdate(int boatID, ItemStack banner) {
+		uninitializedStacks.put(boatID, banner);
+	}
+
 	@SubscribeEvent
 	public void onBoatGenesis(AttachCapabilitiesEvent<Entity> event) {
 		if (event.getObject() instanceof EntityBoat)
@@ -77,8 +84,18 @@ public class BoatSails extends Feature {
 	}
 
 	@SubscribeEvent
-	public void onBoatArrive(PlayerEvent.StartTracking event) {
+	public void onBoatSeen(PlayerEvent.StartTracking event) {
 		syncDataFor(event.getTarget(), event.getEntityPlayer());
+	}
+
+	@SubscribeEvent
+	public void onBoatArrive(EntityJoinWorldEvent event) {
+		if (event.getWorld().isRemote) {
+			Entity target = event.getEntity();
+			int id = target.getEntityId();
+			if (uninitializedStacks.containsKey(id))
+				setBanner(target, uninitializedStacks.get(id), false);
+		}
 	}
 
 	@SubscribeEvent

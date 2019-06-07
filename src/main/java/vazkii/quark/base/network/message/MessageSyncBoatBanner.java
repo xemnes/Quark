@@ -11,6 +11,7 @@
 package vazkii.quark.base.network.message;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
@@ -40,8 +41,13 @@ public class MessageSyncBoatBanner extends NetworkMessage<MessageSyncBoatBanner>
 	public IMessage handleMessage(MessageContext context) {
 		ClientTicker.addAction(() -> {
 			World world = Minecraft.getMinecraft().world;
-			if (world != null)
-				BoatSails.setBanner(world.getEntityByID(boat), banner, false);
+			if (world != null) {
+				Entity boatEntity = world.getEntityByID(boat);
+				if (boatEntity == null)
+					BoatSails.queueBannerUpdate(boat, banner);
+				else
+					BoatSails.setBanner(boatEntity, banner, false);
+			}
 		});
 		return null;
 	}
