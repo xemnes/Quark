@@ -17,6 +17,7 @@ import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.apache.commons.lang3.tuple.Pair;
 import vazkii.quark.base.module.Feature;
 
 import java.util.ArrayList;
@@ -26,7 +27,8 @@ import java.util.regex.Pattern;
 
 public class EnchantedBooksShowItems extends Feature {
 	
-	private static List<ItemStack> testItems;
+	private static final List<Pair<ResourceLocation, Integer>> testItemLocs = new ArrayList<>();
+	private static final List<ItemStack> testItems = new ArrayList<>();
 
 	private static final Pattern RL_MATCHER = Pattern.compile("^((?:\\w+:)?\\w+)(@\\d+)?$");
 
@@ -38,16 +40,14 @@ public class EnchantedBooksShowItems extends Feature {
 				"minecraft:shears", "minecraft:bow", "minecraft:fishing_rod", "minecraft:elytra", "quark:pickarang"
 		});
 
-		testItems = new ArrayList<>();
+		testItemLocs.clear();
+		testItems.clear();
 		for(String s : testItemsArr) {
-
 			Matcher match = RL_MATCHER.matcher(s);
 			if (match.matches()) {
 				String metaGroup = match.group(2);
 				int meta = metaGroup == null || metaGroup.isEmpty() ? 0 : Integer.parseInt(metaGroup);
-				Item item = Item.REGISTRY.getObject(new ResourceLocation(match.group(1)));
-				if (item != null)
-					testItems.add(new ItemStack(item, 1, meta));
+				testItemLocs.add(Pair.of(new ResourceLocation(match.group(1)), meta));
 			}
 		}
 	}
@@ -129,6 +129,14 @@ public class EnchantedBooksShowItems extends Feature {
 	
 	public static List<ItemStack> getItemsForEnchantment(Enchantment e) {
 		List<ItemStack> list = new ArrayList<>();
+		if (testItems.isEmpty() && !testItemLocs.isEmpty()) {
+			for (Pair<ResourceLocation, Integer> loc : testItemLocs) {
+				Item item = Item.REGISTRY.getObject(loc.getKey());
+				if (item != null)
+					testItems.add(new ItemStack(item, 1, loc.getValue()));
+			}
+		}
+
 		for(ItemStack stack : testItems)
 			if(e.canApply(stack))
 				list.add(stack);
