@@ -33,10 +33,10 @@ public class StackableItems extends Feature {
 	@Override
 	public void init() {
 		ImmutableSet.of(Items.MINECART, Items.CHEST_MINECART, Items.COMMAND_BLOCK_MINECART, Items.FURNACE_MINECART, Items.HOPPER_MINECART, Items.TNT_MINECART)
-		.forEach(item -> item.setMaxStackSize(minecarts));
+			.forEach(item -> item.setMaxStackSize(minecarts));
 		
 		ImmutableSet.of(Items.MUSHROOM_STEW, Items.RABBIT_STEW, Items.BEETROOT_SOUP)
-		.forEach(item -> item.setMaxStackSize(soups));
+			.forEach(item -> item.setMaxStackSize(soups));
 
 		Items.SADDLE.setMaxStackSize(saddle);
 	}
@@ -47,7 +47,7 @@ public class StackableItems extends Feature {
 			EntityPlayer player = (EntityPlayer) event.getEntity();
 			ItemStack original = event.getItem();
 			ItemStack result = event.getResultStack();
-			if(original.getCount() > 1 && result.getItem() == Items.BOWL) {
+			if(original.getCount() > 1 && (result.getItem() == Items.BOWL || result.getItem() == Items.BUCKET)) {
 				ItemStack newResult = original.copy();
 				newResult.setCount(original.getCount() - 1);
 				event.setResultStack(newResult);
