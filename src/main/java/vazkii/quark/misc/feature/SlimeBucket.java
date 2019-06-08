@@ -29,13 +29,21 @@ import vazkii.quark.misc.item.ItemSlimeBucket;
 
 public class SlimeBucket extends Feature {
 
+	public static boolean oredict;
+
 	public static Item slime_bucket;
+
+	@Override
+	public void setupConfig() {
+		oredict = loadPropBool("Slime bucket is a slimeball", "", true);
+	}
 
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
 		slime_bucket = new ItemSlimeBucket();
 		
-		addOreDict("slimeball", slime_bucket);
+		if (oredict)
+			addOreDict("slimeball", slime_bucket);
 	}
 	
 	@SubscribeEvent
