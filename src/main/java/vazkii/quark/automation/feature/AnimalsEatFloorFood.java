@@ -3,8 +3,10 @@ package vazkii.quark.automation.feature;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityAnimal;
+import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.management.PlayerChunkMapEntry;
 import net.minecraft.util.math.ChunkPos;
@@ -88,12 +90,18 @@ public class AnimalsEatFloorFood extends Feature {
 					EntityItem e = nearbyFood.get(0);
 					
 					ItemStack stack = e.getItem();
+					ItemStack original = stack.copy();
 					stack.shrink(1);
 					e.setItem(stack);
 					if(stack.isEmpty())
 						e.setDead();
-					
-					animal.setInLove(null);
+
+					if (animal instanceof EntityWolf &&
+							original.getItem() instanceof ItemFood &&
+							animal.getHealth() < animal.getMaxHealth())
+						animal.heal(((ItemFood) original.getItem()).getHealAmount(original));
+					else
+						animal.setInLove(null);
 				}
 			}
 		}
