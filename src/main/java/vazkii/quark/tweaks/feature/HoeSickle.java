@@ -11,6 +11,7 @@
 package vazkii.quark.tweaks.feature;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -65,7 +66,7 @@ public class HoeSickle extends Feature {
 			return type != EnumPlantType.Water && type != EnumPlantType.Desert;
 		}
 		
-		return false;
+		return state.getMaterial() == Material.PLANTS && block.isReplaceable(world, pos);
 	}
 	
 	@Override
