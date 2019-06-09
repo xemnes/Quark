@@ -1,5 +1,15 @@
 package vazkii.quark.client.feature;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.apache.commons.lang3.tuple.Pair;
+
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.enchantment.Enchantment;
@@ -14,21 +24,20 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.event.RenderTooltipEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.apache.commons.lang3.tuple.Pair;
 import vazkii.quark.base.module.Feature;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class EnchantedBooksShowItems extends Feature {
-	
+
 	private static final List<Pair<ResourceLocation, Integer>> testItemLocs = new ArrayList<>();
 	private static final List<ItemStack> testItems = new ArrayList<>();
+
+	private static Multimap<Enchantment, ItemStack> additionalStacks = null;
+	private static String[] additionalStacksArr;
+	private static boolean loadedConfig;
 
 	private static final Pattern RL_MATCHER = Pattern.compile("^((?:\\w+:)?\\w+)(@\\d+)?$");
 
@@ -50,6 +59,23 @@ public class EnchantedBooksShowItems extends Feature {
 				testItemLocs.add(Pair.of(new ResourceLocation(match.group(1)), meta));
 			}
 		}
+
+		additionalStacksArr = loadPropStringList("Additional Stacks", 
+				"A list of additional stacks to display on each enchantment\n"
+						+ "The format is as follows:\n"
+						+ "enchant_id=item1,item2,item3...\n"
+						+ "So to display a carrot on a stick on a mending book, for example, you use:\n"
+						+ "minecraft:mending=minecraftcarrot_on_a_stick", 
+						new String[0]);
+
+		if(loadedConfig)
+			computeAdditionalStacks();
+		loadedConfig = true;
+	}
+
+	@Override
+	public void preInit(FMLPreInitializationEvent event) {
+		computeAdditionalStacks();
 	}
 
 	@SubscribeEvent
@@ -57,17 +83,17 @@ public class EnchantedBooksShowItems extends Feature {
 	public void makeTooltip(ItemTooltipEvent event) {
 		if(Minecraft.getMinecraft().player == null)
 			return;
-		
+
 		ItemStack stack = event.getItemStack();
 		if(stack.getItem() == Items.ENCHANTED_BOOK) {
 			Minecraft mc = Minecraft.getMinecraft();
 			List<String> tooltip = event.getToolTip();
 			int tooltipIndex = 0;
-			
+
 			List<EnchantmentData> enchants = getEnchantedBookEnchantments(stack);
 			for(EnchantmentData ed : enchants) {
 				String match = ed.enchantment.getTranslatedName(ed.enchantmentLevel);
-				
+
 				for(; tooltipIndex < tooltip.size(); tooltipIndex++)
 					if(tooltip.get(tooltipIndex).equals(match)) {
 						List<ItemStack> items = getItemsForEnchantment(ed.enchantment);
@@ -76,10 +102,10 @@ public class EnchantedBooksShowItems extends Feature {
 							String spaces = "";
 							while(mc.fontRenderer.getStringWidth(spaces) < len)
 								spaces += " ";
-							
+
 							tooltip.add(tooltipIndex + 1, spaces);
 						}
-						
+
 						break;
 					}
 			}
@@ -90,7 +116,7 @@ public class EnchantedBooksShowItems extends Feature {
 	@SideOnly(Side.CLIENT)
 	public void renderTooltip(RenderTooltipEvent.PostText event) {
 		ItemStack stack = event.getStack();
-		
+
 		if(stack.getItem() == Items.ENCHANTED_BOOK) {
 			Minecraft mc = Minecraft.getMinecraft();
 			List<String> tooltip = event.getLines();
@@ -98,7 +124,7 @@ public class EnchantedBooksShowItems extends Feature {
 			GlStateManager.pushMatrix();
 			GlStateManager.translate(event.getX(), event.getY() + 12, 0);
 			GlStateManager.scale(0.5, 0.5, 1.0);
-			
+
 			List<EnchantmentData> enchants = getEnchantedBookEnchantments(stack);
 			for(EnchantmentData ed : enchants) {
 				String match = TextFormatting.getTextWithoutFormattingCodes(ed.enchantment.getTranslatedName(ed.enchantmentLevel));
@@ -106,14 +132,13 @@ public class EnchantedBooksShowItems extends Feature {
 					String line = TextFormatting.getTextWithoutFormattingCodes(tooltip.get(tooltipIndex));
 					if(line != null && line.equals(match)) {
 						int drawn = 0;
-						
+
 						List<ItemStack> items = getItemsForEnchantment(ed.enchantment);
-						for(ItemStack testStack : items)
-							if(ed.enchantment.canApply(testStack)) {
-								mc.getRenderItem().renderItemIntoGUI(testStack, 6 + drawn * 18, tooltipIndex * 20 - 2);
-								drawn++;
-							}
-						
+						for(ItemStack testStack : items) {
+							mc.getRenderItem().renderItemIntoGUI(testStack, 6 + drawn * 18, tooltipIndex * 20 - 2);
+							drawn++;
+						}
+
 						break;
 					}
 				}
@@ -121,12 +146,12 @@ public class EnchantedBooksShowItems extends Feature {
 			GlStateManager.popMatrix();
 		}
 	}
-	
+
 	@Override
 	public boolean hasSubscriptions() {
 		return true;
 	}
-	
+
 	public static List<ItemStack> getItemsForEnchantment(Enchantment e) {
 		List<ItemStack> list = new ArrayList<>();
 		if (testItems.isEmpty() && !testItemLocs.isEmpty()) {
@@ -140,14 +165,17 @@ public class EnchantedBooksShowItems extends Feature {
 		for(ItemStack stack : testItems)
 			if(e.canApply(stack))
 				list.add(stack);
-		
+
+		if(additionalStacks.containsKey(e))
+			list.addAll(additionalStacks.get(e));
+
 		return list;
 	}
-	
+
 	public static List<EnchantmentData> getEnchantedBookEnchantments(ItemStack stack) {
 		NBTTagList nbttaglist = ItemEnchantedBook.getEnchantments(stack);
 		List<EnchantmentData> retList = new ArrayList<>(nbttaglist.tagCount() + 1);
-		
+
 		for(int i = 0; i < nbttaglist.tagCount(); i++) {
 			NBTTagCompound nbttagcompound = nbttaglist.getCompoundTagAt(i);
 			int j = nbttagcompound.getShort("id");
@@ -160,5 +188,33 @@ public class EnchantedBooksShowItems extends Feature {
 
 		return retList;
 	}
-	
+
+	private void computeAdditionalStacks() {
+		additionalStacks = HashMultimap.create();
+
+		for(String s : additionalStacksArr) {
+			System.out.println("Ench: " + s);
+			if(!s.contains("="))
+				continue;
+
+			String[] toks = s.split("=");
+			String left = toks[0];
+			String right = toks[1];
+
+			Enchantment ench = Enchantment.REGISTRY.getObject(new ResourceLocation(left));
+			System.out.println(ench);
+			if(ench != null) {
+				toks = right.split(",");
+
+				for(String itemId : toks) {
+					System.out.println(itemId);
+					Item item = Item.REGISTRY.getObject(new ResourceLocation(itemId));
+					System.out.println("Item: " + item);
+					if(item != null)
+						additionalStacks.put(ench, new ItemStack(item));
+				}
+			}
+		}
+	}
+
 }
