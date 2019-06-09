@@ -1,11 +1,11 @@
 package vazkii.quark.oddities.inventory;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.ContainerPlayer;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.items.SlotItemHandler;
 import vazkii.arl.util.InventoryIIH;
 import vazkii.quark.oddities.feature.Backpacks;
 
@@ -32,7 +32,7 @@ public class ContainerBackpack extends ContainerPlayer {
 			for(int i = 0; i < 3; ++i)
 				for(int j = 0; j < 9; ++j) {
 					int k = j + i * 9;
-					addSlotToContainer(new SlotItemHandler(inv, k, left + j * 18, top + i * 18));
+					addSlotToContainer(new SlotCachingItemHandler(inv, k, left + j * 18, top + i * 18));
 				}
 		}
 	}
@@ -120,6 +120,15 @@ public class ContainerBackpack extends ContainerPlayer {
 			}
 		}
 		return successful;
+	}
+
+	@Nonnull
+	@Override
+	public ItemStack slotClick(int slotId, int dragType, ClickType clickTypeIn, EntityPlayer player) {
+		SlotCachingItemHandler.cache(this);
+		ItemStack stack = super.slotClick(slotId, dragType, clickTypeIn, player);
+		SlotCachingItemHandler.applyCache(this);
+		return stack;
 	}
 
 	private static ItemStack cloneStack(ItemStack stack, int size) {
