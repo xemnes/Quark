@@ -193,7 +193,6 @@ public class EnchantedBooksShowItems extends Feature {
 		additionalStacks = HashMultimap.create();
 
 		for(String s : additionalStacksArr) {
-			System.out.println("Ench: " + s);
 			if(!s.contains("="))
 				continue;
 
@@ -202,14 +201,11 @@ public class EnchantedBooksShowItems extends Feature {
 			String right = toks[1];
 
 			Enchantment ench = Enchantment.REGISTRY.getObject(new ResourceLocation(left));
-			System.out.println(ench);
 			if(ench != null) {
 				toks = right.split(",");
 
 				for(String itemId : toks) {
-					System.out.println(itemId);
 					Item item = Item.REGISTRY.getObject(new ResourceLocation(itemId));
-					System.out.println("Item: " + item);
 					if(item != null)
 						additionalStacks.put(ench, new ItemStack(item));
 				}
