@@ -170,7 +170,8 @@ public class RevampStoneGen extends Feature {
 		case ANDESITE:
 			if(andesiteInfo.enabled)
 				event.setResult(Result.DENY);
-			
+			break;
+		case DIRT:
 			generateNewStones(event);
 			break;
 		default:
