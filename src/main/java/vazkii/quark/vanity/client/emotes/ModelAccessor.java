@@ -92,7 +92,7 @@ public class ModelAccessor implements TweenAccessor<ModelBiped> {
 
 	private final Map<ModelBiped, float[]> MODEL_VALUES = new WeakHashMap<>();
 
-	private static ModelRenderer getEarsModel(ModelPlayer model) {
+	public static ModelRenderer getEarsModel(ModelPlayer model) {
 		return model.boxList.get(model.boxList.indexOf(model.bipedLeftArm) - 2);
 	}
 

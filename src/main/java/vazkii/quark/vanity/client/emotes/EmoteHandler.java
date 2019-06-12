@@ -13,6 +13,7 @@ package vazkii.quark.vanity.client.emotes;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.model.ModelPlayer;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLivingBase;
@@ -200,6 +201,15 @@ public final class EmoteHandler {
 			resetPart(model.bipedRightArm);
 			resetPart(model.bipedLeftLeg);
 			resetPart(model.bipedRightLeg);
+			if (model instanceof ModelPlayer) {
+				ModelPlayer playerModel = (ModelPlayer) model;
+				resetPart(playerModel.bipedBodyWear);
+				resetPart(playerModel.bipedLeftArmwear);
+				resetPart(playerModel.bipedRightArmwear);
+				resetPart(playerModel.bipedLeftLegwear);
+				resetPart(playerModel.bipedRightLegwear);
+				resetPart(ModelAccessor.getEarsModel(playerModel));
+			}
 
 			ModelAccessor.INSTANCE.resetModel(model);
 		}
