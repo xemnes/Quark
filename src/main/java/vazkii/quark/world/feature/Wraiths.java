@@ -38,7 +38,9 @@ import vazkii.quark.world.client.render.RenderWraith;
 import vazkii.quark.world.entity.EntityWraith;
 import vazkii.quark.world.item.ItemSoulBead;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Wraiths extends Feature {
 
@@ -52,6 +54,9 @@ public class Wraiths extends Feature {
 	public static int weight, min, max;
 	public static int curseRange;
 
+	public static String[] wraithSounds;
+	public static List<String> validWraithSounds;
+
 	@Override
 	public void setupConfig() {
 		weight = loadPropInt("Spawn Weight", "The higher, the more will spawn", 60);
@@ -60,6 +65,32 @@ public class Wraiths extends Feature {
 		curseRange = loadPropInt("Curse Range", "", 64);
 		curseTime = loadPropInt("Curse Time", "How long the curse effect lasts for (in ticks)", 24000);
 		enableCurse = loadPropBool("Enable Curse", "", true);
+		wraithSounds = loadPropStringList("Wraith sound effects",
+				"List of sound sets to use with wraiths.\nThree sounds must be provided per entry, separated by | (in the format idle|hurt|death). Leave blank for no sound (i.e. if a mob has no ambient noise)", new String[] {
+						"entity.sheep.ambient|entity.sheep.hurt|entity.sheep.death",
+						"entity.cow.ambient|entity.cow.hurt|entity.cow.death",
+						"entity.pig.ambient|entity.pig.hurt|entity.pig.death",
+						"entity.chicken.ambient|entity.chicken.hurt|entity.chicken.death",
+						"entity.horse.ambient|entity.horse.hurt|entity.horse.death",
+						"entity.cat.ambient|entity.cat.hurt|entity.cat.death",
+						"entity.wolf.ambient|entity.wolf.hurt|entity.wolf.death",
+						"entity.villager.ambient|entity.villager.hurt|entity.villager.death",
+						"entity.polar_bear.ambient|entity.polar_bear.hurt|entity.polar_bear.death",
+						"entity.zombie.ambient|entity.zombie.hurt|entity.zombie.death",
+						"entity.skeleton.ambient|entity.skeleton.hurt|entity.skeleton.death",
+						"entity.spider.ambient|entity.spider.hurt|entity.spider.death",
+						"|entity.creeper.hurt|entity.creeper.death",
+						"entity.endermen.ambient|entity.endermen.hurt|entity.endermen.death",
+						"entity.zombie_pig.ambient|entity.zombie_pig.hurt|entity.zombie_pig.death",
+						"entity.witch.ambient|entity.witch.hurt|entity.witch.death",
+						"entity.blaze.ambient|entity.blaze.hurt|entity.blaze.death",
+						"entity.llama.ambient|entity.llama.hurt|entity.llama.death",
+						"|quark:entity.stoneling.cry|quark:entity.stoneling.die",
+						"quark:entity.frog.idle|quark:entity.frog.hurt|quark:entity.frog.die"
+				});
+
+		validWraithSounds = Arrays.stream(wraithSounds)
+				.filter((s) -> s.split("\\|").length == 3).collect(Collectors.toList());
 	}
 
 	@Override

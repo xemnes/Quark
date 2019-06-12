@@ -12,11 +12,11 @@ package vazkii.quark.world.entity;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.MobEffects;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -31,36 +31,22 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
+import vazkii.quark.world.feature.Wraiths;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class EntityWraith extends EntityZombie {
 
 	public static final ResourceLocation LOOT_TABLE = new ResourceLocation("quark:entities/wraith");
 
-	private static final DataParameter<Integer> SOUND_TYPE = EntityDataManager.createKey(EntityWraith.class, DataSerializers.VARINT);
-	private static final String TAG_SOUND_TYPE = "SoundType";
+	private static final DataParameter<String> IDLE_SOUND = EntityDataManager.createKey(EntityWraith.class, DataSerializers.STRING);
+	private static final DataParameter<String> HURT_SOUND = EntityDataManager.createKey(EntityWraith.class, DataSerializers.STRING);
+	private static final DataParameter<String> DEATH_SOUND = EntityDataManager.createKey(EntityWraith.class, DataSerializers.STRING);
+	private static final String TAG_IDLE_SOUND = "IdleSound";
+	private static final String TAG_HURT_SOUND = "HurtSound";
+	private static final String TAG_DEATH_SOUND = "DeathSound";
 
-	private static final SoundEvent[][] SOUNDS = new SoundEvent[][] {
-		{ SoundEvents.ENTITY_SHEEP_AMBIENT, SoundEvents.ENTITY_SHEEP_HURT, SoundEvents.ENTITY_SHEEP_DEATH },
-		{ SoundEvents.ENTITY_COW_AMBIENT, SoundEvents.ENTITY_COW_HURT, SoundEvents.ENTITY_COW_DEATH },
-		{ SoundEvents.ENTITY_PIG_AMBIENT, SoundEvents.ENTITY_PIG_HURT, SoundEvents.ENTITY_PIG_DEATH },
-		{ SoundEvents.ENTITY_CHICKEN_AMBIENT, SoundEvents.ENTITY_CHICKEN_HURT, SoundEvents.ENTITY_CHICKEN_DEATH },
-		{ SoundEvents.ENTITY_HORSE_AMBIENT, SoundEvents.ENTITY_HORSE_HURT, SoundEvents.ENTITY_HORSE_DEATH },
-		{ SoundEvents.ENTITY_CAT_AMBIENT, SoundEvents.ENTITY_CAT_HURT, SoundEvents.ENTITY_CAT_DEATH },
-		{ SoundEvents.ENTITY_WOLF_AMBIENT, SoundEvents.ENTITY_WOLF_HURT, SoundEvents.ENTITY_WOLF_DEATH },
-		{ SoundEvents.ENTITY_VILLAGER_AMBIENT, SoundEvents.ENTITY_VILLAGER_HURT, SoundEvents.ENTITY_VILLAGER_DEATH },
-		{ SoundEvents.ENTITY_POLAR_BEAR_AMBIENT, SoundEvents.ENTITY_POLAR_BEAR_HURT, SoundEvents.ENTITY_POLAR_BEAR_DEATH },
-		{ SoundEvents.ENTITY_ZOMBIE_AMBIENT, SoundEvents.ENTITY_ZOMBIE_HURT, SoundEvents.ENTITY_ENDERMEN_DEATH },
-		{ SoundEvents.ENTITY_SKELETON_AMBIENT, SoundEvents.ENTITY_SKELETON_HURT, SoundEvents.ENTITY_SKELETON_DEATH },
-		{ SoundEvents.ENTITY_SPIDER_AMBIENT, SoundEvents.ENTITY_SPIDER_HURT, SoundEvents.ENTITY_SPIDER_DEATH },
-		{ null, SoundEvents.ENTITY_CREEPER_HURT, SoundEvents.ENTITY_CREEPER_DEATH },
-		{ SoundEvents.ENTITY_ENDERMEN_AMBIENT, SoundEvents.ENTITY_ENDERMEN_HURT, SoundEvents.ENTITY_ENDERMEN_DEATH },
-		{ SoundEvents.ENTITY_ZOMBIE_PIG_AMBIENT, SoundEvents.ENTITY_ZOMBIE_PIG_HURT, SoundEvents.ENTITY_ZOMBIE_PIG_DEATH },
-		{ SoundEvents.ENTITY_WITCH_AMBIENT, SoundEvents.ENTITY_WITCH_HURT, SoundEvents.ENTITY_WITCH_DEATH },
-		{ SoundEvents.ENTITY_BLAZE_AMBIENT, SoundEvents.ENTITY_BLAZE_HURT, SoundEvents.ENTITY_BLAZE_DEATH },
-		{ SoundEvents.ENTITY_LLAMA_AMBIENT, SoundEvents.ENTITY_LLAMA_HURT, SoundEvents.ENTITY_LLAMA_DEATH }
-	};
 
 	public EntityWraith(World worldIn) {
 		super(worldIn);
@@ -71,7 +57,9 @@ public class EntityWraith extends EntityZombie {
 	protected void entityInit() {
 		super.entityInit();
 
-		dataManager.register(SOUND_TYPE, -1);
+		dataManager.register(IDLE_SOUND, "");
+		dataManager.register(HURT_SOUND, "");
+		dataManager.register(DEATH_SOUND, "");
 	}
 
 	@Override
@@ -91,17 +79,17 @@ public class EntityWraith extends EntityZombie {
 
 	@Override
 	protected SoundEvent getAmbientSound() {
-		return getSoundForIndex(0);
+		return getSound(IDLE_SOUND);
 	}
 
 	@Override
 	protected SoundEvent getHurtSound(DamageSource damageSource) {
-		return getSoundForIndex(1);
+		return getSound(HURT_SOUND);
 	}
 
 	@Override
 	protected SoundEvent getDeathSound() {
-		return getSoundForIndex(2);
+		return getSound(DEATH_SOUND);
 	}
 
 	@Override
@@ -109,25 +97,15 @@ public class EntityWraith extends EntityZombie {
 		return rand.nextFloat() * 0.1F + 0.75F;
 	}
 
-	public int getSoundType() {
-		return dataManager.get(SOUND_TYPE);
-	}
+	public SoundEvent getSound(DataParameter<String> param) {
+		ResourceLocation loc = new ResourceLocation(dataManager.get(param));
 
-	public SoundEvent getSoundForIndex(int i) {
-		int soundType = getSoundType();
-		if(soundType == -1)
-			return null;
-
-		return SOUNDS[soundType][i];
+		return SoundEvent.REGISTRY.getObject(loc);
 	}
 
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
-
-		if(getSoundType() == -1)
-			dataManager.set(SOUND_TYPE, rand.nextInt(SOUNDS.length));
-
 
 		AxisAlignedBB aabb = getEntityBoundingBox();
 		double x = aabb.minX + Math.random() * (aabb.maxX - aabb.minX);
@@ -155,26 +133,41 @@ public class EntityWraith extends EntityZombie {
 		return did;
 	}
 
+	@Nullable
 	@Override
-	public boolean attackEntityFrom(@Nonnull DamageSource source, float amount) {
-		if(source == DamageSource.FALL)
-			return false;
+	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData data) {
+		int idx = rand.nextInt(Wraiths.validWraithSounds.size());
+		String sound = Wraiths.validWraithSounds.get(idx);
+		String[] split = sound.split("\\|");
 
-		return super.attackEntityFrom(source, amount);
+		dataManager.set(IDLE_SOUND, split[0]);
+		dataManager.set(HURT_SOUND, split[1]);
+		dataManager.set(DEATH_SOUND, split[2]);
+
+		return super.onInitialSpawn(difficulty, data);
+	}
+
+	@Override
+	public void fall(float distance, float damageMultiplier) {
+		// NO-OP
 	}
 
 	@Override
 	public void writeEntityToNBT(NBTTagCompound compound) {
 		super.writeEntityToNBT(compound);
 
-		compound.setInteger(TAG_SOUND_TYPE, getSoundType());
+		compound.setString(TAG_IDLE_SOUND, dataManager.get(IDLE_SOUND));
+		compound.setString(TAG_HURT_SOUND, dataManager.get(HURT_SOUND));
+		compound.setString(TAG_DEATH_SOUND, dataManager.get(DEATH_SOUND));
 	}
 
 	@Override
 	public void readEntityFromNBT(NBTTagCompound compound) {
 		super.readEntityFromNBT(compound);
 
-		dataManager.set(SOUND_TYPE, compound.getInteger(TAG_SOUND_TYPE));
+		dataManager.set(IDLE_SOUND, compound.getString(TAG_IDLE_SOUND));
+		dataManager.set(HURT_SOUND, compound.getString(TAG_HURT_SOUND));
+		dataManager.set(DEATH_SOUND, compound.getString(TAG_DEATH_SOUND));
 	}
 
 	@Override
