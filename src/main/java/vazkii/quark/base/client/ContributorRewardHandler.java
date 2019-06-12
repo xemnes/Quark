@@ -8,9 +8,12 @@ import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderPlayerEvent;
-import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.base.lib.LibObfuscation;
 
 import java.io.IOException;
@@ -18,6 +21,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.*;
 
+@Mod.EventBusSubscriber(modid = LibMisc.MOD_ID)
 public class ContributorRewardHandler {
 
 	private static final ImmutableSet<String> DEV_UUID = ImmutableSet.of(
@@ -26,16 +30,39 @@ public class ContributorRewardHandler {
 			"458391f5-6303-4649-b416-e4c0d18f837a");
 
 	private static final Set<EntityPlayer> done = Collections.newSetFromMap(new WeakHashMap<>());
-	
+
+	private static String name;
+
+	private static Properties patreonTiers;
+
 	public static int localPatronTier = 0;
 	public static String featuredPatron = "";
-	
+
+	@SideOnly(Side.CLIENT)
+	public static void setupClient() {
+		name = Minecraft.getMinecraft().getSession().getUsername().toLowerCase();
+	}
+
 	public static void init() {
-		MinecraftForge.EVENT_BUS.register(ContributorRewardHandler.class);
 		new ThreadContributorListLoader();
+	}
+
+	public static int getTier(EntityPlayer player) {
+		if (patreonTiers == null)
+			return 0;
+
+		String playerName = player.getName();
+
+		for (String key : patreonTiers.stringPropertyNames()) {
+			if (key.toLowerCase(Locale.ROOT).equals(playerName))
+				return Integer.parseInt(patreonTiers.getProperty(key));
+		}
+
+		return 0;
 	}
 	
 	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
 	public static void onRenderPlayer(RenderPlayerEvent.Post event) {
 		EntityPlayer player = event.getEntityPlayer();
 		String uuid = EntityPlayer.getUUID(player.getGameProfile()).toString();
@@ -54,8 +81,7 @@ public class ContributorRewardHandler {
 	
 	private static void load(Properties props) {
 		List<String> allPatrons = new ArrayList<>(props.size());
-		
-		String name = Minecraft.getMinecraft().getSession().getUsername().toLowerCase();
+
 		props.forEach((k, v) -> {
 			String key = (String) k;
 			String value = (String) v;
@@ -64,15 +90,17 @@ public class ContributorRewardHandler {
 			if(tier < 10)
 				allPatrons.add(key);
 			
-			if(key.toLowerCase().equals(name))
+			if(name != null && key.toLowerCase(Locale.ROOT).equals(name))
 				localPatronTier = tier;
 		});
 		
 		if(!allPatrons.isEmpty())
 			featuredPatron = allPatrons.get((int) (Math.random() * allPatrons.size()));
 	}
-	
+
+	@SideOnly(Side.CLIENT)
 	private static class ThreadContributorListLoader extends Thread {
+
 
 		public ThreadContributorListLoader() {
 			setName("Quark Contributor Loading Thread");
@@ -84,10 +112,10 @@ public class ContributorRewardHandler {
 		public void run() {
 			try {
 				URL url = new URL("https://raw.githubusercontent.com/Vazkii/Quark/master/contributors.properties");
-				Properties props = new Properties();
+				patreonTiers = new Properties();
 				try (InputStreamReader reader = new InputStreamReader(url.openStream())) {
-					props.load(reader);
-					load(props);
+					patreonTiers.load(reader);
+					load(patreonTiers);
 				}
 			} catch (IOException e) {
 				e.printStackTrace();

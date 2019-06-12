@@ -48,11 +48,12 @@ public class ClientProxy extends CommonProxy {
 
 	@Override
 	public void init(FMLInitializationEvent event) {
+		ContributorRewardHandler.setupClient();
+
 		super.init(event);
 		ModuleLoader.initClient(event);
 
 		MinecraftForge.EVENT_BUS.register(ConfigEvents.class);
-		ContributorRewardHandler.init();
 	}
 
 	@Override
@@ -62,11 +63,11 @@ public class ClientProxy extends CommonProxy {
 	}
 
 	@Override
-	public void doEmote(String playerName, String emoteName) {
+	public void doEmote(String playerName, String emoteName, int tier) {
 		World world = Minecraft.getMinecraft().world;
 		EntityPlayer player = world.getPlayerEntityByName(playerName);
 		if(player instanceof AbstractClientPlayer)
-			EmoteHandler.putEmote((AbstractClientPlayer) player, emoteName);
+			EmoteHandler.putEmote((AbstractClientPlayer) player, emoteName, tier);
 	}
 
 	@Override

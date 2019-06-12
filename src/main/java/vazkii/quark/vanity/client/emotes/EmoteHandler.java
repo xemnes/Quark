@@ -59,14 +59,18 @@ public final class EmoteHandler {
 		emoteMap.put(reg, desc);
 	}
 	
-	public static void putEmote(AbstractClientPlayer player, String emoteName) {
-		if(emoteMap.containsKey(emoteName))
-			putEmote(player, emoteMap.get(emoteName));
+	public static void putEmote(AbstractClientPlayer player, String emoteName, int tier) {
+		if(emoteMap.containsKey(emoteName)) {
+			putEmote(player, emoteMap.get(emoteName), tier);
+		}
 	}
 	
-	public static void putEmote(AbstractClientPlayer player, EmoteDescriptor desc) {
+	public static void putEmote(AbstractClientPlayer player, EmoteDescriptor desc, int tier) {
 		String name = player.getName();
 		if(desc == null)
+			return;
+
+		if (desc.getTier() > tier)
 			return;
 
 		ModelBiped model = getPlayerModel(player);

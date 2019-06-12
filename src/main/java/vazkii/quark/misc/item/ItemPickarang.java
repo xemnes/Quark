@@ -61,7 +61,7 @@ public class ItemPickarang extends ItemMod implements IQuarkItem {
 	
 	@Override
 	public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
-		return  repair.getItem() == Items.DIAMOND;
+		return repair.getItem() == Items.DIAMOND;
 	}
 	
 	@Override

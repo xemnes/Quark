@@ -20,17 +20,19 @@ public class MessageDoEmote extends NetworkMessage<MessageDoEmote> {
 
 	public String emoteName;
 	public String playerName;
+	public int playerTier;
 
 	public MessageDoEmote() { }
 
-	public MessageDoEmote(String emoteName, String playerName) {
+	public MessageDoEmote(String emoteName, String playerName, int tier) {
 		this.emoteName = emoteName;
 		this.playerName = playerName;
+		this.playerTier = tier;
 	}
 
 	@Override
 	public IMessage handleMessage(MessageContext context) {
-		ClientTicker.addAction(() -> Quark.proxy.doEmote(playerName, emoteName)); 
+		ClientTicker.addAction(() -> Quark.proxy.doEmote(playerName, emoteName, playerTier));
 		
 		return null;
 	}

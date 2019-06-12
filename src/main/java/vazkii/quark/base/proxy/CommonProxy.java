@@ -17,6 +17,7 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.capability.CapabilityHandler;
+import vazkii.quark.base.client.ContributorRewardHandler;
 import vazkii.quark.base.command.CommandConfig;
 import vazkii.quark.base.module.GlobalConfig;
 import vazkii.quark.base.module.ModuleLoader;
@@ -38,6 +39,7 @@ public class CommonProxy {
 
 	public void init(FMLInitializationEvent event) {
 		ModuleLoader.init(event);
+		ContributorRewardHandler.init();
 	}
 
 	public void postInit(FMLPostInitializationEvent event) {
@@ -57,7 +59,7 @@ public class CommonProxy {
 			event.registerServerCommand(new CommandConfig());
 	}
 
-	public void doEmote(String playerName, String emoteName) {
+	public void doEmote(String playerName, String emoteName, int tier) {
 		// proxy override
 	}
 	

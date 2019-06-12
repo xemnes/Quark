@@ -13,6 +13,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import org.apache.commons.io.IOUtils;
 import vazkii.arl.network.NetworkHandler;
 import vazkii.arl.network.NetworkMessage;
+import vazkii.quark.base.client.ContributorRewardHandler;
 import vazkii.quark.vanity.feature.EmoteSystem;
 
 import javax.annotation.Nonnull;
@@ -36,7 +37,7 @@ public class MessageRequestEmote extends NetworkMessage<MessageRequestEmote> {
 		EntityPlayerMP player = context.getServerHandler().player;
 		MinecraftServer server = player.getServer();
 		if (server != null) server.addScheduledTask(() -> {
-			NetworkHandler.INSTANCE.sendToAll(new MessageDoEmote(emoteName, player.getName()));
+			NetworkHandler.INSTANCE.sendToAll(new MessageDoEmote(emoteName, player.getName(), ContributorRewardHandler.getTier(player)));
 
 			if(EmoteSystem.emoteCommands) {
 				String filename = emoteName + ".mcfunction";
