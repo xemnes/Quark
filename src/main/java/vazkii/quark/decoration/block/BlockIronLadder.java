@@ -11,6 +11,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumFacing.Axis;
@@ -29,13 +30,16 @@ import javax.annotation.Nonnull;
 
 public class BlockIronLadder extends BlockMod implements IQuarkBlock {
 
+	public static final SoundType IRON_LADDER = new SoundType(1.0F, 1.0F, SoundEvents.BLOCK_METAL_BREAK, SoundEvents.BLOCK_LADDER_STEP, SoundEvents.BLOCK_METAL_PLACE, SoundEvents.BLOCK_METAL_HIT, SoundEvents.BLOCK_LADDER_FALL);
+
+
 	public static final PropertyDirection FACING = BlockHorizontal.FACING;
 
 	public BlockIronLadder() {
 		super("iron_ladder", Material.CIRCUITS);
 		setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
 		setHardness(0.8F);
-		setSoundType(SoundType.LADDER);
+		setSoundType(IRON_LADDER);
 		setCreativeTab(CreativeTabs.DECORATIONS);
 	}
 
