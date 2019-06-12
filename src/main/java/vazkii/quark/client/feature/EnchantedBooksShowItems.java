@@ -1,15 +1,7 @@
 package vazkii.quark.client.feature;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import org.apache.commons.lang3.tuple.Pair;
-
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.enchantment.Enchantment;
@@ -24,11 +16,16 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.event.RenderTooltipEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.apache.commons.lang3.tuple.Pair;
 import vazkii.quark.base.module.Feature;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class EnchantedBooksShowItems extends Feature {
 
@@ -68,14 +65,7 @@ public class EnchantedBooksShowItems extends Feature {
 						+ "minecraft:mending=minecraftcarrot_on_a_stick", 
 						new String[0]);
 
-		if(loadedConfig)
-			computeAdditionalStacks();
 		loadedConfig = true;
-	}
-
-	@Override
-	public void preInit(FMLPreInitializationEvent event) {
-		computeAdditionalStacks();
 	}
 
 	@SubscribeEvent
@@ -162,12 +152,13 @@ public class EnchantedBooksShowItems extends Feature {
 			}
 		}
 
-		for(ItemStack stack : testItems)
-			if(e.canApply(stack))
+		for(ItemStack stack : testItems) {
+			if (e.canApply(stack))
 				list.add(stack);
+		}
 
-		if(additionalStacks.containsKey(e))
-			list.addAll(additionalStacks.get(e));
+		if(getAdditionalStacks().containsKey(e))
+			list.addAll(getAdditionalStacks().get(e));
 
 		return list;
 	}
@@ -189,7 +180,13 @@ public class EnchantedBooksShowItems extends Feature {
 		return retList;
 	}
 
-	private void computeAdditionalStacks() {
+	private static Multimap<Enchantment, ItemStack> getAdditionalStacks() {
+		if (additionalStacks == null)
+			computeAdditionalStacks();
+		return additionalStacks;
+	}
+
+	private static void computeAdditionalStacks() {
 		additionalStacks = HashMultimap.create();
 
 		for(String s : additionalStacksArr) {
