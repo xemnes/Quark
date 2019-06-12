@@ -46,7 +46,7 @@ public class SitInStairs extends Feature {
 	@SubscribeEvent
 	public void onInteract(PlayerInteractEvent.RightClickBlock event) {
 		EntityPlayer player = event.getEntityPlayer();
-		if(player.getRidingEntity() != null)
+		if(player.isSneaking() || player.getRidingEntity() != null)
 			return;
 		
 		World world = event.getWorld();

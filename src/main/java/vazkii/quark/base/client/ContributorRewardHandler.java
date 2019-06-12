@@ -98,9 +98,7 @@ public class ContributorRewardHandler {
 			featuredPatron = allPatrons.get((int) (Math.random() * allPatrons.size()));
 	}
 
-	@SideOnly(Side.CLIENT)
 	private static class ThreadContributorListLoader extends Thread {
-
 
 		public ThreadContributorListLoader() {
 			setName("Quark Contributor Loading Thread");
