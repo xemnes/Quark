@@ -174,6 +174,8 @@ public class EntityStoneling extends EntityCreature {
 
 							return EnumActionResult.SUCCESS;
 						}
+
+						return EnumActionResult.PASS;
 					}
 
 					ItemStack stonelingItem = dataManager.get(CARRYING_ITEM);
@@ -196,11 +198,10 @@ public class EntityStoneling extends EntityCreature {
 
 					if (world instanceof WorldServer)
 						((WorldServer) world).spawnParticle(EnumParticleTypes.HEART, posX, posY + height, posZ, 4, 0.1, 0.1, 0.1, 0.1);
+
+					return EnumActionResult.SUCCESS;
 				}
 			}
-
-
-			return EnumActionResult.SUCCESS;
 		}
 
 		return EnumActionResult.PASS;
