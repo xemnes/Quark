@@ -1,11 +1,10 @@
 package vazkii.quark.world.entity;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -13,6 +12,7 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.RayTraceResult.Type;
@@ -67,25 +67,21 @@ public class EntityPickarang extends EntityThrowable {
 		if(result.typeOfHit == Type.BLOCK) {
 			dataManager.set(RETURNING, true);
 			
-			if(!(owner instanceof EntityPlayer))
+			if(!(owner instanceof EntityPlayerMP))
 				return;
 			
-			EntityPlayer player = (EntityPlayer) owner;
+			EntityPlayerMP player = (EntityPlayerMP) owner;
 			BlockPos hit = result.getBlockPos();
-			IBlockState state = world.getBlockState(hit);
-			Block block = state.getBlock();
-			
-			float hardness = state.getBlockHardness(world, hit);
-			int neededHarvestLevel = block.getHarvestLevel(state);
-			int harvestLevel = 3;
 
-			// TODO if not play clink sound
-			if(neededHarvestLevel <= harvestLevel && hardness != -1 && hardness < 50F) {
-				world.setBlockToAir(hit);
-				world.playEvent(2001, hit, Block.getStateId(state));
+			ItemStack prev = player.getHeldItemMainhand();
+			player.setHeldItem(EnumHand.MAIN_HAND, getStack());
 
-				block.harvestBlock(world, player, hit, state, world.getTileEntity(hit), getStack());
+			if (!player.interactionManager.tryHarvestBlock(hit)) {
+				// TODO: 6/14/19 clink
 			}
+
+			player.setHeldItem(EnumHand.MAIN_HAND, prev);
+
 		} else if(result.typeOfHit == Type.ENTITY) {
 			Entity hit = result.entityHit;
 			if(hit != owner) {
