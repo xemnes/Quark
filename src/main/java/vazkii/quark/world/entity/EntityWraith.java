@@ -47,7 +47,6 @@ public class EntityWraith extends EntityZombie {
 	private static final String TAG_HURT_SOUND = "HurtSound";
 	private static final String TAG_DEATH_SOUND = "DeathSound";
 
-
 	public EntityWraith(World worldIn) {
 		super(worldIn);
 		isImmuneToFire = true;
@@ -173,6 +172,16 @@ public class EntityWraith extends EntityZombie {
 	@Override
 	protected ResourceLocation getLootTable() {
 		return LOOT_TABLE;
+	}
+
+	@Override
+	public void setChild(boolean childZombie) {
+		// NO-OP
+	}
+
+	@Override
+	public boolean isChild() {
+		return false;
 	}
 
 	@Override
