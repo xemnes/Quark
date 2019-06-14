@@ -2,6 +2,9 @@ package vazkii.quark.base.asm;
 
 import net.minecraft.block.state.BlockPistonStructureHelper;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.inventory.GuiBeacon;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.block.model.BakedQuad;
@@ -31,6 +34,7 @@ import vazkii.quark.experimental.features.CollateralPistonMovement;
 import vazkii.quark.experimental.features.ColoredLights;
 import vazkii.quark.management.feature.BetterCraftShifting;
 import vazkii.quark.misc.feature.ColorRunes;
+import vazkii.quark.misc.feature.ExtraPotions;
 import vazkii.quark.tweaks.feature.ImprovedSleeping;
 import vazkii.quark.tweaks.feature.SpringySlime;
 import vazkii.quark.vanity.client.emotes.EmoteHandler;
@@ -178,6 +182,12 @@ public final class ASMHooks {
 	// ===== ITEMS FLASH BEFORE EXPIRING ==== //
 	public static void ensureUpdatedItemAge(EntityItem entityItem) {
 		ItemsFlashBeforeExpiring.updateItemInfo(entityItem);
+	}
+
+	// ===== EXTRA POTIONS ==== //
+	@SideOnly(Side.CLIENT)
+	public static boolean renderBeaconButton(GuiButton button, GuiBeacon beacon, Minecraft minecraft, int mouseX, int mouseY, float partialTicks) {
+		return ExtraPotions.renderPotion(button, beacon, minecraft, mouseX, mouseY, partialTicks);
 	}
 	
 }

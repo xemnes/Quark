@@ -3,7 +3,9 @@ package vazkii.quark.misc.feature;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiBeacon;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
 import net.minecraft.init.PotionTypes;
@@ -35,6 +37,7 @@ import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.base.potion.PotionMod;
+import vazkii.quark.misc.client.gui.BeaconRenderAccessor;
 import vazkii.quark.world.feature.Biotite;
 import vazkii.quark.world.feature.UndergroundBiomes;
 
@@ -203,6 +206,41 @@ public class ExtraPotions extends Feature {
 				}
 			}
 		}
+	}
+
+	private static final ResourceLocation BEACON_GUI_TEXTURES = new ResourceLocation("textures/gui/container/beacon.png");
+
+	@SideOnly(Side.CLIENT)
+	public static boolean renderPotion(GuiButton button, GuiBeacon beacon, Minecraft minecraft, int mouseX, int mouseY, float partialTicks) {
+		if (!ModuleLoader.isFeatureEnabled(ExtraPotions.class))
+			return false;
+
+		Potion potion = BeaconRenderAccessor.getPotion(button);
+		ResourceLocation loc = potion.getRegistryName();
+		if (loc == null || loc.getNamespace().equals("minecraft"))
+			return false;
+
+		if (button.visible) {
+			minecraft.getTextureManager().bindTexture(BEACON_GUI_TEXTURES);
+			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+			boolean hovered = mouseX >= button.x && mouseY >= button.y && mouseX < button.x + button.width && mouseY < button.y + button.height;
+			BeaconRenderAccessor.setButtonHovered(button, hovered);
+			int width = 0;
+			int height = 219;
+
+			if (!button.enabled)
+				width += button.width * 2;
+			else if (BeaconRenderAccessor.getButtonSelected(button))
+				width += button.width;
+			else if (hovered)
+				width += button.width * 3;
+
+			beacon.drawTexturedModalRect(button.x, button.y, width, height, button.width, button.height);
+
+			potion.renderInventoryEffect(new PotionEffect(potion), beacon, button.x + 2, button.y + 2, BeaconRenderAccessor.getZLevel(beacon));
+		}
+
+		return true;
 	}
 
 	private PotionType addPotion(PotionEffect eff, String baseName, String name) {

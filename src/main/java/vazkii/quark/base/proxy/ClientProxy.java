@@ -12,6 +12,7 @@ package vazkii.quark.base.proxy;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
+import net.minecraft.client.gui.inventory.GuiBeacon;
 import net.minecraft.client.resources.IResourcePack;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
@@ -44,6 +45,8 @@ public class ClientProxy extends CommonProxy {
 
 		super.preInit(event);
 		ModuleLoader.preInitClient(event);
+
+		GuiBeacon.class.getName();
 	}
 
 	@Override

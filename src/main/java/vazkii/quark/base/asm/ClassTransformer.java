@@ -14,12 +14,11 @@ import net.minecraft.launchwrapper.IClassTransformer;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraftforge.fml.common.asm.transformers.deobf.FMLDeobfuscatingRemapper;
 import org.apache.logging.log4j.LogManager;
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.*;
 import org.objectweb.asm.tree.*;
 import org.objectweb.asm.util.Printer;
 import org.objectweb.asm.util.Textifier;
+import org.objectweb.asm.util.TraceClassVisitor;
 import org.objectweb.asm.util.TraceMethodVisitor;
 
 import java.io.PrintWriter;
@@ -85,6 +84,9 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 
 		// For Items Flash Before Expiring
 		transformers.put("net.minecraft.entity.item.EntityItem", ClassTransformer::transformEntityItem);
+
+		// For Extra Potions
+		transformers.put("net.minecraft.client.gui.inventory.GuiBeacon$PowerButton", ClassTransformer::transformBeaconButton);
 	}
 
 	@Override
@@ -593,6 +595,60 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 		}));
 	}
 
+	private static byte[] transformBeaconButton(byte[] basicClass) {
+		MethodSignature sig = new MethodSignature("drawButton", "func_191745_a", "(Lnet/minecraft/client/Minecraft;IIF)V");
+
+
+		return transform(basicClass, inject(sig, (MethodVisitor method) -> {
+			InsnList instructions = new InsnList();
+
+			Label begin = new Label();
+			Label end = new Label();
+			Label skipSuper = new Label();
+
+			method.visitParameter("this", ACC_MANDATED);
+			method.visitParameter("mc", ACC_MANDATED);
+			method.visitParameter("mouseX", ACC_MANDATED);
+			method.visitParameter("mouseY", ACC_MANDATED);
+			method.visitParameter("partialTicks", ACC_MANDATED);
+
+			method.visitCode();
+			method.visitLabel(begin);
+			method.visitVarInsn(ALOAD, 0);
+			method.visitVarInsn(ALOAD, 0);
+			method.visitFieldInsn(GETFIELD, "net/minecraft/client/gui/inventory/GuiBeacon$PowerButton", "this$0", "Lnet/minecraft/client/gui/inventory/GuiBeacon;");
+			method.visitVarInsn(ALOAD, 1);
+			method.visitVarInsn(ILOAD, 2);
+			method.visitVarInsn(ILOAD, 3);
+			method.visitVarInsn(FLOAD, 4);
+			method.visitMethodInsn(INVOKESTATIC, ASM_HOOKS, "renderBeaconButton",
+					"(Lnet/minecraft/client/gui/GuiButton;Lnet/minecraft/client/gui/inventory/GuiBeacon;Lnet/minecraft/client/Minecraft;IIF)Z", false);
+
+			method.visitJumpInsn(IFNE, skipSuper);
+			method.visitVarInsn(ALOAD, 0);
+			method.visitVarInsn(ALOAD, 1);
+			method.visitVarInsn(ILOAD, 2);
+			method.visitVarInsn(ILOAD, 3);
+			method.visitVarInsn(FLOAD, 4);
+			method.visitMethodInsn(INVOKESPECIAL, "net/minecraft/client/gui/inventory/GuiBeacon$Button", LoadingPlugin.runtimeDeobfEnabled ? sig.srgName : sig.funcName, sig.funcDesc, false);
+			method.visitLabel(skipSuper);
+			method.visitInsn(RETURN);
+			method.visitLabel(end);
+
+			method.visitLocalVariable("this", "Lnet/minecraft/client/gui/inventory/GuiBeacon$PowerButton;", null, begin, end, 0);
+			method.visitLocalVariable("mc", "Lnet/minecraft/client/Minecraft;", null, begin, end, 1);
+			method.visitLocalVariable("mouseX", "I", null, begin, end, 2);
+			method.visitLocalVariable("mouseY", "I", null, begin, end, 3);
+			method.visitLocalVariable("partialTicks", "F", null, begin, end, 4);
+
+			method.visitMaxs(5, 5);
+
+			method.visitEnd();
+
+			return true;
+		}));
+	}
+
 	// BOILERPLATE BELOW ==========================================================================================================================================
 
 	private static byte[] transform(byte[] basicClass, TransformerAction... methods) {
@@ -608,14 +664,12 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 
 		boolean didAnything = false;
 
-		for (TransformerAction pair : methods) {
-			log("Applying Transformation to method (" + pair.sig + ")");
-			for (MethodAction action : pair.actions)
-				didAnything |= findMethodAndTransform(node, pair.sig, action);
-		}
+		for (TransformerAction pair : methods)
+			didAnything |= pair.test(node);
 
 		if (didAnything) {
 			ClassWriter writer = new SafeClassWriter(ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
+//			log(getNodeString(node));
 			node.accept(writer);
 			return writer.toByteArray();
 		}
@@ -663,6 +717,17 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 	private static void log(String str) {
 		LogManager.getLogger("Quark ASM").info(str);
 	}
+
+	private static String getNodeString(ClassNode node) {
+		StringWriter sw = new StringWriter();
+		PrintWriter printer = new PrintWriter(sw);
+
+		TraceClassVisitor visitor = new TraceClassVisitor(printer);
+		node.accept(visitor);
+
+		return sw.toString();
+	}
+
 
 	private static String getNodeString(AbstractInsnNode node) {
 		Printer printer = new Textifier();
@@ -776,17 +841,61 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 		// NO-OP
 	}
 
-	private static TransformerAction forMethod(MethodSignature sig, MethodAction... actions) {
-		return new TransformerAction(sig, actions);
+	private interface TransformerAction extends Predicate<ClassNode> {
+		// NO-OP
 	}
 
-	private final static class TransformerAction {
+	private interface NewMethodAction extends Predicate<MethodVisitor> {
+		// NO-OP
+	}
+
+	private static TransformerAction forMethod(MethodSignature sig, MethodAction... actions) {
+		return new MethodTransformerAction(sig, actions);
+	}
+
+	private static TransformerAction inject(MethodSignature sig, NewMethodAction... actions) {
+		return new MethodInjectorAction(sig, actions);
+	}
+
+	private static class MethodTransformerAction implements TransformerAction {
 		private final MethodSignature sig;
 		private final MethodAction[] actions;
 
-		public TransformerAction(MethodSignature sig, MethodAction[] actions) {
+		public MethodTransformerAction(MethodSignature sig, MethodAction[] actions) {
 			this.sig = sig;
 			this.actions = actions;
+		}
+
+		@Override
+		public boolean test(ClassNode classNode) {
+			boolean didAnything = false;
+			log("Applying Transformation to method (" + sig + ")");
+			for (MethodAction action : actions)
+				didAnything |= findMethodAndTransform(classNode, sig, action);
+			return didAnything;
+		}
+	}
+
+	private static class MethodInjectorAction implements TransformerAction {
+		private final MethodSignature sig;
+		private final NewMethodAction[] actions;
+
+		public MethodInjectorAction(MethodSignature sig, NewMethodAction[] actions) {
+			this.sig = sig;
+			this.actions = actions;
+		}
+
+		@Override
+		public boolean test(ClassNode classNode) {
+			log("Injecting method (" + sig + ")");
+
+			MethodVisitor method = classNode.visitMethod(ACC_PUBLIC, LoadingPlugin.runtimeDeobfEnabled ? sig.srgName : sig.funcName, sig.funcDesc, null, null);
+			for (NewMethodAction action : actions) {
+					boolean finish = action.test(method);
+					log("Patch result: " + finish);
+			}
+
+			return true;
 		}
 	}
 
