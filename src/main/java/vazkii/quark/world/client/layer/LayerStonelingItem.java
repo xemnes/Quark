@@ -10,8 +10,6 @@
  */
 package vazkii.quark.world.client.layer;
 
-import javax.annotation.Nonnull;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
@@ -21,6 +19,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.world.entity.EntityStoneling;
+
+import javax.annotation.Nonnull;
 
 @SideOnly(Side.CLIENT)
 public class LayerStonelingItem implements LayerRenderer<EntityStoneling> {
@@ -37,7 +37,7 @@ public class LayerStonelingItem implements LayerRenderer<EntityStoneling> {
 				GlStateManager.rotate(90F, 1F, 0F, 0F);
 			} else GlStateManager.rotate(180F, 1F, 0F, 0F);
 			
-			GlStateManager.scale(0.75F, 0.75F, 0.75F);
+			GlStateManager.scale(0.725F, 0.725F, 0.725F);
 			Minecraft mc = Minecraft.getMinecraft();
 			mc.getRenderItem().renderItem(stack, ItemCameraTransforms.TransformType.FIXED);
 			GlStateManager.popMatrix();
