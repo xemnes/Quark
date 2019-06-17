@@ -163,7 +163,7 @@ public class AncientTomes extends Feature {
 		Map<Enchantment, Integer> enchantsTome = EnchantmentHelper.getEnchantments(tome);
 		for (Map.Entry<Enchantment, Integer> entry : enchantsTome.entrySet()) {
 			if(enchantsBook.getOrDefault(entry.getKey(), 0).equals(entry.getValue())){
-				enchantsBook.put(entry.getKey(), entry.getValue() + 1);
+				enchantsBook.put(entry.getKey(), Math.min(entry.getValue(), entry.getKey().getMaxLevel()) + 1);
 			} else {
 				return;
 			}
