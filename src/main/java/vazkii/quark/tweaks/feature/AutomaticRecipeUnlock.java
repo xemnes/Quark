@@ -2,10 +2,10 @@ package vazkii.quark.tweaks.feature;
 
 import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButtonImage;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiCrafting;
 import net.minecraft.client.gui.inventory.GuiInventory;
-import net.minecraft.client.gui.recipebook.GuiButtonRecipe;
 import net.minecraft.client.gui.toasts.GuiToast;
 import net.minecraft.client.gui.toasts.IToast;
 import net.minecraft.client.gui.toasts.RecipeToast;
@@ -61,7 +61,7 @@ public class AutomaticRecipeUnlock extends Feature {
 		GuiScreen gui = event.getGui();
 		if(disableRecipeBook && (gui instanceof GuiInventory || gui instanceof GuiCrafting)) {
 			Minecraft.getMinecraft().player.getRecipeBook().setGuiOpen(false);
-			event.getButtonList().removeIf((b) -> b instanceof GuiButtonRecipe);
+			event.getButtonList().removeIf((b) -> b instanceof GuiButtonImage && b.id == 10);
 		}
 	}
 
