@@ -87,6 +87,9 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 
 		// For Extra Potions
 		transformers.put("net.minecraft.client.gui.inventory.GuiBeacon$PowerButton", ClassTransformer::transformBeaconButton);
+
+		// For Better Nausea
+		transformers.put("net.minecraft.client.renderer.EntityRenderer", ClassTransformer::transformEntityRenderer);
 	}
 
 	@Override
@@ -647,6 +650,27 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 
 			return true;
 		}));
+	}
+
+	private static byte[] transformEntityRenderer(byte[] basicClass) {
+		MethodSignature sig = new MethodSignature("renderWorldPass", "func_175068_a", "(IFJ)V");
+		MethodSignature target = new MethodSignature("setupCameraTransform", "func_78479_a", "(FI)V");
+
+		return transform(basicClass, forMethod(sig, combine(
+				(AbstractInsnNode node) -> { // Filter
+					return (node.getOpcode() == INVOKEVIRTUAL || node.getOpcode() == INVOKESPECIAL) && target.matches((MethodInsnNode) node);
+				},
+				(MethodNode method, AbstractInsnNode node) -> { // Action
+					InsnList newInstructions = new InsnList();
+
+					newInstructions.add(new VarInsnNode(ALOAD, 0));
+					newInstructions.add(new VarInsnNode(FLOAD, 2));
+					newInstructions.add(new MethodInsnNode(INVOKESTATIC, ASM_HOOKS, "renderNausea", "(Lnet/minecraft/client/renderer/EntityRenderer;F)V", false));
+
+					method.instructions.insert(node, newInstructions);
+					return false;
+				}
+		)));
 	}
 
 	// BOILERPLATE BELOW ==========================================================================================================================================

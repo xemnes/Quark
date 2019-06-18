@@ -37,7 +37,7 @@ import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.base.potion.PotionMod;
-import vazkii.quark.misc.client.gui.BeaconRenderAccessor;
+import vazkii.quark.base.client.ClientReflectiveAccessor;
 import vazkii.quark.world.feature.Biotite;
 import vazkii.quark.world.feature.UndergroundBiomes;
 
@@ -215,7 +215,7 @@ public class ExtraPotions extends Feature {
 		if (!ModuleLoader.isFeatureEnabled(ExtraPotions.class))
 			return false;
 
-		Potion potion = BeaconRenderAccessor.getPotion(button);
+		Potion potion = ClientReflectiveAccessor.getPotion(button);
 		ResourceLocation loc = potion.getRegistryName();
 		if (loc == null || loc.getNamespace().equals("minecraft"))
 			return false;
@@ -224,20 +224,20 @@ public class ExtraPotions extends Feature {
 			minecraft.getTextureManager().bindTexture(BEACON_GUI_TEXTURES);
 			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 			boolean hovered = mouseX >= button.x && mouseY >= button.y && mouseX < button.x + button.width && mouseY < button.y + button.height;
-			BeaconRenderAccessor.setButtonHovered(button, hovered);
+			ClientReflectiveAccessor.setButtonHovered(button, hovered);
 			int width = 0;
 			int height = 219;
 
 			if (!button.enabled)
 				width += button.width * 2;
-			else if (BeaconRenderAccessor.getButtonSelected(button))
+			else if (ClientReflectiveAccessor.getButtonSelected(button))
 				width += button.width;
 			else if (hovered)
 				width += button.width * 3;
 
 			beacon.drawTexturedModalRect(button.x, button.y, width, height, button.width, button.height);
 
-			potion.renderInventoryEffect(new PotionEffect(potion), beacon, button.x + 2, button.y + 2, BeaconRenderAccessor.getZLevel(beacon));
+			potion.renderInventoryEffect(new PotionEffect(potion), beacon, button.x + 2, button.y + 2, ClientReflectiveAccessor.getZLevel(beacon));
 		}
 
 		return true;

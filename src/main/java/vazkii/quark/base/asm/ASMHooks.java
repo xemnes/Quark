@@ -7,6 +7,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiBeacon;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -27,6 +28,7 @@ import vazkii.quark.automation.feature.PistonSpikes;
 import vazkii.quark.automation.feature.PistonsMoveTEs;
 import vazkii.quark.automation.feature.PistonsPushPullItems;
 import vazkii.quark.client.feature.BetterFireEffect;
+import vazkii.quark.client.feature.BetterNausea;
 import vazkii.quark.client.feature.ItemsFlashBeforeExpiring;
 import vazkii.quark.client.feature.ShowInvalidSlots;
 import vazkii.quark.decoration.feature.MoreBannerLayers;
@@ -188,6 +190,12 @@ public final class ASMHooks {
 	@SideOnly(Side.CLIENT)
 	public static boolean renderBeaconButton(GuiButton button, GuiBeacon beacon, Minecraft minecraft, int mouseX, int mouseY, float partialTicks) {
 		return ExtraPotions.renderPotion(button, beacon, minecraft, mouseX, mouseY, partialTicks);
+	}
+
+	// ===== BETTER NAUSEA ==== //
+	@SideOnly(Side.CLIENT)
+	public static void renderNausea(EntityRenderer renderer, float partialTicks) {
+		BetterNausea.renderNausea(renderer, partialTicks);
 	}
 	
 }
