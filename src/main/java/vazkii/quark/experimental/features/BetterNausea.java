@@ -1,5 +1,5 @@
 /**
- * This class was created by <Vazkii>. It's distributed as
+ * This class was created by <WireSegal>. It's distributed as
  * part of the Quark Mod. Get the Source Code in github:
  * https://github.com/Vazkii/Quark
  *
@@ -8,7 +8,7 @@
  *
  * File Created @ [19/03/2016, 16:37:16 (GMT)]
  */
-package vazkii.quark.client.feature;
+package vazkii.quark.experimental.features;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
