@@ -98,7 +98,6 @@ public class Archaeologist extends Feature {
 								if (name.matches("^ore[A-Z][a-zA-Z]+$")) {
 									if (player.world.rand.nextFloat() < increaseChance) {
 										drop.grow(1);
-										System.out.println("GROWN " + drop);
 									}
 
 									break;
