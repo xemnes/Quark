@@ -108,7 +108,8 @@ public class GuiButtonChest extends GuiButton implements IParentedGui {
 						}
 					}
 				}
-				
+
+				GlStateManager.translate(0, 0, Minecraft.getMinecraft().getRenderItem().zLevel);
 				RenderHelper.renderTooltip(par2 + tooltipShift, par3 + 8, tooltipList);
 				GlStateManager.popMatrix();
 			}
