@@ -29,9 +29,11 @@ public class ContributorRewardHandler {
 			"0d054077-a977-4b19-9df9-8a4d5bf20ec3",
 			"458391f5-6303-4649-b416-e4c0d18f837a");
 
-	private static final Set<EntityPlayer> done = Collections.newSetFromMap(new WeakHashMap<>());
+	private static final Set<String> done = Collections.newSetFromMap(new WeakHashMap<>());
 
 	private static String name;
+
+	private static final Map<String, Integer> tiers = new HashMap<>();
 
 	private static Properties patreonTiers;
 
@@ -48,17 +50,7 @@ public class ContributorRewardHandler {
 	}
 
 	public static int getTier(EntityPlayer player) {
-		if (patreonTiers == null)
-			return 0;
-
-		String playerName = player.getName();
-
-		for (String key : patreonTiers.stringPropertyNames()) {
-			if (key.toLowerCase(Locale.ROOT).equals(playerName))
-				return Integer.parseInt(patreonTiers.getProperty(key));
-		}
-
-		return 0;
+		return tiers.getOrDefault(player.getName().toLowerCase(Locale.ROOT), 0);
 	}
 	
 	@SubscribeEvent
@@ -66,7 +58,7 @@ public class ContributorRewardHandler {
 	public static void onRenderPlayer(RenderPlayerEvent.Post event) {
 		EntityPlayer player = event.getEntityPlayer();
 		String uuid = EntityPlayer.getUUID(player.getGameProfile()).toString();
-		if(player instanceof AbstractClientPlayer && DEV_UUID.contains(uuid) && !done.contains(player)) {
+		if(player instanceof AbstractClientPlayer && DEV_UUID.contains(uuid) && !done.contains(uuid)) {
 			AbstractClientPlayer clientPlayer = (AbstractClientPlayer) player;
 			if(clientPlayer.hasPlayerInfo()) {
 				NetworkPlayerInfo info = ObfuscationReflectionHelper.getPrivateValue(AbstractClientPlayer.class, clientPlayer, LibObfuscation.PLAYER_INFO);
@@ -74,7 +66,7 @@ public class ContributorRewardHandler {
 				ResourceLocation loc = new ResourceLocation("quark", "textures/misc/dev_cape.png");
 				textures.put(Type.CAPE, loc);
 				textures.put(Type.ELYTRA, loc);
-				done.add(player);
+				done.add(uuid);
 			}
 		}
 	}
@@ -89,6 +81,7 @@ public class ContributorRewardHandler {
 			int tier = Integer.parseInt(value);
 			if(tier < 10)
 				allPatrons.add(key);
+			tiers.put(key, tier);
 			
 			if(name != null && key.toLowerCase(Locale.ROOT).equals(name))
 				localPatronTier = tier;
