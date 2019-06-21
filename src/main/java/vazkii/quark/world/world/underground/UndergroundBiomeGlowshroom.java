@@ -9,7 +9,7 @@ import vazkii.quark.world.feature.UndergroundBiomes;
 
 public class UndergroundBiomeGlowshroom extends BasicUndergroundBiome {
 
-	public static int mushroomChance;
+	public static double mushroomChance;
 	
 	public UndergroundBiomeGlowshroom() {
 		super(Blocks.DIRT.getDefaultState(), Blocks.DIRT.getDefaultState(), Blocks.DIRT.getDefaultState());
@@ -20,19 +20,19 @@ public class UndergroundBiomeGlowshroom extends BasicUndergroundBiome {
 		if(UndergroundBiomes.glowceliumEnabled) {
 			world.setBlockState(pos, UndergroundBiomes.glowcelium.getDefaultState());
 			
-			if(mushroomChance > 0 && world.rand.nextInt(mushroomChance) == 0) 
+			if(world.rand.nextDouble() < mushroomChance)
 				world.setBlockState(pos.up(), UndergroundBiomes.glowshroom.getDefaultState());
 		} else { 
 			super.fillFloor(world, pos, state);
 			
-			if(mushroomChance > 0 && world.rand.nextInt(mushroomChance) == 0) 
+			if(world.rand.nextDouble() < mushroomChance)
 				world.setBlockState(pos.up(), (world.rand.nextBoolean() ? Blocks.BROWN_MUSHROOM : Blocks.RED_MUSHROOM).getDefaultState());
 		}
 	}
 	
 	@Override
 	public void setupConfig(String category) {
-		mushroomChance = ModuleLoader.config.getInt("Mushroom Chance", category, 15, 0, Integer.MAX_VALUE, "The higher, the less mushrooms will spawn");
+		mushroomChance = ModuleLoader.config.get("Mushroom Chance", category, 0.0625, "The chance mushrooms will spawn", 0, 1).getDouble();
 	}
 
 }

@@ -9,7 +9,7 @@ import vazkii.quark.world.feature.UndergroundBiomes;
 
 public class UndergroundBiomeLava extends BasicUndergroundBiome {
 
-	public static int lavaChance, obsidianChance;
+	public static double lavaChance, obsidianChance;
 
 	public UndergroundBiomeLava() {
 		super(Blocks.COBBLESTONE.getDefaultState(), Blocks.COBBLESTONE.getDefaultState(), Blocks.COBBLESTONE.getDefaultState(), true);
@@ -31,9 +31,9 @@ public class UndergroundBiomeLava extends BasicUndergroundBiome {
 	
 	@Override
 	public void fillFloor(World world, BlockPos pos, IBlockState state) {
-		if(lavaChance > 0 && !isBorder(world, pos) && world.rand.nextInt(lavaChance) == 0)
+		if(!isBorder(world, pos) && world.rand.nextDouble() < lavaChance)
 			world.setBlockState(pos, Blocks.LAVA.getDefaultState());
-		else if(obsidianChance > 0 && world.rand.nextInt(obsidianChance) == 0)
+		else if(world.rand.nextDouble() < obsidianChance)
 			world.setBlockState(pos, Blocks.OBSIDIAN.getDefaultState(), 2);
 		else if(UndergroundBiomes.firestoneEnabled)
 			world.setBlockState(pos, UndergroundBiomes.firestoneState, 2);
@@ -42,7 +42,7 @@ public class UndergroundBiomeLava extends BasicUndergroundBiome {
 	
 	@Override
 	public void setupConfig(String category) {
-		lavaChance = ModuleLoader.config.getInt("Lava Chance", category, 4, 0, Integer.MAX_VALUE, "The higher, the less lava will spawn");
-		obsidianChance = ModuleLoader.config.getInt("Obsidian Chance", category, 16, 0, Integer.MAX_VALUE, "The higher, the less obsidian will spawn");
+		lavaChance = ModuleLoader.config.get("Lava Chance", category, 0.25, "The chance lava will spawn", 0, 1).getDouble();
+		obsidianChance = ModuleLoader.config.get("Obsidian Chance", category, 0.0625, "The chance obsidian will spawn", 0, 1).getDouble();
 	}
 }

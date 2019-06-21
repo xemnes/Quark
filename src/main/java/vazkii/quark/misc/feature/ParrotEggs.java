@@ -38,7 +38,8 @@ public class ParrotEggs extends Feature {
 	public static Item parrot_egg;
 
 	public static Item item;
-	public static int chance, eggTime;
+	public static double chance;
+	public static int eggTime;
 	public static boolean enableKotobirb;
 
 	@Override
@@ -49,7 +50,7 @@ public class ParrotEggs extends Feature {
 		if(targetItem != null)
 			item = targetItem;
 
-		chance = loadPropInt("Success Chance", "If this is X, the parrot will, on average, start making an egg in every X seeds fed", 20);
+		chance = loadPropDouble("Success Chance", "If this is X, the parrot will, on average, start making an egg in every 1/X seeds fed", 0.05);
 		eggTime = loadPropInt("Egg Creation Time", "", 12000);
 		enableKotobirb = loadPropBool("Enable Special Awesome Parrot", "", true);
 	}
@@ -97,7 +98,7 @@ public class ParrotEggs extends Feature {
 					WorldServer ws = (WorldServer) e.world;
 					ws.playSound(null, e.posX, e.posY, e.posZ, SoundEvents.ENTITY_PARROT_EAT, SoundCategory.NEUTRAL, 1.0F, 1.0F + (ws.rand.nextFloat() - ws.rand.nextFloat()) * 0.2F);
 
-					if(e.world.rand.nextInt(chance) == 0) {
+					if(e.world.rand.nextDouble() < chance) {
 						e.getEntityData().setInteger(TAG_EGG_TIMER, eggTime);
 						ws.spawnParticle(EnumParticleTypes.VILLAGER_HAPPY, e.posX, e.posY, e.posZ, 10, e.width, e.height, e.width, 0);
 					} else ws.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, e.posX, e.posY, e.posZ, 10, e.width, e.height, e.width, 0);

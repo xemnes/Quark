@@ -102,8 +102,8 @@ public abstract class UndergroundBiome {
 	public void spawnDungeon(WorldServer world, BlockPos pos, EnumFacing face) {
 		// NO-OP
 	}
-	
-	boolean isFloor(World world, BlockPos pos, IBlockState state) {
+
+	public boolean isFloor(World world, BlockPos pos, IBlockState state) {
 		if(!state.isFullBlock() || !state.isOpaqueCube())
 			return false;
 
@@ -111,7 +111,7 @@ public abstract class UndergroundBiome {
 		return world.isAirBlock(upPos) || world.getBlockState(upPos).getBlock().isReplaceable(world, upPos);
 	}
 
-	boolean isCeiling(World world, BlockPos pos, IBlockState state) {
+	public boolean isCeiling(World world, BlockPos pos, IBlockState state) {
 		if(!state.isFullBlock() || !state.isOpaqueCube())
 			return false;
 
@@ -125,8 +125,8 @@ public abstract class UndergroundBiome {
 
 		return isBorder(world, pos);
 	}
-	
-	EnumFacing getBorderSide(World world, BlockPos pos) {
+
+	public EnumFacing getBorderSide(World world, BlockPos pos) {
 		for(EnumFacing facing : EnumFacing.HORIZONTALS) {
 			BlockPos offsetPos = pos.offset(facing);
 			IBlockState stateAt = world.getBlockState(offsetPos);
@@ -138,11 +138,11 @@ public abstract class UndergroundBiome {
 		return null;
 	}
 	
-	boolean isBorder(World world, BlockPos pos) {
+	public boolean isBorder(World world, BlockPos pos) {
 		return getBorderSide(world, pos) != null;
 	}
-	
-	boolean isInside(IBlockState state) {
+
+	public boolean isInside(IBlockState state) {
 		return STONE_PREDICATE.test(state);
 	}
 	

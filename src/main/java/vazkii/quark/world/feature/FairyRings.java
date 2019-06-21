@@ -19,7 +19,7 @@ public class FairyRings extends Feature {
 
 	private static final Pattern BLOCKSTATE_PARSER = Pattern.compile("^(\\D+?):(\\d+)$");
 	
-	public static int forestChance, plainsChance;
+	public static double forestChance, plainsChance;
 	public static DimensionConfig dimensions;
 	public static List<IBlockState> ores;
 
@@ -28,8 +28,8 @@ public class FairyRings extends Feature {
 	
 	@Override
 	public void setupConfig() {
-		forestChance = loadPropInt("Forest Chance", "", 160);
-		plainsChance = loadPropInt("Plains Chance", "", 400);
+		forestChance = loadPropDouble("Forest Chance", "", 0.00625);
+		plainsChance = loadPropDouble("Plains Chance", "", 0.0025);
 		dimensions = new DimensionConfig(configCategory, "0");
 		
 		oresArr = loadPropStringList("Spawnable Ores", "", new String[] {

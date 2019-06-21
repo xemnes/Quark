@@ -29,7 +29,7 @@ public class UndergroundBiomeSandstone extends BasicUndergroundBiome {
 
 	public static final ResourceLocation HUSK_GRAVE_STRUCTURE = new ResourceLocation("quark", "husk_grave");
 
-	public static int stalactiteChance, chiseledSandstoneChance, deadBushChance;
+	public static double stalactiteChance, chiseledSandstoneChance, deadBushChance;
 	public static boolean enableSand, allowGenInMesa;
 	
 	public UndergroundBiomeSandstone() {
@@ -43,7 +43,7 @@ public class UndergroundBiomeSandstone extends BasicUndergroundBiome {
 	
 	@Override
 	public void fillCeiling(World world, BlockPos pos, IBlockState state) {
-		if(stalactiteChance > 0 && world.rand.nextInt(stalactiteChance) == 0)
+		if(world.rand.nextDouble() < stalactiteChance)
 			world.setBlockState(pos.down(), ceilingState, 2);
 		
 		super.fillCeiling(world, pos, state);
@@ -53,14 +53,14 @@ public class UndergroundBiomeSandstone extends BasicUndergroundBiome {
 	public void fillFloor(World world, BlockPos pos, IBlockState state) {
 		if(enableSand && world.rand.nextBoolean()) {
 			world.setBlockState(pos, Blocks.SAND.getDefaultState(), 2);
-			if(deadBushChance > 0 && world.rand.nextInt(deadBushChance) == 0)
+			if(world.rand.nextDouble() < deadBushChance)
 				world.setBlockState(pos.up(), Blocks.DEADBUSH.getDefaultState(), 2);
 		} else super.fillFloor(world, pos, state);
 	}
 	
 	@Override
 	public void fillWall(World world, BlockPos pos, IBlockState state) {
-		if(chiseledSandstoneChance > 0 && world.rand.nextInt(chiseledSandstoneChance) == 0)
+		if(world.rand.nextDouble() < chiseledSandstoneChance)
 			world.setBlockState(pos, wallState.withProperty(BlockSandStone.TYPE, BlockSandStone.EnumType.CHISELED), 2);
 		else super.fillWall(world, pos, state);
 	}
@@ -123,9 +123,9 @@ public class UndergroundBiomeSandstone extends BasicUndergroundBiome {
 	
 	@Override
 	public void setupConfig(String category) {
-		stalactiteChance = ModuleLoader.config.getInt("Stalactite Chance", category, 10, 0, Integer.MAX_VALUE, "The higher, the less stalactites will spawn");
-		chiseledSandstoneChance = ModuleLoader.config.getInt("Chiseled Sandstone Chance", category, 10, 0, Integer.MAX_VALUE, "The higher, the less chiseled sandstone will spawn");
-		deadBushChance = ModuleLoader.config.getInt("Dead Bush Chance", category, 20, 0, Integer.MAX_VALUE, "The higher, the less dead bushes will spawn");
+		stalactiteChance = ModuleLoader.config.get("Stalactite Chance", category, 0.1, "The chance stalactites will spawn", 0, 1).getDouble();
+		chiseledSandstoneChance = ModuleLoader.config.get("Chiseled Sandstone Chance", category, 0.1, "The chance chiseled sandstone will spawn", 0, 1).getDouble();
+		deadBushChance = ModuleLoader.config.get("Dead Bush Chance", category, 0.05, "The chance dead bushes will spawn", 0, 1).getDouble();
 		enableSand = ModuleLoader.config.getBoolean("Enable Sand Floors", category, true, "");
 		allowGenInMesa = ModuleLoader.config.getBoolean("Allow in Mesa biomes", category, false, "");
 	}

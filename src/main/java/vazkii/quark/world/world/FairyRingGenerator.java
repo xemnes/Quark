@@ -1,8 +1,5 @@
 package vazkii.quark.world.world;
 
-import java.util.Random;
-import java.util.Set;
-
 import net.minecraft.block.BlockStone;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -17,6 +14,9 @@ import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.fml.common.IWorldGenerator;
 import vazkii.quark.world.feature.FairyRings;
 
+import java.util.Random;
+import java.util.Set;
+
 public class FairyRingGenerator implements IWorldGenerator {
 
 	@Override
@@ -28,13 +28,13 @@ public class FairyRingGenerator implements IWorldGenerator {
 		int z = chunkZ * 16 + 8 + random.nextInt(16);
 		Biome biome = world.getBiome(new BlockPos(x, 0, z));
 		Set<BiomeDictionary.Type> types = BiomeDictionary.getTypes(biome);
-		int chance = 0;
+		double chance = 0;
 		if(types.contains(BiomeDictionary.Type.FOREST))
 			chance = FairyRings.forestChance;
 		else if(types.contains(BiomeDictionary.Type.PLAINS))
 			chance = FairyRings.plainsChance;
 		
-		if(chance > 0 && random.nextInt(chance) == 0) {
+		if(random.nextDouble() < chance) {
 			BlockPos pos = new BlockPos(x, 128, z);
 			IBlockState state = world.getBlockState(pos);
 			
