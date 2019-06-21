@@ -601,7 +601,6 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 	private static byte[] transformBeaconButton(byte[] basicClass) {
 		MethodSignature sig = new MethodSignature("drawButton", "func_191745_a", "(Lnet/minecraft/client/Minecraft;IIF)V");
 
-
 		return transform(basicClass, inject(sig, (MethodVisitor method) -> {
 			InsnList instructions = new InsnList();
 
@@ -619,7 +618,9 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 			method.visitLabel(begin);
 			method.visitVarInsn(ALOAD, 0);
 			method.visitVarInsn(ALOAD, 0);
-			method.visitFieldInsn(GETFIELD, "net/minecraft/client/gui/inventory/GuiBeacon$PowerButton", "this$0", "Lnet/minecraft/client/gui/inventory/GuiBeacon;");
+			method.visitFieldInsn(GETFIELD, "net/minecraft/client/gui/inventory/GuiBeacon$PowerButton",
+					LoadingPlugin.runtimeDeobfEnabled ? "field_146150_o" : "this$0",
+					"Lnet/minecraft/client/gui/inventory/GuiBeacon;");
 			method.visitVarInsn(ALOAD, 1);
 			method.visitVarInsn(ILOAD, 2);
 			method.visitVarInsn(ILOAD, 3);
@@ -633,7 +634,8 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 			method.visitVarInsn(ILOAD, 2);
 			method.visitVarInsn(ILOAD, 3);
 			method.visitVarInsn(FLOAD, 4);
-			method.visitMethodInsn(INVOKESPECIAL, "net/minecraft/client/gui/inventory/GuiBeacon$Button", LoadingPlugin.runtimeDeobfEnabled ? sig.srgName : sig.funcName, sig.funcDesc, false);
+			method.visitMethodInsn(INVOKESPECIAL, "net/minecraft/client/gui/inventory/GuiBeacon$Button",
+					LoadingPlugin.runtimeDeobfEnabled ? sig.srgName : sig.funcName, sig.funcDesc, false);
 			method.visitLabel(skipSuper);
 			method.visitInsn(RETURN);
 			method.visitLabel(end);
@@ -675,6 +677,8 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 
 	// BOILERPLATE BELOW ==========================================================================================================================================
 
+	private static boolean debugLog = false;
+
 	private static byte[] transform(byte[] basicClass, TransformerAction... methods) {
 		ClassReader reader;
 		try {
@@ -685,6 +689,8 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 
 		ClassNode node = new ClassNode();
 		reader.accept(node, 0);
+		if (debugLog)
+			log(getNodeString(node));
 
 		boolean didAnything = false;
 
@@ -693,7 +699,9 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 
 		if (didAnything) {
 			ClassWriter writer = new SafeClassWriter(ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
-//			log(getNodeString(node));
+			if (debugLog)
+				log(getNodeString(node));
+			debugLog = false;
 			node.accept(writer);
 			return writer.toByteArray();
 		}
