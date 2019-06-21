@@ -19,6 +19,7 @@ import net.minecraftforge.common.DungeonHooks;
 import net.minecraftforge.event.terraingen.PopulateChunkEvent;
 import net.minecraftforge.event.terraingen.PopulateChunkEvent.Populate.EventType;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import vazkii.quark.base.handler.DimensionConfig;
 import vazkii.quark.base.module.Feature;
 
 import java.util.ArrayList;
@@ -29,11 +30,14 @@ import java.util.Random;
 
 public class VariedDungeons extends Feature {
 
+	public static DimensionConfig dimConfig;
 	public static ResourceLocation lootTable;
 	public static int tries;
 
 	@Override
 	public void setupConfig() {
+		dimConfig = new DimensionConfig(configCategory);
+
 		String lootTableStr = loadPropString("Custom Loot Table", "Set this to anything other than an empty line to load a custom loot table for the dungeons.", "");
 		lootTable = lootTableStr.isEmpty() ? null : new ResourceLocation(lootTableStr);
 		
@@ -43,6 +47,9 @@ public class VariedDungeons extends Feature {
 	@SubscribeEvent
 	public void onDungeonSpawn(PopulateChunkEvent.Populate event) {
 		if(event.getType() != EventType.DUNGEON)
+			return;
+
+		if (!dimConfig.canSpawnHere(event.getWorld()))
 			return;
 
 		int i = event.getChunkX() * 16;
