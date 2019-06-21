@@ -109,7 +109,6 @@ public class BetterNausea extends Feature {
 				GlStateManager.color(1, 1, 1);
 				GlStateManager.tryBlendFuncSeparate(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA,
 						SourceFactor.ONE, DestFactor.ZERO);
-				GlStateManager.popMatrix();
 			}
 		}
 	}
@@ -127,12 +126,10 @@ public class BetterNausea extends Feature {
 			if (nausea != null) {
 
 				float time = ClientReflectiveAccessor.getUpdateCount(renderer) + partialTicks;
-				float sinAmount = MathHelper.sin(time * TIME_CONST) * 8;
+				float sinAmount = MathHelper.sin(time * TIME_CONST) / 2;
 
 				float yaw = player.cameraYaw;
 				float prevYaw = player.prevCameraYaw;
-				float pitch = player.cameraPitch;
-				float prevPitch = player.prevCameraPitch;
 
 				double distX = player.posX - player.prevPosX;
 				double distY = player.posY - player.prevPosY;
@@ -142,18 +139,13 @@ public class BetterNausea extends Feature {
 
 				dist = Math.min(0.15f, Math.max(0.1f, dist));
 
-				player.cameraYaw += dist * sinAmount / 20;
-				player.prevCameraYaw += dist * sinAmount / 20;
-
-				player.cameraPitch += dist * sinAmount;
-				player.prevCameraPitch += dist * sinAmount;
+				player.cameraYaw += dist * sinAmount;
+				player.prevCameraYaw += dist * sinAmount;
 
 				ClientReflectiveAccessor.applyBobbing(renderer, partialTicks);
 
 				player.cameraYaw = yaw;
 				player.prevCameraYaw = prevYaw;
-				player.cameraPitch = pitch;
-				player.prevCameraPitch = prevPitch;
 			}
 		}
 	}

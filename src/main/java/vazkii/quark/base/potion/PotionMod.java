@@ -53,7 +53,7 @@ public class PotionMod extends Potion {
 	public void renderHUDEffect(@Nonnull PotionEffect effect, Gui gui, int x, int y, float z, float alpha) {
 		GlStateManager.color(1f, 1f, 1f, alpha);
 		Minecraft.getMinecraft().renderEngine.bindTexture(TEXTURE);
-		gui.drawTexturedModalRect(x + 6, y + 7, iconX * 18, 198 + iconY * 18, 18, 18);
+		gui.drawTexturedModalRect(x + 3, y + 3, iconX * 18, 198 + iconY * 18, 18, 18);
 		GlStateManager.color(1f, 1f, 1f);
 	}
 
