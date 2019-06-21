@@ -37,7 +37,7 @@ public class QuarkExperimental extends Module {
 		registerFeature(new FramedBlocks(), false);
 		registerFeature(new Frogs(), false);
 		registerFeature(new TextureDump(), "Dump texture atlases", false);
-		registerFeature(new BetterNausea());
+		registerFeature(new BetterNausea(), false);
 	}
 
 	@Override

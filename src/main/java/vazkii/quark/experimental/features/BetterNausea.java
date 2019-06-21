@@ -159,11 +159,6 @@ public class BetterNausea extends Feature {
 	}
 
 	@Override
-	public String getFeatureIngameConfigName() {
-		return "Better Nausea";
-	}
-
-	@Override
 	public boolean hasSubscriptions() {
 		return isClient();
 	}

@@ -35,7 +35,7 @@ public class AIFormShulker extends EntityAIWander
 		else {
 			Random random = endermite.getRNG();
 
-			if(random.nextInt(EndermitesIntoShulkers.chance) == 0) {
+			if(random.nextDouble() < EndermitesIntoShulkers.chance) {
 				facing = EnumFacing.random(random);
 				BlockPos blockpos = (new BlockPos(endermite.posX, endermite.posY + 0.5D, endermite.posZ)).offset(facing);
 				IBlockState iblockstate = endermite.getEntityWorld().getBlockState(blockpos);
