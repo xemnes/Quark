@@ -600,8 +600,18 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 
 	private static byte[] transformBeaconButton(byte[] basicClass) {
 		MethodSignature sig = new MethodSignature("drawButton", "func_191745_a", "(Lnet/minecraft/client/Minecraft;IIF)V");
+		MethodSignature checkAgainst = new MethodSignature("drawButtonForegroundLayer", "func_146111_b", "(II)V");
 
-		return transform(basicClass, inject(sig, (MethodVisitor method) -> {
+
+		return transform(basicClass, inject(sig, (ClassNode clazz, MethodVisitor method) -> {
+			boolean deobf = true;
+			for (MethodNode node : clazz.methods) {
+				if (checkAgainst.matches(node)) {
+					deobf = false;
+					break;
+				}
+			}
+
 			InsnList instructions = new InsnList();
 
 			Label begin = new Label();
@@ -619,7 +629,7 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 			method.visitVarInsn(ALOAD, 0);
 			method.visitVarInsn(ALOAD, 0);
 			method.visitFieldInsn(GETFIELD, "net/minecraft/client/gui/inventory/GuiBeacon$PowerButton",
-					LoadingPlugin.runtimeDeobfEnabled ? "field_146150_o" : "this$0",
+					deobf ? "this$0" : "field_146150_o",
 					"Lnet/minecraft/client/gui/inventory/GuiBeacon;");
 			method.visitVarInsn(ALOAD, 1);
 			method.visitVarInsn(ILOAD, 2);
@@ -635,7 +645,7 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 			method.visitVarInsn(ILOAD, 3);
 			method.visitVarInsn(FLOAD, 4);
 			method.visitMethodInsn(INVOKESPECIAL, "net/minecraft/client/gui/inventory/GuiBeacon$Button",
-					LoadingPlugin.runtimeDeobfEnabled ? sig.srgName : sig.funcName, sig.funcDesc, false);
+					deobf ? sig.funcName : sig.srgName, sig.funcDesc, false);
 			method.visitLabel(skipSuper);
 			method.visitInsn(RETURN);
 			method.visitLabel(end);
@@ -877,7 +887,7 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 		// NO-OP
 	}
 
-	private interface NewMethodAction extends Predicate<MethodVisitor> {
+	private interface NewMethodAction extends BiPredicate<ClassNode, MethodVisitor> {
 		// NO-OP
 	}
 
@@ -923,7 +933,7 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 
 			MethodVisitor method = classNode.visitMethod(ACC_PUBLIC, LoadingPlugin.runtimeDeobfEnabled ? sig.srgName : sig.funcName, sig.funcDesc, null, null);
 			for (NewMethodAction action : actions) {
-					boolean finish = action.test(method);
+					boolean finish = action.test(classNode, method);
 					log("Patch result: " + finish);
 			}
 
