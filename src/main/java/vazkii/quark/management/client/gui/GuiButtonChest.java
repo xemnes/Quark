@@ -102,14 +102,14 @@ public class GuiButtonChest extends GuiButton implements IParentedGui {
 						tooltipList.add(press);
 						
 						if(action != Action.DROPOFF) {
-							int len2 = Minecraft.getMinecraft().fontRenderer.getStringWidth(press);
+							int len2 = par1Minecraft.fontRenderer.getStringWidth(press);
 							if(len2 > len)
 								tooltipShift = -len2 - 24;
 						}
 					}
 				}
 
-				GlStateManager.translate(0, 0, Minecraft.getMinecraft().getRenderItem().zLevel);
+				GlStateManager.translate(0, 0, par1Minecraft.getRenderItem().zLevel + 300);
 				RenderHelper.renderTooltip(par2 + tooltipShift, par3 + 8, tooltipList);
 				GlStateManager.popMatrix();
 			}
