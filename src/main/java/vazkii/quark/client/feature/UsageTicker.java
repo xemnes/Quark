@@ -93,7 +93,7 @@ public class UsageTicker extends Feature {
 		
 		@SideOnly(Side.CLIENT)
 		public void tick(EntityPlayer player) {
-			ItemStack heldStack = getStack(player).copy();
+			ItemStack heldStack = getStack(player);
 			
 			int count = getStackCount(player, heldStack);
 
