@@ -36,6 +36,7 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 
 	private static final String TAG_PIPE_ITEMS = "pipeItems";
 
+	private boolean needsSync = false;
 	private boolean iterating = false;
 	public final List<PipeItem> pipeItems = new LinkedList<>();
 	public final List<PipeItem> queuedItems = new LinkedList<>();
@@ -103,6 +104,7 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 
 			ListIterator<PipeItem> itemItr = pipeItems.listIterator();
 			iterating = true;
+			needsSync = false;
 			while(itemItr.hasNext()) {
 				PipeItem item = itemItr.next();
 				EnumFacing lastFacing = item.outgoingFace;
@@ -119,8 +121,9 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 			iterating = false;
 
 			pipeItems.addAll(queuedItems);
-			if(!queuedItems.isEmpty())
+			if(needsSync || !queuedItems.isEmpty())
 				sync();
+			needsSync = false;
 			queuedItems.clear();
 		}
 
@@ -340,8 +343,12 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 			ticksInPipe++;
 			timeInWorld++;
 
-			if(ticksInPipe == Pipes.pipeSpeed / 2)
-				outgoingFace = getTargetFace(pipe);
+			if(!pipe.world.isRemote && ticksInPipe == Pipes.pipeSpeed / 2 - 1) {
+				EnumFacing target = getTargetFace(pipe);
+				if (outgoingFace != target)
+					pipe.needsSync = true;
+				outgoingFace = target;
+			}
 
 			if(outgoingFace == null) {
 				valid = false;

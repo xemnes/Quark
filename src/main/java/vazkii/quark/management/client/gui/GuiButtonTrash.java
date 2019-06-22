@@ -68,8 +68,10 @@ public class GuiButtonTrash extends GuiButton implements IParentedGui {
 			int len = Minecraft.getMinecraft().fontRenderer.getStringWidth(tooltip);
 			int tooltipShift = 2;
 			List<String> tooltipList = Collections.singletonList(tooltip);
-			
+
+			GlStateManager.enableDepth();
 			RenderHelper.renderTooltip(par2 + tooltipShift, par3 + 8, tooltipList);
+			GlStateManager.disableDepth();
 			GlStateManager.popMatrix();
 		}
 	}
