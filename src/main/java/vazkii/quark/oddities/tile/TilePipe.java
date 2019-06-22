@@ -109,6 +109,7 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 				PipeItem item = itemItr.next();
 				EnumFacing lastFacing = item.outgoingFace;
 				if(item.tick(this)) {
+					needsSync = true;
 					itemItr.remove();
 
 					if (item.valid)
