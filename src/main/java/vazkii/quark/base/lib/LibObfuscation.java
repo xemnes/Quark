@@ -27,6 +27,7 @@ public final class LibObfuscation {
 
 	// GuiMainMenu
 	public static final String TITLE_PANORAMA_PATHS = "field_73978_o";
+	public static final String SPLASH_TEXT = "field_73975_c";
 
 	// GuardianSound
 	public static final String GUARDIAN = "field_174934_k";

@@ -18,6 +18,7 @@ import vazkii.quark.experimental.features.BetterNausea;
 import vazkii.quark.experimental.features.BiggerCaves;
 import vazkii.quark.experimental.features.CollateralPistonMovement;
 import vazkii.quark.experimental.features.ColoredLights;
+import vazkii.quark.experimental.features.CustomSplashes;
 import vazkii.quark.experimental.features.FramedBlocks;
 import vazkii.quark.experimental.features.Frogs;
 import vazkii.quark.experimental.features.ParrotsSayDespacito;
@@ -38,6 +39,7 @@ public class QuarkExperimental extends Module {
 		registerFeature(new Frogs(), false);
 		registerFeature(new TextureDump(), "Dump texture atlases", false);
 		registerFeature(new BetterNausea(), false);
+		registerFeature(new CustomSplashes(), false);
 	}
 
 	@Override
