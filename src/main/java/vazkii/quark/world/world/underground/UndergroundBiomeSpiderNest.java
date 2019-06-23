@@ -15,7 +15,7 @@ import vazkii.quark.base.module.ModuleLoader;
 
 public class UndergroundBiomeSpiderNest extends BasicUndergroundBiome {
 
-	public static double floorCobwebChance, ceilingCobwebChance, caveSpiderSpawnerChance, nestCobwebChance, nestCobwebRange;
+	public static int floorCobwebChance, ceilingCobwebChance, caveSpiderSpawnerChance, nestCobwebChance, nestCobwebRange;
 	
 	public UndergroundBiomeSpiderNest() {
 		super(Blocks.COBBLESTONE.getDefaultState(), Blocks.COBBLESTONE.getDefaultState(), Blocks.COBBLESTONE.getDefaultState());
@@ -33,8 +33,8 @@ public class UndergroundBiomeSpiderNest extends BasicUndergroundBiome {
 		placeCobweb(world, pos, EnumFacing.UP, floorCobwebChance);
 	}
 	
-	private void placeCobweb(World world, BlockPos pos, EnumFacing off, double chance) {
-		if(world.rand.nextDouble() < chance) {
+	private void placeCobweb(World world, BlockPos pos, EnumFacing off, int chance) {
+		if(chance > 0 && world.rand.nextInt(chance) == 0) {
 			BlockPos placePos = off == null ? pos : pos.offset(off);
 			world.setBlockState(placePos, Blocks.WEB.getDefaultState());
 		}
@@ -51,7 +51,7 @@ public class UndergroundBiomeSpiderNest extends BasicUndergroundBiome {
 		world.setBlockState(spawnerPos, Blocks.MOB_SPAWNER.getDefaultState());
 		
 		Class<? extends Entity> e = EntitySpider.class;
-		if(world.rand.nextDouble() < caveSpiderSpawnerChance)
+		if(caveSpiderSpawnerChance > 0 && world.rand.nextInt(caveSpiderSpawnerChance) == 0)
 			e = EntityCaveSpider.class;
 		TileEntityMobSpawner spawner = (TileEntityMobSpawner) world.getTileEntity(spawnerPos);
 		if (spawner != null)

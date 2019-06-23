@@ -9,7 +9,7 @@ import vazkii.quark.world.feature.UndergroundBiomes;
 
 public class UndergroundBiomeIcy extends BasicUndergroundBiome {
 	
-	public static double stalagmiteChance;
+	public static int stalagmiteChance;
 	public static boolean usePackedIce;
 
 	public UndergroundBiomeIcy() {
@@ -36,7 +36,7 @@ public class UndergroundBiomeIcy extends BasicUndergroundBiome {
 		BlockPos placePos = pos;
 		world.setBlockState(pos, placeState, 2);
 		
-		if(stalagmiteChance > 0 && world.rand.nextDouble() < stalagmiteChance) {
+		if(stalagmiteChance > 0 && world.rand.nextInt(stalagmiteChance) == 0) {
 			int height = 3 + world.rand.nextInt(3);
 			for(int i = 0; i < height; i++) {
 				placePos = placePos.up();
@@ -51,7 +51,7 @@ public class UndergroundBiomeIcy extends BasicUndergroundBiome {
 	
 	@Override
 	public void setupConfig(String category) {
-		stalagmiteChance = ModuleLoader.config.get("Stalagmite Chance", category, 0.015, "The chance stalagmites will spawn", 0, 1).getDouble();
+		stalagmiteChance = ModuleLoader.config.getInt("Stalagmite Chance", category, 60, 0, Integer.MAX_VALUE, "The higher, the less stalagmites will spawn");
 		usePackedIce = ModuleLoader.config.getBoolean("Use Packed Ice", category, true, "");
 	}
 

@@ -10,7 +10,7 @@ import vazkii.quark.base.module.ModuleLoader;
 
 public class UndergroundBiomeOvergrown extends BasicUndergroundBiome {
 
-	public static double rootChance, dirtChance;
+	public static int rootChance, dirtChance;
 	
 	public UndergroundBiomeOvergrown() {
 		super(Blocks.MOSSY_COBBLESTONE.getDefaultState(), Blocks.LEAVES.getDefaultState().withProperty(BlockLeaves.DECAYABLE, false), null);
@@ -18,7 +18,7 @@ public class UndergroundBiomeOvergrown extends BasicUndergroundBiome {
 
 	@Override
 	public void finalCeilingPass(World world, BlockPos pos) {
-		if(world.rand.nextDouble() < rootChance) {
+		if(rootChance > 0 && world.rand.nextInt(rootChance) == 0) {
 			int count = 0;
 			for(int i = 0; i < 20; i++) {
 				BlockPos checkPos = pos.add(0, -i, 0);
@@ -38,15 +38,15 @@ public class UndergroundBiomeOvergrown extends BasicUndergroundBiome {
 	
 	@Override
 	public void fillFloor(World world, BlockPos pos, IBlockState state) {
-		if(world.rand.nextDouble() < dirtChance)
+		if(dirtChance > 0 && world.rand.nextInt(dirtChance) == 0)
 			world.setBlockState(pos, Blocks.DIRT.getDefaultState().withProperty(BlockDirt.VARIANT, BlockDirt.DirtType.COARSE_DIRT));
 		else super.fillFloor(world, pos, state);
 	}
 	
 	@Override
 	public void setupConfig(String category) {
-		rootChance = ModuleLoader.config.get("Root Chance", category, 0.025, "The chance roots will spawn", 0, 1).getDouble();
-		dirtChance = ModuleLoader.config.get("Dirt Chance", category, 0.5, "The chance dirt will spawn", 0, 1).getDouble();
+		rootChance = ModuleLoader.config.getInt("Root Chance", category, 40, 0, Integer.MAX_VALUE, "The higher, the less roots will spawn");
+		dirtChance = ModuleLoader.config.getInt("Dirt Chance", category, 2, 0, Integer.MAX_VALUE, "The higher, the less dirt will spawn");
 	}
 
 }

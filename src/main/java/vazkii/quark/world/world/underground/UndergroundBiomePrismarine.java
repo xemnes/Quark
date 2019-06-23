@@ -9,7 +9,7 @@ import vazkii.quark.world.feature.UndergroundBiomes;
 
 public class UndergroundBiomePrismarine extends BasicUndergroundBiome {
 
-	public static double seaLanternChance, waterChance;
+	public static int seaLanternChance, waterChance;
 	private IBlockState lanternState;
 	public static boolean spawnElderPrismarine;
 	
@@ -31,21 +31,21 @@ public class UndergroundBiomePrismarine extends BasicUndergroundBiome {
 	public void fillWall(World world, BlockPos pos, IBlockState state) {
 		super.fillWall(world, pos, state);
 		
-		if(world.rand.nextDouble() < seaLanternChance)
+		if(seaLanternChance > 0 && world.rand.nextInt(seaLanternChance) == 0)
 			world.setBlockState(pos, lanternState, 2);
 	}
 	
 	@Override
 	public void fillFloor(World world, BlockPos pos, IBlockState state) {
-		if(world.rand.nextDouble() < waterChance && !isBorder(world, pos))
+		if(waterChance > 0 && !isBorder(world, pos) && world.rand.nextInt(waterChance) == 0)
 			world.setBlockState(pos, Blocks.WATER.getDefaultState());
 		else super.fillFloor(world, pos, state);
 	}
 	
 	@Override
 	public void setupConfig(String category) {
-		seaLanternChance = ModuleLoader.config.get("Sea Lantern Chance", category, 0.0085, "The chance sea lanterns will spawn", 0, 1).getDouble();
-		waterChance = ModuleLoader.config.get("Water Chance", category, 0.25, "The chance water will spawn", 0, 1).getDouble();
+		seaLanternChance = ModuleLoader.config.getInt("Sea Lantern Chance", category, 120, 0, Integer.MAX_VALUE, "The higher, the less sea lanterns will spawn");
+		waterChance = ModuleLoader.config.getInt("Water Chance", category, 4, 0, Integer.MAX_VALUE, "The higher, the less water will spawn");
 		spawnElderPrismarine = ModuleLoader.config.getBoolean("Spawn Elder Prismarine", category, true, "Set to false to spawn regular prismarine instead of elder prismarine (even if the block is enabled)");
 	}
 	
