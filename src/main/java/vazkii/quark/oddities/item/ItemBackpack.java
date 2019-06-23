@@ -183,6 +183,7 @@ public class ItemBackpack extends ItemModArmor implements IQuarkItem, IItemColor
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public IItemColor getItemColor() {
 		return (stack, i) -> i == 1 ? ((ItemArmor) stack.getItem()).getColor(stack) : -1;
 	}
