@@ -36,8 +36,9 @@ public class SlotCachingItemHandler extends SlotItemHandler {
 	public ItemStack decrStackSize(int amount) {
 		if (caching) {
 			ItemStack newStack = cached.copy();
-			cached.shrink(amount);
-			newStack.setCount(amount);
+			int trueAmount = Math.min(amount, cached.getCount());
+			cached.shrink(trueAmount);
+			newStack.setCount(trueAmount);
 			return newStack;
 		}
 		return super.decrStackSize(amount);
