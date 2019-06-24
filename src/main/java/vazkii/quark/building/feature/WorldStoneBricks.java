@@ -129,13 +129,13 @@ public class WorldStoneBricks extends Feature {
 					'S', ProxyRegistry.newStack(RevampStoneGen.limestone, 1, 1));
 
 			if (enableStairsAndSlabs)
-				RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(world_stone_chiseled, 1, 4),
+				RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(world_stone_chiseled, 1, 5),
 						"S", "S",
-						'S', ProxyRegistry.newStack(slabs[4]));
+						'S', ProxyRegistry.newStack(slabs[5]));
 			else
-				RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(world_stone_chiseled, 8, 4),
+				RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(world_stone_chiseled, 8, 5),
 						"SSS", "S S", "SSS",
-						'S', ProxyRegistry.newStack(world_stone_bricks, 1, 4));
+						'S', ProxyRegistry.newStack(world_stone_bricks, 1, 5));
 		}
 	}
 
