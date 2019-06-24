@@ -25,7 +25,7 @@ public class ArchaeologistHouseGenerator implements IWorldGenerator {
 
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
-		if(!(chunkGenerator instanceof ChunkGeneratorFlat) && Archaeologist.dims.canSpawnHere(world) && random.nextInt(Archaeologist.chance) == 0) {
+		if(!(chunkGenerator instanceof ChunkGeneratorFlat) && Archaeologist.dims.canSpawnHere(world) && random.nextDouble() < Archaeologist.chance) {
 			int x = chunkX * 16 + 8 + random.nextInt(16);
 			int z = chunkZ * 16 + 8 + random.nextInt(16);
 			int y = random.nextInt(Archaeologist.maxY - Archaeologist.minY) + Archaeologist.minY;

@@ -34,7 +34,8 @@ public class Archaeologist extends Feature {
 
 	public static final ResourceLocation HOUSE_STRUCTURE = new ResourceLocation("quark", "archaeologist_house");
 
-	public static int chance, maxY, minY;
+	public static double chance;
+	public static int maxY, minY;
 	public static DimensionConfig dims;
 	
 	public static Item archaeologist_hat;
@@ -44,7 +45,7 @@ public class Archaeologist extends Feature {
 
 	@Override
 	public void setupConfig() {
-		chance = loadPropInt("Chance Per Chunk", "The chance (1/N) that the generator will attempt to place an Archaeologist per chunk. More = less spawns", 5);
+		chance = loadLegacyPropChance("Percentage Chance Per Chunk", "Chance Per Chunk", "The chance that the generator will attempt to place an Archaeologist in a chunk", 0.1);
 		maxY = loadPropInt("Max Y", "", 50);
 		minY = loadPropInt("Min Y", "", 20);
 		dims = new DimensionConfig(configCategory);

@@ -30,7 +30,6 @@ import vazkii.quark.base.module.Feature;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 public class VisualStatDisplay extends Feature {
 
@@ -173,15 +172,32 @@ public class VisualStatDisplay extends Feature {
 				attributeTooltips.get(slot).append("[+]");
 			}
 
-			String pattern = ".* ?[+-]?\\d+%? " + Pattern.quote(I18n.format("attribute.name." + s)) + "$";
 			for (int i = 1; i < tooltip.size(); i++) {
-				if (tooltip.get(i).matches(pattern)) {
+				if (isAttributeLine(tooltip.get(i), s)) {
 					tooltip.remove(i);
 					break;
 				}
 			}
 		}
 		return onlyInvalid;
+	}
+
+	private static final ImmutableSet<String> ATTRIBUTE_FORMATS = ImmutableSet.of("plus", "take", "equals");
+
+	@SideOnly(Side.CLIENT)
+	private static boolean isAttributeLine(String line, String attName) {
+		String attNameLoc = I18n.format("attribute.name." + attName);
+
+		for (String att : ATTRIBUTE_FORMATS) {
+			for (int mod = 0; mod < 3; mod++) {
+				String pattern = " " + I18n.format("attribute.modifier." + att + "." + mod, "\n", attNameLoc);
+				String[] split = pattern.split("\n");
+				if (split.length == 2 && line.startsWith(split[0]) && line.endsWith(split[1]))
+					return true;
+			}
+		}
+
+		return false;
 	}
 
 	@SideOnly(Side.CLIENT)
