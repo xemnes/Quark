@@ -2,12 +2,14 @@ package vazkii.quark.world.entity;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityThrowable;
+import net.minecraft.init.Enchantments;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
@@ -145,8 +147,10 @@ public class EntityPickarang extends EntityThrowable {
 			
 			Vec3d ownerPos = owner.getPositionVector().add(0, 1, 0);
 			Vec3d motion = ownerPos.subtract(ourPos);
-			
-			if(motion.lengthSquared() < 3) {
+			int eff = getEfficiencyModifier();
+			double motionMag = 3 - eff * 0.25F;
+
+			if(motion.lengthSquared() < motionMag) {
 				EntityPlayer player = (EntityPlayer) owner;
 				ItemStack stackInSlot = player.inventory.getStackInSlot(slot);
 				
@@ -164,12 +168,16 @@ public class EntityPickarang extends EntityThrowable {
 					setDead();
 		        }
 			} else {
-				motion = motion.normalize().scale(0.7);
+				motion = motion.normalize().scale(0.7 + eff * 0.25F);
 				motionX = motion.x;
 				motionY = motion.y;
 				motionZ = motion.z;
 			}
 		}
+	}
+
+	public int getEfficiencyModifier() {
+		return EnchantmentHelper.getEnchantmentLevel(Enchantments.EFFICIENCY, getStack());
 	}
 
 	public ItemStack getStack() {

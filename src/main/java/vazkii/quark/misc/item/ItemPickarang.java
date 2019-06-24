@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableSet;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Enchantments;
 import net.minecraft.init.Items;
@@ -43,16 +44,21 @@ public class ItemPickarang extends ItemMod implements IQuarkItem {
         playerIn.setHeldItem(handIn, ItemStack.EMPTY);
         worldIn.playSound(null, playerIn.posX, playerIn.posY, playerIn.posZ, QuarkSounds.ENTITY_PICKARANG_THROW, SoundCategory.NEUTRAL, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 
+		int eff = EnchantmentHelper.getEnchantmentLevel(Enchantments.EFFICIENCY, itemstack);
+
         if(!worldIn.isRemote)  {
         	int slot = handIn == EnumHand.OFF_HAND ? playerIn.inventory.getSizeInventory() - 1 : playerIn.inventory.currentItem;
         	EntityPickarang entity = new EntityPickarang(worldIn, playerIn);
         	entity.setThrowData(slot, itemstack);
-        	entity.shoot(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.0F);
+        	entity.shoot(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F + eff * 0.25F, 1.0F);
             worldIn.spawnEntity(entity);
         }
 
-        if(!Pickarang.noCooldown)
-        	playerIn.getCooldownTracker().setCooldown(this, 10);
+        if(!Pickarang.noCooldown) {
+        	int cooldown = 12 - eff * 2;
+        	if (cooldown > 0)
+				playerIn.getCooldownTracker().setCooldown(this, cooldown);
+		}
         
         playerIn.addStat(StatList.getObjectUseStats(this));
         return new ActionResult<>(EnumActionResult.SUCCESS, itemstack);
@@ -60,10 +66,8 @@ public class ItemPickarang extends ItemMod implements IQuarkItem {
 
 	@Override
 	public float getDestroySpeed(ItemStack stack, IBlockState state) {
-		return 0.5F;
+		return 0F;
 	}
-
-
 
 	@Override
 	public boolean isRepairable() {
@@ -82,7 +86,7 @@ public class ItemPickarang extends ItemMod implements IQuarkItem {
 
 	@Override
 	public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
-		return super.canApplyAtEnchantingTable(stack, enchantment) || ImmutableSet.of(Enchantments.FORTUNE, Enchantments.SILK_TOUCH).contains(enchantment);
+		return super.canApplyAtEnchantingTable(stack, enchantment) || ImmutableSet.of(Enchantments.FORTUNE, Enchantments.SILK_TOUCH, Enchantments.EFFICIENCY).contains(enchantment);
 	}
 	
 }
