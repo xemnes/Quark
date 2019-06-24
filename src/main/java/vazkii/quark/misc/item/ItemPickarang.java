@@ -1,6 +1,7 @@
 package vazkii.quark.misc.item;
 
 import com.google.common.collect.ImmutableSet;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.player.EntityPlayer;
@@ -27,8 +28,11 @@ public class ItemPickarang extends ItemMod implements IQuarkItem {
 		super("pickarang");
 		setMaxStackSize(1);
 		setCreativeTab(CreativeTabs.TOOLS);
+		setHarvestLevel("pickaxe", Pickarang.harvestLevel);
+		setHarvestLevel("axe", Pickarang.harvestLevel);
+		setHarvestLevel("shovel", Pickarang.harvestLevel);
 		
-		if(Pickarang.durability > -1)
+		if(Pickarang.durability > 0)
 			setMaxDamage(Pickarang.durability);
 	}
 	
@@ -53,7 +57,14 @@ public class ItemPickarang extends ItemMod implements IQuarkItem {
         playerIn.addStat(StatList.getObjectUseStats(this));
         return new ActionResult<>(EnumActionResult.SUCCESS, itemstack);
     }
-	
+
+	@Override
+	public float getDestroySpeed(ItemStack stack, IBlockState state) {
+		return 0.5F;
+	}
+
+
+
 	@Override
 	public boolean isRepairable() {
 		return true;

@@ -23,12 +23,15 @@ public class Pickarang extends Feature {
 	public static boolean neverUseHeartOfDiamond, noCooldown;
 	
 	public static Item pickarang;
+
+	public static double maxHardness;
 	
 	@Override
 	public void setupConfig() {
 		timeout = loadPropInt("Timeout", "How long it takes for the pickarang to return to the player if it doesn't hit anything", 20);
 		harvestLevel = loadPropInt("Harvest Level", "2 is Iron, 3 is Diamond", 3);
 		durability = loadPropInt("Durability", "Set to -1 to have the Pickarang be unbreakable", 800);
+		maxHardness = loadPropDouble("Max mining hardness", "22.5 is ender chests, 25.0 is monster boxes, 50 is obsidian. Most things are below 5.", 20.0);
 		neverUseHeartOfDiamond = loadPropBool("Never Use Heart of Diamond", "Set this to true to use the recipe without the Heart of Diamond, even if the Heart of Diamond is enabled", false);
 		noCooldown = loadPropBool("No Cooldown", "Set this to true to disable the short cooldown between throwing pickarangs", false);
 	}

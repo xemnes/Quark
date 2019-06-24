@@ -1,5 +1,6 @@
 package vazkii.quark.world.entity;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
@@ -73,14 +74,17 @@ public class EntityPickarang extends EntityThrowable {
 			EntityPlayerMP player = (EntityPlayerMP) owner;
 			BlockPos hit = result.getBlockPos();
 
-			ItemStack prev = player.getHeldItemMainhand();
-			player.setHeldItem(EnumHand.MAIN_HAND, getStack());
+			IBlockState state = world.getBlockState(hit);
+			if (state.getBlockHardness(world, hit) <= Pickarang.maxHardness) {
+				ItemStack prev = player.getHeldItemMainhand();
+				player.setHeldItem(EnumHand.MAIN_HAND, getStack());
 
-			if (!player.interactionManager.tryHarvestBlock(hit)) {
-				// TODO: 6/14/19 clink
+				if (!player.interactionManager.tryHarvestBlock(hit)) {
+					// TODO: 6/14/19 clink
+				}
+
+				player.setHeldItem(EnumHand.MAIN_HAND, prev);
 			}
-
-			player.setHeldItem(EnumHand.MAIN_HAND, prev);
 
 		} else if(result.typeOfHit == Type.ENTITY) {
 			Entity hit = result.entityHit;
