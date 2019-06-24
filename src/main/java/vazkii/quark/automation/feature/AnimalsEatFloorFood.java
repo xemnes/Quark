@@ -32,7 +32,7 @@ public class AnimalsEatFloorFood extends Feature {
 
 	@Override
 	public void setupConfig() {
-		maxCreaturesPerChunkArea = loadPropInt("Maximum entities per chunk area", "Prevents entities from proliferating infinitely. Set to 0 or less to disable checking.", 10);
+		maxCreaturesPerChunkArea = loadPropInt("Maximum entities per chunk area", "Prevents entities from proliferating infinitely. Set to 0 or less to disable checking.", 30);
 	}
 
 	private int getSpawnAllowedChunks(WorldServer world) {
