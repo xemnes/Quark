@@ -25,7 +25,7 @@ public class BlockMonsterBox extends BlockModContainer implements IQuarkBlock {
 
 	public BlockMonsterBox() {
 		super("monster_box", Material.IRON);
-		setHardness(5.0F);
+		setHardness(25.0F);
 		setSoundType(SoundType.METAL);
 	}
 
