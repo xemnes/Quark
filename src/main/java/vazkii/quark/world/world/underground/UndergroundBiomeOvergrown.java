@@ -6,11 +6,11 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import vazkii.quark.base.module.ModuleLoader;
+import vazkii.quark.base.module.ConfigHelper;
 
 public class UndergroundBiomeOvergrown extends BasicUndergroundBiome {
 
-	public static int rootChance, dirtChance;
+	public static double rootChance, dirtChance;
 	
 	public UndergroundBiomeOvergrown() {
 		super(Blocks.MOSSY_COBBLESTONE.getDefaultState(), Blocks.LEAVES.getDefaultState().withProperty(BlockLeaves.DECAYABLE, false), null);
@@ -18,7 +18,7 @@ public class UndergroundBiomeOvergrown extends BasicUndergroundBiome {
 
 	@Override
 	public void finalCeilingPass(World world, BlockPos pos) {
-		if(rootChance > 0 && world.rand.nextInt(rootChance) == 0) {
+		if(world.rand.nextDouble() < rootChance) {
 			int count = 0;
 			for(int i = 0; i < 20; i++) {
 				BlockPos checkPos = pos.add(0, -i, 0);
@@ -38,15 +38,15 @@ public class UndergroundBiomeOvergrown extends BasicUndergroundBiome {
 	
 	@Override
 	public void fillFloor(World world, BlockPos pos, IBlockState state) {
-		if(dirtChance > 0 && world.rand.nextInt(dirtChance) == 0)
+		if(world.rand.nextDouble() < dirtChance)
 			world.setBlockState(pos, Blocks.DIRT.getDefaultState().withProperty(BlockDirt.VARIANT, BlockDirt.DirtType.COARSE_DIRT));
 		else super.fillFloor(world, pos, state);
 	}
 	
 	@Override
 	public void setupConfig(String category) {
-		rootChance = ModuleLoader.config.getInt("Root Chance", category, 40, 0, Integer.MAX_VALUE, "The higher, the less roots will spawn");
-		dirtChance = ModuleLoader.config.getInt("Dirt Chance", category, 2, 0, Integer.MAX_VALUE, "The higher, the less dirt will spawn");
+		rootChance = ConfigHelper.loadLegacyPropChance("Root Percentage Chance", category, "Root Chance", "The chance roots will spawn", 0.025);
+		dirtChance = ConfigHelper.loadLegacyPropChance("Dirt Percentage Chance", category, "Root Chance", "The chance dirt will spawn", 0.5);
 	}
 
 }

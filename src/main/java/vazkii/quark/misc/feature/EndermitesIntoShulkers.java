@@ -9,11 +9,13 @@ import vazkii.quark.misc.ai.AIFormShulker;
 
 public class EndermitesIntoShulkers extends Feature {
 
-	public static int chance = 200;
+	public static double chance = 0.005;
 
 	@Override
 	public void setupConfig() {
-		chance = loadPropInt("Transform Chance", "The chance (1 in X) for an Endermite to turn into a Shulker.\nThe higher, the lower the chance. The chance for s Silverfish to bury is 10, for reference.", chance); 
+		chance = loadLegacyPropChance("Transform Percentage Chance",
+				"Transform Chance",
+				"The chance for an Endermite to turn into a Shulker.\nThe chance for a Silverfish to bury is 0.1, for reference.", chance);
 	}
 	
 	@SubscribeEvent

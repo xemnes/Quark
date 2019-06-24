@@ -160,6 +160,10 @@ public class Feature implements IFeature {
 		return FMLCommonHandler.instance().getSide().isClient();
 	}
 
+	public final boolean hasConfigKey(String propName) {
+		return ConfigHelper.hasConfigKey(propName, configCategory);
+	}
+
 	public final int loadPropInt(String propName, String desc, int default_) {
 		return ConfigHelper.loadPropInt(propName, configCategory, desc, default_);
 	}
@@ -178,6 +182,10 @@ public class Feature implements IFeature {
 
 	public final String[] loadPropStringList(String propName, String desc, String[] default_) {
 		return ConfigHelper.loadPropStringList(propName, configCategory, desc, default_);
+	}
+
+	public final double loadLegacyPropChance(String propName, String oldName, String desc, double default_) {
+		return ConfigHelper.loadLegacyPropChance(propName, configCategory, oldName, desc, default_);
 	}
 
 	public final void initializeEnchantmentList(String[] enchantNames, List<Enchantment> enchants) {

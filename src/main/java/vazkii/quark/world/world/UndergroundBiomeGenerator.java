@@ -93,7 +93,7 @@ public class UndergroundBiomeGenerator extends MultiChunkFeatureGenerator {
 		context.wallMap.keySet().forEach(pos -> info.biome.finalWallPass(world, pos));
 		context.insideList.forEach(pos -> info.biome.finalInsidePass(world, pos));
 		
-		if(info.biome.hasDungeon() && world instanceof WorldServer && random.nextFloat() < info.biome.dungeonChance) {
+		if(info.biome.hasDungeon() && world instanceof WorldServer && random.nextDouble() < info.biome.dungeonChance) {
 			List<BlockPos> candidates = new ArrayList<>(context.wallMap.keySet());
 			candidates.removeIf(pos -> {
 				BlockPos down = pos.down();

@@ -10,7 +10,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.biome.Biome;
-import vazkii.quark.base.module.ModuleLoader;
+import vazkii.quark.base.module.ConfigHelper;
 import vazkii.quark.world.feature.RevampStoneGen;
 import vazkii.quark.world.world.UndergroundBiomeGenerator.UndergroundBiomeGenerationContext;
 
@@ -18,7 +18,7 @@ import java.util.function.Predicate;
 
 public abstract class UndergroundBiome {
 
-	public float dungeonChance;
+	public double dungeonChance;
 	
 	public static final Predicate<IBlockState> STONE_PREDICATE = state -> {
 		if(state != null) {
@@ -78,7 +78,10 @@ public abstract class UndergroundBiome {
 	
 	public final void setupBaseConfig(String category) {
 		if(hasDungeon())
-			dungeonChance = ModuleLoader.config.getFloat("Dungeon Spawn Chance", category, getDungeonChance(), 0, 1, "The chance that dungeons will spawn any given chunk of the biome. The lower the value, the fewer dungeons will spawn.");
+			dungeonChance = ConfigHelper.loadLegacyPropChance("Dungeon Spawn Percentage Chance", category,
+					"Dungeon Spawn Chance",
+					"The chance that dungeons will spawn any given chunk of the biome. The lower the value, the fewer dungeons will spawn.",
+					getDungeonChance());
 		
 		setupConfig(category);
 	}
@@ -102,8 +105,8 @@ public abstract class UndergroundBiome {
 	public void spawnDungeon(WorldServer world, BlockPos pos, EnumFacing face) {
 		// NO-OP
 	}
-	
-	boolean isFloor(World world, BlockPos pos, IBlockState state) {
+
+	public boolean isFloor(World world, BlockPos pos, IBlockState state) {
 		if(!state.isFullBlock() || !state.isOpaqueCube())
 			return false;
 
@@ -111,7 +114,7 @@ public abstract class UndergroundBiome {
 		return world.isAirBlock(upPos) || world.getBlockState(upPos).getBlock().isReplaceable(world, upPos);
 	}
 
-	boolean isCeiling(World world, BlockPos pos, IBlockState state) {
+	public boolean isCeiling(World world, BlockPos pos, IBlockState state) {
 		if(!state.isFullBlock() || !state.isOpaqueCube())
 			return false;
 
@@ -125,8 +128,8 @@ public abstract class UndergroundBiome {
 
 		return isBorder(world, pos);
 	}
-	
-	EnumFacing getBorderSide(World world, BlockPos pos) {
+
+	public EnumFacing getBorderSide(World world, BlockPos pos) {
 		for(EnumFacing facing : EnumFacing.HORIZONTALS) {
 			BlockPos offsetPos = pos.offset(facing);
 			IBlockState stateAt = world.getBlockState(offsetPos);
@@ -138,11 +141,11 @@ public abstract class UndergroundBiome {
 		return null;
 	}
 	
-	boolean isBorder(World world, BlockPos pos) {
+	public boolean isBorder(World world, BlockPos pos) {
 		return getBorderSide(world, pos) != null;
 	}
-	
-	boolean isInside(IBlockState state) {
+
+	public boolean isInside(IBlockState state) {
 		return STONE_PREDICATE.test(state);
 	}
 	

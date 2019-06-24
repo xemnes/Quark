@@ -27,6 +27,14 @@ public class ConfigHelper {
 		return prop.getInt(default_);
 	}
 
+	public static double loadPropDouble(String propName, String category, String desc, double default_, double min, double max) {
+		Property prop = ModuleLoader.config.get(category, propName, default_, desc, min, max);
+		setNeedsRestart(prop);
+
+		lastProp = prop;
+		return prop.getDouble(default_);
+	}
+
 	public static double loadPropDouble(String propName, String category, String desc, double default_) {
 		Property prop = ModuleLoader.config.get(category, propName, default_);
 		prop.setComment(desc);
@@ -61,6 +69,22 @@ public class ConfigHelper {
 		
 		lastProp = prop;
 		return prop.getStringList();
+	}
+
+	public static double loadLegacyPropChance(String propName, String category, String oldName, String desc, double default_) {
+		double chanceValue = default_;
+		if (hasConfigKey(category, oldName)) {
+			int value = loadPropInt(oldName, category, "", 0);
+			if (value <= 0)
+				chanceValue = 0;
+			else
+				chanceValue = 1.0 / value;
+		}
+		return loadPropDouble(propName, category, desc, chanceValue, 0, 1);
+	}
+
+	public static boolean hasConfigKey(String propName, String category) {
+		return ModuleLoader.config.hasKey(category, propName);
 	}
 
 	private static void setNeedsRestart(Property prop) {
