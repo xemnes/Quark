@@ -23,6 +23,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.base.sounds.QuarkSounds;
+import vazkii.quark.experimental.entity.ai.EntityAITemptButNice;
 import vazkii.quark.experimental.features.Frogs;
 import vazkii.quark.world.entity.ai.EntityAIFavorBlock;
 
@@ -37,6 +38,7 @@ public class EntityFrog extends EntityAnimal {
 
 	private static final DataParameter<Integer> TALK_TIME = EntityDataManager.createKey(EntityFrog.class, DataSerializers.VARINT);
 	private static final Set<Item> TEMPTATION_ITEMS = Sets.newHashSet(Items.FISH, Items.SPIDER_EYE);
+	private static final Set<Item> TEMPTATION_ITEMS_BUT_NICE = Sets.newHashSet(Items.FISH, Items.SPIDER_EYE, Items.CLOCK);
 
 	public int spawnCd = -1;
 	public int spawnChain = 30;
@@ -62,7 +64,7 @@ public class EntityFrog extends EntityAnimal {
 		tasks.addTask(0, new EntityAISwimming(this));
 		tasks.addTask(1, new AIPanic(1.25));
 		tasks.addTask(2, new EntityAIMate(this, 1.0));
-		tasks.addTask(3, new EntityAITempt(this, 1.2, false, TEMPTATION_ITEMS));
+		tasks.addTask(3, new EntityAITemptButNice(this, 1.2, false, TEMPTATION_ITEMS, TEMPTATION_ITEMS_BUT_NICE));
 		tasks.addTask(4, new EntityAIFollowParent(this, 1.1));
 		tasks.addTask(5, new EntityAIFavorBlock(this, 1, Blocks.WATERLILY));
 		tasks.addTask(6, new EntityAIWanderAvoidWater(this, 1, 0.5F));
@@ -179,7 +181,10 @@ public class EntityFrog extends EntityAnimal {
 
 	@Override
 	public boolean isBreedingItem(ItemStack stack) {
-		return !stack.isEmpty() && TEMPTATION_ITEMS.contains(stack.getItem());
+		Calendar calendar = world.getCurrentDate();
+		return !stack.isEmpty() &&
+				(Frogs.frogsDoTheFunny && calendar.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY ?
+						TEMPTATION_ITEMS_BUT_NICE : TEMPTATION_ITEMS).contains(stack.getItem());
 	}
 
 	@Override
