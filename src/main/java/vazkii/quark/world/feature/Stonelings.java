@@ -4,6 +4,7 @@ import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
@@ -44,6 +45,8 @@ public class Stonelings extends Feature {
 			diamond_heart = new ItemDiamondHeart();
 
 		String stonelingName = "quark:stoneling";
+		LootTableList.register(EntityStoneling.LOOT_TABLE);
+		LootTableList.register(EntityStoneling.CARRY_LOOT_TABLE);
 		EntityRegistry.registerModEntity(new ResourceLocation(stonelingName), EntityStoneling.class, stonelingName, LibEntityIDs.STONELING, Quark.instance, 80, 3, true, 0xA1A1A1, 0x505050);
 
 		EntityRegistry.addSpawn(EntityStoneling.class, weight, 1, 1, EnumCreatureType.MONSTER, DepthMobs.getBiomesWithMob(EntityZombie.class));
