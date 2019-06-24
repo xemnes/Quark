@@ -81,7 +81,7 @@ public class ContributorRewardHandler {
 			int tier = Integer.parseInt(value);
 			if(tier < 10)
 				allPatrons.add(key);
-			tiers.put(key, tier);
+			tiers.put(key.toLowerCase(Locale.ROOT), tier);
 			
 			if(name != null && key.toLowerCase(Locale.ROOT).equals(name))
 				localPatronTier = tier;

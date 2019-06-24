@@ -1,5 +1,6 @@
 package vazkii.quark.world.entity;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -79,7 +80,9 @@ public class EntityPickarang extends EntityThrowable {
 				ItemStack prev = player.getHeldItemMainhand();
 				player.setHeldItem(EnumHand.MAIN_HAND, getStack());
 
-				if (!player.interactionManager.tryHarvestBlock(hit)) {
+				if (player.interactionManager.tryHarvestBlock(hit)) {
+					world.playEvent(2001, hit, Block.getStateId(state));
+				} else {
 					// TODO: 6/14/19 clink
 				}
 
