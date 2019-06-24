@@ -16,8 +16,10 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import vazkii.arl.block.BlockMetaVariants;
 import vazkii.quark.base.block.IQuarkBlock;
@@ -33,6 +35,16 @@ public class BlockCustomBookshelf extends BlockMetaVariants<BlockCustomBookshelf
 		setHardness(1.5F);
 		setSoundType(SoundType.WOOD);
 		setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
+	}
+
+	@Override
+	public int getFlammability(IBlockAccess world, BlockPos pos, EnumFacing face) {
+		return 20;
+	}
+
+	@Override
+	public int getFireSpreadSpeed(IBlockAccess world, BlockPos pos, EnumFacing face) {
+		return 5;
 	}
 	
 	@Override

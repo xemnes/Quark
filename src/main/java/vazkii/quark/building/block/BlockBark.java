@@ -13,7 +13,10 @@ package vazkii.quark.building.block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import vazkii.arl.block.BlockMetaVariants;
 import vazkii.quark.base.block.IQuarkBlock;
 
@@ -26,6 +29,16 @@ public class BlockBark extends BlockMetaVariants<BlockBark.Variants> implements 
 		setHardness(2.0F);
 		setSoundType(SoundType.WOOD);
 		setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
+	}
+
+	@Override
+	public int getFlammability(IBlockAccess world, BlockPos pos, EnumFacing face) {
+		return 20;
+	}
+
+	@Override
+	public int getFireSpreadSpeed(IBlockAccess world, BlockPos pos, EnumFacing face) {
+		return 5;
 	}
 
 	public enum Variants implements IStringSerializable {

@@ -44,6 +44,16 @@ public class BlockPaperLantern extends BlockMod implements IQuarkBlock {
 	public boolean isFullCube(IBlockState state) {
 		return false;
 	}
+
+	@Override
+	public int getFlammability(IBlockAccess world, BlockPos pos, EnumFacing face) {
+		return 30;
+	}
+
+	@Override
+	public int getFireSpreadSpeed(IBlockAccess world, BlockPos pos, EnumFacing face) {
+		return 60;
+	}
 	
 	@Nonnull
 	@Override

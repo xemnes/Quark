@@ -37,6 +37,16 @@ public class BlockChute extends BlockModContainer implements IQuarkBlock {
 	}
 
 	@Override
+	public int getFlammability(IBlockAccess world, BlockPos pos, EnumFacing face) {
+		return 20;
+	}
+
+	@Override
+	public int getFireSpreadSpeed(IBlockAccess world, BlockPos pos, EnumFacing face) {
+		return 5;
+	}
+
+	@Override
 	@SuppressWarnings("deprecation")
 	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
 		boolean flag = !worldIn.isBlockPowered(pos);
