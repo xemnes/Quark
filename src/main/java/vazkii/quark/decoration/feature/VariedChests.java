@@ -16,6 +16,7 @@ import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.tileentity.TileEntityItemStackRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.AbstractChestHorse;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -27,6 +28,7 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.common.util.EnumHelper;
+import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
@@ -104,6 +106,7 @@ public class VariedChests extends Feature {
 				originalModel));
 	}
 
+	private static final String DONK_CHEST = "Quark:DonkChest";
 	private static Method initHorseChest;
 
 	@SubscribeEvent
@@ -119,7 +122,13 @@ public class VariedChests extends Feature {
 				int oreId = OreDictionary.getOreID("chestWood");
 				for (int checkAgainst : OreDictionary.getOreIDs(held)) {
 					if (oreId == checkAgainst) {
+						ItemStack copy = held.copy();
+						copy.setCount(1);
+						held.shrink(1);
+
 						event.setCanceled(true);
+
+						horse.getEntityData().setTag(DONK_CHEST, copy.serializeNBT());
 
 						horse.setChested(true);
 						if (initHorseChest == null)
@@ -138,6 +147,25 @@ public class VariedChests extends Feature {
 			}
 		}
 	}
+
+	@SubscribeEvent
+	public void replaceDonkDrop(LivingDropsEvent event) {
+		Entity target = event.getEntityLiving();
+		if (target instanceof AbstractChestHorse) {
+			AbstractChestHorse horse = (AbstractChestHorse) target;
+			ItemStack chest = new ItemStack(horse.getEntityData().getCompoundTag(DONK_CHEST));
+			if (!chest.isEmpty()) {
+				List<EntityItem> drops = event.getDrops();
+				for (EntityItem drop : drops) {
+					if (drop.getItem().getItem() == Item.getItemFromBlock(Blocks.CHEST)) {
+						drop.setItem(chest);
+						break;
+					}
+				}
+			}
+		}
+	}
+
 
 	@Override
 	@SideOnly(Side.CLIENT)
