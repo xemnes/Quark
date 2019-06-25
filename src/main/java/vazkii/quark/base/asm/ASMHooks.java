@@ -37,6 +37,7 @@ import vazkii.quark.experimental.features.ColoredLights;
 import vazkii.quark.management.feature.BetterCraftShifting;
 import vazkii.quark.misc.feature.ColorRunes;
 import vazkii.quark.misc.feature.ExtraPotions;
+import vazkii.quark.misc.item.ItemPickarang;
 import vazkii.quark.tweaks.feature.ImprovedSleeping;
 import vazkii.quark.tweaks.feature.SpringySlime;
 import vazkii.quark.vanity.client.emotes.EmoteHandler;
@@ -196,6 +197,11 @@ public final class ASMHooks {
 	@SideOnly(Side.CLIENT)
 	public static void renderNausea(EntityRenderer renderer, float partialTicks) {
 		BetterNausea.renderNausea(renderer, partialTicks);
+	}
+
+	// ===== PICKARANG ==== //
+	public static boolean canSharpnessApply(ItemStack stack) {
+		return stack.getItem() instanceof ItemPickarang;
 	}
 	
 }

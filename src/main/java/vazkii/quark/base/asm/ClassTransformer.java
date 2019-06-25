@@ -73,7 +73,7 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 		// Better Fire Effect
 		transformers.put("net.minecraft.client.renderer.entity.Render", ClassTransformer::transformRender);
 
-		// For witch hats
+		// For Witch Hats
 		transformers.put("net.minecraft.entity.ai.EntityAITarget", ClassTransformer::transformEntityAITarget);
 
 		// For Show Invalid Slots
@@ -90,6 +90,9 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 
 		// For Better Nausea
 		transformers.put("net.minecraft.client.renderer.EntityRenderer", ClassTransformer::transformEntityRenderer);
+
+		// For Pickarangs
+		transformers.put("net.minecraft.enchantment.EnchantmentDamage", ClassTransformer::transformSharpness);
 	}
 
 	@Override
@@ -680,6 +683,24 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 					newInstructions.add(new MethodInsnNode(INVOKESTATIC, ASM_HOOKS, "renderNausea", "(Lnet/minecraft/client/renderer/EntityRenderer;F)V", false));
 
 					method.instructions.insert(node, newInstructions);
+					return false;
+				}
+		)));
+	}
+
+	private static byte[] transformSharpness(byte[] basicClass) {
+		MethodSignature sig = new MethodSignature("canApply", "func_92089_a", "(Lnet/minecraft/item/ItemStack;)Z");
+
+		return transform(basicClass, forMethod(sig, combine(
+				(AbstractInsnNode node) -> node.getOpcode() == IRETURN,
+				(MethodNode method, AbstractInsnNode node) -> {
+					InsnList newInstructions = new InsnList();
+
+					newInstructions.add(new VarInsnNode(ALOAD, 1));
+					newInstructions.add(new MethodInsnNode(INVOKESTATIC, ASM_HOOKS, "canSharpnessApply", "(Lnet/minecraft/item/ItemStack;)Z", false));
+					newInstructions.add(new InsnNode(IOR));
+
+					method.instructions.insertBefore(node, newInstructions);
 					return false;
 				}
 		)));

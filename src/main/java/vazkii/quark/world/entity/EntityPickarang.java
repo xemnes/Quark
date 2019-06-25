@@ -1,27 +1,30 @@
 package vazkii.quark.world.entity;
 
+import com.google.common.collect.Multimap;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Enchantments;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.RayTraceResult.Type;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import vazkii.quark.misc.feature.Pickarang;
 
 import javax.annotation.Nonnull;
@@ -31,7 +34,7 @@ public class EntityPickarang extends EntityThrowable {
 
 	private static final DataParameter<ItemStack> STACK = EntityDataManager.createKey(EntityPickarang.class, DataSerializers.ITEM_STACK);
 	private static final DataParameter<Boolean> RETURNING = EntityDataManager.createKey(EntityPickarang.class, DataSerializers.BOOLEAN);
-	
+
 	private int liveTime;
 	private int slot;
 
@@ -96,8 +99,25 @@ public class EntityPickarang extends EntityThrowable {
 			if(hit != owner) {
 				dataManager.set(RETURNING, true);
 				
-				if(owner instanceof EntityPlayer)
-					hit.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer) owner), 3);
+				if(owner instanceof EntityPlayer) {
+					EntityPlayer player = (EntityPlayer) owner;
+					ItemStack prev = player.getHeldItemMainhand();
+					ItemStack pickarang = getStack();
+					player.setHeldItem(EnumHand.MAIN_HAND, pickarang);
+					Multimap<String, AttributeModifier> modifiers = pickarang.getAttributeModifiers(EntityEquipmentSlot.MAINHAND);
+					player.getAttributeMap().applyAttributeModifiers(modifiers);
+
+					int ticksSinceLastSwing = ObfuscationReflectionHelper.getPrivateValue(EntityLivingBase.class, player, "field_184617_aD");
+					ObfuscationReflectionHelper.setPrivateValue(EntityLivingBase.class, player, (int) player.getCooldownPeriod(), "field_184617_aD");
+
+					player.attackTargetEntityWithCurrentItem(hit);
+
+					ObfuscationReflectionHelper.setPrivateValue(EntityLivingBase.class, player, ticksSinceLastSwing, "field_184617_aD");
+
+
+					player.setHeldItem(EnumHand.MAIN_HAND, prev);
+					player.getAttributeMap().removeAttributeModifiers(modifiers);
+				}
 			}
 		}
 	}
