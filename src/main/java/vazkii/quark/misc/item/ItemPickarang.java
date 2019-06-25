@@ -55,7 +55,7 @@ public class ItemPickarang extends ItemMod implements IQuarkItem {
         }
 
         if(!playerIn.capabilities.isCreativeMode && !Pickarang.noCooldown) {
-        	int cooldown = 12 - eff * 2;
+        	int cooldown = 10 - eff;
         	if (cooldown > 0)
 				playerIn.getCooldownTracker().setCooldown(this, cooldown);
 		}
