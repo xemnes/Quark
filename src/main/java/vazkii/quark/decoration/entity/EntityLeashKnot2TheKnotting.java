@@ -15,6 +15,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class EntityLeashKnot2TheKnotting extends EntityLiving {
 
@@ -39,7 +40,7 @@ public class EntityLeashKnot2TheKnotting extends EntityLiving {
 		if(!(state.getBlock() instanceof BlockFence)) {
 			dismantle(true);
 		} else {
-			Entity holder = getLeashHolder();
+			Entity holder = getHolder();
 			if(holder == null || holder.isDead)
 				dismantle(true);
 			else if(holder.posY < posY && holder instanceof EntityLeashKnot) {
@@ -55,6 +56,12 @@ public class EntityLeashKnot2TheKnotting extends EntityLiving {
 			}
 		}
 	}
+
+	@Nullable
+	@SuppressWarnings("ConstantConditions")
+	private Entity getHolder() {
+		return getLeashHolder();
+	}
 	
 	@Override
 	protected boolean processInteract(EntityPlayer player, EnumHand hand) {
@@ -68,10 +75,10 @@ public class EntityLeashKnot2TheKnotting extends EntityLiving {
 	}
 	
 	private void dismantle(boolean drop) {
-		setDead();
 		world.playSound(null, getPosition(), SoundEvents.ENTITY_LEASHKNOT_BREAK, SoundCategory.BLOCKS, 1F, 1F);
-		if(drop)
+		if(!isDead && getHolder() != null && drop && !world.isRemote)
 			dropItem(Items.LEAD, 1);
+		setDead();
 	}
 
 }
