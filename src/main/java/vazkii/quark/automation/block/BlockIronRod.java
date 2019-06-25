@@ -130,9 +130,14 @@ public class BlockIronRod extends BlockMod implements IQuarkBlock {
 	@Override
 	@SuppressWarnings("deprecation")
 	public IBlockState getActualState(@Nonnull IBlockState state, IBlockAccess worldIn, BlockPos pos) {
-		IBlockState otherState = worldIn.getBlockState(pos.offset(state.getValue(FACING).getOpposite()));
+		EnumFacing facing = state.getValue(FACING);
+		IBlockState otherState = worldIn.getBlockState(pos.offset(facing.getOpposite()));
 		Block block = otherState.getBlock();
-		return state.withProperty(CONNECTED, block != this);
+		if (block == this) {
+			if (otherState.getValue(FACING) == facing)
+				return state.withProperty(CONNECTED, false);
+		}
+		return state.withProperty(CONNECTED, true);
 	}
 	
 }
