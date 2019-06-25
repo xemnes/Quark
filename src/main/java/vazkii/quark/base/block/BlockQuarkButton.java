@@ -53,7 +53,7 @@ public class BlockQuarkButton extends BlockButton implements IQuarkBlock {
 		return new ItemModBlock(this, regName) {
 			@Override
 			public int getItemBurnTime(ItemStack itemStack) {
-				return wooden ? 150 : super.getItemBurnTime(itemStack);
+				return wooden ? 50 : super.getItemBurnTime(itemStack);
 			}
 		};
 	}
