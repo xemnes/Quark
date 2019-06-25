@@ -114,7 +114,6 @@ public class EntityPickarang extends EntityThrowable {
 
 					ObfuscationReflectionHelper.setPrivateValue(EntityLivingBase.class, player, ticksSinceLastSwing, "field_184617_aD");
 
-
 					player.setHeldItem(EnumHand.MAIN_HAND, prev);
 					player.getAttributeMap().removeAttributeModifiers(modifiers);
 				}
