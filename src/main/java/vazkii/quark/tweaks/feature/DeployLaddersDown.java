@@ -46,6 +46,8 @@ public class DeployLaddersDown extends Feature {
 			items.add(Item.getItemFromBlock(IronLadders.iron_ladder));
 		
 		if(!stack.isEmpty() && items.contains(stack.getItem())) {
+			event.setCanceled(true);
+
 			Block block = Block.getBlockFromItem(stack.getItem());
 			World world = event.getWorld();
 			BlockPos pos = event.getPos();
@@ -67,8 +69,6 @@ public class DeployLaddersDown extends Feature {
 						if(block.canPlaceBlockOnSide(world, posDown, facing)) {
 							world.setBlockState(posDown, copyState);
 							world.playSound(null, posDown.getX(), posDown.getY(), posDown.getZ(), SoundEvents.BLOCK_LADDER_PLACE, SoundCategory.BLOCKS, 1F, 1F);
-
-							event.setCanceled(true);
 							
 							if(world.isRemote)
 								player.swingArm(hand);
