@@ -86,10 +86,10 @@ public class EntityFlatItemFrame extends EntityItemFrame implements IEntityAddit
 
 	@Override
 	public EntityItem entityDropItem(ItemStack stack, float offsetY) {
-		EntityItem entityitem = new EntityItem(this.world, this.posX + (this.realFacingDirection.getXOffset() * 0.15F), this.posY + offsetY, this.posZ + (this.realFacingDirection.getZOffset() * 0.15F), stack);
+		EntityItem entityitem = new EntityItem(this.world, this.posX + (this.realFacingDirection.getXOffset() * 0.25F), this.posY + offsetY + (this.realFacingDirection.getYOffset() * 0.25F), this.posZ + (this.realFacingDirection.getZOffset() * 0.25F), stack);
 		entityitem.setDefaultPickupDelay();
 		if (realFacingDirection == EnumFacing.DOWN)
-			entityitem.motionY = -entityitem.motionY;
+			entityitem.motionY = -Math.abs(entityitem.motionY);
 		this.world.spawnEntity(entityitem);
 		return entityitem;
 	}
