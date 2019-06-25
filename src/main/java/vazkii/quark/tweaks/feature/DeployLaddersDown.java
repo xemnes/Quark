@@ -46,12 +46,11 @@ public class DeployLaddersDown extends Feature {
 			items.add(Item.getItemFromBlock(IronLadders.iron_ladder));
 		
 		if(!stack.isEmpty() && items.contains(stack.getItem())) {
-			event.setCanceled(true);
-
 			Block block = Block.getBlockFromItem(stack.getItem());
 			World world = event.getWorld();
 			BlockPos pos = event.getPos();
 			while(world.getBlockState(pos).getBlock() == block) {
+				event.setCanceled(true);
 				BlockPos posDown = pos.down();
 
 				if (world.isOutsideBuildHeight(posDown))
