@@ -24,15 +24,36 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.decoration.feature.IronLadders;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DeployLaddersDown extends Feature {
+
+	private static Method canAttachTo;
+
+	private static boolean canAttachTo(Block ladder, World world, BlockPos pos, EnumFacing facing) {
+		if (ladder == IronLadders.iron_ladder)
+			return IronLadders.iron_ladder.canBlockStay(world, pos, facing);
+		else if (ladder instanceof BlockLadder) {
+			if (canAttachTo == null)
+				canAttachTo = ObfuscationReflectionHelper.findMethod(BlockLadder.class, "func_193392_c", Boolean.TYPE, World.class, BlockPos.class, EnumFacing.class);
+			try {
+				return (boolean) canAttachTo.invoke(ladder, world, pos, facing);
+			} catch (IllegalAccessException | InvocationTargetException e) {
+				// NO-OP
+			}
+		}
+
+		return false;
+	}
 
 	@SubscribeEvent
 	public void onInteract(PlayerInteractEvent.RightClickBlock event) {
@@ -65,7 +86,7 @@ public class DeployLaddersDown extends Feature {
 						IBlockState copyState = world.getBlockState(pos);
 
 						EnumFacing facing = copyState.getValue(BlockLadder.FACING);
-						if(block.canPlaceBlockOnSide(world, posDown, facing)) {
+						if(canAttachTo(block, world, posDown, facing)) {
 							world.setBlockState(posDown, copyState);
 							world.playSound(null, posDown.getX(), posDown.getY(), posDown.getZ(), SoundEvents.BLOCK_LADDER_PLACE, SoundCategory.BLOCKS, 1F, 1F);
 							

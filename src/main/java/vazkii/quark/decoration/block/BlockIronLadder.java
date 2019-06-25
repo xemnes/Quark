@@ -95,7 +95,7 @@ public class BlockIronLadder extends BlockMod implements IQuarkBlock {
 		return canBlockStay(worldIn, pos, facing);
 	}
 	
-	protected boolean canBlockStay(World worldIn, BlockPos pos, EnumFacing facing) {
+	public boolean canBlockStay(World worldIn, BlockPos pos, EnumFacing facing) {
 		boolean solid = facing.getAxis() != Axis.Y && worldIn.getBlockState(pos.offset(facing.getOpposite())).isSideSolid(worldIn, pos.offset(facing.getOpposite()), facing);
 		IBlockState topState = worldIn.getBlockState(pos.up());
 		return solid || (topState.getBlock() == this && (facing.getAxis() == Axis.Y || topState.getValue(FACING) == facing));
