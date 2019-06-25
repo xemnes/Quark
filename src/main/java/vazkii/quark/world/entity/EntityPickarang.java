@@ -162,7 +162,7 @@ public class EntityPickarang extends EntityThrowable {
 						if(stackInSlot.isEmpty())
 							player.inventory.setInventorySlotContents(slot, stack);
 						else if(!player.inventory.addItemStackToInventory(stack))
-							entityDropItem(stack, 0);
+							entityDropItem(stack, 1);
 			        }
 
 					setDead();
