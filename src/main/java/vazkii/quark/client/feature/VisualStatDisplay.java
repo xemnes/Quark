@@ -30,6 +30,7 @@ import vazkii.quark.base.module.Feature;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class VisualStatDisplay extends Feature {
 
@@ -187,6 +188,8 @@ public class VisualStatDisplay extends Feature {
 	@SideOnly(Side.CLIENT)
 	private static boolean isAttributeLine(String line, String attName) {
 		String attNameLoc = I18n.format("attribute.name." + attName);
+
+		line = Objects.toString(TextFormatting.getTextWithoutFormattingCodes(line));
 
 		for (String att : ATTRIBUTE_FORMATS) {
 			for (int mod = 0; mod < 3; mod++) {
