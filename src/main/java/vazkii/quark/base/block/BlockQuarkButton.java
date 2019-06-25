@@ -8,12 +8,15 @@ import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.EnumRarity;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import vazkii.arl.item.ItemModBlock;
 
 import javax.annotation.Nonnull;
 
@@ -43,6 +46,16 @@ public class BlockQuarkButton extends BlockButton implements IQuarkBlock {
 		super.setTranslationKey(name);
 		register(name);
 		return this;
+	}
+
+	@Override
+	public ItemBlock createItemInstance(ResourceLocation regName) {
+		return new ItemModBlock(this, regName) {
+			@Override
+			public int getItemBurnTime(ItemStack itemStack) {
+				return wooden ? 150 : super.getItemBurnTime(itemStack);
+			}
+		};
 	}
 
 	@Override
