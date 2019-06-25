@@ -15,6 +15,9 @@ import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.tileentity.TileEntityItemStackRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.passive.AbstractChestHorse;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -24,7 +27,9 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.common.util.EnumHelper;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -43,6 +48,8 @@ import vazkii.quark.decoration.client.render.RenderTileCustomChest;
 import vazkii.quark.decoration.tile.TileCustomChest;
 import vazkii.quark.oddities.client.bakery.WrapperWithParticleTexture;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -95,6 +102,41 @@ public class VariedChests extends Feature {
 		event.getModelRegistry().putObject(key, new WrapperWithParticleTexture(
 				event.getModelManager().getTextureMap().getAtlasSprite("minecraft:blocks/planks_oak"),
 				originalModel));
+	}
+
+	private static Method initHorseChest;
+
+	@SubscribeEvent
+	public void onClickEntity(PlayerInteractEvent.EntityInteract event) {
+		Entity target = event.getTarget();
+		EntityPlayer player = event.getEntityPlayer();
+
+		if (target instanceof AbstractChestHorse) {
+			AbstractChestHorse horse = (AbstractChestHorse) target;
+			ItemStack held = player.getHeldItem(event.getHand());
+
+			if (!horse.hasChest() && held.getItem() != Item.getItemFromBlock(Blocks.CHEST)) {
+				int oreId = OreDictionary.getOreID("chestWood");
+				for (int checkAgainst : OreDictionary.getOreIDs(held)) {
+					if (oreId == checkAgainst) {
+						event.setCanceled(true);
+
+						horse.setChested(true);
+						if (initHorseChest == null)
+							initHorseChest = ObfuscationReflectionHelper.findMethod(AbstractChestHorse.class,
+									"func_110226_cD", Void.TYPE);
+
+						try {
+							initHorseChest.invoke(horse);
+						} catch (IllegalAccessException | InvocationTargetException e) {
+							// NO-OP
+						}
+
+						return;
+					}
+				}
+			}
+		}
 	}
 
 	@Override
@@ -222,7 +264,7 @@ public class VariedChests extends Feature {
 
 	@Override
 	public boolean hasSubscriptions() {
-		return isClient();
+		return true;
 	}
 
 	@Override
