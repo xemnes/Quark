@@ -137,7 +137,8 @@ public final class EmoteHandler {
 				if(done) {
 					playerEmotes.remove(name);
 					resetPlayer(player);
-				}
+				} else
+					emote.update();
 			} else resetPlayer(player);
 		}
 	}
