@@ -8,6 +8,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.GuiScreenEvent.KeyboardInputEvent;
+import net.minecraftforge.client.event.GuiScreenEvent.MouseInputEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
@@ -128,9 +129,18 @@ public class ModKeybinds {
 
 		@SubscribeEvent
 		public void onKeyInput(KeyboardInputEvent.Post event) {
+			updateInput();
+		}
+
+		@SubscribeEvent
+		public void onMouseInput(MouseInputEvent.Post event) {
+			updateInput();
+		}
+
+		public void updateInput() {
 			boolean wasDown = down;
 			down = isKeyDown(ref);
-			
+
 			if(!wasDown && down && keyboundButtons.containsKey(ref)) {
 				IParentedGui ipg = keyboundButtons.get(ref);
 				GuiScreen curr = Minecraft.getMinecraft().currentScreen;
@@ -144,7 +154,6 @@ public class ModKeybinds {
 				}
 			}
 		}
-
 	}
 
 }
