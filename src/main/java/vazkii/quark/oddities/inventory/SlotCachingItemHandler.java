@@ -14,6 +14,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.SlotItemHandler;
 
 import javax.annotation.Nonnull;
@@ -48,8 +49,7 @@ public class SlotCachingItemHandler extends SlotItemHandler {
 	public boolean isItemValid(@Nonnull ItemStack stack) {
 		if (caching) {
 			if (!cached.isEmpty())
-				return ItemStack.areItemStacksEqual(cached, stack) &&
-						cached.getCount() < cached.getMaxStackSize();
+				return ItemHandlerHelper.canItemStacksStack(stack, cached);
 		}
 		return super.isItemValid(stack);
 	}
