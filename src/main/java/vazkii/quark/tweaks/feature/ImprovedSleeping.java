@@ -2,12 +2,14 @@ package vazkii.quark.tweaks.feature;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.*;
 import net.minecraft.util.text.event.HoverEvent;
 import net.minecraft.util.text.event.HoverEvent.Action;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.GuiScreenEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent.MouseInputEvent;
@@ -22,6 +24,7 @@ import org.lwjgl.input.Mouse;
 import vazkii.arl.network.NetworkHandler;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.ModuleLoader;
+import vazkii.quark.base.network.message.MessageSpamlessChat;
 import vazkii.quark.base.network.message.MessageUpdateAfk;
 
 import java.util.ArrayList;
@@ -36,6 +39,9 @@ public class ImprovedSleeping extends Feature {
 	private static int afkTime, percentReq;
 	
 	private static final String TAG_AFK = "quark:afk";
+
+	private static final int AFK_MSG = "quark afk".hashCode();
+	private static final int SLEEP_MSG = "quark sleep".hashCode();
 
 	@Override
 	public void setupConfig() {
@@ -54,11 +60,17 @@ public class ImprovedSleeping extends Feature {
 				TextComponentTranslation text = new TextComponentTranslation("quarkmisc.nowAfk");
 				text.getStyle().setColor(TextFormatting.AQUA);
 				player.sendMessage(text);
+
+				if (player instanceof EntityPlayerMP)
+					NetworkHandler.INSTANCE.sendTo(new MessageSpamlessChat(text, AFK_MSG), (EntityPlayerMP) player);
 			} else {
 				player.getEntityData().setBoolean(TAG_AFK, false);
 				TextComponentTranslation text = new TextComponentTranslation("quarkmisc.leftAfk");
 				text.getStyle().setColor(TextFormatting.AQUA);
 				player.sendMessage(text);
+
+				if (player instanceof EntityPlayerMP)
+					NetworkHandler.INSTANCE.sendTo(new MessageSpamlessChat(text, AFK_MSG), (EntityPlayerMP) player);
 			}
 		}
 	}
@@ -71,7 +83,9 @@ public class ImprovedSleeping extends Feature {
 		int legitPlayers = counts.getLeft();
 		int sleepingPlayers = counts.getRight();
 
-		boolean everybody = (legitPlayers > 0 && ((float) sleepingPlayers / legitPlayers) * 100 >= percentReq);
+		int reqPlayers = (int) (percentReq / 100f * legitPlayers);
+
+		boolean everybody = (legitPlayers > 0 && ((float) sleepingPlayers / reqPlayers) >= 1);
 		return everybody ? 2 : 1;
 	}
 
@@ -152,7 +166,8 @@ public class ImprovedSleeping extends Feature {
 				sibling.getStyle().setHoverEvent(hover);
 				sibling.getStyle().setUnderlined(true);
 
-				server.getPlayerList().sendMessage(message, true);
+				for (EntityPlayerMP player : server.getPlayerList().getPlayers())
+					NetworkHandler.INSTANCE.sendTo(new MessageSpamlessChat(message, SLEEP_MSG), player);
 			}
 		}
 	}
@@ -167,7 +182,9 @@ public class ImprovedSleeping extends Feature {
 				lastPlayer.getEntityData().setBoolean(TAG_AFK, false);
 				TextComponentTranslation text = new TextComponentTranslation("quarkmisc.leftAfk");
 				text.getStyle().setColor(TextFormatting.AQUA);
-				lastPlayer.sendMessage(text);
+
+				if (lastPlayer instanceof EntityPlayerMP)
+					NetworkHandler.INSTANCE.sendTo(new MessageSpamlessChat(text, AFK_MSG), (EntityPlayerMP) lastPlayer);
 			}
 		}
 	}
@@ -192,6 +209,12 @@ public class ImprovedSleeping extends Feature {
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void onKeystroke(GuiScreenEvent.KeyboardInputEvent.Pre event) {
+		registerPress();
+	}
+
+	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
+	public void onPlayerClick(PlayerInteractEvent event) {
 		registerPress();
 	}
 

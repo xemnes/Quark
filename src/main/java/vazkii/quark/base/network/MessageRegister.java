@@ -10,11 +10,17 @@
  */
 package vazkii.quark.base.network;
 
+import io.netty.buffer.ByteBuf;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.relauncher.Side;
 import vazkii.arl.network.NetworkHandler;
 import vazkii.arl.network.NetworkMessage;
 import vazkii.quark.base.network.message.*;
 import vazkii.quark.misc.feature.LockDirectionHotkey.LockProfile;
+
+import java.io.IOException;
 
 public class MessageRegister {
 
@@ -40,8 +46,22 @@ public class MessageRegister {
 		NetworkHandler.register(MessageMatrixEnchanterOperation.class, Side.SERVER);
 		NetworkHandler.register(MessageSyncBoatBanner.class, Side.CLIENT);
 		NetworkHandler.register(MessageItemUpdate.class, Side.CLIENT);
+		NetworkHandler.register(MessageSpamlessChat.class, Side.CLIENT);
 
 		NetworkMessage.mapHandler(LockProfile.class, LockProfile::readProfile, LockProfile::writeProfile);
+		NetworkMessage.mapHandler(ITextComponent.class, MessageRegister::readComponent, MessageRegister::writeComponent);
+	}
+
+	private static ITextComponent readComponent(ByteBuf buf) {
+		try {
+			return new PacketBuffer(buf).readTextComponent();
+		} catch (IOException e) {
+			return new TextComponentString("");
+		}
+	}
+
+	private static void writeComponent(ITextComponent comp, ByteBuf buf) {
+		new PacketBuffer(buf).writeTextComponent(comp);
 	}
 	
 }
