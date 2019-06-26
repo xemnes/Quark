@@ -79,6 +79,11 @@ public class EntityFrog extends EntityAnimal {
 		this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.25);
 	}
 
+	@Override
+	public void fall(float distance, float damageMultiplier) {
+		// NO-OP
+	}
+
 	public int getTalkTime() {
 		return dataManager.get(TALK_TIME);
 	}
