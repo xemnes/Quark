@@ -84,6 +84,11 @@ public class EntityFrog extends EntityAnimal {
 		// NO-OP
 	}
 
+	@Override
+	public float getEyeHeight() {
+		return 0.1f;
+	}
+
 	public int getTalkTime() {
 		return dataManager.get(TALK_TIME);
 	}
