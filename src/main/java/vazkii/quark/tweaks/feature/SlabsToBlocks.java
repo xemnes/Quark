@@ -83,7 +83,7 @@ public class SlabsToBlocks extends Feature {
 								slabs.put(block.getStateFromMeta(outCopy.getItemDamage()), in);
 							}
 							
-							RecipeHandler.addShapelessOreDictRecipe(multiRecipe, outCopy, in, in);
+							RecipeHandler.addShapedRecipe(multiRecipe, outCopy, "SS", 'S', in);
 						}
 					}
 				}

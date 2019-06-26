@@ -1,11 +1,5 @@
 package vazkii.quark.integration.jei;
 
-import javax.annotation.Nonnull;
-
-import java.awt.Rectangle;
-import java.util.Collection;
-import java.util.Collections;
-
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.IModRegistry;
 import mezz.jei.api.JEIPlugin;
@@ -15,6 +9,11 @@ import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.management.client.gui.GuiButtonTrash;
 import vazkii.quark.management.feature.DeleteItems;
 import vazkii.quark.misc.recipe.ElytraDuplicationRecipe;
+
+import javax.annotation.Nonnull;
+import java.awt.*;
+import java.util.Collection;
+import java.util.Collections;
 
 @JEIPlugin
 public class QuarkJeiPlugin implements IModPlugin {
