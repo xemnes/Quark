@@ -1,6 +1,7 @@
 package vazkii.quark.misc.feature;
 
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -25,7 +26,11 @@ public class Pickarang extends Feature {
 	public static Item pickarang;
 
 	public static double maxHardness;
-	
+
+	public static boolean canSharpnessApply(ItemStack stack) {
+		return stack.getItem() instanceof ItemPickarang;
+	}
+
 	@Override
 	public void setupConfig() {
 		timeout = loadPropInt("Timeout", "How long it takes for the pickarang to return to the player if it doesn't hit anything", 20);
