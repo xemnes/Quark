@@ -49,7 +49,7 @@ public class LinkItems extends Feature {
 			if(slot != null && slot.inventory != null && !"tmp".equals(slot.inventory.getName())) { // "tmp" checks for a creative inventory
 				ItemStack stack = slot.getStack();
 
-				if(!stack.isEmpty() && !MinecraftForge.EVENT_BUS.post(new ClientChatEvent(stack.getTextComponent().getUnformattedComponentText())))
+				if(!stack.isEmpty() && !MinecraftForge.EVENT_BUS.post(new ClientChatEvent("<" + stack.getTextComponent().getUnformattedText() + ">")))
 					NetworkHandler.INSTANCE.sendToServer(new MessageLinkItem(stack));
 			}
 		}
@@ -62,12 +62,12 @@ public class LinkItems extends Feature {
 		if(!item.isEmpty() && player instanceof EntityPlayerMP) {
 			ITextComponent comp = new TextComponentString("<");
 			comp.appendSibling(player.getDisplayName());
-			comp.appendSibling(new TextComponentString("> "));
+			comp.appendSibling(new TextComponentString(">"));
 			comp.appendSibling(item.getTextComponent());
 
 			PlayerList players = ((EntityPlayerMP) player).server.getPlayerList();
 
-			ServerChatEvent event = new ServerChatEvent((EntityPlayerMP) player, comp.getUnformattedComponentText(), comp);
+			ServerChatEvent event = new ServerChatEvent((EntityPlayerMP) player, comp.getUnformattedText(), comp);
 			if (!MinecraftForge.EVENT_BUS.post(event)) {
 
 				players.sendMessage(comp, false);
