@@ -227,7 +227,7 @@ public class BlockQuarkPane extends BlockMod implements IQuarkBlock {
 	public boolean canPaneConnectTo(IBlockAccess world, BlockPos pos, EnumFacing dir) {
 		BlockPos off = pos.offset(dir);
 		IBlockState state = world.getBlockState(off);
-		return canPaneConnectToBlock(state.getBlock()) || state.isSideSolid(world, off, dir.getOpposite());
+		return canPaneConnectToBlock(state.getBlock());
 	}
 	
 	
