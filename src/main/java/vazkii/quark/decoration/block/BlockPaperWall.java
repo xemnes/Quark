@@ -43,11 +43,6 @@ public class BlockPaperWall extends BlockQuarkPane {
 
 	@Override
 	public boolean canPlaceTorchOnTop(@Nonnull IBlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos) {
-		return !state.getValue(NORTH) && !state.getValue(SOUTH) && !state.getValue(EAST) && !state.getValue(WEST);
-	}
-	
-	@Override
-	public boolean canPaneConnectTo(IBlockAccess world, BlockPos pos, EnumFacing dir) {
-		return super.canPaneConnectTo(world, pos, dir) || world.getBlockState(pos.offset(dir)).getBlock() instanceof BlockPaperWall;
+		return true;
 	}
 }

@@ -11,7 +11,8 @@
 package vazkii.quark.base.block;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockPane;
+import net.minecraft.block.BlockLeaves;
+import net.minecraft.block.BlockShulkerBox;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
@@ -126,8 +127,15 @@ public class BlockQuarkPane extends BlockMod implements IQuarkBlock {
 		return false;
 	}
 
-	public final boolean canPaneConnectToBlock(Block blockIn) {
-		return blockIn.getDefaultState().isFullCube() || blockIn == this || blockIn == Blocks.GLASS || blockIn == Blocks.STAINED_GLASS || blockIn == Blocks.STAINED_GLASS_PANE || blockIn instanceof BlockPane;
+	public final boolean attachesTo(IBlockAccess world, IBlockState state, BlockPos pos, EnumFacing facing) {
+		Block block = state.getBlock();
+		BlockFaceShape blockfaceshape = state.getBlockFaceShape(world, pos, facing);
+		return !noAttach(block) && blockfaceshape == BlockFaceShape.SOLID || blockfaceshape == BlockFaceShape.MIDDLE_POLE_THIN;
+	}
+
+	protected static boolean noAttach(Block block)
+	{
+		return block instanceof BlockShulkerBox || block instanceof BlockLeaves || block == Blocks.BEACON || block == Blocks.CAULDRON || block == Blocks.GLOWSTONE || block == Blocks.ICE || block == Blocks.SEA_LANTERN || block == Blocks.PISTON || block == Blocks.STICKY_PISTON || block == Blocks.PISTON_HEAD || block == Blocks.MELON_BLOCK || block == Blocks.PUMPKIN || block == Blocks.LIT_PUMPKIN || block == Blocks.BARRIER;
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -223,11 +231,11 @@ public class BlockQuarkPane extends BlockMod implements IQuarkBlock {
 	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos blockPos, EnumFacing face) {
 		return face != EnumFacing.UP && face != EnumFacing.DOWN ? BlockFaceShape.MIDDLE_POLE_THIN : BlockFaceShape.CENTER_SMALL;
 	}
-	
+
 	public boolean canPaneConnectTo(IBlockAccess world, BlockPos pos, EnumFacing dir) {
 		BlockPos off = pos.offset(dir);
 		IBlockState state = world.getBlockState(off);
-		return canPaneConnectToBlock(state.getBlock());
+		return state.getBlock().canBeConnectedTo(world, pos, dir) || attachesTo(world, state, off, dir);
 	}
 	
 	
