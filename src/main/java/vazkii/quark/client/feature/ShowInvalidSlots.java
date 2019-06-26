@@ -44,7 +44,7 @@ public class ShowInvalidSlots extends Feature {
 			GlStateManager.disableBlend();
 
 			for (Slot slot : gui.inventorySlots.inventorySlots) {
-				if (slot != slotUnder && !slot.isItemValid(stack)) {
+				if (slot != slotUnder && !slot.isItemValid(stack) && slot.isEnabled()) {
 					GlStateManager.pushMatrix();
 
 					GlStateManager.translate(0, 0, mc.getRenderItem().zLevel + 100.125f);
