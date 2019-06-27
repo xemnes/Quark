@@ -17,6 +17,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderTooltipEvent;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -60,19 +61,28 @@ public class ShulkerBoxTooltip extends Feature {
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void makeTooltip(ItemTooltipEvent event) {
 		if(RightClickAddToShulkerBox.isShulkerBox(event.getItemStack(), shulkerBoxes, dropoffAnyShulkerBox) && event.getItemStack().hasTagCompound()) {
+			Minecraft mc = Minecraft.getMinecraft();
+
 			NBTTagCompound cmp = ItemNBTHelper.getCompound(event.getItemStack(), "BlockEntityTag", true);
-			if(cmp != null && cmp.hasKey("Items", 9)) {
-				List<String> tooltip = event.getToolTip();
-				List<String> tooltipCopy = new ArrayList<>(tooltip);
-				
-				for(int i = 1; i < tooltipCopy.size(); i++) {
-					String s = tooltipCopy.get(i);
-					if(!s.startsWith("\u00a7") || s.startsWith("\u00a7o"))
-						tooltip.remove(s);
+			if (cmp != null) {
+				if (!cmp.hasKey("id", Constants.NBT.TAG_STRING)) {
+					cmp = cmp.copy();
+					cmp.setString("id", "minecraft:shulker_box");
 				}
-				
-				if(requireShift && !GuiScreen.isShiftKeyDown())
-					tooltip.add(1, I18n.format("quarkmisc.shulkerBoxShift"));
+				TileEntity te = TileEntity.create(mc.world, cmp);
+				if (te != null && te.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null)) {
+					List<String> tooltip = event.getToolTip();
+					List<String> tooltipCopy = new ArrayList<>(tooltip);
+
+					for (int i = 1; i < tooltipCopy.size(); i++) {
+						String s = tooltipCopy.get(i);
+						if (!s.startsWith("\u00a7") || s.startsWith("\u00a7o"))
+							tooltip.remove(s);
+					}
+
+					if (requireShift && !GuiScreen.isShiftKeyDown())
+						tooltip.add(1, I18n.format("quarkmisc.shulkerBoxShift"));
+				}
 			}
 		}
 	}
@@ -85,6 +95,10 @@ public class ShulkerBoxTooltip extends Feature {
 
 			NBTTagCompound cmp = ItemNBTHelper.getCompound(event.getStack(), "BlockEntityTag", true);
 			if (cmp != null) {
+				if (!cmp.hasKey("id", Constants.NBT.TAG_STRING)) {
+					cmp = cmp.copy();
+					cmp.setString("id", "minecraft:shulker_box");
+				}
 				TileEntity te = TileEntity.create(mc.world, cmp);
 				if (te != null && te.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null)) {
 					ItemStack currentBox = event.getStack();
