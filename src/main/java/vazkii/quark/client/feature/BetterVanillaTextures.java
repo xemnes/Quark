@@ -1,6 +1,8 @@
 package vazkii.quark.client.feature;
 
 import com.google.gson.Gson;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.base.module.Feature;
@@ -27,6 +29,7 @@ public class BetterVanillaTextures extends Feature {
 	}
 	
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void preInitClient() {
 		overrides.overrides.forEach(OverrideEntry::apply);
 	}

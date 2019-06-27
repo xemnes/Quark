@@ -12,11 +12,12 @@ package vazkii.quark.base.proxy;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
-import net.minecraft.client.gui.inventory.GuiBeacon;
 import net.minecraft.client.resources.IResourcePack;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
+import net.minecraftforge.client.resource.VanillaResourceType;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -46,7 +47,7 @@ public class ClientProxy extends CommonProxy {
 		super.preInit(event);
 		ModuleLoader.preInitClient(event);
 
-		GuiBeacon.class.getName();
+		FMLClientHandler.instance().refreshResources(VanillaResourceType.TEXTURES);
 	}
 
 	@Override

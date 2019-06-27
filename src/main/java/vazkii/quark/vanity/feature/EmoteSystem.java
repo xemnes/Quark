@@ -112,6 +112,7 @@ public class EmoteSystem extends Feature {
 				customEmotes = new String[0];
 	}
 
+	@SideOnly(Side.CLIENT)
 	public static void addResourcePack(List<IResourcePack> packs) {
 		packs.add(resourcePack = new CustomEmoteIconResourcePack());
 	}
