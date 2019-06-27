@@ -44,6 +44,6 @@ public class UndergroundBiomeLava extends BasicUndergroundBiome {
 	@Override
 	public void setupConfig(String category) {
 		lavaChance = ConfigHelper.loadLegacyPropChance("Lava Percentage Chance", category, "Lava Chance", "The chance lava will spawn", 0.25);
-		obsidianChance = ModuleLoader.config.get("Obsidian Chance", category, 0.0625, "The chance obsidian will spawn", 0, 1).getDouble();
+		obsidianChance = ConfigHelper.loadLegacyPropChance("Obsidian Percentage Chance", category, "Obsidian Chance", "The chance obsidian will spawn", 0.0625);
 	}
 }
