@@ -32,6 +32,7 @@ import vazkii.quark.oddities.item.ItemSoulCompass;
 import vazkii.quark.world.feature.Wraiths;
 
 import java.util.List;
+import java.util.Objects;
 
 public class TotemOfHolding extends Feature {
 	
@@ -99,7 +100,11 @@ public class TotemOfHolding extends Feature {
 				totem.setPosition(player.posX, Math.max(3, player.posY + 1), player.posZ);
 				totem.setOwner(player);
 				totem.setCustomNameTag(player.getDisplayNameString());
-				drops.stream().map(EntityItem::getItem).forEach(totem::addItem);
+				drops.stream()
+						.filter(Objects::nonNull)
+						.map(EntityItem::getItem)
+						.filter(stack -> stack != null && !stack.isEmpty())
+						.forEach(totem::addItem);
 				if (!player.world.isRemote)
 					player.world.spawnEntity(totem);
 				
