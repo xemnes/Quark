@@ -14,7 +14,7 @@ public class BetterCraftShifting extends Feature {
 	}
 	
 	public static int getMaxInventoryBoundaryCrafting(int min, int max) {
-		if(!ModuleLoader.isFeatureEnabled(BetterCraftShifting.class) || !enableCraftingTable || min != 10 || max != 37)
+		if(!ModuleLoader.isFeatureEnabled(BetterCraftShifting.class) || !enableCraftingTable || min != 37 || max != 46)
 			return max;
 
 		return 10;
@@ -28,7 +28,7 @@ public class BetterCraftShifting extends Feature {
 	}
 
 	public static int getMinInventoryBoundaryCrafting(int min, int max) {
-		if(!ModuleLoader.isFeatureEnabled(BetterCraftShifting.class) || !enableCraftingTable || min != 10 || max != 37)
+		if(!ModuleLoader.isFeatureEnabled(BetterCraftShifting.class) || !enableCraftingTable || min != 37 || max != 46)
 			return min;
 
 		return 0;
