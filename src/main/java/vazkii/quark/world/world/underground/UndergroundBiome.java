@@ -130,11 +130,12 @@ public abstract class UndergroundBiome {
 	}
 
 	public EnumFacing getBorderSide(World world, BlockPos pos) {
+		IBlockState state = world.getBlockState(pos);
 		for(EnumFacing facing : EnumFacing.HORIZONTALS) {
 			BlockPos offsetPos = pos.offset(facing);
 			IBlockState stateAt = world.getBlockState(offsetPos);
 			
-			if(world.isAirBlock(offsetPos) || stateAt.getBlock().isReplaceable(world, offsetPos))
+			if(state != stateAt && world.isAirBlock(offsetPos) || stateAt.getBlock().isReplaceable(world, offsetPos))
 				return facing;
 		}
 
