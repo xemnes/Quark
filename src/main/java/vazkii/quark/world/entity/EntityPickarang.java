@@ -150,9 +150,7 @@ public class EntityPickarang extends EntityThrowable {
 			Vec3d ourPos = getPositionVector();
 			for(EntityItem item : items) {
 				Vec3d itemPos = item.getPositionVector();
-				Vec3d motion = ourPos.subtract(itemPos);
-				if(motion.length() > 1)
-					motion = motion.normalize();
+				Vec3d motion = ourPos.subtract(itemPos).normalize().scale(0.7 + 0.25 * eff);
 				
 				item.motionX = motion.x;
 				item.motionY = motion.y;
