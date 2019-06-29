@@ -176,11 +176,13 @@ public final class ModuleLoader {
 	}
 	
 	public static boolean isModuleEnabled(Class<? extends Module> clazz) {
-		return moduleInstances.get(clazz).enabled;
+		Module module = moduleInstances.get(clazz);
+		return module != null && module.enabled;
 	}
 
 	public static boolean isFeatureEnabled(Class<? extends Feature> clazz) {
-		return featureInstances.get(clazz).enabled;
+		Feature feature = featureInstances.get(clazz);
+		return feature != null && feature.enabled;
 	}
 
 	public static void forEachModule(Consumer<Module> consumer) {

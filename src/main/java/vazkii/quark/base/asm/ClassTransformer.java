@@ -93,6 +93,9 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 
 		// For Pickarangs
 		transformers.put("net.minecraft.enchantment.EnchantmentDamage", ClassTransformer::transformSharpness);
+
+		// For Render Items In Chat
+		transformers.put("net.minecraft.item.ItemStack", ClassTransformer::transformItemStack);
 	}
 
 	@Override
@@ -703,6 +706,22 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 					method.instructions.insertBefore(node, newInstructions);
 					return false;
 				}
+		)));
+	}
+
+	private static byte[] transformItemStack(byte[] basicClass) {
+		MethodSignature sig = new MethodSignature("getTextComponent", "func_151000_E", "()Lnet/minecraft/util/text/ITextComponent;");
+
+		return transform(basicClass, forMethod(sig, combine(
+				(AbstractInsnNode node) -> node.getOpcode() == ARETURN,
+				(MethodNode method, AbstractInsnNode node) -> {
+				InsnList newInstructions = new InsnList();
+
+				newInstructions.add(new MethodInsnNode(INVOKESTATIC, ASM_HOOKS, "createStackComponent", "(Lnet/minecraft/util/text/ITextComponent;)Lnet/minecraft/util/text/ITextComponent;", false));
+
+				method.instructions.insertBefore(node, newInstructions);
+				return false;
+			}
 		)));
 	}
 

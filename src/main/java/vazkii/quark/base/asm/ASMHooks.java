@@ -19,6 +19,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityPiston;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -29,6 +30,7 @@ import vazkii.quark.automation.feature.PistonsMoveTEs;
 import vazkii.quark.automation.feature.PistonsPushPullItems;
 import vazkii.quark.client.feature.BetterFireEffect;
 import vazkii.quark.client.feature.ItemsFlashBeforeExpiring;
+import vazkii.quark.client.feature.RenderItemsInChat;
 import vazkii.quark.client.feature.ShowInvalidSlots;
 import vazkii.quark.decoration.feature.MoreBannerLayers;
 import vazkii.quark.experimental.features.BetterNausea;
@@ -202,6 +204,11 @@ public final class ASMHooks {
 	// ===== PICKARANG ==== //
 	public static boolean canSharpnessApply(ItemStack stack) {
 		return Pickarang.canSharpnessApply(stack);
+	}
+
+	// ===== RENDER ITEMS IN CHAT ==== //
+	public static ITextComponent createStackComponent(ITextComponent component) {
+		return RenderItemsInChat.createStackComponent(component);
 	}
 	
 }

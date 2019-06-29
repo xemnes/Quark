@@ -10,9 +10,12 @@
  */
 package vazkii.quark.base.client;
 
+import net.minecraft.client.gui.ChatLine;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiNewChat;
 import net.minecraft.client.renderer.EntityRenderer;
+import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.potion.Potion;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.relauncher.Side;
@@ -23,6 +26,7 @@ import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class ClientReflectiveAccessor {
@@ -31,7 +35,10 @@ public class ClientReflectiveAccessor {
 			GET_GUI_Z,
 			SET_BUTTON_HOVERED,
 			GET_RENDERER_UPDATES,
-			APPLY_BOBBING;
+			APPLY_BOBBING,
+			CHAT_DRAWN_LINES,
+			CHAT_SCROLL_POS,
+			SETUP_ITEM_GUI_TRANSFORM;
 
 	static {
 		try {
@@ -51,11 +58,20 @@ public class ClientReflectiveAccessor {
 			f = ObfuscationReflectionHelper.findField(GuiButton.class, "field_146123_n"); // hovered
 			SET_BUTTON_HOVERED = MethodHandles.lookup().unreflectSetter(f);
 
-			f = ObfuscationReflectionHelper.findField(EntityRenderer.class, "field_78529_t");
+			f = ObfuscationReflectionHelper.findField(EntityRenderer.class, "field_78529_t"); //rendererUpdateCount
 			GET_RENDERER_UPDATES = MethodHandles.lookup().unreflectGetter(f);
 
-			Method m = ObfuscationReflectionHelper.findMethod(EntityRenderer.class, "func_78475_f", Void.TYPE, Float.TYPE);
+			Method m = ObfuscationReflectionHelper.findMethod(EntityRenderer.class, "func_78475_f", Void.TYPE, Float.TYPE); // applyBobbing
 			APPLY_BOBBING = MethodHandles.lookup().unreflect(m);
+
+			f = ObfuscationReflectionHelper.findField(GuiNewChat.class, "field_146253_i"); // drawnChatLines
+			CHAT_DRAWN_LINES = MethodHandles.lookup().unreflectGetter(f);
+
+			f = ObfuscationReflectionHelper.findField(GuiNewChat.class, "field_146250_j"); // scrollPos
+			CHAT_SCROLL_POS = MethodHandles.lookup().unreflectGetter(f);
+
+			m = ObfuscationReflectionHelper.findMethod(RenderItem.class, "func_180452_a", Void.TYPE, Integer.TYPE, Integer.TYPE, Boolean.TYPE); // setupGuiTransform
+			SETUP_ITEM_GUI_TRANSFORM = MethodHandles.lookup().unreflect(m);
 		} catch (ClassNotFoundException | IllegalAccessException e) {
 			throw new RuntimeException(e);
 		}
@@ -104,6 +120,31 @@ public class ClientReflectiveAccessor {
 	public static void applyBobbing(EntityRenderer entityRenderer, float partialTicks) {
 		try {
 			APPLY_BOBBING.invokeExact(entityRenderer, partialTicks);
+		} catch (Throwable throwable) {
+			throw new RuntimeException(throwable);
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public static List<ChatLine> getChatDrawnLines(GuiNewChat chat) {
+		try {
+			return (List<ChatLine>) CHAT_DRAWN_LINES.invokeExact(chat);
+		} catch (Throwable throwable) {
+			throw new RuntimeException(throwable);
+		}
+	}
+
+	public static int getScrollPos(GuiNewChat chat) {
+		try {
+			return (int) CHAT_SCROLL_POS.invokeExact(chat);
+		} catch (Throwable throwable) {
+			throw new RuntimeException(throwable);
+		}
+	}
+
+	public static void setupGuiTransform(RenderItem render, int x, int y, boolean isGui3d) {
+		try {
+			SETUP_ITEM_GUI_TRANSFORM.invokeExact(render, x, y, isGui3d);
 		} catch (Throwable throwable) {
 			throw new RuntimeException(throwable);
 		}

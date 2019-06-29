@@ -4,7 +4,6 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.client.feature.*;
-import vazkii.quark.experimental.features.BetterNausea;
 
 public class QuarkClient extends Module {
 
@@ -30,6 +29,7 @@ public class QuarkClient extends Module {
 		registerFeature(new BetterFireEffect());
 		registerFeature(new EnchantedBooksShowItems());
 		registerFeature(new ShowInvalidSlots());
+		registerFeature(new RenderItemsInChat());
 	}
 	
 	@Override
