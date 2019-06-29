@@ -144,8 +144,9 @@ public class EntityPickarang extends EntityThrowable {
 			noClip = true;
 
 			ItemStack stack = getStack();
+			int eff = getEfficiencyModifier();
 			
-			List<EntityItem> items = world.getEntitiesWithinAABB(EntityItem.class, getEntityBoundingBox().grow(2));
+			List<EntityItem> items = world.getEntitiesWithinAABB(EntityItem.class, getEntityBoundingBox().grow(2 + 0.25 * eff));
 			Vec3d ourPos = getPositionVector();
 			for(EntityItem item : items) {
 				Vec3d itemPos = item.getPositionVector();
@@ -172,7 +173,6 @@ public class EntityPickarang extends EntityThrowable {
 			
 			Vec3d ownerPos = owner.getPositionVector().add(0, 1, 0);
 			Vec3d motion = ownerPos.subtract(ourPos);
-			int eff = getEfficiencyModifier();
 			double motionMag = 3.25 + eff * 0.25;
 
 			if(motion.lengthSquared() < motionMag) {
@@ -184,8 +184,15 @@ public class EntityPickarang extends EntityThrowable {
 						if(stackInSlot.isEmpty())
 							player.inventory.setInventorySlotContents(slot, stack);
 						else if(!player.inventory.addItemStackToInventory(stack))
-							entityDropItem(stack, 1);
+							player.dropItem(stack, false);
 			        }
+
+			        for (EntityItem item : items) {
+			        	ItemStack drop = item.getItem();
+						if(!player.addItemStackToInventory(drop))
+							player.dropItem(drop, false);
+						item.setDead();
+					}
 
 					setDead();
 		        }
