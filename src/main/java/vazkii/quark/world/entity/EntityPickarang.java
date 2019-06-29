@@ -167,7 +167,7 @@ public class EntityPickarang extends EntityThrowable {
 			Vec3d ownerPos = owner.getPositionVector().add(0, 1, 0);
 			Vec3d motion = ownerPos.subtract(ourPos);
 			int eff = getEfficiencyModifier();
-			double motionMag = 3 - eff * 0.25F;
+			double motionMag = 3.25 + eff * 0.25;
 
 			if(motion.lengthSquared() < motionMag) {
 				EntityPlayer player = (EntityPlayer) owner;
