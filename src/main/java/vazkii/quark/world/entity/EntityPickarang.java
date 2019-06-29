@@ -155,6 +155,8 @@ public class EntityPickarang extends EntityThrowable {
 				item.motionX = motion.x;
 				item.motionY = motion.y;
 				item.motionZ = motion.z;
+
+				item.velocityChanged = true;
 				
 				item.setPickupDelay(2);
 			}
