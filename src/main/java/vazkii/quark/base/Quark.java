@@ -18,10 +18,15 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.network.NetworkCheckHandler;
+import net.minecraftforge.fml.relauncher.Side;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.base.proxy.CommonProxy;
+import vazkii.quark.experimental.features.RejectMods;
+
+import java.util.Map;
 
 @Mod(modid = LibMisc.MOD_ID, name = LibMisc.MOD_NAME, version = LibMisc.VERSION, guiFactory = LibMisc.GUI_FACTORY, dependencies = LibMisc.DEPENDENCIES)
 public class Quark {
@@ -53,6 +58,11 @@ public class Quark {
 	@EventHandler
 	public void serverStarting(FMLServerStartingEvent event) {
 		proxy.serverStarting(event);
+	}
+
+	@NetworkCheckHandler
+	public boolean acceptsMods(Map<String, String> mods, Side remoteSide) {
+		return RejectMods.accepts(mods, remoteSide);
 	}
 
 }
