@@ -71,6 +71,12 @@ public class EntityPickarang extends EntityThrowable {
 		
 		EntityLivingBase owner = getThrower();
 
+		ItemStack stack = getStack();
+		if(stack.isItemStackDamageable()) {
+			stack.attemptDamageItem(1, world.rand, owner instanceof EntityPlayerMP ? (EntityPlayerMP) owner : null);
+			setStack(stack);
+		}
+
 		if(result.typeOfHit == Type.BLOCK) {
 			dataManager.set(RETURNING, true);
 			
@@ -172,9 +178,6 @@ public class EntityPickarang extends EntityThrowable {
 			if(motion.lengthSquared() < motionMag) {
 				EntityPlayer player = (EntityPlayer) owner;
 				ItemStack stackInSlot = player.inventory.getStackInSlot(slot);
-				
-		        if(stack.isItemStackDamageable())
-		        	stack.damageItem(1, player);
 				
 		        if(!world.isRemote) { // TODO return sfx
 			        if(!stack.isEmpty()) {
