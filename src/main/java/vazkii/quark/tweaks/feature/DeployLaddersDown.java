@@ -43,10 +43,11 @@ public class DeployLaddersDown extends Feature {
 		if (ladder == IronLadders.iron_ladder)
 			return IronLadders.iron_ladder.canBlockStay(world, pos, facing);
 		else if (ladder instanceof BlockLadder) {
+			BlockPos attachPos = pos.offset(facing, -1);
 			if (canAttachTo == null)
 				canAttachTo = ObfuscationReflectionHelper.findMethod(BlockLadder.class, "func_193392_c", Boolean.TYPE, World.class, BlockPos.class, EnumFacing.class);
 			try {
-				return (boolean) canAttachTo.invoke(ladder, world, pos, facing);
+				return (boolean) canAttachTo.invoke(ladder, world, attachPos, facing);
 			} catch (IllegalAccessException | InvocationTargetException e) {
 				// NO-OP
 			}
