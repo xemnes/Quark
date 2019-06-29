@@ -31,7 +31,7 @@ public class MatrixEnchanting extends Feature {
 	
 	@Override
 	public void setupConfig() {
-		maxBookshelves = loadPropInt("Max Bookshelves", "", 15);
+		maxBookshelves = loadPropInt("Max Bookshelves", "The maximum enchanting power the matrix enchanter can accept", 15);
 		piecePriceScale = loadPropInt("Piece Price Scale", "Should this be X, the price of a piece increase by 1 every X pieces you generate", 9);
 		bookEnchantability = loadPropInt("Book Enchantability", "The higher this is, the better enchantments you'll get on books", 12);
 		baseMaxPieceCount = loadPropInt("Base Max Piece Count", "How many pieces you can generate without any bookshelves", 3);

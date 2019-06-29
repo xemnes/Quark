@@ -29,6 +29,7 @@ public class EnchantmentMatrix {
 	private static final String TAG_COUNT = "count";
 	private static final String TAG_TYPE_COUNT = "typeCount";
 
+	public final Map<Enchantment, Integer> totalValue = new HashMap<>();
 	public final Map<Integer, Piece> pieces = new HashMap<>();
 	public List<Integer> benchedPieces = new ArrayList<>();
 	public List<Integer> placedPieces = new ArrayList<>();
@@ -103,6 +104,7 @@ public class EnchantmentMatrix {
 		piece.generateBlocks();
 		
 		pieces.put(count, piece);
+		totalValue.put(piece.enchant, totalValue.getOrDefault(piece.enchant, 0) + piece.getValue());
 		benchedPieces.add(count);
 		count++;
 		
@@ -134,6 +136,12 @@ public class EnchantmentMatrix {
 						}
 					}
 				}
+
+				int valueAdded = getValue(enchantment, enchantLevel);
+				int currentValue = totalValue.getOrDefault(enchantment, 0);
+
+				if (valueAdded + currentValue > getValue(enchantment, enchantment.getMaxLevel()))
+					continue;
 
 				EnchantmentDataWrapper wrapper = new EnchantmentDataWrapper(enchantment, enchantLevel);
 				wrapper.normalizeRarity(marked);
@@ -192,7 +200,7 @@ public class EnchantmentMatrix {
 		if(placedPiece != null && hoveredPiece != null && placedPieces.contains(placed) && benchedPieces.contains(hover)) {
 			Enchantment enchant = placedPiece.enchant;
 			if(hoveredPiece.enchant == enchant && placedPiece.level < enchant.getMaxLevel()) {
-				placedPiece.xp += hoveredPiece.level;
+				placedPiece.xp += hoveredPiece.getValue();
 				int max = placedPiece.getMaxXP();
 				while(placedPiece.xp >= max) {
 					if(placedPiece.level >= enchant.getMaxLevel())
@@ -235,6 +243,7 @@ public class EnchantmentMatrix {
 	
 	public void readFromNBT(NBTTagCompound cmp) {
 		pieces.clear();
+		totalValue.clear();
 		NBTTagList plist = cmp.getTagList(TAG_PIECES, cmp.getId());
 		for(int i = 0; i < plist.tagCount(); i++) {
 			NBTTagCompound pieceTag = plist.getCompoundTagAt(i);
@@ -243,6 +252,7 @@ public class EnchantmentMatrix {
 			Piece piece = new Piece();
 			piece.readFromNBT(pieceTag);
 			pieces.put(id, piece);
+			totalValue.put(piece.enchant, totalValue.getOrDefault(piece.enchant, 0) + piece.getValue());
 		}
 		
 		benchedPieces = unpackList(cmp.getIntArray(TAG_BENCHED_PIECES));
@@ -294,6 +304,31 @@ public class EnchantmentMatrix {
 		
 		return list;
 	}
+
+	public static int getMaxXP(Enchantment enchantment, int level) {
+		if(level >= enchantment.getMaxLevel())
+			return 0;
+
+		switch(enchantment.getRarity()) {
+			case COMMON:
+				return level;
+			case UNCOMMON:
+				return level / 2 + 1;
+			default:
+				return 1;
+		}
+	}
+
+	public static int getValue(Enchantment enchantment, int level) {
+		switch(enchantment.getRarity()) {
+			case COMMON:
+				return level * (level + 1) / 2;
+			case UNCOMMON:
+				return (level + 1) * (level + 4) / 4;
+			default:
+				return level;
+		}
+	}
 	
 	public static class Piece {
 		
@@ -328,9 +363,9 @@ public class EnchantmentMatrix {
 		public int[][] blocks;
 		public boolean marked;
 		
-		Piece() { }
+		public Piece() { }
 		
-		Piece(Enchantment enchant, int level, int type, boolean marked) {
+		public Piece(Enchantment enchant, int level, int type, boolean marked) {
 			this.enchant = enchant;
 			this.level = level;
 			this.type = type;
@@ -368,17 +403,11 @@ public class EnchantmentMatrix {
 		}
 		
 		public int getMaxXP() {
-			if(level >= enchant.getMaxLevel())
-				return 0;
-			
-			switch(enchant.getRarity()) {
-			case COMMON:
-				return (level - 1) + 1;
-			case UNCOMMON:
-				return level / 2 + 1;
-			default:
-				return 1;
-			}
+			return EnchantmentMatrix.getMaxXP(enchant, level);
+		}
+
+		public int getValue() {
+			return EnchantmentMatrix.getValue(enchant, level) + xp;
 		}
 		
 		public void writeToNBT(NBTTagCompound cmp) {

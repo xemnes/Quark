@@ -209,10 +209,9 @@ public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 		enchantability = item.getItem().getItemEnchantability(item);
 
 		float power = 0;
-		for (int j = -1; j <= 1; ++j)
-			for (int k = -1; k <= 1; ++k)
-				if ((j != 0 || k != 0) && world.isAirBlock(pos.add(k, 0, j)) && world.isAirBlock(pos.add(k, 1, j)))
-				{
+		for (int j = -1; j <= 1; ++j) {
+			for (int k = -1; k <= 1; ++k) {
+				if ((j != 0 || k != 0) && world.isAirBlock(pos.add(k, 0, j)) && world.isAirBlock(pos.add(k, 1, j))) {
 					power += ForgeHooks.getEnchantPower(world, pos.add(k * 2, 0, j * 2));
 					power += ForgeHooks.getEnchantPower(world, pos.add(k * 2, 1, j * 2));
 					if (k != 0 && j != 0) {
@@ -222,8 +221,10 @@ public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 						power += ForgeHooks.getEnchantPower(world, pos.add(k, 1, j * 2));
 					}
 				}
+			}
+		}
 
-		bookshelfPower = (int) power;
+		bookshelfPower = Math.min((int) power, MatrixEnchanting.maxBookshelves);
 	}
 
 	@Override
