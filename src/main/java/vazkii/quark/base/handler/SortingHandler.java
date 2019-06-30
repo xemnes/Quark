@@ -131,7 +131,7 @@ public final class SortingHandler {
 			int j = i - iStart;
 			ItemStack stack = j >= stacks.size() ? ItemStack.EMPTY : stacks.get(j);
 
-			inventory.extractItem(i, 64, false);
+			inventory.extractItem(i, inventory.getSlotLimit(i), false);
 			if (!stack.isEmpty())
 				if (!inventory.insertItem(i, stack, false).isEmpty())
 					return EnumActionResult.FAIL;
