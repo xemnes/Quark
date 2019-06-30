@@ -200,6 +200,11 @@ public class EntityPickarang extends EntityThrowable {
 		}
 	}
 
+	@Override
+	public double getMountedYOffset() {
+		return 0;
+	}
+
 	public int getEfficiencyModifier() {
 		return EnchantmentHelper.getEnchantmentLevel(Enchantments.EFFICIENCY, getStack());
 	}
