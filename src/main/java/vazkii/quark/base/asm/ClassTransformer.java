@@ -472,7 +472,7 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 	private static byte[] transformItemBanner(byte[] basicClass) {
 		MethodSignature sig = new MethodSignature("appendHoverTextFromTileEntityTag", "func_185054_a", "(Lnet/minecraft/item/ItemStack;Ljava/util/List;)V");
 		return transform(basicClass, forMethod(sig, combine((AbstractInsnNode node) -> { // Filter
-					return node.getOpcode() == LDC && ((LdcInsnNode) node).cst.equals(6);
+					return node.getOpcode() == BIPUSH && ((IntInsnNode) node).operand == 6;
 				},
 				(MethodNode method, AbstractInsnNode node) -> { // Action
 					InsnList newInstructions = new InsnList();
