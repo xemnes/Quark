@@ -146,17 +146,12 @@ public class EntityPickarang extends EntityThrowable {
 			ItemStack stack = getStack();
 			int eff = getEfficiencyModifier();
 			
-			List<EntityItem> items = world.getEntitiesWithinAABB(EntityItem.class, getEntityBoundingBox().grow(2 + 0.25 * eff));
+			List<EntityItem> items = world.getEntitiesWithinAABB(EntityItem.class, getEntityBoundingBox().grow(2));
 			Vec3d ourPos = getPositionVector();
 			for(EntityItem item : items) {
-				Vec3d itemPos = item.getPositionVector();
-				Vec3d motion = ourPos.subtract(itemPos).normalize().scale(0.7 + 0.25 * eff);
-				
-				item.motionX = motion.x;
-				item.motionY = motion.y;
-				item.motionZ = motion.z;
-
-				item.velocityChanged = true;
+				if (item.isRiding())
+					continue;
+				item.startRiding(this);
 				
 				item.setPickupDelay(2);
 			}
