@@ -204,10 +204,16 @@ public class EntityPickarang extends EntityThrowable {
 	}
 
 	@Override
+	protected boolean canFitPassenger(Entity passenger) {
+		return super.canFitPassenger(passenger) || passenger instanceof EntityItem;
+	}
+
+	@Override
 	public double getMountedYOffset() {
 		return 0;
 	}
 
+	@Nonnull
 	@Override
 	public SoundCategory getSoundCategory() {
 		return SoundCategory.PLAYERS;
