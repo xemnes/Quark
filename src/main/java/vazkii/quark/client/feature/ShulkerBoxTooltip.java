@@ -138,7 +138,7 @@ public class ShulkerBoxTooltip extends Feature {
 
 					int color = -1;
 
-					if (useColors) {
+					if (useColors && ((ItemBlock) currentBox.getItem()).getBlock() instanceof BlockShulkerBox) {
 						EnumDyeColor dye = ((BlockShulkerBox) ((ItemBlock) currentBox.getItem()).getBlock()).getColor();
 						color = ItemDye.DYE_COLORS[dye.getDyeDamage()];
 					}
