@@ -19,12 +19,14 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.RayTraceResult.Type;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
+import vazkii.quark.base.sounds.QuarkSounds;
 import vazkii.quark.misc.feature.Pickarang;
 
 import javax.annotation.Nonnull;
@@ -91,11 +93,10 @@ public class EntityPickarang extends EntityThrowable {
 				ItemStack prev = player.getHeldItemMainhand();
 				player.setHeldItem(EnumHand.MAIN_HAND, getStack());
 
-				if (player.interactionManager.tryHarvestBlock(hit)) {
+				if (player.interactionManager.tryHarvestBlock(hit))
 					world.playEvent(2001, hit, Block.getStateId(state));
-				} else {
-					// TODO: 6/14/19 clink
-				}
+				else
+					playSound(QuarkSounds.ENTITY_PICKARANG_CLANK, 1, 1);
 
 				player.setHeldItem(EnumHand.MAIN_HAND, prev);
 			}
@@ -174,7 +175,9 @@ public class EntityPickarang extends EntityThrowable {
 				EntityPlayer player = (EntityPlayer) owner;
 				ItemStack stackInSlot = player.inventory.getStackInSlot(slot);
 				
-		        if(!world.isRemote) { // TODO return sfx
+		        if(!world.isRemote) {
+		        	playSound(QuarkSounds.ENTITY_PICKARANG_PICKUP, 1, 1);
+
 			        if(!stack.isEmpty()) {
 						if(stackInSlot.isEmpty())
 							player.inventory.setInventorySlotContents(slot, stack);
@@ -203,6 +206,11 @@ public class EntityPickarang extends EntityThrowable {
 	@Override
 	public double getMountedYOffset() {
 		return 0;
+	}
+
+	@Override
+	public SoundCategory getSoundCategory() {
+		return SoundCategory.PLAYERS;
 	}
 
 	public int getEfficiencyModifier() {

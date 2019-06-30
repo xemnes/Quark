@@ -36,6 +36,8 @@ public class QuarkSounds {
 	public static final SoundEvent ENTITY_FROG_IDLE = new ModSoundEvent("entity.frog.idle");
 	public static final SoundEvent ENTITY_FROG_JUMP = new ModSoundEvent("entity.frog.jump");
 	public static final SoundEvent ENTITY_PICKARANG_THROW = new ModSoundEvent("entity.pickarang.throw");
+	public static final SoundEvent ENTITY_PICKARANG_CLANK = new ModSoundEvent("entity.pickarang.clank");
+	public static final SoundEvent ENTITY_PICKARANG_PICKUP = new ModSoundEvent("entity.pickarang.pickup");
 
 	public static void init() {
 		for (ModSoundEvent event : ModSoundEvent.allEvents)
