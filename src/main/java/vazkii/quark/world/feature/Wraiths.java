@@ -10,8 +10,8 @@
  */
 package vazkii.quark.world.feature;
 
+import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.EnumCreatureType;
-import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
@@ -121,7 +121,7 @@ public class Wraiths extends Feature {
 			List<EntityPlayer> players = ((WorldServer) event.getWorld()).playerEntities;
 			for(EntityPlayer player : players)
 				if(!player.isSpectator() && player.getActivePotionEffect(curse) != null && player.getDistanceSq(event.getEntity()) < curseRange * curseRange) {
-					if(!(event.getEntity() instanceof EntityCreeper))
+					if(event.getEntityLiving().getCreatureAttribute() == EnumCreatureAttribute.UNDEAD)
 						event.getEntityLiving().addPotionEffect(new PotionEffect(MobEffects.FIRE_RESISTANCE, Integer.MAX_VALUE, 0, false, false));
 					event.setResult(Result.ALLOW);
 					return;
