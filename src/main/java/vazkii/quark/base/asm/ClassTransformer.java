@@ -160,7 +160,7 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 		MethodSignature sig1 = new MethodSignature("renderArmorLayer", "func_188361_a", "(Lnet/minecraft/entity/EntityLivingBase;FFFFFFFLnet/minecraft/inventory/EntityEquipmentSlot;)V");
 		MethodSignature sig2 = new MethodSignature("renderEnchantedGlint", "func_188364_a", "(Lnet/minecraft/client/renderer/entity/RenderLivingBase;Lnet/minecraft/entity/EntityLivingBase;Lnet/minecraft/client/model/ModelBase;FFFFFFF)V");
 
-		MethodSignature target = new MethodSignature("color", "", "(FFFF)V");
+		MethodSignature target = new MethodSignature("color", "func_179131_c", "(FFFF)V");
 
 		byte[] transClass = basicClass;
 
@@ -230,11 +230,13 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 	private static byte[] transformRenderBoat(byte[] basicClass) {
 		MethodSignature sig = new MethodSignature("doRender", "func_188300_b", "(Lnet/minecraft/entity/item/EntityBoat;DDDFF)V");
 
-		MethodSignature target = new MethodSignature("render", "func_78088_a", "(Lnet/minecraft/entity/Entity;FFFFFF)V");
+		MethodSignature targetA = new MethodSignature("render", "func_78088_a", "(Lnet/minecraft/entity/Entity;FFFFFF)V");
+		MethodSignature targetB = new MethodSignature("renderMultipass", "func_187054_b", "(Lnet/minecraft/entity/Entity;FFFFFF)V");
 
 		return transform(basicClass, forMethod(sig, combine(
 				(AbstractInsnNode node) -> { // Filter
-					return node.getOpcode() == INVOKEVIRTUAL && target.matches((MethodInsnNode) node);
+					return (node.getOpcode() == INVOKEVIRTUAL || node.getOpcode() == INVOKEINTERFACE) &&
+							(targetA.matches((MethodInsnNode) node) || targetB.matches((MethodInsnNode) node));
 				},
 				(MethodNode method, AbstractInsnNode node) -> { // Action
 					InsnList newInstructions = new InsnList();
@@ -449,28 +451,36 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 				})));
 	}
 
-	private static final MethodSignature layerCountIndex = new MethodSignature("getPatterns", "func_175113_c", "(Lnet/minecraft/item/ItemStack;)I");
-
-	private static final MethodAction layerCountTransformer = combine(
-			(AbstractInsnNode node) -> { // Filter
-				return node.getOpcode() == INVOKESTATIC && layerCountIndex.matches((MethodInsnNode) node);
-			},
-			(MethodNode method, AbstractInsnNode node) -> { // Action
-				InsnList newInstructions = new InsnList();
-				newInstructions.add(new MethodInsnNode(INVOKESTATIC, ASM_HOOKS, "shiftLayerCount", "(I)I", false));
-
-				method.instructions.insert(node, newInstructions);
-				return true;
-			});
-
 	private static byte[] transformRecipeAddPattern(byte[] basicClass) {
 		MethodSignature sig = new MethodSignature("matches", "func_77569_a", "(Lnet/minecraft/inventory/InventoryCrafting;Lnet/minecraft/world/World;)Z");
-		return transform(basicClass, forMethod(sig, layerCountTransformer));
+
+		MethodSignature target = new MethodSignature("getPatterns", "func_175113_c", "(Lnet/minecraft/item/ItemStack;)I");
+
+		return transform(basicClass, forMethod(sig, combine(
+				(AbstractInsnNode node) -> { // Filter
+					return node.getOpcode() == INVOKESTATIC && target.matches((MethodInsnNode) node);
+				},
+				(MethodNode method, AbstractInsnNode node) -> { // Action
+					InsnList newInstructions = new InsnList();
+					newInstructions.add(new MethodInsnNode(INVOKESTATIC, ASM_HOOKS, "shiftLayerCount", "(I)I", false));
+
+					method.instructions.insert(node, newInstructions);
+					return true;
+				})));
 	}
 
 	private static byte[] transformItemBanner(byte[] basicClass) {
 		MethodSignature sig = new MethodSignature("appendHoverTextFromTileEntityTag", "func_185054_a", "(Lnet/minecraft/item/ItemStack;Ljava/util/List;)V");
-		return transform(basicClass, forMethod(sig, layerCountTransformer));
+		return transform(basicClass, forMethod(sig, combine((AbstractInsnNode node) -> { // Filter
+					return node.getOpcode() == LDC && ((LdcInsnNode) node).cst.equals(6);
+				},
+				(MethodNode method, AbstractInsnNode node) -> { // Action
+					InsnList newInstructions = new InsnList();
+					newInstructions.add(new MethodInsnNode(INVOKESTATIC, ASM_HOOKS, "shiftLayerCount", "(I)I", false));
+
+					method.instructions.insert(node, newInstructions);
+					return true;
+				})));
 	}
 
 	private static byte[] transformRender(byte[] basicClass) {
@@ -600,7 +610,7 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 			newInstructions.add(new MethodInsnNode(INVOKESTATIC, ASM_HOOKS, "ensureUpdatedItemAge", "(Lnet/minecraft/entity/item/EntityItem;)V", false));
 
 			method.instructions.insertBefore(method.instructions.getFirst(), newInstructions);
-			return false;
+			return true;
 		}));
 	}
 
@@ -767,12 +777,21 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 				boolean finish = predicate.test(method);
 				log("Patch result: " + finish);
 
+				debugMethod(method, finish);
+
 				return finish;
 			}
 		}
 
 		log("Failed to locate the method!");
 		return false;
+	}
+
+	public static void debugMethod(MethodNode node, boolean result) {
+		if (!result) {
+			log(getNodeString(node));
+			log("============= Please report this to Quark! =============");
+		}
 	}
 
 	public static MethodAction combine(NodeFilter filter, NodeAction action) {
@@ -806,6 +825,19 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 
 		TraceClassVisitor visitor = new TraceClassVisitor(printer);
 		node.accept(visitor);
+
+		return sw.toString();
+	}
+
+	private static String getNodeString(MethodNode node) {
+		Printer printer = new Textifier();
+
+		TraceMethodVisitor visitor = new TraceMethodVisitor(printer);
+		node.accept(visitor);
+
+		StringWriter sw = new StringWriter();
+		printer.print(new PrintWriter(sw));
+		printer.getText().clear();
 
 		return sw.toString();
 	}
