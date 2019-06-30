@@ -33,7 +33,6 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.event.HoverEvent;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -49,7 +48,7 @@ public class RenderItemsInChat extends Feature {
 	private static int chatX, chatY;
 
 	public static ITextComponent createStackComponent(ITextComponent component) {
-		if (!ModuleLoader.isFeatureEnabled(RenderItemsInChat.class) || FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER)
+		if (!ModuleLoader.isFeatureEnabled(RenderItemsInChat.class))
 			return component;
 		ITextComponent out = new TextComponentString("   ");
 		out.setStyle(component.getStyle().createDeepCopy());
