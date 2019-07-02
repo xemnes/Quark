@@ -20,8 +20,9 @@ public class Chute extends Feature {
 		ModIntegrationHandler.addCharsetCarry(chute);
 		
 		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(chute),
-				"WWW", "W W", " W ",
-				'W', "plankWood");
+				"WWW", "SWS", " S ",
+				'W', "plankWood",
+				'S', "stickWood");
 	}
 	
 }
