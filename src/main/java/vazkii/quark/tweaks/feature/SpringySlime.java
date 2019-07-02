@@ -41,9 +41,10 @@ public class SpringySlime extends Feature {
 	private static final ThreadLocal<MutableVectorHolder> motionRecorder = ThreadLocal.withInitial(MutableVectorHolder::new);
 
 	public static void recordMotion(Entity entity) {
-		motionRecorder.get().x = entity.motionX;
-		motionRecorder.get().y = entity.motionY;
-		motionRecorder.get().z = entity.motionZ;
+		MutableVectorHolder value = motionRecorder.get();
+		value.x = entity.motionX;
+		value.y = entity.motionY;
+		value.z = entity.motionZ;
 	}
 
 	public static void onEntityCollision(Entity entity, double attemptedX, double attemptedY, double attemptedZ, double dX, double dY, double dZ) {
