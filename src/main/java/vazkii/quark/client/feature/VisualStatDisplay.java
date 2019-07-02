@@ -1,5 +1,6 @@
 package vazkii.quark.client.feature;
 
+import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
@@ -13,10 +14,15 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.IAttribute;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.ItemPotion;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.potion.PotionUtils;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.event.RenderTooltipEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
@@ -27,10 +33,7 @@ import vazkii.arl.util.ItemNBTHelper;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.base.module.Feature;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class VisualStatDisplay extends Feature {
 
@@ -103,15 +106,16 @@ public class VisualStatDisplay extends Feature {
 
 		if(!GuiScreen.isShiftKeyDown() && canStripAttributes(stack)) {
 			List<String> tooltip = event.getToolTip();
-			Map<EntityEquipmentSlot, StringBuilder> attributeTooltips = Maps.newEnumMap(EntityEquipmentSlot.class);
+			Map<EntityEquipmentSlot, StringBuilder> attributeTooltips = Maps.newHashMap();
 
 			boolean onlyInvalid = true;
 			Multimap<String, AttributeModifier> baseCheck = null;
 			boolean allAreSame = true;
 
 			EntityEquipmentSlot[] slots = EntityEquipmentSlot.values();
+			slots = Arrays.copyOf(slots, slots.length + 1);
 			for(EntityEquipmentSlot slot : slots) {
-				Multimap<String, AttributeModifier> slotAttributes = stack.getAttributeModifiers(slot);
+				Multimap<String, AttributeModifier> slotAttributes = getModifiers(stack, slot);
 
 				if (baseCheck == null)
 					baseCheck = slotAttributes;
@@ -119,7 +123,7 @@ public class VisualStatDisplay extends Feature {
 					allAreSame = false;
 
 				if(!slotAttributes.isEmpty()) {
-					String slotDesc = I18n.format("item.modifiers." + slot.getName());
+					String slotDesc = I18n.format(slot == null ? TextFormatting.DARK_PURPLE + I18n.format("potion.whenDrank") : "item.modifiers." + slot.getName());
 					int index = tooltip.indexOf(slotDesc) - 1;
 					if(index < 0)
 						continue;
@@ -155,6 +159,30 @@ public class VisualStatDisplay extends Feature {
 		}
 	}
 
+	public static Multimap<String, AttributeModifier> getModifiers(ItemStack stack, EntityEquipmentSlot slot) {
+		if (slot == null) {
+			List<PotionEffect> potions = PotionUtils.getEffectsFromStack(stack);
+			Multimap<String, AttributeModifier> out = HashMultimap.create();
+
+			for (PotionEffect potioneffect : potions) {
+				Potion potion = potioneffect.getPotion();
+				Map<IAttribute, AttributeModifier> map = potion.getAttributeModifierMap();
+
+				for (IAttribute attribute : map.keySet()) {
+					AttributeModifier baseModifier = map.get(attribute);
+					AttributeModifier amplified = new AttributeModifier(baseModifier.getName(), potion.getAttributeModifierAmount(potioneffect.getAmplifier(), baseModifier), baseModifier.getOperation());
+					out.put(attribute.getName(), amplified);
+				}
+			}
+
+			return out;
+		}
+
+		return stack.getAttributeModifiers(slot);
+	}
+
+
+
 	public boolean extractAttributeValues(ItemTooltipEvent event, ItemStack stack, List<String> tooltip, Map<EntityEquipmentSlot, StringBuilder> attributeTooltips, boolean onlyInvalid, EntityEquipmentSlot slot, Multimap<String, AttributeModifier> slotAttributes) {
 		boolean anyInvalid = false;
 		for(String s : slotAttributes.keys()) {
@@ -189,11 +217,11 @@ public class VisualStatDisplay extends Feature {
 	private static boolean isAttributeLine(String line, String attName) {
 		String attNameLoc = I18n.format("attribute.name." + attName);
 
-		line = Objects.toString(TextFormatting.getTextWithoutFormattingCodes(line));
+		line = Objects.toString(TextFormatting.getTextWithoutFormattingCodes(line)).trim();
 
 		for (String att : ATTRIBUTE_FORMATS) {
 			for (int mod = 0; mod < 3; mod++) {
-				String pattern = " " + I18n.format("attribute.modifier." + att + "." + mod, "\n", attNameLoc);
+				String pattern = I18n.format("attribute.modifier." + att + "." + mod, "\n", attNameLoc);
 				String[] split = pattern.split("\n");
 				if (split.length == 2 && line.startsWith(split[0]) && line.endsWith(split[1]))
 					return true;
@@ -222,6 +250,12 @@ public class VisualStatDisplay extends Feature {
 		return x;
 	}
 
+	private EntityEquipmentSlot getPrimarySlot(ItemStack stack) {
+		if (stack.getItem() instanceof ItemPotion)
+			return null;
+		return EntityLiving.getSlotForItemStack(stack);
+	}
+
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void renderTooltip(RenderTooltipEvent.PostText event) {
@@ -244,15 +278,19 @@ public class VisualStatDisplay extends Feature {
 				}
 			}
 
-			EntityEquipmentSlot primarySlot = EntityLiving.getSlotForItemStack(stack);
+			EntityEquipmentSlot primarySlot = getPrimarySlot(stack);
 			boolean onlyInvalid = true;
 			boolean showSlots = false;
 			int attributeHash = 0;
 
 			boolean allAreSame = true;
 
-			shouldShow: for (EntityEquipmentSlot slot : EntityEquipmentSlot.values()) {
-				Multimap<String, AttributeModifier> slotAttributes = stack.getAttributeModifiers(slot);
+
+			EntityEquipmentSlot[] slots = EntityEquipmentSlot.values();
+			slots = Arrays.copyOf(slots, slots.length + 1);
+
+			shouldShow: for (EntityEquipmentSlot slot : slots) {
+				Multimap<String, AttributeModifier> slotAttributes = getModifiers(stack, slot);
 				if (slot == EntityEquipmentSlot.MAINHAND)
 					attributeHash = slotAttributes.hashCode();
 				else if (allAreSame && attributeHash != slotAttributes.hashCode())
@@ -275,10 +313,10 @@ public class VisualStatDisplay extends Feature {
 				showSlots = true;
 
 
-			for (EntityEquipmentSlot slot : EntityEquipmentSlot.values()) {
+			for (EntityEquipmentSlot slot : slots) {
 				int x = baseX;
 
-				Multimap<String, AttributeModifier> slotAttributes = stack.getAttributeModifiers(slot);
+				Multimap<String, AttributeModifier> slotAttributes = getModifiers(stack, slot);
 
 				boolean anyToRender = false;
 				for(String s : slotAttributes.keys()) {
@@ -295,7 +333,7 @@ public class VisualStatDisplay extends Feature {
 				if (showSlots) {
 					GlStateManager.color(1F, 1F, 1F);
 					mc.getTextureManager().bindTexture(LibMisc.GENERAL_ICONS_RESOURCE);
-					Gui.drawModalRectWithCustomSizedTexture(x, y, 202 + slot.ordinal() * 9, 35, 9, 9, 256, 256);
+					Gui.drawModalRectWithCustomSizedTexture(x, y, 202 + (slot == null ? -1 : slot.ordinal()) * 9, 35, 9, 9, 256, 256);
 					x += 20;
 				}
 
