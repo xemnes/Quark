@@ -15,6 +15,7 @@ import net.minecraft.client.gui.ChatLine;
 import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.client.gui.GuiNewChat;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
@@ -129,7 +130,10 @@ public class RenderItemsInChat extends Feature {
 
 				int x = chatX + 3 + mc.fontRenderer.getStringWidth(before);
 				int y = chatY - mc.fontRenderer.FONT_HEIGHT * lineHeight;
+
+				RenderHelper.enableGUIStandardItemLighting();
 				renderItemIntoGUI(mc, mc.getRenderItem(), stack, x, y, alpha);
+				RenderHelper.disableStandardItemLighting();
 			}
 		}
 	}
