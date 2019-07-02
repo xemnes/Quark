@@ -229,9 +229,10 @@ public class EnchantmentMatrix {
 			NBTTagCompound pieceTag = new NBTTagCompound();
 			
 			pieceTag.setInteger(TAG_PIECE_ID, i);
-			pieces.get(i).writeToNBT(pieceTag);
-			
-			list.appendTag(pieceTag);
+			if (pieces.get(i).enchant != null) {
+				pieces.get(i).writeToNBT(pieceTag);
+				list.appendTag(pieceTag);
+			}
 		}
 		
 		cmp.setTag(TAG_PIECES, list);
@@ -413,7 +414,8 @@ public class EnchantmentMatrix {
 		public void writeToNBT(NBTTagCompound cmp) {
 			cmp.setInteger(TAG_COLOR, color);
 			cmp.setInteger(TAG_TYPE, type);
-			cmp.setString(TAG_ENCHANTMENT, Objects.toString(enchant.getRegistryName()));
+			if (enchant != null)
+				cmp.setString(TAG_ENCHANTMENT, Objects.toString(enchant.getRegistryName()));
 			cmp.setInteger(TAG_LEVEL, level);
 			cmp.setInteger(TAG_X, x);
 			cmp.setInteger(TAG_Y, y);
