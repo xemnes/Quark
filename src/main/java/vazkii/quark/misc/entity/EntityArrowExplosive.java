@@ -16,10 +16,13 @@ import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
+import net.minecraftforge.event.ForgeEventFactory;
 import vazkii.quark.misc.feature.ExtraArrows;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class EntityArrowExplosive extends EntityArrow {
 
@@ -59,8 +62,24 @@ public class EntityArrowExplosive extends EntityArrow {
 	protected void onHit(RayTraceResult rayTrace) {
 		super.onHit(rayTrace);
 
-		if(!getEntityWorld().isRemote)
-			getEntityWorld().createExplosion(this, posX, posY, posZ, (float) ExtraArrows.explosiveArrowPower, ExtraArrows.explosiveArrowDestroysBlocks);
+		if(!world.isRemote) {
+			Explosion explosion = new Explosion(world, this, rayTrace.hitVec.x, rayTrace.hitVec.y, rayTrace.hitVec.z,
+					(float) ExtraArrows.explosiveArrowPower, false, ExtraArrows.explosiveArrowDestroysBlocks) {
+				@Nullable
+				@Override
+				public EntityLivingBase getExplosivePlacedBy() {
+					if (shootingEntity instanceof EntityLivingBase)
+						return (EntityLivingBase) shootingEntity;
+					return null;
+				}
+			};
+
+			if (!ForgeEventFactory.onExplosionStart(world, explosion)) {
+				explosion.doExplosionA();
+				explosion.doExplosionB(true);
+			}
+		}
+
 		setDead();
 	}
 
