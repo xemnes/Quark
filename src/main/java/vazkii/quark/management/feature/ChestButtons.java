@@ -137,7 +137,7 @@ public class ChestButtons extends Feature {
 			EntityPlayer player = Minecraft.getMinecraft().player;
 
 			if(debugClassnames)
-				Quark.LOG.info("[Quark] Opening GUI %s", guiInv.getClass().getName());
+				Quark.LOG.info("Opening GUI " + guiInv.getClass().getName());
 			
 			boolean accept = guiInv instanceof IChestButtonCallback || guiInv instanceof GuiChest || guiInv instanceof GuiShulkerBox 
 					|| classnames.contains(guiInv.getClass().getName());
