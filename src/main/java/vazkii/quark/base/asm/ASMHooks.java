@@ -22,6 +22,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.automation.client.render.PistonTileEntityRenderer;
@@ -144,6 +145,10 @@ public final class ASMHooks {
 
 	public static int isEveryoneAsleep(World world) {
 		return ImprovedSleeping.isEveryoneAsleep(world);
+	}
+
+	public static void whenPlayersWake(WorldServer world) {
+		ImprovedSleeping.whenNightPasses(world);
 	}
 	
 	// ===== COLORED LIGHTS ===== //

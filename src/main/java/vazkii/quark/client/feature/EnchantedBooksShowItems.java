@@ -6,12 +6,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemEnchantedBook;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.event.RenderTooltipEvent;
@@ -21,9 +19,11 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.commons.lang3.tuple.Pair;
 import vazkii.quark.base.module.Feature;
+import vazkii.quark.misc.feature.AncientTomes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -62,7 +62,7 @@ public class EnchantedBooksShowItems extends Feature {
 						+ "The format is as follows:\n"
 						+ "enchant_id=item1,item2,item3...\n"
 						+ "So to display a carrot on a stick on a mending book, for example, you use:\n"
-						+ "minecraft:mending=minecraftcarrot_on_a_stick", 
+						+ "minecraft:mending=minecraft:carrot_on_a_stick",
 						new String[0]);
 
 		loadedConfig = true;
@@ -75,7 +75,7 @@ public class EnchantedBooksShowItems extends Feature {
 			return;
 
 		ItemStack stack = event.getItemStack();
-		if(stack.getItem() == Items.ENCHANTED_BOOK) {
+		if(stack.getItem() == Items.ENCHANTED_BOOK || stack.getItem() == AncientTomes.ancient_tome) {
 			Minecraft mc = Minecraft.getMinecraft();
 			List<String> tooltip = event.getToolTip();
 			int tooltipIndex = 0;
@@ -107,7 +107,7 @@ public class EnchantedBooksShowItems extends Feature {
 	public void renderTooltip(RenderTooltipEvent.PostText event) {
 		ItemStack stack = event.getStack();
 
-		if(stack.getItem() == Items.ENCHANTED_BOOK) {
+		if(stack.getItem() == Items.ENCHANTED_BOOK || stack.getItem() == AncientTomes.ancient_tome) {
 			Minecraft mc = Minecraft.getMinecraft();
 			List<String> tooltip = event.getLines();
 
@@ -164,17 +164,13 @@ public class EnchantedBooksShowItems extends Feature {
 	}
 
 	public static List<EnchantmentData> getEnchantedBookEnchantments(ItemStack stack) {
-		NBTTagList nbttaglist = ItemEnchantedBook.getEnchantments(stack);
-		List<EnchantmentData> retList = new ArrayList<>(nbttaglist.tagCount() + 1);
+		Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(stack);
 
-		for(int i = 0; i < nbttaglist.tagCount(); i++) {
-			NBTTagCompound nbttagcompound = nbttaglist.getCompoundTagAt(i);
-			int j = nbttagcompound.getShort("id");
-			Enchantment enchantment = Enchantment.getEnchantmentByID(j);
-			short level = nbttagcompound.getShort("lvl");
+		List<EnchantmentData> retList = new ArrayList<>(enchantments.size());
 
-			if (enchantment != null)
-				retList.add(new EnchantmentData(enchantment, level));
+		for(Enchantment enchantment : enchantments.keySet()) {
+			int level = enchantments.get(enchantment);
+			retList.add(new EnchantmentData(enchantment, level));
 		}
 
 		return retList;

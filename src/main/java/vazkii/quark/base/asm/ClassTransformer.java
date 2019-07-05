@@ -402,9 +402,10 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 	}
 
 	private static byte[] transformWorldServer(byte[] basicClass) {
-		MethodSignature sig = new MethodSignature("areAllPlayersAsleep", "func_73056_e", "()Z");
+		MethodSignature sig1 = new MethodSignature("areAllPlayersAsleep", "func_73056_e", "()Z");
+		MethodSignature sig2 = new MethodSignature("wakeAllPlayers", "func_73053_d", "()V");
 
-		return transform(basicClass, forMethod(sig, (MethodNode method) -> { // Action
+		return transform(basicClass, forMethod(sig1, (MethodNode method) -> { // Action
 			InsnList newInstructions = new InsnList();
 
 			newInstructions.add(new VarInsnNode(ALOAD, 0));
@@ -417,6 +418,14 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 			newInstructions.add(new InsnNode(IRETURN));
 			newInstructions.add(label);
 			newInstructions.add(new InsnNode(POP));
+
+			method.instructions.insertBefore(method.instructions.getFirst(), newInstructions);
+			return true;
+		}), forMethod(sig2, (MethodNode method) -> { // Action
+			InsnList newInstructions = new InsnList();
+
+			newInstructions.add(new VarInsnNode(ALOAD, 0));
+			newInstructions.add(new MethodInsnNode(INVOKESTATIC, ASM_HOOKS, "whenPlayersWake", "(Lnet/minecraft/world/WorldServer;)V", false));
 
 			method.instructions.insertBefore(method.instructions.getFirst(), newInstructions);
 			return true;

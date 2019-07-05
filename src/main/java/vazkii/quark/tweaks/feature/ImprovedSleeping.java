@@ -8,6 +8,7 @@ import net.minecraft.util.text.*;
 import net.minecraft.util.text.event.HoverEvent;
 import net.minecraft.util.text.event.HoverEvent.Action;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -59,7 +60,6 @@ public class ImprovedSleeping extends Feature {
 				player.getEntityData().setBoolean(TAG_AFK, true);
 				TextComponentTranslation text = new TextComponentTranslation("quarkmisc.nowAfk");
 				text.getStyle().setColor(TextFormatting.AQUA);
-				player.sendMessage(text);
 
 				if (player instanceof EntityPlayerMP)
 					NetworkHandler.INSTANCE.sendTo(new MessageSpamlessChat(text, AFK_MSG), (EntityPlayerMP) player);
@@ -67,7 +67,6 @@ public class ImprovedSleeping extends Feature {
 				player.getEntityData().setBoolean(TAG_AFK, false);
 				TextComponentTranslation text = new TextComponentTranslation("quarkmisc.leftAfk");
 				text.getStyle().setColor(TextFormatting.AQUA);
-				player.sendMessage(text);
 
 				if (player instanceof EntityPlayerMP)
 					NetworkHandler.INSTANCE.sendTo(new MessageSpamlessChat(text, AFK_MSG), (EntityPlayerMP) player);
@@ -87,6 +86,43 @@ public class ImprovedSleeping extends Feature {
 
 		boolean everybody = (legitPlayers > 0 && ((float) sleepingPlayers / reqPlayers) >= 1);
 		return everybody ? 2 : 1;
+	}
+
+	public static void whenNightPasses(WorldServer world) {
+		MinecraftServer server = world.getMinecraftServer();
+		if (server == null)
+			return;
+
+		List<String> sleepingPlayers = new ArrayList<>();
+		List<String> nonSleepingPlayers = new ArrayList<>();
+
+		for(EntityPlayer player : world.playerEntities)
+			if(doesPlayerCountForSleeping(player)) {
+				String name = player.getName();
+				if(isPlayerSleeping(player)) sleepingPlayers.add(name);
+				else nonSleepingPlayers.add(name);
+			}
+
+		ITextComponent sleepingList = new TextComponentString("");
+
+		for(String s : sleepingPlayers)
+			sleepingList.appendSibling(new TextComponentString("\n\u2714 " + s).setStyle(new Style().setColor(TextFormatting.GREEN)));
+		for(String s : nonSleepingPlayers)
+			sleepingList.appendSibling(new TextComponentString("\n\u2718 " + s).setStyle(new Style().setColor(TextFormatting.RED)));
+
+		ITextComponent hoverText = new TextComponentTranslation("quarkmisc.sleepingListHeader", sleepingList);
+
+		ITextComponent sibling = new TextComponentString("(" + sleepingPlayers.size() + "/" + sleepingPlayers.size() + ")");
+		sibling.getStyle().setHoverEvent(new HoverEvent(Action.SHOW_TEXT, hoverText.createCopy()));
+		sibling.getStyle().setUnderlined(true);
+
+
+		ITextComponent message = new TextComponentTranslation("quarkmisc.nightHasPassed");
+		message.appendText(" ").appendSibling(sibling);
+		message.getStyle().setColor(TextFormatting.GOLD);
+
+		for (EntityPlayerMP player : server.getPlayerList().getPlayers())
+			NetworkHandler.INSTANCE.sendTo(new MessageSpamlessChat(message, SLEEP_MSG), player);
 	}
 
 	private static boolean doesPlayerCountForSleeping(EntityPlayer player) {
@@ -124,6 +160,7 @@ public class ImprovedSleeping extends Feature {
 		
 		List<String> sleepingPlayers = new ArrayList<>();
 		List<String> newSleepingPlayers = new ArrayList<>();
+		List<String> wasSleepingPlayers = new ArrayList<>();
 		List<String> nonSleepingPlayers = new ArrayList<>();
 		int legitPlayers = 0;
 
@@ -134,14 +171,18 @@ public class ImprovedSleeping extends Feature {
 					if(!ImprovedSleeping.sleepingPlayers.contains(name))
 						newSleepingPlayers.add(name);
 					sleepingPlayers.add(name);
-				} else nonSleepingPlayers.add(name);
+				} else {
+					if(ImprovedSleeping.sleepingPlayers.contains(name))
+						wasSleepingPlayers.add(name);
+					nonSleepingPlayers.add(name);
+				}
 				
 				legitPlayers++;
 			}
 
 		ImprovedSleeping.sleepingPlayers = sleepingPlayers;
 		
-		if(!newSleepingPlayers.isEmpty() && world.playerEntities.size() != 1) {
+		if((!newSleepingPlayers.isEmpty() || !wasSleepingPlayers.isEmpty()) && world.playerEntities.size() != 1) {
 			int requiredPlayers = Math.max((int) Math.ceil((legitPlayers * percentReq / 100F)), 0);
 
 			ITextComponent sibling = new TextComponentString("(" + sleepingPlayers.size() + "/" + requiredPlayers + ")");
@@ -155,20 +196,21 @@ public class ImprovedSleeping extends Feature {
 
 			ITextComponent hoverText = new TextComponentTranslation("quarkmisc.sleepingListHeader", sleepingList);
 
-			for (String sleeper : newSleepingPlayers) {
-				ITextComponent message = new TextComponentTranslation("quarkmisc.personSleeping", sleeper);
-				message.getStyle().setColor(TextFormatting.GOLD);
-				message.appendText(" ");
+			String newPlayer = newSleepingPlayers.isEmpty() ? wasSleepingPlayers.get(0) : newSleepingPlayers.get(0);
+			String translationKey = newSleepingPlayers.isEmpty() ? "quarkmisc.personNotSleeping" : "quarkmisc.personSleeping";
 
-				message.appendSibling(sibling.createCopy());
+			ITextComponent message = new TextComponentTranslation(translationKey, newPlayer);
+			message.getStyle().setColor(TextFormatting.GOLD);
+			message.appendText(" ");
 
-				HoverEvent hover = new HoverEvent(Action.SHOW_TEXT, hoverText.createCopy());
-				sibling.getStyle().setHoverEvent(hover);
-				sibling.getStyle().setUnderlined(true);
+			message.appendSibling(sibling.createCopy());
 
-				for (EntityPlayerMP player : server.getPlayerList().getPlayers())
-					NetworkHandler.INSTANCE.sendTo(new MessageSpamlessChat(message, SLEEP_MSG), player);
-			}
+			HoverEvent hover = new HoverEvent(Action.SHOW_TEXT, hoverText.createCopy());
+			sibling.getStyle().setHoverEvent(hover);
+			sibling.getStyle().setUnderlined(true);
+
+			for (EntityPlayerMP player : server.getPlayerList().getPlayers())
+				NetworkHandler.INSTANCE.sendTo(new MessageSpamlessChat(message, SLEEP_MSG), player);
 		}
 	}
 
