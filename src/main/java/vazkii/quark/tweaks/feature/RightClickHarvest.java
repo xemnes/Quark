@@ -193,5 +193,8 @@ public class RightClickHarvest extends Feature {
 		}
 	}
 
-
+	@Override
+	public boolean hasSubscriptions() {
+		return true;
+	}
 }
