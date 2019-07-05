@@ -344,7 +344,7 @@ public class BlockCustomChest extends BlockChest implements IQuarkBlock {
 	}
 
 	private boolean isBelowSolidBlock(World worldIn, BlockPos pos) {
-		return worldIn.getBlockState(pos.up()).isSideSolid(worldIn, pos.up(), EnumFacing.DOWN);
+		return worldIn.getBlockState(pos.up()).doesSideBlockChestOpening(worldIn, pos.up(), EnumFacing.DOWN);
 	}
 
 	private boolean isOcelotSittingOnChest(World worldIn, BlockPos pos) {
