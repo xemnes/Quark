@@ -186,7 +186,7 @@ public class RightClickHarvest extends Feature {
 		}
 
 		if (harvests > 0) {
-			if (isHoe && !event.getWorld().isRemote)
+			if (harvestingCostsDurability && isHoe && !event.getWorld().isRemote)
 				mainHand.damageItem(harvests, event.getEntityPlayer());
 			event.getEntityPlayer().swingArm(EnumHand.MAIN_HAND);
 			event.setCanceled(true);
