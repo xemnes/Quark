@@ -20,6 +20,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemPotion;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemTippedArrow;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.potion.PotionUtils;
@@ -251,7 +252,7 @@ public class VisualStatDisplay extends Feature {
 	}
 
 	private EntityEquipmentSlot getPrimarySlot(ItemStack stack) {
-		if (stack.getItem() instanceof ItemPotion)
+		if (stack.getItem() instanceof ItemPotion || stack.getItem() instanceof ItemTippedArrow)
 			return null;
 		return EntityLiving.getSlotForItemStack(stack);
 	}
