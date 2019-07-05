@@ -29,7 +29,7 @@ public class WorldTypeRealistic extends WorldType {
 	
 	@Override
 	public float getCloudHeight() {
-		return RealisticWorldType.realisticMovesClouds ? 260F : super.getCloudHeight();
+		return (float) RealisticWorldType.realisticCloudHeight;
 	}
 
 	@Nonnull

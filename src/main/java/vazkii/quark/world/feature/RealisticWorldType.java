@@ -26,12 +26,12 @@ public class RealisticWorldType extends Feature {
 	public static WorldType realistic;
 	public static boolean makeRealisticDefault;
 
-	public static boolean realisticMovesClouds;
+	public static double realisticCloudHeight;
 	
 	@Override
 	public void setupConfig() {
 		makeRealisticDefault = loadPropBool("Make Realistic Default", "Makes realistic the default world type. Only works for singleplayer.", false);
-		realisticMovesClouds = loadPropBool("Realistic Moves Clouds", "Should realistic worlds have higher cloud levels?", true);
+		realisticCloudHeight = loadPropDouble("Realistic Cloud Height", "What cloud height should realistic worlds have? 128 is default for vanilla worlds.", 260);
 	}
 	
 	@Override
