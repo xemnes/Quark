@@ -1,5 +1,6 @@
 package vazkii.quark.base.asm;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.state.BlockPistonStructureHelper;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -34,6 +35,7 @@ import vazkii.quark.client.feature.BetterFireEffect;
 import vazkii.quark.client.feature.ItemsFlashBeforeExpiring;
 import vazkii.quark.client.feature.RenderItemsInChat;
 import vazkii.quark.client.feature.ShowInvalidSlots;
+import vazkii.quark.decoration.feature.IronLadders;
 import vazkii.quark.decoration.feature.MoreBannerLayers;
 import vazkii.quark.experimental.features.BetterNausea;
 import vazkii.quark.experimental.features.CollateralPistonMovement;
@@ -221,6 +223,11 @@ public final class ASMHooks {
 	// ===== HOE SICKLES ==== //
 	public static boolean canFortuneApply(Enchantment enchantment, ItemStack stack) {
 		return HoeSickle.canFortuneApply(enchantment, stack);
+	}
+
+	// ===== IRON LADDERS ==== //
+	public static boolean isBlockNotBrokenByWater(Block block) {
+		return IronLadders.isBlockNotBrokenByWater(block);
 	}
 	
 }

@@ -27,11 +27,11 @@ import vazkii.arl.block.BlockMod;
 import vazkii.quark.base.block.IQuarkBlock;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class BlockIronLadder extends BlockMod implements IQuarkBlock {
 
 	public static final SoundType IRON_LADDER = new SoundType(1.0F, 1.0F, SoundEvents.BLOCK_METAL_BREAK, SoundEvents.BLOCK_LADDER_STEP, SoundEvents.BLOCK_METAL_PLACE, SoundEvents.BLOCK_METAL_HIT, SoundEvents.BLOCK_LADDER_FALL);
-
 
 	public static final PropertyDirection FACING = BlockHorizontal.FACING;
 
@@ -66,7 +66,13 @@ public class BlockIronLadder extends BlockMod implements IQuarkBlock {
 	public boolean canPlaceBlockOnSide(@Nonnull World worldIn, @Nonnull BlockPos pos, EnumFacing side) {
 		return canBlockStay(worldIn, pos, side);
 	}
-	
+
+	@Nullable
+	@Override
+	public String getHarvestTool(IBlockState state) {
+		return super.getHarvestTool(state);
+	}
+
 	@Nonnull
 	@Override
 	@SuppressWarnings("deprecation")

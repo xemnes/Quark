@@ -99,6 +99,9 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 
 		// For Hoe Sickles
 		transformers.put("net.minecraft.enchantment.Enchantment", ClassTransformer::transformEnchantment);
+
+		// For Iron Ladders
+		transformers.put("net.minecraft.block.BlockDynamicLiquid", ClassTransformer::transformDynamicLiquid);
 	}
 
 	@Override
@@ -755,13 +758,31 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 		return transform(basicClass, forMethod(sig, combine(
 				(AbstractInsnNode node) -> node.getOpcode() == ARETURN,
 				(MethodNode method, AbstractInsnNode node) -> {
-				InsnList newInstructions = new InsnList();
+					InsnList newInstructions = new InsnList();
 
-				newInstructions.add(new MethodInsnNode(INVOKESTATIC, ASM_HOOKS, "createStackComponent", "(Lnet/minecraft/util/text/ITextComponent;)Lnet/minecraft/util/text/ITextComponent;", false));
+					newInstructions.add(new MethodInsnNode(INVOKESTATIC, ASM_HOOKS, "createStackComponent", "(Lnet/minecraft/util/text/ITextComponent;)Lnet/minecraft/util/text/ITextComponent;", false));
 
-				method.instructions.insertBefore(node, newInstructions);
-				return false;
-			}
+					method.instructions.insertBefore(node, newInstructions);
+					return false;
+				}
+		)));
+	}
+
+	private static byte[] transformDynamicLiquid(byte[] basicClass) {
+		MethodSignature sig = new MethodSignature("isBlocked", "func_176372_g", "(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/state/IBlockState;)Z");
+
+		return transform(basicClass, forMethod(sig, combine(
+				(AbstractInsnNode node) -> node.getOpcode() == IRETURN,
+				(MethodNode method, AbstractInsnNode node) -> {
+					InsnList newInstructions = new InsnList();
+
+					newInstructions.add(new VarInsnNode(ALOAD, 4));
+					newInstructions.add(new MethodInsnNode(INVOKESTATIC, ASM_HOOKS, "isBlockNotBrokenByWater", "(Lnet/minecraft/block/Block;)Z", false));
+					newInstructions.add(new InsnNode(IOR));
+
+					method.instructions.insertBefore(node, newInstructions);
+					return false;
+				}
 		)));
 	}
 
