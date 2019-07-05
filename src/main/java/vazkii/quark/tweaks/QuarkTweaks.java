@@ -13,41 +13,7 @@ package vazkii.quark.tweaks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import vazkii.quark.base.module.Module;
-import vazkii.quark.tweaks.feature.ArmedArmorStands;
-import vazkii.quark.tweaks.feature.AutomaticRecipeUnlock;
-import vazkii.quark.tweaks.feature.AxesBreakLeaves;
-import vazkii.quark.tweaks.feature.BabyZombiesBurn;
-import vazkii.quark.tweaks.feature.BlastproofShulkerBoxes;
-import vazkii.quark.tweaks.feature.ChickensShedFeathers;
-import vazkii.quark.tweaks.feature.CompassesWorkEverywhere;
-import vazkii.quark.tweaks.feature.ConvertClay;
-import vazkii.quark.tweaks.feature.DeployLaddersDown;
-import vazkii.quark.tweaks.feature.DoubleDoors;
-import vazkii.quark.tweaks.feature.DragonsBreathBottleless;
-import vazkii.quark.tweaks.feature.DyeAnyWool;
-import vazkii.quark.tweaks.feature.EndermenAntiCheese;
-import vazkii.quark.tweaks.feature.GlassShards;
-import vazkii.quark.tweaks.feature.HoeSickle;
-import vazkii.quark.tweaks.feature.ImprovedSleeping;
-import vazkii.quark.tweaks.feature.ImprovedStoneToolCrafting;
-import vazkii.quark.tweaks.feature.JumpBoostStepAssist;
-import vazkii.quark.tweaks.feature.KnockOnDoors;
-import vazkii.quark.tweaks.feature.LookDownLadders;
-import vazkii.quark.tweaks.feature.MinecartInteraction;
-import vazkii.quark.tweaks.feature.PatTheDogs;
-import vazkii.quark.tweaks.feature.QuickArmorSwapping;
-import vazkii.quark.tweaks.feature.RemoveSnowLayers;
-import vazkii.quark.tweaks.feature.RightClickSignEdit;
-import vazkii.quark.tweaks.feature.ShearableChickens;
-import vazkii.quark.tweaks.feature.SheepArmor;
-import vazkii.quark.tweaks.feature.SlabsToBlocks;
-import vazkii.quark.tweaks.feature.SpongeDriesInNether;
-import vazkii.quark.tweaks.feature.SpringySlime;
-import vazkii.quark.tweaks.feature.SquidsInkYou;
-import vazkii.quark.tweaks.feature.StackableItems;
-import vazkii.quark.tweaks.feature.StairsMakeMore;
-import vazkii.quark.tweaks.feature.TorchesBurnInFurnaces;
-import vazkii.quark.tweaks.feature.VillagerPursueEmeralds;
+import vazkii.quark.tweaks.feature.*;
 
 public class QuarkTweaks extends Module {
 
@@ -88,6 +54,7 @@ public class QuarkTweaks extends Module {
 		registerFeature(new SquidsInkYou());
 		registerFeature(new SpringySlime(), "Slime blocks bounce off sides");
 		registerFeature(new PatTheDogs());
+		registerFeature(new RightClickHarvest());
 	}
 	
 	@Override
