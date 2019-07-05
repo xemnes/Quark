@@ -25,10 +25,13 @@ public class RealisticWorldType extends Feature {
 
 	public static WorldType realistic;
 	public static boolean makeRealisticDefault;
+
+	public static boolean realisticMovesClouds;
 	
 	@Override
 	public void setupConfig() {
 		makeRealisticDefault = loadPropBool("Make Realistic Default", "Makes realistic the default world type. Only works for singleplayer.", false);
+		realisticMovesClouds = loadPropBool("Realistic Moves Clouds", "Should realistic worlds have higher cloud levels?", true);
 	}
 	
 	@Override

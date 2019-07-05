@@ -14,6 +14,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldType;
 import net.minecraft.world.gen.ChunkGeneratorOverworld;
 import net.minecraft.world.gen.IChunkGenerator;
+import vazkii.quark.world.feature.RealisticWorldType;
 
 import javax.annotation.Nonnull;
 
@@ -28,7 +29,7 @@ public class WorldTypeRealistic extends WorldType {
 	
 	@Override
 	public float getCloudHeight() {
-		return 260F;
+		return RealisticWorldType.realisticMovesClouds ? 260F : super.getCloudHeight();
 	}
 
 	@Nonnull
