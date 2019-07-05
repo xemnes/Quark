@@ -48,7 +48,7 @@ public class LinkItems extends Feature {
 			if(slot != null && slot.inventory != null && !"tmp".equals(slot.inventory.getName())) { // "tmp" checks for a creative inventory
 				ItemStack stack = slot.getStack();
 
-				if(!stack.isEmpty() && !MinecraftForge.EVENT_BUS.post(new ClientChatEvent("<" + stack.getTextComponent().getUnformattedText() + ">")))
+				if(!stack.isEmpty() && !MinecraftForge.EVENT_BUS.post(new ClientChatEvent(stack.getTextComponent().getUnformattedText())))
 					NetworkHandler.INSTANCE.sendToServer(new MessageLinkItem(stack));
 			}
 		}

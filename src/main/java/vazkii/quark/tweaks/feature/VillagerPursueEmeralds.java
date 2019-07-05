@@ -19,7 +19,7 @@ public class VillagerPursueEmeralds extends Feature {
 				if(task.action instanceof EntityAITempt)
 					return;
 					
-			villager.tasks.addTask(4, new EntityAITempt(villager, 0.6, Item.getItemFromBlock(Blocks.EMERALD_BLOCK), false));
+			villager.tasks.addTask(2, new EntityAITempt(villager, 0.6, Item.getItemFromBlock(Blocks.EMERALD_BLOCK), false));
 		}
 	}
 	

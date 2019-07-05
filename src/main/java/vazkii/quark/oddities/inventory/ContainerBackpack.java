@@ -45,7 +45,7 @@ public class ContainerBackpack extends ContainerPlayer {
 		if(index >= 9 && index < 36 && slot != null && slot.getHasStack()) {
 			ItemStack stack = slot.getStack();
 			ItemStack origStack = stack.copy();
-			if (!mergeItemStack(stack, 46, 72, false))
+			if (!mergeItemStack(stack, 46, 73, false))
 				return ItemStack.EMPTY;
 
 			if (stack.isEmpty()) slot.putStack(ItemStack.EMPTY);
