@@ -96,6 +96,9 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 
 		// For Render Items In Chat
 		transformers.put("net.minecraft.item.ItemStack", ClassTransformer::transformItemStack);
+
+		// For Hoe Sickles
+		transformers.put("net.minecraft.enchantment.Enchantment", ClassTransformer::transformEnchantment);
 	}
 
 	@Override
@@ -720,6 +723,24 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 
 					newInstructions.add(new VarInsnNode(ALOAD, 1));
 					newInstructions.add(new MethodInsnNode(INVOKESTATIC, ASM_HOOKS, "canSharpnessApply", "(Lnet/minecraft/item/ItemStack;)Z", false));
+					newInstructions.add(new InsnNode(IOR));
+
+					method.instructions.insertBefore(node, newInstructions);
+					return false;
+				}
+		)));
+	}
+	private static byte[] transformEnchantment(byte[] basicClass) {
+		MethodSignature sig = new MethodSignature("canApply", "func_92089_a", "(Lnet/minecraft/item/ItemStack;)Z");
+
+		return transform(basicClass, forMethod(sig, combine(
+				(AbstractInsnNode node) -> node.getOpcode() == IRETURN,
+				(MethodNode method, AbstractInsnNode node) -> {
+					InsnList newInstructions = new InsnList();
+
+					newInstructions.add(new VarInsnNode(ALOAD, 0));
+					newInstructions.add(new VarInsnNode(ALOAD, 1));
+					newInstructions.add(new MethodInsnNode(INVOKESTATIC, ASM_HOOKS, "canFortuneApply", "(Lnet/minecraft/enchantment/Enchantment;Lnet/minecraft/item/ItemStack;)Z", false));
 					newInstructions.add(new InsnNode(IOR));
 
 					method.instructions.insertBefore(node, newInstructions);

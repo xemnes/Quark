@@ -23,6 +23,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.registries.IForgeRegistryEntry;
 import org.apache.commons.lang3.text.WordUtils;
 import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.api.module.IFeature;
@@ -196,6 +197,11 @@ public class Feature implements IFeature {
 			if(e != null)
 				enchants.add(e);
 		}
+	}
+
+	public static boolean isVanilla(IForgeRegistryEntry entry) {
+		ResourceLocation loc = entry.getRegistryName();
+		return loc != null && loc.getNamespace().equals("minecraft");
 	}
 
 	@Override

@@ -9,6 +9,7 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
@@ -41,6 +42,7 @@ import vazkii.quark.management.feature.BetterCraftShifting;
 import vazkii.quark.misc.feature.ColorRunes;
 import vazkii.quark.misc.feature.ExtraPotions;
 import vazkii.quark.misc.feature.Pickarang;
+import vazkii.quark.tweaks.feature.HoeSickle;
 import vazkii.quark.tweaks.feature.ImprovedSleeping;
 import vazkii.quark.tweaks.feature.SpringySlime;
 import vazkii.quark.vanity.client.emotes.EmoteHandler;
@@ -214,6 +216,11 @@ public final class ASMHooks {
 	// ===== RENDER ITEMS IN CHAT ==== //
 	public static ITextComponent createStackComponent(ITextComponent component) {
 		return RenderItemsInChat.createStackComponent(component);
+	}
+
+	// ===== HOE SICKLES ==== //
+	public static boolean canFortuneApply(Enchantment enchantment, ItemStack stack) {
+		return HoeSickle.canFortuneApply(enchantment, stack);
 	}
 	
 }

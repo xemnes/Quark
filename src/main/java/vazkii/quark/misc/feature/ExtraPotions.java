@@ -216,8 +216,7 @@ public class ExtraPotions extends Feature {
 			return false;
 
 		Potion potion = ClientReflectiveAccessor.getPotion(button);
-		ResourceLocation loc = potion.getRegistryName();
-		if (loc == null || loc.getNamespace().equals("minecraft"))
+		if (isVanilla(potion))
 			return false;
 
 		if (button.visible) {
