@@ -188,7 +188,7 @@ public class VisualStatDisplay extends Feature {
 		for(String s : slotAttributes.keys()) {
 			if(VALID_ATTRIBUTES.contains(s)) {
 				onlyInvalid = false;
-				double attributeValue = getAttribute(event.getEntityPlayer(), stack, slotAttributes, s);
+				double attributeValue = getAttribute(event.getEntityPlayer(), slot, stack, slotAttributes, s);
 				if (attributeValue != 0) {
 					if (!attributeTooltips.containsKey(slot))
 						attributeTooltips.put(slot, new StringBuilder());
@@ -232,8 +232,8 @@ public class VisualStatDisplay extends Feature {
 	}
 
 	@SideOnly(Side.CLIENT)
-	private int renderAttribute(String attribute, int x, int y, ItemStack stack, Multimap<String, AttributeModifier> slotAttributes, Minecraft mc) {
-		double value = getAttribute(mc.player, stack, slotAttributes, attribute);
+	private int renderAttribute(String attribute, EntityEquipmentSlot slot, int x, int y, ItemStack stack, Multimap<String, AttributeModifier> slotAttributes, Minecraft mc) {
+		double value = getAttribute(mc.player, slot, stack, slotAttributes, attribute);
 		if (value != 0) {
 			GlStateManager.color(1F, 1F, 1F);
 			mc.getTextureManager().bindTexture(LibMisc.GENERAL_ICONS_RESOURCE);
@@ -320,7 +320,7 @@ public class VisualStatDisplay extends Feature {
 
 				boolean anyToRender = false;
 				for(String s : slotAttributes.keys()) {
-					double value = getAttribute(mc.player, stack, slotAttributes, s);
+					double value = getAttribute(mc.player, slot, stack, slotAttributes, s);
 					if (value != 0) {
 						anyToRender = true;
 						break;
@@ -338,7 +338,7 @@ public class VisualStatDisplay extends Feature {
 				}
 
 				for (String key : VALID_ATTRIBUTES)
-					x = renderAttribute(key, x, y, stack, slotAttributes, mc);
+					x = renderAttribute(key, slot, x, y, stack, slotAttributes, mc);
 
 				for (String key : slotAttributes.keys()) {
 					if (!VALID_ATTRIBUTES.contains(key)) {
@@ -365,7 +365,7 @@ public class VisualStatDisplay extends Feature {
 		return (ItemNBTHelper.getInt(stack, "HideFlags", 0) & 2) == 0;
 	}
 
-	private double getAttribute(EntityPlayer player, ItemStack stack, Multimap<String, AttributeModifier> map, String key) {
+	private double getAttribute(EntityPlayer player, EntityEquipmentSlot slot, ItemStack stack, Multimap<String, AttributeModifier> map, String key) {
 		if(player == null) // apparently this can happen
 			return 0;
 		
@@ -375,7 +375,7 @@ public class VisualStatDisplay extends Feature {
 
 		double value = 0;
 
-		if (!PERCENT_ATTRIBUTES.contains(key)) {
+		if (!PERCENT_ATTRIBUTES.contains(key) && slot != null) {
 			IAttributeInstance attribute = player.getAttributeMap().getAttributeInstanceByName(key);
 			if (attribute != null)
 				value = attribute.getBaseValue();
