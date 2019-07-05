@@ -21,7 +21,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraft.server.management.PlayerList;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.client.event.ClientChatEvent;
 import net.minecraftforge.client.event.GuiScreenEvent;
@@ -60,17 +59,14 @@ public class LinkItems extends Feature {
 			return;
 
 		if(!item.isEmpty() && player instanceof EntityPlayerMP) {
-			ITextComponent comp = new TextComponentString("<");
-			comp.appendSibling(player.getDisplayName());
-			comp.appendSibling(new TextComponentString(">"));
-			comp.appendSibling(item.getTextComponent());
+			ITextComponent comp = item.getTextComponent();
+			ITextComponent fullComp = new TextComponentTranslation("chat.type.text", player.getDisplayName(), comp);
 
 			PlayerList players = ((EntityPlayerMP) player).server.getPlayerList();
 
-			ServerChatEvent event = new ServerChatEvent((EntityPlayerMP) player, comp.getUnformattedText(), comp);
+			ServerChatEvent event = new ServerChatEvent((EntityPlayerMP) player, comp.getUnformattedText(), fullComp);
 			if (!MinecraftForge.EVENT_BUS.post(event)) {
-
-				players.sendMessage(comp, false);
+				players.sendMessage(fullComp, false);
 
 				NetHandlerPlayServer handler = ((EntityPlayerMP) player).connection;
 				int threshold = ObfuscationReflectionHelper.getPrivateValue(NetHandlerPlayServer.class, handler, LibObfuscation.CHAT_SPAM_THRESHOLD_COUNT);
