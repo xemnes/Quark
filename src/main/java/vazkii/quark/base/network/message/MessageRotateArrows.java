@@ -10,25 +10,31 @@
  */
 package vazkii.quark.base.network.message;
 
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemBow;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import vazkii.arl.network.NetworkMessage;
-import vazkii.quark.management.feature.FToSwitchItems;
+import vazkii.quark.management.feature.RotateArrowTypes;
 
-public class MessageSwapItems extends NetworkMessage<MessageSwapItems> {
+public class MessageRotateArrows extends NetworkMessage<MessageRotateArrows> {
 
-	public int index;
+	public int direction;
 
-	public MessageSwapItems() { }
+	public MessageRotateArrows() { }
 
-	public MessageSwapItems(int index) {
-		this.index = index;
+	public MessageRotateArrows(int direction) {
+		this.direction = direction;
 	}
 
 	@Override
 	public IMessage handleMessage(MessageContext context) {
-		context.getServerHandler().player.getServerWorld().addScheduledTask(() ->
-			FToSwitchItems.switchItems(context.getServerHandler().player, index));
+		EntityPlayerMP player = context.getServerHandler().player;
+		player.getServerWorld().addScheduledTask(() -> {
+			ItemBow bowItem = RotateArrowTypes.getHeldBow(player);
+			if (bowItem != null)
+				RotateArrowTypes.rotateArrows(bowItem, player, direction);
+		});
 		return null;
 	}
 

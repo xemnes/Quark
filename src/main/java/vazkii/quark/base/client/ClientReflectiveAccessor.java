@@ -10,6 +10,7 @@
  */
 package vazkii.quark.base.client;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ChatLine;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
@@ -38,7 +39,8 @@ public class ClientReflectiveAccessor {
 			APPLY_BOBBING,
 			CHAT_DRAWN_LINES,
 			CHAT_SCROLL_POS,
-			SETUP_ITEM_GUI_TRANSFORM;
+			SETUP_ITEM_GUI_TRANSFORM,
+			MINECRAFT_SYSTEM_TIME;
 
 	static {
 		try {
@@ -72,6 +74,9 @@ public class ClientReflectiveAccessor {
 
 			m = ObfuscationReflectionHelper.findMethod(RenderItem.class, "func_180452_a", Void.TYPE, Integer.TYPE, Integer.TYPE, Boolean.TYPE); // setupGuiTransform
 			SETUP_ITEM_GUI_TRANSFORM = MethodHandles.lookup().unreflect(m);
+
+			f = ObfuscationReflectionHelper.findField(Minecraft.class, "field_71423_H");
+			MINECRAFT_SYSTEM_TIME = MethodHandles.lookup().unreflectGetter(f);
 		} catch (ClassNotFoundException | IllegalAccessException e) {
 			throw new RuntimeException(e);
 		}
@@ -145,6 +150,14 @@ public class ClientReflectiveAccessor {
 	public static void setupGuiTransform(RenderItem render, int x, int y, boolean isGui3d) {
 		try {
 			SETUP_ITEM_GUI_TRANSFORM.invokeExact(render, x, y, isGui3d);
+		} catch (Throwable throwable) {
+			throw new RuntimeException(throwable);
+		}
+	}
+
+	public static long lastSystemTime(Minecraft mc) {
+		try {
+			return (long) MINECRAFT_SYSTEM_TIME.invokeExact(mc);
 		} catch (Throwable throwable) {
 			throw new RuntimeException(throwable);
 		}
