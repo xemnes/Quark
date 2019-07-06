@@ -1,6 +1,5 @@
 package vazkii.quark.tweaks.feature;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
@@ -21,7 +20,6 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.commons.lang3.tuple.Pair;
-import org.lwjgl.input.Mouse;
 import vazkii.arl.network.NetworkHandler;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.ModuleLoader;
@@ -263,15 +261,7 @@ public class ImprovedSleeping extends Feature {
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void onMousePress(MouseInputEvent event) {
-		if(Mouse.getEventButtonState() && Minecraft.getMinecraft().currentScreen != null)
-			registerPress();
-	}
-
-	@SubscribeEvent
-	@SideOnly(Side.CLIENT)
-	public void onMousePress(GuiScreenEvent.MouseInputEvent.Pre event) {
-		if(Mouse.getEventButtonState() && Minecraft.getMinecraft().currentScreen != null)
-			registerPress();
+		registerPress();
 	}
 
 	private void registerPress() {
