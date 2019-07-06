@@ -1,10 +1,8 @@
 package vazkii.quark.oddities.inventory;
 
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.ClickType;
-import net.minecraft.inventory.ContainerPlayer;
-import net.minecraft.inventory.InventoryCrafting;
-import net.minecraft.inventory.Slot;
+import net.minecraft.inventory.*;
 import net.minecraft.item.ItemStack;
 import vazkii.arl.util.InventoryIIH;
 import vazkii.quark.oddities.feature.Backpacks;
@@ -17,7 +15,7 @@ public class ContainerBackpack extends ContainerPlayer {
 		super(player.inventory, !player.world.isRemote, player);
 		
 		for(Slot slot : inventorySlots) {
-			if(slot.inventory == player.inventory && slot.getSlotIndex() < player.inventory.getSizeInventory() - 5)
+			if (slot.inventory == player.inventory && slot.getSlotIndex() < player.inventory.getSizeInventory() - 5)
 				slot.yPos += 58;
 		}
 		
@@ -40,23 +38,64 @@ public class ContainerBackpack extends ContainerPlayer {
 	@Nonnull
 	@Override
 	public ItemStack transferStackInSlot(@Nonnull EntityPlayer playerIn, int index) {
-		Slot slot = inventorySlots.get(index);
+//		Slot slot = inventorySlots.get(index);
+//
+//		if(index >= 9 && index < 36 && slot != null && slot.getHasStack()) {
+//			ItemStack stack = slot.getStack();
+//			ItemStack origStack = stack.copy();
+//			if (!mergeItemStack(stack, 46, 73, false))
+//				return ItemStack.EMPTY;
+//
+//			if (stack.isEmpty()) slot.putStack(ItemStack.EMPTY);
+//			else slot.onSlotChanged();
+//
+//			if (origStack.getCount() == stack.getCount()) return ItemStack.EMPTY;
+//
+//			slot.onTake(playerIn, stack);
+//		}
 
-		if(index >= 9 && index < 36 && slot != null && slot.getHasStack()) {
+		ItemStack baseStack = ItemStack.EMPTY;
+		Slot slot = this.inventorySlots.get(index);
+
+		if (slot != null && slot.getHasStack()) {
 			ItemStack stack = slot.getStack();
-			ItemStack origStack = stack.copy();
-			if (!mergeItemStack(stack, 46, 73, false))
-				return ItemStack.EMPTY;
+			baseStack = stack.copy();
+			EntityEquipmentSlot slotType = EntityLiving.getSlotForItemStack(baseStack);
+			int equipIndex = 8 - slotType.getIndex();
 
-			if (stack.isEmpty()) slot.putStack(ItemStack.EMPTY);
+			if (index == 0) {
+				if (!this.mergeItemStack(stack, 9, 45, false) && !this.mergeItemStack(stack, 46, 73, false)) return ItemStack.EMPTY;
+
+				slot.onSlotChange(stack, baseStack);
+			} else if (index < 5) {
+				if (!this.mergeItemStack(stack, 9, 45, false) && !this.mergeItemStack(stack, 46, 73, false)) return ItemStack.EMPTY;
+			} else if (index < 9) {
+				if (!this.mergeItemStack(stack, 9, 45, false) && !this.mergeItemStack(stack, 46, 73, false)) return ItemStack.EMPTY;
+			} else if (slotType.getSlotType() == EntityEquipmentSlot.Type.ARMOR && !this.inventorySlots.get(equipIndex).getHasStack()) {
+				if (!this.mergeItemStack(stack, equipIndex, equipIndex + 1, false)) return ItemStack.EMPTY;
+			} else if (slotType == EntityEquipmentSlot.OFFHAND && !this.inventorySlots.get(45).getHasStack()) {
+				if (!this.mergeItemStack(stack, 45, 46, false)) return ItemStack.EMPTY;
+			} else if (index < 36) {
+				if (!this.mergeItemStack(stack, 46, 73, false) && !this.mergeItemStack(stack, 36, 45, false)) return ItemStack.EMPTY;
+			} else if (index < 73) {
+				if (!this.mergeItemStack(stack, 9, 36, false) && !this.mergeItemStack(stack, 46, 73, false)) return ItemStack.EMPTY;
+			} else {
+				if (!this.mergeItemStack(stack, 46, 73, false) && !this.mergeItemStack(stack, 9, 45, false)) return ItemStack.EMPTY;
+			}
+
+			if (stack.isEmpty())
+				slot.putStack(ItemStack.EMPTY);
 			else slot.onSlotChanged();
 
-			if (origStack.getCount() == stack.getCount()) return ItemStack.EMPTY;
+			if (stack.getCount() == baseStack.getCount())
+				return ItemStack.EMPTY;
 
-			slot.onTake(playerIn, stack);
+			ItemStack remainder = slot.onTake(playerIn, stack);
+
+			if (index == 0) playerIn.dropItem(remainder, false);
 		}
-		
-		return super.transferStackInSlot(playerIn, index);
+
+		return baseStack;
 	}
 
 	// Shamelessly stolen from CoFHCore because KL is awesome
@@ -71,34 +110,32 @@ public class ContainerBackpack extends ContainerPlayer {
 		Slot slot;
 		ItemStack existingStack;
 
-		if(stack.isStackable()) {
-			while(stack.getCount() > 0 && (!r && i < length || r && i >= start)) {
-				slot = inventorySlots.get(i);
+		if(stack.isStackable()) while (stack.getCount() > 0 && (!r && i < length || r && i >= start)) {
+			slot = inventorySlots.get(i);
 
-				existingStack = slot.getStack();
+			existingStack = slot.getStack();
 
-				if(!existingStack.isEmpty()) {
-					int maxStack = Math.min(stack.getMaxStackSize(), slot.getSlotStackLimit());
-					int rmv = Math.min(maxStack, stack.getCount());
+			if (!existingStack.isEmpty()) {
+				int maxStack = Math.min(stack.getMaxStackSize(), slot.getSlotStackLimit());
+				int rmv = Math.min(maxStack, stack.getCount());
 
-					if(slot.isItemValid(cloneStack(stack, rmv)) && existingStack.getItem().equals(stack.getItem()) && (!stack.getHasSubtypes() || stack.getItemDamage() == existingStack.getItemDamage()) && ItemStack.areItemStackTagsEqual(stack, existingStack)) {
-						int existingSize = existingStack.getCount() + stack.getCount();
+				if (slot.isItemValid(cloneStack(stack, rmv)) && existingStack.getItem().equals(stack.getItem()) && (!stack.getHasSubtypes() || stack.getItemDamage() == existingStack.getItemDamage()) && ItemStack.areItemStackTagsEqual(stack, existingStack)) {
+					int existingSize = existingStack.getCount() + stack.getCount();
 
-						if(existingSize <= maxStack) {
-							stack.setCount(0);
-							existingStack.setCount(existingSize);
-							slot.putStack(existingStack);
-							successful = true;
-						} else if(existingStack.getCount() < maxStack) {
-							stack.shrink(maxStack - existingStack.getCount());
-							existingStack.setCount(maxStack);
-							slot.putStack(existingStack);
-							successful = true;
-						}
+					if (existingSize <= maxStack) {
+						stack.setCount(0);
+						existingStack.setCount(existingSize);
+						slot.putStack(existingStack);
+						successful = true;
+					} else if (existingStack.getCount() < maxStack) {
+						stack.shrink(maxStack - existingStack.getCount());
+						existingStack.setCount(maxStack);
+						slot.putStack(existingStack);
+						successful = true;
 					}
 				}
-				i += iterOrder;
 			}
+			i += iterOrder;
 		}
 		if(stack.getCount() > 0) {
 			i = !r ? start : length - 1;
