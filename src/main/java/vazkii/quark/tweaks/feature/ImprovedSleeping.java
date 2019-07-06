@@ -196,6 +196,10 @@ public class ImprovedSleeping extends Feature {
 
 			ITextComponent hoverText = new TextComponentTranslation("quarkmisc.sleepingListHeader", sleepingList);
 
+			HoverEvent hover = new HoverEvent(Action.SHOW_TEXT, hoverText.createCopy());
+			sibling.getStyle().setHoverEvent(hover);
+			sibling.getStyle().setUnderlined(true);
+
 			String newPlayer = newSleepingPlayers.isEmpty() ? wasSleepingPlayers.get(0) : newSleepingPlayers.get(0);
 			String translationKey = newSleepingPlayers.isEmpty() ? "quarkmisc.personNotSleeping" : "quarkmisc.personSleeping";
 
@@ -204,10 +208,6 @@ public class ImprovedSleeping extends Feature {
 			message.appendText(" ");
 
 			message.appendSibling(sibling.createCopy());
-
-			HoverEvent hover = new HoverEvent(Action.SHOW_TEXT, hoverText.createCopy());
-			sibling.getStyle().setHoverEvent(hover);
-			sibling.getStyle().setUnderlined(true);
 
 			for (EntityPlayerMP player : server.getPlayerList().getPlayers())
 				NetworkHandler.INSTANCE.sendTo(new MessageSpamlessChat(message, SLEEP_MSG), player);
