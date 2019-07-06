@@ -2,16 +2,22 @@ package vazkii.quark.world.feature;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiMerchant;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.entity.IMerchant;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
@@ -23,6 +29,7 @@ import vazkii.quark.base.Quark;
 import vazkii.quark.base.handler.DimensionConfig;
 import vazkii.quark.base.lib.LibEntityIDs;
 import vazkii.quark.base.module.Feature;
+import vazkii.quark.world.client.gui.GuiArchaeologist;
 import vazkii.quark.world.client.render.RenderArchaeologist;
 import vazkii.quark.world.entity.EntityArchaeologist;
 import vazkii.quark.world.item.ItemArchaeologistHat;
@@ -73,6 +80,20 @@ public class Archaeologist extends Feature {
 	@SideOnly(Side.CLIENT)
 	public void preInitClient() {
 		RenderingRegistry.registerEntityRenderingHandler(EntityArchaeologist.class, RenderArchaeologist.FACTORY);
+	}
+
+	@SideOnly(Side.CLIENT)
+	@SubscribeEvent(priority = EventPriority.HIGHEST)
+	public void onGuiOpen(GuiOpenEvent event) {
+		GuiScreen gui = event.getGui();
+		if (gui instanceof GuiMerchant) {
+			GuiMerchant guiMerchant = (GuiMerchant) gui;
+			IMerchant merchant = guiMerchant.getMerchant();
+			if (merchant instanceof EntityArchaeologist) {
+				EntityPlayer player = Minecraft.getMinecraft().player;
+				event.setGui(new GuiArchaeologist(player.inventory, merchant, player.world));
+			}
+		}
 	}
 	
 	@SubscribeEvent
