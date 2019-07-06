@@ -197,4 +197,9 @@ public class RightClickHarvest extends Feature {
 	public boolean hasSubscriptions() {
 		return true;
 	}
+
+	@Override
+	public String[] getIncompatibleMods() {
+		return new String[] { "harvest" };
+	}
 }

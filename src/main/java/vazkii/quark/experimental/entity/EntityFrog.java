@@ -85,6 +85,11 @@ public class EntityFrog extends EntityAnimal {
 	}
 
 	@Override
+	public boolean isEntityInvulnerable(@Nonnull DamageSource source) {
+		return source == DamageSource.IN_WALL || super.isEntityInvulnerable(source);
+	}
+
+	@Override
 	public float getEyeHeight() {
 		return 0.1f;
 	}
