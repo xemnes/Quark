@@ -102,6 +102,9 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 
 		// For Iron Ladders
 		transformers.put("net.minecraft.block.BlockDynamicLiquid", ClassTransformer::transformDynamicLiquid);
+
+		// For Ancient Tomes
+		transformers.put("net.minecraft.enchantment.EnchantmentHelper", ClassTransformer::transformEnchantmentHelper);
 	}
 
 	@Override
@@ -753,9 +756,9 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 	}
 
 	private static byte[] transformItemStack(byte[] basicClass) {
-		MethodSignature sig = new MethodSignature("getTextComponent", "func_151000_E", "()Lnet/minecraft/util/text/ITextComponent;");
+		MethodSignature sig1 = new MethodSignature("getTextComponent", "func_151000_E", "()Lnet/minecraft/util/text/ITextComponent;");
 
-		return transform(basicClass, forMethod(sig, combine(
+		return transform(basicClass, forMethod(sig1, combine(
 				(AbstractInsnNode node) -> node.getOpcode() == ARETURN,
 				(MethodNode method, AbstractInsnNode node) -> {
 					InsnList newInstructions = new InsnList();
@@ -781,6 +784,27 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 					newInstructions.add(new InsnNode(IOR));
 
 					method.instructions.insertBefore(node, newInstructions);
+					return false;
+				}
+		)));
+	}
+
+	private static byte[] transformEnchantmentHelper(byte[] basicClass) {
+		MethodSignature sig = new MethodSignature("getEnchantments", "func_82781_a", "(Lnet/minecraft/item/ItemStack;)Ljava/util/Map;");
+
+		MethodSignature target = new MethodSignature("getEnchantmentTagList", "func_77986_q", "()Lnet/minecraft/nbt/NBTTagList;");
+
+		return transform(basicClass, forMethod(sig, combine(
+				(AbstractInsnNode node) -> { // Filter
+					return (node.getOpcode() == INVOKEVIRTUAL || node.getOpcode() == INVOKESPECIAL) && target.matches((MethodInsnNode) node);
+				},
+				(MethodNode method, AbstractInsnNode node) -> { // Action
+					InsnList newInstructions = new InsnList();
+
+					newInstructions.add(new VarInsnNode(ALOAD, 0));
+					newInstructions.add(new MethodInsnNode(INVOKESTATIC, ASM_HOOKS, "getEnchantmentsForStack", "(Lnet/minecraft/nbt/NBTTagList;Lnet/minecraft/item/ItemStack;)Lnet/minecraft/nbt/NBTTagList;", false));
+
+					method.instructions.insert(node, newInstructions);
 					return false;
 				}
 		)));

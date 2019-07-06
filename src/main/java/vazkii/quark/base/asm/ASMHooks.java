@@ -18,6 +18,7 @@ import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntityPiston;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -41,6 +42,7 @@ import vazkii.quark.experimental.features.BetterNausea;
 import vazkii.quark.experimental.features.CollateralPistonMovement;
 import vazkii.quark.experimental.features.ColoredLights;
 import vazkii.quark.management.feature.BetterCraftShifting;
+import vazkii.quark.misc.feature.AncientTomes;
 import vazkii.quark.misc.feature.ColorRunes;
 import vazkii.quark.misc.feature.ExtraPotions;
 import vazkii.quark.misc.feature.Pickarang;
@@ -228,6 +230,11 @@ public final class ASMHooks {
 	// ===== IRON LADDERS ==== //
 	public static boolean isBlockNotBrokenByWater(Block block) {
 		return IronLadders.isBlockNotBrokenByWater(block);
+	}
+
+	// ===== ANCIENT TOMES ==== //
+	public static NBTTagList getEnchantmentsForStack(NBTTagList previous, ItemStack stack) {
+		return AncientTomes.getEnchantmentsForStack(previous, stack);
 	}
 	
 }

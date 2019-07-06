@@ -21,6 +21,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemEnchantedBook;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.LootContext;
 import net.minecraft.world.storage.loot.LootEntryItem;
@@ -47,6 +48,12 @@ public class AncientTomes extends Feature {
 	private String[] enchantNames;
 
 	public static int dungeonWeight, libraryWeight, itemQuality, mergeTomeCost, applyTomeCost;
+
+	public static NBTTagList getEnchantmentsForStack(NBTTagList previous, ItemStack stack) {
+		if (!stack.isEmpty() && stack.getItem() == ancient_tome)
+			return ItemEnchantedBook.getEnchantments(stack);
+		return previous;
+	}
 
 	@Override
 	public void setupConfig() {
@@ -219,7 +226,7 @@ public class AncientTomes extends Feature {
 		@Override
 		public ItemStack apply(@Nonnull ItemStack stack, @Nonnull Random rand, @Nonnull LootContext context) {
 			Enchantment enchantment = validEnchants.get(rand.nextInt(validEnchants.size()));
-			stack.addEnchantment(enchantment, enchantment.getMaxLevel());
+			ItemEnchantedBook.addEnchantment(stack, new EnchantmentData(enchantment, enchantment.getMaxLevel()));
 			return stack;
 		}
 		
