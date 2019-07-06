@@ -30,6 +30,7 @@ import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import vazkii.quark.base.Quark;
@@ -119,8 +120,6 @@ public class RightClickHarvest extends Feature {
 
 		inWorld.getBlock().getDrops(drops, world, pos, inWorld.getState(), fortune);
 
-		ForgeEventFactory.fireBlockHarvesting(drops, world, pos, inWorld.getState(), fortune, 1.0F, false, player);
-
 		for (ItemStack stack : drops) {
 			if (stack.isEmpty())
 				continue;
@@ -130,6 +129,8 @@ public class RightClickHarvest extends Feature {
 				break;
 			}
 		}
+
+		ForgeEventFactory.fireBlockHarvesting(drops, world, pos, inWorld.getState(), fortune, 1.0F, false, player);
 
 		boolean seedNotNull = true;
 		if (inWorld.getBlock() instanceof BlockCrops) {
@@ -158,7 +159,7 @@ public class RightClickHarvest extends Feature {
 		}
 	}
 
-	@SubscribeEvent
+	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void onCropClick(PlayerInteractEvent.RightClickBlock event) {
 		if (event.getHand() != EnumHand.MAIN_HAND)
 			return;
