@@ -257,13 +257,13 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 	}
 
 	private static byte[] transformBlockPistonBase(byte[] basicClass) {
-		MethodSignature sig1 = new MethodSignature("doMove", "func_176319_a", "(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/EnumFacing;Z)Z");
-		MethodSignature sig2 = new MethodSignature("canPush", "func_185646_a", "(Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/EnumFacing;ZLnet/minecraft/util/EnumFacing;)Z");
+		MethodSignature sig1 = new MethodSignature("canPush", "func_185646_a", "(Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/EnumFacing;ZLnet/minecraft/util/EnumFacing;)Z");
+		MethodSignature sig2 = new MethodSignature("doMove", "func_176319_a", "(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/EnumFacing;Z)Z");
 
 		MethodSignature target = new MethodSignature("hasTileEntity", "", "(Lnet/minecraft/block/state/IBlockState;)Z");
-		MethodSignature target2 = new MethodSignature("canMove", "func_177253_a", "()Z");
+		MethodSignature target2 = new MethodSignature("getBlocksToMove", "func_177254_c", "()Ljava/util/List;");
 
-		byte[] transClass = transform(basicClass, forMethod(sig2, combine(
+		byte[] transClass = transform(basicClass, forMethod(sig1, combine(
 				(AbstractInsnNode node) -> { // Filter
 					return node.getOpcode() == INVOKEVIRTUAL && target.matches((MethodInsnNode) node);
 				},
@@ -277,7 +277,7 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 					return true;
 				})));
 
-		return transform(transClass, forMethod(sig1, combine(
+		return transform(transClass, forMethod(sig2, combine(
 				(AbstractInsnNode node) -> { // Filter
 					return node.getOpcode() == INVOKEVIRTUAL && target2.matches((MethodInsnNode) node);
 				},
