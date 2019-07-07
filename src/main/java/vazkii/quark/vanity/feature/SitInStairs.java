@@ -26,10 +26,12 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
+import vazkii.arl.network.NetworkHandler;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.lib.LibEntityIDs;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.base.module.Feature;
+import vazkii.quark.base.network.message.MessageDismountSeat;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -91,13 +93,19 @@ public class SitInStairs extends Feature {
 		public Seat(World world, BlockPos pos) {
 			this(world);
 
-			setPosition(pos.getX() + 0.5, pos.getY() + 0.25, pos.getZ() + 0.5);
+			setPosition(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
 		}
 
 		public Seat(World par1World) {
 			super(par1World);
 
-			setSize(0F, 0F);
+			setSize(0.125F, 0.125F);
+		}
+
+		@Override
+		public boolean canBeAttackedWithItem()
+		{
+			return false;
 		}
 
 		@Override
@@ -113,9 +121,13 @@ public class SitInStairs extends Feature {
 			List<Entity> passengers = getPassengers();
 			if(passengers.isEmpty())
 				setDead();
-			for(Entity e : passengers)
-				if(e.isSneaking())
+			for(Entity e : passengers) {
+				if (e.isSneaking() || e.getDistanceSq(this) >= 1.0) {
 					setDead();
+					if (world.isRemote)
+						NetworkHandler.INSTANCE.sendToServer(new MessageDismountSeat());
+				}
+			}
 		}
 
 		@Override protected void entityInit() { }

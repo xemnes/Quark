@@ -48,6 +48,7 @@ public class MessageRegister {
 		NetworkHandler.register(MessageItemUpdate.class, Side.CLIENT);
 		NetworkHandler.register(MessageSpamlessChat.class, Side.CLIENT);
 		NetworkHandler.register(MessageRotateArrows.class, Side.SERVER);
+		NetworkHandler.register(MessageDismountSeat.class, Side.SERVER);
 
 		NetworkMessage.mapHandler(LockProfile.class, LockProfile::readProfile, LockProfile::writeProfile);
 		NetworkMessage.mapHandler(ITextComponent.class, MessageRegister::readComponent, MessageRegister::writeComponent);
