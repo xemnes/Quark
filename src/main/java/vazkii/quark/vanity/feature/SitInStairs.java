@@ -103,6 +103,11 @@ public class SitInStairs extends Feature {
 		}
 
 		@Override
+		public double getMountedYOffset() {
+			return -0.25;
+		}
+
+		@Override
 		public boolean canBeAttackedWithItem()
 		{
 			return false;
