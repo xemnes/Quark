@@ -66,6 +66,7 @@ quark.subtitles.frog_die=Frog croaks
 quark.subtitles.frog_hurt=Frog squeaks
 quark.subtitles.frog_idle=Frog ribbits
 quark.subtitles.frog_jump=Frog hops
+quark.subtitles.horse_whistle=High-pitched screeching
 
 # COMMANDS
 commands.quarkconfig.usage=/quarkconfig <module> <category> <key> <value> [save?] [player]
@@ -695,6 +696,7 @@ item.quark:frog_leg.name=Frog Leg
 item.quark:frog_maybe_leg.name=Frog "Leg"
 item.quark:cooked_frog_leg.name=Cooked Frog Leg
 item.quark:golden_frog_leg.name=Golden Frog Leg
+item.quark:horse_whistle.name=Horse Whistle
 
 # ENTITY NAMES
 entity.quark:colored_item_frame.name=Colored Item Frame

@@ -5,7 +5,7 @@ import net.minecraft.entity.monster.EntityEndermite;
 import net.minecraftforge.event.entity.EntityEvent.EnteringChunk;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import vazkii.quark.base.module.Feature;
-import vazkii.quark.misc.ai.AIFormShulker;
+import vazkii.quark.misc.ai.EntityAIFormShulker;
 
 public class EndermitesIntoShulkers extends Feature {
 
@@ -23,10 +23,10 @@ public class EndermitesIntoShulkers extends Feature {
 		if(event.getEntity() instanceof EntityEndermite) {
 			EntityEndermite endermite = (EntityEndermite) event.getEntity();
 			for(EntityAITaskEntry task : endermite.tasks.taskEntries)
-				if(task.action instanceof AIFormShulker)
+				if(task.action instanceof EntityAIFormShulker)
 					return;
 			
-			endermite.tasks.addTask(2, new AIFormShulker(endermite));
+			endermite.tasks.addTask(2, new EntityAIFormShulker(endermite));
 		}
 	}
 	

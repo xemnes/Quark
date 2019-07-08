@@ -12,13 +12,13 @@ import vazkii.quark.misc.feature.EndermitesIntoShulkers;
 
 import java.util.Random;
 
-public class AIFormShulker extends EntityAIWander
+public class EntityAIFormShulker extends EntityAIWander
 {
 	private final EntityEndermite endermite;
 	private EnumFacing facing;
 	private boolean doMerge;
 
-	public AIFormShulker(EntityEndermite endermite) {
+	public EntityAIFormShulker(EntityEndermite endermite) {
 		super(endermite, 1.0D, 10);
 		this.endermite = endermite;
 		this.setMutexBits(1);

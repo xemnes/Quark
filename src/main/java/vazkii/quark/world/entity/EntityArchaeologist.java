@@ -1,6 +1,6 @@
 package vazkii.quark.world.entity;
 
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.IMerchant;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIWatchClosest2;
@@ -24,7 +24,7 @@ import vazkii.quark.world.feature.Archaeologist;
 import javax.annotation.Nonnull;
 import java.util.Random;
 
-public class EntityArchaeologist extends EntityLiving implements IMerchant {
+public class EntityArchaeologist extends EntityCreature implements IMerchant {
 
 	private MerchantRecipeList buyingList;
 	private EntityPlayer buyingPlayer;

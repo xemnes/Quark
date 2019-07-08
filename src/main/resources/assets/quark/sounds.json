@@ -200,5 +200,12 @@
       { "name": "minecraft:random/pop", "pitch": 0.875 },
       { "name": "minecraft:random/pop", "pitch": 0.75 }
     ]
+  },
+  "item.horse_whistle.blow": {
+    "category": "players",
+    "subtitle": "quark.subtitles.horse_whistle",
+    "sounds": [
+
+    ]
   }
 }

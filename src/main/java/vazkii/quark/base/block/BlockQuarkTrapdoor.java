@@ -18,7 +18,6 @@ import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
@@ -26,7 +25,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import vazkii.quark.decoration.feature.IronLadders;
 
 import javax.annotation.Nonnull;
 
@@ -52,7 +50,7 @@ public class BlockQuarkTrapdoor extends BlockTrapDoor implements IQuarkBlock {
 	public boolean isLadder(IBlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos, EntityLivingBase entity) {
 		if(state.getValue(OPEN))  {
 			IBlockState down = world.getBlockState(pos.down());
-			if(down.getBlock() == Blocks.LADDER || down.getBlock() == IronLadders.iron_ladder)
+			if(down.getBlock().isLadder(down, world, pos.down(), entity))
 				return down.getValue(FACING) == state.getValue(FACING);
 		}
 

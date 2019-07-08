@@ -26,7 +26,7 @@ public class VillagerPursueEmeralds extends Feature {
 
 
 		if(event.getEntity() instanceof EntityArchaeologist) {
-			EntityVillager villager = (EntityVillager) event.getEntity();
+			EntityArchaeologist villager = (EntityArchaeologist) event.getEntity();
 			for(EntityAITaskEntry task : villager.tasks.taskEntries)
 				if(task.action instanceof EntityAITempt)
 					return;

@@ -3,26 +3,7 @@ package vazkii.quark.misc;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import vazkii.quark.base.module.Module;
-import vazkii.quark.misc.feature.AncientTomes;
-import vazkii.quark.misc.feature.BlackAsh;
-import vazkii.quark.misc.feature.ColorRunes;
-import vazkii.quark.misc.feature.EnderdragonScales;
-import vazkii.quark.misc.feature.EndermitesIntoShulkers;
-import vazkii.quark.misc.feature.ExtraArrows;
-import vazkii.quark.misc.feature.ExtraPotions;
-import vazkii.quark.misc.feature.LockDirectionHotkey;
-import vazkii.quark.misc.feature.MapMarkers;
-import vazkii.quark.misc.feature.NoteBlockInterface;
-import vazkii.quark.misc.feature.NoteBlocksMobSounds;
-import vazkii.quark.misc.feature.ParrotEggs;
-import vazkii.quark.misc.feature.Pickarang;
-import vazkii.quark.misc.feature.PlaceVanillaDusts;
-import vazkii.quark.misc.feature.PoisonPotatoUsage;
-import vazkii.quark.misc.feature.SlimeBucket;
-import vazkii.quark.misc.feature.SnowGolemPlayerHeads;
-import vazkii.quark.misc.feature.SoulPowder;
-import vazkii.quark.misc.feature.ThrowableDragonBreath;
-import vazkii.quark.misc.feature.UtilityRecipes;
+import vazkii.quark.misc.feature.*;
 
 public class QuarkMisc extends Module {
 
@@ -48,6 +29,7 @@ public class QuarkMisc extends Module {
 		registerFeature(new UtilityRecipes());
 		registerFeature(new ParrotEggs());
 		registerFeature(new Pickarang());
+		registerFeature(new HorseWhistle());
 	}
 	
 	@Override
