@@ -129,7 +129,12 @@ public class EntityPickarang extends EntityThrowable {
 			}
 		}
 	}
-	
+
+	@Override
+	public boolean isPushedByWater() {
+		return false;
+	}
+
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
