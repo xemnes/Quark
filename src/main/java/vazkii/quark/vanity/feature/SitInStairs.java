@@ -23,11 +23,15 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.arl.network.NetworkHandler;
 import vazkii.quark.base.Quark;
+import vazkii.quark.base.client.RenderBlank;
 import vazkii.quark.base.lib.LibEntityIDs;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.base.module.Feature;
@@ -43,6 +47,12 @@ public class SitInStairs extends Feature {
 	public void preInit(FMLPreInitializationEvent event) {
 		String name = LibMisc.PREFIX_MOD + "seat";
 		EntityRegistry.registerModEntity(new ResourceLocation(name), Seat.class, name, LibEntityIDs.SEAT, Quark.instance, 16, 128, false);
+	}
+
+	@SideOnly(Side.CLIENT)
+	@Override
+	public void preInitClient() {
+		RenderingRegistry.registerEntityRenderingHandler(Seat.class, RenderBlank::new);
 	}
 	
 	@SubscribeEvent
@@ -72,7 +82,8 @@ public class SitInStairs extends Feature {
 			if(seats.isEmpty()) {
 				Seat seat = new Seat(world, pos);
 				world.spawnEntity(seat);
-				event.getEntityPlayer().startRiding(seat);
+				if (event.getEntityPlayer().startRiding(seat))
+					event.getEntityPlayer().setPositionAndUpdate(seat.posX, seat.posY, seat.posZ);
 			}
 		}
 	}
@@ -99,12 +110,18 @@ public class SitInStairs extends Feature {
 		public Seat(World par1World) {
 			super(par1World);
 
-			setSize(0.125F, 0.125F);
+			setSize(0.25F, 0.25F);
 		}
 
 		@Override
 		public double getMountedYOffset() {
 			return -0.25;
+		}
+
+		@Nonnull
+		@Override
+		public BlockPos getPosition() {
+			return new BlockPos(posX, posY, posZ);
 		}
 
 		@Override
