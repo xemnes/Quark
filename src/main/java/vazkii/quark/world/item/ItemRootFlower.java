@@ -30,10 +30,13 @@ public class ItemRootFlower extends ItemQuarkFood implements IQuarkItem {
 		switch(stack.getItemDamage()) {
 			case 0:
 				player.addPotionEffect(new PotionEffect(CaveRoots.blue_effect, 3600));
+				break;
 			case 1:
 				player.addPotionEffect(new PotionEffect(CaveRoots.black_effect, 3600));
+				break;
 			case 2:
 				player.addPotionEffect(new PotionEffect(CaveRoots.white_effect, 3600));
+				break;
 		}
 	}
 }
