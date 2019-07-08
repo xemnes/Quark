@@ -16,6 +16,8 @@ quarkmisc.keyboundButton=%sAppuyez sur %s
 quarkmisc.nowAfk=Vous êtes maintenant AFK (Away From Keyboard).
 quarkmisc.leftAfk=Vous n'êtes plus AFK.
 quarkmisc.personSleeping=%s est maintenant en train de dormir.
+quarkmisc.personNotSleeping=%s a arrêté de dormir.
+quarkmisc.nightHasPassed=La nuit est passée.
 # The %s is very important!
 quarkmisc.sleepingListHeader=Joueurs endormis : %s
 quarkmisc.buried_chest_map=Carte au trésor enfouie
@@ -36,6 +38,7 @@ quarkmisc.matrixMerge=Cliquer pour améliorer
 quarkmisc.matrixMin=Min : %d
 quarkmisc.matrixUpgrade=Amélioration : %d/%d
 quarkmisc.pendingEnchants=A des enchantements en attente
+quarkmisc.item_out_of_stock=Plus de stock, revenez plus tard
 quarkmisc.out_of_stock=%s n'a plus de stock, revenez plus tard
 
 # SUBTITLES
