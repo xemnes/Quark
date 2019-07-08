@@ -8,6 +8,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityThrowable;
@@ -155,6 +156,8 @@ public class EntityPickarang extends EntityThrowable {
 			int eff = getEfficiencyModifier();
 			
 			List<EntityItem> items = world.getEntitiesWithinAABB(EntityItem.class, getEntityBoundingBox().grow(2));
+			List<EntityXPOrb> xp = world.getEntitiesWithinAABB(EntityXPOrb.class, getEntityBoundingBox().grow(2));
+
 			Vec3d ourPos = getPositionVector();
 			for(EntityItem item : items) {
 				if (item.isRiding())
@@ -163,7 +166,15 @@ public class EntityPickarang extends EntityThrowable {
 				
 				item.setPickupDelay(2);
 			}
-			
+			for(EntityXPOrb xpOrb : xp) {
+				if (xpOrb.isRiding())
+					continue;
+				xpOrb.startRiding(this);
+
+				xpOrb.delayBeforeCanPickup = 2;
+			}
+
+
 			EntityLivingBase owner = getThrower();
 			if(owner == null || owner.isDead || !(owner instanceof EntityPlayer)) {
 				if(!world.isRemote) {
@@ -198,6 +209,9 @@ public class EntityPickarang extends EntityThrowable {
 							player.dropItem(drop, false);
 						item.setDead();
 					}
+					for (EntityXPOrb xpOrb : xp) {
+						xpOrb.onCollideWithPlayer(player);
+					}
 
 					setDead();
 		        }
@@ -212,7 +226,7 @@ public class EntityPickarang extends EntityThrowable {
 
 	@Override
 	protected boolean canFitPassenger(Entity passenger) {
-		return super.canFitPassenger(passenger) || passenger instanceof EntityItem;
+		return super.canFitPassenger(passenger) || passenger instanceof EntityItem || passenger instanceof EntityXPOrb;
 	}
 
 	@Override
