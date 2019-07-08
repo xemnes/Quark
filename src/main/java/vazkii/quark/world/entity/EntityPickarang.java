@@ -100,7 +100,8 @@ public class EntityPickarang extends EntityThrowable {
 					playSound(QuarkSounds.ENTITY_PICKARANG_CLANK, 1, 1);
 
 				player.setHeldItem(EnumHand.MAIN_HAND, prev);
-			}
+			} else
+				playSound(QuarkSounds.ENTITY_PICKARANG_CLANK, 1, 1);
 
 		} else if(result.typeOfHit == Type.ENTITY) {
 			Entity hit = result.entityHit;
