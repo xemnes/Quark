@@ -35,12 +35,12 @@ public class AnimalsEatFloorFood extends Feature {
 		maxCreaturesPerChunkArea = loadPropInt("Maximum entities per chunk area", "Prevents entities from proliferating infinitely. Set to 0 or less to disable checking.", 30);
 	}
 
-	private int getSpawnAllowedChunks(WorldServer world) {
+	private int getSpawnAllowedChunks(EntityAnimal animal, WorldServer world) {
 		eligibleChunksForSpawning.clear();
 		int chunks = 0;
 
 		for (EntityPlayer entityplayer : world.playerEntities) {
-			if (!entityplayer.isSpectator()) {
+			if (!entityplayer.isSpectator() && animal.getDistanceSq(entityplayer) < 4096) {
 				int chunkX = MathHelper.floor(entityplayer.posX / 16.0D);
 				int chunkZ = MathHelper.floor(entityplayer.posZ / 16.0D);
 
@@ -76,7 +76,7 @@ public class AnimalsEatFloorFood extends Feature {
 
 				if (maxCreaturesPerChunkArea > 0) {
 					int count = animal.world.countEntities(EnumCreatureType.CREATURE, true);
-					int max = maxCreaturesPerChunkArea * getSpawnAllowedChunks((WorldServer) animal.world) / MOB_COUNT_DIV;
+					int max = maxCreaturesPerChunkArea * getSpawnAllowedChunks(animal, (WorldServer) animal.world) / MOB_COUNT_DIV;
 
 					if (count > max)
 						return;
