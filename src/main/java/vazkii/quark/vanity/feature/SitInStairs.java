@@ -143,13 +143,17 @@ public class SitInStairs extends Feature {
 			List<Entity> passengers = getPassengers();
 			if(passengers.isEmpty())
 				setDead();
-			for(Entity e : passengers) {
+			for(Entity e : passengers)
 				if (e.isSneaking() || e.getDistanceSq(this) >= 1.0) {
 					setDead();
-					if (world.isRemote)
-						NetworkHandler.INSTANCE.sendToServer(new MessageDismountSeat());
 				}
-			}
+		}
+
+		@Override
+		public void setDead() {
+			super.setDead();
+			if (world.isRemote)
+				NetworkHandler.INSTANCE.sendToServer(new MessageDismountSeat());
 		}
 
 		@Override protected void entityInit() { }
