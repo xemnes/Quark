@@ -715,6 +715,9 @@ entity.quark:frog.name=Frog
 # POTION NAMES
 quark.potion.curse.name=Curse
 quark.potion.danger_sight.name=Danger Sight
+quark.potion.blue.name=Blueberry
+quark.potion.white.name=Whitening
+quark.potion.black.name=Darkening
 
 potion.effect.haste=Potion of Haste
 splash_potion.effect.haste=Splash Potion of Haste

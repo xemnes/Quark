@@ -34,6 +34,7 @@ import net.minecraftforge.oredict.OreIngredient;
 import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.handler.BeaconReplacementHandler;
 import vazkii.quark.base.lib.LibMisc;
+import vazkii.quark.base.lib.LibPotionIndices;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.base.potion.PotionMod;
@@ -93,7 +94,7 @@ public class ExtraPotions extends Feature {
 			addStandardBlend(MobEffects.RESISTANCE, (Biotite.biotite == null || forceQuartzForResistance) ? Items.QUARTZ : Biotite.biotite);
 
 		if(enableDangerSight) {
-			dangerSight = new PotionMod("danger_sight", false, 0x08C8E3, 1).setBeneficial();
+			dangerSight = new PotionMod("danger_sight", false, 0x08C8E3, LibPotionIndices.DANGER_SIGHT).setBeneficial();
 
 			addStandardBlend(dangerSight, (UndergroundBiomes.glowshroom == null || forceClownfishForDangerSight) ? 
 					new ItemStack(Items.FISH, 1, 2) : UndergroundBiomes.glowshroom, null, 3600, 9600, 0);

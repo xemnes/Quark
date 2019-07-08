@@ -32,6 +32,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.lib.LibEntityIDs;
+import vazkii.quark.base.lib.LibPotionIndices;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.potion.PotionMod;
 import vazkii.quark.world.client.render.RenderWraith;
@@ -98,7 +99,7 @@ public class Wraiths extends Feature {
 		soul_bead = new ItemSoulBead();
 
 		if(enableCurse)
-			curse = new PotionMod("curse", true, 0x000000, 0);
+			curse = new PotionMod("curse", true, 0x000000, LibPotionIndices.CURSE);
 
 		String wraithName = "quark:wraith";
 		EntityRegistry.registerModEntity(new ResourceLocation(wraithName), EntityWraith.class, wraithName, LibEntityIDs.WRAITH, Quark.instance, 80, 3, true, 0xececec, 0xbdbdbd);

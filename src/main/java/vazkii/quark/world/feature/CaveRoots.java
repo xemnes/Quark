@@ -7,9 +7,11 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import vazkii.arl.recipe.RecipeHandler;
 import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.handler.DimensionConfig;
+import vazkii.quark.base.lib.LibPotionIndices;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.world.block.BlockRoots;
 import vazkii.quark.world.block.BlockRootsFlower;
+import vazkii.quark.world.effects.PotionColorizer;
 import vazkii.quark.world.item.ItemRoot;
 import vazkii.quark.world.item.ItemRootDye;
 import vazkii.quark.world.item.ItemRootFlower;
@@ -24,6 +26,7 @@ public class CaveRoots extends Feature {
 	
 	public static Block roots;
 	public static Block roots_blue_flower, roots_black_flower, roots_white_flower;
+	public static PotionColorizer blue_effect, black_effect, white_effect;
 	
 	public static Item root, root_flower, root_dye;
 
@@ -46,6 +49,10 @@ public class CaveRoots extends Feature {
 		root = new ItemRoot();
 		
 		if(enableFlowers) {
+			blue_effect = new PotionColorizer("blue", 0x0000FF, LibPotionIndices.BLUE);
+			black_effect = new PotionColorizer("black", 0x303030, LibPotionIndices.BLACK);
+			white_effect = new PotionColorizer("white", 0xCCCCCC, LibPotionIndices.WHITE);
+
 			roots_blue_flower = new BlockRootsFlower("roots_blue_flower", 0);
 			roots_black_flower = new BlockRootsFlower("roots_black_flower", 1);
 			roots_white_flower = new BlockRootsFlower("roots_white_flower", 2);

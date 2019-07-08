@@ -61,6 +61,6 @@ public class PotionMod extends Potion {
 	@SideOnly(Side.CLIENT)
 	public void renderInventoryEffect(@Nonnull PotionEffect effect, Gui gui, int x, int y, float z) {
 		Minecraft.getMinecraft().renderEngine.bindTexture(TEXTURE);
-		gui.drawTexturedModalRect(x + 3, y + 3, iconX * 18, 198 + iconY * 18, 18, 18);
+		gui.drawTexturedModalRect(x + 6, y + 7, iconX * 18, 198 + iconY * 18, 18, 18);
 	}
 }
