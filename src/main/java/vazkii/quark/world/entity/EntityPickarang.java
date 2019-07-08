@@ -89,7 +89,8 @@ public class EntityPickarang extends EntityThrowable {
 			BlockPos hit = result.getBlockPos();
 
 			IBlockState state = world.getBlockState(hit);
-			if (state.getBlockHardness(world, hit) <= Pickarang.maxHardness) {
+			float hardness = state.getBlockHardness(world, hit);
+			if (hardness <= Pickarang.maxHardness && hardness > 0) {
 				ItemStack prev = player.getHeldItemMainhand();
 				player.setHeldItem(EnumHand.MAIN_HAND, getStack());
 
