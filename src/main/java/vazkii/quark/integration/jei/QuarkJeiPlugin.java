@@ -9,6 +9,7 @@ import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.management.client.gui.GuiButtonTrash;
 import vazkii.quark.management.feature.DeleteItems;
 import vazkii.quark.misc.recipe.ElytraDuplicationRecipe;
+import vazkii.quark.oddities.client.gui.GuiBackpackInventory;
 
 import javax.annotation.Nonnull;
 import java.awt.*;
@@ -21,10 +22,15 @@ public class QuarkJeiPlugin implements IModPlugin {
 	public void register(IModRegistry registry) {
 		try {
 			registry.addGlobalGuiHandlers(new GlobalTrashGuiHandler());
+			registry.addRecipeClickArea(GuiBackpackInventory.class, 137, 29, 10, 13, VanillaRecipeCategoryUid.CRAFTING);
+			registry.getRecipeTransferRegistry().addRecipeTransferHandler(
+					new BackpackRecipeTransferHandler(registry.getJeiHelpers().recipeTransferHandlerHelper()), VanillaRecipeCategoryUid.CRAFTING);
+
 		} catch (RuntimeException | LinkageError ignored) {
 			// only JEI 4.14.0 or higher supports addGlobalGuiHandlers
 			// ignore failures here to let Quark work with older versions of JEI
 		}
+
 
 		registry.handleRecipes(ElytraDuplicationRecipe.class, ElytraDuplicationRecipeWrapper::new, VanillaRecipeCategoryUid.CRAFTING);
 	}
