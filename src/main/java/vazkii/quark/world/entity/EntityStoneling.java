@@ -221,7 +221,7 @@ public class EntityStoneling extends EntityCreature {
 
 		if(!isTame && !world.isRemote) {
 			if (ModuleLoader.isFeatureEnabled(Frogs.class) && rand.nextDouble() < 0.01) {
-				EntityFrog frog = new EntityFrog(world, 0.375f);
+				EntityFrog frog = new EntityFrog(world, 0.75f);
 				frog.setPosition(posX, posY, posZ);
 				world.spawnEntity(frog);
 				frog.startRiding(this);
