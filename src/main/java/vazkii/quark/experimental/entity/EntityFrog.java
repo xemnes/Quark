@@ -145,7 +145,7 @@ public class EntityFrog extends EntityAnimal {
 
 	@Override
 	protected boolean canDropLoot() {
-		return spawnChain != 0;
+		return spawnChain != 0 && super.canDropLoot();
 	}
 
 	@Nullable
