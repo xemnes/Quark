@@ -2,6 +2,7 @@ package vazkii.quark.experimental.entity;
 
 import com.google.common.collect.Sets;
 import net.minecraft.entity.EntityAgeable;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.item.EntityItem;
@@ -23,6 +24,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.base.sounds.QuarkSounds;
+import vazkii.quark.base.util.CommonReflectiveAccessor;
 import vazkii.quark.experimental.entity.ai.EntityAITemptButNice;
 import vazkii.quark.experimental.features.Frogs;
 import vazkii.quark.world.entity.ai.EntityAIFavorBlock;
@@ -325,6 +327,16 @@ public class EntityFrog extends EntityAnimal {
 
 	@Override
 	public void onLivingUpdate() {
+		EntityLiving steed = null;
+		double speed = 1.0;
+		Path path = null;
+
+		if (this.isRiding() && this.getRidingEntity() instanceof EntityLiving) {
+			steed = (EntityLiving)this.getRidingEntity();
+			speed = CommonReflectiveAccessor.getSpeed(steed.getNavigator());
+			path = steed.getNavigator().getPath();
+			this.getMoveHelper().read(steed.getMoveHelper());
+		}
 		super.onLivingUpdate();
 
 		if (this.jumpTicks != this.jumpDuration) ++this.jumpTicks;
@@ -333,6 +345,9 @@ public class EntityFrog extends EntityAnimal {
 			this.jumpDuration = 0;
 			this.setJumping(false);
 		}
+
+		if (steed != null)
+			steed.getNavigator().setPath(path, speed);
 	}
 
 	@Override

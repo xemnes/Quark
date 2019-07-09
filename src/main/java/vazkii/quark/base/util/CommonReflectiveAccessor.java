@@ -12,20 +12,25 @@ package vazkii.quark.base.util;
 
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
+import net.minecraft.pathfinding.PathNavigate;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 public class CommonReflectiveAccessor {
 
-	private static final MethodHandle BOW_IS_ARROW;
+	private static final MethodHandle BOW_IS_ARROW, NAVIGATOR_SPEED;
 
 	static {
 		try {
 			Method m = ObfuscationReflectionHelper.findMethod(ItemBow.class, "func_185058_h_", Boolean.TYPE, ItemStack.class); // isArrow
 			BOW_IS_ARROW = MethodHandles.lookup().unreflect(m);
+
+			Field f = ObfuscationReflectionHelper.findField(PathNavigate.class, "field_75511_d");
+			NAVIGATOR_SPEED = MethodHandles.lookup().unreflectGetter(f);
 		} catch (IllegalAccessException e) {
 			throw new RuntimeException(e);
 		}
@@ -34,6 +39,14 @@ public class CommonReflectiveAccessor {
 	public static boolean isArrow(ItemBow bow, ItemStack arrow) {
 		try {
 			return (boolean) BOW_IS_ARROW.invokeExact(bow, arrow);
+		} catch (Throwable throwable) {
+			throw new RuntimeException(throwable);
+		}
+	}
+
+	public static double getSpeed(PathNavigate navigator) {
+		try {
+			return (double) NAVIGATOR_SPEED.invokeExact(navigator);
 		} catch (Throwable throwable) {
 			throw new RuntimeException(throwable);
 		}

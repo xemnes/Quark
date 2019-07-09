@@ -241,11 +241,6 @@ public class EntityStoneling extends EntityCreature {
 	}
 
 	@Override
-	public boolean canPassengerSteer() {
-		return false;
-	}
-
-	@Override
 	public double getMountedYOffset() {
 		return this.height;
 	}
