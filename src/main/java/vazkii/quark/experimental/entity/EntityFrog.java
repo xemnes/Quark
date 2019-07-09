@@ -37,6 +37,7 @@ public class EntityFrog extends EntityAnimal {
 	public static final ResourceLocation FROG_LOOT_TABLE = new ResourceLocation("quark", "entities/frog");
 
 	private static final DataParameter<Integer> TALK_TIME = EntityDataManager.createKey(EntityFrog.class, DataSerializers.VARINT);
+	private static final DataParameter<Float> SIZE_MODIFIER = EntityDataManager.createKey(EntityFrog.class, DataSerializers.FLOAT);
 	private static final Set<Item> TEMPTATION_ITEMS = Sets.newHashSet(Items.FISH, Items.SPIDER_EYE);
 	private static final Set<Item> TEMPTATION_ITEMS_BUT_NICE = Sets.newHashSet(Items.FISH, Items.SPIDER_EYE, Items.CLOCK);
 
@@ -44,8 +45,13 @@ public class EntityFrog extends EntityAnimal {
 	public int spawnChain = 30;
 
 	public EntityFrog(World worldIn) {
+		this(worldIn, 1);
+	}
+
+	public EntityFrog(World worldIn, float sizeModifier) {
 		super(worldIn);
-		setSize(0.9f, 0.5f);
+		setSize(0.9f * sizeModifier, 0.5f * sizeModifier);
+		dataManager.set(SIZE_MODIFIER, sizeModifier);
 
 		this.jumpHelper = new FrogJumpHelper();
 		this.moveHelper = new FrogMoveHelper();
@@ -57,6 +63,7 @@ public class EntityFrog extends EntityAnimal {
 		super.entityInit();
 
 		dataManager.register(TALK_TIME, 0);
+		dataManager.register(SIZE_MODIFIER, 1f);
 	}
 
 	@Override
@@ -91,16 +98,24 @@ public class EntityFrog extends EntityAnimal {
 
 	@Override
 	public float getEyeHeight() {
-		return 0.1f;
+		return 0.1f * getSizeModifier();
 	}
 
 	public int getTalkTime() {
 		return dataManager.get(TALK_TIME);
 	}
 
+	public float getSizeModifier() {
+		return dataManager.get(SIZE_MODIFIER);
+	}
+
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
+
+		float sizeModifier = getSizeModifier();
+		if (height != sizeModifier * 0.5f)
+			setSize(0.9f * sizeModifier, 0.5f * sizeModifier);
 
 		int talkTime = getTalkTime();
 		if (talkTime > 0)
@@ -208,11 +223,17 @@ public class EntityFrog extends EntityAnimal {
 		spawnCd = compound.getInteger("Cooldown");
 		spawnChain = compound.getInteger("Chain");
 		dataManager.set(TALK_TIME, compound.getInteger("DudeAmount"));
+		if (compound.hasKey("FrogAmount")) {
+			float sizeModifier = compound.getFloat("FrogAmount");
+			dataManager.set(SIZE_MODIFIER, sizeModifier);
+			setSize(0.9f * sizeModifier, 0.5f * sizeModifier);
+		}
 	}
 
 	@Override
 	public void writeEntityToNBT(NBTTagCompound compound) {
 		super.writeEntityToNBT(compound);
+		compound.setFloat("FrogAmount", getSizeModifier());
 		compound.setInteger("Cooldown", spawnCd);
 		compound.setInteger("Chain", spawnChain);
 		compound.setInteger("DudeAmount", getTalkTime());

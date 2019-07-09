@@ -12,6 +12,7 @@ package vazkii.quark.world.entity.ai;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
@@ -49,6 +50,10 @@ public class EntityAIRunAndPoof<T extends Entity> extends EntityAIAvoidEntity<T>
 			WorldServer ws = (WorldServer) world;
 			ws.spawnParticle(EnumParticleTypes.CLOUD, entity.posX, entity.posY, entity.posZ, 40, 0.5, 0.5, 0.5, 0.1);
 			ws.spawnParticle(EnumParticleTypes.EXPLOSION_NORMAL, entity.posX, entity.posY, entity.posZ, 20, 0.5, 0.5, 0.5, 0);
+		}
+		for (Entity passenger : entity.getRecursivePassengers()) {
+			if (!(passenger instanceof EntityPlayer))
+				passenger.setDead();
 		}
 		entity.setDead();
 	}

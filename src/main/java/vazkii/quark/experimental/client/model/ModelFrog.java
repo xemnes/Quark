@@ -75,11 +75,15 @@ public class ModelFrog extends ModelBase {
 
     @Override
     public void render(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-        if (isChild) {
-            GlStateManager.pushMatrix();
-            GlStateManager.translate(0, 0.75, 0);
-            GlStateManager.scale(0.5, 0.5, 0.5);
-        }
+        EntityFrog frog = (EntityFrog) entity;
+
+        GlStateManager.pushMatrix();
+        float sizeModifier = frog.getSizeModifier();
+
+        if (isChild) sizeModifier /= 2;
+
+        GlStateManager.translate(0, 1.5 - sizeModifier * 1.5, 0);
+        GlStateManager.scale(sizeModifier, sizeModifier, sizeModifier);
 
         rightArm.render(scale);
         leftArm.render(scale);
@@ -89,9 +93,7 @@ public class ModelFrog extends ModelBase {
         rightEye.render(scale);
         leftEye.render(scale);
 
-        if (isChild) {
-            GlStateManager.popMatrix();
-        }
+        GlStateManager.popMatrix();
     }
     
 }

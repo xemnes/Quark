@@ -3,10 +3,7 @@ package vazkii.quark.world.entity;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityCreature;
-import net.minecraft.entity.EnumCreatureType;
-import net.minecraft.entity.IEntityLivingData;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.EntityAITempt;
 import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,7 +20,10 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.*;
 import net.minecraft.world.storage.loot.LootContext;
 import net.minecraftforge.oredict.OreDictionary;
+import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.base.sounds.QuarkSounds;
+import vazkii.quark.experimental.entity.EntityFrog;
+import vazkii.quark.experimental.features.Frogs;
 import vazkii.quark.world.base.EnumStonelingVariant;
 import vazkii.quark.world.entity.ai.EntityAIActWary;
 import vazkii.quark.world.entity.ai.EntityAIFavorBlock;
@@ -54,7 +54,7 @@ public class EntityStoneling extends EntityCreature {
 
 	public EntityStoneling(World worldIn) {
 		super(worldIn);
-		setSize(0.5F, 1F);
+		setSize(0.5F, 0.9F);
 	}
 
 	@Override
@@ -68,8 +68,8 @@ public class EntityStoneling extends EntityCreature {
 
 	@Override
 	protected void initEntityAI() {
-		tasks.addTask(5, new EntityAIFavorBlock(this, 0.2, Blocks.DIAMOND_ORE));
-		tasks.addTask(4, new EntityAIWanderAvoidWater(this, 0.2, 0.98F));
+		tasks.addTask(5, new EntityAIWanderAvoidWater(this, 0.2, 0.98F));
+		tasks.addTask(4, new EntityAIFavorBlock(this, 0.2, Blocks.DIAMOND_ORE));
 
 		if(Stonelings.enableDiamondHeart || Stonelings.tamableStonelings) {
 			int priority = Stonelings.tamableStonelings ? 0 : 3;
@@ -220,9 +220,16 @@ public class EntityStoneling extends EntityCreature {
 		dataManager.set(HOLD_ANGLE, world.rand.nextFloat() * 90 - 45);
 
 		if(!isTame && !world.isRemote) {
-			List<ItemStack> items = world.getLootTableManager().getLootTableFromLocation(CARRY_LOOT_TABLE).generateLootForPools(rand, new LootContext.Builder((WorldServer) world).build());
-			if(!items.isEmpty())
-				dataManager.set(CARRYING_ITEM, items.get(0));	
+			if (ModuleLoader.isFeatureEnabled(Frogs.class) && rand.nextDouble() < 0.01) {
+				EntityFrog frog = new EntityFrog(world, 0.375f);
+				frog.setPosition(posX, posY, posZ);
+				world.spawnEntity(frog);
+				frog.startRiding(this);
+			} else {
+				List<ItemStack> items = world.getLootTableManager().getLootTableFromLocation(CARRY_LOOT_TABLE).generateLootForPools(rand, new LootContext.Builder((WorldServer) world).build());
+				if (!items.isEmpty())
+					dataManager.set(CARRYING_ITEM, items.get(0));
+			}
 		}
 
 		return super.onInitialSpawn(difficulty, data);
@@ -231,6 +238,16 @@ public class EntityStoneling extends EntityCreature {
 	@Override
 	public boolean isEntityInvulnerable(@Nonnull DamageSource source) {
 		return source == DamageSource.CACTUS || source.isProjectile();
+	}
+
+	@Override
+	public boolean canPassengerSteer() {
+		return false;
+	}
+
+	@Override
+	public double getMountedYOffset() {
+		return this.height;
 	}
 
 	@Override
@@ -298,6 +315,19 @@ public class EntityStoneling extends EntityCreature {
 		dataManager.set(VARIANT, compound.getByte(TAG_VARIANT));
 		dataManager.set(HOLD_ANGLE, compound.getFloat(TAG_HOLD_ANGLE));
 		setPlayerMade(compound.getBoolean(TAG_PLAYER_MADE));
+	}
+
+	@Override
+	public boolean canEntityBeSeen(Entity entityIn) {
+		Vec3d origin = new Vec3d(posX, posY + getEyeHeight(), posZ);
+		Vec3d targetBase = new Vec3d(entityIn.posX, entityIn.posY, entityIn.posZ);
+		float otherEyes = entityIn.getEyeHeight();
+		for (float height = 0; height <= otherEyes; height += otherEyes / 8) {
+			if (this.world.rayTraceBlocks(origin, targetBase.add(0, height, 0), false, true, false) == null)
+				return true;
+		}
+
+		return false;
 	}
 
 	@Override
