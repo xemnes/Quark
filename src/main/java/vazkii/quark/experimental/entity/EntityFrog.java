@@ -208,7 +208,19 @@ public class EntityFrog extends EntityAnimal {
 	@Nullable
 	@Override
 	public EntityAgeable createChild(@Nonnull EntityAgeable otherParent) {
-		return new EntityFrog(world);
+		float sizeMod = getSizeModifier();
+		if (otherParent instanceof EntityFrog) {
+			sizeMod += ((EntityFrog) otherParent).getSizeModifier();
+			sizeMod /= 2;
+		}
+
+		double regression = rand.nextGaussian() / 20;
+		if ((regression < 0 && sizeMod < 1) || (regression > 0 && sizeMod > 1))
+			regression /= Math.abs(sizeMod - 1);
+
+
+
+		return new EntityFrog(world, MathHelper.clamp(sizeMod + (float) regression, 0.25f, 2.0f));
 	}
 
 	@Override

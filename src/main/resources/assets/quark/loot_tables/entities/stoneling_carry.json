@@ -44,6 +44,20 @@
                 },
                 {
                     "type": "item",
+                    "weight": 300,
+                    "name": "minecraft:iron_ingot",
+                    "functions": [
+                        {
+                            "function": "set_count",
+                            "count": {
+                                "min": 4,
+                                "max": 7
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
                     "weight": 200,
                     "name": "minecraft:emerald",
                     "functions": [
