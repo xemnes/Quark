@@ -237,7 +237,7 @@ public class EntityStoneling extends EntityCreature {
 
 	@Override
 	public boolean isEntityInvulnerable(@Nonnull DamageSource source) {
-		return source == DamageSource.CACTUS || source.isProjectile();
+		return source == DamageSource.CACTUS || source.isProjectile() || super.isEntityInvulnerable(source);
 	}
 
 	@Override
