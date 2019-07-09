@@ -71,6 +71,8 @@ public class ItemHorseWhistle extends ItemMod implements IQuarkItem {
 	public ItemStack onItemUseFinish(@Nonnull ItemStack stack, World world, EntityLivingBase player) {
 		if (!world.isRemote)
 			callHorses(player);
+		if (player instanceof EntityPlayer)
+			((EntityPlayer) player).getCooldownTracker().setCooldown(this, 20);
 		return stack;
 	}
 
