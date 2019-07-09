@@ -246,6 +246,11 @@ public class EntityStoneling extends EntityCreature {
 	}
 
 	@Override
+	public boolean isPushedByWater() {
+		return false;
+	}
+
+	@Override
 	protected int decreaseAirSupply(int air) {
 		return air;
 	}
