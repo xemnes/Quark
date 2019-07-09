@@ -216,7 +216,7 @@ public class EntityPickarang extends EntityThrowable {
 					setDead();
 		        }
 			} else {
-				motion = motion.normalize().scale(0.7 + eff * 0.25F);
+				motion = motion.normalize().scale(0.7 + eff * 0.325F);
 				motionX = motion.x;
 				motionY = motion.y;
 				motionZ = motion.z;
