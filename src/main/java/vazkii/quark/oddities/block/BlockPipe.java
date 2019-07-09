@@ -18,6 +18,8 @@ import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -29,6 +31,8 @@ import vazkii.quark.base.block.IQuarkBlock;
 import vazkii.quark.oddities.tile.TilePipe;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -146,6 +150,19 @@ public class BlockPipe extends BlockModContainer implements IQuarkBlock {
 		}
 
 		return new AxisAlignedBB(minX, minY, minZ, maxX, maxY, maxZ);
+	}
+
+	@Nullable
+	@Override
+	@SuppressWarnings("deprecation")
+	public RayTraceResult collisionRayTrace(IBlockState blockState, @Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull Vec3d start, @Nonnull Vec3d end) {
+		List<AxisAlignedBB> boxes = new ArrayList<>();
+		addCollisionBoxToList(blockState, worldIn, pos, new AxisAlignedBB(pos), boxes, null, false);
+		for (AxisAlignedBB bb : boxes) {
+			if (rayTrace(pos, start, end, bb.offset(-pos.getX(), -pos.getY(), -pos.getZ())) != null)
+				return super.collisionRayTrace(blockState, worldIn, pos, start, end);
+		}
+		return null;
 	}
 
 	@Nonnull

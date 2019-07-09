@@ -9,6 +9,8 @@ import vazkii.quark.base.item.IQuarkItem;
 import vazkii.quark.base.item.ItemQuarkFood;
 import vazkii.quark.world.feature.CaveRoots;
 
+import javax.annotation.Nonnull;
+
 public class ItemRootFlower extends ItemQuarkFood implements IQuarkItem {
 
 	private static final String[] VARIANTS = {
@@ -23,7 +25,7 @@ public class ItemRootFlower extends ItemQuarkFood implements IQuarkItem {
 	}
 
 	@Override
-	protected void onFoodEaten(ItemStack stack, World worldIn, EntityPlayer player) {
+	protected void onFoodEaten(ItemStack stack, World worldIn, @Nonnull EntityPlayer player) {
 		if (worldIn.isRemote)
 			return;
 
