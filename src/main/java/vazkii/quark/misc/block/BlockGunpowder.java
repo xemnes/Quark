@@ -104,8 +104,8 @@ public class BlockGunpowder extends BlockQuarkDust {
 			
 			return true;
 		} else if(block == Blocks.TNT) {
-			block.breakBlock(world, pos, state.withProperty(BlockTNT.EXPLODE, Boolean.TRUE));
 			world.setBlockToAir(pos);
+			block.onPlayerDestroy(world, pos, state.withProperty(BlockTNT.EXPLODE, Boolean.TRUE));
 
 			return true;
 		} else if(block instanceof IFuseIgnitable) {
