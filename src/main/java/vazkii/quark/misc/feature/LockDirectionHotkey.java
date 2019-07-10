@@ -10,6 +10,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.math.BlockPos;
@@ -82,7 +83,22 @@ public class LockDirectionHotkey extends Feature {
 		// API hook
 		if(block instanceof IRotationLockHandler)
 			setState = ((IRotationLockHandler) block).setRotation(world, pos, setState, face, half != -1, half == 1);
-		
+
+		// Bed Special Case
+		else if (block == Blocks.BED && face.getAxis() != Axis.Y) {
+			EnumFacing prevFace = state.getValue(BlockHorizontal.FACING);
+			EnumFacing opposite = face.getOpposite();
+			if (prevFace != opposite) {
+				BlockPos prevPos = pos.offset(prevFace);
+				setState = state.withProperty(BlockHorizontal.FACING, opposite);
+				IBlockState inWorld = world.getBlockState(prevPos);
+				if (inWorld.getBlock() == Blocks.BED) {
+					world.setBlockToAir(prevPos);
+					world.setBlockState(pos.offset(opposite), inWorld.withProperty(BlockHorizontal.FACING, opposite));
+				}
+			}
+		}
+
 		// General Facing
 		else if(props.containsKey(BlockDirectional.FACING))
 			setState = state.withProperty(BlockDirectional.FACING, face);
