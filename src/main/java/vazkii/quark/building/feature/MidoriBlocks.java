@@ -29,10 +29,12 @@ public class MidoriBlocks extends Feature {
 	public static Block midori_block;
 	public static Block midori_pillar;
 
+	public static boolean enableStairsAndSlabs;
 	public static boolean enableWalls;
 
 	@Override
 	public void setupConfig() {
+		enableStairsAndSlabs = loadPropBool("Enable stairs and slabs", "", true) && GlobalConfig.enableVariants;
 		enableWalls = loadPropBool("Enable walls", "", true) && GlobalConfig.enableVariants;
 	}
 
@@ -41,18 +43,24 @@ public class MidoriBlocks extends Feature {
 		midori_block = new BlockMidori();
 		midori_pillar = new BlockMidoriPillar();
 
-		BlockModSlab slab = new BlockMidoriSlab(false);
-		BlockModStairs.initStairs(midori_block, 0, new BlockMidoriStairs());
-		BlockModSlab.initSlab(midori_block, 0, slab, new BlockMidoriSlab(true));
+		if (enableStairsAndSlabs) {
+			BlockModSlab slab = new BlockMidoriSlab(false);
+			BlockModStairs.initStairs(midori_block, 0, new BlockMidoriStairs());
+			BlockModSlab.initSlab(midori_block, 0, slab, new BlockMidoriSlab(true));
+			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(midori_pillar),
+					"S", "S",
+					'S', ProxyRegistry.newStack(slab));
+		} else {
+			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(midori_pillar, 2),
+					"M", "M",
+					'M', ProxyRegistry.newStack(midori_block));
+		}
 
 		VanillaWalls.add("midori_block", midori_block, 0, enableWalls);
 
 		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(midori_block, 4),
 				"GG", "GG",
 				'G', ProxyRegistry.newStack(Items.DYE, 1, 2));
-		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(midori_pillar),
-				"S", "S",
-				'S', ProxyRegistry.newStack(slab));
 	}
 
 	@Override
