@@ -711,6 +711,7 @@ entity.quark:totem_of_holding.name=Totem of Holding
 entity.quark:archaeologist.name=Archaeologist
 entity.quark:stoneling.name=Stoneling
 entity.quark:frog.name=Frog
+entity.quark:pickarang.name=Pickarang
 
 # POTION NAMES
 quark.potion.curse.name=Curse

@@ -6,6 +6,8 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeMap;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityXPOrb;
@@ -19,6 +21,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
@@ -40,6 +43,8 @@ public class EntityPickarang extends EntityThrowable {
 
 	private int liveTime;
 	private int slot;
+
+	private static final ThreadLocal<Boolean> IS_PICKARANG_UPDATING = ThreadLocal.withInitial(() -> false);
 
 	private static final String TAG_RETURNING = "returning";
 	private static final String TAG_LIVE_TIME = "liveTime";
@@ -63,13 +68,13 @@ public class EntityPickarang extends EntityThrowable {
     protected void entityInit() {
     	super.entityInit();
 
-		dataManager.register(STACK, ItemStack.EMPTY);
+		dataManager.register(STACK, new ItemStack(Pickarang.pickarang));
     	dataManager.register(RETURNING, false);
     }
 
 	@Override
 	protected void onImpact(@Nonnull RayTraceResult result) {
-		if(dataManager.get(RETURNING))
+		if(dataManager.get(RETURNING) || world.isRemote)
 			return;
 		
 		EntityLivingBase owner = getThrower();
@@ -107,28 +112,53 @@ public class EntityPickarang extends EntityThrowable {
 		} else if(result.typeOfHit == Type.ENTITY) {
 			Entity hit = result.entityHit;
 			if(hit != owner) {
-				dataManager.set(RETURNING, true);
-				
-				if(owner instanceof EntityPlayer) {
-					EntityPlayer player = (EntityPlayer) owner;
-					ItemStack prev = player.getHeldItemMainhand();
+				setReturning();
+				if (hit instanceof EntityPickarang) {
+					((EntityPickarang) hit).setReturning();
+					playSound(QuarkSounds.ENTITY_PICKARANG_CLANK, 1, 1);
+				} else {
+
 					ItemStack pickarang = getStack();
-					player.setHeldItem(EnumHand.MAIN_HAND, pickarang);
 					Multimap<String, AttributeModifier> modifiers = pickarang.getAttributeModifiers(EntityEquipmentSlot.MAINHAND);
-					player.getAttributeMap().applyAttributeModifiers(modifiers);
 
-					int ticksSinceLastSwing = ObfuscationReflectionHelper.getPrivateValue(EntityLivingBase.class, player, "field_184617_aD");
-					ObfuscationReflectionHelper.setPrivateValue(EntityLivingBase.class, player, (int) player.getCooldownPeriod(), "field_184617_aD");
+					if (owner != null) {
+						ItemStack prev = owner.getHeldItemMainhand();
+						owner.setHeldItem(EnumHand.MAIN_HAND, pickarang);
+						owner.getAttributeMap().applyAttributeModifiers(modifiers);
 
-					player.attackTargetEntityWithCurrentItem(hit);
+						int ticksSinceLastSwing = ObfuscationReflectionHelper.getPrivateValue(EntityLivingBase.class, owner, "field_184617_aD");
+						int cooldownPeriod = (int) (1.0 / owner.getEntityAttribute(SharedMonsterAttributes.ATTACK_SPEED).getAttributeValue() * 20.0);
+						ObfuscationReflectionHelper.setPrivateValue(EntityLivingBase.class, owner, cooldownPeriod, "field_184617_aD");
 
-					ObfuscationReflectionHelper.setPrivateValue(EntityLivingBase.class, player, ticksSinceLastSwing, "field_184617_aD");
+						if (owner instanceof EntityPlayer)
+							((EntityPlayer) owner).attackTargetEntityWithCurrentItem(hit);
+						else
+							owner.attackEntityAsMob(hit);
 
-					player.setHeldItem(EnumHand.MAIN_HAND, prev);
-					player.getAttributeMap().removeAttributeModifiers(modifiers);
+						ObfuscationReflectionHelper.setPrivateValue(EntityLivingBase.class, owner, ticksSinceLastSwing, "field_184617_aD");
+
+						owner.setHeldItem(EnumHand.MAIN_HAND, prev);
+						owner.getAttributeMap().removeAttributeModifiers(modifiers);
+					} else {
+						AttributeMap map = new AttributeMap();
+						map.getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(1);
+						map.applyAttributeModifiers(modifiers);
+						hit.attackEntityFrom(new EntityDamageSource("player", hit).setProjectile(),
+								(float) map.getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue());
+					}
+
 				}
 			}
 		}
+	}
+
+	protected void setReturning() {
+		dataManager.set(RETURNING, true);
+	}
+
+	@Override
+	public boolean canBeCollidedWith() {
+		return IS_PICKARANG_UPDATING.get();
 	}
 
 	@Override
@@ -138,7 +168,9 @@ public class EntityPickarang extends EntityThrowable {
 
 	@Override
 	public void onUpdate() {
+		IS_PICKARANG_UPDATING.set(true);
 		super.onUpdate();
+		IS_PICKARANG_UPDATING.set(false);
 		
 		if(isDead)
 			return;
@@ -148,7 +180,7 @@ public class EntityPickarang extends EntityThrowable {
 		
 		if(!returning) {
 			if(liveTime > Pickarang.timeout)
-				dataManager.set(RETURNING, true);
+				setReturning();
 		} else {
 			noClip = true;
 
@@ -181,7 +213,7 @@ public class EntityPickarang extends EntityThrowable {
 					entityDropItem(stack, 0);
 					setDead();
 				}
-				
+
 				return;
 			}
 			
@@ -259,8 +291,11 @@ public class EntityPickarang extends EntityThrowable {
 		dataManager.set(RETURNING, compound.getBoolean(TAG_RETURNING));
 		liveTime = compound.getInteger(TAG_LIVE_TIME);
 		slot = compound.getInteger(TAG_RETURN_SLOT);
-		
-		setStack(new ItemStack(compound.getCompoundTag(TAG_ITEM_STACK)));
+
+		if (compound.hasKey(TAG_ITEM_STACK))
+			setStack(new ItemStack(compound.getCompoundTag(TAG_ITEM_STACK)));
+		else
+			setStack(new ItemStack(Pickarang.pickarang));
 	}
 	
 	@Override
