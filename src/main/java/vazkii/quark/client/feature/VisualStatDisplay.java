@@ -52,12 +52,15 @@ public class VisualStatDisplay extends Feature {
 	private static final ImmutableSet<String> MULTIPLIER_ATTRIBUTES = ImmutableSet.of(
 			"generic.movementSpeed");
 
+	private static final ImmutableSet<String> POTION_PERCENT_ATTRIBUTES = ImmutableSet.of(
+			"generic.attackSpeed");
+
 	private static final ImmutableSet<String> PERCENT_ATTRIBUTES = ImmutableSet.of(
 			"generic.knockbackResistance",
 			"generic.luck");
 
-	private String format(String attribute, double value) {
-		if (PERCENT_ATTRIBUTES.contains(attribute))
+	private String format(String attribute, double value, EntityEquipmentSlot slot) {
+		if (PERCENT_ATTRIBUTES.contains(attribute) || (slot == null && POTION_PERCENT_ATTRIBUTES.contains(attribute)))
 			return (value > 0 ? "+" : "") + ItemStack.DECIMALFORMAT.format(value * 100) + "%";
 		else if (MULTIPLIER_ATTRIBUTES.contains(attribute))
 			return ItemStack.DECIMALFORMAT.format(value / baseValue(attribute)) + "x";
@@ -193,7 +196,7 @@ public class VisualStatDisplay extends Feature {
 				if (attributeValue != 0) {
 					if (!attributeTooltips.containsKey(slot))
 						attributeTooltips.put(slot, new StringBuilder());
-					attributeTooltips.get(slot).append(format(s, attributeValue));
+					attributeTooltips.get(slot).append(format(s, attributeValue, slot));
 				}
 			} else if (!anyInvalid) {
 				anyInvalid = true;
@@ -240,7 +243,7 @@ public class VisualStatDisplay extends Feature {
 			mc.getTextureManager().bindTexture(LibMisc.GENERAL_ICONS_RESOURCE);
 			Gui.drawModalRectWithCustomSizedTexture(x, y, renderPosition(attribute), 0, 9, 9, 256, 256);
 
-			String valueStr = format(attribute, value);
+			String valueStr = format(attribute, value, slot);
 
 			int color = value < 0 ? 0xFF5555 : 0xFFFFFF;
 
@@ -377,12 +380,16 @@ public class VisualStatDisplay extends Feature {
 		double value = 0;
 
 		if (!PERCENT_ATTRIBUTES.contains(key)) {
-			if (slot != null || !key.equals(SharedMonsterAttributes.ATTACK_DAMAGE.getName())) {
+			if (slot != null || (!key.equals(SharedMonsterAttributes.ATTACK_DAMAGE.getName()) &&
+					!POTION_PERCENT_ATTRIBUTES.contains(key))) {
 				IAttributeInstance attribute = player.getAttributeMap().getAttributeInstanceByName(key);
 				if (attribute != null)
 					value = attribute.getBaseValue();
 			}
 		}
+
+		if (slot == null && POTION_PERCENT_ATTRIBUTES.contains(key))
+			value = 1;
 
 		for (AttributeModifier modifier : collection) {
 			if (modifier.getOperation() == 0)
@@ -401,8 +408,10 @@ public class VisualStatDisplay extends Feature {
 				value += value * modifier.getAmount();
 		}
 
+		if (slot == null && POTION_PERCENT_ATTRIBUTES.contains(key))
+			value -= 1;
 
-		if (key.equals(SharedMonsterAttributes.ATTACK_DAMAGE.getName()))
+		if (key.equals(SharedMonsterAttributes.ATTACK_DAMAGE.getName()) && slot == EntityEquipmentSlot.MAINHAND)
 			value += EnchantmentHelper.getModifierForCreature(stack, EnumCreatureAttribute.UNDEFINED);
 
 		return value;
