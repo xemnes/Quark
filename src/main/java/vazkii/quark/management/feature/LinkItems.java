@@ -45,7 +45,7 @@ public class LinkItems extends Feature {
 			GuiContainer gui = (GuiContainer) event.getGui();
 
 			Slot slot = gui.getSlotUnderMouse();
-			if(slot != null && slot.inventory != null && !"tmp".equals(slot.inventory.getName())) { // "tmp" checks for a creative inventory
+			if(gui.isFocused() && slot != null && slot.inventory != null && !"tmp".equals(slot.inventory.getName())) { // "tmp" checks for a creative inventory
 				ItemStack stack = slot.getStack();
 
 				if(!stack.isEmpty() && !MinecraftForge.EVENT_BUS.post(new ClientChatEvent(stack.getTextComponent().getUnformattedText())))
