@@ -107,6 +107,7 @@
 							<hr>
 							<b>Credits</b>
 							<ul>
+								<li>WireSegal for heavy bugfixes and code maintenance.</li>
 								<li>cheeserolls for the biome detection code from Biomes'o'Plenty used for Pathfinder Maps.</li>
 								<li>DylanKaiser for the inventory chest icon.</li>
 								<li>Jragon014 for a bunch of inspiration from The Tempest Box.</li>
