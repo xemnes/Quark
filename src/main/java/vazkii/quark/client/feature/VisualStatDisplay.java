@@ -376,10 +376,12 @@ public class VisualStatDisplay extends Feature {
 
 		double value = 0;
 
-		if (!PERCENT_ATTRIBUTES.contains(key) && slot != null) {
-			IAttributeInstance attribute = player.getAttributeMap().getAttributeInstanceByName(key);
-			if (attribute != null)
-				value = attribute.getBaseValue();
+		if (!PERCENT_ATTRIBUTES.contains(key)) {
+			if (slot != null || !key.equals(SharedMonsterAttributes.ATTACK_DAMAGE.getName())) {
+				IAttributeInstance attribute = player.getAttributeMap().getAttributeInstanceByName(key);
+				if (attribute != null)
+					value = attribute.getBaseValue();
+			}
 		}
 
 		for (AttributeModifier modifier : collection) {
