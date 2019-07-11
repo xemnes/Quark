@@ -10,6 +10,7 @@
  */
 package vazkii.quark.misc.item;
 
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAITasks;
 import net.minecraft.entity.passive.AbstractHorse;
@@ -32,7 +33,7 @@ import javax.annotation.Nonnull;
 public class ItemHorseWhistle extends ItemMod implements IQuarkItem {
 	public ItemHorseWhistle(String name) {
 		super(name);
-
+		setCreativeTab(CreativeTabs.MISC);
 		setMaxStackSize(1);
 	}
 

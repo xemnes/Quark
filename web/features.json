@@ -1367,6 +1367,14 @@
 				"introduced":12
 			},
 			{
+				"name":"Horse Whistles",
+				"classname":"HorseWhistle",
+				"description":"A silent whistle which horses can hear. They'll come right to you if you blow it! This only works on horses you personally have tamed, and only if they aren't being ridden and aren't leashed.",
+				"image":"horse-whistles.jpg",
+                "contributor": "WireSegal",
+				"introduced":12
+			},
+			{
 				"name":"Map Markers",
 				"classname":"MapMarkers",
 				"description":"Combine an Ink Sac with a Map to add a marker to where you're currently standing.<br><br>Note: At the moment, markers can't be removed, so plan wisely.",
