@@ -52,7 +52,7 @@ public class VisualStatDisplay extends Feature {
 	private static final ImmutableSet<String> MULTIPLIER_ATTRIBUTES = ImmutableSet.of(
 			"generic.movementSpeed");
 
-	private static final ImmutableSet<String> POTION_PERCENT_ATTRIBUTES = ImmutableSet.of(
+	private static final ImmutableSet<String> POTION_MULTIPLIER_ATTRIBUTES = ImmutableSet.of(
 			"generic.attackSpeed");
 
 	private static final ImmutableSet<String> PERCENT_ATTRIBUTES = ImmutableSet.of(
@@ -60,9 +60,9 @@ public class VisualStatDisplay extends Feature {
 			"generic.luck");
 
 	private String format(String attribute, double value, EntityEquipmentSlot slot) {
-		if (PERCENT_ATTRIBUTES.contains(attribute) || (slot == null && POTION_PERCENT_ATTRIBUTES.contains(attribute)))
+		if (PERCENT_ATTRIBUTES.contains(attribute))
 			return (value > 0 ? "+" : "") + ItemStack.DECIMALFORMAT.format(value * 100) + "%";
-		else if (MULTIPLIER_ATTRIBUTES.contains(attribute))
+		else if (MULTIPLIER_ATTRIBUTES.contains(attribute) || (slot == null && POTION_MULTIPLIER_ATTRIBUTES.contains(attribute)))
 			return ItemStack.DECIMALFORMAT.format(value / baseValue(attribute)) + "x";
 		else
 			return ItemStack.DECIMALFORMAT.format(value);
@@ -72,6 +72,8 @@ public class VisualStatDisplay extends Feature {
 		switch (attribute) {
 			case "generic.movementSpeed":
 				return 0.1;
+			case "generic.attackSpeed":
+				return 4;
 			default:
 				return 1;
 		}
@@ -163,6 +165,8 @@ public class VisualStatDisplay extends Feature {
 		}
 	}
 
+	private static final UUID DUMMY_UUID = new UUID(0, 0);
+
 	public static Multimap<String, AttributeModifier> getModifiers(ItemStack stack, EntityEquipmentSlot slot) {
 		if (slot == null) {
 			List<PotionEffect> potions = PotionUtils.getEffectsFromStack(stack);
@@ -182,7 +186,15 @@ public class VisualStatDisplay extends Feature {
 			return out;
 		}
 
-		return stack.getAttributeModifiers(slot);
+		Multimap<String, AttributeModifier> out = stack.getAttributeModifiers(slot);
+
+		if (slot == EntityEquipmentSlot.MAINHAND && EnchantmentHelper.getModifierForCreature(stack, EnumCreatureAttribute.UNDEFINED) > 0)
+			out.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(DUMMY_UUID, "NO-OP", 0.0, 0));
+
+		if (slot == EntityEquipmentSlot.MAINHAND && out.containsKey(SharedMonsterAttributes.ATTACK_DAMAGE.getName()))
+			out.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(DUMMY_UUID, "NO-OP", 0.0, 0));
+
+		return out;
 	}
 
 
@@ -245,7 +257,7 @@ public class VisualStatDisplay extends Feature {
 
 			String valueStr = format(attribute, value, slot);
 
-			int color = value < 0 ? 0xFF5555 : 0xFFFFFF;
+			int color = value < 0 || (valueStr.endsWith("x") && value / baseValue(attribute) < 1) ? 0xFF5555 : 0xFFFFFF;
 
 			mc.fontRenderer.drawStringWithShadow(valueStr, x + 12, y + 1, color);
 			x += mc.fontRenderer.getStringWidth(valueStr) + 20;
@@ -380,16 +392,12 @@ public class VisualStatDisplay extends Feature {
 		double value = 0;
 
 		if (!PERCENT_ATTRIBUTES.contains(key)) {
-			if (slot != null || (!key.equals(SharedMonsterAttributes.ATTACK_DAMAGE.getName()) &&
-					!POTION_PERCENT_ATTRIBUTES.contains(key))) {
+			if (slot != null || !key.equals(SharedMonsterAttributes.ATTACK_DAMAGE.getName())) {
 				IAttributeInstance attribute = player.getAttributeMap().getAttributeInstanceByName(key);
 				if (attribute != null)
 					value = attribute.getBaseValue();
 			}
 		}
-
-		if (slot == null && POTION_PERCENT_ATTRIBUTES.contains(key))
-			value = 1;
 
 		for (AttributeModifier modifier : collection) {
 			if (modifier.getOperation() == 0)
@@ -408,8 +416,6 @@ public class VisualStatDisplay extends Feature {
 				value += value * modifier.getAmount();
 		}
 
-		if (slot == null && POTION_PERCENT_ATTRIBUTES.contains(key))
-			value -= 1;
 
 		if (key.equals(SharedMonsterAttributes.ATTACK_DAMAGE.getName()) && slot == EntityEquipmentSlot.MAINHAND)
 			value += EnchantmentHelper.getModifierForCreature(stack, EnumCreatureAttribute.UNDEFINED);
