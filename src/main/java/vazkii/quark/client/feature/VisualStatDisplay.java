@@ -188,11 +188,15 @@ public class VisualStatDisplay extends Feature {
 
 		Multimap<String, AttributeModifier> out = stack.getAttributeModifiers(slot);
 
-		if (slot == EntityEquipmentSlot.MAINHAND && EnchantmentHelper.getModifierForCreature(stack, EnumCreatureAttribute.UNDEFINED) > 0)
-			out.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(DUMMY_UUID, "NO-OP", 0.0, 0));
+		if (slot == EntityEquipmentSlot.MAINHAND) {
+			if (EnchantmentHelper.getModifierForCreature(stack, EnumCreatureAttribute.UNDEFINED) > 0)
+				out.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(DUMMY_UUID, "NO-OP", 0.0, 0));
 
-		if (slot == EntityEquipmentSlot.MAINHAND && out.containsKey(SharedMonsterAttributes.ATTACK_DAMAGE.getName()))
-			out.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(DUMMY_UUID, "NO-OP", 0.0, 0));
+			if (out.containsKey(SharedMonsterAttributes.ATTACK_DAMAGE.getName()) && !out.containsKey(SharedMonsterAttributes.ATTACK_SPEED.getName()))
+				out.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(DUMMY_UUID, "NO-OP", 0.0, 0));
+			else if (out.containsKey(SharedMonsterAttributes.ATTACK_SPEED.getName()) && !out.containsKey(SharedMonsterAttributes.ATTACK_DAMAGE.getName()))
+				out.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(DUMMY_UUID, "NO-OP", 0.0, 0));
+		}
 
 		return out;
 	}
