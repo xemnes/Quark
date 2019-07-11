@@ -1,4 +1,4 @@
-package vazkii.quark.experimental.features;
+package vazkii.quark.world.feature;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EnumCreatureType;
@@ -20,8 +20,8 @@ import vazkii.quark.base.Quark;
 import vazkii.quark.base.item.ItemQuarkFood;
 import vazkii.quark.base.lib.LibEntityIDs;
 import vazkii.quark.base.module.Feature;
-import vazkii.quark.experimental.client.render.RenderFrog;
-import vazkii.quark.experimental.entity.EntityFrog;
+import vazkii.quark.world.client.render.RenderFrog;
+import vazkii.quark.world.entity.EntityFrog;
 
 public class Frogs extends Feature {
 

@@ -1,4 +1,4 @@
-package vazkii.quark.experimental.entity;
+package vazkii.quark.world.entity;
 
 import com.google.common.collect.Sets;
 import net.minecraft.entity.EntityAgeable;
@@ -25,8 +25,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.base.sounds.QuarkSounds;
 import vazkii.quark.base.util.CommonReflectiveAccessor;
-import vazkii.quark.experimental.entity.ai.EntityAITemptButNice;
-import vazkii.quark.experimental.features.Frogs;
+import vazkii.quark.world.entity.ai.EntityAITemptButNice;
+import vazkii.quark.world.feature.Frogs;
 import vazkii.quark.world.entity.ai.EntityAIFavorBlock;
 
 import javax.annotation.Nonnull;

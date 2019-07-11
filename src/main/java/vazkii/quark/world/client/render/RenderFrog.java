@@ -1,11 +1,11 @@
-package vazkii.quark.experimental.client.render;
+package vazkii.quark.world.client.render;
 
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
-import vazkii.quark.experimental.client.model.ModelFrog;
-import vazkii.quark.experimental.entity.EntityFrog;
+import vazkii.quark.world.client.model.ModelFrog;
+import vazkii.quark.world.entity.EntityFrog;
 
 import javax.annotation.Nonnull;
 

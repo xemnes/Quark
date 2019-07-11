@@ -539,6 +539,14 @@
 				"introduced":11
 			},
 			{
+				"name": "Arrow Scrolling",
+				"classname": "RotateArrowTypes",
+				"description": "While sneaking and holding a bow, scrolling will cycle arrow positions in your inventory.",
+				"image": "arrow-scrolling.jpg",
+				"introduced": 12,
+				"contributor": "WireSegal"
+			},
+			{
 				"name":"Auto Tool Restock",
 				"classname":"AutomaticToolRestock",
 				"description":"If you break a tool and have a replacement in your inventory, the replacement will be instantly moved to your hotbar, so you can continue doing what you were doing.<br><br>This also understands important enchantments, so if you were mining with a silk touch pick, it'll try to find a silk touch pick before trying anything else. It also gives priority to tools of the same material.",
@@ -804,6 +812,22 @@
 				"introduced":12
 			},
 			{
+				"name":"Pat the Dogs",
+				"classname":"PatTheDogs",
+				"description":"You can pat the dogs.",
+				"image":"pat-the-dogs.png",
+				"introduced":12
+			},
+			{
+				"name":"Right Click Harvesting",
+				"classname":"RightClickHarvest",
+				"description":"Right click crops to harvest. Works with Hoe Harvesting, if enabled.",
+				"image":"right-click-harvest.jpg",
+				"introduced":12,
+				"contributor": "WireSegal",
+				"overlap": [ "harvest" ]
+			},
+			{
 				"name":"Squid Inking",
 				"classname":"SquidsInkYou",
 				"description":"Upon being attacked, Squids will release some ink, which inflicts blindness on nearby players.",
@@ -1024,6 +1048,14 @@
 				"introduced":12
 			},
 			{
+				"name":"Frogs",
+				"classname":"Frogs",
+				"description":"Cute little guys who spawn in swamps. They eat fish and spider eyes, and their legs can be cooked, or gilded to brew Jump Boost.",
+				"image":"frogs.jpg",
+				"introduced":12,
+				"contributor":"WireSegal"
+			},
+			{
 				"name": "Speleothems",
 				"classname":"Speleothems",
 				"description":"Speleothems (commonly known as Stalactites and Salagmites) will generate in caves and the Nether, in all stone type variants. These can be harvested only with Silk Touch (or crafted, if you want), and can grow up to 3 blocks high.<br><br>If you break the supporting blocks, the rest of the structure falls apart, which is actually really satisfying to do.",
@@ -1191,6 +1223,14 @@
 				"description":"10 seconds before an item would despawn, it starts flashing in and out.<br><br><i>I can't really show this in a static image so just take my word for it.</i>",
 				"image":"items-flashing.jpg",
 				"introduced":12
+			},
+			{
+				"name":"Items In Chat",
+				"classname":"RenderItemsInChat",
+				"description":"Whenever an item shows up in chat, you can see a little preview of it!",
+				"image":"items-in-chat.jpg",
+				"introduced":12,
+				"contributor": "WireSegal"
 			},
 			{
 				"name":"Enchanted Book Icons",

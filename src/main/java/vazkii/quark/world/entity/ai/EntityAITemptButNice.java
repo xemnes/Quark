@@ -8,13 +8,13 @@
  * <p>
  * File Created @ [Jun 24, 2019, 22:47 AM (EST)]
  */
-package vazkii.quark.experimental.entity.ai;
+package vazkii.quark.world.entity.ai;
 
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.ai.EntityAITempt;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import vazkii.quark.experimental.features.Frogs;
+import vazkii.quark.world.feature.Frogs;
 
 import java.util.Calendar;
 import java.util.Set;

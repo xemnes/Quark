@@ -15,6 +15,7 @@ import net.minecraft.item.ItemStack;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.experimental.client.TextureDump;
 import vazkii.quark.experimental.features.*;
+import vazkii.quark.world.feature.Frogs;
 
 public class QuarkExperimental extends Module {
 
@@ -27,7 +28,6 @@ public class QuarkExperimental extends Module {
 		registerFeature(new ParrotsSayDespacito(), false);
 		registerFeature(new CollateralPistonMovement(), false);
 		registerFeature(new FramedBlocks(), false);
-		registerFeature(new Frogs(), false);
 		registerFeature(new TextureDump(), "Dump texture atlases", false);
 		registerFeature(new BetterNausea(), false);
 		registerFeature(new CustomSplashes(), false);
