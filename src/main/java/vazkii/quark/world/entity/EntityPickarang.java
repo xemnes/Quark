@@ -241,8 +241,22 @@ public class EntityPickarang extends EntityThrowable {
 							player.dropItem(drop, false);
 						item.setDead();
 					}
+
 					for (EntityXPOrb xpOrb : xp) {
 						xpOrb.onCollideWithPlayer(player);
+					}
+
+					for (Entity riding : getPassengers()) {
+						if (riding.isDead)
+							continue;
+
+						if (riding instanceof EntityItem) {
+							ItemStack drop = ((EntityItem) riding).getItem();
+							if(!player.addItemStackToInventory(drop))
+								player.dropItem(drop, false);
+							riding.setDead();
+						} else if (riding instanceof EntityXPOrb)
+							riding.onCollideWithPlayer(player);
 					}
 
 					setDead();

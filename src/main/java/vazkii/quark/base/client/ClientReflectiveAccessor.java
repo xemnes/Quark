@@ -17,6 +17,8 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiNewChat;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.RenderItem;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.potion.Potion;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.relauncher.Side;
@@ -40,7 +42,8 @@ public class ClientReflectiveAccessor {
 			CHAT_DRAWN_LINES,
 			CHAT_SCROLL_POS,
 			SETUP_ITEM_GUI_TRANSFORM,
-			MINECRAFT_SYSTEM_TIME;
+			MINECRAFT_SYSTEM_TIME,
+			ENTITY_LIVING_BASE_POTION_COLOR;
 
 	static {
 		try {
@@ -77,6 +80,9 @@ public class ClientReflectiveAccessor {
 
 			f = ObfuscationReflectionHelper.findField(Minecraft.class, "field_71423_H");
 			MINECRAFT_SYSTEM_TIME = MethodHandles.lookup().unreflectGetter(f);
+
+			f = ObfuscationReflectionHelper.findField(EntityLivingBase.class, "field_184633_f");
+			ENTITY_LIVING_BASE_POTION_COLOR = MethodHandles.lookup().unreflectGetter(f);
 		} catch (ClassNotFoundException | IllegalAccessException e) {
 			throw new RuntimeException(e);
 		}
@@ -158,6 +164,15 @@ public class ClientReflectiveAccessor {
 	public static long lastSystemTime(Minecraft mc) {
 		try {
 			return (long) MINECRAFT_SYSTEM_TIME.invokeExact(mc);
+		} catch (Throwable throwable) {
+			throw new RuntimeException(throwable);
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public static DataParameter<Integer> potionEffectColor() {
+		try {
+			return (DataParameter<Integer>) ENTITY_LIVING_BASE_POTION_COLOR.invokeExact();
 		} catch (Throwable throwable) {
 			throw new RuntimeException(throwable);
 		}

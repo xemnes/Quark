@@ -12,16 +12,29 @@ package vazkii.quark.world.effects;
 
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.client.event.RenderLivingEvent;
+import net.minecraftforge.event.entity.living.PotionColorCalculationEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import vazkii.arl.network.NetworkHandler;
+import vazkii.quark.base.client.ClientReflectiveAccessor;
 import vazkii.quark.base.lib.LibMisc;
+import vazkii.quark.base.network.message.MessageSyncColors;
 import vazkii.quark.base.potion.PotionMod;
+import vazkii.quark.base.util.MutableVectorHolder;
 
-@Mod.EventBusSubscriber(value = Side.CLIENT, modid = LibMisc.MOD_ID)
+import java.util.Collection;
+import java.util.WeakHashMap;
+
+@Mod.EventBusSubscriber(modid = LibMisc.MOD_ID)
 public class PotionColorizer extends PotionMod {
 
 	public final int color;
@@ -38,16 +51,34 @@ public class PotionColorizer extends PotionMod {
 		this.b = (color & 0xff) / 255f;
 	}
 
-	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
-	public static void colorize(RenderLivingEvent.Pre event) {
-		colorEntity(event.getEntity());
+	public static void onStartTracking(PlayerEvent.StartTracking event) {
+		if (event.getEntityPlayer() instanceof EntityPlayerMP && event.getTarget() instanceof EntityLivingBase)
+			NetworkHandler.INSTANCE.sendTo(prepareMessage((EntityLivingBase) event.getTarget()),
+					(EntityPlayerMP) event.getEntityPlayer());
 	}
 
-	public static void colorEntity(EntityLivingBase entity) {
+	@SubscribeEvent
+	public static void onCalculateColor(PotionColorCalculationEvent event) {
+		World world = event.getEntityLiving().world;
+		if (world instanceof WorldServer) {
+			for (EntityPlayer tracker : ((WorldServer) world).getEntityTracker()
+					.getTrackingPlayers(event.getEntityLiving())) {
+				if (tracker instanceof EntityPlayerMP)
+					NetworkHandler.INSTANCE.sendTo(prepareMessage(event.getEntityLiving().getEntityId(), event.getEffects()),
+							(EntityPlayerMP) tracker);
+			}
+		}
+	}
+
+	private static MessageSyncColors prepareMessage(EntityLivingBase entity) {
+		return prepareMessage(entity.getEntityId(), entity.getActivePotionEffects());
+	}
+
+	private static MessageSyncColors prepareMessage(int id, Collection<PotionEffect> effects) {
 		float rMix = 0, gMix = 0, bMix = 0;
 		int total = 0;
-		for (PotionEffect effect : entity.getActivePotionEffects()) {
+		for (PotionEffect effect : effects) {
 			if (effect.getPotion() instanceof PotionColorizer) {
 				rMix += ((PotionColorizer) effect.getPotion()).r;
 				gMix += ((PotionColorizer) effect.getPotion()).g;
@@ -60,20 +91,41 @@ public class PotionColorizer extends PotionMod {
 			rMix /= total;
 			gMix /= total;
 			bMix /= total;
-			GlStateManager.color(rMix, gMix, bMix);
+			return new MessageSyncColors(id, rMix, gMix, bMix);
 		}
+
+		return new MessageSyncColors(id, -1, -1, -1);
+	}
+
+	private static final WeakHashMap<EntityLivingBase, MutableVectorHolder> colors = new WeakHashMap<>();
+
+	@SideOnly(Side.CLIENT)
+	@SubscribeEvent
+	public static void colorize(RenderLivingEvent.Pre event) {
+		EntityLivingBase entity = event.getEntity();
+		if (entity.getDataManager().get(ClientReflectiveAccessor.potionEffectColor()) == 0)
+			return;
+		MutableVectorHolder holder = colors.get(event.getEntity());
+		if (holder != null)
+			GlStateManager.color((float) holder.x, (float) holder.y, (float) holder.z);
 	}
 
 
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public static void colorize(RenderLivingEvent.Post event) {
-		for (PotionEffect effect : event.getEntity().getActivePotionEffects()) {
-			if (effect.getPotion() instanceof PotionColorizer) {
-				GlStateManager.color(1f, 1f, 1f);
-				return;
-			}
-		}
+		if (colors.containsKey(event.getEntity()))
+			GlStateManager.color(1f, 1f, 1f);
 	}
 
+	public static void receiveColors(EntityLivingBase entity, double r, double g, double b) {
+		if (r < 0 || g < 0 || b < 0) {
+			colors.remove(entity);
+		} else {
+			MutableVectorHolder holder = colors.computeIfAbsent(entity, (e) -> new MutableVectorHolder());
+			holder.x = r;
+			holder.y = g;
+			holder.z = b;
+		}
+	}
 }

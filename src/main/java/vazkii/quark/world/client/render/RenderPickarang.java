@@ -28,7 +28,8 @@ public class RenderPickarang extends Render<EntityPickarang> {
 		Minecraft mc = Minecraft.getMinecraft();
 		float time = entity.ticksExisted + (mc.isGamePaused() ? 0 : partialTicks);
 		GlStateManager.rotate(time * 20F, 0F, 0F, 1F);
-		
+
+		GlStateManager.enableBlend();
 		mc.getRenderItem().renderItem(entity.getStack(), TransformType.FIXED);
 		
 		GlStateManager.popMatrix();
