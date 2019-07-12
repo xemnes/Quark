@@ -39,6 +39,7 @@ public class QuarkSounds {
 	public static final SoundEvent ENTITY_PICKARANG_CLANK = new ModSoundEvent("entity.pickarang.clank");
 	public static final SoundEvent ENTITY_PICKARANG_PICKUP = new ModSoundEvent("entity.pickarang.pickup");
 	public static final SoundEvent ITEM_HORSE_WHISTLE_BLOW = new ModSoundEvent("item.horse_whistle.blow");
+	public static final SoundEvent BLOCK_TINY_POTATO_SHIA_LABEOUF = new ModSoundEvent("block.tiny_potato.shia_labeouf");
 
 	public static void init() {
 		for (ModSoundEvent event : ModSoundEvent.allEvents)

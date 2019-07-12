@@ -204,8 +204,13 @@
   "item.horse_whistle.blow": {
     "category": "players",
     "subtitle": "quark.subtitles.horse_whistle",
+    "sounds": []
+  },
+  "block.tiny_potato.shia_labeouf": {
+    "category": "blocks",
+    "subtitle": "quark.subtitles.do_it",
     "sounds": [
-
+      "quark:block/tiny_potato/shia_labeouf"
     ]
   }
 }

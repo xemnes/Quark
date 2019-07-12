@@ -58,16 +58,12 @@ public class ImprovedSleeping extends Feature {
 				player.getEntityData().setBoolean(TAG_AFK, true);
 				TextComponentTranslation text = new TextComponentTranslation("quarkmisc.nowAfk");
 				text.getStyle().setColor(TextFormatting.AQUA);
-
-				if (player instanceof EntityPlayerMP)
-					NetworkHandler.INSTANCE.sendTo(new MessageSpamlessChat(text, AFK_MSG), (EntityPlayerMP) player);
+				MessageSpamlessChat.sendToPlayer(player, AFK_MSG, text);
 			} else {
 				player.getEntityData().setBoolean(TAG_AFK, false);
 				TextComponentTranslation text = new TextComponentTranslation("quarkmisc.leftAfk");
 				text.getStyle().setColor(TextFormatting.AQUA);
-
-				if (player instanceof EntityPlayerMP)
-					NetworkHandler.INSTANCE.sendTo(new MessageSpamlessChat(text, AFK_MSG), (EntityPlayerMP) player);
+				MessageSpamlessChat.sendToPlayer(player, AFK_MSG, text);
 			}
 		}
 	}
@@ -120,7 +116,7 @@ public class ImprovedSleeping extends Feature {
 		message.getStyle().setColor(TextFormatting.GOLD);
 
 		for (EntityPlayerMP player : server.getPlayerList().getPlayers())
-			NetworkHandler.INSTANCE.sendTo(new MessageSpamlessChat(message, SLEEP_MSG), player);
+			MessageSpamlessChat.sendToPlayer(player, SLEEP_MSG, message);
 	}
 
 	private static boolean doesPlayerCountForSleeping(EntityPlayer player) {
@@ -208,7 +204,7 @@ public class ImprovedSleeping extends Feature {
 			message.appendSibling(sibling.createCopy());
 
 			for (EntityPlayerMP player : server.getPlayerList().getPlayers())
-				NetworkHandler.INSTANCE.sendTo(new MessageSpamlessChat(message, SLEEP_MSG), player);
+				MessageSpamlessChat.sendToPlayer(player, SLEEP_MSG, message);
 		}
 	}
 
@@ -224,7 +220,7 @@ public class ImprovedSleeping extends Feature {
 				text.getStyle().setColor(TextFormatting.AQUA);
 
 				if (lastPlayer instanceof EntityPlayerMP)
-					NetworkHandler.INSTANCE.sendTo(new MessageSpamlessChat(text, AFK_MSG), (EntityPlayerMP) lastPlayer);
+					MessageSpamlessChat.sendToPlayer(lastPlayer, AFK_MSG, text);
 			}
 		}
 	}

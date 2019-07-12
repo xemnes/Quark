@@ -166,7 +166,7 @@ public final class ASMHooks {
 	
 	// ===== MORE BANNER LAYERS ===== //
 	public static int shiftLayerCount(int amount) {
-		return amount + 6 - MoreBannerLayers.getLayerCount();
+		return amount - 6 + MoreBannerLayers.getLayerCount();
 	}
 
 	// ===== BETTER FIRE EFFECT ==== //
