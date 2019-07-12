@@ -215,6 +215,9 @@ public class RenderTileTinyPotato extends TileEntitySpecialRenderer<TileTinyPota
 				GlStateManager.scale(1.1, 1.1, 1.1);
 			else if(block)
 				GlStateManager.scale(0.5, 0.5, 0.5);
+
+			if (block && side == EnumFacing.NORTH)
+				GlStateManager.rotate(180F, 0, 1, 0);
 			renderItem(stack);
 			GlStateManager.popMatrix();
 		}
