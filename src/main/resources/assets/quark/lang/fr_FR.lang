@@ -66,6 +66,7 @@ quark.subtitles.frog_die=Grenouille tuée
 quark.subtitles.frog_hurt=Couinements de grenouille
 quark.subtitles.frog_idle=Croassement de grenouille
 quark.subtitles.frog_jump=Sauts de grenouille
+quark.subtitles.horse_whistle=Crissement aigu
 
 # COMMANDS
 commands.quarkconfig.usage=/quarkconfig <module> <category> <key> <value> [save?] [player]
@@ -693,6 +694,7 @@ item.quark:frog_leg.name=Cuisse de grenouille
 item.quark:frog_maybe_leg.name="Cuisse" de grenouille
 item.quark:cooked_frog_leg.name=Cuisse de grenouille cuite
 item.quark:golden_frog_leg.name=Cuisse de grenouille dorée
+item.quark:horse_whistle.name=Sifflet à cheval
 
 # ENTITY NAMES
 entity.quark:colored_item_frame.name=Cadre coloré
@@ -707,10 +709,14 @@ entity.quark:totem_of_holding.name=Totem de mort
 entity.quark:archaeologist.name=Archéologue
 entity.quark:stoneling.name=Stoneling
 entity.quark:frog.name=Grenouille
+entity.quark:pickarang.name=Boomerang
 
 # POTION NAMES
 quark.potion.curse.name=Malédiction
 quark.potion.danger_sight.name=Vision dangereuse
+quark.potion.blue.name=Myrtille
+quark.potion.white.name=Blanchiment
+quark.potion.black.name=Assombrissement
 
 potion.effect.haste=Potion de célérité
 splash_potion.effect.haste=Potion de célérité jetable
