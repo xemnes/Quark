@@ -1,5 +1,6 @@
 package vazkii.quark.client.feature;
 
+import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiScreen;
@@ -56,9 +57,14 @@ public class ChestSearchBar extends Feature {
 	
 	private long lastClick;
 	private int matched;
+
+	public static List<String> classnames;
 	
 	@Override
 	public void setupConfig() {
+		String[] classnamesArr = loadPropStringList("Forced GUIs", "GUIs in which the sort button should be forced to show up. Use the \"Debug Classnames\" option in chest buttons to find the names.", new String[0]);
+		classnames = Lists.newArrayList(classnamesArr);
+
 		boolean invtweaks = loadPropBool("Avoid Invtweaks Buttons", "Automatically move the search bar if Inventory Tweaks is loaded so it doesn't end up in the same place as their buttons.", true);
 		moveToCenterBar = loadPropBool("Move to Center Bar", "Set to true to move to the center bar, next to the \"Inventory\" text.", false);
 		moveToCenterBar |= (invtweaks && Loader.isModLoaded("inventorytweaks"));
@@ -67,8 +73,8 @@ public class ChestSearchBar extends Feature {
 	@SubscribeEvent
 	public void initGui(GuiScreenEvent.InitGuiEvent.Post event) {
 		GuiScreen gui = event.getGui();
-		boolean callback = gui instanceof IItemSearchBar;
-		if(callback || gui instanceof GuiChest || gui instanceof GuiShulkerBox) {
+		if(gui instanceof IItemSearchBar || classnames.contains(gui.getClass().getName()) ||
+				gui instanceof GuiChest || gui instanceof GuiShulkerBox) {
 			GuiContainer chest = (GuiContainer) gui;
 			searchBar = new GuiTextField(12831, gui.mc.fontRenderer, chest.getGuiLeft() + 81, chest.getGuiTop() + 6, 88, 10);
 			if(moveToCenterBar)
@@ -79,7 +85,7 @@ public class ChestSearchBar extends Feature {
 			searchBar.setMaxStringLength(32);
 			searchBar.setEnableBackgroundDrawing(false);
 			
-			if(callback)
+			if(gui instanceof IItemSearchBar)
 				((IItemSearchBar) gui).onSearchBarAdded(searchBar);
 		} else searchBar = null;
 	}
