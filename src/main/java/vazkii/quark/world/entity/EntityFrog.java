@@ -234,7 +234,8 @@ public class EntityFrog extends EntityAnimal {
 	public void readEntityFromNBT(NBTTagCompound compound) {
 		super.readEntityFromNBT(compound);
 		spawnCd = compound.getInteger("Cooldown");
-		spawnChain = compound.getInteger("Chain");
+		if (compound.hasKey("Chain"))
+			spawnChain = compound.getInteger("Chain");
 		dataManager.set(TALK_TIME, compound.getInteger("DudeAmount"));
 		if (compound.hasKey("FrogAmount")) {
 			float sizeModifier = compound.getFloat("FrogAmount");
