@@ -16,6 +16,8 @@ quarkmisc.keyboundButton=%sAppuyez sur %s
 quarkmisc.nowAfk=Vous êtes maintenant AFK (Away From Keyboard).
 quarkmisc.leftAfk=Vous n'êtes plus AFK.
 quarkmisc.personSleeping=%s est maintenant en train de dormir.
+quarkmisc.personNotSleeping=%s a arrêté de dormir.
+quarkmisc.nightHasPassed=La nuit est passée.
 # The %s is very important!
 quarkmisc.sleepingListHeader=Joueurs endormis : %s
 quarkmisc.buried_chest_map=Carte au trésor enfouie
@@ -36,6 +38,7 @@ quarkmisc.matrixMerge=Cliquer pour améliorer
 quarkmisc.matrixMin=Min : %d
 quarkmisc.matrixUpgrade=Amélioration : %d/%d
 quarkmisc.pendingEnchants=A des enchantements en attente
+quarkmisc.item_out_of_stock=Plus de stock, revenez plus tard
 quarkmisc.out_of_stock=%s n'a plus de stock, revenez plus tard
 
 # SUBTITLES
@@ -57,10 +60,13 @@ quark.subtitles.kill_stoneling=Stoneling cassant
 quark.subtitles.purr=Quelque chose "ronronne"
 quark.subtitles.hump_day=C'est mercredi, les amis
 quark.subtitles.throw_pickarang=Boomerang lancé
+quark.subtitles.clank_pickarang=Collision de boomerang
+quark.subtitles.pickup_pickarang=Récupération de boomerang
 quark.subtitles.frog_die=Grenouille tuée
 quark.subtitles.frog_hurt=Couinements de grenouille
 quark.subtitles.frog_idle=Croassement de grenouille
 quark.subtitles.frog_jump=Sauts de grenouille
+quark.subtitles.horse_whistle=Crissement aigu
 
 # COMMANDS
 commands.quarkconfig.usage=/quarkconfig <module> <category> <key> <value> [save?] [player]
@@ -442,12 +448,14 @@ tile.quark:duskbound_lantern.name=Lanterne crépusculaire
 tile.quark:sturdy_stone.name=Pierre robuste
 tile.quark:fire_stone.name=Soufre
 tile.quark:icy_stone.name=Pergélisol
+tile.quark:fire_stone_brick.name=Briques en soufre
+tile.quark:icy_stone_brick.name=Briques en pergélisol
 tile.quark:glowcelium.name=Lumicelium
 tile.quark:glowshroom.name=Lumignon
 tile.quark:fire_stone_slab.name=Dalle en soufre
 tile.quark:icy_stone_slab.name=Dalle en pergélisol
-tile.quark:fire_stone_brick_slab.name=Brimstone Bricks Slab
-tile.quark:icy_stone_brick_slab.name=Permafrost Bricks Slab
+tile.quark:fire_stone_brick_slab.name=Dalle en briques de soufre
+tile.quark:icy_stone_brick_slab.name=Dalle en briques de pergélisol
 tile.quark:fire_stone_stairs.name=Escaliers en soufre
 tile.quark:icy_stone_stairs.name=Escaliers en pergélisol
 tile.quark:fire_stone_brick_stairs.name=Escaliers en briques de soufre
@@ -688,6 +696,7 @@ item.quark:frog_leg.name=Cuisse de grenouille
 item.quark:frog_maybe_leg.name="Cuisse" de grenouille
 item.quark:cooked_frog_leg.name=Cuisse de grenouille cuite
 item.quark:golden_frog_leg.name=Cuisse de grenouille dorée
+item.quark:horse_whistle.name=Sifflet à cheval
 
 # ENTITY NAMES
 entity.quark:colored_item_frame.name=Cadre coloré
@@ -702,10 +711,14 @@ entity.quark:totem_of_holding.name=Totem de mort
 entity.quark:archaeologist.name=Archéologue
 entity.quark:stoneling.name=Stoneling
 entity.quark:frog.name=Grenouille
+entity.quark:pickarang.name=Boomerang
 
 # POTION NAMES
 quark.potion.curse.name=Malédiction
 quark.potion.danger_sight.name=Vision dangereuse
+quark.potion.blue.name=Myrtille
+quark.potion.white.name=Blanchiment
+quark.potion.black.name=Assombrissement
 
 potion.effect.haste=Potion de célérité
 splash_potion.effect.haste=Potion de célérité jetable
