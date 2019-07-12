@@ -65,6 +65,25 @@ public class RotateArrowTypes extends Feature {
 	public static void rotateArrows(ItemBow bowItem, EntityPlayer player, int direction) {
 		InventoryPositionHolder holder = new InventoryPositionHolder();
 
+		boolean foundSecondArrow = false;
+		boolean foundArrow = false;
+		ItemStack checkAgainst = ItemStack.EMPTY;
+		for (int slot = 0; slot < player.inventory.getSizeInventory(); slot++) {
+			ItemStack stack = player.inventory.getStackInSlot(slot);
+			if (CommonReflectiveAccessor.isArrow(bowItem, stack)) {
+				if (foundArrow && (!ItemStack.areItemsEqual(checkAgainst, stack) || !ItemStack.areItemStackTagsEqual(checkAgainst, stack))) {
+					foundSecondArrow = true;
+					break;
+				} else if (!foundArrow) {
+					foundArrow = true;
+					checkAgainst = stack;
+				}
+			}
+		}
+
+		if (!foundSecondArrow)
+			return;
+
 		rotateSlot(holder, bowItem, player, direction, InventoryPositionHolder.MAIN_HAND);
 		rotateSlot(holder, bowItem, player, direction, InventoryPositionHolder.OFF_HAND);
 
