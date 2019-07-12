@@ -480,7 +480,7 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 				},
 				(MethodNode method, AbstractInsnNode node) -> { // Action
 					InsnList newInstructions = new InsnList();
-					newInstructions.add(new MethodInsnNode(INVOKESTATIC, ASM_HOOKS, "shiftLayerCount", "(I)I", false));
+					newInstructions.add(new MethodInsnNode(INVOKESTATIC, ASM_HOOKS, "shiftLayerCountDown", "(I)I", false));
 
 					method.instructions.insert(node, newInstructions);
 					return true;
@@ -494,7 +494,7 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 				},
 				(MethodNode method, AbstractInsnNode node) -> { // Action
 					InsnList newInstructions = new InsnList();
-					newInstructions.add(new MethodInsnNode(INVOKESTATIC, ASM_HOOKS, "shiftLayerCount", "(I)I", false));
+					newInstructions.add(new MethodInsnNode(INVOKESTATIC, ASM_HOOKS, "shiftLayerCountUp", "(I)I", false));
 
 					method.instructions.insert(node, newInstructions);
 					return true;
