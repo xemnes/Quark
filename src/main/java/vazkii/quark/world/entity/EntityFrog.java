@@ -215,7 +215,7 @@ public class EntityFrog extends EntityAnimal {
 		}
 
 		double regression = rand.nextGaussian() / 20;
-		regression /= Math.abs((sizeMod + regression) / sizeMod);
+		regression *= Math.abs((sizeMod + regression) / sizeMod);
 
 
 
