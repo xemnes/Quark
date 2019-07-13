@@ -28,12 +28,18 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.pathfinding.PathNodeType;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import vazkii.quark.tweaks.ai.EntityAIWantLove;
 import vazkii.quark.world.entity.ai.EntityAIFoxhoundSleep;
+import vazkii.quark.world.entity.ai.EntityAIIfNoSleep;
 
 import javax.annotation.Nonnull;
 import java.util.UUID;
@@ -45,6 +51,10 @@ public class EntityFoxhound extends EntityWolf {
 
 	public EntityFoxhound(World worldIn) {
 		super(worldIn);
+		this.setPathPriority(PathNodeType.WATER, -1.0F);
+		this.setPathPriority(PathNodeType.LAVA, 1.0F);
+		this.setPathPriority(PathNodeType.DANGER_FIRE, 1.0F);
+		this.setPathPriority(PathNodeType.DAMAGE_FIRE, 1.0F);
 		this.isImmuneToFire = true;
 	}
 
@@ -66,13 +76,21 @@ public class EntityFoxhound extends EntityWolf {
 
 		if (EntityAIWantLove.needsPets(this)) {
 			Entity owner = getOwner();
-			if (owner != null && owner.getDistanceSq(this) < 1 && !owner.isInWater())
+			if (owner != null && owner.getDistanceSq(this) < 1 && !owner.isInWater() && !owner.isImmuneToFire() && (!(owner instanceof EntityPlayer) || !((EntityPlayer) owner).isCreative()))
 				owner.setFire(5);
 		}
 
 		if (this.world.isRemote) {
 			for (int i = 0; i < 2; ++i)
-				this.world.spawnParticle(EnumParticleTypes.SMOKE_LARGE, this.posX + (this.rand.nextDouble() - 0.5D) * this.width, this.posY + this.rand.nextDouble() * this.height, this.posZ + (this.rand.nextDouble() - 0.5D) * this.width, 0.0D, 0.0D, 0.0D);
+				this.world.spawnParticle(EnumParticleTypes.FLAME, this.posX + (this.rand.nextDouble() - 0.5D) * this.width, this.posY + this.rand.nextDouble() * this.height, this.posZ + (this.rand.nextDouble() - 0.5D) * this.width, 0.0D, 0.0D, 0.0D);
+		} else if (isSleeping()) {
+			BlockPos below = getPosition().down();
+			TileEntity tile = world.getTileEntity(below);
+			if (tile instanceof TileEntityFurnace) {
+				int cookTime = ((TileEntityFurnace) tile).getField(2);
+				if (cookTime > 0)
+					((TileEntityFurnace) tile).setField(2, Math.min(199, cookTime + 1));
+			}
 		}
 	}
 
@@ -83,14 +101,14 @@ public class EntityFoxhound extends EntityWolf {
 		this.tasks.addTask(2, this.aiSit);
 		this.tasks.addTask(3, new EntityAILeapAtTarget(this, 0.4F));
 		this.tasks.addTask(4, new EntityAIAttackMelee(this, 1.0D, true));
-		this.tasks.addTask(5, new EntityAIFollowOwner(this, 1.0D, 10.0F, 2.0F));
-		this.tasks.addTask(6, new EntityAIFoxhoundSleep(this, 0.8D, true));
-		this.tasks.addTask(7, new EntityAIFoxhoundSleep(this, 0.8D, false));
-		this.tasks.addTask(8, new EntityAIMate(this, 1.0D));
+		this.tasks.addTask(5, new EntityAIFoxhoundSleep(this, 0.8D, true));
+		this.tasks.addTask(6, new EntityAIFoxhoundSleep(this, 0.8D, false));
+		this.tasks.addTask(7, new EntityAIFollowOwner(this, 1.0D, 10.0F, 2.0F));
+		this.tasks.addTask(8, new EntityAIIfNoSleep(this, new EntityAIMate(this, 1.0D)));
 		this.tasks.addTask(9, new EntityAIWanderAvoidWater(this, 1.0D));
-		this.tasks.addTask(10, new EntityAIBeg(this, 8.0F));
-		this.tasks.addTask(11, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
-		this.tasks.addTask(11, new EntityAILookIdle(this));
+		this.tasks.addTask(10, new EntityAIIfNoSleep(this, new EntityAIBeg(this, 8.0F)));
+		this.tasks.addTask(11, new EntityAIIfNoSleep(this, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F)));
+		this.tasks.addTask(11, new EntityAIIfNoSleep(this, new EntityAILookIdle(this)));
 		this.targetTasks.addTask(1, new EntityAIOwnerHurtByTarget(this));
 		this.targetTasks.addTask(2, new EntityAIOwnerHurtTarget(this));
 		this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, true));
@@ -108,6 +126,9 @@ public class EntityFoxhound extends EntityWolf {
 
 	@Override
 	public boolean attackEntityAsMob(Entity entityIn) {
+		if (entityIn.isImmuneToFire())
+			return false;
+
 		boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this).setFireDamage(),
 				((int)this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue()));
 
@@ -124,7 +145,7 @@ public class EntityFoxhound extends EntityWolf {
 		ItemStack itemstack = player.getHeldItem(hand);
 
 		if (!this.isTamed() && getTemptation() < 15 && !itemstack.isEmpty()) {
-			if (itemstack.getItem() == Items.COAL && player.getActivePotionEffect(MobEffects.FIRE_RESISTANCE) != null) {
+			if (itemstack.getItem() == Items.COAL && (player.isCreative() || player.getActivePotionEffect(MobEffects.FIRE_RESISTANCE) != null)) {
 				this.setTemptation(getTemptation() + 1);
 				this.navigator.clearPath();
 				this.setAttackTarget(null);
@@ -170,6 +191,11 @@ public class EntityFoxhound extends EntityWolf {
 		super.setTamed(tamed);
 		if (tamed)
 			setTemptation(15);
+	}
+
+	@Override
+	protected SoundEvent getAmbientSound() {
+		return isSleeping() ? null : super.getAmbientSound();
 	}
 
 	public int getTemptation() {

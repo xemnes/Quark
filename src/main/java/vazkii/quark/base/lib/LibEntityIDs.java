@@ -33,5 +33,6 @@ public final class LibEntityIDs {
 	public static final int FROG = 18;
 	public static final int LEASH_KNOT = 19;
 	public static final int PICKARANG = 20;
+	public static final int FOXHOUND = 21;
 
 }
