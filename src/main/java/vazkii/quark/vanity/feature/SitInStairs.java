@@ -57,11 +57,16 @@ public class SitInStairs extends Feature {
 	
 	@SubscribeEvent
 	public void onInteract(PlayerInteractEvent.RightClickBlock event) {
+
 		EntityPlayer player = event.getEntityPlayer();
 		if(player.isSneaking() || player.getRidingEntity() != null)
 			return;
 		
 		World world = event.getWorld();
+		if (world.isRemote)
+			return;
+
+
 		BlockPos pos = event.getPos();
 		
 		Vec3d vec = new Vec3d(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
