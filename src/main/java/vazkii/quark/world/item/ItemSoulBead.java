@@ -10,6 +10,7 @@
  */
 package vazkii.quark.world.item;
 
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -24,13 +25,21 @@ import vazkii.quark.base.sounds.QuarkSounds;
 import vazkii.quark.world.feature.Wraiths;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Collections;
+import java.util.List;
 
 public class ItemSoulBead extends ItemMod implements IQuarkItem {
 
 	public ItemSoulBead() {
 		super("soul_bead");
 		setCreativeTab(CreativeTabs.COMBAT);
+	}
+
+	@Override
+	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+		if (Wraiths.enableCurse)
+			addToTooltip(tooltip, getTranslationKey(stack) + ".desc");
 	}
 
 	@Nonnull
