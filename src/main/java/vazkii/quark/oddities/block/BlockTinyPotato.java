@@ -30,6 +30,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import vazkii.arl.block.BlockMod;
+import vazkii.arl.util.ItemNBTHelper;
 import vazkii.quark.base.block.IQuarkBlock;
 import vazkii.quark.oddities.item.ItemBlockTinyPotato;
 import vazkii.quark.oddities.tile.TileTinyPotato;
@@ -105,8 +106,10 @@ public class BlockTinyPotato extends BlockMod implements IQuarkBlock {
 		world.setBlockState(pos, state.withProperty(FACING, placer.getHorizontalFacing().getOpposite()));
 		if (stack.hasDisplayName()) {
 			TileEntity te = world.getTileEntity(pos);
-			if (te instanceof TileTinyPotato)
+			if (te instanceof TileTinyPotato) {
 				((TileTinyPotato) te).name = stack.getDisplayName();
+				((TileTinyPotato) te).angery = ItemNBTHelper.getBoolean(stack, "angery", false);
+			}
 		}
 	}
 

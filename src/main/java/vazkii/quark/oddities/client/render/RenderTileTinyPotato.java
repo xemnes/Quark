@@ -42,6 +42,8 @@ public class RenderTileTinyPotato extends TileEntitySpecialRenderer<TileTinyPota
 	private static final ResourceLocation texture = new ResourceLocation(LibMisc.MOD_ID, "textures/blocks/tiny_potato/tiny_potato.png");
 	private static final ResourceLocation textureGrayscale = new ResourceLocation(LibMisc.MOD_ID, "textures/blocks/tiny_potato/tiny_potato_gray.png");
 	private static final ResourceLocation textureHalloween = new ResourceLocation(LibMisc.MOD_ID, "textures/blocks/tiny_potato/tiny_potato_halloween.png");
+	private static final ResourceLocation textureAngery = new ResourceLocation(LibMisc.MOD_ID, "textures/blocks/tiny_potato/angry_potato.png");
+
 	private static final ModelTinyPotato model = new ModelTinyPotato();
 
 	@SuppressWarnings("MagicConstant")
@@ -124,6 +126,10 @@ public class RenderTileTinyPotato extends TileEntitySpecialRenderer<TileTinyPota
 			GlStateManager.color(1F, 0.5F, 1F);
 			break;
 		}
+
+		if (potato.angery)
+			mc.renderEngine.bindTexture(textureAngery);
+
 
 		boolean render = !(name.equals("mami") || name.equals("soaryn") || name.equals("eloraam") && jump != 0);
 		if (render)

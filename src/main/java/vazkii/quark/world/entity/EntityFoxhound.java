@@ -24,6 +24,7 @@ import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.EnumDyeColor;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
@@ -35,6 +36,8 @@ import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import vazkii.arl.util.ItemNBTHelper;
+import vazkii.quark.oddities.feature.TinyPotato;
 import vazkii.quark.tweaks.ai.EntityAIWantLove;
 import vazkii.quark.world.entity.ai.EntityAIFoxhoundSleep;
 import vazkii.quark.world.entity.ai.EntityAIIfNoSleep;
@@ -50,6 +53,8 @@ public class EntityFoxhound extends EntityWolf {
 
 	private static final DataParameter<Boolean> TEMPTATION = EntityDataManager.createKey(EntityFoxhound.class, DataSerializers.BOOLEAN);
 	private static final DataParameter<Boolean> SLEEPING = EntityDataManager.createKey(EntityFoxhound.class, DataSerializers.BOOLEAN);
+
+	private int timeUntilPotatoEmerges = -1;
 
 	public EntityFoxhound(World worldIn) {
 		super(worldIn);
@@ -77,6 +82,18 @@ public class EntityFoxhound extends EntityWolf {
 	@Override
 	public void onLivingUpdate() {
 		super.onLivingUpdate();
+
+		if (!world.isRemote && TinyPotato.tiny_potato != null) {
+			if (timeUntilPotatoEmerges == 0) {
+				timeUntilPotatoEmerges = -1;
+				ItemStack stack = new ItemStack(TinyPotato.tiny_potato);
+				ItemNBTHelper.setBoolean(stack, "angery", true);
+				entityDropItem(stack, 0f);
+				playSound(SoundEvents.ENTITY_GENERIC_HURT, 1f, 1f);
+			} else if (timeUntilPotatoEmerges > 0) {
+				timeUntilPotatoEmerges--;
+			}
+		}
 
 		if (EntityAIWantLove.needsPets(this)) {
 			Entity owner = getOwner();
@@ -171,6 +188,16 @@ public class EntityFoxhound extends EntityWolf {
 			}
 		}
 
+		if (itemstack.getItem() == Item.getItemFromBlock(TinyPotato.tiny_potato)) {
+			this.playSound(SoundEvents.ENTITY_GENERIC_EAT, 1F, 0.5F + (float) Math.random() * 0.5F);
+			if (!player.isCreative())
+				itemstack.shrink(1);
+
+			this.timeUntilPotatoEmerges = 1200;
+
+			return true;
+		}
+
 		if (!world.isRemote)
 			setSleeping(false);
 
@@ -198,12 +225,14 @@ public class EntityFoxhound extends EntityWolf {
 	@Override
 	public void writeEntityToNBT(NBTTagCompound compound) {
 		super.writeEntityToNBT(compound);
+		compound.setInteger("OhLawdHeComin", timeUntilPotatoEmerges);
 		compound.setBoolean("Temptation", isTempted());
 	}
 
 	@Override
 	public void readEntityFromNBT(NBTTagCompound compound) {
 		super.readEntityFromNBT(compound);
+		timeUntilPotatoEmerges = compound.getInteger("OhLawdHeComin");
 		setTempted(compound.getBoolean("Temptation"));
 	}
 

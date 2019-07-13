@@ -25,12 +25,15 @@ import vazkii.quark.oddities.feature.TinyPotato;
 public class TileTinyPotato extends TileSimpleInventory implements ITickable {
 
 	private static final String TAG_NAME = "name";
+	private static final String TAG_ANGERY = "angery";
 
 	private static final int TINY_POTATO_CHAT = "tiny potate".hashCode();
 
 	public int jumpTicks = 0;
 	public String name = "";
 	public int nextDoIt = 0;
+
+	public boolean angery = false;
 
 	public void interact(EntityPlayer player, EnumHand hand, ItemStack stack, EnumFacing side) {
 		int index = side.getIndex();
@@ -96,12 +99,14 @@ public class TileTinyPotato extends TileSimpleInventory implements ITickable {
 	public void writeSharedNBT(NBTTagCompound compound) {
 		super.writeSharedNBT(compound);
 		compound.setString(TAG_NAME, name);
+		compound.setBoolean(TAG_ANGERY, angery);
 	}
 
 	@Override
 	public void readSharedNBT(NBTTagCompound compound) {
 		super.readSharedNBT(compound);
 		name = compound.getString(TAG_NAME);
+		angery = compound.getBoolean(TAG_ANGERY);
 	}
 
 	@Override
