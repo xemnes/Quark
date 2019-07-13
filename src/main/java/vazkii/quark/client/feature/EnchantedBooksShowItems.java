@@ -169,8 +169,10 @@ public class EnchantedBooksShowItems extends Feature {
 		List<EnchantmentData> retList = new ArrayList<>(enchantments.size());
 
 		for(Enchantment enchantment : enchantments.keySet()) {
-			int level = enchantments.get(enchantment);
-			retList.add(new EnchantmentData(enchantment, level));
+			if (enchantment != null) {
+				int level = enchantments.get(enchantment);
+				retList.add(new EnchantmentData(enchantment, level));
+			}
 		}
 
 		return retList;
