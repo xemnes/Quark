@@ -185,6 +185,10 @@ public class Feature implements IFeature {
 		return ConfigHelper.loadPropStringList(propName, configCategory, desc, default_);
 	}
 
+	public final double loadPropChance(String propName,String desc, double default_) {
+		return ConfigHelper.loadPropChance(propName, configCategory, desc, default_);
+	}
+
 	public final double loadLegacyPropChance(String propName, String oldName, String desc, double default_) {
 		return ConfigHelper.loadLegacyPropChance(propName, configCategory, oldName, desc, default_);
 	}

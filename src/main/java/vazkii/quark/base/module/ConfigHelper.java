@@ -71,6 +71,10 @@ public class ConfigHelper {
 		return prop.getStringList();
 	}
 
+	public static double loadPropChance(String propName, String category, String desc, double default_) {
+		return loadPropDouble(propName, category, desc, default_, 0, 1);
+	}
+
 	public static double loadLegacyPropChance(String propName, String category, String oldName, String desc, double default_) {
 		double chanceValue = default_;
 		if (hasConfigKey(category, oldName)) {
@@ -80,7 +84,7 @@ public class ConfigHelper {
 			else
 				chanceValue = 1.0 / value;
 		}
-		return loadPropDouble(propName, category, desc, chanceValue, 0, 1);
+		return loadPropChance(propName, category, desc, chanceValue);
 	}
 
 	public static boolean hasConfigKey(String propName, String category) {

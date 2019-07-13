@@ -11,6 +11,7 @@
 package vazkii.quark.world.feature;
 
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
@@ -23,13 +24,21 @@ import vazkii.quark.world.client.render.RenderFoxhound;
 import vazkii.quark.world.entity.EntityFoxhound;
 
 public class Foxhounds extends Feature {
+
+	public static double temptChance;
+
+	@Override
+	public void setupConfig() {
+		temptChance = loadPropChance("Chance to Tempt", "The chance coal will tempt a foxhound", 0.2);
+	}
+
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
 		String foxName = "quark:foxhound";
 
+		LootTableList.register(EntityFoxhound.FOXHOUND_LOOT_TABLE);
 		EntityRegistry.registerModEntity(new ResourceLocation(foxName), EntityFoxhound.class, foxName, LibEntityIDs.FOXHOUND, Quark.instance, 80, 3, true, 0x890d0d, 0xf2af4b);
 	}
-
 
 	@Override
 	@SideOnly(Side.CLIENT)

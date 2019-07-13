@@ -23,6 +23,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
@@ -31,26 +32,28 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.SoundEvent;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import vazkii.quark.tweaks.ai.EntityAIWantLove;
 import vazkii.quark.world.entity.ai.EntityAIFoxhoundSleep;
 import vazkii.quark.world.entity.ai.EntityAIIfNoSleep;
+import vazkii.quark.world.feature.Foxhounds;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.UUID;
 
 public class EntityFoxhound extends EntityWolf {
 
-	private static final DataParameter<Integer> TEMPTATION = EntityDataManager.createKey(EntityFoxhound.class, DataSerializers.VARINT);
+	public static final ResourceLocation FOXHOUND_LOOT_TABLE = new ResourceLocation("quark", "entities/foxhound");
+
+	private static final DataParameter<Boolean> TEMPTATION = EntityDataManager.createKey(EntityFoxhound.class, DataSerializers.BOOLEAN);
 	private static final DataParameter<Boolean> SLEEPING = EntityDataManager.createKey(EntityFoxhound.class, DataSerializers.BOOLEAN);
 
 	public EntityFoxhound(World worldIn) {
 		super(worldIn);
+		this.setSize(0.8F, 0.90F);
 		this.setPathPriority(PathNodeType.WATER, -1.0F);
 		this.setPathPriority(PathNodeType.LAVA, 1.0F);
 		this.setPathPriority(PathNodeType.DANGER_FIRE, 1.0F);
@@ -61,13 +64,14 @@ public class EntityFoxhound extends EntityWolf {
 	@Override
 	protected void entityInit() {
 		super.entityInit();
-		dataManager.register(TEMPTATION, 0);
+		setCollarColor(EnumDyeColor.WHITE);
+		dataManager.register(TEMPTATION, false);
 		dataManager.register(SLEEPING, false);
 	}
 
 	@Override
 	public boolean isNoDespawnRequired() {
-		return getTemptation() > 0 || super.isNoDespawnRequired();
+		return isTempted() || super.isNoDespawnRequired();
 	}
 
 	@Override
@@ -80,9 +84,9 @@ public class EntityFoxhound extends EntityWolf {
 				owner.setFire(5);
 		}
 
-		if (this.world.isRemote) {
+		if (this.world.isRemote && !isSleeping()) {
 			for (int i = 0; i < 2; ++i)
-				this.world.spawnParticle(EnumParticleTypes.FLAME, this.posX + (this.rand.nextDouble() - 0.5D) * this.width, this.posY + this.rand.nextDouble() * this.height, this.posZ + (this.rand.nextDouble() - 0.5D) * this.width, 0.0D, 0.0D, 0.0D);
+				this.world.spawnParticle(EnumParticleTypes.FLAME, this.posX + (this.rand.nextDouble() - 0.5D) * this.width, this.posY + (this.rand.nextDouble() - 0.5D) * this.height, this.posZ + (this.rand.nextDouble() - 0.5D) * this.width, 0.0D, 0.0D, 0.0D);
 		} else if (isSleeping()) {
 			BlockPos below = getPosition().down();
 			TileEntity tile = world.getTileEntity(below);
@@ -92,6 +96,12 @@ public class EntityFoxhound extends EntityWolf {
 					((TileEntityFurnace) tile).setField(2, Math.min(199, cookTime + 1));
 			}
 		}
+	}
+
+	@Nullable
+	@Override
+	protected ResourceLocation getLootTable() {
+		return FOXHOUND_LOOT_TABLE;
 	}
 
 	@Override
@@ -115,13 +125,13 @@ public class EntityFoxhound extends EntityWolf {
 		this.targetTasks.addTask(4, new EntityAITargetNonTamed<>(this, EntityAnimal.class, false,
 				target -> target instanceof EntitySheep || target instanceof EntityRabbit));
 		this.targetTasks.addTask(4, new EntityAITargetNonTamed<>(this, EntityPlayer.class, false,
-				target -> getTemptation() < 15 && rand.nextInt(getTemptation()) == 0));
+				target -> !isTempted()));
 		this.targetTasks.addTask(5, new EntityAINearestAttackableTarget<>(this, AbstractSkeleton.class, false));
 	}
 
 	@Override
 	public boolean isAngry() {
-		return getTemptation() < 15 || super.isAngry();
+		return !isTempted() || super.isAngry();
 	}
 
 	@Override
@@ -144,13 +154,19 @@ public class EntityFoxhound extends EntityWolf {
 	public boolean processInteract(EntityPlayer player, @Nonnull EnumHand hand) {
 		ItemStack itemstack = player.getHeldItem(hand);
 
-		if (!this.isTamed() && getTemptation() < 15 && !itemstack.isEmpty()) {
+		if (!this.isTamed() && !isTempted() && !itemstack.isEmpty()) {
 			if (itemstack.getItem() == Items.COAL && (player.isCreative() || player.getActivePotionEffect(MobEffects.FIRE_RESISTANCE) != null)) {
-				this.setTemptation(getTemptation() + 1);
-				this.navigator.clearPath();
-				this.setAttackTarget(null);
-				this.playSound(SoundEvents.ENTITY_WOLF_WHINE, 1F, 0.5F + (float) Math.random() * 0.5F);
-				this.playTameEffect(true);
+				if (rand.nextDouble() < Foxhounds.temptChance) {
+					this.navigator.clearPath();
+					this.setAttackTarget(null);
+					this.playSound(SoundEvents.ENTITY_WOLF_WHINE, 1F, 0.5F + (float) Math.random() * 0.5F);
+					this.playTameEffect(true);
+				} else {
+					this.playTameEffect(false);
+				}
+
+				if (!player.isCreative())
+					itemstack.shrink(1);
 				return true;
 			}
 		}
@@ -159,6 +175,11 @@ public class EntityFoxhound extends EntityWolf {
 			setSleeping(false);
 
 		return super.processInteract(player, hand);
+	}
+
+	@Override
+	public boolean canMateWith(EntityAnimal otherAnimal) {
+		return super.canMateWith(otherAnimal) && otherAnimal instanceof EntityFoxhound;
 	}
 
 	@Override
@@ -177,20 +198,20 @@ public class EntityFoxhound extends EntityWolf {
 	@Override
 	public void writeEntityToNBT(NBTTagCompound compound) {
 		super.writeEntityToNBT(compound);
-		compound.setInteger("Temptation", getTemptation());
+		compound.setBoolean("Temptation", isTempted());
 	}
 
 	@Override
 	public void readEntityFromNBT(NBTTagCompound compound) {
 		super.readEntityFromNBT(compound);
-		setTemptation(compound.getInteger("Temptation"));
+		setTempted(compound.getBoolean("Temptation"));
 	}
 
 	@Override
 	public void setTamed(boolean tamed) {
 		super.setTamed(tamed);
 		if (tamed)
-			setTemptation(15);
+			setTempted(true);
 	}
 
 	@Override
@@ -198,11 +219,11 @@ public class EntityFoxhound extends EntityWolf {
 		return isSleeping() ? null : super.getAmbientSound();
 	}
 
-	public int getTemptation() {
+	public boolean isTempted() {
 		return dataManager.get(TEMPTATION);
 	}
 
-	public void setTemptation(int temptation) {
+	public void setTempted(boolean temptation) {
 		dataManager.set(TEMPTATION, temptation);
 	}
 

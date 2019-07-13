@@ -733,6 +733,7 @@ entity.quark:archaeologist.name=Archaeologist
 entity.quark:stoneling.name=Stoneling
 entity.quark:frog.name=Frog
 entity.quark:pickarang.name=Pickarang
+entity.quark:foxhound.name=Foxhound
 
 # POTION NAMES
 quark.potion.curse.name=Curse
