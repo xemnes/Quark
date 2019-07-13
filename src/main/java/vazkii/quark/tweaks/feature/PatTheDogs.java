@@ -59,7 +59,7 @@ public class PatTheDogs extends Feature {
 
 					EntityAIWantLove.setPetTime(wolf);
 
-					if (wolf instanceof EntityFoxhound)
+					if (wolf instanceof EntityFoxhound && !player.isInWater())
 						player.setFire(5);
 				}
 				

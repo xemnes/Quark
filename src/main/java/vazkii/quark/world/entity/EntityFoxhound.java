@@ -32,6 +32,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
+import vazkii.quark.tweaks.ai.EntityAIWantLove;
 import vazkii.quark.world.entity.ai.EntityAIFoxhoundSleep;
 
 import javax.annotation.Nonnull;
@@ -55,8 +56,20 @@ public class EntityFoxhound extends EntityWolf {
 	}
 
 	@Override
+	public boolean isNoDespawnRequired() {
+		return getTemptation() > 0 || super.isNoDespawnRequired();
+	}
+
+	@Override
 	public void onLivingUpdate() {
 		super.onLivingUpdate();
+
+		if (EntityAIWantLove.needsPets(this)) {
+			Entity owner = getOwner();
+			if (owner != null && owner.getDistanceSq(this) < 1 && !owner.isInWater())
+				owner.setFire(5);
+		}
+
 		if (this.world.isRemote) {
 			for (int i = 0; i < 2; ++i)
 				this.world.spawnParticle(EnumParticleTypes.SMOKE_LARGE, this.posX + (this.rand.nextDouble() - 0.5D) * this.width, this.posY + this.rand.nextDouble() * this.height, this.posZ + (this.rand.nextDouble() - 0.5D) * this.width, 0.0D, 0.0D, 0.0D);
