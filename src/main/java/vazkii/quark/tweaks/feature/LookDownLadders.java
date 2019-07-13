@@ -10,10 +10,15 @@
  */
 package vazkii.quark.tweaks.feature;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.MovementInput;
+import net.minecraftforge.client.event.InputUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.base.module.Feature;
 
 public class LookDownLadders extends Feature {
@@ -24,6 +29,16 @@ public class LookDownLadders extends Feature {
 			EntityPlayer player = (EntityPlayer) event.getEntityLiving();
 			if(player.isOnLadder() && !player.isSneaking() && player.moveForward == 0 && player.rotationPitch > 70)
 				player.move(MoverType.SELF, 0, -0.2, 0);
+		}
+	}
+
+	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
+	public void onInput(InputUpdateEvent event) {
+		if (event.getEntityPlayer().isOnLadder() && Minecraft.getMinecraft().currentScreen != null) {
+			MovementInput input = event.getMovementInput();
+			if (input != null)
+				input.sneak = true;
 		}
 	}
 

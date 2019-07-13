@@ -1,12 +1,14 @@
 package vazkii.quark.misc.feature;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityList;
 import net.minecraft.entity.passive.EntityParrot;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
@@ -23,6 +25,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.lib.LibEntityIDs;
 import vazkii.quark.base.module.Feature;
+import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.misc.client.render.RenderParrotEgg;
 import vazkii.quark.misc.client.render.RenderParrotKoto;
 import vazkii.quark.misc.entity.EntityParrotEgg;
@@ -30,8 +33,11 @@ import vazkii.quark.misc.item.ItemParrotEgg;
 
 import java.util.Objects;
 import java.util.Random;
+import java.util.UUID;
 
 public class ParrotEggs extends Feature {
+
+	private static final ResourceLocation KOTO = new ResourceLocation("quark", "textures/entity/kotobirb.png");
 
 	private static final String TAG_EGG_TIMER = "quark:parrot_egg_timer";
 
@@ -41,6 +47,23 @@ public class ParrotEggs extends Feature {
 	public static double chance;
 	public static int eggTime;
 	public static boolean enableKotobirb;
+
+	@SideOnly(Side.CLIENT)
+	public static ResourceLocation getTextureForParrot(ResourceLocation previous, NBTTagCompound parrot) {
+		if (!ModuleLoader.isFeatureEnabled(ParrotEggs.class) || !enableKotobirb)
+			return previous;
+
+
+		UUID uuid = parrot.getUniqueId("UUID");
+		Class<?> entityClass = EntityList.getClassFromName(parrot.getString("id"));
+
+		if (entityClass == EntityParrot.class &&
+				parrot.getInteger("Variant") == 4 &&
+				(uuid == null || uuid.getLeastSignificantBits() % 20 == 0))
+				return KOTO;
+
+		return previous;
+	}
 
 	@Override
 	public void setupConfig() {

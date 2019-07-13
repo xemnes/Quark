@@ -105,6 +105,9 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 
 		// For Ancient Tomes
 		transformers.put("net.minecraft.enchantment.EnchantmentHelper", ClassTransformer::transformEnchantmentHelper);
+
+		// For Parrot Eggs
+		transformers.put("net.minecraft.client.renderer.entity.layers.LayerEntityOnShoulder", ClassTransformer::transformLayerEntityOnShoulder);
 	}
 
 	@Override
@@ -805,6 +808,26 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 					newInstructions.add(new MethodInsnNode(INVOKESTATIC, ASM_HOOKS, "getEnchantmentsForStack", "(Lnet/minecraft/nbt/NBTTagList;Lnet/minecraft/item/ItemStack;)Lnet/minecraft/nbt/NBTTagList;", false));
 
 					method.instructions.insert(node, newInstructions);
+					return false;
+				}
+		)));
+	}
+
+	private static byte[] transformLayerEntityOnShoulder(byte[] basicClass) {
+		MethodSignature sig = new MethodSignature("renderEntityOnShoulder", "func_192864_a", "(Lnet/minecraft/entity/player/EntityPlayer;Ljava/util/UUID;Lnet/minecraft/nbt/NBTTagCompound;Lnet/minecraft/client/renderer/entity/RenderLivingBase;Lnet/minecraft/client/model/ModelBase;Lnet/minecraft/util/ResourceLocation;Ljava/lang/Class;FFFFFFFZ)Lnet/minecraft/client/renderer/entity/layers/LayerEntityOnShoulder$DataHolder;");
+
+		MethodSignature target = new MethodSignature("bindTexture", "func_110776_a", "(Lnet/minecraft/util/ResourceLocation;)V");
+		return transform(basicClass, forMethod(sig, combine(
+				(AbstractInsnNode node) -> { // Filter
+					return (node.getOpcode() == INVOKEVIRTUAL || node.getOpcode() == INVOKESPECIAL) && target.matches((MethodInsnNode) node);
+				},
+				(MethodNode method, AbstractInsnNode node) -> { // Action
+					InsnList newInstructions = new InsnList();
+
+					newInstructions.add(new VarInsnNode(ALOAD, 3));
+					newInstructions.add(new MethodInsnNode(INVOKESTATIC, ASM_HOOKS, "replaceParrotTexture", "(Lnet/minecraft/util/ResourceLocation;Lnet/minecraft/nbt/NBTTagCompound;)Lnet/minecraft/util/ResourceLocation;", false));
+
+					method.instructions.insertBefore(node, newInstructions);
 					return false;
 				}
 		)));

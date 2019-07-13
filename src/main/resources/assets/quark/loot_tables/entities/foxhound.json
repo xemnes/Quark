@@ -1,6 +1,7 @@
 {
     "pools": [
         {
+            "name": "leather",
             "rolls": 1,
             "entries": [
                 {
@@ -27,6 +28,7 @@
             ]
         },
         {
+            "name": "blaze",
             "rolls": 1,
             "entries": [
                 {

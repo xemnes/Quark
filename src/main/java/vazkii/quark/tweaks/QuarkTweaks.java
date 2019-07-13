@@ -55,6 +55,7 @@ public class QuarkTweaks extends Module {
 		registerFeature(new SpringySlime(), "Slime blocks bounce off sides");
 		registerFeature(new PatTheDogs());
 		registerFeature(new RightClickHarvest());
+		registerFeature(new DirtToPath());
 	}
 	
 	@Override

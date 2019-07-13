@@ -18,9 +18,11 @@ import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntityPiston;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.IBlockAccess;
@@ -42,10 +44,7 @@ import vazkii.quark.experimental.features.BetterNausea;
 import vazkii.quark.experimental.features.CollateralPistonMovement;
 import vazkii.quark.experimental.features.ColoredLights;
 import vazkii.quark.management.feature.BetterCraftShifting;
-import vazkii.quark.misc.feature.AncientTomes;
-import vazkii.quark.misc.feature.ColorRunes;
-import vazkii.quark.misc.feature.ExtraPotions;
-import vazkii.quark.misc.feature.Pickarang;
+import vazkii.quark.misc.feature.*;
 import vazkii.quark.tweaks.feature.HoeSickle;
 import vazkii.quark.tweaks.feature.ImprovedSleeping;
 import vazkii.quark.tweaks.feature.SpringySlime;
@@ -240,6 +239,11 @@ public final class ASMHooks {
 	// ===== ANCIENT TOMES ==== //
 	public static NBTTagList getEnchantmentsForStack(NBTTagList previous, ItemStack stack) {
 		return AncientTomes.getEnchantmentsForStack(previous, stack);
+	}
+
+	// ===== PARROT EGGS ==== //
+	public static ResourceLocation replaceParrotTexture(ResourceLocation previous, NBTTagCompound parrot) {
+		return ParrotEggs.getTextureForParrot(previous, parrot);
 	}
 	
 }
