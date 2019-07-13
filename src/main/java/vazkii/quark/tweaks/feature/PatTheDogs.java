@@ -14,6 +14,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.tweaks.ai.EntityAINuzzle;
 import vazkii.quark.tweaks.ai.EntityAIWantLove;
+import vazkii.quark.world.entity.EntityFoxhound;
 
 public class PatTheDogs extends Feature {
 
@@ -57,6 +58,9 @@ public class PatTheDogs extends Feature {
 					} else player.swingArm(EnumHand.MAIN_HAND);
 
 					EntityAIWantLove.setPetTime(wolf);
+
+					if (wolf instanceof EntityFoxhound)
+						player.setFire(5);
 				}
 				
 				event.setCanceled(true);
