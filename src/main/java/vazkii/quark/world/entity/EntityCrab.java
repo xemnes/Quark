@@ -10,16 +10,33 @@
  */
 package vazkii.quark.world.entity;
 
+import java.util.Set;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.google.common.collect.Sets;
+
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.*;
+import net.minecraft.entity.ai.EntityAIFollowParent;
+import net.minecraft.entity.ai.EntityAILookIdle;
+import net.minecraft.entity.ai.EntityAIMate;
+import net.minecraft.entity.ai.EntityAIPanic;
+import net.minecraft.entity.ai.EntityAISwimming;
+import net.minecraft.entity.ai.EntityAITempt;
+import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
+import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -29,12 +46,9 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import vazkii.quark.world.entity.ai.MovementHelperZigZag;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.Set;
 
 public class EntityCrab extends EntityAnimal {
 
@@ -45,6 +59,9 @@ public class EntityCrab extends EntityAnimal {
 	private static final Set<Item> TEMPTATION_ITEMS = Sets.newHashSet(Items.WHEAT, Items.FISH, Items.CHICKEN);
 
 	private static int lightningCooldown;
+	
+    private boolean crabRave;
+    private BlockPos jukeboxPosition;
 
 	public EntityCrab(World worldIn) {
 		super(worldIn);
@@ -96,10 +113,20 @@ public class EntityCrab extends EntityAnimal {
 
 		if (lightningCooldown > 0)
 			lightningCooldown--;
+		
+        if(isRaving() && (jukeboxPosition == null || jukeboxPosition.distanceSq(posX, posY, posZ) > 24.0D || world.getBlockState(jukeboxPosition).getBlock() != Blocks.JUKEBOX))
+        	setPartying(null, false);
 
 		float sizeModifier = getSizeModifier();
 		if (height != sizeModifier * 0.5f)
 			setSize(0.9f * sizeModifier, 0.5f * sizeModifier);
+		
+		if(isRaving() && world.isRemote && ticksExisted % 10 == 0) {
+			BlockPos below = getPosition().down();
+			IBlockState belowState = world.getBlockState(below);
+			if(belowState.getMaterial() == Material.SAND)
+				world.playEvent(2001, below, Block.getStateId(belowState));
+		}
 	}
 
 	@Override
@@ -140,6 +167,16 @@ public class EntityCrab extends EntityAnimal {
 	protected ResourceLocation getLootTable() {
 		return CRAB_LOOT_TABLE;
 	}
+	
+	@Override
+    public void setPartying(BlockPos pos, boolean isPartying) {
+        jukeboxPosition = pos;
+        crabRave = isPartying;
+    }
+
+	public boolean isRaving() {
+        return crabRave;
+    }
 
 	@Override
 	public void readEntityFromNBT(NBTTagCompound compound) {

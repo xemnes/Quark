@@ -1,11 +1,18 @@
 package vazkii.quark.world.client.model;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
+import com.google.common.collect.ImmutableSet;
+
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelBox;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
+import vazkii.arl.util.ClientTicker;
 import vazkii.quark.world.entity.EntityCrab;
 
 public class ModelCrab extends ModelBase {
@@ -37,13 +44,18 @@ public class ModelCrab extends ModelBase {
 	private final ModelRenderer pincers_right;
 	private final ModelRenderer pincer_right_upper;
 	private final ModelRenderer pincer_right_lower;
+	
+	List<Runnable> resetFunctions;
+	Set<ModelRenderer> left_leg_set, right_leg_set;
 
 	public ModelCrab() {
+		resetFunctions = new LinkedList();
 		textureWidth = 32;
 		textureHeight = 32;
 
 		group = new ModelRenderer(this);
 		group.setRotationPoint(0.0F, 18.0F, 0.0F);
+		setRotationAngle(group, 0F, 0F, 0F);
 		group.cubeList.add(new ModelBox(group, 0, 0, -4.0F, -2.0F, -4.0F, 8, 4, 8, 0.0F, false));
 		group.cubeList.add(new ModelBox(group, 0, 0, -2.0F, -4.0F, -4.0F, 1, 2, 1, 0.0F, false));
 		group.cubeList.add(new ModelBox(group, 0, 0, 1.0F, -4.0F, -4.0F, 1, 2, 1, 0.0F, false));
@@ -195,10 +207,15 @@ public class ModelCrab extends ModelBase {
 		pincer_right_lower.setRotationPoint(6.0F, 0.5F, 0.0F);
 		pincers_right.addChild(pincer_right_lower);
 		pincer_right_lower.cubeList.add(new ModelBox(pincer_right_lower, 12, 24, -1.0F, 0.5F, -4.0F, 1, 1, 4, 0.0F, false));
+		
+		left_leg_set = ImmutableSet.of(leg_left_1, leg_left_2, leg_left_3, leg_left_4);
+		right_leg_set = ImmutableSet.of(leg_right_1, leg_right_2, leg_right_3, leg_right_4);
 	}
 
 	@Override
 	public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
+		resetModel();
+		
 		leg_left_1.rotateAngleZ = 0.2618F + (-1 + MathHelper.cos(limbSwing * 0.6662F)) * 0.7F * limbSwingAmount;
 		leg_left_2.rotateAngleZ = 0.5236F + (-1 + MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI)) * 0.7F * limbSwingAmount;
 		leg_left_3.rotateAngleZ = 0.5236F + (-1 + MathHelper.cos(limbSwing * 0.6662F)) * 0.7F * limbSwingAmount;
@@ -207,6 +224,32 @@ public class ModelCrab extends ModelBase {
 		leg_right_2.rotateAngleZ = -0.5236F + (1 + MathHelper.cos(limbSwing * 0.6662F)) * 0.7F * limbSwingAmount;
 		leg_right_3.rotateAngleZ = -0.5236F + (1 + MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI)) * 0.7F * limbSwingAmount;
 		leg_right_4.rotateAngleZ = -0.2618F + (1 + MathHelper.cos(limbSwing * 0.6662F)) * 0.7F * limbSwingAmount;
+		
+		if(entityIn instanceof EntityCrab && ((EntityCrab) entityIn).isRaving()) {
+			float crabRaveBPM = 125F / 4;
+			float freq = (20F / crabRaveBPM);
+			float tick = ageInTicks * freq;
+			float sin = (float) (Math.sin(tick) * 0.5 + 0.5);
+			
+			float legRot = sin * 1.4F;
+			left_leg_set.forEach(l -> l.rotateAngleZ = legRot);
+			right_leg_set.forEach(l -> l.rotateAngleZ = -legRot);
+			
+			float maxHeight = 0.15F;
+			float horizontalOff = 0.2F;
+			group.offsetY = sin * maxHeight;
+			
+			float slowSin = (float) Math.sin(tick / 2);
+			group.offsetX = slowSin * horizontalOff;
+			
+			float armRot = sin * 0.5F - 1.2F;
+			arm_left.rotateAngleX = armRot;
+			arm_right.rotateAngleX = armRot;
+			
+			float pincerRot = sin * -0.3F;
+			pincer_left_lower.rotateAngleX = pincerRot;
+			pincer_right_lower.rotateAngleX = pincerRot;
+		}
 	}
 
 	@Override
@@ -216,7 +259,8 @@ public class ModelCrab extends ModelBase {
 		GlStateManager.pushMatrix();
 		float sizeModifier = crab.getSizeModifier();
 
-		if (isChild) sizeModifier /= 2;
+		if(isChild) 
+			sizeModifier /= 2;
 
 		GlStateManager.translate(0, 1.5 - sizeModifier * 1.5, 0);
 		GlStateManager.scale(sizeModifier, sizeModifier, sizeModifier);
@@ -225,8 +269,23 @@ public class ModelCrab extends ModelBase {
 	}
 	
 	private void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {
-		modelRenderer.rotateAngleX = x;
-		modelRenderer.rotateAngleY = y;
-		modelRenderer.rotateAngleZ = z;
+		float offX = modelRenderer.offsetX;
+		float offY = modelRenderer.offsetY;
+		float offZ = modelRenderer.offsetZ;
+		
+		resetFunctions.add(() -> {
+			modelRenderer.rotateAngleX = x;
+			modelRenderer.rotateAngleY = y;
+			modelRenderer.rotateAngleZ = z;
+			
+			modelRenderer.offsetX = offX;
+			modelRenderer.offsetY = offY;
+			modelRenderer.offsetZ = offZ;
+		});
 	}
+	
+	private void resetModel() {
+		resetFunctions.forEach(Runnable::run);
+	}
+	
 }
