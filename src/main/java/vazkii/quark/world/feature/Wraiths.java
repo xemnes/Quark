@@ -64,7 +64,7 @@ public class Wraiths extends Feature {
 		min = loadPropInt("Smallest spawn group", "", 4);
 		max = loadPropInt("Largest spawn group", "", 6);
 		curseRange = loadPropInt("Curse Range", "", 64);
-		curseTime = loadPropInt("Curse Time", "How long the curse effect lasts for (in ticks)", 24000);
+		curseTime = loadPropInt("Curse Time", "How long the curse effect lasts for (in ticks)", 12000);
 		enableCurse = loadPropBool("Enable Curse", "", true);
 		wraithSounds = loadPropStringList("Wraith sound effects",
 				"List of sound sets to use with wraiths.\nThree sounds must be provided per entry, separated by | (in the format idle|hurt|death). Leave blank for no sound (i.e. if a mob has no ambient noise)", new String[] {
