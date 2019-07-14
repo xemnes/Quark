@@ -194,7 +194,7 @@ public class EntityFoxhound extends EntityWolf {
 	@Override
 	public boolean processInteract(EntityPlayer player, @Nonnull EnumHand hand) {
 		ItemStack itemstack = player.getHeldItem(hand);
-		
+
 		if(itemstack.getItem() == Items.BONE && !isTamed())
 			return false;
 

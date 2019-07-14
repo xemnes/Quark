@@ -7,6 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.LootTableList;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.relauncher.Side;
@@ -19,6 +20,7 @@ import vazkii.quark.base.lib.LibPotionIndices;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.potion.PotionMod;
 import vazkii.quark.misc.feature.ExtraPotions;
+import vazkii.quark.world.client.render.RenderCrab;
 import vazkii.quark.world.entity.EntityCrab;
 import vazkii.quark.world.item.ItemCrabShell;
 
@@ -71,12 +73,12 @@ public class Crabs extends Feature {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void preInitClient() {
-//		RenderingRegistry.registerEntityRenderingHandler(EntityCrab.class, RenderCrab.FACTORY);
+		RenderingRegistry.registerEntityRenderingHandler(EntityCrab.class, RenderCrab.FACTORY);
 	}
-	
+
 	@Override
 	public boolean requiresMinecraftRestartToEnable() {
 		return true;
 	}
-	
+
 }
