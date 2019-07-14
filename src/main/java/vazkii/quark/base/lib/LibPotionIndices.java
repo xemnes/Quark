@@ -17,5 +17,6 @@ public final class LibPotionIndices {
 	public static final int BLUE = 2;
 	public static final int WHITE = 3;
 	public static final int BLACK = 4;
+	public static final int RESILIENCE = 5;
 
 }

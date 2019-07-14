@@ -719,6 +719,9 @@ item.quark:frog_maybe_leg.name=Frog "Leg"
 item.quark:cooked_frog_leg.name=Cooked Frog Leg
 item.quark:golden_frog_leg.name=Golden Frog Leg
 item.quark:horse_whistle.name=Horse Whistle
+item.quark:cooked_leg.name=Crab Leg
+item.quark:cooked_crab_leg.name=Cooked Crab Leg
+item.quark:crab_shell.name=Crab Shell Fragment
 
 # ENTITY NAMES
 entity.quark:colored_item_frame.name=Colored Item Frame
@@ -735,6 +738,7 @@ entity.quark:stoneling.name=Stoneling
 entity.quark:frog.name=Frog
 entity.quark:pickarang.name=Pickarang
 entity.quark:foxhound.name=Foxhound
+entity.quark:crab.name=Crab
 
 # POTION NAMES
 quark.potion.curse.name=Curse
@@ -742,6 +746,7 @@ quark.potion.danger_sight.name=Danger Sight
 quark.potion.blue.name=Blueberry
 quark.potion.white.name=Whitening
 quark.potion.black.name=Darkening
+quark.potion.resilience.name=Resilience
 
 potion.effect.haste=Potion of Haste
 splash_potion.effect.haste=Splash Potion of Haste
@@ -759,6 +764,10 @@ potion.effect.danger_sight=Potion of Danger Sight
 splash_potion.effect.danger_sight=Splash Potion of Danger Sight
 lingering_potion.effect.danger_sight=Lingering Potion of Danger Sight
 tipped_arrow.effect.danger_sight=Arrow of Danger Sight
+potion.effect.resilience=Potion of Stability
+splash_potion.effect.resilience=Splash Potion of Stability
+lingering_potion.effect.resilience=Lingering Potion of Stability
+tipped_arrow.effect.resilience=Arrow of Stability
 
 # KEYBINDS
 quark.gui.keygroupMisc=Quark Misc
