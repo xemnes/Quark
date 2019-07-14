@@ -157,8 +157,11 @@ public class EntityFoxhound extends EntityWolf {
 
 	@Override
 	public boolean attackEntityAsMob(Entity entityIn) {
-		if (entityIn.isImmuneToFire())
-			return false;
+		if (entityIn.isImmuneToFire()) {
+			if (entityIn instanceof EntityPlayer)
+				return false;
+			return super.attackEntityAsMob(entityIn);
+		}
 
 		boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this).setFireDamage(),
 				((int)this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue()));
