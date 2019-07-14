@@ -613,6 +613,16 @@ tile.quark:frame.name=Frame
 tile.quark:frame_slab.name=Frame Slab
 tile.quark:tiny_potato.name=Tiny Potato
 tile.quark:tiny_potato.angry.name=Angry Potato
+tile.quark:skyfoam.name=Skyfoam
+tile.quark:skylather.name=Skylather
+tile.quark:skylather_brick.name=Skylather Bricks
+tile.quark:skylather_pillar.name=Skylather Pillar
+tile.quark:skylather_slab.name=Skylather Slab
+tile.quark:skylather_stairs.name=Skylather Stairs
+tile.quark:skylather_wall.name=Skylather Wall
+tile.quark:skylather_brick_slab.name=Skylather Brick Slab
+tile.quark:skylather_brick_stairs.name=Skylather Brick Stairs
+tile.quark:skylather_brick_wall.name=Skylather Brick Wall
 
 # ITEM NAMES
 item.quark:glass_shard.name=Glass Shard

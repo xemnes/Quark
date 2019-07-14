@@ -1,0 +1,11 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "minecraft:cube_all",
+		"transform": "forge:default-block"
+	},
+	"variants": {
+		"variant=skylather": [{ "textures": { "all": "quark:blocks/skylather" } }],
+		"variant=skylather_brick": [{ "textures": { "all": "quark:blocks/skylather_brick" } }]
+	}
+}
