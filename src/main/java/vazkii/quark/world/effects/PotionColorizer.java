@@ -20,13 +20,11 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.event.entity.living.PotionColorCalculationEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.arl.network.NetworkHandler;
 import vazkii.quark.base.client.ClientReflectiveAccessor;
-import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.base.network.message.MessageSyncColors;
 import vazkii.quark.base.potion.PotionMod;
 import vazkii.quark.base.util.MutableVectorHolder;
@@ -34,7 +32,6 @@ import vazkii.quark.base.util.MutableVectorHolder;
 import java.util.Collection;
 import java.util.WeakHashMap;
 
-@Mod.EventBusSubscriber(modid = LibMisc.MOD_ID)
 public class PotionColorizer extends PotionMod {
 
 	public final int color;

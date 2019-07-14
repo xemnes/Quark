@@ -2,6 +2,7 @@ package vazkii.quark.world.feature;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import vazkii.arl.recipe.RecipeHandler;
@@ -47,6 +48,8 @@ public class CaveRoots extends Feature {
 	public void preInit(FMLPreInitializationEvent event) {
 		roots = new BlockRoots();
 		root = new ItemRoot();
+
+		MinecraftForge.EVENT_BUS.register(PotionColorizer.class);
 		
 		if(enableFlowers) {
 			blue_effect = new PotionColorizer("blue", 0x0000FF, LibPotionIndices.BLUE);
