@@ -180,6 +180,7 @@ public class ModelCrab extends ModelBase {
 		pincer_left_lower = new ModelRenderer(this);
 		pincer_left_lower.setRotationPoint(0.0F, 0.5F, 0.0F);
 		pincers_left.addChild(pincer_left_lower);
+		setRotationAngle(pincer_left_lower, 0.0F, 0.0F, 0.0F);
 		pincer_left_lower.cubeList.add(new ModelBox(pincer_left_lower, 12, 24, 0.0F, 0.5F, -4.0F, 1, 1, 4, 0.0F, false));
 
 		arm_right = new ModelRenderer(this);
@@ -206,6 +207,7 @@ public class ModelCrab extends ModelBase {
 		pincer_right_lower = new ModelRenderer(this);
 		pincer_right_lower.setRotationPoint(6.0F, 0.5F, 0.0F);
 		pincers_right.addChild(pincer_right_lower);
+		setRotationAngle(pincer_right_lower, 0.0F, 0.0F, 0.0F);
 		pincer_right_lower.cubeList.add(new ModelBox(pincer_right_lower, 12, 24, -1.0F, 0.5F, -4.0F, 1, 1, 4, 0.0F, false));
 		
 		left_leg_set = ImmutableSet.of(leg_left_1, leg_left_2, leg_left_3, leg_left_4);
