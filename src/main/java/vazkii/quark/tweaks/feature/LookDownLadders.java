@@ -23,6 +23,13 @@ import vazkii.quark.base.module.Feature;
 
 public class LookDownLadders extends Feature {
 
+	public boolean sneakWhileInGui;
+
+	@Override
+	public void setupConfig() {
+		sneakWhileInGui = loadPropBool("Sneak While In Gui", "Should your character automatically sneak on ladders in GUIs?", true);
+	}
+
 	@SubscribeEvent
 	public void onPlayerTick(LivingUpdateEvent event) {
 		if(event.getEntityLiving() instanceof EntityPlayer) {
@@ -35,7 +42,7 @@ public class LookDownLadders extends Feature {
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void onInput(InputUpdateEvent event) {
-		if (event.getEntityPlayer().isOnLadder() && Minecraft.getMinecraft().currentScreen != null) {
+		if (sneakWhileInGui && event.getEntityPlayer().isOnLadder() && Minecraft.getMinecraft().currentScreen != null) {
 			MovementInput input = event.getMovementInput();
 			if (input != null)
 				input.sneak = true;

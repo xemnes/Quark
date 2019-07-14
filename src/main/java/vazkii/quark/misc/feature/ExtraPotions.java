@@ -154,15 +154,15 @@ public class ExtraPotions extends Feature {
 		return false;
 	}
 
-	private void addStandardBlend(Potion type, Object reagent) {
+	public static void addStandardBlend(Potion type, Object reagent) {
 		addStandardBlend(type, reagent, null);
 	}
 
-	private void addStandardBlend(Potion type, Object reagent, Potion negation) {
+	public static void addStandardBlend(Potion type, Object reagent, Potion negation) {
 		addStandardBlend(type, reagent, negation, 3600, 9600, 1800);
 	}
 
-	private void addStandardBlend(Potion type, Object reagent, Potion negation, int normalTime, int longTime, int strongTime) {
+	public static void addStandardBlend(Potion type, Object reagent, Potion negation, int normalTime, int longTime, int strongTime) {
 		ResourceLocation loc = type.getRegistryName();
 		if (loc != null) {
 			String baseName = loc.getPath();
@@ -243,7 +243,7 @@ public class ExtraPotions extends Feature {
 		return true;
 	}
 
-	private PotionType addPotion(PotionEffect eff, String baseName, String name) {
+	private static PotionType addPotion(PotionEffect eff, String baseName, String name) {
 		PotionType type = new PotionType(baseName, eff).setRegistryName(new ResourceLocation(LibMisc.MOD_ID, name));
 		ProxyRegistry.register(type);
 

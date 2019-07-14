@@ -44,6 +44,7 @@ public class QuarkWorld extends Module {
 		registerFeature(new Stonelings());
 		registerFeature(new Frogs());
 		registerFeature(new Foxhounds());
+		registerFeature(new Crabs());
 
 		registerFeature(new RealisticWorldType());
 		registerFeature(new DefaultWorldOptions());
