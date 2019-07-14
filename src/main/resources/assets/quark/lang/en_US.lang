@@ -612,6 +612,7 @@ tile.quark:monster_box.name=Monster Box
 tile.quark:frame.name=Frame
 tile.quark:frame_slab.name=Frame Slab
 tile.quark:tiny_potato.name=Tiny Potato
+tile.quark:tiny_potato.angry.name=Angry Potato
 
 # ITEM NAMES
 item.quark:glass_shard.name=Glass Shard

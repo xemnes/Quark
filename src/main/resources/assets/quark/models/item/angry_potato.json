@@ -1,0 +1,7 @@
+{
+  "parent": "quark:block/tiny_potato",
+  "display": {
+    "all": "quark:blocks/tiny_potato/angry_potato",
+    "particle": "quark:blocks/tiny_potato/angry_potato"
+  }
+}

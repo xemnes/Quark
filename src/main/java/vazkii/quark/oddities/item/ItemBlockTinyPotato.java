@@ -12,16 +12,23 @@ package vazkii.quark.oddities.item;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.IItemPropertyGetter;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.arl.item.ItemModBlock;
 import vazkii.arl.util.ItemNBTHelper;
+import vazkii.quark.base.lib.LibMisc;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.List;
 
@@ -35,6 +42,21 @@ public class ItemBlockTinyPotato extends ItemModBlock {
 
 	public ItemBlockTinyPotato(Block block, ResourceLocation loc) {
 		super(block, loc);
+		addPropertyOverride(new ResourceLocation(LibMisc.MOD_ID, "angry"), new IItemPropertyGetter() {
+			@Override
+			@SideOnly(Side.CLIENT)
+			public float apply(@Nonnull ItemStack stack, @Nullable World worldIn, @Nullable EntityLivingBase entityIn) {
+				return ItemNBTHelper.getBoolean(stack, "angery", false) ? 1 : 0;
+			}
+		});
+	}
+
+	@Nonnull
+	@Override
+	public String getTranslationKey(ItemStack stack) {
+		if (ItemNBTHelper.getBoolean(stack, "angery", false))
+			return super.getTranslationKey(stack) + ".angry";
+		return super.getTranslationKey(stack);
 	}
 
 	@Override
