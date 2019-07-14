@@ -10,6 +10,7 @@
  */
 package vazkii.quark.world.item;
 
+import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -20,8 +21,9 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.arl.item.ItemMod;
 import vazkii.quark.base.item.IQuarkItem;
 import vazkii.quark.base.sounds.QuarkSounds;
@@ -29,7 +31,6 @@ import vazkii.quark.world.feature.Wraiths;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Collections;
 import java.util.List;
 
 public class ItemSoulBead extends ItemMod implements IQuarkItem {
@@ -40,11 +41,12 @@ public class ItemSoulBead extends ItemMod implements IQuarkItem {
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
 		if (Wraiths.enableCurse) {
 			PotionEffect effect = new PotionEffect(Wraiths.curse, Wraiths.curseTime, 0, true, true);
 
-            String eff = TextFormatting.RED + I18n.translateToLocal(effect.getEffectName().trim());
+            String eff = TextFormatting.RED + I18n.format(effect.getEffectName().trim());
             eff = eff + " (" + Potion.getPotionDurationString(effect, 1F) + ")";
 
             tooltip.add(eff);
