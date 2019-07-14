@@ -102,8 +102,7 @@ public class EntityFoxhound extends EntityWolf {
 		}
 
 		if (this.world.isRemote && !isSleeping()) {
-			for (int i = 0; i < 2; ++i)
-				this.world.spawnParticle(EnumParticleTypes.FLAME, this.posX + (this.rand.nextDouble() - 0.5D) * this.width, this.posY + (this.rand.nextDouble() - 0.5D) * this.height, this.posZ + (this.rand.nextDouble() - 0.5D) * this.width, 0.0D, 0.0D, 0.0D);
+			this.world.spawnParticle(EnumParticleTypes.FLAME, this.posX + (this.rand.nextDouble() - 0.5D) * this.width, this.posY + (this.rand.nextDouble() - 0.5D) * this.height, this.posZ + (this.rand.nextDouble() - 0.5D) * this.width, 0.0D, 0.0D, 0.0D);
 		} else if (isSleeping()) {
 			BlockPos below = getPosition().down();
 			TileEntity tile = world.getTileEntity(below);
@@ -170,14 +169,18 @@ public class EntityFoxhound extends EntityWolf {
 	@Override
 	public boolean processInteract(EntityPlayer player, @Nonnull EnumHand hand) {
 		ItemStack itemstack = player.getHeldItem(hand);
+		
+		if(itemstack.getItem() == Items.BONE && !isTamed())
+			return false;
 
 		if (!this.isTamed() && !isTempted() && !itemstack.isEmpty()) {
-			if (itemstack.getItem() == Items.COAL && (player.isCreative() || player.getActivePotionEffect(MobEffects.FIRE_RESISTANCE) != null)) {
-				if (rand.nextDouble() < Foxhounds.temptChance) {
+			if (itemstack.getItem() == Items.COAL && (player.isCreative() || player.getActivePotionEffect(MobEffects.FIRE_RESISTANCE) != null) && !world.isRemote) {
+				if (rand.nextDouble() < Foxhounds.tameChance) {
 					this.navigator.clearPath();
 					this.setAttackTarget(null);
 					this.playSound(SoundEvents.ENTITY_WOLF_WHINE, 1F, 0.5F + (float) Math.random() * 0.5F);
 					this.playTameEffect(true);
+					this.setTamedBy(player);
 				} else {
 					this.playTameEffect(false);
 				}

@@ -10,8 +10,12 @@
  */
 package vazkii.quark.world.feature;
 
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.storage.loot.LootTableList;
+import net.minecraftforge.common.BiomeDictionary;
+import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
@@ -22,14 +26,21 @@ import vazkii.quark.base.lib.LibEntityIDs;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.world.client.render.RenderFoxhound;
 import vazkii.quark.world.entity.EntityFoxhound;
+import vazkii.quark.world.entity.EntityWraith;
 
 public class Foxhounds extends Feature {
 
-	public static double temptChance;
+	public static double tameChance;
 
+	public static int weight, min, max;
+	
 	@Override
 	public void setupConfig() {
-		temptChance = loadPropChance("Chance to Tempt", "The chance coal will tempt a foxhound", 0.2);
+		weight = loadPropInt("Spawn Weight", "The higher, the more will spawn", 40);
+		min = loadPropInt("Smallest spawn group", "", 1);
+		max = loadPropInt("Largest spawn group", "", 3);
+		
+		tameChance = loadPropChance("Chance to Tempt", "The chance coal will tame a foxhound", 0.05);
 	}
 
 	@Override
@@ -39,7 +50,13 @@ public class Foxhounds extends Feature {
 		LootTableList.register(EntityFoxhound.FOXHOUND_LOOT_TABLE);
 		EntityRegistry.registerModEntity(new ResourceLocation(foxName), EntityFoxhound.class, foxName, LibEntityIDs.FOXHOUND, Quark.instance, 80, 3, true, 0x890d0d, 0xf2af4b);
 	}
-
+	
+	
+	@Override
+	public void init() {
+		EntityRegistry.addSpawn(EntityFoxhound.class, weight, min, max, EnumCreatureType.MONSTER, BiomeDictionary.getBiomes(Type.NETHER).toArray(new Biome[0]));
+	}
+		
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void preInitClient() {
