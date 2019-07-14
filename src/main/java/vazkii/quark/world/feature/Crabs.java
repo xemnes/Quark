@@ -73,10 +73,10 @@ public class Crabs extends Feature {
 	public void preInitClient() {
 //		RenderingRegistry.registerEntityRenderingHandler(EntityCrab.class, RenderCrab.FACTORY);
 	}
-	
+
 	@Override
 	public boolean requiresMinecraftRestartToEnable() {
 		return true;
 	}
-	
+
 }
