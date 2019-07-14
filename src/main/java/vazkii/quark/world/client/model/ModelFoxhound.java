@@ -101,19 +101,20 @@ public class ModelFoxhound extends ModelBase {
             this.setRotateAngle(rightBackLeg, -1.0471975511965976F, -0.08726646259971647F, 1.48352986419518F);
             this.setRotateAngle(leftBackLeg, -0.7853981633974483F, 0.0F, 1.2217304763960306F);
         } else if (hound.isSitting()) {
-            this.head.setRotationPoint(0.0F, 14.5F, 0.0F);
-            this.body.setRotationPoint(0.0F, 25.0F, 6.0F);
-            this.setRotateAngle(body, (float) Math.PI / 4F, 0, this.body.rotateAngleZ);
-            this.tail.setRotationPoint(0.0F, 0.0F, 1.5F);
-            this.rightFrontLeg.setRotationPoint(-2.0F, 14.0F, 1.0F);
-            this.leftFrontLeg.setRotationPoint(2.0F, 14.0F, 1.0F);
-            this.rightBackLeg.setRotationPoint(-1.8F, 22.75F, 7F);
-            this.leftBackLeg.setRotationPoint(1.8F, 22.75F, 7F);
+            this.head.setRotationPoint(0.0F, 12.0F, 7.0F);
+            this.body.setRotationPoint(0.0F, 23.0F, 12.0F);
+            this.setRotateAngle(body, 0.7853981633974483F, 0.0F, this.body.rotateAngleZ);
+            this.tail.setRotationPoint(0.0F, 0.0F, 3.0F);
+            this.setRotateAngle(tail, -0.5235987755982988F, -0.7243116395776468F, 0F);
+            this.rightFrontLeg.setRotationPoint(-2.0F, 12.0F, 6.25F);
+            this.leftFrontLeg.setRotationPoint(2.0F, 12.0F, 6.25F);
+            this.rightBackLeg.setRotationPoint(-3.0F, 21.0F, 15.0F);
+            this.leftBackLeg.setRotationPoint(3.0F, 21.0F, 15.0F);
 
-            this.setRotateAngle(rightFrontLeg, (float) Math.PI * 36F / 20F, 0F, 0F);
-            this.setRotateAngle(leftFrontLeg, (float) Math.PI * 36F / 20F, 0F, 0F);
-            this.setRotateAngle(rightBackLeg, (float) Math.PI * 3F / 2F, 0F, 0F);
-            this.setRotateAngle(leftBackLeg, (float) Math.PI * 3F / 2F, 0F, 0F);
+            this.setRotateAngle(rightFrontLeg, 0F, 0F, 0F);
+            this.setRotateAngle(leftFrontLeg, 0F, 0F, 0F);
+            this.setRotateAngle(rightBackLeg, -1.3089969389957472F, 0.39269908169872414F, 0.0F);
+            this.setRotateAngle(leftBackLeg, -1.3089969389957472F, -0.39269908169872414F, 0.0F);
         } else {
             this.head.setRotationPoint(0.0F, 14.5F, 0.0F);
             this.body.setRotationPoint(0.0F, 17.0F, 12.0F);
