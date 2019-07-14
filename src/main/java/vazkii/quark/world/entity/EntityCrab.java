@@ -22,6 +22,7 @@ import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -121,6 +122,11 @@ public class EntityCrab extends EntityAnimal {
 		super.collideWithEntity(entityIn);
 		if (entityIn instanceof EntityLivingBase && !(entityIn instanceof EntityCrab))
 			entityIn.attackEntityFrom(DamageSource.CACTUS, 1f);
+	}
+
+	@Override
+	public boolean isBreedingItem(ItemStack stack) {
+		return !stack.isEmpty() && TEMPTATION_ITEMS.contains(stack.getItem());
 	}
 
 	@Nullable
