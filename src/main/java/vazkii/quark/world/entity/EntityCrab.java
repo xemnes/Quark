@@ -43,6 +43,8 @@ public class EntityCrab extends EntityAnimal {
 
 	private static final Set<Item> TEMPTATION_ITEMS = Sets.newHashSet(Items.WHEAT, Items.FISH, Items.CHICKEN);
 
+	private static int lightningCooldown;
+
 	public EntityCrab(World worldIn) {
 		super(worldIn);
 		this.setSize(0.9F, 0.5F);
@@ -91,6 +93,9 @@ public class EntityCrab extends EntityAnimal {
 	public void onUpdate() {
 		super.onUpdate();
 
+		if (lightningCooldown > 0)
+			lightningCooldown--;
+
 		float sizeModifier = getSizeModifier();
 		if (height != sizeModifier * 0.5f)
 			setSize(0.9f * sizeModifier, 0.5f * sizeModifier);
@@ -98,12 +103,17 @@ public class EntityCrab extends EntityAnimal {
 
 	@Override
 	public void onStruckByLightning(EntityLightningBolt lightningBolt) {
+		if (lightningCooldown > 0)
+			return;
+
 		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).applyModifier(new AttributeModifier("Lightning Bonus", 0.5, 1));
 		this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).applyModifier(new AttributeModifier("Lightning Bonus", 0.125, 1));
 		this.getEntityAttribute(SharedMonsterAttributes.ARMOR).applyModifier(new AttributeModifier("Lightning Bonus", 1, 1));
-		float sizeModifier = Math.max(getSizeModifier() * 2, 16);
+		float sizeModifier = Math.min(getSizeModifier() * 2, 16);
 		this.dataManager.set(SIZE_MODIFIER, sizeModifier);
 		setSize(0.9f * sizeModifier, 0.5f * sizeModifier);
+
+		lightningCooldown = 100;
 	}
 
 	@Override
@@ -129,6 +139,8 @@ public class EntityCrab extends EntityAnimal {
 	public void readEntityFromNBT(NBTTagCompound compound) {
 		super.readEntityFromNBT(compound);
 
+		lightningCooldown = compound.getInteger("LightningCooldown");
+
 		if (compound.hasKey("EnemyCrabRating")) {
 			float sizeModifier = compound.getFloat("EnemyCrabRating");
 			dataManager.set(SIZE_MODIFIER, sizeModifier);
@@ -140,5 +152,6 @@ public class EntityCrab extends EntityAnimal {
 	public void writeEntityToNBT(NBTTagCompound compound) {
 		super.writeEntityToNBT(compound);
 		compound.setFloat("EnemyCrabRating", getSizeModifier());
+		compound.setInteger("LightningCooldown", lightningCooldown);
 	}
 }

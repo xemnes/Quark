@@ -3,8 +3,10 @@ package vazkii.quark.world.client.model;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelBox;
 import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
+import vazkii.quark.world.entity.EntityCrab;
 
 public class ModelCrab extends ModelBase {
 	
@@ -209,7 +211,17 @@ public class ModelCrab extends ModelBase {
 
 	@Override
 	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
+		EntityCrab crab = (EntityCrab) entity;
+
+		GlStateManager.pushMatrix();
+		float sizeModifier = crab.getSizeModifier();
+
+		if (isChild) sizeModifier /= 2;
+
+		GlStateManager.translate(0, 1.5 - sizeModifier * 1.5, 0);
+		GlStateManager.scale(sizeModifier, sizeModifier, sizeModifier);
 		group.render(f5);
+		GlStateManager.popMatrix();
 	}
 	
 	private void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {
