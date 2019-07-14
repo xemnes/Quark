@@ -44,7 +44,7 @@ public class Crabs extends Feature {
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
 		crabLeg = new ItemQuarkFood("crab_leg", 1, 0.3F, true);
-		cookedCrabLeg = new ItemQuarkFood("cooked_crab_leg", 9, 0.8F, true);
+		cookedCrabLeg = new ItemQuarkFood("cooked_crab_leg", 8, 0.8F, true);
 		crabShell = new ItemCrabShell();
 
 		resilience = new PotionMod("resilience", false, 0x5b1a04, LibPotionIndices.RESILIENCE);

@@ -101,15 +101,15 @@ public class ModelFoxhound extends ModelBase {
             this.setRotateAngle(rightBackLeg, -1.0471975511965976F, -0.08726646259971647F, 1.48352986419518F);
             this.setRotateAngle(leftBackLeg, -0.7853981633974483F, 0.0F, 1.2217304763960306F);
         } else if (hound.isSitting()) {
-            this.head.setRotationPoint(0.0F, 12.0F, 7.0F);
-            this.body.setRotationPoint(0.0F, 23.0F, 12.0F);
+            this.head.setRotationPoint(0.0F, 12.0F, 2.0F);
+            this.body.setRotationPoint(0.0F, 23.0F, 7.0F);
             this.setRotateAngle(body, 0.7853981633974483F, 0.0F, this.body.rotateAngleZ);
-            this.tail.setRotationPoint(0.0F, 0.0F, 3.0F);
+            this.tail.setRotationPoint(0.0F, 0.0F, -2.0F);
             this.setRotateAngle(tail, -0.5235987755982988F, -0.7243116395776468F, 0F);
-            this.rightFrontLeg.setRotationPoint(-2.0F, 12.0F, 6.25F);
-            this.leftFrontLeg.setRotationPoint(2.0F, 12.0F, 6.25F);
-            this.rightBackLeg.setRotationPoint(-3.0F, 21.0F, 15.0F);
-            this.leftBackLeg.setRotationPoint(3.0F, 21.0F, 15.0F);
+            this.rightFrontLeg.setRotationPoint(-2.0F, 12.0F, 1.25F);
+            this.leftFrontLeg.setRotationPoint(2.0F, 12.0F, 1.25F);
+            this.rightBackLeg.setRotationPoint(-3.0F, 21.0F, 10.0F);
+            this.leftBackLeg.setRotationPoint(3.0F, 21.0F, 10.0F);
 
             this.setRotateAngle(rightFrontLeg, 0F, 0F, 0F);
             this.setRotateAngle(leftFrontLeg, 0F, 0F, 0F);
