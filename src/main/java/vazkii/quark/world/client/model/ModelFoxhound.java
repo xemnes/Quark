@@ -2,6 +2,7 @@ package vazkii.quark.world.client.model;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.math.MathHelper;
@@ -140,12 +141,15 @@ public class ModelFoxhound extends ModelBase {
 
     @Override
     public void render(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+    	GlStateManager.pushMatrix();
+    	GlStateManager.translate(0, 0, ((EntityFoxhound) entity).isSitting() ? -0.25 : -0.5);
         this.leftBackLeg.render(scale);
         this.rightFrontLeg.render(scale);
         this.body.render(scale);
         this.leftFrontLeg.render(scale);
         this.rightBackLeg.render(scale);
         this.head.render(scale);
+        GlStateManager.popMatrix();
     }
 
     public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {

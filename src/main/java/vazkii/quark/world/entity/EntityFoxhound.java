@@ -10,10 +10,31 @@
  */
 package vazkii.quark.world.entity;
 
+import java.util.List;
+import java.util.UUID;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.*;
+import net.minecraft.entity.ai.EntityAIAttackMelee;
+import net.minecraft.entity.ai.EntityAIBeg;
+import net.minecraft.entity.ai.EntityAIFollowOwner;
+import net.minecraft.entity.ai.EntityAIHurtByTarget;
+import net.minecraft.entity.ai.EntityAILeapAtTarget;
+import net.minecraft.entity.ai.EntityAILookIdle;
+import net.minecraft.entity.ai.EntityAIMate;
+import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
+import net.minecraft.entity.ai.EntityAIOwnerHurtByTarget;
+import net.minecraft.entity.ai.EntityAIOwnerHurtTarget;
+import net.minecraft.entity.ai.EntityAISit;
+import net.minecraft.entity.ai.EntityAISwimming;
+import net.minecraft.entity.ai.EntityAITargetNonTamed;
+import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
+import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.AbstractSkeleton;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityRabbit;
@@ -33,7 +54,11 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
-import net.minecraft.util.*;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import vazkii.arl.util.ItemNBTHelper;
@@ -42,10 +67,6 @@ import vazkii.quark.tweaks.ai.EntityAIWantLove;
 import vazkii.quark.world.entity.ai.EntityAIFoxhoundSleep;
 import vazkii.quark.world.entity.ai.EntityAIIfNoSleep;
 import vazkii.quark.world.feature.Foxhounds;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.UUID;
 
 public class EntityFoxhound extends EntityWolf {
 
@@ -101,15 +122,19 @@ public class EntityFoxhound extends EntityWolf {
 				owner.setFire(5);
 		}
 
-		if (this.world.isRemote && !isSleeping()) {
+		if(this.world.isRemote && !isSleeping())
 			this.world.spawnParticle(EnumParticleTypes.FLAME, this.posX + (this.rand.nextDouble() - 0.5D) * this.width, this.posY + (this.rand.nextDouble() - 0.5D) * this.height, this.posZ + (this.rand.nextDouble() - 0.5D) * this.width, 0.0D, 0.0D, 0.0D);
-		} else if (isSleeping()) {
+		
+		if(isTamed()) {
 			BlockPos below = getPosition().down();
 			TileEntity tile = world.getTileEntity(below);
 			if (tile instanceof TileEntityFurnace) {
 				int cookTime = ((TileEntityFurnace) tile).getField(2);
-				if (cookTime > 0)
-					((TileEntityFurnace) tile).setField(2, Math.min(199, cookTime + 1));
+				if (cookTime > 0 && cookTime % 3 == 0) {
+					List<EntityFoxhound> foxhounds = world.getEntitiesWithinAABB(EntityFoxhound.class, getEntityBoundingBox());
+					if(foxhounds.size() == 1)
+						((TileEntityFurnace) tile).setField(2, Math.min(199, cookTime + 1));
+				}
 			}
 		}
 	}
@@ -176,11 +201,13 @@ public class EntityFoxhound extends EntityWolf {
 		if (!this.isTamed() && !isTempted() && !itemstack.isEmpty()) {
 			if (itemstack.getItem() == Items.COAL && (player.isCreative() || player.getActivePotionEffect(MobEffects.FIRE_RESISTANCE) != null) && !world.isRemote) {
 				if (rand.nextDouble() < Foxhounds.tameChance) {
-					this.navigator.clearPath();
-					this.setAttackTarget(null);
-					this.playSound(SoundEvents.ENTITY_WOLF_WHINE, 1F, 0.5F + (float) Math.random() * 0.5F);
-					this.playTameEffect(true);
-					this.setTamedBy(player);
+                    this.setTamedBy(player);
+                    this.navigator.clearPath();
+                    this.setAttackTarget((EntityLivingBase)null);
+                    this.aiSit.setSitting(true);
+                    this.setHealth(20.0F);
+                    this.playTameEffect(true);
+                    this.world.setEntityState(this, (byte)7);
 				} else {
 					this.playTameEffect(false);
 				}
