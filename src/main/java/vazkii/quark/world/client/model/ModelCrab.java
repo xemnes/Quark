@@ -1,11 +1,10 @@
 package vazkii.quark.world.client.model;
 
-import org.lwjgl.opengl.GL11;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelBox;
 import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.math.MathHelper;
 
 public class ModelCrab extends ModelBase {
 	
@@ -194,6 +193,18 @@ public class ModelCrab extends ModelBase {
 		pincer_right_lower.setRotationPoint(6.0F, 0.5F, 0.0F);
 		pincers_right.addChild(pincer_right_lower);
 		pincer_right_lower.cubeList.add(new ModelBox(pincer_right_lower, 12, 24, -1.0F, 0.5F, -4.0F, 1, 1, 4, 0.0F, false));
+	}
+
+	@Override
+	public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
+		leg_left_1.rotateAngleZ = 0.2618F + (-1 + MathHelper.cos(limbSwing * 0.6662F)) * 0.7F * limbSwingAmount;
+		leg_left_2.rotateAngleZ = 0.5236F + (-1 + MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI)) * 0.7F * limbSwingAmount;
+		leg_left_3.rotateAngleZ = 0.5236F + (-1 + MathHelper.cos(limbSwing * 0.6662F)) * 0.7F * limbSwingAmount;
+		leg_left_4.rotateAngleZ = 0.2618F + (-1 + MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI)) * 0.7F * limbSwingAmount;
+		leg_right_1.rotateAngleZ = -0.2618F + (1 + MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI)) * 0.7F * limbSwingAmount;
+		leg_right_2.rotateAngleZ = -0.5236F + (1 + MathHelper.cos(limbSwing * 0.6662F)) * 0.7F * limbSwingAmount;
+		leg_right_3.rotateAngleZ = -0.5236F + (1 + MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI)) * 0.7F * limbSwingAmount;
+		leg_right_4.rotateAngleZ = -0.2618F + (1 + MathHelper.cos(limbSwing * 0.6662F)) * 0.7F * limbSwingAmount;
 	}
 
 	@Override

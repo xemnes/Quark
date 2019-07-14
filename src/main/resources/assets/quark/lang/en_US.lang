@@ -719,7 +719,7 @@ item.quark:frog_maybe_leg.name=Frog "Leg"
 item.quark:cooked_frog_leg.name=Cooked Frog Leg
 item.quark:golden_frog_leg.name=Golden Frog Leg
 item.quark:horse_whistle.name=Horse Whistle
-item.quark:cooked_leg.name=Crab Leg
+item.quark:crab_leg.name=Crab Leg
 item.quark:cooked_crab_leg.name=Cooked Crab Leg
 item.quark:crab_shell.name=Crab Shell Fragment
 

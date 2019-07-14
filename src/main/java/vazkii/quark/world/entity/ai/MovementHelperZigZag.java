@@ -20,6 +20,6 @@ public class MovementHelperZigZag extends EntityMoveHelper {
 
 	@Override
 	protected float limitAngle(float sourceAngle, float targetAngle, float maximumChange) {
-		return targetAngle + (targetAngle - sourceAngle);
+		return targetAngle + (targetAngle - sourceAngle) * 0.825f;
 	}
 }
