@@ -47,7 +47,7 @@ public class Crabs extends Feature {
 		cookedCrabLeg = new ItemQuarkFood("cooked_crab_leg", 9, 0.8F, true);
 		crabShell = new ItemCrabShell();
 
-		resilience = new PotionMod("resilience", false, 0x893c22, LibPotionIndices.RESILIENCE);
+		resilience = new PotionMod("resilience", false, 0x5b1a04, LibPotionIndices.RESILIENCE);
 		resilience.registerPotionAttributeModifier(SharedMonsterAttributes.KNOCKBACK_RESISTANCE, "0cb68666-1b17-42b3-82c0-28412d6c0b22", 0.5, 0);
 
 		String crabName = "quark:crab";
