@@ -237,7 +237,7 @@ public class ExtraPotions extends Feature {
 
 			beacon.drawTexturedModalRect(button.x, button.y, width, height, button.width, button.height);
 
-			potion.renderInventoryEffect(new PotionEffect(potion), beacon, button.x - 1, button.y - 1, ClientReflectiveAccessor.getZLevel(beacon));
+			potion.renderInventoryEffect(new PotionEffect(potion), beacon, button.x - 4, button.y - 5, ClientReflectiveAccessor.getZLevel(beacon));
 		}
 
 		return true;
