@@ -13,10 +13,11 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import vazkii.quark.base.module.ConfigHelper;
 import vazkii.quark.base.module.ModuleLoader;
+import vazkii.quark.world.feature.UndergroundBiomes;
 
 public class UndergroundBiomeSpiderNest extends BasicUndergroundBiome {
 
-	public static double floorCobwebChance, ceilingCobwebChance, caveSpiderSpawnerChance, nestCobwebChance, nestCobwebRange;
+	public static double floorCobwebChance, ceilingCobwebChance, caveSpiderSpawnerChance, nestCobwebChance, nestCobwebRange, cobbedstoneChance;
 	
 	public UndergroundBiomeSpiderNest() {
 		super(Blocks.COBBLESTONE.getDefaultState(), Blocks.COBBLESTONE.getDefaultState(), Blocks.COBBLESTONE.getDefaultState());
@@ -28,17 +29,27 @@ public class UndergroundBiomeSpiderNest extends BasicUndergroundBiome {
 		placeCobweb(world, pos, EnumFacing.DOWN, ceilingCobwebChance);
 	}
 	
-	@Override
-	public void fillFloor(World world, BlockPos pos, IBlockState state) {
-		super.fillFloor(world, pos, state);
-		placeCobweb(world, pos, EnumFacing.UP, floorCobwebChance);
-	}
-	
 	private void placeCobweb(World world, BlockPos pos, EnumFacing off, double chance) {
 		if(world.rand.nextDouble() < chance) {
 			BlockPos placePos = off == null ? pos : pos.offset(off);
 			world.setBlockState(placePos, Blocks.WEB.getDefaultState());
 		}
+	}
+	
+	@Override
+	public void fillWall(World world, BlockPos pos, IBlockState state) {
+		if(UndergroundBiomes.cobbedstoneEnabled && world.rand.nextDouble() < cobbedstoneChance)
+			world.setBlockState(pos, UndergroundBiomes.cobbedstoneState, 2);
+		else super.fillWall(world, pos, state);
+	}
+	
+	@Override
+	public void fillFloor(World world, BlockPos pos, IBlockState state) {
+		if(UndergroundBiomes.cobbedstoneEnabled && world.rand.nextDouble() < cobbedstoneChance)
+			world.setBlockState(pos, UndergroundBiomes.cobbedstoneState, 2);
+		else super.fillFloor(world, pos, state);
+		
+		placeCobweb(world, pos, EnumFacing.UP, floorCobwebChance);
 	}
 	
 	@Override
@@ -76,6 +87,7 @@ public class UndergroundBiomeSpiderNest extends BasicUndergroundBiome {
 		caveSpiderSpawnerChance = ConfigHelper.loadLegacyPropChance("Cave Spider Spawner Percentage Chance", category, "Cave Spider Spawner Chance", "The chance for a spider spawner to be a cave spider spawner instead", 0.25);
 		nestCobwebChance = ConfigHelper.loadLegacyPropChance("Nest Cobweb Percentage Chance", category, "Nest Cobweb Chance", "The chance cobwebs will spawn in nests", 0.5);
 		nestCobwebRange = ModuleLoader.config.getInt("Nest Cobweb Range", category, 3, 0, Integer.MAX_VALUE, "The range for cobwebs to be spawned in spider nests");
+		cobbedstoneChance = ConfigHelper.loadPropChance("Cobbedstone Chance", category, "The chance for cobbedstone to replace cobblestone in the floor and walls", 0.3);
 	}
 
 }

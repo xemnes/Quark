@@ -1,5 +1,8 @@
 package vazkii.quark.world.feature;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -26,13 +29,25 @@ import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.GlobalConfig;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.building.feature.VanillaWalls;
-import vazkii.quark.world.block.*;
+import vazkii.quark.world.block.BlockBiomeBrick;
+import vazkii.quark.world.block.BlockBiomeCobblestone;
+import vazkii.quark.world.block.BlockElderPrismarine;
+import vazkii.quark.world.block.BlockElderSeaLantern;
+import vazkii.quark.world.block.BlockGlowcelium;
+import vazkii.quark.world.block.BlockGlowshroom;
+import vazkii.quark.world.block.BlockHugeGlowshroom;
 import vazkii.quark.world.block.slab.BlockBasicStoneSlab;
 import vazkii.quark.world.world.UndergroundBiomeGenerator;
-import vazkii.quark.world.world.underground.*;
-
-import java.util.ArrayList;
-import java.util.List;
+import vazkii.quark.world.world.underground.UndergroundBiome;
+import vazkii.quark.world.world.underground.UndergroundBiomeGlowshroom;
+import vazkii.quark.world.world.underground.UndergroundBiomeIcy;
+import vazkii.quark.world.world.underground.UndergroundBiomeLava;
+import vazkii.quark.world.world.underground.UndergroundBiomeLush;
+import vazkii.quark.world.world.underground.UndergroundBiomeOvergrown;
+import vazkii.quark.world.world.underground.UndergroundBiomePrismarine;
+import vazkii.quark.world.world.underground.UndergroundBiomeSandstone;
+import vazkii.quark.world.world.underground.UndergroundBiomeSlime;
+import vazkii.quark.world.world.underground.UndergroundBiomeSpiderNest;
 
 public class UndergroundBiomes extends Feature {
 
@@ -48,9 +63,9 @@ public class UndergroundBiomes extends Feature {
 	
 	public static int glowshroomGrowthRate;
 	
-	public static IBlockState firestoneState, icystoneState;
+	public static IBlockState firestoneState, icystoneState, cobbedstoneState;
 	
-	public static boolean firestoneEnabled, icystoneEnabled, glowceliumEnabled, bigGlowshroomsEnabled, elderPrismarineEnabled;
+	public static boolean firestoneEnabled, icystoneEnabled, glowceliumEnabled, bigGlowshroomsEnabled, elderPrismarineEnabled, cobbedstoneEnabled;
 	public static boolean enableStairsAndSlabs, enableWalls, allowCraftingElderPrismarine;
 	
 	private static UndergroundBiomeGenerator prismarineBiomeGen;
@@ -64,6 +79,8 @@ public class UndergroundBiomes extends Feature {
 		glowceliumEnabled = loadPropBool("Enable Glowcelium and Glowshrooms", "", true);
 		bigGlowshroomsEnabled = loadPropBool("Enable Big Glowshrooms", "", true);
 		elderPrismarineEnabled = loadPropBool("Enable Elder Prismarine", "", true);
+		cobbedstoneEnabled = loadPropBool("Enable Cobbedstone", "", true);
+		
 		enableStairsAndSlabs = loadPropBool("Enable stairs and slabs", "", true)  && GlobalConfig.enableVariants;
 		enableWalls = loadPropBool("Enable walls", "", true)  && GlobalConfig.enableVariants;
 		allowCraftingElderPrismarine = loadPropBool("Allow crafting Elder Prismarine", "", true);
@@ -87,9 +104,11 @@ public class UndergroundBiomes extends Feature {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
-		if(firestoneEnabled || icystoneEnabled) {
+		if(firestoneEnabled || icystoneEnabled || cobbedstoneEnabled) {
 			biome_cobblestone = new BlockBiomeCobblestone();
-			biome_brick = new BlockBiomeBrick();
+			
+			if(firestoneEnabled || icystoneEnabled)
+				biome_brick = new BlockBiomeBrick();
 		}
 		
 		if(elderPrismarineEnabled) {
@@ -118,6 +137,12 @@ public class UndergroundBiomes extends Feature {
 						.withProperty(biome_brick.getVariantProp(), BlockBiomeBrick.Variants.ICY_STONE_BRICK)));
 			}
 			
+			if(cobbedstoneEnabled) {
+				BlockBasicStoneSlab.initSlab(biome_cobblestone, 2, "cobbed_stone_slab");
+				BlockModStairs.initStairs(biome_cobblestone, 2, new BlockQuarkStairs("cobbed_stone_stairs", biome_cobblestone.getDefaultState()
+						.withProperty(biome_cobblestone.getVariantProp(), BlockBiomeCobblestone.Variants.COBBED_STONE)));
+			}
+			
 			if(elderPrismarineEnabled) {
 				for(BlockElderPrismarine.Variants v : BlockElderPrismarine.Variants.values()) {
 					BlockBasicStoneSlab.initSlab(elder_prismarine, v.ordinal(), v.getName() + "_slab");
@@ -129,6 +154,7 @@ public class UndergroundBiomes extends Feature {
 
 		VanillaWalls.add("fire_stone", biome_cobblestone, 0, enableWalls && firestoneEnabled);
 		VanillaWalls.add("icy_stone", biome_cobblestone, 1, enableWalls && icystoneEnabled);
+		VanillaWalls.add("cobbed_stone", biome_cobblestone, 1, enableWalls && cobbedstoneEnabled);
 		VanillaWalls.add("fire_stone_brick", biome_brick, 0, enableWalls && firestoneEnabled);
 		VanillaWalls.add("icy_stone_brick", biome_brick, 1, enableWalls && icystoneEnabled);
 		for(BlockElderPrismarine.Variants v : BlockElderPrismarine.Variants.values())
@@ -148,6 +174,8 @@ public class UndergroundBiomes extends Feature {
 			firestoneState = biome_cobblestone.getDefaultState().withProperty(biome_cobblestone.getVariantProp(), BlockBiomeCobblestone.Variants.FIRE_STONE);
 		if(icystoneEnabled)
 			icystoneState = biome_cobblestone.getDefaultState().withProperty(biome_cobblestone.getVariantProp(), BlockBiomeCobblestone.Variants.ICY_STONE);
+		if(cobbedstoneEnabled)
+			cobbedstoneState = biome_cobblestone.getDefaultState().withProperty(biome_cobblestone.getVariantProp(), BlockBiomeCobblestone.Variants.COBBED_STONE);
 
 		addOreDict();
 	}

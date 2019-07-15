@@ -43,7 +43,7 @@ public class SkySanctuaries extends Feature {
 			BlockModSlab.initSlab(skylather, 0, new BlockSkylatherSlab("skylather", false), new BlockSkylatherSlab("skylather", true));
 			
 			BlockModSlab slab = new BlockSkylatherSlab("skylather_brick", false);
-			BlockModStairs.initStairs(skylather, 1, new BlockQuarkStairs("skylather_brick_stairs", skylather.getDefaultState())); // TODO add variant
+			BlockModStairs.initStairs(skylather, 1, new BlockQuarkStairs("skylather_brick_stairs", skylather.getDefaultState()));
 			BlockModSlab.initSlab(skylather, 1, slab, new BlockSkylatherSlab("skylather_brick", true));
 			
 			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(skylather_pillar),
@@ -55,7 +55,7 @@ public class SkySanctuaries extends Feature {
 					'M', ProxyRegistry.newStack(skylather, 1, 1));
 		}
 
-		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(skylather, 1, 4),
+		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(skylather, 4, 1),
 				"SS", "SS",
 				'S', ProxyRegistry.newStack(skylather));
 		

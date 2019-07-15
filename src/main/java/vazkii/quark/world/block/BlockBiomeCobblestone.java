@@ -28,7 +28,8 @@ public class BlockBiomeCobblestone extends BlockMetaVariants<BlockBiomeCobblesto
 
 	public enum Variants implements IStringSerializable {
 		FIRE_STONE(() -> UndergroundBiomes.firestoneEnabled),
-		ICY_STONE(() -> UndergroundBiomes.icystoneEnabled);
+		ICY_STONE(() -> UndergroundBiomes.icystoneEnabled),
+		COBBED_STONE(() -> UndergroundBiomes.cobbedstoneEnabled);
 		
 		Variants(Supplier<Boolean> enabledCond) {
 			this.enabledCond = enabledCond;
