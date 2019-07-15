@@ -1,5 +1,15 @@
 package vazkii.quark.oddities.inventory;
 
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Random;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.entity.player.EntityPlayer;
@@ -9,11 +19,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.WeightedRandom;
 import vazkii.quark.oddities.feature.MatrixEnchanting;
-
-import java.awt.*;
-import java.util.*;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class EnchantmentMatrix {
 	
@@ -85,8 +90,8 @@ public class EnchantmentMatrix {
 		return 1 + (MatrixEnchanting.piecePriceScale == 0 ? 0 : count / MatrixEnchanting.piecePriceScale); 
 	}
 	
-	public boolean generatePiece(int bookshelfPower) {
-		EnchantmentDataWrapper data = generateRandomEnchantment(bookshelfPower);
+	public boolean generatePiece(Map<Enchantment, Integer> influences, int bookshelfPower) {
+		EnchantmentDataWrapper data = generateRandomEnchantment(influences, bookshelfPower);
 		if (data == null)
 			return false;
 		
@@ -100,7 +105,7 @@ public class EnchantmentMatrix {
 			typeCount++;
 		}
 
-		Piece piece = new Piece(data.enchantment, data.enchantmentLevel, type, data.marked);
+		Piece piece = new Piece(data, type);
 		piece.generateBlocks();
 		
 		pieces.put(count, piece);
@@ -117,7 +122,7 @@ public class EnchantmentMatrix {
 		return true;
 	}
 	
-	private EnchantmentDataWrapper generateRandomEnchantment(int bookshelfPower) {
+	private EnchantmentDataWrapper generateRandomEnchantment(Map<Enchantment, Integer> influences, int bookshelfPower) {
 		int level = book ? (MatrixEnchanting.bookEnchantability + rng.nextInt(Math.max(1, bookshelfPower) * 2)) : 0;
 		
 		List<Piece> marked = pieces.values().stream().filter(p -> p.marked).collect(Collectors.toList());
@@ -144,7 +149,7 @@ public class EnchantmentMatrix {
 					continue;
 
 				EnchantmentDataWrapper wrapper = new EnchantmentDataWrapper(enchantment, enchantLevel);
-				wrapper.normalizeRarity(marked);
+				wrapper.normalizeRarity(influences, marked);
 				validEnchants.add(wrapper);
 			}
 		}
@@ -358,19 +363,22 @@ public class EnchantmentMatrix {
 		private static final String TAG_Y = "y";
 		private static final String TAG_XP = "xp";
 		private static final String TAG_MARKED = "marked";
+		private static final String TAG_INFLUENCE = "influence";
 
 		public Enchantment enchant;
 		public int level, color, type, x, y, xp;
 		public int[][] blocks;
 		public boolean marked;
+		public int influence;
 		
 		public Piece() { }
 		
-		public Piece(Enchantment enchant, int level, int type, boolean marked) {
-			this.enchant = enchant;
-			this.level = level;
+		public Piece(EnchantmentDataWrapper wrapper, int type) {
+			this.enchant = wrapper.enchantment;
+			this.level = wrapper.enchantmentLevel;
+			this.marked = wrapper.marked;
+			this.influence = wrapper.influence;
 			this.type = type;
-			this.marked = marked;
 			
 			Random rng = new Random(Objects.toString(enchant.getRegistryName()).hashCode());
 			float h = rng.nextFloat();
@@ -421,6 +429,7 @@ public class EnchantmentMatrix {
 			cmp.setInteger(TAG_Y, y);
 			cmp.setInteger(TAG_XP, xp);
 			cmp.setBoolean(TAG_MARKED, marked);
+			cmp.setInteger(TAG_INFLUENCE, influence);
 
 			cmp.setInteger(TAG_BLOCK_COUNT, blocks.length);
 			for(int i = 0; i < blocks.length; i++)
@@ -436,6 +445,7 @@ public class EnchantmentMatrix {
 			y = cmp.getInteger(TAG_Y);
 			xp = cmp.getInteger(TAG_XP);
 			marked = cmp.getBoolean(TAG_MARKED);
+			influence = cmp.getInteger(TAG_INFLUENCE);
 			
 			blocks = new int[cmp.getInteger(TAG_BLOCK_COUNT)][2];
 			for(int i = 0; i < blocks.length; i++)
@@ -446,29 +456,34 @@ public class EnchantmentMatrix {
 	private static class EnchantmentDataWrapper extends EnchantmentData {
 
 		private boolean marked;
+		private int influence;
 		
 		public EnchantmentDataWrapper(Enchantment enchantmentObj, int enchLevel) {
 			super(enchantmentObj, enchLevel);
 		}
 		
-		public void normalizeRarity(List<Piece> markedEnchants) {
+		public void normalizeRarity(Map<Enchantment, Integer> influences, List<Piece> markedEnchants) {
 			if(MatrixEnchanting.normalizeRarity) {
-				itemWeight *= 100;
+				itemWeight *= 10000;
 				switch(enchantment.getRarity()) {
 				case COMMON:
-					itemWeight = 800;
+					itemWeight = 80000;
 					break;
 				case UNCOMMON:
-					itemWeight = 400;
+					itemWeight = 40000;
 					break;
 				case RARE:
-					itemWeight = 250;
+					itemWeight = 25000;
 					break;
 				case VERY_RARE:
-					itemWeight = 50; 
+					itemWeight = 5000; 
 				default: 
 					break;
 				}
+				
+				influence = !influences.containsKey(enchantment) ? 0 : influences.get(enchantment);
+				float multiplier = 1F + influence * MatrixEnchanting.influencePower;
+				itemWeight *= multiplier;
 				
 				boolean mark = true;
 				

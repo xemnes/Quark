@@ -131,10 +131,13 @@ public class GuiMatrixEnchanting extends GuiContainer {
 			List<String> tooltip = new LinkedList<>();
 			tooltip.add(hoveredPiece.enchant.getTranslatedName(hoveredPiece.level));
 
+			if(hoveredPiece.influence > 0)
+				tooltip.add(TextFormatting.GRAY + I18n.format("quarkmisc.matrixInfluence", (int) (hoveredPiece.influence * MatrixEnchanting.influencePower * 100)));
+
 			int max = hoveredPiece.getMaxXP();
 			if(max > 0)
 				tooltip.add(TextFormatting.GRAY + I18n.format("quarkmisc.matrixUpgrade", hoveredPiece.xp, max));
-
+			
 			if(gridHoverX == -1) {
 				tooltip.add("");
 				tooltip.add(TextFormatting.GRAY + I18n.format("quarkmisc.matrixLeftClick"));

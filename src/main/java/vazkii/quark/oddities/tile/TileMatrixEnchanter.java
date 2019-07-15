@@ -1,5 +1,17 @@
 package vazkii.quark.oddities.tile;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Random;
+import java.util.UUID;
+import java.util.function.Predicate;
+
+import javax.annotation.Nonnull;
+
+import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -10,20 +22,15 @@ import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemEnchantedBook;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 import vazkii.arl.util.ItemNBTHelper;
+import vazkii.quark.decoration.feature.TallowAndCandles;
 import vazkii.quark.oddities.feature.MatrixEnchanting;
 import vazkii.quark.oddities.inventory.ContainerMatrixEnchanting;
 import vazkii.quark.oddities.inventory.EnchantmentMatrix;
 import vazkii.quark.oddities.inventory.EnchantmentMatrix.Piece;
-
-import javax.annotation.Nonnull;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Random;
-import java.util.UUID;
-import java.util.function.Predicate;
 
 public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 
@@ -44,6 +51,7 @@ public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 	private boolean matrixDirty = false;
 	private UUID matrixId;
 
+	public Map<Enchantment, Integer> influences = new HashMap();
 	public int bookshelfPower, enchantability, charge;
 
 	@Override
@@ -111,7 +119,7 @@ public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 			boolean creative = player.isCreative();
 			int cost = matrix.getNewPiecePrice();
 			if(charge > 0 || creative) {
-				if (matrix.generatePiece(bookshelfPower)) {
+				if (matrix.generatePiece(influences, bookshelfPower)) {
 					if (!creative)
 						player.addExperienceLevel(-cost);
 
@@ -203,6 +211,7 @@ public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 
 	private void updateEnchantPower() {
 		ItemStack item = getStackInSlot(0);
+		influences.clear();
 		if(item.isEmpty())
 			return;
 
@@ -212,19 +221,38 @@ public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 		for (int j = -1; j <= 1; ++j) {
 			for (int k = -1; k <= 1; ++k) {
 				if ((j != 0 || k != 0) && world.isAirBlock(pos.add(k, 0, j)) && world.isAirBlock(pos.add(k, 1, j))) {
-					power += ForgeHooks.getEnchantPower(world, pos.add(k * 2, 0, j * 2));
-					power += ForgeHooks.getEnchantPower(world, pos.add(k * 2, 1, j * 2));
+					power += getEnchantPowerAt(world, pos.add(k * 2, 0, j * 2));
+					power += getEnchantPowerAt(world, pos.add(k * 2, 1, j * 2));
 					if (k != 0 && j != 0) {
-						power += ForgeHooks.getEnchantPower(world, pos.add(k * 2, 0, j));
-						power += ForgeHooks.getEnchantPower(world, pos.add(k * 2, 1, j));
-						power += ForgeHooks.getEnchantPower(world, pos.add(k, 0, j * 2));
-						power += ForgeHooks.getEnchantPower(world, pos.add(k, 1, j * 2));
+						power += getEnchantPowerAt(world, pos.add(k * 2, 0, j));
+						power += getEnchantPowerAt(world, pos.add(k * 2, 1, j));
+						power += getEnchantPowerAt(world, pos.add(k, 0, j * 2));
+						power += getEnchantPowerAt(world, pos.add(k, 1, j * 2));
 					}
 				}
 			}
 		}
 
 		bookshelfPower = Math.min((int) power, MatrixEnchanting.maxBookshelves);
+	}
+	
+	private float getEnchantPowerAt(World world, BlockPos pos) {
+		if(MatrixEnchanting.allowInfluencing) {
+			IBlockState state = world.getBlockState(pos);
+			Block block = state.getBlock();
+			if(block == TallowAndCandles.candle) {
+				int ord = block.getMetaFromState(state);
+				
+				List<Enchantment> influencedEnchants = MatrixEnchanting.candleInfluences[ord];
+				for(Enchantment e : influencedEnchants) {
+					int curr = !influences.containsKey(e) ? 0 : influences.get(e);
+					if(curr < MatrixEnchanting.influenceMax)
+						influences.put(e, curr + 1);
+				}
+			}
+		}
+		
+		return ForgeHooks.getEnchantPower(world, pos);
 	}
 
 	@Override

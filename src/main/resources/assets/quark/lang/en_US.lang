@@ -37,6 +37,7 @@ quarkmisc.matrixRightClick=Right Click to Rotate
 quarkmisc.matrixMerge=Click to Upgrade
 quarkmisc.matrixMin=Min: %d
 quarkmisc.matrixUpgrade=Upgrade: %d/%d
+quarkmisc.matrixInfluence=Candle Influence: +%d%%
 quarkmisc.pendingEnchants=Has Pending Enchantments
 quarkmisc.item_out_of_stock=Out of stock, check back later
 quarkmisc.out_of_stock=%s is out of stock, come back later
