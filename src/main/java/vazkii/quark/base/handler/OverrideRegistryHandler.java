@@ -10,17 +10,22 @@
  */
 package vazkii.quark.base.handler;
 
-import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.FMLLog;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.core.Logger;
-import vazkii.arl.util.ProxyRegistry;
-import vazkii.quark.base.Quark;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.Logger;
+
+import net.minecraft.block.Block;
+import net.minecraft.init.Biomes;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.biome.Biome;
+import net.minecraftforge.fml.common.FMLLog;
+import net.minecraftforge.registries.IForgeRegistryEntry;
+import vazkii.arl.util.ProxyRegistry;
+import vazkii.quark.base.Quark;
 
 public final class OverrideRegistryHandler {
 
@@ -43,22 +48,34 @@ public final class OverrideRegistryHandler {
 		if (FMLLog.log instanceof Logger)
 			((Logger) FMLLog.log).setLevel(level);
 	}
-
+	
 	public static void registerBlock(Block block, String baseName) {
+		register(block, Blocks.class, baseName);
+	}
+
+	public static void registerItem(Item item, String baseName) {
+		register(item, Item.class, baseName);
+	}
+	
+	public static void registerBiome(Biome biome, String baseName) {
+		register(biome, Biomes.class, baseName);
+	}
+	
+	public static void register(IForgeRegistryEntry.Impl obj, Class<?> registryType, String baseName) {
 		Level revoked = revokeLog();
 		ResourceLocation regName = new ResourceLocation("minecraft", baseName);
-		block.setRegistryName(regName);
+		obj.setRegistryName(regName);
 		restoreLog(revoked);
 
-		ProxyRegistry.register(block);
+		ProxyRegistry.register(obj);
 
-		for (Field declared : Blocks.class.getDeclaredFields()) {
-			if (Modifier.isStatic(declared.getModifiers()) && declared.getType().isAssignableFrom(block.getClass())) {
+		for (Field declared : registryType.getDeclaredFields()) {
+			if (Modifier.isStatic(declared.getModifiers()) && declared.getType().isAssignableFrom(obj.getClass())) {
 				try {
-					Block blockInField = (Block) declared.get(null);
-					if (regName.equals(blockInField.getRegistryName())) {
+					IForgeRegistryEntry.Impl fieldVal = (IForgeRegistryEntry.Impl) declared.get(null);
+					if (regName.equals(fieldVal.getRegistryName())) {
 						crackFinalField(declared);
-						declared.set(null, block);
+						declared.set(null, obj);
 					}
 				} catch (IllegalAccessException | NoSuchFieldException e) {
 					Quark.LOG.warn("Was unable to replace registry entry for " + regName + ", may cause issues", e);

@@ -3,6 +3,7 @@ package vazkii.quark.world.world.tree;
 import java.util.Random;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.BlockOldLeaf;
 import net.minecraft.block.BlockOldLog;
 import net.minecraft.block.BlockPlanks;
@@ -16,6 +17,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
+import vazkii.quark.world.feature.OakVariants;
 
 // mostly a copy of WorldGenSwamp but for our purposes
 public class WorldGenSwampTree extends WorldGenAbstractTree {
@@ -28,7 +30,7 @@ public class WorldGenSwampTree extends WorldGenAbstractTree {
 		super(false);
 
 		this.addVines = addVines;
-		leaf = Blocks.LEAVES.getDefaultState().withProperty(BlockOldLeaf.VARIANT, BlockPlanks.EnumType.OAK).withProperty(BlockOldLeaf.CHECK_DECAY, false); // TODO replace
+		leaf = OakVariants.variant_leaves.getDefaultState().withProperty(BlockLeaves.CHECK_DECAY, false);
 	}
 
 	public boolean generate(World worldIn, Random rand, BlockPos pos) {

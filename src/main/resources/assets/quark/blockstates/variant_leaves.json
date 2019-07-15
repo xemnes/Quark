@@ -1,11 +1,6 @@
 {
-	"forge_marker": 1,
-	"defaults": {
-		"model": "minecraft:leaves",
-		"transform": "forge:default-block"
-	},
 	"variants": {
-		"variant=swamp_leaves": [{ "textures": { "all": "quark:blocks/swamp_leaves" } }],
-		"variant=sakura_leaves": [{ "textures": { "all": "quark:blocks/sakura_leaves" } }]
+		"variant=swamp_leaves": { "model": "quark:swamp_leaves" },
+		"variant=sakura_leaves": { "model": "quark:sakura_leaves" }
 	}
 }

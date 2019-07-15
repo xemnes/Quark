@@ -11,14 +11,17 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.world.block.BlockVariantLeaves;
+import vazkii.quark.world.block.BlockVariantSapling;
 
 public class OakVariants extends Feature {
 
 	public static Block variant_leaves;
+	public static Block variant_sapling;
 	
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
 		variant_leaves = new BlockVariantLeaves();
+		variant_sapling = new BlockVariantSapling();
 	}
 	
 	@SubscribeEvent

@@ -73,4 +73,6 @@ public final class LibObfuscation {
 	// TileEntityBeacon 
 	public static final String VALID_EFFECTS = "field_184280_f";
 	
+	// BiomeGenBase
+	
 }
