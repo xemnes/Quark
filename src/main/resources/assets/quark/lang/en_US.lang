@@ -634,6 +634,7 @@ tile.quark:cobblestone_mossy_slab.name=Moss Stone Slab
 tile.quark:stonebrick_mossy_stairs.name=Mossy Stone Brick Stairs
 tile.quark:stonebrick_mossy_slab.name=Mossy Stone Brick Slab
 tile.quark:stonebrick_mossy_wall.name=Mossy Stone Brick Wall
+tile.quark:redstone_inductor.name=Redstone Inductor
 
 # ITEM NAMES
 item.quark:glass_shard.name=Glass Shard
