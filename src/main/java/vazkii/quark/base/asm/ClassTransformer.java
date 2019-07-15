@@ -637,7 +637,7 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 
 	private static byte[] transformBeaconButton(byte[] basicClass) {
 		MethodSignature sig = new MethodSignature("drawButton", "func_191745_a", "(Lnet/minecraft/client/Minecraft;IIF)V");
-		MethodSignature checkAgainst = new MethodSignature("drawButtonForegroundLayer", "func_146111_b", "(II)V");
+		MethodSignature checkAgainst = new MethodSignature("", "func_146111_b", "(II)V");
 
 
 		return transform(basicClass, inject(sig, (ClassNode clazz, MethodVisitor method) -> {

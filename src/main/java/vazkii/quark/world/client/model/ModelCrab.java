@@ -1,19 +1,17 @@
 package vazkii.quark.world.client.model;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
-
 import com.google.common.collect.ImmutableSet;
-
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelBox;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
-import vazkii.arl.util.ClientTicker;
 import vazkii.quark.world.entity.EntityCrab;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
 public class ModelCrab extends ModelBase {
 	
@@ -45,11 +43,11 @@ public class ModelCrab extends ModelBase {
 	private final ModelRenderer pincer_right_upper;
 	private final ModelRenderer pincer_right_lower;
 	
-	List<Runnable> resetFunctions;
-	Set<ModelRenderer> left_leg_set, right_leg_set;
+	private List<Runnable> resetFunctions;
+	private Set<ModelRenderer> left_leg_set, right_leg_set;
 
 	public ModelCrab() {
-		resetFunctions = new LinkedList();
+		resetFunctions = new LinkedList<>();
 		textureWidth = 32;
 		textureHeight = 32;
 
