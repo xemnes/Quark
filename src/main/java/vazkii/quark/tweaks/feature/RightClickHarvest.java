@@ -61,7 +61,7 @@ public class RightClickHarvest extends Feature {
 		harvestingCostsDurability = loadPropBool("Harvesting Costs Durability", "Does harvesting crops with a hoe cost durability?", false);
 		doHarvestingSearch = loadPropBool("Add Harvestable Crops", "Should Quark look for (nonvanilla) crops, and handle them?", true);
 		harvestableBlocks = loadPropStringList("Harvestable Crops", "Which crops can be harvested?\n" +
-						"Format is: \"initial[,final]\", i.e. \"minecraft:wheat:7\" or \"minecraft:cocoa:11,minecraft:cocoa:3\"",
+						"Format is: \"harvestState[,afterHarvest]\", i.e. \"minecraft:wheat:7\" or \"minecraft:cocoa:11,minecraft:cocoa:3\"",
 				new String[] {
 						"minecraft:wheat:7",
 						"minecraft:carrots:7",
