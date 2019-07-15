@@ -57,15 +57,20 @@ public class PotionColorizer extends PotionMod {
 
 	@SubscribeEvent
 	public static void onCalculateColor(PotionColorCalculationEvent event) {
-		World world = event.getEntityLiving().world;
+		EntityLivingBase entity = event.getEntityLiving();
+		World world = entity.world;
 		if (world instanceof WorldServer) {
 			for (EntityPlayer tracker : ((WorldServer) world).getEntityTracker()
-					.getTrackingPlayers(event.getEntityLiving())) {
+					.getTrackingPlayers(entity)) {
 				if (tracker instanceof EntityPlayerMP)
-					NetworkHandler.INSTANCE.sendTo(prepareMessage(event.getEntityLiving().getEntityId(), event.getEffects()),
+					NetworkHandler.INSTANCE.sendTo(prepareMessage(entity.getEntityId(), event.getEffects()),
 							(EntityPlayerMP) tracker);
 			}
 		}
+
+		if (entity instanceof EntityPlayerMP)
+			NetworkHandler.INSTANCE.sendTo(prepareMessage(entity.getEntityId(), event.getEffects()),
+					(EntityPlayerMP) entity);
 	}
 
 	private static MessageSyncColors prepareMessage(EntityLivingBase entity) {
