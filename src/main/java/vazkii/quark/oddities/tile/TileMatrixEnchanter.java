@@ -1,15 +1,5 @@
 package vazkii.quark.oddities.tile;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Random;
-import java.util.UUID;
-import java.util.function.Predicate;
-
-import javax.annotation.Nonnull;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.Enchantment;
@@ -19,6 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemEnchantedBook;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -31,6 +22,11 @@ import vazkii.quark.oddities.feature.MatrixEnchanting;
 import vazkii.quark.oddities.inventory.ContainerMatrixEnchanting;
 import vazkii.quark.oddities.inventory.EnchantmentMatrix;
 import vazkii.quark.oddities.inventory.EnchantmentMatrix.Piece;
+
+import javax.annotation.Nonnull;
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.function.Predicate;
 
 public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 
@@ -51,7 +47,7 @@ public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 	private boolean matrixDirty = false;
 	private UUID matrixId;
 
-	public Map<Enchantment, Integer> influences = new HashMap();
+	public Map<Enchantment, Integer> influences = new HashMap<>();
 	public int bookshelfPower, enchantability, charge;
 
 	@Override
@@ -241,11 +237,11 @@ public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 			IBlockState state = world.getBlockState(pos);
 			Block block = state.getBlock();
 			if(block == TallowAndCandles.candle) {
-				int ord = block.getMetaFromState(state);
+				EnumDyeColor ord = state.getValue(TallowAndCandles.candle.variantProp).color;
 				
-				List<Enchantment> influencedEnchants = MatrixEnchanting.candleInfluences[ord];
+				List<Enchantment> influencedEnchants = MatrixEnchanting.candleInfluences.get(ord);
 				for(Enchantment e : influencedEnchants) {
-					int curr = !influences.containsKey(e) ? 0 : influences.get(e);
+					int curr = influences.getOrDefault(e, 0);
 					if(curr < MatrixEnchanting.influenceMax)
 						influences.put(e, curr + 1);
 				}

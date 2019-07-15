@@ -1,11 +1,5 @@
 package vazkii.quark.world.block;
 
-import java.util.List;
-import java.util.Locale;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.BlockPlanks.EnumType;
@@ -16,7 +10,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraft.client.renderer.color.IItemColor;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumRarity;
@@ -26,18 +19,18 @@ import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.ColorizerFoliage;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeColorHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.arl.interf.IBlockColorProvider;
-import vazkii.arl.item.ItemModBlock;
-import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.block.IQuarkBlock;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.List;
+import java.util.Locale;
 
 public class BlockVariantLeaves extends BlockLeaves implements IQuarkBlock, IBlockColorProvider {
 
@@ -69,17 +62,22 @@ public class BlockVariantLeaves extends BlockLeaves implements IQuarkBlock, IBlo
         return state.getValue(VARIANT).ordinal();
     }
 
+	@Nonnull
 	@Override
-    public ItemStack getItem(World worldIn, BlockPos pos, IBlockState state) {
+	@SuppressWarnings("deprecation")
+    public ItemStack getItem(World worldIn, BlockPos pos, @Nonnull IBlockState state) {
         return new ItemStack(this, 1, state.getBlock().getMetaFromState(state) & 2);
     }
 	
+	@Nonnull
 	@Override
-    protected ItemStack getSilkTouchDrop(IBlockState state) {
+    protected ItemStack getSilkTouchDrop(@Nonnull IBlockState state) {
         return new ItemStack(Item.getItemFromBlock(this), 1, state.getValue(VARIANT).ordinal());
     }
 	
+	@Nonnull
 	@Override
+	@SuppressWarnings("deprecation")
     public IBlockState getStateFromMeta(int meta) {
         return getDefaultState().withProperty(VARIANT, Variant.values()[meta & 1]).withProperty(DECAYABLE, (meta & 4) != 0).withProperty(CHECK_DECAY, (meta & 8) > 0);
     }
@@ -97,18 +95,21 @@ public class BlockVariantLeaves extends BlockLeaves implements IQuarkBlock, IBlo
         return i;
     }
 	
+	@Nonnull
 	@Override
     protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, new IProperty[] { VARIANT, CHECK_DECAY, DECAYABLE });
+        return new BlockStateContainer(this, VARIANT, CHECK_DECAY, DECAYABLE);
     }
 
+	@Nonnull
 	@Override
 	public EnumType getWoodType(int meta) {
 		return EnumType.OAK;
 	}
 	
 	@Override
-    public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, @Nullable TileEntity te, ItemStack stack) { 
+	@SuppressWarnings("ConstantConditions")
+    public void harvestBlock(@Nonnull World worldIn, EntityPlayer player, @Nonnull BlockPos pos, @Nonnull IBlockState state, @Nullable TileEntity te, ItemStack stack) {
         if(!worldIn.isRemote && stack.getItem() == Items.SHEARS) {
             player.addStat(StatList.getBlockStats(this));
             spawnAsEntity(worldIn, pos, getSilkTouchDrop(state));
@@ -116,8 +117,9 @@ public class BlockVariantLeaves extends BlockLeaves implements IQuarkBlock, IBlo
         else super.harvestBlock(worldIn, player, pos, state, te, stack);
     }
 
+	@Nonnull
 	@Override
-	public List<ItemStack> onSheared(ItemStack item, IBlockAccess world, BlockPos pos, int fortune) {
+	public List<ItemStack> onSheared(@Nonnull ItemStack item, IBlockAccess world, BlockPos pos, int fortune) {
         return NonNullList.withSize(1, new ItemStack(this, 1, world.getBlockState(pos).getValue(VARIANT).ordinal()));
 	}
 
@@ -157,20 +159,19 @@ public class BlockVariantLeaves extends BlockLeaves implements IQuarkBlock, IBlo
 		return Variant.class;
 	}
 	
-
 	@Override
+	@SideOnly(Side.CLIENT)
 	public IItemColor getItemColor() {
 		return (stack, i) -> stack.getMetadata() == 0 ? 6975545 : 0xFFFFFF;
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public IBlockColor getBlockColor() {
-		return (state, world, pos, i) -> {
-			return state.getValue(VARIANT) == Variant.SWAMP_LEAVES ? 6975545 : 0xFFFFFF;
-		};
+		return (state, world, pos, i) -> state.getValue(VARIANT) == Variant.SWAMP_LEAVES ? 6975545 : 0xFFFFFF;
 	}
 	
-	public static enum Variant implements IStringSerializable {
+	public enum Variant implements IStringSerializable {
 		
 		SWAMP_LEAVES,
 		SAKURA_LEAVES;

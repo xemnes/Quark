@@ -1,11 +1,8 @@
 package vazkii.quark.oddities.feature;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-
 import net.minecraft.client.resources.I18n;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
@@ -23,6 +20,8 @@ import vazkii.quark.oddities.block.BlockEnchantingTableReplacement;
 import vazkii.quark.oddities.client.render.RenderTileMatrixEnchanter;
 import vazkii.quark.oddities.tile.TileMatrixEnchanter;
 
+import java.util.*;
+
 public class MatrixEnchanting extends Feature {
 
 	private static BlockEnchantingTableReplacement enchantingTable;
@@ -38,7 +37,7 @@ public class MatrixEnchanting extends Feature {
 	public static boolean allowInfluencing;
 	public static int influenceMax;
 	public static float influencePower;
-	public static List<Enchantment>[] candleInfluences;
+	public static Map<EnumDyeColor, List<Enchantment>> candleInfluences;
 
 	@Override
 	public void setupConfig() {
@@ -135,11 +134,11 @@ public class MatrixEnchanting extends Feature {
 	}
 
 	private void parseInfluences() {
-		candleInfluences = new List[16];
+		candleInfluences = new HashMap<>();
 
 		for (int i = 0; i < 16; i++) {
-			List<Enchantment> list = new LinkedList();
-			candleInfluences[i] = list;
+			List<Enchantment> list = new LinkedList<>();
+			candleInfluences.put(EnumDyeColor.byMetadata(i), list);
 
 			String s = influencesArr[i];
 			String[] toks = s.split(",");
