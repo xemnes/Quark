@@ -31,6 +31,7 @@ import vazkii.quark.world.feature.MushroomsInSwamps;
 import vazkii.quark.world.feature.NaturalBlazesInNether;
 import vazkii.quark.world.feature.NetherFossils;
 import vazkii.quark.world.feature.NetherSmoker;
+import vazkii.quark.world.feature.OakVariants;
 import vazkii.quark.world.feature.OceanGuardians;
 import vazkii.quark.world.feature.PathfinderMaps;
 import vazkii.quark.world.feature.PirateShips;
@@ -74,6 +75,7 @@ public class QuarkWorld extends Module {
 		registerFeature(new Foxhounds());
 		registerFeature(new Crabs());
 		registerFeature(new SkySanctuaries());
+		registerFeature(new OakVariants());
 
 		registerFeature(new RealisticWorldType());
 		registerFeature(new DefaultWorldOptions());
