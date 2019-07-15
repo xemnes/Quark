@@ -16,10 +16,11 @@ import net.minecraft.init.Blocks;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import vazkii.quark.base.block.BlockQuarkWall;
 import vazkii.quark.base.module.Feature;
+import vazkii.quark.base.module.GlobalConfig;
 
 public class VanillaWalls extends Feature {
 
-	public static boolean stone, granite, diorite, andesite, sandstone, redSandstone, stoneBricks, bricks, quartz, prismarine, prismarineBricks, darkPrismarine, purpurBlock, endBricks;
+	public static boolean stone, granite, diorite, andesite, sandstone, redSandstone, stoneBricks, bricks, quartz, prismarine, prismarineBricks, darkPrismarine, purpurBlock, endBricks, mossBricks;
 
 	@Override
 	public void setupConfig() {
@@ -37,10 +38,14 @@ public class VanillaWalls extends Feature {
 		darkPrismarine = loadPropBool("Dark Prismarine", "", true);
 		purpurBlock = loadPropBool("Purpur", "", true);
 		endBricks = loadPropBool("End Bricks", "", true);
+		mossBricks = loadPropBool("Enable Mossy Bricks", "", true);
 	}
 
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
+		if(!GlobalConfig.enableVariants)
+			return;
+		
 		add("stone", Blocks.STONE, 0, stone);
 		add("stone_granite", Blocks.STONE, 1, granite);
 		add("stone_diorite", Blocks.STONE, 3, diorite);
@@ -55,6 +60,7 @@ public class VanillaWalls extends Feature {
 		add("dark_prismarine", Blocks.PRISMARINE, 2, darkPrismarine);
 		add("purpur_block", Blocks.PURPUR_BLOCK, 0, purpurBlock);
 		add("end_bricks", Blocks.END_BRICKS, 0, endBricks);
+		add("stonebrick_mossy", Blocks.STONEBRICK, 1, mossBricks);
 	}
 
 	public static void add(String name, Block block, int meta, boolean doit) {

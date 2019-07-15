@@ -628,6 +628,11 @@ tile.quark:skylather_brick_slab.name=Skylather Brick Slab
 tile.quark:skylather_brick_stairs.name=Skylather Brick Stairs
 tile.quark:skylather_brick_wall.name=Skylather Brick Wall
 tile.quark:gravisand.name=Gravisand
+tile.quark:cobblestone_mossy_stairs.name=Moss Stone Stairs
+tile.quark:cobblestone_mossy_slab.name=Moss Stone Slab
+tile.quark:stonebrick_mossy_stairs.name=Mossy Stone Brick Stairs
+tile.quark:stonebrick_mossy_slab.name=Mossy Stone Brick Slab
+tile.quark:stonebrick_mossy_wall.name=Mossy Stone Brick Wall
 
 # ITEM NAMES
 item.quark:glass_shard.name=Glass Shard
