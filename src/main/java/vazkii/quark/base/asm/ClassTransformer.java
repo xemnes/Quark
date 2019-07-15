@@ -395,22 +395,26 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 	}
 
 	private static byte[] transformTileEntityPistonRenderer(byte[] basicClass) {
-		MethodSignature sig = new MethodSignature("renderStateModel", "func_188186_a", "(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/client/renderer/BufferBuilder;Lnet/minecraft/world/World;Z)Z");
+		MethodSignature sig = new MethodSignature("render", "func_192841_a", "(Lnet/minecraft/tileentity/TileEntityPiston;DDDFIF)V");
 
-		return transform(basicClass, forMethod(sig, (MethodNode method) -> { // Action
-			InsnList newInstructions = new InsnList();
+		MethodSignature target = new MethodSignature("draw", "func_78381_a", "()V");
 
-			newInstructions.add(new VarInsnNode(ALOAD, 1));
-			newInstructions.add(new VarInsnNode(ALOAD, 2));
-			newInstructions.add(new VarInsnNode(ALOAD, 3));
-			newInstructions.add(new VarInsnNode(ALOAD, 4));
-			newInstructions.add(new VarInsnNode(ILOAD, 5));
-			newInstructions.add(new MethodInsnNode(INVOKESTATIC, ASM_HOOKS, "renderPistonBlock", "(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/client/renderer/BufferBuilder;Lnet/minecraft/world/World;Z)Z", false));
-			newInstructions.add(new InsnNode(IRETURN));
+		return transform(basicClass, forMethod(sig, combine(
+				(AbstractInsnNode node) -> { // Filter
+					return node.getOpcode() == INVOKEVIRTUAL && target.matches((MethodInsnNode) node);
+				},
+				(MethodNode method, AbstractInsnNode node) -> {
+					InsnList newInstructions = new InsnList();
 
-			method.instructions = newInstructions;
-			return true;
-		}));
+					newInstructions.add(new VarInsnNode(ALOAD, 11));
+					newInstructions.add(new VarInsnNode(ALOAD, 12));
+					newInstructions.add(new VarInsnNode(ALOAD, 15));
+					newInstructions.add(new VarInsnNode(ALOAD, 16));
+					newInstructions.add(new MethodInsnNode(INVOKESTATIC, ASM_HOOKS, "renderPistonBlock", "(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/client/renderer/BufferBuilder;Lnet/minecraft/world/World;)V", false));
+
+					method.instructions.insert(node, newInstructions);
+					return true;
+				})));
 	}
 
 	private static byte[] transformWorldServer(byte[] basicClass) {

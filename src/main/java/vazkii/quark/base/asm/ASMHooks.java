@@ -136,8 +136,8 @@ public final class ASMHooks {
 	}
 	
 	@SideOnly(Side.CLIENT)
-	public static boolean renderPistonBlock(BlockPos pos, IBlockState state, BufferBuilder buffer, World world, boolean checkSides) {
-		return PistonTileEntityRenderer.renderPistonBlock(pos, state, buffer, world, checkSides);
+	public static void renderPistonBlock(BlockPos pos, IBlockState state, BufferBuilder buffer, World world) {
+		PistonTileEntityRenderer.renderPistonBlock(pos, state, buffer, world);
 	}
 	
 	// ===== PISTONS PUSH/PULL ITEMS ===== //
