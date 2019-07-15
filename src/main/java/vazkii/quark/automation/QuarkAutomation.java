@@ -18,6 +18,7 @@ import vazkii.quark.automation.feature.DispenserRecords;
 import vazkii.quark.automation.feature.DispensersPlaceBlocks;
 import vazkii.quark.automation.feature.DispensersPlaceSeeds;
 import vazkii.quark.automation.feature.EnderWatcher;
+import vazkii.quark.automation.feature.Gravisand;
 import vazkii.quark.automation.feature.MetalButtons;
 import vazkii.quark.automation.feature.ObsidianPressurePlate;
 import vazkii.quark.automation.feature.PistonSpikes;
@@ -46,6 +47,7 @@ public class QuarkAutomation extends Module {
 		registerFeature(new MetalButtons());
 		registerFeature(new SugarBlock());
 		registerFeature(new RedstoneRandomizer());
+		registerFeature(new Gravisand());
 	}
 	
 	@Override
