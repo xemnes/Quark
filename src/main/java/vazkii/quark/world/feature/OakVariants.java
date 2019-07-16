@@ -18,10 +18,19 @@ public class OakVariants extends Feature {
 	public static Block variant_leaves;
 	public static Block variant_sapling;
 	
+	boolean enableSwamp, enableSakura;
+	
+	@Override
+	public void setupConfig() {
+		enableSwamp = loadPropBool("Enable Swamp", "", true);
+		enableSakura = loadPropBool("Enable Blossom", "", true);		
+	}
+	
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
 		variant_leaves = new BlockVariantLeaves();
 		variant_sapling = new BlockVariantSapling();
+		
 	}
 	
 	@SubscribeEvent

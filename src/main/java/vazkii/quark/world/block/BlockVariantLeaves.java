@@ -2,6 +2,7 @@ package vazkii.quark.world.block;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -38,6 +39,7 @@ import vazkii.arl.interf.IBlockColorProvider;
 import vazkii.arl.item.ItemModBlock;
 import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.block.IQuarkBlock;
+import vazkii.quark.world.feature.OakVariants;
 
 public class BlockVariantLeaves extends BlockLeaves implements IQuarkBlock, IBlockColorProvider {
 
@@ -68,6 +70,11 @@ public class BlockVariantLeaves extends BlockLeaves implements IQuarkBlock, IBlo
     public int damageDropped(IBlockState state) {
         return state.getValue(VARIANT).ordinal();
     }
+	
+	@Override
+	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+		return Item.getItemFromBlock(OakVariants.variant_sapling);
+	}
 
 	@Override
     public ItemStack getItem(World worldIn, BlockPos pos, IBlockState state) {
