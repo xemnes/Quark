@@ -15,6 +15,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
+import net.minecraftforge.common.EnumPlantType;
 import net.minecraftforge.event.terraingen.TerrainGen;
 import vazkii.quark.base.block.BlockQuarkBush;
 import vazkii.quark.world.world.tree.WorldGenSakuraTree;
@@ -112,6 +113,11 @@ public class BlockVariantSapling extends BlockQuarkBush implements IGrowable {
 		return i;
 	}
 
+	@Override
+	public EnumPlantType getPlantType(IBlockAccess world, BlockPos pos) {
+		return EnumPlantType.Plains;
+	}
+	
 	@Override
 	public int damageDropped(IBlockState state) {
 		return state.getValue(VARIANT).ordinal();

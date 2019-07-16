@@ -15,6 +15,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.base.handler.OverrideRegistryHandler;
@@ -22,6 +23,8 @@ import vazkii.quark.base.lib.LibObfuscation;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.world.block.BlockVariantLeaves;
 import vazkii.quark.world.block.BlockVariantSapling;
+import vazkii.quark.world.world.PirateShipGenerator;
+import vazkii.quark.world.world.SakuraTreeGenerator;
 import vazkii.quark.world.world.tree.WorldGenSwampTree;
 
 public class OakVariants extends Feature {
@@ -30,12 +33,14 @@ public class OakVariants extends Feature {
 	public static Block variant_sapling;
 
 	boolean enableSwamp, enableSakura, changeVineColor;
+	public static float sakuraChance;
 
 	@Override
 	public void setupConfig() {
 		enableSwamp = loadPropBool("Enable Swamp", "", true);
 		enableSakura = loadPropBool("Enable Blossom", "", true);
 		changeVineColor = loadPropBool("Change vine color in swamps", "", true);
+		sakuraChance = (float) loadPropDouble("Blossom Tree Chance", "The chance per chunk for a Oak Blossom Tree to spawn (0 is 0%, 1 is 100%). This can be higher than 1 if you want multiple per chunk.", 0.05);
 	}
 
 	@Override
@@ -57,6 +62,9 @@ public class OakVariants extends Feature {
 			} catch(ReflectiveOperationException e) {
 				e.printStackTrace();
 			}
+		
+		if(enableSakura)
+			GameRegistry.registerWorldGenerator(new SakuraTreeGenerator(), 0);
 	}
 	
 	@Override
