@@ -25,6 +25,7 @@ import net.minecraft.world.World;
 import vazkii.arl.block.BlockMod;
 import vazkii.quark.automation.feature.PistonsMoveTEs;
 import vazkii.quark.base.block.IQuarkBlock;
+import vazkii.quark.decoration.feature.Rope;
 
 public class BlockRope extends BlockMod implements IQuarkBlock {
 
@@ -136,7 +137,7 @@ public class BlockRope extends BlockMod implements IQuarkBlock {
 		
 		TileEntity tile = world.getTileEntity(srcPos);
 		if(tile != null && !world.isRemote) {
-			if(PistonsMoveTEs.shouldMoveTE(true, state))
+			if(Rope.forceEnableMoveTEs ? PistonsMoveTEs.shouldMoveTE(state) : PistonsMoveTEs.shouldMoveTE(true, state))
 				return;
 
 			tile.invalidate();

@@ -67,6 +67,10 @@ public class PistonsMoveTEs extends Feature {
 		if(!ModuleLoader.isFeatureEnabled(PistonsMoveTEs.class))
 			return te;
 		
+		return shouldMoveTE(te, state);
+	}
+	
+	public static boolean shouldMoveTE(IBlockState state) {
 		// Jukeboxes that are playing can't be moved so the music can be stopped
 		if(state.getPropertyKeys().contains(BlockJukebox.HAS_RECORD) && state.getValue(BlockJukebox.HAS_RECORD))
 			return true;
