@@ -1,7 +1,6 @@
 package vazkii.quark.automation.feature;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockGravel;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
@@ -12,7 +11,6 @@ import vazkii.quark.automation.entity.EntityGravisand;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.lib.LibEntityIDs;
 import vazkii.quark.base.module.Feature;
-import vazkii.quark.world.entity.EntityWraith;
 
 public class Gravisand extends Feature {
 

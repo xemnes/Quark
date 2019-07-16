@@ -286,6 +286,7 @@ public class BlockRoots extends BlockMod implements IQuarkBlock, IShearable, IGr
 	}
 
 	@Override
+	@SuppressWarnings("ConstantConditions")
 	public void harvestBlock(@Nonnull World worldIn, EntityPlayer player, @Nonnull BlockPos pos, @Nonnull IBlockState state, @Nullable TileEntity te, ItemStack stack) {
 		if(!worldIn.isRemote && stack.getItem() == Items.SHEARS) {
 			player.addStat(StatList.getBlockStats(this));

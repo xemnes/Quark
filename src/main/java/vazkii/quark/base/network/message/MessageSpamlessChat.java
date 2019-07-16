@@ -37,10 +37,8 @@ public class MessageSpamlessChat extends NetworkMessage<MessageSpamlessChat> {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IMessage handleMessage(MessageContext context) {
-		ClientTicker.addAction(() -> {
-			Minecraft.getMinecraft().ingameGUI.getChatGUI()
-					.printChatMessageWithOptionalDeletion(message, id);
-		});
+		ClientTicker.addAction(() -> Minecraft.getMinecraft().ingameGUI.getChatGUI()
+				.printChatMessageWithOptionalDeletion(message, id));
 		return null;
 	}
 

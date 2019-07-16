@@ -39,7 +39,7 @@ import javax.annotation.Nonnull;
 
 public class BlockTinyPotato extends BlockMod implements IQuarkBlock {
 
-	public static PropertyEnum<EnumFacing> FACING = BlockHorizontal.FACING;
+	public static final PropertyEnum<EnumFacing> FACING = BlockHorizontal.FACING;
 
 	private static final AxisAlignedBB AABB = new AxisAlignedBB(0.375, 0, 0.375, 0.625, 0.375, 0.625);
 

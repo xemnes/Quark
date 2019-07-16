@@ -13,17 +13,17 @@ import vazkii.quark.world.entity.EntityFoxhound;
  * Created using Tabula 7.0.0
  */
 public class ModelFoxhound extends ModelBase {
-    public ModelRenderer head;
-    public ModelRenderer rightFrontLeg;
-    public ModelRenderer leftFrontLeg;
-    public ModelRenderer rightBackLeg;
-    public ModelRenderer leftBackLeg;
-    public ModelRenderer body;
-    public ModelRenderer snout;
-    public ModelRenderer rightEar;
-    public ModelRenderer leftEar;
-    public ModelRenderer tail;
-    public ModelRenderer fluff;
+    public final ModelRenderer head;
+    public final ModelRenderer rightFrontLeg;
+    public final ModelRenderer leftFrontLeg;
+    public final ModelRenderer rightBackLeg;
+    public final ModelRenderer leftBackLeg;
+    public final ModelRenderer body;
+    public final ModelRenderer snout;
+    public final ModelRenderer rightEar;
+    public final ModelRenderer leftEar;
+    public final ModelRenderer tail;
+    public final ModelRenderer fluff;
 
     public ModelFoxhound() {
         this.textureWidth = 64;

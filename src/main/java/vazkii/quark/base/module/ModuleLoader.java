@@ -102,40 +102,40 @@ public final class ModuleLoader {
 		forEachModule(module -> Quark.LOG.info("Module " + module.name + " is " + (module.enabled ? "enabled" : "disabled")));
 
 		forEachEnabled(module -> module.preInit(event));
-		forEachEnabled(module -> module.postPreInit());
+		forEachEnabled(Module::postPreInit);
 		
 		RecipeProcessor.runConsumers();
 	}
 	
 	public static void init(FMLInitializationEvent event) {
-		forEachEnabled(module -> module.init());
+		forEachEnabled(Module::init);
 	}
 
 	public static void postInit(FMLPostInitializationEvent event) {
-		forEachEnabled(module -> module.postInit());
+		forEachEnabled(Module::postInit);
 	}
 
 	public static void finalInit(FMLPostInitializationEvent event) {
-		forEachEnabled(module -> module.finalInit());
+		forEachEnabled(Module::finalInit);
 	}
 	
 	@SideOnly(Side.CLIENT)
 	public static void preInitClient(FMLPreInitializationEvent event) {
-		forEachEnabled(module -> module.preInitClient());
+		forEachEnabled(Module::preInitClient);
 	}
 
 	@SideOnly(Side.CLIENT)
 	public static void initClient(FMLInitializationEvent event) {
-		forEachEnabled(module -> module.initClient());
+		forEachEnabled(Module::initClient);
 	}
 
 	@SideOnly(Side.CLIENT)
 	public static void postInitClient(FMLPostInitializationEvent event) {
-		forEachEnabled(module -> module.postInitClient());
+		forEachEnabled(Module::postInitClient);
 	}
 
 	public static void serverStarting(FMLServerStartingEvent event) {
-		forEachEnabled(module -> module.serverStarting());
+		forEachEnabled(Module::serverStarting);
 	}
 
 	public static void setupConfig(FMLPreInitializationEvent event) {

@@ -213,13 +213,17 @@ public class BlockRedstoneRandomizer extends BlockMod implements IQuarkBlock {
 	}
 
 	protected void notifyNeighbors(World worldIn, BlockPos pos, IBlockState state) {
+		notify(this, worldIn, pos, state);
+	}
+
+	public static void notify(Block block, World worldIn, BlockPos pos, IBlockState state) {
 		EnumFacing enumfacing = state.getValue(FACING);
 		BlockPos blockpos = pos.offset(enumfacing.getOpposite());
 		if(ForgeEventFactory.onNeighborNotify(worldIn, pos, worldIn.getBlockState(pos), EnumSet.of(enumfacing.getOpposite()), false).isCanceled())
 			return;
 
-		worldIn.neighborChanged(blockpos, this, pos);
-		worldIn.notifyNeighborsOfStateExcept(blockpos, this, enumfacing);
+		worldIn.neighborChanged(blockpos, block, pos);
+		worldIn.notifyNeighborsOfStateExcept(blockpos, block, enumfacing);
 	}
 
 	@Override

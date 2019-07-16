@@ -54,6 +54,7 @@ public class ItemParrotEgg extends ItemMod implements IQuarkItem, IItemColorProv
 
 	@Nonnull
 	@Override
+	@SuppressWarnings("ConstantConditions")
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, @Nonnull EnumHand handIn) {
 		ItemStack itemstack = playerIn.getHeldItem(handIn);
 

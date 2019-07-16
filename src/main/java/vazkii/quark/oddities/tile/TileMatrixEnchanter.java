@@ -47,7 +47,7 @@ public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 	private boolean matrixDirty = false;
 	private UUID matrixId;
 
-	public Map<Enchantment, Integer> influences = new HashMap<>();
+	public final Map<Enchantment, Integer> influences = new HashMap<>();
 	public int bookshelfPower, enchantability, charge;
 
 	@Override

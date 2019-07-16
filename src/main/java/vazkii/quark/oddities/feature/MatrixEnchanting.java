@@ -141,9 +141,9 @@ public class MatrixEnchanting extends Feature {
 			candleInfluences.put(EnumDyeColor.byMetadata(i), list);
 
 			String s = influencesArr[i];
-			String[] toks = s.split(",");
+			String[] tokens = s.split(",");
 
-			for (String enchStr : toks) {
+			for (String enchStr : tokens) {
 				enchStr = enchStr.trim();
 
 				Enchantment ench = Enchantment.REGISTRY.getObject(new ResourceLocation(enchStr));

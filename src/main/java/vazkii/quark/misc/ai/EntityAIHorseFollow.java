@@ -30,10 +30,10 @@ import java.util.Objects;
 public class EntityAIHorseFollow extends EntityAIBase {
 	private final AbstractHorse horse;
 	private EntityLivingBase owner;
-	private World world;
+	private final World world;
 	private final double followSpeed;
 	private final PathNavigate petPathfinder;
-	private int timeToRecalcPath;
+	private int timeToRebuildPath;
 	private float oldWaterCost;
 
 	public EntityAIHorseFollow(AbstractHorse horse, double followSpeedIn) {
@@ -63,7 +63,7 @@ public class EntityAIHorseFollow extends EntityAIBase {
 	}
 
 	public void startExecuting() {
-		this.timeToRecalcPath = 0;
+		this.timeToRebuildPath = 0;
 		this.oldWaterCost = this.horse.getPathPriority(PathNodeType.WATER);
 		this.horse.setPathPriority(PathNodeType.WATER, 0.0F);
 	}
@@ -77,8 +77,8 @@ public class EntityAIHorseFollow extends EntityAIBase {
 	public void updateTask() {
 		this.horse.getLookHelper().setLookPositionWithEntity(this.owner, 10.0F, this.horse.getVerticalFaceSpeed());
 
-		if (--this.timeToRecalcPath <= 0) {
-			this.timeToRecalcPath = 10;
+		if (--this.timeToRebuildPath <= 0) {
+			this.timeToRebuildPath = 10;
 
 			if (!this.petPathfinder.tryMoveToEntityLiving(this.owner, this.followSpeed)) {
 				if (!this.horse.getLeashed() && !this.horse.isRiding()) {

@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import net.minecraft.enchantment.Enchantment;
@@ -481,7 +480,7 @@ public class EnchantmentMatrix {
 					break;
 				}
 				
-				influence = !influences.containsKey(enchantment) ? 0 : influences.get(enchantment);
+				influence = influences.getOrDefault(enchantment, 0);
 				float multiplier = 1F + influence * MatrixEnchanting.influencePower;
 				itemWeight *= multiplier;
 				

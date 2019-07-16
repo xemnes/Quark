@@ -29,12 +29,11 @@ import java.util.regex.Pattern;
 
 public class EnchantedBooksShowItems extends Feature {
 
-	private static final List<Pair<ResourceLocation, Integer>> testItemLocs = new ArrayList<>();
+	private static final List<Pair<ResourceLocation, Integer>> testItemLocations = new ArrayList<>();
 	private static final List<ItemStack> testItems = new ArrayList<>();
 
 	private static Multimap<Enchantment, ItemStack> additionalStacks = null;
 	private static String[] additionalStacksArr;
-	private static boolean loadedConfig;
 
 	private static final Pattern RL_MATCHER = Pattern.compile("^((?:\\w+:)?\\w+)(@\\d+)?$");
 
@@ -46,14 +45,14 @@ public class EnchantedBooksShowItems extends Feature {
 				"minecraft:shears", "minecraft:bow", "minecraft:fishing_rod", "minecraft:elytra", "quark:pickarang"
 		});
 
-		testItemLocs.clear();
+		testItemLocations.clear();
 		testItems.clear();
 		for(String s : testItemsArr) {
 			Matcher match = RL_MATCHER.matcher(s);
 			if (match.matches()) {
 				String metaGroup = match.group(2);
 				int meta = metaGroup == null || metaGroup.isEmpty() ? 0 : Integer.parseInt(metaGroup);
-				testItemLocs.add(Pair.of(new ResourceLocation(match.group(1)), meta));
+				testItemLocations.add(Pair.of(new ResourceLocation(match.group(1)), meta));
 			}
 		}
 
@@ -65,7 +64,6 @@ public class EnchantedBooksShowItems extends Feature {
 						+ "minecraft:mending=minecraft:carrot_on_a_stick",
 						new String[0]);
 
-		loadedConfig = true;
 	}
 
 	@SubscribeEvent
@@ -144,8 +142,8 @@ public class EnchantedBooksShowItems extends Feature {
 
 	public static List<ItemStack> getItemsForEnchantment(Enchantment e) {
 		List<ItemStack> list = new ArrayList<>();
-		if (testItems.isEmpty() && !testItemLocs.isEmpty()) {
-			for (Pair<ResourceLocation, Integer> loc : testItemLocs) {
+		if (testItems.isEmpty() && !testItemLocations.isEmpty()) {
+			for (Pair<ResourceLocation, Integer> loc : testItemLocations) {
 				Item item = Item.REGISTRY.getObject(loc.getKey());
 				if (item != null)
 					testItems.add(new ItemStack(item, 1, loc.getValue()));
@@ -191,15 +189,15 @@ public class EnchantedBooksShowItems extends Feature {
 			if(!s.contains("="))
 				continue;
 
-			String[] toks = s.split("=");
-			String left = toks[0];
-			String right = toks[1];
+			String[] tokens = s.split("=");
+			String left = tokens[0];
+			String right = tokens[1];
 
 			Enchantment ench = Enchantment.REGISTRY.getObject(new ResourceLocation(left));
 			if(ench != null) {
-				toks = right.split(",");
+				tokens = right.split(",");
 
-				for(String itemId : toks) {
+				for(String itemId : tokens) {
 					Item item = Item.REGISTRY.getObject(new ResourceLocation(itemId));
 					if(item != null)
 						additionalStacks.put(ench, new ItemStack(item));

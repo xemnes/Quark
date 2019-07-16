@@ -5,7 +5,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import vazkii.quark.base.module.ConfigHelper;
-import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.world.feature.UndergroundBiomes;
 
 public class UndergroundBiomeLava extends BasicUndergroundBiome {

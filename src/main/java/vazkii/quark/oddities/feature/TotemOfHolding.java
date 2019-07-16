@@ -103,7 +103,7 @@ public class TotemOfHolding extends Feature {
 				drops.stream()
 						.filter(Objects::nonNull)
 						.map(EntityItem::getItem)
-						.filter(stack -> stack != null && !stack.isEmpty())
+						.filter(stack -> !stack.isEmpty())
 						.forEach(totem::addItem);
 				if (!player.world.isRemote)
 					player.world.spawnEntity(totem);

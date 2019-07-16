@@ -43,6 +43,7 @@ public class ItemPickarang extends ItemMod implements IQuarkItem {
 	
 	@Nonnull
 	@Override
+	@SuppressWarnings("ConstantConditions")
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, @Nonnull EnumHand handIn) {
         ItemStack itemstack = playerIn.getHeldItem(handIn);
         playerIn.setHeldItem(handIn, ItemStack.EMPTY);
@@ -68,8 +69,9 @@ public class ItemPickarang extends ItemMod implements IQuarkItem {
         return new ActionResult<>(EnumActionResult.SUCCESS, itemstack);
     }
 
+	@Nonnull
 	@Override
-	public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot, ItemStack stack) {
+	public Multimap<String, AttributeModifier> getAttributeModifiers(@Nonnull EntityEquipmentSlot slot, ItemStack stack) {
 		Multimap<String, AttributeModifier> multimap = super.getAttributeModifiers(slot, stack);
 
 		if (slot == EntityEquipmentSlot.MAINHAND) {

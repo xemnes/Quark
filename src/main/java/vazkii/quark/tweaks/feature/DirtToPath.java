@@ -19,7 +19,6 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -31,7 +30,6 @@ public class DirtToPath extends Feature {
 	@SubscribeEvent
 	public void onRightClick(PlayerInteractEvent.RightClickBlock event) {
 		EntityPlayer player = event.getEntityPlayer();
-		EnumHand hand = event.getHand();
 		BlockPos pos = event.getPos();
 		EnumFacing facing = event.getFace();
 		World world = event.getWorld();
@@ -45,11 +43,11 @@ public class DirtToPath extends Feature {
 			Block block = iblockstate.getBlock();
 
 			if (facing != EnumFacing.DOWN && world.getBlockState(pos.up()).getMaterial() == Material.AIR && block == Blocks.DIRT) {
-				IBlockState iblockstate1 = Blocks.GRASS_PATH.getDefaultState();
+				IBlockState pathState = Blocks.GRASS_PATH.getDefaultState();
 				world.playSound(player, pos, SoundEvents.ITEM_SHOVEL_FLATTEN, SoundCategory.BLOCKS, 1.0F, 1.0F);
 
 				if (!world.isRemote) {
-					world.setBlockState(pos, iblockstate1, 11);
+					world.setBlockState(pos, pathState, 11);
 					itemstack.damageItem(1, player);
 				}
 

@@ -26,7 +26,6 @@ import vazkii.quark.base.lib.LibEntityIDs;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.world.client.render.RenderFoxhound;
 import vazkii.quark.world.entity.EntityFoxhound;
-import vazkii.quark.world.entity.EntityWraith;
 
 public class Foxhounds extends Feature {
 

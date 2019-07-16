@@ -1,7 +1,5 @@
 package vazkii.quark.experimental.features;
 
-import java.util.Random;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiScreen;
@@ -12,11 +10,13 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import vazkii.quark.base.lib.LibObfuscation;
 import vazkii.quark.base.module.Feature;
 
+import java.util.Random;
+
 public class CustomSplashes extends Feature {
 
 	private static String[] splashes;
 	
-	private static Random rand = new Random();
+	private static final Random rand = new Random();
 	private static boolean inMainMenu = false;
 	
 	@Override
