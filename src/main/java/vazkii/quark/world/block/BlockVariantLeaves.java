@@ -11,7 +11,6 @@ import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
@@ -27,7 +26,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.arl.interf.IBlockColorProvider;
 import vazkii.quark.base.block.IQuarkBlock;
-import vazkii.quark.world.feature.OakVariants;
+import vazkii.quark.world.feature.TreeVariants;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -67,7 +66,7 @@ public class BlockVariantLeaves extends BlockLeaves implements IQuarkBlock, IBlo
 	
 	@Override
 	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
-		return Item.getItemFromBlock(OakVariants.variant_sapling);
+		return Item.getItemFromBlock(TreeVariants.variant_sapling);
 	}
 
 	@Nonnull
@@ -170,13 +169,13 @@ public class BlockVariantLeaves extends BlockLeaves implements IQuarkBlock, IBlo
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IItemColor getItemColor() {
-		return (stack, i) -> stack.getMetadata() == 0 ? 6975545 : 0xFFFFFF;
+		return (stack, i) -> stack.getMetadata() == 0 ? 0x6a7039 : 0xFFFFFF;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IBlockColor getBlockColor() {
-		return (state, world, pos, i) -> state.getValue(VARIANT) == Variant.SWAMP_LEAVES ? 6975545 : 0xFFFFFF;
+		return (state, world, pos, i) -> state.getValue(VARIANT) == Variant.SWAMP_LEAVES ? 0x6a7039 : 0xFFFFFF;
 	}
 	
 	public enum Variant implements IStringSerializable {

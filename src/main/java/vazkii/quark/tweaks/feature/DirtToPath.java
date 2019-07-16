@@ -34,13 +34,13 @@ public class DirtToPath extends Feature {
 		EnumFacing facing = event.getFace();
 		World world = event.getWorld();
 		ItemStack itemstack = player.getHeldItem(event.getHand());
+		IBlockState state = world.getBlockState(pos);
 
-		if (!itemstack.getItem().getToolClasses(itemstack).contains("shovel"))
+		if (!itemstack.getItem().getToolClasses(itemstack).contains("shovel") && itemstack.getDestroySpeed(state) > 0)
 			return;
 
 		if (facing != null && player.canPlayerEdit(pos.offset(facing), facing, itemstack)) {
-			IBlockState iblockstate = world.getBlockState(pos);
-			Block block = iblockstate.getBlock();
+			Block block = state.getBlock();
 
 			if (facing != EnumFacing.DOWN && world.getBlockState(pos.up()).getMaterial() == Material.AIR && block == Blocks.DIRT) {
 				IBlockState pathState = Blocks.GRASS_PATH.getDefaultState();

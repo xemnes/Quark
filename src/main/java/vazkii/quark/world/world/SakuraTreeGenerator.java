@@ -1,8 +1,5 @@
 package vazkii.quark.world.world;
 
-import java.util.Random;
-import java.util.Set;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -15,18 +12,21 @@ import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.fml.common.IWorldGenerator;
 import vazkii.quark.world.block.BlockVariantSapling;
-import vazkii.quark.world.feature.OakVariants;
+import vazkii.quark.world.feature.TreeVariants;
 import vazkii.quark.world.world.tree.WorldGenSakuraTree;
+
+import java.util.Random;
+import java.util.Set;
 
 public class SakuraTreeGenerator implements IWorldGenerator {
 
-	WorldGenSakuraTree treeGen = new WorldGenSakuraTree(false);
+	private final WorldGenSakuraTree treeGen = new WorldGenSakuraTree(false);
 	
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
-		float chance = OakVariants.sakuraChance;
+		double chance = TreeVariants.sakuraChance;
 		
-		while(random.nextFloat() < chance) {
+		while(random.nextDouble() < chance) {
 			int x = chunkX * 16 + random.nextInt(16) + 8;
 			int z = chunkZ * 16 + random.nextInt(16) + 8;
 			BlockPos xzPos = new BlockPos(x, 0 , z);
@@ -45,9 +45,7 @@ public class SakuraTreeGenerator implements IWorldGenerator {
 					block = state.getBlock();
 				}
 				
-				if(block.canSustainPlant(state, world, pos, EnumFacing.UP, ((BlockVariantSapling) OakVariants.variant_sapling))) {
-					System.out.println("generate sakura at " + pos);
-					
+				if(block.canSustainPlant(state, world, pos, EnumFacing.UP, ((BlockVariantSapling) TreeVariants.variant_sapling))) {
 					BlockPos placePos = pos.up();
 					if(snow)
 						world.setBlockToAir(placePos);
