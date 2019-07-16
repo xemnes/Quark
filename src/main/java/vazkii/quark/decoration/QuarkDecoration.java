@@ -20,6 +20,7 @@ import vazkii.quark.decoration.feature.ColoredFlowerPots;
 import vazkii.quark.decoration.feature.ColoredItemFrames;
 import vazkii.quark.decoration.feature.FlatItemFrames;
 import vazkii.quark.decoration.feature.GlassItemFrame;
+import vazkii.quark.decoration.feature.Grate;
 import vazkii.quark.decoration.feature.IronLadders;
 import vazkii.quark.decoration.feature.LeafCarpets;
 import vazkii.quark.decoration.feature.LitLamp;
@@ -64,6 +65,7 @@ public class QuarkDecoration extends Module {
 		registerFeature(new TieFences());
 		registerFeature(new Rope());
 		registerFeature(new PlaceBlazeRods());
+		registerFeature(new Grate());
 	}
 	
 	@Override

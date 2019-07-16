@@ -645,6 +645,7 @@ tile.quark:swamp_sapling.name=Swamp Oak Sapling
 tile.quark:sakura_sapling.name=Blossoming Sapling
 tile.quark:rope.name=Rope Coil
 tile.quark:blaze_rod.name=Blaze Rod (Block)
+tile.quark:grate.name=Iron Grate
 
 # ITEM NAMES
 item.quark:glass_shard.name=Glass Shard
