@@ -50,8 +50,7 @@ public class BlockQuarkTrapdoor extends BlockTrapDoor implements IQuarkBlock {
 	public boolean isLadder(IBlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos, EntityLivingBase entity) {
 		if(state.getValue(OPEN))  {
 			IBlockState down = world.getBlockState(pos.down());
-			if(down.getBlock().isLadder(down, world, pos.down(), entity))
-				return down.getValue(FACING) == state.getValue(FACING);
+			return down.getBlock().isLadder(down, world, pos.down(), entity);
 		}
 
 		return false;
