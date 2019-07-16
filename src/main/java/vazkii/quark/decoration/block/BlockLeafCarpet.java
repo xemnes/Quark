@@ -10,11 +10,6 @@
  */
 package vazkii.quark.decoration.block;
 
-import java.util.Locale;
-import java.util.function.Supplier;
-
-import javax.annotation.Nonnull;
-
 import net.minecraft.block.BlockNewLeaf;
 import net.minecraft.block.BlockOldLeaf;
 import net.minecraft.block.BlockPlanks;
@@ -43,6 +38,10 @@ import vazkii.quark.base.block.IQuarkBlock;
 import vazkii.quark.world.block.BlockVariantLeaves;
 import vazkii.quark.world.feature.TreeVariants;
 
+import javax.annotation.Nonnull;
+import java.util.Locale;
+import java.util.function.Supplier;
+
 public class BlockLeafCarpet extends BlockMetaVariants<BlockLeafCarpet.Variants> implements IBlockColorProvider, IQuarkBlock {
 
 	protected static final AxisAlignedBB CARPET_AABB = new AxisAlignedBB(0, 0, 0, 1, 0.0625, 1);
@@ -59,7 +58,7 @@ public class BlockLeafCarpet extends BlockMetaVariants<BlockLeafCarpet.Variants>
 	@SideOnly(Side.CLIENT)
 	public IBlockColor getBlockColor() {
 		return (state, worldIn, pos, tintIndex) -> {
-			IBlockState base = ((Variants) state.getValue(getVariantProp())).baseState;
+			IBlockState base = ((Variants) state.getValue(getVariantProp())).getBaseState();
 			return Minecraft.getMinecraft().getBlockColors().colorMultiplier(base, worldIn, pos, tintIndex);
 		};
 	}
@@ -129,23 +128,27 @@ public class BlockLeafCarpet extends BlockMetaVariants<BlockLeafCarpet.Variants>
 		JUNGLE_LEAF_CARPET(new ItemStack(Blocks.LEAVES, 1, 3), Blocks.LEAVES.getDefaultState().withProperty(BlockOldLeaf.VARIANT, BlockPlanks.EnumType.JUNGLE)),
 		ACACIA_LEAF_CARPET(new ItemStack(Blocks.LEAVES2, 1, 0), Blocks.LEAVES2.getDefaultState().withProperty(BlockNewLeaf.VARIANT, BlockPlanks.EnumType.ACACIA)),
 		DARK_OAK_LEAF_CARPET(new ItemStack(Blocks.LEAVES2, 1, 1), Blocks.LEAVES2.getDefaultState().withProperty(BlockNewLeaf.VARIANT, BlockPlanks.EnumType.ACACIA)),
-		SWAMP_LEAF_CARPET(() -> new ItemStack(TreeVariants.variant_leaves, 1, 0), TreeVariants.variant_leaves.getDefaultState().withProperty(BlockVariantLeaves.VARIANT, BlockVariantLeaves.Variant.SWAMP_LEAVES)),
-		SAKURA_LEAF_CARPET(() -> new ItemStack(TreeVariants.variant_leaves, 1, 1), TreeVariants.variant_leaves.getDefaultState().withProperty(BlockVariantLeaves.VARIANT, BlockVariantLeaves.Variant.SAKURA_LEAVES));
+		SWAMP_LEAF_CARPET(() -> new ItemStack(TreeVariants.variant_leaves, 1, 0), () -> TreeVariants.variant_leaves.getDefaultState().withProperty(BlockVariantLeaves.VARIANT, BlockVariantLeaves.Variant.SWAMP_LEAVES)),
+		SAKURA_LEAF_CARPET(() -> new ItemStack(TreeVariants.variant_leaves, 1, 1), () -> TreeVariants.variant_leaves.getDefaultState().withProperty(BlockVariantLeaves.VARIANT, BlockVariantLeaves.Variant.SAKURA_LEAVES));
 
 		Variants(ItemStack baseStack, IBlockState baseState) {
-			this(() -> baseStack, baseState);
+			this(() -> baseStack, () -> baseState);
 		}
 		
-		Variants(Supplier<ItemStack> baseStack, IBlockState baseState) {
+		Variants(Supplier<ItemStack> baseStack, Supplier<IBlockState> baseState) {
 			this.baseStack = baseStack;
 			this.baseState = baseState;
 		}
 
 		public final Supplier<ItemStack> baseStack;
-		public final IBlockState baseState;
+		public final Supplier<IBlockState> baseState;
 
 		public ItemStack getBaseStack() {
 			return baseStack.get();
+		}
+
+		public IBlockState getBaseState() {
+			return baseState.get();
 		}
 		
 		@Override
