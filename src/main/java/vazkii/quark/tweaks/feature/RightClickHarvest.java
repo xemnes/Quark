@@ -22,6 +22,7 @@ import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
@@ -191,6 +192,7 @@ public class RightClickHarvest extends Feature {
 				mainHand.damageItem(harvests, event.getEntityPlayer());
 			event.getEntityPlayer().swingArm(EnumHand.MAIN_HAND);
 			event.setCanceled(true);
+			event.setCancellationResult(EnumActionResult.SUCCESS);
 		}
 	}
 
