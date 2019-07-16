@@ -2,6 +2,7 @@ package vazkii.quark.world.block;
 
 import net.minecraft.block.BlockSapling;
 import net.minecraft.block.IGrowable;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.properties.PropertyInteger;
@@ -34,7 +35,9 @@ public class BlockVariantSapling extends BlockQuarkBush implements IGrowable {
 
 	public BlockVariantSapling() {
 		super("variant_sapling", VARIANTS);
-
+		setHardness(0F);
+		setSoundType(SoundType.PLANT);
+		
 		setDefaultState(blockState.getBaseState().withProperty(VARIANT, Variant.SWAMP_SAPLING).withProperty(STAGE, 0));
 		setCreativeTab(CreativeTabs.DECORATIONS);
 	}
