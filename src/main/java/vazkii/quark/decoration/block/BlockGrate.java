@@ -51,6 +51,9 @@ public class BlockGrate extends BlockMod implements IQuarkBlock {
 	public void addCollisionBoxToList(IBlockState state, @Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull AxisAlignedBB entityBox, @Nonnull List<AxisAlignedBB> collidingBoxes, Entity entityIn, boolean isActualState) {
 		if(!(entityIn instanceof EntityItem) && entityIn != null)
 			super.addCollisionBoxToList(state, worldIn, pos, entityBox, collidingBoxes, entityIn, isActualState);
+
+		if (entityIn instanceof EntityLiving)
+			addCollisionBoxToList(pos, entityBox, collidingBoxes, getBoundingBox(state, worldIn, pos).expand(0, entityIn.stepHeight + 0.125, 0));
 	}
 
 	@Nullable
