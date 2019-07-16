@@ -10,11 +10,6 @@
  */
 package vazkii.quark.decoration.block;
 
-import java.util.Locale;
-import java.util.function.Supplier;
-
-import javax.annotation.Nonnull;
-
 import net.minecraft.block.BlockNewLeaf;
 import net.minecraft.block.BlockOldLeaf;
 import net.minecraft.block.BlockPlanks;
@@ -41,7 +36,11 @@ import vazkii.arl.block.BlockMetaVariants;
 import vazkii.arl.interf.IBlockColorProvider;
 import vazkii.quark.base.block.IQuarkBlock;
 import vazkii.quark.world.block.BlockVariantLeaves;
-import vazkii.quark.world.feature.OakVariants;
+import vazkii.quark.world.feature.TreeVariants;
+
+import javax.annotation.Nonnull;
+import java.util.Locale;
+import java.util.function.Supplier;
 
 public class BlockLeafCarpet extends BlockMetaVariants<BlockLeafCarpet.Variants> implements IBlockColorProvider, IQuarkBlock {
 
@@ -129,8 +128,8 @@ public class BlockLeafCarpet extends BlockMetaVariants<BlockLeafCarpet.Variants>
 		JUNGLE_LEAF_CARPET(new ItemStack(Blocks.LEAVES, 1, 3), Blocks.LEAVES.getDefaultState().withProperty(BlockOldLeaf.VARIANT, BlockPlanks.EnumType.JUNGLE)),
 		ACACIA_LEAF_CARPET(new ItemStack(Blocks.LEAVES2, 1, 0), Blocks.LEAVES2.getDefaultState().withProperty(BlockNewLeaf.VARIANT, BlockPlanks.EnumType.ACACIA)),
 		DARK_OAK_LEAF_CARPET(new ItemStack(Blocks.LEAVES2, 1, 1), Blocks.LEAVES2.getDefaultState().withProperty(BlockNewLeaf.VARIANT, BlockPlanks.EnumType.ACACIA)),
-		SWAMP_LEAF_CARPET(() -> new ItemStack(OakVariants.variant_leaves, 1, 0), OakVariants.variant_leaves.getDefaultState().withProperty(BlockVariantLeaves.VARIANT, BlockVariantLeaves.Variant.SWAMP_LEAVES)),
-		SAKURA_LEAF_CARPET(() -> new ItemStack(OakVariants.variant_leaves, 1, 1), OakVariants.variant_leaves.getDefaultState().withProperty(BlockVariantLeaves.VARIANT, BlockVariantLeaves.Variant.SAKURA_LEAVES));
+		SWAMP_LEAF_CARPET(() -> new ItemStack(TreeVariants.variant_leaves, 1, 0), TreeVariants.variant_leaves.getDefaultState().withProperty(BlockVariantLeaves.VARIANT, BlockVariantLeaves.Variant.SWAMP_LEAVES)),
+		SAKURA_LEAF_CARPET(() -> new ItemStack(TreeVariants.variant_leaves, 1, 1), TreeVariants.variant_leaves.getDefaultState().withProperty(BlockVariantLeaves.VARIANT, BlockVariantLeaves.Variant.SAKURA_LEAVES));
 
 		Variants(ItemStack baseStack, IBlockState baseState) {
 			this(() -> baseStack, baseState);
