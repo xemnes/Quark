@@ -1,14 +1,6 @@
 package vazkii.quark.world.world.tree;
 
-import java.util.Random;
-
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockLeaves;
-import net.minecraft.block.BlockOldLeaf;
-import net.minecraft.block.BlockOldLog;
-import net.minecraft.block.BlockPlanks;
-import net.minecraft.block.BlockSapling;
-import net.minecraft.block.BlockVine;
+import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.IBlockState;
@@ -18,6 +10,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 import vazkii.quark.world.feature.OakVariants;
+
+import javax.annotation.Nonnull;
+import java.util.Random;
 
 // mostly a copy of WorldGenSwamp but for our purposes
 public class WorldGenSwampTree extends WorldGenAbstractTree {
@@ -33,42 +28,43 @@ public class WorldGenSwampTree extends WorldGenAbstractTree {
 		leaf = OakVariants.variant_leaves.getDefaultState().withProperty(BlockLeaves.CHECK_DECAY, false);
 	}
 
-	public boolean generate(World worldIn, Random rand, BlockPos pos) {
-		int i;
-		for(i = rand.nextInt(4) + 5; worldIn.getBlockState(pos.down()).getMaterial() == Material.WATER; pos = pos.down());
+	public boolean generate(@Nonnull World worldIn, @Nonnull Random rand, @Nonnull BlockPos pos) {
+		int i = rand.nextInt(4) + 5;
+		while (worldIn.getBlockState(pos.down()).getMaterial() == Material.WATER)
+			pos = pos.down();
 
-		boolean flag = true;
+		boolean generating = true;
 
 		if(pos.getY() >= 1 && pos.getY() + i + 1 <= 256) {
-			for(int j = pos.getY(); j <= pos.getY() + 1 + i; ++j) {
+			for(int y = pos.getY(); y <= pos.getY() + 1 + i; ++y) {
 				int k = 1;
 
-				if(j == pos.getY())
+				if(y == pos.getY())
 					k = 0;
 
-				if(j >= pos.getY() + 1 + i - 2)
+				if(y >= pos.getY() + 1 + i - 2)
 					k = 3;
 
-				BlockPos.MutableBlockPos mpos = new BlockPos.MutableBlockPos();
+				BlockPos.MutableBlockPos pointer = new BlockPos.MutableBlockPos();
 
-				for(int l = pos.getX() - k; l <= pos.getX() + k && flag; ++l)
-					for(int i1 = pos.getZ() - k; i1 <= pos.getZ() + k && flag; ++i1) {
-						if(j >= 0 && j < 256) {
-							IBlockState iblockstate = worldIn.getBlockState(mpos.setPos(l, j, i1));
+				for(int x = pos.getX() - k; x <= pos.getX() + k && generating; ++x)
+					for(int z = pos.getZ() - k; z <= pos.getZ() + k && generating; ++z) {
+						if(y >= 0 && y < 256) {
+							IBlockState iblockstate = worldIn.getBlockState(pointer.setPos(x, y, z));
 							Block block = iblockstate.getBlock();
 
-							if(!iblockstate.getBlock().isAir(iblockstate, worldIn, mpos.setPos(l, j, i1)) && !iblockstate.getBlock().isLeaves(iblockstate, worldIn, mpos.setPos(l, j, i1))) {
+							if(!iblockstate.getBlock().isAir(iblockstate, worldIn, pointer.setPos(x, y, z)) && !iblockstate.getBlock().isLeaves(iblockstate, worldIn, pointer.setPos(x, y, z))) {
 								if(block != Blocks.WATER && block != Blocks.FLOWING_WATER)
-									flag = false;
-								else if(j > pos.getY())
-									flag = false;
+									generating = false;
+								else if(y > pos.getY())
+									generating = false;
 							}
 						}
-						else flag = false;
+						else generating = false;
 					}
 			}
 
-			if(!flag)
+			if(!generating)
 				return false;
 			else {
 				BlockPos down = pos.down();
@@ -78,18 +74,18 @@ public class WorldGenSwampTree extends WorldGenAbstractTree {
 				if(isSoil && pos.getY() < worldIn.getHeight() - i - 1) {
 					state.getBlock().onPlantGrow(state, worldIn, pos.down(),pos);
 
-					for(int k1 = pos.getY() - 3 + i; k1 <= pos.getY() + i; ++k1) {
-						int j2 = k1 - (pos.getY() + i);
-						int l2 = 2 - j2 / 2;
+					for(int y = pos.getY() - 3 + i; y <= pos.getY() + i; ++y) {
+						int dy = y - (pos.getY() + i);
+						int partialDy = 2 - dy / 2;
 
-						for(int j3 = pos.getX() - l2; j3 <= pos.getX() + l2; ++j3) {
-							int k3 = j3 - pos.getX();
+						for(int x = pos.getX() - partialDy; x <= pos.getX() + partialDy; ++x) {
+							int dx = x - pos.getX();
 
-							for(int i4 = pos.getZ() - l2; i4 <= pos.getZ() + l2; ++i4) {
-								int j1 = i4 - pos.getZ();
+							for(int z = pos.getZ() - partialDy; z <= pos.getZ() + partialDy; ++z) {
+								int dz = z - pos.getZ();
 
-								if(Math.abs(k3) != l2 || Math.abs(j1) != l2 || rand.nextInt(2) != 0 && j2 != 0) {
-									BlockPos blockpos = new BlockPos(j3, k1, i4);
+								if(Math.abs(dx) != partialDy || Math.abs(dz) != partialDy || rand.nextInt(2) != 0 && dy != 0) {
+									BlockPos blockpos = new BlockPos(x, y, z);
 									state = worldIn.getBlockState(blockpos);
 
 									if(state.getBlock().canBeReplacedByLeaves(state, worldIn, blockpos))
@@ -101,40 +97,40 @@ public class WorldGenSwampTree extends WorldGenAbstractTree {
 
 					for(int l1 = 0; l1 < i; ++l1) {
 						BlockPos upN = pos.up(l1);
-						IBlockState iblockstate1 = worldIn.getBlockState(upN);
-						Block block2 = iblockstate1.getBlock();
+						IBlockState upState = worldIn.getBlockState(upN);
+						Block upBlock = upState.getBlock();
 
-						if(block2.isAir(iblockstate1, worldIn, upN) || block2.isLeaves(iblockstate1, worldIn, upN) || block2 == Blocks.FLOWING_WATER || block2 == Blocks.WATER)
+						if(upBlock.isAir(upState, worldIn, upN) || upBlock.isLeaves(upState, worldIn, upN) || upBlock == Blocks.FLOWING_WATER || upBlock == Blocks.WATER)
 							setBlockAndNotifyAdequately(worldIn, pos.up(l1), TRUNK);
 					}
 
 					if(addVines)
-						for(int i2 = pos.getY() - 3 + i; i2 <= pos.getY() + i; ++i2) {
-							int k2 = i2 - (pos.getY() + i);
-							int i3 = 2 - k2 / 2;
-							BlockPos.MutableBlockPos mpos = new BlockPos.MutableBlockPos();
+						for(int y = pos.getY() - 3 + i; y <= pos.getY() + i; ++y) {
+							int dx = y - (pos.getY() + i);
+							int partialDy = 2 - dx / 2;
+							BlockPos.MutableBlockPos pointer = new BlockPos.MutableBlockPos();
 
-							for(int l3 = pos.getX() - i3; l3 <= pos.getX() + i3; ++l3)
-								for(int j4 = pos.getZ() - i3; j4 <= pos.getZ() + i3; ++j4) {
-									mpos.setPos(l3, i2, j4);
+							for(int x = pos.getX() - partialDy; x <= pos.getX() + partialDy; ++x)
+								for(int z = pos.getZ() - partialDy; z <= pos.getZ() + partialDy; ++z) {
+									pointer.setPos(x, y, z);
 
-									if(worldIn.getBlockState(mpos).getMaterial() == Material.LEAVES) {
-										BlockPos blockpos3 = mpos.west();
-										BlockPos blockpos4 = mpos.east();
-										BlockPos blockpos1 = mpos.north();
-										BlockPos blockpos2 = mpos.south();
+									if(worldIn.getBlockState(pointer).getMaterial() == Material.LEAVES) {
+										BlockPos west = pointer.west();
+										BlockPos east = pointer.east();
+										BlockPos north = pointer.north();
+										BlockPos south = pointer.south();
 
-										if(rand.nextInt(4) == 0 && worldIn.isAirBlock(blockpos3))
-											addVine(worldIn, blockpos3, BlockVine.EAST);
+										if(rand.nextInt(4) == 0 && worldIn.isAirBlock(west))
+											addVine(worldIn, west, BlockVine.EAST);
 
-										if(rand.nextInt(4) == 0 && worldIn.isAirBlock(blockpos4))
-											addVine(worldIn, blockpos4, BlockVine.WEST);
+										if(rand.nextInt(4) == 0 && worldIn.isAirBlock(east))
+											addVine(worldIn, east, BlockVine.WEST);
 
-										if(rand.nextInt(4) == 0 && worldIn.isAirBlock(blockpos1))
-											addVine(worldIn, blockpos1, BlockVine.SOUTH);
+										if(rand.nextInt(4) == 0 && worldIn.isAirBlock(north))
+											addVine(worldIn, north, BlockVine.SOUTH);
 
-										if(rand.nextInt(4) == 0 && worldIn.isAirBlock(blockpos2))
-											addVine(worldIn, blockpos2, BlockVine.NORTH);
+										if(rand.nextInt(4) == 0 && worldIn.isAirBlock(south))
+											addVine(worldIn, south, BlockVine.NORTH);
 									}
 								}
 							}
@@ -148,13 +144,14 @@ public class WorldGenSwampTree extends WorldGenAbstractTree {
 	}
 
 	private void addVine(World worldIn, BlockPos pos, PropertyBool prop) {
-		IBlockState iblockstate = Blocks.VINE.getDefaultState().withProperty(prop, true);
-		setBlockAndNotifyAdequately(worldIn, pos, iblockstate);
-		int i = 4;
+		IBlockState state = Blocks.VINE.getDefaultState().withProperty(prop, true);
+		setBlockAndNotifyAdequately(worldIn, pos, state);
 
-		for (BlockPos blockpos = pos.down(); worldIn.isAirBlock(blockpos) && i > 0; --i) {
-			setBlockAndNotifyAdequately(worldIn, blockpos, iblockstate);
-			blockpos = blockpos.down();
+		for (int y = 0; y < 4; y++) {
+			BlockPos vinePos = pos.down(y + 1);
+			if (worldIn.isAirBlock(vinePos))
+				break;
+			setBlockAndNotifyAdequately(worldIn, vinePos, state);
 		}
 	}
 

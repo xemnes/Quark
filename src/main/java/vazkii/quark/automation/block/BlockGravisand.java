@@ -1,9 +1,6 @@
 package vazkii.quark.automation.block;
 
-import java.util.Random;
-
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockSand;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -15,6 +12,8 @@ import net.minecraft.world.World;
 import vazkii.arl.block.BlockMod;
 import vazkii.quark.automation.entity.EntityGravisand;
 import vazkii.quark.base.block.IQuarkBlock;
+
+import java.util.Random;
 
 public class BlockGravisand extends BlockMod implements IQuarkBlock {
 
@@ -32,15 +31,16 @@ public class BlockGravisand extends BlockMod implements IQuarkBlock {
 
 	@Override
 	public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
-		checkRedstone(worldIn, pos, state);
+		checkRedstone(worldIn, pos);
 	}
 
 	@Override
+	@SuppressWarnings("deprecation")
 	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
-		checkRedstone(worldIn, pos, state);
+		checkRedstone(worldIn, pos);
 	}
 
-	private void checkRedstone(World worldIn, BlockPos pos, IBlockState state) {
+	private void checkRedstone(World worldIn, BlockPos pos) {
         boolean powered = worldIn.isBlockPowered(pos);
 
         if(powered)
@@ -48,11 +48,13 @@ public class BlockGravisand extends BlockMod implements IQuarkBlock {
 	}
 	
 	@Override
+	@SuppressWarnings("deprecation")
 	public boolean hasComparatorInputOverride(IBlockState state) {
 		return true;
 	}
 	
 	@Override
+	@SuppressWarnings("deprecation")
 	public int getComparatorInputOverride(IBlockState blockState, World worldIn, BlockPos pos) {
 		return 15;
 	}

@@ -27,6 +27,7 @@ public class ItemSoulPowder extends ItemMod implements IQuarkItem {
 	
 	@Nonnull
 	@Override
+	@SuppressWarnings("ConstantConditions")
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, @Nonnull EnumHand handIn) {
 		ItemStack itemstack = playerIn.getHeldItem(handIn);
 

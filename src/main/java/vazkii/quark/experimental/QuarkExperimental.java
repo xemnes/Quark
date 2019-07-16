@@ -15,7 +15,6 @@ import net.minecraft.item.ItemStack;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.experimental.client.TextureDump;
 import vazkii.quark.experimental.features.*;
-import vazkii.quark.world.feature.Frogs;
 
 public class QuarkExperimental extends Module {
 

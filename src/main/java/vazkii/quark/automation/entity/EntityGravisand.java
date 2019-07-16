@@ -1,26 +1,19 @@
 package vazkii.quark.automation.entity;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockFalling;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.EnumPacketDirection;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import vazkii.quark.automation.block.BlockGravisand;
 import vazkii.quark.automation.feature.Gravisand;
 
@@ -31,7 +24,7 @@ public class EntityGravisand extends EntityFallingBlock {
 	private static final String TAG_DIRECTION = "fallDirection";
 
 	// dumb hardcoding because of networking being a pain and this bock is really only used for this anyway
-	IBlockState fallTile = Gravisand.gravisand.getDefaultState();
+	private final IBlockState fallTile = Gravisand.gravisand.getDefaultState();
 
 	public EntityGravisand(World worldIn) {
 		super(worldIn);
@@ -77,9 +70,8 @@ public class EntityGravisand extends EntityFallingBlock {
 		}
 
 		float fallDirection = getFallDirection();
-		float fallSpeed = fallDirection * 0.4F;
 
-		motionY = fallSpeed;
+		motionY = fallDirection * 0.4F;
 
 		move(MoverType.SELF, motionX, motionY, motionZ);
 
@@ -91,8 +83,8 @@ public class EntityGravisand extends EntityFallingBlock {
 				onGround = true;
 			
 			if(onGround) {
-				BlockPos blockpos1 = new BlockPos(this);
-				IBlockState iblockstate = world.getBlockState(blockpos1);
+				BlockPos pos = new BlockPos(this);
+				IBlockState iblockstate = world.getBlockState(pos);
 
 				if(!hasFallen) {
 					onGround = false;
@@ -107,9 +99,13 @@ public class EntityGravisand extends EntityFallingBlock {
 					setDead();
 
 					// This is correct, the if has no block
-					if(world.mayPlace(block, blockpos1, true, fallDirection < 0 ? EnumFacing.UP : EnumFacing.DOWN, this) && !BlockGravisand.canFallThrough(world.getBlockState(fallTarget)) && world.setBlockState(blockpos1, fallTile, 3));
-					else if(shouldDropItem && world.getGameRules().getBoolean("doEntityDrops"))
-						entityDropItem(new ItemStack(block, 1, block.damageDropped(fallTile)), 0.0F);
+					if (!world.mayPlace(block, pos, true, fallDirection < 0 ? EnumFacing.UP : EnumFacing.DOWN, this) ||
+							BlockGravisand.canFallThrough(world.getBlockState(fallTarget)) ||
+							!world.setBlockState(pos, fallTile, 3)) {
+						if (shouldDropItem && world.getGameRules().getBoolean("doEntityDrops")) {
+							entityDropItem(new ItemStack(block, 1, block.damageDropped(fallTile)), 0.0F);
+						}
+					}
 				}
 			}
 		}

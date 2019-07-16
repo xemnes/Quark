@@ -10,22 +10,22 @@
  */
 package vazkii.quark.base.handler;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.core.Logger;
-
 import net.minecraft.block.Block;
 import net.minecraft.init.Biomes;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.fml.common.FMLLog;
 import net.minecraftforge.registries.IForgeRegistryEntry;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.Logger;
 import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.Quark;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 
 public final class OverrideRegistryHandler {
 
@@ -54,14 +54,14 @@ public final class OverrideRegistryHandler {
 	}
 
 	public static void registerItem(Item item, String baseName) {
-		register(item, Item.class, baseName);
+		register(item, Items.class, baseName);
 	}
-	
-	public static void registerBiome(Biome biome, String baseName) {
-		register(biome, Biomes.class, baseName);
+
+	public static void registerBiome(Biome item, String baseName) {
+		register(item, Biomes.class, baseName);
 	}
-	
-	public static void register(IForgeRegistryEntry.Impl obj, Class<?> registryType, String baseName) {
+
+	public static <T extends IForgeRegistryEntry<T>> void register(T obj, Class<?> registryType, String baseName) {
 		Level revoked = revokeLog();
 		ResourceLocation regName = new ResourceLocation("minecraft", baseName);
 		obj.setRegistryName(regName);

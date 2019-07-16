@@ -27,7 +27,6 @@ import vazkii.arl.block.BlockMod;
 import vazkii.quark.base.block.IQuarkBlock;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 public class BlockIronLadder extends BlockMod implements IQuarkBlock {
 
@@ -65,12 +64,6 @@ public class BlockIronLadder extends BlockMod implements IQuarkBlock {
 	@Override
 	public boolean canPlaceBlockOnSide(@Nonnull World worldIn, @Nonnull BlockPos pos, EnumFacing side) {
 		return canBlockStay(worldIn, pos, side);
-	}
-
-	@Nullable
-	@Override
-	public String getHarvestTool(IBlockState state) {
-		return super.getHarvestTool(state);
 	}
 
 	@Nonnull

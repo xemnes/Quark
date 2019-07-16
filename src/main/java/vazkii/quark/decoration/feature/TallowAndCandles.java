@@ -1,6 +1,5 @@
 package vazkii.quark.decoration.feature;
 
-import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityPig;
@@ -21,7 +20,7 @@ import vazkii.quark.decoration.item.ItemTallow;
 public class TallowAndCandles extends Feature {
 
 	public static Item tallow;
-	public static Block candle;
+	public static BlockCandle candle;
 	
 	public static boolean candlesFall;
 	public static float enchantPower;

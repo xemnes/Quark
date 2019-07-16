@@ -8,6 +8,7 @@ import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.item.EntityFallingBlock;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.IStringSerializable;
@@ -140,22 +141,29 @@ public class BlockCandle extends BlockMetaVariants<BlockCandle.Variants> impleme
 	
 	
 	public enum Variants implements IStringSerializable {
-		CANDLE_WHITE,
-		CANDLE_ORANGE,
-		CANDLE_MAGENTA,
-		CANDLE_LIGHT_BLUE,
-		CANDLE_YELLOW,
-		CANDLE_LIME,
-		CANDLE_PINK,
-		CANDLE_GRAY,
-		CANDLE_SILVER,
-		CANDLE_CYAN,
-		CANDLE_PURPLE,
-		CANDLE_BLUE,
-		CANDLE_BROWN,
-		CANDLE_GREEN,
-		CANDLE_RED,
-		CANDLE_BLACK;
+		CANDLE_WHITE(EnumDyeColor.WHITE),
+		CANDLE_ORANGE(EnumDyeColor.ORANGE),
+		CANDLE_MAGENTA(EnumDyeColor.MAGENTA),
+		CANDLE_LIGHT_BLUE(EnumDyeColor.LIGHT_BLUE),
+		CANDLE_YELLOW(EnumDyeColor.YELLOW),
+		CANDLE_LIME(EnumDyeColor.LIME),
+		CANDLE_PINK(EnumDyeColor.PINK),
+		CANDLE_GRAY(EnumDyeColor.GRAY),
+		CANDLE_SILVER(EnumDyeColor.SILVER),
+		CANDLE_CYAN(EnumDyeColor.CYAN),
+		CANDLE_PURPLE(EnumDyeColor.PURPLE),
+		CANDLE_BLUE(EnumDyeColor.BLUE),
+		CANDLE_BROWN(EnumDyeColor.BROWN),
+		CANDLE_GREEN(EnumDyeColor.GREEN),
+		CANDLE_RED(EnumDyeColor.RED),
+		CANDLE_BLACK(EnumDyeColor.BLACK);
+
+		public final EnumDyeColor color;
+
+		Variants(EnumDyeColor color) {
+
+			this.color = color;
+		}
 
 		@Override
 		public String getName() {

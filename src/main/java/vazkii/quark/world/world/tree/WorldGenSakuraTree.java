@@ -9,6 +9,8 @@ import net.minecraft.world.gen.feature.WorldGenBigTree;
 import vazkii.quark.world.block.BlockVariantLeaves;
 import vazkii.quark.world.feature.OakVariants;
 
+import javax.annotation.Nonnull;
+
 public class WorldGenSakuraTree extends WorldGenBigTree {
 
 	private final IBlockState leaf;
@@ -20,7 +22,7 @@ public class WorldGenSakuraTree extends WorldGenBigTree {
 	}
 
 	@Override
-	protected void setBlockAndNotifyAdequately(World worldIn, BlockPos pos, IBlockState state) {
+	protected void setBlockAndNotifyAdequately(World worldIn, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
 		if(state.getBlock() == Blocks.LEAVES)
 			state = leaf;
 		

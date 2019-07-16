@@ -32,7 +32,6 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.arl.block.BlockMod;
@@ -42,7 +41,6 @@ import vazkii.quark.base.block.IQuarkBlock;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.EnumSet;
 import java.util.Random;
 
 public class BlockRedstoneInductor extends BlockMod implements IQuarkBlock, IBlockColorProvider {
@@ -301,13 +299,7 @@ public class BlockRedstoneInductor extends BlockMod implements IQuarkBlock, IBlo
 	}
 
 	protected void notifyNeighbors(World worldIn, BlockPos pos, IBlockState state) {
-		EnumFacing enumfacing = state.getValue(FACING);
-		BlockPos blockpos = pos.offset(enumfacing.getOpposite());
-		if(ForgeEventFactory.onNeighborNotify(worldIn, pos, worldIn.getBlockState(pos), EnumSet.of(enumfacing.getOpposite()), false).isCanceled())
-			return;
-
-		worldIn.neighborChanged(blockpos, this, pos);
-		worldIn.notifyNeighborsOfStateExcept(blockpos, this, enumfacing);
+		BlockRedstoneRandomizer.notify(this, worldIn, pos, state);
 	}
 
 	@Override

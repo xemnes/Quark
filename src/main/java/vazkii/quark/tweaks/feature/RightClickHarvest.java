@@ -50,7 +50,7 @@ public class RightClickHarvest extends Feature {
 
 	public static String[] harvestableBlocks;
 
-	public static Map<BlockStack, BlockStack> crops = Maps.newHashMap();
+	public static final Map<BlockStack, BlockStack> crops = Maps.newHashMap();
 
 	private static boolean hasInit;
 

@@ -159,7 +159,7 @@ public class VariedChests extends Feature {
 		}
 	}
 
-	private static ThreadLocal<ItemStack> WAIT_TO_REPLACE_CHEST = new ThreadLocal<>();
+	private static final ThreadLocal<ItemStack> WAIT_TO_REPLACE_CHEST = new ThreadLocal<>();
 
 	@SubscribeEvent
 	public void onDeath(LivingDeathEvent event) {

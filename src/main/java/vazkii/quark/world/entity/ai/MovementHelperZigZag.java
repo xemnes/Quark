@@ -14,8 +14,8 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.ai.EntityMoveHelper;
 
 public class MovementHelperZigZag extends EntityMoveHelper {
-	public MovementHelperZigZag(EntityLiving entitylivingIn) {
-		super(entitylivingIn);
+	public MovementHelperZigZag(EntityLiving living) {
+		super(living);
 	}
 
 	@Override

@@ -1,21 +1,13 @@
 package vazkii.quark.world.block;
 
-import java.util.Locale;
-import java.util.Random;
-
-import javax.annotation.Nonnull;
-
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockSapling;
 import net.minecraft.block.IGrowable;
-import net.minecraft.block.SoundType;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -24,9 +16,12 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 import net.minecraftforge.event.terraingen.TerrainGen;
 import vazkii.quark.base.block.BlockQuarkBush;
-import vazkii.quark.world.feature.OakVariants;
 import vazkii.quark.world.world.tree.WorldGenSakuraTree;
 import vazkii.quark.world.world.tree.WorldGenSwampTree;
+
+import javax.annotation.Nonnull;
+import java.util.Locale;
+import java.util.Random;
 
 public class BlockVariantSapling extends BlockQuarkBush implements IGrowable {
 
@@ -40,14 +35,12 @@ public class BlockVariantSapling extends BlockQuarkBush implements IGrowable {
 	public BlockVariantSapling() {
 		super("variant_sapling", VARIANTS);
 
-		setHardness(0.0F);
-		setSoundType(SoundType.PLANT);
 		setDefaultState(blockState.getBaseState().withProperty(VARIANT, Variant.SWAMP_SAPLING).withProperty(STAGE, 0));
 		setCreativeTab(CreativeTabs.DECORATIONS);
 	}
 
 	@Override
-	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+	public void updateTick(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull IBlockState state, Random rand) {
 		if (!worldIn.isRemote) {
 			super.updateTick(worldIn, pos, state, rand);
 
@@ -80,31 +73,30 @@ public class BlockVariantSapling extends BlockQuarkBush implements IGrowable {
 	}
 
 	@Override
-	public boolean canGrow(World worldIn, BlockPos pos, IBlockState state, boolean isClient) {
+	public boolean canGrow(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull IBlockState state, boolean isClient) {
 		return true;
 	}
 
 	@Override
-	public boolean canUseBonemeal(World worldIn, Random rand, BlockPos pos, IBlockState state) {
+	public boolean canUseBonemeal(@Nonnull World worldIn, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
 		return worldIn.rand.nextFloat() < 0.45;
 	}
 
 	@Override
-	public void grow(World worldIn, Random rand, BlockPos pos, IBlockState state) {
+	public void grow(@Nonnull World worldIn, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
 		grow(worldIn, pos, state, rand);
 	}
-	
-	@Override
-	public int damageDropped(IBlockState state) {
-		return state.getValue(VARIANT).ordinal();
-	}
 
+	@Nonnull
 	@Override
+	@SuppressWarnings("deprecation")
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
 		return SAPLING_AABB;
 	}
 
+	@Nonnull
 	@Override
+	@SuppressWarnings("deprecation")
 	public IBlockState getStateFromMeta(int meta) {
 		return getDefaultState().withProperty(VARIANT, Variant.values()[meta & 1]).withProperty(STAGE, (meta & 8) >> 3);
 	}
@@ -118,8 +110,14 @@ public class BlockVariantSapling extends BlockQuarkBush implements IGrowable {
 	}
 
 	@Override
+	public int damageDropped(IBlockState state) {
+		return state.getValue(VARIANT).ordinal();
+	}
+
+	@Nonnull
+	@Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, new IProperty[] { VARIANT, STAGE });
+		return new BlockStateContainer(this, VARIANT, STAGE);
 	}
 
 	@Override
@@ -136,13 +134,8 @@ public class BlockVariantSapling extends BlockQuarkBush implements IGrowable {
 	public IProperty[] getIgnoredProperties() {
 		return new IProperty[] { STAGE };
 	}
-	
-	@Override
-	public boolean useBlockstateForItem() {
-		return false;
-	}
 
-	private static enum Variant implements IStringSerializable {
+	private enum Variant implements IStringSerializable {
 
 		SWAMP_SAPLING, SAKURA_SAPLING;
 
