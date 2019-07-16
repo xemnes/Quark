@@ -29,10 +29,11 @@ public class LeafCarpets extends Feature {
 
 		Variants[] variants = Variants.values();
 		for(int i = 0; i < variants.length; i++) {
-			ItemStack stack = variants[i].baseStack;
-			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(leaf_carpet, 3, i),
-					"LL",
-					'L', stack.copy());
+			ItemStack stack = variants[i].getBaseStack();
+			if(!stack.isEmpty())
+				RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(leaf_carpet, 3, i),
+						"LL",
+						'L', stack.copy());
 		}
 	}
 	
