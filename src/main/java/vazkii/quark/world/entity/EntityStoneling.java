@@ -14,6 +14,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -22,11 +23,11 @@ import net.minecraft.world.storage.loot.LootContext;
 import net.minecraftforge.oredict.OreDictionary;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.base.sounds.QuarkSounds;
-import vazkii.quark.world.feature.Frogs;
 import vazkii.quark.world.base.EnumStonelingVariant;
 import vazkii.quark.world.entity.ai.EntityAIActWary;
 import vazkii.quark.world.entity.ai.EntityAIFavorBlock;
 import vazkii.quark.world.entity.ai.EntityAIRunAndPoof;
+import vazkii.quark.world.feature.Frogs;
 import vazkii.quark.world.feature.Stonelings;
 
 import javax.annotation.Nonnull;
@@ -53,6 +54,8 @@ public class EntityStoneling extends EntityCreature {
 
 	public EntityStoneling(World worldIn) {
 		super(worldIn);
+		this.setPathPriority(PathNodeType.DAMAGE_CACTUS, 1.0F);
+		this.setPathPriority(PathNodeType.DANGER_CACTUS, 1.0F);
 		setSize(0.5F, 0.9F);
 	}
 
