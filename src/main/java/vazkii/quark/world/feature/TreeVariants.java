@@ -1,16 +1,16 @@
 package vazkii.quark.world.feature;
 
-import java.lang.reflect.Field;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.color.BlockColors;
+import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraft.init.Biomes;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.ColorizerFoliage;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeColorHelper;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
@@ -18,29 +18,32 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.registries.IRegistryDelegate;
 import vazkii.quark.base.handler.OverrideRegistryHandler;
 import vazkii.quark.base.lib.LibObfuscation;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.world.block.BlockVariantLeaves;
 import vazkii.quark.world.block.BlockVariantSapling;
-import vazkii.quark.world.world.PirateShipGenerator;
 import vazkii.quark.world.world.SakuraTreeGenerator;
 import vazkii.quark.world.world.tree.WorldGenSwampTree;
 
-public class OakVariants extends Feature {
+import java.lang.reflect.Field;
+import java.util.Map;
+
+public class TreeVariants extends Feature {
 
 	public static Block variant_leaves;
 	public static Block variant_sapling;
 
-	boolean enableSwamp, enableSakura, changeVineColor;
-	public static float sakuraChance;
+	public static boolean enableSwamp, enableSakura, changeVineColor;
+	public static double sakuraChance;
 
 	@Override
 	public void setupConfig() {
 		enableSwamp = loadPropBool("Enable Swamp", "", true);
 		enableSakura = loadPropBool("Enable Blossom", "", true);
 		changeVineColor = loadPropBool("Change vine color in swamps", "", true);
-		sakuraChance = (float) loadPropDouble("Blossom Tree Chance", "The chance per chunk for a Oak Blossom Tree to spawn (0 is 0%, 1 is 100%). This can be higher than 1 if you want multiple per chunk.", 0.05);
+		sakuraChance = loadPropChance("Blossom Tree Chance", "The chance per chunk for a Oak Blossom Tree to spawn (0 is 0%, 1 is 100%). This can be higher than 1 if you want multiple per chunk.", 0.05);
 	}
 
 	@Override
@@ -62,24 +65,42 @@ public class OakVariants extends Feature {
 			} catch(ReflectiveOperationException e) {
 				e.printStackTrace();
 			}
-		
+
 		if(enableSakura)
 			GameRegistry.registerWorldGenerator(new SakuraTreeGenerator(), 0);
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void initClient() {
-		if(changeVineColor) {
-			BlockColors c = Minecraft.getMinecraft().getBlockColors();
-			c.registerBlockColorHandler((state, worldIn, pos, i) -> {
-				if(worldIn != null && pos != null) {
-					Biome b = worldIn.getBiome(pos);
-					if(b == Biomes.SWAMPLAND)
-						return 0x393939;
-					
+	@SuppressWarnings("unchecked")
+	public void postInitClient() {
+		if (changeVineColor) {
+			BlockColors colors = Minecraft.getMinecraft().getBlockColors();
+
+			IBlockColor parent = (state, worldIn, pos, tintIndex) -> {
+				if (worldIn != null && pos != null)
 					return BiomeColorHelper.getFoliageColorAtPos(worldIn, pos);
-				} else return ColorizerFoliage.getFoliageColorBasic();
+				return ColorizerFoliage.getFoliageColorBasic();
+			};
+
+			try {
+				Map<IRegistryDelegate<Block>, IBlockColor> colorMap = (Map<IRegistryDelegate<Block>, IBlockColor>)
+						ObfuscationReflectionHelper.findField(BlockColors.class, "blockColorMap").get(colors); // Forge field
+
+				parent = colorMap.getOrDefault(Blocks.VINE.delegate, parent);
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			}
+
+			IBlockColor finalParent = parent;
+			colors.registerBlockColorHandler((state, worldIn, pos, i) -> {
+				if (worldIn != null && pos != null) {
+					Biome b = worldIn.getBiome(pos);
+					if (b == Biomes.SWAMPLAND)
+						return 0x6a7039;
+				}
+
+				return finalParent.colorMultiplier(state, worldIn, pos, i);
 			}, Blocks.VINE);
 		}
 	}

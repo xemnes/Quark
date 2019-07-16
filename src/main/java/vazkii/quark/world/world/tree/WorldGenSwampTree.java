@@ -18,7 +18,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenSwamp;
-import vazkii.quark.world.feature.OakVariants;
+import vazkii.quark.world.feature.TreeVariants;
 
 // mostly a copy of WorldGenSwamp but for our purposes
 public class WorldGenSwampTree extends WorldGenSwamp {
@@ -29,7 +29,7 @@ public class WorldGenSwampTree extends WorldGenSwamp {
 
 	public WorldGenSwampTree(boolean addVines) {
 		this.addVines = addVines;
-		leaf = OakVariants.variant_leaves.getDefaultState().withProperty(BlockLeaves.CHECK_DECAY, false);
+		leaf = TreeVariants.variant_leaves.getDefaultState().withProperty(BlockLeaves.CHECK_DECAY, false);
 	}
 
 	@Override

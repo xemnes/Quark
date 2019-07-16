@@ -637,9 +637,9 @@ tile.quark:stonebrick_mossy_slab.name=Mossy Stone Brick Slab
 tile.quark:stonebrick_mossy_wall.name=Mossy Stone Brick Wall
 tile.quark:redstone_inductor.name=Redstone Inductor
 tile.quark:swamp_leaves.name=Swamp Oak Leaves
-tile.quark:sakura_leaves.name=Oak Blossom Leaves
+tile.quark:sakura_leaves.name=Blossoming Leaves
 tile.quark:swamp_sapling.name=Swamp Oak Sapling
-tile.quark:sakura_sapling.name=Oak Blossom Sapling
+tile.quark:sakura_sapling.name=Blossoming Sapling
 
 # ITEM NAMES
 item.quark:glass_shard.name=Glass Shard
