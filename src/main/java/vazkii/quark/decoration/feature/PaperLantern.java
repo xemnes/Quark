@@ -20,6 +20,9 @@ public class PaperLantern extends Feature {
 				'P', "paper",
 				'S', "stickWood",
 				'G', "glowstone");
+		
+		RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(paper_lantern, 1, 1), 
+				ProxyRegistry.newStack(paper_lantern), "treeSapling");
 	}
 	
 	@Override

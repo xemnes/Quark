@@ -6,20 +6,24 @@ import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
+import vazkii.arl.block.BlockMetaVariants;
 import vazkii.arl.block.BlockMod;
 import vazkii.quark.base.block.IQuarkBlock;
 
+import java.util.Locale;
+
 import javax.annotation.Nonnull;
 
-public class BlockPaperLantern extends BlockMod implements IQuarkBlock {
+public class BlockPaperLantern extends BlockMetaVariants<BlockPaperLantern.Variants> implements IQuarkBlock {
 
 	private static final AxisAlignedBB AABB = new AxisAlignedBB(0.125, 0.125, 0.125, 0.875, 0.875, 0.875);
 	
 	public BlockPaperLantern() {
-		super("paper_lantern", Material.WOOD);
+		super("paper_lantern", Material.WOOD, Variants.class);
 		setHardness(1.5F);
 		setSoundType(SoundType.WOOD);
 		setCreativeTab(CreativeTabs.DECORATIONS);
@@ -61,5 +65,16 @@ public class BlockPaperLantern extends BlockMod implements IQuarkBlock {
 	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
 		return face != EnumFacing.UP && face != EnumFacing.DOWN ? BlockFaceShape.UNDEFINED : BlockFaceShape.CENTER;
 	}
+
+	public enum Variants implements IStringSerializable {
+		PAPER_LANTERN,
+		PAPER_LANTERN_SAKURA;
+
+		@Override
+		public String getName() {
+			return name().toLowerCase(Locale.ROOT);
+		}
+	}
+
 
 }
