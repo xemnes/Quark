@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
@@ -26,11 +27,13 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.arl.interf.IBlockColorProvider;
 import vazkii.quark.base.block.IQuarkBlock;
+import vazkii.quark.world.feature.OakVariants;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 
 public class BlockVariantLeaves extends BlockLeaves implements IQuarkBlock, IBlockColorProvider {
 
@@ -61,6 +64,11 @@ public class BlockVariantLeaves extends BlockLeaves implements IQuarkBlock, IBlo
     public int damageDropped(IBlockState state) {
         return state.getValue(VARIANT).ordinal();
     }
+	
+	@Override
+	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+		return Item.getItemFromBlock(OakVariants.variant_sapling);
+	}
 
 	@Nonnull
 	@Override

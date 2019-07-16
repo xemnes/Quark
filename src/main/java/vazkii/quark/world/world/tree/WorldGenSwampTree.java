@@ -1,6 +1,15 @@
 package vazkii.quark.world.world.tree;
 
-import net.minecraft.block.*;
+import java.util.Random;
+
+import javax.annotation.Nonnull;
+
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockLeaves;
+import net.minecraft.block.BlockOldLog;
+import net.minecraft.block.BlockPlanks;
+import net.minecraft.block.BlockSapling;
+import net.minecraft.block.BlockVine;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.IBlockState;
@@ -8,26 +17,22 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.WorldGenAbstractTree;
+import net.minecraft.world.gen.feature.WorldGenSwamp;
 import vazkii.quark.world.feature.OakVariants;
 
-import javax.annotation.Nonnull;
-import java.util.Random;
-
 // mostly a copy of WorldGenSwamp but for our purposes
-public class WorldGenSwampTree extends WorldGenAbstractTree {
+public class WorldGenSwampTree extends WorldGenSwamp {
 
 	private static final IBlockState TRUNK = Blocks.LOG.getDefaultState().withProperty(BlockOldLog.VARIANT, BlockPlanks.EnumType.OAK);
 	private final IBlockState leaf;
 	private final boolean addVines;
 
 	public WorldGenSwampTree(boolean addVines) {
-		super(false);
-
 		this.addVines = addVines;
 		leaf = OakVariants.variant_leaves.getDefaultState().withProperty(BlockLeaves.CHECK_DECAY, false);
 	}
 
+	@Override
 	public boolean generate(@Nonnull World worldIn, @Nonnull Random rand, @Nonnull BlockPos pos) {
 		int i = rand.nextInt(4) + 5;
 		while (worldIn.getBlockState(pos.down()).getMaterial() == Material.WATER)
@@ -144,15 +149,14 @@ public class WorldGenSwampTree extends WorldGenAbstractTree {
 	}
 
 	private void addVine(World worldIn, BlockPos pos, PropertyBool prop) {
-		IBlockState state = Blocks.VINE.getDefaultState().withProperty(prop, true);
-		setBlockAndNotifyAdequately(worldIn, pos, state);
+        IBlockState iblockstate = Blocks.VINE.getDefaultState().withProperty(prop, true);
+        setBlockAndNotifyAdequately(worldIn, pos, iblockstate);
+        int i = 4;
 
-		for (int y = 0; y < 4; y++) {
-			BlockPos vinePos = pos.down(y + 1);
-			if (worldIn.isAirBlock(vinePos))
-				break;
-			setBlockAndNotifyAdequately(worldIn, vinePos, state);
-		}
+        for(BlockPos blockpos = pos.down(); worldIn.isAirBlock(blockpos) && i > 0; --i) {
+            setBlockAndNotifyAdequately(worldIn, blockpos, iblockstate);
+            blockpos = blockpos.down();
+        }
 	}
 
 }

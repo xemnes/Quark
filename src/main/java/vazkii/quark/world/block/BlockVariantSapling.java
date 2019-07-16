@@ -134,6 +134,11 @@ public class BlockVariantSapling extends BlockQuarkBush implements IGrowable {
 	public IProperty[] getIgnoredProperties() {
 		return new IProperty[] { STAGE };
 	}
+	
+	@Override
+	public boolean useBlockstateForItem() {
+		return false;
+	}
 
 	private enum Variant implements IStringSerializable {
 

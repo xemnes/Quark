@@ -29,7 +29,7 @@ import java.lang.reflect.Modifier;
 
 public final class OverrideRegistryHandler {
 
-	private static void crackFinalField(Field field) throws NoSuchFieldException, IllegalAccessException {
+	public static void crackFinalField(Field field) throws NoSuchFieldException, IllegalAccessException {
 		field.setAccessible(true);
 
 		Field modifiersField = Field.class.getDeclaredField("modifiers");
