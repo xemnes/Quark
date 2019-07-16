@@ -28,6 +28,7 @@ import vazkii.quark.decoration.feature.MoreBanners;
 import vazkii.quark.decoration.feature.NetherBrickFenceGate;
 import vazkii.quark.decoration.feature.PaperLantern;
 import vazkii.quark.decoration.feature.PaperWall;
+import vazkii.quark.decoration.feature.PlaceBlazeRods;
 import vazkii.quark.decoration.feature.Rope;
 import vazkii.quark.decoration.feature.TallowAndCandles;
 import vazkii.quark.decoration.feature.TieFences;
@@ -62,6 +63,7 @@ public class QuarkDecoration extends Module {
 		registerFeature(new PaperLantern());
 		registerFeature(new TieFences());
 		registerFeature(new Rope());
+		registerFeature(new PlaceBlazeRods());
 	}
 	
 	@Override

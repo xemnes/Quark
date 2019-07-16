@@ -2,6 +2,7 @@ package vazkii.quark.misc.feature;
 
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -59,20 +60,25 @@ public class PlaceVanillaDusts extends Feature {
 			EnumFacing face = res.sideHit;
 
 			if(enableGlowstone && stack.getItem() == Items.GLOWSTONE_DUST)
-				setBlock(player, world, pos, hand, face, glowstone_dust_block);
+				setBlock(player, stack, world, pos, hand, face, glowstone_dust_block, res);
 			else if(enableGunpowder && stack.getItem() == Items.GUNPOWDER)
-				setBlock(player, world, pos, hand, face, gunpowder_block);	
+				setBlock(player, stack, world, pos, hand, face, gunpowder_block, res);	
 		}
-		
 	}
 
-	private void setBlock(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, Block block) {
+	public static void setBlock(EntityPlayer player, ItemStack stack, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, Block block, RayTraceResult res) {
 		boolean flag = worldIn.getBlockState(pos).getBlock().isReplaceable(worldIn, pos);
 		BlockPos blockpos = flag ? pos : pos.offset(facing);
 		ItemStack itemstack = player.getHeldItem(hand);
 
 		if(player.canPlayerEdit(blockpos, facing, itemstack) && worldIn.mayPlace(worldIn.getBlockState(blockpos).getBlock(), blockpos, false, facing, null) && block.canPlaceBlockAt(worldIn, blockpos)) {
-			worldIn.setBlockState(blockpos, block.getDefaultState());
+			IBlockState state = block.getDefaultState();
+	        float hx = (float) (res.hitVec.x - blockpos.getX());
+	        float hy = (float) (res.hitVec.y - blockpos.getY());
+	        float hz = (float) (res.hitVec.z - blockpos.getZ());
+			state = block.getStateForPlacement(worldIn, blockpos, facing, hx, hy, hz, stack.getMetadata(), player);
+					
+			worldIn.setBlockState(blockpos, state);
 
 			if(player instanceof EntityPlayerMP)
 				CriteriaTriggers.PLACED_BLOCK.trigger((EntityPlayerMP) player, blockpos, itemstack);
@@ -80,9 +86,7 @@ public class PlaceVanillaDusts extends Feature {
 			if(!player.capabilities.isCreativeMode)
 				itemstack.shrink(1);
 			player.swingArm(hand);
-
 		}
-
 	}
 
 	@Override
@@ -96,7 +100,7 @@ public class PlaceVanillaDusts extends Feature {
 	}
 
 	// copy from Item#rayTrace
-	private static RayTraceResult rayTrace(World world, Entity player, boolean stopOnLiquid, double range) {
+	public static RayTraceResult rayTrace(World world, Entity player, boolean stopOnLiquid, double range) {
 		float scale = 1.0F;
 		float pitch = player.prevRotationPitch + (player.rotationPitch - player.prevRotationPitch) * scale;
 		float yaw = player.prevRotationYaw + (player.rotationYaw - player.prevRotationYaw) * scale;
@@ -114,7 +118,6 @@ public class PlaceVanillaDusts extends Feature {
 		float yLen = zYaw * pitchMod;
 		Vec3d end = rayPos.add(xLen * range, azimuth * range, yLen * range);
 		return world.rayTraceBlocks(rayPos, end, stopOnLiquid);
-
 	}
 
 }
