@@ -67,7 +67,7 @@ public class PistonsMoveTEs extends Feature {
 		if(!ModuleLoader.isFeatureEnabled(PistonsMoveTEs.class))
 			return te;
 		
-		return shouldMoveTE(te, state);
+		return shouldMoveTE(state);
 	}
 	
 	public static boolean shouldMoveTE(IBlockState state) {
