@@ -35,6 +35,7 @@ public class QuarkAutomation extends Module {
 		registerFeature(new RedstoneRandomizer());
 		registerFeature(new Gravisand());
 		registerFeature(new RedstoneInductor());
+		registerFeature(new ChainLinkage());
 	}
 	
 	@Override

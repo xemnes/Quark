@@ -10,12 +10,14 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -31,6 +33,7 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.automation.client.render.PistonTileEntityRenderer;
+import vazkii.quark.automation.feature.ChainLinkage;
 import vazkii.quark.automation.feature.PistonSpikes;
 import vazkii.quark.automation.feature.PistonsMoveTEs;
 import vazkii.quark.automation.feature.PistonsPushPullItems;
@@ -82,14 +85,25 @@ public final class ASMHooks {
 		ColorRunes.applyColor();
 	}
 	
-	// ===== BOAT SAILS ===== //
+	// ===== BOAT SAILS & CHAIN LINKAGE ===== //
+
+	@SideOnly(Side.CLIENT)
+	public static void renderChain(Render render, double x, double y, double z, Entity entity, float partTicks) {
+		ChainLinkage.renderChain(render, x, y, z, entity, partTicks);
+	}
 	
 	public static void onBoatUpdate(EntityBoat boat) {
 		BoatSails.onBoatUpdate(boat);
+		ChainLinkage.onBoatUpdate(boat);
 	}
 	
-	public static void dropBoatBanner(EntityBoat boat) {
+	public static void boatDrops(EntityBoat boat) {
 		BoatSails.dropBoatBanner(boat);
+		ChainLinkage.drop(boat);
+	}
+
+	public static void minecartDrops(EntityMinecart minecart) {
+		ChainLinkage.drop(minecart);
 	}
 	
 	@SideOnly(Side.CLIENT)

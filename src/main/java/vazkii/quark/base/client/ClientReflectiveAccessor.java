@@ -17,6 +17,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiNewChat;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.RenderItem;
+import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.potion.Potion;
@@ -43,7 +44,8 @@ public class ClientReflectiveAccessor {
 			CHAT_SCROLL_POS,
 			SETUP_ITEM_GUI_TRANSFORM,
 			MINECRAFT_SYSTEM_TIME,
-			ENTITY_LIVING_BASE_POTION_COLOR;
+			ENTITY_LIVING_BASE_POTION_COLOR,
+			RENDER_OUTLINE_MODE;
 
 	static {
 		try {
@@ -78,11 +80,14 @@ public class ClientReflectiveAccessor {
 			m = ObfuscationReflectionHelper.findMethod(RenderItem.class, "func_180452_a", Void.TYPE, Integer.TYPE, Integer.TYPE, Boolean.TYPE); // setupGuiTransform
 			SETUP_ITEM_GUI_TRANSFORM = MethodHandles.lookup().unreflect(m);
 
-			f = ObfuscationReflectionHelper.findField(Minecraft.class, "field_71423_H");
+			f = ObfuscationReflectionHelper.findField(Minecraft.class, "field_71423_H"); // systemTime
 			MINECRAFT_SYSTEM_TIME = MethodHandles.lookup().unreflectGetter(f);
 
-			f = ObfuscationReflectionHelper.findField(EntityLivingBase.class, "field_184633_f");
+			f = ObfuscationReflectionHelper.findField(EntityLivingBase.class, "field_184633_f"); // POTION_EFFECTS
 			ENTITY_LIVING_BASE_POTION_COLOR = MethodHandles.lookup().unreflectGetter(f);
+
+			f = ObfuscationReflectionHelper.findField(Render.class, "field_188301_f"); // renderOutlines
+			RENDER_OUTLINE_MODE = MethodHandles.lookup().unreflectGetter(f);
 		} catch (ClassNotFoundException | IllegalAccessException e) {
 			throw new RuntimeException(e);
 		}
@@ -173,6 +178,14 @@ public class ClientReflectiveAccessor {
 	public static DataParameter<Integer> potionEffectColor() {
 		try {
 			return (DataParameter<Integer>) ENTITY_LIVING_BASE_POTION_COLOR.invokeExact();
+		} catch (Throwable throwable) {
+			throw new RuntimeException(throwable);
+		}
+	}
+
+	public static boolean renderOutlines(Render render) {
+		try {
+			return (boolean) RENDER_OUTLINE_MODE.invokeExact(render);
 		} catch (Throwable throwable) {
 			throw new RuntimeException(throwable);
 		}

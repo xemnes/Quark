@@ -21,6 +21,7 @@ import vazkii.quark.base.network.message.*;
 import vazkii.quark.misc.feature.LockDirectionHotkey.LockProfile;
 
 import java.io.IOException;
+import java.util.UUID;
 
 public class MessageRegister {
 
@@ -50,9 +51,11 @@ public class MessageRegister {
 		NetworkHandler.register(MessageRotateArrows.class, Side.SERVER);
 		NetworkHandler.register(MessageDismountSeat.class, Side.SERVER);
 		NetworkHandler.register(MessageSyncColors.class, Side.CLIENT);
+		NetworkHandler.register(MessageSyncChain.class, Side.CLIENT);
 
 		NetworkMessage.mapHandler(LockProfile.class, LockProfile::readProfile, LockProfile::writeProfile);
 		NetworkMessage.mapHandler(ITextComponent.class, MessageRegister::readComponent, MessageRegister::writeComponent);
+		NetworkMessage.mapHandler(UUID.class, MessageRegister::readUUID, MessageRegister::writeUUID);
 	}
 
 	private static ITextComponent readComponent(ByteBuf buf) {
@@ -65,6 +68,21 @@ public class MessageRegister {
 
 	private static void writeComponent(ITextComponent comp, ByteBuf buf) {
 		new PacketBuffer(buf).writeTextComponent(comp);
+	}
+
+	private static UUID readUUID(ByteBuf buf) {
+		if (buf.readBoolean())
+			return null;
+		return new PacketBuffer(buf).readUniqueId();
+	}
+
+	private static void writeUUID(UUID uuid, ByteBuf buf) {
+		if (uuid == null)
+			buf.writeBoolean(true);
+		else {
+			buf.writeBoolean(false);
+			new PacketBuffer(buf).writeUniqueId(uuid);
+		}
 	}
 	
 }

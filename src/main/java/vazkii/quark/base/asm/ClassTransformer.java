@@ -45,9 +45,11 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 		transformers.put("net.minecraft.client.renderer.RenderItem", ClassTransformer::transformRenderItem);
 		transformers.put("net.minecraft.client.renderer.entity.layers.LayerArmorBase", ClassTransformer::transformLayerArmorBase);
 
-		// For Boat Sails
+		// For Boat Sails and Chain Linkage
 		transformers.put("net.minecraft.client.renderer.entity.RenderBoat", ClassTransformer::transformRenderBoat);
 		transformers.put("net.minecraft.entity.item.EntityBoat", ClassTransformer::transformEntityBoat);
+		transformers.put("net.minecraft.entity.item.EntityMinecart", ClassTransformer::transformEntityMinecart);
+		transformers.put("net.minecraft.client.renderer.entity.RenderMinecart", ClassTransformer::transformRenderMinecart);
 
 		// For Piston Block Breakers and Pistons Move TEs
 		transformers.put("net.minecraft.block.BlockPistonBase", ClassTransformer::transformBlockPistonBase);
@@ -212,7 +214,7 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 
 		MethodSignature target = new MethodSignature("dropItemWithOffset", "func_145778_a", "(Lnet/minecraft/item/Item;IF)Lnet/minecraft/entity/item/EntityItem;");
 
-		byte[] transClass = transform(basicClass, forMethod(sig1, combine(
+		return transform(basicClass, forMethod(sig1, combine(
 				(AbstractInsnNode node) -> { // Filter
 					return node.getOpcode() == INVOKEVIRTUAL && target.matches((MethodInsnNode) node);
 				},
@@ -220,23 +222,46 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 					InsnList newInstructions = new InsnList();
 
 					newInstructions.add(new VarInsnNode(ALOAD, 0));
-					newInstructions.add(new MethodInsnNode(INVOKESTATIC, ASM_HOOKS, "dropBoatBanner", "(Lnet/minecraft/entity/item/EntityBoat;)V", false));
+					newInstructions.add(new MethodInsnNode(INVOKESTATIC, ASM_HOOKS, "boatDrops", "(Lnet/minecraft/entity/item/EntityBoat;)V", false));
+
+					method.instructions.insert(node, newInstructions);
+					return true;
+				})),
+				forMethod(sig2, (MethodNode method) -> { // Action
+					InsnList newInstructions = new InsnList();
+
+					newInstructions.add(new VarInsnNode(ALOAD, 0));
+					newInstructions.add(new MethodInsnNode(INVOKESTATIC, ASM_HOOKS, "onBoatUpdate", "(Lnet/minecraft/entity/item/EntityBoat;)V", false));
+
+					method.instructions.insertBefore(method.instructions.getFirst(), newInstructions);
+					return true;
+				}));
+	}
+
+	private static byte[] transformEntityMinecart(byte[] basicClass) {
+		MethodSignature sig = new MethodSignature("killMinecart", "func_94095_a", "(Lnet/minecraft/util/DamageSource;)V");
+
+		MethodSignature target = new MethodSignature("entityDropItem", "func_70099_a", "(Lnet/minecraft/item/ItemStack;F)Lnet/minecraft/entity/item/EntityItem;");
+
+		return transform(basicClass, forMethod(sig, combine(
+				(AbstractInsnNode node) -> { // Filter
+					return node.getOpcode() == INVOKEVIRTUAL && target.matches((MethodInsnNode) node);
+				},
+				(MethodNode method, AbstractInsnNode node) -> { // Action
+					InsnList newInstructions = new InsnList();
+
+					newInstructions.add(new VarInsnNode(ALOAD, 0));
+					newInstructions.add(new MethodInsnNode(INVOKESTATIC, ASM_HOOKS, "minecartDrops", "(Lnet/minecraft/entity/item/EntityMinecart;)V", false));
 
 					method.instructions.insert(node, newInstructions);
 					return true;
 				})));
+	}
 
-		transClass = transform(transClass, forMethod(sig2, (MethodNode method) -> { // Action
-			InsnList newInstructions = new InsnList();
+	private static byte[] transformRenderMinecart(byte[] basicClass) {
+		MethodSignature sig = new MethodSignature("doRender", "func_188300_b", "(Lnet/minecraft/entity/item/EntityBoat;DDDFF)V");
 
-			newInstructions.add(new VarInsnNode(ALOAD, 0));
-			newInstructions.add(new MethodInsnNode(INVOKESTATIC, ASM_HOOKS, "onBoatUpdate", "(Lnet/minecraft/entity/item/EntityBoat;)V", false));
-
-			method.instructions.insertBefore(method.instructions.getFirst(), newInstructions);
-			return true;
-		}));
-
-		return transClass;
+		return transform(basicClass, transformRenderVehicle(sig));
 	}
 
 	private static byte[] transformRenderBoat(byte[] basicClass) {
@@ -259,7 +284,28 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 
 					method.instructions.insert(node, newInstructions);
 					return true;
-				})));
+				})), transformRenderVehicle(sig));
+	}
+
+	private static TransformerAction transformRenderVehicle(MethodSignature sig) {
+		return forMethod(sig, combine(
+				(AbstractInsnNode node) -> { // Filter
+					return node.getOpcode() == RETURN;
+				},
+				(MethodNode method, AbstractInsnNode node) -> { // Action
+					InsnList newInstructions = new InsnList();
+
+					newInstructions.add(new VarInsnNode(ALOAD, 0));
+					newInstructions.add(new VarInsnNode(DLOAD, 2));
+					newInstructions.add(new VarInsnNode(DLOAD, 4));
+					newInstructions.add(new VarInsnNode(DLOAD, 6));
+					newInstructions.add(new VarInsnNode(ALOAD, 1));
+					newInstructions.add(new VarInsnNode(FLOAD, 9));
+					newInstructions.add(new MethodInsnNode(INVOKESTATIC, ASM_HOOKS, "renderChain", "(Lnet/minecraft/client/renderer/entity/Render;DDDLnet/minecraft/entity/Entity;F)V", false));
+
+					method.instructions.insertBefore(node, newInstructions);
+					return false;
+				}));
 	}
 
 	private static byte[] transformBlockPistonBase(byte[] basicClass) {

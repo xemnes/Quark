@@ -13,6 +13,7 @@ import net.minecraft.entity.EntityHanging;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import org.lwjgl.opengl.GL11;
+import vazkii.quark.automation.feature.ChainLinkage;
 import vazkii.quark.decoration.entity.EntityLeashKnot2TheKnotting;
 
 import javax.annotation.Nonnull;
@@ -120,42 +121,10 @@ public class RenderLeashKnot2 extends Render<EntityLeashKnot2TheKnotting> {
 		GlStateManager.disableLighting();
 		GlStateManager.disableCull();
 		bufferbuilder.begin(GL11.GL_TRIANGLE_STRIP, DefaultVertexFormats.POSITION_COLOR);
-
-		for (int j = 0; j <= 24; ++j) {
-			float f = 0.5F;
-			float f1 = 0.4F;
-			float f2 = 0.3F;
-
-			if (j % 2 == 0) {
-				f *= 0.7F;
-				f1 *= 0.7F;
-				f2 *= 0.7F;
-			}
-
-			float f3 = j / 24.0F;
-			bufferbuilder.pos(x + d13 * f3 + 0.0D, y + d14 * (f3 * f3 + f3) * 0.5D + ((24.0F - j) / 18.0F + 0.125F), z + d15 * f3).color(f, f1, f2, 1.0F).endVertex();
-			bufferbuilder.pos(x + d13 * f3 + 0.025D, y + d14 * (f3 * f3 + f3) * 0.5D + ((24.0F - j) / 18.0F + 0.125F) + 0.025D, z + d15 * f3).color(f, f1, f2, 1.0F).endVertex();
-		}
-
+		ChainLinkage.drawChainSegment(x, y, z, bufferbuilder, d13, d14, d15, 0.025, 0, 0.5f, 0.4f, 0.3f);
 		tessellator.draw();
 		bufferbuilder.begin(GL11.GL_TRIANGLE_STRIP, DefaultVertexFormats.POSITION_COLOR);
-
-		for (int k = 0; k <= 24; ++k) {
-			float f4 = 0.5F;
-			float f5 = 0.4F;
-			float f6 = 0.3F;
-
-			if (k % 2 == 0) {
-				f4 *= 0.7F;
-				f5 *= 0.7F;
-				f6 *= 0.7F;
-			}
-
-			float f7 = k / 24.0F;
-			bufferbuilder.pos(x + d13 * f7 + 0.0D, y + d14 * (f7 * f7 + f7) * 0.5D + ((24.0F - k) / 18.0F + 0.125F) + 0.025D, z + d15 * f7).color(f4, f5, f6, 1.0F).endVertex();
-			bufferbuilder.pos(x + d13 * f7 + 0.025D, y + d14 * (f7 * f7 + f7) * 0.5D + ((24.0F - k) / 18.0F + 0.125F), z + d15 * f7 + 0.025D).color(f4, f5, f6, 1.0F).endVertex();
-		}
-
+		ChainLinkage.drawChainSegment(x, y, z, bufferbuilder, d13, d14, d15, 0, 0.025, 0.5f, 0.4f, 0.3f);
 		tessellator.draw();
 		GlStateManager.enableLighting();
 		GlStateManager.enableTexture2D();
