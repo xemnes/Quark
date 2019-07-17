@@ -32,6 +32,8 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.world.entity.ai.EntityAIRave;
 import vazkii.quark.world.entity.ai.MovementHelperZigZag;
 
@@ -111,7 +113,7 @@ public class EntityCrab extends EntityAnimal {
 			lightningCooldown--;
 		
         if(isRaving() && (jukeboxPosition == null || jukeboxPosition.distanceSq(posX, posY, posZ) > 24.0D || world.getBlockState(jukeboxPosition).getBlock() != Blocks.JUKEBOX))
-        	setPartying(null, false);
+        	party(null, false);
 
 		float sizeModifier = getSizeModifier();
 		if (height != sizeModifier * 0.5f)
@@ -163,11 +165,18 @@ public class EntityCrab extends EntityAnimal {
 	protected ResourceLocation getLootTable() {
 		return CRAB_LOOT_TABLE;
 	}
-	
+
+
+	public void party(BlockPos pos, boolean isPartying) {
+		// A separate method, due to setPartying being side-only.
+		jukeboxPosition = pos;
+		crabRave = isPartying;
+	}
+
 	@Override
+	@SideOnly(Side.CLIENT)
     public void setPartying(BlockPos pos, boolean isPartying) {
-        jukeboxPosition = pos;
-        crabRave = isPartying;
+		party(pos, isPartying);
     }
 
 	public boolean isRaving() {

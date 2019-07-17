@@ -7,8 +7,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.LootTableList;
+import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -23,6 +25,7 @@ import vazkii.quark.misc.feature.ExtraPotions;
 import vazkii.quark.world.client.render.RenderCrab;
 import vazkii.quark.world.entity.EntityCrab;
 import vazkii.quark.world.item.ItemCrabShell;
+import vazkii.quark.world.world.event.RaveEventListener;
 
 public class Crabs extends Feature {
 
@@ -39,6 +42,11 @@ public class Crabs extends Feature {
 		weight = loadPropInt("Spawn Weight", "The higher, the more will spawn", 40);
 		min = loadPropInt("Smallest spawn group", "", 1);
 		max = loadPropInt("Largest spawn group", "", 3);
+	}
+
+	@SubscribeEvent
+	public void onNewWorld(WorldEvent.Load event) {
+		event.getWorld().addEventListener(new RaveEventListener());
 	}
 
 	@Override
@@ -74,6 +82,11 @@ public class Crabs extends Feature {
 	@SideOnly(Side.CLIENT)
 	public void preInitClient() {
 		RenderingRegistry.registerEntityRenderingHandler(EntityCrab.class, RenderCrab.FACTORY);
+	}
+
+	@Override
+	public boolean hasSubscriptions() {
+		return true;
 	}
 
 	@Override
