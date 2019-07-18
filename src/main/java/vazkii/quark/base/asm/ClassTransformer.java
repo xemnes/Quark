@@ -259,7 +259,7 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 	}
 
 	private static byte[] transformRenderMinecart(byte[] basicClass) {
-		MethodSignature sig = new MethodSignature("doRender", "func_188300_b", "(Lnet/minecraft/entity/item/EntityBoat;DDDFF)V");
+		MethodSignature sig = new MethodSignature("doRender", "func_188300_b", "(Lnet/minecraft/entity/item/EntityMinecart;DDDFF)V");
 
 		return transform(basicClass, transformRenderVehicle(sig));
 	}
