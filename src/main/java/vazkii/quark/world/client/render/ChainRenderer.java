@@ -31,7 +31,10 @@ import vazkii.quark.world.base.ChainHandler;
 public class ChainRenderer {
 	private static final TIntObjectMap<Entity> RENDER_MAP = new TIntObjectHashMap<>();
 
-	public static void drawChainSegment(double x, double y, double z, BufferBuilder bufferbuilder, double offsetX, double offsetY, double offsetZ, double xOff, double zOff, float baseR, float baseG, float baseB, double height) {
+	public static void drawChainSegment(double x, double y, double z, BufferBuilder buf, double offsetX, double offsetY, double offsetZ, double xOff, double zOff, float baseR, float baseG, float baseB, double height) {
+		buf.begin(GL11.GL_TRIANGLE_STRIP, DefaultVertexFormats.POSITION_COLOR);
+
+		double centroid = xOff + zOff / 2;
 		for (int seg = 0; seg <= 24; ++seg) {
 			float r = baseR;
 			float g = baseG;
@@ -44,9 +47,11 @@ public class ChainRenderer {
 			}
 
 			float amount = seg / 24.0F;
-			bufferbuilder.pos(x + offsetX * amount + 0.0D, y + offsetY * (amount * amount + amount) * 0.5D + ((24.0F - seg) / 18.0F + 0.125F) * height + xOff, z + offsetZ * amount).color(r, g, b, 1.0F).endVertex();
-			bufferbuilder.pos(x + offsetX * amount + 0.025D, y + offsetY * (amount * amount + amount) * 0.5D + ((24.0F - seg) / 18.0F + 0.125F) * height + zOff, z + offsetZ * amount + xOff).color(r, g, b, 1.0F).endVertex();
+			buf.pos(x + offsetX * amount - centroid, y + offsetY * (amount * amount + amount) * 0.5D + ((24.0F - seg) / 18.0F + 0.125F) * height + xOff / 2 - zOff / 2, z + offsetZ * amount - xOff / 2).color(r, g, b, 1.0F).endVertex();
+			buf.pos(x + offsetX * amount + centroid, y + offsetY * (amount * amount + amount) * 0.5D + ((24.0F - seg) / 18.0F + 0.125F) * height + zOff / 2 - xOff / 2, z + offsetZ * amount + xOff / 2).color(r, g, b, 1.0F).endVertex();
 		}
+
+		Tessellator.getInstance().draw();
 	}
 
 	public static void renderChain(Render render, double x, double y, double z, Entity entity, float partTicks) {
@@ -99,16 +104,11 @@ public class ChainRenderer {
 			GlStateManager.disableTexture2D();
 			GlStateManager.disableLighting();
 			GlStateManager.disableCull();
-			buf.begin(GL11.GL_TRIANGLE_STRIP, DefaultVertexFormats.POSITION_COLOR);
 
 			drawChainSegment(x, y, z, buf, offsetX, offsetY, offsetZ, 0.025, 0, 0.3f, 0.3f, 0.3f, height);
 
-			tess.draw();
-			buf.begin(GL11.GL_TRIANGLE_STRIP, DefaultVertexFormats.POSITION_COLOR);
-
 			drawChainSegment(x, y, z, buf, offsetX, offsetY, offsetZ, 0, 0.025, 0.3f, 0.3f, 0.3f, height);
 
-			tess.draw();
 			GlStateManager.enableLighting();
 			GlStateManager.enableTexture2D();
 			GlStateManager.enableCull();
