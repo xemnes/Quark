@@ -55,12 +55,10 @@ public class ChainLinkage extends Feature {
 	public void preInit(FMLPreInitializationEvent event) {
 		chain = new ItemChain();
 
-		RecipeHandler.addShapedRecipe(ProxyRegistry.newStack(chain, 2),
-				"NN ",
-				"NI ",
-				"  N",
-				'N', "nuggetIron",
-				'I', "ingotIron");
+		RecipeHandler.addShapedRecipe(ProxyRegistry.newStack(chain, 1),
+				"NNN",
+				"NNN",
+				'N', "nuggetIron");
 
 		if (craftsArmor) {
 			RecipeHandler.addShapedRecipe(ProxyRegistry.newStack(Items.CHAINMAIL_HELMET),
@@ -120,8 +118,8 @@ public class ChainLinkage extends Feature {
 			if (ChainHandler.getLinked(linkCandidate) == player)
 				linkedToPlayer.add(linkCandidate);
 		}
-
-		if (ChainHandler.canBeLinked(entity) && (linkedToPlayer.isEmpty() || !sneaking) && !stack.isEmpty() && stack.getItem() == chain && link == null) {
+		
+		if (ChainHandler.canBeLinked(entity) && linkedToPlayer.isEmpty() && !stack.isEmpty() && stack.getItem() == chain && link == null) {
 			ChainHandler.setLink(entity, player.getUniqueID(), true);
 			if (!player.isCreative())
 				stack.shrink(1);

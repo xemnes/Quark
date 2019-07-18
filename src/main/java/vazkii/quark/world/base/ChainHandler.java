@@ -120,7 +120,8 @@ public class ChainHandler {
 			return;
 		}
 
-		adjustVelocity(other, cart);
+		if(!(other instanceof EntityPlayer))
+			adjustVelocity(other, cart);
 
 		cart.motionX *= DRAG;
 		cart.motionZ *= DRAG;
