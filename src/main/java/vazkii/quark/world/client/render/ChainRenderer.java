@@ -20,6 +20,7 @@ import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -65,6 +66,22 @@ public class ChainRenderer {
 		return start + (end - start) * pct;
 	}
 
+	private static double prevX(Entity entity) {
+		if (entity instanceof EntityMinecart)
+			return entity.lastTickPosX;
+		return entity.prevPosX;
+	}
+	private static double prevY(Entity entity) {
+		if (entity instanceof EntityMinecart)
+			return entity.lastTickPosY;
+		return entity.prevPosY;
+	}
+	private static double prevZ(Entity entity) {
+		if (entity instanceof EntityMinecart)
+			return entity.lastTickPosZ;
+		return entity.prevPosZ;
+	}
+
 	private static void renderChain(Entity cart, double x, double y, double z, float partialTicks) {
 		Entity entity = RENDER_MAP.get(cart.getEntityId());
 
@@ -81,9 +98,9 @@ public class ChainRenderer {
 			double height = entity instanceof EntityLivingBase ? entity.getEyeHeight() * 0.7 : 0;
 
 			double pitchMod = Math.cos(pitch);
-			double xLocus = interp(entity.prevPosX, entity.posX, partialTicks);
-			double yLocus = interp(entity.prevPosY, entity.posY, partialTicks) + height;
-			double zLocus = interp(entity.prevPosZ, entity.posZ, partialTicks);
+			double xLocus = interp(prevX(entity), entity.posX, partialTicks);
+			double yLocus = interp(prevY(entity), entity.posY, partialTicks) + height;
+			double zLocus = interp(prevZ(entity), entity.posZ, partialTicks);
 
 			if (entity instanceof EntityLivingBase) {
 				xLocus += -rotX * 0.7D - rotZ * 0.5D * pitchMod;
@@ -91,9 +108,9 @@ public class ChainRenderer {
 				zLocus += -rotZ * 0.7D + rotX * 0.5D * pitchMod;
 			}
 
-			double targetX = interp(cart.prevPosX, cart.posX, partialTicks);
-			double targetY = interp(cart.prevPosY, cart.posY, partialTicks);
-			double targetZ = interp(cart.prevPosZ, cart.posZ, partialTicks);
+			double targetX = interp(prevX(cart), cart.posX, partialTicks);
+			double targetY = interp(prevY(cart), cart.posY, partialTicks);
+			double targetZ = interp(prevZ(cart), cart.posZ, partialTicks);
 			if (entity instanceof EntityLivingBase) {
 				xLocus -= rotX;
 				zLocus -= rotZ;
