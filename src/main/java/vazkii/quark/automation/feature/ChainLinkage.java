@@ -55,10 +55,12 @@ public class ChainLinkage extends Feature {
 	public void preInit(FMLPreInitializationEvent event) {
 		chain = new ItemChain();
 
-		RecipeHandler.addShapedRecipe(ProxyRegistry.newStack(chain, 1),
-				"NNN",
-				"NNN",
-				'N', "nuggetIron");
+		RecipeHandler.addShapedRecipe(ProxyRegistry.newStack(chain, 3),
+				"NN ",
+				"NI ",
+				"  I",
+				'N', "nuggetIron",
+				'I', "ingotIron");
 
 		if (craftsArmor) {
 			RecipeHandler.addShapedRecipe(ProxyRegistry.newStack(Items.CHAINMAIL_HELMET),
@@ -105,9 +107,6 @@ public class ChainLinkage extends Feature {
 
 		Entity entity = event.getTarget();
 
-		if (entity.world.isRemote)
-			return;
-
 		Entity link = ChainHandler.getLinked(entity);
 
 		boolean sneaking = player.isSneaking();
@@ -118,29 +117,37 @@ public class ChainLinkage extends Feature {
 			if (ChainHandler.getLinked(linkCandidate) == player)
 				linkedToPlayer.add(linkCandidate);
 		}
-		
+
 		if (ChainHandler.canBeLinked(entity) && linkedToPlayer.isEmpty() && !stack.isEmpty() && stack.getItem() == chain && link == null) {
-			ChainHandler.setLink(entity, player.getUniqueID(), true);
-			if (!player.isCreative())
-				stack.shrink(1);
+			if (!entity.world.isRemote) {
+				ChainHandler.setLink(entity, player.getUniqueID(), true);
+				if (!player.isCreative())
+					stack.shrink(1);
+			}
 
 			event.setCancellationResult(EnumActionResult.SUCCESS);
 			event.setCanceled(true);
 		} else if (link == player) {
-			entity.entityDropItem(new ItemStack(chain), 0f);
-			ChainHandler.setLink(entity, null, true);
+			if (!entity.world.isRemote) {
+				entity.entityDropItem(new ItemStack(chain), 0f);
+				ChainHandler.setLink(entity, null, true);
+			}
 
 			event.setCancellationResult(EnumActionResult.SUCCESS);
 			event.setCanceled(true);
 		} else if (ChainHandler.canBeLinked(entity) && !linkedToPlayer.isEmpty()) {
-			for (Entity linked : linkedToPlayer)
-				ChainHandler.setLink(linked, entity.getUniqueID(), true);
+			if (!entity.world.isRemote) {
+				for (Entity linked : linkedToPlayer)
+					ChainHandler.setLink(linked, entity.getUniqueID(), true);
+			}
 
 			event.setCancellationResult(EnumActionResult.SUCCESS);
 			event.setCanceled(true);
 		} else if (link != null && sneaking) {
-			entity.entityDropItem(new ItemStack(chain), 0f);
-			ChainHandler.setLink(entity, null, true);
+			if (!entity.world.isRemote) {
+				entity.entityDropItem(new ItemStack(chain), 0f);
+				ChainHandler.setLink(entity, null, true);
+			}
 
 			event.setCancellationResult(EnumActionResult.SUCCESS);
 			event.setCanceled(true);

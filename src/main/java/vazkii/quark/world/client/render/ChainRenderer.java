@@ -20,7 +20,6 @@ import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -123,7 +122,7 @@ public class ChainRenderer {
 		if (world == null)
 			return;
 
-		for (Entity entity : world.getEntities(EntityBoat.class, ChainHandler::canBeLinked)) {
+		for (Entity entity : world.getEntities(Entity.class, ChainHandler::canBeLinked)) {
 			Entity other = ChainHandler.getLinked(entity);
 			if (other != null)
 				RENDER_MAP.put(entity.getEntityId(), other);
