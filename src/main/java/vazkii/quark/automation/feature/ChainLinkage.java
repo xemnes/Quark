@@ -129,7 +129,8 @@ public class ChainLinkage extends Feature {
 			event.setCanceled(true);
 		} else if (link == player) {
 			if (!entity.world.isRemote) {
-				entity.entityDropItem(new ItemStack(chain), 0f);
+				if (!player.isCreative())
+					entity.entityDropItem(new ItemStack(chain), 0f);
 				ChainHandler.setLink(entity, null, true);
 			}
 
@@ -145,7 +146,8 @@ public class ChainLinkage extends Feature {
 			event.setCanceled(true);
 		} else if (link != null && sneaking) {
 			if (!entity.world.isRemote) {
-				entity.entityDropItem(new ItemStack(chain), 0f);
+				if (!player.isCreative())
+					entity.entityDropItem(new ItemStack(chain), 0f);
 				ChainHandler.setLink(entity, null, true);
 			}
 
