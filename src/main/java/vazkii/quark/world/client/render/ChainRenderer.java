@@ -10,8 +10,6 @@
  */
 package vazkii.quark.world.client.render;
 
-import org.lwjgl.opengl.GL11;
-
 import gnu.trove.map.TIntObjectMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import net.minecraft.client.Minecraft;
@@ -22,11 +20,10 @@ import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityMinecart;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.opengl.GL11;
 import vazkii.quark.base.client.ClientReflectiveAccessor;
 import vazkii.quark.world.base.ChainHandler;
 
@@ -34,7 +31,10 @@ import vazkii.quark.world.base.ChainHandler;
 public class ChainRenderer {
 	private static final TIntObjectMap<Entity> RENDER_MAP = new TIntObjectHashMap<>();
 
-	public static void drawChainSegment(double x, double y, double z, BufferBuilder bufferbuilder, double offsetX, double offsetY, double offsetZ, double xOff, double zOff, float baseR, float baseG, float baseB, double height) {
+	public static void drawChainSegment(double x, double y, double z, BufferBuilder buf, double offsetX, double offsetY, double offsetZ, double xOff, double zOff, float baseR, float baseG, float baseB, double height) {
+		buf.begin(GL11.GL_TRIANGLE_STRIP, DefaultVertexFormats.POSITION_COLOR);
+
+		double centroid = xOff + zOff / 2;
 		for (int seg = 0; seg <= 24; ++seg) {
 			float r = baseR;
 			float g = baseG;
@@ -45,11 +45,13 @@ public class ChainRenderer {
 				g *= 0.7F;
 				b *= 0.7F;
 			}
-			
+
 			float amount = seg / 24.0F;
-			bufferbuilder.pos(x + offsetX * amount + 0.0D, y + offsetY * (amount * amount + amount) * 0.5D + ((24.0F - seg) / 18.0F + 0.0125) * height + xOff, z + offsetZ * amount).color(r, g, b, 1.0F).endVertex();
-			bufferbuilder.pos(x + offsetX * amount + xOff, y + offsetY * (amount * amount + amount) * 0.5D + ((24.0F - seg) / 18.0F + 0.0125) * height + zOff, z + offsetZ * amount + xOff).color(r, g, b, 1.0F).endVertex();
+			buf.pos(x + offsetX * amount - centroid, y + offsetY * (amount * amount + amount) * 0.5D + ((24.0F - seg) / 18.0F + 0.125F) * height + xOff / 2 - zOff / 2, z + offsetZ * amount - xOff / 2).color(r, g, b, 1.0F).endVertex();
+			buf.pos(x + offsetX * amount + centroid, y + offsetY * (amount * amount + amount) * 0.5D + ((24.0F - seg) / 18.0F + 0.125F) * height + zOff / 2 - xOff / 2, z + offsetZ * amount + xOff / 2).color(r, g, b, 1.0F).endVertex();
 		}
+
+		Tessellator.getInstance().draw();
 	}
 
 	public static void renderChain(Render render, double x, double y, double z, Entity entity, float partTicks) {
@@ -67,11 +69,7 @@ public class ChainRenderer {
 		Entity entity = RENDER_MAP.get(cart.getEntityId());
 
 		if (entity != null) {
-			boolean player = entity instanceof EntityPlayer;
-			if(player)
-				y -= 1.3;
-			else y += 0.1;
-			
+			y += cart.height / 4;
 			Tessellator tess = Tessellator.getInstance();
 			BufferBuilder buf = tess.getBuffer();
 			double yaw = interp(entity.prevRotationYaw, entity.rotationYaw, (partialTicks * 0.5F)) * Math.PI / 180;
@@ -80,26 +78,23 @@ public class ChainRenderer {
 			double rotZ = Math.sin(yaw);
 			double rotY = Math.sin(pitch);
 
-			double height = player ? entity.getEyeHeight() * 0.7 : 0;
+			double height = entity instanceof EntityLivingBase ? entity.getEyeHeight() * 0.7 : 0;
 
 			double pitchMod = Math.cos(pitch);
 			double xLocus = interp(entity.prevPosX, entity.posX, partialTicks);
 			double yLocus = interp(entity.prevPosY, entity.posY, partialTicks) + height;
 			double zLocus = interp(entity.prevPosZ, entity.posZ, partialTicks);
 
-			if (player) {
+			if (entity instanceof EntityLivingBase) {
 				xLocus += -rotX * 0.7D - rotZ * 0.5D * pitchMod;
 				yLocus += -rotY * 0.5D - 0.25D;
 				zLocus += -rotZ * 0.7D + rotX * 0.5D * pitchMod;
-				
-				zLocus -= 1;
-				yLocus += 2;
 			}
 
 			double targetX = interp(cart.prevPosX, cart.posX, partialTicks);
 			double targetY = interp(cart.prevPosY, cart.posY, partialTicks);
 			double targetZ = interp(cart.prevPosZ, cart.posZ, partialTicks);
-			if (player) {
+			if (entity instanceof EntityLivingBase) {
 				xLocus -= rotX;
 				zLocus -= rotZ;
 			}
@@ -109,12 +104,11 @@ public class ChainRenderer {
 			GlStateManager.disableTexture2D();
 			GlStateManager.disableLighting();
 			GlStateManager.disableCull();
-			buf.begin(GL11.GL_TRIANGLE_STRIP, DefaultVertexFormats.POSITION_COLOR);
 
-			float gray = 0.4f;
-			drawChainSegment(x, y, z, buf, offsetX, offsetY, offsetZ, 0, 0.07, gray, gray, gray, height);
+			drawChainSegment(x, y, z, buf, offsetX, offsetY, offsetZ, 0.025, 0, 0.3f, 0.3f, 0.3f, height);
 
-			tess.draw();
+			drawChainSegment(x, y, z, buf, offsetX, offsetY, offsetZ, 0, 0.025, 0.3f, 0.3f, 0.3f, height);
+
 			GlStateManager.enableLighting();
 			GlStateManager.enableTexture2D();
 			GlStateManager.enableCull();

@@ -64,7 +64,7 @@ public class GreenerGrass extends Feature {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void postInitClient() {
+	public void initClient() {
 		registerGreenerColor(Blocks.GRASS, Blocks.TALLGRASS, Blocks.DOUBLE_PLANT, Blocks.REEDS);
 		if(affectFoliage)
 			registerGreenerColor(Blocks.LEAVES, Blocks.LEAVES2, Blocks.VINE);
