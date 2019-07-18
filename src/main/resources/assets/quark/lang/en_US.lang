@@ -755,6 +755,7 @@ item.quark:horse_whistle.name=Horse Whistle
 item.quark:crab_leg.name=Crab Leg
 item.quark:cooked_crab_leg.name=Cooked Crab Leg
 item.quark:crab_shell.name=Crab Shell Fragment
+item.quark:chain.name=Iron Chain
 
 # ENTITY NAMES
 entity.quark:colored_item_frame.name=Colored Item Frame

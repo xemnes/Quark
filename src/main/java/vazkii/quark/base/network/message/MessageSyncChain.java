@@ -20,6 +20,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.arl.network.NetworkMessage;
 import vazkii.arl.util.ClientTicker;
 import vazkii.quark.automation.feature.ChainLinkage;
+import vazkii.quark.world.base.ChainHandler;
 
 import java.util.UUID;
 
@@ -47,7 +48,7 @@ public class MessageSyncChain extends NetworkMessage<MessageSyncChain> {
 				if (boatEntity == null)
 					ChainLinkage.queueChainUpdate(vehicle, other);
 				else
-					ChainLinkage.setLink(boatEntity, other, false);
+					ChainHandler.setLink(boatEntity, other, false);
 			}
 		});
 		return null;

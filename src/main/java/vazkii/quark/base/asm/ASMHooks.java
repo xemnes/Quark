@@ -55,6 +55,7 @@ import vazkii.quark.vanity.client.emotes.EmoteHandler;
 import vazkii.quark.vanity.client.render.BoatBannerRenderer;
 import vazkii.quark.vanity.feature.BoatSails;
 import vazkii.quark.vanity.feature.WitchHat;
+import vazkii.quark.world.client.render.ChainRenderer;
 
 import javax.annotation.Nullable;
 
@@ -89,7 +90,7 @@ public final class ASMHooks {
 
 	@SideOnly(Side.CLIENT)
 	public static void renderChain(Render render, double x, double y, double z, Entity entity, float partTicks) {
-		ChainLinkage.renderChain(render, x, y, z, entity, partTicks);
+		ChainRenderer.renderChain(render, x, y, z, entity, partTicks);
 	}
 	
 	public static void onBoatUpdate(EntityBoat boat) {

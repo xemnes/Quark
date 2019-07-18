@@ -13,8 +13,8 @@ import net.minecraft.entity.EntityHanging;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import org.lwjgl.opengl.GL11;
-import vazkii.quark.automation.feature.ChainLinkage;
 import vazkii.quark.decoration.entity.EntityLeashKnot2TheKnotting;
+import vazkii.quark.world.client.render.ChainRenderer;
 
 import javax.annotation.Nonnull;
 
@@ -121,10 +121,10 @@ public class RenderLeashKnot2 extends Render<EntityLeashKnot2TheKnotting> {
 		GlStateManager.disableLighting();
 		GlStateManager.disableCull();
 		bufferbuilder.begin(GL11.GL_TRIANGLE_STRIP, DefaultVertexFormats.POSITION_COLOR);
-		ChainLinkage.drawChainSegment(x, y, z, bufferbuilder, d13, d14, d15, 0.025, 0, 0.5f, 0.4f, 0.3f);
+		ChainRenderer.drawChainSegment(x, y, z, bufferbuilder, d13, d14, d15, 0.025, 0, 0.5f, 0.4f, 0.3f, 1);
 		tessellator.draw();
 		bufferbuilder.begin(GL11.GL_TRIANGLE_STRIP, DefaultVertexFormats.POSITION_COLOR);
-		ChainLinkage.drawChainSegment(x, y, z, bufferbuilder, d13, d14, d15, 0, 0.025, 0.5f, 0.4f, 0.3f);
+		ChainRenderer.drawChainSegment(x, y, z, bufferbuilder, d13, d14, d15, 0, 0.025, 0.5f, 0.4f, 0.3f, 1);
 		tessellator.draw();
 		GlStateManager.enableLighting();
 		GlStateManager.enableTexture2D();
