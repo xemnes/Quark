@@ -10,6 +10,8 @@
  */
 package vazkii.quark.world.client.render;
 
+import org.lwjgl.opengl.GL11;
+
 import gnu.trove.map.TIntObjectMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import net.minecraft.client.Minecraft;
@@ -21,10 +23,10 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityMinecart;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.opengl.GL11;
 import vazkii.quark.base.client.ClientReflectiveAccessor;
 import vazkii.quark.world.base.ChainHandler;
 
@@ -86,7 +88,12 @@ public class ChainRenderer {
 		Entity entity = RENDER_MAP.get(cart.getEntityId());
 
 		if (entity != null) {
-			y += cart.height / 4;
+			boolean player = entity instanceof EntityPlayer;
+			
+			if(player)
+				y -= 1.3;
+			else y += 0.1;
+			
 			Tessellator tess = Tessellator.getInstance();
 			BufferBuilder buf = tess.getBuffer();
 			double yaw = interp(entity.prevRotationYaw, entity.rotationYaw, (partialTicks * 0.5F)) * Math.PI / 180;
@@ -95,26 +102,30 @@ public class ChainRenderer {
 			double rotZ = Math.sin(yaw);
 			double rotY = Math.sin(pitch);
 
-			double height = entity instanceof EntityLivingBase ? entity.getEyeHeight() * 0.7 : 0;
+			double height = player ? entity.getEyeHeight() * 0.7 : 0;
 
 			double pitchMod = Math.cos(pitch);
 			double xLocus = interp(prevX(entity), entity.posX, partialTicks);
 			double yLocus = interp(prevY(entity), entity.posY, partialTicks) + height;
 			double zLocus = interp(prevZ(entity), entity.posZ, partialTicks);
 
-			if (entity instanceof EntityLivingBase) {
+			if (player) {
 				xLocus += -rotX * 0.7D - rotZ * 0.5D * pitchMod;
 				yLocus += -rotY * 0.5D - 0.25D;
 				zLocus += -rotZ * 0.7D + rotX * 0.5D * pitchMod;
+				
+				zLocus -= 1;
+				yLocus += 2;
 			}
 
 			double targetX = interp(prevX(cart), cart.posX, partialTicks);
 			double targetY = interp(prevY(cart), cart.posY, partialTicks);
 			double targetZ = interp(prevZ(cart), cart.posZ, partialTicks);
-			if (entity instanceof EntityLivingBase) {
+			if (player) {
 				xLocus -= rotX;
 				zLocus -= rotZ;
 			}
+			
 			double offsetX = ((float) (xLocus - targetX));
 			double offsetY = ((float) (yLocus - targetY));
 			double offsetZ = ((float) (zLocus - targetZ));
