@@ -5,8 +5,6 @@ import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
@@ -21,13 +19,13 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.oredict.OreDictionary;
 import vazkii.arl.network.NetworkHandler;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.lib.LibEntityIDs;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.network.message.MessageRequestPassengerChest;
-import vazkii.quark.decoration.item.ItemChestBlock;
 import vazkii.quark.management.client.render.RenderChestPassenger;
 import vazkii.quark.management.entity.EntityChestPassenger;
 
@@ -99,7 +97,17 @@ public class ChestsInBoats extends Feature {
 	}
 	
 	private boolean isChest(ItemStack stack) {
-		return stack.getItem() == Item.getItemFromBlock(Blocks.CHEST) || stack.getItem() instanceof ItemChestBlock;
+		if (stack.isEmpty())
+			return false;
+
+		int chestId = OreDictionary.getOreID("chestWood");
+		int[] ids = OreDictionary.getOreIDs(stack);
+		for (int id : ids) {
+			if (id == chestId)
+				return true;
+		}
+
+		return false;
 	}
 	
 	@Override

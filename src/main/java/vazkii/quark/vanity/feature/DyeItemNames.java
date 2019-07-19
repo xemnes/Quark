@@ -2,7 +2,6 @@ package vazkii.quark.vanity.feature;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
@@ -12,6 +11,7 @@ import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.oredict.DyeUtils;
 import vazkii.arl.util.ItemNBTHelper;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.management.feature.FavoriteItems;
@@ -64,16 +64,19 @@ public class DyeItemNames extends Feature {
 		ItemStack left = event.getLeft();
 		ItemStack right = event.getRight();
 
-		if (!left.isEmpty() && !right.isEmpty() && right.getItem() == Items.DYE) {
-			ItemStack out = left.copy();
-			String name = event.getName();
-			if(!name.trim().isEmpty())
-				out.setStackDisplayName(name.trim());
-			
-			ItemNBTHelper.setInt(out, TAG_DYE, right.getItemDamage());
-			event.setOutput(out);
-			event.setMaterialCost(1);
-			event.setCost(3);
+		if (!left.isEmpty() && !right.isEmpty()) {
+			int meta = DyeUtils.rawDyeDamageFromStack(right);
+			if (meta != -1) {
+				ItemStack out = left.copy();
+				String name = event.getName();
+				if (!name.trim().isEmpty())
+					out.setStackDisplayName(name.trim());
+
+				ItemNBTHelper.setInt(out, TAG_DYE, right.getItemDamage());
+				event.setOutput(out);
+				event.setMaterialCost(1);
+				event.setCost(3);
+			}
 		}
 	}
 	
