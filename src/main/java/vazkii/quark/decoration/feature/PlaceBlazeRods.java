@@ -12,6 +12,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickItem;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import vazkii.quark.base.handler.RayTraceHandler;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.decoration.block.BlockBlazeRod;
 import vazkii.quark.misc.feature.PlaceVanillaDusts;
@@ -31,7 +32,7 @@ public class PlaceBlazeRods extends Feature {
 		World world = event.getWorld();
 		EnumHand hand = event.getHand();
 		ItemStack stack = event.getItemStack();
-		RayTraceResult res = PlaceVanillaDusts.rayTrace(world, player, false, player.getEntityAttribute(EntityPlayer.REACH_DISTANCE).getAttributeValue());
+		RayTraceResult res = RayTraceHandler.rayTrace(world, player, false, player.getEntityAttribute(EntityPlayer.REACH_DISTANCE).getAttributeValue());
 		if(res != null) {
 			BlockPos pos = res.getBlockPos();
 			EnumFacing face = res.sideHit;

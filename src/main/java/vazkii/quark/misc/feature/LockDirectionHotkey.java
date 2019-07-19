@@ -1,9 +1,22 @@
 package vazkii.quark.misc.feature;
 
+import java.util.HashMap;
+
+import org.lwjgl.opengl.GL11;
+
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+
 import io.netty.buffer.ByteBuf;
-import net.minecraft.block.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockDirectional;
+import net.minecraft.block.BlockHopper;
+import net.minecraft.block.BlockHorizontal;
+import net.minecraft.block.BlockLog;
+import net.minecraft.block.BlockQuartz;
+import net.minecraft.block.BlockRotatedPillar;
+import net.minecraft.block.BlockSlab;
+import net.minecraft.block.BlockStairs;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -31,7 +44,6 @@ import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.opengl.GL11;
 import vazkii.arl.network.NetworkHandler;
 import vazkii.quark.api.IRotationLockHandler;
 import vazkii.quark.base.client.ModKeybinds;
@@ -39,14 +51,17 @@ import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.network.message.MessageSetLockProfile;
 
-import java.util.HashMap;
-
 public class LockDirectionHotkey extends Feature {
 
 	private static final String TAG_LOCKED_ONCE = "quark:locked_once";
 	
 	private static final HashMap<String, LockProfile> lockProfiles = new HashMap<>();
 	private LockProfile clientProfile;
+	
+	@Override
+	public void setupConfig() {
+		lockProfiles.clear();
+	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -60,11 +75,13 @@ public class LockDirectionHotkey extends Feature {
 		if(event.isCanceled() || event.getResult() == Result.DENY)
 			return;
 		
-		World world = event.getWorld();
-		IBlockState state = event.getPlacedBlock();
-		BlockPos pos = event.getPos();
+		fixBlockRotation(event.getWorld(), event.getPlayer(), event.getPos());
+	}
+	
+	public static void fixBlockRotation(World world, EntityPlayer player, BlockPos pos) {
+		IBlockState state = world.getBlockState(pos);
 		
-		String name = event.getPlayer().getName();
+		String name = player.getName();
 		if(lockProfiles.containsKey(name)) {
 			LockProfile profile = lockProfiles.get(name);
 			setBlockRotated(world, state, pos, profile.facing.getOpposite(), true, profile.half);

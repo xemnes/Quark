@@ -3,7 +3,6 @@ package vazkii.quark.misc.feature;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
@@ -11,13 +10,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickItem;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import vazkii.quark.base.handler.RayTraceHandler;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.misc.block.BlockGlowstoneDust;
 import vazkii.quark.misc.block.BlockGunpowder;
@@ -54,7 +52,7 @@ public class PlaceVanillaDusts extends Feature {
 		World world = event.getWorld();
 		EnumHand hand = event.getHand();
 		ItemStack stack = event.getItemStack();
-		RayTraceResult res = rayTrace(world, player, false, player.getEntityAttribute(EntityPlayer.REACH_DISTANCE).getAttributeValue());
+		RayTraceResult res = RayTraceHandler.rayTrace(world, player, false);
 		if(res != null) {
 			BlockPos pos = res.getBlockPos();
 			EnumFacing face = res.sideHit;
@@ -97,27 +95,6 @@ public class PlaceVanillaDusts extends Feature {
 	@Override
 	public boolean requiresMinecraftRestartToEnable() {
 		return true;
-	}
-
-	// copy from Item#rayTrace
-	public static RayTraceResult rayTrace(World world, Entity player, boolean stopOnLiquid, double range) {
-		float scale = 1.0F;
-		float pitch = player.prevRotationPitch + (player.rotationPitch - player.prevRotationPitch) * scale;
-		float yaw = player.prevRotationYaw + (player.rotationYaw - player.prevRotationYaw) * scale;
-		double posX = player.prevPosX + (player.posX - player.prevPosX) * scale;
-		double posY = player.prevPosY + (player.posY - player.prevPosY) * scale;
-		if (player instanceof EntityPlayer)
-			posY += ((EntityPlayer) player).eyeHeight;
-		double posZ = player.prevPosZ + (player.posZ - player.prevPosZ) * scale;
-		Vec3d rayPos = new Vec3d(posX, posY, posZ);
-		float zYaw = -MathHelper.cos(yaw * (float) Math.PI / 180);
-		float xYaw = MathHelper.sin(yaw * (float) Math.PI / 180);
-		float pitchMod = -MathHelper.cos(pitch * (float) Math.PI / 180);
-		float azimuth = -MathHelper.sin(pitch * (float) Math.PI / 180);
-		float xLen = xYaw * pitchMod;
-		float yLen = zYaw * pitchMod;
-		Vec3d end = rayPos.add(xLen * range, azimuth * range, yLen * range);
-		return world.rayTraceBlocks(rayPos, end, stopOnLiquid);
 	}
 
 }
