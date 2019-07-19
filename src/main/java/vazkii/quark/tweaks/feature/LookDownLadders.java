@@ -42,7 +42,9 @@ public class LookDownLadders extends Feature {
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void onInput(InputUpdateEvent event) {
-		if (sneakWhileInGui && event.getEntityPlayer().isOnLadder() && Minecraft.getMinecraft().currentScreen != null) {
+		EntityPlayer player = event.getEntityPlayer();
+		if (sneakWhileInGui && player.isOnLadder() && Minecraft.getMinecraft().currentScreen != null
+				&& !(player.moveForward == 0 && player.rotationPitch > 70)) {
 			MovementInput input = event.getMovementInput();
 			if (input != null)
 				input.sneak = true;
