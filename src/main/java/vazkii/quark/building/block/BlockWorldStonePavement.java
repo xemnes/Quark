@@ -47,7 +47,9 @@ public class BlockWorldStonePavement extends BlockMetaVariants<BlockWorldStonePa
 		STONE_ANDESITE_PAVEMENT(WorldStoneBricks.class),
 		STONE_BASALT_PAVEMENT(Basalt.class),
 		STONE_MARBLE_PAVEMENT(RevampStoneGen.class, () -> RevampStoneGen.enableMarble),
-		STONE_LIMESTONE_PAVEMENT(RevampStoneGen.class, () -> RevampStoneGen.enableLimestone);
+		STONE_LIMESTONE_PAVEMENT(RevampStoneGen.class, () -> RevampStoneGen.enableLimestone),
+		STONE_JASPER_PAVEMENT(RevampStoneGen.class, () -> RevampStoneGen.enableJasper),
+		STONE_SLATE_PAVEMENT(RevampStoneGen.class, () -> RevampStoneGen.enableSlate);
 		
 		Variants(Class<? extends Feature> clazz) {
 			this(clazz, () -> true);

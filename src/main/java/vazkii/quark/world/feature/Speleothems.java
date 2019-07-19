@@ -15,7 +15,7 @@ public class Speleothems extends Feature {
 
 	public static Block stone_speleothem, granite_speleothem, diorite_speleothem,
 	andesite_speleothem, basalt_speleothem, marble_speleothem, limestone_speleothem,
-	netherrack_speleothem;
+	netherrack_speleothem, jasper_speleothem, slate_speleothem;
 
 	public static int tries, clusterCount, netherTries, netherClusterCount, maxHeight;
 	public static DimensionConfig dimensionConfig;
@@ -48,6 +48,12 @@ public class Speleothems extends Feature {
 
 			if(RevampStoneGen.enableLimestone)
 				limestone_speleothem = new BlockSpeleothem("limestone");
+			
+			if(RevampStoneGen.enableJasper)
+				jasper_speleothem = new BlockSpeleothem("jasper");
+			
+			if(RevampStoneGen.enableSlate)
+				slate_speleothem = new BlockSpeleothem("slate");
 		}
 
 		GameRegistry.registerWorldGenerator(new SpeleothemGenerator(), 1000);
@@ -77,6 +83,14 @@ public class Speleothems extends Feature {
 		if(limestone_speleothem != null)
 			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(limestone_speleothem, 6), 
 					"S", "S", "S", 'S', "stoneLimestone");
+		
+		if(jasper_speleothem != null)
+			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(jasper_speleothem, 6), 
+					"S", "S", "S", 'S', "stoneJasper");
+		
+		if(slate_speleothem != null)
+			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(slate_speleothem, 6), 
+					"S", "S", "S", 'S', "stoneSlate");
 	}
 
 	@Override

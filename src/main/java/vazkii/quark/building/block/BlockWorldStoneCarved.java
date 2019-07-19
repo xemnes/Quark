@@ -47,7 +47,9 @@ public class BlockWorldStoneCarved extends BlockMetaVariants<BlockWorldStoneCarv
 		STONE_ANDESITE_CARVED(WorldStoneBricks.class),
 		STONE_BASALT_CARVED(Basalt.class),
 		STONE_MARBLE_CARVED(RevampStoneGen.class, () -> RevampStoneGen.enableMarble),
-		STONE_LIMESTONE_CARVED(RevampStoneGen.class, () -> RevampStoneGen.enableLimestone);
+		STONE_LIMESTONE_CARVED(RevampStoneGen.class, () -> RevampStoneGen.enableLimestone),
+		STONE_JASPER_CARVED(RevampStoneGen.class, () -> RevampStoneGen.enableJasper),
+		STONE_SLATE_CARVED(RevampStoneGen.class, () -> RevampStoneGen.enableSlate);
 		
 		Variants(Class<? extends Feature> clazz) {
 			this(clazz, () -> true);

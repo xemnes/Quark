@@ -2,11 +2,11 @@ package vazkii.quark.building.feature;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import vazkii.arl.recipe.RecipeHandler;
 import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.module.Feature;
-import vazkii.quark.building.block.BlockWorldStoneBricks;
 import vazkii.quark.building.block.BlockWorldStonePavement;
 import vazkii.quark.world.feature.Basalt;
 import vazkii.quark.world.feature.RevampStoneGen;
@@ -23,27 +23,24 @@ public class WorldStonePavement extends Feature {
 	@Override
 	public void postPreInit() {
 		for(int i = 0; i < 3; i++)
-			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(world_stone_pavement, 9, i),
-					"SSS", "SSS", "SSS",
-					'S', ProxyRegistry.newStack(Blocks.STONE, 1, i * 2 + 1));
+			addRecipe(BlockWorldStonePavement.Variants.values()[i], ProxyRegistry.newStack(Blocks.STONE, 1, i * 2 + 1));
 
-		if(BlockWorldStoneBricks.Variants.STONE_BASALT_BRICKS.isEnabled()) {
-			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(world_stone_pavement, 9, 3),
-					"SSS", "SSS", "SSS",
-					'S', ProxyRegistry.newStack(Basalt.basalt, 1, 0));
-		}
+		addRecipe(BlockWorldStonePavement.Variants.STONE_BASALT_PAVEMENT, ProxyRegistry.newStack(Basalt.basalt, 1, 0));
+		addRecipe(BlockWorldStonePavement.Variants.STONE_MARBLE_PAVEMENT, ProxyRegistry.newStack(RevampStoneGen.marble, 1, 0));
+		addRecipe(BlockWorldStonePavement.Variants.STONE_LIMESTONE_PAVEMENT, ProxyRegistry.newStack(RevampStoneGen.limestone, 1, 0));
+		addRecipe(BlockWorldStonePavement.Variants.STONE_JASPER_PAVEMENT, ProxyRegistry.newStack(RevampStoneGen.jasper, 1, 0));
+		addRecipe(BlockWorldStonePavement.Variants.STONE_SLATE_PAVEMENT, ProxyRegistry.newStack(RevampStoneGen.slate, 1, 0));
+	}
+	
+	private void addRecipe(BlockWorldStonePavement.Variants variant, ItemStack baseStack) {
+		if(!variant.isEnabled())
+			return;
 		
-		if(BlockWorldStoneBricks.Variants.STONE_MARBLE_BRICKS.isEnabled()) {
-			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(world_stone_pavement, 9, 4),
-					"SSS", "SSS", "SSS",
-					'S', ProxyRegistry.newStack(RevampStoneGen.marble, 1, 0));
-		}
+		int meta = variant.ordinal();
 		
-		if(BlockWorldStoneBricks.Variants.STONE_LIMESTONE_BRICKS.isEnabled()) {
-			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(world_stone_pavement, 9, 5),
-					"SSS", "SSS", "SSS",
-					'S', ProxyRegistry.newStack(RevampStoneGen.limestone, 1, 0));
-		}
+		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(world_stone_pavement, 9, meta),
+				"SSS", "SSS", "SSS",
+				'S', baseStack);
 	}
 	
 	@Override

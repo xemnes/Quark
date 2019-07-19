@@ -10,6 +10,9 @@
  */
 package vazkii.quark.building.feature;
 
+import java.util.ArrayDeque;
+import java.util.Queue;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -38,6 +41,8 @@ public class WorldStoneBricks extends Feature {
 
 	public static boolean enableStairsAndSlabs;
 	public static boolean enableWalls;
+	
+	private Queue<Runnable> deferedInit = new ArrayDeque<>();
 
 	@Override
 	public void setupConfig() {
@@ -77,82 +82,42 @@ public class WorldStoneBricks extends Feature {
 
 	@Override
 	public void postPreInit() {
-		for(int i = 0; i < 3; i++) {
-			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(world_stone_bricks, 4, i),
-					"SS", "SS",
-					'S', ProxyRegistry.newStack(Blocks.STONE, 1, i * 2 + 2));
+		for(int i = 0; i < 3; i++)
+			addRecipes(BlockWorldStoneBricks.Variants.values()[i], ProxyRegistry.newStack(Blocks.STONE, 1, i * 2 + 2));
 
-			if (enableStairsAndSlabs)
-				RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(world_stone_chiseled, 1, i),
-						"S", "S",
-						'S', ProxyRegistry.newStack(slabs[i]));
-			else
-				RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(world_stone_chiseled, 8, i),
-						"SSS", "S S", "SSS",
-						'S', ProxyRegistry.newStack(world_stone_bricks, 1, i));
-
-		}
-
-		if(BlockWorldStoneBricks.Variants.STONE_BASALT_BRICKS.isEnabled()) {
-			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(world_stone_bricks, 4, 3),
-					"SS", "SS",
-					'S', ProxyRegistry.newStack(Basalt.basalt, 1, 1));
-
-			if (enableStairsAndSlabs)
-				RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(world_stone_chiseled, 1, 3),
-						"S", "S",
-						'S', ProxyRegistry.newStack(slabs[3]));
-			else
-				RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(world_stone_chiseled, 8, 3),
-						"SSS", "S S", "SSS",
-						'S', ProxyRegistry.newStack(world_stone_bricks, 1, 3));
-		}
+		addRecipes(BlockWorldStoneBricks.Variants.STONE_BASALT_BRICKS, ProxyRegistry.newStack(Basalt.basalt, 1, 1));
+		addRecipes(BlockWorldStoneBricks.Variants.STONE_MARBLE_BRICKS, ProxyRegistry.newStack(RevampStoneGen.marble, 1, 1));
+		addRecipes(BlockWorldStoneBricks.Variants.STONE_LIMESTONE_BRICKS, ProxyRegistry.newStack(RevampStoneGen.limestone, 1, 1));
+		addRecipes(BlockWorldStoneBricks.Variants.STONE_JASPER_BRICKS, ProxyRegistry.newStack(RevampStoneGen.jasper, 1, 1));
+		addRecipes(BlockWorldStoneBricks.Variants.STONE_SLATE_BRICKS, ProxyRegistry.newStack(RevampStoneGen.slate, 1, 1));
+	}
+	
+	private void addRecipes(BlockWorldStoneBricks.Variants variant, ItemStack baseStack) {
+		if(!variant.isEnabled())
+			return;
 		
-		if(BlockWorldStoneBricks.Variants.STONE_MARBLE_BRICKS.isEnabled()) {
-			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(world_stone_bricks, 4, 4),
-					"SS", "SS",
-					'S', ProxyRegistry.newStack(RevampStoneGen.marble, 1, 1));
-
-			if (enableStairsAndSlabs)
-				RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(world_stone_chiseled, 1, 4),
-						"S", "S",
-						'S', ProxyRegistry.newStack(slabs[4]));
-			else
-				RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(world_stone_chiseled, 8, 4),
-						"SSS", "S S", "SSS",
-						'S', ProxyRegistry.newStack(world_stone_bricks, 1, 4));
-		}
+		int meta = variant.ordinal();
 		
-		if(BlockWorldStoneBricks.Variants.STONE_LIMESTONE_BRICKS.isEnabled()) {
-			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(world_stone_bricks, 4, 5),
-					"SS", "SS",
-					'S', ProxyRegistry.newStack(RevampStoneGen.limestone, 1, 1));
+		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(world_stone_bricks, 4, meta),
+				"SS", "SS",
+				'S', baseStack);
 
-			if (enableStairsAndSlabs)
-				RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(world_stone_chiseled, 1, 5),
-						"S", "S",
-						'S', ProxyRegistry.newStack(slabs[5]));
-			else
-				RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(world_stone_chiseled, 8, 5),
-						"SSS", "S S", "SSS",
-						'S', ProxyRegistry.newStack(world_stone_bricks, 1, 5));
-		}
+		if (enableStairsAndSlabs)
+			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(world_stone_chiseled, 1, meta),
+					"S", "S",
+					'S', ProxyRegistry.newStack(slabs[meta]));
+		else
+			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(world_stone_chiseled, 8, meta),
+					"SSS", "S S", "SSS",
+					'S', ProxyRegistry.newStack(world_stone_bricks, 1, 3));
+		
+		deferedInit.add(() -> ModIntegrationHandler.registerChiselVariant(variant.blockName, new ItemStack(world_stone_bricks, 1, meta)));
 	}
 
 	@Override
 	public void init() {
-		ModIntegrationHandler.registerChiselVariant("granite", new ItemStack(world_stone_bricks, 1, 0));
-		ModIntegrationHandler.registerChiselVariant("diorite", new ItemStack(world_stone_bricks, 1, 1));
-		ModIntegrationHandler.registerChiselVariant("andesite", new ItemStack(world_stone_bricks, 1, 2));
-
-		if(BlockWorldStoneBricks.Variants.STONE_BASALT_BRICKS.isEnabled())
-			ModIntegrationHandler.registerChiselVariant("basalt", new ItemStack(world_stone_bricks, 1, 3));
-
-		if(BlockWorldStoneBricks.Variants.STONE_MARBLE_BRICKS.isEnabled())
-			ModIntegrationHandler.registerChiselVariant("marble", new ItemStack(world_stone_bricks, 1, 4));
-
-		if(BlockWorldStoneBricks.Variants.STONE_LIMESTONE_BRICKS.isEnabled())
-			ModIntegrationHandler.registerChiselVariant("limestone", new ItemStack(world_stone_bricks, 1, 5));
+		while(!deferedInit.isEmpty())
+			deferedInit.poll().run();
 	}
 	
 	@Override

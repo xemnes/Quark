@@ -42,22 +42,26 @@ public class BlockWorldStoneBricks extends BlockMetaVariants<BlockWorldStoneBric
 
 	public enum Variants implements IStringSerializable {
 		
-		STONE_GRANITE_BRICKS(WorldStoneBricks.class),
-		STONE_DIORITE_BRICKS(WorldStoneBricks.class),
-		STONE_ANDESITE_BRICKS(WorldStoneBricks.class),
-		STONE_BASALT_BRICKS(Basalt.class),
-		STONE_MARBLE_BRICKS(RevampStoneGen.class, () -> RevampStoneGen.enableMarble),
-		STONE_LIMESTONE_BRICKS(RevampStoneGen.class, () -> RevampStoneGen.enableLimestone);
+		STONE_GRANITE_BRICKS("granite", WorldStoneBricks.class),
+		STONE_DIORITE_BRICKS("diorite", WorldStoneBricks.class),
+		STONE_ANDESITE_BRICKS("andesite", WorldStoneBricks.class),
+		STONE_BASALT_BRICKS("basalt", Basalt.class),
+		STONE_MARBLE_BRICKS("marble", RevampStoneGen.class, () -> RevampStoneGen.enableMarble),
+		STONE_LIMESTONE_BRICKS("limestone", RevampStoneGen.class, () -> RevampStoneGen.enableLimestone),
+		STONE_JASPER_BRICKS("jasper", RevampStoneGen.class, () -> RevampStoneGen.enableJasper),
+		STONE_SLATE_BRICKS("slate", RevampStoneGen.class, () -> RevampStoneGen.enableSlate);
 		
-		Variants(Class<? extends Feature> clazz) {
-			this(clazz, () -> true);
+		Variants(String name, Class<? extends Feature> clazz) {
+			this(name, clazz, () -> true);
 		}
 		
-		Variants(Class<? extends Feature> clazz, Supplier<Boolean> enabledCond) {
+		Variants(String name, Class<? extends Feature> clazz, Supplier<Boolean> enabledCond) {
+			blockName = name;
 			featureLink = clazz;
 			this.enabledCond = enabledCond;
 		}
 		
+		public final String blockName;
 		public final Class<? extends Feature> featureLink;
 		private final Supplier<Boolean> enabledCond;
 		

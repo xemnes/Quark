@@ -129,6 +129,10 @@ public class SpeleothemGenerator implements IWorldGenerator {
 			return Speleothems.marble_speleothem;
 		else if(block == RevampStoneGen.limestone)
 			return Speleothems.limestone_speleothem;
+		else if(block == RevampStoneGen.jasper)
+			return Speleothems.jasper_speleothem;
+		else if(block == RevampStoneGen.slate)
+			return Speleothems.slate_speleothem;
 		
 		return null;
 	}

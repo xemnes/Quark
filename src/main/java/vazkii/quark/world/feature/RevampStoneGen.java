@@ -1,5 +1,12 @@
 package vazkii.quark.world.feature;
 
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Queue;
+
+import org.apache.commons.lang3.text.WordUtils;
+
 import net.minecraft.block.BlockStone;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -24,18 +31,19 @@ import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.GlobalConfig;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.building.feature.VanillaWalls;
+import vazkii.quark.world.block.BlockJasper;
 import vazkii.quark.world.block.BlockLimestone;
 import vazkii.quark.world.block.BlockMarble;
+import vazkii.quark.world.block.BlockSlate;
 import vazkii.quark.world.block.slab.BlockBasicStoneSlab;
 import vazkii.quark.world.world.StoneInfoBasedGenerator;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class RevampStoneGen extends Feature {
 
 	public static BlockMod marble;
 	public static BlockMod limestone;
+	public static BlockMod jasper;
+	public static BlockMod slate;
 
 	public static boolean enableStairsAndSlabs;
 	public static boolean enableWalls;
@@ -44,9 +52,13 @@ public class RevampStoneGen extends Feature {
 	public static boolean generateBasedOnBiomes;
 	public static boolean enableMarble;
 	public static boolean enableLimestone;
+	public static boolean enableJasper;
+	public static boolean enableSlate;
 
-	public static StoneInfo graniteInfo, dioriteInfo, andesiteInfo, marbleInfo, limestoneInfo;
+	public static StoneInfo graniteInfo, dioriteInfo, andesiteInfo, marbleInfo, limestoneInfo, jasperInfo, slateInfo;
 	private static List<StoneInfoBasedGenerator> generators;
+	
+	private Queue<Runnable> deferedInit = new ArrayDeque<>();
 
 	@Override
 	public void setupConfig() {
@@ -54,6 +66,8 @@ public class RevampStoneGen extends Feature {
 		enableWalls = loadPropBool("Enable walls", "", true) && GlobalConfig.enableVariants;
 		enableMarble = loadPropBool("Enable Marble", "", true);
 		enableLimestone = loadPropBool("Enable Limestone", "", true);
+		enableJasper = loadPropBool("Enable Jasper", "", true);
+		enableSlate = loadPropBool("Enable Slate", "", true);
 		generateBasedOnBiomes = loadPropBool("Generate Based on Biomes", "Note: The stone rarity values are tuned based on this being true. If you turn it off, also change the stones' rarity (around 50 is fine).", true);
 		outputCSV = loadPropBool("Output CSV Debug Info", "If this is true, CSV debug info will be printed out to the console on init, to help test biome spreads.", false);
 
@@ -63,10 +77,12 @@ public class RevampStoneGen extends Feature {
 		int defLower = 20;
 
 		graniteInfo = loadStoneInfo("granite", defSize, defRarity, defUpper, defLower, true, Type.MOUNTAIN, Type.HILLS);
-		dioriteInfo = loadStoneInfo("diorite", defSize, defRarity, defUpper, defLower, true, Type.SANDY, Type.SAVANNA, Type.WASTELAND, Type.MUSHROOM);
+		dioriteInfo = loadStoneInfo("diorite", defSize, defRarity, defUpper, defLower, true, Type.SAVANNA, Type.JUNGLE, Type.MUSHROOM);
 		andesiteInfo = loadStoneInfo("andesite", defSize, defRarity, defUpper, defLower, true, Type.FOREST);
-		marbleInfo = loadStoneInfo("marble", defSize, defRarity, defUpper, defLower, enableMarble, Type.PLAINS, Type.SNOWY);
-		limestoneInfo = loadStoneInfo("limestone", defSize, defRarity, defUpper, defLower, enableLimestone, Type.SWAMP, Type.OCEAN, Type.RIVER, Type.BEACH, Type.JUNGLE);
+		marbleInfo = loadStoneInfo("marble", defSize, defRarity, defUpper, defLower, enableMarble, Type.PLAINS);
+		limestoneInfo = loadStoneInfo("limestone", defSize, defRarity, defUpper, defLower, enableLimestone, Type.SWAMP, Type.OCEAN);
+		jasperInfo = loadStoneInfo("jasper", defSize, defRarity, defUpper, defLower, enableJasper, Type.MESA, Type.SANDY);
+		slateInfo = loadStoneInfo("slate", defSize, defRarity, defUpper, defLower, enableSlate, Type.COLD);
 	}
 	
 	public StoneInfo loadStoneInfo(String name, int clusterSize, int clusterRarity, int upperBound, int lowerBound, boolean enabled, BiomeDictionary.Type... biomes) {
@@ -80,80 +96,64 @@ public class RevampStoneGen extends Feature {
 
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
-		if(enableMarble) {
-			marble = new BlockMarble();
-
-			if(enableStairsAndSlabs) {
-				BlockBasicStoneSlab.initSlab(marble, 0, "stone_marble_slab");
-				BlockModStairs.initStairs(marble, 0, new BlockQuarkStairs("stone_marble_stairs", marble.getDefaultState()));
-			}
-
-			VanillaWalls.add("marble", marble, 0, enableWalls);
-
-			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(marble, 4, 1),
-					"BB", "BB",
-					'B', ProxyRegistry.newStack(marble, 1, 0));
-		}
-
-		if(enableLimestone) {
-			limestone = new BlockLimestone();
-
-			if(enableStairsAndSlabs) {
-				BlockBasicStoneSlab.initSlab(limestone, 0, "stone_limestone_slab");
-				BlockModStairs.initStairs(limestone, 0, new BlockQuarkStairs("stone_limestone_stairs", limestone.getDefaultState()));
-			}
-
-			VanillaWalls.add("limestone", limestone, 0, enableWalls);
-
-			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(limestone, 4, 1),
-					"BB", "BB",
-					'B', ProxyRegistry.newStack(limestone, 1, 0));
-		}
-
+		generators = new ArrayList<>();
+		
 		IBlockState graniteState = Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.GRANITE);
 		IBlockState dioriteState = Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.DIORITE);
 		IBlockState andesiteState = Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.ANDESITE);
-
-		generators = new ArrayList<>();
 		
 		generators.add(new StoneInfoBasedGenerator(() -> graniteInfo, graniteState, "granite"));
 		generators.add(new StoneInfoBasedGenerator(() -> dioriteInfo, dioriteState, "diorite"));
 		generators.add(new StoneInfoBasedGenerator(() -> andesiteInfo, andesiteState, "andesite"));
-
-		if(enableMarble)
-			generators.add(new StoneInfoBasedGenerator(() -> marbleInfo, marble.getDefaultState(), "marble"));
-		if(enableLimestone)
-			generators.add(new StoneInfoBasedGenerator(() -> limestoneInfo, limestone.getDefaultState(), "limestone"));
+		
+		marble = makeStone(BlockMarble.class, "marble", marbleInfo, enableMarble);
+		limestone = makeStone(BlockLimestone.class, "limestone", limestoneInfo, enableLimestone);
+		jasper = makeStone(BlockJasper.class, "jasper", jasperInfo, enableJasper);
+		slate = makeStone(BlockSlate.class, "slate", slateInfo, enableSlate);
 		
 		if(outputCSV)
 			BiomeTypeConfigHandler.debugStoneGeneration(generators);
-		
-		addOreDict();
 	}
 	
-	private void addOreDict() {
-		if(enableMarble) {
-			addOreDict("stoneMarble", ProxyRegistry.newStack(marble, 1, 0));
-			addOreDict("stoneMarblePolished", ProxyRegistry.newStack(marble, 1, 1));
-		}
+	private BlockMod makeStone(Class<? extends BlockMod> clazz, String name, StoneInfo info, boolean enable) {
+		if(!enable)
+			return null;
 		
-		if(enableLimestone) {
-			addOreDict("stoneLimestone", ProxyRegistry.newStack(limestone, 1, 0));
-			addOreDict("stoneLimestonePolished", ProxyRegistry.newStack(limestone, 1, 1));
+		try {
+			BlockMod block = clazz.newInstance();
+			
+			if(enableStairsAndSlabs) {
+				BlockBasicStoneSlab.initSlab(block, 0, "stone_" + name + "_slab");
+				BlockModStairs.initStairs(block, 0, new BlockQuarkStairs("stone_" + name + "_stairs", block.getDefaultState()));
+			}
+
+			VanillaWalls.add(name, block, 0, enableWalls);
+
+			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(block, 4, 1),
+					"BB", "BB",
+					'B', ProxyRegistry.newStack(block, 1, 0));
+			
+			generators.add(new StoneInfoBasedGenerator(() -> info, block.getDefaultState(), name));
+			
+			String capName = WordUtils.capitalize(name);
+			addOreDict("stone" + capName, ProxyRegistry.newStack(block, 1, 0));
+			addOreDict("stone" + capName + "Polished", ProxyRegistry.newStack(block, 1, 1));
+			
+			deferedInit.add(() -> {
+				ModIntegrationHandler.registerChiselVariant(name, ProxyRegistry.newStack(block, 1, 0));
+				ModIntegrationHandler.registerChiselVariant(name, ProxyRegistry.newStack(block, 1, 1));
+			});
+			
+			return block;
+		} catch (Exception e) {
+			throw new RuntimeException(e);
 		}
 	}
 
 	@Override
 	public void init() {
-		if(enableMarble) {
-			ModIntegrationHandler.registerChiselVariant("marble", ProxyRegistry.newStack(marble, 1, 0));
-			ModIntegrationHandler.registerChiselVariant("marble", ProxyRegistry.newStack(marble, 1, 1));
-		}
-
-		if(enableLimestone) {
-			ModIntegrationHandler.registerChiselVariant("limestone", ProxyRegistry.newStack(limestone, 1, 0));
-			ModIntegrationHandler.registerChiselVariant("limestone", ProxyRegistry.newStack(limestone, 1, 1));
-		}
+		while(!deferedInit.isEmpty())
+			deferedInit.poll().run();
 	}
 
 	@SubscribeEvent

@@ -112,8 +112,8 @@ public class ReacharoundPlacing extends Feature {
 			if(take2Res != null && take2Res.typeOfHit == RayTraceResult.Type.BLOCK) {
 				BlockPos pos = take2Res.getBlockPos().down();
 				IBlockState state = world.getBlockState(pos);
-				
-				if(world.isAirBlock(pos) || state.getBlock().isReplaceable(world, pos))
+
+				if(player.posY - pos.getY() > 1 && (world.isAirBlock(pos) || state.getBlock().isReplaceable(world, pos)))
 					return pos;
 			}
 		}
