@@ -1,14 +1,5 @@
 package vazkii.quark.oddities.inventory;
 
-import java.awt.Color;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Random;
-import java.util.stream.Collectors;
-
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,6 +9,11 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.WeightedRandom;
 import vazkii.quark.oddities.feature.MatrixEnchanting;
+
+import java.awt.*;
+import java.util.*;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class EnchantmentMatrix {
 	
@@ -155,6 +151,17 @@ public class EnchantmentMatrix {
 
 		if (validEnchants.isEmpty())
 			return null;
+
+		int total = 0;
+
+		for (EnchantmentDataWrapper wrapper : validEnchants)
+			total += wrapper.itemWeight;
+
+		if (total == 0) {
+			for (EnchantmentDataWrapper wrapper : validEnchants)
+				wrapper.itemWeight++;
+		}
+
 
 		return WeightedRandom.getRandomItem(rng, validEnchants);
 	}
