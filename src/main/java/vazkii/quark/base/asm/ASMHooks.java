@@ -34,9 +34,9 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.automation.client.render.PistonTileEntityRenderer;
 import vazkii.quark.automation.feature.ChainLinkage;
-import vazkii.quark.automation.feature.PistonSpikes;
 import vazkii.quark.automation.feature.PistonsMoveTEs;
 import vazkii.quark.automation.feature.PistonsPushPullItems;
+import vazkii.quark.base.handler.QuarkPistonStructureHelper;
 import vazkii.quark.client.feature.BetterFireEffect;
 import vazkii.quark.client.feature.ItemsFlashBeforeExpiring;
 import vazkii.quark.client.feature.RenderItemsInChat;
@@ -44,7 +44,6 @@ import vazkii.quark.client.feature.ShowInvalidSlots;
 import vazkii.quark.decoration.feature.IronLadders;
 import vazkii.quark.decoration.feature.MoreBannerLayers;
 import vazkii.quark.experimental.features.BetterNausea;
-import vazkii.quark.experimental.features.CollateralPistonMovement;
 import vazkii.quark.experimental.features.ColoredLights;
 import vazkii.quark.management.feature.BetterCraftShifting;
 import vazkii.quark.misc.feature.*;
@@ -114,12 +113,8 @@ public final class ASMHooks {
 
 	// ===== PISTON BLOCK BREAKERS & PISTONS MOVE TES & COLLATERAL PISTON MOVEMENT ===== //
 	
-	public static void onPistonMove(World world, BlockPos sourcePos, BlockPistonStructureHelper helper, EnumFacing facing, boolean extending) {
-		EnumFacing realFacing = extending ? facing : facing.getOpposite();
-		
-		PistonSpikes.breakStuffWithSpikes(world, sourcePos, helper, realFacing, extending);
-		CollateralPistonMovement.applyCollateralMovements(world, helper, realFacing, extending);
-		PistonsMoveTEs.detachTileEntities(world, helper, realFacing);
+	public static BlockPistonStructureHelper transformStructureHelper(BlockPistonStructureHelper helper, World world, BlockPos sourcePos, EnumFacing facing, boolean extending) {
+		return new QuarkPistonStructureHelper(helper, world, sourcePos, facing, extending);
 	}	
 	
 	// ===== BETTER CRAFT SHIFTING ===== //

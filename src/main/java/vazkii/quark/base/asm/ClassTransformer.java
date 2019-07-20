@@ -311,41 +311,59 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 	private static byte[] transformBlockPistonBase(byte[] basicClass) {
 		MethodSignature sig1 = new MethodSignature("canPush", "func_185646_a", "(Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/EnumFacing;ZLnet/minecraft/util/EnumFacing;)Z");
 		MethodSignature sig2 = new MethodSignature("doMove", "func_176319_a", "(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/EnumFacing;Z)Z");
+		MethodSignature sig3 = new MethodSignature("checkForMove", "func_176316_e", "(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/state/IBlockState;)V");
+
+		String targetClazz = "net/minecraft/block/state/BlockPistonStructureHelper";
 
 		MethodSignature target = new MethodSignature("hasTileEntity", "", "(Lnet/minecraft/block/state/IBlockState;)Z");
-		MethodSignature target2 = new MethodSignature("getBlocksToMove", "func_177254_c", "()Ljava/util/List;");
+		MethodSignature target2 = new MethodSignature("<init>", "", "(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/EnumFacing;Z)V");
 
-		byte[] transClass = transform(basicClass, forMethod(sig1, combine(
-				(AbstractInsnNode node) -> { // Filter
-					return node.getOpcode() == INVOKEVIRTUAL && target.matches((MethodInsnNode) node);
-				},
-				(MethodNode method, AbstractInsnNode node) -> { // Action
-					InsnList newInstructions = new InsnList();
+		return transform(basicClass,
+				forMethod(sig1, combine(
+						(AbstractInsnNode node) -> { // Filter
+							return node.getOpcode() == INVOKEVIRTUAL && target.matches((MethodInsnNode) node);
+						},
+						(MethodNode method, AbstractInsnNode node) -> { // Action
+							InsnList newInstructions = new InsnList();
 
-					newInstructions.add(new VarInsnNode(ALOAD, 0));
-					newInstructions.add(new MethodInsnNode(INVOKESTATIC, ASM_HOOKS, "shouldPistonMoveTE", "(ZLnet/minecraft/block/state/IBlockState;)Z", false));
+							newInstructions.add(new VarInsnNode(ALOAD, 0));
+							newInstructions.add(new MethodInsnNode(INVOKESTATIC, ASM_HOOKS, "shouldPistonMoveTE", "(ZLnet/minecraft/block/state/IBlockState;)Z", false));
 
-					method.instructions.insert(node, newInstructions);
-					return true;
-				})));
+							method.instructions.insert(node, newInstructions);
+							return true;
+						})),
+				forMethod(sig2, combine(
+						(AbstractInsnNode node) -> { // Filter
+							return node.getOpcode() == INVOKESPECIAL && ((MethodInsnNode) node).owner.equals(targetClazz) && target2.matches((MethodInsnNode) node);
+						},
+						(MethodNode method, AbstractInsnNode node) -> { // Action
+							InsnList newInstructions = new InsnList();
 
-		return transform(transClass, forMethod(sig2, combine(
-				(AbstractInsnNode node) -> { // Filter
-					return node.getOpcode() == INVOKEVIRTUAL && target2.matches((MethodInsnNode) node);
-				},
-				(MethodNode method, AbstractInsnNode node) -> { // Action
-					InsnList newInstructions = new InsnList();
+							newInstructions.add(new VarInsnNode(ALOAD, 1));
+							newInstructions.add(new VarInsnNode(ALOAD, 2));
+							newInstructions.add(new VarInsnNode(ALOAD, 3));
+							newInstructions.add(new VarInsnNode(ILOAD, 4));
+							newInstructions.add(new MethodInsnNode(INVOKESTATIC, ASM_HOOKS, "transformStructureHelper", "(Lnet/minecraft/block/state/BlockPistonStructureHelper;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/EnumFacing;Z)Lnet/minecraft/block/state/BlockPistonStructureHelper;", false));
 
-					newInstructions.add(new VarInsnNode(ALOAD, 1));
-					newInstructions.add(new VarInsnNode(ALOAD, 2));
-					newInstructions.add(new VarInsnNode(ALOAD, 5));
-					newInstructions.add(new VarInsnNode(ALOAD, 3));
-					newInstructions.add(new VarInsnNode(ILOAD, 4));
-					newInstructions.add(new MethodInsnNode(INVOKESTATIC, ASM_HOOKS, "onPistonMove", "(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/state/BlockPistonStructureHelper;Lnet/minecraft/util/EnumFacing;Z)V", false));
+							method.instructions.insert(node, newInstructions);
+							return true;
+						})),
+				forMethod(sig3, combine(
+						(AbstractInsnNode node) -> { // Filter
+							return node.getOpcode() == INVOKESPECIAL && ((MethodInsnNode) node).owner.equals(targetClazz) && target2.matches((MethodInsnNode) node);
+						},
+						(MethodNode method, AbstractInsnNode node) -> { // Action
+							InsnList newInstructions = new InsnList();
 
-					method.instructions.insertBefore(node, newInstructions);
-					return true;
-				})));
+							newInstructions.add(new VarInsnNode(ALOAD, 1));
+							newInstructions.add(new VarInsnNode(ALOAD, 2));
+							newInstructions.add(new VarInsnNode(ALOAD, 3));
+							newInstructions.add(new InsnNode(ICONST_1));
+							newInstructions.add(new MethodInsnNode(INVOKESTATIC, ASM_HOOKS, "transformStructureHelper", "(Lnet/minecraft/block/state/BlockPistonStructureHelper;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/EnumFacing;Z)Lnet/minecraft/block/state/BlockPistonStructureHelper;", false));
+
+							method.instructions.insert(node, newInstructions);
+							return true;
+						})));
 	}
 
 	private static byte[] transformContainerWorkbench(byte[] basicClass) {
