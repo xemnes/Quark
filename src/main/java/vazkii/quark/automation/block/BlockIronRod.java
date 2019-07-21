@@ -1,5 +1,7 @@
 package vazkii.quark.automation.block;
 
+import javax.annotation.Nonnull;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirectional;
 import net.minecraft.block.SoundType;
@@ -22,11 +24,12 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.arl.block.BlockMod;
+import vazkii.quark.api.ICollateralMover;
+import vazkii.quark.api.ICollateralMover.MoveResult;
+import vazkii.quark.api.IPistonHelper;
 import vazkii.quark.base.block.IQuarkBlock;
 
-import javax.annotation.Nonnull;
-
-public class BlockIronRod extends BlockMod implements IQuarkBlock {
+public class BlockIronRod extends BlockMod implements IQuarkBlock, ICollateralMover {
 
 	protected static final AxisAlignedBB IRON_ROD_VERTICAL_AABB = new AxisAlignedBB(0.375D, 0.0D, 0.375D, 0.625D, 1.0D, 0.625D);
 	protected static final AxisAlignedBB IRON_ROD_NS_AABB = new AxisAlignedBB(0.375D, 0.375D, 0.0D, 0.625D, 0.625D, 1.0D);
@@ -41,6 +44,22 @@ public class BlockIronRod extends BlockMod implements IQuarkBlock {
 		setResistance(10.0F);
 		setSoundType(SoundType.METAL);
 		setCreativeTab(CreativeTabs.REDSTONE);
+	}
+	
+	@Override
+	public MoveResult getCollateralMovement(IPistonHelper helper, EnumFacing side, BlockPos pos) {
+		EnumFacing direction = helper.getMoveDirection();
+		if(side != direction)
+			return MoveResult.SKIP;
+		
+		World world = helper.getWorld();
+		IBlockState ourState = world.getBlockState(pos);		
+		if(side != ourState.getValue(FACING))
+			return MoveResult.SKIP;
+		
+		BlockPos forward = pos.offset(direction);
+		IBlockState forwardState = world.getBlockState(forward);
+		return helper.isBlockPushable(forwardState, world, pos, direction, false, direction) ? MoveResult.BREAK : MoveResult.PREVENT;
 	}
 
 	@Override

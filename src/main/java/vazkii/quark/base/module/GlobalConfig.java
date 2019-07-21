@@ -11,6 +11,7 @@ public final class GlobalConfig {
 	public static boolean enableVariants;
 	public static boolean enableQButton;
 	public static boolean qButtonOnRight;
+	public static boolean usePistonLogicRepl;
 	
 	public static Property qButtonProp;
 
@@ -54,6 +55,9 @@ public final class GlobalConfig {
 				"Set this to true to move the q button to the right of the buttons, instead\n"
 				+ "of to the left as it is by default.", false);
 		
+		usePistonLogicRepl = ConfigHelper.loadPropBool("Use Piston Logic Replacement", category, 
+				"Set this to false to disable quark's piston logic replacement. This will still allow piston based features\n"
+				+ "to work, but they won't work as well. This is intended only if you're having issues, it's not recommended you touch it otherwise.", true);
 	}
 	
 	public static void changeConfig(String moduleName, String category, String key, String value, boolean saveToFile) {
