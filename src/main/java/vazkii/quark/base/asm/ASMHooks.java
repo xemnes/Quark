@@ -115,8 +115,12 @@ public final class ASMHooks {
 	
 	public static BlockPistonStructureHelper transformStructureHelper(BlockPistonStructureHelper helper, World world, BlockPos sourcePos, EnumFacing facing, boolean extending) {
 		return new QuarkPistonStructureHelper(helper, world, sourcePos, facing, extending);
-	}	
-	
+	}
+
+	public static void postPistonPush(BlockPistonStructureHelper helper, World world, EnumFacing facing, boolean extending) {
+		PistonsMoveTEs.detachTileEntities(world, helper, facing, extending);
+	}
+
 	// ===== BETTER CRAFT SHIFTING ===== //
 	
 	public static int getMaxInventoryBoundaryCrafting(int min, int max) {
@@ -146,8 +150,8 @@ public final class ASMHooks {
 	}
 	
 	@SideOnly(Side.CLIENT)
-	public static void renderPistonBlock(BlockPos pos, IBlockState state, BufferBuilder buffer, World world) {
-		PistonTileEntityRenderer.renderPistonBlock(pos, state, buffer, world);
+	public static boolean renderPistonBlock(TileEntityPiston piston, double x, double y, double z, float pTicks) {
+		return PistonTileEntityRenderer.renderPistonBlock(piston, x, y, z, pTicks);
 	}
 	
 	// ===== PISTONS PUSH/PULL ITEMS ===== //

@@ -9,6 +9,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
@@ -52,14 +53,16 @@ public class BlockGrate extends BlockMod implements IQuarkBlock {
 		if(!(entityIn instanceof EntityItem) && entityIn != null)
 			super.addCollisionBoxToList(state, worldIn, pos, entityBox, collidingBoxes, entityIn, isActualState);
 
-		if (entityIn instanceof EntityLiving)
+		if (entityIn instanceof EntityAnimal)
 			addCollisionBoxToList(pos, entityBox, collidingBoxes, getBoundingBox(state, worldIn, pos).expand(0, entityIn.stepHeight + 0.125, 0));
 	}
 
 	@Nullable
 	@Override
 	public PathNodeType getAiPathNodeType(@Nonnull IBlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos, @Nullable EntityLiving entity) {
-		return PathNodeType.DAMAGE_OTHER;
+		if (entity instanceof EntityAnimal)
+			return PathNodeType.DAMAGE_OTHER;
+		return null;
 	}
 
 	@Override

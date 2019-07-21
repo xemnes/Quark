@@ -316,7 +316,8 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 		String targetClazz = "net/minecraft/block/state/BlockPistonStructureHelper";
 
 		MethodSignature target = new MethodSignature("hasTileEntity", "", "(Lnet/minecraft/block/state/IBlockState;)Z");
-		MethodSignature target2 = new MethodSignature("<init>", "", "(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/EnumFacing;Z)V");
+		MethodSignature target2 = new MethodSignature("getBlocksToMove", "func_177254_c", "()Ljava/util/List;");
+		MethodSignature target3 = new MethodSignature("<init>", "", "(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/EnumFacing;Z)V");
 
 		return transform(basicClass,
 				forMethod(sig1, combine(
@@ -334,7 +335,23 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 						})),
 				forMethod(sig2, combine(
 						(AbstractInsnNode node) -> { // Filter
-							return node.getOpcode() == INVOKESPECIAL && ((MethodInsnNode) node).owner.equals(targetClazz) && target2.matches((MethodInsnNode) node);
+							return node.getOpcode() == INVOKEVIRTUAL && ((MethodInsnNode) node).owner.equals(targetClazz) && target2.matches((MethodInsnNode) node);
+						},
+						(MethodNode method, AbstractInsnNode node) -> { // Action
+							InsnList newInstructions = new InsnList();
+
+							newInstructions.add(new VarInsnNode(ALOAD, 5));
+							newInstructions.add(new VarInsnNode(ALOAD, 1));
+							newInstructions.add(new VarInsnNode(ALOAD, 3));
+							newInstructions.add(new VarInsnNode(ILOAD, 4));
+							newInstructions.add(new MethodInsnNode(INVOKESTATIC, ASM_HOOKS, "postPistonPush", "(Lnet/minecraft/block/state/BlockPistonStructureHelper;Lnet/minecraft/world/World;Lnet/minecraft/util/EnumFacing;Z)V", false));
+
+							method.instructions.insertBefore(node, newInstructions);
+							return true;
+						})),
+				forMethod(sig2, combine(
+						(AbstractInsnNode node) -> { // Filter
+							return node.getOpcode() == INVOKESPECIAL && ((MethodInsnNode) node).owner.equals(targetClazz) && target3.matches((MethodInsnNode) node);
 						},
 						(MethodNode method, AbstractInsnNode node) -> { // Action
 							InsnList newInstructions = new InsnList();
@@ -350,7 +367,7 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 						})),
 				forMethod(sig3, combine(
 						(AbstractInsnNode node) -> { // Filter
-							return node.getOpcode() == INVOKESPECIAL && ((MethodInsnNode) node).owner.equals(targetClazz) && target2.matches((MethodInsnNode) node);
+							return node.getOpcode() == INVOKESPECIAL && ((MethodInsnNode) node).owner.equals(targetClazz) && target3.matches((MethodInsnNode) node);
 						},
 						(MethodNode method, AbstractInsnNode node) -> { // Action
 							InsnList newInstructions = new InsnList();
@@ -463,22 +480,24 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 
 		MethodSignature target = new MethodSignature("draw", "func_78381_a", "()V");
 
-		return transform(basicClass, forMethod(sig, combine(
-				(AbstractInsnNode node) -> { // Filter
-					return node.getOpcode() == INVOKEVIRTUAL && target.matches((MethodInsnNode) node);
-				},
-				(MethodNode method, AbstractInsnNode node) -> {
+		return transform(basicClass, forMethod(sig, (MethodNode method) -> {
 					InsnList newInstructions = new InsnList();
 
-					newInstructions.add(new VarInsnNode(ALOAD, 11));
-					newInstructions.add(new VarInsnNode(ALOAD, 12));
-					newInstructions.add(new VarInsnNode(ALOAD, 15));
-					newInstructions.add(new VarInsnNode(ALOAD, 16));
-					newInstructions.add(new MethodInsnNode(INVOKESTATIC, ASM_HOOKS, "renderPistonBlock", "(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/client/renderer/BufferBuilder;Lnet/minecraft/world/World;)V", false));
+					LabelNode escape = new LabelNode();
 
-					method.instructions.insert(node, newInstructions);
+					newInstructions.add(new VarInsnNode(ALOAD, 1));
+					newInstructions.add(new VarInsnNode(DLOAD, 2));
+					newInstructions.add(new VarInsnNode(DLOAD, 4));
+					newInstructions.add(new VarInsnNode(DLOAD, 6));
+					newInstructions.add(new VarInsnNode(FLOAD, 8));
+					newInstructions.add(new MethodInsnNode(INVOKESTATIC, ASM_HOOKS, "renderPistonBlock", "(Lnet/minecraft/tileentity/TileEntityPiston;DDDF)Z", false));
+					newInstructions.add(new JumpInsnNode(IFEQ, escape));
+					newInstructions.add(new InsnNode(RETURN));
+					newInstructions.add(escape);
+
+					method.instructions.insertBefore(method.instructions.getFirst(), newInstructions);
 					return true;
-				})));
+				}));
 	}
 
 	private static byte[] transformWorldServer(byte[] basicClass) {
