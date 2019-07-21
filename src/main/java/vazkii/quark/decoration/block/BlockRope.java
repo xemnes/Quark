@@ -1,7 +1,5 @@
 package vazkii.quark.decoration.block;
 
-import javax.annotation.Nonnull;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockChest;
 import net.minecraft.block.SoundType;
@@ -22,10 +20,14 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.arl.block.BlockMod;
 import vazkii.quark.automation.feature.PistonsMoveTEs;
 import vazkii.quark.base.block.IQuarkBlock;
 import vazkii.quark.decoration.feature.Rope;
+
+import javax.annotation.Nonnull;
 
 public class BlockRope extends BlockMod implements IQuarkBlock {
 
@@ -80,10 +82,7 @@ public class BlockRope extends BlockMod implements IQuarkBlock {
 		BlockPos ropePos = pos.up();
 		if(ropePos.equals(basePos))
 			return false;
-		
-		IBlockState state = world.getBlockState(pos);
-		Block block = state.getBlock();
-		
+
 		world.setBlockToAir(ropePos);
 		moveBlock(world, pos, ropePos);
 		
@@ -91,7 +90,7 @@ public class BlockRope extends BlockMod implements IQuarkBlock {
 	}
 	
 	public boolean pullDown(World world, BlockPos pos) {
-		boolean can = false;
+		boolean can;
 		boolean endRope = false;
 		boolean wasAirAtEnd = false;
 		
@@ -127,12 +126,12 @@ public class BlockRope extends BlockMod implements IQuarkBlock {
 		
 		return false;
 	}
-	
+
 	private void moveBlock(World world, BlockPos srcPos, BlockPos dstPos) {
 		IBlockState state = world.getBlockState(srcPos);
 		Block block = state.getBlock();
 		
-		if(block.getBlockHardness(state, world, srcPos) == -1 || !block.canPlaceBlockAt(world, dstPos) || block.isAir(state, world, srcPos))
+		if(state.getBlockHardness(world, srcPos) == -1 || !block.canPlaceBlockAt(world, dstPos) || block.isAir(state, world, srcPos))
 			return;
 		
 		TileEntity tile = world.getTileEntity(srcPos);
@@ -162,12 +161,12 @@ public class BlockRope extends BlockMod implements IQuarkBlock {
 	}
 	
 	@Override
-	public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
+	public boolean canPlaceBlockAt(World worldIn, @Nonnull BlockPos pos) {
 		BlockPos posUp = pos.up();
 		IBlockState stateUp = worldIn.getBlockState(posUp);
 		Block block = stateUp.getBlock();
 		
-		return block == this || block.isSideSolid(stateUp, worldIn, posUp, EnumFacing.DOWN);
+		return block == this || stateUp.isSideSolid(worldIn, posUp, EnumFacing.DOWN);
 	}
 	
 	@Override
@@ -222,10 +221,11 @@ public class BlockRope extends BlockMod implements IQuarkBlock {
 		return face != EnumFacing.UP && face != EnumFacing.DOWN ? BlockFaceShape.UNDEFINED : BlockFaceShape.CENTER;
 	}
 	
+	@Nonnull
 	@Override
+	@SideOnly(Side.CLIENT)
 	public BlockRenderLayer getRenderLayer() {
 		return BlockRenderLayer.CUTOUT;
 	}
 
 }
-	

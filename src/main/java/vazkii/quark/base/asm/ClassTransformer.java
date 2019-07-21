@@ -357,7 +357,7 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 
 							newInstructions.add(new VarInsnNode(ALOAD, 1));
 							newInstructions.add(new VarInsnNode(ALOAD, 2));
-							newInstructions.add(new VarInsnNode(ALOAD, 3));
+							newInstructions.add(new VarInsnNode(ALOAD, 4));
 							newInstructions.add(new InsnNode(ICONST_1));
 							newInstructions.add(new MethodInsnNode(INVOKESTATIC, ASM_HOOKS, "transformStructureHelper", "(Lnet/minecraft/block/state/BlockPistonStructureHelper;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/EnumFacing;Z)Lnet/minecraft/block/state/BlockPistonStructureHelper;", false));
 

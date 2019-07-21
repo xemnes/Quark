@@ -64,17 +64,17 @@ public class PlaceVanillaDusts extends Feature {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	public static void setBlock(EntityPlayer player, ItemStack stack, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, Block block, RayTraceResult res) {
 		boolean flag = worldIn.getBlockState(pos).getBlock().isReplaceable(worldIn, pos);
 		BlockPos blockpos = flag ? pos : pos.offset(facing);
 		ItemStack itemstack = player.getHeldItem(hand);
 
 		if(player.canPlayerEdit(blockpos, facing, itemstack) && worldIn.mayPlace(worldIn.getBlockState(blockpos).getBlock(), blockpos, false, facing, null) && block.canPlaceBlockAt(worldIn, blockpos)) {
-			IBlockState state = block.getDefaultState();
 	        float hx = (float) (res.hitVec.x - blockpos.getX());
 	        float hy = (float) (res.hitVec.y - blockpos.getY());
 	        float hz = (float) (res.hitVec.z - blockpos.getZ());
-			state = block.getStateForPlacement(worldIn, blockpos, facing, hx, hy, hz, stack.getMetadata(), player);
+			IBlockState state = block.getStateForPlacement(worldIn, blockpos, facing, hx, hy, hz, stack.getMetadata(), player);
 					
 			worldIn.setBlockState(blockpos, state);
 
