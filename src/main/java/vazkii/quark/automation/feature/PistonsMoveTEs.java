@@ -79,10 +79,13 @@ public class PistonsMoveTEs extends Feature {
 		return PistonsMoveTEs.movementBlacklist.contains(res.toString()) || PistonsMoveTEs.movementBlacklist.contains(res.getNamespace());
 	}
 	
-	public static void detachTileEntities(World world, BlockPistonStructureHelper helper, EnumFacing facing) {
+	public static void detachTileEntities(World world, BlockPistonStructureHelper helper, EnumFacing facing, boolean extending) {
 		if(!ModuleLoader.isFeatureEnabled(PistonsMoveTEs.class))
 			return;
-		
+
+		if (!extending)
+			facing = facing.getOpposite();
+
 		List<BlockPos> moveList = helper.getBlocksToMove();
 		
 		for(BlockPos pos : moveList) {
