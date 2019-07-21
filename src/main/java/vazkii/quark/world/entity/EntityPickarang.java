@@ -229,34 +229,36 @@ public class EntityPickarang extends EntityThrowable {
 		        	playSound(QuarkSounds.ENTITY_PICKARANG_PICKUP, 1, 1);
 
 			        if(!stack.isEmpty()) {
-						if(stackInSlot.isEmpty())
+						if(!player.isDead && stackInSlot.isEmpty())
 							player.inventory.setInventorySlotContents(slot, stack);
-						else if(!player.inventory.addItemStackToInventory(stack))
+						else if(player.isDead || !player.inventory.addItemStackToInventory(stack))
 							player.dropItem(stack, false);
 			        }
 
-			        for (EntityItem item : items) {
-			        	ItemStack drop = item.getItem();
-						if(!player.addItemStackToInventory(drop))
-							player.dropItem(drop, false);
-						item.setDead();
-					}
-
-					for (EntityXPOrb xpOrb : xp) {
-						xpOrb.onCollideWithPlayer(player);
-					}
-
-					for (Entity riding : getPassengers()) {
-						if (riding.isDead)
-							continue;
-
-						if (riding instanceof EntityItem) {
-							ItemStack drop = ((EntityItem) riding).getItem();
-							if(!player.addItemStackToInventory(drop))
+			        if (!player.isDead) {
+						for (EntityItem item : items) {
+							ItemStack drop = item.getItem();
+							if (!player.addItemStackToInventory(drop))
 								player.dropItem(drop, false);
-							riding.setDead();
-						} else if (riding instanceof EntityXPOrb)
-							riding.onCollideWithPlayer(player);
+							item.setDead();
+						}
+
+						for (EntityXPOrb xpOrb : xp) {
+							xpOrb.onCollideWithPlayer(player);
+						}
+
+						for (Entity riding : getPassengers()) {
+							if (riding.isDead)
+								continue;
+
+							if (riding instanceof EntityItem) {
+								ItemStack drop = ((EntityItem) riding).getItem();
+								if (!player.addItemStackToInventory(drop))
+									player.dropItem(drop, false);
+								riding.setDead();
+							} else if (riding instanceof EntityXPOrb)
+								riding.onCollideWithPlayer(player);
+						}
 					}
 
 					setDead();
