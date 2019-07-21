@@ -316,7 +316,8 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 		String targetClazz = "net/minecraft/block/state/BlockPistonStructureHelper";
 
 		MethodSignature target = new MethodSignature("hasTileEntity", "", "(Lnet/minecraft/block/state/IBlockState;)Z");
-		MethodSignature target2 = new MethodSignature("<init>", "", "(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/EnumFacing;Z)V");
+		MethodSignature target2 = new MethodSignature("getBlocksToMove", "func_177254_c", "()Ljava/util/List;");
+		MethodSignature target3 = new MethodSignature("<init>", "", "(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/EnumFacing;Z)V");
 
 		return transform(basicClass,
 				forMethod(sig1, combine(
@@ -339,6 +340,23 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 						(MethodNode method, AbstractInsnNode node) -> { // Action
 							InsnList newInstructions = new InsnList();
 
+							newInstructions.add(new VarInsnNode(ALOAD, 5));
+							newInstructions.add(new VarInsnNode(ALOAD, 1));
+							newInstructions.add(new VarInsnNode(ALOAD, 2));
+							newInstructions.add(new VarInsnNode(ALOAD, 3));
+							newInstructions.add(new VarInsnNode(ILOAD, 4));
+							newInstructions.add(new MethodInsnNode(INVOKESTATIC, ASM_HOOKS, "postPistonPush", "(Lnet/minecraft/block/state/BlockPistonStructureHelper;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/EnumFacing;Z)V", false));
+
+							method.instructions.insertBefore(node, newInstructions);
+							return true;
+						})),
+				forMethod(sig2, combine(
+						(AbstractInsnNode node) -> { // Filter
+							return node.getOpcode() == INVOKESPECIAL && ((MethodInsnNode) node).owner.equals(targetClazz) && target3.matches((MethodInsnNode) node);
+						},
+						(MethodNode method, AbstractInsnNode node) -> { // Action
+							InsnList newInstructions = new InsnList();
+
 							newInstructions.add(new VarInsnNode(ALOAD, 1));
 							newInstructions.add(new VarInsnNode(ALOAD, 2));
 							newInstructions.add(new VarInsnNode(ALOAD, 3));
@@ -350,7 +368,7 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 						})),
 				forMethod(sig3, combine(
 						(AbstractInsnNode node) -> { // Filter
-							return node.getOpcode() == INVOKESPECIAL && ((MethodInsnNode) node).owner.equals(targetClazz) && target2.matches((MethodInsnNode) node);
+							return node.getOpcode() == INVOKESPECIAL && ((MethodInsnNode) node).owner.equals(targetClazz) && target3.matches((MethodInsnNode) node);
 						},
 						(MethodNode method, AbstractInsnNode node) -> { // Action
 							InsnList newInstructions = new InsnList();

@@ -1,8 +1,8 @@
 {
 	"credit": "Made with Blockbench, by Daniel Astral (@TrisAstral)",
 	"textures": {
-		"0": "quark:block/blaze_rod",
-		"particle": "quark:block/blaze_rod"
+		"0": "quark:blocks/blaze_rod",
+		"particle": "quark:blocks/blaze_rod"
 	},
 	"elements": [
 		{

@@ -115,8 +115,12 @@ public final class ASMHooks {
 	
 	public static BlockPistonStructureHelper transformStructureHelper(BlockPistonStructureHelper helper, World world, BlockPos sourcePos, EnumFacing facing, boolean extending) {
 		return new QuarkPistonStructureHelper(helper, world, sourcePos, facing, extending);
-	}	
-	
+	}
+
+	public static void postPistonPush(BlockPistonStructureHelper helper, World world, BlockPos sourcePos, EnumFacing facing, boolean extending) {
+		// TODO
+	}
+
 	// ===== BETTER CRAFT SHIFTING ===== //
 	
 	public static int getMaxInventoryBoundaryCrafting(int min, int max) {
