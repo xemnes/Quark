@@ -37,7 +37,6 @@ import vazkii.quark.world.feature.PathfinderMaps;
 import vazkii.quark.world.feature.PirateShips;
 import vazkii.quark.world.feature.RealisticWorldType;
 import vazkii.quark.world.feature.RevampStoneGen;
-import vazkii.quark.world.feature.SkySanctuaries;
 import vazkii.quark.world.feature.Speleothems;
 import vazkii.quark.world.feature.Stonelings;
 import vazkii.quark.world.feature.TreeVariants;
@@ -75,7 +74,6 @@ public class QuarkWorld extends Module {
 		registerFeature(new Frogs());
 		registerFeature(new Foxhounds());
 		registerFeature(new Crabs());
-		registerFeature(new SkySanctuaries());
 		registerFeature(new TreeVariants());
 		registerFeature(new BrokenNetherPortals());
 
