@@ -25,8 +25,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.arl.block.BlockMod;
 import vazkii.quark.api.ICollateralMover;
-import vazkii.quark.api.ICollateralMover.MoveResult;
-import vazkii.quark.api.IPistonHelper;
 import vazkii.quark.base.block.IQuarkBlock;
 
 public class BlockIronRod extends BlockMod implements IQuarkBlock, ICollateralMover {
@@ -47,19 +45,18 @@ public class BlockIronRod extends BlockMod implements IQuarkBlock, ICollateralMo
 	}
 	
 	@Override
-	public MoveResult getCollateralMovement(IPistonHelper helper, EnumFacing side, BlockPos pos) {
-		EnumFacing direction = helper.getMoveDirection();
-		if(side != direction)
+	public boolean isCollateralMover(World world, BlockPos source, EnumFacing moveDirection, BlockPos pos) {
+		return moveDirection == world.getBlockState(pos).getValue(FACING);
+	}
+	
+	@Override
+	public MoveResult getCollateralMovement(World world, BlockPos source, EnumFacing moveDirection, EnumFacing side, BlockPos pos) {
+		if(side != moveDirection)
 			return MoveResult.SKIP;
 		
-		World world = helper.getWorld();
-		IBlockState ourState = world.getBlockState(pos);		
-		if(side != ourState.getValue(FACING))
-			return MoveResult.SKIP;
-		
-		BlockPos forward = pos.offset(direction);
+		BlockPos forward = pos.offset(moveDirection);
 		IBlockState forwardState = world.getBlockState(forward);
-		return helper.isBlockPushable(forwardState, world, pos, direction, false, direction) ? MoveResult.BREAK : MoveResult.PREVENT;
+		return MoveResult.BREAK;
 	}
 
 	@Override

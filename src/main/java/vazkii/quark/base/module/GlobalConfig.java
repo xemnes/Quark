@@ -56,8 +56,8 @@ public final class GlobalConfig {
 				+ "of to the left as it is by default.", false);
 		
 		usePistonLogicRepl = ConfigHelper.loadPropBool("Use Piston Logic Replacement", category, 
-				"Set this to false to disable quark's piston logic replacement. This will still allow piston based features\n"
-				+ "to work, but they won't work as well. This is intended only if you're having issues, it's not recommended you touch it otherwise.", true);
+				"Set this to false to disable quark's piston logic replacement. This will disable quark's piston features.\n"
+				+ "This is intended only if you're having issues, it's not recommended you touch it otherwise.", true);
 	}
 	
 	public static void changeConfig(String moduleName, String category, String key, String value, boolean saveToFile) {
