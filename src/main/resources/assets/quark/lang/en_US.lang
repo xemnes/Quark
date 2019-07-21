@@ -660,6 +660,12 @@ tile.quark:sakura_sapling.name=Blossoming Sapling
 tile.quark:rope.name=Rope Coil
 tile.quark:blaze_rod.name=Blaze Rod (Block)
 tile.quark:grate.name=Iron Grate
+tile.green_slime_block.name=Green Slime Block
+tile.quark:slime_red.name=Red Slime Block
+tile.quark:slime_blue.name=Blue Slime Block
+tile.quark:slime_cyan.name=Cyan Slime Block
+tile.quark:slime_magenta.name=Magenta Slime Block
+tile.quark:slime_yellow.name=Yellow Slime Block
 
 # ITEM NAMES
 item.quark:glass_shard.name=Glass Shard

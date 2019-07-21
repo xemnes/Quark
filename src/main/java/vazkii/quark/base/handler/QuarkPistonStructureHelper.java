@@ -26,6 +26,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import vazkii.quark.api.ICollateralMover;
 import vazkii.quark.api.ICollateralMover.MoveResult;
+import vazkii.quark.api.INonSticky;
 import vazkii.quark.base.module.GlobalConfig;
 
 public class QuarkPistonStructureHelper extends BlockPistonStructureHelper {
@@ -135,9 +136,11 @@ public class QuarkPistonStructureHelper extends BlockPistonStructureHelper {
 				for(int j = lineLen - 1; j >= 0; --j) {
 					BlockPos movePos = origin.offset(moveDirection.getOpposite(), j);
 					toMove.add(movePos);
+					System.out.println(toMove);
 					i1++;
 				}
 				
+				System.out.println(skippingNext);
 				if(skippingNext)
 					return true;
 				
@@ -188,8 +191,6 @@ public class QuarkPistonStructureHelper extends BlockPistonStructureHelper {
 						++i1;
 						++j1;
 					}
-					
-					return true;
 				}
 			}
 		}
@@ -215,30 +216,32 @@ public class QuarkPistonStructureHelper extends BlockPistonStructureHelper {
 		
 		EnumFacing opposite = moveDirection.getOpposite();
 		MoveResult retResult = MoveResult.SKIP;
-		for(EnumFacing enumfacing : EnumFacing.values()) {
+		for(EnumFacing face : EnumFacing.values()) {
 				MoveResult res = MoveResult.MOVE;
+				BlockPos targetPos = fromPos.offset(face);
+				IBlockState targetState = world.getBlockState(targetPos);
 				
 				if(block instanceof ICollateralMover)
-					res = ((ICollateralMover) block).getCollateralMovement(world, pistonPos, moveDirection, enumfacing, fromPos);
+					res = ((ICollateralMover) block).getCollateralMovement(world, pistonPos, moveDirection, face, fromPos);
+				else res = getStickCompatibility(world, state, targetState, fromPos, targetPos, face);
 				
 				switch(res) {
 				case PREVENT:
 					return MoveResult.PREVENT;
 				case MOVE:
-					if(!addBlockLine(fromPos.offset(enumfacing), enumfacing))
+					if(!addBlockLine(targetPos, face))
 						return MoveResult.PREVENT;
 					break;
 				case BREAK:
-					BlockPos target = fromPos.offset(enumfacing);
-					if(BlockPistonBase.canPush(world.getBlockState(target), world, target, moveDirection, false, moveDirection)) {
-						toDestroy.add(fromPos.offset(enumfacing));
+					if(BlockPistonBase.canPush(targetState, world, targetPos, moveDirection, false, moveDirection)) {
+						toDestroy.add(targetPos);
 						return MoveResult.BREAK;
 					}
 					
 					return MoveResult.PREVENT;
 				}
 				
-				if(enumfacing == opposite)
+				if(face == opposite)
 					retResult = res;
 			}
 		
@@ -258,6 +261,21 @@ public class QuarkPistonStructureHelper extends BlockPistonStructureHelper {
 
 		if(block instanceof ICollateralMover)
 			return ((ICollateralMover) block).getCollateralMovement(world, pistonPos, moveDirection, moveDirection, pos);
+		
+		return MoveResult.MOVE;
+	}
+	
+	private MoveResult getStickCompatibility(World world, IBlockState state1, IBlockState state2, BlockPos pos1, BlockPos pos2, EnumFacing face) {
+		if(face.getAxis() == moveDirection.getAxis())
+			return MoveResult.MOVE;
+		
+		Block block = state1.getBlock();
+		if(block instanceof INonSticky && !((INonSticky) block).sticksToSlime(world, pistonPos, pos1, pos2, state1, state2, moveDirection))
+			return MoveResult.SKIP;
+		
+		block = state2.getBlock();
+		if(block instanceof INonSticky && !((INonSticky) block).sticksToSlime(world, pistonPos, pos2, pos1, state2, state1, moveDirection))
+			return MoveResult.SKIP;
 		
 		return MoveResult.MOVE;
 	}
