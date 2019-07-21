@@ -51,12 +51,7 @@ public class BlockIronRod extends BlockMod implements IQuarkBlock, ICollateralMo
 	
 	@Override
 	public MoveResult getCollateralMovement(World world, BlockPos source, EnumFacing moveDirection, EnumFacing side, BlockPos pos) {
-		if(side != moveDirection)
-			return MoveResult.SKIP;
-		
-		BlockPos forward = pos.offset(moveDirection);
-		IBlockState forwardState = world.getBlockState(forward);
-		return MoveResult.BREAK;
+		return side == moveDirection ? MoveResult.BREAK : MoveResult.SKIP;
 	}
 
 	@Override
