@@ -1,5 +1,7 @@
 package vazkii.quark.base.module;
 
+import com.typesafe.config.Config;
+
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
 
@@ -12,6 +14,8 @@ public final class GlobalConfig {
 	public static boolean enableQButton;
 	public static boolean qButtonOnRight;
 	public static boolean usePistonLogicRepl;
+	
+	public static int pistonPushLimit;
 	
 	public static Property qButtonProp;
 
@@ -58,6 +62,9 @@ public final class GlobalConfig {
 		usePistonLogicRepl = ConfigHelper.loadPropBool("Use Piston Logic Replacement", category, 
 				"Set this to false to disable quark's piston logic replacement. This will disable quark's piston features.\n"
 				+ "This is intended only if you're having issues, it's not recommended you touch it otherwise.", true);
+		
+		pistonPushLimit = ConfigHelper.loadPropInt("Piston Push Limit", category, 
+				"Note that if you turn off 'Use Piston Logic Replacement', this value will not apply.", 12);
 	}
 	
 	public static void changeConfig(String moduleName, String category, String key, String value, boolean saveToFile) {

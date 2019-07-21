@@ -86,7 +86,7 @@ public class QuarkPistonStructureHelper extends BlockPistonStructureHelper {
 	}
 
 	private boolean addBlockLine(BlockPos origin, EnumFacing face) {
-		final int max = 12;
+		final int max = GlobalConfig.pistonPushLimit;
 
 		BlockPos target = origin;
 		IBlockState iblockstate = world.getBlockState(target);
