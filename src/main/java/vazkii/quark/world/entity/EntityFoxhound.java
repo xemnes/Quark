@@ -193,6 +193,7 @@ public class EntityFoxhound extends EntityWolf {
                     this.world.setEntityState(this, (byte)7);
 				} else {
 					this.playTameEffect(false);
+					this.world.setEntityState(this, (byte)6);
 				}
 
 				if (!player.isCreative())
