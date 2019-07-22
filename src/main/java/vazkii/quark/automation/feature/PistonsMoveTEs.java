@@ -6,6 +6,7 @@ import net.minecraft.block.BlockChest;
 import net.minecraft.block.BlockJukebox;
 import net.minecraft.block.state.BlockPistonStructureHelper;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.EnumFacing;
@@ -36,7 +37,7 @@ public class PistonsMoveTEs extends Feature {
 		String[] renderBlacklistArray = loadPropStringList("Tile Entity Render Blacklist", "Some mod blocks with complex renders will break everything if moved. Add them here if you find any.", 
 				new String[] { "psi:programmer", "botania:starfield" });
 		String[] movementBlacklistArray = loadPropStringList("Tile Entity Movement Blacklist", "Blocks with Tile Entities that pistons should not be able to move.\nYou can specify just mod names here, and all blocks from that mod will be disabled.", 
-				new String[] { "minecraft:mob_spawner", "minecraft:ender_chest", "integrateddynamics:cable", "randomthings:blockbreaker", "minecraft:trapped_chest", "quark:custom_chest_trap" });
+				new String[] { "minecraft:mob_spawner", "integrateddynamics:cable", "randomthings:blockbreaker", "minecraft:trapped_chest", "quark:custom_chest_trap" });
 		String[] delayedUpdateListArray = loadPropStringList("Delayed Update List", "List of blocks whose tile entity update should be delayed by one tick after placed to prevent corruption.", 
 				new String[] { "minecraft:dispenser", "minecraft:dropper" });
 		
@@ -73,6 +74,9 @@ public class PistonsMoveTEs extends Feature {
 	public static boolean shouldMoveTE(IBlockState state) {
 		// Jukeboxes that are playing can't be moved so the music can be stopped
 		if(state.getPropertyKeys().contains(BlockJukebox.HAS_RECORD) && state.getValue(BlockJukebox.HAS_RECORD))
+			return true;
+
+		if (state.getBlock() == Blocks.ENDER_CHEST) // They're obsidian!
 			return true;
 		
 		ResourceLocation res = Block.REGISTRY.getNameForObject(state.getBlock());
