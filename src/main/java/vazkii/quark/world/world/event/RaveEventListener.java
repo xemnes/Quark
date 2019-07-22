@@ -26,10 +26,16 @@ import javax.annotation.Nullable;
 
 public class RaveEventListener implements IWorldEventListener {
 
+	private final World world;
+
+	public RaveEventListener(World world) {
+		this.world = world;
+	}
+
 	@Override
-	public void playEvent(@Nonnull EntityPlayer player, int type, @Nonnull BlockPos pos, int data) {
+	public void playEvent(@Nullable EntityPlayer player, int type, @Nonnull BlockPos pos, int data) {
 		if (type == 1010) {
-			for (EntityCrab living : player.world.getEntitiesWithinAABB(EntityCrab.class,
+			for (EntityCrab living : world.getEntitiesWithinAABB(EntityCrab.class,
 					new AxisAlignedBB(pos).grow(3.0D))) {
 				living.party(pos, data != 0);
 			}

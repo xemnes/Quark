@@ -46,7 +46,7 @@ public class Crabs extends Feature {
 
 	@SubscribeEvent
 	public void onNewWorld(WorldEvent.Load event) {
-		event.getWorld().addEventListener(new RaveEventListener());
+		event.getWorld().addEventListener(new RaveEventListener(event.getWorld()));
 	}
 
 	@Override
