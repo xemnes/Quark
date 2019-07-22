@@ -10,6 +10,7 @@
  */
 package vazkii.quark.base.util;
 
+import net.minecraft.init.Bootstrap;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.pathfinding.PathNavigate;
@@ -22,7 +23,7 @@ import java.lang.reflect.Method;
 
 public class CommonReflectiveAccessor {
 
-	private static final MethodHandle BOW_IS_ARROW, NAVIGATOR_SPEED;
+	private static final MethodHandle BOW_IS_ARROW, NAVIGATOR_SPEED, DISPENSER_SUCCESS;
 
 	static {
 		try {
@@ -31,6 +32,9 @@ public class CommonReflectiveAccessor {
 
 			Field f = ObfuscationReflectionHelper.findField(PathNavigate.class, "field_75511_d");
 			NAVIGATOR_SPEED = MethodHandles.lookup().unreflectGetter(f);
+
+			f = ObfuscationReflectionHelper.findField(Bootstrap.BehaviorDispenseOptional.class, "field_190911_b");
+			DISPENSER_SUCCESS = MethodHandles.lookup().unreflectGetter(f);
 		} catch (IllegalAccessException e) {
 			throw new RuntimeException(e);
 		}
@@ -47,6 +51,14 @@ public class CommonReflectiveAccessor {
 	public static double getSpeed(PathNavigate navigator) {
 		try {
 			return (double) NAVIGATOR_SPEED.invokeExact(navigator);
+		} catch (Throwable throwable) {
+			throw new RuntimeException(throwable);
+		}
+	}
+
+	public static boolean getSuccess(Bootstrap.BehaviorDispenseOptional behavior) {
+		try {
+			return (boolean) DISPENSER_SUCCESS.invokeExact(behavior);
 		} catch (Throwable throwable) {
 			throw new RuntimeException(throwable);
 		}

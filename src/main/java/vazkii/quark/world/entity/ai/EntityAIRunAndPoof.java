@@ -16,6 +16,7 @@ import net.minecraft.entity.ai.RandomPositionGenerator;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.pathfinding.Path;
 import net.minecraft.pathfinding.PathNavigate;
+import net.minecraft.pathfinding.PathPoint;
 import net.minecraft.util.EntitySelectors;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
@@ -71,13 +72,13 @@ public class EntityAIRunAndPoof<T extends Entity> extends EntityAIBase {
 			this.closestLivingEntity = entities.get(0);
 			Vec3d target = RandomPositionGenerator.findRandomTargetBlockAwayFrom(this.entity, 16, 7, this.closestLivingEntity.getPositionVector());
 
-			if (target == null)
-				target = entity.getPositionVector();
-
-			if (this.closestLivingEntity.getDistanceSq(target.x, target.y, target.z) < this.closestLivingEntity.getDistanceSq(this.entity))
+			if (target != null && this.closestLivingEntity.getDistanceSq(target.x, target.y, target.z) < this.closestLivingEntity.getDistanceSq(this.entity))
 				return false;
 			else {
-				this.path = this.navigation.getPathToXYZ(target.x, target.y, target.z);
+				if (target == null)
+					this.path = new Path(new PathPoint[] { new PathPoint((int) entity.posX, (int) entity.posY, (int) entity.posZ) });
+				else
+					this.path = this.navigation.getPathToXYZ(target.x, target.y, target.z);
 				return this.path != null;
 			}
 		}

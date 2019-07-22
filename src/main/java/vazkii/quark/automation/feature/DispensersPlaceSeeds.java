@@ -12,10 +12,10 @@ package vazkii.quark.automation.feature;
 
 import net.minecraft.block.*;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.dispenser.BehaviorDefaultDispenseItem;
 import net.minecraft.dispenser.IBehaviorDispenseItem;
 import net.minecraft.dispenser.IBlockSource;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Bootstrap.BehaviorDispenseOptional;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
@@ -25,6 +25,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import vazkii.quark.base.module.ConfigHelper;
 import vazkii.quark.base.module.Feature;
+import vazkii.quark.base.util.CommonReflectiveAccessor;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
@@ -97,7 +98,7 @@ public class DispensersPlaceSeeds extends Feature {
 		return new String[] { "botania", "animania" };
 	}
 
-	public class BehaviourSeeds extends BehaviorDefaultDispenseItem {
+	public class BehaviourSeeds extends BehaviorDispenseOptional {
 
 		private final IBlockState placeState;
 
@@ -111,23 +112,25 @@ public class DispensersPlaceSeeds extends Feature {
 
 		@Nonnull
 		@Override
-		public ItemStack dispenseStack(IBlockSource par1IBlockSource, ItemStack par2ItemStack) {
-			EnumFacing facing = par1IBlockSource.getBlockState().getValue(BlockDispenser.FACING);
-			BlockPos pos = par1IBlockSource.getBlockPos().offset(facing);
-			World world = par1IBlockSource.getWorld();
+		public ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
+			EnumFacing facing = source.getBlockState().getValue(BlockDispenser.FACING);
+			BlockPos pos = source.getBlockPos().offset(facing);
+			World world = source.getWorld();
+			this.successful = false;
 
 			if(world.isAirBlock(pos) && placeState.getBlock().canPlaceBlockAt(world, pos)) {
 				world.setBlockState(pos, placeState);
-				par2ItemStack.shrink(1);
-				return par2ItemStack;
+				stack.shrink(1);
+				this.successful = true;
+				return stack;
 			}
 
-			return super.dispenseStack(par1IBlockSource, par2ItemStack);
+			return stack;
 		}
 
 	}
 
-	public class BehaviourCocoaBeans extends BehaviorDefaultDispenseItem {
+	public class BehaviourCocoaBeans extends BehaviorDispenseOptional {
 
 		private final IBehaviorDispenseItem vanillaBehaviour;
 		public BehaviourCocoaBeans(IBehaviorDispenseItem vanilla) {
@@ -136,23 +139,30 @@ public class DispensersPlaceSeeds extends Feature {
 
 		@Nonnull
 		@Override
-		public ItemStack dispenseStack(IBlockSource par1IBlockSource, ItemStack par2ItemStack) {
-			if(par2ItemStack.getItemDamage() == EnumDyeColor.BROWN.getDyeDamage()) {
+		public ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
+			this.successful = false;
+			if(stack.getItemDamage() == EnumDyeColor.BROWN.getDyeDamage()) {
 				Block block = Blocks.COCOA;
-				EnumFacing facing = par1IBlockSource.getBlockState().getValue(BlockDispenser.FACING);
-				BlockPos pos = par1IBlockSource.getBlockPos().offset(facing);
-				World world = par1IBlockSource.getWorld();
+				EnumFacing facing = source.getBlockState().getValue(BlockDispenser.FACING);
+				BlockPos pos = source.getBlockPos().offset(facing);
+				World world = source.getWorld();
 
 				BlockPos logPos = pos.offset(facing);
 				IBlockState logState = world.getBlockState(logPos);
 				if(logState.getBlock() == Blocks.LOG && logState.getValue(BlockOldLog.VARIANT) == BlockPlanks.EnumType.JUNGLE && world.isAirBlock(pos) && block.canPlaceBlockAt(world, pos)) {
 					world.setBlockState(pos, block.getDefaultState().withProperty(BlockHorizontal.FACING, facing));
-					par2ItemStack.shrink(1);
-					return par2ItemStack;
+					stack.shrink(1);
+					this.successful = true;
+					return stack;
 				}
 			}
 
-			return vanillaBehaviour.dispense(par1IBlockSource, par2ItemStack);
+			ItemStack out = vanillaBehaviour.dispense(source, stack);
+
+			if (vanillaBehaviour instanceof BehaviorDispenseOptional)
+				this.successful = CommonReflectiveAccessor.getSuccess((BehaviorDispenseOptional) vanillaBehaviour);
+
+			return out;
 		}
 
 	}

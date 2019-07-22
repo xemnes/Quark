@@ -4,8 +4,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.dispenser.BehaviorDefaultDispenseItem;
 import net.minecraft.dispenser.IBlockSource;
+import net.minecraft.init.Bootstrap;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
@@ -17,6 +17,8 @@ import vazkii.arl.recipe.RecipeHandler;
 import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.decoration.block.BlockRope;
+
+import javax.annotation.Nonnull;
 
 public class Rope extends Feature {
 
@@ -53,17 +55,20 @@ public class Rope extends Feature {
 		return true;
 	}
 	
-	public static class BehaviourRope extends BehaviorDefaultDispenseItem {
+	public static class BehaviourRope extends Bootstrap.BehaviorDispenseOptional {
 		
+		@Nonnull
 		@Override
 		protected ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
 			EnumFacing facing = source.getBlockState().getValue(BlockDispenser.FACING);
 			BlockPos pos = source.getBlockPos().offset(facing);
 			World world = source.getWorld();
+			this.successful = false;
 			
 			IBlockState state = world.getBlockState(pos);
 			if(state.getBlock() == rope) {
 				if(((BlockRope) rope).pullDown(world, pos)) {
+					this.successful = true;
 					stack.shrink(1);
 					return stack;
 				}
@@ -71,12 +76,13 @@ public class Rope extends Feature {
 				SoundType soundtype = rope.getSoundType(state, world, pos, null);
 				world.setBlockState(pos, rope.getDefaultState());
 				world.playSound(null, pos, soundtype.getPlaceSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
+				this.successful = true;
 				stack.shrink(1);
 				
 				return stack;
 			}
 			
-			return super.dispenseStack(source, stack);
+			return stack;
 		}
 		
 	}

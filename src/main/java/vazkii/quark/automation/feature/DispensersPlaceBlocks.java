@@ -5,8 +5,8 @@ import net.minecraft.block.BlockDispenser;
 import net.minecraft.block.BlockPistonBase;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.dispenser.BehaviorDefaultDispenseItem;
 import net.minecraft.dispenser.IBlockSource;
+import net.minecraft.init.Bootstrap;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -64,7 +64,7 @@ public class DispensersPlaceBlocks extends Feature {
 		return new String[] { "blockdispenser" };
 	} 
 	
-	public class BehaviourBlock extends BehaviorDefaultDispenseItem {
+	public class BehaviourBlock extends Bootstrap.BehaviorDispenseOptional {
 
 		private final ItemBlock item;
 		private final Block block;
@@ -77,28 +77,32 @@ public class DispensersPlaceBlocks extends Feature {
 		@Nonnull
 		@Override
 		@SuppressWarnings("deprecation")
-		public ItemStack dispenseStack(IBlockSource par1IBlockSource, ItemStack par2ItemStack) {
-			EnumFacing facing = par1IBlockSource.getBlockState().getValue(BlockDispenser.FACING);
+		public ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
+			this.successful = false;
 
-			BlockPos pos = par1IBlockSource.getBlockPos().offset(facing);
-			World world = par1IBlockSource.getWorld();
+			EnumFacing facing = source.getBlockState().getValue(BlockDispenser.FACING);
+
+			BlockPos pos = source.getBlockPos().offset(facing);
+			World world = source.getWorld();
 
 			if(world.isAirBlock(pos) && block.canPlaceBlockAt(world, pos)) {
-				int meta = item.getMetadata(par2ItemStack.getItemDamage());
+				int meta = item.getMetadata(stack.getItemDamage());
 				IBlockState state;
 				if(!(block instanceof BlockPistonBase))
 					state = block.getStateFromMeta(meta);
 				else state = block.getDefaultState();
 
+				this.successful = true;
+
 				LockDirectionHotkey.setBlockRotated(world, state, pos, facing);
 				
 				SoundType soundtype = block.getSoundType(state, world, pos, null);
 				world.playSound(null, pos, soundtype.getPlaceSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
-				par2ItemStack.shrink(1);
-				return par2ItemStack;
+				stack.shrink(1);
+				return stack;
 			}
 
-			return super.dispenseStack(par1IBlockSource, par2ItemStack);
+			return stack;
 		}
 
 	}
