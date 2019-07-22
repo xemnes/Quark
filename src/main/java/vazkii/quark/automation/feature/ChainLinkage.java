@@ -13,15 +13,12 @@ package vazkii.quark.automation.feature;
 import gnu.trove.map.TIntObjectMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityBoat;
-import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
-import net.minecraftforge.event.entity.minecart.MinecartUpdateEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -91,8 +88,9 @@ public class ChainLinkage extends Feature {
 			AWAIT_MAP.put(vehicle, other);
 	}
 
-	public static void onBoatUpdate(EntityBoat boat) {
-		ChainHandler.adjustVehicle(boat);
+	public static void onEntityUpdate(Entity vehicle) {
+		if (ChainHandler.canBeLinkedTo(vehicle))
+			ChainHandler.adjustVehicle(vehicle);
 	}
 
 	public static void drop(Entity vehicle) {
@@ -178,12 +176,6 @@ public class ChainLinkage extends Feature {
 				target.getEntityData().setUniqueId(ChainHandler.LINKED_TO, AWAIT_MAP.get(id));
 			AWAIT_MAP.remove(id);
 		}
-	}
-
-	@SubscribeEvent
-	public void onMinecartUpdate(MinecartUpdateEvent event) {
-		EntityMinecart cart = event.getMinecart();
-		ChainHandler.adjustVehicle(cart);
 	}
 
 	@Override

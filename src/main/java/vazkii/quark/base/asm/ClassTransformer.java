@@ -49,7 +49,7 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 		transformers.put("net.minecraft.client.renderer.entity.RenderBoat", ClassTransformer::transformRenderBoat);
 		transformers.put("net.minecraft.entity.item.EntityBoat", ClassTransformer::transformEntityBoat);
 		transformers.put("net.minecraft.entity.item.EntityMinecart", ClassTransformer::transformEntityMinecart);
-		transformers.put("net.minecraft.client.renderer.entity.RenderMinecart", ClassTransformer::transformRenderMinecart);
+		transformers.put("net.minecraft.client.renderer.entity.RenderManager", ClassTransformer::transformRenderManager);
 
 		// For Piston Block Breakers and Pistons Move TEs
 		transformers.put("net.minecraft.block.BlockPistonBase", ClassTransformer::transformBlockPistonBase);
@@ -81,7 +81,7 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 		// For Show Invalid Slots
 		transformers.put("net.minecraft.client.gui.inventory.GuiContainer", ClassTransformer::transformGuiContainer);
 
-		// For Springy Slime
+		// For Springy Slime & Boat Sails and Chain Linkage
 		transformers.put("net.minecraft.entity.Entity", ClassTransformer::transformEntity);
 
 		// For Items Flash Before Expiring
@@ -209,12 +209,11 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 	}
 
 	private static byte[] transformEntityBoat(byte[] basicClass) {
-		MethodSignature sig1 = new MethodSignature("attackEntityFrom", "func_70097_a", "(Lnet/minecraft/util/DamageSource;F)Z");
-		MethodSignature sig2 = new MethodSignature("onUpdate", "func_70071_h_", "()V");
+		MethodSignature sig = new MethodSignature("attackEntityFrom", "func_70097_a", "(Lnet/minecraft/util/DamageSource;F)Z");
 
 		MethodSignature target = new MethodSignature("dropItemWithOffset", "func_145778_a", "(Lnet/minecraft/item/Item;IF)Lnet/minecraft/entity/item/EntityItem;");
 
-		return transform(basicClass, forMethod(sig1, combine(
+		return transform(basicClass, forMethod(sig, combine(
 				(AbstractInsnNode node) -> { // Filter
 					return node.getOpcode() == INVOKEVIRTUAL && target.matches((MethodInsnNode) node);
 				},
@@ -226,16 +225,7 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 
 					method.instructions.insert(node, newInstructions);
 					return true;
-				})),
-				forMethod(sig2, (MethodNode method) -> { // Action
-					InsnList newInstructions = new InsnList();
-
-					newInstructions.add(new VarInsnNode(ALOAD, 0));
-					newInstructions.add(new MethodInsnNode(INVOKESTATIC, ASM_HOOKS, "onBoatUpdate", "(Lnet/minecraft/entity/item/EntityBoat;)V", false));
-
-					method.instructions.insertBefore(method.instructions.getFirst(), newInstructions);
-					return true;
-				}));
+				})));
 	}
 
 	private static byte[] transformEntityMinecart(byte[] basicClass) {
@@ -258,10 +248,28 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 				})));
 	}
 
-	private static byte[] transformRenderMinecart(byte[] basicClass) {
-		MethodSignature sig = new MethodSignature("doRender", "func_188300_b", "(Lnet/minecraft/entity/item/EntityMinecart;DDDFF)V");
+	private static byte[] transformRenderManager(byte[] basicClass) {
+		MethodSignature sig = new MethodSignature("renderEntity", "func_188391_a", "(Lnet/minecraft/entity/Entity;DDDFFZ)V");
 
-		return transform(basicClass, transformRenderVehicle(sig));
+		MethodSignature target = new MethodSignature("doRender", "func_188300_b", "(Lnet/minecraft/entity/Entity;DDDFF)V");
+
+		return transform(basicClass, forMethod(sig, combine(
+				(AbstractInsnNode node) -> node.getOpcode() == INVOKEVIRTUAL && target.matches((MethodInsnNode) node),
+				(MethodNode method, AbstractInsnNode node) -> {
+					InsnList newInstructions = new InsnList();
+
+					newInstructions.add(new VarInsnNode(ALOAD, 11));
+					newInstructions.add(new VarInsnNode(DLOAD, 2));
+					newInstructions.add(new VarInsnNode(DLOAD, 4));
+					newInstructions.add(new VarInsnNode(DLOAD, 6));
+					newInstructions.add(new VarInsnNode(ALOAD, 1));
+					newInstructions.add(new VarInsnNode(FLOAD, 9));
+					newInstructions.add(new MethodInsnNode(INVOKESTATIC, ASM_HOOKS, "renderChain", "(Lnet/minecraft/client/renderer/entity/Render;DDDLnet/minecraft/entity/Entity;F)V", false));
+
+					method.instructions.insert(node, newInstructions);
+
+					return true;
+				})));
 	}
 
 	private static byte[] transformRenderBoat(byte[] basicClass) {
@@ -284,28 +292,7 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 
 					method.instructions.insert(node, newInstructions);
 					return true;
-				})), transformRenderVehicle(sig));
-	}
-
-	private static TransformerAction transformRenderVehicle(MethodSignature sig) {
-		return forMethod(sig, combine(
-				(AbstractInsnNode node) -> { // Filter
-					return node.getOpcode() == RETURN;
-				},
-				(MethodNode method, AbstractInsnNode node) -> { // Action
-					InsnList newInstructions = new InsnList();
-
-					newInstructions.add(new VarInsnNode(ALOAD, 0));
-					newInstructions.add(new VarInsnNode(DLOAD, 2));
-					newInstructions.add(new VarInsnNode(DLOAD, 4));
-					newInstructions.add(new VarInsnNode(DLOAD, 6));
-					newInstructions.add(new VarInsnNode(ALOAD, 1));
-					newInstructions.add(new VarInsnNode(FLOAD, 9));
-					newInstructions.add(new MethodInsnNode(INVOKESTATIC, ASM_HOOKS, "renderChain", "(Lnet/minecraft/client/renderer/entity/Render;DDDLnet/minecraft/entity/Entity;F)V", false));
-
-					method.instructions.insertBefore(node, newInstructions);
-					return false;
-				}));
+				})));
 	}
 
 	private static byte[] transformBlockPistonBase(byte[] basicClass) {
@@ -651,11 +638,12 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 	}
 
 	private static byte[] transformEntity(byte[] basicClass) {
-		MethodSignature sig = new MethodSignature("move", "func_70091_d", "(Lnet/minecraft/entity/MoverType;DDD)V");
+		MethodSignature sig1 = new MethodSignature("move", "func_70091_d", "(Lnet/minecraft/entity/MoverType;DDD)V");
+		MethodSignature sig2 = new MethodSignature("onEntityUpdate", "func_70030_z", "()V");
 		MethodSignature target1 = new MethodSignature("updateFallState", "func_184231_a", "(DZLnet/minecraft/block/state/IBlockState;Lnet/minecraft/util/math/BlockPos;)V");
 		MethodSignature target2 = new MethodSignature("doBlockCollisions", "func_145775_I", "()V");
 
-		return transform(basicClass, forMethod(sig, combine(
+		return transform(basicClass, forMethod(sig1, combine(
 				(AbstractInsnNode node) -> { // Filter
 					return (node.getOpcode() == INVOKEVIRTUAL || node.getOpcode() == INVOKESPECIAL) && target1.matches((MethodInsnNode) node);
 				},
@@ -705,7 +693,15 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 					method.instructions.insert(node, newInstructions);
 					return false;
 				}
-		)));
+		)), forMethod(sig2, (MethodNode method) -> {
+			InsnList newInstructions = new InsnList();
+
+			newInstructions.add(new VarInsnNode(ALOAD, 0));
+			newInstructions.add(new MethodInsnNode(INVOKESTATIC, ASM_HOOKS, "onEntityUpdate", "(Lnet/minecraft/entity/Entity;)V", false));
+
+			method.instructions.insertBefore(method.instructions.getFirst(), newInstructions);
+			return true;
+		}));
 	}
 
 	private static byte[] transformEntityItem(byte[] basicClass) {
@@ -727,65 +723,89 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 		MethodSignature checkAgainst = new MethodSignature("", "func_146111_b", "(II)V");
 
 
-		return transform(basicClass, inject(sig, (ClassNode clazz, MethodVisitor method) -> {
-			boolean deobf = true;
-			for (MethodNode node : clazz.methods) {
-				if (checkAgainst.matches(node)) {
-					deobf = false;
-					break;
-				}
-			}
+		return transform(basicClass, inject(sig, (MethodNode method) -> {
+					boolean deobf = method.name.equals(sig.srgName);
 
-			InsnList instructions = new InsnList();
+					InsnList newInstructions = new InsnList();
 
-			Label begin = new Label();
-			Label end = new Label();
-			Label skipSuper = new Label();
+					LabelNode skipSuper = new LabelNode();
 
-			method.visitParameter("this", ACC_MANDATED);
-			method.visitParameter("mc", ACC_MANDATED);
-			method.visitParameter("mouseX", ACC_MANDATED);
-			method.visitParameter("mouseY", ACC_MANDATED);
-			method.visitParameter("partialTicks", ACC_MANDATED);
+					newInstructions.add(new VarInsnNode(ALOAD, 0));
 
-			method.visitCode();
-			method.visitLabel(begin);
-			method.visitVarInsn(ALOAD, 0);
-			method.visitVarInsn(ALOAD, 0);
-			method.visitFieldInsn(GETFIELD, "net/minecraft/client/gui/inventory/GuiBeacon$PowerButton",
-					deobf ? "this$0" : "field_146150_o",
-					"Lnet/minecraft/client/gui/inventory/GuiBeacon;");
-			method.visitVarInsn(ALOAD, 1);
-			method.visitVarInsn(ILOAD, 2);
-			method.visitVarInsn(ILOAD, 3);
-			method.visitVarInsn(FLOAD, 4);
-			method.visitMethodInsn(INVOKESTATIC, ASM_HOOKS, "renderBeaconButton",
-					"(Lnet/minecraft/client/gui/GuiButton;Lnet/minecraft/client/gui/inventory/GuiBeacon;Lnet/minecraft/client/Minecraft;IIF)Z", false);
+					newInstructions.add(new InsnNode(DUP));
+					newInstructions.add(new FieldInsnNode(GETFIELD, "net/minecraft/client/gui/inventory/GuiBeacon$PowerButton", deobf ? "this$0" : "field_146150_o", "Lnet/minecraft/client/gui/inventory/GuiBeacon;"));
+					newInstructions.add(new VarInsnNode(ALOAD, 1));
+					newInstructions.add(new VarInsnNode(ILOAD, 2));
+					newInstructions.add(new VarInsnNode(ILOAD, 3));
+					newInstructions.add(new VarInsnNode(FLOAD, 4));
 
-			method.visitJumpInsn(IFNE, skipSuper);
-			method.visitVarInsn(ALOAD, 0);
-			method.visitVarInsn(ALOAD, 1);
-			method.visitVarInsn(ILOAD, 2);
-			method.visitVarInsn(ILOAD, 3);
-			method.visitVarInsn(FLOAD, 4);
-			method.visitMethodInsn(INVOKESPECIAL, "net/minecraft/client/gui/inventory/GuiBeacon$Button",
-					deobf ? sig.funcName : sig.srgName, sig.funcDesc, false);
-			method.visitLabel(skipSuper);
-			method.visitInsn(RETURN);
-			method.visitLabel(end);
+					newInstructions.add(new MethodInsnNode(INVOKESTATIC, ASM_HOOKS, "renderBeaconButton", "(Lnet/minecraft/client/gui/GuiButton;Lnet/minecraft/client/gui/inventory/GuiBeacon;Lnet/minecraft/client/Minecraft;IIF)Z", false));
+					newInstructions.add(new JumpInsnNode(IFNE, skipSuper));
+					newInstructions.add(new InsnNode(RETURN));
+					newInstructions.add(skipSuper);
 
-			method.visitLocalVariable("this", "Lnet/minecraft/client/gui/inventory/GuiBeacon$PowerButton;", null, begin, end, 0);
-			method.visitLocalVariable("mc", "Lnet/minecraft/client/Minecraft;", null, begin, end, 1);
-			method.visitLocalVariable("mouseX", "I", null, begin, end, 2);
-			method.visitLocalVariable("mouseY", "I", null, begin, end, 3);
-			method.visitLocalVariable("partialTicks", "F", null, begin, end, 4);
+					method.instructions.insertBefore(method.instructions.getFirst(), newInstructions);
+					return true;
+				},
+				(ClassNode clazz, MethodVisitor method) -> {
+					boolean deobf = true;
+					for (MethodNode node : clazz.methods) {
+						if (checkAgainst.matches(node)) {
+							deobf = false;
+							break;
+						}
+					}
 
-			method.visitMaxs(5, 5);
+					InsnList instructions = new InsnList();
 
-			method.visitEnd();
+					Label begin = new Label();
+					Label end = new Label();
+					Label skipSuper = new Label();
 
-			return true;
-		}));
+					method.visitParameter("this", ACC_MANDATED);
+					method.visitParameter("mc", ACC_MANDATED);
+					method.visitParameter("mouseX", ACC_MANDATED);
+					method.visitParameter("mouseY", ACC_MANDATED);
+					method.visitParameter("partialTicks", ACC_MANDATED);
+
+					method.visitCode();
+					method.visitLabel(begin);
+					method.visitVarInsn(ALOAD, 0);
+					method.visitInsn(DUP);
+					method.visitFieldInsn(GETFIELD, "net/minecraft/client/gui/inventory/GuiBeacon$PowerButton",
+							deobf ? "this$0" : "field_146150_o",
+							"Lnet/minecraft/client/gui/inventory/GuiBeacon;");
+					method.visitVarInsn(ALOAD, 1);
+					method.visitVarInsn(ILOAD, 2);
+					method.visitVarInsn(ILOAD, 3);
+					method.visitVarInsn(FLOAD, 4);
+					method.visitMethodInsn(INVOKESTATIC, ASM_HOOKS, "renderBeaconButton",
+							"(Lnet/minecraft/client/gui/GuiButton;Lnet/minecraft/client/gui/inventory/GuiBeacon;Lnet/minecraft/client/Minecraft;IIF)Z", false);
+
+					method.visitJumpInsn(IFNE, skipSuper);
+					method.visitVarInsn(ALOAD, 0);
+					method.visitVarInsn(ALOAD, 1);
+					method.visitVarInsn(ILOAD, 2);
+					method.visitVarInsn(ILOAD, 3);
+					method.visitVarInsn(FLOAD, 4);
+					method.visitMethodInsn(INVOKESPECIAL, "net/minecraft/client/gui/inventory/GuiBeacon$Button",
+							deobf ? sig.funcName : sig.srgName, sig.funcDesc, false);
+					method.visitLabel(skipSuper);
+					method.visitInsn(RETURN);
+					method.visitLabel(end);
+
+					method.visitLocalVariable("this", "Lnet/minecraft/client/gui/inventory/GuiBeacon$PowerButton;", null, begin, end, 0);
+					method.visitLocalVariable("mc", "Lnet/minecraft/client/Minecraft;", null, begin, end, 1);
+					method.visitLocalVariable("mouseX", "I", null, begin, end, 2);
+					method.visitLocalVariable("mouseY", "I", null, begin, end, 3);
+					method.visitLocalVariable("partialTicks", "F", null, begin, end, 4);
+
+					method.visitMaxs(5, 5);
+
+					method.visitEnd();
+
+					return true;
+				}));
 	}
 
 	private static byte[] transformEntityRenderer(byte[] basicClass) {
@@ -954,13 +974,14 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 		return basicClass;
 	}
 
-	public static boolean findMethodAndTransform(ClassNode node, MethodSignature sig, MethodAction predicate) {
+	public static boolean findMethodAndTransform(ClassNode node, MethodSignature sig, MethodAction predicate, boolean logResult) {
 		for (MethodNode method : node.methods) {
 			if (sig.matches(method)) {
 				log("Located Method, patching...");
 
 				boolean finish = predicate.test(method);
-				log("Patch result: " + finish);
+				if (logResult)
+					log("Patch result: " + finish);
 
 				debugMethod(method, finish);
 
@@ -968,13 +989,15 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 			}
 		}
 
-		log("Failed to locate the method!");
+		if (logResult)
+			log("Failed to locate the method!");
 		return false;
 	}
 
 	public static void debugMethod(MethodNode node, boolean result) {
 		if (!result) {
-			log(getNodeString(node));
+			String nodeString = getNodeString(node);
+			log("============= Please report this to Quark! =============\n" + nodeString.substring(0, nodeString.length() - 1));
 			log("============= Please report this to Quark! =============");
 		}
 	}
@@ -1152,8 +1175,8 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 		return new MethodTransformerAction(sig, actions);
 	}
 
-	private static TransformerAction inject(MethodSignature sig, NewMethodAction... actions) {
-		return new MethodInjectorAction(sig, actions);
+	private static TransformerAction inject(MethodSignature sig, MethodAction ifPresent, NewMethodAction... actions) {
+		return new MethodInjectorAction(sig, ifPresent, actions);
 	}
 
 	private static class MethodTransformerAction implements TransformerAction {
@@ -1170,28 +1193,36 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 			boolean didAnything = false;
 			log("Applying Transformation to method (" + sig + ")");
 			for (MethodAction action : actions)
-				didAnything |= findMethodAndTransform(classNode, sig, action);
+				didAnything |= findMethodAndTransform(classNode, sig, action, true);
 			return didAnything;
 		}
 	}
 
 	private static class MethodInjectorAction implements TransformerAction {
 		private final MethodSignature sig;
+		private final MethodAction ifPresent;
 		private final NewMethodAction[] actions;
 
-		public MethodInjectorAction(MethodSignature sig, NewMethodAction[] actions) {
+		public MethodInjectorAction(MethodSignature sig, MethodAction ifPresent, NewMethodAction[] actions) {
 			this.sig = sig;
+			this.ifPresent = ifPresent;
 			this.actions = actions;
 		}
 
 		@Override
 		public boolean test(ClassNode classNode) {
-			log("Injecting method (" + sig + ")");
 
-			MethodVisitor method = classNode.visitMethod(ACC_PUBLIC, LoadingPlugin.runtimeDeobfEnabled ? sig.srgName : sig.funcName, sig.funcDesc, null, null);
-			for (NewMethodAction action : actions) {
+			boolean didAnything = findMethodAndTransform(classNode, sig, ifPresent, false);
+
+			if (!didAnything) {
+				log("Could not locate, injecting method (" + sig + ")");
+				MethodVisitor method = classNode.visitMethod(ACC_PUBLIC, LoadingPlugin.runtimeDeobfEnabled ? sig.srgName : sig.funcName, sig.funcDesc, null, null);
+				for (NewMethodAction action : actions) {
 					boolean finish = action.test(classNode, method);
 					log("Patch result: " + finish);
+				}
+			} else {
+				log("Patch result: true");
 			}
 
 			return true;

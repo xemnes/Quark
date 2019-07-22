@@ -138,7 +138,7 @@ public class BoatSails extends Feature {
 		}
 	}
 
-	public static void onBoatUpdate(EntityBoat boat) {
+	public static void onBoatUpdate(Entity boat) {
 		if (!ModuleLoader.isFeatureEnabled(BoatSails.class) || !canHaveBanner(boat))
 			return;
 

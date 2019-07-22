@@ -10,8 +10,6 @@
  */
 package vazkii.quark.world.client.render;
 
-import org.lwjgl.opengl.GL11;
-
 import gnu.trove.map.TIntObjectMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import net.minecraft.client.Minecraft;
@@ -21,12 +19,12 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.opengl.GL11;
 import vazkii.quark.base.client.ClientReflectiveAccessor;
 import vazkii.quark.world.base.ChainHandler;
 
@@ -58,7 +56,7 @@ public class ChainRenderer {
 	}
 
 	public static void renderChain(Render render, double x, double y, double z, Entity entity, float partTicks) {
-		if (!ClientReflectiveAccessor.renderOutlines(render)) {
+		if (ChainHandler.canBeLinked(entity) && !ClientReflectiveAccessor.renderOutlines(render)) {
 			renderChain(entity, x, y, z, partTicks);
 		}
 	}

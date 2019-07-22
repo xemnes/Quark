@@ -92,9 +92,9 @@ public final class ASMHooks {
 		ChainRenderer.renderChain(render, x, y, z, entity, partTicks);
 	}
 	
-	public static void onBoatUpdate(EntityBoat boat) {
-		BoatSails.onBoatUpdate(boat);
-		ChainLinkage.onBoatUpdate(boat);
+	public static void onEntityUpdate(Entity entity) {
+		BoatSails.onBoatUpdate(entity);
+		ChainLinkage.onEntityUpdate(entity);
 	}
 	
 	public static void boatDrops(EntityBoat boat) {
