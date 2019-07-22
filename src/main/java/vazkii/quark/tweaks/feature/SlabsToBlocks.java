@@ -39,6 +39,8 @@ public class SlabsToBlocks extends Feature {
 
 	public static final Map<IBlockState, ItemStack> slabs = new HashMap<>();
 
+	private static final List<ItemStack> alreadyFound = new ArrayList<>();
+
 	public static int originalSize;
 	private MultiRecipe multiRecipe;
 	
@@ -56,7 +58,7 @@ public class SlabsToBlocks extends Feature {
 	@SuppressWarnings("deprecation")
 	public void postInit() {
 		List<ResourceLocation> recipeList = new ArrayList<>(CraftingManager.REGISTRY.getKeys());
-		for(ResourceLocation res : recipeList) {
+		recipeLoop: for(ResourceLocation res : recipeList) {
 			IRecipe recipe = CraftingManager.REGISTRY.getObject(res);
 			if(recipe instanceof ShapedRecipes || recipe instanceof ShapedOreRecipe) {
 				NonNullList<Ingredient> recipeItems;
@@ -66,6 +68,16 @@ public class SlabsToBlocks extends Feature {
 
 				ItemStack output = recipe.getRecipeOutput();
 				if(!output.isEmpty() && output.getCount() == originalSize) {
+					ItemStack singleOut = output.copy();
+					singleOut.setCount(1);
+
+					for (ItemStack stack : alreadyFound) {
+						if (ItemStack.areItemStacksEqual(singleOut, stack))
+							continue recipeLoop;
+					}
+
+					alreadyFound.add(singleOut);
+
 					Item outputItem = output.getItem();
 					Block outputBlock = Block.getBlockFromItem(outputItem);
 					if(outputBlock instanceof BlockSlab) {
