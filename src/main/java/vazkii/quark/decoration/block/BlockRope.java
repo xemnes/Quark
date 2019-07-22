@@ -192,7 +192,7 @@ public class BlockRope extends BlockMod implements IQuarkBlock {
 		world.setBlockToAir(srcPos);
 		world.setBlockState(dstPos, state);
 		
-		if(tile != null && !world.isRemote) {
+		if(tile != null) {
 			tile.setPos(dstPos);
 			TileEntity target = TileEntity.create(world, tile.writeToNBT(new NBTTagCompound()));
 			if (target != null) {
