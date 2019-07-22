@@ -1,7 +1,5 @@
 package vazkii.quark.automation.block;
 
-import java.util.Locale;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -21,6 +19,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.arl.block.BlockMetaVariants;
 import vazkii.quark.api.INonSticky;
 import vazkii.quark.base.block.IQuarkBlock;
+import vazkii.quark.base.module.ModuleLoader;
+import vazkii.quark.tweaks.feature.SpringySlime;
+
+import javax.annotation.Nonnull;
+import java.util.Locale;
 
 public class BlockColorSlime extends BlockMetaVariants<BlockColorSlime.Variants> implements IQuarkBlock, INonSticky {
 
@@ -28,9 +31,10 @@ public class BlockColorSlime extends BlockMetaVariants<BlockColorSlime.Variants>
 		super("color_slime", Material.CLAY, Variants.class);
 		setCreativeTab(CreativeTabs.DECORATIONS);
 		setSoundType(SoundType.SLIME);
-		slipperiness = 0.8F;
+		setDefaultSlipperiness(0.8F);
 	}
 
+	@Nonnull
 	@Override
 	@SideOnly(Side.CLIENT)
 	public BlockRenderLayer getRenderLayer() {
@@ -46,15 +50,26 @@ public class BlockColorSlime extends BlockMetaVariants<BlockColorSlime.Variants>
 	}
 
 	@Override
+	public void onEntityCollision(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
+		if (ModuleLoader.isFeatureEnabled(SpringySlime.class))
+			SpringySlime.collideWithSlimeBlock(pos, entityIn);
+	}
+
+	@Override
 	public void onLanded(World worldIn, Entity entityIn) {
-		if(entityIn.isSneaking())
-			super.onLanded(worldIn, entityIn);
+		if (ModuleLoader.isFeatureEnabled(SpringySlime.class)) {
+			entityIn.motionY = 0.0;
+		} else {
 
-		else if(entityIn.motionY < 0.0D) {
-			entityIn.motionY = -entityIn.motionY;
+			if (entityIn.isSneaking())
+				super.onLanded(worldIn, entityIn);
 
-			if(!(entityIn instanceof EntityLivingBase))
-				entityIn.motionY *= 0.8D;
+			else if (entityIn.motionY < 0.0D) {
+				entityIn.motionY = -entityIn.motionY;
+
+				if (!(entityIn instanceof EntityLivingBase))
+					entityIn.motionY *= 0.8D;
+			}
 		}
 	}
 
@@ -70,13 +85,15 @@ public class BlockColorSlime extends BlockMetaVariants<BlockColorSlime.Variants>
 	}
 
 	@Override
+	@SuppressWarnings("deprecation")
 	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
+	@SuppressWarnings("deprecation")
+	public boolean shouldSideBeRendered(IBlockState blockState, @Nonnull IBlockAccess blockAccess, @Nonnull BlockPos pos, EnumFacing side) {
 		IBlockState iblockstate = blockAccess.getBlockState(pos.offset(side));
 		Block block = iblockstate.getBlock();
 
@@ -113,7 +130,7 @@ public class BlockColorSlime extends BlockMetaVariants<BlockColorSlime.Variants>
 		SLIME_MAGENTA(false, 0, 1), // 3
 		SLIME_YELLOW(true, 0); // 4
 
-		private Variants(boolean sticksToGreen, int... sticksTo) {
+		Variants(boolean sticksToGreen, int... sticksTo) {
 			this.sticksToGreen = sticksToGreen;
 			this.sticksTo = sticksTo;
 		}

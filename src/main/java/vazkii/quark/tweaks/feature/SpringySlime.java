@@ -17,10 +17,12 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.EnumFacing.AxisDirection;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import vazkii.quark.automation.block.BlockColorSlime;
 import vazkii.quark.base.handler.OverrideRegistryHandler;
@@ -47,6 +49,36 @@ public class SpringySlime extends Feature {
 		value.x = entity.motionX;
 		value.y = entity.motionY;
 		value.z = entity.motionZ;
+	}
+
+	public static void collideWithSlimeBlock(BlockPos pos, Entity entity) {
+		if (entity instanceof EntityArrow) {
+			EnumFacing sideHit = EnumFacing.getFacingFromVector(
+					(float) (entity.posX + entity.motionX) - (pos.getX() + 0.5f),
+					(float) (entity.posY + entity.motionY) - (pos.getY() + 0.5f),
+					(float) (entity.posZ + entity.motionZ) - (pos.getZ() + 0.5f));
+
+			switch (sideHit.getAxis()) {
+				case X:
+					if (Math.abs(entity.motionX) < 0.1)
+						return;
+					entity.motionX = 0.8 * Math.min(Math.abs(entity.motionX), 0.25) * sideHit.getXOffset();
+					break;
+				case Y:
+					if (Math.abs(entity.motionY) < 0.1)
+						return;
+					entity.motionY = 0.8 * Math.min(Math.abs(entity.motionY), 0.25) * sideHit.getYOffset();
+					break;
+				case Z:
+					if (Math.abs(entity.motionZ) < 0.1)
+						return;
+					entity.motionZ = 0.8 * Math.min(Math.abs(entity.motionZ), 0.25) * sideHit.getZOffset();
+					break;
+			}
+
+			// inGround
+			ObfuscationReflectionHelper.setPrivateValue(EntityArrow.class, (EntityArrow) entity, false, "field_70254_i");
+		}
 	}
 
 	public static void onEntityCollision(Entity entity, double attemptedX, double attemptedY, double attemptedZ, double dX, double dY, double dZ) {
