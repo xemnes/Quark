@@ -61,9 +61,6 @@ quark.subtitles.frog_hurt=Лягушка пищит
 quark.subtitles.frog_idle=Лягушка квакает
 quark.subtitles.frog_jump=Лягушка скачет
 
-# COMMANDS
-commands.quarkconfig.usage=/quarkconfig <module> <category> <key> <value> [save?] [player]
-
 # CONFIG STRINGS
 quark.config.title=Конфигурация Quark
 quark.config.import=Импорт настроек

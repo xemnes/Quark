@@ -90,7 +90,9 @@ quark.subtitles.horse_whistle=High-pitched screeching
 quark.subtitles.do_it=Motivation
 
 # COMMANDS
-commands.quarkconfig.usage=/quarkconfig <module> <category> <key> <value> [save?] [player]
+commands.quarkconfig.usage=/quark-config <category> <key> <value> [player] [save?]
+commands.quarkconfig.invalid_property=The property %s.%s doesn't exist
+commands.quarkconfig.invalid_category=The category %s doesn't exist
 
 # CONFIG STRINGS
 quark.config.title=Quark Configuration

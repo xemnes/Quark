@@ -10,6 +10,7 @@
  */
 package vazkii.quark.base.network.message;
 
+import net.minecraftforge.common.config.Property;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import vazkii.arl.network.NetworkMessage;
@@ -17,24 +18,25 @@ import vazkii.quark.base.module.GlobalConfig;
 
 public class MessageChangeConfig extends NetworkMessage<MessageChangeConfig> {
 	
-	public String moduleName;
 	public String category;
 	public String key;
 	public String value;
 	public boolean saveToFile;
+	public char propertyType;
 	
 	public MessageChangeConfig() { }
 
-	public MessageChangeConfig(String moduleName, String category, String key, String value) {
-		this.moduleName = moduleName;
+	public MessageChangeConfig(String category, String key, String value, Property.Type propertyType, boolean saveToFile) {
 		this.category = category;
 		this.key = key;
 		this.value = value;
+		this.propertyType = propertyType.getID();
+		this.saveToFile = saveToFile;
 	}
 	
 	@Override
 	public IMessage handleMessage(MessageContext context) {
-		GlobalConfig.changeConfig(moduleName, category, key, value, saveToFile);
+		GlobalConfig.changeConfig(category, key, value, Property.Type.tryParse(propertyType), saveToFile);
 		return null;
 	}
 	

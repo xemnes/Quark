@@ -68,9 +68,6 @@ quark.subtitles.frog_idle=Croassement de grenouille
 quark.subtitles.frog_jump=Sauts de grenouille
 quark.subtitles.horse_whistle=Crissement aigu
 
-# COMMANDS
-commands.quarkconfig.usage=/quarkconfig <module> <category> <key> <value> [save?] [player]
-
 # CONFIG STRINGS
 quark.config.title=Configuration de Quark
 quark.config.import=Import. une config.
