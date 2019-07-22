@@ -56,7 +56,7 @@ public class BlockRope extends BlockMod implements IQuarkBlock {
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if(hand == EnumHand.MAIN_HAND) {
 			ItemStack stack = playerIn.getHeldItem(hand);
-			if(stack.getItem() == Item.getItemFromBlock(this)) {
+			if(stack.getItem() == Item.getItemFromBlock(this) && !playerIn.isSneaking()) {
 				if(pullDown(worldIn, pos)) {
 					if(!playerIn.isCreative())
 						stack.shrink(1);
