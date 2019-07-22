@@ -65,9 +65,9 @@ public class BlockCrystal extends BlockMetaVariants<BlockCrystal.Variants> imple
 		CRYSTAL_ORANGE(1f, 0.5f, 0f),
 		CRYSTAL_YELLOW(1f, 1f, 0f),
 		CRYSTAL_GREEN(0f, 1f, 0f),
-		CRYSTAL_BLUE(0f, 0.5f, 1f),
+		CRYSTAL_BLUE(0f, 1f, 1f),
 		CRYSTAL_INDIGO(0f, 0f, 1f),
-		CRYSTAL_VIOLET(0.5f, 0f, 1f);
+		CRYSTAL_VIOLET(1f, 0f, 1f);
 
 		private final float[] color;
 
