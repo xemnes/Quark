@@ -16,6 +16,7 @@ import net.minecraft.init.PotionTypes;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionUtils;
 import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
@@ -181,26 +182,26 @@ public class BlockRope extends BlockMod implements IQuarkBlock {
 			return;
 		
 		TileEntity tile = world.getTileEntity(srcPos);
-		if(tile != null && !world.isRemote) {
+		if(tile != null) {
 			if(Rope.forceEnableMoveTEs ? PistonsMoveTEs.shouldMoveTE(state) : PistonsMoveTEs.shouldMoveTE(true, state))
 				return;
 
 			tile.invalidate();
-			tile.setPos(dstPos);
-
-			world.setTileEntity(srcPos, block.createTileEntity(world, state));
 		}
 		
 		world.setBlockToAir(srcPos);
 		world.setBlockState(dstPos, state);
 		
 		if(tile != null && !world.isRemote) {
-			tile.validate();
-			world.setTileEntity(dstPos, tile);
-			
-			tile.updateContainingBlockInfo();
-			if(block instanceof BlockChest)
-				((BlockChest) block).checkForSurroundingChests(world, dstPos, state);
+			tile.setPos(dstPos);
+			TileEntity target = TileEntity.create(world, tile.writeToNBT(new NBTTagCompound()));
+			if (target != null) {
+				world.setTileEntity(dstPos, target);
+
+				target.updateContainingBlockInfo();
+				if (block instanceof BlockChest)
+					((BlockChest) block).checkForSurroundingChests(world, dstPos, state);
+			}
 		}
 		
 		world.notifyNeighborsOfStateChange(dstPos, block, true);
