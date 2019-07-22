@@ -118,7 +118,8 @@
 								<li>wiiv for most of the textures.</li>
 								<li>Xisumavoid for the sticky piston side texture.</li>
 								<li>ZeroLevels for the old Iron Plate texture.</li>
-								<li>Daniel Astral for the Horse Whistle texture and a few potion textures.</li>
+								<li>MCVinnyq for a lot of textures.</li>
+								<li>Daniel Astral for several upgraded and redone textures.</li>
 								<li>/u/CopherSans for the improved bow animation.</li>
 								<li>/u/darwinpatrick for the Soul Sandstone textures.</li>
 								<li>/u/Evtema3 for the Elder Prismarine and Elder Sea Lantern textures.</li>
