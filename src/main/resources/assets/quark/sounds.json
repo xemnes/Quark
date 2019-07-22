@@ -3,35 +3,35 @@
     "category": "players",
     "subtitle": "quark.subtitles.soulpowder_scream",
     "sounds": [
-      "minecraft:mob/ghast/death"
+      "quark:item/soulpowder_scream"
     ]
   },
   "block.pipe.shoot": {
     "category": "blocks",
     "subtitle": "quark.subtitles.pipe_shoot",
     "sounds": [
-      { "name": "minecraft:random/bow", "volume": 0.5, "pitch": 0.2 }
+      "quark:block/pipe/shoot"
     ]
   },
   "block.pipe.pickup": {
     "category": "blocks",
     "subtitle": "quark.subtitles.pipe_pickup",
     "sounds": [
-      { "name": "minecraft:liquid/lavapop", "volume": 0.5, "pitch": 2.0 }
+      "quark:block/pipe/pickup"
     ]
   },
   "block.pipe.shoot.lenny": {
     "category": "blocks",
     "subtitle": "quark.subtitles.pipe_shoot_lenny",
     "sounds": [
-      { "name": "minecraft:random/bow", "volume": 0.5, "pitch": 0.2 }
+      "quark:block/pipe/shoot"
     ]
   },
   "block.pipe.pickup.lenny": {
     "category": "blocks",
     "subtitle": "quark.subtitles.pipe_pickup_lenny",
     "sounds": [
-      { "name": "minecraft:liquid/lavapop", "volume": 0.5, "pitch": 2.0 }
+      "quark:block/pipe/pickup"
     ]
   },
   "block.sponge.hiss": {
@@ -55,34 +55,28 @@
     "category": "players",
     "subtitle": "quark.subtitles.cursed",
     "sounds": [
-      { "name": "minecraft:mob/blaze/breathe1", "volume": 0.5 },
-      { "name": "minecraft:mob/blaze/breathe2", "volume": 0.5 },
-      { "name": "minecraft:mob/blaze/breathe3", "volume": 0.5 },
-      { "name": "minecraft:mob/blaze/breathe4", "volume": 0.5 }
+      "quark:item/cursed"
     ]
   },
   "block.monster_box.growl": {
     "category": "blocks",
     "subtitle": "quark.subtitles.growl",
     "sounds": [
-      { "name": "minecraft:mob/enderdragon/growl1", "volume": 0.3, "pitch": 10.0 },
-      { "name": "minecraft:mob/enderdragon/growl2", "volume": 0.3, "pitch": 10.0 },
-      { "name": "minecraft:mob/enderdragon/growl3", "volume": 0.3, "pitch": 10.0 },
-      { "name": "minecraft:mob/enderdragon/growl4", "volume": 0.3, "pitch": 10.0 }
-    ]
+     	"quark:block/monster_box" 	
+     ]
   },
   "entity.stoneling.meep": {
     "category": "neutral",
     "subtitle": "quark.subtitles.meep",
     "sounds": [
-      "minecraft:mob/ghast/affectionate_scream"
+      "quark:entity/stoneling/meep"
     ]
   },
   "entity.stoneling.purr": {
     "category": "neutral",
     "subtitle": "quark.subtitles.purr",
     "sounds": [
-      { "name": "minecraft:mob/ghast/affectionate_scream", "pitch": 0.25, "volume": 0.25 }
+      { "name": "quark:entity/stoneling/squeek", "volume": 0.25 }
     ]
   },
   "entity.stoneling.give": {
@@ -119,18 +113,14 @@
     "category": "neutral",
     "subtitle": "quark.subtitles.hurt_stoneling",
     "sounds": [
-      { "name": "minecraft:mob/ghast/scream1", "pitch": 2.0 },
-      { "name": "minecraft:mob/ghast/scream2", "pitch": 2.0 },
-      { "name": "minecraft:mob/ghast/scream3", "pitch": 2.0 },
-      { "name": "minecraft:mob/ghast/scream4", "pitch": 2.0 },
-      { "name": "minecraft:mob/ghast/scream5", "pitch": 2.0 }
+      "quark:entity/stoneling/hurt"
     ]
   },
   "entity.stoneling.die": {
     "category": "neutral",
     "subtitle": "quark.subtitles.kill_stoneling",
     "sounds": [
-      { "name": "minecraft:mob/ghast/death", "pitch": 2.0 }
+      "quark:entity/stoneling/die"
     ]
   },
   "entity.frog.wednesday": {
@@ -181,14 +171,14 @@
     "category": "players",
     "subtitle": "quark.subtitles.throw_pickarang",
     "sounds": [
-      "minecraft:random/bow"
+      "quark:item/pickarang/throw"
     ]
   },
   "entity.pickarang.clank": {
     "category": "players",
     "subtitle": "quark.subtitles.clank_pickarang",
     "sounds": [
-      { "name": "minecraft:random/anvil_land", "pitch": 2.0, "volume": 0.5 }
+      "quark:item/pickarang/clank"
     ]
   },
   "entity.pickarang.pickup": {
