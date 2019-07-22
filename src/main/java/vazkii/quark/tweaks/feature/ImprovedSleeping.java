@@ -36,7 +36,8 @@ public class ImprovedSleeping extends Feature {
 
 	private static boolean enableAfk;
 	private static int afkTime, percentReq;
-	
+
+	private static final String TAG_JUST_SLEPT = "quark:slept";
 	private static final String TAG_AFK = "quark:afk";
 
 	private static final int AFK_MSG = "quark afk".hashCode();
@@ -87,13 +88,21 @@ public class ImprovedSleeping extends Feature {
 		if (server == null)
 			return;
 
+		if (world.playerEntities.size() == 1)
+			return;
+
+		boolean isDay = world.getCelestialAngle(0F) < 0.5;
+
 		List<String> sleepingPlayers = new ArrayList<>();
 		List<String> nonSleepingPlayers = new ArrayList<>();
 
 		for(EntityPlayer player : world.playerEntities)
 			if(doesPlayerCountForSleeping(player)) {
 				String name = player.getName();
-				if(isPlayerSleeping(player)) sleepingPlayers.add(name);
+				if(isPlayerSleeping(player)) {
+					sleepingPlayers.add(name);
+					player.getEntityData().setBoolean(TAG_JUST_SLEPT, true);
+				}
 				else nonSleepingPlayers.add(name);
 			}
 
@@ -104,14 +113,13 @@ public class ImprovedSleeping extends Feature {
 		for(String s : nonSleepingPlayers)
 			sleepingList.appendSibling(new TextComponentString("\n\u2718 " + s).setStyle(new Style().setColor(TextFormatting.RED)));
 
-		ITextComponent hoverText = new TextComponentTranslation("quarkmisc.sleepingListHeader", sleepingList);
+		ITextComponent hoverText = new TextComponentTranslation(isDay ? "quarkmisc.nappingListHeader" : "quarkmisc.sleepingListHeader", sleepingList);
 
 		ITextComponent sibling = new TextComponentString("(" + sleepingPlayers.size() + "/" + sleepingPlayers.size() + ")");
 		sibling.getStyle().setHoverEvent(new HoverEvent(Action.SHOW_TEXT, hoverText.createCopy()));
-		sibling.getStyle().setUnderlined(true);
 
 
-		ITextComponent message = new TextComponentTranslation("quarkmisc.nightHasPassed");
+		ITextComponent message = new TextComponentTranslation(isDay ? "quarkmisc.dayHasPassed" : "quarkmisc.nightHasPassed");
 		message.appendText(" ").appendSibling(sibling);
 		message.getStyle().setColor(TextFormatting.GOLD);
 
@@ -158,25 +166,30 @@ public class ImprovedSleeping extends Feature {
 		List<String> nonSleepingPlayers = new ArrayList<>();
 		int legitPlayers = 0;
 
-		for(EntityPlayer player : world.playerEntities)
-			if(doesPlayerCountForSleeping(player)) {
+		for(EntityPlayer player : world.playerEntities) {
+			if (doesPlayerCountForSleeping(player)) {
 				String name = player.getName();
-				if(isPlayerSleeping(player)) {
-					if(!ImprovedSleeping.sleepingPlayers.contains(name))
+				if (isPlayerSleeping(player)) {
+					if (!ImprovedSleeping.sleepingPlayers.contains(name))
 						newSleepingPlayers.add(name);
 					sleepingPlayers.add(name);
 				} else {
-					if(ImprovedSleeping.sleepingPlayers.contains(name))
+					if (ImprovedSleeping.sleepingPlayers.contains(name) && player.getEntityData().getBoolean(TAG_JUST_SLEPT))
 						wasSleepingPlayers.add(name);
 					nonSleepingPlayers.add(name);
 				}
-				
+
 				legitPlayers++;
 			}
 
+			player.getEntityData().removeTag(TAG_JUST_SLEPT);
+		}
+
 		ImprovedSleeping.sleepingPlayers = sleepingPlayers;
-		
+
 		if((!newSleepingPlayers.isEmpty() || !wasSleepingPlayers.isEmpty()) && world.playerEntities.size() != 1) {
+			boolean isDay = world.getCelestialAngle(0F) < 0.5;
+
 			int requiredPlayers = Math.max((int) Math.ceil((legitPlayers * percentReq / 100F)), 0);
 
 			ITextComponent sibling = new TextComponentString("(" + sleepingPlayers.size() + "/" + requiredPlayers + ")");
@@ -195,7 +208,9 @@ public class ImprovedSleeping extends Feature {
 			sibling.getStyle().setUnderlined(true);
 
 			String newPlayer = newSleepingPlayers.isEmpty() ? wasSleepingPlayers.get(0) : newSleepingPlayers.get(0);
-			String translationKey = newSleepingPlayers.isEmpty() ? "quarkmisc.personNotSleeping" : "quarkmisc.personSleeping";
+			String translationKey = isDay ?
+					(newSleepingPlayers.isEmpty() ? "quarkmisc.personNotNapping" : "quarkmisc.personNapping") :
+					(newSleepingPlayers.isEmpty() ? "quarkmisc.personNotSleeping" : "quarkmisc.personSleeping");
 
 			ITextComponent message = new TextComponentTranslation(translationKey, newPlayer);
 			message.getStyle().setColor(TextFormatting.GOLD);

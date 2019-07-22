@@ -17,9 +17,13 @@ quarkmisc.nowAfk=You are now AFK (Away From Keyboard).
 quarkmisc.leftAfk=You are no longer AFK.
 quarkmisc.personSleeping=%s is now sleeping.
 quarkmisc.personNotSleeping=%s has stopped sleeping.
-quarkmisc.nightHasPassed=Night has passed.
+quarkmisc.personNapping=%s is now napping.
+quarkmisc.personNotNapping=%s has stopped napping.
+quarkmisc.nightHasPassed=The night has passed.
+quarkmisc.dayHasPassed=The day has passed.
 # The %s is very important!
 quarkmisc.sleepingListHeader=Sleeping Players: %s
+quarkmisc.nappingListHeader=Napping Players: %s
 quarkmisc.buried_chest_map=Buried Treasure Map
 quarkmisc.trashButtonOpen=Click to Delete
 quarkmisc.trashButtonShift=Hold Shift to Open
