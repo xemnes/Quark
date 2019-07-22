@@ -120,8 +120,8 @@ public class BuriedTreasure extends Feature {
 		MapData mapdata = new MapData(s);
 		world.setData(s, mapdata);
 		mapdata.scale = 1;
-		mapdata.calculateMapCenter(treasurePos.getX() + (int) ((Math.random() - 0.5) * 100),
-				treasurePos.getZ() + (int) ((Math.random() - 0.5) * 100),
+		mapdata.calculateMapCenter(treasurePos.getX() + (int) ((Math.random() - 0.5) * 64),
+				treasurePos.getZ() + (int) ((Math.random() - 0.5) * 64),
 				mapdata.scale);
 		mapdata.dimension = 0;
 		mapdata.trackingPosition = true;
