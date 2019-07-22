@@ -143,7 +143,12 @@ public class ModelFoxhound extends ModelBase {
     @Override
     public void render(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
     	GlStateManager.pushMatrix();
-    	GlStateManager.translate(0, 0, ((EntityFoxhound) entity).isSitting() ? -0.25 : -0.5);
+    	GlStateManager.translate(0, 0, ((EntityFoxhound) entity).isSitting() ? -0.25 : -0.35);
+
+        if (isChild) {
+            GlStateManager.translate(0, 0.75, 0.15);
+            GlStateManager.scale(0.5, 0.5, 0.5);
+        }
         this.leftBackLeg.render(scale);
         this.rightFrontLeg.render(scale);
         this.body.render(scale);
