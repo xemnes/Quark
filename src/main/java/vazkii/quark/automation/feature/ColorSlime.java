@@ -24,15 +24,15 @@ public class ColorSlime extends Feature {
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
 		color_slime = new BlockColorSlime();
-		
-		String[] dyes = {
-				"dyeRed", "dyeBlue", "dyeCyan", "dyeMagenta", "dyeYellow"
-		};
-		
-		for(int i = 0; i < 5; i++)
-			RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(color_slime, 1, i), "blockSlime", dyes[i]);
+
 		RecipeHandler.addShapelessOreDictRecipe(new ItemStack(Blocks.SLIME_BLOCK), "blockSlime", "dyeGreen");
+		RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(color_slime, 1, 0), "blockSlime", "dyeRed");
+		RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(color_slime, 1, 1), "blockSlime", "dyeBlue");
 		
+		RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(color_slime, 2, 2), ProxyRegistry.newStack(Blocks.SLIME_BLOCK), ProxyRegistry.newStack(color_slime, 1, 1));
+		RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(color_slime, 2, 3), ProxyRegistry.newStack(color_slime, 1, 0), ProxyRegistry.newStack(color_slime, 1, 1));
+		RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(color_slime, 2, 4), ProxyRegistry.newStack(color_slime, 1, 0), ProxyRegistry.newStack(Blocks.SLIME_BLOCK));
+
 		addOreDict("blockSlime", ProxyRegistry.newStack(color_slime, 1, OreDictionary.WILDCARD_VALUE));
 	}
 	
