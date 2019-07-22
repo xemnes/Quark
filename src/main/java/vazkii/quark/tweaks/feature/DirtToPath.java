@@ -25,6 +25,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import vazkii.quark.base.module.Feature;
+import vazkii.quark.misc.feature.Pickarang;
 
 public class DirtToPath extends Feature {
 	@SubscribeEvent
@@ -36,7 +37,7 @@ public class DirtToPath extends Feature {
 		ItemStack itemstack = player.getHeldItem(event.getHand());
 		IBlockState state = world.getBlockState(pos);
 
-		if (!itemstack.getItem().getToolClasses(itemstack).contains("shovel") && itemstack.getDestroySpeed(state) > 0)
+		if (itemstack.getItem() == Pickarang.pickarang || !itemstack.getItem().getToolClasses(itemstack).contains("shovel") && itemstack.getDestroySpeed(state) > 0)
 			return;
 
 		if (facing != null && player.canPlayerEdit(pos.offset(facing), facing, itemstack)) {
