@@ -81,7 +81,8 @@ public class ItemAncientTome extends ItemMod implements IQuarkItem {
 	public void getSubItems(@Nonnull CreativeTabs tab, @Nonnull NonNullList<ItemStack> subItems) {
 		if (tab.getRelevantEnchantmentTypes().length != 0 || tab == CreativeTabs.SEARCH) {
 			for (Enchantment ench : Enchantment.REGISTRY) {
-				if (tab == CreativeTabs.SEARCH ? ench.type != null : tab.hasRelevantEnchantmentType(ench.type))
+				if (AncientTomes.validEnchants.contains(ench) &&
+						(tab == CreativeTabs.SEARCH ? ench.type != null : tab.hasRelevantEnchantmentType(ench.type)))
 					subItems.add(getEnchantedItemStack(new EnchantmentData(ench, ench.getMaxLevel())));
 			}
 		}
