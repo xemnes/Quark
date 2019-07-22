@@ -33,10 +33,12 @@ public class PoisonPotatoUsage extends Feature {
 						poisonEntity(animal);
 					} else
 						animal.world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, animal.posX, animal.posY, animal.posZ, 0, 0.1, 0);
+
+					if (!event.getEntityPlayer().isCreative())
+						event.getItemStack().shrink(1);
+
 				} else event.getEntityPlayer().swingArm(event.getHand());
 
-				if (!event.getEntityPlayer().isCreative())
-					event.getItemStack().shrink(1);
 			}
 		}
 	}
