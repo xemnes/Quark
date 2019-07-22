@@ -25,13 +25,13 @@ public class Rope extends Feature {
 	public static Block rope;
 	
 	public static boolean forceEnableMoveTEs;
-	int recipeCount;
-	boolean enableDispenser;
+	public static int recipeCount;
+	public static boolean enableDispenser;
 	
 	@Override
 	public void setupConfig() {
-		forceEnableMoveTEs = loadPropBool("Force Enable Move TEs", "Set to true to allow ropes to move Tile Entities even if Pistons Push TEs is disabled\nNote that ropes will still use the same blacklist", false);
-		recipeCount = loadPropInt("Recipe Output", "", 1);
+		forceEnableMoveTEs = loadPropBool("Force Enable Move TEs", "Set to true to allow ropes to move Tile Entities even if Pistons Push TEs is disabled.\nNote that ropes will still use the same blacklist.", false);
+		recipeCount = loadPropInt("Recipe Output", "", 2);
 		enableDispenser = loadPropBool("Enable Dispenser", "", true);
 	}
 	
@@ -40,7 +40,7 @@ public class Rope extends Feature {
 		rope = new BlockRope();
 		
 		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(rope, recipeCount), 
-				"SS", "SS", "SS",
+				"SSS", "S S", "SSS",
 				'S', "string");
 	}
 	
