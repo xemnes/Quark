@@ -80,7 +80,7 @@ public class EntityPickarang extends EntityThrowable {
 		EntityLivingBase owner = getThrower();
 
 		ItemStack stack = getStack();
-		if(stack.isItemStackDamageable()) {
+		if(stack.isItemStackDamageable() && (!(owner instanceof EntityPlayer) || !((EntityPlayer) owner).isCreative())) {
 			stack.attemptDamageItem(1, world.rand, owner instanceof EntityPlayerMP ? (EntityPlayerMP) owner : null);
 			setStack(stack);
 		}

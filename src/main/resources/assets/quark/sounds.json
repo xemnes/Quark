@@ -171,24 +171,24 @@
     "category": "players",
     "subtitle": "quark.subtitles.throw_pickarang",
     "sounds": [
-      "quark:item/pickarang/throw"
+      { "name": "quark:item/pickarang/throw", "pitch": 1.2, "volume": 2 }
     ]
   },
   "entity.pickarang.clank": {
     "category": "players",
     "subtitle": "quark.subtitles.clank_pickarang",
     "sounds": [
-      "quark:item/pickarang/clank"
+      { "name": "minecraft:random/anvil_land", "pitch": 2.0, "volume": 0.5 }
     ]
   },
   "entity.pickarang.pickup": {
     "category": "players",
     "subtitle": "quark.subtitles.pickup_pickarang",
     "sounds": [
-      { "name": "minecraft:random/pop", "pitch": 1.125 },
-      { "name": "minecraft:random/pop", "pitch": 1.0 },
-      { "name": "minecraft:random/pop", "pitch": 0.875 },
-      { "name": "minecraft:random/pop", "pitch": 0.75 }
+      { "name": "minecraft:random/pop", "pitch": 1.125, "volume": 0.5 },
+      { "name": "minecraft:random/pop", "pitch": 1.0, "volume": 0.5 },
+      { "name": "minecraft:random/pop", "pitch": 0.875, "volume": 0.5 },
+      { "name": "minecraft:random/pop", "pitch": 0.75, "volume": 0.5 }
     ]
   },
   "item.horse_whistle.blow": {
