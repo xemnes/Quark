@@ -37,8 +37,9 @@ public class PlaceBlazeRods extends Feature {
 			BlockPos pos = res.getBlockPos();
 			EnumFacing face = res.sideHit;
 
-			if(stack.getItem() == Items.BLAZE_ROD)
-				PlaceVanillaDusts.setBlock(player, stack, world, pos, hand, face, blaze_rod, res);
+			if(stack.getItem() == Items.BLAZE_ROD) {
+				PlaceVanillaDusts.setBlock(event, player, stack, world, pos, hand, face, blaze_rod, res);
+			}
 		}
 	}
 	

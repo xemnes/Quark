@@ -7,11 +7,13 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickItem;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -58,14 +60,14 @@ public class PlaceVanillaDusts extends Feature {
 			EnumFacing face = res.sideHit;
 
 			if(enableGlowstone && stack.getItem() == Items.GLOWSTONE_DUST)
-				setBlock(player, stack, world, pos, hand, face, glowstone_dust_block, res);
+				setBlock(event, player, stack, world, pos, hand, face, glowstone_dust_block, res);
 			else if(enableGunpowder && stack.getItem() == Items.GUNPOWDER)
-				setBlock(player, stack, world, pos, hand, face, gunpowder_block, res);	
+				setBlock(event, player, stack, world, pos, hand, face, gunpowder_block, res);
 		}
 	}
 
 	@SuppressWarnings("deprecation")
-	public static void setBlock(EntityPlayer player, ItemStack stack, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, Block block, RayTraceResult res) {
+	public static void setBlock(PlayerInteractEvent event, EntityPlayer player, ItemStack stack, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, Block block, RayTraceResult res) {
 		boolean flag = worldIn.getBlockState(pos).getBlock().isReplaceable(worldIn, pos);
 		BlockPos blockpos = flag ? pos : pos.offset(facing);
 		ItemStack itemstack = player.getHeldItem(hand);
@@ -85,6 +87,9 @@ public class PlaceVanillaDusts extends Feature {
 				itemstack.shrink(1);
 			player.swingArm(hand);
 		}
+
+		event.setCanceled(true);
+		event.setCancellationResult(flag ? EnumActionResult.SUCCESS : EnumActionResult.FAIL);
 	}
 
 	@Override
