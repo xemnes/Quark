@@ -67,7 +67,7 @@ public class BlockRope extends BlockMod implements IQuarkBlock {
 					return EnumActionResult.SUCCESS;
 				}
 
-				return EnumActionResult.PASS;
+				return super.onItemUse(player, worldIn, pos, hand, facing, hitX, hitY, hitZ);
 			}
 		};
 	}
