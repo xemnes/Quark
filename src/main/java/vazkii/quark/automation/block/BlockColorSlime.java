@@ -112,7 +112,7 @@ public class BlockColorSlime extends BlockMetaVariants<BlockColorSlime.Variants>
 		
 		if(block == this) {
 			Variants otherVariant = slimeState.getValue(variantProp);
-			if(!ourVariant.sticksTo(otherVariant))
+			if(!ourVariant.sticksTo(otherVariant) && ourVariant != otherVariant)
 				return false;
 		}
 		
@@ -126,7 +126,7 @@ public class BlockColorSlime extends BlockMetaVariants<BlockColorSlime.Variants>
 
 		SLIME_RED(false, 3, 4), // 0
 		SLIME_BLUE(false, 2, 3), // 1
-		SLIME_CYAN(true, 1), // 2 
+		SLIME_CYAN(true, 1), // 2
 		SLIME_MAGENTA(false, 0, 1), // 3
 		SLIME_YELLOW(true, 0); // 4
 
