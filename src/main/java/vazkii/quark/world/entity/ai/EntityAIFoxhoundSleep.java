@@ -65,7 +65,7 @@ public class EntityAIFoxhoundSleep extends EntityAIMoveToBlock {
 	public void updateTask() {
 		super.updateTask();
 
-		if (!this.getIsAboveDestination()) {
+		if (!this.getIsAboveDestination() || foxhound.motionX > 0 || foxhound.motionZ > 0) {
 			this.foxhound.getAISit().setSitting(false);
 			this.foxhound.setSitting(false);
 			this.foxhound.setSleeping(false);
