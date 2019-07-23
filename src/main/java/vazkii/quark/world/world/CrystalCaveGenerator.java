@@ -11,6 +11,7 @@ import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraftforge.fml.common.IWorldGenerator;
 import vazkii.quark.base.handler.DimensionConfig;
+import vazkii.quark.world.block.BlockCrystal;
 import vazkii.quark.world.feature.CrystalCaves;
 
 import java.util.ArrayList;
@@ -61,10 +62,10 @@ public class CrystalCaveGenerator implements IWorldGenerator {
 		Vec3d expansion = new Vec3d(expandX, expandY, expandZ).normalize();
 		Vec3d curvature = new Vec3d(curveX, curveY, curveZ);
 
-		int color1 = rand.nextInt(8);
+		int color1 = rand.nextInt(BlockCrystal.Variants.values().length);
 		int color2;
 		do {
-			color2 = rand.nextInt(8);
+			color2 = rand.nextInt(BlockCrystal.Variants.values().length);
 		} while(color2 == color1);
 
 		IBlockState crystal1 = CrystalCaves.crystal.getStateFromMeta(color1);
