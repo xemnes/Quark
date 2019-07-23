@@ -15,15 +15,13 @@ import net.minecraft.init.Items;
 import net.minecraft.init.PotionTypes;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionUtils;
 import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.SoundCategory;
+import net.minecraft.util.*;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -33,6 +31,7 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.arl.block.BlockMod;
+import vazkii.arl.item.ItemModBlock;
 import vazkii.quark.automation.feature.PistonsMoveTEs;
 import vazkii.quark.base.block.IQuarkBlock;
 import vazkii.quark.decoration.feature.Rope;
@@ -52,11 +51,33 @@ public class BlockRope extends BlockMod implements IQuarkBlock {
 	}
 
 	@Override
+	public ItemBlock createItemBlock(ResourceLocation res) {
+		return new ItemModBlock(this, res) {
+			@Nonnull
+			@Override
+			public EnumActionResult onItemUse(EntityPlayer player, World worldIn, @Nonnull BlockPos pos, @Nonnull EnumHand hand, @Nonnull EnumFacing facing, float hitX, float hitY, float hitZ) {
+				IBlockState inWorld = worldIn.getBlockState(pos);
+				if (inWorld.getBlock() == BlockRope.this && player.isSneaking()) {
+					if(!player.isCreative()) {
+						if(!player.addItemStackToInventory(new ItemStack(this)))
+							player.dropItem(new ItemStack(this), false);
+					}
+
+					worldIn.playSound(null, pos, blockSoundType.getBreakSound(), SoundCategory.BLOCKS, 0.5F, 1F);
+					return EnumActionResult.SUCCESS;
+				}
+
+				return EnumActionResult.PASS;
+			}
+		};
+	}
+
+	@Override
 	@SuppressWarnings("ConstantConditions")
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if(hand == EnumHand.MAIN_HAND) {
 			ItemStack stack = playerIn.getHeldItem(hand);
-			if(stack.getItem() == Item.getItemFromBlock(this) && !playerIn.isSneaking()) {
+			if(stack.getItem() == Item.getItemFromBlock(this)) {
 				if(pullDown(worldIn, pos)) {
 					if(!playerIn.isCreative())
 						stack.shrink(1);
@@ -85,8 +106,6 @@ public class BlockRope extends BlockMod implements IQuarkBlock {
 				}
 
 				return false;
-
-
 			} else {
 				if(pullUp(worldIn, pos)) {
 					if(!playerIn.isCreative()) {
