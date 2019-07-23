@@ -128,6 +128,16 @@ public class EntityCrab extends EntityAnimal {
 	}
 
 	@Override
+	public boolean isPushedByWater() {
+		return false;
+	}
+
+	@Override
+	protected int decreaseAirSupply(int air) {
+		return air;
+	}
+
+	@Override
 	public void onStruckByLightning(EntityLightningBolt lightningBolt) {
 		if (lightningCooldown > 0)
 			return;
