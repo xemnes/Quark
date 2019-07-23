@@ -6,6 +6,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
@@ -13,6 +14,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickItem;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -63,6 +65,15 @@ public class PlaceVanillaDusts extends Feature {
 				setBlock(event, player, stack, world, pos, hand, face, glowstone_dust_block, res);
 			else if(enableGunpowder && stack.getItem() == Items.GUNPOWDER)
 				setBlock(event, player, stack, world, pos, hand, face, gunpowder_block, res);
+		}
+	}
+
+
+	@SubscribeEvent
+	public void missingItemMappings(RegistryEvent.MissingMappings<Item> event) {
+		for (RegistryEvent.MissingMappings.Mapping<Item> mapping : event.getMappings()) {
+			if (mapping.key.getPath().equals("glowstone_dust_block") || mapping.key.getPath().equals("gunpowder_block"))
+				mapping.ignore();
 		}
 	}
 
