@@ -31,7 +31,7 @@ public class BetterCraftShifting extends Feature {
 		if(!ModuleLoader.isFeatureEnabled(BetterCraftShifting.class) || !enableCraftingTable || min != 37 || max != 46)
 			return min;
 
-		return 0;
+		return 1;
 	}
 
 	public static int getMinInventoryBoundaryVillager(int min, int max) {
