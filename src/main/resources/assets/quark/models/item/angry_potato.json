@@ -1,6 +1,6 @@
 {
-  "parent": "quark:block/tiny_potato",
-  "display": {
+  "parent": "quark:item/tiny_potato",
+  "textures": {
     "all": "quark:blocks/tiny_potato/angry_potato",
     "particle": "quark:blocks/tiny_potato/angry_potato"
   }
