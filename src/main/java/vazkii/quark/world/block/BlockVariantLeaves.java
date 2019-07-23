@@ -64,6 +64,7 @@ public class BlockVariantLeaves extends BlockLeaves implements IQuarkBlock, IBlo
         return state.getValue(VARIANT).ordinal();
     }
 	
+	@Nonnull
 	@Override
 	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
 		return Item.getItemFromBlock(TreeVariants.variant_sapling);
@@ -73,13 +74,13 @@ public class BlockVariantLeaves extends BlockLeaves implements IQuarkBlock, IBlo
 	@Override
 	@SuppressWarnings("deprecation")
     public ItemStack getItem(World worldIn, BlockPos pos, @Nonnull IBlockState state) {
-        return new ItemStack(this, 1, state.getBlock().getMetaFromState(state) & 2);
+        return new ItemStack(this, 1, state.getValue(VARIANT).ordinal());
     }
 	
 	@Nonnull
 	@Override
     protected ItemStack getSilkTouchDrop(@Nonnull IBlockState state) {
-        return new ItemStack(Item.getItemFromBlock(this), 1, state.getValue(VARIANT).ordinal());
+        return new ItemStack(this, 1, state.getValue(VARIANT).ordinal());
     }
 	
 	@Nonnull
