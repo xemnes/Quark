@@ -11,6 +11,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
@@ -40,7 +41,12 @@ public class BlockGunpowder extends BlockQuarkDust {
 	public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items) {
 		// NO-OP
 	}
-	
+
+	@Override
+	public ItemBlock createItemBlock(ResourceLocation res) {
+		return null;
+	}
+
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if(!state.getValue(LIT)) {

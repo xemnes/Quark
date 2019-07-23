@@ -4,9 +4,11 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -23,6 +25,11 @@ public class BlockGlowstoneDust extends BlockQuarkDust {
 		super("glowstone_dust_block");
 		setLightLevel(14F / 16F);
 		disableStats();
+	}
+
+	@Override
+	public ItemBlock createItemBlock(ResourceLocation res) {
+		return null;
 	}
 
 	@Override
