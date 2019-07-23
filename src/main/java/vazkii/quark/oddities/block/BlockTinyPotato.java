@@ -140,6 +140,8 @@ public class BlockTinyPotato extends BlockMod implements IQuarkBlock {
 			String name = ((TileTinyPotato) tile).name;
 			if(!name.isEmpty())
 				stack.setStackDisplayName(name);
+			if (((TileTinyPotato) tile).angery)
+				ItemNBTHelper.setBoolean(stack, "angery", true);
 			list.add(stack);
 		}
 	}
