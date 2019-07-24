@@ -334,9 +334,9 @@ public class EnchantmentMatrix {
 	public static int getValue(Enchantment enchantment, int level) {
 		switch(enchantment.getRarity()) {
 			case COMMON:
-				return level * (level + 1) / 2;
+				return level * ((level + 1) / 2);
 			case UNCOMMON:
-				return (level + 1) * (level + 4) / 4;
+				return (level + 1) * ((level + 4) / 4);
 			default:
 				return level;
 		}
