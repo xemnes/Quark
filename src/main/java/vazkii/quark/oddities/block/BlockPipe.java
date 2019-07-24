@@ -1,5 +1,6 @@
 package vazkii.quark.oddities.block;
 
+import com.google.common.collect.Maps;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -35,6 +36,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class BlockPipe extends BlockModContainer implements IQuarkBlock {
 
@@ -88,6 +90,8 @@ public class BlockPipe extends BlockModContainer implements IQuarkBlock {
 			SOUTH_TERMINAL_AABB, WEST_TERMINAL_AABB, EAST_TERMINAL_AABB
 	};
 
+	private static final Map<IBlockState, EnumFacing> FLARE_STATES = Maps.newHashMap();
+
 	public BlockPipe() {
 		super("pipe", Material.GLASS);
 		setHardness(3.0F);
@@ -102,6 +106,22 @@ public class BlockPipe extends BlockModContainer implements IQuarkBlock {
 				.withProperty(NORTH, ConnectionType.NONE).withProperty(SOUTH, ConnectionType.NONE)
 				.withProperty(WEST, ConnectionType.NONE).withProperty(EAST, ConnectionType.NONE)
 				.withProperty(ENABLED, true));
+
+		stateLoop: for (IBlockState state : blockState.getValidStates()) {
+			EnumFacing onlySide = null;
+
+			for (EnumFacing facing : EnumFacing.VALUES) {
+				if (state.getValue(CONNECTIONS[facing.getIndex()]) != ConnectionType.NONE) {
+					if (onlySide == null)
+						onlySide = facing;
+					else
+						continue stateLoop;
+				}
+			}
+
+			if (onlySide != null)
+				FLARE_STATES.put(state, onlySide.getOpposite());
+		}
 	}
 
 	@Override
@@ -182,10 +202,10 @@ public class BlockPipe extends BlockModContainer implements IQuarkBlock {
 		for(EnumFacing side : EnumFacing.VALUES) {
 			ConnectionType type = getType(state, side);
 
-			if (type.isSolid)
+			if (type != null && type.isSolid)
 				addCollisionBoxToList(pos, entityBox, collidingBoxes, SIDE_BOXES[side.ordinal()]);
 
-			if (type == ConnectionType.FLARE)
+			if (type == null)
 				addCollisionBoxToList(pos, entityBox, collidingBoxes, FLARE_BOXES[side.ordinal()]);
 			else if (type == ConnectionType.TERMINAL)
 				addCollisionBoxToList(pos, entityBox, collidingBoxes, TERMINAL_BOXES[side.ordinal()]);
@@ -196,14 +216,16 @@ public class BlockPipe extends BlockModContainer implements IQuarkBlock {
 		ConnectionType type = getType(state, side);
 		int direction = side.getAxisDirection().getOffset();
 		double base = 0.5 + 0.1875 * direction;
-		return base + direction * (type.isSolid ? 0.3125 : (type.isFlared ? 0.0625 : 0));
+		return base + direction * (type != null && type.isSolid ? 0.3125 : (type == null || type.isFlared ? 0.0625 : 0));
 	}
 
 	public static boolean isFlared(IBlockState state, EnumFacing side) {
-		return getType(state, side).isFlared;
+		return FLARE_STATES.containsKey(state) && FLARE_STATES.get(state) == side;
 	}
 
 	public static ConnectionType getType(IBlockState state, EnumFacing side) {
+		if (isFlared(state, side))
+			return null;
 		PropertyEnum<ConnectionType> prop = CONNECTIONS[side.ordinal()];
 		return state.getValue(prop);
 	}
@@ -244,26 +266,12 @@ public class BlockPipe extends BlockModContainer implements IQuarkBlock {
 	public IBlockState getActualState(@Nonnull IBlockState state, IBlockAccess worldIn, BlockPos pos) {
 		IBlockState actualState = state;
 
-		boolean onlyOneSide = true;
-		EnumFacing onlySide = null;
-
 		for(EnumFacing facing : EnumFacing.VALUES) {
 			PropertyEnum<ConnectionType> prop = CONNECTIONS[facing.ordinal()];
 			ConnectionType type = getConnectionTo(worldIn, pos, facing);
 
-			if (type.allowsItems) {
-				if (onlySide != null)
-					onlyOneSide = false;
-				else
-					onlySide = facing;
-			}
-
 			actualState = actualState.withProperty(prop, type);
 		}
-
-		if (onlyOneSide && onlySide != null)
-			actualState = actualState.withProperty(CONNECTIONS[onlySide.getOpposite().ordinal()], ConnectionType.FLARE);
-
 
 		return actualState;
 	}
@@ -340,7 +348,6 @@ public class BlockPipe extends BlockModContainer implements IQuarkBlock {
 	public enum ConnectionType implements IStringSerializable {
 
 		NONE(false, false, false),
-		FLARE(false, false, true),
 		PIPE(true, true, false),
 		TERMINAL(true, true, true),
 		PROP(true, false, false);

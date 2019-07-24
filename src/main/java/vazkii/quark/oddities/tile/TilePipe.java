@@ -61,7 +61,7 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 				if (world.getBlockState(offset).getBlockFaceShape(world, offset, side.getOpposite()) != BlockFaceShape.UNDEFINED)
 					continue;
 
-				if (!world.isRemote && BlockPipe.getType(actualState, side) == BlockPipe.ConnectionType.FLARE) {
+				if (!world.isRemote && BlockPipe.getType(actualState, side) == null) {
 					double minX = pos.getX() + 0.25 + 0.5 * Math.min(0, side.getXOffset());
 					double minY = pos.getY() + 0.25 + 0.5 * Math.min(0, side.getYOffset());
 					double minZ = pos.getZ() + 0.25 + 0.5 * Math.min(0, side.getZOffset());
