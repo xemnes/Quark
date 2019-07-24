@@ -220,11 +220,12 @@ public class BlockPipe extends BlockModContainer implements IQuarkBlock {
 	}
 
 	public static boolean isFlared(IBlockState state, EnumFacing side) {
-		return FLARE_STATES.containsKey(state) && FLARE_STATES.get(state) == side;
+		ConnectionType type = getType(state, side);
+		return type == null || type.isFlared;
 	}
 
 	public static ConnectionType getType(IBlockState state, EnumFacing side) {
-		if (isFlared(state, side))
+		if (FLARE_STATES.containsKey(state) && FLARE_STATES.get(state) == side)
 			return null;
 		PropertyEnum<ConnectionType> prop = CONNECTIONS[side.ordinal()];
 		return state.getValue(prop);
