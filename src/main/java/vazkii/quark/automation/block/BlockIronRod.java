@@ -1,13 +1,12 @@
 package vazkii.quark.automation.block;
 
-import javax.annotation.Nonnull;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirectional;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyDirection;
+import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
@@ -26,6 +25,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.arl.block.BlockMod;
 import vazkii.quark.api.ICollateralMover;
 import vazkii.quark.base.block.IQuarkBlock;
+
+import javax.annotation.Nonnull;
 
 public class BlockIronRod extends BlockMod implements IQuarkBlock, ICollateralMover {
 
@@ -149,6 +150,13 @@ public class BlockIronRod extends BlockMod implements IQuarkBlock, ICollateralMo
 				return state.withProperty(CONNECTED, false);
 		}
 		return state.withProperty(CONNECTED, true);
+	}
+
+	@Nonnull
+	@Override
+	@SuppressWarnings("deprecation")
+	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
+		return BlockFaceShape.UNDEFINED;
 	}
 	
 }

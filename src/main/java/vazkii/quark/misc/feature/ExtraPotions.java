@@ -201,9 +201,12 @@ public class ExtraPotions extends Feature {
 
 					PotionHelper.addMix(normalType, Items.FERMENTED_SPIDER_EYE, normalNegationType);
 
-					if (hasStrong)
+					if (hasStrong) {
 						PotionHelper.addMix(strongType, Items.FERMENTED_SPIDER_EYE, strongNegationType);
+						PotionHelper.addMix(normalNegationType, Items.GLOWSTONE_DUST, strongNegationType);
+					}
 					PotionHelper.addMix(longType, Items.FERMENTED_SPIDER_EYE, longNegationType);
+					PotionHelper.addMix(normalNegationType, Items.REDSTONE, longNegationType);
 				}
 			}
 		}

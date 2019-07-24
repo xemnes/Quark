@@ -1,13 +1,11 @@
 package vazkii.quark.world.feature;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
@@ -29,25 +27,13 @@ import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.GlobalConfig;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.building.feature.VanillaWalls;
-import vazkii.quark.world.block.BlockBiomeBrick;
-import vazkii.quark.world.block.BlockBiomeCobblestone;
-import vazkii.quark.world.block.BlockElderPrismarine;
-import vazkii.quark.world.block.BlockElderSeaLantern;
-import vazkii.quark.world.block.BlockGlowcelium;
-import vazkii.quark.world.block.BlockGlowshroom;
-import vazkii.quark.world.block.BlockHugeGlowshroom;
+import vazkii.quark.world.block.*;
 import vazkii.quark.world.block.slab.BlockBasicStoneSlab;
 import vazkii.quark.world.world.UndergroundBiomeGenerator;
-import vazkii.quark.world.world.underground.UndergroundBiome;
-import vazkii.quark.world.world.underground.UndergroundBiomeGlowshroom;
-import vazkii.quark.world.world.underground.UndergroundBiomeIcy;
-import vazkii.quark.world.world.underground.UndergroundBiomeLava;
-import vazkii.quark.world.world.underground.UndergroundBiomeLush;
-import vazkii.quark.world.world.underground.UndergroundBiomeOvergrown;
-import vazkii.quark.world.world.underground.UndergroundBiomePrismarine;
-import vazkii.quark.world.world.underground.UndergroundBiomeSandstone;
-import vazkii.quark.world.world.underground.UndergroundBiomeSlime;
-import vazkii.quark.world.world.underground.UndergroundBiomeSpiderNest;
+import vazkii.quark.world.world.underground.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class UndergroundBiomes extends Feature {
 
@@ -66,7 +52,7 @@ public class UndergroundBiomes extends Feature {
 	public static IBlockState firestoneState, icystoneState, cobbedstoneState;
 	
 	public static boolean firestoneEnabled, icystoneEnabled, glowceliumEnabled, bigGlowshroomsEnabled, elderPrismarineEnabled, cobbedstoneEnabled;
-	public static boolean enableStairsAndSlabs, enableWalls, allowCraftingElderPrismarine;
+	public static boolean enableStairsAndSlabs, enableWalls, allowCraftingElderPrismarine, allowCraftingCobbedstone;
 	
 	private static UndergroundBiomeGenerator prismarineBiomeGen;
 	
@@ -84,6 +70,7 @@ public class UndergroundBiomes extends Feature {
 		enableStairsAndSlabs = loadPropBool("Enable stairs and slabs", "", true)  && GlobalConfig.enableVariants;
 		enableWalls = loadPropBool("Enable walls", "", true)  && GlobalConfig.enableVariants;
 		allowCraftingElderPrismarine = loadPropBool("Allow crafting Elder Prismarine", "", true);
+		allowCraftingCobbedstone = loadPropBool("Allow crafting Cobbedstone", "", true);
 
 		glowshroomGrowthRate = loadPropInt("Glowshroom Growth Rate", "The smaller, the faster glowshrooms will spread. Vanilla mushroom speed is 25.", 20);
 		
@@ -154,7 +141,7 @@ public class UndergroundBiomes extends Feature {
 
 		VanillaWalls.add("fire_stone", biome_cobblestone, 0, enableWalls && firestoneEnabled);
 		VanillaWalls.add("icy_stone", biome_cobblestone, 1, enableWalls && icystoneEnabled);
-		VanillaWalls.add("cobbed_stone", biome_cobblestone, 1, enableWalls && cobbedstoneEnabled);
+		VanillaWalls.add("cobbed_stone", biome_cobblestone, 2, enableWalls && cobbedstoneEnabled);
 		VanillaWalls.add("fire_stone_brick", biome_brick, 0, enableWalls && firestoneEnabled);
 		VanillaWalls.add("icy_stone_brick", biome_brick, 1, enableWalls && icystoneEnabled);
 		for(BlockElderPrismarine.Variants v : BlockElderPrismarine.Variants.values())
@@ -209,6 +196,16 @@ public class UndergroundBiomes extends Feature {
 					'B', "dyeBlack");
 			RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(elder_sea_lantern),
 					"blockPrismarineElder", ProxyRegistry.newStack(Blocks.SEA_LANTERN));
+		}
+
+		if (cobbedstoneEnabled) {
+			if (allowCraftingCobbedstone)
+				RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(biome_cobblestone, 1, 2),
+						" C ", "CSC", " C ",
+						'C', ProxyRegistry.newStack(Blocks.WEB),
+						'S', "cobblestone");
+			FurnaceRecipes.instance().addSmeltingRecipe(ProxyRegistry.newStack(biome_cobblestone, 1, 2),
+					ProxyRegistry.newStack(Blocks.STONE), 0.1F);
 		}
 	}
 

@@ -4,6 +4,7 @@ import net.minecraft.block.BlockDirectional;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;
+import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
@@ -28,9 +29,9 @@ import java.util.Random;
 
 public class BlockBlazeRod extends BlockMod implements IQuarkBlock {
 
-	protected static final AxisAlignedBB BLAZE_ROD_VERTICAL_AABB = new AxisAlignedBB(0.375D, 0.0D, 0.375D, 0.625D, 1.0D, 0.625D);
-	protected static final AxisAlignedBB BLAZE_ROD_NS_AABB = new AxisAlignedBB(0.375D, 0.375D, 0.0D, 0.625D, 0.625D, 1.0D);
-	protected static final AxisAlignedBB BLAZE_ROD_EW_AABB = new AxisAlignedBB(0.0D, 0.375D, 0.375D, 1.0D, 0.625D, 0.625D);
+	protected static final AxisAlignedBB BLAZE_ROD_VERTICAL_AABB = new AxisAlignedBB(0.4375D, 0.0D, 0.4375D, 0.5625D, 1.0D, 0.5625D);
+	protected static final AxisAlignedBB BLAZE_ROD_NS_AABB = new AxisAlignedBB(0.4375D, 0.4375D, 0.0D, 0.5625D, 0.5625D, 1.0D);
+	protected static final AxisAlignedBB BLAZE_ROD_EW_AABB = new AxisAlignedBB(0.0D, 0.4375D, 0.4375D, 1.0D, 0.5625D, 0.5625D);
 
 	public static final PropertyDirection FACING = BlockDirectional.FACING;
 
@@ -151,4 +152,10 @@ public class BlockBlazeRod extends BlockMod implements IQuarkBlock {
 		return new BlockStateContainer(this, FACING);
 	}
 
+	@Nonnull
+	@Override
+	@SuppressWarnings("deprecation")
+	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
+		return BlockFaceShape.UNDEFINED;
+	}
 }
