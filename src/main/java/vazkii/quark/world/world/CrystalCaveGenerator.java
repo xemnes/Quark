@@ -28,7 +28,7 @@ public class CrystalCaveGenerator implements IWorldGenerator {
 	
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
-		if(random.nextInt(CrystalCaves.crystalCaveRarity) != 0 || !dims.canSpawnHere(world))
+		if(random.nextDouble() < CrystalCaves.crystalCaveRarity || !dims.canSpawnHere(world))
 			return;
 
 		int x = chunkX * 16 + random.nextInt(16);
@@ -108,9 +108,9 @@ public class CrystalCaveGenerator implements IWorldGenerator {
 				}
 		
 		for(BlockPos pos : crystals) {
-			if(rand.nextInt(3) == 0)
+			if(rand.nextDouble() < CrystalCaves.crystalRate)
 				makeCrystal(world, pos, rand, rand.nextBoolean() ? crystal1 : crystal2);
-			else if(rand.nextInt(2) == 0) {
+			else if(rand.nextDouble() < CrystalCaves.oreChance) {
 				IBlockState stateAt = world.getBlockState(pos);
 				Block blockAt = stateAt.getBlock();
 				if(blockAt.isAir(stateAt, world, pos) || blockAt == CrystalCaves.crystal || stateAt.getBlockHardness(world, pos) == -1)

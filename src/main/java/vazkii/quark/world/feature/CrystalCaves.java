@@ -20,12 +20,14 @@ public class CrystalCaves extends Feature {
 	public static Block crystalPane;
 
 	public static DimensionConfig dims;
-	public static int crystalCaveRarity;
+	public static double crystalCaveRarity, oreChance, crystalRate;
 	public static boolean enablePanes;
 	
 	@Override
 	public void setupConfig() {
-		crystalCaveRarity = loadPropInt("Crystal Cave Rarity", "Given this value as X, crystal caves will spawn on average 1 per X chunks", 150);
+		crystalCaveRarity = loadLegacyPropChance("Crystal Cave Percentage Chance", "Crystal Cave Rarity", "The percentage chance crystal caves will spawn in a given chunk", 1.0/150);
+		oreChance = loadPropChance("Ore Chance", "Chance that, if a crystal location doesn't spawn a crystal, it will spawn an ore", 0.5);
+		crystalRate = loadPropChance("Crystal Chance", "Chance that a given crystal location will actually spawn a crystal", 0.3);
 		enablePanes = loadPropBool("Enable Panes", "", true);
 		dims = new DimensionConfig(configCategory);
 	}
