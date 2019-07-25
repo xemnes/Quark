@@ -270,11 +270,11 @@ public class QuarkPistonStructureHelper extends BlockPistonStructureHelper {
 			return MoveResult.MOVE;
 		
 		Block block = state1.getBlock();
-		if(block instanceof INonSticky && !((INonSticky) block).sticksToSlime(world, pistonPos, pos1, pos2, state1, state2, moveDirection))
+		if(block instanceof INonSticky && !((INonSticky) block).canStickToBlock(world, pistonPos, pos1, pos2, state1, state2, moveDirection))
 			return MoveResult.SKIP;
 		
 		block = state2.getBlock();
-		if(block instanceof INonSticky && !((INonSticky) block).sticksToSlime(world, pistonPos, pos2, pos1, state2, state1, moveDirection))
+		if(block instanceof INonSticky && !((INonSticky) block).canStickToBlock(world, pistonPos, pos2, pos1, state2, state1, moveDirection))
 			return MoveResult.SKIP;
 		
 		return MoveResult.MOVE;

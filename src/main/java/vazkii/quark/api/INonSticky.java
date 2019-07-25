@@ -7,6 +7,6 @@ import net.minecraft.world.World;
 
 public interface INonSticky {
 
-	boolean sticksToSlime(World world, BlockPos pistonPos, BlockPos pos, BlockPos slimePos, IBlockState state, IBlockState slimeState, EnumFacing direction);
+	boolean canStickToBlock(World world, BlockPos pistonPos, BlockPos pos, BlockPos slimePos, IBlockState state, IBlockState slimeState, EnumFacing direction);
 	
 }

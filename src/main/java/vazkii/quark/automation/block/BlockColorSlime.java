@@ -106,7 +106,7 @@ public class BlockColorSlime extends BlockMetaVariants<BlockColorSlime.Variants>
 	}
 
 	@Override
-	public boolean sticksToSlime(World world, BlockPos pistonPos, BlockPos pos, BlockPos slimePos, IBlockState state, IBlockState slimeState, EnumFacing direction) {
+	public boolean canStickToBlock(World world, BlockPos pistonPos, BlockPos pos, BlockPos slimePos, IBlockState state, IBlockState slimeState, EnumFacing direction) {
 		Variants ourVariant = state.getValue(variantProp);
 		Block block = slimeState.getBlock();
 		
