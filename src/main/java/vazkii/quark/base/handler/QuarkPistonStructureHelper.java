@@ -160,7 +160,6 @@ public class QuarkPistonStructureHelper extends BlockPistonStructureHelper {
 							if(isBlockBranching(world, blockpos2)) {
 								res = addBranchingBlocks(world, blockpos2);
 								
-								System.out.println(res);
 								if(res == MoveResult.PREVENT)
 									return false;
 							}
@@ -189,7 +188,6 @@ public class QuarkPistonStructureHelper extends BlockPistonStructureHelper {
 						if(toMove.size() >= max)
 							return false;
 						
-						System.out.println("add2 " + world.getBlockState(blockpos1));
 						toMove.add(blockpos1);
 
 						++i1;
