@@ -29,6 +29,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.ItemHandlerHelper;
 import vazkii.arl.interf.IBlockColorProvider;
 import vazkii.arl.interf.IStateMapperProvider;
+import vazkii.arl.util.VanillaPacketDispatcher;
 import vazkii.quark.decoration.client.state.FlowerPotStateMapper;
 import vazkii.quark.decoration.feature.ColoredFlowerPots;
 
@@ -86,6 +87,7 @@ public class BlockCustomFlowerPot extends BlockFlowerPot implements IBlockColorP
 		}
 
 		flowerPot.markDirty();
+		VanillaPacketDispatcher.dispatchTEToNearbyPlayers(flowerPot);
 		world.notifyBlockUpdate(pos, state, state, 3);
 		return true;
 	}
