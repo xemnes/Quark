@@ -80,7 +80,7 @@ public class EntityGravisand extends EntityFallingBlock {
 			BlockPos fallTarget = new BlockPos(posX, posY + fallDirection + off, posZ);
 
 			
-			if(onGround) {
+			if(collidedVertically) {
 				BlockPos pos = new BlockPos(this);
 				IBlockState iblockstate = world.getBlockState(pos);
 
