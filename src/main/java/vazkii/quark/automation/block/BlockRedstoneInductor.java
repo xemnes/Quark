@@ -162,7 +162,7 @@ public class BlockRedstoneInductor extends BlockMod implements IQuarkBlock, IBlo
 	}
 
 	protected void updateState(World world, BlockPos pos) {
-		world.updateBlockTick(pos, this, 2, -1);
+		world.updateBlockTick(pos, this, 1, -1);
 	}
 
 	@Nonnull
