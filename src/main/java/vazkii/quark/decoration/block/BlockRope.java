@@ -53,21 +53,9 @@ public class BlockRope extends BlockMod implements IQuarkBlock {
 	@Override
 	public ItemBlock createItemBlock(ResourceLocation res) {
 		return new ItemModBlock(this, res) {
-			@Nonnull
 			@Override
-			public EnumActionResult onItemUse(EntityPlayer player, World worldIn, @Nonnull BlockPos pos, @Nonnull EnumHand hand, @Nonnull EnumFacing facing, float hitX, float hitY, float hitZ) {
-				IBlockState inWorld = worldIn.getBlockState(pos);
-				if (inWorld.getBlock() == BlockRope.this && player.isSneaking()) {
-					if(!player.isCreative()) {
-						if(!player.addItemStackToInventory(new ItemStack(this)))
-							player.dropItem(new ItemStack(this), false);
-					}
-
-					worldIn.playSound(null, pos, blockSoundType.getBreakSound(), SoundCategory.BLOCKS, 0.5F, 1F);
-					return EnumActionResult.SUCCESS;
-				}
-
-				return super.onItemUse(player, worldIn, pos, hand, facing, hitX, hitY, hitZ);
+			public boolean doesSneakBypassUse(ItemStack stack, IBlockAccess world, BlockPos pos, EntityPlayer player) {
+				return world.getBlockState(pos).getBlock() == BlockRope.this;
 			}
 		};
 	}
@@ -77,7 +65,7 @@ public class BlockRope extends BlockMod implements IQuarkBlock {
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if(hand == EnumHand.MAIN_HAND) {
 			ItemStack stack = playerIn.getHeldItem(hand);
-			if(stack.getItem() == Item.getItemFromBlock(this)) {
+			if(stack.getItem() == Item.getItemFromBlock(this) && !playerIn.isSneaking()) {
 				if(pullDown(worldIn, pos)) {
 					if(!playerIn.isCreative())
 						stack.shrink(1);
