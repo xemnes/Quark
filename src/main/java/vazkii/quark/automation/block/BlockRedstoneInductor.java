@@ -116,6 +116,11 @@ public class BlockRedstoneInductor extends BlockMod implements IQuarkBlock, IBlo
 	}
 
 	@Override
+	public void randomTick(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull IBlockState state, @Nonnull Random random) {
+		// NO-OP
+	}
+
+	@Override
 	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
 		boolean isLocked = isLocked(state);
 		boolean willBeLocked = shouldBeLocked(worldIn, pos, state);
@@ -141,16 +146,14 @@ public class BlockRedstoneInductor extends BlockMod implements IQuarkBlock, IBlo
 				boolean isPowered = this.isPowered(state);
 
 				if (isPowered && !shouldBePowered) {
-					finalState = state.withProperty(POWERED, false);
+					finalState = finalState.withProperty(POWERED, false);
 				} else if (!isPowered && shouldBePowered) {
-					finalState = state.withProperty(POWERED, true);
+					finalState = finalState.withProperty(POWERED, true);
 				}
 			}
 		}
 
-		worldIn.setBlockState(pos, finalState, 2);
-
-		this.notifyNeighbors(worldIn, pos, state);
+		worldIn.setBlockState(pos, finalState, 3);
 	}
 
 	protected int getActiveSignal(IBlockAccess world, BlockPos pos) {
@@ -295,10 +298,6 @@ public class BlockRedstoneInductor extends BlockMod implements IQuarkBlock, IBlo
 
 	@Override
 	public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
-		notifyNeighbors(worldIn, pos, state);
-	}
-
-	protected void notifyNeighbors(World worldIn, BlockPos pos, IBlockState state) {
 		BlockRedstoneRandomizer.notify(this, worldIn, pos, state);
 	}
 
