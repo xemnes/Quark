@@ -135,7 +135,6 @@ public class QuarkPistonStructureHelper extends BlockPistonStructureHelper {
 
 				for(int j = lineLen - 1; j >= 0; --j) {
 					BlockPos movePos = origin.offset(moveDirection.getOpposite(), j);
-					System.out.println("add " + world.getBlockState(movePos));
 					toMove.add(movePos);
 					i1++;
 				}
