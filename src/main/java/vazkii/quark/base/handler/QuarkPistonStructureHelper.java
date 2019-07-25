@@ -135,12 +135,11 @@ public class QuarkPistonStructureHelper extends BlockPistonStructureHelper {
 
 				for(int j = lineLen - 1; j >= 0; --j) {
 					BlockPos movePos = origin.offset(moveDirection.getOpposite(), j);
+					System.out.println("add " + world.getBlockState(movePos));
 					toMove.add(movePos);
-					System.out.println(toMove);
 					i1++;
 				}
 				
-				System.out.println(skippingNext);
 				if(skippingNext)
 					return true;
 				
@@ -161,6 +160,7 @@ public class QuarkPistonStructureHelper extends BlockPistonStructureHelper {
 							if(isBlockBranching(world, blockpos2)) {
 								res = addBranchingBlocks(world, blockpos2);
 								
+								System.out.println(res);
 								if(res == MoveResult.PREVENT)
 									return false;
 							}
@@ -170,6 +170,9 @@ public class QuarkPistonStructureHelper extends BlockPistonStructureHelper {
 					}
 					
 					if(res == MoveResult.MOVE) {
+						if(!toDestroy.contains(blockpos1))
+							return true;
+						
 						iblockstate = world.getBlockState(blockpos1);
 
 						if(iblockstate.getBlock().isAir(iblockstate, world, blockpos1))
@@ -185,7 +188,8 @@ public class QuarkPistonStructureHelper extends BlockPistonStructureHelper {
 
 						if(toMove.size() >= max)
 							return false;
-
+						
+						System.out.println("add2 " + world.getBlockState(blockpos1));
 						toMove.add(blockpos1);
 
 						++i1;
