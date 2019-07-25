@@ -37,7 +37,7 @@ public class ChangeHotbarKeybind extends Feature {
 	private static final int ANIM_PER_TICK = MAX_HEIGHT / ANIMATION_TIME;
 
 	public static int height = 0;
-	public static int currentHeldItem;
+	public static int currentHeldItem = -1;
 	public static boolean animating;
 	public static boolean keyDown;
 	public static boolean hotbarChangeOpen, shifting;
