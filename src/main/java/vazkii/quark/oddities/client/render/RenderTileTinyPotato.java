@@ -119,10 +119,7 @@ public class RenderTileTinyPotato extends TileEntitySpecialRenderer<TileTinyPota
 			model.render();
 
 		GlStateManager.popMatrix();
-		
 
-		ResourceLocation textureGoldHat = new ResourceLocation("minecraft", "textures/models/armor/gold_layer_1.png");
-		ResourceLocation textureDiamondHat = new ResourceLocation("minecraft", "textures/models/armor/diamond_layer_1.png");
 		int patronTier = ContributorRewardHandler.getTier(name);
 		if(patronTier > 0) {
 			GlStateManager.pushMatrix();
