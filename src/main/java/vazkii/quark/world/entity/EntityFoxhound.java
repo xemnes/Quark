@@ -35,6 +35,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import vazkii.arl.util.ItemNBTHelper;
 import vazkii.quark.oddities.feature.TinyPotato;
@@ -253,7 +254,6 @@ public class EntityFoxhound extends EntityWolf {
 		return isSleeping() ? null : super.getAmbientSound();
 	}
 
-
 	public boolean isSleeping() {
 		return dataManager.get(SLEEPING);
 	}
@@ -262,4 +262,9 @@ public class EntityFoxhound extends EntityWolf {
 		dataManager.set(SLEEPING, sleeping);
 	}
 
+	@Override
+    public boolean getCanSpawnHere() {
+        return this.world.getDifficulty() != EnumDifficulty.PEACEFUL;
+    }
+	
 }

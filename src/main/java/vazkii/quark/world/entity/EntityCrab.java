@@ -10,12 +10,29 @@
  */
 package vazkii.quark.world.entity;
 
+import java.util.Set;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.google.common.collect.Sets;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.*;
-import net.minecraft.entity.ai.*;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityAgeable;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EnumCreatureAttribute;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.EntityAIFollowParent;
+import net.minecraft.entity.ai.EntityAILookIdle;
+import net.minecraft.entity.ai.EntityAIMate;
+import net.minecraft.entity.ai.EntityAIPanic;
+import net.minecraft.entity.ai.EntityAISwimming;
+import net.minecraft.entity.ai.EntityAITempt;
+import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
+import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.passive.EntityAnimal;
@@ -37,10 +54,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.world.entity.ai.EntityAIRave;
 import vazkii.quark.world.entity.ai.MovementHelperZigZag;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.Set;
-
 public class EntityCrab extends EntityAnimal {
 
 	public static final ResourceLocation CRAB_LOOT_TABLE = new ResourceLocation("quark", "entities/crab");
@@ -58,6 +71,8 @@ public class EntityCrab extends EntityAnimal {
 		super(worldIn);
 		this.setSize(0.9F, 0.5F);
 		this.moveHelper = new MovementHelperZigZag(this);
+		
+		spawnableBlock = Blocks.SAND;
 	}
 
 	@Nonnull
@@ -212,4 +227,5 @@ public class EntityCrab extends EntityAnimal {
 		compound.setFloat("EnemyCrabRating", getSizeModifier());
 		compound.setInteger("LightningCooldown", lightningCooldown);
 	}
+	
 }
