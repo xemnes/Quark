@@ -19,6 +19,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.minecart.MinecartUpdateEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -176,6 +177,11 @@ public class ChainLinkage extends Feature {
 				target.getEntityData().setUniqueId(ChainHandler.LINKED_TO, AWAIT_MAP.get(id));
 			AWAIT_MAP.remove(id);
 		}
+	}
+
+	@SubscribeEvent
+	public void onMinecartUpdate(MinecartUpdateEvent event) {
+		onEntityUpdate(event.getMinecart());
 	}
 
 	@Override
