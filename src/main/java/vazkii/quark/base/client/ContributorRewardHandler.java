@@ -1,7 +1,21 @@
 package vazkii.quark.base.client;
 
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
+import java.util.WeakHashMap;
+
 import com.google.common.collect.ImmutableSet;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.network.NetworkPlayerInfo;
@@ -15,11 +29,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.base.lib.LibObfuscation;
-
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.util.*;
 
 @Mod.EventBusSubscriber(modid = LibMisc.MOD_ID)
 public class ContributorRewardHandler {
@@ -50,7 +59,11 @@ public class ContributorRewardHandler {
 	}
 
 	public static int getTier(EntityPlayer player) {
-		return tiers.getOrDefault(player.getName().toLowerCase(Locale.ROOT), 0);
+		return getTier(player.getName());
+	}
+	
+	public static int getTier(String name) {
+		return tiers.getOrDefault(name.toLowerCase(Locale.ROOT), 0);
 	}
 	
 	@SubscribeEvent

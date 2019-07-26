@@ -10,9 +10,14 @@
  */
 package vazkii.quark.oddities.client.render;
 
+import java.util.Calendar;
+
+import javax.annotation.Nonnull;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -28,6 +33,7 @@ import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
+import vazkii.quark.base.client.ContributorRewardHandler;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.oddities.block.BlockTinyPotato;
 import vazkii.quark.oddities.client.model.ModelTinyPotato;
@@ -35,16 +41,17 @@ import vazkii.quark.oddities.feature.TinyPotato;
 import vazkii.quark.oddities.item.ItemBlockTinyPotato;
 import vazkii.quark.oddities.tile.TileTinyPotato;
 
-import javax.annotation.Nonnull;
-import java.util.Calendar;
-
 public class RenderTileTinyPotato extends TileEntitySpecialRenderer<TileTinyPotato> {
 	private static final ResourceLocation texture = new ResourceLocation(LibMisc.MOD_ID, "textures/blocks/tiny_potato/tiny_potato.png");
 	private static final ResourceLocation textureGrayscale = new ResourceLocation(LibMisc.MOD_ID, "textures/blocks/tiny_potato/tiny_potato_gray.png");
 	private static final ResourceLocation textureHalloween = new ResourceLocation(LibMisc.MOD_ID, "textures/blocks/tiny_potato/tiny_potato_halloween.png");
 	private static final ResourceLocation textureAngery = new ResourceLocation(LibMisc.MOD_ID, "textures/blocks/tiny_potato/angry_potato.png");
 
+	private static final ResourceLocation textureGoldHat = new ResourceLocation("minecraft", "textures/models/armor/gold_layer_1.png");
+	private static final ResourceLocation textureDiamondHat = new ResourceLocation("minecraft", "textures/models/armor/diamond_layer_1.png");
+	
 	private static final ModelTinyPotato model = new ModelTinyPotato();
+	private static final ModelBiped armorModel = new ModelBiped(1F);
 
 	@SuppressWarnings("MagicConstant")
 	public static boolean isTheSpookDay(World world) {
@@ -55,8 +62,7 @@ public class RenderTileTinyPotato extends TileEntitySpecialRenderer<TileTinyPota
 
 	@Override
 	public void render(@Nonnull TileTinyPotato potato, double x, double y, double z, float partialTicks, int destroyStage, float unused) {
-		if(!potato.getWorld().isBlockLoaded(potato.getPos(), false)
-				|| potato.getWorld().getBlockState(potato.getPos()).getBlock() != TinyPotato.tiny_potato)
+		if(!potato.getWorld().isBlockLoaded(potato.getPos(), false) || potato.getWorld().getBlockState(potato.getPos()).getBlock() != TinyPotato.tiny_potato)
 			return;
 
 		IBlockState potatoState = potato.getWorld().getBlockState(potato.getPos());
@@ -69,29 +75,6 @@ public class RenderTileTinyPotato extends TileEntitySpecialRenderer<TileTinyPota
 		Minecraft mc = Minecraft.getMinecraft();
 		mc.renderEngine.bindTexture(isTheSpookDay(potato.getWorld()) ? textureHalloween : texture);
 		String name = potato.name.toLowerCase().trim();
-
-//		boolean usedShader = false;
-//		if (matches(name, "gaia")) {
-//			ShaderHelper.useShader(ShaderHelper.doppleganger);
-//			name = removeFromFront(name, "gaia");
-//			usedShader = true;
-//		} else if (matches(name, "hot")) {
-//			ShaderHelper.useShader(ShaderHelper.halo);
-//			name = removeFromFront(name, "hot");
-//			usedShader = true;
-//		} else if (matches(name, "magic")) {
-//			ShaderHelper.useShader(ShaderHelper.enchanterRune);
-//			name = removeFromFront(name, "magic");
-//			usedShader = true;
-//		} else if (matches(name, "gold")) {
-//			ShaderHelper.useShader(ShaderHelper.gold);
-//			name = removeFromFront(name, "gold");
-//			usedShader = true;
-//		} else if (matches(name, "snoop")) {
-//			ShaderHelper.useShader(ShaderHelper.terraPlateRune);
-//			name = removeFromFront(name, "snoop");
-//			usedShader = true;
-//		}
 
 		GlStateManager.translate(0.5F, 1.5F, 0.5F);
 		GlStateManager.scale(1F, -1F, -1F);
@@ -134,15 +117,23 @@ public class RenderTileTinyPotato extends TileEntitySpecialRenderer<TileTinyPota
 		boolean render = !(name.equals("mami") || name.equals("soaryn") || name.equals("eloraam") && jump != 0);
 		if (render)
 			model.render();
-		if (name.equals("kingdaddydmac")) {
-			GlStateManager.translate(0.5F, 0F, 0F);
-			model.render();
-		}
-
-//		if (usedShader)
-//			ShaderHelper.releaseShader();
 
 		GlStateManager.popMatrix();
+		
+
+		ResourceLocation textureGoldHat = new ResourceLocation("minecraft", "textures/models/armor/gold_layer_1.png");
+		ResourceLocation textureDiamondHat = new ResourceLocation("minecraft", "textures/models/armor/diamond_layer_1.png");
+		int patronTier = ContributorRewardHandler.getTier(name);
+		if(patronTier > 0) {
+			GlStateManager.pushMatrix();
+			float s = 1F / 35F;
+			GlStateManager.scale(s, s, s);
+			GlStateManager.translate(0, 46, 0);
+			mc.renderEngine.bindTexture(patronTier > 1 ? textureDiamondHat : textureGoldHat);
+			
+			armorModel.bipedHead.render(1F);
+			GlStateManager.popMatrix();
+		}
 
 		GlStateManager.pushMatrix();
 		mc.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
@@ -228,71 +219,6 @@ public class RenderTileTinyPotato extends TileEntitySpecialRenderer<TileTinyPota
 			GlStateManager.popMatrix();
 		}
 		GlStateManager.popMatrix();
-
-//		if (!name.isEmpty()) {
-//			ContributorFancinessHandler.firstStart();
-//
-//			float scale = 1F / 4F;
-//			GlStateManager.translate(0F, 1F, 0F);
-//			GlStateManager.scale(scale, scale, scale);
-//			if (name.equals("phi") || name.equals("vazkii")) {
-//				GlStateManager.translate(0.45F, 0F, 0.4F);
-//				GlStateManager.rotate(90F, 0F, 1F, 0F);
-//				GlStateManager.rotate(20F, 1F, 0F, 1F);
-//				renderIcon(MiscellaneousIcons.INSTANCE.phiFlowerIcon);
-//
-//				if (name.equals("vazkii")) {
-//					GlStateManager.rotate(-20F, 1F, 0F, 1F);
-//					GlStateManager.scale(1.25F, 1.25F, 1.25F);
-//					GlStateManager.rotate(180F, 0F, 0F, 1F);
-//					GlStateManager.translate(-1.5F, -1.3F, -0.75F);
-//					renderIcon(MiscellaneousIcons.INSTANCE.nerfBatIcon);
-//				}
-//			} else if (name.equals("haighyorkie")) {
-//				GlStateManager.scale(1.25F, 1.25F, 1.25F);
-//				GlStateManager.rotate(180F, 0F, 0F, 1F);
-//				GlStateManager.rotate(90F, 0F, 1F, 0F);
-//				GlStateManager.translate(-0.5F, -1.2F, -0.4F);
-//				renderIcon(MiscellaneousIcons.INSTANCE.goldfishIcon);
-//			} else if (name.equals("martysgames") || name.equals("marty")) {
-//				GlStateManager.scale(0.7F, 0.7F, 0.7F);
-//				GlStateManager.rotate(180F, 0F, 0F, 1F);
-//				GlStateManager.translate(-0.3F, -2.7F, -1.2F);
-//				GlStateManager.rotate(15F, 0F, 0F, 1F);
-//				renderItem(new ItemStack(ModItems.infiniteFruit, 1).setStackDisplayName("das boot"));
-//			} else if (name.equals("jibril")) {
-//				GlStateManager.scale(1.5F, 1.5F, 1.5F);
-//				GlStateManager.translate(0F, -0.8F, 0F);
-//				GlStateManager.rotate(90F, 0F, 1F, 0F);
-//				ItemFlightTiara.renderHalo(null, partialTicks);
-//				GlStateManager.disableBlend();
-//				GlStateManager.disableLighting();
-//			} else if (name.equals("kingdaddydmac")) {
-//				GlStateManager.scale(0.5F, 0.5F, 0.5F);
-//				GlStateManager.rotate(180F, 0F, 0F, 1F);
-//				GlStateManager.rotate(90F, 0F, 1F, 0F);
-//				GlStateManager.translate(0F, -3F, 0.65F);
-//				renderItem(new ItemStack(ModItems.manaRing, 1, 0));
-//				GlStateManager.translate(0F, 0F, -4F);
-//				renderItem(new ItemStack(ModItems.manaRing, 1, 0));
-//
-//				GlStateManager.scale(0.8F, 0.8F, 0.8F);
-//				GlStateManager.translate(1.25F, -1.25F, 2.25F);
-//				mc.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
-//				renderBlock(Blocks.CAKE);
-//			} else if (ContributorFancinessHandler.flowerMap != null && ContributorFancinessHandler.flowerMap.containsKey(name)) {
-//				ItemStack icon = ContributorFancinessHandler.flowerMap.getOrDefault(name, ItemStack.EMPTY);
-//				if (!icon.isEmpty()) {
-//					mc.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
-//					GlStateManager.rotate(180F, 1F, 0F, 0F);
-//					GlStateManager.rotate(180F, 0F, 1F, 0F);
-//					GlStateManager.translate(0F, 0F, 0F);
-//					ShaderHelper.useShader(ShaderHelper.gold);
-//					renderItem(icon);
-//					ShaderHelper.releaseShader();
-//				}
-//			}
-//		}
 		GlStateManager.popMatrix();
 
 		GlStateManager.rotate(-rotZ, 0F, 0F, 1F);
@@ -355,14 +281,6 @@ public class RenderTileTinyPotato extends TileEntitySpecialRenderer<TileTinyPota
 
 		GlStateManager.popMatrix();
 	}
-
-//	private void renderIcon(TextureAtlasSprite icon) {
-//		float f = icon.getMinU();
-//		float f1 = icon.getMaxU();
-//		float f2 = icon.getMinV();
-//		float f3 = icon.getMaxV();
-//		IconHelper.renderIconIn3D(Tessellator.getInstance(), f1, f2, f, f3, icon.getIconWidth(), icon.getIconHeight(), 1F / 16F);
-//	}
 
 	private void renderItem(ItemStack stack) {
 		Minecraft.getMinecraft().getRenderItem().renderItem(stack, ItemCameraTransforms.TransformType.HEAD);
