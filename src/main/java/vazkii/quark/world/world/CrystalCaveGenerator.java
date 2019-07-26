@@ -28,7 +28,7 @@ public class CrystalCaveGenerator implements IWorldGenerator {
 	
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
-		if(random.nextDouble() < CrystalCaves.crystalCaveRarity || !dims.canSpawnHere(world))
+		if(random.nextDouble() > CrystalCaves.crystalCaveRarity || !dims.canSpawnHere(world))
 			return;
 
 		int x = chunkX * 16 + random.nextInt(16);
