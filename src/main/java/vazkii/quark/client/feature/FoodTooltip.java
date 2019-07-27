@@ -3,17 +3,16 @@ package vazkii.quark.client.feature;
 import betterwithmods.api.FeatureEnabledEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.inventory.GuiContainerCreative;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemFood;
 import net.minecraft.potion.PotionEffect;
 import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.RenderTooltipEvent;
-import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.base.lib.LibObfuscation;
 import vazkii.quark.base.module.Feature;
 
@@ -29,18 +28,19 @@ public class FoodTooltip extends Feature {
 		if(event.getFeature().equals("hchunger") && event.isEnabled())
 			divisor = 12;
 	}
-	
+
 	@SubscribeEvent
-	public void makeTooltip(ItemTooltipEvent event) {
-		if(!event.getItemStack().isEmpty() && event.getItemStack().getItem() instanceof ItemFood) {
-			int pips = ((ItemFood) event.getItemStack().getItem()).getHealAmount(event.getItemStack());
+	@SideOnly(Side.CLIENT)
+	public void makeTooltip(RenderTooltipEvent.Pre event) {
+		if(!event.getStack().isEmpty() && event.getStack().getItem() instanceof ItemFood) {
+			int pips = ((ItemFood) event.getStack().getItem()).getHealAmount(event.getStack());
 			int len = (int) Math.ceil((double) pips / divisor);
 			
 			StringBuilder s = new StringBuilder(" ");
 			for(int i = 0; i < len; i++)
 				s.append("  ");
 			
-			List<String> tooltip = event.getToolTip();
+			List<String> tooltip = event.getLines();
 			if(tooltip.isEmpty())
 				tooltip.add(s.toString());
 			else tooltip.add(1, s.toString());
@@ -48,6 +48,7 @@ public class FoodTooltip extends Feature {
 	}
 
 	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
 	public void renderTooltip(RenderTooltipEvent.PostText event) {
 		if(!event.getStack().isEmpty() && event.getStack().getItem() instanceof ItemFood) {
 			GlStateManager.pushMatrix();
@@ -63,9 +64,6 @@ public class FoodTooltip extends Feature {
 			for(int i = 0; i < Math.ceil((double) pips / divisor); i++) {
 				int x = event.getX() + i * 9 - 2;
 				int y = event.getY() + 12;
-				
-				if(mc.currentScreen instanceof GuiContainerCreative && ((GuiContainerCreative) mc.currentScreen).getSelectedTabIndex() == CreativeTabs.SEARCH.getIndex())
-						y += 10;
 				
 				int u = 16;
 				if(poison)
