@@ -140,7 +140,8 @@ public class EnchantmentMatrix {
 				int valueAdded = getValue(enchantment, enchantLevel);
 				int currentValue = totalValue.getOrDefault(enchantment, 0);
 
-				if (valueAdded + currentValue > getValue(enchantment, enchantment.getMaxLevel()))
+				if (valueAdded + currentValue > getValue(enchantment, enchantment.getMaxLevel()) +
+						getMaxXP(enchantment, enchantment.getMaxLevel()))
 					continue;
 
 				EnchantmentDataWrapper wrapper = new EnchantmentDataWrapper(enchantment, enchantLevel);
@@ -212,6 +213,7 @@ public class EnchantmentMatrix {
 			Enchantment enchant = placedPiece.enchant;
 			if(hoveredPiece.enchant == enchant && placedPiece.level < enchant.getMaxLevel()) {
 				placedPiece.xp += hoveredPiece.getValue();
+
 				int max = placedPiece.getMaxXP();
 				while(placedPiece.xp >= max) {
 					if(placedPiece.level >= enchant.getMaxLevel())
@@ -332,14 +334,10 @@ public class EnchantmentMatrix {
 	}
 
 	public static int getValue(Enchantment enchantment, int level) {
-		switch(enchantment.getRarity()) {
-			case COMMON:
-				return level * ((level + 1) / 2);
-			case UNCOMMON:
-				return (level + 1) * ((level + 4) / 4);
-			default:
-				return level;
-		}
+		int total = 1;
+		for (int i = 1; i < level; i++)
+			total += getMaxXP(enchantment, i);
+		return total;
 	}
 	
 	public static class Piece {
