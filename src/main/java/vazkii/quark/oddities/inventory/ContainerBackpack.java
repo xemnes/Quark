@@ -64,23 +64,23 @@ public class ContainerBackpack extends ContainerPlayer {
 			int equipIndex = 8 - slotType.getIndex();
 
 			if (index == 0) {
-				if (!this.mergeItemStack(stack, 9, 45, false) || !this.mergeItemStack(stack, 46, 73, false)) return ItemStack.EMPTY;
+				if (!this.mergeItemStack(stack, 9, 45, false) && !this.mergeItemStack(stack, 46, 73, false)) return ItemStack.EMPTY;
 
 				slot.onSlotChange(stack, baseStack);
 			} else if (index < 5) {
-				if (!this.mergeItemStack(stack, 9, 45, false) || !this.mergeItemStack(stack, 46, 73, false)) return ItemStack.EMPTY;
+				if (!this.mergeItemStack(stack, 9, 45, false)) return ItemStack.EMPTY;
 			} else if (index < 9) {
-				if (!this.mergeItemStack(stack, 9, 45, false) || !this.mergeItemStack(stack, 46, 73, false)) return ItemStack.EMPTY;
+				if (!this.mergeItemStack(stack, 9, 45, false) && !this.mergeItemStack(stack, 46, 73, false)) return ItemStack.EMPTY;
 			} else if (slotType.getSlotType() == EntityEquipmentSlot.Type.ARMOR && !this.inventorySlots.get(equipIndex).getHasStack()) {
 				if (!this.mergeItemStack(stack, equipIndex, equipIndex + 1, false)) return ItemStack.EMPTY;
 			} else if (slotType == EntityEquipmentSlot.OFFHAND && !this.inventorySlots.get(45).getHasStack()) {
 				if (!this.mergeItemStack(stack, 45, 46, false)) return ItemStack.EMPTY;
 			} else if (index < 36) {
-				if (!this.mergeItemStack(stack, 46, 73, false) || !this.mergeItemStack(stack, 36, 45, false)) return ItemStack.EMPTY;
+				if (!this.mergeItemStack(stack, 46, 73, false) && !this.mergeItemStack(stack, 36, 45, false)) return ItemStack.EMPTY;
 			} else if (index < 73) {
-				if (!this.mergeItemStack(stack, 9, 36, false) || !this.mergeItemStack(stack, 46, 73, false)) return ItemStack.EMPTY;
+				if (!this.mergeItemStack(stack, 9, 36, false)) return ItemStack.EMPTY;
 			} else {
-				if (!this.mergeItemStack(stack, 46, 73, false) || !this.mergeItemStack(stack, 9, 45, false)) return ItemStack.EMPTY;
+				if (!this.mergeItemStack(stack, 46, 73, false) && !this.mergeItemStack(stack, 9, 45, false)) return ItemStack.EMPTY;
 			}
 
 			if (stack.isEmpty())
