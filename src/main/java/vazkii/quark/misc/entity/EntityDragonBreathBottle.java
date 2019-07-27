@@ -25,6 +25,10 @@ public class EntityDragonBreathBottle extends EntityThrowable {
 		super(world);
 	}
 
+	public EntityDragonBreathBottle(World world, double x, double y, double z) {
+		super(world, x, y, z);
+	}
+
 	public EntityDragonBreathBottle(World world, EntityLivingBase entity) {
 		super(world, entity);
 	}

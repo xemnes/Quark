@@ -1,7 +1,11 @@
 package vazkii.quark.misc.feature;
 
+import net.minecraft.block.BlockDispenser;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.RenderSnowball;
+import net.minecraft.dispenser.BehaviorProjectileDispense;
+import net.minecraft.dispenser.IPosition;
+import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
@@ -21,6 +25,8 @@ import vazkii.quark.base.Quark;
 import vazkii.quark.base.lib.LibEntityIDs;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.misc.entity.EntityDragonBreathBottle;
+
+import javax.annotation.Nonnull;
 
 public class ThrowableDragonBreath extends Feature {
 
@@ -42,7 +48,28 @@ public class ThrowableDragonBreath extends Feature {
 	public void preInitClient() {
 		RenderingRegistry.registerEntityRenderingHandler(EntityDragonBreathBottle.class, renderManager -> new RenderSnowball<>(renderManager, Items.DRAGON_BREATH, Minecraft.getMinecraft().getRenderItem()));
 	}
-	
+
+	@Override
+	public void postInit() {
+		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(Items.DRAGON_BREATH, new BehaviorProjectileDispense() {
+			@Override
+			@Nonnull
+			protected IProjectile getProjectileEntity(@Nonnull World worldIn, @Nonnull IPosition position, @Nonnull ItemStack stackIn) {
+				return new EntityDragonBreathBottle(worldIn, position.getX(), position.getY(), position.getZ());
+			}
+
+			@Override
+			protected float getProjectileInaccuracy() {
+				return super.getProjectileInaccuracy() * 0.5F;
+			}
+
+			@Override
+			protected float getProjectileVelocity() {
+				return super.getProjectileVelocity() * 1.25F;
+			}
+		});
+	}
+
 	@SubscribeEvent
 	public void playerRightClick(RightClickItem event) {
 		EntityPlayer player = event.getEntityPlayer();
