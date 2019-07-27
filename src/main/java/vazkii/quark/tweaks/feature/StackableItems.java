@@ -31,14 +31,20 @@ public class StackableItems extends Feature {
 		int soups = 64;
 		int saddle = 8;
 
-		if (hasConfigKey("Minecarts"))
+		if (hasConfigKey("Minecarts")) {
 			minecarts = Math.min(64, loadPropInt("Minecarts", "", 16));
+			removeLegacyKey("Minecarts");
+		}
 
-		if (hasConfigKey("Soups"))
+		if (hasConfigKey("Soups")) {
 			soups = Math.min(64, loadPropInt("Soups", "", 64));
+			removeLegacyKey("Soups");
+		}
 
-		if (hasConfigKey("Saddle"))
+		if (hasConfigKey("Saddle")) {
 			saddle = Math.min(64, loadPropInt("Saddle", "", 8));
+			removeLegacyKey("Saddle");
+		}
 
 		items = loadPropStringList("Stackable Items", "The format for setting an item's max size is item name|stacksize. i.e. `minecraft:saddle|8`",
 				new String[] {

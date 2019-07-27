@@ -79,6 +79,7 @@ public class ConfigHelper {
 		double chanceValue = default_;
 		if (hasConfigKey(category, oldName)) {
 			int value = loadPropInt(oldName, category, "", 0);
+			removeKey(oldName, category);
 			if (value <= 0)
 				chanceValue = 0;
 			else
@@ -89,6 +90,10 @@ public class ConfigHelper {
 
 	public static boolean hasConfigKey(String propName, String category) {
 		return ModuleLoader.config.hasKey(category, propName);
+	}
+
+	public static void removeKey(String propName, String category) {
+		ModuleLoader.config.getCategory(category).remove(propName);
 	}
 
 	private static void setNeedsRestart(Property prop) {

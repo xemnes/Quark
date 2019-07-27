@@ -165,6 +165,10 @@ public class Feature implements IFeature {
 		return ConfigHelper.hasConfigKey(propName, configCategory);
 	}
 
+	public final void removeLegacyKey(String propName) {
+		ConfigHelper.removeKey(propName, configCategory);
+	}
+
 	public final int loadPropInt(String propName, String desc, int default_) {
 		return ConfigHelper.loadPropInt(propName, configCategory, desc, default_);
 	}
