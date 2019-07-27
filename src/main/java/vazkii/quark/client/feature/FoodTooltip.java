@@ -64,7 +64,7 @@ public class FoodTooltip extends Feature {
 			boolean poison = eff != null && eff.getPotion().isBadEffect();
 
 			int count = (int) Math.ceil((double) pips / divisor);
-			int y = shiftTextByLines(event.getLines(), event.getY() + 12);
+			int y = shiftTextByLines(event.getLines(), event.getY() + 10);
 
 			for(int i = 0; i < count; i++) {
 				int x = event.getX() + i * 9 - 2;
