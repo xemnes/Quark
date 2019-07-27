@@ -288,16 +288,7 @@ public class VisualStatDisplay extends Feature {
 			GlStateManager.translate(0F, 0F, mc.getRenderItem().zLevel);
 
 			int baseX = event.getX();
-			int y = event.getY() + 10;
-			
-			for(int i = 1; i < event.getLines().size(); i++) {
-				String s = event.getLines().get(i);
-				s = TextFormatting.getTextWithoutFormattingCodes(s);
-				if(s != null && s.trim().isEmpty()) {
-					y += 10 * (i - 1) + 1;
-					break;
-				}
-			}
+			int y = FoodTooltip.shiftTextByLines(event.getLines(), event.getY() + 10);
 
 			EntityEquipmentSlot primarySlot = getPrimarySlot(stack);
 			boolean onlyInvalid = true;
