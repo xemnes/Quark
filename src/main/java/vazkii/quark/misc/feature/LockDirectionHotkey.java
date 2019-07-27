@@ -1,22 +1,9 @@
 package vazkii.quark.misc.feature;
 
-import java.util.HashMap;
-
-import org.lwjgl.opengl.GL11;
-
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-
 import io.netty.buffer.ByteBuf;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockDirectional;
-import net.minecraft.block.BlockHopper;
-import net.minecraft.block.BlockHorizontal;
-import net.minecraft.block.BlockLog;
-import net.minecraft.block.BlockQuartz;
-import net.minecraft.block.BlockRotatedPillar;
-import net.minecraft.block.BlockSlab;
-import net.minecraft.block.BlockStairs;
+import net.minecraft.block.*;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -44,12 +31,15 @@ import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.opengl.GL11;
 import vazkii.arl.network.NetworkHandler;
 import vazkii.quark.api.IRotationLockHandler;
 import vazkii.quark.base.client.ModKeybinds;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.network.message.MessageSetLockProfile;
+
+import java.util.HashMap;
 
 public class LockDirectionHotkey extends Feature {
 
@@ -152,9 +142,11 @@ public class LockDirectionHotkey extends Feature {
 			else if(props.containsKey(BlockSlab.HALF))
 				setState = setState.withProperty(BlockSlab.HALF, half == 1 ? BlockSlab.EnumBlockHalf.TOP : BlockSlab.EnumBlockHalf.BOTTOM);
 		}
-		
-		if(!stateCheck || setState != state)
+
+		if(!stateCheck || setState != state) {
 			world.setBlockState(pos, setState);
+			world.neighborChanged(pos, setState.getBlock(), pos);
+		}
 	}
 	
 	@SubscribeEvent

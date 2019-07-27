@@ -14,6 +14,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.IItemPropertyGetter;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -25,6 +26,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.arl.item.ItemModBlock;
 import vazkii.arl.util.ItemNBTHelper;
+import vazkii.quark.base.client.ContributorRewardHandler;
 import vazkii.quark.base.lib.LibMisc;
 
 import javax.annotation.Nonnull;
@@ -49,6 +51,12 @@ public class ItemBlockTinyPotato extends ItemModBlock {
 				return ItemNBTHelper.getBoolean(stack, "angery", false) ? 1 : 0;
 			}
 		});
+	}
+
+	@Override
+	public boolean isValidArmor(ItemStack stack, EntityEquipmentSlot armorType, Entity entity) {
+		return super.isValidArmor(stack, armorType, entity) ||
+				(entity instanceof EntityPlayer && ContributorRewardHandler.getTier((EntityPlayer) entity) > 0);
 	}
 
 	@Nonnull
