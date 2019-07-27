@@ -104,7 +104,6 @@ public class RenderItemsInChat extends Feature {
 
 	@SideOnly(Side.CLIENT)
 	private static void render(Minecraft mc, GuiNewChat chatGui, int updateCounter, String before, ChatLine line, int lineHeight, ITextComponent component) {
-
 		Style style = component.getStyle();
 		HoverEvent hoverEvent = style.getHoverEvent();
 		if (hoverEvent != null && hoverEvent.getAction() == HoverEvent.Action.SHOW_ITEM) {
@@ -131,20 +130,35 @@ public class RenderItemsInChat extends Feature {
 				int x = chatX + 3 + mc.fontRenderer.getStringWidth(before);
 				int y = chatY - mc.fontRenderer.FONT_HEIGHT * lineHeight;
 
-				RenderHelper.enableGUIStandardItemLighting();
-				renderItemIntoGUI(mc, mc.getRenderItem(), stack, x, y, alpha);
-				RenderHelper.disableStandardItemLighting();
+				if (alpha > 0) {
+					RenderHelper.enableGUIStandardItemLighting();
+					ALPHA_VALUE = ((int) (alpha * 255) << 24);
+
+					renderItemIntoGUI(mc, mc.getRenderItem(), stack, x, y);
+
+					ALPHA_VALUE = -1;
+					RenderHelper.disableStandardItemLighting();
+				}
 			}
 		}
 	}
 
+	public static int transformColor(int src) {
+		if (ALPHA_VALUE == -1)
+			return src;
+		return (src & RGB_MASK) | ALPHA_VALUE;
+	}
+
+	public static final int RGB_MASK = 0x00FFFFFF;
+	private static int ALPHA_VALUE = -1;
+
 	@SideOnly(Side.CLIENT)
-	private static void renderItemIntoGUI(Minecraft mc, RenderItem render, ItemStack stack, int x, int y, float alpha) {
-		renderItemModelIntoGUI(mc, render, stack, x, y, alpha, render.getItemModelWithOverrides(stack, null, null));
+	private static void renderItemIntoGUI(Minecraft mc, RenderItem render, ItemStack stack, int x, int y) {
+		renderItemModelIntoGUI(mc, render, stack, x, y, render.getItemModelWithOverrides(stack, null, null));
 	}
 
 	@SideOnly(Side.CLIENT)
-	private static void renderItemModelIntoGUI(Minecraft mc, RenderItem render, ItemStack stack, int x, int y, float alpha, IBakedModel model) {
+	private static void renderItemModelIntoGUI(Minecraft mc, RenderItem render, ItemStack stack, int x, int y, IBakedModel model) {
 		TextureManager textureManager = mc.getTextureManager();
 
 		GlStateManager.pushMatrix();
@@ -155,7 +169,7 @@ public class RenderItemsInChat extends Feature {
 		GlStateManager.alphaFunc(GL11.GL_GREATER, 0.1F);
 		GlStateManager.enableBlend();
 		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-		GlStateManager.color(1.0F, 1.0F, 1.0F, alpha);
+		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		GlStateManager.translate(-4, -4, -4);
 		ClientReflectiveAccessor.setupGuiTransform(render, x, y, model.isGui3d());
 		GlStateManager.scale(0.65, 0.65, 0.65);

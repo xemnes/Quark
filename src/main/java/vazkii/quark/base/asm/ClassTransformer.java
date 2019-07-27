@@ -98,6 +98,7 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 
 		// For Render Items In Chat
 		transformers.put("net.minecraft.item.ItemStack", ClassTransformer::transformItemStack);
+		transformers.put("net.minecraftforge.client.model.pipeline.LightUtil", ClassTransformer::transformLightUtil);
 
 		// For Hoe Sickles
 		transformers.put("net.minecraft.enchantment.Enchantment", ClassTransformer::transformEnchantment);
@@ -879,6 +880,23 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 					return false;
 				}
 		)));
+	}
+
+	private static byte[] transformLightUtil(byte[] basicClass) {
+		MethodSignature sig1 = new MethodSignature("renderQuadColor", "", "(Lnet/minecraft/client/renderer/BufferBuilder;Lnet/minecraft/client/renderer/block/model/BakedQuad;I)V");
+
+		return transform(basicClass, forMethod(sig1,
+				(MethodNode method) -> {
+					InsnList newInstructions = new InsnList();
+
+					newInstructions.add(new VarInsnNode(ILOAD, 2));
+					newInstructions.add(new MethodInsnNode(INVOKESTATIC, ASM_HOOKS, "transformQuadRenderColor", "(I)I", false));
+					newInstructions.add(new VarInsnNode(ISTORE, 2));
+
+					method.instructions.insertBefore(method.instructions.getFirst(), newInstructions);
+					return true;
+				}
+		));
 	}
 
 	private static byte[] transformDynamicLiquid(byte[] basicClass) {

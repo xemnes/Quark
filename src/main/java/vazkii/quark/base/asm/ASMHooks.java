@@ -240,6 +240,10 @@ public final class ASMHooks {
 		return RenderItemsInChat.createStackComponent(component);
 	}
 
+	public static int transformQuadRenderColor(int src) {
+		return RenderItemsInChat.transformColor(src);
+	}
+
 	// ===== HOE SICKLES ==== //
 	public static boolean canFortuneApply(Enchantment enchantment, ItemStack stack) {
 		return HoeSickle.canFortuneApply(enchantment, stack);
