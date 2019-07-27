@@ -10,35 +10,68 @@
  */
 package vazkii.quark.tweaks.feature;
 
-import com.google.common.collect.ImmutableSet;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import vazkii.quark.base.module.Feature;
 
+import java.util.regex.Pattern;
+
 public class StackableItems extends Feature {
 
-	public static int minecarts, soups, saddle;
+	public static String[] items;
 
 	@Override
 	public void setupConfig() {
-		minecarts = Math.min(64, loadPropInt("Minecarts", "", 16));
-		soups = Math.min(64, loadPropInt("Soups", "", 64));
-		saddle = Math.min(64, loadPropInt("Saddle", "", 8));
+		int minecarts = 16;
+		int soups = 64;
+		int saddle = 8;
+
+		if (hasConfigKey("Minecarts"))
+			minecarts = Math.min(64, loadPropInt("Minecarts", "", 16));
+
+		if (hasConfigKey("Soups"))
+			soups = Math.min(64, loadPropInt("Soups", "", 64));
+
+		if (hasConfigKey("Saddle"))
+			saddle = Math.min(64, loadPropInt("Saddle", "", 8));
+
+		items = loadPropStringList("Stackable Items", "The format for setting an item's max size is item name|stacksize. i.e. `minecraft:saddle|8`",
+				new String[] {
+						Items.MINECART.getRegistryName() + "|" + minecarts,
+						Items.CHEST_MINECART.getRegistryName() + "|" + minecarts,
+						Items.COMMAND_BLOCK_MINECART.getRegistryName() + "|" + minecarts,
+						Items.FURNACE_MINECART.getRegistryName() + "|" + minecarts,
+						Items.HOPPER_MINECART.getRegistryName() + "|" + minecarts,
+						Items.TNT_MINECART.getRegistryName() + "|" + minecarts,
+
+						Items.MUSHROOM_STEW.getRegistryName() + "|" + soups,
+						Items.RABBIT_STEW.getRegistryName() + "|" + soups,
+						Items.BEETROOT_SOUP.getRegistryName() + "|" + soups,
+
+						Items.SADDLE.getRegistryName() + "|" + saddle
+				});
 	}
 
 	@Override
 	public void init() {
-		ImmutableSet.of(Items.MINECART, Items.CHEST_MINECART, Items.COMMAND_BLOCK_MINECART, Items.FURNACE_MINECART, Items.HOPPER_MINECART, Items.TNT_MINECART)
-			.forEach(item -> item.setMaxStackSize(minecarts));
-		
-		ImmutableSet.of(Items.MUSHROOM_STEW, Items.RABBIT_STEW, Items.BEETROOT_SOUP)
-			.forEach(item -> item.setMaxStackSize(soups));
+		for (String key : items) {
+			String[] split = key.split("\\|");
+			if (split.length == 2 && Pattern.matches("\\d+", split[1])) {
+				ResourceLocation loc = new ResourceLocation(split[0]);
+				int size = Math.min(64, Math.max(0, Integer.parseInt(split[1])));
 
-		Items.SADDLE.setMaxStackSize(saddle);
+				for (Item item : Item.REGISTRY) {
+					if (loc.equals(item.getRegistryName())) {
+						item.setMaxStackSize(size);
+					}
+				}
+			}
+		}
 	}
 
 	@SubscribeEvent
