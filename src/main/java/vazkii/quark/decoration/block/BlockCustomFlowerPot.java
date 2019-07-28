@@ -87,8 +87,8 @@ public class BlockCustomFlowerPot extends BlockFlowerPot implements IBlockColorP
 		}
 
 		flowerPot.markDirty();
-		VanillaPacketDispatcher.dispatchTEToNearbyPlayers(flowerPot);
 		world.notifyBlockUpdate(pos, state, state, 3);
+		world.markBlockRangeForRenderUpdate(pos, pos);
 		return true;
 	}
 
