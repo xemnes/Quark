@@ -87,8 +87,7 @@ public class BlockCustomFlowerPot extends BlockFlowerPot implements IBlockColorP
 		}
 
 		flowerPot.markDirty();
-		world.notifyBlockUpdate(pos, state, state, 3);
-		world.markBlockRangeForRenderUpdate(pos, pos);
+		world.markAndNotifyBlock(pos, world.getChunk(pos), state, state, 3);
 		return true;
 	}
 
