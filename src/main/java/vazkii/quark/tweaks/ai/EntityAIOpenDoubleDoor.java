@@ -38,6 +38,8 @@ public class EntityAIOpenDoubleDoor extends EntityAIDoorInteract {
 		closingDoorTime = 20;
 
 		IBlockState state = entity.world.getBlockState(doorPosition).getActualState(entity.world, doorPosition);
+		if(state.getBlock() != doorBlock)
+			return;
 
 		EnumFacing direction = state.getValue(BlockDoor.FACING);
 		boolean isOpen = state.getValue(BlockDoor.OPEN);
