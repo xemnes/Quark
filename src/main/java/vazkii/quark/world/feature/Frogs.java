@@ -48,7 +48,7 @@ public class Frogs extends Feature {
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
 		frogLeg = new ItemQuarkFood("frog_leg", 2, 0.3F, true);
-		cookedFrogLeg = new ItemQuarkFood("cooked_frog_leg", 4, 1.5F, true);
+		cookedFrogLeg = new ItemQuarkFood("cooked_frog_leg", 4, 1.25F, true);
 
 		if (jumpBoost) {
 			gildedFrogLeg = new ItemQuarkFood("golden_frog_leg", 4, 2.5F);
