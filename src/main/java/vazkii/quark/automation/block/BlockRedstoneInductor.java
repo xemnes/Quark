@@ -30,8 +30,10 @@ import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.ChunkCache;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.arl.block.BlockMod;
@@ -157,7 +159,7 @@ public class BlockRedstoneInductor extends BlockMod implements IQuarkBlock, IBlo
 	}
 
 	protected int getActiveSignal(IBlockAccess world, BlockPos pos) {
-		TileEntity tile = world.getTileEntity(pos);
+		TileEntity tile = world instanceof ChunkCache ? ((ChunkCache)world).getTileEntity(pos, Chunk.EnumCreateEntityType.CHECK) : world.getTileEntity(pos);
 		return tile instanceof TileInductor ? ((TileInductor)tile).getOutputSignal() : 0;
 	}
 

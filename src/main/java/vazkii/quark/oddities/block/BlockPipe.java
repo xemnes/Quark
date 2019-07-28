@@ -21,8 +21,10 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.ChunkCache;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -328,7 +330,7 @@ public class BlockPipe extends BlockModContainer implements IQuarkBlock {
 
 	private ConnectionType getConnectionTo(IBlockAccess world, BlockPos pos, EnumFacing face) {
 		pos = pos.offset(face);
-		TileEntity tile = world.getTileEntity(pos);
+		TileEntity tile = world instanceof ChunkCache ? ((ChunkCache)world).getTileEntity(pos, Chunk.EnumCreateEntityType.CHECK) : world.getTileEntity(pos);
 		if(tile != null) {
 			if(tile instanceof TilePipe)
 				return ConnectionType.PIPE;
