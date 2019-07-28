@@ -105,6 +105,36 @@
 				"description":"As a standard storage block affair, you can craft a Sugar Block with 9 Sugar.<br><br>The Sugar Block will fall like sand and gravel. Furthermore, if a Sugar Block is next to water, it'll simply dissolve and turn into air. I'm sure you can come up with some cool uses for this.",
 				"image":"sugar-block.jpg",
 				"introduced":12
+			},
+			{
+				"name":"Iron Chains",
+				"classname":"ChainLinkage",
+				"description":"Iron Chains can be crafted with Iron Ingots and Nuggets.<br><br>When right clicked onto a boat or minecart, and then onto another, they'll link the two. Linked boats and minecarts will always remain at close distance, which allows you to make trains.<br><br>Additionally, Iron Chains can be used to craft chainmail armor.",
+				"image":"chain.jpg",
+				"contributor": "WireSegal",
+				"introduced":12
+			},
+			{
+				"name":"Color Slime",
+				"classname":"ColorSlime",
+				"description":"Slime blocks can be dyed Red and Blue. The primary color blocks (Red, Green, and Blue) can be combined to create secondary colors (Cyan, Magenta, and Yellow).<br><br>While being moved by pistons, two slime blocks will only connect if they're the same color, or if one is made of another (so Red won't connect to Blue, but it'll connect to Magenta). Any color of slime will connect to non-slime blocks around it normally.",
+				"image":"color-slime.jpg",
+				"introduced":12
+			},
+			{
+				"name":"Gravisand",
+				"classname":"Gravisand",
+				"description":"Gravisand is a new sand variant, crafted with sand and an ender pearl.<br><br>Gravisand will not fall unless primed with redstone. However, if gravisand receives a signal, and can not fall, it'll instead float up. Additionally, gravisand will propagate the signal to any adjacent gravisand blocks, causing them to fall or float as well.<br><br>Gravisand allows for a variety of redstone components, especially as its magnetic properties have it constantly output a comparator signal of 15.",
+				"image":"gravisand.jpg",
+				"introduced":12
+			},
+			{
+				"name":"Redstone Inductor",
+				"classname":"RedstoneInductor",
+				"description":"The Redstone Inductor is a new redstone circuit piece, made with Stone, Redstone, and Magma Cream. The output value of the inductor is the sum of all 3 input sides.<br><br>The inductor may also be locked by having a repeater or a comparator pointing to it. While locked, it'll maintain its output value regardless of any changes on the sides.",
+				"image":"redstone-inductor.jpg",
+				"contributor": "WireSegal",
+				"introduced":12
 			}
 		]
 	},
@@ -199,14 +229,14 @@
 			{
 				"name":"Vanilla Stairs and Slabs",
 				"classname":"VanillaStairsAndSlabs",
-				"description":"Stairs and Slabs for a bunch of vanilla materials: Stone, Granite, Diorite, Andesite, End Bricks, Prismarine, Prismarine Bricks, Dark Prismarine, and Red Nether Bricks",
+				"description":"Stairs and Slabs for a bunch of vanilla materials: Stone, Granite, Diorite, Andesite, End Bricks, Prismarine, Prismarine Bricks, Dark Prismarine, Red Nether Bricks, Moss Stone, and Mossy Stone Bricks.",
 				"image":"vanilla-stairs-slabs.jpg",
 				"introduced":9
 			},
 			{
 				"name":"Vanilla Walls",
 				"classname":"VanillaWalls",
-				"description":"Walls for a bunch of vanilla materials: Stone, Stone Bricks, Granite, Diorite, Andesite, Sandstone, Red Sandstone, End Bricks, Purpur, Prismarine, Prismarine Bricks, Dark Prismarine, Bricks, and Quartz.",
+				"description":"Walls for a bunch of vanilla materials: Stone, Stone Bricks, Granite, Diorite, Andesite, Sandstone, Red Sandstone, End Bricks, Purpur, Prismarine, Prismarine Bricks, Dark Prismarine, Bricks, Quartz, and Mossy Stone Bricks.",
 				"image":"vanilla-walls.jpg",
 				"introduced":9
 			},
@@ -405,7 +435,7 @@
 			{
 				"name":"Paper Walls",
 				"classname":"PaperWall",
-				"description":"Paper Walls use the \"pane\" look, which lets you make fancy oriental style buildings. Thanks to the new 1.9 change that makes standalone panes look like poles, they can also be used to make makeshift \"tiki torches\".<br><br>Paper Walls come in two variants, and are carfted using Paper and Sticks.",
+				"description":"Paper Walls use the \"pane\" look, which lets you make fancy oriental style buildings. Thanks to the new 1.9 change that makes standalone panes look like poles, they can also be used to make makeshift \"tiki torches\".<br><br>Paper Walls come in three variants, and are carfted using Paper and Sticks. The variant with a tree in it can be made by crafting the big one with a sapling.",
 				"image":"paper-walls.jpg",
 				"introduced":9
 			},
@@ -449,7 +479,7 @@
 			{
 				"name":"Paper Lamps",
 				"classname":"PaperLantern",
-				"description":"Combine some Glowstone, Paper, and Sticks for a fancy Paper Lamp. These have a model that connects seamlessly to fences so you can make cool looking lights like the ones in the picture.",
+				"description":"Combine some Glowstone, Paper, and Sticks for a fancy Paper Lamp. These have a model that connects seamlessly to fences so you can make cool looking lights like the ones in the picture.<br><br>You can also combine a normal lamp with a sapling to make the decorated one with the tree in it.",
 				"image":"paper-lamps.jpg",
 				"introduced":12
 			},			
@@ -465,6 +495,27 @@
 				"classname":"TieFences",
 				"description":"Right click a Lead onto a Fence to tie the Lead to it, after this just right click on another fence to make a connection. This allows you to use the fence look at will without needing mobs.",
 				"image":"tie-leads.jpg",
+				"introduced":12
+			},
+			{
+				"name":"Iron Grate",
+				"classname":"Grate",
+				"description":"The Iron Grate is a cool new block with multiple uses. Animals are afraid of walking on it, and will never do it, whereas items will just fall through the gaps.<br><br>Players, monsters, and other entities will just walk through normally.",
+				"image":"grate.jpg",
+				"introduced":12
+			},
+			{
+				"name":"Rope",
+				"classname":"Rope",
+				"description":"Rope Coils can be crafted using String. This new block can be placed on the bottom face of a block, by players and dispensers, and dropped down by right clicking on the placed Rope block. Shift-right clicking, or right clicking with a non-rope item will pull the rope up.<br><br>If a block is at the end of the rope, it'll drop down and be pulled up alongside it. Lastly, as you'd expect, players can climb rope as if it were a ladder.",
+				"image":"rope.jpg",
+				"introduced":12
+			},
+			{
+				"name":"Place Blaze Rods",
+				"classname":"PlaceBlazeRods",
+				"description":"Blaze Rods can be placed like a normal rod. They have no special properties, other than looking cool and giving off light.",
+				"image":"place-blaze-rods.jpg",
 				"introduced":12
 			}
 		]
@@ -841,6 +892,14 @@
 				"image":"springy-slime.jpg",
 				"contributor": "WireSegal",
 				"introduced":12
+			},
+			{
+				"name":"Dirt to Path",
+				"classname":"DirtToPath",
+				"description":"Right clicking dirt with a shovel will turn it into a path block, as everyone in the world hates having to wait for it to grow into grass first.",
+				"image":"dirt-path.jpg",
+				"contributor": "WireSegal",
+				"introduced":12
 			}
 		]
 	},
@@ -992,7 +1051,7 @@
 			{
 				"name":"Stone Revamp",
 				"classname":"RevampStoneGen",
-				"description":"Diorite, Granite, and Andesite will now spawn in really large, uncommon clusters, rather than all over the place in small bits. Furthermore, two new stones are added to the mix: Marble and Limestone (pictured). These last two can be used for anything the first three can.<br><br>As of 1.11, the stones will generate based on biome. You can find the table for which stones generate in which biomes <a href='img/stone-table.jpg'>here</a>.",
+				"description":"Diorite, Granite, and Andesite will now spawn in really large, uncommon clusters, rather than all over the place in small bits. Furthermore, four new stones are added to the mix: Marble and Limestone (pictured), as well as Jasper and Slate (in the album, the yellow button in the bottom of this card). These last four can be used for anything the first three can.<br><br>As of 1.11, the stones will generate based on biome. You can find the table for which stones generate in which biomes <a href='img/stone-table.jpg'>here</a>.",
 				"image":"stone-revamp.jpg",
 				"album":"https://imgur.com/a/irNFo",
 				"introduced":10
@@ -1089,6 +1148,43 @@
 				"description":"When spelunking around caves, you may find Spawner-like Monster Boxes in your way. This block will \"ignite\" when you get close to it, and will quickly spout out a small batch of monsters before destroying itself. This adds a small and momentary challenge to break up the pace of caving.",
 				"image":"monster-box.jpg",
 				"introduced":12
+			},
+			{
+				"name": "Broken Nether Portals",
+				"classname":"BrokenNetherPortals",
+				"description":"Broken portals may spawn around the nether. These portals always spawn with enough obsidian around for you to reconstruct them. Who knows what's on the other side?",
+				"image":"broken-portals.jpg",
+				"introduced":12
+			},
+			{
+				"name": "Crabs",
+				"classname":"Crabs",
+				"description":"New animals that spawn in beaches. When you kill them they drop Crab Legs and a Crab Shell Fragment. The former can be cooked into a decent food item, and the latter can be used to brew a potion of knockback resistance.<br><br>And yes, they do the funny if you [REDACTED]",
+				"image":"crabs.jpg",
+				"introduced":12,
+				"contributor":"WireSegal"
+			},
+			{
+				"name": "Tree Variants",
+				"classname":"TreeVariants",
+				"description":"Two new types of trees will spawn in your world:<ul><li>Swamp Oak Trees replace the current trees that spawn in swamps. Their wood type is Oak, and their main purpose is to allow you to get saplings for this type of tree.<li>Blossoming Trees will spawn in a small frequency in mountain biomes. These trees have Birch wood, and always spawn looking like a big oak tree. They have pretty pink leaves you can use in your builds, and naturally, you can get saplings of them.",
+				"image":"extra-trees.jpg",
+				"introduced":12
+			},
+			{
+				"name": "Nether Obsidian Spikes",
+				"classname":"NetherObsidianSpikes",
+				"description":"Obsidian spike structures will now generate in lava lakes in the nether. These are mostly just decorative, but there's a rare chance for one to be extremely tall and spawn with a Blaze Lantern. If you mine under the lantern, there will be a Blaze spawner and some fortress loot.",
+				"image":"obsidian-spikes.jpg",
+				"introduced":12
+			},
+			{
+				"name": "Foxhounds",
+				"classname":"Foxhounds",
+				"description":"Foxhounds are new hostile mobs that spawn in the Nether. These fierce doggos will attack you and set you on fire.<br><br>If you're brave enough, drink a fire resistance potion and feed them some Coal to tame them. Tamed Foxhounds work just like regular wolves, but with a few extra tidbits:<ul><li>They'll sleep on hot blocks like magma.<li>If put on top of a furnace, they'll make the furnace faster. (multiples will not stack)</ul>",
+				"image":"foxhounds.jpg",
+				"introduced":12,
+				"contributor":"WireSegal"
 			}
 		]
 	},
@@ -1401,6 +1497,13 @@
 				"description":"A new tool for mining! The pickarang is a boomerang pickaxe - throw it, it breaks whatever it hits, and comes back to you with the drops.<br><br>The Pickarang is crafted witn a Heart of Diamond (from Stonelings, in the World module, or just diamonds if it's disabled), and can be enchanted with Unbreaking, Fortune, and Silk Touch.<br><br>Check it out in action <a href='https://twitter.com/VazkiiMods/status/1132097540902535168'>here</a>.",
 				"image":"pickarang.jpg",
 				"introduced":12
+			},
+			{
+				"name":"Reacharound Placing",
+				"classname":"ReacharoundPlacing",
+				"description":"Blocks can be placed in the bottom face of other blocks while you're standing on them, you can do this by looking at the bottom of the block from above, as seen in the image.<br><br>You'll know this option is available when a [ ] shows up around your crosshair.",
+				"image":"reacharound-placing.jpg",
+				"introduced":12
 			}
 		]
 	},
@@ -1434,9 +1537,17 @@
 			{
 				"name":"Matrix Enchanting",
 				"classname":"MatrixEnchanting",
-				"description":"A complete overhaul of the Enchanting System. Pieces can be generated using lapis and XP. The pieces then have to be laid on the grid to enchant the item. Pieces can be rotated and upgraded into higher levels.<br><br>Furthermore, the enchanting table can now hold Lapis and the item you put in. The item will even render in the world!<br><br>Click the album button in the bottom of this card for a preview of how this system works.",
+				"description":"A complete overhaul of the Enchanting System. Pieces can be generated using lapis and XP. The pieces then have to be laid on the grid to enchant the item. Pieces can be rotated and upgraded into higher levels.<br><br>Furthermore, the enchanting table can now hold Lapis and the item you put in. The item will even render in the world! You can also use candles (from the Decoration module) to influence which enchantments you get.<br><br>Click the album button in the bottom of this card for a preview of how this system works.",
 				"image":"matrix-enchanting.jpg",
 				"album": "https://twitter.com/Vazkii/status/1083572148793499649",
+				"introduced":12
+			},
+			{
+				"name":"Tiny Potato",
+				"classname":"TinyPotato",
+				"description":"Your best friend in the whole wide world.<br>Craft it with a potato as well as a diamond or emerald.<br>Give it pats by right clicking.<br>Give it items to hold.<br><br>Love it forever.",
+				"contributor": "WireSegal",
+				"image":"tiny-potato.jpg",
 				"introduced":12
 			}
 		]
