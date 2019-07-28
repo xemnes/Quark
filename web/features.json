@@ -1181,7 +1181,7 @@
 			{
 				"name": "Foxhounds",
 				"classname":"Foxhounds",
-				"description":"Foxhounds are new hostile mobs that spawn in the Nether. These fierce doggos will attack you and set you on fire.<br><br>If you're brave enough, drink a fire resistance potion and feed them some Coal to tame them. Tamed Foxhounds work just like regular wolves, but with a few extra tidbits:<ul><li>They'll sleep on hot blocks like magma.<li>If put on top of a furnace, they'll make the furnace faster. (multiples will not stack)</ul>",
+				"description":"Foxhounds are new hostile mobs that spawn in the Nether. These fierce doggos will attack you and set you on fire.<br><br>If you're brave enough, drink a fire resistance potion and feed them some Coal to tame them. Tamed Foxhounds work just like regular wolves, but with a few extra tidbits:<ul><li>They'll sleep on hot blocks like magma.<li>If put on top of a furnace, they'll make the furnace faster. You can't put multiple doggos on a furnace to speed it up more, though.</ul>",
 				"image":"foxhounds.jpg",
 				"introduced":12,
 				"contributor":"WireSegal"
