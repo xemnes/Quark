@@ -14,7 +14,7 @@
 			{
 				"name":"Piston Block Breakers",
 				"classname":"PistonSpikes",
-				"description":"Pistons pusing an Iron Rod will have it work as a drill of sorts, breaking any blocks in front in the direction the rod is facing. These can break anything the piston can push.<br><br>Iron Rods are crafted with 2 Iron Ingots and an End Rod, or just 3 Iron Ingots if you enable easy mode in the config.<br><br>Note: In 1.10, a normal End Rod block is used instead.",
+				"description":"Pistons pushing an Iron Rod will have it work as a drill of sorts, breaking any blocks in front in the direction the rod is facing. These can break anything the piston can push.<br><br>Iron Rods are crafted with 2 Iron Ingots and an End Rod, or just 3 Iron Ingots if you enable easy mode in the config.<br><br>Note: In 1.10, a normal End Rod block is used instead.",
 				"image":"piston-block-breakers.jpg",
 				"introduced":10
 			},
@@ -435,7 +435,7 @@
 			{
 				"name":"Paper Walls",
 				"classname":"PaperWall",
-				"description":"Paper Walls use the \"pane\" look, which lets you make fancy oriental style buildings. Thanks to the new 1.9 change that makes standalone panes look like poles, they can also be used to make makeshift \"tiki torches\".<br><br>Paper Walls come in three variants, and are carfted using Paper and Sticks. The variant with a tree in it can be made by crafting the big one with a sapling.",
+				"description":"Paper Walls use the \"pane\" look, which lets you make fancy oriental style buildings. Thanks to the new 1.9 change that makes standalone panes look like poles, they can also be used to make makeshift \"tiki torches\".<br><br>Paper Walls come in three variants, and are crafted using Paper and Sticks. The variant with a tree in it can be made by crafting the big one with a sapling.",
 				"image":"paper-walls.jpg",
 				"introduced":9
 			},
@@ -727,7 +727,7 @@
 			{
 				"name":"Ladder Drop Down",
 				"classname":"DeployLaddersDown",
-				"description":"Right clicking a ladder with another ladder will place it under the one right clicked, as long as there is space for it.<br><br>This allows for ladders to be properly extended downwards without finnicky shift-click managing.",
+				"description":"Right clicking a ladder with another ladder will place it under the one right clicked, as long as there is space for it.<br><br>This allows for ladders to be properly extended downwards without finicky shift-click managing.",
 				"image":"drop-down-ladders.jpg",
 				"introduced":10
 			},
@@ -823,14 +823,14 @@
 			{
 				"name":"Automatic Recipe Unlock",
 				"classname":"AutomaticRecipeUnlock",
-				"description":"Every single recipe is unlocked and displayed in the recipe book as soon as you load a world.<br><br>If new recipes are added to the game via new mods added or updated, those will be unlocked when you get back in.<br><br>This feature is an exception to the general quark theme, but since you are using mods, it's fair to assume you don't need the game to dripfeed you recipes.",
+				"description":"Every single recipe is unlocked and displayed in the recipe book as soon as you load a world.<br><br>If new recipes are added to the game via new mods added or updated, those will be unlocked when you get back in.<br><br>This feature is an exception to the general quark theme, but since you are using mods, it's fair to assume you don't need the game to spoon-feed you recipes.",
 				"image":"unlock-all-recipes.jpg",
 				"introduced":12
 			},
 			{
 				"name":"Improved Sleeping",
 				"classname":"ImprovedSleeping",
-				"description":"Some tweaks are made to sleeping:<ul><li>If a player does not input any keystrokes or mouse clicks in interfaces for 2 minutes, they'll be marked as AFK. AFK players do not count towards the sleep vote.</li><li>When a player enters a bed, that action and the amount of players sleeping is broadcasted to the server. Hovering over the count will show which players are sleeping and which aren't yet.</li><li>A percentage of players required for the day to turn over can be configured, defaulting to 100%.</li></ul>",
+				"description":"Some tweaks are made to sleeping:<ul><li>If a player does not input any keystrokes or mouse clicks in interfaces for 2 minutes, they'll be marked as AFK. AFK players do not count towards the sleep vote.</li><li>When a player enters a bed, that action and the amount of players sleeping is broadcast to the server. Hovering over the count will show which players are sleeping and which aren't yet.</li><li>A percentage of players required for the day to turn over can be configured, defaulting to 100%.</li></ul>",
 				"image":"improved-sleeping.jpg",
 				"introduced":12
 			},
@@ -844,7 +844,7 @@
 			{
 				"name":"Compasses Everywhere",
 				"classname":"CompassesWorkEverywhere",
-				"description":"Compasses will now work in the Nether and the End.<ul><li>In the Nether, a compass will point to the portal you entered from, provided you had it on you when you did.</li><li>In the End, a compass will point to the overworld portal.</li></ul>As a bonus, Compases and Clocks will not function until crafted to prevent cheesing with the recipe book. If you prefer, this feature can be configured to only have the anti-cheese, and not the former points, or vice-versa.",
+				"description":"Compasses will now work in the Nether and the End.<ul><li>In the Nether, a compass will point to the portal you entered from, provided you had it on you when you did.</li><li>In the End, a compass will point to the overworld portal.</li></ul>As a bonus, Compasses and Clocks will not function until crafted to prevent cheesing with the recipe book. If you prefer, this feature can be configured to only have the anti-cheese, and not the former points, or vice-versa.",
 				"image":"compasses-everywhere.jpg",
 				"introduced":12
 			},
@@ -1014,7 +1014,7 @@
 			{
 				"name":"Dungeon Variety",
 				"classname":"VariedDungeons",
-				"description":"The Dungeon generator is suplemented by a random pick from Noodlor's Dank Dungeons, they still contain the same spawners and the same loot, but have new styles.<br><br>The vanilla dungeons will still spawn.",
+				"description":"The Dungeon generator is supplemented by a random pick from Noodlor's Dank Dungeons, they still contain the same spawners and the same loot, but have new styles.<br><br>The vanilla dungeons will still spawn.",
 				"image":"dank-dungeons.jpg",
 				"album":"https://imgur.com/a/JanPA",
 				"introduced":10
@@ -1043,7 +1043,7 @@
 			{
 				"name":"Realistic World Type",
 				"classname":"RealisticWorldType",
-				"description":"Alongside Amplified or Large Biomes, \"Realistic\" is a new world type that creates semi-realistic terrain. Expect rolling hills and very tall mountains. The cloud height is incresed to 260 in this world type.<br><br><i>If you want to use this in a server, set the world type to \"quark_realistic\".</i>",
+				"description":"Alongside Amplified or Large Biomes, \"Realistic\" is a new world type that creates semi-realistic terrain. Expect rolling hills and very tall mountains. The cloud height is increased to 260 in this world type.<br><br><i>If you want to use this in a server, set the world type to \"quark_realistic\".</i>",
 				"image":"realistic-world.jpg",
 				"album":"https://www.reddit.com/r/Minecraft/comments/4nfw3t/more_realistic_generation_preset_in_comment/",
 				"introduced":9
@@ -1066,7 +1066,7 @@
 			{
 				"name":"Wraiths and Curses",
 				"classname":"Wraiths",
-				"description":"Wraiths are mobs that will spawn rarely in the nether, on Soul Sand. They spawn in packs and attack like a Zombie, albiet moving faster. When they strike their target, they inflict a short Slowness debuff and knock themselves back. Fighting them standing still is a bad idea. They also don't have their own sounds, instead appropriating other mobs' sounds.<br><br>Wraiths drop a Soul Bead item. Right clicking it will break it, and inflict a Curse debuff on the player for 10 minutes (by default). Mobs in a 64 block radius of a player with Curse will spawn ignoring light levels and other conditions (like slime chunk restrictions).",
+				"description":"Wraiths are mobs that will spawn rarely in the nether, on Soul Sand. They spawn in packs and attack like a Zombie, albeit moving faster. When they strike their target, they inflict a short Slowness debuff and knock themselves back. Fighting them standing still is a bad idea. They also don't have their own sounds, instead appropriating other mobs' sounds.<br><br>Wraiths drop a Soul Bead item. Right clicking it will break it, and inflict a Curse debuff on the player for 10 minutes (by default). Mobs in a 64 block radius of a player with Curse will spawn ignoring light levels and other conditions (like slime chunk restrictions).",
 				"image":"wraiths.jpg",
 				"introduced":10
 			},
@@ -1117,7 +1117,7 @@
 			{
 				"name": "Speleothems",
 				"classname":"Speleothems",
-				"description":"Speleothems (commonly known as Stalactites and Salagmites) will generate in caves and the Nether, in all stone type variants. These can be harvested only with Silk Touch (or crafted, if you want), and can grow up to 3 blocks high.<br><br>If you break the supporting blocks, the rest of the structure falls apart, which is actually really satisfying to do.",
+				"description":"Speleothems (commonly known as Stalactites and Stalagmites) will generate in caves and the Nether, in all stone type variants. These can be harvested only with Silk Touch (or crafted, if you want), and can grow up to 3 blocks high.<br><br>If you break the supporting blocks, the rest of the structure falls apart, which is actually really satisfying to do.",
 				"image":"speleothems.jpg",
 				"introduced":12
 			},
@@ -1138,7 +1138,7 @@
 			{
 				"name": "Stonelings",
 				"classname":"Stonelings",
-				"description":"Stonelings are new passive mobs that spawn in the deep underground. These little guys will spawn in carrying an item, and will get startled if you get too close to them without sneaking. Once startled, they'll run away from you and eventually poof out of existance. If you manage to kill one, you'll get the item its carrying.<br><br>Additionally, Stonelings may drop a Heart of Diamond, a new item which you can use on any stone block to create your own tamed Stoneling! Tamed Stonelings can hold items you give them, eat Stone (they love it!), and follow you if you hold a Diamond.",
+				"description":"Stonelings are new passive mobs that spawn in the deep underground. These little guys will spawn in carrying an item, and will get startled if you get too close to them without sneaking. Once startled, they'll run away from you and eventually poof out of existence. If you manage to kill one, you'll get the item its carrying.<br><br>Additionally, Stonelings may drop a Heart of Diamond, a new item which you can use on any stone block to create your own tamed Stoneling! Tamed Stonelings can hold items you give them, eat Stone (they love it!), and follow you if you hold a Diamond.",
 				"image":"stonelings.jpg",
 				"introduced":12
 			},
@@ -1287,7 +1287,7 @@
 			{
 				"name":"Visual Stat Display",
 				"classname":"VisualStatDisplay",
-				"description":"Tool, Sword, and Armor stats are displayed with icons rather than the current text format. Holding shift shows the vanila format.",
+				"description":"Tool, Sword, and Armor stats are displayed with icons rather than the current text format. Holding shift shows the vanilla format.",
 				"image":"visual-stats.jpg",
 				"introduced":11
 			},
@@ -1395,7 +1395,7 @@
 			{
 				"name":"Extra Arrows",
 				"classname":"ExtraArrows",
-				"description":"Three new arrows are added:<ul><li>Ender Arrow: Crafted with an Arrow and an Ender Pearl, works like an ender pearl, but goes farther, since it's an arrow, yay.</li><li>Explosive Arrow: Crafed with an Arrow and two pieces of Gunpowder, explodes where it hits.</li><li>Torch Arrow: Crafted with an arrow and a Torch, places a torch where it hits. If it can't, it stays there so it can be picked up.</li></ul>These can all be fired from dispensers, and will get used up even if the bow shooting them has Infinity.",
+				"description":"Three new arrows are added:<ul><li>Ender Arrow: Crafted with an Arrow and an Ender Pearl, works like an ender pearl, but goes farther, since it's an arrow, yay.</li><li>Explosive Arrow: Crafted with an Arrow and two pieces of Gunpowder, explodes where it hits.</li><li>Torch Arrow: Crafted with an arrow and a Torch, places a torch where it hits. If it can't, it stays there so it can be picked up.</li></ul>These can all be fired from dispensers, and will get used up even if the bow shooting them has Infinity.",
 				"image":"extra-arrows.jpg",
 				"introduced":10
 			},
@@ -1487,14 +1487,14 @@
 			{
 				"name":"Parrot Eggs",
 				"classname":"ParrotEggs",
-				"description":"Feeding a parrot Beetroot Seeds has a chance to make the parrot start making an egg. After a few minutes, the parrot will pop out a Parrot Egg, which you throw like a normal egg to get a guaranteed parrot of the egg's color.<br><br>The color of the egg that is produced deepnds on the color of the parrot laying it. Every parrot can lay every color, but it's much more likely you'll get an egg of the same color.<br><br>There's also a secret parrot added...",
+				"description":"Feeding a parrot Beetroot Seeds has a chance to make the parrot start making an egg. After a few minutes, the parrot will pop out a Parrot Egg, which you throw like a normal egg to get a guaranteed parrot of the egg's color.<br><br>The color of the egg that is produced depends on the color of the parrot laying it. Every parrot can lay every color, but it's much more likely you'll get an egg of the same color.<br><br>There's also a secret parrot added...",
 				"image":"parrot-eggs.jpg",
 				"introduced":12
 			},
 			{
 				"name":"Pickarang",
 				"classname":"Pickarang",
-				"description":"A new tool for mining! The pickarang is a boomerang pickaxe - throw it, it breaks whatever it hits, and comes back to you with the drops.<br><br>The Pickarang is crafted witn a Heart of Diamond (from Stonelings, in the World module, or just diamonds if it's disabled), and can be enchanted with Unbreaking, Fortune, and Silk Touch.<br><br>Check it out in action <a href='https://twitter.com/VazkiiMods/status/1132097540902535168'>here</a>.",
+				"description":"A new tool for mining! The pickarang is a boomerang pickaxe - throw it, it breaks whatever it hits, and comes back to you with the drops.<br><br>The Pickarang is crafted with a Heart of Diamond (from Stonelings, in the World module, or just diamonds if it's disabled), and can be enchanted with Unbreaking, Fortune, and Silk Touch.<br><br>Check it out in action <a href='https://twitter.com/VazkiiMods/status/1132097540902535168'>here</a>.",
 				"image":"pickarang.jpg",
 				"introduced":12
 			},
@@ -1530,7 +1530,7 @@
 			{
 				"name":"Totem of Holding",
 				"classname":"TotemOfHolding",
-				"description":"When a player dies, a Totem of Holding will spawn at the dead player's position. This totem will float around in the air, holding the player's items. Any player can retreive the items the totem is holding by punching it a few times. (The totem won't spawn for PVP kills)<br><br>Do note that if the player who spawned the totem dies again, the totem will break and drop all of the items on the ground, like a normal death.<br><br>A player's totem can be located by crafting a Soul Compass, which is done using a Compass and a Soul Bead (from the Wraiths feature in the World Module). Should Soul Beads not be available, Soul Sand is used instead.",
+				"description":"When a player dies, a Totem of Holding will spawn at the dead player's position. This totem will float around in the air, holding the player's items. Any player can retrieve the items the totem is holding by punching it a few times. (The totem won't spawn for PVP kills)<br><br>Do note that if the player who spawned the totem dies again, the totem will break and drop all of the items on the ground, like a normal death.<br><br>A player's totem can be located by crafting a Soul Compass, which is done using a Compass and a Soul Bead (from the Wraiths feature in the World Module). Should Soul Beads not be available, Soul Sand is used instead.",
 				"image":"totem-of-holding.jpg",
 				"introduced":12
 			},
