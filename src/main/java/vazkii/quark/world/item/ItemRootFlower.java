@@ -20,7 +20,7 @@ public class ItemRootFlower extends ItemQuarkFood implements IQuarkItem {
 	};
 	
 	public ItemRootFlower() {
-		super("root_flower", 3, 0.4F, VARIANTS);
+		super("root_flower", 1, 0F, VARIANTS);
 		setCreativeTab(CreativeTabs.MATERIALS);
 	}
 
