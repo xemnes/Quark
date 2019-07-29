@@ -57,6 +57,7 @@ public class EntityPickarang extends EntityThrowable {
 	
     public EntityPickarang(World worldIn, EntityLivingBase throwerIn) {
     	super(worldIn, throwerIn);
+    	this.setPosition(posX, throwerIn.posY + throwerIn.getEyeHeight(), posZ);
     }
     
     public void setThrowData(int slot, ItemStack stack) {
