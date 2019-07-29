@@ -1,9 +1,11 @@
 package vazkii.quark.world.entity;
 
+import com.google.common.collect.Sets;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.*;
+import net.minecraft.entity.ai.EntityAITasks;
 import net.minecraft.entity.ai.EntityAITempt;
 import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
 import net.minecraft.entity.player.EntityPlayer;
@@ -33,6 +35,7 @@ import vazkii.quark.world.feature.Stonelings;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Set;
 
 public class EntityStoneling extends EntityCreature {
 
@@ -266,8 +269,14 @@ public class EntityStoneling extends EntityCreature {
 	protected void damageEntity(@Nonnull DamageSource damageSrc, float damageAmount) {
 		super.damageEntity(damageSrc, damageAmount);
 
-		if(!isPlayerMade() && damageSrc.getTrueSource() instanceof EntityPlayer)
+		if(!isPlayerMade() && damageSrc.getTrueSource() instanceof EntityPlayer) {
 			waryTask.startle();
+			Set<EntityAITasks.EntityAITaskEntry> entries = Sets.newHashSet(tasks.taskEntries);
+
+			for (EntityAITasks.EntityAITaskEntry task : entries)
+				if (task.action instanceof EntityAITempt)
+					tasks.removeTask(task.action);
+		}
 	}
 
 	@Override
