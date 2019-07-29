@@ -1,7 +1,6 @@
 package vazkii.quark.world.entity;
 
 import com.google.common.collect.Multimap;
-import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -80,12 +79,6 @@ public class EntityPickarang extends EntityThrowable {
 		
 		EntityLivingBase owner = getThrower();
 
-		ItemStack stack = getStack();
-		if(stack.isItemStackDamageable() && (!(owner instanceof EntityPlayer) || !((EntityPlayer) owner).isCreative())) {
-			stack.attemptDamageItem(1, world.rand, owner instanceof EntityPlayerMP ? (EntityPlayerMP) owner : null);
-			setStack(stack);
-		}
-
 		if(result.typeOfHit == Type.BLOCK) {
 			dataManager.set(RETURNING, true);
 			
@@ -101,10 +94,10 @@ public class EntityPickarang extends EntityThrowable {
 				ItemStack prev = player.getHeldItemMainhand();
 				player.setHeldItem(EnumHand.MAIN_HAND, getStack());
 
-				if (player.interactionManager.tryHarvestBlock(hit))
-					world.playEvent(2001, hit, Block.getStateId(state));
-				else
+				if (!player.interactionManager.tryHarvestBlock(hit))
 					playSound(QuarkSounds.ENTITY_PICKARANG_CLANK, 1, 1);
+
+				setStack(player.getHeldItemMainhand());
 
 				player.setHeldItem(EnumHand.MAIN_HAND, prev);
 			} else
@@ -138,12 +131,16 @@ public class EntityPickarang extends EntityThrowable {
 
 						ObfuscationReflectionHelper.setPrivateValue(EntityLivingBase.class, owner, ticksSinceLastSwing, "field_184617_aD");
 
+						setStack(owner.getHeldItemMainhand());
 						owner.setHeldItem(EnumHand.MAIN_HAND, prev);
 						owner.getAttributeMap().removeAttributeModifiers(modifiers);
 					} else {
 						AttributeMap map = new AttributeMap();
 						map.getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(1);
 						map.applyAttributeModifiers(modifiers);
+						ItemStack stack = getStack();
+						stack.attemptDamageItem(1, world.rand, null);
+						setStack(stack);
 						hit.attackEntityFrom(new EntityDamageSource("player", hit).setProjectile(),
 								(float) map.getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue());
 					}
