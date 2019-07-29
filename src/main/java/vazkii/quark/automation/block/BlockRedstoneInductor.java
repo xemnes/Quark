@@ -155,7 +155,8 @@ public class BlockRedstoneInductor extends BlockMod implements IQuarkBlock, IBlo
 			}
 		}
 
-		worldIn.setBlockState(pos, finalState, 3);
+		worldIn.setBlockState(pos, finalState, 2);
+		BlockRedstoneRandomizer.notify(this, worldIn, pos, state);
 	}
 
 	protected int getActiveSignal(IBlockAccess world, BlockPos pos) {
@@ -305,11 +306,8 @@ public class BlockRedstoneInductor extends BlockMod implements IQuarkBlock, IBlo
 
 	@Override
 	public void breakBlock(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
-		if(isPowered(state))
-			for(EnumFacing enumfacing : EnumFacing.values())
-				worldIn.notifyNeighborsOfStateChange(pos.offset(enumfacing), this, false);
-
 		super.breakBlock(worldIn, pos, state);
+		BlockRedstoneRandomizer.notify(this, worldIn, pos, state);
 	}
 
 	@Override
