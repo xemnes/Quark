@@ -1,6 +1,7 @@
 package vazkii.quark.world.entity;
 
 import com.google.common.collect.Multimap;
+import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -94,7 +95,9 @@ public class EntityPickarang extends EntityThrowable {
 				ItemStack prev = player.getHeldItemMainhand();
 				player.setHeldItem(EnumHand.MAIN_HAND, getStack());
 
-				if (!player.interactionManager.tryHarvestBlock(hit))
+				if (player.interactionManager.tryHarvestBlock(hit))
+					world.playEvent(null, 2001, hit, Block.getStateId(state));
+				else
 					playSound(QuarkSounds.ENTITY_PICKARANG_CLANK, 1, 1);
 
 				setStack(player.getHeldItemMainhand());
