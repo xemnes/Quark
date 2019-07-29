@@ -41,7 +41,7 @@ import vazkii.arl.util.ItemNBTHelper;
 import vazkii.quark.oddities.feature.TinyPotato;
 import vazkii.quark.tweaks.ai.EntityAIWantLove;
 import vazkii.quark.world.entity.ai.EntityAIFoxhoundSleep;
-import vazkii.quark.world.entity.ai.EntityAIIfNoSleep;
+import vazkii.quark.world.entity.ai.EntityAISleep;
 import vazkii.quark.world.feature.Foxhounds;
 
 import javax.annotation.Nonnull;
@@ -126,21 +126,25 @@ public class EntityFoxhound extends EntityWolf {
 		return FOXHOUND_LOOT_TABLE;
 	}
 
+	protected EntityAISleep aiSleep;
+
 	@Override
 	protected void initEntityAI() {
 		this.aiSit = new EntityAISit(this);
+		this.aiSleep = new EntityAISleep(this);
 		this.tasks.addTask(1, new EntityAISwimming(this));
-		this.tasks.addTask(2, this.aiSit);
-		this.tasks.addTask(3, new EntityAILeapAtTarget(this, 0.4F));
-		this.tasks.addTask(4, new EntityAIAttackMelee(this, 1.0D, true));
-		this.tasks.addTask(5, new EntityAIFoxhoundSleep(this, 0.8D, true));
-		this.tasks.addTask(6, new EntityAIFoxhoundSleep(this, 0.8D, false));
-		this.tasks.addTask(7, new EntityAIFollowOwner(this, 1.0D, 10.0F, 2.0F));
-		this.tasks.addTask(8, new EntityAIIfNoSleep(this, new EntityAIMate(this, 1.0D)));
-		this.tasks.addTask(9, new EntityAIWanderAvoidWater(this, 1.0D));
-		this.tasks.addTask(10, new EntityAIIfNoSleep(this, new EntityAIBeg(this, 8.0F)));
-		this.tasks.addTask(11, new EntityAIIfNoSleep(this, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F)));
-		this.tasks.addTask(11, new EntityAIIfNoSleep(this, new EntityAILookIdle(this)));
+		this.tasks.addTask(2, this.aiSleep);
+		this.tasks.addTask(3, this.aiSit);
+		this.tasks.addTask(4, new EntityAILeapAtTarget(this, 0.4F));
+		this.tasks.addTask(5, new EntityAIAttackMelee(this, 1.0D, true));
+		this.tasks.addTask(6, new EntityAIFoxhoundSleep(this, 0.8D, true));
+		this.tasks.addTask(7, new EntityAIFoxhoundSleep(this, 0.8D, false));
+		this.tasks.addTask(8, new EntityAIFollowOwner(this, 1.0D, 10.0F, 2.0F));
+		this.tasks.addTask(9, new EntityAIMate(this, 1.0D));
+		this.tasks.addTask(10, new EntityAIWanderAvoidWater(this, 1.0D));
+		this.tasks.addTask(11, new EntityAIBeg(this, 8.0F));
+		this.tasks.addTask(12, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+		this.tasks.addTask(12, new EntityAILookIdle(this));
 		this.targetTasks.addTask(1, new EntityAIOwnerHurtByTarget(this));
 		this.targetTasks.addTask(2, new EntityAIOwnerHurtTarget(this));
 		this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, true));
@@ -173,6 +177,13 @@ public class EntityFoxhound extends EntityWolf {
 		}
 
 		return flag;
+	}
+
+	@Override
+	public boolean attackEntityFrom(@Nonnull DamageSource source, float amount) {
+		setSleeping(false);
+		getAISleep().setSleeping(false);
+		return super.attackEntityFrom(source, amount);
 	}
 
 	@Override
@@ -213,8 +224,10 @@ public class EntityFoxhound extends EntityWolf {
 			return true;
 		}
 
-		if (!world.isRemote)
+		if (!world.isRemote) {
 			setSleeping(false);
+			getAISleep().setSleeping(false);
+		}
 
 		return super.processInteract(player, hand);
 	}
@@ -266,5 +279,8 @@ public class EntityFoxhound extends EntityWolf {
     public boolean getCanSpawnHere() {
         return this.world.getDifficulty() != EnumDifficulty.PEACEFUL;
     }
-	
+
+	public EntityAISleep getAISleep() {
+		return aiSleep;
+	}
 }
