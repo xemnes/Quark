@@ -10,10 +10,30 @@
  */
 package vazkii.quark.world.entity;
 
+import java.util.List;
+import java.util.UUID;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.*;
+import net.minecraft.entity.ai.EntityAIAttackMelee;
+import net.minecraft.entity.ai.EntityAIBeg;
+import net.minecraft.entity.ai.EntityAIFollowOwner;
+import net.minecraft.entity.ai.EntityAIHurtByTarget;
+import net.minecraft.entity.ai.EntityAILeapAtTarget;
+import net.minecraft.entity.ai.EntityAILookIdle;
+import net.minecraft.entity.ai.EntityAIMate;
+import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
+import net.minecraft.entity.ai.EntityAIOwnerHurtByTarget;
+import net.minecraft.entity.ai.EntityAIOwnerHurtTarget;
+import net.minecraft.entity.ai.EntityAISit;
+import net.minecraft.entity.ai.EntityAISwimming;
+import net.minecraft.entity.ai.EntityAITargetNonTamed;
+import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
+import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.AbstractSkeleton;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityRabbit;
@@ -33,7 +53,11 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
-import net.minecraft.util.*;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
@@ -43,11 +67,6 @@ import vazkii.quark.tweaks.ai.EntityAIWantLove;
 import vazkii.quark.world.entity.ai.EntityAIFoxhoundSleep;
 import vazkii.quark.world.entity.ai.EntityAISleep;
 import vazkii.quark.world.feature.Foxhounds;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.List;
-import java.util.UUID;
 
 public class EntityFoxhound extends EntityWolf {
 
@@ -181,8 +200,7 @@ public class EntityFoxhound extends EntityWolf {
 
 	@Override
 	public boolean attackEntityFrom(@Nonnull DamageSource source, float amount) {
-		setSleeping(false);
-		getAISleep().setSleeping(false);
+		setWoke();
 		return super.attackEntityFrom(source, amount);
 	}
 
@@ -225,8 +243,7 @@ public class EntityFoxhound extends EntityWolf {
 		}
 
 		if (!world.isRemote) {
-			setSleeping(false);
-			getAISleep().setSleeping(false);
+			setWoke();
 		}
 
 		return super.processInteract(player, hand);
@@ -283,4 +300,13 @@ public class EntityFoxhound extends EntityWolf {
 	public EntityAISleep getAISleep() {
 		return aiSleep;
 	}
+	
+	private void setWoke() {
+		EntityAISleep sleep = getAISleep();
+		if(sleep != null) {
+			setSleeping(false);
+			sleep.setSleeping(false);
+		}
+	}
+	
 }
