@@ -85,7 +85,7 @@ public class QuarkPistonStructureHelper extends BlockPistonStructureHelper {
 			return true;
 		}
 	}
-
+	
 	private boolean addBlockLine(BlockPos origin, EnumFacing face) {
 		final int max = GlobalConfig.pistonPushLimit;
 
@@ -105,6 +105,9 @@ public class QuarkPistonStructureHelper extends BlockPistonStructureHelper {
 			if(lineLen + toMove.size() > max) 
 				return false;
 			else {
+				BlockPos oldPos = origin;
+				IBlockState oldState = world.getBlockState(origin); 
+				
 				boolean skippingNext = false;
 				while(true) {
 					if(!isBlockBranching(world, target))
@@ -121,9 +124,15 @@ public class QuarkPistonStructureHelper extends BlockPistonStructureHelper {
 					target = origin.offset(moveDirection.getOpposite(), lineLen);
 					iblockstate = world.getBlockState(target);
 					block = iblockstate.getBlock();
-
+					
 					if(iblockstate.getBlock().isAir(iblockstate, world, target) || !BlockPistonBase.canPush(iblockstate, world, target, moveDirection, false, moveDirection.getOpposite()) || target.equals(pistonPos))
 						break;
+					
+					if(getStickCompatibility(world, iblockstate, oldState, target, oldPos, moveDirection) != MoveResult.MOVE)
+						break;
+					
+					oldState = iblockstate;
+					oldPos = target;
 
 					lineLen++;
 					
@@ -135,6 +144,9 @@ public class QuarkPistonStructureHelper extends BlockPistonStructureHelper {
 
 				for(int j = lineLen - 1; j >= 0; --j) {
 					BlockPos movePos = origin.offset(moveDirection.getOpposite(), j);
+					if(toDestroy.contains(movePos))
+						break;
+					
 					toMove.add(movePos);
 					i1++;
 				}
@@ -168,9 +180,6 @@ public class QuarkPistonStructureHelper extends BlockPistonStructureHelper {
 					}
 					
 					if(res == MoveResult.MOVE) {
-						if(!toDestroy.contains(blockpos1))
-							return true;
-						
 						iblockstate = world.getBlockState(blockpos1);
 
 						if(iblockstate.getBlock().isAir(iblockstate, world, blockpos1))
@@ -181,9 +190,19 @@ public class QuarkPistonStructureHelper extends BlockPistonStructureHelper {
 
 						if(iblockstate.getPushReaction() == EnumPushReaction.DESTROY) {
 							toDestroy.add(blockpos1);
+							toMove.remove(blockpos1);
 							return true;
 						}
 
+						if(isBlockBranching(world, blockpos1)) {
+							res = getBranchResult(world, blockpos1);
+							if(res == MoveResult.PREVENT)
+								return false;
+							
+							if(res != MoveResult.MOVE)
+								return true;
+						}
+						
 						if(toMove.size() >= max)
 							return false;
 						
@@ -236,6 +255,7 @@ public class QuarkPistonStructureHelper extends BlockPistonStructureHelper {
 				case BREAK:
 					if(BlockPistonBase.canPush(targetState, world, targetPos, moveDirection, false, moveDirection)) {
 						toDestroy.add(targetPos);
+						toMove.remove(targetPos);
 						return MoveResult.BREAK;
 					}
 					
@@ -267,9 +287,6 @@ public class QuarkPistonStructureHelper extends BlockPistonStructureHelper {
 	}
 	
 	private MoveResult getStickCompatibility(World world, IBlockState state1, IBlockState state2, BlockPos pos1, BlockPos pos2, EnumFacing face) {
-		if(face.getAxis() == moveDirection.getAxis())
-			return MoveResult.MOVE;
-		
 		Block block = state1.getBlock();
 		if(block instanceof INonSticky && !((INonSticky) block).canStickToBlock(world, pistonPos, pos1, pos2, state1, state2, moveDirection))
 			return MoveResult.SKIP;
