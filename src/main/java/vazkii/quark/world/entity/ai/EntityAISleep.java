@@ -21,7 +21,7 @@ public class EntityAISleep extends EntityAIBase {
 
 	public EntityAISleep(EntityFoxhound foxhound) {
 		this.foxhound = foxhound;
-		this.setMutexBits(7);
+		this.setMutexBits(2);
 	}
 
 	@Override
