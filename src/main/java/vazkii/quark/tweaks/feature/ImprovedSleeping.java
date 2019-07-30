@@ -51,7 +51,7 @@ public class ImprovedSleeping extends Feature {
 	}
 
 	public static void updateAfk(EntityPlayer player, boolean afk) {
-		if(!enableAfk)
+		if(!ModuleLoader.isFeatureEnabled(ImprovedSleeping.class) || !enableAfk)
 			return;
 
 		if(player.world.playerEntities.size() != 1) {
@@ -84,6 +84,9 @@ public class ImprovedSleeping extends Feature {
 	}
 
 	public static void whenNightPasses(WorldServer world) {
+		if (!ModuleLoader.isFeatureEnabled(ImprovedSleeping.class))
+			return;
+
 		MinecraftServer server = world.getMinecraftServer();
 		if (server == null)
 			return;
