@@ -79,6 +79,7 @@ public final class EmoteHandler {
 		ModelBiped armorLegModel = getPlayerArmorLegModel(player);
 
 		if(model != null && armorModel != null && armorLegModel != null) {
+			resetPlayer(player);
 			EmoteBase emote = desc.instantiate(player, model, armorModel, armorLegModel);
 			emote.startAllTimelines();
 			playerEmotes.put(name, emote);
