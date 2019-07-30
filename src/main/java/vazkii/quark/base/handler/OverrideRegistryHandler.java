@@ -10,14 +10,17 @@
  */
 package vazkii.quark.base.handler;
 
+import com.google.common.collect.BiMap;
 import net.minecraft.block.Block;
 import net.minecraft.init.Biomes;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.fml.common.FMLLog;
+import net.minecraftforge.registries.GameData;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.Logger;
@@ -74,6 +77,14 @@ public final class OverrideRegistryHandler {
 				try {
 					IForgeRegistryEntry.Impl fieldVal = (IForgeRegistryEntry.Impl) declared.get(null);
 					if (regName.equals(fieldVal.getRegistryName())) {
+						if (obj instanceof Block && fieldVal instanceof Block) {
+							BiMap<Block, Item> itemMap = GameData.getBlockItemMap();
+							itemMap.forcePut((Block) obj, itemMap.get(fieldVal));
+						} else if (obj instanceof ItemBlock) {
+							BiMap<Block, Item> itemMap = GameData.getBlockItemMap();
+							itemMap.forcePut(((ItemBlock) obj).getBlock(), (Item) obj);
+						}
+
 						crackFinalField(declared);
 						declared.set(null, obj);
 					}
