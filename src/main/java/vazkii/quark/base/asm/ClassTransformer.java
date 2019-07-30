@@ -641,25 +641,21 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 	private static byte[] transformEntity(byte[] basicClass) {
 		MethodSignature sig1 = new MethodSignature("move", "func_70091_d", "(Lnet/minecraft/entity/MoverType;DDD)V");
 		MethodSignature sig2 = new MethodSignature("onEntityUpdate", "func_70030_z", "()V");
-		MethodSignature target1 = new MethodSignature("updateFallState", "func_184231_a", "(DZLnet/minecraft/block/state/IBlockState;Lnet/minecraft/util/math/BlockPos;)V");
-		MethodSignature target2 = new MethodSignature("doBlockCollisions", "func_145775_I", "()V");
+		MethodSignature target = new MethodSignature("doBlockCollisions", "func_145775_I", "()V");
 
-		return transform(basicClass, forMethod(sig1, combine(
-				(AbstractInsnNode node) -> { // Filter
-					return (node.getOpcode() == INVOKEVIRTUAL || node.getOpcode() == INVOKESPECIAL) && target1.matches((MethodInsnNode) node);
-				},
-				(MethodNode method, AbstractInsnNode node) -> { // Action
+		return transform(basicClass, forMethod(sig1,
+				(MethodNode method) -> { // Action
 					InsnList newInstructions = new InsnList();
 
 					newInstructions.add(new VarInsnNode(ALOAD, 0));
 					newInstructions.add(new MethodInsnNode(INVOKESTATIC, ASM_HOOKS, "recordMotion", "(Lnet/minecraft/entity/Entity;)V", false));
 
-					method.instructions.insert(node, newInstructions);
+					method.instructions.insertBefore(method.instructions.getFirst(), newInstructions);
 					return false;
 				}
-		), combine(
+		, combine(
 				(AbstractInsnNode node) -> { // Filter
-					return (node.getOpcode() == INVOKEVIRTUAL || node.getOpcode() == INVOKESPECIAL) && target2.matches((MethodInsnNode) node);
+					return (node.getOpcode() == INVOKEVIRTUAL || node.getOpcode() == INVOKESPECIAL) && target.matches((MethodInsnNode) node);
 				},
 				(MethodNode method, AbstractInsnNode node) -> { // Action
 					InsnList newInstructions = new InsnList();
