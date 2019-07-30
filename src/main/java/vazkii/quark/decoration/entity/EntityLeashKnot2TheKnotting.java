@@ -47,12 +47,8 @@ public class EntityLeashKnot2TheKnotting extends EntityLiving {
 				double targetX = holder.posX;
 				double targetY = holder.posY;
 				double targetZ = holder.posZ;
-				holder.posX = posX;
-				holder.posY = posY;
-				holder.posZ = posZ;
-				posX = targetX;
-				posY = targetY;
-				posZ = targetZ;
+				holder.setPosition(posX, posY, posZ);
+				setPosition(targetX, targetY, targetZ);
 			}
 		}
 	}
@@ -79,6 +75,9 @@ public class EntityLeashKnot2TheKnotting extends EntityLiving {
 		if(!isDead && getHolder() != null && drop && !world.isRemote)
 			dropItem(Items.LEAD, 1);
 		setDead();
+		Entity holder = getHolder();
+		if (holder instanceof EntityLeashKnot)
+			holder.setDead();
 	}
 
 }
