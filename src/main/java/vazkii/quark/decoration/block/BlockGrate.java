@@ -55,7 +55,7 @@ public class BlockGrate extends BlockMod implements IQuarkBlock {
 		if(!(entityIn instanceof EntityItem) && entityIn != null)
 			super.addCollisionBoxToList(state, worldIn, pos, entityBox, collidingBoxes, entityIn, isActualState);
 
-		if (!(entityIn instanceof EntityPlayer))
+		if (!(entityIn instanceof EntityPlayer) && !(entityIn instanceof EntityItem))
 			addCollisionBoxToList(pos, entityBox, collidingBoxes, AABB_SPAWN_BLOCK);
 
 		if (entityIn instanceof EntityAnimal)
