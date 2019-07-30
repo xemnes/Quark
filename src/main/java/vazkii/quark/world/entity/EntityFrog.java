@@ -52,7 +52,7 @@ public class EntityFrog extends EntityAnimal {
 
 	public EntityFrog(World worldIn, float sizeModifier) {
 		super(worldIn);
-		setSize(0.9f * sizeModifier, 0.5f * sizeModifier);
+		setSize(0.65f * sizeModifier, 0.5f * sizeModifier);
 		dataManager.set(SIZE_MODIFIER, sizeModifier);
 
 		this.jumpHelper = new FrogJumpHelper();
@@ -94,11 +94,6 @@ public class EntityFrog extends EntityAnimal {
 	}
 
 	@Override
-	public boolean isEntityInvulnerable(@Nonnull DamageSource source) {
-		return source == DamageSource.IN_WALL || super.isEntityInvulnerable(source);
-	}
-
-	@Override
 	public float getEyeHeight() {
 		return 0.1f * getSizeModifier();
 	}
@@ -117,7 +112,7 @@ public class EntityFrog extends EntityAnimal {
 
 		float sizeModifier = getSizeModifier();
 		if (height != sizeModifier * 0.5f)
-			setSize(0.9f * sizeModifier, 0.5f * sizeModifier);
+			setSize(0.65f * sizeModifier, 0.5f * sizeModifier);
 
 		int talkTime = getTalkTime();
 		if (talkTime > 0)
