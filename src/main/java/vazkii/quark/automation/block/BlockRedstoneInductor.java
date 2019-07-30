@@ -127,6 +127,8 @@ public class BlockRedstoneInductor extends BlockMod implements IQuarkBlock, IBlo
 		boolean isLocked = isLocked(state);
 		boolean willBeLocked = shouldBeLocked(worldIn, pos, state);
 
+		EnumFacing side = state.getValue(FACING);
+
 		IBlockState finalState = state.withProperty(LOCKED, willBeLocked);
 
 		if (!isLocked || !willBeLocked) {
@@ -155,8 +157,8 @@ public class BlockRedstoneInductor extends BlockMod implements IQuarkBlock, IBlo
 			}
 		}
 
-		worldIn.setBlockState(pos, finalState, 2);
-		BlockRedstoneRandomizer.notify(this, worldIn, pos, state);
+		worldIn.setBlockState(pos, finalState, 3);
+		worldIn.notifyNeighborsOfStateExcept(pos.offset(side, -1), this, side);
 	}
 
 	protected int getActiveSignal(IBlockAccess world, BlockPos pos) {
@@ -165,7 +167,7 @@ public class BlockRedstoneInductor extends BlockMod implements IQuarkBlock, IBlo
 	}
 
 	protected void updateState(World world, BlockPos pos) {
-		world.updateBlockTick(pos, this, 1, -1);
+		world.scheduleBlockUpdate(pos, this, 1, -1);
 	}
 
 	@Nonnull
