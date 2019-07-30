@@ -252,7 +252,7 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 	private static byte[] transformRenderManager(byte[] basicClass) {
 		MethodSignature sig = new MethodSignature("renderEntity", "func_188391_a", "(Lnet/minecraft/entity/Entity;DDDFFZ)V");
 
-		MethodSignature target = new MethodSignature("doRender", "func_188300_b", "(Lnet/minecraft/entity/Entity;DDDFF)V");
+		MethodSignature target = new MethodSignature("doRender", "func_76986_a", "(Lnet/minecraft/entity/Entity;DDDFF)V");
 
 		return transform(basicClass, forMethod(sig, combine(
 				(AbstractInsnNode node) -> node.getOpcode() == INVOKEVIRTUAL && target.matches((MethodInsnNode) node),
