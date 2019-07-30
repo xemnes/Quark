@@ -61,7 +61,7 @@ public class TileMonsterBox extends TileMod implements ITickable {
 		
 		BlockPos pos = getPos();
 
-		int mobCount = MonsterBoxes.minMobs + world.rand.nextInt(MonsterBoxes.maxMobs - MonsterBoxes.minMobs + 1);
+		int mobCount = MonsterBoxes.minMobs + world.rand.nextInt(Math.max(MonsterBoxes.maxMobs - MonsterBoxes.minMobs + 1, 1));
 		for(int i = 0; i < mobCount; i++) {
 			Entity e;
 			
