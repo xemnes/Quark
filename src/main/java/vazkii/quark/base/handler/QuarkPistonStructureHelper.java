@@ -194,13 +194,14 @@ public class QuarkPistonStructureHelper extends BlockPistonStructureHelper {
 							return true;
 						}
 
+						boolean doneFinding = false;
 						if(isBlockBranching(world, blockpos1)) {
 							res = getBranchResult(world, blockpos1);
 							if(res == MoveResult.PREVENT)
 								return false;
 							
 							if(res != MoveResult.MOVE)
-								return true;
+								doneFinding = true;
 						}
 						
 						if(toMove.size() >= max)
@@ -210,6 +211,9 @@ public class QuarkPistonStructureHelper extends BlockPistonStructureHelper {
 
 						++i1;
 						++j1;
+						
+						if(doneFinding)
+							return true;
 					}
 				}
 			}
