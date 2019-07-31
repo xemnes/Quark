@@ -651,7 +651,7 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 					newInstructions.add(new MethodInsnNode(INVOKESTATIC, ASM_HOOKS, "recordMotion", "(Lnet/minecraft/entity/Entity;)V", false));
 
 					method.instructions.insertBefore(method.instructions.getFirst(), newInstructions);
-					return false;
+					return true;
 				}
 		, combine(
 				(AbstractInsnNode node) -> { // Filter
