@@ -13,13 +13,15 @@ package vazkii.quark.world.item;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.SoundCategory;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -46,27 +48,49 @@ public class ItemSoulBead extends ItemMod implements IQuarkItem {
 		if (Wraiths.enableCurse) {
 			PotionEffect effect = new PotionEffect(Wraiths.curse, Wraiths.curseTime, 0, true, true);
 
-            String eff = TextFormatting.RED + I18n.format(effect.getEffectName().trim());
-            eff = eff + " (" + Potion.getPotionDurationString(effect, 1F) + ")";
+			String eff = TextFormatting.RED + I18n.format(effect.getEffectName().trim());
+			eff = eff + " (" + Potion.getPotionDurationString(effect, 1F) + ")";
 
-            tooltip.add(eff);
+			tooltip.add(eff);
 		}
 	}
 
 	@Nonnull
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, @Nonnull EnumHand hand) {
-		ItemStack stack = playerIn.getHeldItem(hand);
-		if(Wraiths.enableCurse) {
-			PotionEffect effect = new PotionEffect(Wraiths.curse, Wraiths.curseTime, 0, false, true);
-			playerIn.addPotionEffect(effect);
+	public EnumAction getItemUseAction(ItemStack stack) {
+		return EnumAction.EAT;
+	}
 
-			worldIn.playSound(null, playerIn.posX, playerIn.posY, playerIn.posZ, QuarkSounds.ITEM_SOUL_BEAD_CURSE, SoundCategory.PLAYERS, 1F, 1F);
-			playerIn.renderBrokenItemStack(stack);
+	@Nonnull
+	@Override
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, @Nonnull EnumHand handIn) {
+		ItemStack stack = playerIn.getHeldItem(handIn);
+
+		if (Wraiths.enableCurse) {
+			playerIn.setActiveHand(handIn);
+			return new ActionResult<>(EnumActionResult.SUCCESS, stack);
+		} else
+			return new ActionResult<>(EnumActionResult.PASS, stack);
+	}
+
+	@Override
+	public int getMaxItemUseDuration(ItemStack stack) {
+		return 32;
+	}
+
+	@Nonnull
+	@Override
+	public ItemStack onItemUseFinish(@Nonnull ItemStack stack, World worldIn, EntityLivingBase player) {
+		if (Wraiths.enableCurse) {
+			PotionEffect effect = new PotionEffect(Wraiths.curse, Wraiths.curseTime, 0, false, true);
+			player.addPotionEffect(effect);
+
+			worldIn.playSound(null, player.posX, player.posY, player.posZ, QuarkSounds.ITEM_SOUL_BEAD_CURSE, player.getSoundCategory(), 1F, 1F);
+			player.renderBrokenItemStack(stack);
 			stack.shrink(1);
 		}
 
-		return super.onItemRightClick(worldIn, playerIn, hand);
+		return super.onItemUseFinish(stack, worldIn, player);
 	}
 
 }
