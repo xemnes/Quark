@@ -56,7 +56,7 @@ public class EntityFoxhound extends EntityWolf {
 	private static final DataParameter<Boolean> TEMPTATION = EntityDataManager.createKey(EntityFoxhound.class, DataSerializers.BOOLEAN);
 	private static final DataParameter<Boolean> SLEEPING = EntityDataManager.createKey(EntityFoxhound.class, DataSerializers.BOOLEAN);
 
-	private int timeUntilPotatoEmerges = -1;
+	private int timeUntilPotatoEmerges = 0;
 
 	public EntityFoxhound(World worldIn) {
 		super(worldIn);
@@ -85,14 +85,19 @@ public class EntityFoxhound extends EntityWolf {
 	public void onLivingUpdate() {
 		super.onLivingUpdate();
 
+		if (!world.isRemote && world.getDifficulty() == EnumDifficulty.PEACEFUL && !isTamed()) {
+			setDead();
+			return;
+		}
+
 		if (!world.isRemote && TinyPotato.tiny_potato != null) {
-			if (timeUntilPotatoEmerges == 0) {
-				timeUntilPotatoEmerges = -1;
+			if (timeUntilPotatoEmerges == 1) {
+				timeUntilPotatoEmerges = 0;
 				ItemStack stack = new ItemStack(TinyPotato.tiny_potato);
 				ItemNBTHelper.setBoolean(stack, "angery", true);
 				entityDropItem(stack, 0f);
 				playSound(SoundEvents.ENTITY_GENERIC_HURT, 1f, 1f);
-			} else if (timeUntilPotatoEmerges > 0) {
+			} else if (timeUntilPotatoEmerges > 1) {
 				timeUntilPotatoEmerges--;
 			}
 		}
@@ -105,7 +110,7 @@ public class EntityFoxhound extends EntityWolf {
 
 		if(this.world.isRemote)
 			this.world.spawnParticle(isSleeping() ? EnumParticleTypes.SMOKE_NORMAL : EnumParticleTypes.FLAME, this.posX + (this.rand.nextDouble() - 0.5D) * this.width, this.posY + (this.rand.nextDouble() - 0.5D) * this.height, this.posZ + (this.rand.nextDouble() - 0.5D) * this.width, 0.0D, 0.0D, 0.0D);
-		
+
 		if(isTamed()) {
 			BlockPos below = getPosition().down();
 			TileEntity tile = world.getTileEntity(below);
@@ -157,7 +162,7 @@ public class EntityFoxhound extends EntityWolf {
 
 	@Override
 	public boolean isAngry() {
-		return !isTamed() || super.isAngry();
+		return (!isTamed() && world.getDifficulty() != EnumDifficulty.PEACEFUL) || super.isAngry();
 	}
 
 	@Override
@@ -193,7 +198,7 @@ public class EntityFoxhound extends EntityWolf {
 			return false;
 
 		if (!this.isTamed() && !itemstack.isEmpty()) {
-			if (itemstack.getItem() == Items.COAL && (player.isCreative() || player.getActivePotionEffect(MobEffects.FIRE_RESISTANCE) != null) && !world.isRemote) {
+			if (itemstack.getItem() == Items.COAL && (world.getDifficulty() == EnumDifficulty.PEACEFUL || player.isCreative() || player.getActivePotionEffect(MobEffects.FIRE_RESISTANCE) != null) && !world.isRemote) {
 				if (rand.nextDouble() < Foxhounds.tameChance) {
                     this.setTamedBy(player);
                     this.navigator.clearPath();
@@ -218,7 +223,7 @@ public class EntityFoxhound extends EntityWolf {
 			if (!player.isCreative())
 				itemstack.shrink(1);
 
-			this.timeUntilPotatoEmerges = 1200;
+			this.timeUntilPotatoEmerges = 1201;
 
 			return true;
 		}
@@ -281,7 +286,7 @@ public class EntityFoxhound extends EntityWolf {
 	public EntityAISleep getAISleep() {
 		return aiSleep;
 	}
-	
+
 	private void setWoke() {
 		EntityAISleep sleep = getAISleep();
 		if(sleep != null) {
@@ -289,5 +294,5 @@ public class EntityFoxhound extends EntityWolf {
 			sleep.setSleeping(false);
 		}
 	}
-	
+
 }
