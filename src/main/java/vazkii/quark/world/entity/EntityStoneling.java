@@ -282,13 +282,26 @@ public class EntityStoneling extends EntityCreature {
 		super.damageEntity(damageSrc, damageAmount);
 
 		if(!isPlayerMade() && damageSrc.getTrueSource() instanceof EntityPlayer) {
-			waryTask.startle();
-			Set<EntityAITasks.EntityAITaskEntry> entries = Sets.newHashSet(tasks.taskEntries);
-
-			for (EntityAITasks.EntityAITaskEntry task : entries)
-				if (task.action instanceof EntityAITempt)
-					tasks.removeTask(task.action);
+			startle();
+			for (Entity entity : world.getEntitiesWithinAABBExcludingEntity(this,
+					getEntityBoundingBox().grow(16))) {
+				if (entity instanceof EntityStoneling) {
+					EntityStoneling stoneling = (EntityStoneling) entity;
+					if (!stoneling.isPlayerMade() && stoneling.getEntitySenses().canSee(this)) {
+						startle();
+					}
+				}
+			}
 		}
+	}
+
+	public void startle() {
+		waryTask.startle();
+		Set<EntityAITasks.EntityAITaskEntry> entries = Sets.newHashSet(tasks.taskEntries);
+
+		for (EntityAITasks.EntityAITaskEntry task : entries)
+			if (task.action instanceof EntityAITempt)
+				tasks.removeTask(task.action);
 	}
 
 	@Override
