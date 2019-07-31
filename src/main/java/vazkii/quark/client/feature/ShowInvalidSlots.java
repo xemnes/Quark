@@ -42,6 +42,7 @@ public class ShowInvalidSlots extends Feature {
 
 			GlStateManager.disableLighting();
 			GlStateManager.disableBlend();
+			GlStateManager.disableDepth();
 
 			for (Slot slot : gui.inventorySlots.inventorySlots) {
 				if (slot != slotUnder && !slot.isItemValid(stack) && slot.isEnabled()) {
@@ -59,6 +60,7 @@ public class ShowInvalidSlots extends Feature {
 				}
 			}
 
+			GlStateManager.enableDepth();
 			GlStateManager.enableBlend();
 			GlStateManager.enableLighting();
 		}
