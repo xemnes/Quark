@@ -18,7 +18,7 @@ import java.util.List;
 public final class LibMisc {
 
 	// Don't ask.
-	public static final String DEV_ENV_HACK = "[GRADLE.VERSION-GRADLE.BUILD,GRADLE.VERSION-GRADLE.BUILD)";
+	public static final String DEV_ENV_HACK = "[GRADLE.VERSION-GRADLE.BUILD,)";
 
 	// Mod Constants
 	public static final String MOD_ID = "quark";
