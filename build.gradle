@@ -56,6 +56,7 @@ minecraft {
     mappings = config.mc_mappings
     replace 'GRADLE:BUILD', config.build_number
     replace 'GRADLE:VERSION', config.version
+    replace '" + DEV_ENV_HACK + "', ''
 
     // Scala: not even once
     replace 'scala.actors.threadpool.Arrays', 'java.util.Arrays'
