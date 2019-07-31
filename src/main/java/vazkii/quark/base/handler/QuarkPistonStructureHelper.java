@@ -257,7 +257,7 @@ public class QuarkPistonStructureHelper extends BlockPistonStructureHelper {
 						return MoveResult.PREVENT;
 					break;
 				case BREAK:
-					if(BlockPistonBase.canPush(targetState, world, targetPos, moveDirection, false, moveDirection)) {
+					if(BlockPistonBase.canPush(targetState, world, targetPos, moveDirection, true, moveDirection)) {
 						toDestroy.add(targetPos);
 						toMove.remove(targetPos);
 						return MoveResult.BREAK;
