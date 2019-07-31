@@ -50,7 +50,7 @@ public class EntityCrab extends EntityAnimal {
 	private static final Set<Item> TEMPTATION_ITEMS = Sets.newHashSet(Items.WHEAT, Items.FISH, Items.CHICKEN);
 
 	private static int lightningCooldown;
-	
+
     private boolean crabRave;
     private BlockPos jukeboxPosition;
 
@@ -61,6 +61,18 @@ public class EntityCrab extends EntityAnimal {
 		
 		spawnableBlock = Blocks.SAND;
 	}
+
+	@Override
+	public boolean canBreatheUnderwater() {
+		return true;
+	}
+
+	@Override
+	public boolean isNotColliding()
+	{
+		return this.world.checkNoEntityCollision(this.getEntityBoundingBox(), this);
+	}
+
 
 	@Nonnull
 	@Override

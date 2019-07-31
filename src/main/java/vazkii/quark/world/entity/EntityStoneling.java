@@ -246,6 +246,18 @@ public class EntityStoneling extends EntityCreature {
 	}
 
 	@Override
+	public boolean canBreatheUnderwater() {
+		return true;
+	}
+
+	@Override
+	public boolean isNotColliding()
+	{
+		return this.world.checkNoEntityCollision(this.getEntityBoundingBox(), this);
+	}
+
+
+	@Override
 	public double getMountedYOffset() {
 		return this.height;
 	}
