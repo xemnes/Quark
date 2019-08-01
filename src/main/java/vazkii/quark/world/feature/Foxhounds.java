@@ -35,9 +35,9 @@ public class Foxhounds extends Feature {
 	
 	@Override
 	public void setupConfig() {
-		weight = loadPropInt("Spawn Weight", "The higher, the more will spawn", 40);
+		weight = loadPropInt("Spawn Weight", "The higher, the more will spawn", 10);
 		min = loadPropInt("Smallest spawn group", "", 1);
-		max = loadPropInt("Largest spawn group", "", 3);
+		max = loadPropInt("Largest spawn group", "", 2);
 		
 		tameChance = loadPropChance("Chance to Tempt", "The chance coal will tame a foxhound", 0.05);
 	}
