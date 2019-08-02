@@ -972,7 +972,7 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 					newInstructions.add(new InsnNode(POP));
 
 					method.instructions.insertBefore(method.instructions.getFirst(), newInstructions);
-					return false;
+					return true;
 				}
 		));
 	}
