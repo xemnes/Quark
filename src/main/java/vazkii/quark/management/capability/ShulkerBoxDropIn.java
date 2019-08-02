@@ -25,7 +25,7 @@ public class ShulkerBoxDropIn extends AbstractDropIn {
 	}
 	
 	private boolean tryAddToShulkerBox(EntityPlayer player, ItemStack shulkerBox, ItemStack stack, boolean simulate) {
-		if(stack.getItem() instanceof ItemShulkerBox || stack.getCount() > 1)
+		if(stack.getItem() instanceof ItemShulkerBox || shulkerBox.getCount() > 1)
 			return false;
 		
 		TileEntityShulkerBox tile = new TileEntityShulkerBox();
