@@ -97,6 +97,11 @@ public class EntityStoneling extends EntityCreature {
 	public void onUpdate() {
 		super.onUpdate();
 
+		if (inWater)
+			stepHeight = 1F;
+		else
+			stepHeight = 0.6F;
+
 		if (!world.isRemote && world.getDifficulty() == EnumDifficulty.PEACEFUL && !isTame)
 			setDead();
 

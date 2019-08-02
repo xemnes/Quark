@@ -73,7 +73,6 @@ public class EntityCrab extends EntityAnimal {
 		return this.world.checkNoEntityCollision(this.getEntityBoundingBox(), this);
 	}
 
-
 	@Nonnull
 	@Override
 	public EnumCreatureAttribute getCreatureAttribute() {
@@ -121,6 +120,11 @@ public class EntityCrab extends EntityAnimal {
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
+
+		if (inWater)
+			stepHeight = 1F;
+		else
+			stepHeight = 0.6F;
 
 		if (lightningCooldown > 0)
 			lightningCooldown--;
