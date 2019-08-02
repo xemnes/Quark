@@ -7,6 +7,7 @@ import net.minecraft.block.BlockJukebox;
 import net.minecraft.block.state.BlockPistonStructureHelper;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.EnumFacing;
@@ -25,8 +26,8 @@ import java.util.*;
 
 public class PistonsMoveTEs extends Feature {
 
-	private static final WeakHashMap<World, Map<BlockPos, TileEntity>> movements = new WeakHashMap<>();
-	private static final WeakHashMap<World, List<Pair<BlockPos, TileEntity>>> delayedUpdates = new WeakHashMap<>();
+	private static final WeakHashMap<World, Map<BlockPos, NBTTagCompound>> movements = new WeakHashMap<>();
+	private static final WeakHashMap<World, List<Pair<BlockPos, NBTTagCompound>>> delayedUpdates = new WeakHashMap<>();
 
 	public static List<String> renderBlacklist;
 	public static List<String> movementBlacklist;
@@ -51,13 +52,15 @@ public class PistonsMoveTEs extends Feature {
 		if(!delayedUpdates.containsKey(event.world) || event.phase == Phase.START)
 			return;
 		
-		List<Pair<BlockPos, TileEntity>> delays = delayedUpdates.get(event.world);
+		List<Pair<BlockPos, NBTTagCompound>> delays = delayedUpdates.get(event.world);
 		if(delays.isEmpty())
 			return;
 		
-		for(Pair<BlockPos, TileEntity> delay : delays) {
-			event.world.setTileEntity(delay.getLeft(), delay.getRight());
-			delay.getRight().updateContainingBlockInfo();
+		for(Pair<BlockPos, NBTTagCompound> delay : delays) {
+			TileEntity tile = TileEntity.create(event.world, delay.getRight());
+			event.world.setTileEntity(delay.getLeft(), tile);
+			if (tile != null)
+				tile.updateContainingBlockInfo();
 		}
 		
 		delays.clear();
@@ -162,24 +165,24 @@ public class PistonsMoveTEs extends Feature {
 	
 	private static void registerMovement(World world, BlockPos pos, TileEntity tile) {
 		if(!movements.containsKey(world))
-			movements.put(world, new HashMap<>());
+			movements.put(world, new WeakHashMap<>());
 		
-		movements.get(world).put(pos, tile);
+		movements.get(world).put(pos, tile.serializeNBT());
 	}
 	
-	public static TileEntity getMovement(World world, BlockPos pos) {
+	public static NBTTagCompound getMovement(World world, BlockPos pos) {
 		return getMovement(world, pos, false);
 	}
 	
-	private static TileEntity getMovement(World world, BlockPos pos, boolean remove) {
+	private static NBTTagCompound getMovement(World world, BlockPos pos, boolean remove) {
 		if(!movements.containsKey(world))
 			return null;
 		
-		Map<BlockPos, TileEntity> worldMovements = movements.get(world);
+		Map<BlockPos, NBTTagCompound> worldMovements = movements.get(world);
 		if(!worldMovements.containsKey(pos))
 			return null;
 		
-		TileEntity ret = worldMovements.get(pos);
+		NBTTagCompound ret = worldMovements.get(pos);
 		if(remove)
 			worldMovements.remove(pos);
 		
@@ -187,7 +190,12 @@ public class PistonsMoveTEs extends Feature {
 	}
 	
 	private static TileEntity getAndClearMovement(World world, BlockPos pos) {
-		TileEntity tile = getMovement(world, pos, true);
+		NBTTagCompound tileData = getMovement(world, pos, true);
+		if (tileData == null)
+			return null;
+
+		TileEntity tile = TileEntity.create(world, tileData);
+
 		if(tile != null) {
 			if (IPistonCallback.hasCallback(tile))
 				IPistonCallback.getCallback(tile).onPistonMovementFinished();
@@ -205,7 +213,7 @@ public class PistonsMoveTEs extends Feature {
 		if(!delayedUpdates.containsKey(world))
 			delayedUpdates.put(world, new ArrayList<>());
 		
-		delayedUpdates.get(world).add(Pair.of(pos, tile));
+		delayedUpdates.get(world).add(Pair.of(pos, tile.serializeNBT()));
 	}
 	
 	@Override
