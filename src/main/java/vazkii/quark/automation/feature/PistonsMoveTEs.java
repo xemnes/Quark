@@ -170,11 +170,11 @@ public class PistonsMoveTEs extends Feature {
 		movements.get(world).put(pos, tile.serializeNBT());
 	}
 	
-	public static NBTTagCompound getMovement(World world, BlockPos pos) {
+	public static TileEntity getMovement(World world, BlockPos pos) {
 		return getMovement(world, pos, false);
 	}
 	
-	private static NBTTagCompound getMovement(World world, BlockPos pos, boolean remove) {
+	private static TileEntity getMovement(World world, BlockPos pos, boolean remove) {
 		if(!movements.containsKey(world))
 			return null;
 		
@@ -185,16 +185,13 @@ public class PistonsMoveTEs extends Feature {
 		NBTTagCompound ret = worldMovements.get(pos);
 		if(remove)
 			worldMovements.remove(pos);
-		
-		return ret; 
+
+
+		return TileEntity.create(world, ret);
 	}
 	
 	private static TileEntity getAndClearMovement(World world, BlockPos pos) {
-		NBTTagCompound tileData = getMovement(world, pos, true);
-		if (tileData == null)
-			return null;
-
-		TileEntity tile = TileEntity.create(world, tileData);
+		TileEntity tile = getMovement(world, pos, true);
 
 		if(tile != null) {
 			if (IPistonCallback.hasCallback(tile))
