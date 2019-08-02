@@ -218,9 +218,13 @@ public class BlockRope extends BlockMod implements IQuarkBlock {
 	public boolean canPlaceBlockAt(World worldIn, @Nonnull BlockPos pos) {
 		BlockPos posUp = pos.up();
 		IBlockState stateUp = worldIn.getBlockState(posUp);
-		Block block = stateUp.getBlock();
-		
-		return block == this || stateUp.isSideSolid(worldIn, posUp, EnumFacing.DOWN);
+
+		BlockFaceShape shape = stateUp.getBlockFaceShape(worldIn, posUp, EnumFacing.DOWN);
+
+		return (shape == BlockFaceShape.SOLID ||
+				shape == BlockFaceShape.CENTER ||
+				shape == BlockFaceShape.CENTER_BIG) &&
+				!isExceptionBlockForAttaching(stateUp.getBlock());
 	}
 	
 	@Override
