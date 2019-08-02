@@ -21,7 +21,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.EntityDamageSource;
+import net.minecraft.util.EntityDamageSourceIndirect;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
@@ -127,10 +127,14 @@ public class EntityPickarang extends EntityThrowable {
 						int cooldownPeriod = (int) (1.0 / owner.getEntityAttribute(SharedMonsterAttributes.ATTACK_SPEED).getAttributeValue() * 20.0);
 						ObfuscationReflectionHelper.setPrivateValue(EntityLivingBase.class, owner, cooldownPeriod, "field_184617_aD");
 
+						Pickarang.setActivePickarang(this);
+
 						if (owner instanceof EntityPlayer)
 							((EntityPlayer) owner).attackTargetEntityWithCurrentItem(hit);
 						else
 							owner.attackEntityAsMob(hit);
+
+						Pickarang.setActivePickarang(null);
 
 						ObfuscationReflectionHelper.setPrivateValue(EntityLivingBase.class, owner, ticksSinceLastSwing, "field_184617_aD");
 
@@ -144,7 +148,7 @@ public class EntityPickarang extends EntityThrowable {
 						ItemStack stack = getStack();
 						stack.attemptDamageItem(1, world.rand, null);
 						setStack(stack);
-						hit.attackEntityFrom(new EntityDamageSource("player", hit).setProjectile(),
+						hit.attackEntityFrom(new EntityDamageSourceIndirect("player", this, this).setProjectile(),
 								(float) map.getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue());
 					}
 

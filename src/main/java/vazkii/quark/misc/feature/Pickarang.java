@@ -1,7 +1,10 @@
 package vazkii.quark.misc.feature;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.EntityDamageSourceIndirect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -29,6 +32,21 @@ public class Pickarang extends Feature {
 
 	public static boolean canSharpnessApply(ItemStack stack) {
 		return stack.getItem() instanceof ItemPickarang;
+	}
+
+	private static final ThreadLocal<EntityPickarang> ACTIVE_PICKARANG = new ThreadLocal<>();
+
+	public static void setActivePickarang(EntityPickarang pickarang) {
+		ACTIVE_PICKARANG.set(pickarang);
+	}
+
+	public static DamageSource createDamageSource(EntityPlayer player) {
+		EntityPickarang pickarang = ACTIVE_PICKARANG.get();
+
+		if (pickarang == null)
+			return null;
+
+		return new EntityDamageSourceIndirect("player", pickarang, player).setProjectile();
 	}
 
 	@Override

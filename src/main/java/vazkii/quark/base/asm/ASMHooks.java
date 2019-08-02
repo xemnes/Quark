@@ -18,11 +18,13 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityMinecart;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntityPiston;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -233,6 +235,10 @@ public final class ASMHooks {
 	// ===== PICKARANG ==== //
 	public static boolean canSharpnessApply(ItemStack stack) {
 		return Pickarang.canSharpnessApply(stack);
+	}
+
+	public static DamageSource createPlayerDamage(EntityPlayer player) {
+		return Pickarang.createDamageSource(player);
 	}
 
 	// ===== RENDER ITEMS IN CHAT ==== //

@@ -95,6 +95,7 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 
 		// For Pickarangs
 		transformers.put("net.minecraft.enchantment.EnchantmentDamage", ClassTransformer::transformSharpness);
+		transformers.put("net.minecraft.util.DamageSource", ClassTransformer::transformDamageSource);
 
 		// For Render Items In Chat
 		transformers.put("net.minecraft.item.ItemStack", ClassTransformer::transformItemStack);
@@ -952,6 +953,28 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 					return false;
 				}
 		)));
+	}
+
+	private static byte[] transformDamageSource(byte[] basicClass) {
+		MethodSignature sig = new MethodSignature("causePlayerDamage", "func_76365_a", "(Lnet/minecraft/entity/player/EntityPlayer;)Lnet/minecraft/util/DamageSource;");
+
+		return transform(basicClass, forMethod(sig, (MethodNode method) -> { // Action
+					InsnList newInstructions = new InsnList();
+
+					LabelNode jump = new LabelNode();
+
+					newInstructions.add(new VarInsnNode(ALOAD, 0));
+					newInstructions.add(new MethodInsnNode(INVOKESTATIC, ASM_HOOKS, "createPlayerDamage", "(Lnet/minecraft/entity/player/EntityPlayer;)Lnet/minecraft/util/DamageSource;", false));
+					newInstructions.add(new InsnNode(DUP));
+					newInstructions.add(new JumpInsnNode(IFNULL, jump));
+					newInstructions.add(new InsnNode(ARETURN));
+					newInstructions.add(jump);
+					newInstructions.add(new InsnNode(POP));
+
+					method.instructions.insertBefore(method.instructions.getFirst(), newInstructions);
+					return false;
+				}
+		));
 	}
 
 	// BOILERPLATE BELOW ==========================================================================================================================================
