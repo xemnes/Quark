@@ -25,9 +25,10 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.base.sounds.QuarkSounds;
 import vazkii.quark.base.util.CommonReflectiveAccessor;
+import vazkii.quark.base.util.EntityOpacityHandler;
+import vazkii.quark.world.entity.ai.EntityAIFavorBlock;
 import vazkii.quark.world.entity.ai.EntityAITemptButNice;
 import vazkii.quark.world.feature.Frogs;
-import vazkii.quark.world.entity.ai.EntityAIFavorBlock;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -52,8 +53,10 @@ public class EntityFrog extends EntityAnimal {
 
 	public EntityFrog(World worldIn, float sizeModifier) {
 		super(worldIn);
-		setSize(0.65f * sizeModifier, 0.5f * sizeModifier);
-		dataManager.set(SIZE_MODIFIER, sizeModifier);
+		if (sizeModifier != 1) {
+			setSize(0.65f * sizeModifier, 0.5f * sizeModifier);
+			dataManager.set(SIZE_MODIFIER, sizeModifier);
+		}
 
 		this.jumpHelper = new FrogJumpHelper();
 		this.moveHelper = new FrogMoveHelper();
@@ -98,6 +101,11 @@ public class EntityFrog extends EntityAnimal {
 		return 0.1f * getSizeModifier();
 	}
 
+	@Override
+	public boolean isEntityInsideOpaqueBlock() {
+		return EntityOpacityHandler.isEntityInsideOpaqueBlock(this);
+	}
+
 	public int getTalkTime() {
 		return dataManager.get(TALK_TIME);
 	}
@@ -108,11 +116,11 @@ public class EntityFrog extends EntityAnimal {
 
 	@Override
 	public void onUpdate() {
-		super.onUpdate();
-
 		float sizeModifier = getSizeModifier();
 		if (height != sizeModifier * 0.5f)
 			setSize(0.65f * sizeModifier, 0.5f * sizeModifier);
+
+		super.onUpdate();
 
 		int talkTime = getTalkTime();
 		if (talkTime > 0)
@@ -235,7 +243,7 @@ public class EntityFrog extends EntityAnimal {
 		if (compound.hasKey("FrogAmount")) {
 			float sizeModifier = compound.getFloat("FrogAmount");
 			dataManager.set(SIZE_MODIFIER, sizeModifier);
-			setSize(0.9f * sizeModifier, 0.5f * sizeModifier);
+			setSize(0.65f * sizeModifier, 0.5f * sizeModifier);
 		}
 	}
 

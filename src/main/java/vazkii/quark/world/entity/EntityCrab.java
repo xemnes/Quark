@@ -34,6 +34,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import vazkii.quark.base.util.EntityOpacityHandler;
 import vazkii.quark.world.entity.ai.EntityAIRave;
 import vazkii.quark.world.entity.ai.MovementHelperZigZag;
 
@@ -115,6 +116,11 @@ public class EntityCrab extends EntityAnimal {
 		this.getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(3.0D);
 		this.getEntityAttribute(SharedMonsterAttributes.ARMOR_TOUGHNESS).setBaseValue(2.0D);
 		this.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(0.5D);
+	}
+
+	@Override
+	public boolean isEntityInsideOpaqueBlock() {
+		return EntityOpacityHandler.isEntityInsideOpaqueBlock(this);
 	}
 
 	@Override

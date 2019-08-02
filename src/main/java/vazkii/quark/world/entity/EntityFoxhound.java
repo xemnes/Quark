@@ -41,6 +41,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import vazkii.arl.util.ItemNBTHelper;
+import vazkii.quark.base.util.EntityOpacityHandler;
 import vazkii.quark.oddities.feature.TinyPotato;
 import vazkii.quark.tweaks.ai.EntityAIWantLove;
 import vazkii.quark.world.entity.ai.EntityAIFoxhoundSleep;
@@ -82,6 +83,11 @@ public class EntityFoxhound extends EntityWolf implements IMob {
 	@Override
 	public boolean isNoDespawnRequired() {
 		return isTamed() || super.isNoDespawnRequired();
+	}
+
+	@Override
+	public boolean isEntityInsideOpaqueBlock() {
+		return EntityOpacityHandler.isEntityInsideOpaqueBlock(this);
 	}
 
 	@Override
