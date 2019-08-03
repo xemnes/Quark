@@ -47,6 +47,8 @@ public class EntityFrog extends EntityAnimal {
 	public int spawnCd = -1;
 	public int spawnChain = 30;
 
+	public boolean isDuplicate;
+
 	public EntityFrog(World worldIn) {
 		this(worldIn, 1);
 	}
@@ -135,9 +137,10 @@ public class EntityFrog extends EntityAnimal {
 				newFrog.motionX = (Math.random() - 0.5) * multiplier;
 				newFrog.motionY = (Math.random() - 0.5) * multiplier;
 				newFrog.motionZ = (Math.random() - 0.5) * multiplier;
-				world.spawnEntity(newFrog);
+				newFrog.isDuplicate = true;
 				newFrog.spawnCd = 2;
 				newFrog.spawnChain = spawnChain - 1;
+				world.spawnEntity(newFrog);
 				spawnChain = 0;
 			}
 		}
@@ -148,7 +151,7 @@ public class EntityFrog extends EntityAnimal {
 
 	@Override
 	protected boolean canDropLoot() {
-		return spawnChain != 0 && super.canDropLoot();
+		return !isDuplicate && super.canDropLoot();
 	}
 
 	@Nullable
@@ -196,7 +199,7 @@ public class EntityFrog extends EntityAnimal {
 
 		Calendar calendar = world.getCurrentDate();
 		if (Frogs.frogsDoTheFunny && calendar.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY) {
-			if (!world.isRemote) if (spawnChain > 0) {
+			if (!world.isRemote && spawnChain > 0 && !isDuplicate) {
 				spawnCd = 50;
 				dataManager.set(TALK_TIME, 80);
 				world.playSound(null, posX, posY, posZ, QuarkSounds.ENTITY_FROG_WEDNESDAY, SoundCategory.NEUTRAL, 1F, 1F);
@@ -211,8 +214,14 @@ public class EntityFrog extends EntityAnimal {
 	@Nullable
 	@Override
 	public EntityAgeable createChild(@Nonnull EntityAgeable otherParent) {
+		if (isDuplicate)
+			return null;
+
 		float sizeMod = getSizeModifier();
 		if (otherParent instanceof EntityFrog) {
+			if (((EntityFrog) otherParent).isDuplicate)
+				return null;
+
 			sizeMod += ((EntityFrog) otherParent).getSizeModifier();
 			sizeMod /= 2;
 		}
@@ -245,6 +254,8 @@ public class EntityFrog extends EntityAnimal {
 			dataManager.set(SIZE_MODIFIER, sizeModifier);
 			setSize(0.65f * sizeModifier, 0.5f * sizeModifier);
 		}
+
+		isDuplicate = compound.getBoolean("FakeFrog");
 	}
 
 	@Override
@@ -254,6 +265,7 @@ public class EntityFrog extends EntityAnimal {
 		compound.setInteger("Cooldown", spawnCd);
 		compound.setInteger("Chain", spawnChain);
 		compound.setInteger("DudeAmount", getTalkTime());
+		compound.setBoolean("FakeFrog", isDuplicate);
 	}
 
 	@Override
