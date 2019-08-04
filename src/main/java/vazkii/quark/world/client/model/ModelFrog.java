@@ -23,26 +23,26 @@ public class ModelFrog extends ModelBase {
         textureHeight = 32;
         rightArm = new ModelRenderer(this, 33, 7);
         rightArm.mirror = true;
-        rightArm.setRotationPoint(6.5F, 22.0F, -1.0F);
+        rightArm.setRotationPoint(6.5F, 22.0F, 1.0F);
         rightArm.addBox(-1.0F, -1.0F, -5.0F, 3, 3, 6, 0.0F);
         leftArm = new ModelRenderer(this, 33, 7);
-        leftArm.setRotationPoint(-6.5F, 22.0F, -1.0F);
+        leftArm.setRotationPoint(-6.5F, 22.0F, 1.0F);
         leftArm.addBox(-2.0F, -1.0F, -5.0F, 3, 3, 6, 0.0F);
         body = new ModelRenderer(this, 0, 7);
-        body.setRotationPoint(0.0F, 20.0F, -2.0F);
+        body.setRotationPoint(0.0F, 20.0F, 0.0F);
         body.addBox(-5.5F, -3.0F, 0.0F, 11, 7, 11, 0.0F);
         headTop = new ModelRenderer(this, 0, 0);
-        headTop.setRotationPoint(0.0F, 18.0F, -2.0F);
+        headTop.setRotationPoint(0.0F, 18.0F, 0.0F);
         headTop.addBox(-5.5F, -1.0F, -5.0F, 11, 2, 5, 0.0F);
         headBottom = new ModelRenderer(this, 32, 0);
-        headBottom.setRotationPoint(0.0F, 18.0F, -2.0F);
+        headBottom.setRotationPoint(0.0F, 18.0F, 0.0F);
         headBottom.addBox(-5.5F, 1.0F, -5.0F, 11, 2, 5, 0.0F);
         rightEye = new ModelRenderer(this, 0, 0);
         rightEye.mirror = true;
-        rightEye.setRotationPoint(0.0F, 18.0F, -2.0F);
+        rightEye.setRotationPoint(0.0F, 18.0F, 0.0F);
         rightEye.addBox(1.5F, -1.5F, -4.0F, 1, 1, 1, 0.0F);
         leftEye = new ModelRenderer(this, 0, 0);
-        leftEye.setRotationPoint(0.0F, 18.0F, -2.0F);
+        leftEye.setRotationPoint(0.0F, 18.0F, 0.0F);
         leftEye.addBox(-2.5F, -1.5F, -4.0F, 1, 1, 1, 0.0F);
     }
 
@@ -80,18 +80,31 @@ public class ModelFrog extends ModelBase {
         GlStateManager.pushMatrix();
         float sizeModifier = frog.getSizeModifier();
 
-        if (isChild) sizeModifier /= 2;
 
         GlStateManager.translate(0, 1.5 - sizeModifier * 1.5, 0);
+
         GlStateManager.scale(sizeModifier, sizeModifier, sizeModifier);
 
-        rightArm.render(scale);
-        leftArm.render(scale);
-        body.render(scale);
+        if (isChild) {
+            GlStateManager.pushMatrix();
+            GlStateManager.translate(0, 0.6, 0);
+            GlStateManager.scale(0.625, 0.625, 0.625);
+        }
+
         headTop.render(scale);
         headBottom.render(scale);
         rightEye.render(scale);
         leftEye.render(scale);
+
+        if (isChild) {
+            GlStateManager.popMatrix();
+            GlStateManager.scale(0.5, 0.5, 0.5);
+            GlStateManager.translate(0, 1.5, 0);
+        }
+
+        rightArm.render(scale);
+        leftArm.render(scale);
+        body.render(scale);
 
         GlStateManager.popMatrix();
     }

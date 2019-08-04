@@ -147,23 +147,26 @@ public class ModelFoxhound extends ModelBase {
     	GlStateManager.pushMatrix();
     	GlStateManager.translate(0, 0, ((EntityFoxhound) entity).isSitting() ? -0.25 : -0.35);
 
+    	GlStateManager.pushMatrix();
 
     	if (isChild)
-    	    GlStateManager.translate(0.0F, 5.0F * scale, 2.0F * scale);
+            GlStateManager.translate(0.0F, 5.0F * scale, 0F);
 
         this.head.render(scale);
 
+        GlStateManager.popMatrix();
+
+        GlStateManager.pushMatrix();
         if (isChild) {
-            GlStateManager.popMatrix();
-            GlStateManager.pushMatrix();
+            GlStateManager.translate(0.0F, 12.0F * scale, 0F);
             GlStateManager.scale(0.5F, 0.5F, 0.5F);
-            GlStateManager.translate(0.0F, 5.0F * scale, 2.0F * scale);
         }
         this.leftBackLeg.render(scale);
         this.rightFrontLeg.render(scale);
         this.body.render(scale);
         this.leftFrontLeg.render(scale);
         this.rightBackLeg.render(scale);
+        GlStateManager.popMatrix();
         GlStateManager.popMatrix();
     }
 
