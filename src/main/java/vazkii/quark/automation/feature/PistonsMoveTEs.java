@@ -165,7 +165,7 @@ public class PistonsMoveTEs extends Feature {
 	
 	private static void registerMovement(World world, BlockPos pos, TileEntity tile) {
 		if(!movements.containsKey(world))
-			movements.put(world, new WeakHashMap<>());
+			movements.put(world, new HashMap<>());
 		
 		movements.get(world).put(pos, tile.serializeNBT());
 	}
@@ -186,7 +186,6 @@ public class PistonsMoveTEs extends Feature {
 		if(remove)
 			worldMovements.remove(pos);
 
-
 		return TileEntity.create(world, ret);
 	}
 	
@@ -196,13 +195,15 @@ public class PistonsMoveTEs extends Feature {
 		if(tile != null) {
 			if (IPistonCallback.hasCallback(tile))
 				IPistonCallback.getCallback(tile).onPistonMovementFinished();
-			
+
+			tile.setPos(pos);
+
 			tile.validate();
 			
 			if(tile instanceof TileEntityChest)
 				((TileEntityChest) tile).numPlayersUsing = 0;
 		}
-		
+
 		return tile;
 	}
 	

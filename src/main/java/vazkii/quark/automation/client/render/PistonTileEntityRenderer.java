@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntityPiston;
+import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import vazkii.quark.automation.feature.PistonsMoveTEs;
 import vazkii.quark.base.module.ModuleLoader;
@@ -82,7 +83,7 @@ public class PistonTileEntityRenderer {
 			return false;
 		}
 
-		return true;
+		return state.getRenderType() != EnumBlockRenderType.MODEL;
 	}
 
 }
