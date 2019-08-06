@@ -1,21 +1,7 @@
 package vazkii.quark.base.client;
 
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
-import java.util.WeakHashMap;
-
 import com.google.common.collect.ImmutableSet;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.network.NetworkPlayerInfo;
@@ -25,10 +11,16 @@ import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.base.lib.LibObfuscation;
+
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.util.*;
 
 @Mod.EventBusSubscriber(modid = LibMisc.MOD_ID)
 public class ContributorRewardHandler {
@@ -39,6 +31,8 @@ public class ContributorRewardHandler {
 			"458391f5-6303-4649-b416-e4c0d18f837a");
 
 	private static final Set<String> done = Collections.newSetFromMap(new WeakHashMap<>());
+
+	private static Thread thread;
 
 	private static String name;
 
@@ -55,7 +49,9 @@ public class ContributorRewardHandler {
 	}
 
 	public static void init() {
-		new ThreadContributorListLoader();
+		if (thread == null || thread.isAlive())
+			return;
+		thread = new ThreadContributorListLoader();
 	}
 
 	public static int getTier(EntityPlayer player) {
@@ -82,6 +78,12 @@ public class ContributorRewardHandler {
 				done.add(uuid);
 			}
 		}
+	}
+
+	@SubscribeEvent
+	@SideOnly(Side.SERVER)
+	public static void onPlayerJoin(FMLNetworkEvent.ClientConnectedToServerEvent event) {
+		ContributorRewardHandler.init();
 	}
 	
 	private static void load(Properties props) {
