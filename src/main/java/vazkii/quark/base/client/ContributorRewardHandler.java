@@ -49,7 +49,7 @@ public class ContributorRewardHandler {
 	}
 
 	public static void init() {
-		if (thread == null || thread.isAlive())
+		if (thread != null && thread.isAlive())
 			return;
 		thread = new ThreadContributorListLoader();
 	}
