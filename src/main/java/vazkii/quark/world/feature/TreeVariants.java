@@ -18,7 +18,9 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.registries.IRegistryDelegate;
+import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.handler.OverrideRegistryHandler;
 import vazkii.quark.base.lib.LibObfuscation;
 import vazkii.quark.base.module.Feature;
@@ -53,21 +55,18 @@ public class TreeVariants extends Feature {
 
 		if(enableSwamp) 
 			try {
-				Field[] fields = Biome.class.getDeclaredFields();
-				for(Field f : fields) {
-					String name = f.getName();
-					if(name.equals("SWAMP_FEATURE") || name.equals(LibObfuscation.SWAMP_FEATURE)) {
-						OverrideRegistryHandler.crackFinalField(f);
-						f.set(null, new WorldGenSwampTree(true));
-						break;
-					}
-				}
+				Field f = ObfuscationReflectionHelper.findField(Biome.class, LibObfuscation.SWAMP_FEATURE);
+				OverrideRegistryHandler.crackFinalField(f);
+				f.set(null, new WorldGenSwampTree(true));
 			} catch(ReflectiveOperationException e) {
 				e.printStackTrace();
 			}
 
 		if(enableSakura)
 			GameRegistry.registerWorldGenerator(new SakuraTreeGenerator(), 0);
+
+		addOreDict("treeLeaves", ProxyRegistry.newStack(variant_leaves, 1, OreDictionary.WILDCARD_VALUE));
+		addOreDict("treeSapling", ProxyRegistry.newStack(variant_sapling, 1, OreDictionary.WILDCARD_VALUE));
 	}
 
 	@Override
