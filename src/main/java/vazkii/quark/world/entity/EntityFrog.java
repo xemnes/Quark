@@ -27,6 +27,7 @@ import vazkii.quark.base.sounds.QuarkSounds;
 import vazkii.quark.base.util.CommonReflectiveAccessor;
 import vazkii.quark.base.util.EntityOpacityHandler;
 import vazkii.quark.world.entity.ai.EntityAIFavorBlock;
+import vazkii.quark.world.entity.ai.EntityAIPassenger;
 import vazkii.quark.world.entity.ai.EntityAITemptButNice;
 import vazkii.quark.world.feature.Frogs;
 
@@ -75,15 +76,16 @@ public class EntityFrog extends EntityAnimal {
 
 	@Override
 	protected void initEntityAI() {
-		tasks.addTask(0, new EntityAISwimming(this));
-		tasks.addTask(1, new AIPanic(1.25));
-		tasks.addTask(2, new EntityAIMate(this, 1.0));
-		tasks.addTask(3, new EntityAITemptButNice(this, 1.2, false, TEMPTATION_ITEMS, TEMPTATION_ITEMS_BUT_NICE));
-		tasks.addTask(4, new EntityAIFollowParent(this, 1.1));
-		tasks.addTask(5, new EntityAIFavorBlock(this, 1, Blocks.WATERLILY));
-		tasks.addTask(6, new EntityAIWanderAvoidWater(this, 1, 0.5F));
-		tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 6));
-		tasks.addTask(8, new EntityAILookIdle(this));
+		tasks.addTask(0, new EntityAIPassenger(this));
+		tasks.addTask(1, new EntityAISwimming(this));
+		tasks.addTask(2, new AIPanic(1.25));
+		tasks.addTask(3, new EntityAIMate(this, 1.0));
+		tasks.addTask(4, new EntityAITemptButNice(this, 1.2, false, TEMPTATION_ITEMS, TEMPTATION_ITEMS_BUT_NICE));
+		tasks.addTask(5, new EntityAIFollowParent(this, 1.1));
+		tasks.addTask(6, new EntityAIFavorBlock(this, 1, Blocks.WATERLILY));
+		tasks.addTask(7, new EntityAIWanderAvoidWater(this, 1, 0.5F));
+		tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 6));
+		tasks.addTask(9, new EntityAILookIdle(this));
 	}
 
 	@Override
