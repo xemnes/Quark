@@ -406,6 +406,18 @@ public class EntityStoneling extends EntityCreature {
 		return QuarkSounds.ENTITY_STONELING_DIE;
 	}
 
+	@Override
+	public int getTalkInterval() {
+		return 1200;
+	}
+
+	@Override
+	public void playLivingSound() {
+		SoundEvent sound = this.getAmbientSound();
+
+		if (sound != null) this.playSound(sound, this.getSoundVolume(), 1f);
+	}
+
 	@Nullable
 	@Override
 	protected SoundEvent getAmbientSound() {
