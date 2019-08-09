@@ -13,7 +13,9 @@ package vazkii.quark.misc.ai;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIBase;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.passive.AbstractHorse;
 import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.pathfinding.PathNavigateFlying;
@@ -26,6 +28,7 @@ import net.minecraft.world.World;
 import vazkii.quark.misc.feature.HorseWhistle;
 
 import java.util.Objects;
+import java.util.UUID;
 
 public class EntityAIHorseFollow extends EntityAIBase {
 	private final AbstractHorse horse;
@@ -36,12 +39,19 @@ public class EntityAIHorseFollow extends EntityAIBase {
 	private int timeToRebuildPath;
 	private float oldWaterCost;
 
+	private static final UUID HORSE_SIGHT = UUID.fromString("f58c267b-67fb-4997-b2a0-27649fb0aa9a");
+
 	public EntityAIHorseFollow(AbstractHorse horse, double followSpeedIn) {
 		this.horse = horse;
 		this.world = horse.world;
 		this.followSpeed = followSpeedIn;
 		this.petPathfinder = horse.getNavigator();
 		this.owner = null;
+
+		this.horse.getAttributeMap()
+				.getAttributeInstance(SharedMonsterAttributes.FOLLOW_RANGE)
+				.removeModifier(HORSE_SIGHT);
+
 		this.setMutexBits(3);
 
 		if (!(horse.getNavigator() instanceof PathNavigateGround) && !(horse.getNavigator() instanceof PathNavigateFlying)) {
@@ -66,12 +76,18 @@ public class EntityAIHorseFollow extends EntityAIBase {
 		this.timeToRebuildPath = 0;
 		this.oldWaterCost = this.horse.getPathPriority(PathNodeType.WATER);
 		this.horse.setPathPriority(PathNodeType.WATER, 0.0F);
+		this.horse.getAttributeMap()
+				.getAttributeInstance(SharedMonsterAttributes.FOLLOW_RANGE)
+				.applyModifier(new AttributeModifier(HORSE_SIGHT, "Whistle range bonus", HorseWhistle.horseSummonRange, 0));
 	}
 
 	public void resetTask() {
 		this.owner = null;
 		this.petPathfinder.clearPath();
 		this.horse.setPathPriority(PathNodeType.WATER, this.oldWaterCost);
+		this.horse.getAttributeMap()
+				.getAttributeInstance(SharedMonsterAttributes.FOLLOW_RANGE)
+				.removeModifier(HORSE_SIGHT);
 	}
 
 	public void updateTask() {
