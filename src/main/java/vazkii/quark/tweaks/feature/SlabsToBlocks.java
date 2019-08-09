@@ -22,6 +22,9 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import vazkii.arl.recipe.MultiRecipe;
@@ -48,11 +51,13 @@ public class SlabsToBlocks extends Feature {
 	public void setupConfig() {
 		originalSize = loadPropInt("Vanilla stack size", "The stack size for the vanilla slab recipe, used for automatically detecting slab recipes", 6);
 	}
-	
-	@Override
-	public void postPreInit() {
-		multiRecipe = new MultiRecipe(new ResourceLocation("quark", "slabs_to_blocks"));
+
+	@SubscribeEvent(priority = EventPriority.LOWEST)
+	public void registerRecipe(RegistryEvent.Register<IRecipe> event) {
+		ResourceLocation key = new ResourceLocation("quark", "slabs_to_blocks");
+		event.getRegistry().register(multiRecipe = new MultiRecipe(key));
 	}
+
 	
 	@Override
 	@SuppressWarnings("deprecation")
@@ -95,7 +100,7 @@ public class SlabsToBlocks extends Feature {
 								slabs.put(block.getStateFromMeta(outCopy.getItemDamage()), in);
 							}
 							
-							RecipeHandler.addShapedRecipe(multiRecipe, outCopy, "SS", 'S', in);
+							RecipeHandler.addShapelessRecipe(multiRecipe, outCopy, in, in);
 						}
 					}
 				}
@@ -107,5 +112,9 @@ public class SlabsToBlocks extends Feature {
 	public boolean requiresMinecraftRestartToEnable() {
 		return true;
 	}
-	
+
+	@Override
+	public boolean hasSubscriptions() {
+		return true;
+	}
 }
