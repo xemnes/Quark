@@ -205,6 +205,8 @@ public class EntityStoneling extends EntityCreature {
 				} else if (Stonelings.tamableStonelings && fitsOreKey(playerItem, "gemDiamond")) {
 					heal(8);
 
+					setPlayerMade(true);
+
 					playSound(QuarkSounds.ENTITY_STONELING_PURR, 1F, 1F + world.rand.nextFloat() * 1F);
 
 					if (!player.capabilities.isCreativeMode)
