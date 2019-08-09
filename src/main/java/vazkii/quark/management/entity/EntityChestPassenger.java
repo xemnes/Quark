@@ -156,8 +156,15 @@ public class EntityChestPassenger extends Entity implements IInventory {
 	}
 
 	@Override
+	public void setDropItemsWhenDead(boolean dropWhenDead) {
+		itemsCanceled = dropWhenDead;
+	}
+
+	private boolean itemsCanceled = false;
+
+	@Override
 	public void setDead() {
-		if(!world.isRemote) {
+		if(!world.isRemote && !itemsCanceled) {
 			InventoryHelper.dropInventoryItems(world, this, this);
 			InventoryHelper.spawnItemStack(world, posX, posY, posZ, getChestType());
 		}
