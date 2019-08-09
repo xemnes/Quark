@@ -249,11 +249,10 @@ public class EntityFrog extends EntityAnimal {
 		if (compound.hasKey("Chain"))
 			spawnChain = compound.getInteger("Chain");
 		dataManager.set(TALK_TIME, compound.getInteger("DudeAmount"));
-		if (compound.hasKey("FrogAmount")) {
-			float sizeModifier = compound.getFloat("FrogAmount");
-			dataManager.set(SIZE_MODIFIER, sizeModifier);
-			setSize(0.65f * sizeModifier, 0.5f * sizeModifier);
-		}
+
+		float sizeModifier = compound.hasKey("FrogAmount") ? compound.getFloat("FrogAmount") : 1f;
+		dataManager.set(SIZE_MODIFIER, sizeModifier);
+		setSize(0.65f * sizeModifier, 0.5f * sizeModifier);
 
 		isDuplicate = compound.getBoolean("FakeFrog");
 	}
