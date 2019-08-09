@@ -32,6 +32,7 @@ public class ChainHandler {
 	public static final float MAX_DISTANCE = 8F;
 	private static final float STIFFNESS = 0.4F;
 	private static final float DAMPING = 0.2F;
+	private static final float MIN_FORCE = 0.05F;
 	private static final float MAX_FORCE = 6F;
 
 	private static <T extends Entity> void adjustVelocity(T master, Entity follower) {
@@ -54,28 +55,32 @@ public class ChainHandler {
 		springX = MathHelper.clamp(springX, -MAX_FORCE, MAX_FORCE);
 		springZ = MathHelper.clamp(springZ, -MAX_FORCE, MAX_FORCE);
 
-		master.motionX += springX;
-		master.motionZ += springZ;
+		double totalSpringSq = springX * springX + springZ * springZ;
 
-		follower.motionX -= springX;
-		follower.motionZ -= springZ;
+		if (totalSpringSq > MIN_FORCE * MIN_FORCE) {
+			master.motionX += springX;
+			master.motionZ += springZ;
 
-		Vec3d newMasterVelocity = new Vec3d(master.motionX, 0, master.motionZ);
-		Vec3d newFollowerVelocity = new Vec3d(follower.motionX, 0, follower.motionZ);
+			follower.motionX -= springX;
+			follower.motionZ -= springZ;
 
-		double deviation = newFollowerVelocity.subtract(newMasterVelocity).dotProduct(direction);
+			Vec3d newMasterVelocity = new Vec3d(master.motionX, 0, master.motionZ);
+			Vec3d newFollowerVelocity = new Vec3d(follower.motionX, 0, follower.motionZ);
 
-		double dampX = DAMPING * deviation * direction.x;
-		double dampZ = DAMPING * deviation * direction.z;
+			double deviation = newFollowerVelocity.subtract(newMasterVelocity).dotProduct(direction);
 
-		dampX = MathHelper.clamp(dampX, -MAX_FORCE, MAX_FORCE);
-		dampZ = MathHelper.clamp(dampZ, -MAX_FORCE, MAX_FORCE);
+			double dampX = DAMPING * deviation * direction.x;
+			double dampZ = DAMPING * deviation * direction.z;
 
-		master.motionX += dampX;
-		master.motionZ += dampZ;
+			dampX = MathHelper.clamp(dampX, -MAX_FORCE, MAX_FORCE);
+			dampZ = MathHelper.clamp(dampZ, -MAX_FORCE, MAX_FORCE);
 
-		follower.motionX -= dampX;
-		follower.motionZ -= dampZ;
+			master.motionX += dampX;
+			master.motionZ += dampZ;
+
+			follower.motionX -= dampX;
+			follower.motionZ -= dampZ;
+		}
 	}
 
 	public static UUID getLink(Entity vehicle) {
