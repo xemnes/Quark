@@ -260,8 +260,7 @@ public class EntityStoneling extends EntityCreature {
 	}
 
 	@Override
-	public boolean isNotColliding()
-	{
+	public boolean isNotColliding() {
 		return this.world.checkNoEntityCollision(this.getEntityBoundingBox(), this);
 	}
 

@@ -97,7 +97,7 @@ public enum EnumStonelingVariant implements IEntityLivingData {
 
 	public static EnumStonelingVariant byIndex(byte index) {
 		EnumStonelingVariant[] values = values();
-		return values[MathHelper.clamp(index, 0, values.length)];
+		return values[MathHelper.clamp(index, 0, values.length - 1)];
 	}
 
 	public byte getIndex() {
