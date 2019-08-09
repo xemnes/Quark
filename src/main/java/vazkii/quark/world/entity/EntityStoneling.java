@@ -264,7 +264,6 @@ public class EntityStoneling extends EntityCreature {
 		return this.world.checkNoEntityCollision(this.getEntityBoundingBox(), this);
 	}
 
-
 	@Override
 	public double getMountedYOffset() {
 		return this.height;
@@ -403,6 +402,18 @@ public class EntityStoneling extends EntityCreature {
 	@Override
 	protected SoundEvent getDeathSound() {
 		return QuarkSounds.ENTITY_STONELING_DIE;
+	}
+
+	@Nullable
+	@Override
+	protected SoundEvent getAmbientSound() {
+		if (hasCustomName()) {
+			String customName = getCustomNameTag();
+			if (customName.equalsIgnoreCase("michael stevens") || customName.equalsIgnoreCase("vsauce"))
+				return QuarkSounds.ENTITY_STONELING_MICHAEL;
+		}
+
+		return null;
 	}
 
 	// Vanilla copy pasta from EntityMob

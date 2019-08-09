@@ -123,6 +123,18 @@
       "quark:entity/stoneling/die"
     ]
   },
+  "entity.stoneling.michael": {
+    "category": "neutral",
+    "subtitle": "quark.subtitles.michael_here",
+    "sounds": [
+      "quark:entity/stoneling/vsauce1",
+      "quark:entity/stoneling/vsauce2",
+      "quark:entity/stoneling/vsauce3",
+      "quark:entity/stoneling/vsauce4",
+      "quark:entity/stoneling/vsauce5",
+      "quark:entity/stoneling/vsauce6"
+    ]
+  },
   "entity.frog.wednesday": {
     "category": "neutral",
     "subtitle": "quark.subtitles.hump_day",

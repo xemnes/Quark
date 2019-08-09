@@ -30,6 +30,7 @@ public class QuarkSounds {
 	public static final SoundEvent ENTITY_STONELING_EAT = new ModSoundEvent("entity.stoneling.eat");
 	public static final SoundEvent ENTITY_STONELING_DIE = new ModSoundEvent("entity.stoneling.die");
 	public static final SoundEvent ENTITY_STONELING_CRY = new ModSoundEvent("entity.stoneling.cry");
+	public static final SoundEvent ENTITY_STONELING_MICHAEL = new ModSoundEvent("entity.stoneling.michael");
 	public static final SoundEvent ENTITY_FROG_WEDNESDAY = new ModSoundEvent("entity.frog.wednesday");
 	public static final SoundEvent ENTITY_FROG_HURT = new ModSoundEvent("entity.frog.hurt");
 	public static final SoundEvent ENTITY_FROG_DIE = new ModSoundEvent("entity.frog.die");

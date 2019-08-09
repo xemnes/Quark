@@ -92,6 +92,7 @@ quark.subtitles.frog_idle=Frog ribbits
 quark.subtitles.frog_jump=Frog hops
 quark.subtitles.horse_whistle=High-pitched screeching
 quark.subtitles.do_it=Motivation
+quark.subtitles.michael_here=Michael is here
 
 # COMMANDS
 commands.quarkconfig.usage=/quark-config <category> <key> <value> [player] [save?]
