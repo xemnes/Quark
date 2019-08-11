@@ -77,6 +77,7 @@ public class ConfigResolver {
 			throw new RuntimeException("Failed to create config spec for module " + module.displayName, e);
 		}
 		
+		refreshRunnables.add(() -> module.pushFlags(flagManager));
 		
 		builder.pop();
 	}

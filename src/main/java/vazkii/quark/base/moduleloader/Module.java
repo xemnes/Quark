@@ -44,6 +44,10 @@ public class Module {
 		// NO-OP
 	}
 	
+	public void pushFlags(ConfigFlagManager manager) {
+		// NO-OP
+	}
+	
 	public final void setEnabled(boolean enabled) {
 		if(!ignoreAntiOverlap && antiOverlap != null) {
 			ModList list = ModList.get();
