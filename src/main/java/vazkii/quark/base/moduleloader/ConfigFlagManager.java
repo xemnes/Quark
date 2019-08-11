@@ -25,12 +25,10 @@ public final class ConfigFlagManager {
 	}
 	
 	public void putEnabledFlag(Module module) {
-		System.out.println("putting enabled flag " + module.enabled);
 		flags.put(module.lowercaseName, module.enabled);
 	}
 	
 	public boolean getFlag(String flag) {
-		System.out.println("Get flag: " + flag);
 		Boolean obj = flags.get(flag);
 		return obj != null && obj;
 	}

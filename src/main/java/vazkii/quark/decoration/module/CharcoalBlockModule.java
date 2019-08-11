@@ -19,10 +19,4 @@ public final class CharcoalBlockModule extends Module {
 		charcoal_block = new CharcoalBlock(this);
 	}
 	
-	@Override
-	public void configChanged() {
-		System.out.println("On config change");
-		System.out.println("Is enabled: " + enabled);
-	}
-	
 }

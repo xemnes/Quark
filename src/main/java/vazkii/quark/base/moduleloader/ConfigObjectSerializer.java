@@ -32,9 +32,10 @@ public final class ConfigObjectSerializer {
 		if(!config.description().isEmpty())
 			builder.comment(config.description());
 		
-		double min = config.min();
-		double max = config.max();
-		boolean hasRange = min > Double.MIN_VALUE || max < Double.MAX_VALUE;
+		// TODO ranges
+		// double min = config.min();
+		// double max = config.max();
+		// boolean hasRange = min > Double.MIN_VALUE || max < Double.MAX_VALUE;
 		
 		Function<Object, Object> converter = f -> f;
 		
@@ -43,7 +44,6 @@ public final class ConfigObjectSerializer {
 		if(type == float.class)
 			converter = (d) -> d instanceof Double ? (float) ((Double) d).doubleValue() : d;
 		
-		// TODO ranges
 			
 		if(defaultValue instanceof IConfigType) {
 			name = name.toLowerCase().replaceAll(" ", "_");

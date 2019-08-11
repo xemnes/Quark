@@ -26,15 +26,15 @@ public class CommonProxy {
 		bus.addListener(this::configChanged);
 	}
 	
-	public final void setup(FMLCommonSetupEvent event) {
+	public void setup(FMLCommonSetupEvent event) {
 		ModuleLoader.INSTANCE.setup();
 	}
 	
-	public final void loadComplete(FMLLoadCompleteEvent event) {
+	public void loadComplete(FMLLoadCompleteEvent event) {
 		ModuleLoader.INSTANCE.loadComplete();
 	}
 	
-	public final void configChanged(ModConfigEvent event) {
+	public void configChanged(ModConfigEvent event) {
 		if(event.getConfig().getModId().equals(Quark.MOD_ID) && ClientTicker.ticksInGame - lastConfigChange > 10) { 
 			handleQuarkConfigChange();
 			lastConfigChange = ClientTicker.ticksInGame;

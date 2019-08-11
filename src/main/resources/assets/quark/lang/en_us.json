@@ -1,3 +1,5 @@
 {
+	"quarkmisc.reloading": "The Quark config file was changed. Reloading...",
+
 	"block.quark.charcoal_block": "Charcoal Block"
 }
