@@ -90,7 +90,7 @@ repositories {
 dependencies {
     minecraft "net.minecraftforge:forge:${config.mc_version}-${config.forge_version}"
 
-    compile "vazkii.arl:AutoRegLib:${config.arl_version}:deobf"
+    compile fg.deobf("vazkii.arl:AutoRegLib:${config.arl_version}")
 }
 
 processResources {
