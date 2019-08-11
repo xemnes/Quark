@@ -1,6 +1,5 @@
 package vazkii.quark.decoration.module;
 
-import net.minecraft.block.Block;
 import vazkii.quark.base.moduleloader.Config;
 import vazkii.quark.base.moduleloader.LoadModule;
 import vazkii.quark.base.moduleloader.Module;
@@ -12,11 +11,9 @@ public final class CharcoalBlockModule extends Module {
 
 	@Config public static boolean burnsForever = true; 
 	
-	public static Block charcoal_block;
-	
 	@Override
 	public void start() {
-		charcoal_block = new CharcoalBlock(this);
+		new CharcoalBlock(this);
 	}
 	
 }

@@ -1,0 +1,6 @@
+{
+	"parent": "block/cube_all",
+	"textures": {
+		"all": "quark:blocks/cyan_quilted_wool"
+	}
+}

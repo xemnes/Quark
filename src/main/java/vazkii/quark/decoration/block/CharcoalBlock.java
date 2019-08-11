@@ -17,10 +17,12 @@ import vazkii.quark.decoration.module.CharcoalBlockModule;
 public class CharcoalBlock extends QuarkBlock {
 
 	public CharcoalBlock(Module module) {
-		super("charcoal_block", module,
+		super("charcoal_block",
 				Block.Properties.create(Material.ROCK, MaterialColor.BLACK)
 				.hardnessAndResistance(5F, 10F)
 				.sound(SoundType.STONE));
+		
+		setModule(module);
 		RegistryHelper.setCreativeTab(this, ItemGroup.BUILDING_BLOCKS);
 	}
 

@@ -1,5 +1,21 @@
 {
 	"quarkmisc.reloading": "The Quark config file was changed. Reloading...",
 
-	"block.quark.charcoal_block": "Charcoal Block"
+	"block.quark.charcoal_block": "Charcoal Block",
+	"block.quark.black_quilted_wool": "Black Quilted Wool",
+	"block.quark.blue_quilted_wool": "Blue Quilted Wool",
+	"block.quark.brown_quilted_wool": "Brown Quilted Wool",
+	"block.quark.cyan_quilted_wool": "Cyan Quilted Wool",
+	"block.quark.gray_quilted_wool": "Gray Quilted Wool",
+	"block.quark.green_quilted_wool": "Green Quilted Wool",
+	"block.quark.light_blue_quilted_wool": "Light Blue Quilted Wool",
+	"block.quark.light_gray_quilted_wool": "Light Gray Quilted Wool",
+	"block.quark.lime_quilted_wool": "Lime Quilted Wool",
+	"block.quark.magenta_quilted_wool": "Magenta Quilted Wool",
+	"block.quark.orange_quilted_wool": "Orange Quilted Wool",
+	"block.quark.pink_quilted_wool": "Pink Quilted Wool",
+	"block.quark.purple_quilted_wool": "Purple Quilted Wool",
+	"block.quark.red_quilted_wool": "Red Quilted Wool",
+	"block.quark.white_quilted_wool": "White Quilted Wool",
+	"block.quark.yellow_quilted_wool": "Yellow Quilted Wool"
 }
