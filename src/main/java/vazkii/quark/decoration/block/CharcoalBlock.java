@@ -9,7 +9,6 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
-import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.base.block.QuarkBlock;
 import vazkii.quark.base.moduleloader.Module;
 import vazkii.quark.decoration.module.CharcoalBlockModule;

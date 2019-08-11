@@ -7,7 +7,7 @@ import vazkii.quark.base.moduleloader.ModuleCategory;
 import vazkii.quark.decoration.block.CharcoalBlock;
 
 @LoadModule(category = ModuleCategory.DECORATION)
-public final class CharcoalBlockModule extends Module {
+public class CharcoalBlockModule extends Module {
 
 	@Config public static boolean burnsForever = true; 
 	

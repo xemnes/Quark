@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "S  ",
+    " II"
+  ],
+  "key": {
+    "S": {
+      "item": "minecraft:stick"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "result": {
+    "item": "quark:trowel"
+  },
+  "conditions": [
+    {
+      "type": "quark:flag",
+      "flag": "trowel"
+    }
+  ]
+}

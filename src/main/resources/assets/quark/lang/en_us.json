@@ -1,6 +1,8 @@
 {
 	"quarkmisc.reloading": "The Quark config file was changed. Reloading...",
 
+	"item.quark.trowel": "Trowel",
+
 	"block.quark.charcoal_block": "Charcoal Block",
 	"block.quark.black_quilted_wool": "Black Quilted Wool",
 	"block.quark.blue_quilted_wool": "Blue Quilted Wool",
