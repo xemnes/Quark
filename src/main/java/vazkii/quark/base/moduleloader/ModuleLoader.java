@@ -31,9 +31,9 @@ public final class ModuleLoader {
 		config.makeSpec();
 	}
 	
-	public void configChanged() {
+	public void configChanged(boolean firstLoad) {
 		config.configChanged();
-		dispatch(this::handleConfigChange);
+		dispatch(m -> m.configChanged(firstLoad));
 	}
 	
 	public void setup() {
@@ -52,10 +52,6 @@ public final class ModuleLoader {
 	
 	private void dispatch(Consumer<Module> run) {
 		foundModules.values().forEach(run);
-	}
-	
-	private void handleConfigChange(Module module) {
-		module.configChanged();
 	}
 	
 }

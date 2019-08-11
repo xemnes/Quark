@@ -30,6 +30,7 @@ public final class ModuleFinder {
         targets.forEach(this::loadModule);
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void loadModule(AnnotationData target) {
 		try {
 			Class<?> clazz = Class.forName(target.getClassType().getClassName());
@@ -50,7 +51,7 @@ public final class ModuleFinder {
 				moduleObj.description = (String) vals.get("description");
 			
 			if(vals.containsKey("antiOverlap"))
-				moduleObj.antiOverlap = (String[]) vals.get("antiOverlap");
+				moduleObj.antiOverlap = (List<String>) vals.get("antiOverlap");
 			
 			if(vals.containsKey("subscriptions"))
 				moduleObj.subscriptionTarget = (SubscriptionTarget) vals.get("subscriptions");

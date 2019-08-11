@@ -27,7 +27,7 @@ public class CommonProxy {
 	}
 	
 	public final void setup(FMLCommonSetupEvent event) {
-		moduleLoader.configChanged();
+//		moduleLoader.configChanged(true);
 		moduleLoader.setup();
 	}
 	
@@ -37,7 +37,7 @@ public class CommonProxy {
 	
 	public final void configChanged(ModConfig.ConfigReloading event) {
 		if(event.getConfig().getModId().equals(Quark.MOD_ID))
-			moduleLoader.configChanged();
+			moduleLoader.configChanged(false);
 	}
 	
 	public final ModuleLoader getModuleLoader() {
