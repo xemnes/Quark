@@ -8,7 +8,7 @@ import vazkii.quark.base.moduleloader.ModuleCategory;
 import vazkii.quark.decoration.block.CharcoalBlock;
 
 @LoadModule(category = ModuleCategory.DECORATION)
-public final class CharcoalBlockFeature extends Module {
+public final class CharcoalBlockModule extends Module {
 
 	@Config public static boolean burnsForever = true; 
 	
@@ -16,7 +16,13 @@ public final class CharcoalBlockFeature extends Module {
 	
 	@Override
 	public void start() {
-		charcoal_block = new CharcoalBlock();
+		charcoal_block = new CharcoalBlock(this);
+	}
+	
+	@Override
+	public void configChanged() {
+		System.out.println("On config change");
+		System.out.println("Is enabled: " + enabled);
 	}
 	
 }

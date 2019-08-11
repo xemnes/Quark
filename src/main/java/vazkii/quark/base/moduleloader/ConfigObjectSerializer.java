@@ -12,23 +12,21 @@ import net.minecraftforge.common.ForgeConfigSpec;
 @SuppressWarnings("deprecation")
 public final class ConfigObjectSerializer {
 	
-	public static void serialize(ForgeConfigSpec.Builder builder, List<Runnable> callbacks, Object object) throws ReflectiveOperationException {
+	public static void serialize(ForgeConfigSpec.Builder builder, ConfigFlagManager flagManager, List<Runnable> callbacks, Object object) throws ReflectiveOperationException {
 		Field[] fields = object.getClass().getDeclaredFields();
 		for(Field f : fields) {
 			Config config = f.getDeclaredAnnotation(Config.class);
 			if(config != null)
-				pushConfig(builder, callbacks, object, f, config);
+				pushConfig(builder, flagManager, callbacks, object, f, config);
 		}
 	}
 	
-	private static void pushConfig(ForgeConfigSpec.Builder builder, List<Runnable> callbacks, Object object, Field field, Config config) throws ReflectiveOperationException {
+	private static void pushConfig(ForgeConfigSpec.Builder builder, ConfigFlagManager flagManager, List<Runnable> callbacks, Object object, Field field, Config config) throws ReflectiveOperationException {
 		field.setAccessible(true);
 		
 		String name = config.name();
 		if(name.isEmpty())
 			name = WordUtils.capitalizeFully(field.getName().replaceAll("(?<=.)([A-Z])", " $1"));
-		
-		// TODO flags
 		
 		Class<?> type = field.getType();
 		if(!config.description().isEmpty())
@@ -51,12 +49,15 @@ public final class ConfigObjectSerializer {
 			name = name.toLowerCase().replaceAll(" ", "_");
 			
 			builder.push(name);
-			serialize(builder, callbacks, defaultValue);
+			serialize(builder, flagManager, callbacks, defaultValue);
 			callbacks.add(((IConfigType) defaultValue)::onReload);
 			builder.pop();
 			
 			return;
 		}
+		
+		String flag = config.flag();
+		boolean useFlag = object instanceof Module && !flag.isEmpty();
 			
 		ForgeConfigSpec.ConfigValue<?> value = builder.define(name, defaultValue);
 		final Function<Object, Object> finalConverter = converter;
@@ -66,6 +67,9 @@ public final class ConfigObjectSerializer {
 				if(isStatic)
 					field.set(null, setObj);
 				else field.set(object, setObj);
+				
+				if(useFlag)
+					flagManager.putFlag((Module) object, flag, (boolean) setObj);
 			} catch(IllegalAccessException e) {
 				throw new RuntimeException(e);
 			}

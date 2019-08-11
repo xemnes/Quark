@@ -10,6 +10,7 @@ import net.minecraftforge.fml.ModList;
 public class Module {
 
 	public String displayName = "";
+	public String lowercaseName = "";
 	public String description = "";
 	public List<String> antiOverlap = null;
 	public SubscriptionTarget subscriptionTarget = SubscriptionTarget.NO;
@@ -22,7 +23,7 @@ public class Module {
 		// NO-OP
 	}
 	
-	public void configChanged(boolean firstLoad) {
+	public void configChanged() {
 		// NO-OP
 	}
 	

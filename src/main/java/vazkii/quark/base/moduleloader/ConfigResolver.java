@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import net.minecraft.world.gen.FlatChunkGenerator;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.config.ModConfig;
@@ -12,19 +13,22 @@ import net.minecraftforge.fml.config.ModConfig;
 public class ConfigResolver {
 
 	private final Map<String, ModuleCategory> categories;
+	private final ConfigFlagManager flagManager;
 	
 	private List<Runnable> refreshRunnables = new LinkedList<>();
 	
 	public ConfigResolver(Map<String, ModuleCategory> categories) {
 		this.categories = categories;
+		this.flagManager = new ConfigFlagManager();
 	}
 	
 	public void makeSpec() {
 		ForgeConfigSpec spec = new ForgeConfigSpec.Builder().configure(this::build).getRight();
-		ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, spec);
+		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, spec);
 	}
 	
 	public void configChanged() {
+		flagManager.clear();
 		refreshRunnables.forEach(Runnable::run);
 	}
 	
@@ -45,7 +49,10 @@ public class ConfigResolver {
 		
 		for(Module module : modules) {
 			ForgeConfigSpec.ConfigValue<Boolean> value = builder.define(module.displayName, module.enabledByDefault);
-			setEnabledRunnables.put(module, () -> module.setEnabled(value.get()));
+			setEnabledRunnables.put(module, () -> {
+				module.setEnabled(value.get());
+				flagManager.putEnabledFlag(module);
+			});
 		}
 	
 		for(Module module : modules)
@@ -58,7 +65,7 @@ public class ConfigResolver {
 		if(!module.description.isEmpty())
 			builder.comment(module.description);
 		
-		builder.push(module.displayName.toLowerCase().replaceAll(" ", "_"));
+		builder.push(module.lowercaseName);
 		
 		if(module.antiOverlap != null && module.antiOverlap.size() > 0)
 			addModuleAntiOverlap(builder, module);
@@ -66,7 +73,7 @@ public class ConfigResolver {
 		refreshRunnables.add(setEnabled);
 		
 		try {
-			ConfigObjectSerializer.serialize(builder, refreshRunnables, module);
+			ConfigObjectSerializer.serialize(builder, flagManager, refreshRunnables, module);
 		} catch(ReflectiveOperationException e) {
 			throw new RuntimeException("Failed to create config spec for module " + module.displayName, e);
 		}

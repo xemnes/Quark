@@ -10,9 +10,14 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 public final class ModuleLoader {
 	
+	public static final ModuleLoader INSTANCE = new ModuleLoader(); 
+	
 	private Map<String, ModuleCategory> foundCategories = new LinkedHashMap<>();
 	private Map<Class<?>, Module> foundModules = new HashMap<>();
+	
 	private ConfigResolver config;
+	
+	private ModuleLoader() { }
 	
 	public void start() {
 		findModules();
@@ -32,9 +37,9 @@ public final class ModuleLoader {
 		config.makeSpec();
 	}
 	
-	public void configChanged(boolean firstLoad) {
+	public void configChanged() {
 		config.configChanged();
-		dispatch(m -> m.configChanged(firstLoad));
+		dispatch(m -> m.configChanged());
 	}
 	
 	public void setup() {
@@ -49,6 +54,7 @@ public final class ModuleLoader {
 	
 	public void loadComplete() {
 		dispatch(Module::loadComplete);
+		configChanged();
 	}
 	
 	private void dispatch(Consumer<Module> run) {
