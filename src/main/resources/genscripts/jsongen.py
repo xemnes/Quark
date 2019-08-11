@@ -18,9 +18,24 @@ def copy_template(name, base, target):
 				writer.write(line)
 
 def copy(templates):
-	argslen = len(sys.argv)
-	for i in range(1, argslen):
-		name = sys.argv[i]
+	if 'file:' in sys.argv[1]:
+		copy_file(sys.argv[1][5:], templates)
+	else:
+		copy_array(1, sys.argv, templates)
+
+def copy_file(file, templates):
+	lines = []
+	with open(file, 'r') as reader:
+		for line in reader:
+			lines.append(line.strip())
+
+	print(lines)
+	copy_array(0, lines, templates)
+
+def copy_array(start, arr, templates):
+	argslen = len(arr)
+	for i in range(start, argslen):
+		name = arr[i]
 		if '=' in name:
 			parse_param(name)
 		else:
