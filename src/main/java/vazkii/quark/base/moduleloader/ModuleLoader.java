@@ -13,7 +13,7 @@ public final class ModuleLoader {
 	public static final ModuleLoader INSTANCE = new ModuleLoader(); 
 	
 	private Map<String, ModuleCategory> foundCategories = new LinkedHashMap<>();
-	private Map<Class<?>, Module> foundModules = new HashMap<>();
+	private Map<Class<? extends Module>, Module> foundModules = new HashMap<>();
 	
 	private ConfigResolver config;
 	
@@ -59,6 +59,15 @@ public final class ModuleLoader {
 	
 	private void dispatch(Consumer<Module> run) {
 		foundModules.values().forEach(run);
+	}
+	
+	public boolean isModuleEnabled(Class<? extends Module> moduleClazz) {
+		Module module = getModuleInstance(moduleClazz);
+		return module != null && module.enabled;
+	}
+	
+	public Module getModuleInstance(Class<? extends Module> moduleClazz) {
+		return foundModules.get(moduleClazz);
 	}
 	
 }

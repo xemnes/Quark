@@ -20,7 +20,7 @@ public final class ModuleFinder {
     private static final Type LOAD_MODULE_TYPE = Type.getType(LoadModule.class);
 
 	private Map<String, ModuleCategory> foundCategories = new HashMap<>();
-	private Map<Class<?>, Module> foundModules = new HashMap<>();
+	private Map<Class<? extends Module>, Module> foundModules = new HashMap<>();
 
 	public void findModules() {
 		ModFileScanData scanData = ModList.get().getModFileById(Quark.MOD_ID).getFile().getScanResult();
@@ -66,7 +66,7 @@ public final class ModuleFinder {
 			ModuleCategory category = getOrMakeCategory((String) vals.get("category"));
 			category.addModule(moduleObj);
 			
-			foundModules.put(clazz, moduleObj);
+			foundModules.put((Class<? extends Module>) clazz, moduleObj);
 		} catch(ReflectiveOperationException e) {
 			throw new RuntimeException("Failed to load Module " + target.toString(), e);
 		}
@@ -83,7 +83,7 @@ public final class ModuleFinder {
 		return foundCategories;
 	}
 	
-	public Map<Class<?>, Module> getFoundModules() {
+	public Map<Class<? extends Module>, Module> getFoundModules() {
 		return foundModules;
 	}
 	
