@@ -13,7 +13,7 @@ public class Module {
 	public String lowercaseName = "";
 	public String description = "";
 	public List<String> antiOverlap = null;
-	public SubscriptionTarget subscriptionTarget = SubscriptionTarget.NO;
+	public SubscriptionTarget subscriptionTarget = SubscriptionTarget.NONE;
 	public boolean enabledByDefault = true;
 	
 	public boolean enabled = false;

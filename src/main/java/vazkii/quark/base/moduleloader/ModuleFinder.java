@@ -9,6 +9,7 @@ import org.apache.commons.lang3.text.WordUtils;
 import org.objectweb.asm.Type;
 
 import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.loading.moddiscovery.ModAnnotation;
 import net.minecraftforge.forgespi.language.ModFileScanData;
 import net.minecraftforge.forgespi.language.ModFileScanData.AnnotationData;
 import vazkii.quark.base.Quark;
@@ -55,8 +56,9 @@ public final class ModuleFinder {
 			if(vals.containsKey("antiOverlap"))
 				moduleObj.antiOverlap = (List<String>) vals.get("antiOverlap");
 			
+
 			if(vals.containsKey("subscriptions"))
-				moduleObj.subscriptionTarget = (SubscriptionTarget) vals.get("subscriptions");
+				moduleObj.subscriptionTarget = SubscriptionTarget.fromString(((ModAnnotation.EnumHolder) vals.get("subscriptions")).getValue());
 			
 			if(vals.containsKey("enabledByDefault"))
 				moduleObj.enabledByDefault = (Boolean) vals.get("enabledByDefault");

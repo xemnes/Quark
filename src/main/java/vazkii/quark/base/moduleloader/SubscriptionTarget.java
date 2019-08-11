@@ -4,10 +4,10 @@ import net.minecraftforge.fml.loading.FMLEnvironment;
 
 public enum SubscriptionTarget {
 
-	YES(true, true), 
+	BOTH_SIDES(true, true), 
 	CLIENT_ONLY(true, false), 
 	SERVER_ONLY(false, true), 
-	NO(false, false);
+	NONE(false, false);
 	
 	private SubscriptionTarget(boolean client, boolean server) {
 		this.client = client;
@@ -18,6 +18,14 @@ public enum SubscriptionTarget {
 	
 	public boolean shouldSubscribe() {
 		return FMLEnvironment.dist.isClient() ? client : server;
+	}
+	
+	public static SubscriptionTarget fromString(String s) {
+		for(SubscriptionTarget target : values())
+			if(target.name().equals(s))
+				return target;
+		
+		return null;
 	}
 	
 	

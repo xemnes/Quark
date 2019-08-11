@@ -15,7 +15,7 @@ public @interface LoadModule {
 	String requiredMod() default "";
 	String description() default "";
 	String[] antiOverlap() default { };
-	SubscriptionTarget subscriptions() default SubscriptionTarget.NO;
+	SubscriptionTarget subscriptions() default SubscriptionTarget.NONE;
 	boolean enabledByDefault() default true;
 	
 }
