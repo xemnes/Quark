@@ -1,4 +1,4 @@
-package vazkii.quark.decoration.feature;
+package vazkii.quark.decoration.module;
 
 import net.minecraft.block.Block;
 import vazkii.quark.base.moduleloader.Config;

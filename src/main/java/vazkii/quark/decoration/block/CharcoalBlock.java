@@ -12,7 +12,7 @@ import net.minecraft.world.IBlockReader;
 import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.base.block.QuarkBlock;
 import vazkii.quark.base.moduleloader.Module;
-import vazkii.quark.decoration.feature.CharcoalBlockModule;
+import vazkii.quark.decoration.module.CharcoalBlockModule;
 
 public class CharcoalBlock extends QuarkBlock {
 

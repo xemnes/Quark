@@ -1,4 +1,4 @@
-package vazkii.quark.building.feature;
+package vazkii.quark.building.module;
 
 import vazkii.quark.base.moduleloader.LoadModule;
 import vazkii.quark.base.moduleloader.Module;
