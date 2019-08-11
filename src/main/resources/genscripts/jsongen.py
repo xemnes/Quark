@@ -1,17 +1,22 @@
-import sys
+import sys, os, re
 
 modid = 'quark'
 params = {}
 
 def copy_template(name, base, target):
+	params['modid'] = modid;
+	params['name'] = name
+
 	base_file = 'templates/{0}'.format(base)
-	target_file = '../{0}'.format(target)
+	target_file = '../{0}'.format(target.format(**params))
+
+	target_dir = re.sub(r'/[^/]+?$', '', target_file)
+	if not os.path.exists(target_dir):
+		os.makedirs(target_dir)
 
 	with open(base_file, 'r') as reader:
 		with open(target_file, 'w') as writer:
 			for line in reader:
-				line = line.replace('%modid%', modid)
-				line = line.replace('%name%', name)
 				for param in params:
 					line = line.replace('%{0}%'.format(param), params[param])
 
@@ -26,14 +31,17 @@ def copy_callback(name, templates):
 	else:
 		for tup in templates:
 			base = tup[0]
-			target = tup[1].format(modid = modid, name = name)
+			target = tup[1]
 			copy_template(name, base, target)
 
 def localize_standard(prefix):
 	localize((
 		lambda name, modid: '{prefix}.{modid}.{name}'.format(prefix = prefix, name = name, modid = modid),
-		lambda name, modid: ' '.join(map(lambda s: s.capitalize(), name.split('_')))
+		localize_name
 	))
+
+def localize_name(name, modid):
+	return ' '.join(map(lambda s: s.capitalize(), name.split('_')))
 
 def localize(func):
 	foreach_arg(func, localize_callback)

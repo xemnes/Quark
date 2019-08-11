@@ -1,5 +1,5 @@
 from jsongen import *
 
 copy([
-	('quilted_wool_recipe.json', 'data/{modid}/recipes/building/{name}_quilted_wool.json')
+	('recipe_quilted_wool.json', 'data/{modid}/recipes/building/{name}_quilted_wool.json')
 ])

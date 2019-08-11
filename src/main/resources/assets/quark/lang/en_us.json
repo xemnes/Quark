@@ -17,5 +17,8 @@
 	"block.quark.purple_quilted_wool": "Purple Quilted Wool",
 	"block.quark.red_quilted_wool": "Red Quilted Wool",
 	"block.quark.white_quilted_wool": "White Quilted Wool",
-	"block.quark.yellow_quilted_wool": "Yellow Quilted Wool"
+	"block.quark.yellow_quilted_wool": "Yellow Quilted Wool",
+	"block.quark.thatch": "Thatch",
+	"block.quark.thatch_slab": "Thatch Slab",
+	"block.quark.thatch_stairs": "Thatch Stairs"
 }

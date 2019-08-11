@@ -4,25 +4,29 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import vazkii.arl.block.BasicBlock;
+import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.base.moduleloader.Module;
 
 public class QuarkBlock extends BasicBlock {
 	
-	private Module module;
-	
-	public QuarkBlock(String regname, Properties properties) {
+	private final Module module;
+
+	public QuarkBlock(String regname, Module module, ItemGroup creativeTab, Properties properties) {
 		super(regname, properties);
-	}
-	
-	public QuarkBlock setModule(Module module) {
 		this.module = module;
-		return this;
+		
+		if(creativeTab != null)
+			RegistryHelper.setCreativeTab(this, creativeTab);
 	}
-	
+
 	@Override
 	public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
-		if(module != null && module.enabled)
+		if(isEnabled())
 			super.fillItemGroup(group, items);
+	}
+	
+	public boolean isEnabled() {
+		return module != null && module.enabled;
 	}
 
 }
