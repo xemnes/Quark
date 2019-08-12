@@ -1,0 +1,6 @@
+{
+  "parent": "quark:block/candle",
+  "textures": {
+    "candle": "quark:blocks/light_gray_candle"
+  }
+}

@@ -2,8 +2,8 @@
   "replace": false,
   "values": [
     "quark:thatch_slab",
-    "minecraft:soul_sandstone_slab",
-    "minecraft:cut_soul_sandstone_slab",
-    "minecraft:smooth_soul_sandstone_slab"
+    "quark:soul_sandstone_slab",
+    "quark:cut_soul_sandstone_slab",
+    "quark:smooth_soul_sandstone_slab"
   ]
 }

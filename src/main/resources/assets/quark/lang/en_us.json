@@ -1,7 +1,6 @@
 {
-	"quarkmisc.reloading": "The Quark config file was changed. Reloading...",
-
 	"item.quark.trowel": "Trowel",
+	"item.quark.tallow": "Tallow",
 
 	"block.quark.charcoal_block": "Charcoal Block",
 	"block.quark.black_quilted_wool": "Black Quilted Wool",
@@ -32,7 +31,23 @@
 	"block.quark.cut_soul_sandstone_slab": "Cut Soul Sandstone Slab",
 	"block.quark.smooth_soul_sandstone_stairs": "Smooth Soul Sandstone Stairs",
 	"block.quark.smooth_soul_sandstone_slab": "Smooth Soul Sandstone Slab",
-	"block.quark.soul_sandstone_wall": "Soul Sandstone Wall"
+	"block.quark.soul_sandstone_wall": "Soul Sandstone Wall",
+	"block.quark.black_candle": "Black Candle",
+	"block.quark.blue_candle": "Blue Candle",
+	"block.quark.brown_candle": "Brown Candle",
+	"block.quark.cyan_candle": "Cyan Candle",
+	"block.quark.gray_candle": "Gray Candle",
+	"block.quark.green_candle": "Green Candle",
+	"block.quark.light_blue_candle": "Light Blue Candle",
+	"block.quark.light_gray_candle": "Light Gray Candle",
+	"block.quark.lime_candle": "Lime Candle",
+	"block.quark.magenta_candle": "Magenta Candle",
+	"block.quark.orange_candle": "Orange Candle",
+	"block.quark.pink_candle": "Pink Candle",
+	"block.quark.purple_candle": "Purple Candle",
+	"block.quark.red_candle": "Red Candle",
+	"block.quark.white_candle": "White Candle",
+	"block.quark.yellow_candle": "Yellow Candle"
 	
 	
 }
