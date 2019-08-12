@@ -1,23 +1,22 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "#  ",
-    "## ",
-    "###"
+    "##",
+    "##"
   ],
   "key": {
     "#": {
-      "item": "quark:thatch"
+      "item": "minecraft:soul_sand"
     }
   },
   "result": {
-    "item": "quark:thatch_stairs",
-    "count": 4
+    "item": "quark:soul_sandstone",
+    "count": 1
   },
   "conditions": [
     {
       "type": "quark:flag",
-      "flag": "thatch"
+      "flag": "soul_sandstone"
     }
   ]
-} 
+}

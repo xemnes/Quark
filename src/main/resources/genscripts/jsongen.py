@@ -47,9 +47,10 @@ def localize(func):
 	foreach_arg(func, localize_callback)
 
 def localize_callback(name, funcs):
-	key = funcs[0](name, modid)
-	val = funcs[1](name, modid)
-	print('"{0}": "{1}",'.format(key, val))
+	if not '=' in name:
+		key = funcs[0](name, modid)
+		val = funcs[1](name, modid)
+		print('"{0}": "{1}",'.format(key, val))
 
 def foreach_arg(templates, func):
 	if 'file:' in sys.argv[1]:

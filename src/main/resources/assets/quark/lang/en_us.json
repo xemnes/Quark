@@ -22,5 +22,17 @@
 	"block.quark.yellow_quilted_wool": "Yellow Quilted Wool",
 	"block.quark.thatch": "Thatch",
 	"block.quark.thatch_slab": "Thatch Slab",
-	"block.quark.thatch_stairs": "Thatch Stairs"
+	"block.quark.thatch_stairs": "Thatch Stairs",
+	"block.quark.soul_sandstone": "Soul Sandstone",
+	"block.quark.chiseled_soul_sandstone": "Chiseled Soul Sandstone",
+	"block.quark.cut_soul_sandstone": "Cut Soul Sandstone",
+	"block.quark.smooth_soul_sandstone": "Smooth Soul Sandstone",
+	"block.quark.soul_sandstone_slab": "Soul Sandstone Slab",
+	"block.quark.soul_sandstone_stairs": "Soul Sandstone Stairs",
+	"block.quark.cut_soul_sandstone_slab": "Cut Soul Sandstone Slab",
+	"block.quark.smooth_soul_sandstone_stairs": "Smooth Soul Sandstone Stairs",
+	"block.quark.smooth_soul_sandstone_slab": "Smooth Soul Sandstone Slab",
+	"block.quark.soul_sandstone_wall": "Soul Sandstone Wall"
+	
+	
 }

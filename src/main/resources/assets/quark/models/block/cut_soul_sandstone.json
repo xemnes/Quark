@@ -1,0 +1,7 @@
+{
+    "parent": "block/cube_column",
+    "textures": {
+        "end": "quark:blocks/soul_sandstone_top",
+        "side": "quark:blocks/cut_soul_sandstone"
+    }
+}

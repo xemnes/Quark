@@ -7,17 +7,17 @@
   ],
   "key": {
     "#": {
-      "item": "quark:thatch"
+      "item": "quark:soul_sandstone"
     }
   },
   "result": {
-    "item": "quark:thatch_stairs",
+    "item": "quark:soul_sandstone_stairs",
     "count": 4
   },
   "conditions": [
     {
       "type": "quark:flag",
-      "flag": "thatch"
+      "flag": "soul_sandstone"
     }
   ]
 } 

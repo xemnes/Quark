@@ -1,7 +1,6 @@
 package vazkii.quark.decoration.module;
 
 import net.minecraft.block.Block;
-import net.minecraft.item.Item;
 import net.minecraftforge.event.furnace.FurnaceFuelBurnTimeEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import vazkii.quark.base.moduleloader.Config;

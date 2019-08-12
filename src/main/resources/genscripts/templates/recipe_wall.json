@@ -1,23 +1,22 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "#  ",
-    "## ",
+    "###",
     "###"
   ],
   "key": {
     "#": {
-      "item": "quark:thatch"
+      "item": "%modid%:%name%"
     }
   },
   "result": {
-    "item": "quark:thatch_stairs",
+    "item": "%modid%:%name%_wall",
     "count": 4
   },
   "conditions": [
     {
       "type": "quark:flag",
-      "flag": "thatch"
+      "flag": "%flag%"
     }
   ]
 } 
