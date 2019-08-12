@@ -10,7 +10,7 @@ copy([
 	('block_item_stairs.json', 'assets/{modid}/models/item/{name}_stairs.json'),
 	('blockstate_stairs.json', 'assets/{modid}/blockstates/{name}_stairs.json'),
 
-	('recipe_stairs.json', 'data/{modid}/recipes/{category}/stairs/{name}_stairs.json')
+	('recipe_stairs.json', 'data/{modid}/recipes/{category}/crafting/stairs/{name}_stairs.json')
 ])
 
 localize((

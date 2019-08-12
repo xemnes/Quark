@@ -11,7 +11,7 @@ copy([
 
 	('blockstate_wall.json', 'assets/{modid}/blockstates/{name}_wall.json'),
 
-	('recipe_wall.json', 'data/{modid}/recipes/{category}/walls/{name}_wall.json'),
+	('recipe_wall.json', 'data/{modid}/recipes/{category}/crafting/walls/{name}_wall.json'),
 ])
 
 localize((
