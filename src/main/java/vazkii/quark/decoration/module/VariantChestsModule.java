@@ -21,7 +21,10 @@ import vazkii.quark.decoration.tile.VariantTrappedChestTileEntity;
 @LoadModule(category = ModuleCategory.DECORATION)
 public class VariantChestsModule extends Module {
 
-	@Config public boolean changeNames = true;
+	@Config public static boolean changeNames = true;
+
+	@Config(flag = "wood_to_chest_recipes") 
+	public static boolean addWoodToChestRecipes = true;
 	
 	public static TileEntityType<VariantChestTileEntity> chestTEType;
 	public static TileEntityType<VariantTrappedChestTileEntity> trappedChestTEType;
