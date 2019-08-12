@@ -21,7 +21,7 @@ import vazkii.quark.base.moduleloader.Module;
 import vazkii.quark.base.moduleloader.ModuleCategory;
 
 @LoadModule(category = ModuleCategory.CLIENT)
-public class GreenerGrass extends Module {
+public class GreenerGrassModule extends Module {
 
 	@Config public static boolean affectLeaves = true;
 	@Config public static boolean alphaGrass = false;
