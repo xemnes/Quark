@@ -15,7 +15,7 @@ import vazkii.quark.decoration.block.CharcoalBlock;
 public class CharcoalBlockModule extends Module {
 
 	@Config public static boolean burnsForever = true; 
-	@Config public static int burnTime = 16000;
+	@Config public static int fuelTime = 16000;
 	
 	private Block charcoal_block;
 	
@@ -27,7 +27,7 @@ public class CharcoalBlockModule extends Module {
 	@SubscribeEvent
 	public void onFurnaceFuelEvent(FurnaceFuelBurnTimeEvent event) {
 		if(event.getItemStack().getItem() == charcoal_block.asItem())
-			event.setBurnTime(burnTime);
+			event.setBurnTime(fuelTime);
 	}
 	
 }
