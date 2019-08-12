@@ -17,7 +17,7 @@ public class QuarkItem extends BasicItem {
 
 	@Override
 	public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
-		if(isEnabled())
+		if(isEnabled() || group == ItemGroup.SEARCH)
 			super.fillItemGroup(group, items);
 	}
 	
