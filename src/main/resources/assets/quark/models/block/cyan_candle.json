@@ -1,6 +1,6 @@
 {
   "parent": "quark:block/candle",
   "textures": {
-    "candle": "quark:blocks/cyan_candle"
+    "candle": "quark:block/cyan_candle"
   }
 }

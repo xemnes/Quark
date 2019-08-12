@@ -1,6 +1,6 @@
 {
 	"parent": "block/cube_all",
 	"textures": {
-		"all": "quark:blocks/white_quilted_wool"
+		"all": "quark:block/white_quilted_wool"
 	}
 }

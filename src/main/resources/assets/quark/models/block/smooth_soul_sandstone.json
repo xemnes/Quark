@@ -1,6 +1,6 @@
 {
 	"parent": "block/cube_all",
 	"textures": {
-		"all": "quark:blocks/soul_sandstone_top"
+		"all": "quark:block/soul_sandstone_top"
 	}
 }
