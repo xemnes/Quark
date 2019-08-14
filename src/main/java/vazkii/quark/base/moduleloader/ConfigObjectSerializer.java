@@ -2,6 +2,7 @@ package vazkii.quark.base.moduleloader;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Function;
 
@@ -13,12 +14,25 @@ import net.minecraftforge.common.ForgeConfigSpec;
 public final class ConfigObjectSerializer {
 	
 	public static void serialize(ForgeConfigSpec.Builder builder, ConfigFlagManager flagManager, List<Runnable> callbacks, Object object) throws ReflectiveOperationException {
-		Field[] fields = object.getClass().getDeclaredFields();
+		List<Field> fields = recursivelyGetFields(object.getClass());
 		for(Field f : fields) {
 			Config config = f.getDeclaredAnnotation(Config.class);
 			if(config != null)
 				pushConfig(builder, flagManager, callbacks, object, f, config);
 		}
+	}
+	
+	private static List<Field> recursivelyGetFields(Class<?> clazz) {
+		List<Field> list = new LinkedList<>();
+		while(clazz != Object.class) {
+			Field[] fields = clazz.getDeclaredFields();
+			for(Field f : fields)
+				list.add(f);
+				
+			clazz = clazz.getSuperclass();	
+		}
+		
+		return list;
 	}
 	
 	private static void pushConfig(ForgeConfigSpec.Builder builder, ConfigFlagManager flagManager, List<Runnable> callbacks, Object object, Field field, Config config) throws ReflectiveOperationException {

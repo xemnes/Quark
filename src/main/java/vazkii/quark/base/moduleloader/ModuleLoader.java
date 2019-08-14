@@ -21,8 +21,8 @@ public final class ModuleLoader {
 	
 	public void start() {
 		findModules();
-		resolveConfigSpec();
 		dispatch(Module::start);
+		resolveConfigSpec();
 	}
 	
 	private void findModules() {
