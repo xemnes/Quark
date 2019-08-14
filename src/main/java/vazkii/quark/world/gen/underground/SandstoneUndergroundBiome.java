@@ -1,11 +1,9 @@
 package vazkii.quark.world.gen.underground;
 
-import java.util.Random;
-
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorld;
+import vazkii.quark.world.gen.UndergroundBiomeGenerator.UndergroundBiomeGenerationContext;
 
 public class SandstoneUndergroundBiome extends BasicUndergroundBiome {
 
@@ -14,27 +12,27 @@ public class SandstoneUndergroundBiome extends BasicUndergroundBiome {
 	}
 	
 	@Override
-	public void fillCeiling(IWorld world, BlockPos pos, BlockState state, Random rand) {
-		if(rand.nextDouble() < 0.1)
-			world.setBlockState(pos.down(), ceilingState, 2);
+	public void fillCeiling(UndergroundBiomeGenerationContext context, BlockPos pos, BlockState state) {
+		if(context.random.nextDouble() < 0.1)
+			context.world.setBlockState(pos.down(), ceilingState, 2);
 		
-		super.fillCeiling(world, pos, state, rand);
+		super.fillCeiling(context, pos, state);
 	}
 	
 	@Override
-	public void fillFloor(IWorld world, BlockPos pos, BlockState state, Random rand) {
-		if(rand.nextBoolean()) {
-			world.setBlockState(pos, Blocks.SAND.getDefaultState(), 2);
-			if(rand.nextDouble() < 0.05)
-				world.setBlockState(pos.up(), Blocks.DEAD_BUSH.getDefaultState(), 2);
-		} else super.fillFloor(world, pos, state, rand);
+	public void fillFloor(UndergroundBiomeGenerationContext context, BlockPos pos, BlockState state) {
+		if(context.random.nextBoolean()) {
+			context.world.setBlockState(pos, Blocks.SAND.getDefaultState(), 2);
+			if(context.random.nextDouble() < 0.05)
+				context.world.setBlockState(pos.up(), Blocks.DEAD_BUSH.getDefaultState(), 2);
+		} else super.fillFloor(context, pos, state);
 	}
 	
 	@Override
-	public void fillWall(IWorld world, BlockPos pos, BlockState state, Random rand) {
-		if(rand.nextDouble() < 0.1)
-			world.setBlockState(pos, Blocks.CHISELED_SANDSTONE.getDefaultState(), 2);
-		else super.fillWall(world, pos, state, rand);
+	public void fillWall(UndergroundBiomeGenerationContext context, BlockPos pos, BlockState state) {
+		if(context.random.nextDouble() < 0.1)
+			context.world.setBlockState(pos, Blocks.CHISELED_SANDSTONE.getDefaultState(), 2);
+		else super.fillWall(context, pos, state);
 	}
 	
 //	@Override

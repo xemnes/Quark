@@ -39,7 +39,9 @@ public class UndergroundBiomeGenerator extends MultiChunkFeatureGenerator {
 		int radiusX = info.horizontalSize + random.nextInt(info.horizontalVariation);
 		int radiusY = info.verticalSize + random.nextInt(info.verticalVariation);
 		int radiusZ = info.horizontalSize + random.nextInt(info.horizontalVariation);
-		apply(world, src, random, chunkCorner, radiusX, radiusY, radiusZ);
+		
+		UndergroundBiomeGenerationContext context = new UndergroundBiomeGenerationContext(world, generator, random);
+		apply(context, src, chunkCorner, radiusX, radiusY, radiusZ);
 	}
 
 	@Override
@@ -64,7 +66,7 @@ public class UndergroundBiomeGenerator extends MultiChunkFeatureGenerator {
 		return info.biomes.canSpawn(biome);
 	}
 
-	public void apply(IWorld world, BlockPos center, Random random, BlockPos chunkCorner, int radiusX, int radiusY, int radiusZ) {
+	public void apply(UndergroundBiomeGenerationContext context, BlockPos center, BlockPos chunkCorner, int radiusX, int radiusY, int radiusZ) {
 		int centerX = center.getX();
 		int centerY = center.getY();
 		int centerZ = center.getZ();
@@ -72,8 +74,6 @@ public class UndergroundBiomeGenerator extends MultiChunkFeatureGenerator {
 		double radiusX2 = radiusX * radiusX;
 		double radiusY2 = radiusY * radiusY;
 		double radiusZ2 = radiusZ * radiusZ;
-
-		UndergroundBiomeGenerationContext context = new UndergroundBiomeGenerationContext();
 
 		forEachChunkBlock(chunkCorner, centerY - radiusY, centerY + radiusY, (pos) -> {
 			int x = pos.getX() - centerX;
@@ -87,13 +87,13 @@ public class UndergroundBiomeGenerator extends MultiChunkFeatureGenerator {
 			boolean inside = dist <= 1;
 
 			if(inside)
-				info.biomeObj.fill(world, pos, random, context);
+				info.biomeObj.fill(context, pos);
 		});
 
-		context.floorList.forEach(pos -> info.biomeObj.finalFloorPass(world, pos, random));
-		context.ceilingList.forEach(pos -> info.biomeObj.finalCeilingPass(world, pos, random));
-		context.wallMap.keySet().forEach(pos -> info.biomeObj.finalWallPass(world, pos, random));
-		context.insideList.forEach(pos -> info.biomeObj.finalInsidePass(world, pos, random));
+		context.floorList.forEach(pos -> info.biomeObj.finalFloorPass(context, pos));
+		context.ceilingList.forEach(pos -> info.biomeObj.finalCeilingPass(context, pos));
+		context.wallMap.keySet().forEach(pos -> info.biomeObj.finalWallPass(context, pos));
+		context.insideList.forEach(pos -> info.biomeObj.finalInsidePass(context, pos));
 
 		//		if(info.biome.hasDungeon() && world instanceof ServerWorld && random.nextDouble() < info.biome.dungeonChance) {
 		//			List<BlockPos> candidates = new ArrayList<>(context.wallMap.keySet());
@@ -115,11 +115,21 @@ public class UndergroundBiomeGenerator extends MultiChunkFeatureGenerator {
 
 	public static class UndergroundBiomeGenerationContext {
 
+		public final IWorld world;
+		public final ChunkGenerator<? extends GenerationSettings> generator;
+		public final Random random;
+		
 		public final List<BlockPos> floorList = new LinkedList<>();
 		public final List<BlockPos> ceilingList = new LinkedList<>();
 		public final List<BlockPos> insideList = new LinkedList<>();
 
 		public final Map<BlockPos, Direction> wallMap = new HashMap<>();
-
+		
+		public UndergroundBiomeGenerationContext(IWorld world, ChunkGenerator<? extends GenerationSettings> generator, Random random) {
+			this.world = world;
+			this.generator = generator;
+			this.random = random;
+		}
+		
 	}
 }

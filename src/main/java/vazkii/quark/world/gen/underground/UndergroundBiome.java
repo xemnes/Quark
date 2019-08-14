@@ -1,7 +1,5 @@
 package vazkii.quark.world.gen.underground;
 
-import java.util.Random;
-
 import net.minecraft.block.BlockState;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Rotation;
@@ -15,44 +13,45 @@ public abstract class UndergroundBiome {
 
 	public double dungeonChance;
 
-	public void fill(IWorld world, BlockPos pos, Random rand, UndergroundBiomeGenerationContext context) {
+	public final void fill(UndergroundBiomeGenerationContext context, BlockPos pos) {
+		IWorld world = context.world;
 		BlockState state = world.getBlockState(pos);
 		if(state.getBlockHardness(world, pos) == -1 || world.canBlockSeeSky(pos))
 			return;
 
 		if(isFloor(world, pos, state)) {
 			context.floorList.add(pos);
-			fillFloor(world, pos, state, rand);
+			fillFloor(context, pos, state);
 		} else if(isCeiling(world, pos, state)) {
 			context.ceilingList.add(pos);
-			fillCeiling(world, pos, state, rand);
+			fillCeiling(context, pos, state);
 		} else if(isWall(world, pos, state)) {
 			context.wallMap.put(pos, getBorderSide(world, pos));
-			fillWall(world, pos, state, rand);
+			fillWall(context, pos, state);
 		} else if(isInside(state)) {
 			context.insideList.add(pos);
-			fillInside(world, pos, state, rand);
+			fillInside(context, pos, state);
 		}
 	}
 
-	public abstract void fillFloor(IWorld world, BlockPos pos, BlockState state, Random rand);
-	public abstract void fillCeiling(IWorld world, BlockPos pos, BlockState state, Random rand);
-	public abstract void fillWall(IWorld world, BlockPos pos, BlockState state, Random rand);
-	public abstract void fillInside(IWorld world, BlockPos pos, BlockState state, Random rand);
+	public abstract void fillFloor(UndergroundBiomeGenerationContext context, BlockPos pos, BlockState state);
+	public abstract void fillCeiling(UndergroundBiomeGenerationContext context, BlockPos pos, BlockState state);
+	public abstract void fillWall(UndergroundBiomeGenerationContext context, BlockPos pos, BlockState state);
+	public abstract void fillInside(UndergroundBiomeGenerationContext context, BlockPos pos, BlockState state);
 	
-	public void finalFloorPass(IWorld world, BlockPos pos, Random rand) {
+	public void finalFloorPass(UndergroundBiomeGenerationContext context, BlockPos pos) {
 		// NO-OP
 	}
 
-	public void finalCeilingPass(IWorld world, BlockPos pos, Random rand) {
+	public void finalCeilingPass(UndergroundBiomeGenerationContext context, BlockPos pos) {
 		// NO-OP
 	}
 
-	public void finalWallPass(IWorld world, BlockPos pos, Random rand) {
+	public void finalWallPass(UndergroundBiomeGenerationContext context, BlockPos pos) {
 		// NO-OP
 	}
 
-	public void finalInsidePass(IWorld world, BlockPos pos, Random rand) {
+	public void finalInsidePass(UndergroundBiomeGenerationContext context, BlockPos pos) {
 		// NO-OP
 	}
 

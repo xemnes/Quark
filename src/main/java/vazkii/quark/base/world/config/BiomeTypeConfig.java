@@ -40,7 +40,7 @@ public class BiomeTypeConfig implements IConfigType {
 			onReload();
 		
 		Set<BiomeDictionary.Type> currentTypes = BiomeDictionary.getTypes(b);
-
+		
 		for(BiomeDictionary.Type type : types)
 			if(currentTypes.contains(type))
 				return !isBlacklist;

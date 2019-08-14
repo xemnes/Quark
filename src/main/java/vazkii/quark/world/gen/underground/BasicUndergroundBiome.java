@@ -5,6 +5,7 @@ import java.util.Random;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
+import vazkii.quark.world.gen.UndergroundBiomeGenerator.UndergroundBiomeGenerationContext;
 
 public class BasicUndergroundBiome extends UndergroundBiome {
 
@@ -23,27 +24,27 @@ public class BasicUndergroundBiome extends UndergroundBiome {
 	}
 	
 	@Override
-	public void fillFloor(IWorld world, BlockPos pos, BlockState state, Random rand) {
+	public void fillFloor(UndergroundBiomeGenerationContext context, BlockPos pos, BlockState state) {
 		if(floorState != null)
-			world.setBlockState(pos, floorState, 2);
+			context.world.setBlockState(pos, floorState, 2);
 	}
 
 	@Override
-	public void fillCeiling(IWorld world, BlockPos pos, BlockState state, Random rand) {	
+	public void fillCeiling(UndergroundBiomeGenerationContext context, BlockPos pos, BlockState state) {	
 		if(ceilingState != null)
-			world.setBlockState(pos, ceilingState, 2);
+			context.world.setBlockState(pos, ceilingState, 2);
 	}
 
 	@Override
-	public void fillWall(IWorld world, BlockPos pos, BlockState state, Random rand) {
+	public void fillWall(UndergroundBiomeGenerationContext context, BlockPos pos, BlockState state) {
 		if(wallState != null)
-			world.setBlockState(pos, wallState, 2);
+			context.world.setBlockState(pos, wallState, 2);
 	}
 
 	@Override
-	public void fillInside(IWorld world, BlockPos pos, BlockState state, Random rand) {
+	public void fillInside(UndergroundBiomeGenerationContext context, BlockPos pos, BlockState state) {
 		if(mimicInside)
-			fillWall(world, pos, state, rand);
+			fillWall(context, pos, state);
 	} 
 
 }

@@ -36,16 +36,19 @@ public abstract class MultiChunkFeatureGenerator extends Generator {
 		int chunkX = pos.getX() >> 4;
 		int chunkZ = pos.getZ() >> 4;
 		
+		long chunkSeed = (xSeed * chunkX + zSeed * chunkZ) ^ worldSeed;
+		Random ourRandom = new Random(chunkSeed);
+		
 		for(int x = chunkX - chunkRadius; x <= chunkX + chunkRadius; x++)
 			for(int z = chunkZ - chunkRadius; z <= chunkZ + chunkRadius; z++) {
-				long chunkSeed = (xSeed * x + zSeed * z) ^ worldSeed;
+				chunkSeed = (xSeed * x + zSeed * z) ^ worldSeed;
 				Random chunkRandom = new Random(chunkSeed);
 				BlockPos chunkCorner = new BlockPos(x << 4, 0, z << 4);
 
 				BlockPos[] sources = getSourcesInChunk(chunkRandom, generator, chunkCorner);
 				for(BlockPos source : sources)
 					if(source != null && isSourceValid(world, generator, source))
-						generateChunkPart(source, generator, chunkRandom, pos, world);
+						generateChunkPart(source, generator, ourRandom, pos, world);
 			}
 	}
 	
