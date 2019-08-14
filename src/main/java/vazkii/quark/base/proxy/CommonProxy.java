@@ -8,6 +8,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import vazkii.arl.util.ClientTicker;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.moduleloader.ModuleLoader;
+import vazkii.quark.base.world.WorldGenHandler;
 
 public class CommonProxy {
 
@@ -32,12 +33,13 @@ public class CommonProxy {
 	
 	public void loadComplete(FMLLoadCompleteEvent event) {
 		ModuleLoader.INSTANCE.loadComplete();
+		WorldGenHandler.loadComplete();
 	}
 	
 	public void configChanged(ModConfigEvent event) {
 		if(event.getConfig().getModId().equals(Quark.MOD_ID) && ClientTicker.ticksInGame - lastConfigChange > 10) { 
-			handleQuarkConfigChange();
 			lastConfigChange = ClientTicker.ticksInGame;
+			handleQuarkConfigChange();
 		}
 	}
 	
