@@ -59,7 +59,8 @@
 	"block.quark.birch_trapped_chest": "Birch Trapped Chest",
 	"block.quark.jungle_trapped_chest": "Jungle Trapped Chest",
 	"block.quark.acacia_trapped_chest": "Acacia Trapped Chest",
-	"block.quark.dark_oak_trapped_chest": "Dark Oak Trapped Chest"	
-	
-	
+	"block.quark.dark_oak_trapped_chest": "Dark Oak Trapped Chest",
+	"block.quark.blaze_lantern": "Blaze Lantern",
+	"block.quark.sugar_cane_block": "Sugar Cane Block"
+		
 }

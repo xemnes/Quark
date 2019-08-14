@@ -2,22 +2,23 @@ package vazkii.quark.base.block;
 
 import java.util.function.Supplier;
 
+import net.minecraft.block.RotatedPillarBlock;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
-import vazkii.arl.block.BasicBlock;
 import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.base.moduleloader.Module;
 
-public class QuarkBlock extends BasicBlock {
-	
+public class QuarkPillarBlock extends RotatedPillarBlock {
+
 	private final Module module;
 	private Supplier<Boolean> enabledSupplier = () -> true; 
 
-	public QuarkBlock(String regname, Module module, ItemGroup creativeTab, Properties properties) {
-		super(regname, properties);
+	public QuarkPillarBlock(String regname, Module module, ItemGroup creativeTab, Properties properties) {
+		super(properties);
 		this.module = module;
-		
+
+		RegistryHelper.registerBlock(this, regname);
 		if(creativeTab != null)
 			RegistryHelper.setCreativeTab(this, creativeTab);
 	}
@@ -28,7 +29,8 @@ public class QuarkBlock extends BasicBlock {
 			super.fillItemGroup(group, items);
 	}
 	
-	public QuarkBlock setCondition(Supplier<Boolean> enabledSupplier) {
+	
+	public QuarkPillarBlock setCondition(Supplier<Boolean> enabledSupplier) {
 		this.enabledSupplier = enabledSupplier;
 		return this;
 	}

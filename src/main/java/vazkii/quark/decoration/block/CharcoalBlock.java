@@ -11,7 +11,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import vazkii.quark.base.block.QuarkBlock;
 import vazkii.quark.base.moduleloader.Module;
-import vazkii.quark.decoration.module.CharcoalBlockModule;
+import vazkii.quark.decoration.module.CompressedBlocksModule;
 
 public class CharcoalBlock extends QuarkBlock {
 
@@ -24,7 +24,7 @@ public class CharcoalBlock extends QuarkBlock {
 
 	@Override
 	public boolean isFireSource(BlockState state, IBlockReader world, BlockPos pos, Direction side) {
-		return side == Direction.UP && CharcoalBlockModule.burnsForever;
+		return side == Direction.UP && CompressedBlocksModule.burnsForever;
 	}
 	
 }
