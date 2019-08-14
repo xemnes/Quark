@@ -1,4 +1,4 @@
-package vazkii.quark.base.handler;
+package vazkii.quark.base.world.config;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -33,11 +33,8 @@ public class DimensionConfig implements IConfigType {
 	}
 	
 	public boolean canSpawnHere(World world) {
-		if(world == null) {
-			System.out.println("Blacklist: " + isBlacklist);
-			System.out.println("Dims: " + dimensions);
+		if(world == null)
 			return false;
-		}
 
 		return dimensions.contains(world.getDimension().getType().getRegistryName().toString()) != isBlacklist;
 	}
