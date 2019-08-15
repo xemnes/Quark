@@ -62,6 +62,10 @@
 	"block.quark.dark_oak_trapped_chest": "Dark Oak Trapped Chest",
 	"block.quark.blaze_lantern": "Blaze Lantern",
 	"block.quark.sugar_cane_block": "Sugar Cane Block",
-	"block.quark.brimstone": "Brimstone"
+	"block.quark.brimstone": "Brimstone",
+	"block.quark.brimstone_bricks": "Brimstone Bricks",
+	"block.quark.brimstone_bricks_stairs": "Brimstone Brick Stairs",
+	"block.quark.brimstone_bricks_slab": "Brimstone Brick Slab",
+	"block.quark.brimstone_bricks_wall": "Brimstone Brick Wall"
 		
 }

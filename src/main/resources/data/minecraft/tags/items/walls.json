@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "quark:soul_sandstone_wall"
+    "quark:soul_sandstone_wall",
+    "quark:brimstone_bricks_wall"
   ]
 }

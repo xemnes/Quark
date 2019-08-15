@@ -7,6 +7,7 @@ import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.ItemGroup;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import vazkii.quark.base.block.QuarkBlock;
+import vazkii.quark.base.handler.VariantHandler;
 import vazkii.quark.base.moduleloader.LoadModule;
 import vazkii.quark.base.moduleloader.ModuleCategory;
 import vazkii.quark.world.config.UndergroundBiomeConfig;
@@ -23,6 +24,8 @@ public class BrimstoneUndergroundBiomeModule extends UndergroundBiomeModule {
 				Block.Properties.create(Material.ROCK, MaterialColor.RED)
 				.hardnessAndResistance(1.5F, 10F)
 				.sound(SoundType.STONE));
+		
+		VariantHandler.addSlabStairsWall(new QuarkBlock("brimstone_bricks", this, ItemGroup.BUILDING_BLOCKS, Block.Properties.from(brimstone)));
 		
 		super.start();
 	}
