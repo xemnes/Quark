@@ -96,11 +96,11 @@ public class GlowshroomBlock extends MushroomBlock {
 
 	@Override
 	public void grow(@Nonnull World worldIn, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull BlockState state) {
-//		if(GlowshroomUndergroundBiomeModule.enableHugeGlowshrooms) {
-//			worldIn.removeBlock(pos, false);
-//			if(!BlockHugeGlowshroom.setInPosition(worldIn, rand, pos, true))
-//				worldIn.setBlockState(pos, getDefaultState());
-//		}
+		if(GlowshroomUndergroundBiomeModule.enableHugeGlowshrooms) {
+			worldIn.removeBlock(pos, false);
+			if(!HugeGlowshroomBlock.place(worldIn, rand, pos))
+				worldIn.setBlockState(pos, getDefaultState());
+		}
 	}
 
 	@Override

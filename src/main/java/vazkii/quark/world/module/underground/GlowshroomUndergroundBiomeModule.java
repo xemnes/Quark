@@ -7,6 +7,7 @@ import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.ModuleCategory;
 import vazkii.quark.world.block.GlowceliumBlock;
 import vazkii.quark.world.block.GlowshroomBlock;
+import vazkii.quark.world.block.HugeGlowshroomBlock;
 import vazkii.quark.world.config.UndergroundBiomeConfig;
 import vazkii.quark.world.gen.underground.GlowshroomUndergroundBiome;
 
@@ -16,13 +17,14 @@ public class GlowshroomUndergroundBiomeModule extends UndergroundBiomeModule {
 	@Config public static int glowshroomGrowthRate = 20;
 	@Config public static boolean enableHugeGlowshrooms = true;
 	
-	public static Block glowcelium;
-	public static Block glowshroom;
+	public static Block glowcelium, glowshroom, glowshroom_block, glowshroom_stem;
 	
 	@Override
 	public void start() {
 		glowcelium = new GlowceliumBlock(this);
 		glowshroom = new GlowshroomBlock(this);
+		glowshroom_block = new HugeGlowshroomBlock("glowshroom_block", this);
+		glowshroom_stem = new HugeGlowshroomBlock("glowshroom_stem", this);
 		
 		super.start();
 	}
