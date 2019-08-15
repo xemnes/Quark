@@ -1,12 +1,16 @@
 {
   "replace": false,
   "values": [
-    "quark:thatch_stairs",
-    "quark:soul_sandstone_stairs",
-    "quark:smooth_soul_sandstone_stairs",
     "quark:brimstone_bricks_stairs",
-    "quark:elder_prismarine_stairs",
+    "quark:brimstone_stairs",
+    "quark:cobbedstone_stairs",
+    "quark:dark_elder_prismarine_stairs",
     "quark:elder_prismarine_bricks_stairs",
-    "quark:dark_elder_prismarine_stairs"
+    "quark:elder_prismarine_stairs",
+    "quark:permafrost_bricks_stairs",
+    "quark:permafrost_stairs",
+    "quark:smooth_soul_sandstone_stairs",
+    "quark:soul_sandstone_stairs",
+    "quark:thatch_stairs"
   ]
 }

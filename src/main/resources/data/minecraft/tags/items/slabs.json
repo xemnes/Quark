@@ -1,13 +1,17 @@
 {
   "replace": false,
   "values": [
-    "quark:thatch_slab",
-    "quark:soul_sandstone_slab",
-    "quark:cut_soul_sandstone_slab",
-    "quark:smooth_soul_sandstone_slab",
     "quark:brimstone_bricks_slab",
-    "quark:elder_prismarine_slab",
+    "quark:brimstone_slab",
+    "quark:cobbedstone_slab",
+    "quark:cut_soul_sandstone_slab",
+    "quark:dark_elder_prismarine_slab",
     "quark:elder_prismarine_bricks_slab",
-    "quark:dark_elder_prismarine_slab"
+    "quark:elder_prismarine_slab",
+    "quark:permafrost_bricks_slab",
+    "quark:permafrost_slab",
+    "quark:smooth_soul_sandstone_slab",
+    "quark:soul_sandstone_slab",
+    "quark:thatch_slab"
   ]
 }

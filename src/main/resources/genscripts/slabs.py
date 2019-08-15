@@ -17,4 +17,5 @@ localize((
 	lambda name, modid: re.sub(r's$', '', localize_name(name, modid)) + ' Slab'
 ))
 
+import update_tags
 import update_drop_tables
