@@ -8,3 +8,5 @@ copy([
 
 	('unique/recipe_candle.json', 'data/{modid}/recipes/decoration/crafting/{name}_candle.json')
 ])
+
+import update_drop_tables

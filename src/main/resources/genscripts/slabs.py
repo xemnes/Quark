@@ -17,3 +17,5 @@ localize((
 	lambda name, modid: 'block.{modid}.{name}_slab'.format(name = name, modid = modid),
 	lambda name, modid: re.sub(r's$', '', localize_name(name, modid)) + ' Slab'
 ))
+
+import update_drop_tables

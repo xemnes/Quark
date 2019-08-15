@@ -8,3 +8,5 @@ copy([
 ])
 
 localize_standard('block')
+
+import update_drop_tables
