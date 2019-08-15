@@ -77,6 +77,11 @@
 	"block.quark.dark_elder_prismarine_slab": "Dark Elder Prismarine Slab",
 	"block.quark.elder_prismarine_slab": "Elder Prismarine Slab",
 	"block.quark.elder_prismarine_bricks_slab": "Elder Prismarine Brick Slab",
-	"block.quark.elder_prismarine_wall": "Elder Prismarine Wall"
+	"block.quark.elder_prismarine_wall": "Elder Prismarine Wall",
+	"block.quark.permafrost": "Permafrost",
+	"block.quark.permafrost_bricks": "Permafrost Bricks",
+	"block.quark.permafrost_bricks_stairs": "Permafrost Brick Stairs",
+	"block.quark.permafrost_bricks_slab": "Permafrost Brick Slab",
+	"block.quark.permafrost_bricks_wall": "Permafrost Brick Wall"
 		
 }
