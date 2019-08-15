@@ -1,4 +1,4 @@
-package vazkii.quark.base.moduleloader;
+package vazkii.quark.base.module;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

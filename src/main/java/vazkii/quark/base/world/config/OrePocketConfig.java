@@ -4,8 +4,8 @@ import java.util.Random;
 import java.util.function.Consumer;
 
 import net.minecraft.util.math.BlockPos;
-import vazkii.quark.base.moduleloader.Config;
-import vazkii.quark.base.moduleloader.IConfigType;
+import vazkii.quark.base.module.Config;
+import vazkii.quark.base.module.IConfigType;
 
 public class OrePocketConfig implements IConfigType {
 

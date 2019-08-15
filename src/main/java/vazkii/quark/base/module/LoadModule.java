@@ -1,4 +1,6 @@
-package vazkii.quark.base.moduleloader;
+package vazkii.quark.base.module;
+
+import net.minecraftforge.api.distmarker.Dist;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -15,7 +17,10 @@ public @interface LoadModule {
 	String requiredMod() default "";
 	String description() default "";
 	String[] antiOverlap() default { };
-	SubscriptionTarget subscriptions() default SubscriptionTarget.NONE;
+
+	boolean hasSubscriptions() default false;
+	Dist[] subscribeOn() default { Dist.CLIENT, Dist.DEDICATED_SERVER };
+
 	boolean enabledByDefault() default true;
 	
 }

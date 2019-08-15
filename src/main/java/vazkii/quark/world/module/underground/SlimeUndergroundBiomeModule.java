@@ -1,8 +1,8 @@
 package vazkii.quark.world.module.underground;
 
 import net.minecraftforge.common.BiomeDictionary.Type;
-import vazkii.quark.base.moduleloader.LoadModule;
-import vazkii.quark.base.moduleloader.ModuleCategory;
+import vazkii.quark.base.module.LoadModule;
+import vazkii.quark.base.module.ModuleCategory;
 import vazkii.quark.world.config.UndergroundBiomeConfig;
 import vazkii.quark.world.gen.underground.SlimeUndergroundBiome;
 

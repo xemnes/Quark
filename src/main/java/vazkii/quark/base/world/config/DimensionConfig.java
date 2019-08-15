@@ -4,8 +4,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import net.minecraft.world.World;
-import vazkii.quark.base.moduleloader.Config;
-import vazkii.quark.base.moduleloader.IConfigType;
+import vazkii.quark.base.module.Config;
+import vazkii.quark.base.module.IConfigType;
 
 public class DimensionConfig implements IConfigType {
 

@@ -4,7 +4,7 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import vazkii.arl.item.BasicItem;
-import vazkii.quark.base.moduleloader.Module;
+import vazkii.quark.base.module.Module;
 
 public class QuarkItem extends BasicItem {
 

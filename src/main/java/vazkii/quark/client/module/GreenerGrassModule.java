@@ -15,10 +15,10 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IRegistryDelegate;
-import vazkii.quark.base.moduleloader.Config;
-import vazkii.quark.base.moduleloader.LoadModule;
-import vazkii.quark.base.moduleloader.Module;
-import vazkii.quark.base.moduleloader.ModuleCategory;
+import vazkii.quark.base.module.Config;
+import vazkii.quark.base.module.LoadModule;
+import vazkii.quark.base.module.Module;
+import vazkii.quark.base.module.ModuleCategory;
 
 @LoadModule(category = ModuleCategory.CLIENT)
 public class GreenerGrassModule extends Module {
