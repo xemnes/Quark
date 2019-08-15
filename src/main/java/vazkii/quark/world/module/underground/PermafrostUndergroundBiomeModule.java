@@ -16,7 +16,7 @@ import vazkii.quark.world.gen.underground.PermafrostUndergroundBiome;
 @LoadModule(category = ModuleCategory.WORLD)
 public class PermafrostUndergroundBiomeModule extends UndergroundBiomeModule {
 
-	public static Block permafrost;
+	public static QuarkBlock permafrost;
 	
 	@Override
 	public void start() {
@@ -25,6 +25,7 @@ public class PermafrostUndergroundBiomeModule extends UndergroundBiomeModule {
 				.hardnessAndResistance(1.5F, 10F)
 				.sound(SoundType.STONE));
 		
+		VariantHandler.addSlabStairsWall(permafrost);
 		VariantHandler.addSlabStairsWall(new QuarkBlock("permafrost_bricks", this, ItemGroup.BUILDING_BLOCKS, Block.Properties.from(permafrost)));
 		
 		super.start();

@@ -16,7 +16,7 @@ import vazkii.quark.world.gen.underground.BrimstoneUndergroundBiome;
 @LoadModule(category = ModuleCategory.WORLD)
 public class BrimstoneUndergroundBiomeModule extends UndergroundBiomeModule {
 
-	public static Block brimstone;
+	public static QuarkBlock brimstone;
 	
 	@Override
 	public void start() {
@@ -25,6 +25,7 @@ public class BrimstoneUndergroundBiomeModule extends UndergroundBiomeModule {
 				.hardnessAndResistance(1.5F, 10F)
 				.sound(SoundType.STONE));
 		
+		VariantHandler.addSlabStairsWall(brimstone);
 		VariantHandler.addSlabStairsWall(new QuarkBlock("brimstone_bricks", this, ItemGroup.BUILDING_BLOCKS, Block.Properties.from(brimstone)));
 		
 		super.start();

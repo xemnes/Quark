@@ -82,6 +82,12 @@
 	"block.quark.permafrost_bricks": "Permafrost Bricks",
 	"block.quark.permafrost_bricks_stairs": "Permafrost Brick Stairs",
 	"block.quark.permafrost_bricks_slab": "Permafrost Brick Slab",
-	"block.quark.permafrost_bricks_wall": "Permafrost Brick Wall"
+	"block.quark.permafrost_bricks_wall": "Permafrost Brick Wall",
+	"block.quark.brimstone_stairs": "Brimstone Stairs",
+	"block.quark.permafrost_stairs": "Permafrost Stairs",
+	"block.quark.brimstone_slab": "Brimstone Slab",
+	"block.quark.permafrost_slab": "Permafrost Slab",
+	"block.quark.brimstone_wall": "Brimstone Wall",
+	"block.quark.permafrost_wall": "Permafrost Wall"	
 		
 }
