@@ -9,6 +9,7 @@ copy([
 	('block_model_stairs_inner.json', 'assets/{modid}/models/block/{name}_stairs_inner.json'),
 	('block_item_stairs.json', 'assets/{modid}/models/item/{name}_stairs.json'),
 	('blockstate_stairs.json', 'assets/{modid}/blockstates/{name}_stairs.json'),
+	('drop_table_generic.json', 'data/{modid}/loot_tables/blocks/{name}_stairs.json')
 
 	('recipe_stairs.json', 'data/{modid}/recipes/{category}/crafting/stairs/{name}_stairs.json')
 ])

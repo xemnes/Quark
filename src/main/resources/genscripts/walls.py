@@ -10,8 +10,9 @@ copy([
 	('block_item_wall.json', 'assets/{modid}/models/item/{name}_wall.json'),
 
 	('blockstate_wall.json', 'assets/{modid}/blockstates/{name}_wall.json'),
+	('drop_table_generic.json', 'data/{modid}/loot_tables/blocks/{name}_wall.json'),
 
-	('recipe_wall.json', 'data/{modid}/recipes/{category}/crafting/walls/{name}_wall.json'),
+	('recipe_wall.json', 'data/{modid}/recipes/{category}/crafting/walls/{name}_wall.json')
 ])
 
 localize((

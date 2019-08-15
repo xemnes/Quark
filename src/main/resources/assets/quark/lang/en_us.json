@@ -66,6 +66,17 @@
 	"block.quark.brimstone_bricks": "Brimstone Bricks",
 	"block.quark.brimstone_bricks_stairs": "Brimstone Brick Stairs",
 	"block.quark.brimstone_bricks_slab": "Brimstone Brick Slab",
-	"block.quark.brimstone_bricks_wall": "Brimstone Brick Wall"
+	"block.quark.brimstone_bricks_wall": "Brimstone Brick Wall",
+	"block.quark.dark_elder_prismarine": "Dark Elder Prismarine",
+	"block.quark.elder_prismarine": "Elder Prismarine",
+	"block.quark.elder_prismarine_bricks": "Elder Prismarine Bricks",
+	"block.quark.elder_sea_lantern": "Elder Sea Lantern",
+	"block.quark.dark_elder_prismarine_stairs": "Dark Elder Prismarine Stairs",
+	"block.quark.elder_prismarine_stairs": "Elder Prismarine Stairs",
+	"block.quark.elder_prismarine_bricks_stairs": "Elder Prismarine Brick Stairs",
+	"block.quark.dark_elder_prismarine_slab": "Dark Elder Prismarine Slab",
+	"block.quark.elder_prismarine_slab": "Elder Prismarine Slab",
+	"block.quark.elder_prismarine_bricks_slab": "Elder Prismarine Brick Slab",
+	"block.quark.elder_prismarine_wall": "Elder Prismarine Wall"
 		
 }
