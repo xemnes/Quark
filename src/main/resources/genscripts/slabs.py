@@ -8,8 +8,7 @@ copy([
 	('block_model_slab_top.json', 'assets/{modid}/models/block/{name}_slab_top.json'),
 	('block_item_slab.json', 'assets/{modid}/models/item/{name}_slab.json'),
 	('blockstate_slab.json', 'assets/{modid}/blockstates/{name}_slab.json'),
-	('drop_table_generic.json', 'data/{modid}/loot_tables/blocks/{name}_slab.json'),
-
+	
 	('recipe_slab.json', 'data/{modid}/recipes/{category}/crafting/slabs/{name}_slab.json')
 ])
 
