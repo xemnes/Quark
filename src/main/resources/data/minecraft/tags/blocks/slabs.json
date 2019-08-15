@@ -5,6 +5,9 @@
     "quark:soul_sandstone_slab",
     "quark:cut_soul_sandstone_slab",
     "quark:smooth_soul_sandstone_slab",
-    "quark:brimstone_bricks_slab"
+    "quark:brimstone_bricks_slab",
+    "quark:elder_prismarine_slab",
+    "quark:elder_prismarine_bricks_slab",
+    "quark:dark_elder_prismarine_slab"
   ]
 }
