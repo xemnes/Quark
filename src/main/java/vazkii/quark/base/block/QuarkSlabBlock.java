@@ -21,7 +21,7 @@ public class QuarkSlabBlock extends SlabBlock {
 	
 	@Override
 	public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
-		if(parent.isEnabled())
+		if(group == ItemGroup.SEARCH || parent.isEnabled())
 			super.fillItemGroup(group, items);
 	}
 
