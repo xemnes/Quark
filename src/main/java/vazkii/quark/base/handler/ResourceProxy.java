@@ -30,7 +30,7 @@ public final class ResourceProxy extends ResourcePack {
 	private static final Set<String> RESOURCE_DOMAINS = ImmutableSet.of(MINECRAFT);
 
 	private static final String BARE_FORMAT = "assets/" + MINECRAFT + "/%s/%s/%s";
-	private static final String OVERRIDE_FORMAT = "/assets/" + Quark.MOD_ID + "/%s/%s/overrides/%s";
+	private static final String OVERRIDE_FORMAT = "/assets/" + Quark.MOD_ID + "/overrides/%s/%s/%s";
 
 	private static ResourceProxy instance;
 
@@ -45,7 +45,7 @@ public final class ResourceProxy extends ResourcePack {
 			@Override
 			public <T extends ResourcePackInfo> void addPackInfosToMap(Map<String, T> nameToPackMap, IFactory<T> packInfoFactory) {
 				String name = "quark:resourceproxy";
-				T t = ResourcePackInfo.createResourcePack(name, true, () -> instance, packInfoFactory, ResourcePackInfo.Priority.BOTTOM);
+				T t = ResourcePackInfo.createResourcePack(name, true, () -> instance, packInfoFactory, ResourcePackInfo.Priority.TOP);
 				nameToPackMap.put(name, t);
 			}
 
@@ -95,7 +95,7 @@ public final class ResourceProxy extends ResourcePack {
 		return overrides.values().stream()
 				.filter(ResourceOverride::isEnabled)
 				.filter(o -> o.type.equals(pathIn))
-				.filter(o -> o.value.contains("!mcmeta"))
+				.filter(o -> !o.file.contains(".mcmeta"))
 				.map(o -> new ResourceLocation(o.getReplacementValue()))
 				.collect(Collectors.toList());
 	}
@@ -107,32 +107,32 @@ public final class ResourceProxy extends ResourcePack {
 
 	@Override
 	public String getName() {
-		return "quark-resource-proxy";
+		return "Quark Resource Proxy";
 	}
 	
 	@Override
 	public boolean isHidden() {
-		return false;
+		return true;
 	}
 	
 	private static class ResourceOverride {
 		
-		protected final String type, path, value;
+		protected final String type, path, file;
 		private final Supplier<Boolean> isEnabled;
 		
-		public ResourceOverride(String type, String path, String value, Supplier<Boolean> isEnabled) {
+		public ResourceOverride(String type, String path, String file, Supplier<Boolean> isEnabled) {
 			this.type = type;
 			this.path = path;
-			this.value = value;
+			this.file = file;
 			this.isEnabled = isEnabled;	
 		}
 		
 		String getPathKey() {
-			return String.format(BARE_FORMAT, type, path, value);
+			return String.format(BARE_FORMAT, type, path, file);
 		}
 		
 		String getReplacementValue() {
-			return String.format(OVERRIDE_FORMAT, type, path, value);
+			return String.format(OVERRIDE_FORMAT, type, path, file);
 		}
 		
 		boolean isEnabled() {
@@ -154,7 +154,7 @@ public final class ResourceProxy extends ResourcePack {
 		
 		@Override
 		String getReplacementValue() {
-			return value;
+			return file;
 		}
 		
 	}

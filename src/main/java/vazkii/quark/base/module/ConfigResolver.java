@@ -78,6 +78,7 @@ public class ConfigResolver {
 		}
 		
 		refreshRunnables.add(() -> module.pushFlags(flagManager));
+		module.buildConfigSpec(builder, refreshRunnables);
 		
 		builder.pop();
 	}
