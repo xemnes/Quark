@@ -1,20 +1,16 @@
 package vazkii.quark.world.gen;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationSettings;
-import vazkii.quark.base.moduleloader.Module;
+import vazkii.quark.base.module.Module;
 import vazkii.quark.base.world.generator.MultiChunkFeatureGenerator;
 import vazkii.quark.world.config.UndergroundBiomeConfig;
+
+import java.util.*;
 
 public class UndergroundBiomeGenerator extends MultiChunkFeatureGenerator {
 

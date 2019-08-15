@@ -1,4 +1,4 @@
-package vazkii.quark.base.moduleloader;
+package vazkii.quark.base.module;
 
 import java.util.ArrayList;
 import java.util.List;

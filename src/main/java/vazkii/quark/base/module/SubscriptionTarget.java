@@ -1,4 +1,4 @@
-package vazkii.quark.base.moduleloader;
+package vazkii.quark.base.module;
 
 import net.minecraftforge.fml.loading.FMLEnvironment;
 

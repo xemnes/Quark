@@ -20,7 +20,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockRayTraceResult;
 import vazkii.arl.util.ItemNBTHelper;
 import vazkii.quark.base.item.QuarkItem;
-import vazkii.quark.base.moduleloader.Module;
+import vazkii.quark.base.module.Module;
 import vazkii.quark.tools.module.TrowelModule;
 
 public class TrowelItem extends QuarkItem {

@@ -7,7 +7,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import vazkii.arl.util.ClientTicker;
 import vazkii.quark.base.Quark;
-import vazkii.quark.base.moduleloader.ModuleLoader;
+import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.base.world.WorldGenHandler;
 
 public class CommonProxy {

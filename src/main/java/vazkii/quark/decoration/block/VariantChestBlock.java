@@ -16,7 +16,7 @@ import net.minecraft.world.IBlockReader;
 import vazkii.arl.interf.IBlockItemProvider;
 import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.base.Quark;
-import vazkii.quark.base.moduleloader.Module;
+import vazkii.quark.base.module.Module;
 import vazkii.quark.decoration.client.render.VariantChestTileEntityRenderer;
 import vazkii.quark.decoration.tile.VariantChestTileEntity;
 

@@ -9,14 +9,13 @@ import net.minecraftforge.event.furnace.FurnaceFuelBurnTimeEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import vazkii.quark.base.block.QuarkBlock;
 import vazkii.quark.base.block.QuarkPillarBlock;
-import vazkii.quark.base.moduleloader.Config;
-import vazkii.quark.base.moduleloader.LoadModule;
-import vazkii.quark.base.moduleloader.Module;
-import vazkii.quark.base.moduleloader.ModuleCategory;
-import vazkii.quark.base.moduleloader.SubscriptionTarget;
+import vazkii.quark.base.module.Config;
+import vazkii.quark.base.module.LoadModule;
+import vazkii.quark.base.module.Module;
+import vazkii.quark.base.module.ModuleCategory;
 import vazkii.quark.decoration.block.CharcoalBlock;
 
-@LoadModule(category = ModuleCategory.DECORATION, subscriptions = SubscriptionTarget.BOTH_SIDES)
+@LoadModule(category = ModuleCategory.DECORATION, hasSubscriptions = true)
 public class CompressedBlocksModule extends Module {
 
 	@Config(name = "Charcoal Block Burns Forever") 

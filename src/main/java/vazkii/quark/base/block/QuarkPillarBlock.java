@@ -7,7 +7,7 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import vazkii.arl.util.RegistryHelper;
-import vazkii.quark.base.moduleloader.Module;
+import vazkii.quark.base.module.Module;
 
 public class QuarkPillarBlock extends RotatedPillarBlock {
 

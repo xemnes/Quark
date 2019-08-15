@@ -1,4 +1,4 @@
-package vazkii.quark.base.moduleloader;
+package vazkii.quark.base.module;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;

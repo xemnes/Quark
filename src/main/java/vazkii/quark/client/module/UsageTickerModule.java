@@ -1,11 +1,6 @@
 package vazkii.quark.client.module;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Predicate;
-
 import com.mojang.blaze3d.platform.GlStateManager;
-
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;
@@ -27,14 +22,17 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import vazkii.quark.base.moduleloader.Config;
-import vazkii.quark.base.moduleloader.LoadModule;
-import vazkii.quark.base.moduleloader.Module;
-import vazkii.quark.base.moduleloader.ModuleCategory;
-import vazkii.quark.base.moduleloader.SubscriptionTarget;
+import vazkii.quark.base.module.Config;
+import vazkii.quark.base.module.LoadModule;
+import vazkii.quark.base.module.Module;
+import vazkii.quark.base.module.ModuleCategory;
 import vazkii.quark.tools.item.TrowelItem;
 
-@LoadModule(category = ModuleCategory.CLIENT, subscriptions = SubscriptionTarget.CLIENT_ONLY)
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Predicate;
+
+@LoadModule(category = ModuleCategory.CLIENT, hasSubscriptions = true, subscribeOn = Dist.CLIENT)
 public class UsageTickerModule extends Module {
 
 	public static List<TickerElement> elements = new ArrayList<>();

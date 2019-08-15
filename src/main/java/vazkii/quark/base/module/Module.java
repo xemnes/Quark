@@ -1,11 +1,13 @@
-package vazkii.quark.base.moduleloader;
+package vazkii.quark.base.module;
 
-import java.util.List;
-
+import com.google.common.collect.Lists;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.loading.FMLEnvironment;
+
+import java.util.List;
 
 public class Module {
 
@@ -13,7 +15,8 @@ public class Module {
 	public String lowercaseName = "";
 	public String description = "";
 	public List<String> antiOverlap = null;
-	public SubscriptionTarget subscriptionTarget = SubscriptionTarget.NONE;
+	public boolean hasSubscriptions = false;
+	public List<Dist> subscriptionTarget = Lists.newArrayList(Dist.CLIENT, Dist.DEDICATED_SERVER);
 	public boolean enabledByDefault = true;
 	
 	public boolean enabled = false;
@@ -59,11 +62,11 @@ public class Module {
 		setEnabledAndManageSubscriptions(enabled);
 	}
 	
-	private final void setEnabledAndManageSubscriptions(boolean enabled) {
+	private void setEnabledAndManageSubscriptions(boolean enabled) {
 		boolean wasEnabled = this.enabled;
 		this.enabled = enabled;
 		
-		if(subscriptionTarget.shouldSubscribe() && wasEnabled != enabled) {
+		if(hasSubscriptions && subscriptionTarget.contains(FMLEnvironment.dist) && wasEnabled != enabled) {
 			if(enabled)
 				MinecraftForge.EVENT_BUS.register(this);
 			else MinecraftForge.EVENT_BUS.unregister(this);

@@ -9,7 +9,7 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import vazkii.quark.base.block.QuarkBlock;
-import vazkii.quark.base.moduleloader.Module;
+import vazkii.quark.base.module.Module;
 import vazkii.quark.building.module.ThatchModule;
 
 public class ThatchBlock extends QuarkBlock {
