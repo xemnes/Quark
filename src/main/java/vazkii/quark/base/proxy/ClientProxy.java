@@ -4,10 +4,18 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import vazkii.quark.base.handler.ResourceProxy;
 import vazkii.quark.base.module.ModuleLoader;
 
 public class ClientProxy extends CommonProxy {
 
+	@Override
+	public void start() {
+		super.start();
+		
+		ResourceProxy.init();
+	}
+	
 	@Override
 	public void registerListeners(IEventBus bus) {
 		super.registerListeners(bus);

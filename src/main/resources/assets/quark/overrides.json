@@ -1,0 +1,11 @@
+{
+	"overrides": [
+		{
+			"name": "JAPPA Creeper",
+			"enabledByDefault": true,
+			"files": [
+				"textures/entity/creeper/creeper.png"
+			]
+		}
+	]
+}

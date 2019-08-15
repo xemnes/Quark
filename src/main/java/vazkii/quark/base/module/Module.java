@@ -3,6 +3,7 @@ package vazkii.quark.base.module;
 import com.google.common.collect.Lists;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.loading.FMLEnvironment;
@@ -23,6 +24,10 @@ public class Module {
 	public boolean ignoreAntiOverlap = false;
 	
 	public void start() {
+		// NO-OP
+	}
+	
+	public void buildConfigSpec(ForgeConfigSpec.Builder builder, List<Runnable> callbacks) {
 		// NO-OP
 	}
 	
