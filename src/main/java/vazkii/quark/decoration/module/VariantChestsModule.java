@@ -58,7 +58,6 @@ public class VariantChestsModule extends Module {
 	
 	@Override
 	public void configChanged() {
-		System.out.println("enabled is " + enabled);
 		ItemOverrideHandler.changeBlockLocalizationKey(Blocks.CHEST, "block.quark.oak_chest", changeNames && enabled);
 		ItemOverrideHandler.changeBlockLocalizationKey(Blocks.TRAPPED_CHEST, "block.quark.oak_trapped_chest", changeNames && enabled);
 	}
