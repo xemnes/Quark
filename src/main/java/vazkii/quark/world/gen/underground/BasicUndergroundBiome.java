@@ -1,10 +1,7 @@
 package vazkii.quark.world.gen.underground;
 
-import java.util.Random;
-
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorld;
 import vazkii.quark.world.gen.UndergroundBiomeGenerator.UndergroundBiomeGenerationContext;
 
 public class BasicUndergroundBiome extends UndergroundBiome {
