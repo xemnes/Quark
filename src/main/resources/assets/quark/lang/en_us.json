@@ -92,6 +92,8 @@
 	"block.quark.cobbedstone": "Cobbedstone",
 	"block.quark.cobbedstone_stairs": "Cobbedstone Stairs",
 	"block.quark.cobbedstone_slab": "Cobbedstone Slab",
-	"block.quark.cobbedstone_wall": "Cobbedstone Wall"
+	"block.quark.cobbedstone_wall": "Cobbedstone Wall",
+	"block.quark.glowcelium": "Glowcelium",
+	"block.quark.glowshroom": "Glowshroom"
 		
 }
