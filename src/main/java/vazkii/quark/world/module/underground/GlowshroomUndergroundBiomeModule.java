@@ -1,7 +1,10 @@
 package vazkii.quark.world.module.underground;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.FlowerPotBlock;
+import net.minecraft.block.material.Material;
 import net.minecraftforge.common.BiomeDictionary.Type;
+import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.ModuleCategory;
@@ -25,6 +28,8 @@ public class GlowshroomUndergroundBiomeModule extends UndergroundBiomeModule {
 		glowshroom = new GlowshroomBlock(this);
 		glowshroom_block = new HugeGlowshroomBlock("glowshroom_block", this);
 		glowshroom_stem = new HugeGlowshroomBlock("glowshroom_stem", this);
+		
+		RegistryHelper.registerBlock(new FlowerPotBlock(glowshroom,  Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(0F).lightValue(14)), "potted_glowshroom", false);
 		
 		super.start();
 	}
