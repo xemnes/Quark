@@ -1,5 +1,7 @@
 package vazkii.quark.base.proxy;
 
+import java.util.function.Supplier;
+
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.config.ModConfig.ModConfigEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -45,6 +47,10 @@ public class CommonProxy {
 	
 	public void handleQuarkConfigChange() {
 		ModuleLoader.INSTANCE.configChanged();
+	}
+	
+	public void addResourceOverride(String type, String path, String file, Supplier<Boolean> isEnabled) {
+		// NO-OP, client only
 	}
 	
 }

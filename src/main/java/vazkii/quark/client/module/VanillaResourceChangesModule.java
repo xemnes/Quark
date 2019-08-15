@@ -10,7 +10,6 @@ import com.google.gson.Gson;
 import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
 import net.minecraftforge.common.ForgeConfigSpec.Builder;
 import vazkii.quark.base.Quark;
-import vazkii.quark.base.handler.ResourceProxy;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
@@ -34,19 +33,15 @@ public class VanillaResourceChangesModule extends Module {
 		for(OverrideEntry entry : overrideHolder.overrides) {
 			BooleanValue val = builder.define("Enable " + entry.name, entry.enabledByDefault);
 			callbacks.add(() -> entry.configStatus = enabled && val.get());
-		}
-	}
-	
-	@Override
-	public void clientSetup() {
-		for(OverrideEntry entry : overrideHolder.overrides)
+			
 			for(String file : entry.files) {
 				Matcher m = FILE_PATTERN.matcher(file);
 				if(!m.matches())
 					throw new IllegalArgumentException("Invalid override file: " + file);
 				
-				ResourceProxy.instance().addResource(m.group(1), m.group(2), m.group(3), () -> entry.configStatus);
+				Quark.proxy.addResourceOverride(m.group(1), m.group(2), m.group(3), () -> entry.configStatus);
 			}
+		}
 	}
 	
 	private static class OverrideHolder {

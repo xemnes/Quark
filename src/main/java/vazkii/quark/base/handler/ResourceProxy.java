@@ -8,11 +8,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 
-import com.google.common.base.Supplier;
 import com.google.common.collect.ImmutableSet;
 
 import net.minecraft.client.Minecraft;
@@ -113,6 +113,14 @@ public final class ResourceProxy extends ResourcePack {
 	@Override
 	public boolean isHidden() {
 		return true;
+	}
+	
+	public boolean hasAny() {
+		for(ResourceOverride over : overrides.values())
+			if(over.isEnabled())
+				return true;
+		
+		return false;
 	}
 	
 	private static class ResourceOverride {

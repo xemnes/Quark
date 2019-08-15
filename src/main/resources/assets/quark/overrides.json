@@ -6,6 +6,33 @@
 			"files": [
 				"textures/entity/creeper/creeper.png"
 			]
+		},
+		{
+			"name": "Subtler Shields",
+			"enabledByDefault": true,
+			"files": [
+				"models/item/shield.json"
+			]
+		},
+		{
+			"name": "Piston Models",
+			"enabledByDefault": true,
+			"files": [ 
+				"models/block/sticky_piston_inventory.json", 
+				"models/block/sticky_piston.json",
+				"models/block/piston_head_sticky.json",
+				"models/block/piston_head_short_sticky.json",
+				"models/block/piston_head.json",
+				"models/block/piston_base.json"
+			]
+		},
+		{
+			"name": "Observer Side Arrow",
+			"enabledByDefault": true,
+			"files": [ 
+				"models/block/observer.json", 
+				"models/block/observer_on.json"
+			]
 		}
 	]
 }
