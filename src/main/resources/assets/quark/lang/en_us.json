@@ -1,4 +1,11 @@
 {
+	"quark.gui.button.sort": "Sort",
+	"quark.gui.button.sort_inventory": "Sort Inventory",
+	"quark.gui.button.sort_container": "Sort Container",
+	"quark.gui.button.insert": "Insert",
+	"quark.gui.button.extract": "Extract",
+	"quark.gui.button.filter": "Filter",
+
 	"item.quark.trowel": "Trowel",
 	"item.quark.tallow": "Tallow",
 

@@ -10,6 +10,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import vazkii.arl.util.ClientTicker;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.module.ModuleLoader;
+import vazkii.quark.base.network.QuarkNetwork;
 import vazkii.quark.base.world.WorldGenHandler;
 
 public class CommonProxy {
@@ -30,6 +31,7 @@ public class CommonProxy {
 	}
 	
 	public void setup(FMLCommonSetupEvent event) {
+		QuarkNetwork.setup();
 		ModuleLoader.INSTANCE.setup();
 	}
 	
