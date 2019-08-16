@@ -76,7 +76,7 @@ public class ChestSearchingModule extends Module {
 			Minecraft mc = gui.getMinecraft();
 			ContainerScreen<?> chest = (ContainerScreen<?>) gui;
 			if(InventoryTransferHandler.accepts(chest.getContainer(), mc.player)) {
-				searchBar = new TextFieldWidget(mc.fontRenderer, chest.getGuiLeft() + 17, chest.getGuiTop() + 6, 117, 10, text);
+				searchBar = new TextFieldWidget(mc.fontRenderer, chest.getGuiLeft() + 18, chest.getGuiTop() + 6, 117, 10, text);
 
 				searchBar.setText(text);
 				searchBar.setMaxStringLength(50);
@@ -147,7 +147,7 @@ public class ChestSearchingModule extends Module {
 	}
 
 	private void renderElements(Screen gui) {
-		drawBackground(gui, searchBar.x - 10, searchBar.y - 3);
+		drawBackground(gui, searchBar.x - 11, searchBar.y - 3);
 
 		if(!text.isEmpty()) {
 			if(gui instanceof ContainerScreen) {
