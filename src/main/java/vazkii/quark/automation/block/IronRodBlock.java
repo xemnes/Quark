@@ -38,6 +38,12 @@ public class IronRodBlock extends EndRodBlock implements ICollateralMover {
 	}
 	
 	@Override
+	public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
+		if(module.enabled || group == ItemGroup.SEARCH)
+			super.fillItemGroup(group, items);
+	}
+	
+	@Override
 	protected void fillStateContainer(Builder<Block, BlockState> builder) {
 		super.fillStateContainer(builder);
 		builder.add(CONNECTED);
@@ -57,11 +63,6 @@ public class IronRodBlock extends EndRodBlock implements ICollateralMover {
 	public void animateTick(BlockState stateIn, World worldIn, BlockPos pos, Random rand) {
 		// NO-OP
 	}
-	
-	@Override
-	public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
-		if(module.enabled || group == ItemGroup.SEARCH)
-			super.fillItemGroup(group, items);
-	}
+
 
 }

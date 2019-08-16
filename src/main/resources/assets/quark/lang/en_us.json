@@ -152,6 +152,12 @@
 	"block.quark.red_shingles_slab": "Red Shingles Slab",
 	"block.quark.white_shingles_slab": "White Shingles Slab",
 	"block.quark.yellow_shingles_slab": "Yellow Shingles Slab",
-	"block.quark.iron_rod": "Iron Rod"
+	"block.quark.iron_rod": "Iron Rod",
+	"block.quark.green_slime_block": "Green Slime Block",
+	"block.quark.red_slime_block": "Red Slime Block",
+	"block.quark.blue_slime_block": "Blue Slime Block",
+	"block.quark.cyan_slime_block": "Cyan Slime Block",
+	"block.quark.magenta_slime_block": "Magenta Slime Block",
+	"block.quark.yellow_slime_block": "Yellow Slime Block"
 		
 }
