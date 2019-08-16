@@ -1,16 +1,32 @@
 {
   "replace": false,
   "values": [
+    "quark:black_shingles_stairs",
+    "quark:blue_shingles_stairs",
     "quark:brimstone_bricks_stairs",
     "quark:brimstone_stairs",
+    "quark:brown_shingles_stairs",
     "quark:cobbedstone_stairs",
+    "quark:cyan_shingles_stairs",
     "quark:dark_elder_prismarine_stairs",
     "quark:elder_prismarine_bricks_stairs",
     "quark:elder_prismarine_stairs",
+    "quark:gray_shingles_stairs",
+    "quark:green_shingles_stairs",
+    "quark:light_blue_shingles_stairs",
+    "quark:light_gray_shingles_stairs",
+    "quark:lime_shingles_stairs",
+    "quark:magenta_shingles_stairs",
+    "quark:orange_shingles_stairs",
     "quark:permafrost_bricks_stairs",
     "quark:permafrost_stairs",
+    "quark:pink_shingles_stairs",
+    "quark:purple_shingles_stairs",
+    "quark:red_shingles_stairs",
     "quark:smooth_soul_sandstone_stairs",
     "quark:soul_sandstone_stairs",
-    "quark:thatch_stairs"
+    "quark:thatch_stairs",
+    "quark:white_shingles_stairs",
+    "quark:yellow_shingles_stairs"
   ]
 }

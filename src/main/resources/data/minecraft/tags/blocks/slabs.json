@@ -1,17 +1,33 @@
 {
   "replace": false,
   "values": [
+    "quark:black_shingles_slab",
+    "quark:blue_shingles_slab",
     "quark:brimstone_bricks_slab",
     "quark:brimstone_slab",
+    "quark:brown_shingles_slab",
     "quark:cobbedstone_slab",
     "quark:cut_soul_sandstone_slab",
+    "quark:cyan_shingles_slab",
     "quark:dark_elder_prismarine_slab",
     "quark:elder_prismarine_bricks_slab",
     "quark:elder_prismarine_slab",
+    "quark:gray_shingles_slab",
+    "quark:green_shingles_slab",
+    "quark:light_blue_shingles_slab",
+    "quark:light_gray_shingles_slab",
+    "quark:lime_shingles_slab",
+    "quark:magenta_shingles_slab",
+    "quark:orange_shingles_slab",
     "quark:permafrost_bricks_slab",
     "quark:permafrost_slab",
+    "quark:pink_shingles_slab",
+    "quark:purple_shingles_slab",
+    "quark:red_shingles_slab",
     "quark:smooth_soul_sandstone_slab",
     "quark:soul_sandstone_slab",
-    "quark:thatch_slab"
+    "quark:thatch_slab",
+    "quark:white_shingles_slab",
+    "quark:yellow_shingles_slab"
   ]
 }
