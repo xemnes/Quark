@@ -5,6 +5,7 @@ import net.minecraftforge.fml.network.NetworkDirection;
 import vazkii.arl.network.IMessage;
 import vazkii.arl.network.NetworkHandler;
 import vazkii.quark.base.Quark;
+import vazkii.quark.base.network.message.InventoryTransferMessage;
 import vazkii.quark.base.network.message.SortInventoryMessage;
 
 public final class QuarkNetwork {
@@ -17,6 +18,7 @@ public final class QuarkNetwork {
 		network = new NetworkHandler(Quark.MOD_ID, PROTOCOL_VERSION);
 		
 		network.register(SortInventoryMessage.class, NetworkDirection.PLAY_TO_SERVER);
+		network.register(InventoryTransferMessage.class, NetworkDirection.PLAY_TO_SERVER);
 	}
 	
 	public static void sendToPlayer(IMessage msg, ServerPlayerEntity player) {

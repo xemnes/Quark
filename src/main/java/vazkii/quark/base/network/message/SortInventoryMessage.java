@@ -18,10 +18,7 @@ public class SortInventoryMessage implements IMessage {
 	
 	@Override
 	public boolean receive(Context context) {
-		context.enqueueWork(() -> {
-			System.out.println("Sorting " + context.getSender());
-			SortingHandler.sortInventory(context.getSender(), forcePlayer);
-		});
+		context.enqueueWork(() -> SortingHandler.sortInventory(context.getSender(), forcePlayer));
 		return true;
 	}
 

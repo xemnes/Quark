@@ -3,6 +3,7 @@ package vazkii.quark.management.client.gui;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 
@@ -20,6 +21,8 @@ public class MiniInventoryButton extends Button {
 	private final ContainerScreen<?> parent;
 	private final int startX;
 	
+	private Supplier<Boolean> shiftTexture = () -> false;
+	
 	public MiniInventoryButton(ContainerScreen<?> parent, int type, int x, int y, Consumer<List<String>> tooltip, IPressable onPress) {
 		super(parent.getGuiLeft() + x, parent.getGuiTop() + y, 10, 10, "", onPress);
 		this.parent = parent;
@@ -30,6 +33,11 @@ public class MiniInventoryButton extends Button {
 	
 	public MiniInventoryButton(ContainerScreen<?> parent, int type, int x, int y, String tooltip, IPressable onPress) {
 		this(parent, type, x, y, (t) -> t.add(I18n.format(tooltip)), onPress);
+	}
+	
+	public MiniInventoryButton setTextureShift(Supplier<Boolean> func) {
+		shiftTexture = func;
+		return this;
 	}
 	
 	@Override
@@ -52,6 +60,9 @@ public class MiniInventoryButton extends Button {
 	      
 	      int u = type * width;
 	      int v = 31 + (isHovered ? height : 0);
+	      if(shiftTexture.get())
+	    	  v += (height * 2);
+	      
 	      blit(x, y, u, v, width, height);
 	      
 	      if(isHovered)

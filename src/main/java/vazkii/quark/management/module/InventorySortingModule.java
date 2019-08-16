@@ -2,7 +2,6 @@ package vazkii.quark.management.module;
 
 import com.google.common.base.Supplier;
 
-import net.minecraftforge.api.distmarker.Dist;
 import vazkii.quark.base.handler.InventoryButtonHandler;
 import vazkii.quark.base.handler.InventoryButtonHandler.ButtonProvider;
 import vazkii.quark.base.handler.InventoryButtonHandler.ButtonTargetType;
@@ -14,7 +13,7 @@ import vazkii.quark.base.network.QuarkNetwork;
 import vazkii.quark.base.network.message.SortInventoryMessage;
 import vazkii.quark.management.client.gui.MiniInventoryButton;
 
-@LoadModule(category = ModuleCategory.MANAGEMENT, hasSubscriptions = true, subscribeOn = Dist.CLIENT)
+@LoadModule(category = ModuleCategory.MANAGEMENT)
 public class InventorySortingModule extends Module {
 
 	@Config public static boolean enablePlayerInventory = true;
