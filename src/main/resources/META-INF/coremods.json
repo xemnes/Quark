@@ -1,3 +1,4 @@
 {
-  "quark-runes": "asm/runes.js"
+  "quark_colored_enchantment_glint": "asm/colored_enchantment_glint.js",
+  "quark_piston_structure_helper_override": "asm/piston_structure_helper_override.js"
 }

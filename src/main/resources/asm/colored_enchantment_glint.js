@@ -14,11 +14,12 @@ function initializeCoreMod() {
                 var InsnList = Java.type('org.objectweb.asm.tree.InsnList');
 
                 var newInstructions = new InsnList();
-
                 newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 1));
                 newInstructions.add(ASM.buildMethodCall(
-                    "vazkii/quark/base/handler/AsmHooks", "setColorRuneTargetStack",
-                    "(Lnet/minecraft/item/ItemStack;)V", ASM.MethodType.STATIC
+                    "vazkii/quark/base/handler/AsmHooks", 
+                    "setColorRuneTargetStack",
+                    "(Lnet/minecraft/item/ItemStack;)V", 
+                    ASM.MethodType.STATIC
                 ));
 
                 method.instructions.insertBefore(method.instructions.getFirst(), newInstructions);
@@ -26,6 +27,7 @@ function initializeCoreMod() {
                 return method;
             }
         },
+
         'use-color': {
             'target': {
                 'type': 'METHOD',
@@ -40,11 +42,12 @@ function initializeCoreMod() {
                 var InsnList = Java.type('org.objectweb.asm.tree.InsnList');
 
                 var newInstructions = new InsnList();
-
                 newInstructions.add(new VarInsnNode(Opcodes.ILOAD, 2));
                 newInstructions.add(ASM.buildMethodCall(
-                    "vazkii/quark/base/handler/AsmHooks", "changeColor",
-                    "(I)I", ASM.MethodType.STATIC
+                    "vazkii/quark/base/handler/AsmHooks", 
+                    "changeColor",
+                    "(I)I", 
+                    ASM.MethodType.STATIC
                 ));
                 newInstructions.add(new VarInsnNode(Opcodes.ISTORE, 2));
 
