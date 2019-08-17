@@ -54,5 +54,5 @@ public class CommonProxy {
 	public void addResourceOverride(String type, String path, String file, Supplier<Boolean> isEnabled) {
 		// NO-OP, client only
 	}
-	
+
 }

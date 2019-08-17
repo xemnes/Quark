@@ -6,6 +6,8 @@ import net.minecraft.util.NonNullList;
 import vazkii.arl.item.BasicItem;
 import vazkii.quark.base.module.Module;
 
+import javax.annotation.Nonnull;
+
 public class QuarkItem extends BasicItem {
 
 	private final Module module;
@@ -16,7 +18,7 @@ public class QuarkItem extends BasicItem {
 	}
 
 	@Override
-	public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
+	public void fillItemGroup(@Nonnull ItemGroup group, @Nonnull NonNullList<ItemStack> items) {
 		if(isEnabled() || group == ItemGroup.SEARCH)
 			super.fillItemGroup(group, items);
 	}

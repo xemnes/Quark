@@ -22,10 +22,11 @@ import vazkii.quark.base.Quark;
 
 @Mod.EventBusSubscriber(modid = Quark.MOD_ID)
 public class CapabilityHandler {
-	
+
 	public static void setup() {
-		registerLambda(ITransferManager.class, (player) -> false);
-		
+        registerLambda(RuneColorProvider.class, () -> -1);
+        registerLambda(ITransferManager.class, (player) -> false);
+
 		register(ICustomSorting.class, DummySorting::new);
 	}
 
@@ -52,7 +53,7 @@ public class CapabilityHandler {
 			if (nbt instanceof CompoundNBT)
 				((INBTSerializable<INBT>) instance).deserializeNBT(nbt);
 		}
-		
+
 	}
 
 	private static final ResourceLocation DROPOFF_MANAGER = new ResourceLocation(Quark.MOD_ID, "dropoff");
