@@ -17,7 +17,7 @@ import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
 
 @LoadModule(category = ModuleCategory.TWEAKS, hasSubscriptions = true)
-public class DirtToPath extends Module {
+public class DirtToPathModule extends Module {
 
 	@SubscribeEvent
 	public void onRightClick(PlayerInteractEvent.RightClickBlock event) {
