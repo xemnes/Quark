@@ -8,6 +8,8 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
@@ -35,6 +37,7 @@ public class RuneItem extends QuarkItem implements IRuneColorProvider {
 	}
 
 	@Override
+	@OnlyIn(Dist.CLIENT)
 	public int getRuneColor(ItemStack stack) {
 		return color;
 	}

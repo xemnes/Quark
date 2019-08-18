@@ -23,6 +23,7 @@ import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
+import vazkii.quark.vanity.item.RainbowRuneItem;
 import vazkii.quark.vanity.item.RuneItem;
 
 /**
@@ -81,6 +82,8 @@ public class ColorRunesModule extends Module {
 
 			new RuneItem(color.getName() + "_rune", this, rgb);
 		}
+		
+		new RainbowRuneItem(this);
 	}
 
 	@Override
@@ -106,7 +109,6 @@ public class ColorRunesModule extends Module {
 			MiscUtil.addToLootTable(event.getTable(), entry);
 		}
 	}
-
 
 	@SubscribeEvent
 	public void onAnvilUpdate(AnvilUpdateEvent event) {
