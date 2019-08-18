@@ -11,4 +11,7 @@ public class QuarkCapabilities {
 	@CapabilityInject(ITransferManager.class)
 	public static Capability<ITransferManager> TRANSFER = null;
 	
+    @CapabilityInject(IRuneColorProvider.class)
+    public static Capability<IRuneColorProvider> RUNE_COLOR = null;
+	
 }

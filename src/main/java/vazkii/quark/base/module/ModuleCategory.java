@@ -15,7 +15,6 @@ public final class ModuleCategory {
 	public static final String VANITY = "vanity";
 	public static final String WORLD = "world";
 	public static final String CLIENT = "client";
-	public static final String MISC = "misc";
 	
 	public final String name;
 	

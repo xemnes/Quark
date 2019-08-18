@@ -2,10 +2,10 @@ package vazkii.quark.base.handler;
 
 import net.minecraft.block.state.PistonBlockStructureHelper;
 import net.minecraft.item.ItemStack;
-import vazkii.quark.misc.module.ColorRunes;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import vazkii.quark.vanity.module.ColorRunesModule;
 
 /**
  * @author WireSegal
@@ -19,12 +19,12 @@ public class AsmHooks {
 	// ==========================================================================
 
     public static void setColorRuneTargetStack(ItemStack stack) {
-        ColorRunes.setTargetStack(stack);
+        ColorRunesModule.setTargetStack(stack);
     }
 
     public static int changeColor(int color) {
         if (color == 0xFF8040CC)
-            return ColorRunes.changeColor(color);
+            return ColorRunesModule.changeColor(color);
 
         return color;
     }

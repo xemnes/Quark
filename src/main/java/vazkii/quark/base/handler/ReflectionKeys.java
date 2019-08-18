@@ -13,5 +13,13 @@ public class ReflectionKeys {
 	public static class ChunkGenerator {
 		public static String BIOME_PROVIDER = "field_222542_c";
 	}
+
+	public static class LootTable {
+		public static String POOLS = "field_186466_c";
+	}
+	
+	public static class LootPool {
+		public static String LOOT_ENTRIES = "field_186453_a";
+	}
 	
 }
