@@ -152,6 +152,7 @@ function initializeCoreMod() {
 
                 method.instructions.insertBefore(target, newInstructions);
 
+                return method;
             }
         }
     }
