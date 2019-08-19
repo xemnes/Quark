@@ -37,27 +37,8 @@ function initializeCoreMod() {
                 'methodName': 'tick',
                 'methodDesc': '()V'
             },
-            'transformer': function(method) {
-                var ASM = Java.type('net.minecraftforge.coremod.api.ASMAPI');
-                var Opcodes = Java.type('org.objectweb.asm.Opcodes');
-                var VarInsnNode = Java.type('org.objectweb.asm.tree.VarInsnNode');
-                var InsnList = Java.type('org.objectweb.asm.tree.InsnList');
-
-                var newInstructions = new InsnList();
-                newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 0));
-                newInstructions.add(ASM.buildMethodCall(
-                    "vazkii/quark/base/handler/AsmHooks", 
-                    "onPistonUpdate",
-                    "(Lnet/minecraft/tileentity/PistonTileEntity;)V",
-                    ASM.MethodType.STATIC
-                ));
-
-                method.instructions.insertBefore(method.instructions.getFirst(), newInstructions);
-
-                return remapBlockState(method);
-            }
+            'transformer': remapBlockState
         },
-
         'clear-piston-data': {
             'target': {
                 'type': 'METHOD',
@@ -67,8 +48,7 @@ function initializeCoreMod() {
             },
             'transformer': remapBlockState
         },
-
-        'add-renderer-hook': {
+        'piston-render-hook': {
             'target': {
                 'type': 'METHOD',
                 'class': 'net.minecraft.client.renderer.tileentity.PistonTileEntityRenderer',
@@ -104,6 +84,74 @@ function initializeCoreMod() {
 
                 method.instructions.insertBefore(method.instructions.getFirst(), newInstructions);
                 return method;
+            }
+        },
+        'allow-tile-pushing': {
+            'target': {
+                'type': 'METHOD',
+                'class': 'net.minecraft.block.PistonBlock',
+                'methodName': 'canPush',
+                'methodDesc': '(Lnet/minecraft/block/BlockState;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/Direction;ZLnet/minecraft/util/Direction;)Z'
+            },
+            'transformer': function(method) {
+                var ASM = Java.type('net.minecraftforge.coremod.api.ASMAPI');
+                var Opcodes = Java.type('org.objectweb.asm.Opcodes');
+                var InsnList = Java.type('org.objectweb.asm.tree.InsnList');
+                var VarInsnNode = Java.type('org.objectweb.asm.tree.VarInsnNode');
+
+                var target = ASM.findFirstMethodCall(method,
+                    ASM.MethodType.VIRTUAL,
+                    "net/minecraftforge/common/extensions/IForgeBlockState",
+                    "hasTileEntity",
+                    "()Z");
+
+                var newInstructions = new InsnList();
+
+                newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 0));
+                newInstructions.add(ASM.buildMethodCall(
+                    "vazkii/quark/base/handler/AsmHooks",
+                    "shouldPistonMoveTE",
+                    "(ZLnet/minecraft/block/BlockState;)Z",
+                    ASM.MethodType.STATIC));
+
+                method.instructions.insert(target, newInstructions);
+                return method;
+            }
+        },
+        'reinstate-tile-entity': {
+            'target': {
+                'type': 'METHOD',
+                'class': 'net.minecraft.block.PistonBlock',
+                'methodName': 'doMove',
+                'methodDesc': '(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/Direction;Z)Z'
+            },
+            'transformer': function(method) {
+                var ASM = Java.type('net.minecraftforge.coremod.api.ASMAPI');
+                var Opcodes = Java.type('org.objectweb.asm.Opcodes');
+                var InsnList = Java.type('org.objectweb.asm.tree.InsnList');
+                var VarInsnNode = Java.type('org.objectweb.asm.tree.VarInsnNode');
+
+                var target = ASM.findFirstMethodCall(method,
+                    ASM.MethodType.VIRTUAL,
+                    "net/minecraft/block/state/PistonBlockStructureHelper",
+                    "getBlocksToMove",
+                    "()Ljava/util/List;");
+
+                var newInstructions = new InsnList();
+
+                newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 6));
+                newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 1));
+                newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 3));
+                newInstructions.add(new VarInsnNode(Opcodes.ILOAD, 4));
+
+                newInstructions.add(ASM.buildMethodCall(
+                    "vazkii/quark/base/handler/AsmHooks",
+                    "postPistonPush",
+                    "(Lnet/minecraft/block/state/PistonBlockStructureHelper;Lnet/minecraft/world/World;Lnet/minecraft/util/Direction;Z)V",
+                    ASM.MethodType.STATIC));
+
+                method.instructions.insertBefore(target, newInstructions);
+
             }
         }
     }

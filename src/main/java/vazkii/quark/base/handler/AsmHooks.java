@@ -42,16 +42,20 @@ public class AsmHooks {
 	}
 
 	public static boolean setPistonBlock(World world, BlockPos pos, BlockState blockState, int flags) {
-        return world.setBlockState(pos, blockState, flags); // todo
+        return world.setBlockState(pos, blockState, flags); // TODO
     }
 
-    public static void onPistonUpdate(PistonTileEntity piston) {
-        // todo
+    public static boolean shouldPistonMoveTE(boolean parent, BlockState state) {
+        return parent; // TODO
+    }
+
+    public static void postPistonPush(PistonBlockStructureHelper helper, World world, Direction direction, boolean extending) {
+        // TODO
     }
 
     @OnlyIn(Dist.CLIENT)
     public static boolean renderPistonBlock(PistonTileEntity piston, double x, double y, double z, float pTicks) {
-        return false; // todo
+        return false; // TODO
     }
 
 }
