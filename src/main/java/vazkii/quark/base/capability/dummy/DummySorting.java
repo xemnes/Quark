@@ -8,7 +8,7 @@
  * <p>
  * File Created @ [Apr 17, 2019, 15:20 AM (EST)]
  */
-package vazkii.quark.base.capability;
+package vazkii.quark.base.capability.dummy;
 
 import net.minecraft.item.ItemStack;
 import vazkii.quark.api.ICustomSorting;

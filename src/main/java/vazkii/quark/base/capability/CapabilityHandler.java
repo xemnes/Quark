@@ -16,10 +16,13 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import vazkii.quark.api.ICustomSorting;
+import vazkii.quark.api.IPistonCallback;
 import vazkii.quark.api.IRuneColorProvider;
 import vazkii.quark.api.ITransferManager;
 import vazkii.quark.api.QuarkCapabilities;
 import vazkii.quark.base.Quark;
+import vazkii.quark.base.capability.dummy.DummyPistonCallback;
+import vazkii.quark.base.capability.dummy.DummySorting;
 
 @Mod.EventBusSubscriber(modid = Quark.MOD_ID)
 public class CapabilityHandler {
@@ -29,6 +32,7 @@ public class CapabilityHandler {
 		registerLambda(ITransferManager.class, (player) -> false);
 
 		register(ICustomSorting.class, DummySorting::new);
+		register(IPistonCallback.class, DummyPistonCallback::new);
 	}
 
 	private static <T> void registerLambda(Class<T> clazz, T provider) {
