@@ -9,6 +9,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import vazkii.quark.automation.client.render.PistonTileEntityRenderer;
+import vazkii.quark.automation.module.PistonsMoveTileEntitiesModule;
 import vazkii.quark.vanity.module.ColorRunesModule;
 
 /**
@@ -41,21 +43,21 @@ public class AsmHooks {
 		return new QuarkPistonStructureHelper(helper, world, sourcePos, facing, extending);
 	}
 
-	public static boolean setPistonBlock(World world, BlockPos pos, BlockState blockState, int flags) {
-        return world.setBlockState(pos, blockState, flags); // TODO
+	public static boolean setPistonBlock(World world, BlockPos pos, BlockState state, int flags) {
+        return PistonsMoveTileEntitiesModule.setPistonBlock(world, pos, state, flags);
     }
 
     public static boolean shouldPistonMoveTE(boolean parent, BlockState state) {
-        return parent; // TODO
+        return PistonsMoveTileEntitiesModule.shouldMoveTE(parent, state);
     }
 
     public static void postPistonPush(PistonBlockStructureHelper helper, World world, Direction direction, boolean extending) {
-        // TODO
+        PistonsMoveTileEntitiesModule.detachTileEntities(world, helper, direction, extending);
     }
 
     @OnlyIn(Dist.CLIENT)
     public static boolean renderPistonBlock(PistonTileEntity piston, double x, double y, double z, float pTicks) {
-        return false; // TODO
+        return PistonTileEntityRenderer.renderPistonBlock(piston, x, y, z, pTicks);
     }
 
 }

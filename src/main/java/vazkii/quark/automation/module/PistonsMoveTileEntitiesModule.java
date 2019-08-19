@@ -64,6 +64,7 @@ public class PistonsMoveTileEntitiesModule extends Module {
 	
 	// This is called from injected code and subsequently flipped, so to make it move, we return false
 	public static boolean shouldMoveTE(boolean te, BlockState state) {
+		System.out.println("h");
 		if(!ModuleLoader.INSTANCE.isModuleEnabled(PistonsMoveTileEntitiesModule.class))
 			return te;
 		
