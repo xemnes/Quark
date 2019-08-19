@@ -26,4 +26,8 @@ public class ReflectionKeys {
 		public static String CAN_ATTACH_TO = "func_196471_a";
 	}
 	
+	public static class TileEntity {
+		public static String CACHED_BLOCK_STATE = "field_195045_e";
+	}
+	
 }

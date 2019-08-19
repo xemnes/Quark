@@ -8,11 +8,14 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.DirectionalBlock;
 import net.minecraft.block.HorizontalBlock;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.tileentity.PistonTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import vazkii.quark.automation.module.PistonsMoveTileEntitiesModule;
+import vazkii.quark.base.handler.ReflectionKeys;
 import vazkii.quark.base.module.ModuleLoader;
 
 public class PistonTileEntityRenderer {
@@ -34,16 +37,6 @@ public class PistonTileEntityRenderer {
 			tile.setWorld(piston.getWorld());
 			tile.validate();
 
-//			if(tile instanceof ChestTileEntity) { TODO needed?
-//				ChestTileEntity chest = (ChestTileEntity) tile;
-//				chest.adjacentChestXPos = null;
-//				chest.adjacentChestXNeg = null;
-//				chest.adjacentChestZPos = null;
-//				chest.adjacentChestZNeg = null;
-//			}
-
-			Direction facing = null;
-
 			if(state.getProperties().contains(HorizontalBlock.HORIZONTAL_FACING))
 				facing = state.get(HorizontalBlock.HORIZONTAL_FACING);
 			else if(state.getProperties().contains(DirectionalBlock.FACING))
@@ -51,28 +44,10 @@ public class PistonTileEntityRenderer {
 
 			GlStateManager.translated(x + piston.getOffsetX(pTicks), y + piston.getOffsetY(pTicks), z + piston.getOffsetZ(pTicks));
 
-			if(facing != null) {
-				float rotation = 0;
-				switch(facing) {
-					case NORTH:
-						rotation = 180F;
-						break;
-					case EAST:
-						rotation = 90F;
-						break;
-					case WEST:
-						rotation = -90F;
-						break;
-					default: break;
-				}
-
-				GlStateManager.translated(0.5, 0.5, 0.5);
-				GlStateManager.rotated(rotation, 0, 1, 0);
-				GlStateManager.translated(-0.5, -0.5, -0.5);
-			}
-
 			RenderHelper.enableStandardItemLighting();
-			TileEntityRendererDispatcher.instance.render(tile, 0, 0, 0, pTicks);
+			ObfuscationReflectionHelper.setPrivateValue(TileEntity.class, tile, state, ReflectionKeys.TileEntity.CACHED_BLOCK_STATE);
+			TileEntityRenderer<TileEntity> tileentityrenderer = TileEntityRendererDispatcher.instance.getRenderer(tile);
+			tileentityrenderer.render(tile, 0, 0, 0, pTicks, -1);
 			RenderHelper.disableStandardItemLighting();
 			GlStateManager.popMatrix();
 
@@ -84,5 +59,5 @@ public class PistonTileEntityRenderer {
 
 		return state.getRenderType() != BlockRenderType.MODEL;
 	}
-	
+
 }

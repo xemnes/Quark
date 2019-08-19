@@ -64,7 +64,6 @@ public class PistonsMoveTileEntitiesModule extends Module {
 	
 	// This is called from injected code and subsequently flipped, so to make it move, we return false
 	public static boolean shouldMoveTE(boolean te, BlockState state) {
-		System.out.println("h");
 		if(!ModuleLoader.INSTANCE.isModuleEnabled(PistonsMoveTileEntitiesModule.class))
 			return te;
 		
@@ -123,12 +122,12 @@ public class PistonsMoveTileEntitiesModule extends Module {
 			BlockState currState = world.getBlockState(pos);
 			TileEntity currTile = world.getTileEntity(pos);
 			
-			world.destroyBlock(pos, false);
+			world.removeBlock(pos, false);
 			if(!block.isValidPosition(state, world, pos)) {
 				world.setBlockState(pos, state, flags);
 				world.setTileEntity(pos, tile);
 				Block.spawnDrops(state, world, pos, tile);
-				world.destroyBlock(pos, false);
+				world.removeBlock(pos, false);
 				destroyed = true;
 			}
 			
