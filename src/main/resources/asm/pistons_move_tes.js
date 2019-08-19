@@ -101,7 +101,7 @@ function initializeCoreMod() {
 
                 var target = ASM.findFirstMethodCall(method,
                     ASM.MethodType.VIRTUAL,
-                    "net/minecraftforge/common/extensions/IForgeBlockState",
+                    "net/minecraft/block/BlockState",
                     "hasTileEntity",
                     "()Z");
 
