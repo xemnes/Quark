@@ -22,4 +22,8 @@ public class ReflectionKeys {
 		public static String LOOT_ENTRIES = "field_186453_a";
 	}
 	
+	public static class LadderBlock {
+		public static String CAN_ATTACH_TO = "func_196471_a";
+	}
+	
 }
