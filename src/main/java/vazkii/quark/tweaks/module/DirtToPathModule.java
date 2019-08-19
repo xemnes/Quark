@@ -12,6 +12,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import vazkii.quark.base.handler.MiscUtil;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
@@ -41,9 +42,7 @@ public class DirtToPathModule extends Module {
 
 				if(!world.isRemote) {
 					world.setBlockState(pos, pathState, 11);
-					itemstack.damageItem(1, player, (p) -> {
-		                p.sendBreakAnimation(hand);
-		             });
+					MiscUtil.damageStack(player, hand, itemstack, 1);
 				}
 
 				event.setCanceled(true);

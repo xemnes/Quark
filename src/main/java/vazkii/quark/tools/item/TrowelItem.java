@@ -19,6 +19,7 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockRayTraceResult;
 import vazkii.arl.util.ItemNBTHelper;
+import vazkii.quark.base.handler.MiscUtil;
 import vazkii.quark.base.item.QuarkItem;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.tools.module.TrowelModule;
@@ -65,9 +66,7 @@ public class TrowelItem extends QuarkItem {
 			CompoundNBT cmp = target.serializeNBT();
 			ItemNBTHelper.setCompound(ourStack, TAG_LAST_STACK, cmp);
 			
-            context.getItem().damageItem(1, player, (p) -> {
-                p.sendBreakAnimation(context.getHand());
-             });
+			MiscUtil.damageStack(player, hand, context.getItem(), 1);
 		}
 		
 		return result;
