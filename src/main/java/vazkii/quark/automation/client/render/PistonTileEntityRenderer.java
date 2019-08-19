@@ -37,11 +37,6 @@ public class PistonTileEntityRenderer {
 			tile.setWorld(piston.getWorld());
 			tile.validate();
 
-			if(state.getProperties().contains(HorizontalBlock.HORIZONTAL_FACING))
-				facing = state.get(HorizontalBlock.HORIZONTAL_FACING);
-			else if(state.getProperties().contains(DirectionalBlock.FACING))
-				facing = state.get(DirectionalBlock.FACING);
-
 			GlStateManager.translated(x + piston.getOffsetX(pTicks), y + piston.getOffsetY(pTicks), z + piston.getOffsetZ(pTicks));
 
 			RenderHelper.enableStandardItemLighting();
