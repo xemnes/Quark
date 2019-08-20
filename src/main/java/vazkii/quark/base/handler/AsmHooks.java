@@ -71,4 +71,12 @@ public class AsmHooks {
         return PistonTileEntityRenderer.renderPistonBlock(piston, x, y, z, pTicks);
     }
 
+    // ==========================================================================
+    // Emotes
+    // ==========================================================================
+
+    public static void updateEmotes(LivingEntity entity) {
+
+    }
+
 }

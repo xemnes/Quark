@@ -9,14 +9,20 @@ function injectForEachMethod(method, targetType, clazz, targetName, sig, callbac
 
     while (target !== null) {
         var index = method.instructions.indexOf(target);
-        index += callback(target, index);
+        var indexShift = callback(target, index);
+
+        var newIndex = method.instructions.indexOf(target);
+        if (newIndex !== -1)
+            index = newIndex;
+        else if (typeof indexShift === 'number')
+            index += indexShift;
 
         target = ASM.findFirstMethodCallAfter(method,
             targetType,
             clazz,
             targetName,
             sig,
-            index);
+            index + 1);
     }
 
     return method;
@@ -38,7 +44,6 @@ function remapBlockState(method) {
                 ASM.MethodType.STATIC
             ));
             method.instructions.remove(target);
-            return 0;
         });
 }
 

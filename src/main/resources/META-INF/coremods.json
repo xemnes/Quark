@@ -1,5 +1,6 @@
 {
   "quark_colored_enchantment_glint": "asm/colored_enchantment_glint.js",
   "quark_piston_structure_helper_override": "asm/piston_structure_helper_override.js",
-  "quark_pistons_move_tes": "asm/pistons_move_tes.js"
+  "quark_pistons_move_tes": "asm/pistons_move_tes.js",
+  "quark_emotes": "asm/emotes.js"
 }
