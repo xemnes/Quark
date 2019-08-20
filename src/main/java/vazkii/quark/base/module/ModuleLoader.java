@@ -1,12 +1,12 @@
 package vazkii.quark.base.module;
 
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Consumer;
-
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 public final class ModuleLoader {
 	
@@ -39,7 +39,7 @@ public final class ModuleLoader {
 	
 	public void configChanged() {
 		config.configChanged();
-		dispatch(m -> m.configChanged());
+		dispatch(Module::configChanged);
 	}
 	
 	public void setup() {
