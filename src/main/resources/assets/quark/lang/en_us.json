@@ -258,6 +258,23 @@
 	"block.quark.red_stained_planks_slab": "Red Stained Plank Slab",
 	"block.quark.light_gray_stained_planks_slab": "Light Gray Stained Plank Slab",
 	"block.quark.white_stained_planks_slab": "White Stained Plank Slab",
-	"block.quark.yellow_stained_planks_slab": "Yellow Stained Plank Slab"
+	"block.quark.yellow_stained_planks_slab": "Yellow Stained Plank Slab",
+	"block.quark.vertical_black_stained_planks": "Vertical Black Stained Planks",
+	"block.quark.vertical_blue_stained_planks": "Vertical Blue Stained Planks",
+	"block.quark.vertical_brown_stained_planks": "Vertical Brown Stained Planks",
+	"block.quark.vertical_cyan_stained_planks": "Vertical Cyan Stained Planks",
+	"block.quark.vertical_gray_stained_planks": "Vertical Gray Stained Planks",
+	"block.quark.vertical_green_stained_planks": "Vertical Green Stained Planks",
+	"block.quark.vertical_light_blue_stained_planks": "Vertical Light Blue Stained Planks",
+	"block.quark.vertical_lime_stained_planks": "Vertical Lime Stained Planks",
+	"block.quark.vertical_magenta_stained_planks": "Vertical Magenta Stained Planks",
+	"block.quark.vertical_orange_stained_planks": "Vertical Orange Stained Planks",
+	"block.quark.vertical_pink_stained_planks": "Vertical Pink Stained Planks",
+	"block.quark.vertical_purple_stained_planks": "Vertical Purple Stained Planks",
+	"block.quark.vertical_red_stained_planks": "Vertical Red Stained Planks",
+	"block.quark.vertical_light_gray_stained_planks": "Vertical Light Gray Stained Planks",
+	"block.quark.vertical_white_stained_planks": "Vertical White Stained Planks",
+	"block.quark.vertical_yellow_stained_planks": "Vertical Yellow Stained Planks"
+	
 	
 }
