@@ -1,9 +1,9 @@
 {
   "type": "minecraft:stonecutting",
   "ingredient": {
-    "item": "quark:soul_sandstone"
+    "item": "%modid%:%name%"
   },
-  "result": "quark:cut_soul_sandstone_vertical_slab",
+  "result": "%modid%:%name%_vertical_slab",
   "count": 2,
   "conditions": [
     {

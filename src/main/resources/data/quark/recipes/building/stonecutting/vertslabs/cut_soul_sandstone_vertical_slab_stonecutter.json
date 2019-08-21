@@ -7,17 +7,8 @@
   "count": 2,
   "conditions": [
     {
-      "type": "forge:and",
-      "values": [
-        {
-          "type": "quark:flag",
-          "flag": "soul_sandstone"
-        },
-        {
-          "type": "quark:flag",
-          "flag": "vertical_slabs"
-        }
-      ]
+      "type": "quark:flag",
+      "flag": "vertical_slabs"
     }
   ]
 }
