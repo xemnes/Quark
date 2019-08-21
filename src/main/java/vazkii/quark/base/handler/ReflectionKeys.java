@@ -38,4 +38,8 @@ public class ReflectionKeys {
 		public static String PLAYER_TEXTURES = "field_187107_a";
 	}
 	
+	public static class LivingRenderer {
+		public static String LAYER_RENDERERS = "field_177097_h";
+	}
+	
 }

@@ -12,6 +12,7 @@ package vazkii.quark.vanity.client.emote;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.mojang.blaze3d.platform.GlStateManager;
@@ -19,14 +20,21 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.client.renderer.entity.PlayerRenderer;
+import net.minecraft.client.renderer.entity.layers.BipedArmorLayer;
+import net.minecraft.client.renderer.entity.layers.LayerRenderer;
+import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
+import vazkii.quark.base.handler.ReflectionKeys;
 
 @OnlyIn(Dist.CLIENT)
 public final class EmoteHandler {
@@ -65,12 +73,12 @@ public final class EmoteHandler {
 		if(desc == null)
 			return;
 
-		if (desc.getTier() > tier)
+		if(desc.getTier() > tier)
 			return;
 
-		PlayerModel<?> model = getPlayerModel(player);
-		PlayerModel<?> armorModel = getPlayerArmorModel(player);
-		PlayerModel<?> armorLegModel = getPlayerArmorLegModel(player);
+		BipedModel<?> model = getPlayerModel(player);
+		BipedModel<?> armorModel = getPlayerArmorModel(player);
+		BipedModel<?> armorLegModel = getPlayerArmorLegModel(player);
 
 		if(model != null && armorModel != null && armorLegModel != null) {
 			resetPlayer(player);
@@ -148,7 +156,7 @@ public final class EmoteHandler {
 		return manager.getSkinMap().get(player.getSkinType());
 	}
 
-	private static PlayerModel<?> getPlayerModel(AbstractClientPlayerEntity player) {
+	private static BipedModel<?> getPlayerModel(AbstractClientPlayerEntity player) {
 		PlayerRenderer render = getRenderPlayer(player);
 		if(render != null)
 			return render.getEntityModel();
@@ -156,39 +164,35 @@ public final class EmoteHandler {
 		return null;
 	}
 
-	private static PlayerModel<?> getPlayerArmorModel(AbstractClientPlayerEntity player) {
+	private static BipedModel<?> getPlayerArmorModel(AbstractClientPlayerEntity player) {
+		return getPlayerArmorModelForSlot(player, EquipmentSlotType.CHEST);
+	}
+
+	private static BipedModel<?> getPlayerArmorLegModel(AbstractClientPlayerEntity player) {
+		return getPlayerArmorModelForSlot(player, EquipmentSlotType.LEGS);
+	}
+
+	private static BipedModel<?> getPlayerArmorModelForSlot(AbstractClientPlayerEntity player, EquipmentSlotType slot) {
 		PlayerRenderer render = getRenderPlayer(player);
 		if(render == null)
 			return null;
 
-		//		List list = ObfuscationReflectionHelper.getPrivateValue(LivingRenderer.class, render, LibObfuscation.LAYER_RENDERERS);
-		//		for (Object aList : list)
-		//			if (aList instanceof BipedArmorLayer)
-		//				return ObfuscationReflectionHelper.getPrivateValue(ArmorLayer.class, (ArmorLayer) aList, LibObfuscation.MODEL_ARMOR);
-
+		List<LayerRenderer<?, ?>> list = ObfuscationReflectionHelper.getPrivateValue(LivingRenderer.class, render, ReflectionKeys.LivingRenderer.LAYER_RENDERERS);
+		for(LayerRenderer<?, ?> r : list) {
+			if(r instanceof BipedArmorLayer)	
+				return ((BipedArmorLayer<?, ?, ?>) r).func_215337_a(slot);
+		}
+		
 		return null;
 	}
-
-	private static PlayerModel<?> getPlayerArmorLegModel(AbstractClientPlayerEntity player) {
-		PlayerRenderer render = getRenderPlayer(player);
-		if(render == null)
-			return null;
-
-		//		List list = ObfuscationReflectionHelper.getPrivateValue(LivingRenderer.class, render, LibObfuscation.LAYER_RENDERERS);
-		//		for (Object aList : list)
-		//			if (aList instanceof BipedArmorLayer)
-		//				return ObfuscationReflectionHelper.getPrivateValue(ArmorLayer.class, (ArmorLayer) aList, LibObfuscation.MODEL_LEGGINGS);
-
-		return null;
-	}
-
+	
 	private static void resetPlayer(AbstractClientPlayerEntity player) {
 		resetModel(getPlayerModel(player));
 		resetModel(getPlayerArmorModel(player));
 		resetModel(getPlayerArmorLegModel(player));
 	}
 
-	private static void resetModel(PlayerModel<?> model) {
+	private static void resetModel(BipedModel<?> model) {
 		if (model != null) {
 			resetPart(model.bipedHead);
 			resetPart(model.bipedHeadwear);
@@ -197,12 +201,16 @@ public final class EmoteHandler {
 			resetPart(model.bipedRightArm);
 			resetPart(model.bipedLeftLeg);
 			resetPart(model.bipedRightLeg);
-			resetPart(model.bipedBodyWear);
-			resetPart(model.bipedLeftArmwear);
-			resetPart(model.bipedRightArmwear);
-			resetPart(model.bipedLeftLegwear);
-			resetPart(model.bipedRightLegwear);
-			resetPart(ModelAccessor.getEarsModel(model));
+			if(model instanceof PlayerModel) {
+				PlayerModel<?> pmodel = (PlayerModel<?>) model;
+				resetPart(pmodel.bipedBodyWear);
+				resetPart(pmodel.bipedLeftArmwear);
+				resetPart(pmodel.bipedRightArmwear);
+				resetPart(pmodel.bipedLeftLegwear);
+				resetPart(pmodel.bipedRightLegwear);
+				resetPart(ModelAccessor.getEarsModel(pmodel));
+			}
+			
 
 			ModelAccessor.INSTANCE.resetModel(model);
 		}

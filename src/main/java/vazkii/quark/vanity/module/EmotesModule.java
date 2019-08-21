@@ -16,7 +16,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.client.renderer.entity.model.PlayerModel;
+import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.resources.ResourcePackInfo;
@@ -47,11 +47,7 @@ import vazkii.quark.vanity.client.emote.ModelAccessor;
 import vazkii.quark.vanity.client.gui.EmoteButton;
 import vazkii.quark.vanity.client.gui.TranslucentButton;
 
-/**
- * @author WireSegal
- * Created at 11:27 AM on 8/20/19.
- */
-@LoadModule(category = ModuleCategory.VANITY)
+@LoadModule(category = ModuleCategory.VANITY, hasSubscriptions = true, subscribeOn = Dist.CLIENT)
 public class EmotesModule extends Module {
 
 	private static final Set<String> DEFAULT_EMOTE_NAMES = ImmutableSet.of(
@@ -106,7 +102,7 @@ public class EmotesModule extends Module {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void clientSetup() {
-		Tween.registerAccessor(PlayerModel.class, ModelAccessor.INSTANCE);
+		Tween.registerAccessor(BipedModel.class, ModelAccessor.INSTANCE);
 
 		for(String s : enabledEmotes)
 			if(DEFAULT_EMOTE_NAMES.contains(s))
@@ -186,7 +182,7 @@ public class EmotesModule extends Module {
 					row++;
 			}
 			
-			event.addWidget(new TranslucentButton(gui.width - 1 - EMOTE_BUTTON_WIDTH * EMOTES_PER_ROW, gui.height - 40, EMOTE_BUTTON_WIDTH * EMOTES_PER_ROW, 20, I18n.format("quark.gui.emotes"),
+			event.addWidget(new TranslucentButton(gui.width - 1 - EMOTE_BUTTON_WIDTH * EMOTES_PER_ROW, gui.height - 40, EMOTE_BUTTON_WIDTH * EMOTES_PER_ROW, 20, I18n.format("quark.gui.button.emotes"),
 					(b) -> {
 						for(Button bt : emoteButtons)
 							if(bt instanceof EmoteButton) {
