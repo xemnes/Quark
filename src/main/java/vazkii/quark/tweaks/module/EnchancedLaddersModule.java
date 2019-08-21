@@ -9,7 +9,6 @@ import net.minecraft.entity.MoverType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.Tag;
 import net.minecraft.util.Direction;
@@ -20,7 +19,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -33,6 +32,7 @@ import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
+import vazkii.quark.decoration.module.VariantLaddersModule;
 
 @LoadModule(category = ModuleCategory.TWEAKS, hasSubscriptions = true)
 public class EnchancedLaddersModule extends Module {
@@ -46,7 +46,10 @@ public class EnchancedLaddersModule extends Module {
 		laddersTag = new ItemTags.Wrapper(new ResourceLocation(Quark.MOD_ID, "ladders"));
 	}
 	
-	private static boolean canAttachTo(Block ladder, IBlockReader world, BlockPos pos, Direction facing) {
+	@SuppressWarnings("deprecation")
+	private static boolean canAttachTo(BlockState state, Block ladder, IWorldReader world, BlockPos pos, Direction facing) {
+		if(ladder == VariantLaddersModule.iron_ladder)
+			return VariantLaddersModule.iron_ladder.isValidPosition(state, world, pos);
 		if (ladder instanceof LadderBlock) {
 			BlockPos offset = pos.offset(facing);
 			BlockState blockstate = world.getBlockState(offset);
@@ -82,7 +85,7 @@ public class EnchancedLaddersModule extends Module {
 						BlockState copyState = world.getBlockState(pos);
 
 						Direction facing = copyState.get(LadderBlock.FACING);
-						if(canAttachTo(block, world, posDown, facing.getOpposite())) {
+						if(canAttachTo(copyState, block, world, posDown, facing.getOpposite())) {
 							world.setBlockState(posDown, copyState);
 							world.playSound(null, posDown.getX(), posDown.getY(), posDown.getZ(), SoundEvents.BLOCK_LADDER_PLACE, SoundCategory.BLOCKS, 1F, 1F);
 

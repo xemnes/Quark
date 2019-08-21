@@ -13,18 +13,27 @@ public class VariantLadderBlock extends LadderBlock {
 
 	private final Module module;
 	
-	public VariantLadderBlock(String type, Module module) {
-		super(Block.Properties.from(Blocks.LADDER));
+	public VariantLadderBlock(String type, Module module, Block.Properties props) {
+		super(props);
+		
 		RegistryHelper.registerBlock(this, type + "_ladder");
 		RegistryHelper.setCreativeTab(this, ItemGroup.DECORATIONS);
 		
 		this.module = module;
 	}
 	
+	public VariantLadderBlock(String type, Module module) {
+		this(type, module, Block.Properties.from(Blocks.LADDER));
+	}
+	
 	@Override
 	public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
-		if(module.enabled || group == ItemGroup.SEARCH)
+		if(isEnabled() || group == ItemGroup.SEARCH)
 			super.fillItemGroup(group, items);
+	}
+	
+	public boolean isEnabled() {
+		return module.enabled;
 	}
 
 }
