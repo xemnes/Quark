@@ -204,5 +204,12 @@
 	"block.quark.birch_bookshelf": "Birch Bookshelf",
 	"block.quark.jungle_bookshelf": "Jungle Bookshelf",
 	"block.quark.acacia_bookshelf": "Acacia Bookshelf",
-	"block.quark.dark_oak_bookshelf": "Dark Oak Bookshelf"
+	"block.quark.dark_oak_bookshelf": "Dark Oak Bookshelf",
+	"block.quark.vertical_oak_planks": "Vertical Oak Planks",
+	"block.quark.vertical_spruce_planks": "Vertical Spruce Planks",
+	"block.quark.vertical_birch_planks": "Vertical Birch Planks",
+	"block.quark.vertical_jungle_planks": "Vertical Jungle Planks",
+	"block.quark.vertical_acacia_planks": "Vertical Acacia Planks",
+	"block.quark.vertical_dark_oak_planks": "Vertical Dark Oak Planks"
+	
 }
