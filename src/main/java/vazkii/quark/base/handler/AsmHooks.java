@@ -15,6 +15,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.quark.automation.client.render.PistonTileEntityRenderer;
 import vazkii.quark.automation.module.PistonsMoveTileEntitiesModule;
 import vazkii.quark.tweaks.module.HoeHarvestingModule;
+import vazkii.quark.vanity.client.emote.EmoteHandler;
 import vazkii.quark.vanity.module.ColorRunesModule;
 
 /**
@@ -28,25 +29,25 @@ public class AsmHooks {
 	// Color Runes
 	// ==========================================================================
 
-    public static void setColorRuneTargetStack(LivingEntity living, EquipmentSlotType slot) {
-        setColorRuneTargetStack(living.getItemStackFromSlot(slot));
-    }
+	public static void setColorRuneTargetStack(LivingEntity living, EquipmentSlotType slot) {
+		setColorRuneTargetStack(living.getItemStackFromSlot(slot));
+	}
 
-    public static void setColorRuneTargetStack(ItemStack stack) {
-        ColorRunesModule.setTargetStack(stack);
-    }
+	public static void setColorRuneTargetStack(ItemStack stack) {
+		ColorRunesModule.setTargetStack(stack);
+	}
 
-    public static int changeColor(int color) {
-        if (color == 0xFF8040CC)
-            return ColorRunesModule.changeColor(color);
+	public static int changeColor(int color) {
+		if (color == 0xFF8040CC)
+			return ColorRunesModule.changeColor(color);
 
-        return color;
-    }
+		return color;
+	}
 
-    @OnlyIn(Dist.CLIENT)
-    public static void applyRuneColor() {
-        ColorRunesModule.applyColor();
-    }
+	@OnlyIn(Dist.CLIENT)
+	public static void applyRuneColor() {
+		ColorRunesModule.applyColor();
+	}
 
 	// ==========================================================================
 	// Piston Logic Replacing
@@ -56,37 +57,41 @@ public class AsmHooks {
 		return new QuarkPistonStructureHelper(helper, world, sourcePos, facing, extending);
 	}
 
+	// ==========================================================================
+	// Pistons Move TEs
+	// ==========================================================================
+
 	public static boolean setPistonBlock(World world, BlockPos pos, BlockState state, int flags) {
-        return PistonsMoveTileEntitiesModule.setPistonBlock(world, pos, state, flags);
-    }
+		return PistonsMoveTileEntitiesModule.setPistonBlock(world, pos, state, flags);
+	}
 
-    public static boolean shouldPistonMoveTE(boolean parent, BlockState state) {
-        return PistonsMoveTileEntitiesModule.shouldMoveTE(parent, state);
-    }
+	public static boolean shouldPistonMoveTE(boolean parent, BlockState state) {
+		return PistonsMoveTileEntitiesModule.shouldMoveTE(parent, state);
+	}
 
-    public static void postPistonPush(PistonBlockStructureHelper helper, World world, Direction direction, boolean extending) {
-        PistonsMoveTileEntitiesModule.detachTileEntities(world, helper, direction, extending);
-    }
+	public static void postPistonPush(PistonBlockStructureHelper helper, World world, Direction direction, boolean extending) {
+		PistonsMoveTileEntitiesModule.detachTileEntities(world, helper, direction, extending);
+	}
 
-    @OnlyIn(Dist.CLIENT)
-    public static boolean renderPistonBlock(PistonTileEntity piston, double x, double y, double z, float pTicks) {
-        return PistonTileEntityRenderer.renderPistonBlock(piston, x, y, z, pTicks);
-    }
+	@OnlyIn(Dist.CLIENT)
+	public static boolean renderPistonBlock(PistonTileEntity piston, double x, double y, double z, float pTicks) {
+		return PistonTileEntityRenderer.renderPistonBlock(piston, x, y, z, pTicks);
+	}
 
-    // ==========================================================================
-    // Emotes
-    // ==========================================================================
+	// ==========================================================================
+	// Emotes
+	// ==========================================================================
 
-    public static void updateEmotes(LivingEntity entity) {
+	public static void updateEmotes(LivingEntity entity) {
+		EmoteHandler.updateEmotes(entity);
+	}
 
-    }
+	// ==========================================================================
+	// Fortune on Hoes
+	// ==========================================================================
 
-    // ==========================================================================
-    // Fortune on Hoes
-    // ==========================================================================
-
-    public static boolean canFortuneApply(Enchantment enchantment, ItemStack stack) {
-        return HoeHarvestingModule.canFortuneApply(enchantment, stack);
-    }
+	public static boolean canFortuneApply(Enchantment enchantment, ItemStack stack) {
+		return HoeHarvestingModule.canFortuneApply(enchantment, stack);
+	}
 
 }

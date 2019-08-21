@@ -10,10 +10,14 @@
  */
 package vazkii.quark.tweaks.module;
 
+import java.util.List;
+import java.util.Map;
+
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -45,9 +49,6 @@ import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
 import vazkii.quark.base.network.QuarkNetwork;
 import vazkii.quark.base.network.message.HarvestMessage;
-
-import java.util.List;
-import java.util.Map;
 
 @LoadModule(category = ModuleCategory.TWEAKS, hasSubscriptions = true)
 public class SimpleHarvestModule extends Module {
@@ -98,7 +99,7 @@ public class SimpleHarvestModule extends Module {
 		}
 	}
 
-	private boolean isVanilla(IForgeRegistryEntry entry) {
+	private boolean isVanilla(IForgeRegistryEntry<?> entry) {
 		ResourceLocation loc = entry.getRegistryName();
 		if (loc == null)
 			return true; // Just in case

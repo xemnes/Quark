@@ -1,6 +1,6 @@
-package vazkii.quark.vanity.client.emotes;
+package vazkii.quark.vanity.client.emote;
 
-import net.minecraft.client.renderer.entity.model.BipedModel;
+import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
@@ -74,9 +74,9 @@ public class EmoteDescriptor {
 		return null;
 	}
 	
-	public EmoteBase instantiate(PlayerEntity player, BipedModel model, BipedModel armorModel, BipedModel armorLegModel) {
+	public EmoteBase instantiate(PlayerEntity player, PlayerModel<?> model, PlayerModel<?> armorModel, PlayerModel<?> armorLegModel) {
 		try {
-			return clazz.getConstructor(EmoteDescriptor.class, PlayerEntity.class, BipedModel.class, BipedModel.class, BipedModel.class).newInstance(this, player, model, armorModel, armorLegModel);
+			return clazz.getConstructor(EmoteDescriptor.class, PlayerEntity.class, PlayerModel.class, PlayerModel.class, PlayerModel.class).newInstance(this, player, model, armorModel, armorLegModel);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

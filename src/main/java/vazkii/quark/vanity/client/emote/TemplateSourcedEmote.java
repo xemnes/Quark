@@ -1,8 +1,8 @@
-package vazkii.quark.vanity.client.emotes;
+package vazkii.quark.vanity.client.emote;
 
 import cpw.mods.modlauncher.Launcher;
 import cpw.mods.modlauncher.api.IEnvironment;
-import net.minecraft.client.renderer.entity.model.BipedModel;
+import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -14,7 +14,7 @@ public class TemplateSourcedEmote extends EmoteBase {
 
 	private static final boolean DEOBF = Launcher.INSTANCE.environment().getProperty(IEnvironment.Keys.NAMING.get()).orElse("").equals("mcp");
 
-	public TemplateSourcedEmote(EmoteDescriptor desc, PlayerEntity player, BipedModel model, BipedModel armorModel, BipedModel armorLegsModel) {
+	public TemplateSourcedEmote(EmoteDescriptor desc, PlayerEntity player, PlayerModel<?> model, PlayerModel<?> armorModel, PlayerModel<?> armorLegsModel) {
 		super(desc, player, model, armorModel, armorLegsModel);
 
 		if(shouldLoadTimelineOnLaunch()) {
@@ -28,7 +28,7 @@ public class TemplateSourcedEmote extends EmoteBase {
 	}
 
 	@Override
-	public Timeline getTimeline(PlayerEntity player, BipedModel model) {
+	public Timeline getTimeline(PlayerEntity player, PlayerModel<?> model) {
 		return desc.template.getTimeline(desc, player, model);
 	}
 

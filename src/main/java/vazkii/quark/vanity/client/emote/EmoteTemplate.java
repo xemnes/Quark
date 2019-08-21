@@ -1,13 +1,4 @@
-package vazkii.quark.vanity.client.emotes;
-
-import com.google.common.collect.Lists;
-import net.minecraft.client.renderer.entity.model.BipedModel;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import vazkii.aurelienribon.tweenengine.*;
-import vazkii.quark.base.Quark;
+package vazkii.quark.vanity.client.emote;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -15,7 +6,26 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Stack;
+
+import com.google.common.collect.Lists;
+
+import net.minecraft.client.renderer.entity.model.PlayerModel;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import vazkii.aurelienribon.tweenengine.BaseTween;
+import vazkii.aurelienribon.tweenengine.Timeline;
+import vazkii.aurelienribon.tweenengine.Tween;
+import vazkii.aurelienribon.tweenengine.TweenCallback;
+import vazkii.aurelienribon.tweenengine.TweenEquation;
+import vazkii.aurelienribon.tweenengine.TweenEquations;
+import vazkii.quark.base.Quark;
 
 @OnlyIn(Dist.CLIENT)
 public class EmoteTemplate {
@@ -93,7 +103,7 @@ public class EmoteTemplate {
 		readAndMakeTimeline(null, null, null);
 	}
 
-	public Timeline getTimeline(EmoteDescriptor desc, PlayerEntity player, BipedModel model) {
+	public Timeline getTimeline(EmoteDescriptor desc, PlayerEntity player, PlayerModel<?> model) {
 		compiled = false;
 		speed = 1;
 		tier = 0;
@@ -120,7 +130,7 @@ public class EmoteTemplate {
 		}
 	}
 	
-	public Timeline readAndMakeTimeline(EmoteDescriptor desc, PlayerEntity player, BipedModel model) {
+	public Timeline readAndMakeTimeline(EmoteDescriptor desc, PlayerEntity player, PlayerModel<?> model) {
 		Timeline timeline = null;
 		usedParts = new ArrayList<>();
 		timelineStack = new Stack<>();
@@ -182,7 +192,7 @@ public class EmoteTemplate {
 		else Quark.LOG.error("[Custom Emotes] " + e.getMessage());
 	}
 
-	private Timeline handle(BipedModel model, PlayerEntity player, Timeline timeline, String s) throws IllegalArgumentException {
+	private Timeline handle(PlayerModel<?> model, PlayerEntity player, Timeline timeline, String s) throws IllegalArgumentException {
 		s = s.trim();
 		if(s.startsWith("#") || s.isEmpty())
 			return timeline;
@@ -294,7 +304,7 @@ public class EmoteTemplate {
 		return poppedLine;
 	}
 
-	private static Timeline move(EmoteTemplate em, BipedModel model, Timeline timeline, String[] tokens) throws IllegalArgumentException {
+	private static Timeline move(EmoteTemplate em, PlayerModel<?> model, Timeline timeline, String[] tokens) throws IllegalArgumentException {
 		if(timeline == null)
 			throw new IllegalArgumentException("Illegal use of function move, animation not started");
 		if(tokens.length < 4)
@@ -431,7 +441,7 @@ public class EmoteTemplate {
 		return timeline;
 	}
 	
-	private static Timeline reset(EmoteTemplate em, BipedModel model, Timeline timeline, String[] tokens) throws IllegalArgumentException {
+	private static Timeline reset(EmoteTemplate em, PlayerModel<?> model, Timeline timeline, String[] tokens) throws IllegalArgumentException {
 		if(tokens.length < 4)
 			throw new IllegalArgumentException(String.format("Illegal parameter amount for function reset: %d (at least 4 are required)", tokens.length));
 
@@ -508,7 +518,7 @@ public class EmoteTemplate {
 	}
 
 	private interface Function {
-		Timeline invoke(EmoteTemplate em, BipedModel model, PlayerEntity player, Timeline timeline, String[] tokens) throws IllegalArgumentException;
+		Timeline invoke(EmoteTemplate em, PlayerModel<?> model, PlayerEntity player, Timeline timeline, String[] tokens) throws IllegalArgumentException;
 	}
 
 }

@@ -1,4 +1,4 @@
-package vazkii.quark.vanity.client.emotes;
+package vazkii.quark.vanity.client.emote;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
@@ -9,7 +9,7 @@ import net.minecraft.util.ResourceLocationException;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.quark.base.Quark;
-import vazkii.quark.vanity.module.EmoteModule;
+import vazkii.quark.vanity.module.EmotesModule;
 
 import javax.annotation.Nonnull;
 import java.io.*;
@@ -23,7 +23,7 @@ public class CustomEmoteIconResourcePack extends ResourcePack {
 	private final List<String> existingNames = new ArrayList<>();
 
 	public CustomEmoteIconResourcePack() {
-		super(EmoteModule.emotesDir);
+		super(EmotesModule.emotesDir);
 	}
 
 	@Nonnull
@@ -39,6 +39,9 @@ public class CustomEmoteIconResourcePack extends ResourcePack {
 	protected InputStream getInputStream(@Nonnull String name) throws IOException {
 		if(name.equals("pack.mcmeta"))
 			return Quark.class.getResourceAsStream("/proxypack.mcmeta");
+		
+		if(name.equals("pack.png"))
+			return Quark.class.getResourceAsStream("/proxypack.png");
 		
 		File file = getFile(name);
 		if(!file.exists())
@@ -96,7 +99,7 @@ public class CustomEmoteIconResourcePack extends ResourcePack {
 	
 	private File getFile(String name) {
 		String filename = name.substring(name.indexOf(":") + 1) + ".png";
-		return new File(EmoteModule.emotesDir, filename);
+		return new File(EmotesModule.emotesDir, filename);
 	}
 
 	@Override

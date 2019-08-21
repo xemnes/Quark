@@ -8,20 +8,19 @@
  *
  * File Created @ [26/03/2016, 21:37:50 (GMT)]
  */
-package vazkii.quark.vanity.client.emotes;
+package vazkii.quark.vanity.client.emote;
 
-import net.minecraft.client.renderer.entity.model.BipedModel;
+import java.util.Map;
+import java.util.WeakHashMap;
+
 import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.aurelienribon.tweenengine.TweenAccessor;
 
-import java.util.Map;
-import java.util.WeakHashMap;
-
 @OnlyIn(Dist.CLIENT)
-public class ModelAccessor implements TweenAccessor<BipedModel> {
+public class ModelAccessor implements TweenAccessor<PlayerModel<?>> {
 
 	public static final ModelAccessor INSTANCE = new ModelAccessor();
 
@@ -90,18 +89,18 @@ public class ModelAccessor implements TweenAccessor<BipedModel> {
 	public static final int MODEL_OFF_Y = MODEL + OFF_Y;
 	public static final int MODEL_OFF_Z = MODEL + OFF_Z;
 
-	private final Map<BipedModel, float[]> MODEL_VALUES = new WeakHashMap<>();
+	private final Map<PlayerModel<?>, float[]> MODEL_VALUES = new WeakHashMap<>();
 
-	public static RendererModel getEarsModel(PlayerModel model) {
+	public static RendererModel getEarsModel(PlayerModel<?> model) {
 		return model.boxList.get(model.boxList.indexOf(model.bipedLeftArm) - 2);
 	}
 
-	public void resetModel(BipedModel model) {
+	public void resetModel(PlayerModel<?> model) {
 		MODEL_VALUES.remove(model);
 	}
 
 	@Override
-	public int getValues(BipedModel target, int tweenType, float[] returnValues) {
+	public int getValues(PlayerModel<?> target, int tweenType, float[] returnValues) {
 		int axis = tweenType % MODEL_PROPS;
 		int bodyPart = tweenType - axis;
 
@@ -138,7 +137,7 @@ public class ModelAccessor implements TweenAccessor<BipedModel> {
 		return 1;
 	}
 
-	private RendererModel getBodyPart(BipedModel model, int part) {
+	private RendererModel getBodyPart(PlayerModel<?> model, int part) {
 		switch(part) {
 			case HEAD : return model.bipedHead;
 			case BODY : return model.bipedBody;
@@ -151,7 +150,7 @@ public class ModelAccessor implements TweenAccessor<BipedModel> {
 	}
 
 	@Override
-	public void setValues(BipedModel target, int tweenType, float[] newValues) {
+	public void setValues(PlayerModel<?> target, int tweenType, float[] newValues) {
 		int axis = tweenType % MODEL_PROPS;
 		int bodyPart = tweenType - axis;
 
@@ -169,14 +168,12 @@ public class ModelAccessor implements TweenAccessor<BipedModel> {
 		messWithModel(target, model, axis, newValues[0]);
 	}
 
-	private void messWithModel(BipedModel biped, RendererModel part, int axis, float val) {
+	private void messWithModel(PlayerModel<?> biped, RendererModel part, int axis, float val) {
 		setPartAxis(part, axis, val);
-		
-		if(biped instanceof PlayerModel)
-			messWithPlayerModel((PlayerModel) biped, part, axis, val);
+		messWithPlayerModel(biped, part, axis, val);
 	}
 
-	private void messWithPlayerModel(PlayerModel biped, RendererModel part, int axis, float val) {
+	private void messWithPlayerModel(PlayerModel<?> biped, RendererModel part, int axis, float val) {
 		if(part == biped.bipedHead) {
 			setPartAxis(biped.bipedHeadwear, axis, val);
 			setPartOffset(getEarsModel(biped), axis, val);

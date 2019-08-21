@@ -8,7 +8,7 @@
  * <p>
  * File Created @ [May 05, 2019, 21:30 AM (EST)]
  */
-package vazkii.quark.vanity.client.emotes;
+package vazkii.quark.vanity.client.emote;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ITickableSound;

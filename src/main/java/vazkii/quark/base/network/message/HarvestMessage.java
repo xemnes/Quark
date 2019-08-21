@@ -7,6 +7,8 @@ import vazkii.quark.tweaks.module.SimpleHarvestModule;
 
 public class HarvestMessage implements IMessage {
 
+	private static final long serialVersionUID = -51788488328591145L;
+	
 	public BlockPos pos;
 
 	public HarvestMessage() { }

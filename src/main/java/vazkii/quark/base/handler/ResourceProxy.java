@@ -23,6 +23,7 @@ import net.minecraft.resources.ResourcePackInfo.IFactory;
 import net.minecraft.resources.ResourcePackType;
 import net.minecraft.util.ResourceLocation;
 import vazkii.quark.base.Quark;
+import vazkii.quark.vanity.module.EmotesModule;
 
 public final class ResourceProxy extends ResourcePack {
 
@@ -47,6 +48,8 @@ public final class ResourceProxy extends ResourcePack {
 				String name = "quark:resourceproxy";
 				T t = ResourcePackInfo.createResourcePack(name, true, () -> instance, packInfoFactory, ResourcePackInfo.Priority.TOP);
 				nameToPackMap.put(name, t);
+				
+				EmotesModule.addResourcePack(nameToPackMap, packInfoFactory);
 			}
 
 		});

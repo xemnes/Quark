@@ -8,9 +8,9 @@
  *
  * File Created @ [26/03/2016, 21:37:06 (GMT)]
  */
-package vazkii.quark.vanity.client.emotes;
+package vazkii.quark.vanity.client.emote;
 
-import net.minecraft.client.renderer.entity.model.BipedModel;
+import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -25,21 +25,21 @@ public abstract class EmoteBase {
 	public final EmoteDescriptor desc;
 
 	private final TweenManager emoteManager;
-	private final BipedModel model;
-	private final BipedModel armorModel;
-	private final BipedModel armorLegsModel;
+	private final PlayerModel<?> model;
+	private final PlayerModel<?> armorModel;
+	private final PlayerModel<?> armorLegsModel;
 	private final EmoteState state;
 	private final PlayerEntity player;
 	
 	public float timeDone, totalTime, animatedTime;
 	private long lastMs;
 
-	public EmoteBase(EmoteDescriptor desc, PlayerEntity player, BipedModel model, BipedModel armorModel, BipedModel armorLegsModel) {
+	public EmoteBase(EmoteDescriptor desc, PlayerEntity player, PlayerModel<?> model, PlayerModel<?> armorModel, PlayerModel<?> armorLegsModel) {
 		this.desc = desc;
 		emoteManager = new TweenManager();
 		state = new EmoteState(this);
 		this.model = model;
-		this.armorModel = armorModel;
+		this.armorModel = armorModel;	
 		this.armorLegsModel = armorLegsModel;
 		this.player = player;
 	}
@@ -51,12 +51,12 @@ public abstract class EmoteBase {
 		lastMs = System.currentTimeMillis();
 	}
 
-	void startTimeline(PlayerEntity player, BipedModel model) {
+	void startTimeline(PlayerEntity player, PlayerModel<?> model) {
 		Timeline timeline = getTimeline(player, model).start(emoteManager);
 		totalTime = timeline.getFullDuration();
 	}
 
-	public abstract Timeline getTimeline(PlayerEntity player, BipedModel model);
+	public abstract Timeline getTimeline(PlayerEntity player, PlayerModel<?> model);
 
 	public abstract boolean usesBodyPart(int part);
 

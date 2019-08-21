@@ -8,15 +8,16 @@
  *
  * File Created @ [26/03/2016, 21:37:30 (GMT)]
  */
-package vazkii.quark.vanity.client.emotes;
+package vazkii.quark.vanity.client.emote;
 
-import net.minecraft.client.renderer.entity.model.BipedModel;
+import static vazkii.quark.vanity.client.emote.EmoteBase.PI_F;
+
 import com.mojang.blaze3d.platform.GlStateManager;
+
+import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-
-import static vazkii.quark.vanity.client.emotes.EmoteBase.PI_F;
 
 @OnlyIn(Dist.CLIENT)
 public class EmoteState {
@@ -28,7 +29,7 @@ public class EmoteState {
 		this.emote = emote;
 	}
 
-	public void save(BipedModel model) {
+	public void save(PlayerModel<?> model) {
 		float[] values = new float[1];
 		for(int i = 0; i < ModelAccessor.STATE_COUNT; i++) {
 			ModelAccessor.INSTANCE.getValues(model, i, values);
@@ -36,7 +37,7 @@ public class EmoteState {
 		}
 	}
 
-	public void load(BipedModel model) {
+	public void load(PlayerModel<?> model) {
 		if(states.length == 0) {
 			states = new float[ModelAccessor.STATE_COUNT];
 		} else {

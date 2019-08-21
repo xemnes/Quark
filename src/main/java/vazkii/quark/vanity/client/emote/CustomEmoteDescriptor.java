@@ -1,10 +1,10 @@
-package vazkii.quark.vanity.client.emotes;
+package vazkii.quark.vanity.client.emote;
 
 import net.minecraft.resources.ResourcePackType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import vazkii.quark.vanity.module.EmoteModule;
+import vazkii.quark.vanity.module.EmotesModule;
 
 @OnlyIn(Dist.CLIENT)
 public class CustomEmoteDescriptor extends EmoteDescriptor {
@@ -15,7 +15,7 @@ public class CustomEmoteDescriptor extends EmoteDescriptor {
 	
 	public static ResourceLocation getSprite(String name) {
 		ResourceLocation customRes = new ResourceLocation(EmoteHandler.CUSTOM_EMOTE_NAMESPACE, name);
-		if(EmoteModule.resourcePack.resourceExists(ResourcePackType.CLIENT_RESOURCES, customRes))
+		if(EmotesModule.resourcePack.resourceExists(ResourcePackType.CLIENT_RESOURCES, customRes))
 			return customRes;
 		
 		return new ResourceLocation("quark", "textures/emotes/custom.png");

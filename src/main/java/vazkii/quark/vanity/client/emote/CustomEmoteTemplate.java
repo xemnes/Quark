@@ -1,8 +1,8 @@
-package vazkii.quark.vanity.client.emotes;
+package vazkii.quark.vanity.client.emote;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import vazkii.quark.vanity.module.EmoteModule;
+import vazkii.quark.vanity.module.EmotesModule;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -23,7 +23,7 @@ public class CustomEmoteTemplate extends EmoteTemplate {
 	
 	@Override
 	BufferedReader createReader() throws FileNotFoundException {
-		return new BufferedReader(new FileReader(new File(EmoteModule.emotesDir, file)));
+		return new BufferedReader(new FileReader(new File(EmotesModule.emotesDir, file)));
 	}
 	
 	@Override

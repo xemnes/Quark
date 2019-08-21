@@ -30,4 +30,12 @@ public class ReflectionKeys {
 		public static String CACHED_BLOCK_STATE = "field_195045_e";
 	}
 	
+	public static class AbstractClientPlayerEntity {
+		public static String PLAYER_INFO = "field_175157_a";
+	}
+	
+	public static class NetworkPlayerInfo {
+		public static String PLAYER_TEXTURES = "field_187107_a";
+	}
+	
 }
