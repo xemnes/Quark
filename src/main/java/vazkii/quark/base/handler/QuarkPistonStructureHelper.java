@@ -46,8 +46,8 @@ public class QuarkPistonStructureHelper extends PistonBlockStructureHelper {
 
 	@Override
 	public boolean canMove() {
-//		if(!GlobalConfig.usePistonLogicRepl) TODO add back
-//			return parent.canMove();
+		if(!GeneralConfig.usePistonLogicRepl)
+			return parent.canMove();
 
 		toMove.clear();
 		toDestroy.clear();
@@ -74,7 +74,7 @@ public class QuarkPistonStructureHelper extends PistonBlockStructureHelper {
 	}
 	
 	private boolean addBlockLine(BlockPos origin, Direction face) {
-		final int max = 12; // GlobalConfig.pistonPushLimit; TODO add back
+		final int max = GeneralConfig.pistonPushLimit; 
 
 		BlockPos target = origin;
 		BlockState iblockstate = world.getBlockState(target);
@@ -290,8 +290,8 @@ public class QuarkPistonStructureHelper extends PistonBlockStructureHelper {
 	@Nonnull
 	@Override
 	public List<BlockPos> getBlocksToMove() {
-//		if(!GlobalConfig.usePistonLogicRepl) TODO
-//			return parent.getBlocksToMove();
+		if(!GeneralConfig.usePistonLogicRepl) 
+			return parent.getBlocksToMove();
 
 		return toMove;
 	}
@@ -299,8 +299,8 @@ public class QuarkPistonStructureHelper extends PistonBlockStructureHelper {
 	@Nonnull
 	@Override
 	public List<BlockPos> getBlocksToDestroy() {
-//		if(!GlobalConfig.usePistonLogicRepl) TODO
-//			return parent.getBlocksToDestroy();
+		if(!GeneralConfig.usePistonLogicRepl) 
+			return parent.getBlocksToDestroy();
 
 		return toDestroy;
 	}

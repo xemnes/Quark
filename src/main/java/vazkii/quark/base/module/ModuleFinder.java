@@ -54,7 +54,6 @@ public final class ModuleFinder {
 			
 			if(vals.containsKey("antiOverlap"))
 				moduleObj.antiOverlap = (List<String>) vals.get("antiOverlap");
-			
 
 			if(vals.containsKey("hasSubscriptions"))
 				moduleObj.hasSubscriptions = (boolean) vals.get("hasSubscriptions");

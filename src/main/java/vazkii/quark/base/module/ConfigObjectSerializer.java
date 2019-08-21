@@ -46,11 +46,6 @@ public final class ConfigObjectSerializer {
 		if(!config.description().isEmpty())
 			builder.comment(config.description());
 		
-		// TODO ranges
-		// double min = config.min();
-		// double max = config.max();
-		// boolean hasRange = min > Double.MIN_VALUE || max < Double.MAX_VALUE;
-		
 		Function<Object, Object> converter = f -> f;
 		
 		boolean isStatic = Modifier.isStatic(field.getModifiers());

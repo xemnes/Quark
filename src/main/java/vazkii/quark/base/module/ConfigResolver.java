@@ -1,13 +1,14 @@
 package vazkii.quark.base.module;
 
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.config.ModConfig;
-
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.fml.ModLoadingContext;
+import net.minecraftforge.fml.config.ModConfig;
+import vazkii.quark.base.handler.GeneralConfig;
 
 public class ConfigResolver {
 
@@ -32,6 +33,14 @@ public class ConfigResolver {
 	}
 	
 	private Void build(ForgeConfigSpec.Builder builder) {
+		builder.push("general");
+		try {
+			ConfigObjectSerializer.serialize(builder, flagManager, refreshRunnables, GeneralConfig.INSTANCE);
+		} catch (ReflectiveOperationException e) {
+			throw new RuntimeException("Failed to create quark general config", e);
+		}
+		builder.pop();
+		
 		for(String s : categories.keySet()) {
 			ModuleCategory category = categories.get(s);
 			buildCategory(builder, category);
@@ -92,7 +101,7 @@ public class ConfigResolver {
 		
 		builder.comment(descStr);
 		ForgeConfigSpec.ConfigValue<Boolean> value = builder.define("Ignore Anti Overlap", false);
-		refreshRunnables.add(() -> module.ignoreAntiOverlap = value.get());
+		refreshRunnables.add(() -> module.ignoreAntiOverlap = !GeneralConfig.useAntiOverlap || value.get());
 	}
 	
 }

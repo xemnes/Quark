@@ -191,11 +191,7 @@ public class PistonsMoveTileEntitiesModule extends Module {
 				getCallback(tile).onPistonMovementFinished();
 
 			tile.setPos(pos);
-
 			tile.validate();
-			
-//			if(tile instanceof ChestTileEntity) TODO need to hack this?
-//				((ChestTileEntity) tile).numPlayersUsing = 0;
 		}
 
 		return tile;

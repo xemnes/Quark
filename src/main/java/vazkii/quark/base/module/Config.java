@@ -12,7 +12,5 @@ public @interface Config {
 	String name() default "";
 	String description() default "";
 	String flag() default "";
-	double min() default Double.MAX_VALUE;
-	double max() default Double.MIN_VALUE;
 	
 }
