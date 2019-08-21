@@ -26,19 +26,16 @@ import net.minecraft.command.arguments.BlockStateParser;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
-import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.HoeItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -136,20 +133,11 @@ public class SimpleHarvestModule extends Module {
 		EnchantmentHelper.setEnchantments(enchMap, copy);
 
 		if (world instanceof ServerWorld) {
-			List<ItemStack> drops = Block.getDrops(inWorld, (ServerWorld) world, pos, world.getTileEntity(pos), player, copy);
-
-			NonNullList<ItemStack> newDrops = NonNullList.from(ItemStack.EMPTY, drops.toArray(new ItemStack[0]));
-
-			ForgeEventFactory.fireBlockHarvesting(newDrops, world, pos, inWorld, fortune, 1.0F, false, player);
+			Block.spawnDrops(inWorld, world, pos, world.getTileEntity(pos), player, copy);
 
 			if (!world.isRemote) {
 				world.playEvent(2001, pos, Block.getStateId(newBlock));
 				world.setBlockState(pos, newBlock);
-				for (ItemStack stack : newDrops) {
-					ItemEntity entityItem = new ItemEntity(world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, stack);
-					entityItem.setPickupDelay(10);
-					world.addEntity(entityItem);
-				}
 			}
 		}
 	}
