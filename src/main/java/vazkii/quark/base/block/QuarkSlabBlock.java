@@ -9,7 +9,7 @@ import vazkii.arl.util.RegistryHelper;
 
 public class QuarkSlabBlock extends SlabBlock {
 
-	private final QuarkBlock parent;
+	public final QuarkBlock parent;
 	
 	public QuarkSlabBlock(QuarkBlock parent) {
 		super(Block.Properties.from(parent));

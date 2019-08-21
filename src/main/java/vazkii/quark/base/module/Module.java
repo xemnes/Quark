@@ -27,6 +27,10 @@ public class Module {
 		// NO-OP
 	}
 	
+	public void modulesStarted() {
+		// NO-OP
+	}
+	
 	public void buildConfigSpec(ForgeConfigSpec.Builder builder, List<Runnable> callbacks) {
 		// NO-OP
 	}
@@ -36,10 +40,6 @@ public class Module {
 	}
 	
 	public void setup() {
-		// NO-OP
-	}
-	
-	public void modulesLoaded() {
 		// NO-OP
 	}
 	

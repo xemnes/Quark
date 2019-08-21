@@ -10,7 +10,7 @@ def main():
 			name = file.replace('.json', '')
 			if '_wall' in name:
 				walls.append(name)
-			elif '_slab' in name:
+			elif ('_slab' in name) and not ('_vertical' in name):
 				slabs.append(name)
 			elif '_stairs' in name:
 				stairs.append(name)
