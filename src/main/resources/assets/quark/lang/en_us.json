@@ -45,6 +45,8 @@
 	"item.quark.white_rune": "White Rune",
 	"item.quark.yellow_rune": "Yellow Rune",
 	"item.quark.rainbow_rune": "Rainbow Rune",
+	"item.quark.slime_in_a_bucket": "Slime In A Bucket",
+	"item.quark.slime_in_a_bucket.named": "%s In A Bucket",
 
 	"block.quark.charcoal_block": "Charcoal Block",
 	"block.quark.black_quilted_wool": "Black Quilted Wool",
