@@ -2,6 +2,7 @@ package vazkii.quark.tweaks.module;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.LadderBlock;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.MoverType;
@@ -32,7 +33,7 @@ import vazkii.quark.base.module.ModuleCategory;
 public class EnchancedLaddersModule extends Module {
 
 	@Config public double fallSpeed = -0.2;
-	
+
 	private static boolean canAttachTo(Block ladder, IBlockReader world, BlockPos pos, Direction facing) {
 		if (ladder instanceof LadderBlock) {
 			BlockPos offset = pos.offset(facing);
@@ -94,10 +95,13 @@ public class EnchancedLaddersModule extends Module {
 	public void onPlayerTick(LivingUpdateEvent event) {
 		if(event.getEntityLiving() instanceof PlayerEntity) {
 			PlayerEntity player = (PlayerEntity) event.getEntityLiving();
-			if(player.isOnLadder() && !player.isSneaking() && player.moveForward == 0 && player.rotationPitch > 70 && !player.world.getBlockState(player.getPosition().down()).isSolid()) {
-				Vec3d move = new Vec3d(0, fallSpeed, 0);
-				player.setBoundingBox(player.getBoundingBox().offset(move));
-				player.move(MoverType.SELF, Vec3d.ZERO); // update all the things
+			if(player.isOnLadder()) {
+				boolean scaffold = player.world.getBlockState(player.getPosition()).getBlock() == Blocks.SCAFFOLDING;
+				if(player.isSneaking() == scaffold && player.moveForward == 0 && player.rotationPitch > 70 && !player.world.getBlockState(player.getPosition().down()).isSolid()) {
+					Vec3d move = new Vec3d(0, fallSpeed, 0);
+					player.setBoundingBox(player.getBoundingBox().offset(move));
+					player.move(MoverType.SELF, Vec3d.ZERO); // update all the things
+				}
 			}
 		}
 	}
