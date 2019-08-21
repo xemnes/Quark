@@ -154,7 +154,7 @@ public class SimpleHarvestModule extends Module {
 	}
 
 	@SubscribeEvent
-	public void onClick(PlayerInteractEvent.RightClickItem event) {
+	public void onClick(PlayerInteractEvent.RightClickBlock event) {
 		if (click(event.getPlayer(), event.getPos())) {
 			event.setCanceled(true);
 			event.setCancellationResult(ActionResultType.SUCCESS);
