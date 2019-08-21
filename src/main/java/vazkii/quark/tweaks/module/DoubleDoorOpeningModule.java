@@ -38,7 +38,7 @@ public class DoubleDoorOpeningModule extends Module {
 	}
 	
 	public static void openDoor(World world, BlockPos pos) {
-		if(!ModuleLoader.INSTANCE.isModuleEnabled(DoubleDoorOpeningModule.class))
+		if(!ModuleLoader.INSTANCE.isModuleEnabled(DoubleDoorOpeningModule.class) || world == null)
 			return;
 		
 		BlockState state = world.getBlockState(pos);

@@ -2,6 +2,9 @@ package vazkii.quark.base.handler;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.state.PistonBlockStructureHelper;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.PistonTileEntity;
 import net.minecraft.util.Direction;
@@ -11,6 +14,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.quark.automation.client.render.PistonTileEntityRenderer;
 import vazkii.quark.automation.module.PistonsMoveTileEntitiesModule;
+import vazkii.quark.tweaks.module.HoeHarvestingModule;
 import vazkii.quark.vanity.module.ColorRunesModule;
 
 /**
@@ -24,6 +28,10 @@ public class AsmHooks {
 	// Color Runes
 	// ==========================================================================
 
+    public static void setColorRuneTargetStack(LivingEntity living, EquipmentSlotType slot) {
+        setColorRuneTargetStack(living.getItemStackFromSlot(slot));
+    }
+
     public static void setColorRuneTargetStack(ItemStack stack) {
         ColorRunesModule.setTargetStack(stack);
     }
@@ -33,6 +41,11 @@ public class AsmHooks {
             return ColorRunesModule.changeColor(color);
 
         return color;
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public static void applyRuneColor() {
+        ColorRunesModule.applyColor();
     }
 
 	// ==========================================================================
@@ -58,6 +71,22 @@ public class AsmHooks {
     @OnlyIn(Dist.CLIENT)
     public static boolean renderPistonBlock(PistonTileEntity piston, double x, double y, double z, float pTicks) {
         return PistonTileEntityRenderer.renderPistonBlock(piston, x, y, z, pTicks);
+    }
+
+    // ==========================================================================
+    // Emotes
+    // ==========================================================================
+
+    public static void updateEmotes(LivingEntity entity) {
+
+    }
+
+    // ==========================================================================
+    // Fortune on Hoes
+    // ==========================================================================
+
+    public static boolean canFortuneApply(Enchantment enchantment, ItemStack stack) {
+        return HoeHarvestingModule.canFortuneApply(enchantment, stack);
     }
 
 }
