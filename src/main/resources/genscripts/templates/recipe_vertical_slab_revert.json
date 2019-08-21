@@ -6,7 +6,7 @@
     }
   ],
   "result": {
-    "item": "minecraft:%name%_slab",
+    "item": "%modid%:%name%_slab",
     "count": 1
   },
   "conditions": [

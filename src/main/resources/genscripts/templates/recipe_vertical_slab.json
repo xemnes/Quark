@@ -7,7 +7,7 @@
   ],
   "key": {
     "#": {
-      "item": "minecraft:%name%_slab"
+      "item": "%modid%:%name%_slab"
     }
   },
   "result": {

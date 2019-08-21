@@ -4,6 +4,6 @@
         "type=south": { "model": "%modid%:block/%name%_vertical_slab", "y": 180, "uvlock": true },
         "type=east": { "model": "%modid%:block/%name%_vertical_slab", "y": 90, "uvlock": true },
         "type=west": { "model": "%modid%:block/%name%_vertical_slab", "y": 270, "uvlock": true },
-        "type=double": { "model": "block/%name%" }
+        "type=double": { "model": "%modid%:block/%name%" }
     }
 }
