@@ -4,5 +4,11 @@
     "item": "minecraft:cobblestone"
   },
   "result": "quark:cobblestone_vertical_slab",
-  "count": 2
+  "count": 2,
+  "conditions": [
+    {
+      "type": "quark:flag",
+      "flag": "vertical_slabs"
+    }
+  ]
 }

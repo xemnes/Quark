@@ -4,5 +4,11 @@
     "item": "minecraft:sandstone"
   },
   "result": "quark:cut_sandstone_vertical_slab",
-  "count": 2
+  "count": 2,
+  "conditions": [
+    {
+      "type": "quark:flag",
+      "flag": "vertical_slabs"
+    }
+  ]
 }
