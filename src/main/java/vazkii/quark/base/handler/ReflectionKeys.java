@@ -42,4 +42,12 @@ public class ReflectionKeys {
 		public static String LAYER_RENDERERS = "field_177097_h";
 	}
 	
+	public static class ToastGui {
+		public static String TOASTS_QUEUE = "field_191792_h";
+	}
+	
+	public static class RecipeToast {
+		public static String RECIPES = "field_202906_c";
+	}
+	
 }
