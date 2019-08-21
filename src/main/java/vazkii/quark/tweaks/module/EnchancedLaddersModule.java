@@ -7,11 +7,15 @@ import net.minecraft.block.LadderBlock;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.Tag;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.MovementInput;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
@@ -24,6 +28,7 @@ import net.minecraftforge.client.event.InputUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import vazkii.quark.base.Quark;
 import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
@@ -34,6 +39,13 @@ public class EnchancedLaddersModule extends Module {
 
 	@Config public double fallSpeed = -0.2;
 
+	private static Tag<Item> laddersTag;
+	
+	@Override
+	public void setup() {
+		laddersTag = new ItemTags.Wrapper(new ResourceLocation(Quark.MOD_ID, "ladders"));
+	}
+	
 	private static boolean canAttachTo(Block ladder, IBlockReader world, BlockPos pos, Direction facing) {
 		if (ladder instanceof LadderBlock) {
 			BlockPos offset = pos.offset(facing);
@@ -50,7 +62,7 @@ public class EnchancedLaddersModule extends Module {
 		Hand hand = event.getHand();
 		ItemStack stack = player.getHeldItem(hand);
 
-		if(!stack.isEmpty() && stack.getItem() == Items.LADDER) {
+		if(!stack.isEmpty() && stack.getItem().isIn(laddersTag)) {
 			Block block = Block.getBlockFromItem(stack.getItem());
 			World world = event.getWorld();
 			BlockPos pos = event.getPos();

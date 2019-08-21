@@ -352,6 +352,12 @@
 	"block.quark.white_shingles_vertical_slab": "White Shingles Vertical Slab",
 	"block.quark.white_stained_planks_vertical_slab": "White Stained Plank Vertical Slab",
 	"block.quark.yellow_shingles_vertical_slab": "Yellow Shingles Vertical Slab",
-	"block.quark.yellow_stained_planks_vertical_slab": "Yellow Stained Plank Vertical Slab"
+	"block.quark.yellow_stained_planks_vertical_slab": "Yellow Stained Plank Vertical Slab",
+	"block.quark.oak_ladder": "Oak Ladder",
+	"block.quark.spruce_ladder": "Spruce Ladder",
+	"block.quark.birch_ladder": "Birch Ladder",
+	"block.quark.jungle_ladder": "Jungle Ladder",
+	"block.quark.acacia_ladder": "Acacia Ladder",
+	"block.quark.dark_oak_ladder": "Dark Oak Ladder"
 	
 }

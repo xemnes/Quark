@@ -44,7 +44,6 @@ public class VariantChestBlock extends ChestBlock implements IBlockItemProvider 
 		if(module.enabled || group == ItemGroup.SEARCH)
 			super.fillItemGroup(group, items);
 	}
-	
 
 	@Override
 	public TileEntity createNewTileEntity(IBlockReader worldIn) {
