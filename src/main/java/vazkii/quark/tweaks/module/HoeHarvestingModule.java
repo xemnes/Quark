@@ -3,6 +3,8 @@ package vazkii.quark.tweaks.module;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.HoeItem;
 import net.minecraft.item.ItemStack;
@@ -16,6 +18,7 @@ import net.minecraftforge.common.PlantType;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import vazkii.quark.base.handler.MiscUtil;
+import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
@@ -23,7 +26,8 @@ import vazkii.quark.base.module.ModuleCategory;
 @LoadModule(category = ModuleCategory.TWEAKS, hasSubscriptions = true)
 public class HoeHarvestingModule extends Module {
 
-//	@Override public static boolean hoesCanHaveFortune = true; 
+	@Config
+	public static boolean hoesCanHaveFortune = true;
 	
 	public static int getRange(ItemStack hoe) {
 		if(hoe.isEmpty() || !(hoe.getItem() instanceof HoeItem))
@@ -34,9 +38,9 @@ public class HoeHarvestingModule extends Module {
 			return 2;
 	}
 
-//	public static boolean canFortuneApply(Enchantment enchantment, ItemStack stack) {
-//		return enchantment == Enchantments.FORTUNE && hoesCanHaveFortune && !stack.isEmpty() && stack.getItem() instanceof HoeItem;
-//	}
+	public static boolean canFortuneApply(Enchantment enchantment, ItemStack stack) {
+		return enchantment == Enchantments.FORTUNE && hoesCanHaveFortune && !stack.isEmpty() && stack.getItem() instanceof HoeItem;
+	}
 
 	@SubscribeEvent
 	public void onBlockBroken(BlockEvent.BreakEvent event) {

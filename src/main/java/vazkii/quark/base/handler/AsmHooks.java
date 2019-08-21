@@ -2,6 +2,7 @@ package vazkii.quark.base.handler;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.state.PistonBlockStructureHelper;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
@@ -13,6 +14,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.quark.automation.client.render.PistonTileEntityRenderer;
 import vazkii.quark.automation.module.PistonsMoveTileEntitiesModule;
+import vazkii.quark.tweaks.module.HoeHarvestingModule;
 import vazkii.quark.vanity.module.ColorRunesModule;
 
 /**
@@ -77,6 +79,14 @@ public class AsmHooks {
 
     public static void updateEmotes(LivingEntity entity) {
 
+    }
+
+    // ==========================================================================
+    // Fortune on Hoes
+    // ==========================================================================
+
+    public static boolean canFortuneApply(Enchantment enchantment, ItemStack stack) {
+        return HoeHarvestingModule.canFortuneApply(enchantment, stack);
     }
 
 }
