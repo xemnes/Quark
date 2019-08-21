@@ -74,33 +74,32 @@ public class VerticalSlabBlock extends QuarkBlock implements IWaterLoggable {
 		BlockState blockstate = context.getWorld().getBlockState(blockpos);
 		if(blockstate.getBlock() == this)
 			return blockstate.with(TYPE, VerticalSlabType.DOUBLE).with(WATERLOGGED, false);
-
+		
 		IFluidState fluid = context.getWorld().getFluidState(blockpos);
 		BlockState retState = getDefaultState().with(WATERLOGGED, fluid.getFluid() == Fluids.WATER);
-
-		Direction direction = context.getFace();
+		Direction direction = getDirectionForPlacement(context);
 		VerticalSlabType type = VerticalSlabType.fromDirection(direction);
-		if(type != null)
-			return retState.with(TYPE, type);
-
-		Vec3d vec = context.getHitVec().subtract(new Vec3d(context.getPos())).subtract(0.5, 0, 0.5);
-		double angle = Math.atan2(vec.x, vec.z) * -180.0 / Math.PI;
-		direction = Direction.fromAngle(angle);
-		type = VerticalSlabType.fromDirection(direction.getOpposite());
 		
 		return retState.with(TYPE, type);
+	}
+	
+	private Direction getDirectionForPlacement(BlockItemUseContext context) {
+		Direction direction = context.getFace();
+		if(direction.getAxis() != Axis.Y)
+			return direction;
+		
+		Vec3d vec = context.getHitVec().subtract(new Vec3d(context.getPos())).subtract(0.5, 0, 0.5);
+		double angle = Math.atan2(vec.x, vec.z) * -180.0 / Math.PI;
+		return Direction.fromAngle(angle).getOpposite();
 	}
 
 	public boolean isReplaceable(BlockState state, BlockItemUseContext useContext) {
 		ItemStack itemstack = useContext.getItem();
 		VerticalSlabType slabtype = state.get(TYPE);
 		if(slabtype != VerticalSlabType.DOUBLE && itemstack.getItem() == this.asItem()) {
-			if(useContext.replacingClickedOnBlock()) {
-				Direction direction = useContext.getFace();
-				if(direction.getAxis() != Axis.Y)
-					return slabtype.direction == direction;
-
-				return true;
+			if(useContext.getFace().getAxis() != slabtype.direction.getAxis() && useContext.replacingClickedOnBlock()) {
+				Direction dir = getDirectionForPlacement(useContext);
+				return dir == slabtype.direction.getOpposite();
 			}
 
 			return true;
