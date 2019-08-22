@@ -1,8 +1,11 @@
 package vazkii.quark.automation.module;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
+
+import com.google.common.collect.Lists;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.DispenserBlock;
@@ -23,6 +26,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 import vazkii.quark.base.handler.ReflectionKeys;
+import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
@@ -30,11 +34,16 @@ import vazkii.quark.base.module.ModuleCategory;
 @LoadModule(category = ModuleCategory.AUTOMATION)
 public class DispensersPlaceBlocksModule extends Module {
 
+	@Config public static List<String> blacklist = Lists.newArrayList("minecraft:water", "minecraft:lava", "minecraft:fire");
+	
 	@Override
 	public void loadComplete() {
 		Map<Item, IDispenseItemBehavior> registry = ObfuscationReflectionHelper.getPrivateValue(DispenserBlock.class, null, ReflectionKeys.DispenserBlock.DISPENSE_BEHAVIOR_REGISTRY);
 
 		for(Block block : ForgeRegistries.BLOCKS.getValues()) {
+			if(blacklist.contains(block.getRegistryName().toString()))
+				continue;
+			
 			Item item = block.asItem();
 			if(item instanceof BlockItem && !registry.containsKey(item))
 				registry.put(item, new BlockBehaviour((BlockItem) item));
