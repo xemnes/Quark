@@ -359,6 +359,17 @@
 	"block.quark.jungle_ladder": "Jungle Ladder",
 	"block.quark.acacia_ladder": "Acacia Ladder",
 	"block.quark.dark_oak_ladder": "Dark Oak Ladder",
-	"block.quark.iron_ladder": "Iron Ladder"
+	"block.quark.iron_ladder": "Iron Ladder",
+	"block.quark.bamboo_block": "Bamboo Block",
+	"block.quark.cactus_block": "Cactus Block",
+	"block.quark.chorus_fruit_block": "Chorus Fruit Block",
+	"block.quark.cocoa_beans_sack": "Cocoa Bean Sack",
+	"block.quark.golden_apple_crate": "Golden Apple Crate",
+	"block.quark.gunpowder_sack": "Gunpowder Sack",
+	"block.quark.nether_wart_sack": "Nether Wart Sack",
+	"block.quark.potato_crate": "Potato Crate",
+	"block.quark.apple_crate": "Apple Crate",
+	"block.quark.beetroot_crate": "Beetroot Crate",
+	"block.quark.carrot_crate": "Carrot Crate"
 	
 }

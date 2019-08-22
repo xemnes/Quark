@@ -1,4 +1,4 @@
-package vazkii.quark.decoration.block;
+package vazkii.quark.building.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -11,7 +11,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import vazkii.quark.base.block.QuarkBlock;
 import vazkii.quark.base.module.Module;
-import vazkii.quark.decoration.module.CompressedBlocksModule;
+import vazkii.quark.client.module.CompressedBlocksModule;
 
 public class CharcoalBlock extends QuarkBlock {
 
