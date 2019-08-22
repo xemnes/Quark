@@ -4,11 +4,9 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.function.Function;
 
 import org.apache.commons.lang3.text.WordUtils;
 
-import com.google.common.base.Functions;
 import com.google.common.base.Predicates;
 
 import net.minecraftforge.common.ForgeConfigSpec;

@@ -14,6 +14,9 @@ public class GeneralConfig {
 	
 	@Config public static boolean useAntiOverlap = true;
 	
+	@Config(description = "Quark messes with the Stonecutter to allow any item that can be used in it to be shift clicked in. Set this to false to turn it off.")
+	public static boolean hackStonecutterShiftClick = true;
+	
 	private GeneralConfig() { }
 
 }

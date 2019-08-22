@@ -50,4 +50,8 @@ public class ReflectionKeys {
 		public static String RECIPES = "field_202906_c";
 	}
 	
+	public static class StonecutterContainer {
+		public static String ALLOWED_SHIFT_CLICK_ITEMS = "field_217084_c";
+	}
+	
 }
