@@ -107,7 +107,7 @@
 	"block.quark.acacia_trapped_chest": "Acacia Trapped Chest",
 	"block.quark.dark_oak_trapped_chest": "Dark Oak Trapped Chest",
 	"block.quark.blaze_lantern": "Blaze Lantern",
-	"block.quark.sugar_cane_block": "Sugar Cane Block",
+	"block.quark.sugar_cane_block": "Sugar Cane Bundle",
 	"block.quark.brimstone": "Brimstone",
 	"block.quark.brimstone_bricks": "Brimstone Bricks",
 	"block.quark.brimstone_bricks_stairs": "Brimstone Brick Stairs",
@@ -360,9 +360,9 @@
 	"block.quark.acacia_ladder": "Acacia Ladder",
 	"block.quark.dark_oak_ladder": "Dark Oak Ladder",
 	"block.quark.iron_ladder": "Iron Ladder",
-	"block.quark.bamboo_block": "Bamboo Block",
-	"block.quark.cactus_block": "Cactus Block",
-	"block.quark.chorus_fruit_block": "Chorus Fruit Block",
+	"block.quark.bamboo_block": "Bamboo Bundle",
+	"block.quark.cactus_block": "Cactus Batch",
+	"block.quark.chorus_fruit_block": "Chorus Fruit Batch",
 	"block.quark.cocoa_beans_sack": "Cocoa Bean Sack",
 	"block.quark.golden_apple_crate": "Golden Apple Crate",
 	"block.quark.gunpowder_sack": "Gunpowder Sack",
@@ -370,6 +370,7 @@
 	"block.quark.potato_crate": "Potato Crate",
 	"block.quark.apple_crate": "Apple Crate",
 	"block.quark.beetroot_crate": "Beetroot Crate",
-	"block.quark.carrot_crate": "Carrot Crate"
+	"block.quark.carrot_crate": "Carrot Crate",
+	"block.quark.stick_block": "Stick Stack"
 	
 }

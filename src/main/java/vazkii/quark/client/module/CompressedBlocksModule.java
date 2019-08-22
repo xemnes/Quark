@@ -25,13 +25,17 @@ public class CompressedBlocksModule extends Module {
 	public static boolean burnsForever = true;
 
 	@Config(name = "Charcoal Block Fuel Time")
-	public static int fuelTime = 16000;
+	public static int charcoalBlockFuelTime = 16000;
 
+	@Config(name = "Stick Block Fuel Time")
+	public static int stickBlockFuelTime = 900;
+	
 	@Config(flag = "charcoal_block") public static boolean enableCharcoalBlock = true;
 	@Config(flag = "sugar_cane_block") public static boolean enableSugarCaneBlock = true;
 	@Config(flag = "bamboo_block") public static boolean enableBambooBlock = true;
 	@Config(flag = "cactus_block") public static boolean enableCactusBlock = true;
 	@Config(flag = "chorus_fruit_block") public static boolean enableChorusFruitBlock = true;
+	@Config(flag = "stick_block") public static boolean enableStickBlock = true;
 
 	@Config(flag = "apple_crate") public static boolean enableAppleCrate = true;
 	@Config(flag = "golden_apple_crate") public static boolean enableGoldenAppleCrate = true;
@@ -45,7 +49,7 @@ public class CompressedBlocksModule extends Module {
 	
 	@Config(flag = "blaze_lantern") public static boolean enableBlazeLantern = true;
 
-	private Block charcoal_block;
+	private Block charcoal_block, stick_block;
 
 	@Override
 	public void start() {
@@ -56,6 +60,7 @@ public class CompressedBlocksModule extends Module {
 		pillar("bamboo", MaterialColor.YELLOW, () -> enableBambooBlock);
 		pillar("cactus", MaterialColor.GREEN, () -> enableCactusBlock);
 		pillar("chorus_fruit", MaterialColor.PURPLE, () -> enableChorusFruitBlock);
+		stick_block = pillar("stick", MaterialColor.WOOD, () -> enableStickBlock);
 		
 		crate("apple", MaterialColor.RED, () -> enableAppleCrate);
 		crate("golden_apple", MaterialColor.GOLD, () -> enableGoldenAppleCrate);
@@ -75,24 +80,24 @@ public class CompressedBlocksModule extends Module {
 		.setCondition(() -> enableBlazeLantern);
 	}
 	
-	private void pillar(String name, MaterialColor color, Supplier<Boolean> cond) {
-		new QuarkPillarBlock(name + "_block", this, ItemGroup.BUILDING_BLOCKS,
+	private Block pillar(String name, MaterialColor color, Supplier<Boolean> cond) {
+		return new QuarkPillarBlock(name + "_block", this, ItemGroup.BUILDING_BLOCKS,
 				Block.Properties.create(Material.WOOD, color)
 				.hardnessAndResistance(0.5F)
 				.sound(SoundType.WOOD))
 		.setCondition(cond);
 	}
 	
-	private void crate(String name, MaterialColor color, Supplier<Boolean> cond) {
-		new QuarkBlock(name + "_crate", this, ItemGroup.DECORATIONS, 
+	private Block crate(String name, MaterialColor color, Supplier<Boolean> cond) {
+		return new QuarkBlock(name + "_crate", this, ItemGroup.DECORATIONS, 
 				Block.Properties.create(Material.WOOD, color)
 				.hardnessAndResistance(1.5F)
 				.sound(SoundType.WOOD))
 		.setCondition(cond);
 	}
 
-	private void sack(String name, MaterialColor color, Supplier<Boolean> cond) {
-		new QuarkBlock(name + "_sack", this, ItemGroup.DECORATIONS, 
+	private Block sack(String name, MaterialColor color, Supplier<Boolean> cond) {
+		return new QuarkBlock(name + "_sack", this, ItemGroup.DECORATIONS, 
 				Block.Properties.create(Material.WOOL, color)
 				.hardnessAndResistance(0.5F)
 				.sound(SoundType.CLOTH))
@@ -101,8 +106,10 @@ public class CompressedBlocksModule extends Module {
 	
 	@SubscribeEvent
 	public void onFurnaceFuelEvent(FurnaceFuelBurnTimeEvent event) {
-		if(event.getItemStack().getItem() == charcoal_block.asItem())
-			event.setBurnTime(fuelTime);
+		if(event.getItemStack().getItem() == stick_block.asItem())
+			event.setBurnTime(stickBlockFuelTime);
+		else if(event.getItemStack().getItem() == charcoal_block.asItem())
+			event.setBurnTime(charcoalBlockFuelTime);
 	}
 
 }
