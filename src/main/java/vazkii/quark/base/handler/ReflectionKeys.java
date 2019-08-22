@@ -54,4 +54,8 @@ public class ReflectionKeys {
 		public static String ALLOWED_SHIFT_CLICK_ITEMS = "field_217084_c";
 	}
 	
+	public static class DispenserBlock {
+		public static String DISPENSE_BEHAVIOR_REGISTRY = "field_149943_a";
+	}
+	
 }

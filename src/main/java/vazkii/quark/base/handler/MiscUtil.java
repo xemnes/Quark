@@ -71,8 +71,6 @@ public class MiscUtil {
 		} catch(ReflectiveOperationException e) {
 			throw new RuntimeException(e);
 		}
-		
-
 	}
 
 }
