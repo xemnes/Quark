@@ -13,6 +13,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.IBlockReader;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.arl.interf.IBlockItemProvider;
 import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.base.Quark;
@@ -20,6 +22,7 @@ import vazkii.quark.base.module.Module;
 import vazkii.quark.decoration.client.render.VariantChestTileEntityRenderer;
 import vazkii.quark.decoration.tile.VariantChestTileEntity;
 
+@OnlyIn(value = Dist.CLIENT, _interface = IBlockItemProvider.class)
 public class VariantChestBlock extends ChestBlock implements IBlockItemProvider {
 
 	public final String type;
@@ -50,6 +53,7 @@ public class VariantChestBlock extends ChestBlock implements IBlockItemProvider 
 		return new VariantChestTileEntity();
 	}
 	
+	@OnlyIn(Dist.CLIENT)
 	public static void setTEISR(Item.Properties props, ResourceLocation modelNormal, ResourceLocation modelDouble) {
 		props.setTEISR(() -> () -> new ItemStackTileEntityRenderer() {
 			private final TileEntity tile = new VariantChestTileEntity();
@@ -64,6 +68,7 @@ public class VariantChestBlock extends ChestBlock implements IBlockItemProvider 
 	}
 
 	@Override
+	@OnlyIn(Dist.CLIENT)
 	public BlockItem provideItemBlock(Block block, Item.Properties props) {
 		setTEISR(props, modelNormal, modelDouble);
 		return new BlockItem(block, props);

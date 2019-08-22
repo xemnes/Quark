@@ -24,7 +24,7 @@ public class TallowAndCandlesModule extends Module {
 	@Config public static int minDrop = 1;
 	@Config public static int maxDrop = 3;
 	@Config public static int tallowBurnTime = 200;
-	@Config public static float enchantPower = 0.5F;
+	@Config public static double enchantPower = 0.5;
 	
 	private Item tallow;
 	

@@ -4,9 +4,10 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.function.Function;
 
 import org.apache.commons.lang3.text.WordUtils;
+
+import com.google.common.base.Predicates;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 
@@ -46,14 +47,11 @@ public final class ConfigObjectSerializer {
 		if(!config.description().isEmpty())
 			builder.comment(config.description());
 		
-		Function<Object, Object> converter = f -> f;
-		
 		boolean isStatic = Modifier.isStatic(field.getModifiers());
 		Object defaultValue = isStatic ? field.get(null) : field.get(object);
 		if(type == float.class)
-			converter = (d) -> d instanceof Double ? (float) ((Double) d).doubleValue() : d;
+			throw new IllegalArgumentException("Floats can't be used in config, use double instead. Offender: " + field);
 		
-			
 		if(defaultValue instanceof IConfigType) {
 			name = name.toLowerCase().replaceAll(" ", "_");
 			
@@ -68,11 +66,10 @@ public final class ConfigObjectSerializer {
 		String flag = config.flag();
 		boolean useFlag = object instanceof Module && !flag.isEmpty();
 			
-		ForgeConfigSpec.ConfigValue<?> value = builder.define(name, defaultValue);
-		final Function<Object, Object> finalConverter = converter;
+		ForgeConfigSpec.ConfigValue<?> value = (defaultValue instanceof List) ? builder.defineList(name, (List<?>) defaultValue, Predicates.alwaysTrue()) : builder.define(name, defaultValue);
 		callbacks.add(() -> {
 			try {
-				Object setObj = finalConverter.apply(value.get());
+				Object setObj = value.get();
 				if(isStatic)
 					field.set(null, setObj);
 				else field.set(object, setObj);

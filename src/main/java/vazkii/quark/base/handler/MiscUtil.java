@@ -1,5 +1,7 @@
 package vazkii.quark.base.handler;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.List;
 
 import net.minecraft.entity.player.PlayerEntity;
@@ -31,7 +33,7 @@ public class MiscUtil {
 			"acacia", 
 			"dark_oak"	
 	};
-	
+
 	public static final String[] ALL_WOOD_TYPES = new String[] {
 			"oak",
 			"spruce",
@@ -50,6 +52,27 @@ public class MiscUtil {
 
 	public static void damageStack(PlayerEntity player, Hand hand, ItemStack stack, int dmg) {
 		stack.damageItem(dmg, player, (p) -> p.sendBreakAnimation(hand));
+	}
+	
+	public static <T> void editFinalField(Class<?> clazz, String fieldName, Object obj, T value) {
+		Field f = ObfuscationReflectionHelper.findField(clazz, fieldName);
+		editFinalField(f, obj, value);
+	}
+
+	public static <T> void editFinalField(Field f, Object obj, T value) {
+		try {
+			f.setAccessible(true);
+			
+			Field modifiers = Field.class.getDeclaredField("modifiers");
+			modifiers.setAccessible(true);
+			modifiers.setInt(f, f.getModifiers() & ~Modifier.FINAL);
+			
+			f.set(obj, value);
+		} catch(ReflectiveOperationException e) {
+			throw new RuntimeException(e);
+		}
+		
+
 	}
 
 }

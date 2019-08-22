@@ -32,6 +32,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.GuiScreenEvent.KeyboardCharTypedEvent;
 import net.minecraftforge.client.event.GuiScreenEvent.KeyboardKeyPressedEvent;
@@ -42,9 +43,9 @@ import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.ModList;
 import vazkii.arl.util.ItemNBTHelper;
 import vazkii.quark.base.handler.InventoryButtonHandler;
+import vazkii.quark.base.handler.InventoryButtonHandler.ButtonTargetType;
 import vazkii.quark.base.handler.InventoryTransferHandler;
 import vazkii.quark.base.handler.MiscUtil;
-import vazkii.quark.base.handler.InventoryButtonHandler.ButtonTargetType;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
@@ -53,14 +54,17 @@ import vazkii.quark.management.client.gui.MiniInventoryButton;
 @LoadModule(category = ModuleCategory.CLIENT, hasSubscriptions = true, subscribeOn = Dist.CLIENT)
 public class ChestSearchingModule extends Module {
 
-	private static String text = "";
+	@OnlyIn(Dist.CLIENT) 
 	private static TextFieldWidget searchBar;
+	
+	private static String text = "";
 	private static boolean searchEnabled = false;
 	private static boolean skip;
 	private static long lastClick;
 	private static int matched;
 
 	@Override
+	@OnlyIn(Dist.CLIENT)
 	public void clientSetup() {
 		InventoryButtonHandler.addButtonProvider(this, ButtonTargetType.CONTAINER_INVENTORY, 1, (parent, x, y) -> 
 		new MiniInventoryButton(parent, 3, x, y, "quark.gui.button.filter", (b) -> {
@@ -70,6 +74,7 @@ public class ChestSearchingModule extends Module {
 	}
 
 	@SubscribeEvent
+	@OnlyIn(Dist.CLIENT)
 	public void initGui(GuiScreenEvent.InitGuiEvent.Post event) {
 		Screen gui = event.getGui();
 		if(gui instanceof ContainerScreen) {

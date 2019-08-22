@@ -58,7 +58,7 @@ public class CandleBlock extends QuarkBlock {
 
 	@Override
 	public float getEnchantPowerBonus(BlockState state, IWorldReader world, BlockPos pos) {
-		return TallowAndCandlesModule.enchantPower;
+		return (float) TallowAndCandlesModule.enchantPower;
 	}
 
 	// Copypasta from FallingBlock

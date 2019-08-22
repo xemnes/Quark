@@ -10,7 +10,7 @@ import vazkii.quark.building.block.ThatchBlock;
 @LoadModule(category = ModuleCategory.BUILDING)
 public class ThatchModule extends Module {
 
-	@Config public static float fallDamageMultiplier = 0.5F;
+	@Config public static double fallDamageMultiplier = 0.5;
 	
 	@Override
 	public void start() {

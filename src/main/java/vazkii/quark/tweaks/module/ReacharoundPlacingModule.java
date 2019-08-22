@@ -39,7 +39,7 @@ import vazkii.quark.base.module.ModuleCategory;
 @LoadModule(category = ModuleCategory.TWEAKS, hasSubscriptions = true)
 public class ReacharoundPlacingModule extends Module {
 
-	@Config public float leniency = 0.5F;
+	@Config public double leniency = 0.5;
 	@Config public List<String> whitelist = Lists.newArrayList();
 	@Config public String display = "[  ]";
 	
