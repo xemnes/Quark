@@ -87,8 +87,10 @@ public class EmotesModule extends Module {
 	public static boolean customEmoteDebug = false;
 	
 	public static boolean emotesVisible = false;
-	public static CustomEmoteIconResourcePack resourcePack;
 	public static File emotesDir;
+	
+	@OnlyIn(Dist.CLIENT)
+	public static CustomEmoteIconResourcePack resourcePack;
 
 	@OnlyIn(Dist.CLIENT) 
 	public static <T extends ResourcePackInfo> void addResourcePack(Map<String, T> nameToPackMap, IFactory<T> packInfoFactory) {

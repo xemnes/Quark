@@ -11,12 +11,15 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.IBlockReader;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.arl.interf.IBlockItemProvider;
 import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.decoration.tile.VariantTrappedChestTileEntity;
 
+@OnlyIn(value = Dist.CLIENT, _interface = IBlockItemProvider.class)
 public class VariantTrappedChestBlock extends TrappedChestBlock implements IBlockItemProvider {
 
 	public final String type;
@@ -48,6 +51,7 @@ public class VariantTrappedChestBlock extends TrappedChestBlock implements IBloc
 	}
 
 	@Override
+	@OnlyIn(Dist.CLIENT)
 	public BlockItem provideItemBlock(Block block, Item.Properties props) {
 		VariantChestBlock.setTEISR(props, modelNormal, modelDouble);
 		return new BlockItem(block, props);

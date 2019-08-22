@@ -2,6 +2,8 @@ package vazkii.quark.management.module;
 
 import com.google.common.base.Supplier;
 
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.quark.base.handler.InventoryButtonHandler;
 import vazkii.quark.base.handler.InventoryButtonHandler.ButtonProvider;
 import vazkii.quark.base.handler.InventoryButtonHandler.ButtonTargetType;
@@ -21,12 +23,14 @@ public class InventorySortingModule extends Module {
 	@Config public static boolean enableChests = true;
 	
 	@Override
+	@OnlyIn(Dist.CLIENT)
 	public void clientSetup() {
 		InventoryButtonHandler.addButtonProvider(this, ButtonTargetType.PLAYER_INVENTORY, 0, provider("sort", true, () -> enablePlayerInventory));
 		InventoryButtonHandler.addButtonProvider(this, ButtonTargetType.CONTAINER_PLAYER_INVENTORY, 0, provider("sort_inventory", true, () -> enablePlayerInventoryInChests));
 		InventoryButtonHandler.addButtonProvider(this, ButtonTargetType.CONTAINER_INVENTORY, 0, provider("sort_container", false, () -> enableChests));
 	}
 	
+	@OnlyIn(Dist.CLIENT)
 	private ButtonProvider provider(String tooltip, boolean forcePlayer, Supplier<Boolean> condition) {
 		return (parent, x, y) -> !condition.get() ? null :
 			new MiniInventoryButton(parent, 0, x, y, "quark.gui.button." + tooltip, (b) -> QuarkNetwork.sendToServer(new SortInventoryMessage(forcePlayer)));
