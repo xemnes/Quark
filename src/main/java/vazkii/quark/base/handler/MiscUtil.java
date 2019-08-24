@@ -1,9 +1,5 @@
 package vazkii.quark.base.handler;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.util.List;
-
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
@@ -14,6 +10,10 @@ import net.minecraft.world.storage.loot.LootPool;
 import net.minecraft.world.storage.loot.LootTable;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import vazkii.quark.base.Quark;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.List;
 
 public class MiscUtil {
 
@@ -45,8 +45,12 @@ public class MiscUtil {
 
 	public static void addToLootTable(LootTable table, LootEntry entry) {
 		List<LootPool> pools = ObfuscationReflectionHelper.getPrivateValue(LootTable.class, table, ReflectionKeys.LootTable.POOLS);
+		if (pools == null)
+			return;
 		LootPool pool = pools.get(0);
 		List<LootEntry> list = ObfuscationReflectionHelper.getPrivateValue(LootPool.class, pool, ReflectionKeys.LootPool.LOOT_ENTRIES);
+		if (list == null)
+			return;
 		list.add(entry);
 	}
 
@@ -54,7 +58,7 @@ public class MiscUtil {
 		stack.damageItem(dmg, player, (p) -> p.sendBreakAnimation(hand));
 	}
 	
-	public static <T> void editFinalField(Class<?> clazz, String fieldName, Object obj, T value) {
+	public static <T, V> void editFinalField(Class<T> clazz, String fieldName, Object obj, V value) {
 		Field f = ObfuscationReflectionHelper.findField(clazz, fieldName);
 		editFinalField(f, obj, value);
 	}

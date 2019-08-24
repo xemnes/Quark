@@ -1,25 +1,29 @@
 package vazkii.quark.base.proxy;
 
-import java.util.function.Supplier;
-
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.config.ModConfig.ModConfigEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.ForgeRegistries;
 import vazkii.arl.util.ClientTicker;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.capability.CapabilityHandler;
 import vazkii.quark.base.handler.ContributorRewardHandler;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.base.network.QuarkNetwork;
+import vazkii.quark.base.recipe.ExclusionRecipe;
 import vazkii.quark.base.world.WorldGenHandler;
+
+import java.util.function.Supplier;
 
 public class CommonProxy {
 
 	private int lastConfigChange = 0;
 	
 	public void start() {
+		ForgeRegistries.RECIPE_SERIALIZERS.register(ExclusionRecipe.SERIALIZER);
+
 		ModuleLoader.INSTANCE.start();
 		
 		IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();

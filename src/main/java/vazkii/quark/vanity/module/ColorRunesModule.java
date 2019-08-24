@@ -120,7 +120,10 @@ public class ColorRunesModule extends Module {
 			weight = desertTempleWeight;
 		
 		if(weight > 0) {
-			LootEntry entry = TagLootEntry.func_216176_b(runesTag).weight(weight).quality(itemQuality).func_216081_b();
+			LootEntry entry = TagLootEntry.func_216176_b(runesTag) // withTag
+					.weight(weight)
+					.quality(itemQuality)
+					.func_216081_b(); // build
 			MiscUtil.addToLootTable(event.getTable(), entry);
 		}
 	}
@@ -140,6 +143,7 @@ public class ColorRunesModule extends Module {
 		}
 	}
 
+	@SuppressWarnings("ConstantConditions")
 	private static LazyOptional<IRuneColorProvider> get(ICapabilityProvider provider) {
 		return provider.getCapability(QuarkCapabilities.RUNE_COLOR);
 	}

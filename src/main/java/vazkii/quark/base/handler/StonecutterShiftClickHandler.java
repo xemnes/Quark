@@ -1,10 +1,6 @@
 package vazkii.quark.base.handler;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import com.google.common.collect.ImmutableList;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.StonecutterContainer;
@@ -19,6 +15,9 @@ import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import vazkii.quark.base.Quark;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @EventBusSubscriber(modid = Quark.MOD_ID)
 public class StonecutterShiftClickHandler {

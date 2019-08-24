@@ -47,6 +47,24 @@
 	"item.quark.rainbow_rune": "Rainbow Rune",
 	"item.quark.slime_in_a_bucket": "Slime In A Bucket",
 	"item.quark.slime_in_a_bucket.named": "%s In A Bucket",
+	"item.quark.black_shard": "Black Glass Shard",
+	"item.quark.blue_shard": "Blue Glass Shard",
+	"item.quark.brown_shard": "Brown Glass Shard",
+	"item.quark.cyan_shard": "Cyan Glass Shard",
+	"item.quark.gray_shard": "Gray Glass Shard",
+	"item.quark.green_shard": "Green Glass Shard",
+	"item.quark.light_blue_shard": "Light Blue Glass Shard",
+	"item.quark.lime_shard": "Lime Glass Shard",
+	"item.quark.magenta_shard": "Magenta Glass Shard",
+	"item.quark.orange_shard": "Orange Glass Shard",
+	"item.quark.pink_shard": "Pink Glass Shard",
+	"item.quark.purple_shard": "Purple Glass Shard",
+	"item.quark.red_shard": "Red Glass Shard",
+	"item.quark.light_gray_shard": "Light Gray Glass Shard",
+	"item.quark.white_shard": "White Glass Shard",
+	"item.quark.yellow_shard": "Yellow Glass Shard",
+	"item.quark.clear_shard": "Glass Shard",
+	"item.quark.dirty_shard": "Dirty Glass Shard",
 
 	"block.quark.charcoal_block": "Charcoal Block",
 	"block.quark.black_quilted_wool": "Black Quilted Wool",
@@ -371,6 +389,7 @@
 	"block.quark.apple_crate": "Apple Crate",
 	"block.quark.beetroot_crate": "Beetroot Crate",
 	"block.quark.carrot_crate": "Carrot Crate",
-	"block.quark.stick_block": "Stick Stack"
+	"block.quark.stick_block": "Stick Stack",
+	"block.quark.dirty_glass": "Dirty Glass"
 	
 }
