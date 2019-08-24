@@ -3,6 +3,8 @@ package vazkii.quark.world.module;
 import java.util.Random;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -11,6 +13,9 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.GenerationStage.Decoration;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import vazkii.quark.base.block.QuarkBlock;
+import vazkii.quark.base.block.QuarkPillarBlock;
+import vazkii.quark.base.handler.VariantHandler;
 import vazkii.quark.base.item.QuarkItem;
 import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
@@ -43,6 +48,12 @@ public class BiotiteModule extends Module {
 		Block biotite_ore = new BiotiteOreBlock(this);
 		oregen = new OreGenerator(dimensions, oreSettings, biotite_ore.getDefaultState(), OreGenerator.ENDSTONE_MATCHER, () -> enabled && generateNaturally);
 		WorldGenHandler.addGenerator(oregen, Decoration.UNDERGROUND_ORES, WorldGenWeights.BIOTITE);
+		
+		Block.Properties props = Block.Properties.create(Material.ROCK, MaterialColor.BLACK).hardnessAndResistance(0.8F);
+		VariantHandler.addSlabAndStairs(new QuarkBlock("biotite_block", this, ItemGroup.BUILDING_BLOCKS, props));
+		VariantHandler.addSlabAndStairs(new QuarkBlock("smooth_biotite", this, ItemGroup.BUILDING_BLOCKS, props));
+		new QuarkBlock("chiseled_biotite_block", this, ItemGroup.BUILDING_BLOCKS, props);
+		new QuarkPillarBlock("biotite_pillar", this, ItemGroup.BUILDING_BLOCKS, props);
 	}
 	
 	@SubscribeEvent

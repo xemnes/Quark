@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
+    "quark:biotite_block_stairs",
     "quark:black_shingles_stairs",
     "quark:black_stained_planks_stairs",
     "quark:blue_shingles_stairs",
@@ -37,6 +38,7 @@
     "quark:purple_stained_planks_stairs",
     "quark:red_shingles_stairs",
     "quark:red_stained_planks_stairs",
+    "quark:smooth_biotite_stairs",
     "quark:smooth_soul_sandstone_stairs",
     "quark:soul_sandstone_stairs",
     "quark:thatch_stairs",
