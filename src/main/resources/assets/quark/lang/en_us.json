@@ -47,6 +47,7 @@
 	"item.quark.rainbow_rune": "Rainbow Rune",
 	"item.quark.slime_in_a_bucket": "Slime In A Bucket",
 	"item.quark.slime_in_a_bucket.named": "%s In A Bucket",
+	"item.quark.biotite": "Ender Biotite",
 
 	"block.quark.charcoal_block": "Charcoal Block",
 	"block.quark.black_quilted_wool": "Black Quilted Wool",
@@ -371,6 +372,7 @@
 	"block.quark.apple_crate": "Apple Crate",
 	"block.quark.beetroot_crate": "Beetroot Crate",
 	"block.quark.carrot_crate": "Carrot Crate",
-	"block.quark.stick_block": "Stick Stack"
+	"block.quark.stick_block": "Stick Stack",
+	"block.quark.biotite_ore": "Biotite Ore"
 	
 }
