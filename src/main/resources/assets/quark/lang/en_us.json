@@ -47,6 +47,7 @@
 	"item.quark.rainbow_rune": "Rainbow Rune",
 	"item.quark.slime_in_a_bucket": "Slime In A Bucket",
 	"item.quark.slime_in_a_bucket.named": "%s In A Bucket",
+	"item.quark.biotite": "Ender Biotite",
 	"item.quark.black_shard": "Black Glass Shard",
 	"item.quark.blue_shard": "Blue Glass Shard",
 	"item.quark.brown_shard": "Brown Glass Shard",
@@ -390,6 +391,17 @@
 	"block.quark.beetroot_crate": "Beetroot Crate",
 	"block.quark.carrot_crate": "Carrot Crate",
 	"block.quark.stick_block": "Stick Stack",
+	"block.quark.biotite_ore": "Biotite Ore",
+	"block.quark.biotite_block": "Block of Biotite",
+	"block.quark.smooth_biotite": "Smooth Biotite",
+	"block.quark.chiseled_biotite_block": "Chiseled Biotite Block",
+	"block.quark.biotite_pillar": "Biotite Pillar",
+	"block.quark.biotite_block_stairs": "Biotite Stairs",
+	"block.quark.biotite_block_slab": "Biotite Slab",
+	"block.quark.biotite_block_vertical_slab": "Biotite Vertical Slab",
+	"block.quark.smooth_biotite_stairs": "Smooth Biotite Stairs",
+	"block.quark.smooth_biotite_slab": "Smooth Biotite Slab",
+	"block.quark.smooth_biotite_vertical_slab": "Smooth Biotite Vertical Slab"
 	"block.quark.dirty_glass": "Dirty Glass"
-	
+
 }

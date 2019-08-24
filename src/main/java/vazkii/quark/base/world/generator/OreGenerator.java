@@ -8,13 +8,13 @@ import java.util.function.Supplier;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationSettings;
 import net.minecraft.world.gen.Heightmap;
+import net.minecraft.world.gen.WorldGenRegion;
 import vazkii.quark.base.world.Generator;
 import vazkii.quark.base.world.config.DimensionConfig;
 import vazkii.quark.base.world.config.OrePocketConfig;
@@ -57,8 +57,8 @@ public class OreGenerator extends Generator {
 	}
 
 	@Override
-	public void generate(IWorld worldIn, ChunkGenerator<? extends GenerationSettings> generator, SharedSeedRandom rand, BlockPos pos) {
-		oreConfig.forEach(pos, rand, npos -> place(worldIn, generator, rand, npos));
+	public void generate(IWorld worldIn, ChunkGenerator<? extends GenerationSettings> generator, Random rand, BlockPos pos) {
+		oreConfig.forEach(pos, rand, npos -> place(worldIn, rand, npos));
 	}
 
 	// =============================================================================================
@@ -66,7 +66,7 @@ public class OreGenerator extends Generator {
 	// VENTURE ONLY IF YOU'RE BRAVER THAN ME
 	// =============================================================================================
 
-	public boolean place(IWorld worldIn, ChunkGenerator<? extends GenerationSettings> generator, Random rand, BlockPos pos) {
+	public boolean place(IWorld worldIn, Random rand, BlockPos pos) {
 		float f = rand.nextFloat() * (float)Math.PI;
 		float f1 = (float)oreConfig.clusterSize / 8.0F;
 		int i = MathHelper.ceil(((float)oreConfig.clusterSize / 16.0F * 2.0F + 1.0F) / 2.0F);
@@ -81,10 +81,12 @@ public class OreGenerator extends Generator {
 		int i1 = pos.getZ() - MathHelper.ceil(f1) - i;
 		int j1 = 2 * (MathHelper.ceil(f1) + i);
 		int k1 = 2 * (2 + i);
+		
+		Heightmap.Type hm = worldIn instanceof WorldGenRegion ? Heightmap.Type.OCEAN_FLOOR_WG : Heightmap.Type.WORLD_SURFACE;
 
 		for(int l1 = k; l1 <= k + j1; ++l1) {
 			for(int i2 = i1; i2 <= i1 + j1; ++i2) {
-				if (l <= worldIn.getHeight(Heightmap.Type.OCEAN_FLOOR_WG, l1, i2)) {
+				if (l <= worldIn.getHeight(hm, l1, i2)) {
 					return this.func_207803_a(worldIn, rand, d0, d1, d2, d3, d4, d5, k, l, i1, j1, k1);
 				}
 			}

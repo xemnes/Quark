@@ -4,7 +4,6 @@ import java.util.Random;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockPos.MutableBlockPos;
 import net.minecraft.world.IWorld;
@@ -24,7 +23,7 @@ public abstract class MultiChunkFeatureGenerator extends Generator {
 	}
 
 	@Override
-	public final void generate(IWorld world, ChunkGenerator<? extends GenerationSettings> generator, SharedSeedRandom rand, BlockPos pos) {
+	public final void generate(IWorld world, ChunkGenerator<? extends GenerationSettings> generator, Random rand, BlockPos pos) {
 		int radius = getFeatureRadius();
 		int chunkRadius = (int) Math.ceil((double) radius / 16.0);
 		
