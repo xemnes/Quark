@@ -401,7 +401,8 @@
 	"block.quark.biotite_block_vertical_slab": "Biotite Vertical Slab",
 	"block.quark.smooth_biotite_stairs": "Smooth Biotite Stairs",
 	"block.quark.smooth_biotite_slab": "Smooth Biotite Slab",
-	"block.quark.smooth_biotite_vertical_slab": "Smooth Biotite Vertical Slab"
-	"block.quark.dirty_glass": "Dirty Glass"
+	"block.quark.smooth_biotite_vertical_slab": "Smooth Biotite Vertical Slab",
+	"block.quark.dirty_glass": "Dirty Glass",
+	"block.quark.ender_watcher": "Ender Watcher"
 
 }
