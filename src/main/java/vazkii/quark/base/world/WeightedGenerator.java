@@ -12,7 +12,21 @@ public class WeightedGenerator implements Comparable<WeightedGenerator> {
 
 	@Override
 	public int compareTo(WeightedGenerator o) {
-		return o.weight - weight;
+		int diff = o.weight - weight;
+		if(diff != 0)
+			return diff;
+		
+		return o.hashCode() - hashCode();
+	}
+	
+	@Override
+	public int hashCode() {
+		return generator.hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		return obj == this || (obj instanceof WeightedGenerator && ((WeightedGenerator) obj).generator == generator); 
 	}
 	
 }

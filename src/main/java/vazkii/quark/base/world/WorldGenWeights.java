@@ -4,7 +4,8 @@ public class WorldGenWeights {
 
 	// UNDERGROUND_ORES
 	public static final int CLAY = 0;
-	public static final int BIOTITE = 1;
+	public static final int NEW_STONES = 1;
+	public static final int BIOTITE = 2;
 	
 	// UNDERGROUND_DECORATION
 	public static final int UNDERGROUND_BIOMES = 0;

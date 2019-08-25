@@ -44,6 +44,8 @@ public class OreGenerator extends Generator {
 		Block block = state.getBlock();
 		return block == Blocks.END_STONE;
 	};
+	
+	public static final Predicate<BlockState> ALL_DIMS_STONE_MATCHER = STONE_MATCHER.or(NETHERRACK_MATCHER).or(ENDSTONE_MATCHER); 
 
 	private final OrePocketConfig oreConfig;
 	private final BlockState placeState;

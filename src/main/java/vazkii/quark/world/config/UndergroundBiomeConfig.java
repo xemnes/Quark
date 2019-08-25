@@ -9,7 +9,6 @@ import vazkii.quark.world.gen.underground.UndergroundBiome;
 
 public class UndergroundBiomeConfig implements IConfigType {
 
-	@Config public boolean enabled = true;
 	@Config public DimensionConfig dimensions = DimensionConfig.overworld(false);
 	@Config public BiomeTypeConfig biomes;
 	

@@ -44,13 +44,14 @@ public class WorldGenHandler {
 		WorldGenRegion region = (WorldGenRegion) worldIn;
 		SharedSeedRandom random = new SharedSeedRandom();
 		long seed = random.setDecorationSeed(region.getSeed(), region.getMainChunkX() * 16, region.getMainChunkZ() * 16);
-		int i = 0;
+		int i = stage.ordinal() * 10000;
 
 		if(generators.containsKey(stage)) {
 			SortedSet<WeightedGenerator> set = generators.get(stage);
 
 			for(WeightedGenerator wgen : set) {
 				Generator gen = wgen.generator;
+
 				if(gen.isEnabled() && gen.dimConfig.canSpawnHere(worldIn.getWorld())) {
 					random.setFeatureSeed(seed, i, stage.ordinal()); 
 

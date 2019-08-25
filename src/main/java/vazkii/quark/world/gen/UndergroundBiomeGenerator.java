@@ -19,7 +19,7 @@ public class UndergroundBiomeGenerator extends MultiChunkFeatureGenerator {
 	private final long seedXor;
 
 	public UndergroundBiomeGenerator(UndergroundBiomeConfig info, Module module) {
-		super(info.dimensions, () -> module.enabled && info.enabled);
+		super(info.dimensions, () -> module.enabled);
 		this.info = info;
 
 		seedXor = info.biomeObj.getClass().toString().hashCode();
