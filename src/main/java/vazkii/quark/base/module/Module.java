@@ -22,11 +22,11 @@ public class Module {
 	
 	public boolean enabled = false;
 	public boolean ignoreAntiOverlap = false;
-	
+
 	public void start() {
 		// NO-OP
 	}
-	
+
 	public void modulesStarted() {
 		// NO-OP
 	}
@@ -45,6 +45,11 @@ public class Module {
 	
 	@OnlyIn(Dist.CLIENT)
 	public void clientSetup() {
+		// NO-OP
+	}
+
+	@OnlyIn(Dist.CLIENT)
+	public void modelRegistry() {
 		// NO-OP
 	}
 	

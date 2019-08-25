@@ -1,10 +1,5 @@
 package vazkii.quark.base.proxy;
 
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.function.Supplier;
-import java.util.stream.Collectors;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.IAsyncReloader;
 import net.minecraft.resources.IReloadableResourceManager;
@@ -13,6 +8,7 @@ import net.minecraft.resources.ResourcePackInfo;
 import net.minecraft.util.Unit;
 import net.minecraft.util.Util;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.StartupMessageManager;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -23,6 +19,11 @@ import net.minecraftforge.resource.VanillaResourceType;
 import vazkii.quark.base.handler.ContributorRewardHandler;
 import vazkii.quark.base.handler.ResourceProxy;
 import vazkii.quark.base.module.ModuleLoader;
+
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public class ClientProxy extends CommonProxy {
 
@@ -38,11 +39,16 @@ public class ClientProxy extends CommonProxy {
 		super.registerListeners(bus);
 
 		bus.addListener(this::clientSetup);
+		bus.addListener(this::modelRegistry);
 	}
 
 	public void clientSetup(FMLClientSetupEvent event) {
 		ModuleLoader.INSTANCE.clientSetup();
 		ContributorRewardHandler.setupClient();
+	}
+
+	public void modelRegistry(ModelRegistryEvent event) {
+		ModuleLoader.INSTANCE.modelRegistry();
 	}
 
 	@Override
@@ -66,7 +72,7 @@ public class ClientProxy extends CommonProxy {
 		super.handleQuarkConfigChange();
 
 		Minecraft mc = Minecraft.getInstance();
-		if(mc.isSingleplayer()) {
+		if(mc.isSingleplayer() && mc.player != null && mc.getIntegratedServer() != null) {
 			mc.player.sendMessage(new TranslationTextComponent("commands.reload.success"));
 			mc.getIntegratedServer().reload();
 		}
