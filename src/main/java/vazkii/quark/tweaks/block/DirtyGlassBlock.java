@@ -17,7 +17,7 @@ import javax.annotation.Nullable;
  */
 public class DirtyGlassBlock extends QuarkGlassBlock {
 
-    private static final float[] BEACON_COLOR_MULTIPLIER = new float[] { 0.5F, 0.4F, 0.1F };
+    private static final float[] BEACON_COLOR_MULTIPLIER = new float[] { 0.25F, 0.125F, 0F };
 
     public DirtyGlassBlock(String regname, Module module, ItemGroup creativeTab, Properties properties) {
         super(regname, module, creativeTab, properties);

@@ -1,0 +1,8 @@
+{
+  "parent": "block/item_frame_map",
+  "textures": {
+    "particle": "block/glass",
+    "wood": "block/glass",
+    "back": "block/glass"
+  }
+}
