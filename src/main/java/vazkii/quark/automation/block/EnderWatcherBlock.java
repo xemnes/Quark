@@ -51,7 +51,6 @@ public class EnderWatcherBlock extends QuarkBlock {
 	
 	@Override
 	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-		System.out.println("creat");
 		return new EnderWatcherTileEntity();
 	}
 
