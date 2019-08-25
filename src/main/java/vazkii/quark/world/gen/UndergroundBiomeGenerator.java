@@ -16,13 +16,9 @@ public class UndergroundBiomeGenerator extends MultiChunkFeatureGenerator {
 
 	public final UndergroundBiomeConfig info;
 
-	private final long seedXor;
-
 	public UndergroundBiomeGenerator(UndergroundBiomeConfig info, Module module) {
 		super(info.dimensions, () -> module.enabled);
 		this.info = info;
-
-		seedXor = info.biomeObj.getClass().toString().hashCode();
 	}
 
 	@Override
@@ -49,11 +45,6 @@ public class UndergroundBiomeGenerator extends MultiChunkFeatureGenerator {
 		}
 
 		return new BlockPos[0];
-	}
-
-	@Override
-	public long modifyWorldSeed(long seed) {
-		return seed ^ seedXor;
 	}
 
 	@Override

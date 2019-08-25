@@ -25,9 +25,12 @@ public abstract class MultiChunkFeatureGenerator extends Generator {
 	@Override
 	public final void generate(IWorld world, ChunkGenerator<? extends GenerationSettings> generator, Random rand, BlockPos pos) {
 		int radius = getFeatureRadius();
+		if(radius <= 0)
+			return;
+		
 		int chunkRadius = (int) Math.ceil((double) radius / 16.0);
 		
-		long worldSeed = modifyWorldSeed(world.getSeed());
+		long worldSeed = world.getSeed();
 		Random worldRandom = new Random(worldSeed);
 		long xSeed = worldRandom.nextLong();
 		long zSeed = worldRandom.nextLong();
@@ -49,10 +52,6 @@ public abstract class MultiChunkFeatureGenerator extends Generator {
 					if(source != null && isSourceValid(world, generator, source))
 						generateChunkPart(source, generator, ourRandom, pos, world);
 			}
-	}
-	
-	public long modifyWorldSeed(long seed) {
-		return seed;
 	}
 	
 	public boolean isSourceValid(IWorld world, ChunkGenerator<? extends GenerationSettings> generator, BlockPos pos) {

@@ -8,6 +8,7 @@ public class WorldGenWeights {
 	public static final int BIOTITE = 2;
 	
 	// UNDERGROUND_DECORATION
-	public static final int UNDERGROUND_BIOMES = 0;
+	public static final int BIG_STONE_CLUSTERS = 0;
+	public static final int UNDERGROUND_BIOMES = 1;
 	
 }

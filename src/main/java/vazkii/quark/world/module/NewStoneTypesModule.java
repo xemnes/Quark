@@ -19,6 +19,7 @@ import vazkii.quark.base.module.ModuleCategory;
 import vazkii.quark.base.world.WorldGenHandler;
 import vazkii.quark.base.world.WorldGenWeights;
 import vazkii.quark.base.world.generator.OreGenerator;
+import vazkii.quark.world.config.BigStoneClusterConfig;
 import vazkii.quark.world.config.StoneTypeConfig;
 
 @LoadModule(category = ModuleCategory.WORLD)
@@ -36,19 +37,21 @@ public class NewStoneTypesModule extends Module {
 	@Config public static StoneTypeConfig slate = new StoneTypeConfig(false);
 	@Config public static StoneTypeConfig basalt = new StoneTypeConfig(true);
 	
+	public static Block marbleBlock, limestoneBlock, jasperBlock, slateBlock, basaltBlock;
+	
 	private Queue<Runnable> defers = new ArrayDeque<>();
 	
 	@Override
 	public void start() {
-		makeStone("marble", marble, () -> enableMarble, MaterialColor.QUARTZ);
-		makeStone("limestone", limestone, () -> enableLimestone, MaterialColor.STONE);
-		makeStone("jasper", jasper, () -> enableJasper, MaterialColor.RED_TERRACOTTA);
-		makeStone("slate", slate, () -> enableSlate, MaterialColor.ICE);
-		makeStone("basalt", basalt, () -> enableBasalt, MaterialColor.BLACK);
+		marbleBlock = makeStone("marble", marble, BigStoneClustersModule.marble, () -> enableMarble, MaterialColor.QUARTZ);
+		limestoneBlock = makeStone("limestone", limestone, BigStoneClustersModule.limestone, () -> enableLimestone, MaterialColor.STONE);
+		jasperBlock = makeStone("jasper", jasper, BigStoneClustersModule.jasper, () -> enableJasper, MaterialColor.RED_TERRACOTTA);
+		slateBlock = makeStone("slate", slate, BigStoneClustersModule.slate, () -> enableSlate, MaterialColor.ICE);
+		basaltBlock = makeStone("basalt", basalt, BigStoneClustersModule.basalt, () -> enableBasalt, MaterialColor.BLACK);
 	}
 	
-	private void makeStone(String name, StoneTypeConfig config, Supplier<Boolean> enabledCond, MaterialColor color) {
-		Supplier<Boolean> trueEnabledCond = () -> enabled && enabledCond.get();
+	private Block makeStone(String name, StoneTypeConfig config, BigStoneClusterConfig bigConfig, Supplier<Boolean> enabledCond, MaterialColor color) {
+		Supplier<Boolean> trueEnabledCond = () -> enabled && !bigConfig.enabled && enabledCond.get();
 		Block.Properties props = Block.Properties.create(Material.ROCK, color).hardnessAndResistance(1.5F, 6.0F);
 		
 		QuarkBlock normal = new QuarkBlock(name, this, ItemGroup.BUILDING_BLOCKS, props).setCondition(enabledCond);
@@ -60,6 +63,8 @@ public class NewStoneTypesModule extends Module {
 		defers.add(() ->
 			WorldGenHandler.addGenerator(new OreGenerator(config.dimensions, config.oregen, normal.getDefaultState(), OreGenerator.ALL_DIMS_STONE_MATCHER, trueEnabledCond), Decoration.UNDERGROUND_ORES, WorldGenWeights.NEW_STONES)
 		);
+		
+		return normal;
 	}
 	
 	@Override
