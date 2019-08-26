@@ -1,9 +1,12 @@
 from jsongen import *
 import os
+import re
 
 generic_targets = []
 slab_targets = []
 silk_targets = []
+
+frame_pattern = re.compile(r'\w+_frame')
 
 for file in os.listdir('../assets/quark/blockstates'):
 	if '.json' in file:
@@ -14,7 +17,7 @@ for file in os.listdir('../assets/quark/blockstates'):
 				silk_targets.append(block_name)
 			elif '_slab' in block_name:
 				slab_targets.append(block_name)
-			else: 
+			elif not frame_pattern.match(block_name):
 				generic_targets.append(block_name)
 
 foreach_arg_array(0, generic_targets, [('drop_table_generic.json', 'data/{modid}/loot_tables/blocks/{name}.json')], copy_callback)
