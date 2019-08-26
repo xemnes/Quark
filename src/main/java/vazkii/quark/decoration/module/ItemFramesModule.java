@@ -1,19 +1,14 @@
 package vazkii.quark.decoration.module;
 
 import com.google.common.collect.Maps;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.BlockModelShapes;
+import net.minecraft.client.renderer.model.ModelResourceLocation;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.Items;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.StateContainer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -89,16 +84,19 @@ public class ItemFramesModule extends Module {
     @Override
     @OnlyIn(Dist.CLIENT)
     public void modelRegistry() {
-        StateContainer<Block, BlockState> dummyContainer = new StateContainer.Builder<Block, BlockState>(Blocks.AIR)
-                .add(BooleanProperty.create("map"))
-                .create(BlockState::new);
+        // TODO: reinstate when Forge fixes itself
 
-        ResourceLocation coloredFrame = new ResourceLocation(Quark.MOD_ID, "colored_frame");
-        ResourceLocation glassFrame = new ResourceLocation(Quark.MOD_ID, "glass_frame");
+//        StateContainer<Block, BlockState> dummyContainer = new StateContainer.Builder<Block, BlockState>(Blocks.AIR)
+//                .add(BooleanProperty.create("map"))
+//                .create(BlockState::new);
+//        ResourceLocation coloredFrame = new ResourceLocation(Quark.MOD_ID, "colored_frame");
+//        ResourceLocation glassFrame = new ResourceLocation(Quark.MOD_ID, "glass_frame");
+//        ModelLoader.addSpecialModel(new ModelResourceLocation(new ResourceLocation(Quark.MOD_ID, "glass_frame"), "normal"));
+//        for (BlockState state : dummyContainer.getValidStates())
+//            ModelLoader.addSpecialModel(BlockModelShapes.getModelLocation(coloredFrame, state));
 
-        for (BlockState state : dummyContainer.getValidStates()) {
-            ModelLoader.addSpecialModel(BlockModelShapes.getModelLocation(coloredFrame, state));
-            ModelLoader.addSpecialModel(BlockModelShapes.getModelLocation(glassFrame, state));
-        }
+        ModelLoader.addSpecialModel(new ModelResourceLocation(new ResourceLocation(Quark.MOD_ID, "glass_frame"), "inventory"));
+        ModelLoader.addSpecialModel(new ModelResourceLocation(new ResourceLocation(Quark.MOD_ID, "colored_frame_empty"), "inventory"));
+        ModelLoader.addSpecialModel(new ModelResourceLocation(new ResourceLocation(Quark.MOD_ID, "colored_frame_map"), "inventory"));
     }
 }

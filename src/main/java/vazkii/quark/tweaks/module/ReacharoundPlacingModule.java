@@ -1,12 +1,6 @@
 package vazkii.quark.tweaks.module;
 
-import java.util.List;
-import java.util.Objects;
-
-import org.apache.commons.lang3.tuple.Pair;
-
 import com.google.common.collect.Lists;
-
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
@@ -30,11 +24,15 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import org.apache.commons.lang3.tuple.Pair;
 import vazkii.quark.base.handler.RayTraceHandler;
 import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
+
+import java.util.List;
+import java.util.Objects;
 
 @LoadModule(category = ModuleCategory.TWEAKS, hasSubscriptions = true)
 public class ReacharoundPlacingModule extends Module {
@@ -56,7 +54,7 @@ public class ReacharoundPlacingModule extends Module {
 			BlockPos pos = getPlayerReacharoundTarget(player);
 			if(pos != null) {
 				MainWindow res = event.getWindow();
-				mc.fontRenderer.drawString(display, res.getScaledWidth() / 2 - mc.fontRenderer.getStringWidth(display) / 2 + 1, res.getScaledHeight() / 2 - 3, 0xFFFFFF);
+				mc.fontRenderer.drawString(display, res.getScaledWidth() / 2f - mc.fontRenderer.getStringWidth(display) / 2f, res.getScaledHeight() / 2f - 4, 0xFFFFFF);
 			}
 		}
 	}
