@@ -1,11 +1,18 @@
 package vazkii.quark.world.module;
 
+import java.util.List;
+import java.util.function.Predicate;
+
+import com.google.common.base.Predicates;
 import com.google.common.base.Supplier;
+import com.google.common.collect.Lists;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.gen.GenerationStage.Decoration;
 import net.minecraftforge.common.BiomeDictionary.Type;
+import net.minecraftforge.registries.ForgeRegistries;
 import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
@@ -25,7 +32,13 @@ public class BigStoneClustersModule extends Module {
 	@Config public static BigStoneClusterConfig limestone = new BigStoneClusterConfig(false, Type.SWAMP, Type.OCEAN);
 	@Config public static BigStoneClusterConfig jasper = new BigStoneClusterConfig(false, Type.MESA, Type.SANDY);
 	@Config public static BigStoneClusterConfig slate = new BigStoneClusterConfig(false, Type.COLD);
-	@Config public static BigStoneClusterConfig basalt = new BigStoneClusterConfig(true, Type.NETHER); // TODO change values
+	@Config public static BigStoneClusterConfig basalt = new BigStoneClusterConfig(true, 19, 20, 20, 120, Type.NETHER);
+	
+	@Config public static List<String> blocksToReplace = Lists.newArrayList(
+			"minecraft:stone", "minecraft:andesite", "minecraft:diorite", "minecraft:granite", "minecraft:netherrack", "minecraft:end_stone",
+			"quark:marble", "quark:limestone", "quark:jasper", "quark:slate", "quark:basalt");
+	
+	public static Predicate<Block> blockReplacePredicate = Predicates.alwaysFalse();
 	
 	@Override
 	public void setup() {
@@ -43,6 +56,16 @@ public class BigStoneClustersModule extends Module {
 	
 	private void add(BigStoneClusterConfig config, Block block, Supplier<Boolean> condition) {
 		WorldGenHandler.addGenerator(new BigStoneClusterGenerator(config, block.getDefaultState(), condition), Decoration.UNDERGROUND_DECORATION, WorldGenWeights.BIG_STONE_CLUSTERS);
+	}
+	
+	@Override
+	public void configChanged() {
+		blockReplacePredicate = Predicates.alwaysFalse();
+		for(String s : blocksToReplace) {
+			Block b = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(s));
+			if(b != null && b != Blocks.AIR)
+				blockReplacePredicate = blockReplacePredicate.or(Predicates.equalTo(b));
+		}
 	}
 	
 }
