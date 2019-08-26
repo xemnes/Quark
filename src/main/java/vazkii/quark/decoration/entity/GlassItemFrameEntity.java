@@ -56,13 +56,13 @@ public class GlassItemFrameEntity extends ItemFrameEntity implements IEntityAddi
 
 	@Override
 	public void writeSpawnData(PacketBuffer buffer) {
-		buffer.writeVarInt(this.facingDirection.getIndex());
 		buffer.writeBlockPos(this.hangingPosition);
+		buffer.writeVarInt(this.facingDirection.getIndex());
 	}
 
 	@Override
 	public void readSpawnData(PacketBuffer buffer) {
-		this.facingDirection = Direction.byIndex(buffer.readVarInt());
 		this.hangingPosition = buffer.readBlockPos();
+		this.updateFacingWithBoundingBox(Direction.byIndex(buffer.readVarInt()));
 	}
 }

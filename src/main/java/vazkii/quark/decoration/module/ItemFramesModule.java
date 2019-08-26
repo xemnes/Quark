@@ -89,14 +89,17 @@ public class ItemFramesModule extends Module {
 //        StateContainer<Block, BlockState> dummyContainer = new StateContainer.Builder<Block, BlockState>(Blocks.AIR)
 //                .add(BooleanProperty.create("map"))
 //                .create(BlockState::new);
-//        ResourceLocation coloredFrame = new ResourceLocation(Quark.MOD_ID, "colored_frame");
-//        ResourceLocation glassFrame = new ResourceLocation(Quark.MOD_ID, "glass_frame");
 //        ModelLoader.addSpecialModel(new ModelResourceLocation(new ResourceLocation(Quark.MOD_ID, "glass_frame"), "normal"));
-//        for (BlockState state : dummyContainer.getValidStates())
-//            ModelLoader.addSpecialModel(BlockModelShapes.getModelLocation(coloredFrame, state));
+//        for (DyeColor color : DyeColor.values()) {
+//            ResourceLocation coloredFrame = new ResourceLocation(Quark.MOD_ID, color.getName() + "_frame");
+//            for (BlockState state : dummyContainer.getValidStates())
+//                ModelLoader.addSpecialModel(BlockModelShapes.getModelLocation(coloredFrame, state));
+//        }
 
         ModelLoader.addSpecialModel(new ModelResourceLocation(new ResourceLocation(Quark.MOD_ID, "glass_frame"), "inventory"));
-        ModelLoader.addSpecialModel(new ModelResourceLocation(new ResourceLocation(Quark.MOD_ID, "colored_frame_empty"), "inventory"));
-        ModelLoader.addSpecialModel(new ModelResourceLocation(new ResourceLocation(Quark.MOD_ID, "colored_frame_map"), "inventory"));
+        for (DyeColor color : DyeColor.values()) {
+            ModelLoader.addSpecialModel(new ModelResourceLocation(new ResourceLocation(Quark.MOD_ID, color.getName() + "_frame_empty"), "inventory"));
+            ModelLoader.addSpecialModel(new ModelResourceLocation(new ResourceLocation(Quark.MOD_ID, color.getName() + "_frame_map"), "inventory"));
+        }
     }
 }
