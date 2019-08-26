@@ -1,8 +1,6 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"candle": "",
-		"particle": "",
 		"wick": "blocks/wool_colored_black"
 	},
 	"elements": [
@@ -37,11 +35,11 @@
 			"rotation": {"angle": -45, "axis": "y", "origin": [8, 8, 8]},
 			"faces": {
 				"north": {"uv": [8, 7, 9, 8], "texture": "#wick"},
-				"east": {"uv": [0, 0, 0, 1], "texture": "#missing"},
+				"east": {"uv": [0, 0, 0, 1], "texture": "#wick"},
 				"south": {"uv": [8, 7, 9, 8], "texture": "#wick"},
-				"west": {"uv": [0, 0, 0, 1], "texture": "#missing"},
-				"up": {"uv": [0, 0, 1, 0], "texture": "#missing"},
-				"down": {"uv": [0, 0, 1, 0], "texture": "#missing"}
+				"west": {"uv": [0, 0, 0, 1], "texture": "#wick"},
+				"up": {"uv": [0, 0, 1, 0], "texture": "#wick"},
+				"down": {"uv": [0, 0, 1, 0], "texture": "#wick"}
 			}
 		}
 	]
