@@ -32,6 +32,10 @@ public class DimensionConfig implements IConfigType {
 		return new DimensionConfig(blacklist, "minecraft:the_end");
 	}
 	
+	public static DimensionConfig all() {
+		return new DimensionConfig(true);
+	}
+	
 	public boolean canSpawnHere(World world) {
 		if(world == null)
 			return false;
