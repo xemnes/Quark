@@ -1,9 +1,12 @@
 package vazkii.quark.base.world;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.function.BiPredicate;
+import java.util.function.Supplier;
 
 import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.util.math.BlockPos;
@@ -14,6 +17,8 @@ import net.minecraft.world.gen.GenerationSettings;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.WorldGenRegion;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
+import net.minecraft.world.gen.feature.DecoratedFeatureConfig;
+import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraft.world.gen.placement.IPlacementConfig;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -28,13 +33,40 @@ public class WorldGenHandler {
 			ForgeRegistries.BIOMES.forEach(biome -> biome.addFeature(stage, feature));
 		}
 	}
-	
+
 	public static void addGenerator(Generator generator, GenerationStage.Decoration stage, int weight) {
 		WeightedGenerator weighted = new WeightedGenerator(generator, weight);
 		if(!generators.containsKey(stage))
 			generators.put(stage, new TreeSet<>());
-		
+
 		generators.get(stage).add(weighted);
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public static void conditionalizeFeatures(GenerationStage.Decoration stage, BiPredicate<Feature<? extends IFeatureConfig>, IFeatureConfig> pred, Supplier<Boolean> condition) {
+		ForgeRegistries.BIOMES.forEach(b -> {
+			List<ConfiguredFeature<?>> features = b.getFeatures(stage);
+
+			for(int i = 0; i < features.size(); i++) {
+				ConfiguredFeature<?> configuredFeature = features.get(i);
+
+				if(!(configuredFeature instanceof ConditionalConfiguredFeature)) {
+					Feature<?> feature = configuredFeature.feature;
+					IFeatureConfig config = configuredFeature.config;
+
+					if(config instanceof DecoratedFeatureConfig) {
+						DecoratedFeatureConfig dconfig = (DecoratedFeatureConfig) config;
+						feature = dconfig.feature.feature;
+						config = dconfig.feature.config;
+					}
+
+					if(pred.test(feature, config)) {
+						ConditionalConfiguredFeature conditional = new ConditionalConfiguredFeature(configuredFeature, condition);
+						features.set(i, conditional);
+					}
+				}
+			}
+		});
 	}
 
 	public static void generateChunk(IWorld worldIn, ChunkGenerator<? extends GenerationSettings> generator, BlockPos pos, GenerationStage.Decoration stage) {
