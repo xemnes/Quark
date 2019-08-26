@@ -126,7 +126,7 @@ public class GlassItemFrameRenderer extends EntityRenderer<GlassItemFrameEntity>
 
                 GlStateManager.pushMatrix();
                 GlStateManager.rotatef(180, 0F, 0F, 1F);
-                GlStateManager.translatef(-0.5F, -0.5F, 0.0625F);
+                GlStateManager.translatef(-0.5F, -0.5F, 0.060546875F);
                 buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
                 buffer.pos(0, 1, -0.000078125F).tex(u + 0, v + h).endVertex();
                 buffer.pos(1, 1, -0.000078125F).tex(u + w, v + h).endVertex();
@@ -147,7 +147,7 @@ public class GlassItemFrameRenderer extends EntityRenderer<GlassItemFrameEntity>
                         this.renderManager.textureManager.bindTexture(MAP_BACKGROUND_TEXTURES);
                         GlStateManager.rotatef(180.0F, 0.0F, 0.0F, 1.0F);
                         GlStateManager.scalef(0.0078125F, 0.0078125F, 0.0078125F);
-                        GlStateManager.translatef(-64.0F, -64.0F, 8.0F);
+                        GlStateManager.translatef(-64.0F, -64.0F, 7.75F);
 
                         this.mc.gameRenderer.getMapItemRenderer().renderMap(mapdata, true);
                     } else {
