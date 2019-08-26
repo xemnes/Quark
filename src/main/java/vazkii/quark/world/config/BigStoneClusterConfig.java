@@ -9,17 +9,26 @@ import vazkii.quark.base.world.config.DimensionConfig;
 public class BigStoneClusterConfig implements IConfigType {
 
 	@Config public boolean enabled = true;
-	@Config public int clusterSize = 14;
-	@Config public int clusterRarity = 9;
-	@Config public int minYLevel = 80;
-	@Config public int maxYLevel = 20;
+	@Config public int clusterSize;
+	@Config public int clusterRarity;
+	@Config public int minYLevel;
+	@Config public int maxYLevel;
 	
 	@Config public DimensionConfig dimensions;
 	@Config public BiomeTypeConfig biomes;
 	
 	public BigStoneClusterConfig(boolean nether, BiomeDictionary.Type... types) {
-		dimensions = nether ? DimensionConfig.overworld(false) : DimensionConfig.nether(false);
-		biomes = new BiomeTypeConfig(false, types);
+		this(nether, 14, 9, 20, 80, types);
 	}
+	
+	public BigStoneClusterConfig(boolean nether, int clusterSize, int clusterRarity, int minYLevel, int maxYLevel, BiomeDictionary.Type... types) {
+		dimensions = nether ? DimensionConfig.nether(false) : DimensionConfig.overworld(false);
+		biomes = new BiomeTypeConfig(false, types);
+		this.clusterSize = clusterSize;
+		this.clusterRarity = clusterRarity;
+		this.minYLevel = minYLevel;
+		this.maxYLevel = maxYLevel;
+	}
+
 	
 }

@@ -4,13 +4,13 @@ import java.util.Random;
 import java.util.function.Supplier;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationSettings;
 import vazkii.quark.base.world.generator.MultiChunkFeatureGenerator;
 import vazkii.quark.world.config.BigStoneClusterConfig;
+import vazkii.quark.world.module.BigStoneClustersModule;
 
 public class BigStoneClusterGenerator extends MultiChunkFeatureGenerator {
 
@@ -41,8 +41,8 @@ public class BigStoneClusterGenerator extends MultiChunkFeatureGenerator {
 		});
 	}
 
-	public boolean canPlaceBlock(IWorld world, BlockPos pos) { // TODO figure out how to do this for netherrack too
-		return world.getBlockState(pos).getBlock() == Blocks.STONE;
+	public boolean canPlaceBlock(IWorld world, BlockPos pos) {
+		return BigStoneClustersModule.blockReplacePredicate.test(world.getBlockState(pos).getBlock());
 	}
 
 	@Override
