@@ -1,6 +1,7 @@
 package vazkii.quark.world.module;
 
 import java.util.List;
+import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 
 import com.google.common.base.Predicates;
@@ -10,7 +11,11 @@ import com.google.common.collect.Lists;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.GenerationStage.Decoration;
+import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.IFeatureConfig;
+import net.minecraft.world.gen.feature.OreFeatureConfig;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.registries.ForgeRegistries;
 import vazkii.quark.base.module.Config;
@@ -52,10 +57,27 @@ public class BigStoneClustersModule extends Module {
 		add(jasper, NewStoneTypesModule.jasperBlock, () -> NewStoneTypesModule.enableJasper);
 		add(slate, NewStoneTypesModule.slateBlock, () -> NewStoneTypesModule.enableSlate);
 		add(basalt, NewStoneTypesModule.basaltBlock, () -> NewStoneTypesModule.enableBasalt);
+		
+		conditionalize(Blocks.GRANITE, () -> !granite.enabled);
+		conditionalize(Blocks.DIORITE, () -> !diorite.enabled);
+		conditionalize(Blocks.ANDESITE, () -> !andesite.enabled);
 	}
 	
 	private void add(BigStoneClusterConfig config, Block block, Supplier<Boolean> condition) {
 		WorldGenHandler.addGenerator(new BigStoneClusterGenerator(config, block.getDefaultState(), condition), Decoration.UNDERGROUND_DECORATION, WorldGenWeights.BIG_STONE_CLUSTERS);
+	}
+	
+	private void conditionalize(Block block, Supplier<Boolean> condition) {
+		BiPredicate<Feature<? extends IFeatureConfig>, IFeatureConfig> pred = (feature, config) -> {
+			if(config instanceof OreFeatureConfig) {
+				OreFeatureConfig oconfig = (OreFeatureConfig) config;
+				return oconfig.state.getBlock() == block;
+			}
+			
+			return false;
+		};
+		
+		WorldGenHandler.conditionalizeFeatures(GenerationStage.Decoration.UNDERGROUND_ORES, pred, condition);
 	}
 	
 	@Override
