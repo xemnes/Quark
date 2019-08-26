@@ -15,6 +15,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IRegistryDelegate;
+import vazkii.quark.base.handler.ReflectionKeys;
 import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
@@ -58,7 +59,7 @@ public class GreenerGrassModule extends Module {
 	@OnlyIn(Dist.CLIENT)
 	private void registerGreenerColor(Iterable<String> ids, boolean leaves) {
 		BlockColors colors = Minecraft.getInstance().getBlockColors();
-		Map<IRegistryDelegate<Block>, IBlockColor> map = ObfuscationReflectionHelper.getPrivateValue(BlockColors.class, colors, "colors"); // This is a forge field so obfuscation is meaningless
+		Map<IRegistryDelegate<Block>, IBlockColor> map = ObfuscationReflectionHelper.getPrivateValue(BlockColors.class, colors, ReflectionKeys.BlockColors.COLORS);
 
 		for(String id : ids) {
 			Block b = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(id));
