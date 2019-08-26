@@ -465,6 +465,7 @@
 	"block.quark.jasper_wall": "Jasper Wall",
 	"block.quark.limestone_wall": "Limestone Wall",
 	"block.quark.marble_wall": "Marble Wall",
-	"block.quark.slate_wall": "Slate Wall"
+	"block.quark.slate_wall": "Slate Wall",
+	"block.quark.weather_sensor": "Weather Sensor"
 
 }
