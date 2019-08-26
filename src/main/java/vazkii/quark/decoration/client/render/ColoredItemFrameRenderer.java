@@ -29,6 +29,8 @@ import vazkii.quark.decoration.entity.ColoredItemFrameEntity;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author WireSegal
@@ -39,12 +41,8 @@ import javax.annotation.Nullable;
 public class ColoredItemFrameRenderer extends EntityRenderer<ColoredItemFrameEntity> {
     private static final ResourceLocation MAP_BACKGROUND_TEXTURES = new ResourceLocation("textures/map/map_background.png");
 
-    // TODO: reinstate when Forge fixes itself
-//    private static final ModelResourceLocation LOCATION_MODEL = new ModelResourceLocation(new ResourceLocation(Quark.MOD_ID, "colored_frame"), "map=false");
-//    private static final ModelResourceLocation LOCATION_MODEL_MAP = new ModelResourceLocation(new ResourceLocation(Quark.MOD_ID, "colored_frame"), "map=true");
-
-    private static final ModelResourceLocation LOCATION_MODEL = new ModelResourceLocation(new ResourceLocation(Quark.MOD_ID, "colored_frame_empty"), "inventory");
-    private static final ModelResourceLocation LOCATION_MODEL_MAP = new ModelResourceLocation(new ResourceLocation(Quark.MOD_ID, "colored_frame_map"), "inventory");
+    private static final Map<DyeColor, ModelResourceLocation> LOCATIONS_MODEL = new HashMap<>();
+    private static final Map<DyeColor, ModelResourceLocation> LOCATIONS_MODEL_MAP = new HashMap<>();
     
     private final Minecraft mc = Minecraft.getInstance();
     private final ItemRenderer itemRenderer;
@@ -54,6 +52,15 @@ public class ColoredItemFrameRenderer extends EntityRenderer<ColoredItemFrameEnt
         super(renderManagerIn);
         this.itemRenderer = itemRendererIn;
         this.defaultRenderer = renderManagerIn.getRenderer(ItemFrameEntity.class);
+
+        for (DyeColor color : DyeColor.values()) {
+            // TODO: reinstate when Forge fixes itself
+//            LOCATIONS_MODEL.put(color, new ModelResourceLocation(new ResourceLocation(Quark.MOD_ID, color.getName() + "_frame"), "map=false"));
+//            LOCATIONS_MODEL_MAP.put(color, new ModelResourceLocation(new ResourceLocation(Quark.MOD_ID, color.getName() + "_frame"), "map=true"));
+
+            LOCATIONS_MODEL.put(color, new ModelResourceLocation(new ResourceLocation(Quark.MOD_ID, color.getName() + "_frame_empty"), "inventory"));
+            LOCATIONS_MODEL_MAP.put(color, new ModelResourceLocation(new ResourceLocation(Quark.MOD_ID, color.getName() + "_frame_map"), "inventory"));
+        }
     }
 
     @Override
@@ -69,7 +76,9 @@ public class ColoredItemFrameRenderer extends EntityRenderer<ColoredItemFrameEnt
         this.renderManager.textureManager.bindTexture(AtlasTexture.LOCATION_BLOCKS_TEXTURE);
         BlockRendererDispatcher blockrendererdispatcher = this.mc.getBlockRendererDispatcher();
         ModelManager modelmanager = blockrendererdispatcher.getBlockModelShapes().getModelManager();
-        ModelResourceLocation modelresourcelocation = entity.getDisplayedItem().getItem() instanceof FilledMapItem ? LOCATION_MODEL_MAP : LOCATION_MODEL;
+
+        DyeColor color = entity.getColor();
+        ModelResourceLocation modelresourcelocation = entity.getDisplayedItem().getItem() instanceof FilledMapItem ? LOCATIONS_MODEL_MAP.get(color) : LOCATIONS_MODEL.get(color);
         GlStateManager.pushMatrix();
         GlStateManager.translatef(-0.5F, -0.5F, -0.5F);
         if (this.renderOutlines) {
@@ -77,10 +86,7 @@ public class ColoredItemFrameRenderer extends EntityRenderer<ColoredItemFrameEnt
             GlStateManager.setupSolidRenderingTextureCombine(this.getTeamColor(entity));
         }
 
-        DyeColor color = entity.getColor();
-        float[] colorValues = color.getColorComponentValues();
-
-        blockrendererdispatcher.getBlockModelRenderer().renderModelBrightnessColor(modelmanager.getModel(modelresourcelocation), 1.0F, colorValues[0], colorValues[1], colorValues[2]);
+        blockrendererdispatcher.getBlockModelRenderer().renderModelBrightnessColor(modelmanager.getModel(modelresourcelocation), 1.0F, 1.0F, 1.0F, 1.0F);
         if (this.renderOutlines) {
             GlStateManager.tearDownSolidRenderingTextureCombine();
             GlStateManager.disableColorMaterial();

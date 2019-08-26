@@ -103,14 +103,14 @@ public class ColoredItemFrameEntity extends ItemFrameEntity implements IEntityAd
 	@Override
 	public void writeSpawnData(PacketBuffer buffer) {
 		buffer.writeVarInt(this.getColorIndex());
-		buffer.writeVarInt(this.facingDirection.getIndex());
 		buffer.writeBlockPos(this.hangingPosition);
+		buffer.writeVarInt(this.facingDirection.getIndex());
 	}
 
 	@Override
 	public void readSpawnData(PacketBuffer buffer) {
 		dataManager.set(COLOR, buffer.readVarInt());
-		this.facingDirection = Direction.byIndex(buffer.readVarInt());
 		this.hangingPosition = buffer.readBlockPos();
+		this.updateFacingWithBoundingBox(Direction.byIndex(buffer.readVarInt()));
 	}
 }
