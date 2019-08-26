@@ -18,6 +18,7 @@ import net.minecraft.world.gen.WorldGenRegion;
 import vazkii.quark.base.world.Generator;
 import vazkii.quark.base.world.config.DimensionConfig;
 import vazkii.quark.base.world.config.OrePocketConfig;
+import vazkii.quark.world.module.NewStoneTypesModule;
 
 public class OreGenerator extends Generator {
 
@@ -26,7 +27,7 @@ public class OreGenerator extends Generator {
 			return false;
 		
 		Block block = state.getBlock();
-		return block == Blocks.STONE || block == Blocks.GRANITE || block == Blocks.DIORITE || block == Blocks.ANDESITE;
+		return block == Blocks.STONE;
 	};
 	
 	public static final Predicate<BlockState> NETHERRACK_MATCHER = (state) -> {
