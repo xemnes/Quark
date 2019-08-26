@@ -12,11 +12,11 @@ public class WeightedGenerator implements Comparable<WeightedGenerator> {
 
 	@Override
 	public int compareTo(WeightedGenerator o) {
-		int diff = o.weight - weight;
+		int diff = weight - o.weight;
 		if(diff != 0)
 			return diff;
 		
-		return o.hashCode() - hashCode();
+		return hashCode() - o.hashCode();
 	}
 	
 	@Override

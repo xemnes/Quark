@@ -1,16 +1,35 @@
 package vazkii.quark.world.gen.underground;
 
+import java.util.function.Predicate;
+
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.Tag;
 import net.minecraft.util.Direction;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
+import vazkii.quark.base.Quark;
 import vazkii.quark.base.handler.MiscUtil;
-import vazkii.quark.base.world.generator.OreGenerator;
 import vazkii.quark.world.gen.UndergroundBiomeGenerator.UndergroundBiomeGenerationContext;
 
 public abstract class UndergroundBiome {
-
+	
+	private static Tag<Block> fillerTag = null;
+	
+	public static final Predicate<BlockState> STONE_TYPES_MATCHER = (state) -> {
+		if(state == null)
+			return false;
+		
+		Block block = state.getBlock();
+		if(fillerTag == null)
+			fillerTag = new BlockTags.Wrapper(new ResourceLocation(Quark.MOD_ID, "underground_biome_replaceable"));
+		
+		return block.isIn(fillerTag);
+	};
+	
 	public double dungeonChance;
 
 	public final void fill(UndergroundBiomeGenerationContext context, BlockPos pos) {
@@ -72,7 +91,7 @@ public abstract class UndergroundBiome {
 	}
 
 	public boolean isWall(IWorld world, BlockPos pos, BlockState state) {
-		if( !state.isOpaqueCube(world, pos) || !OreGenerator.STONE_MATCHER.test(state))
+		if(!state.isOpaqueCube(world, pos) || !STONE_TYPES_MATCHER.test(state))
 			return false;
 
 		return isBorder(world, pos);
@@ -96,7 +115,7 @@ public abstract class UndergroundBiome {
 	}
 
 	public boolean isInside(BlockState state) {
-		return OreGenerator.STONE_MATCHER.test(state);
+		return STONE_TYPES_MATCHER.test(state);
 	}
 	
 	public static Rotation rotationFromFacing(Direction facing) {
