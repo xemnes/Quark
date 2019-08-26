@@ -468,5 +468,16 @@
 	"block.quark.slate_wall": "Slate Wall",
 	"block.quark.weather_sensor": "Weather Sensor",
 	"block.quark.redstone_inductor": "Redstone Inductor",
-	"block.quark.redstone_randomizer": "Redstone Randomizer"
+	"block.quark.redstone_randomizer": "Redstone Randomizer",
+	"block.quark.stone_speleothem": "Stone Speleothem",
+	"block.quark.netherrack_speleothem": "Netherrack Speleothem",
+	"block.quark.granite_speleothem": "Granite Speleothem",
+	"block.quark.andesite_speleothem": "Andesite Speleothem",
+	"block.quark.diorite_speleothem": "Diorite Speleothem",
+	"block.quark.basalt_speleothem": "Basalt Speleothem",
+	"block.quark.jasper_speleothem": "Jasper Speleothem",
+	"block.quark.limestone_speleothem": "Limestone Speleothem",
+	"block.quark.marble_speleothem": "Marble Speleothem",
+	"block.quark.slate_speleothem": "Slate Speleothem"
+	
 }
