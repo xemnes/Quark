@@ -7,7 +7,7 @@
   ],
   "key": {
     "#": {
-      "item": "quark:diorite"
+      "item": "minecraft:diorite"
     }
   },
   "result": {
@@ -16,17 +16,8 @@
   },
   "conditions": [
     {
-      "type": "forge:and",
-      "values": [
-        {
-          "type": "quark:flag",
-          "flag": "speleothems"
-        },
-        {
-          "type": "quark:flag",
-          "flag": "diorite"
-        }
-      ]
+      "type": "quark:flag",
+      "flag": "speleothems"
     }
   ]
 } 

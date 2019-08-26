@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "quark:slate_speleothem"
+          "name": "%modid%:%name%"
         }
       ],
       "conditions": [

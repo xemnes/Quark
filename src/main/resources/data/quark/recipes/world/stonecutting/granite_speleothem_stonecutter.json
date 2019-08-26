@@ -1,23 +1,14 @@
 {
   "type": "minecraft:stonecutting",
   "ingredient": {
-    "item": "quark:granite"
+    "item": "minecraft:granite"
   },
   "result": "quark:granite_speleothem",
   "count": 2,
   "conditions": [
     {
-      "type": "forge:and",
-      "values": [
-        {
-          "type": "quark:flag",
-          "flag": "speleothems"
-        },
-        {
-          "type": "quark:flag",
-          "flag": "granite"
-        }
-      ]
+      "type": "quark:flag",
+      "flag": "speleothems"
     }
   ]
 }

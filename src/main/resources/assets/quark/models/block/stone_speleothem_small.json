@@ -1,6 +1,6 @@
 {
   "parent": "quark:block/speleothem_small",
   "textures": {
-    "block": "quark:block/stone"
+    "block": "block/stone"
   }
 }

@@ -7,7 +7,7 @@
   ],
   "key": {
     "#": {
-      "item": "quark:granite"
+      "item": "minecraft:granite"
     }
   },
   "result": {
@@ -16,17 +16,8 @@
   },
   "conditions": [
     {
-      "type": "forge:and",
-      "values": [
-        {
-          "type": "quark:flag",
-          "flag": "speleothems"
-        },
-        {
-          "type": "quark:flag",
-          "flag": "granite"
-        }
-      ]
+      "type": "quark:flag",
+      "flag": "speleothems"
     }
   ]
 } 
