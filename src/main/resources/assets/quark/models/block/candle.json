@@ -1,7 +1,8 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"wick": "blocks/wool_colored_black"
+		"wick": "block/black_wool",
+		"particle": "#candle"
 	},
 	"elements": [
 		{

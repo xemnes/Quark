@@ -1,3 +1,6 @@
 {
-    "parent": "quark:block/yellow_candle"
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "quark:item/yellow_candle"
+    }
 }
