@@ -4,7 +4,7 @@
     "base": "quark:block/inductor_base",
     "magma": "quark:block/inductor_magma",
     "slab": "block/smooth_stone",
-    "particle": "blocks/smooth_stone",
+    "particle": "block/smooth_stone",
     "wire": "quark:block/inductor_wire"
   },
   "elements": [

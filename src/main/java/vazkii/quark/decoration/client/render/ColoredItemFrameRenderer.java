@@ -8,7 +8,7 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.ItemFrameRenderer;
-import net.minecraft.client.renderer.model.ItemCameraTransforms;
+import net.minecraft.client.renderer.model.ItemCameraTransforms.TransformType;
 import net.minecraft.client.renderer.model.ModelManager;
 import net.minecraft.client.renderer.model.ModelResourceLocation;
 import net.minecraft.client.renderer.texture.AtlasTexture;
@@ -38,8 +38,14 @@ import javax.annotation.Nullable;
 @OnlyIn(Dist.CLIENT)
 public class ColoredItemFrameRenderer extends EntityRenderer<ColoredItemFrameEntity> {
     private static final ResourceLocation MAP_BACKGROUND_TEXTURES = new ResourceLocation("textures/map/map_background.png");
-    private static final ModelResourceLocation LOCATION_MODEL = new ModelResourceLocation(new ResourceLocation(Quark.MOD_ID, "colored_frame"), "map=false");
-    private static final ModelResourceLocation LOCATION_MODEL_MAP = new ModelResourceLocation(new ResourceLocation(Quark.MOD_ID, "colored_frame"), "map=true");
+
+    // TODO: reinstate when Forge fixes itself
+//    private static final ModelResourceLocation LOCATION_MODEL = new ModelResourceLocation(new ResourceLocation(Quark.MOD_ID, "colored_frame"), "map=false");
+//    private static final ModelResourceLocation LOCATION_MODEL_MAP = new ModelResourceLocation(new ResourceLocation(Quark.MOD_ID, "colored_frame"), "map=true");
+
+    private static final ModelResourceLocation LOCATION_MODEL = new ModelResourceLocation(new ResourceLocation(Quark.MOD_ID, "colored_frame_empty"), "inventory");
+    private static final ModelResourceLocation LOCATION_MODEL_MAP = new ModelResourceLocation(new ResourceLocation(Quark.MOD_ID, "colored_frame_map"), "inventory");
+    
     private final Minecraft mc = Minecraft.getInstance();
     private final ItemRenderer itemRenderer;
     private final ItemFrameRenderer defaultRenderer;
@@ -123,7 +129,7 @@ public class ColoredItemFrameRenderer extends EntityRenderer<ColoredItemFrameEnt
                     this.mc.gameRenderer.getMapItemRenderer().renderMap(mapdata, true);
                 } else {
                     GlStateManager.scalef(0.5F, 0.5F, 0.5F);
-                    this.itemRenderer.renderItem(stack, ItemCameraTransforms.TransformType.FIXED);
+                    this.itemRenderer.renderItem(stack, TransformType.FIXED);
                 }
             }
 
