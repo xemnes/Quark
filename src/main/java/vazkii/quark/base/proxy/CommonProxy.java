@@ -38,7 +38,7 @@ public class CommonProxy {
 	}
 	
 	public void setup(FMLCommonSetupEvent event) {
-		ListenerList.resize(6);
+		ListenerList.resize(6); // FOOOOOOOOOOOOOOORGE
 		QuarkNetwork.setup();
 		CapabilityHandler.setup();
 		ContributorRewardHandler.init();
