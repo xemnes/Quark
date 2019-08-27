@@ -6,7 +6,7 @@ generic_targets = []
 slab_targets = []
 silk_targets = []
 
-frame_pattern = re.compile(r'\w+_frame')
+frame_pattern = re.compile(r'[a-z]+_frame')
 
 for file in os.listdir('../assets/quark/blockstates'):
 	if '.json' in file:

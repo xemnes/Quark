@@ -33,7 +33,7 @@ public class QuarkGlassBlock extends QuarkBlock {
     @OnlyIn(Dist.CLIENT)
     @SuppressWarnings("deprecation")
     public float func_220080_a(BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos) {
-        return 1.0F; // Transparency
+        return 1.0F; // Ambient Occlusion
     }
 
     @Override

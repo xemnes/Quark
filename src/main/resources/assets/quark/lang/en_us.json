@@ -478,6 +478,7 @@
 	"block.quark.jasper_speleothem": "Jasper Speleothem",
 	"block.quark.limestone_speleothem": "Limestone Speleothem",
 	"block.quark.marble_speleothem": "Marble Speleothem",
-	"block.quark.slate_speleothem": "Slate Speleothem"
+	"block.quark.slate_speleothem": "Slate Speleothem",
+	"block.quark.grate": "Iron Grate"
 	
 }
