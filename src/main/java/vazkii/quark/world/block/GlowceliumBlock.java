@@ -33,7 +33,7 @@ public class GlowceliumBlock extends QuarkBlock {
 	}
 
 	@Override
-	@SuppressWarnings("deprecated")
+	@SuppressWarnings("deprecation")
 	public void tick(BlockState state, World worldIn, BlockPos pos, Random random) {
 		if(!worldIn.isRemote) {
 			if(!canExist(state, worldIn, pos))

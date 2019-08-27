@@ -53,6 +53,8 @@ public class GrateBlock extends QuarkBlock implements IWaterLoggable {
 
 	public GrateBlock(String regname, Module module, ItemGroup creativeTab, Properties properties) {
 		super(regname, module, creativeTab, properties);
+
+		setDefaultState(getDefaultState().with(WATERLOGGED, false));
 	}
 
 	private static VoxelShape createNewBox(double height) {
