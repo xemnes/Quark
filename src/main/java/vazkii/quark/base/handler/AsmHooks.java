@@ -15,6 +15,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.quark.automation.client.render.PistonTileEntityRenderer;
 import vazkii.quark.automation.module.PistonsMoveTileEntitiesModule;
 import vazkii.quark.tweaks.module.HoeHarvestingModule;
+import vazkii.quark.tweaks.module.ImprovedSleepingModule;
 import vazkii.quark.vanity.client.emote.EmoteHandler;
 import vazkii.quark.vanity.module.ColorRunesModule;
 
@@ -92,6 +93,14 @@ public class AsmHooks {
 
 	public static boolean canFortuneApply(Enchantment enchantment, ItemStack stack) {
 		return HoeHarvestingModule.canFortuneApply(enchantment, stack);
+	}
+
+	// ==========================================================================
+	// Improved Sleeping
+	// ==========================================================================
+
+	public static boolean isEveryoneAsleep(boolean parent) {
+		return ImprovedSleepingModule.isEveryoneAsleep(parent);
 	}
 
 }

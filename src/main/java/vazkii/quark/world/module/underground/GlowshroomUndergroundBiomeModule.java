@@ -17,26 +17,30 @@ import vazkii.quark.world.gen.underground.GlowshroomUndergroundBiome;
 @LoadModule(category = ModuleCategory.WORLD)
 public class GlowshroomUndergroundBiomeModule extends UndergroundBiomeModule {
 
-	@Config public static int glowshroomGrowthRate = 20;
-	@Config public static boolean enableHugeGlowshrooms = true;
-	
+	@Config
+	@Config.Min(value = 0, exclusive = true)
+	public static int glowshroomGrowthRate = 20;
+
+	@Config
+	public static boolean enableHugeGlowshrooms = true;
+
 	public static Block glowcelium, glowshroom, glowshroom_block, glowshroom_stem;
-	
+
 	@Override
 	public void start() {
 		glowcelium = new GlowceliumBlock(this);
 		glowshroom = new GlowshroomBlock(this);
 		glowshroom_block = new HugeGlowshroomBlock("glowshroom_block", this);
 		glowshroom_stem = new HugeGlowshroomBlock("glowshroom_stem", this);
-		
-		RegistryHelper.registerBlock(new FlowerPotBlock(glowshroom,  Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(0F).lightValue(14)), "potted_glowshroom", false);
-		
+
+		RegistryHelper.registerBlock(new FlowerPotBlock(glowshroom, Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(0F).lightValue(14)), "potted_glowshroom", false);
+
 		super.start();
 	}
-	
+
 	@Override
 	protected UndergroundBiomeConfig getBiomeConfig() {
 		return new UndergroundBiomeConfig(new GlowshroomUndergroundBiome(), 80, Type.MOUNTAIN, Type.MUSHROOM);
 	}
-	
+
 }

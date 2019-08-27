@@ -37,7 +37,9 @@ import vazkii.quark.decoration.module.VariantLaddersModule;
 @LoadModule(category = ModuleCategory.TWEAKS, hasSubscriptions = true)
 public class EnchancedLaddersModule extends Module {
 
-	@Config public double fallSpeed = -0.2;
+	@Config.Max(0)
+	@Config
+    public double fallSpeed = -0.2;
 
 	private static Tag<Item> laddersTag;
 	

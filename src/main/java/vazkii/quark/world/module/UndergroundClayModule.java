@@ -15,12 +15,14 @@ import vazkii.quark.base.world.generator.OreGenerator;
 @LoadModule(category = ModuleCategory.WORLD)
 public class UndergroundClayModule extends Module {
 
-	@Config public static DimensionConfig dimensions = DimensionConfig.overworld(false);
-	@Config public static OrePocketConfig oreSettings = new OrePocketConfig(20, 60, 20, 3);
-	
+	@Config
+	public static DimensionConfig dimensions = DimensionConfig.overworld(false);
+	@Config
+	public static OrePocketConfig oreSettings = new OrePocketConfig(20, 60, 20, 3);
+
 	@Override
 	public void setup() {
 		WorldGenHandler.addGenerator(new OreGenerator(dimensions, oreSettings, Blocks.CLAY.getDefaultState(), OreGenerator.STONE_MATCHER, () -> enabled), Decoration.UNDERGROUND_ORES, WorldGenWeights.CLAY);
 	}
-	
+
 }

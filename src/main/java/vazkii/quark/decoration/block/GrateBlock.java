@@ -34,7 +34,7 @@ import javax.annotation.Nullable;
 public class GrateBlock extends QuarkBlock implements IWaterLoggable {
 
 	private static final VoxelShape TRUE_SHAPE = makeCuboidShape(0, 15, 0, 16, 16, 16);
-	private static final VoxelShape SPAWN_BLOCK_SHAPE = makeCuboidShape(0, 15, 0, 1, 17, 1);
+	private static final VoxelShape SPAWN_BLOCK_SHAPE = makeCuboidShape(0, 15, 0, 16, 17, 16);
 	private static final VoxelShape SELECTION_SHAPE;
 	private static final Float2ObjectArrayMap<VoxelShape> WALK_BLOCK_CACHE = new Float2ObjectArrayMap<>();
 
@@ -127,13 +127,13 @@ public class GrateBlock extends QuarkBlock implements IWaterLoggable {
 	@Override
 	@SuppressWarnings("deprecation")
 	public boolean causesSuffocation(@Nonnull BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos) {
-		return super.causesSuffocation(state, world, pos);
+		return false;
 	}
 
 	@Override
 	@SuppressWarnings("deprecation")
 	public boolean isNormalCube(BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos) {
-		return super.isNormalCube(state, world, pos);
+		return false;
 	}
 
 	@Override

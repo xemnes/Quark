@@ -10,18 +10,19 @@ import vazkii.quark.world.gen.UndergroundBiomeGenerator;
 
 public abstract class UndergroundBiomeModule extends Module {
 
-	@Config public UndergroundBiomeConfig biomeSettings;
-	
+	@Config
+	public UndergroundBiomeConfig biomeSettings;
+
 	@Override
 	public void start() {
 		biomeSettings = getBiomeConfig();
 	}
-	
+
 	@Override
 	public void setup() {
 		WorldGenHandler.addGenerator(new UndergroundBiomeGenerator(biomeSettings, this), Decoration.UNDERGROUND_DECORATION, WorldGenWeights.UNDERGROUND_BIOMES);
 	}
-	
+
 	protected abstract UndergroundBiomeConfig getBiomeConfig();
-	
+
 }

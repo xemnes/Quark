@@ -37,94 +37,99 @@ import java.util.Objects;
 @LoadModule(category = ModuleCategory.TWEAKS, hasSubscriptions = true)
 public class ReacharoundPlacingModule extends Module {
 
-	@Config public double leniency = 0.5;
-	@Config public List<String> whitelist = Lists.newArrayList();
-	@Config public String display = "[  ]";
-	
+	@Config
+	@Config.Min(0)
+	@Config.Max(1)
+	public double leniency = 0.5;
+
+	@Config
+	public List<String> whitelist = Lists.newArrayList();
+
+	@Config
+	public String display = "[  ]";
+
 	@SubscribeEvent
 	@OnlyIn(Dist.CLIENT)
 	public void onRender(RenderGameOverlayEvent.Post event) {
-		if(event.getType() != RenderGameOverlayEvent.ElementType.CROSSHAIRS)
+		if (event.getType() != RenderGameOverlayEvent.ElementType.CROSSHAIRS)
 			return;
-		
+
 		Minecraft mc = Minecraft.getInstance();
 		PlayerEntity player = mc.player;
-		
-		if(player != null) {
+
+		if (player != null) {
 			BlockPos pos = getPlayerReacharoundTarget(player);
-			if(pos != null) {
+			if (pos != null) {
 				MainWindow res = event.getWindow();
 				mc.fontRenderer.drawString(display, res.getScaledWidth() / 2f - mc.fontRenderer.getStringWidth(display) / 2f, res.getScaledHeight() / 2f - 4, 0xFFFFFF);
 			}
 		}
 	}
-	
+
 	@SubscribeEvent
 	public void onRightClick(PlayerInteractEvent.RightClickItem event) {
 		ItemStack stack = event.getItemStack();
-	
+
 		PlayerEntity player = event.getPlayer();
 		BlockPos pos = getPlayerReacharoundTarget(player);
-		
-		if(pos != null) {
+
+		if (pos != null) {
 			int count = stack.getCount();
 			Hand hand = event.getHand();
-			
+
 //			BlockState currState = player.world.getBlockState(pos);
 			ItemUseContext context = new ItemUseContext(player, hand, new BlockRayTraceResult(new Vec3d(0.5F, 1F, 0.5F), Direction.DOWN, pos, false));
 			ActionResultType res = stack.getItem().onItemUse(context);
-			
-			if(res != ActionResultType.PASS) {
+
+			if (res != ActionResultType.PASS) {
 				event.setCanceled(true);
 				event.setCancellationResult(res);
-				
-				if(res == ActionResultType.SUCCESS) {
+
+				if (res == ActionResultType.SUCCESS) {
 //					if(!player.world.getBlockState(pos).equals(currState)) TODO add back after lock direction
 //						LockDirectionHotkey.fixBlockRotation(player.world, player, pos);
-						
+
 					player.swingArm(hand);
 				}
 
-				if(player.isCreative() && stack.getCount() < count)
+				if (player.isCreative() && stack.getCount() < count)
 					stack.setCount(count);
 			}
 		}
 	}
-	
+
 	private BlockPos getPlayerReacharoundTarget(PlayerEntity player) {
-		if(player.rotationPitch < 0 || !(validateReacharoundStack(player.getHeldItemMainhand()) || validateReacharoundStack(player.getHeldItemOffhand())))
+		if (player.rotationPitch < 0 || !(validateReacharoundStack(player.getHeldItemMainhand()) || validateReacharoundStack(player.getHeldItemOffhand())))
 			return null;
-		
+
 		World world = player.world;
-		
+
 		Pair<Vec3d, Vec3d> params = RayTraceHandler.getEntityParams(player);
 		double range = RayTraceHandler.getEntityRange(player);
 		Vec3d rayPos = params.getLeft();
 		Vec3d ray = params.getRight().scale(range);
 
 		RayTraceResult normalRes = RayTraceHandler.rayTrace(player, world, rayPos, ray, BlockMode.OUTLINE, FluidMode.NONE);
-		
-		if(normalRes == null || normalRes.getType() == RayTraceResult.Type.MISS) {
-			float leniency = 0.5F;
-			
+
+		if (normalRes.getType() == RayTraceResult.Type.MISS) {
 			rayPos = rayPos.add(0, leniency, 0);
 			RayTraceResult take2Res = RayTraceHandler.rayTrace(player, world, rayPos, ray, BlockMode.OUTLINE, FluidMode.NONE);
-			
-			if(take2Res != null && take2Res.getType() == RayTraceResult.Type.BLOCK && take2Res instanceof BlockRayTraceResult) {
+
+			if (take2Res.getType() == RayTraceResult.Type.BLOCK && take2Res instanceof BlockRayTraceResult) {
 				BlockPos pos = ((BlockRayTraceResult) take2Res).getPos().down();
 				BlockState state = world.getBlockState(pos);
 
-				if(player.posY - pos.getY() > 1 && (world.isAirBlock(pos) || state.getMaterial().isReplaceable()))
+				if (player.posY - pos.getY() > 1 && (world.isAirBlock(pos) || state.getMaterial().isReplaceable()))
 					return pos;
 			}
 		}
-		
+
 		return null;
 	}
-	
+
 	private boolean validateReacharoundStack(ItemStack stack) {
 		Item item = stack.getItem();
-		return item instanceof BlockItem || whitelist.contains(Objects.toString(item.getRegistryName()).toString());
+		return item instanceof BlockItem || whitelist.contains(Objects.toString(item.getRegistryName()));
 	}
-	
+
 }

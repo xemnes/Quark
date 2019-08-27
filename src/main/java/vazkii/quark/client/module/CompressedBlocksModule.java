@@ -21,13 +21,15 @@ import vazkii.quark.building.block.CharcoalBlock;
 @LoadModule(category = ModuleCategory.BUILDING, hasSubscriptions = true)
 public class CompressedBlocksModule extends Module {
 
-	@Config(name = "Charcoal Block Burns Forever") 
+	@Config(name = "Charcoal Block Stays On Fire Forever")
 	public static boolean burnsForever = true;
 
 	@Config(name = "Charcoal Block Fuel Time")
+	@Config.Min(0)
 	public static int charcoalBlockFuelTime = 16000;
 
 	@Config(name = "Stick Block Fuel Time")
+	@Config.Min(0)
 	public static int stickBlockFuelTime = 900;
 	
 	@Config(flag = "charcoal_block") public static boolean enableCharcoalBlock = true;
