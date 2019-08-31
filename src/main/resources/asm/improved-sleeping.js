@@ -28,7 +28,7 @@ function initializeCoreMod() {
             'target': {
                 'type': 'METHOD',
                 'class': 'net.minecraft.world.server.ServerWorld',
-                'methodName': 'updateAllPlayersSleepingFlag',
+                'methodName': 'func_72854_c', // updateAllPlayersSleepingFlag
                 'methodDesc': '()V'
             },
             'transformer': function(method) {
@@ -38,7 +38,7 @@ function initializeCoreMod() {
                 var InsnList = Java.type('org.objectweb.asm.tree.InsnList');
 
                 return injectForEachInsn(method, Opcodes.PUTFIELD, function(target) {
-                    if (target.name !== ASM.mapField("allPlayersSleeping") || target.desc !== "Z")
+                    if (target.name !== ASM.mapField("field_73068_P") || target.desc !== "Z") // allPlayersSleeping
                         return;
 
                     if (target.getPrevious() !== null && target.getPrevious().getOpcode() === Opcodes.ICONST_0)

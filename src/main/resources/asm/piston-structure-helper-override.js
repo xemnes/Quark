@@ -4,7 +4,7 @@ function initializeCoreMod() {
             'target': {
                 'type': 'METHOD',
                 'class': 'net.minecraft.block.PistonBlock',
-                'methodName': 'doMove',
+                'methodName': 'func_176319_a', // doMove
                 'methodDesc': '(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/Direction;Z)Z'
             },
             'transformer': function(method) {
@@ -41,7 +41,7 @@ function initializeCoreMod() {
             'target': {
                 'type': 'METHOD',
                 'class': 'net.minecraft.block.PistonBlock',
-                'methodName': 'checkForMove',
+                'methodName': 'func_176316_e', // checkForMove
                 'methodDesc': '(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;)V'
             },
             'transformer': function(method) {

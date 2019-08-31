@@ -28,7 +28,7 @@ function initializeCoreMod() {
             'target': {
                 'type': 'METHOD',
                 'class': 'net.minecraft.client.renderer.entity.model.BipedModel',
-                'methodName': 'setRotationAngles',
+                'methodName': 'func_212844_a_', // setRotationAngles
                 'methodDesc': '(Lnet/minecraft/entity/LivingEntity;FFFFFF)V'
             },
             'transformer': function(method) {

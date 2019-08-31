@@ -28,7 +28,7 @@ function initializeCoreMod() {
             'target': {
                 'type': 'METHOD',
                 'class': 'net.minecraft.enchantment.Enchantment',
-                'methodName': 'canApply',
+                'methodName': 'func_92089_a', // canApply
                 'methodDesc': '(Lnet/minecraft/item/ItemStack;)Z'
             },
             'transformer': function(method) {

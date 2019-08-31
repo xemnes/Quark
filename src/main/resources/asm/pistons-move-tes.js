@@ -34,7 +34,7 @@ function remapBlockState(method) {
     return injectForEachMethod(method,
         ASM.MethodType.VIRTUAL,
         "net/minecraft/world/World",
-        ASM.mapMethod("setBlockState"),
+        ASM.mapMethod("func_180501_a"), // setBlockState
         "(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;I)Z",
         function (target) {
             method.instructions.insert(target, ASM.buildMethodCall(
@@ -62,7 +62,7 @@ function initializeCoreMod() {
             'target': {
                 'type': 'METHOD',
                 'class': 'net.minecraft.block.PistonBlock',
-                'methodName': 'clearPistonTileEntity',
+                'methodName': 'func_145866_f', // clearPistonTileEntity
                 'methodDesc': '()V'
             },
             'transformer': remapBlockState
@@ -71,7 +71,7 @@ function initializeCoreMod() {
             'target': {
                 'type': 'METHOD',
                 'class': 'net.minecraft.client.renderer.tileentity.PistonTileEntityRenderer',
-                'methodName': 'render',
+                'methodName': 'func_199341_a', // render
                 'methodDesc': '(Lnet/minecraft/tileentity/PistonTileEntity;DDDFI)V'
             },
             'transformer': function(method) {
@@ -109,7 +109,7 @@ function initializeCoreMod() {
             'target': {
                 'type': 'METHOD',
                 'class': 'net.minecraft.block.PistonBlock',
-                'methodName': 'canPush',
+                'methodName': 'func_185646_a', // canPush
                 'methodDesc': '(Lnet/minecraft/block/BlockState;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/Direction;ZLnet/minecraft/util/Direction;)Z'
             },
             'transformer': function(method) {
@@ -121,7 +121,7 @@ function initializeCoreMod() {
                 var target = ASM.findFirstMethodCall(method,
                     ASM.MethodType.VIRTUAL,
                     "net/minecraft/block/BlockState",
-                    ASM.mapMethod("hasTileEntity"),
+                    "hasTileEntity", // Forge Method
                     "()Z");
 
                 var newInstructions = new InsnList();
@@ -141,7 +141,7 @@ function initializeCoreMod() {
             'target': {
                 'type': 'METHOD',
                 'class': 'net.minecraft.block.PistonBlock',
-                'methodName': 'doMove',
+                'methodName': 'func_176319_a', // doMove
                 'methodDesc': '(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/Direction;Z)Z'
             },
             'transformer': function(method) {
@@ -153,7 +153,7 @@ function initializeCoreMod() {
                 var target = ASM.findFirstMethodCall(method,
                     ASM.MethodType.VIRTUAL,
                     "net/minecraft/block/state/PistonBlockStructureHelper",
-                    ASM.mapMethod("getBlocksToMove"),
+                    ASM.mapMethod("func_177254_c"), // getBlocksToMove
                     "()Ljava/util/List;");
 
                 var newInstructions = new InsnList();

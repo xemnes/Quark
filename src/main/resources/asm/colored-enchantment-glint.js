@@ -34,7 +34,7 @@ function initializeCoreMod() {
             'target': {
                 'type': 'METHOD',
                 'class': 'net.minecraft.client.renderer.ItemRenderer',
-                'methodName': 'renderItem',
+                'methodName': 'func_184392_a', // renderItem
                 'methodDesc': '(Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/renderer/model/IBakedModel;)V'
             },
             'transformer': function(method) {
@@ -62,7 +62,7 @@ function initializeCoreMod() {
             'target': {
                 'type': 'METHOD',
                 'class': 'net.minecraft.client.renderer.ItemRenderer',
-                'methodName': 'renderModel',
+                'methodName': 'func_191965_a', // renderModel
                 'methodDesc': '(Lnet/minecraft/client/renderer/model/IBakedModel;I)V'
             },
             'transformer': function(method) {
@@ -90,7 +90,7 @@ function initializeCoreMod() {
             'target': {
                 'type': 'METHOD',
                 'class': 'net.minecraft.client.renderer.entity.layers.ArmorLayer',
-                'methodName': 'renderArmorLayer',
+                'methodName': 'func_188361_a', // renderArmorLayer
                 'methodDesc': '(Lnet/minecraft/entity/LivingEntity;FFFFFFFLnet/minecraft/inventory/EquipmentSlotType;)V'
             },
             'transformer': function(method) {
@@ -129,7 +129,7 @@ function initializeCoreMod() {
                 return injectForEachMethod(method,
                     ASM.MethodType.STATIC,
                     "com/mojang/blaze3d/platform/GlStateManager",
-                    ASM.mapMethod("color4f"),
+                    ASM.mapMethod("color4f"), // color4f
                     "(FFFF)V",
                     function (target) {
                         var newInstructions = new InsnList();
