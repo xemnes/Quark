@@ -38,6 +38,8 @@
 	"quark.misc.day_no_passage": "Players have napped.",
 	"quark.misc.night_has_passed": "The night has passed.",
 	"quark.misc.day_has_passed": "The day has passed.",
+	"quark.misc.shulker_box_shift": "Hold Shift to see contents",
+	"quark.misc.map_shift": "Hold Shift to see the map",
 
 	"item.quark.trowel": "Trowel",
 	"item.quark.tallow": "Tallow",

@@ -1,14 +1,6 @@
 package vazkii.quark.client.module;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.function.BiPredicate;
-import java.util.regex.Pattern;
-
 import com.mojang.blaze3d.platform.GlStateManager;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
@@ -16,18 +8,13 @@ import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.EnchantedBookItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
+import net.minecraft.item.*;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.potion.PotionUtils;
-import net.minecraft.util.NonNullList;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
@@ -38,18 +25,31 @@ import net.minecraftforge.client.event.GuiScreenEvent.KeyboardCharTypedEvent;
 import net.minecraftforge.client.event.GuiScreenEvent.KeyboardKeyPressedEvent;
 import net.minecraftforge.client.event.GuiScreenEvent.MouseClickedEvent;
 import net.minecraftforge.client.event.RenderTooltipEvent;
+import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.ModList;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.wrapper.EmptyHandler;
 import vazkii.arl.util.ItemNBTHelper;
 import vazkii.quark.base.handler.InventoryButtonHandler;
 import vazkii.quark.base.handler.InventoryButtonHandler.ButtonTargetType;
 import vazkii.quark.base.handler.InventoryTransferHandler;
 import vazkii.quark.base.handler.MiscUtil;
+import vazkii.quark.base.handler.SimilarBlockTypeHandler;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
 import vazkii.quark.management.client.gui.MiniInventoryButton;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.BiPredicate;
+import java.util.regex.Pattern;
 
 @LoadModule(category = ModuleCategory.CLIENT, hasSubscriptions = true, subscribeOn = Dist.CLIENT)
 public class ChestSearchingModule extends Module {
@@ -193,6 +193,10 @@ public class ChestSearchingModule extends Module {
 		Screen.blit(x, y, 0, 0, 126, 13, 256, 256);
 	}
 
+	public static boolean namesMatch(ItemStack stack) {
+		return namesMatch(stack, text);
+	}
+
 	public static boolean namesMatch(ItemStack stack, String search) {
 		search = TextFormatting.getTextWithoutFormattingCodes(search.trim().toLowerCase());
 		if(search == null || search.isEmpty())
@@ -203,15 +207,22 @@ public class ChestSearchingModule extends Module {
 
 		Item item = stack.getItem();
 		ResourceLocation res = item.getRegistryName();
-		if(res.getNamespace().equals("minecraft") && res.getPath().contains("shulker_box")) {
+		if(SimilarBlockTypeHandler.isShulkerBox(res)) {
 			CompoundNBT cmp = ItemNBTHelper.getCompound(stack, "BlockEntityTag", true);
-			if(cmp != null && cmp.contains("Items", 9)) {
-				NonNullList<ItemStack> itemList = NonNullList.withSize(27, ItemStack.EMPTY);
-				ItemStackHelper.loadAllItems(cmp, itemList);
+			if (!cmp.contains("id", Constants.NBT.TAG_STRING)) {
+				cmp = cmp.copy();
+				cmp.putString("id", "minecraft:shulker_box");
+			}
+			TileEntity te = TileEntity.create(cmp);
+			if (te != null) {
+				LazyOptional<IItemHandler> handler = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+				if (handler.isPresent()) {
+					IItemHandler items = handler.orElseGet(EmptyHandler::new);
 
-				for(ItemStack innerStack : itemList)
-					if(namesMatch(innerStack, search))
-						return true;
+					for (int i = 0; i < items.getSlots(); i++)
+						if (namesMatch(items.getStackInSlot(i), search))
+							return true;
+				}
 			}
 		}
 
@@ -274,6 +285,6 @@ public class ChestSearchingModule extends Module {
 		//		return ISearchHandler.hasHandler(stack) && ISearchHandler.getHandler(stack).stackMatchesSearchQuery(search, matcher, ChestSearchBar::namesMatch);
 	}
 
-	private static interface StringMatcher extends BiPredicate<String, String> { }
+	private interface StringMatcher extends BiPredicate<String, String> { }
 
 }

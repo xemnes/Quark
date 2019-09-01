@@ -2,6 +2,8 @@ package vazkii.quark.base.handler;
 
 import vazkii.quark.base.module.Config;
 
+import java.util.List;
+
 public class GeneralConfig {
 
 	public static final GeneralConfig INSTANCE = new GeneralConfig();
@@ -25,6 +27,11 @@ public class GeneralConfig {
 
 	@Config(description = "Quark messes with the Stonecutter to allow any item that can be used in it to be shift clicked in. Set this to false to turn it off.")
 	public static boolean hackStonecutterShiftClick = true;
+
+	@Config(description = "Blocks that Quark should treat as Shulker Boxes.")
+	public static List<String> shulkerBoxes = SimilarBlockTypeHandler.getBasicShulkerBoxes();
+	@Config(description = "Should Quark treat anything with 'shulker_box' in its item identifier as a shulker box?")
+	public static boolean interpretShulkerBoxLikeBlocks = true;
 
 	private GeneralConfig() {
 		// NO-OP
