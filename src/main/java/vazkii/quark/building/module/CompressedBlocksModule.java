@@ -1,4 +1,4 @@
-package vazkii.quark.client.module;
+package vazkii.quark.building.module;
 
 import com.google.common.base.Supplier;
 
