@@ -61,5 +61,19 @@ public class ReflectionKeys {
 	public static class BlockColors {
 		public static final String COLORS = "field_186725_a";
 	}
+
+	public static class ServerNetPlayHandler {
+		public static final String CHAT_SPAM_THRESHOLD_COUNT = "field_147374_l";
+	}
+
+	public static class NewChatGui {
+		public static final String DRAWN_CHAT_LINES = "field_146253_i";
+		public static final String SCROLL_POS = "field_146250_j";
+	}
+
+	public static class ItemRenderer {
+		public static final String SETUP_GUI_TRANSFORM = "func_180452_a";
+	}
+
 	
 }

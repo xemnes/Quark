@@ -6,6 +6,8 @@ import vazkii.quark.tweaks.module.ImprovedSleepingModule;
 
 public class MessageUpdateAfk implements IMessage {
 
+	private static final long serialVersionUID = -6449994327791980078L;
+
 	public boolean afk;
 	
 	public MessageUpdateAfk() { }
@@ -17,7 +19,7 @@ public class MessageUpdateAfk implements IMessage {
 	@Override
 	public boolean receive(NetworkEvent.Context context) {
 		context.enqueueWork(() -> ImprovedSleepingModule.updateAfk(context.getSender(), afk));
-		return false;
+		return true;
 	}
 
 }

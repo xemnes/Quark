@@ -14,6 +14,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkEvent;
 import vazkii.arl.network.IMessage;
 import vazkii.quark.base.network.QuarkNetwork;
@@ -33,10 +35,11 @@ public class MessageSpamlessChat implements IMessage {
 	}
 
 	@Override
+	@OnlyIn(Dist.CLIENT)
 	public boolean receive(NetworkEvent.Context context) {
 		context.enqueueWork(() -> Minecraft.getInstance().ingameGUI.getChatGUI()
 				.printChatMessageWithOptionalDeletion(message, id));
-		return false;
+		return true;
 	}
 
 	public static void sendToPlayer(PlayerEntity player, int id, ITextComponent component) {

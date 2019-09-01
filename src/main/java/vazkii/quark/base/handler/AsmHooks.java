@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.PistonTileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -18,6 +19,7 @@ import vazkii.quark.tweaks.module.HoeHarvestingModule;
 import vazkii.quark.tweaks.module.ImprovedSleepingModule;
 import vazkii.quark.vanity.client.emote.EmoteHandler;
 import vazkii.quark.vanity.module.ColorRunesModule;
+import vazkii.quark.vanity.module.ItemSharingModule;
 
 /**
  * @author WireSegal
@@ -101,6 +103,18 @@ public class AsmHooks {
 
 	public static boolean isEveryoneAsleep(boolean parent) {
 		return ImprovedSleepingModule.isEveryoneAsleep(parent);
+	}
+
+	// ==========================================================================
+	// Items In Chat
+	// ==========================================================================
+
+	public static ITextComponent createStackComponent(ITextComponent parent) {
+		return ItemSharingModule.createStackComponent(parent);
+	}
+
+	public static int transformQuadRenderColor(int parent) {
+		return ItemSharingModule.transformColor(parent);
 	}
 
 }
