@@ -34,7 +34,6 @@ function initializeCoreMod() {
             'transformer': function(method) {
                 var ASM = Java.type('net.minecraftforge.coremod.api.ASMAPI');
                 var Opcodes = Java.type('org.objectweb.asm.Opcodes');
-                var VarInsnNode = Java.type('org.objectweb.asm.tree.VarInsnNode');
                 var InsnList = Java.type('org.objectweb.asm.tree.InsnList');
 
                 return injectForEachInsn(method, Opcodes.PUTFIELD, function(target) {

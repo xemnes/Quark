@@ -75,5 +75,9 @@ public class ReflectionKeys {
 		public static final String SETUP_GUI_TRANSFORM = "func_180452_a";
 	}
 
+	public static class AbstractArrowEntity {
+		public static final String IN_GROUND = "field_70254_i";
+	}
+
 	
 }

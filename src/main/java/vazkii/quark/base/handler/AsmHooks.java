@@ -3,12 +3,14 @@ package vazkii.quark.base.handler;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.state.PistonBlockStructureHelper;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.PistonTileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
@@ -17,6 +19,7 @@ import vazkii.quark.automation.client.render.PistonTileEntityRenderer;
 import vazkii.quark.automation.module.PistonsMoveTileEntitiesModule;
 import vazkii.quark.tweaks.module.HoeHarvestingModule;
 import vazkii.quark.tweaks.module.ImprovedSleepingModule;
+import vazkii.quark.tweaks.module.SpringySlimeModule;
 import vazkii.quark.vanity.client.emote.EmoteHandler;
 import vazkii.quark.vanity.module.ColorRunesModule;
 import vazkii.quark.vanity.module.ItemSharingModule;
@@ -115,6 +118,18 @@ public class AsmHooks {
 
 	public static int transformQuadRenderColor(int parent) {
 		return ItemSharingModule.transformColor(parent);
+	}
+
+	// ==========================================================================
+	// Springy Slime
+	// ==========================================================================
+
+	public static void applyCollisionLogic(Entity entity, Vec3d attempted, Vec3d actual) {
+		SpringySlimeModule.onEntityCollision(entity, attempted, actual);
+	}
+
+	public static void recordMotion(Entity entity) {
+		SpringySlimeModule.recordMotion(entity);
 	}
 
 }

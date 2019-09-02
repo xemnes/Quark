@@ -81,7 +81,7 @@ public class ColorSlimeBlock extends SlimeBlock implements INonSticky {
 		public final boolean sticksToGreen;
 		private final int[] sticksTo;
 
-		boolean sticksTo(SlimeColor otherVariant) {
+		public boolean sticksTo(SlimeColor otherVariant) {
 			int ord = otherVariant.ordinal();
 			for(int i : sticksTo)
 				if(i == ord)
