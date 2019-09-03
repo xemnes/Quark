@@ -13,12 +13,12 @@ import javax.annotation.Nonnull;
  * @author WireSegal
  * Created at 1:23 PM on 8/24/19.
  */
-public class FlagCondition implements ILootCondition {
+public class FlagLootCondition implements ILootCondition {
 
     private final ConfigFlagManager manager;
     private final String flag;
 
-    public FlagCondition(ConfigFlagManager manager, String flag) {
+    public FlagLootCondition(ConfigFlagManager manager, String flag) {
         this.manager = manager;
         this.flag = flag;
     }
@@ -28,23 +28,23 @@ public class FlagCondition implements ILootCondition {
         return manager.getFlag(flag);
     }
 
-    public static class Serializer extends AbstractSerializer<FlagCondition> {
+    public static class Serializer extends AbstractSerializer<FlagLootCondition> {
         private final ConfigFlagManager manager;
 
         public Serializer(ConfigFlagManager manager, ResourceLocation location) {
-            super(location, FlagCondition.class);
+            super(location, FlagLootCondition.class);
             this.manager = manager;
         }
 
         @Override
-        public void serialize(@Nonnull JsonObject json, @Nonnull FlagCondition value, @Nonnull JsonSerializationContext context) {
+        public void serialize(@Nonnull JsonObject json, @Nonnull FlagLootCondition value, @Nonnull JsonSerializationContext context) {
             json.addProperty("flag", value.flag);
         }
 
         @Nonnull
         @Override
-        public FlagCondition deserialize(@Nonnull JsonObject json, @Nonnull JsonDeserializationContext context) {
-            return new FlagCondition(manager, json.getAsJsonPrimitive("flag").getAsString());
+        public FlagLootCondition deserialize(@Nonnull JsonObject json, @Nonnull JsonDeserializationContext context) {
+            return new FlagLootCondition(manager, json.getAsJsonPrimitive("flag").getAsString());
         }
     }
 }

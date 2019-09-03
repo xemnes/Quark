@@ -1,6 +1,5 @@
 package vazkii.quark.base.proxy;
 
-import net.minecraftforge.eventbus.ListenerList;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.config.ModConfig.ModConfigEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -38,7 +37,6 @@ public class CommonProxy {
 	}
 	
 	public void setup(FMLCommonSetupEvent event) {
-		ListenerList.resize(6); // FOOOOOOOOOOOOOOORGE
 		QuarkNetwork.setup();
 		CapabilityHandler.setup();
 		ContributorRewardHandler.init();

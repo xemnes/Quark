@@ -1,6 +1,5 @@
 package vazkii.quark.base.module;
 
-import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.conditions.LootConditionManager;
 import net.minecraftforge.common.crafting.CraftingHelper;
@@ -14,8 +13,8 @@ public final class ConfigFlagManager {
 	private Map<String, Boolean> flags = new HashMap<>();
 	
 	public ConfigFlagManager() {
-		CraftingHelper.register(new ResourceLocation(Quark.MOD_ID, "flag"), json -> () -> getFlag(JSONUtils.getString(json, "flag")));
-		LootConditionManager.registerCondition(new FlagCondition.Serializer(this, new ResourceLocation(Quark.MOD_ID, "flag")));
+		CraftingHelper.register(new FlagRecipeCondition.Serializer(this, new ResourceLocation(Quark.MOD_ID, "flag")));
+		LootConditionManager.registerCondition(new FlagLootCondition.Serializer(this, new ResourceLocation(Quark.MOD_ID, "flag")));
 	}
 	
 	public void clear() {
