@@ -14,8 +14,8 @@ import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
-import vazkii.quark.tweaks.ai.GoalNuzzle;
-import vazkii.quark.tweaks.ai.GoalWantLove;
+import vazkii.quark.tweaks.ai.NuzzleGoal;
+import vazkii.quark.tweaks.ai.WantLoveGoal;
 
 /**
  * @author WireSegal
@@ -30,11 +30,11 @@ public class PatTheDogsModule extends Module {
     public void onWolfAppear(EntityJoinWorldEvent event) {
         if (dogsWantLove > 0 && event.getEntity() instanceof WolfEntity) {
             WolfEntity wolf = (WolfEntity) event.getEntity();
-            boolean alreadySetUp = wolf.goalSelector.getRunningGoals().anyMatch((goal) -> goal.getGoal() instanceof GoalWantLove);
+            boolean alreadySetUp = wolf.goalSelector.getRunningGoals().anyMatch((goal) -> goal.getGoal() instanceof WantLoveGoal);
 
             if (!alreadySetUp) {
-                wolf.goalSelector.addGoal(4, new GoalNuzzle(wolf, 0.5F, 16, 2, SoundEvents.ENTITY_WOLF_WHINE));
-                wolf.goalSelector.addGoal(5, new GoalWantLove(wolf, 0.2F));
+                wolf.goalSelector.addGoal(4, new NuzzleGoal(wolf, 0.5F, 16, 2, SoundEvents.ENTITY_WOLF_WHINE));
+                wolf.goalSelector.addGoal(5, new WantLoveGoal(wolf, 0.2F));
             }
         }
     }
@@ -45,14 +45,14 @@ public class PatTheDogsModule extends Module {
             WolfEntity wolf = (WolfEntity) event.getTarget();
             PlayerEntity player = event.getPlayer();
 
-            if(player.isSneaking() && player.getHeldItemMainhand().isEmpty() && GoalWantLove.canPet(wolf)) {
+            if(player.isSneaking() && player.getHeldItemMainhand().isEmpty() && WantLoveGoal.canPet(wolf)) {
                 if(event.getHand() == Hand.MAIN_HAND) {
                     if(player.world instanceof ServerWorld) {
                         ((ServerWorld) player.world).spawnParticle(ParticleTypes.HEART, wolf.posX, wolf.posY + 0.5, wolf.posZ, 1, 0, 0, 0, 0.1);
                         wolf.playSound(SoundEvents.ENTITY_WOLF_WHINE, 1F, 0.5F + (float) Math.random() * 0.5F);
                     } else player.swingArm(Hand.MAIN_HAND);
 
-                    GoalWantLove.setPetTime(wolf);
+                    WantLoveGoal.setPetTime(wolf);
 
 //                    if (wolf instanceof FoxhoundEntity && !player.isInWater() && !player.isImmuneToFire() && !player.isCreative())
 //                        player.setFire(5);
@@ -67,7 +67,7 @@ public class PatTheDogsModule extends Module {
     public void onTame(AnimalTameEvent event) {
         if(event.getAnimal() instanceof WolfEntity) {
             WolfEntity wolf = (WolfEntity) event.getAnimal();
-            GoalWantLove.setPetTime(wolf);
+            WantLoveGoal.setPetTime(wolf);
         }
     }
 

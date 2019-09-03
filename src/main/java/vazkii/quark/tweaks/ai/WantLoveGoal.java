@@ -13,7 +13,7 @@ import java.util.EnumSet;
  * @author WireSegal
  * Created at 11:27 AM on 9/2/19.
  */
-public class GoalWantLove extends Goal {
+public class WantLoveGoal extends Goal {
 
     private static final String PET_TIME = "quark:PetTime";
 
@@ -44,7 +44,7 @@ public class GoalWantLove extends Goal {
     private LivingEntity leapTarget;
     public final float leapUpMotion;
 
-    public GoalWantLove(TameableEntity creature, float leapMotion) {
+    public WantLoveGoal(TameableEntity creature, float leapMotion) {
         this.creature = creature;
         this.leapUpMotion = leapMotion;
         this.setMutexFlags(EnumSet.of(Flag.MOVE, Flag.LOOK, Flag.JUMP, Flag.TARGET));
@@ -67,7 +67,7 @@ public class GoalWantLove extends Goal {
     }
 
     public boolean shouldContinueExecuting() {
-        if (!GoalWantLove.needsPets(creature))
+        if (!WantLoveGoal.needsPets(creature))
             return false;
         return !this.creature.onGround;
     }

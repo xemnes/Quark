@@ -21,7 +21,7 @@ import net.minecraft.util.SoundEvent;
 
 import java.util.EnumSet;
 
-public class GoalNuzzle extends Goal {
+public class NuzzleGoal extends Goal {
 
 	private final TameableEntity creature;
 	private LivingEntity owner;
@@ -34,7 +34,7 @@ public class GoalNuzzle extends Goal {
 	private float oldWaterCost;
 	private final SoundEvent whine;
 
-	public GoalNuzzle(TameableEntity creature, double followSpeed, float maxDist, float whineDist, SoundEvent whine) {
+	public NuzzleGoal(TameableEntity creature, double followSpeed, float maxDist, float whineDist, SoundEvent whine) {
 		this.creature = creature;
 		this.followSpeed = followSpeed;
 		this.petPathfinder = creature.getNavigator();
@@ -48,7 +48,7 @@ public class GoalNuzzle extends Goal {
 	}
 
 	public boolean shouldExecute() {
-		if (!GoalWantLove.needsPets(creature))
+		if (!WantLoveGoal.needsPets(creature))
 			return false;
 
 		LivingEntity living = this.creature.getOwner();
@@ -63,7 +63,7 @@ public class GoalNuzzle extends Goal {
 	}
 
 	public boolean shouldContinueExecuting() {
-		if (!GoalWantLove.needsPets(creature))
+		if (!WantLoveGoal.needsPets(creature))
 			return false;
 		return !this.petPathfinder.noPath() && this.creature.getDistanceSq(this.owner) > (this.maxDist * this.maxDist) && !this.creature.isSitting();
 	}
