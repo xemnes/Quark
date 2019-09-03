@@ -23,8 +23,8 @@ import net.minecraftforge.fml.LogicalSide;
 import org.apache.commons.lang3.tuple.Pair;
 import vazkii.quark.base.module.*;
 import vazkii.quark.base.network.QuarkNetwork;
-import vazkii.quark.base.network.message.MessageSpamlessChat;
-import vazkii.quark.base.network.message.MessageUpdateAfk;
+import vazkii.quark.base.network.message.SpamlessChatMessage;
+import vazkii.quark.base.network.message.UpdateAfkMessage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,12 +62,12 @@ public class ImprovedSleepingModule extends Module {
 				player.getEntityData().putBoolean(TAG_AFK, true);
 				TranslationTextComponent text = new TranslationTextComponent("quark.misc.now_afk");
 				text.getStyle().setColor(TextFormatting.AQUA);
-				MessageSpamlessChat.sendToPlayer(player, AFK_MSG, text);
+				SpamlessChatMessage.sendToPlayer(player, AFK_MSG, text);
 			} else {
 				player.getEntityData().putBoolean(TAG_AFK, false);
 				TranslationTextComponent text = new TranslationTextComponent("quark.misc.left_afk");
 				text.getStyle().setColor(TextFormatting.AQUA);
-				MessageSpamlessChat.sendToPlayer(player, AFK_MSG, text);
+				SpamlessChatMessage.sendToPlayer(player, AFK_MSG, text);
 			}
 		}
 	}
@@ -127,7 +127,7 @@ public class ImprovedSleepingModule extends Module {
 		message.getStyle().setColor(TextFormatting.GOLD);
 
 		for (ServerPlayerEntity player : server.getPlayerList().getPlayers())
-			MessageSpamlessChat.sendToPlayer(player, SLEEP_MSG, message);
+			SpamlessChatMessage.sendToPlayer(player, SLEEP_MSG, message);
 	}
 
 	private static boolean doesPlayerCountForSleeping(PlayerEntity player) {
@@ -238,7 +238,7 @@ public class ImprovedSleepingModule extends Module {
 			message.appendSibling(sibling.deepCopy());
 
 			for (ServerPlayerEntity player : server.getPlayerList().getPlayers())
-				MessageSpamlessChat.sendToPlayer(player, SLEEP_MSG, message);
+				SpamlessChatMessage.sendToPlayer(player, SLEEP_MSG, message);
 		}
 	}
 
@@ -254,7 +254,7 @@ public class ImprovedSleepingModule extends Module {
 				text.getStyle().setColor(TextFormatting.AQUA);
 
 				if (lastPlayer instanceof ServerPlayerEntity)
-					MessageSpamlessChat.sendToPlayer(lastPlayer, AFK_MSG, text);
+					SpamlessChatMessage.sendToPlayer(lastPlayer, AFK_MSG, text);
 			}
 		}
 	}
@@ -266,7 +266,7 @@ public class ImprovedSleepingModule extends Module {
 			timeSinceKeystroke++;
 
 			if(timeSinceKeystroke == afkTime)
-				QuarkNetwork.sendToServer(new MessageUpdateAfk(true));
+				QuarkNetwork.sendToServer(new UpdateAfkMessage(true));
 		}
 	}
 
@@ -296,7 +296,7 @@ public class ImprovedSleepingModule extends Module {
 
 	private void registerPress() {
 		if(timeSinceKeystroke >= afkTime)
-			QuarkNetwork.sendToServer(new MessageUpdateAfk(false));
+			QuarkNetwork.sendToServer(new UpdateAfkMessage(false));
 		timeSinceKeystroke = 0;
 	}
 

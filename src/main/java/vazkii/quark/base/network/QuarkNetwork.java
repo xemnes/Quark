@@ -22,11 +22,12 @@ public final class QuarkNetwork {
 		network.register(DoubleDoorMessage.class, NetworkDirection.PLAY_TO_SERVER);
 		network.register(HarvestMessage.class, NetworkDirection.PLAY_TO_SERVER);
 		network.register(RequestEmoteMessage.class, NetworkDirection.PLAY_TO_SERVER);
-		network.register(MessageUpdateAfk.class, NetworkDirection.PLAY_TO_SERVER);
+		network.register(UpdateAfkMessage.class, NetworkDirection.PLAY_TO_SERVER);
 		network.register(LinkItemMessage.class, NetworkDirection.PLAY_TO_SERVER);
+		network.register(OpenBoatChestMessage.class, NetworkDirection.PLAY_TO_SERVER);
 
 		network.register(DoEmoteMessage.class, NetworkDirection.PLAY_TO_CLIENT);
-		network.register(MessageSpamlessChat.class, NetworkDirection.PLAY_TO_CLIENT);
+		network.register(SpamlessChatMessage.class, NetworkDirection.PLAY_TO_CLIENT);
 	}
 	
 	public static void sendToPlayer(IMessage msg, ServerPlayerEntity player) {

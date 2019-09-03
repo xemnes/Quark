@@ -20,16 +20,16 @@ import net.minecraftforge.fml.network.NetworkEvent;
 import vazkii.arl.network.IMessage;
 import vazkii.quark.base.network.QuarkNetwork;
 
-public class MessageSpamlessChat implements IMessage {
+public class SpamlessChatMessage implements IMessage {
 
 	private static final long serialVersionUID = -4716987873031723456L;
 
 	public ITextComponent message;
 	public int id;
 
-	public MessageSpamlessChat() { }
+	public SpamlessChatMessage() { }
 
-	public MessageSpamlessChat(ITextComponent message, int id) {
+	public SpamlessChatMessage(ITextComponent message, int id) {
 		this.message = message;
 		this.id = id;
 	}
@@ -44,7 +44,7 @@ public class MessageSpamlessChat implements IMessage {
 
 	public static void sendToPlayer(PlayerEntity player, int id, ITextComponent component) {
 		if (player instanceof ServerPlayerEntity)
-			QuarkNetwork.sendToPlayer(new MessageSpamlessChat(component, id), (ServerPlayerEntity) player);
+			QuarkNetwork.sendToPlayer(new SpamlessChatMessage(component, id), (ServerPlayerEntity) player);
 	}
 
 }

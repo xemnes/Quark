@@ -1,0 +1,71 @@
+package vazkii.quark.management.client.render;
+
+import com.mojang.blaze3d.platform.GlStateManager;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.model.ItemCameraTransforms.TransformType;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.BoatEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
+import vazkii.quark.management.entity.ChestPassengerEntity;
+
+import javax.annotation.Nonnull;
+
+/**
+ * @author WireSegal
+ * Created at 2:02 PM on 9/3/19.
+ */
+public class ChestPassengerRenderer extends EntityRenderer<ChestPassengerEntity> {
+
+    public ChestPassengerRenderer(EntityRendererManager renderManager) {
+        super(renderManager);
+    }
+
+    @Override
+    public void doRender(@Nonnull ChestPassengerEntity entity, double x, double y, double z, float entityYaw, float partialTicks) {
+        super.doRender(entity, x, y, z, entityYaw, partialTicks);
+
+        if(!entity.isPassenger())
+            return;
+
+        Entity riding = entity.getRidingEntity();
+        if (riding == null)
+            return;
+
+        BoatEntity boat = (BoatEntity) riding;
+
+        float rot = 180F - entityYaw;
+
+        ItemStack stack = entity.getChestType();
+
+        GlStateManager.pushMatrix();
+        GlStateManager.translated(x, y + 0.375, z);
+        GlStateManager.rotatef(rot, 0.0F, 1.0F, 0.0F);
+        float timeSinceHit = boat.getTimeSinceHit() - partialTicks;
+        float damageTaken = boat.getDamageTaken() - partialTicks;
+
+        if (damageTaken < 0.0F)
+            damageTaken = 0.0F;
+
+        if (timeSinceHit > 0.0F)
+            GlStateManager.rotatef(MathHelper.sin(timeSinceHit) * timeSinceHit * damageTaken / 10.0F * boat.getForwardDirection(), 1.0F, 0.0F, 0.0F);
+
+        GlStateManager.translatef(0F, 0.7F - 0.375F, -0.15F);
+        if(boat.getPassengers().size() == 1)
+            GlStateManager.translatef(0F, 0F, 0.6F);
+
+        GlStateManager.scalef(1.75F, 1.75F, 1.75F);
+
+        Minecraft.getInstance().getItemRenderer().renderItem(stack, TransformType.FIXED);
+        GlStateManager.popMatrix();
+    }
+
+    @Override
+    protected ResourceLocation getEntityTexture(@Nonnull ChestPassengerEntity entity) {
+        return null;
+    }
+
+}

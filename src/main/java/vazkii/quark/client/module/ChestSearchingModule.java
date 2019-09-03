@@ -194,7 +194,7 @@ public class ChestSearchingModule extends Module {
 	}
 
 	public static boolean namesMatch(ItemStack stack) {
-		return namesMatch(stack, text);
+		return !searchEnabled || namesMatch(stack, text);
 	}
 
 	public static boolean namesMatch(ItemStack stack, String search) {

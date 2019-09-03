@@ -4,15 +4,15 @@ import net.minecraftforge.fml.network.NetworkEvent;
 import vazkii.arl.network.IMessage;
 import vazkii.quark.tweaks.module.ImprovedSleepingModule;
 
-public class MessageUpdateAfk implements IMessage {
+public class UpdateAfkMessage implements IMessage {
 
 	private static final long serialVersionUID = -6449994327791980078L;
 
 	public boolean afk;
 	
-	public MessageUpdateAfk() { }
+	public UpdateAfkMessage() { }
 
-	public MessageUpdateAfk(boolean afk) { 
+	public UpdateAfkMessage(boolean afk) {
 		this.afk = afk;
 	}
 
