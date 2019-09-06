@@ -1,4 +1,4 @@
 {
   "_comment": "TODO remove when Forge fixes itself",
-  "parent": "quark:block/light_frame_map"
+  "parent": "quark:block/light_gray_frame_map"
 }

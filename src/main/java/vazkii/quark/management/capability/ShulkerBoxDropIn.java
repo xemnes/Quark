@@ -37,13 +37,14 @@ public class ShulkerBoxDropIn extends AbstractDropIn {
 				cmp = cmp.copy();
 				cmp.putString("id", "minecraft:shulker_box");
 			}
+
 			TileEntity te = TileEntity.create(cmp);
 			if (te != null) {
 				LazyOptional<IItemHandler> handlerHolder = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
 				if (handlerHolder.isPresent()) {
 					IItemHandler handler = handlerHolder.orElseGet(EmptyHandler::new);
 					ItemStack result = ItemHandlerHelper.insertItem(handler, stack.copy(), simulate);
-					boolean did = result.getCount() != stack.getCount();
+					boolean did = result.isEmpty() || result.getCount() != stack.getCount();
 
 					if (!simulate && did) {
 						stack.setCount(result.getCount());
