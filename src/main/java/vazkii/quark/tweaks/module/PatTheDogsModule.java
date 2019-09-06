@@ -45,8 +45,8 @@ public class PatTheDogsModule extends Module {
             WolfEntity wolf = (WolfEntity) event.getTarget();
             PlayerEntity player = event.getPlayer();
 
-            if(player.isSneaking() && player.getHeldItemMainhand().isEmpty() && WantLoveGoal.canPet(wolf)) {
-                if(event.getHand() == Hand.MAIN_HAND) {
+            if(player.isSneaking() && player.getHeldItemMainhand().isEmpty()) {
+                if(event.getHand() == Hand.MAIN_HAND && WantLoveGoal.canPet(wolf)) {
                     if(player.world instanceof ServerWorld) {
                         ((ServerWorld) player.world).spawnParticle(ParticleTypes.HEART, wolf.posX, wolf.posY + 0.5, wolf.posZ, 1, 0, 0, 0, 0.1);
                         wolf.playSound(SoundEvents.ENTITY_WOLF_WHINE, 1F, 0.5F + (float) Math.random() * 0.5F);
