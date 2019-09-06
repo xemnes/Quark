@@ -12,10 +12,8 @@ package vazkii.quark.tweaks.module;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.SlimeBlock;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ItemEntity;
@@ -44,8 +42,7 @@ public class SpringySlimeModule extends Module {
 
 	@Override
 	public void start() {
-		SpringySlimeBlock block = new SpringySlimeBlock(Block.Properties.create(Material.CLAY, MaterialColor.GRASS)
-				.slipperiness(0.8F).sound(SoundType.SLIME));
+		SpringySlimeBlock block = new SpringySlimeBlock(Block.Properties.from(Blocks.SLIME_BLOCK));
 
 		OverrideRegistryHandler.registerBlock(block, "slime_block");
 

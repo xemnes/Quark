@@ -58,7 +58,12 @@ public class GrateBlock extends QuarkBlock implements IWaterLoggable {
 	}
 
 	private static VoxelShape createNewBox(double height) {
-		return VoxelShapes.or(TRUE_SHAPE, makeCuboidShape(0, 0, 0, 16, 16 + height * 16, 16));
+		return makeCuboidShape(0, 15, 0, 16, 17 + height * 16, 16);
+	}
+
+	@Override
+	public boolean isVariableOpacity() {
+		return true;
 	}
 
 	@Nonnull
