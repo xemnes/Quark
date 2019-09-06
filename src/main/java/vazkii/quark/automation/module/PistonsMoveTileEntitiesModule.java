@@ -29,7 +29,7 @@ public class PistonsMoveTileEntitiesModule extends Module {
 	@Config
 	public static List<String> renderBlacklist = Lists.newArrayList("psi:programmer", "botania:starfield");
 	@Config
-	public static List<String> movementBlacklist = Lists.newArrayList("minecraft:mob_spawner", "integrateddynamics:cable", "randomthings:blockbreaker", "minecraft:ender_chest", "minecraft:trapped_chest", "quark:spruce_trapped_chest", "quark:birch_trapped_chest", "quark:jungle_trapped_chest", "quark:acacia_trapped_chest", "quark:dark_oak_trapped_chest");
+	public static List<String> movementBlacklist = Lists.newArrayList("minecraft:mob_spawner", "integrateddynamics:cable", "randomthings:blockbreaker", "minecraft:ender_chest", "minecraft:enchanting_table", "minecraft:trapped_chest", "quark:spruce_trapped_chest", "quark:birch_trapped_chest", "quark:jungle_trapped_chest", "quark:acacia_trapped_chest", "quark:dark_oak_trapped_chest");
 	@Config
 	public static List<String> delayedUpdateList = Lists.newArrayList("minecraft:dispenser", "minecraft:dropper");
 
