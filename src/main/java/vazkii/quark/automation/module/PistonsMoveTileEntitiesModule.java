@@ -1,10 +1,7 @@
 package vazkii.quark.automation.module;
 
 import com.google.common.collect.Lists;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ChestBlock;
-import net.minecraft.block.JukeboxBlock;
+import net.minecraft.block.*;
 import net.minecraft.block.state.PistonBlockStructureHelper;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.state.properties.ChestType;
@@ -68,8 +65,11 @@ public class PistonsMoveTileEntitiesModule extends Module {
 		if (state.getProperties().contains(JukeboxBlock.HAS_RECORD) && state.get(JukeboxBlock.HAS_RECORD))
 			return true;
 
+		if (state.getBlock() == Blocks.PISTON_HEAD)
+			return true;
+
 		ResourceLocation res = state.getBlock().getRegistryName();
-		return PistonsMoveTileEntitiesModule.movementBlacklist.contains(res.toString()) || PistonsMoveTileEntitiesModule.movementBlacklist.contains(res.getNamespace());
+		return res == null || PistonsMoveTileEntitiesModule.movementBlacklist.contains(res.toString()) || PistonsMoveTileEntitiesModule.movementBlacklist.contains(res.getNamespace());
 	}
 
 	public static void detachTileEntities(World world, PistonBlockStructureHelper helper, Direction facing, boolean extending) {
