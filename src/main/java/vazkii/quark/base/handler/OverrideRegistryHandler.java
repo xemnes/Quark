@@ -53,7 +53,9 @@ public final class OverrideRegistryHandler {
 	public static <T extends ForgeRegistryEntry<T>> void register(T obj, Class<?> registryType, String baseName) {
 		ResourceLocation regName = new ResourceLocation("minecraft", baseName);
 		try {
-			ForgeRegistryEntry.class.getDeclaredField("registryName").set(obj, regName);
+			Field field = ForgeRegistryEntry.class.getDeclaredField("registryName");
+			field.setAccessible(true);
+			field.set(obj, regName);
 		} catch (IllegalAccessException | NoSuchFieldException e) {
 			obj.setRegistryName(regName);
 		}

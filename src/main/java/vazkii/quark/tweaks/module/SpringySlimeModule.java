@@ -21,6 +21,9 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.AbstractArrowEntity;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Direction.Axis;
 import net.minecraft.util.Direction.AxisDirection;
@@ -41,9 +44,14 @@ public class SpringySlimeModule extends Module {
 
 	@Override
 	public void start() {
-		SpringySlimeBlock block = new SpringySlimeBlock(Block.Properties.create(Material.CLAY, MaterialColor.GRASS).slipperiness(0.8F).sound(SoundType.SLIME));
+		SpringySlimeBlock block = new SpringySlimeBlock(Block.Properties.create(Material.CLAY, MaterialColor.GRASS)
+				.slipperiness(0.8F).sound(SoundType.SLIME));
 
 		OverrideRegistryHandler.registerBlock(block, "slime_block");
+
+		BlockItem item = new BlockItem(block, new Item.Properties().group(ItemGroup.DECORATIONS));
+
+		OverrideRegistryHandler.registerItem(item, "slime_block");
 	}
 
 	private static final ThreadLocal<MutableVectorHolder> motionRecorder = ThreadLocal.withInitial(MutableVectorHolder::new);
