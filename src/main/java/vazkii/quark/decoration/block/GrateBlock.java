@@ -58,7 +58,7 @@ public class GrateBlock extends QuarkBlock implements IWaterLoggable {
 	}
 
 	private static VoxelShape createNewBox(double height) {
-		return makeCuboidShape(0, 15, 0, 16, 16 + height * 16, 16);
+		return VoxelShapes.or(TRUE_SHAPE, makeCuboidShape(0, 0, 0, 16, 16 + height * 16, 16));
 	}
 
 	@Nonnull
@@ -74,7 +74,10 @@ public class GrateBlock extends QuarkBlock implements IWaterLoggable {
 	public VoxelShape getCollisionShape(@Nonnull BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos, ISelectionContext context) {
 		Entity entity = context.getEntity();
 
-		if(entity != null && !(entity instanceof ItemEntity)) {
+		if(entity != null) {
+			if (entity instanceof ItemEntity)
+				return VoxelShapes.empty();
+
 			if (entity instanceof AnimalEntity)
 				return WALK_BLOCK_CACHE.computeIfAbsent(entity.stepHeight, GrateBlock::createNewBox);
 
@@ -84,7 +87,7 @@ public class GrateBlock extends QuarkBlock implements IWaterLoggable {
 			return TRUE_SHAPE;
 		}
 
-		return VoxelShapes.empty();
+		return TRUE_SHAPE;
 	}
 
 	@Nullable
@@ -140,6 +143,11 @@ public class GrateBlock extends QuarkBlock implements IWaterLoggable {
 	@SuppressWarnings("deprecation")
 	public boolean canEntitySpawn(BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos, EntityType<?> type) {
 		return false;
+	}
+
+	@Override
+	public boolean collisionExtendsVertically(BlockState state, IBlockReader world, BlockPos pos, Entity collidingEntity) {
+		return true;
 	}
 
 	@Override
