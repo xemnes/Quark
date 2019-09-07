@@ -27,9 +27,7 @@ import net.minecraft.util.Direction.Axis;
 import net.minecraft.util.Direction.AxisDirection;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import vazkii.quark.base.handler.OverrideRegistryHandler;
-import vazkii.quark.base.handler.ReflectionKeys;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
@@ -90,10 +88,7 @@ public class SpringySlimeModule extends Module {
 
 			entity.setMotion(motionX, motionY, motionZ);
 
-
-			// inGround
-			ObfuscationReflectionHelper.setPrivateValue(AbstractArrowEntity.class, (AbstractArrowEntity) entity, false,
-					ReflectionKeys.AbstractArrowEntity.IN_GROUND);
+			((AbstractArrowEntity) entity).inGround = true;
 		}
 	}
 

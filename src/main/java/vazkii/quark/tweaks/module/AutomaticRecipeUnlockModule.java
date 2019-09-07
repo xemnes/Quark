@@ -1,12 +1,6 @@
 package vazkii.quark.tweaks.module;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Queue;
-
 import com.google.common.collect.Lists;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.inventory.CraftingScreen;
@@ -18,8 +12,8 @@ import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.gui.widget.button.ImageButton;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.GameRules;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -27,12 +21,15 @@ import net.minecraftforge.client.event.GuiScreenEvent.InitGuiEvent;
 import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
-import vazkii.quark.base.handler.ReflectionKeys;
 import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Queue;
 
 @LoadModule(category = ModuleCategory.TWEAKS, hasSubscriptions = true)
 public class AutomaticRecipeUnlockModule extends Module {
@@ -46,14 +43,18 @@ public class AutomaticRecipeUnlockModule extends Module {
 	@SubscribeEvent 
 	public void onPlayerLoggedIn(PlayerLoggedInEvent event) {
 		PlayerEntity player = event.getPlayer();
+
 		if(player instanceof ServerPlayerEntity) {
 			ServerPlayerEntity spe = (ServerPlayerEntity) player;
-			List<IRecipe<?>> recipes = new ArrayList<>(spe.getServer().getRecipeManager().getRecipes());
-			recipes.removeIf((recipe) -> ignoredRecipes.contains(Objects.toString(recipe.getId())) || recipe.getRecipeOutput().isEmpty());
-			player.unlockRecipes(recipes);
+			MinecraftServer server = spe.getServer();
+			if (server != null) {
+				List<IRecipe<?>> recipes = new ArrayList<>(server.getRecipeManager().getRecipes());
+				recipes.removeIf((recipe) -> ignoredRecipes.contains(Objects.toString(recipe.getId())) || recipe.getRecipeOutput().isEmpty());
+				player.unlockRecipes(recipes);
 
-			if(forceLimitedCrafting)
-				player.world.getGameRules().get(GameRules.DO_LIMITED_CRAFTING).set(true, spe.getServer());
+				if (forceLimitedCrafting)
+					player.world.getGameRules().get(GameRules.DO_LIMITED_CRAFTING).set(true, server);
+			}
 		}
 	}
 
@@ -79,11 +80,11 @@ public class AutomaticRecipeUnlockModule extends Module {
 		Minecraft mc = Minecraft.getInstance();
 		if(mc.player != null && mc.player.ticksExisted < 20) {
 			ToastGui toasts = mc.getToastGui();
-			Queue<IToast> toastQueue = ObfuscationReflectionHelper.getPrivateValue(ToastGui.class, toasts, ReflectionKeys.ToastGui.TOASTS_QUEUE);
+			Queue<IToast> toastQueue = toasts.toastsQueue;
 			for(IToast toast : toastQueue)
 				if(toast instanceof RecipeToast) {
 					RecipeToast recipeToast = (RecipeToast) toast;
-					List<ItemStack> stacks = ObfuscationReflectionHelper.getPrivateValue(RecipeToast.class, recipeToast, ReflectionKeys.RecipeToast.RECIPES);
+					List<IRecipe<?>> stacks = recipeToast.recipes;
 					if(stacks.size() > 100) {
 						toastQueue.remove(toast);
 						return;

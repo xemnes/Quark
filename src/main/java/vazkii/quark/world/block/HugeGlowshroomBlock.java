@@ -1,9 +1,5 @@
 package vazkii.quark.world.block;
 
-import java.util.Random;
-
-import javax.annotation.Nonnull;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -23,6 +19,9 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.world.module.underground.GlowshroomUndergroundBiomeModule;
+
+import javax.annotation.Nonnull;
+import java.util.Random;
 
 public class HugeGlowshroomBlock extends HugeMushroomBlock {
 
@@ -56,11 +55,12 @@ public class HugeGlowshroomBlock extends HugeMushroomBlock {
 	@OnlyIn(Dist.CLIENT)
 	@SuppressWarnings("deprecation")
 	public boolean isSideInvisible(BlockState state, BlockState adjacentBlockState, Direction side) {
-		return adjacentBlockState.getBlock() == this ? true : super.isSideInvisible(state, adjacentBlockState, side);
+		return adjacentBlockState.getBlock() == this || super.isSideInvisible(state, adjacentBlockState, side);
 	}
 
 	@Override
-	public boolean isNormalCube(BlockState state, IBlockReader worldIn, BlockPos pos) {
+	@SuppressWarnings("deprecation")
+	public boolean isNormalCube(BlockState state, @Nonnull IBlockReader worldIn, @Nonnull BlockPos pos) {
 		return false;
 	}
 

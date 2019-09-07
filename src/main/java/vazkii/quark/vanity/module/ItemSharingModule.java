@@ -47,10 +47,7 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import org.lwjgl.opengl.GL11;
-import vazkii.quark.base.handler.ClientReflectiveAccessor;
-import vazkii.quark.base.handler.ReflectionKeys;
 import vazkii.quark.base.module.*;
 import vazkii.quark.base.network.QuarkNetwork;
 import vazkii.quark.base.network.message.LinkItemMessage;
@@ -99,14 +96,13 @@ public class ItemSharingModule extends Module {
 				players.sendMessage(fullComp, false);
 
 				ServerPlayNetHandler handler = ((ServerPlayerEntity) player).connection;
-				Integer thresholdRaw = ObfuscationReflectionHelper.getPrivateValue(ServerPlayNetHandler.class, handler, ReflectionKeys.ServerNetPlayHandler.CHAT_SPAM_THRESHOLD_COUNT);
-				int threshold = thresholdRaw == null ? 0 : thresholdRaw;
+				int threshold = handler.chatSpamThresholdCount;
 				threshold += 20;
 
 				if (threshold > 200 && !players.canSendCommands(player.getGameProfile()))
 					handler.onDisconnect(new TranslationTextComponent("disconnect.spam"));
 
-				ObfuscationReflectionHelper.setPrivateValue(ServerPlayNetHandler.class, handler, threshold, ReflectionKeys.ServerNetPlayHandler.CHAT_SPAM_THRESHOLD_COUNT);
+				handler.chatSpamThresholdCount = threshold;
 			}
 		}
 
@@ -140,8 +136,8 @@ public class ItemSharingModule extends Module {
 		NewChatGui chatGui = gameGui.getChatGUI();
 		if (event.getType() == RenderGameOverlayEvent.ElementType.CHAT) {
 			int updateCounter = gameGui.getTicks();
-			List<ChatLine> lines = ClientReflectiveAccessor.getChatDrawnLines(chatGui);
-			int shift = ClientReflectiveAccessor.getScrollPos(chatGui);
+			List<ChatLine> lines = chatGui.drawnChatLines;
+			int shift = chatGui.scrollPos;
 
 			int idx = shift;
 
@@ -235,7 +231,7 @@ public class ItemSharingModule extends Module {
 		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 		GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 		GlStateManager.translatef(-4, -4, -4);
-		ClientReflectiveAccessor.setupGuiTransform(render, x, y, model.isGui3d());
+		render.setupGuiTransform(x, y, model.isGui3d());
 		GlStateManager.scalef(0.65f, 0.65f, 0.65f);
 		model = ForgeHooksClient.handleCameraTransforms(model, TransformType.GUI, false);
 		render.renderItem(stack, model);

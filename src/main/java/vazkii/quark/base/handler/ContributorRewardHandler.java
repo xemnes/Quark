@@ -1,21 +1,7 @@
 package vazkii.quark.base.handler;
 
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
-import java.util.WeakHashMap;
-
 import com.google.common.collect.ImmutableSet;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.client.network.play.NetworkPlayerInfo;
@@ -26,9 +12,13 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.network.NetworkEvent;
 import vazkii.quark.base.Quark;
+
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.util.*;
 
 @Mod.EventBusSubscriber(modid = Quark.MOD_ID)
 public class ContributorRewardHandler {
@@ -78,8 +68,8 @@ public class ContributorRewardHandler {
 		if(player instanceof AbstractClientPlayerEntity && DEV_UUID.contains(uuid) && !done.contains(uuid)) {
 			AbstractClientPlayerEntity clientPlayer = (AbstractClientPlayerEntity) player;
 			if(clientPlayer.hasPlayerInfo()) {
-				NetworkPlayerInfo info = ObfuscationReflectionHelper.getPrivateValue(AbstractClientPlayerEntity.class, clientPlayer, ReflectionKeys.AbstractClientPlayerEntity.PLAYER_INFO);
-				Map<MinecraftProfileTexture.Type, ResourceLocation> textures = ObfuscationReflectionHelper.getPrivateValue(NetworkPlayerInfo.class, info, ReflectionKeys.NetworkPlayerInfo.PLAYER_TEXTURES);
+				NetworkPlayerInfo info = ((AbstractClientPlayerEntity) player).playerInfo;
+				Map<MinecraftProfileTexture.Type, ResourceLocation> textures = info.playerTextures;
 				ResourceLocation loc = new ResourceLocation("quark", "textures/misc/dev_cape.png");
 				textures.put(MinecraftProfileTexture.Type.CAPE, loc);
 				textures.put(MinecraftProfileTexture.Type.ELYTRA, loc);

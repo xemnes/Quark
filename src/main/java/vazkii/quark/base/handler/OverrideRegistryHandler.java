@@ -29,14 +29,6 @@ import java.lang.reflect.Modifier;
 import java.util.Map;
 
 public final class OverrideRegistryHandler {
-
-	public static void crackFinalField(Field field) throws NoSuchFieldException, IllegalAccessException {
-		field.setAccessible(true);
-
-		Field modifiersField = Field.class.getDeclaredField("modifiers");
-		modifiersField.setAccessible(true);
-		modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
-	}
 	
 	public static void registerBlock(Block block, String baseName) {
 		register(block, Blocks.class, baseName);
@@ -75,10 +67,9 @@ public final class OverrideRegistryHandler {
 							itemMap.put(((BlockItem) obj).getBlock(), (Item) obj);
 						}
 
-						crackFinalField(declared);
-						declared.set(null, obj);
+						MiscUtil.editFinalField(declared, null, obj);
 					}
-				} catch (IllegalAccessException | NoSuchFieldException e) {
+				} catch (IllegalAccessException e) {
 					Quark.LOG.warn("Was unable to replace registry entry for " + regName + ", may cause issues", e);
 				}
 			}

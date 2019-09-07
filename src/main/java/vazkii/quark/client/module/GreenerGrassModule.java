@@ -1,10 +1,6 @@
 package vazkii.quark.client.module;
 
-import java.util.List;
-import java.util.Map;
-
 import com.google.common.collect.Lists;
-
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.color.BlockColors;
@@ -12,14 +8,15 @@ import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IRegistryDelegate;
-import vazkii.quark.base.handler.ReflectionKeys;
 import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
+
+import java.util.List;
+import java.util.Map;
 
 @LoadModule(category = ModuleCategory.CLIENT)
 public class GreenerGrassModule extends Module {
@@ -59,7 +56,7 @@ public class GreenerGrassModule extends Module {
 	@OnlyIn(Dist.CLIENT)
 	private void registerGreenerColor(Iterable<String> ids, boolean leaves) {
 		BlockColors colors = Minecraft.getInstance().getBlockColors();
-		Map<IRegistryDelegate<Block>, IBlockColor> map = ObfuscationReflectionHelper.getPrivateValue(BlockColors.class, colors, ReflectionKeys.BlockColors.COLORS);
+		Map<IRegistryDelegate<Block>, IBlockColor> map = colors.colors;
 
 		for(String id : ids) {
 			Block b = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(id));

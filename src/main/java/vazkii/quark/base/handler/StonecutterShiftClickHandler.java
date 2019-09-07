@@ -30,7 +30,7 @@ public class StonecutterShiftClickHandler {
 			return;
 
 		Container container = event.player.openContainer;
-		if(container != null && container instanceof StonecutterContainer) {
+		if(container instanceof StonecutterContainer) {
 			Set<Item> items = new HashSet<>();
 
 			event.player.world.getRecipeManager().getRecipes().stream().filter(r -> r instanceof StonecuttingRecipe).forEach(r -> {
@@ -40,8 +40,8 @@ public class StonecutterShiftClickHandler {
 					items.add(stack.getItem());
 			});
 
-			ImmutableList<Item> immutableList = ImmutableList.copyOf(items);
-			MiscUtil.editFinalField(StonecutterContainer.class, ReflectionKeys.StonecutterContainer.ALLOWED_SHIFT_CLICK_ITEMS, null, immutableList);
+			// Allowed shift click items
+			StonecutterContainer.field_217084_c = ImmutableList.copyOf(items);
 			updatedStonecutter = true;
 		}
 	}

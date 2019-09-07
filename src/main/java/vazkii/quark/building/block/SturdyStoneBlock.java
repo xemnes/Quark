@@ -19,6 +19,7 @@ public class SturdyStoneBlock extends QuarkBlock {
 	}
 	
 	@Override
+	@SuppressWarnings("deprecation")
 	public PushReaction getPushReaction(BlockState state) {
 		return PushReaction.BLOCK;
 	}

@@ -10,17 +10,10 @@
  */
 package vazkii.quark.vanity.client.emote;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.mojang.blaze3d.platform.GlStateManager;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.client.renderer.entity.PlayerRenderer;
 import net.minecraft.client.renderer.entity.layers.BipedArmorLayer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
@@ -33,8 +26,11 @@ import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
-import vazkii.quark.base.handler.ReflectionKeys;
+
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
 public final class EmoteHandler {
@@ -177,7 +173,8 @@ public final class EmoteHandler {
 		if(render == null)
 			return null;
 
-		List<LayerRenderer<?, ?>> list = ObfuscationReflectionHelper.getPrivateValue(LivingRenderer.class, render, ReflectionKeys.LivingRenderer.LAYER_RENDERERS);
+		List<LayerRenderer<AbstractClientPlayerEntity,
+				PlayerModel<AbstractClientPlayerEntity>>> list = render.layerRenderers;
 		for(LayerRenderer<?, ?> r : list) {
 			if(r instanceof BipedArmorLayer)	
 				return ((BipedArmorLayer<?, ?, ?>) r).func_215337_a(slot);

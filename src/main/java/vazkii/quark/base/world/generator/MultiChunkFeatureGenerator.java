@@ -1,20 +1,17 @@
 package vazkii.quark.base.world.generator;
 
-import java.util.Random;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
-
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockPos.MutableBlockPos;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.provider.BiomeProvider;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationSettings;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
-import vazkii.quark.base.handler.ReflectionKeys;
 import vazkii.quark.base.world.Generator;
 import vazkii.quark.base.world.config.DimensionConfig;
+
+import java.util.Random;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public abstract class MultiChunkFeatureGenerator extends Generator {
 
@@ -84,8 +81,7 @@ public abstract class MultiChunkFeatureGenerator extends Generator {
 	}
 	
 	public Biome getBiome(ChunkGenerator<? extends GenerationSettings> generator, BlockPos pos) {
-		BiomeProvider provider = ObfuscationReflectionHelper.getPrivateValue(ChunkGenerator.class, generator, ReflectionKeys.ChunkGenerator.BIOME_PROVIDER);
-		return provider.getBiome(pos);
+		return generator.getBiomeProvider().getBiome(pos);
 	}
 
 }
