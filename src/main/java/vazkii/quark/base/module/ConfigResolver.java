@@ -1,24 +1,22 @@
 package vazkii.quark.base.module;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.config.ModConfig;
 import vazkii.quark.base.handler.GeneralConfig;
 
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 public class ConfigResolver {
 
-	private final Map<String, ModuleCategory> categories;
 	private final ConfigFlagManager flagManager;
 	
 	private List<Runnable> refreshRunnables = new LinkedList<>();
 	
-	public ConfigResolver(Map<String, ModuleCategory> categories) {
-		this.categories = categories;
+	public ConfigResolver() {
 		this.flagManager = new ConfigFlagManager();
 	}
 	
@@ -41,10 +39,8 @@ public class ConfigResolver {
 		}
 		builder.pop();
 		
-		for(String s : categories.keySet()) {
-			ModuleCategory category = categories.get(s);
+		for(ModuleCategory category : ModuleCategory.values())
 			buildCategory(builder, category);
-		}
 		
 		return null;
 	}

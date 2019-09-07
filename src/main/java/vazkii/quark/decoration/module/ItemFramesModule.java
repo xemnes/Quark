@@ -51,7 +51,7 @@ public class ItemFramesModule extends Module {
                 .setUpdateInterval(Integer.MAX_VALUE)
                 .setShouldReceiveVelocityUpdates(false)
                 .setCustomClientFactory((spawnEntity, world) -> new GlassItemFrameEntity(glassFrameEntity, world))
-                .build(Quark.MOD_ID + ".glass_frame");
+                .build("glass_frame");
         RegistryHelper.register(glassFrameEntity, "glass_frame");
 
         coloredFrameEntity = EntityType.Builder.<ColoredItemFrameEntity>create(ColoredItemFrameEntity::new, EntityClassification.MISC)
@@ -60,7 +60,7 @@ public class ItemFramesModule extends Module {
                 .setUpdateInterval(Integer.MAX_VALUE)
                 .setCustomClientFactory((spawnEntity, world) -> new ColoredItemFrameEntity(coloredFrameEntity, world))
                 .setShouldReceiveVelocityUpdates(false)
-                .build(Quark.MOD_ID + ".colored_frame");
+                .build("colored_frame");
         RegistryHelper.register(coloredFrameEntity, "colored_frame");
 
         glassFrame = new QuarkItemFrameItem("glass_item_frame", this, GlassItemFrameEntity::new,

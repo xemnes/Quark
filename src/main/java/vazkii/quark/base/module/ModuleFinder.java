@@ -18,7 +18,6 @@ public final class ModuleFinder {
 	
     private static final Type LOAD_MODULE_TYPE = Type.getType(LoadModule.class);
 
-	private Map<String, ModuleCategory> foundCategories = new HashMap<>();
 	private Map<Class<? extends Module>, Module> foundModules = new HashMap<>();
 
 	public void findModules() {
@@ -83,11 +82,7 @@ public final class ModuleFinder {
 	private ModuleCategory getOrMakeCategory(ModAnnotation.EnumHolder category) {
 		return ModuleCategory.valueOf(category.getValue());
 	}
-	
-	public Map<String, ModuleCategory> getFoundCategories() {
-		return foundCategories;
-	}
-	
+
 	public Map<Class<? extends Module>, Module> getFoundModules() {
 		return foundModules;
 	}

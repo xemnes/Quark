@@ -20,7 +20,6 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import vazkii.arl.util.RegistryHelper;
-import vazkii.quark.base.Quark;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
@@ -43,7 +42,7 @@ public class ChestsInBoatsModule extends Module {
 				.setUpdateInterval(128)
 				.setShouldReceiveVelocityUpdates(false)
 				.setCustomClientFactory((spawnEntity, world) -> new ChestPassengerEntity(chestPassengerEntityType, world))
-				.build(Quark.MOD_ID + ".chest_passenger");
+				.build("chest_passenger");
 		RegistryHelper.register(chestPassengerEntityType, "chest_passenger");
 	}
 

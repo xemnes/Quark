@@ -27,7 +27,7 @@ public class ChestPassengerEntity extends Entity implements IInventory {
 	private static final DataParameter<ItemStack> CHEST_TYPE = EntityDataManager.createKey(ChestPassengerEntity.class, DataSerializers.ITEMSTACK);
 	private static final String TAG_CHEST_TYPE = "chestType";
 
-	public ChestPassengerEntity(EntityType<ChestPassengerEntity> type, World worldIn) {
+	public ChestPassengerEntity(EntityType<? extends ChestPassengerEntity> type, World worldIn) {
 		super(type, worldIn);
 		noClip = true;
 	}

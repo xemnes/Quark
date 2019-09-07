@@ -5,9 +5,11 @@ import net.minecraft.block.state.PistonBlockStructureHelper;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.PistonTileEntity;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -17,6 +19,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.quark.automation.client.render.PistonTileEntityRenderer;
 import vazkii.quark.automation.module.PistonsMoveTileEntitiesModule;
+import vazkii.quark.tools.module.PickarangModule;
 import vazkii.quark.tweaks.module.HoeHarvestingModule;
 import vazkii.quark.tweaks.module.ImprovedSleepingModule;
 import vazkii.quark.tweaks.module.SpringySlimeModule;
@@ -132,4 +135,15 @@ public class AsmHooks {
 		SpringySlimeModule.recordMotion(entity);
 	}
 
+	// ==========================================================================
+	// Pickarang
+	// ==========================================================================
+
+	public static boolean canSharpnessApply(ItemStack stack) {
+		return PickarangModule.canSharpnessApply(stack);
+	}
+
+	public static DamageSource createPlayerDamage(PlayerEntity player) {
+		return PickarangModule.createDamageSource(player);
+	}
 }

@@ -98,6 +98,7 @@
 	"item.quark.red_item_frame": "Red Item Frame",
 	"item.quark.white_item_frame": "White Item Frame",
 	"item.quark.yellow_item_frame": "Yellow Item Frame",
+	"item.quark.pickarang": "Pickarang",
 
 	"block.quark.charcoal_block": "Charcoal Block",
 	"block.quark.black_quilted_wool": "Black Quilted Wool",
@@ -494,6 +495,11 @@
 	"block.quark.limestone_speleothem": "Limestone Speleothem",
 	"block.quark.marble_speleothem": "Marble Speleothem",
 	"block.quark.slate_speleothem": "Slate Speleothem",
-	"block.quark.grate": "Iron Grate"
+	"block.quark.grate": "Iron Grate",
+
+	"entity.quark.pickarang": "Pickarang",
+	"entity.quark.chest_passenger": "Chest In Boat",
+	"entity.quark.glass_frame": "Glass Item Frame",
+	"entity.quark.colored_frame": "Dyed Item Frame"
 	
 }

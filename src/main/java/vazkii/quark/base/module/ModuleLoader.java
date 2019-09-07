@@ -4,7 +4,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -12,7 +11,6 @@ public final class ModuleLoader {
 	
 	public static final ModuleLoader INSTANCE = new ModuleLoader(); 
 	
-	private Map<String, ModuleCategory> foundCategories = new LinkedHashMap<>();
 	private Map<Class<? extends Module>, Module> foundModules = new HashMap<>();
 	
 	private ConfigResolver config;
@@ -29,12 +27,11 @@ public final class ModuleLoader {
 	private void findModules() {
 		ModuleFinder finder = new ModuleFinder();
 		finder.findModules();
-		foundCategories = finder.getFoundCategories();
 		foundModules = finder.getFoundModules();
 	}
 	
 	private void resolveConfigSpec() {
-		config = new ConfigResolver(foundCategories);
+		config = new ConfigResolver();
 		config.makeSpec();
 	}
 	
