@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface LoadModule {
 
-	String category();
+	ModuleCategory category();
 	
 	String name() default "";
 	String requiredMod() default "";

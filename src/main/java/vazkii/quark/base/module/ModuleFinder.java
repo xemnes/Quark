@@ -71,7 +71,7 @@ public final class ModuleFinder {
 			if(vals.containsKey("enabledByDefault"))
 				moduleObj.enabledByDefault = (Boolean) vals.get("enabledByDefault");
 			
-			ModuleCategory category = getOrMakeCategory((String) vals.get("category"));
+			ModuleCategory category = getOrMakeCategory((ModAnnotation.EnumHolder) vals.get("category"));
 			category.addModule(moduleObj);
 			
 			foundModules.put((Class<? extends Module>) clazz, moduleObj);
@@ -80,11 +80,8 @@ public final class ModuleFinder {
 		}
 	}
 	
-	private ModuleCategory getOrMakeCategory(String category) {
-		if(!foundCategories.containsKey(category))
-			foundCategories.put(category, new ModuleCategory(category));
-		
-		return foundCategories.get(category);
+	private ModuleCategory getOrMakeCategory(ModAnnotation.EnumHolder category) {
+		return ModuleCategory.valueOf(category.getValue());
 	}
 	
 	public Map<String, ModuleCategory> getFoundCategories() {
