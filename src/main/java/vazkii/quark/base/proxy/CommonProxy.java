@@ -10,6 +10,7 @@ import vazkii.arl.util.ClientTicker;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.capability.CapabilityHandler;
 import vazkii.quark.base.handler.ContributorRewardHandler;
+import vazkii.quark.base.handler.QuarkSounds;
 import vazkii.quark.base.handler.StonecutterShiftClickHandler;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.base.network.QuarkNetwork;
@@ -25,6 +26,7 @@ public class CommonProxy {
 	public void start() {
 		ForgeRegistries.RECIPE_SERIALIZERS.register(ExclusionRecipe.SERIALIZER);
 
+		QuarkSounds.start();
 		ModuleLoader.INSTANCE.start();
 		
 		IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();

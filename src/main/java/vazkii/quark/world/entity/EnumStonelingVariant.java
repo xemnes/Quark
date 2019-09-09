@@ -35,7 +35,7 @@ public enum EnumStonelingVariant implements ILivingEntityData {
 	private final List<Block> blocks;
 
 	EnumStonelingVariant(String variantPath, Block... blocks) {
-		this.texture = new ResourceLocation(Quark.MOD_ID, "textures/entity/" + variantPath + ".png");
+		this.texture = new ResourceLocation(Quark.MOD_ID, "textures/model/entity/" + variantPath + ".png");
 		this.blocks = Lists.newArrayList(blocks);
 	}
 

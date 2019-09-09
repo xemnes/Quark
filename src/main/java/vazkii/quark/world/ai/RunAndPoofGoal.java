@@ -18,11 +18,13 @@ import net.minecraft.particles.ParticleTypes;
 import net.minecraft.pathfinding.Path;
 import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.util.EntityPredicates;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import vazkii.quark.base.handler.QuarkSounds;
 import vazkii.quark.world.entity.StonelingEntity;
 
 import java.util.EnumSet;
@@ -113,7 +115,7 @@ public class RunAndPoofGoal<T extends Entity> extends Goal {
 	public void startExecuting() {
 		if (this.path != null)
 			this.navigation.setPath(this.path, this.farSpeed);
-//		entity.world.playSound(null, entity.posX, entity.posY, entity.posZ, QuarkSounds.ENTITY_STONELING_MEEP, SoundCategory.NEUTRAL, 1.0F, 1.0F);
+		entity.world.playSound(null, entity.posX, entity.posY, entity.posZ, QuarkSounds.ENTITY_STONELING_MEEP, SoundCategory.NEUTRAL, 1.0F, 1.0F);
 	}
 
 	@Override

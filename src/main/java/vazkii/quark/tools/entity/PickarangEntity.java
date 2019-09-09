@@ -31,6 +31,7 @@ import net.minecraft.util.math.*;
 import net.minecraft.util.math.RayTraceResult.Type;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
+import vazkii.quark.base.handler.QuarkSounds;
 import vazkii.quark.tools.module.PickarangModule;
 
 import javax.annotation.Nonnull;
@@ -95,14 +96,14 @@ public class PickarangEntity extends ThrowableEntity {
 
 				if (player.interactionManager.tryHarvestBlock(hit))
 					world.playEvent(null, 2001, hit, Block.getStateId(state));
-//				else
-//					playSound(QuarkSounds.ENTITY_PICKARANG_CLANK, 1, 1);
+				else
+					playSound(QuarkSounds.ENTITY_PICKARANG_CLANK, 1, 1);
 
 				setStack(player.getHeldItemMainhand());
 
 				player.setHeldItem(Hand.MAIN_HAND, prev);
-			} //else
-//				playSound(QuarkSounds.ENTITY_PICKARANG_CLANK, 1, 1);
+			} else
+				playSound(QuarkSounds.ENTITY_PICKARANG_CLANK, 1, 1);
 
 		} else if(result.getType() == Type.ENTITY && result instanceof EntityRayTraceResult) {
 			Entity hit = ((EntityRayTraceResult) result).getEntity();
@@ -110,7 +111,7 @@ public class PickarangEntity extends ThrowableEntity {
 				setReturning();
 				if (hit instanceof PickarangEntity) {
 					((PickarangEntity) hit).setReturning();
-//					playSound(QuarkSounds.ENTITY_PICKARANG_CLANK, 1, 1);
+					playSound(QuarkSounds.ENTITY_PICKARANG_CLANK, 1, 1);
 				} else {
 
 					ItemStack pickarang = getStack();
@@ -124,12 +125,17 @@ public class PickarangEntity extends ThrowableEntity {
 						int ticksSinceLastSwing = owner.ticksSinceLastSwing;
 						owner.ticksSinceLastSwing = (int) (1.0 / owner.getAttribute(SharedMonsterAttributes.ATTACK_SPEED).getValue() * 20.0) + 1;
 
+						float prevHealth = hit instanceof LivingEntity ? ((LivingEntity) hit).getHealth() : 0;
+
 						PickarangModule.setActivePickarang(this);
 
 						if (owner instanceof PlayerEntity)
 							((PlayerEntity) owner).attackTargetEntityWithCurrentItem(hit);
 						else
 							owner.attackEntityAsMob(hit);
+
+						if (hit instanceof LivingEntity && ((LivingEntity) hit).getHealth() == prevHealth)
+							playSound(QuarkSounds.ENTITY_PICKARANG_CLANK, 1, 1);
 
 						PickarangModule.setActivePickarang(null);
 
@@ -230,7 +236,7 @@ public class PickarangEntity extends ThrowableEntity {
 				ItemStack stackInSlot = player.inventory.getStackInSlot(slot);
 				
 		        if(!world.isRemote) {
-//		        	playSound(QuarkSounds.ENTITY_PICKARANG_PICKUP, 1, 1);
+		        	playSound(QuarkSounds.ENTITY_PICKARANG_PICKUP, 1, 1);
 
 			        if(!stack.isEmpty()) {
 						if(player.isAlive() && stackInSlot.isEmpty())

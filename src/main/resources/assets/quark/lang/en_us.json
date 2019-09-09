@@ -6,6 +6,17 @@
 	"quark.gui.button.extract": "Extract",
 	"quark.gui.button.filter": "Filter",
 	"quark.gui.button.emotes": "Emotes",
+
+	"quark.subtitles.meep": "Stoneling runs away",
+	"quark.subtitles.give_stoneling": "Stoneling takes item",
+	"quark.subtitles.take_stoneling": "Stoneling gives item",
+	"quark.subtitles.feed_stoneling": "Stoneling is fed",
+	"quark.subtitles.hurt_stoneling": "Stoneling cries",
+	"quark.subtitles.kill_stoneling": "Stoneling breaks",
+	"quark.subtitles.purr": "Stoneling \"purrs\"",
+	"quark.subtitles.throw_pickarang": "Pickarang is flung",
+	"quark.subtitles.clank_pickarang": "Pickarang clanks",
+	"quark.subtitles.pickup_pickarang": "Pickarang is taken",
 	
 	"quark.emote.wave": "Wave",
 	"quark.emote.yes": "Yes",
@@ -99,6 +110,8 @@
 	"item.quark.white_item_frame": "White Item Frame",
 	"item.quark.yellow_item_frame": "Yellow Item Frame",
 	"item.quark.pickarang": "Pickarang",
+	"item.quark.stoneling_spawn_egg": "Stoneling Spawn Egg",
+	"item.quark.diamond_heart": "Heart of Diamond",
 
 	"block.quark.charcoal_block": "Charcoal Block",
 	"block.quark.black_quilted_wool": "Black Quilted Wool",
@@ -500,6 +513,7 @@
 	"entity.quark.pickarang": "Pickarang",
 	"entity.quark.chest_passenger": "Chest In Boat",
 	"entity.quark.glass_frame": "Glass Item Frame",
-	"entity.quark.colored_frame": "Dyed Item Frame"
+	"entity.quark.colored_frame": "Dyed Item Frame",
+	"entity.quark.stoneling": "Stoneling"
 	
 }

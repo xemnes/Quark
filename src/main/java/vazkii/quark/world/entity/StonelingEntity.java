@@ -31,6 +31,7 @@ import net.minecraft.world.storage.loot.LootParameterSets;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.extensions.IForgeWorldServer;
 import vazkii.quark.base.ai.IfFlagGoal;
+import vazkii.quark.base.handler.QuarkSounds;
 import vazkii.quark.world.ai.ActWaryGoal;
 import vazkii.quark.world.ai.FavorBlockGoal;
 import vazkii.quark.world.ai.RunAndPoofGoal;
@@ -45,7 +46,6 @@ import java.util.Set;
 public class StonelingEntity extends CreatureEntity {
 
 	public static final ResourceLocation CARRY_LOOT_TABLE = new ResourceLocation("quark", "entities/stoneling_carry");
-	public static final ResourceLocation LOOT_TABLE = new ResourceLocation("quark", "entities/stoneling");
 
 	private static final DataParameter<ItemStack> CARRYING_ITEM = EntityDataManager.createKey(StonelingEntity.class, DataSerializers.ITEMSTACK);
 	private static final DataParameter<Byte> VARIANT = EntityDataManager.createKey(StonelingEntity.class, DataSerializers.BYTE);
@@ -169,11 +169,11 @@ public class StonelingEntity extends CreatureEntity {
 							}
 
 							if (targetVariant != currentVariant) {
-//								playSound(QuarkSounds.ENTITY_STONELING_EAT, 1F, 1F);
+								playSound(QuarkSounds.ENTITY_STONELING_EAT, 1F, 1F);
 								dataManager.set(VARIANT, targetVariant.getIndex());
 							}
 
-//							playSound(QuarkSounds.ENTITY_STONELING_PURR, 1F, 1F + world.rand.nextFloat() * 1F);
+							playSound(QuarkSounds.ENTITY_STONELING_PURR, 1F, 1F + world.rand.nextFloat() * 1F);
 
 							heal(1);
 
@@ -192,16 +192,16 @@ public class StonelingEntity extends CreatureEntity {
 						player.setHeldItem(hand, stonelingItem.copy());
 						dataManager.set(CARRYING_ITEM, playerItem.copy());
 
-//						if (playerItem.isEmpty())
-//							playSound(QuarkSounds.ENTITY_STONELING_GIVE, 1F, 1F);
-//						else playSound(QuarkSounds.ENTITY_STONELING_TAKE, 1F, 1F);
+						if (playerItem.isEmpty())
+							playSound(QuarkSounds.ENTITY_STONELING_GIVE, 1F, 1F);
+						else playSound(QuarkSounds.ENTITY_STONELING_TAKE, 1F, 1F);
 					}
 				} else if (StonelingsModule.tamableStonelings && !playerItem.getItem().isIn(Tags.Items.GEMS_DIAMOND)) {
 					heal(8);
 
 					setPlayerMade(true);
 
-//					playSound(QuarkSounds.ENTITY_STONELING_PURR, 1F, 1F + world.rand.nextFloat() * 1F);
+					playSound(QuarkSounds.ENTITY_STONELING_PURR, 1F, 1F + world.rand.nextFloat() * 1F);
 
 					if (!player.abilities.isCreativeMode)
 						playerItem.shrink(1);
@@ -408,17 +408,17 @@ public class StonelingEntity extends CreatureEntity {
 		return StonelingsModule.dimensions.canSpawnHere(world) && super.canSpawn(world, reason);
 	}
 
-//	@Nullable
-//	@Override
-//	protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-//		return QuarkSounds.ENTITY_STONELING_CRY;
-//	}
-//
-//	@Nullable
-//	@Override
-//	protected SoundEvent getDeathSound() {
-//		return QuarkSounds.ENTITY_STONELING_DIE;
-//	}
+	@Nullable
+	@Override
+	protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+		return QuarkSounds.ENTITY_STONELING_CRY;
+	}
+
+	@Nullable
+	@Override
+	protected SoundEvent getDeathSound() {
+		return QuarkSounds.ENTITY_STONELING_DIE;
+	}
 
 	@Override
 	public int getTalkInterval() {
@@ -432,17 +432,17 @@ public class StonelingEntity extends CreatureEntity {
 		if (sound != null) this.playSound(sound, this.getSoundVolume(), 1f);
 	}
 
-//	@Nullable
-//	@Override
-//	protected SoundEvent getAmbientSound() {
-//		if (hasCustomName()) {
-//			String customName = getName().getString();
-//			if (customName.equalsIgnoreCase("michael stevens") || customName.equalsIgnoreCase("vsauce"))
-//				return QuarkSounds.ENTITY_STONELING_MICHAEL;
-//		}
-//
-//		return null;
-//	}
+	@Nullable
+	@Override
+	protected SoundEvent getAmbientSound() {
+		if (hasCustomName()) {
+			String customName = getName().getString();
+			if (customName.equalsIgnoreCase("michael stevens") || customName.equalsIgnoreCase("vsauce"))
+				return QuarkSounds.ENTITY_STONELING_MICHAEL;
+		}
+
+		return null;
+	}
 
 	@Override
 	public float getBlockPathWeight(BlockPos pos, IWorldReader world) {

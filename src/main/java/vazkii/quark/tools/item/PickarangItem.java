@@ -17,9 +17,11 @@ import net.minecraft.stats.Stats;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
+import vazkii.quark.base.handler.QuarkSounds;
 import vazkii.quark.base.item.QuarkItem;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.tools.entity.PickarangEntity;
@@ -84,7 +86,7 @@ public class PickarangItem extends QuarkItem {
         ItemStack itemstack = playerIn.getHeldItem(handIn);
         playerIn.setHeldItem(handIn, ItemStack.EMPTY);
 		int eff = EnchantmentHelper.getEnchantmentLevel(Enchantments.EFFICIENCY, itemstack);
-//        worldIn.playSound(null, playerIn.posX, playerIn.posY, playerIn.posZ, QuarkSounds.ENTITY_PICKARANG_THROW, SoundCategory.NEUTRAL, 0.5F + eff * 0.14F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+        worldIn.playSound(null, playerIn.posX, playerIn.posY, playerIn.posZ, QuarkSounds.ENTITY_PICKARANG_THROW, SoundCategory.NEUTRAL, 0.5F + eff * 0.14F, 0.4F / (worldIn.rand.nextFloat() * 0.4F + 0.8F));
 
 
         if(!worldIn.isRemote)  {
