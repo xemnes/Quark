@@ -10,6 +10,7 @@ import vazkii.arl.util.ClientTicker;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.capability.CapabilityHandler;
 import vazkii.quark.base.handler.ContributorRewardHandler;
+import vazkii.quark.base.handler.StonecutterShiftClickHandler;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.base.network.QuarkNetwork;
 import vazkii.quark.base.recipe.ExclusionRecipe;
@@ -52,6 +53,7 @@ public class CommonProxy {
 		if(event.getConfig().getModId().equals(Quark.MOD_ID) && ClientTicker.ticksInGame - lastConfigChange > 10) { 
 			lastConfigChange = ClientTicker.ticksInGame;
 			handleQuarkConfigChange();
+			StonecutterShiftClickHandler.configReload();
 		}
 	}
 	

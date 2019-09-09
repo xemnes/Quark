@@ -30,7 +30,7 @@ public class PatTheDogsModule extends Module {
     public void onWolfAppear(EntityJoinWorldEvent event) {
         if (dogsWantLove > 0 && event.getEntity() instanceof WolfEntity) {
             WolfEntity wolf = (WolfEntity) event.getEntity();
-            boolean alreadySetUp = wolf.goalSelector.getRunningGoals().anyMatch((goal) -> goal.getGoal() instanceof WantLoveGoal);
+            boolean alreadySetUp = wolf.goalSelector.goals.stream().anyMatch((goal) -> goal.getGoal() instanceof WantLoveGoal);
 
             if (!alreadySetUp) {
                 wolf.goalSelector.addGoal(4, new NuzzleGoal(wolf, 0.5F, 16, 2, SoundEvents.ENTITY_WOLF_WHINE));

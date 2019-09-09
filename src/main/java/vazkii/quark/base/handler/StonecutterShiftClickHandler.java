@@ -40,10 +40,13 @@ public class StonecutterShiftClickHandler {
 					items.add(stack.getItem());
 			});
 
-			// Allowed shift click items
-			StonecutterContainer.field_217084_c = ImmutableList.copyOf(items);
+			StonecutterContainer.ACCEPTED_INPUT_ITEMS = ImmutableList.copyOf(items);
 			updatedStonecutter = true;
 		}
+	}
+
+	public static void configReload() {
+		updatedStonecutter = false;
 	}
 
 	@SubscribeEvent

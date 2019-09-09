@@ -123,7 +123,7 @@ public class ColorRunesModule extends Module {
 			LootEntry entry = TagLootEntry.func_216176_b(runesTag) // withTag
 					.weight(weight)
 					.quality(itemQuality)
-					.func_216081_b(); // build
+					.build();
 			MiscUtil.addToLootTable(event.getTable(), entry);
 		}
 	}

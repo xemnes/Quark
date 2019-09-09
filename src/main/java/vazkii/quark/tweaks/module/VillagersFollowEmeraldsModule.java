@@ -21,7 +21,7 @@ public class VillagersFollowEmeraldsModule extends Module {
     public void onVillagerAppear(EntityJoinWorldEvent event) {
         if(event.getEntity() instanceof VillagerEntity) {
             VillagerEntity villager = (VillagerEntity) event.getEntity();
-            boolean alreadySetUp = villager.goalSelector.getRunningGoals().anyMatch((goal) -> goal.getGoal() instanceof TemptGoal);
+            boolean alreadySetUp = villager.goalSelector.goals.stream().anyMatch((goal) -> goal.getGoal() instanceof TemptGoal);
 
             if (!alreadySetUp)
                 villager.goalSelector.addGoal(2, new TemptGoal(villager, 0.6, Ingredient.fromItems(Items.EMERALD_BLOCK), false));
@@ -30,7 +30,7 @@ public class VillagersFollowEmeraldsModule extends Module {
 
 //        if(event.getEntity() instanceof EntityArchaeologist) {
 //            EntityArchaeologist villager = (EntityArchaeologist) event.getEntity();
-//            boolean alreadySetUp = villager.goalSelector.getRunningGoals().anyMatch((goal) -> goal.getGoal() instanceof TemptGoal);
+//            boolean alreadySetUp = villager.goalSelector.goals.anyMatch((goal) -> goal.getGoal() instanceof TemptGoal);
 //
 //            if (!alreadySetUp)
 //                villager.goalSelector.addGoal(2, new TemptGoal(villager, 0.6, Ingredient.fromItems(Items.EMERALD_BLOCK, Items.BONE_BLOCK), false)));

@@ -81,7 +81,8 @@ public class NuzzleGoal extends Goal {
 		this.creature.setPathPriority(PathNodeType.WATER, this.oldWaterCost);
 	}
 
-	public void updateTask() {
+	@Override
+	public void tick() {
 		this.creature.getLookController().setLookPositionWithEntity(this.owner, 10.0F, this.creature.getVerticalFaceSpeed());
 
 		if (!this.creature.isSitting()) {

@@ -1,10 +1,6 @@
 package vazkii.quark.world.module;
 
-import java.util.ArrayDeque;
-import java.util.Queue;
-
-import com.google.common.base.Supplier;
-
+import com.google.common.collect.Maps;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
@@ -22,6 +18,11 @@ import vazkii.quark.base.world.generator.OreGenerator;
 import vazkii.quark.world.config.BigStoneClusterConfig;
 import vazkii.quark.world.config.StoneTypeConfig;
 
+import java.util.ArrayDeque;
+import java.util.Map;
+import java.util.Queue;
+import java.util.function.Supplier;
+
 @LoadModule(category = ModuleCategory.WORLD)
 public class NewStoneTypesModule extends Module {
 
@@ -38,6 +39,8 @@ public class NewStoneTypesModule extends Module {
 	@Config public static StoneTypeConfig basalt = new StoneTypeConfig(true);
 	
 	public static Block marbleBlock, limestoneBlock, jasperBlock, slateBlock, basaltBlock;
+
+	public static Map<Block, Block> polishedBlocks = Maps.newHashMap();
 	
 	private Queue<Runnable> defers = new ArrayDeque<>();
 	
@@ -56,7 +59,8 @@ public class NewStoneTypesModule extends Module {
 		
 		QuarkBlock normal = new QuarkBlock(name, this, ItemGroup.BUILDING_BLOCKS, props).setCondition(enabledCond);
 		QuarkBlock polished = new QuarkBlock("polished_" + name, this, ItemGroup.BUILDING_BLOCKS, props).setCondition(enabledCond);
-		
+		polishedBlocks.put(normal, polished);
+
 		VariantHandler.addSlabStairsWall(normal);
 		VariantHandler.addSlabAndStairs(polished);
 		
