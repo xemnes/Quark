@@ -7,5 +7,6 @@
   "quark_improved_sleeping": "asm/improved-sleeping.js",
   "quark_items_in_chat": "asm/items-in-chat.js",
   "quark_springy_slime": "asm/springy-slime.js",
-  "quark_pickarang": "asm/pickarang.js"
+  "quark_pickarang": "asm/pickarang.js",
+  "quark_chain_linkage": "asm/chain-linkage.js"
 }

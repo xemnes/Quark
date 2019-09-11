@@ -1,6 +1,7 @@
 package vazkii.quark.base.network;
 
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.network.IPacket;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.fml.network.NetworkDirection;
 import vazkii.arl.network.IMessage;
@@ -28,6 +29,7 @@ public final class QuarkNetwork {
 
 		network.register(DoEmoteMessage.class, NetworkDirection.PLAY_TO_CLIENT);
 		network.register(SpamlessChatMessage.class, NetworkDirection.PLAY_TO_CLIENT);
+		network.register(SyncChainMessage.class, NetworkDirection.PLAY_TO_CLIENT);
 	}
 	
 	public static void sendToPlayer(IMessage msg, ServerPlayerEntity player) {
@@ -45,6 +47,10 @@ public final class QuarkNetwork {
 	
 	public static void sendToAllPlayers(IMessage msg, MinecraftServer server) {
 		sendToPlayers(msg, server.getPlayerList().getPlayers());
+	}
+
+	public static IPacket<?> toVanillaPacket(IMessage msg, NetworkDirection direction) {
+		return network.channel.toVanillaPacket(msg, direction);
 	}
 	
 }

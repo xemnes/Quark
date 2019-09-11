@@ -2,6 +2,7 @@ package vazkii.quark.base.handler;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.state.PistonBlockStructureHelper;
+import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -17,7 +18,9 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import vazkii.quark.automation.client.render.ChainRenderer;
 import vazkii.quark.automation.client.render.PistonTileEntityRenderer;
+import vazkii.quark.automation.module.ChainLinkageModule;
 import vazkii.quark.automation.module.PistonsMoveTileEntitiesModule;
 import vazkii.quark.tools.module.PickarangModule;
 import vazkii.quark.tweaks.module.HoeHarvestingModule;
@@ -145,5 +148,22 @@ public class AsmHooks {
 
 	public static DamageSource createPlayerDamage(PlayerEntity player) {
 		return PickarangModule.createDamageSource(player);
+	}
+
+	// ==========================================================================
+	// Chain Linkage
+	// ==========================================================================
+
+	public static void updateChain(Entity entity) {
+		ChainLinkageModule.onEntityUpdate(entity);
+	}
+
+	@OnlyIn(Dist.CLIENT)
+	public static void renderChain(EntityRenderer render, double x, double y, double z, Entity entity, float partTicks) {
+		ChainRenderer.renderChain(render, x, y, z, entity, partTicks);
+	}
+
+	public static void dropChain(Entity entity) {
+		ChainLinkageModule.drop(entity);
 	}
 }
