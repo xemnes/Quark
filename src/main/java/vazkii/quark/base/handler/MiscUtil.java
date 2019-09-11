@@ -44,11 +44,11 @@ public class MiscUtil {
 	};
 
 	public static void addToLootTable(LootTable table, LootEntry entry) {
-		List<LootPool> pools = table.pools;
+		List<LootPool> pools = ObfuscationReflectionHelper.getPrivateValue(LootTable.class, table, "field_186466_c"); // table.pools;
 		if (pools == null)
 			return;
 		LootPool pool = pools.get(0);
-		List<LootEntry> list = pool.lootEntries;
+		List<LootEntry> list = ObfuscationReflectionHelper.getPrivateValue(LootPool.class, pool, "field_186453_a"); // pool.lootEntries;
 		if (list == null)
 			return;
 		list.add(entry);

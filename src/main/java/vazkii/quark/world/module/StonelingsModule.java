@@ -36,7 +36,7 @@ public class StonelingsModule extends Module {
 	public static int weight = 80;
 	@Config
 	public static DimensionConfig dimensions = DimensionConfig.overworld(true);
-	@Config
+	@Config(flag = "stoneling_drop_diamond_heart")
 	public static boolean enableDiamondHeart = true;
 	@Config
 	public static boolean cautiousStonelings = true;
