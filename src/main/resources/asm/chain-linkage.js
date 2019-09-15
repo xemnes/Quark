@@ -133,11 +133,12 @@ function initializeCoreMod() {
             },
             'transformer': function (method) {
                 var ASM = Java.type('net.minecraftforge.coremod.api.ASMAPI');
+                var Opcodes = Java.type('org.objectweb.asm.Opcodes');
                 var VarInsnNode = Java.type('org.objectweb.asm.tree.VarInsnNode');
                 var InsnList = Java.type('org.objectweb.asm.tree.InsnList');
 
                 return injectForEachMethod(method,
-                    ASM.MethodType.STATIC,
+                    ASM.MethodType.VIRTUAL,
                     "net/minecraft/client/renderer/entity/EntityRenderer",
                     ASM.mapMethod("func_76986_a"), // doRender
                     "(Lnet/minecraft/entity/Entity;DDDFF)V",

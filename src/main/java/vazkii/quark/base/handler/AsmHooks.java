@@ -159,7 +159,7 @@ public class AsmHooks {
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	public static void renderChain(EntityRenderer render, double x, double y, double z, Entity entity, float partTicks) {
+	public static void renderChain(EntityRenderer render, Entity entity, double x, double y, double z, float partTicks) {
 		ChainRenderer.renderChain(render, x, y, z, entity, partTicks);
 	}
 

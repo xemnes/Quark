@@ -18,11 +18,10 @@ import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.minecart.AbstractMinecartEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.lwjgl.opengl.GL11;
@@ -144,15 +143,16 @@ public class ChainRenderer {
 	public static void updateTick() {
 		RENDER_MAP.clear();
 
-		World world = Minecraft.getInstance().world;
+		ClientWorld world = Minecraft.getInstance().world;
 		if (world == null)
 			return;
 
-		for (Entity entity : world.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY,
-				Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY), ChainHandler::canBeLinked)) {
-			Entity other = ChainHandler.getLinked(entity);
-			if (other != null)
-				RENDER_MAP.put(entity.getEntityId(), other);
+		for (Entity entity : world.getAllEntities()) {
+			if (ChainHandler.canBeLinked(entity)) {
+				Entity other = ChainHandler.getLinked(entity);
+				if (other != null)
+					RENDER_MAP.put(entity.getEntityId(), other);
+			}
 		}
 	}
 }

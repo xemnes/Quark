@@ -32,8 +32,8 @@ public class ChainHandler {
 	public static final float CHAIN_SLACK = 2F;
 	public static final float MAX_DISTANCE = 8F;
 	private static final float STIFFNESS = 0.4F;
-	private static final float DAMPING = 0.2F;
-	private static final float MIN_FORCE = 0.05F;
+//	private static final float DAMPING = 0F;
+//	private static final float MIN_FORCE = 0F;
 	private static final float MAX_FORCE = 6F;
 
 	private static <T extends Entity> void adjustVelocity(T master, Entity follower) {
@@ -51,6 +51,10 @@ public class ChainHandler {
 		Vec3d direction = followerPosition.subtract(masterPosition);
 		direction = direction.subtract(0, direction.y, 0).normalize();
 
+		double base = masterMotion.length() + followerMotion.length();
+		double masterRatio = 1 + masterMotion.length() / base;
+		double followerRatio = 1 + followerMotion.length() / base;
+
 		double stretch = dist - CHAIN_SLACK;
 
 		double springX = STIFFNESS * stretch * direction.x;
@@ -59,30 +63,30 @@ public class ChainHandler {
 		springX = MathHelper.clamp(springX, -MAX_FORCE, MAX_FORCE);
 		springZ = MathHelper.clamp(springZ, -MAX_FORCE, MAX_FORCE);
 
-		double totalSpringSq = springX * springX + springZ * springZ;
-
-		if (totalSpringSq > MIN_FORCE * MIN_FORCE) {
-			masterMotion.add(springX, 0, springZ);
-			followerMotion.subtract(springX, 0, springZ);
-
-			Vec3d newMasterVelocity = new Vec3d(masterMotion.x, 0, masterMotion.z);
-			Vec3d newFollowerVelocity = new Vec3d(followerMotion.x, 0, followerMotion.z);
-
-			double deviation = newFollowerVelocity.subtract(newMasterVelocity).dotProduct(direction);
-
-			double dampX = DAMPING * deviation * direction.x;
-			double dampZ = DAMPING * deviation * direction.z;
-
-			dampX = MathHelper.clamp(dampX, -MAX_FORCE, MAX_FORCE);
-			dampZ = MathHelper.clamp(dampZ, -MAX_FORCE, MAX_FORCE);
-
-			masterMotion.add(dampX, 0, dampZ);
-			followerMotion.subtract(dampX, 0, dampZ);
+//		double totalSpringSq = springX * springX + springZ * springZ;
+		masterMotion = masterMotion.add(springX * followerRatio, 0, springZ * followerRatio);
+		followerMotion = followerMotion.subtract(springX * masterRatio, 0, springZ * masterRatio);
 
 
-			master.setMotion(masterMotion);
-			follower.setMotion(followerMotion);
-		}
+//		if (totalSpringSq > MIN_FORCE * MIN_FORCE) {
+//			Vec3d newMasterVelocity = new Vec3d(masterMotion.x, 0, masterMotion.z);
+//			Vec3d newFollowerVelocity = new Vec3d(followerMotion.x, 0, followerMotion.z);
+//
+//			double deviation = newFollowerVelocity.subtract(newMasterVelocity).dotProduct(direction);
+//
+//			double dampX = DAMPING * deviation * direction.x;
+//			double dampZ = DAMPING * deviation * direction.z;
+//
+//			dampX = MathHelper.clamp(dampX, -MAX_FORCE, MAX_FORCE);
+//			dampZ = MathHelper.clamp(dampZ, -MAX_FORCE, MAX_FORCE);
+//
+//			masterMotion = masterMotion.add(dampX, 0, dampZ);
+//			followerMotion = followerMotion.subtract(dampX, 0, dampZ);
+//
+
+		master.setMotion(masterMotion);
+		follower.setMotion(followerMotion);
+//		}
 	}
 
 	public static UUID getLink(Entity vehicle) {
