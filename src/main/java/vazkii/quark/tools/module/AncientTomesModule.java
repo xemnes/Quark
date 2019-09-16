@@ -1,0 +1,235 @@
+package vazkii.quark.tools.module;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import com.google.common.collect.Maps;
+
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentData;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.enchantment.Enchantments;
+import net.minecraft.item.EnchantedBookItem;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.world.storage.loot.ItemLootEntry;
+import net.minecraft.world.storage.loot.LootEntry;
+import net.minecraft.world.storage.loot.LootTables;
+import net.minecraftforge.event.AnvilUpdateEvent;
+import net.minecraftforge.event.LootTableLoadEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.registries.ForgeRegistries;
+import vazkii.quark.base.handler.MiscUtil;
+import vazkii.quark.base.module.Config;
+import vazkii.quark.base.module.LoadModule;
+import vazkii.quark.base.module.Module;
+import vazkii.quark.base.module.ModuleCategory;
+import vazkii.quark.tools.item.AncientTomeItem;
+
+@LoadModule(category = ModuleCategory.TOOLS, hasSubscriptions = true)
+public class AncientTomesModule extends Module {
+
+	@Config public static int dungeonWeight = 8;
+	@Config public static int libraryWeight = 12;
+	@Config public static int itemQuality = 2;
+	@Config public static int mergeCost = 35;
+	@Config public static int applyCost = 35;
+
+	@Config(name = "Valid Enchantments")
+	public static List<String> enchantNames = generateDefaultEnchantmentList();
+
+	public static Item ancient_tome;
+	public static final List<Enchantment> validEnchants = new ArrayList<>();
+	private static boolean initted = false;
+
+	@SubscribeEvent
+	public void onLootTableLoad(LootTableLoadEvent event) {
+		int weight = 0;
+		if(event.getName().equals(LootTables.CHESTS_STRONGHOLD_LIBRARY))
+			weight = libraryWeight;
+		else if(event.getName().equals(LootTables.CHESTS_SIMPLE_DUNGEON))
+			weight = dungeonWeight;
+		
+		if(weight > 0) {
+			LootEntry entry = ItemLootEntry.builder(ancient_tome)
+					.weight(weight)
+					.quality(itemQuality)
+					.acceptFunction(() -> (s, c) -> {
+						Enchantment enchantment = validEnchants.get(c.getRandom().nextInt(validEnchants.size()));
+						EnchantedBookItem.addEnchantment(s, new EnchantmentData(enchantment, enchantment.getMaxLevel()));
+						return s;
+					})
+					.build();
+			
+			MiscUtil.addToLootTable(event.getTable(), entry);
+		}
+	}
+
+	@Override
+	public void start() {
+		ancient_tome = new AncientTomeItem(this);
+	}
+
+	@Override
+	public void setup() {
+		setupEnchantList();
+		initted = true;
+	}
+
+	@SubscribeEvent
+	public void onAnvilUpdate(AnvilUpdateEvent event) {
+		ItemStack left = event.getLeft();
+		ItemStack right = event.getRight();
+
+		if(!left.isEmpty() && !right.isEmpty()) {
+			if(left.getItem() == Items.ENCHANTED_BOOK && right.getItem() == ancient_tome)
+				handleTome(left, right, event);
+			else if(right.getItem() == Items.ENCHANTED_BOOK && left.getItem() == ancient_tome)
+				handleTome(right, left, event);
+
+			else if(right.getItem() == Items.ENCHANTED_BOOK) {
+				Map<Enchantment, Integer> enchants = EnchantmentHelper.getEnchantments(right);
+				Map<Enchantment, Integer> currentEnchants = EnchantmentHelper.getEnchantments(left);
+				boolean hasOverLevel = false;
+				boolean hasMatching = false;
+				for (Map.Entry<Enchantment, Integer> entry : enchants.entrySet()) {
+					Enchantment enchantment = entry.getKey();
+					if(enchantment == null)
+						continue;
+
+					int level = entry.getValue();
+					if (level > enchantment.getMaxLevel()) {
+						hasOverLevel = true;
+						if (enchantment.canApply(left)) {
+							hasMatching = true;
+							//remove incompatible enchantments
+							for (Iterator<Enchantment> iterator = currentEnchants.keySet().iterator(); iterator.hasNext(); ) {
+								Enchantment comparingEnchantment = iterator.next();
+								if (comparingEnchantment == enchantment)
+									continue;
+
+								if (!comparingEnchantment.isCompatibleWith(enchantment)) {
+									iterator.remove();
+								}
+							}
+							currentEnchants.put(enchantment, level);
+						}
+					} else if (enchantment.canApply(left)) {
+						boolean compatible = true;
+						//don't apply incompatible enchantments
+						for (Enchantment comparingEnchantment : currentEnchants.keySet()) {
+							if (comparingEnchantment == enchantment)
+								continue;
+
+							if (comparingEnchantment != null && !comparingEnchantment.isCompatibleWith(enchantment)) {
+								compatible = false;
+								break;
+							}
+						}
+						if (compatible) {
+							currentEnchants.put(enchantment, level);
+						}
+					}
+				}
+
+				if (hasOverLevel) {
+					if (hasMatching) {
+						ItemStack out = left.copy();
+						EnchantmentHelper.setEnchantments(currentEnchants, out);
+						String name = event.getName();
+						int cost = applyCost;
+						if(name != null && !name.isEmpty()) {
+							out.setDisplayName(new StringTextComponent(name));
+							cost++;
+						}
+						event.setOutput(out);
+						event.setCost(cost);
+					} else {
+						event.setCanceled(true);
+					}
+				}
+			}
+		}
+	}
+
+	private void handleTome(ItemStack book, ItemStack tome, AnvilUpdateEvent event) {
+		Map<Enchantment, Integer> enchantsBook = EnchantmentHelper.getEnchantments(book);
+		Map<Enchantment, Integer> enchantsTome = getTomeEnchantments(tome);
+
+		for (Map.Entry<Enchantment, Integer> entry : enchantsTome.entrySet()) {
+			if(enchantsBook.getOrDefault(entry.getKey(), 0).equals(entry.getValue()))
+				enchantsBook.put(entry.getKey(), Math.min(entry.getValue(), entry.getKey().getMaxLevel()) + 1);
+			else return;
+		}
+
+		ItemStack output = new ItemStack(Items.ENCHANTED_BOOK);
+		for (Map.Entry<Enchantment, Integer> entry : enchantsBook.entrySet())
+			EnchantedBookItem.addEnchantment(output, new EnchantmentData(entry.getKey(), entry.getValue()));
+
+		event.setOutput(output);
+		event.setCost(mergeCost);
+	}
+
+	private static List<String> generateDefaultEnchantmentList() {
+		Enchantment[] enchants = new Enchantment[] {
+				Enchantments.FEATHER_FALLING,
+				Enchantments.THORNS,
+				Enchantments.SHARPNESS,
+				Enchantments.SMITE,
+				Enchantments.BANE_OF_ARTHROPODS,
+				Enchantments.KNOCKBACK,
+				Enchantments.FIRE_ASPECT,
+				Enchantments.LOOTING,
+				Enchantments.SWEEPING,
+				Enchantments.EFFICIENCY,
+				Enchantments.UNBREAKING,
+				Enchantments.FORTUNE,
+				Enchantments.POWER,
+				Enchantments.PUNCH,
+				Enchantments.LUCK_OF_THE_SEA,
+				Enchantments.LURE,
+				Enchantments.LOYALTY,
+				Enchantments.RIPTIDE,
+				Enchantments.IMPALING,
+				Enchantments.PIERCING
+		};
+
+		List<String> strings = new ArrayList<>();
+		for(Enchantment e : enchants)
+			if(e != null && e.getRegistryName() != null)
+				strings.add(e.getRegistryName().toString());
+
+		return strings;
+	}
+
+	@Override
+	public void configChanged() {
+		if(initted)
+			setupEnchantList();
+	}
+
+	private void setupEnchantList() {
+		MiscUtil.initializeEnchantmentList(enchantNames, validEnchants);
+	}
+
+	public static Map<Enchantment, Integer> getTomeEnchantments(ItemStack stack) {
+		Map<Enchantment, Integer> map = Maps.newLinkedHashMap();
+		ListNBT listnbt = EnchantedBookItem.getEnchantments(stack);
+
+		for(int i = 0; i < listnbt.size(); ++i) {
+			CompoundNBT compoundnbt = listnbt.getCompound(i);
+			Enchantment e = ForgeRegistries.ENCHANTMENTS.getValue(ResourceLocation.tryCreate(compoundnbt.getString("id")));
+			map.put(e, compoundnbt.getInt("lvl"));
+		}
+
+		return map;
+	}
+
+}

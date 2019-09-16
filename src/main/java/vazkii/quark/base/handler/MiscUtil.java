@@ -1,5 +1,10 @@
 package vazkii.quark.base.handler;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.List;
+
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
@@ -9,11 +14,8 @@ import net.minecraft.world.storage.loot.LootEntry;
 import net.minecraft.world.storage.loot.LootPool;
 import net.minecraft.world.storage.loot.LootTable;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
+import net.minecraftforge.registries.ForgeRegistries;
 import vazkii.quark.base.Quark;
-
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.util.List;
 
 public class MiscUtil {
 
@@ -76,5 +78,15 @@ public class MiscUtil {
 			throw new RuntimeException(e);
 		}
 	}
+	
+	public static void initializeEnchantmentList(Iterable<String> enchantNames, List<Enchantment> enchants) {
+		enchants.clear();
+		for(String s : enchantNames) {
+			ResourceLocation r = new ResourceLocation(s);
+			Enchantment e = ForgeRegistries.ENCHANTMENTS.getValue(r);
+			if(e != null)
+				enchants.add(e);
+		}
+	}	
 
 }
