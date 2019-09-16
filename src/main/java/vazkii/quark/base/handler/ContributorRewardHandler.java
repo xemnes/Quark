@@ -122,7 +122,7 @@ public class ContributorRewardHandler {
 					load(patreonTiers);
 				}
 			} catch (IOException e) {
-				e.printStackTrace();
+				Quark.LOG.error("Failed to load patreon information", e);
 			}
 		}
 

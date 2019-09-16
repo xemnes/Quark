@@ -9,7 +9,9 @@ import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.tileentity.PistonTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
 import vazkii.quark.automation.module.PistonsMoveTileEntitiesModule;
+import vazkii.quark.base.Quark;
 import vazkii.quark.base.module.ModuleLoader;
 
 import java.util.Objects;
@@ -23,9 +25,12 @@ public class PistonTileEntityRenderer {
 		BlockState state = piston.getPistonState();
 		Block block = state.getBlock();
 		String id = Objects.toString(block.getRegistryName());
+		BlockPos truePos = piston.getPos();
+		if (piston.isExtending())
+			truePos = truePos.offset(piston.getFacing().getOpposite());
 
 		try {
-			TileEntity tile = PistonsMoveTileEntitiesModule.getMovement(piston.getWorld(), piston.getPos());
+			TileEntity tile = PistonsMoveTileEntitiesModule.getMovement(piston.getWorld(), truePos);
 			if(tile == null || PistonsMoveTileEntitiesModule.renderBlacklist.contains(id))
 				return false;
 
@@ -44,7 +49,7 @@ public class PistonTileEntityRenderer {
 			GlStateManager.popMatrix();
 
 		} catch(Throwable e) {
-			new RuntimeException(id + " can't be rendered for piston TE moving", e).printStackTrace();
+			Quark.LOG.warn(id + " can't be rendered for piston TE moving", e);
 			PistonsMoveTileEntitiesModule.renderBlacklist.add(id);
 			return false;
 		}

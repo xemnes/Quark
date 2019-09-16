@@ -73,7 +73,12 @@ public class EmoteDescriptor {
 			return TIER_1;
 		return null;
 	}
-	
+
+	@Override
+	public String toString() {
+		return name;
+	}
+
 	public EmoteBase instantiate(PlayerEntity player, BipedModel<?> model, BipedModel<?> armorModel, BipedModel<?> armorLegModel) {
 		try {
 			return clazz.getConstructor(EmoteDescriptor.class, PlayerEntity.class, BipedModel.class, BipedModel.class, BipedModel.class).newInstance(this, player, model, armorModel, armorLegModel);

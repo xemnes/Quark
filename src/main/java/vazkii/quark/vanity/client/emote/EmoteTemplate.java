@@ -1,31 +1,21 @@
 package vazkii.quark.vanity.client.emote;
 
+import com.google.common.collect.Lists;
+import net.minecraft.client.renderer.entity.model.BipedModel;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import vazkii.aurelienribon.tweenengine.*;
+import vazkii.quark.base.Quark;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Stack;
-
-import com.google.common.collect.Lists;
-
-import net.minecraft.client.renderer.entity.model.BipedModel;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import vazkii.aurelienribon.tweenengine.BaseTween;
-import vazkii.aurelienribon.tweenengine.Timeline;
-import vazkii.aurelienribon.tweenengine.Tween;
-import vazkii.aurelienribon.tweenengine.TweenCallback;
-import vazkii.aurelienribon.tweenengine.TweenEquation;
-import vazkii.aurelienribon.tweenengine.TweenEquations;
-import vazkii.quark.base.Quark;
+import java.util.*;
 
 @OnlyIn(Dist.CLIENT)
 public class EmoteTemplate {
@@ -66,7 +56,7 @@ public class EmoteTemplate {
 					else
 						parts.put(name, val);
 				} catch(Exception e) {
-					e.printStackTrace();
+					Quark.LOG.error("Failed while attempting to set up model parameters for emotes", e);
 				}
 			}
 		}
@@ -81,7 +71,7 @@ public class EmoteTemplate {
 				if(name.equals("none"))
 					equations.put("linear", eq);
 			} catch(Exception e) {
-				e.printStackTrace();
+				Quark.LOG.error("Failed while attempting to set up tween equations for emotes", e);
 			}
 		}
 	}
@@ -161,7 +151,7 @@ public class EmoteTemplate {
 
 			return timeline;
 		} catch(IOException e) {
-			e.printStackTrace();
+			Quark.LOG.warn("Failed to load emote " + desc, e);
 			return fallback();
 		} finally {
 			compiledOnce = true;
@@ -171,16 +161,16 @@ public class EmoteTemplate {
 				if(reader != null)
 					reader.close();
 			} catch (IOException e) {
-				e.printStackTrace();
+				Quark.LOG.warn("Failed to load emote " + desc, e);
 			}
 		}
 	}
 	
-	BufferedReader createReader() throws FileNotFoundException {
+	protected BufferedReader createReader() throws FileNotFoundException {
 		return new BufferedReader(new InputStreamReader(Quark.class.getResourceAsStream("/assets/quark/emotes/" + file)));
 	}
 	
-	Timeline fallback() {
+	protected Timeline fallback() {
 		return Timeline.createSequence();
 	}
 	
