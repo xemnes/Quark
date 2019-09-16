@@ -22,12 +22,12 @@ public class CustomEmoteTemplate extends EmoteTemplate {
 	}
 	
 	@Override
-	BufferedReader createReader() throws FileNotFoundException {
+	protected BufferedReader createReader() throws FileNotFoundException {
 		return new BufferedReader(new FileReader(new File(EmotesModule.emotesDir, file)));
 	}
 	
 	@Override
-	void setName(String[] tokens) {
+	protected void setName(String[] tokens) {
 		StringBuilder builder = new StringBuilder();
 		for(int i = 1; i < tokens.length; i++) {
 			builder.append(tokens[i]);

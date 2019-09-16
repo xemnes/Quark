@@ -196,7 +196,7 @@ public class EmoteTemplate {
 		throw new IllegalArgumentException("Illegal function name " + function);
 	}
 	
-	void setName(String[] tokens) { }
+	protected void setName(String[] tokens) { }
 	
 	private static Timeline name(EmoteTemplate em, Timeline timeline, String[] tokens) throws IllegalArgumentException {
 		em.setName(tokens);
