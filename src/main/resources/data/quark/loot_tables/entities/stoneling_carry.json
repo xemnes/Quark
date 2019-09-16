@@ -87,31 +87,17 @@
         {
           "type": "item",
           "weight": 250,
-          "entryName": "zombie_head",
-          "name": "minecraft:skull",
-          "functions": [
-            {
-              "function": "set_data",
-              "data": 2
-            }
-          ]
+          "name": "minecraft:zombie_head"
         },
         {
           "type": "item",
           "weight": 250,
-          "entryName": "creeper_head",
-          "name": "minecraft:skull",
-          "functions": [
-            {
-              "function": "set_data",
-              "data": 4
-            }
-          ]
+          "name": "minecraft:creeper_head"
         },
         {
           "type": "item",
           "weight": 200,
-          "name": "minecraft:dye",
+          "name": "minecraft:lapis_lazuli",
           "functions": [
             {
               "function": "set_count",
@@ -119,10 +105,6 @@
                 "min": 4,
                 "max": 8
               }
-            },
-            {
-              "function": "set_data",
-              "data": 4
             }
           ]
         },
