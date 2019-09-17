@@ -511,11 +511,13 @@
 	"block.quark.marble_speleothem": "Marble Speleothem",
 	"block.quark.slate_speleothem": "Slate Speleothem",
 	"block.quark.grate": "Iron Grate",
+	"block.quark.gravisand": "Gravisand",
 
 	"entity.quark.pickarang": "Pickarang",
 	"entity.quark.chest_passenger": "Chest In Boat",
 	"entity.quark.glass_frame": "Glass Item Frame",
 	"entity.quark.colored_frame": "Dyed Item Frame",
-	"entity.quark.stoneling": "Stoneling"
+	"entity.quark.stoneling": "Stoneling",
+	"entity.quark.gravisand": "Floating Gravisand"
 	
 }

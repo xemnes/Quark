@@ -1,12 +1,6 @@
 package vazkii.quark.tools.module;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import com.google.common.collect.Maps;
-
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -33,6 +27,11 @@ import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
 import vazkii.quark.tools.item.AncientTomeItem;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 @LoadModule(category = ModuleCategory.TOOLS, hasSubscriptions = true)
 public class AncientTomesModule extends Module {
 
@@ -47,7 +46,7 @@ public class AncientTomesModule extends Module {
 
 	public static Item ancient_tome;
 	public static final List<Enchantment> validEnchants = new ArrayList<>();
-	private static boolean initted = false;
+	private static boolean initialized = false;
 
 	@SubscribeEvent
 	public void onLootTableLoad(LootTableLoadEvent event) {
@@ -80,7 +79,7 @@ public class AncientTomesModule extends Module {
 	@Override
 	public void setup() {
 		setupEnchantList();
-		initted = true;
+		initialized = true;
 	}
 
 	@SubscribeEvent
@@ -211,12 +210,13 @@ public class AncientTomesModule extends Module {
 
 	@Override
 	public void configChanged() {
-		if(initted)
+		if(initialized)
 			setupEnchantList();
 	}
 
 	private void setupEnchantList() {
 		MiscUtil.initializeEnchantmentList(enchantNames, validEnchants);
+		validEnchants.removeIf((ench) -> ench.getMaxLevel() == 1);
 	}
 
 	public static Map<Enchantment, Integer> getTomeEnchantments(ItemStack stack) {

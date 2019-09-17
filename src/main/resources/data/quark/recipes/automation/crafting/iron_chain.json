@@ -14,7 +14,8 @@
     }
   },
   "result": {
-    "item": "quark:iron_chain"
+    "item": "quark:iron_chain",
+    "count": 3
   },
   "conditions": [
     {
