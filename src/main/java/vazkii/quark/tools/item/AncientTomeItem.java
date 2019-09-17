@@ -1,31 +1,21 @@
 package vazkii.quark.tools.item;
 
-import java.util.List;
-
-import javax.annotation.Nonnull;
-
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
-import net.minecraft.entity.Entity;
-import net.minecraft.item.EnchantedBookItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Rarity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.ListNBT;
+import net.minecraft.item.*;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.registries.ForgeRegistries;
-import vazkii.arl.util.ItemNBTHelper;
 import vazkii.quark.base.item.QuarkItem;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.tools.module.AncientTomesModule;
+
+import javax.annotation.Nonnull;
+import java.util.List;
 
 public class AncientTomeItem extends QuarkItem {
 
@@ -35,17 +25,8 @@ public class AncientTomeItem extends QuarkItem {
 	}
 	
 	@Override
-	public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-		ListNBT ench = ItemNBTHelper.getList(stack, "ench", Constants.NBT.TAG_COMPOUND, true);
-		if (ench != null && !ItemNBTHelper.verifyExistence(stack, "StoredEnchantments")) {
-			ItemNBTHelper.setList(stack, "StoredEnchantments", ench.copy());
-			ItemNBTHelper.getNBT(stack).remove("ench");
-		}
-	}
-	
-	@Override
-	public boolean isEnchantable(ItemStack stack) {
-		return true;
+	public boolean isEnchantable(@Nonnull ItemStack stack) {
+		return false;
 	}
 	
 	@Override
@@ -53,6 +34,7 @@ public class AncientTomeItem extends QuarkItem {
 		return true;
 	}
 	
+	@Nonnull
 	@Override
 	public Rarity getRarity(ItemStack stack) {
 		return EnchantedBookItem.getEnchantments(stack).isEmpty() ? super.getRarity(stack) : Rarity.UNCOMMON;
@@ -66,10 +48,11 @@ public class AncientTomeItem extends QuarkItem {
 	
 	@Override
 	public void fillItemGroup(@Nonnull ItemGroup tab, @Nonnull NonNullList<ItemStack> subItems) {
-		if (tab.getRelevantEnchantmentTypes().length != 0 || tab == ItemGroup.SEARCH) {
-			for (Enchantment ench : ForgeRegistries.ENCHANTMENTS.getValues()) {
-				if (AncientTomesModule.validEnchants.contains(ench) && (tab == ItemGroup.SEARCH ? ench.type != null : tab.hasRelevantEnchantmentType(ench.type)))
+		if (tab == ItemGroup.SEARCH || tab.getRelevantEnchantmentTypes().length != 0) {
+			for (Enchantment ench : ForgeRegistries.ENCHANTMENTS) {
+				if ((tab == ItemGroup.SEARCH && ench.type != null) || tab.hasRelevantEnchantmentType(ench.type)) {
 					subItems.add(getEnchantedItemStack(new EnchantmentData(ench, ench.getMaxLevel())));
+				}
 			}
 		}
 	}
