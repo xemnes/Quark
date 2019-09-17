@@ -147,7 +147,7 @@ public class ChainLinkageModule extends Module {
         if (event.getWorld().isRemote && ChainHandler.canBeLinked(target)) {
             int id = target.getEntityId();
             if (AWAIT_MAP.containsKey(id))
-                target.getPersistantData().putUniqueId(ChainHandler.LINKED_TO, AWAIT_MAP.get(id));
+                target.getPersistentData().putUniqueId(ChainHandler.LINKED_TO, AWAIT_MAP.get(id));
             AWAIT_MAP.remove(id);
         }
     }

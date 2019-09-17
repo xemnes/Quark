@@ -59,11 +59,11 @@ public class PoisonPotatoUsageModule extends Module {
 	}
 	
 	private boolean isEntityPoisoned(Entity e) {
-		return e.getPersistantData().getBoolean(TAG_POISONED);
+		return e.getPersistentData().getBoolean(TAG_POISONED);
 	}
 	
 	private void poisonEntity(Entity e) {
-		e.getPersistantData().putBoolean(TAG_POISONED, true);
+		e.getPersistentData().putBoolean(TAG_POISONED, true);
 	}
 	
 }

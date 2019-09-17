@@ -59,12 +59,12 @@ public class ImprovedSleepingModule extends Module {
 
 		if(player.world.getPlayers().size() != 1) {
 			if(afk) {
-				player.getPersistantData().putBoolean(TAG_AFK, true);
+				player.getPersistentData().putBoolean(TAG_AFK, true);
 				TranslationTextComponent text = new TranslationTextComponent("quark.misc.now_afk");
 				text.getStyle().setColor(TextFormatting.AQUA);
 				SpamlessChatMessage.sendToPlayer(player, AFK_MSG, text);
 			} else {
-				player.getPersistantData().putBoolean(TAG_AFK, false);
+				player.getPersistentData().putBoolean(TAG_AFK, false);
 				TranslationTextComponent text = new TranslationTextComponent("quark.misc.left_afk");
 				text.getStyle().setColor(TextFormatting.AQUA);
 				SpamlessChatMessage.sendToPlayer(player, AFK_MSG, text);
@@ -103,7 +103,7 @@ public class ImprovedSleepingModule extends Module {
 		for(PlayerEntity player : world.getPlayers())
 			if(doesPlayerCountForSleeping(player)) {
 				String name = player.getGameProfile().getName();
-				if(player.getPersistantData().getBoolean(TAG_JUST_SLEPT)) sleepingPlayers.add(name);
+				if(player.getPersistentData().getBoolean(TAG_JUST_SLEPT)) sleepingPlayers.add(name);
 				else nonSleepingPlayers.add(name);
 			}
 
@@ -131,7 +131,7 @@ public class ImprovedSleepingModule extends Module {
 	}
 
 	private static boolean doesPlayerCountForSleeping(PlayerEntity player) {
-		return !player.isSpectator() && !player.getPersistantData().getBoolean(TAG_AFK);
+		return !player.isSpectator() && !player.getPersistentData().getBoolean(TAG_AFK);
 	}
 
 	private static boolean isPlayerSleeping(PlayerEntity player) {
@@ -248,8 +248,8 @@ public class ImprovedSleepingModule extends Module {
 		List<? extends PlayerEntity> players = logoutWorld.getPlayers();
 		if(players.size() == 1) {
 			PlayerEntity lastPlayer = players.get(0);
-			if(lastPlayer.getPersistantData().getBoolean(TAG_AFK)) {
-				lastPlayer.getPersistantData().putBoolean(TAG_AFK, false);
+			if(lastPlayer.getPersistentData().getBoolean(TAG_AFK)) {
+				lastPlayer.getPersistentData().putBoolean(TAG_AFK, false);
 				TranslationTextComponent text = new TranslationTextComponent("quark.misc.left_afk");
 				text.getStyle().setColor(TextFormatting.AQUA);
 

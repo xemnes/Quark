@@ -18,7 +18,7 @@ public class WantLoveGoal extends Goal {
     private static final String PET_TIME = "quark:PetTime";
 
     public static void setPetTime(TameableEntity entity) {
-        entity.getPersistantData().putLong(PET_TIME, entity.world.getGameTime());
+        entity.getPersistentData().putLong(PET_TIME, entity.world.getGameTime());
     }
 
     public static boolean canPet(TameableEntity entity) {
@@ -36,7 +36,7 @@ public class WantLoveGoal extends Goal {
         if (!entity.isTamed())
             return 0;
 
-        long lastPetAt = entity.getPersistantData().getLong(PET_TIME);
+        long lastPetAt = entity.getPersistentData().getLong(PET_TIME);
         return entity.world.getGameTime() - lastPetAt;
     }
 

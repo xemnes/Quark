@@ -92,10 +92,10 @@ public class ChainHandler {
 	public static UUID getLink(Entity vehicle) {
 		if (!canBeLinked(vehicle))
 			return null;
-		if (!vehicle.getPersistantData().hasUniqueId(LINKED_TO))
+		if (!vehicle.getPersistentData().hasUniqueId(LINKED_TO))
 			return null;
 
-		return vehicle.getPersistantData().getUniqueId(LINKED_TO);
+		return vehicle.getPersistentData().getUniqueId(LINKED_TO);
 	}
 
 	public static boolean canBeLinkedTo(Entity entity) {
@@ -150,10 +150,10 @@ public class ChainHandler {
 				return;
 
 			if (uuid != null && !uuid.equals(SyncChainMessage.NULL_UUID))
-				entity.getPersistantData().putUniqueId(LINKED_TO, uuid);
+				entity.getPersistentData().putUniqueId(LINKED_TO, uuid);
 			else {
-				entity.getPersistantData().remove(LINKED_TO + "Most");
-				entity.getPersistantData().remove(LINKED_TO + "Least");
+				entity.getPersistentData().remove(LINKED_TO + "Most");
+				entity.getPersistentData().remove(LINKED_TO + "Least");
 			}
 
 			if (sync) {
