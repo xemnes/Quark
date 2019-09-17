@@ -115,7 +115,7 @@ public final class ResourceProxy extends ResourcePack {
 	
 	@Override
 	public boolean isHidden() {
-		return true;
+		return false;
 	}
 	
 	public boolean hasAny() {
