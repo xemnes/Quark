@@ -47,7 +47,7 @@ public class GlassShardModule extends Module {
     @Override
     public void start() {
         dirtyGlass = new DirtyGlassBlock("dirty_glass", this, ItemGroup.DECORATIONS,
-                Block.Properties.create(Material.GLASS, MaterialColor.ADOBE).hardnessAndResistance(0.3F).sound(SoundType.GLASS));
+                Block.Properties.create(Material.GLASS, MaterialColor.BROWN).hardnessAndResistance(0.3F).sound(SoundType.GLASS));
 
         clearShard = new QuarkItem("clear_shard", this, new Item.Properties().group(ItemGroup.MATERIALS));
         dirtyShard = new QuarkItem("dirty_shard", this, new Item.Properties().group(ItemGroup.MATERIALS));

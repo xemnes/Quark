@@ -22,6 +22,11 @@ public class GlowshroomUndergroundBiomeModule extends UndergroundBiomeModule {
 	public static int glowshroomGrowthRate = 20;
 
 	@Config
+	@Config.Min(value = 0)
+	@Config.Max(value = 1)
+	public static double glowshroomSpawnChance = 0.0625;
+
+	@Config
 	public static boolean enableHugeGlowshrooms = true;
 
 	public static Block glowcelium, glowshroom, glowshroom_block, glowshroom_stem;

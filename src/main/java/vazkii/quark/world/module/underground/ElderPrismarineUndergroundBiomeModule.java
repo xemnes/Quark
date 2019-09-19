@@ -8,6 +8,7 @@ import net.minecraft.item.ItemGroup;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import vazkii.quark.base.block.QuarkBlock;
 import vazkii.quark.base.handler.VariantHandler;
+import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.ModuleCategory;
 import vazkii.quark.world.config.UndergroundBiomeConfig;
@@ -18,8 +19,18 @@ public class ElderPrismarineUndergroundBiomeModule extends UndergroundBiomeModul
 
 	public static QuarkBlock elder_prismarine;
 	public static Block elder_sea_lantern;
-	
-	@Override
+
+	@Config
+	@Config.Min(0)
+	@Config.Max(1)
+	public static double waterChance = 0.25;
+
+	@Config
+	@Config.Min(0)
+	@Config.Max(1)
+	public static double lanternChance = 0.0085;
+
+    @Override
 	public void start() {
 		elder_prismarine = new QuarkBlock("elder_prismarine", this, ItemGroup.BUILDING_BLOCKS, 
 				Block.Properties.create(Material.ROCK, MaterialColor.ADOBE)
