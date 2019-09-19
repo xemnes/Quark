@@ -7,9 +7,10 @@ import vazkii.arl.block.BasicBlock;
 import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.base.module.Module;
 
+import javax.annotation.Nullable;
 import java.util.function.Supplier;
 
-public class QuarkBlock extends BasicBlock {
+public class QuarkBlock extends BasicBlock implements IQuarkBlock {
 	
 	private final Module module;
 	private Supplier<Boolean> enabledSupplier = () -> true; 
@@ -27,14 +28,22 @@ public class QuarkBlock extends BasicBlock {
 		if(isEnabled() || group == ItemGroup.SEARCH)
 			super.fillItemGroup(group, items);
 	}
-	
+
+	@Override
 	public QuarkBlock setCondition(Supplier<Boolean> enabledSupplier) {
 		this.enabledSupplier = enabledSupplier;
 		return this;
 	}
-	
-	public boolean isEnabled() {
-		return module != null && module.enabled && enabledSupplier.get();
+
+	@Override
+	public boolean doesConditionApply() {
+		return enabledSupplier.get();
+	}
+
+	@Nullable
+	@Override
+	public Module getModule() {
+		return module;
 	}
 
 }

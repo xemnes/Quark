@@ -18,6 +18,8 @@ import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import vazkii.quark.base.Quark;
+import vazkii.quark.base.block.QuarkBlock;
+import vazkii.quark.base.block.QuarkPaneBlock;
 import vazkii.quark.base.item.QuarkItem;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
@@ -35,7 +37,7 @@ import java.util.Random;
 @LoadModule(category = ModuleCategory.TWEAKS, hasSubscriptions = true)
 public class GlassShardModule extends Module {
 
-    public static Block dirtyGlass;
+    public static QuarkBlock dirtyGlass;
 
     public static Tag<Item> shardTag;
 
@@ -48,6 +50,7 @@ public class GlassShardModule extends Module {
     public void start() {
         dirtyGlass = new DirtyGlassBlock("dirty_glass", this, ItemGroup.DECORATIONS,
                 Block.Properties.create(Material.GLASS, MaterialColor.BROWN).hardnessAndResistance(0.3F).sound(SoundType.GLASS));
+        new QuarkPaneBlock(dirtyGlass);
 
         clearShard = new QuarkItem("clear_shard", this, new Item.Properties().group(ItemGroup.MATERIALS));
         dirtyShard = new QuarkItem("dirty_shard", this, new Item.Properties().group(ItemGroup.MATERIALS));

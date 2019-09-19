@@ -11,7 +11,10 @@
       "item": "quark:yellow_rune"
     },
     {
-      "item": "quark:green_rune"
+      "item": "quark:lime_rune"
+    },
+    {
+      "item": "quark:light_blue_rune"
     },
     {
       "item": "quark:blue_rune"
@@ -20,17 +23,17 @@
       "item": "quark:magenta_rune"
     },
     {
-      "item": "quark:purple_rune"
+      "item": "quark:white_rune"
     }
   ],
   "result": {
     "item": "quark:rainbow_rune",
-    "count": 1
+    "count": 8
   },
   "conditions": [
     {
       "type": "quark:flag",
-        "flag": "color_runes"
+      "flag": "color_runes"
     }
   ]
 } 

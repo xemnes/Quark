@@ -8,6 +8,7 @@ import net.minecraft.tags.Tag;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import vazkii.quark.base.Quark;
+import vazkii.quark.base.block.QuarkPaneBlock;
 import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.ModuleCategory;
@@ -28,7 +29,10 @@ public class CaveCrystalUndergroundBiomeModule extends UndergroundBiomeModule {
 	@Config
 	public static boolean crystalsGrowInLava = false;
 
-	public static List<Block> crystals = Lists.newArrayList();
+	@Config(flag = "cave_crystal_runes")
+	public static boolean crystalsCraftRunes = true;
+
+	public static List<CaveCrystalBlock> crystals = Lists.newArrayList();
 	public static Tag<Block> crystalTag;
 
 	public static Block crystal(int floorIdx) {
@@ -46,6 +50,9 @@ public class CaveCrystalUndergroundBiomeModule extends UndergroundBiomeModule {
 		crystals.add(new CaveCrystalBlock("violet_crystal", 0xff00ff, this, MaterialColor.MAGENTA));
 		crystals.add(new CaveCrystalBlock("white_crystal", 0xffffff, this, MaterialColor.SNOW));
 		crystals.add(new CaveCrystalBlock("black_crystal", 0x000000, this, MaterialColor.BLACK));
+
+		for (CaveCrystalBlock block : crystals)
+			new QuarkPaneBlock(block);
 
 		super.start();
 	}

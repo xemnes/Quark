@@ -23,7 +23,7 @@ def copy_template(name, base, target):
 				writer.write(line)
 
 def copy(templates):
-	foreach_arg(templates, copy_callback)
+	foreach_arg_array(1, sys.argv, templates, copy_callback)
 
 def copy_callback(name, templates):
 	if '=' in name:
@@ -44,19 +44,13 @@ def localize_name(name, modid):
 	return ' '.join(map(lambda s: s.capitalize(), name.split('_')))
 
 def localize(func):
-	foreach_arg(func, localize_callback)
+	foreach_arg_array(1, sys.argv, func, localize_callback)
 
 def localize_callback(name, funcs):
 	if not '=' in name:
 		key = funcs[0](name, modid)
 		val = funcs[1](name, modid)
 		print('"{0}": "{1}",'.format(key, val))
-
-def foreach_arg(templates, func):
-	if 'file:' in sys.argv[1]:
-		foreach_arg_file(sys.argv[1][5:], templates, func)
-	else:
-		foreach_arg_array(1, sys.argv, templates, func)
 
 def foreach_arg_file(file, templates, func):
 	lines = []
@@ -70,7 +64,10 @@ def foreach_arg_array(start, arr, templates, func):
 	argslen = len(arr)
 	for i in range(start, argslen):
 		name = arr[i]
-		func(name, templates)
+		if name.startswith('file:'):
+			foreach_arg_file(name[5:], templates, func)
+		else:
+			func(name, templates)
 
 def parse_param(str):
 	toks = str.split('=')
