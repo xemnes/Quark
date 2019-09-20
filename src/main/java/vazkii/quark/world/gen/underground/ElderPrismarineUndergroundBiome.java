@@ -19,13 +19,13 @@ public class ElderPrismarineUndergroundBiome extends BasicUndergroundBiome {
 	public void fillWall(UndergroundBiomeGenerationContext context, BlockPos pos, BlockState state) {
 		super.fillWall(context, pos, state);
 		
-		if(context.random.nextDouble() < 0.0085)
+		if(context.random.nextDouble() < ElderPrismarineUndergroundBiomeModule.lanternChance)
 			context.world.setBlockState(pos, lanternState, 2);
 	}
 	
 	@Override
 	public void fillFloor(UndergroundBiomeGenerationContext context, BlockPos pos, BlockState state) {
-		if(context.random.nextDouble() < 0.25 && !isBorder(context.world, pos))
+		if(context.random.nextDouble() < ElderPrismarineUndergroundBiomeModule.waterChance && !isBorder(context.world, pos))
 			context.world.setBlockState(pos, Blocks.WATER.getDefaultState(), 2);
 		else super.fillFloor(context, pos, state);
 	}

@@ -48,10 +48,14 @@ public class AncientTomeItem extends QuarkItem {
 	
 	@Override
 	public void fillItemGroup(@Nonnull ItemGroup tab, @Nonnull NonNullList<ItemStack> subItems) {
-		if (tab == ItemGroup.SEARCH || tab.getRelevantEnchantmentTypes().length != 0) {
-			for (Enchantment ench : ForgeRegistries.ENCHANTMENTS) {
-				if ((tab == ItemGroup.SEARCH && ench.type != null) || tab.hasRelevantEnchantmentType(ench.type)) {
-					subItems.add(getEnchantedItemStack(new EnchantmentData(ench, ench.getMaxLevel())));
+		if (isEnabled()) {
+			if (tab == ItemGroup.SEARCH || tab.getRelevantEnchantmentTypes().length != 0) {
+				for (Enchantment ench : ForgeRegistries.ENCHANTMENTS) {
+					if (AncientTomesModule.validEnchants.contains(ench)) {
+						if ((tab == ItemGroup.SEARCH && ench.type != null) || tab.hasRelevantEnchantmentType(ench.type)) {
+							subItems.add(getEnchantedItemStack(new EnchantmentData(ench, ench.getMaxLevel())));
+						}
+					}
 				}
 			}
 		}

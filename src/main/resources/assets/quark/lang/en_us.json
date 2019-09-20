@@ -451,6 +451,7 @@
 	"block.quark.smooth_biotite_slab": "Smooth Biotite Slab",
 	"block.quark.smooth_biotite_vertical_slab": "Smooth Biotite Vertical Slab",
 	"block.quark.dirty_glass": "Dirty Glass",
+	"block.quark.dirty_glass_pane": "Dirty Glass Pane",
 	"block.quark.ender_watcher": "Ender Watcher",
 	"block.quark.basalt": "Basalt",
 	"block.quark.polished_basalt": "Polished Basalt",
@@ -511,11 +512,32 @@
 	"block.quark.marble_speleothem": "Marble Speleothem",
 	"block.quark.slate_speleothem": "Slate Speleothem",
 	"block.quark.grate": "Iron Grate",
+	"block.quark.gravisand": "Gravisand",
+	"block.quark.red_crystal": "Red Cave Crystal",
+	"block.quark.orange_crystal": "Orange Cave Crystal",
+	"block.quark.yellow_crystal": "Yellow Cave Crystal",
+	"block.quark.green_crystal": "Green Cave Crystal",
+	"block.quark.blue_crystal": "Blue Cave Crystal",
+	"block.quark.indigo_crystal": "Indigo Cave Crystal",
+	"block.quark.violet_crystal": "Violet Cave Crystal",
+	"block.quark.white_crystal": "White Cave Crystal",
+	"block.quark.black_crystal": "Black Cave Crystal",
+	"block.quark.red_crystal_pane": "Red Crystal Sheet",
+	"block.quark.orange_crystal_pane": "Orange Crystal Sheet",
+	"block.quark.yellow_crystal_pane": "Yellow Crystal Sheet",
+	"block.quark.green_crystal_pane": "Green Crystal Sheet",
+	"block.quark.blue_crystal_pane": "Blue Crystal Sheet",
+	"block.quark.indigo_crystal_pane": "Indigo Crystal Sheet",
+	"block.quark.violet_crystal_pane": "Violet Crystal Sheet",
+	"block.quark.white_crystal_pane": "White Crystal Sheet",
+	"block.quark.black_crystal_pane": "Black Crystal Sheet",
+
 
 	"entity.quark.pickarang": "Pickarang",
 	"entity.quark.chest_passenger": "Chest In Boat",
 	"entity.quark.glass_frame": "Glass Item Frame",
 	"entity.quark.colored_frame": "Dyed Item Frame",
-	"entity.quark.stoneling": "Stoneling"
+	"entity.quark.stoneling": "Stoneling",
+	"entity.quark.gravisand": "Floating Gravisand"
 	
 }

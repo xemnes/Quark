@@ -47,10 +47,14 @@ public class UndergroundBiomeConfig implements IConfigType {
 
 	public final UndergroundBiome biomeObj;
 
-	public UndergroundBiomeConfig(UndergroundBiome biomeObj, int rarity, BiomeDictionary.Type... types) {
+	public UndergroundBiomeConfig(UndergroundBiome biomeObj, int rarity, boolean isBlacklist, BiomeDictionary.Type... types) {
 		this.biomeObj = biomeObj;
 		this.rarity = rarity;
-		biomes = new BiomeTypeConfig(false, types);
+		biomes = new BiomeTypeConfig(isBlacklist, types);
+	}
+
+	public UndergroundBiomeConfig(UndergroundBiome biomeObj, int rarity, BiomeDictionary.Type... types) {
+		this(biomeObj, rarity, false, types);
 	}
 
 }

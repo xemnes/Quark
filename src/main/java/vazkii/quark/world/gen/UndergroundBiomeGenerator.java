@@ -32,8 +32,9 @@ public class UndergroundBiomeGenerator extends MultiChunkFeatureGenerator {
 		int radiusY = info.verticalSize + random.nextInt(info.verticalVariation);
 		int radiusZ = info.horizontalSize + random.nextInt(info.horizontalVariation);
 		
-		UndergroundBiomeGenerationContext context = new UndergroundBiomeGenerationContext(world, generator, random);
-		apply(context, src, chunkCorner, radiusX, radiusY, radiusZ);
+		UndergroundBiomeGenerationContext context = new UndergroundBiomeGenerationContext(world, src, generator, random,
+				info, radiusX, radiusY, radiusZ);
+		apply(context, chunkCorner);
 	}
 
 	@Override
@@ -53,16 +54,16 @@ public class UndergroundBiomeGenerator extends MultiChunkFeatureGenerator {
 		return info.biomes.canSpawn(biome);
 	}
 
-	public void apply(UndergroundBiomeGenerationContext context, BlockPos center, BlockPos chunkCorner, int radiusX, int radiusY, int radiusZ) {
-		int centerX = center.getX();
-		int centerY = center.getY();
-		int centerZ = center.getZ();
+	public void apply(UndergroundBiomeGenerationContext context, BlockPos chunkCorner) {
+		int centerX = context.source.getX();
+		int centerY = context.source.getY();
+		int centerZ = context.source.getZ();
 
-		double radiusX2 = radiusX * radiusX;
-		double radiusY2 = radiusY * radiusY;
-		double radiusZ2 = radiusZ * radiusZ;
+		double radiusX2 = context.radiusX * context.radiusX;
+		double radiusY2 = context.radiusY * context.radiusY;
+		double radiusZ2 = context.radiusZ * context.radiusZ;
 
-		forEachChunkBlock(chunkCorner, centerY - radiusY, centerY + radiusY, (pos) -> {
+		forEachChunkBlock(chunkCorner, centerY - context.radiusY, centerY + context.radiusY, (pos) -> {
 			int x = pos.getX() - centerX;
 			int y = pos.getY() - centerY;
 			int z = pos.getZ() - centerZ;
@@ -103,19 +104,30 @@ public class UndergroundBiomeGenerator extends MultiChunkFeatureGenerator {
 	public static class UndergroundBiomeGenerationContext {
 
 		public final IWorld world;
+		public final BlockPos source;
 		public final ChunkGenerator<? extends GenerationSettings> generator;
 		public final Random random;
-		
+		public final UndergroundBiomeConfig info;
+		public final int radiusX;
+		public final int radiusY;
+		public final int radiusZ;
+
 		public final List<BlockPos> floorList = new LinkedList<>();
 		public final List<BlockPos> ceilingList = new LinkedList<>();
 		public final List<BlockPos> insideList = new LinkedList<>();
 
 		public final Map<BlockPos, Direction> wallMap = new HashMap<>();
 		
-		public UndergroundBiomeGenerationContext(IWorld world, ChunkGenerator<? extends GenerationSettings> generator, Random random) {
+		public UndergroundBiomeGenerationContext(IWorld world, BlockPos source, ChunkGenerator<? extends GenerationSettings> generator,
+												 Random random, UndergroundBiomeConfig info, int radiusX, int radiusY, int radiusZ) {
 			this.world = world;
+			this.source = source;
 			this.generator = generator;
 			this.random = random;
+			this.info = info;
+			this.radiusX = radiusX;
+			this.radiusY = radiusY;
+			this.radiusZ = radiusZ;
 		}
 		
 	}
