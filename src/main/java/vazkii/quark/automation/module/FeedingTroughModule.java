@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.ai.goal.TemptGoal;
+import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.tileentity.TileEntity;
@@ -13,10 +14,7 @@ import net.minecraftforge.common.util.FakePlayer;
 import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.automation.block.FeedingTroughBlock;
 import vazkii.quark.automation.tile.FeedingTroughTileEntity;
-import vazkii.quark.base.module.LoadModule;
-import vazkii.quark.base.module.Module;
-import vazkii.quark.base.module.ModuleCategory;
-import vazkii.quark.base.module.ModuleLoader;
+import vazkii.quark.base.module.*;
 
 /**
  * @author WireSegal
@@ -26,11 +24,19 @@ import vazkii.quark.base.module.ModuleLoader;
 public class FeedingTroughModule extends Module {
     public static TileEntityType<FeedingTroughTileEntity> tileEntityType;
 
+    @Config
+    public static int cooldown = 30;
+
     private static final double RANGE = 10;
 
     public static PlayerEntity temptWithTroughs(TemptGoal goal, PlayerEntity found) {
         if (!ModuleLoader.INSTANCE.isModuleEnabled(FeedingTroughModule.class) ||
                 (found != null && (goal.isTempting(found.getHeldItemMainhand()) || goal.isTempting(found.getHeldItemOffhand()))))
+            return found;
+
+        if (!(goal.creature instanceof AnimalEntity) ||
+                !((AnimalEntity) goal.creature).canBreed() ||
+                ((AnimalEntity) goal.creature).getGrowingAge() != 0)
             return found;
 
         BlockPos rangeMin = new BlockPos(

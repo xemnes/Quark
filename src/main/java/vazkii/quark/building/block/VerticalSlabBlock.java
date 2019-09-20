@@ -1,7 +1,5 @@
 package vazkii.quark.building.block;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.IWaterLoggable;
@@ -33,6 +31,9 @@ import vazkii.quark.base.block.QuarkBlock;
 import vazkii.quark.base.block.QuarkSlabBlock;
 import vazkii.quark.base.module.Module;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 public class VerticalSlabBlock extends QuarkBlock implements IWaterLoggable {
 
 	public static final EnumProperty<VerticalSlabType> TYPE = EnumProperty.create("type", VerticalSlabType.class);
@@ -63,6 +64,7 @@ public class VerticalSlabBlock extends QuarkBlock implements IWaterLoggable {
 		builder.add(TYPE, WATERLOGGED);
 	}
 
+	@Nonnull
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
 		return state.get(TYPE).shape;
@@ -93,7 +95,7 @@ public class VerticalSlabBlock extends QuarkBlock implements IWaterLoggable {
 		return Direction.fromAngle(angle).getOpposite();
 	}
 
-	public boolean isReplaceable(BlockState state, BlockItemUseContext useContext) {
+	public boolean isReplaceable(BlockState state, @Nonnull BlockItemUseContext useContext) {
 		ItemStack itemstack = useContext.getItem();
 		VerticalSlabType slabtype = state.get(TYPE);
 		if(slabtype != VerticalSlabType.DOUBLE && itemstack.getItem() == this.asItem()) {
@@ -108,6 +110,7 @@ public class VerticalSlabBlock extends QuarkBlock implements IWaterLoggable {
 		return false;
 	}
 
+	@Nonnull
 	@Override
 	@SuppressWarnings("deprecation")
 	public IFluidState getFluidState(BlockState state) {
@@ -115,18 +118,19 @@ public class VerticalSlabBlock extends QuarkBlock implements IWaterLoggable {
 	}
 
 	@Override
-	public boolean receiveFluid(IWorld worldIn, BlockPos pos, BlockState state, IFluidState fluidStateIn) {
-		return state.get(TYPE) != VerticalSlabType.DOUBLE ? IWaterLoggable.super.receiveFluid(worldIn, pos, state, fluidStateIn) : false;
+	public boolean receiveFluid(@Nonnull IWorld worldIn, @Nonnull BlockPos pos, BlockState state, @Nonnull IFluidState fluidStateIn) {
+		return state.get(TYPE) != VerticalSlabType.DOUBLE && IWaterLoggable.super.receiveFluid(worldIn, pos, state, fluidStateIn);
 	}
 
 	@Override
 	public boolean canContainFluid(IBlockReader worldIn, BlockPos pos, BlockState state, Fluid fluidIn) {
-		return state.get(TYPE) != VerticalSlabType.DOUBLE ? IWaterLoggable.super.canContainFluid(worldIn, pos, state, fluidIn) : false;
+		return state.get(TYPE) != VerticalSlabType.DOUBLE && IWaterLoggable.super.canContainFluid(worldIn, pos, state, fluidIn);
 	}
 
+	@Nonnull
 	@Override
 	@SuppressWarnings("deprecation")
-	public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
+	public BlockState updatePostPlacement(@Nonnull BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
 		if(stateIn.get(WATERLOGGED))
 			worldIn.getPendingFluidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickRate(worldIn));
 
@@ -134,11 +138,12 @@ public class VerticalSlabBlock extends QuarkBlock implements IWaterLoggable {
 	}
 
 	@Override
-	public boolean allowsMovement(BlockState state, IBlockReader worldIn, BlockPos pos, PathType type) {
+	@SuppressWarnings("deprecation")
+	public boolean allowsMovement(@Nonnull BlockState state, @Nonnull IBlockReader worldIn, @Nonnull BlockPos pos, PathType type) {
 		return type == PathType.WATER && worldIn.getFluidState(pos).isTagged(FluidTags.WATER); 
 	}
 
-	public static enum VerticalSlabType implements IStringSerializable {
+	public enum VerticalSlabType implements IStringSerializable {
 		NORTH(Direction.NORTH),
 		SOUTH(Direction.SOUTH),
 		WEST(Direction.WEST),
@@ -149,7 +154,7 @@ public class VerticalSlabBlock extends QuarkBlock implements IWaterLoggable {
 		public final Direction direction;
 		public final VoxelShape shape;
 
-		private VerticalSlabType(Direction direction) {
+		VerticalSlabType(Direction direction) {
 			this.name = direction == null ? "double" : direction.getName();
 			this.direction = direction;
 
@@ -174,6 +179,7 @@ public class VerticalSlabBlock extends QuarkBlock implements IWaterLoggable {
 			return name;
 		}
 
+		@Nonnull
 		@Override
 		public String getName() {
 			return name;
