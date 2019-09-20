@@ -34,5 +34,10 @@ public class SpiderNestUndergroundBiomeModule extends UndergroundBiomeModule {
 	protected UndergroundBiomeConfig getBiomeConfig() {
 		return new UndergroundBiomeConfig(new SpiderNestUndergroundBiome(), 80, Type.PLAINS);
 	}
+	
+	@Override
+	protected String getBiomeName() {
+		return "spider_nest";
+	}
 
 }

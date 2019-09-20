@@ -42,6 +42,11 @@ public class GlowshroomUndergroundBiomeModule extends UndergroundBiomeModule {
 
 		super.start();
 	}
+	
+	@Override
+	protected String getBiomeName() {
+		return "glowshroom";
+	}
 
 	@Override
 	protected UndergroundBiomeConfig getBiomeConfig() {

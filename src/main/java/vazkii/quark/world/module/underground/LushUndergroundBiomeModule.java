@@ -14,4 +14,9 @@ public class LushUndergroundBiomeModule extends UndergroundBiomeModule {
 		return new UndergroundBiomeConfig(new LushUndergroundBiome(), 80, Type.JUNGLE);
 	}
 
+	@Override
+	protected String getBiomeName() {
+		return "lush";
+	}
+	
 }

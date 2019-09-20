@@ -18,7 +18,7 @@ public class BigStoneClusterGenerator extends MultiChunkFeatureGenerator {
 	private final BlockState placeState;
 
 	public BigStoneClusterGenerator(BigStoneClusterConfig config, BlockState placeState, Supplier<Boolean> condition) {
-		super(config.dimensions, () -> config.enabled && condition.get());
+		super(config.dimensions, () -> config.enabled && condition.get(), (long) placeState.getBlock().getRegistryName().toString().hashCode());
 		this.config = config;
 		this.placeState = placeState;
 	}

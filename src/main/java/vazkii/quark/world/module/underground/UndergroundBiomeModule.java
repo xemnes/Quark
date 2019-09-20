@@ -20,8 +20,10 @@ public abstract class UndergroundBiomeModule extends Module {
 
 	@Override
 	public void setup() {
-		WorldGenHandler.addGenerator(new UndergroundBiomeGenerator(biomeSettings, this), Decoration.UNDERGROUND_DECORATION, WorldGenWeights.UNDERGROUND_BIOMES);
+		WorldGenHandler.addGenerator(new UndergroundBiomeGenerator(biomeSettings, this, getBiomeName()), Decoration.UNDERGROUND_DECORATION, WorldGenWeights.UNDERGROUND_BIOMES);
 	}
+	
+	protected abstract String getBiomeName();
 
 	protected abstract UndergroundBiomeConfig getBiomeConfig();
 

@@ -13,5 +13,10 @@ public class OvergrownUndergroundBiomeModule extends UndergroundBiomeModule {
 	protected UndergroundBiomeConfig getBiomeConfig() {
 		return new UndergroundBiomeConfig(new OvergrownUndergroundBiome(), 80, Type.FOREST);
 	}
+	
+	@Override
+	protected String getBiomeName() {
+		return "overgrown";
+	}
 
 }

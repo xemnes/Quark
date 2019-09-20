@@ -13,5 +13,10 @@ public class SandstoneUndergroundBiomeModule extends UndergroundBiomeModule {
 	protected UndergroundBiomeConfig getBiomeConfig() {
 		return new UndergroundBiomeConfig(new SandstoneUndergroundBiome(), 80, Type.SANDY);
 	}
+	
+	@Override
+	protected String getBiomeName() {
+		return "sandstone";
+	}
 
 }

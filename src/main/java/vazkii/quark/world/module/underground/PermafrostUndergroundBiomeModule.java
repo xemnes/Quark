@@ -35,5 +35,10 @@ public class PermafrostUndergroundBiomeModule extends UndergroundBiomeModule {
 	protected UndergroundBiomeConfig getBiomeConfig() {
 		return new UndergroundBiomeConfig(new PermafrostUndergroundBiome(), 80, Type.COLD);
 	}
+	
+	@Override
+	protected String getBiomeName() {
+		return "permafrost";
+	}
 
 }
