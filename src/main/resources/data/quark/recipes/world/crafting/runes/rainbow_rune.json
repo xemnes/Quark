@@ -1,9 +1,9 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "RWO",
-    "YSG",
-    "BIV"
+    "RWV",
+    "OSI",
+    "YGB"
   ],
   "key": {
     "S": {
@@ -44,7 +44,7 @@
       "values": [
         {
           "type": "quark:flag",
-          "flag": "runes"
+          "flag": "color_runes"
         },
         {
           "type": "quark:flag",

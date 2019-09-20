@@ -52,6 +52,8 @@
 	"quark.misc.shulker_box_shift": "Hold Shift to see contents",
 	"quark.misc.map_shift": "Hold Shift to see the map",
 
+	"quark.container.feeding_trough": "Feeding Trough",
+
 	"item.quark.trowel": "Trowel",
 	"item.quark.tallow": "Tallow",
 	"item.quark.black_rune": "Black Rune",

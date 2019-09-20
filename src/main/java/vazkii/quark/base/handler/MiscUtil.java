@@ -1,21 +1,23 @@
 package vazkii.quark.base.handler;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.util.List;
-
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.Vec2f;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.storage.loot.LootEntry;
 import net.minecraft.world.storage.loot.LootPool;
 import net.minecraft.world.storage.loot.LootTable;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 import vazkii.quark.base.Quark;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.List;
 
 public class MiscUtil {
 
@@ -87,6 +89,17 @@ public class MiscUtil {
 			if(e != null)
 				enchants.add(e);
 		}
-	}	
+	}
+
+	public static Vec2f getMinecraftAngles(Vec3d direction) {
+		// <sin(-y) * cos(p), -sin(-p), cos(-y) * cos(p)>
+
+		direction = direction.normalize();
+
+		double pitch = Math.asin(direction.y);
+		double yaw = Math.asin(direction.x / Math.cos(pitch));
+
+		return new Vec2f((float) (pitch * 180 / Math.PI), (float) (-yaw * 180 / Math.PI));
+	}
 
 }

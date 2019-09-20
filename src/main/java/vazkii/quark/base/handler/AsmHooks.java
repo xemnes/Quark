@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.goal.TemptGoal;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
@@ -21,6 +22,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.quark.automation.client.render.ChainRenderer;
 import vazkii.quark.automation.client.render.PistonTileEntityRenderer;
 import vazkii.quark.automation.module.ChainLinkageModule;
+import vazkii.quark.automation.module.FeedingTroughModule;
 import vazkii.quark.automation.module.PistonsMoveTileEntitiesModule;
 import vazkii.quark.tools.module.PickarangModule;
 import vazkii.quark.tweaks.module.HoeHarvestingModule;
@@ -165,5 +167,13 @@ public class AsmHooks {
 
 	public static void dropChain(Entity entity) {
 		ChainLinkageModule.drop(entity);
+	}
+
+	// ==========================================================================
+	// Feeding Troughs
+	// ==========================================================================
+
+	public static PlayerEntity findTroughs(PlayerEntity found, TemptGoal goal) {
+		return FeedingTroughModule.temptWithTroughs(goal, found);
 	}
 }

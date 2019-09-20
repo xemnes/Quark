@@ -18,16 +18,21 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.arl.interf.IBlockItemProvider;
 import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.base.Quark;
+import vazkii.quark.base.block.IQuarkBlock;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.decoration.client.render.VariantChestTileEntityRenderer;
 import vazkii.quark.decoration.tile.VariantChestTileEntity;
 
+import javax.annotation.Nullable;
+import java.util.function.Supplier;
+
 @OnlyIn(value = Dist.CLIENT, _interface = IBlockItemProvider.class)
-public class VariantChestBlock extends ChestBlock implements IBlockItemProvider {
+public class VariantChestBlock extends ChestBlock implements IBlockItemProvider, IQuarkBlock {
 
 	public final String type;
 	private final Module module;
-	
+	private Supplier<Boolean> enabledSupplier = () -> true;
+
 	public final ResourceLocation modelNormal, modelDouble;
 	
 	public VariantChestBlock(String type, Module module) {
@@ -41,11 +46,28 @@ public class VariantChestBlock extends ChestBlock implements IBlockItemProvider 
 		modelNormal = new ResourceLocation(Quark.MOD_ID, "textures/model/chest/" + type + ".png");
 		modelDouble = new ResourceLocation(Quark.MOD_ID, "textures/model/chest/" + type + "_double.png");
 	}
-	
+
 	@Override
 	public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
-		if(module.enabled || group == ItemGroup.SEARCH)
+		if(isEnabled() || group == ItemGroup.SEARCH)
 			super.fillItemGroup(group, items);
+	}
+
+	@Override
+	public VariantChestBlock setCondition(Supplier<Boolean> enabledSupplier) {
+		this.enabledSupplier = enabledSupplier;
+		return this;
+	}
+
+	@Override
+	public boolean doesConditionApply() {
+		return enabledSupplier.get();
+	}
+
+	@Nullable
+	@Override
+	public Module getModule() {
+		return module;
 	}
 
 	@Override

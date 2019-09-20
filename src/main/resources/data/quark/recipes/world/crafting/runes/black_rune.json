@@ -23,7 +23,7 @@
       "values": [
         {
           "type": "quark:flag",
-          "flag": "runes"
+          "flag": "color_runes"
         },
         {
           "type": "quark:flag",
