@@ -9,7 +9,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.*;
 import net.minecraftforge.common.util.FakePlayer;
 import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.automation.block.FeedingTroughBlock;
@@ -54,6 +54,13 @@ public class FeedingTroughModule extends Module {
         for (BlockPos pos : BlockPos.getAllInBoxMutable(rangeMin, rangeMax)) {
             double distanceSq = pos.distanceSq(goal.creature.getPositionVector(), true);
             if (distanceSq <= RANGE * RANGE && distanceSq < shortestDistanceSq) {
+                Vec3d eyesPos = new Vec3d(goal.creature.posX, goal.creature.posY + goal.creature.getEyeHeight(), goal.creature.posZ);
+                Vec3d targetPos = new Vec3d(pos).add(0.5, 0.0625, 0.5);
+                BlockRayTraceResult ray = goal.creature.world.rayTraceBlocks(new RayTraceContext(eyesPos, targetPos, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, goal.creature));
+
+                if (ray.getType() != RayTraceResult.Type.BLOCK || ray.getPos().equals(pos))
+                    continue;
+
                 TileEntity tile = goal.creature.world.getTileEntity(pos);
                 if (tile instanceof FeedingTroughTileEntity) {
                     FakePlayer foodHolder = ((FeedingTroughTileEntity) tile).getFoodHolder(goal);
