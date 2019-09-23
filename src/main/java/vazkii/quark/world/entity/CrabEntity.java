@@ -1,0 +1,278 @@
+/**
+ * This class was created by <WireSegal>. It's distributed as
+ * part of the Quark Mod. Get the Source Code in github:
+ * https://github.com/Vazkii/Quark
+ * <p>
+ * Quark is Open Source and distributed under the
+ * CC-BY-NC-SA 3.0 License: https://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_GB
+ * <p>
+ * File Created @ [Jul 13, 2019, 19:51 AM (EST)]
+ */
+package vazkii.quark.world.entity;
+
+import com.google.common.collect.Lists;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.material.Material;
+import net.minecraft.entity.*;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.AttributeModifier.Operation;
+import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.effect.LightningBoltEntity;
+import net.minecraft.entity.passive.AnimalEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.IPacket;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IWorldReader;
+import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
+import net.minecraftforge.fml.network.NetworkHooks;
+import vazkii.quark.base.handler.EntityOpacityHandler;
+import vazkii.quark.world.ai.RaveGoal;
+import vazkii.quark.world.ai.ZigZagMovementController;
+import vazkii.quark.world.module.PassiveCreaturesModule;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+public class CrabEntity extends AnimalEntity implements IEntityAdditionalSpawnData {
+
+	public static final ResourceLocation CRAB_LOOT_TABLE = new ResourceLocation("quark", "entities/crab");
+
+	private static final DataParameter<Float> SIZE_MODIFIER = EntityDataManager.createKey(CrabEntity.class, DataSerializers.FLOAT);
+
+	private static final Ingredient TEMPTATION_ITEMS = Ingredient.merge(Lists.newArrayList(
+			Ingredient.fromItems(Items.WHEAT, Items.CHICKEN),
+			Ingredient.fromTag(ItemTags.FISHES)
+	));
+
+	private static int lightningCooldown;
+
+	private boolean crabRave;
+    private BlockPos jukeboxPosition;
+
+	public CrabEntity(EntityType<? extends CrabEntity> type, World worldIn) {
+		this(type, worldIn, 1);
+	}
+
+	public CrabEntity(EntityType<? extends CrabEntity> type, World worldIn, float sizeModifier) {
+		super(type, worldIn);
+		moveController = new ZigZagMovementController(this);
+		if (sizeModifier != 1)
+			dataManager.set(SIZE_MODIFIER, sizeModifier);
+	}
+
+	@Override
+	public float getBlockPathWeight(BlockPos pos, IWorldReader world) {
+		return world.getBlockState(pos.down()).getBlock() == Blocks.SAND ? 10.0F : world.getBrightness(pos) - 0.5F;
+	}
+
+	@Override
+	public boolean canBreatheUnderwater() {
+		return true;
+	}
+
+	@Nonnull
+	@Override
+	public CreatureAttribute getCreatureAttribute() {
+		return CreatureAttribute.ARTHROPOD;
+	}
+
+	@Override
+	protected void registerData() {
+		super.registerData();
+
+		dataManager.register(SIZE_MODIFIER, 1f);
+	}
+
+
+	@Override
+	protected float getStandingEyeHeight(Pose pose, EntitySize size) {
+		return 0.2f * size.height;
+	}
+
+	public float getSizeModifier() {
+		return dataManager.get(SIZE_MODIFIER);
+	}
+
+	@Override
+	protected void registerGoals() {
+		this.goalSelector.addGoal(1, new PanicGoal(this, 1.25D));
+		this.goalSelector.addGoal(2, new RaveGoal(this));
+		this.goalSelector.addGoal(3, new BreedGoal(this, 1.0D));
+		this.goalSelector.addGoal(4, new TemptGoal(this, 1.2D, false, TEMPTATION_ITEMS));
+		this.goalSelector.addGoal(5, new FollowParentGoal(this, 1.1D));
+		this.goalSelector.addGoal(6, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
+		this.goalSelector.addGoal(7, new LookAtGoal(this, PlayerEntity.class, 6.0F));
+		this.goalSelector.addGoal(8, new LookRandomlyGoal(this));
+	}
+
+
+	@Override
+	protected void registerAttributes() {
+		super.registerAttributes();
+		this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(10.0D);
+		this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.25D);
+		this.getAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(3.0D);
+		this.getAttribute(SharedMonsterAttributes.ARMOR_TOUGHNESS).setBaseValue(2.0D);
+		this.getAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(0.5D);
+	}
+
+	@Override
+	public boolean isEntityInsideOpaqueBlock() {
+		return EntityOpacityHandler.isEntityInsideOpaqueBlock(this);
+	}
+
+	@Override
+	public void tick() {
+		super.tick();
+
+		if (inWater)
+			stepHeight = 1F;
+		else
+			stepHeight = 0.6F;
+
+		if (lightningCooldown > 0)
+			lightningCooldown--;
+		
+        if(isRaving() && (jukeboxPosition == null || jukeboxPosition.distanceSq(posX, posY, posZ, true) > 24.0D || world.getBlockState(jukeboxPosition).getBlock() != Blocks.JUKEBOX))
+        	party(null, false);
+		
+		if(isRaving() && world.isRemote && ticksExisted % 10 == 0) {
+			BlockPos below = getPosition().down();
+			BlockState belowState = world.getBlockState(below);
+			if(belowState.getMaterial() == Material.SAND)
+				world.playEvent(2001, below, Block.getStateId(belowState));
+		}
+	}
+
+	@Nonnull
+	@Override
+	public EntitySize getSize(Pose poseIn) {
+		return super.getSize(poseIn).scale(this.getSizeModifier());
+	}
+
+	@Override
+	public boolean isPushedByWater() {
+		return false;
+	}
+
+	@Override
+	protected int decreaseAirSupply(int air) {
+		return air;
+	}
+
+	@Override
+	public void onStruckByLightning(LightningBoltEntity lightningBolt) {
+		if (lightningCooldown > 0)
+			return;
+
+		this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).applyModifier(new AttributeModifier("Lightning Bonus", 0.5, Operation.ADDITION));
+		this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).applyModifier(new AttributeModifier("Lightning Bonus", 0.125, Operation.ADDITION));
+		this.getAttribute(SharedMonsterAttributes.ARMOR).applyModifier(new AttributeModifier("Lightning Bonus", 1, Operation.ADDITION));
+		float sizeModifier = Math.min(getSizeModifier() * 2, 16);
+		this.dataManager.set(SIZE_MODIFIER, sizeModifier);
+		recalculateSize();
+
+		lightningCooldown = 100;
+	}
+
+	@Override
+	protected void collideWithEntity(Entity entityIn) {
+		super.collideWithEntity(entityIn);
+		if (entityIn instanceof LivingEntity && !(entityIn instanceof CrabEntity))
+			entityIn.attackEntityFrom(DamageSource.CACTUS, 1f);
+	}
+
+	@Override
+	public boolean isBreedingItem(ItemStack stack) {
+		return !stack.isEmpty() && TEMPTATION_ITEMS.test(stack);
+	}
+
+	@Nullable
+	@Override
+	public AgeableEntity createChild(@Nonnull AgeableEntity other) {
+		return new CrabEntity(PassiveCreaturesModule.crabType, world);
+	}
+
+	@Nonnull
+	@Override
+	protected ResourceLocation getLootTable() {
+		return CRAB_LOOT_TABLE;
+	}
+
+
+	public void party(BlockPos pos, boolean isPartying) {
+		// A separate method, due to setPartying being side-only.
+		jukeboxPosition = pos;
+		crabRave = isPartying;
+	}
+
+	@Override
+	@OnlyIn(Dist.CLIENT)
+    public void setPartying(BlockPos pos, boolean isPartying) {
+		party(pos, isPartying);
+    }
+
+	public boolean isRaving() {
+        return crabRave;
+    }
+
+	@Override
+	public void notifyDataManagerChange(@Nonnull DataParameter<?> parameter) {
+		if (parameter.equals(SIZE_MODIFIER))
+			recalculateSize();
+
+		super.notifyDataManagerChange(parameter);
+	}
+
+	@Nonnull
+	@Override
+	public IPacket<?> createSpawnPacket() {
+		 return NetworkHooks.getEntitySpawningPacket(this);
+	}
+
+	@Override
+	public void writeSpawnData(PacketBuffer buffer) {
+		buffer.writeFloat(getSizeModifier());
+	}
+
+	@Override
+	public void readSpawnData(PacketBuffer buffer) {
+		dataManager.set(SIZE_MODIFIER, buffer.readFloat());
+	}
+
+	@Override
+	public void readAdditional(CompoundNBT compound) {
+		super.readAdditional(compound);
+
+		lightningCooldown = compound.getInt("LightningCooldown");
+
+		if (compound.contains("EnemyCrabRating")) {
+			float sizeModifier = compound.getFloat("EnemyCrabRating");
+			dataManager.set(SIZE_MODIFIER, sizeModifier);
+		}
+	}
+
+	@Override
+	public void writeAdditional(CompoundNBT compound) {
+		super.writeAdditional(compound);
+		compound.putFloat("EnemyCrabRating", getSizeModifier());
+		compound.putInt("LightningCooldown", lightningCooldown);
+	}
+	
+}

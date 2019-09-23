@@ -8,18 +8,18 @@
  * <p>
  * File Created @ [May 11, 2019, 16:46 AM (EST)]
  */
-package vazkii.quark.tools.client.layer;
+package vazkii.quark.world.client.layer;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.IEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
-import net.minecraft.client.renderer.model.ItemCameraTransforms;
+import net.minecraft.client.renderer.model.ItemCameraTransforms.TransformType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import vazkii.quark.tools.client.model.StonelingModel;
+import vazkii.quark.world.client.model.StonelingModel;
 import vazkii.quark.world.entity.StonelingEntity;
 
 import javax.annotation.Nonnull;
@@ -46,7 +46,7 @@ public class StonelingItemLayer extends LayerRenderer<StonelingEntity, Stoneling
 			
 			GlStateManager.scalef(0.725F, 0.725F, 0.725F);
 			Minecraft mc = Minecraft.getInstance();
-			mc.getItemRenderer().renderItem(stack, ItemCameraTransforms.TransformType.FIXED);
+			mc.getItemRenderer().renderItem(stack, TransformType.FIXED);
 			GlStateManager.popMatrix();
 		}
 	}

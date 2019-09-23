@@ -1,4 +1,4 @@
-package vazkii.quark.tools.client.model;
+package vazkii.quark.world.client.model;
 
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;

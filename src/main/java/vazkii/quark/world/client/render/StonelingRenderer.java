@@ -5,8 +5,8 @@ import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import vazkii.quark.tools.client.layer.StonelingItemLayer;
-import vazkii.quark.tools.client.model.StonelingModel;
+import vazkii.quark.world.client.layer.StonelingItemLayer;
+import vazkii.quark.world.client.model.StonelingModel;
 import vazkii.quark.world.entity.StonelingEntity;
 
 import javax.annotation.Nonnull;

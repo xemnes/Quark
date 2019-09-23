@@ -1,12 +1,23 @@
 package vazkii.quark.decoration.module;
 
 import com.google.common.collect.ImmutableSet;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.passive.horse.AbstractChestedHorseEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.ActionResultType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.Tags;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.base.Quark;
@@ -70,6 +81,62 @@ public class VariantChestsModule extends Module {
 	
 	private void addOverride(String name) {
 		Quark.proxy.addResourceOverride("textures", "entity/chest", name + ".png", () -> enabled && changeTextures);
+	}
+
+	private static final String DONK_CHEST = "Quark:DonkChest";
+
+	@SubscribeEvent
+	public void onClickEntity(PlayerInteractEvent.EntityInteractSpecific event) {
+		Entity target = event.getTarget();
+		PlayerEntity player = event.getPlayer();
+		ItemStack held = player.getHeldItem(event.getHand());
+
+		if (!held.isEmpty() && target instanceof AbstractChestedHorseEntity) {
+			AbstractChestedHorseEntity horse = (AbstractChestedHorseEntity) target;
+
+			if (!horse.hasChest() && held.getItem() != Items.CHEST) {
+				if (held.getItem().isIn(Tags.Items.CHESTS_WOODEN)) {
+					event.setCanceled(true);
+					event.setCancellationResult(ActionResultType.SUCCESS);
+
+					if (!target.world.isRemote) {
+						ItemStack copy = held.copy();
+						copy.setCount(1);
+						held.shrink(1);
+
+						horse.getPersistentData().put(DONK_CHEST, copy.serializeNBT());
+
+						horse.setChested(true);
+						horse.initHorseChest();
+						horse.playChestEquipSound();
+					}
+				}
+			}
+		}
+	}
+
+	private static final ThreadLocal<ItemStack> WAIT_TO_REPLACE_CHEST = new ThreadLocal<>();
+
+	@SubscribeEvent
+	public void onDeath(LivingDeathEvent event) {
+		Entity target = event.getEntityLiving();
+		if (target instanceof AbstractChestedHorseEntity) {
+			AbstractChestedHorseEntity horse = (AbstractChestedHorseEntity) target;
+			ItemStack chest = ItemStack.read(horse.getPersistentData().getCompound(DONK_CHEST));
+			if (!chest.isEmpty() && horse.hasChest())
+				WAIT_TO_REPLACE_CHEST.set(chest);
+		}
+	}
+
+	@SubscribeEvent
+	public void onEntityJoinWorld(EntityJoinWorldEvent event) {
+		Entity target = event.getEntity();
+		if (target instanceof ItemEntity && ((ItemEntity) target).getItem().getItem() == Items.CHEST) {
+			ItemStack local = WAIT_TO_REPLACE_CHEST.get();
+			if (local != null && !local.isEmpty())
+				((ItemEntity) target).setItem(local);
+			WAIT_TO_REPLACE_CHEST.remove();
+		}
 	}
 	
 }

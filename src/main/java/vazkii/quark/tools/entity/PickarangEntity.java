@@ -309,7 +309,7 @@ public class PickarangEntity extends ThrowableEntity {
 
 	@Override
 	public void readAdditional(CompoundNBT compound) {
-		super.read(compound);
+		super.readAdditional(compound);
 		
 		dataManager.set(RETURNING, compound.getBoolean(TAG_RETURNING));
 		liveTime = compound.getInt(TAG_LIVE_TIME);

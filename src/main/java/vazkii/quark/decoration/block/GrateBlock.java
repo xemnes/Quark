@@ -28,6 +28,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IEnviromentBlockReader;
 import vazkii.quark.base.block.QuarkBlock;
 import vazkii.quark.base.module.Module;
+import vazkii.quark.decoration.module.GrateModule;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -71,6 +72,17 @@ public class GrateBlock extends QuarkBlock implements IWaterLoggable {
 	@Override
 	@SuppressWarnings("deprecation")
 	public VoxelShape getShape(BlockState state, IBlockReader world, BlockPos pos, ISelectionContext context) {
+		if (GrateModule.RENDER_SHAPE.get()) {
+			GrateModule.RENDER_SHAPE.remove();
+			return SELECTION_SHAPE;
+		}
+		return context.isSneaking() ? TRUE_SHAPE : SELECTION_SHAPE;
+	}
+
+	@Nonnull
+	@Override
+	@SuppressWarnings("deprecation")
+	public VoxelShape getRenderShape(BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos) {
 		return SELECTION_SHAPE;
 	}
 

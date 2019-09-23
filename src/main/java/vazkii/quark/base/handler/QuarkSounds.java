@@ -26,6 +26,11 @@ public class QuarkSounds {
     public static final SoundEvent ENTITY_PICKARANG_THROW = register("entity.pickarang.throw");
     public static final SoundEvent ENTITY_PICKARANG_CLANK = register("entity.pickarang.clank");
     public static final SoundEvent ENTITY_PICKARANG_PICKUP = register("entity.pickarang.pickup");
+    public static final SoundEvent ENTITY_FROG_WEDNESDAY = register("entity.frog.wednesday");
+    public static final SoundEvent ENTITY_FROG_JUMP = register("entity.frog.jump");
+    public static final SoundEvent ENTITY_FROG_DIE = register("entity.frog.die");
+    public static final SoundEvent ENTITY_FROG_HURT = register("entity.frog.hurt");
+    public static final SoundEvent ENTITY_FROG_IDLE = register("entity.frog.idle");
 
     public static void start() {
         for (SoundEvent event : REGISTRY_DEFERENCE)

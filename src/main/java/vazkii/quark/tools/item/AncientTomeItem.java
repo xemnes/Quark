@@ -33,7 +33,12 @@ public class AncientTomeItem extends QuarkItem {
 	public boolean hasEffect(ItemStack stack) {
 		return true;
 	}
-	
+
+	@Override
+	public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
+		return false;
+	}
+
 	@Nonnull
 	@Override
 	public Rarity getRarity(ItemStack stack) {
