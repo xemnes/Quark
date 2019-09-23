@@ -49,6 +49,11 @@ public class ElderPrismarineUndergroundBiomeModule extends UndergroundBiomeModul
 		
 		super.start();
 	}
+    
+	@Override
+	protected String getBiomeName() {
+		return "elder_prismarine";
+	}
 	
 	@Override
 	protected UndergroundBiomeConfig getBiomeConfig() {

@@ -32,6 +32,11 @@ public class BrimstoneUndergroundBiomeModule extends UndergroundBiomeModule {
 	}
 	
 	@Override
+	protected String getBiomeName() {
+		return "brimstone";
+	}
+	
+	@Override
 	protected UndergroundBiomeConfig getBiomeConfig() {
 		return new UndergroundBiomeConfig(new BrimstoneUndergroundBiome(), 80, Type.MESA);
 	}

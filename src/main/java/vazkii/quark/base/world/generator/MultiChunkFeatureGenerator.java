@@ -15,8 +15,11 @@ import java.util.function.Supplier;
 
 public abstract class MultiChunkFeatureGenerator extends Generator {
 
-	public MultiChunkFeatureGenerator(DimensionConfig dimConfig, Supplier<Boolean> condition) {
+	private final long seedXor;
+	
+	public MultiChunkFeatureGenerator(DimensionConfig dimConfig, Supplier<Boolean> condition, long seedXor) {
 		super(dimConfig, condition);
+		this.seedXor = seedXor;
 	}
 
 	@Override
@@ -35,12 +38,12 @@ public abstract class MultiChunkFeatureGenerator extends Generator {
 		int chunkX = pos.getX() >> 4;
 		int chunkZ = pos.getZ() >> 4;
 		
-		long chunkSeed = (xSeed * chunkX + zSeed * chunkZ) ^ worldSeed;
+		long chunkSeed = (xSeed * chunkX + zSeed * chunkZ) ^ worldSeed ^ seedXor;
 		Random ourRandom = new Random(chunkSeed);
 		
 		for(int x = chunkX - chunkRadius; x <= chunkX + chunkRadius; x++)
 			for(int z = chunkZ - chunkRadius; z <= chunkZ + chunkRadius; z++) {
-				chunkSeed = (xSeed * x + zSeed * z) ^ worldSeed;
+				chunkSeed = (xSeed * x + zSeed * z) ^ worldSeed ^ seedXor;
 				Random chunkRandom = new Random(chunkSeed);
 				BlockPos chunkCorner = new BlockPos(x << 4, 0, z << 4);
 

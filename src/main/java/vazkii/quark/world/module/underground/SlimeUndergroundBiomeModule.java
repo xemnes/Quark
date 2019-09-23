@@ -13,5 +13,10 @@ public class SlimeUndergroundBiomeModule extends UndergroundBiomeModule {
 	protected UndergroundBiomeConfig getBiomeConfig() {
 		return new UndergroundBiomeConfig(new SlimeUndergroundBiome(), 120, Type.SWAMP);
 	}
+	
+	@Override
+	protected String getBiomeName() {
+		return "slime";
+	}
 
 }

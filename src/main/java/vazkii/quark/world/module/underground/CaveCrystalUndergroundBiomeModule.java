@@ -62,6 +62,11 @@ public class CaveCrystalUndergroundBiomeModule extends UndergroundBiomeModule {
 		super.setup();
 		crystalTag = new BlockTags.Wrapper(new ResourceLocation(Quark.MOD_ID, "crystal"));
 	}
+	
+	@Override
+	protected String getBiomeName() {
+		return "crystal";
+	}
 
 	@Override
 	protected UndergroundBiomeConfig getBiomeConfig() {
