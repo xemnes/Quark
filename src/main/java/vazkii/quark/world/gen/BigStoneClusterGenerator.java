@@ -1,8 +1,5 @@
 package vazkii.quark.world.gen;
 
-import java.util.Random;
-import java.util.function.Supplier;
-
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
@@ -12,13 +9,16 @@ import vazkii.quark.base.world.generator.MultiChunkFeatureGenerator;
 import vazkii.quark.world.config.BigStoneClusterConfig;
 import vazkii.quark.world.module.BigStoneClustersModule;
 
+import java.util.Random;
+import java.util.function.BooleanSupplier;
+
 public class BigStoneClusterGenerator extends MultiChunkFeatureGenerator {
 
 	private final BigStoneClusterConfig config;
 	private final BlockState placeState;
 
-	public BigStoneClusterGenerator(BigStoneClusterConfig config, BlockState placeState, Supplier<Boolean> condition) {
-		super(config.dimensions, () -> config.enabled && condition.get(), (long) placeState.getBlock().getRegistryName().toString().hashCode());
+	public BigStoneClusterGenerator(BigStoneClusterConfig config, BlockState placeState, BooleanSupplier condition) {
+		super(config.dimensions, () -> config.enabled && condition.getAsBoolean(), (long) placeState.getBlock().getRegistryName().toString().hashCode());
 		this.config = config;
 		this.placeState = placeState;
 	}

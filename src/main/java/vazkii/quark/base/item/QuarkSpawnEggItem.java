@@ -9,10 +9,12 @@ import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.base.module.Module;
 
 import javax.annotation.Nonnull;
+import java.util.function.BooleanSupplier;
 
 public class QuarkSpawnEggItem extends SpawnEggItem {
 
 	private final Module module;
+	private BooleanSupplier enabledSupplier = () -> true;
 
 	public QuarkSpawnEggItem(EntityType<?> type, int primaryColor, int secondaryColor, String regname, Module module, Properties properties) {
 		super(type, primaryColor, secondaryColor, properties);
@@ -26,9 +28,15 @@ public class QuarkSpawnEggItem extends SpawnEggItem {
 		if(isEnabled() || group == ItemGroup.SEARCH)
 			super.fillItemGroup(group, items);
 	}
-	
+
+	public QuarkSpawnEggItem setCondition(BooleanSupplier enabledSupplier) {
+		this.enabledSupplier = enabledSupplier;
+		return this;
+	}
+
+
 	public boolean isEnabled() {
-		return module != null && module.enabled;
+		return module != null && module.enabled && enabledSupplier.getAsBoolean();
 	}
 
 }

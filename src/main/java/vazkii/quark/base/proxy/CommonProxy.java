@@ -17,7 +17,7 @@ import vazkii.quark.base.network.QuarkNetwork;
 import vazkii.quark.base.recipe.ExclusionRecipe;
 import vazkii.quark.base.world.WorldGenHandler;
 
-import java.util.function.Supplier;
+import java.util.function.BooleanSupplier;
 
 public class CommonProxy {
 
@@ -63,7 +63,7 @@ public class CommonProxy {
 		ModuleLoader.INSTANCE.configChanged();
 	}
 	
-	public void addResourceOverride(String type, String path, String file, Supplier<Boolean> isEnabled) {
+	public void addResourceOverride(String type, String path, String file, BooleanSupplier isEnabled) {
 		// NO-OP, client only
 	}
 

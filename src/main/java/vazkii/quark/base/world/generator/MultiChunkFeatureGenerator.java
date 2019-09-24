@@ -10,14 +10,14 @@ import vazkii.quark.base.world.Generator;
 import vazkii.quark.base.world.config.DimensionConfig;
 
 import java.util.Random;
+import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 public abstract class MultiChunkFeatureGenerator extends Generator {
 
 	private final long seedXor;
 	
-	public MultiChunkFeatureGenerator(DimensionConfig dimConfig, Supplier<Boolean> condition, long seedXor) {
+	public MultiChunkFeatureGenerator(DimensionConfig dimConfig, BooleanSupplier condition, long seedXor) {
 		super(dimConfig, condition);
 		this.seedXor = seedXor;
 	}

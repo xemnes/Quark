@@ -1,13 +1,5 @@
 package vazkii.quark.base.world;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.SortedSet;
-import java.util.TreeSet;
-import java.util.function.BiPredicate;
-import java.util.function.Supplier;
-
 import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
@@ -22,6 +14,10 @@ import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraft.world.gen.placement.IPlacementConfig;
 import net.minecraftforge.registries.ForgeRegistries;
+
+import java.util.*;
+import java.util.function.BiPredicate;
+import java.util.function.BooleanSupplier;
 
 public class WorldGenHandler {
 
@@ -43,7 +39,7 @@ public class WorldGenHandler {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static void conditionalizeFeatures(GenerationStage.Decoration stage, BiPredicate<Feature<? extends IFeatureConfig>, IFeatureConfig> pred, Supplier<Boolean> condition) {
+	public static void conditionalizeFeatures(GenerationStage.Decoration stage, BiPredicate<Feature<? extends IFeatureConfig>, IFeatureConfig> pred, BooleanSupplier condition) {
 		ForgeRegistries.BIOMES.forEach(b -> {
 			List<ConfiguredFeature<?>> features = b.getFeatures(stage);
 

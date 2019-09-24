@@ -1,12 +1,6 @@
 package vazkii.quark.management.client.gui;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
-
 import com.mojang.blaze3d.platform.GlStateManager;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.recipebook.IRecipeShownListener;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
@@ -15,6 +9,11 @@ import net.minecraft.client.resources.I18n;
 import vazkii.quark.base.handler.MiscUtil;
 import vazkii.quark.base.handler.TopLayerTooltipHandler;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.function.BooleanSupplier;
+import java.util.function.Consumer;
+
 public class MiniInventoryButton extends Button {
 
 	private final Consumer<List<String>> tooltip;
@@ -22,7 +21,7 @@ public class MiniInventoryButton extends Button {
 	private final ContainerScreen<?> parent;
 	private final int startX;
 
-	private Supplier<Boolean> shiftTexture = () -> false;
+	private BooleanSupplier shiftTexture = () -> false;
 
 	public MiniInventoryButton(ContainerScreen<?> parent, int type, int x, int y, Consumer<List<String>> tooltip, IPressable onPress) {
 		super(parent.getGuiLeft() + x, parent.getGuiTop() + y, 10, 10, "", onPress);
@@ -36,7 +35,7 @@ public class MiniInventoryButton extends Button {
 		this(parent, type, x, y, (t) -> t.add(I18n.format(tooltip)), onPress);
 	}
 
-	public MiniInventoryButton setTextureShift(Supplier<Boolean> func) {
+	public MiniInventoryButton setTextureShift(BooleanSupplier func) {
 		shiftTexture = func;
 		return this;
 	}
@@ -61,7 +60,7 @@ public class MiniInventoryButton extends Button {
 
 		int u = type * width;
 		int v = 25 + (isHovered ? height : 0);
-		if(shiftTexture.get())
+		if(shiftTexture.getAsBoolean())
 			v += (height * 2);
 
 		blit(x, y, u, v, width, height);

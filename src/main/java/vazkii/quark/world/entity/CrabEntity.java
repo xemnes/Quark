@@ -34,7 +34,9 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
@@ -42,12 +44,13 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.network.NetworkHooks;
 import vazkii.quark.base.handler.EntityOpacityHandler;
+import vazkii.quark.base.handler.QuarkSounds;
 import vazkii.quark.world.ai.RaveGoal;
-import vazkii.quark.world.ai.ZigZagMovementController;
 import vazkii.quark.world.module.PassiveCreaturesModule;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Random;
 
 public class CrabEntity extends AnimalEntity implements IEntityAdditionalSpawnData {
 
@@ -71,9 +74,12 @@ public class CrabEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 
 	public CrabEntity(EntityType<? extends CrabEntity> type, World worldIn, float sizeModifier) {
 		super(type, worldIn);
-		moveController = new ZigZagMovementController(this);
 		if (sizeModifier != 1)
 			dataManager.set(SIZE_MODIFIER, sizeModifier);
+	}
+
+	public static boolean spawnPredicate(EntityType<? extends AnimalEntity> type, IWorld world, SpawnReason reason, BlockPos pos, Random random) {
+		return world.getBlockState(pos.down()).getBlock() == Blocks.SAND && world.getLightSubtracted(pos, 0) > 8;
 	}
 
 	@Override
@@ -99,6 +105,23 @@ public class CrabEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 		dataManager.register(SIZE_MODIFIER, 1f);
 	}
 
+	@Nullable
+	@Override
+	protected SoundEvent getAmbientSound() {
+		return QuarkSounds.ENTITY_CRAB_IDLE;
+	}
+
+	@Nullable
+	@Override
+	protected SoundEvent getDeathSound() {
+		return QuarkSounds.ENTITY_CRAB_DIE;
+	}
+
+	@Nullable
+	@Override
+	protected SoundEvent getHurtSound(DamageSource source) {
+		return QuarkSounds.ENTITY_CRAB_HURT;
+	}
 
 	@Override
 	protected float getStandingEyeHeight(Pose pose, EntitySize size) {

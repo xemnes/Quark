@@ -22,7 +22,7 @@ import vazkii.quark.base.module.ModuleLoader;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Supplier;
+import java.util.function.BooleanSupplier;
 import java.util.stream.Collectors;
 
 public class ClientProxy extends CommonProxy {
@@ -79,7 +79,7 @@ public class ClientProxy extends CommonProxy {
 	}
 
 	@Override
-	public void addResourceOverride(String type, String path, String file, Supplier<Boolean> isEnabled) {
+	public void addResourceOverride(String type, String path, String file, BooleanSupplier isEnabled) {
 		ResourceProxy.instance().addResource(type, path, file, isEnabled);
 	}
 

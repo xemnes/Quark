@@ -1,10 +1,5 @@
 package vazkii.quark.base.world.generator;
 
-import java.util.BitSet;
-import java.util.Random;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -18,7 +13,11 @@ import net.minecraft.world.gen.WorldGenRegion;
 import vazkii.quark.base.world.Generator;
 import vazkii.quark.base.world.config.DimensionConfig;
 import vazkii.quark.base.world.config.OrePocketConfig;
-import vazkii.quark.world.module.NewStoneTypesModule;
+
+import java.util.BitSet;
+import java.util.Random;
+import java.util.function.BooleanSupplier;
+import java.util.function.Predicate;
 
 public class OreGenerator extends Generator {
 
@@ -52,7 +51,7 @@ public class OreGenerator extends Generator {
 	private final BlockState placeState;
 	private final Predicate<BlockState> matcher;
 
-	public OreGenerator(DimensionConfig dimConfig, OrePocketConfig oreConfig, BlockState placeState, Predicate<BlockState> matcher, Supplier<Boolean> condition) {
+	public OreGenerator(DimensionConfig dimConfig, OrePocketConfig oreConfig, BlockState placeState, Predicate<BlockState> matcher, BooleanSupplier condition) {
 		super(dimConfig, condition);
 		this.oreConfig = oreConfig;
 		this.placeState = placeState;

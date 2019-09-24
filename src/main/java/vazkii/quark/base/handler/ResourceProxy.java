@@ -1,20 +1,6 @@
 package vazkii.quark.base.handler;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
-import java.util.stream.Collectors;
-
-import javax.annotation.Nonnull;
-
 import com.google.common.collect.ImmutableSet;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.IPackFinder;
 import net.minecraft.resources.ResourcePack;
@@ -24,6 +10,18 @@ import net.minecraft.resources.ResourcePackType;
 import net.minecraft.util.ResourceLocation;
 import vazkii.quark.base.Quark;
 import vazkii.quark.vanity.module.EmotesModule;
+
+import javax.annotation.Nonnull;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.BooleanSupplier;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public final class ResourceProxy extends ResourcePack {
 
@@ -65,7 +63,7 @@ public final class ResourceProxy extends ResourcePack {
 		return instance;
 	}
 
-	public void addResource(String type, String path, String value, Supplier<Boolean> isEnabled) {
+	public void addResource(String type, String path, String value, BooleanSupplier isEnabled) {
 		ResourceOverride res = new ResourceOverride(type, path, value, isEnabled); 
 		overrides.put(res.getPathKey(), res);
 	}
@@ -129,9 +127,9 @@ public final class ResourceProxy extends ResourcePack {
 	private static class ResourceOverride {
 		
 		protected final String type, path, file;
-		private final Supplier<Boolean> isEnabled;
+		private final BooleanSupplier isEnabled;
 		
-		public ResourceOverride(String type, String path, String file, Supplier<Boolean> isEnabled) {
+		public ResourceOverride(String type, String path, String file, BooleanSupplier isEnabled) {
 			this.type = type;
 			this.path = path;
 			this.file = file;
@@ -147,7 +145,7 @@ public final class ResourceProxy extends ResourcePack {
 		}
 		
 		boolean isEnabled() {
-			return isEnabled.get();
+			return isEnabled.getAsBoolean();
 		}
 		
 	}

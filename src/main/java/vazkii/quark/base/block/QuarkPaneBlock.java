@@ -15,7 +15,7 @@ import vazkii.quark.base.module.Module;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Objects;
-import java.util.function.Supplier;
+import java.util.function.BooleanSupplier;
 
 /**
  * @author WireSegal
@@ -23,7 +23,7 @@ import java.util.function.Supplier;
  */
 public class QuarkPaneBlock extends PaneBlock implements IQuarkBlock {
     public final IQuarkBlock parent;
-    private Supplier<Boolean> enabledSupplier = () -> true;
+    private BooleanSupplier enabledSupplier = () -> true;
 
     public QuarkPaneBlock(IQuarkBlock parent) {
         super(Block.Properties.from(parent.getBlock()));
@@ -46,14 +46,14 @@ public class QuarkPaneBlock extends PaneBlock implements IQuarkBlock {
     }
 
     @Override
-    public QuarkPaneBlock setCondition(Supplier<Boolean> enabledSupplier) {
+    public QuarkPaneBlock setCondition(BooleanSupplier enabledSupplier) {
         this.enabledSupplier = enabledSupplier;
         return this;
     }
 
     @Override
     public boolean doesConditionApply() {
-        return enabledSupplier.get();
+        return enabledSupplier.getAsBoolean();
     }
 
     @Nullable

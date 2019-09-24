@@ -1,13 +1,7 @@
 package vazkii.quark.world.module;
 
-import java.util.List;
-import java.util.function.BiPredicate;
-import java.util.function.Predicate;
-
 import com.google.common.base.Predicates;
-import com.google.common.base.Supplier;
 import com.google.common.collect.Lists;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.ResourceLocation;
@@ -26,6 +20,11 @@ import vazkii.quark.base.world.WorldGenHandler;
 import vazkii.quark.base.world.WorldGenWeights;
 import vazkii.quark.world.config.BigStoneClusterConfig;
 import vazkii.quark.world.gen.BigStoneClusterGenerator;
+
+import java.util.List;
+import java.util.function.BiPredicate;
+import java.util.function.BooleanSupplier;
+import java.util.function.Predicate;
 
 @LoadModule(category = ModuleCategory.WORLD)
 public class BigStoneClustersModule extends Module {
@@ -47,7 +46,7 @@ public class BigStoneClustersModule extends Module {
 	
 	@Override
 	public void setup() {
-		Supplier<Boolean> alwaysTrue = () -> true;
+		BooleanSupplier alwaysTrue = () -> true;
 		add(granite, Blocks.GRANITE, alwaysTrue);
 		add(diorite, Blocks.DIORITE, alwaysTrue);
 		add(andesite, Blocks.ANDESITE, alwaysTrue);
@@ -63,11 +62,11 @@ public class BigStoneClustersModule extends Module {
 		conditionalize(Blocks.ANDESITE, () -> !andesite.enabled);
 	}
 	
-	private void add(BigStoneClusterConfig config, Block block, Supplier<Boolean> condition) {
+	private void add(BigStoneClusterConfig config, Block block, BooleanSupplier condition) {
 		WorldGenHandler.addGenerator(new BigStoneClusterGenerator(config, block.getDefaultState(), condition), Decoration.UNDERGROUND_DECORATION, WorldGenWeights.BIG_STONE_CLUSTERS);
 	}
 	
-	private void conditionalize(Block block, Supplier<Boolean> condition) {
+	private void conditionalize(Block block, BooleanSupplier condition) {
 		BiPredicate<Feature<? extends IFeatureConfig>, IFeatureConfig> pred = (feature, config) -> {
 			if(config instanceof OreFeatureConfig) {
 				OreFeatureConfig oconfig = (OreFeatureConfig) config;

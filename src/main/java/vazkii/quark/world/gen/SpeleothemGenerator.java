@@ -1,8 +1,5 @@
 package vazkii.quark.world.gen;
 
-import java.util.Random;
-import java.util.function.Supplier;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.Direction;
@@ -16,9 +13,12 @@ import vazkii.quark.world.block.SpeleothemBlock;
 import vazkii.quark.world.block.SpeleothemBlock.SpeleothemSize;
 import vazkii.quark.world.module.SpeleothemsModule;
 
+import java.util.Random;
+import java.util.function.BooleanSupplier;
+
 public class SpeleothemGenerator extends Generator {
 
-	public SpeleothemGenerator(DimensionConfig dimConfig, Supplier<Boolean> condition) {
+	public SpeleothemGenerator(DimensionConfig dimConfig, BooleanSupplier condition) {
 		super(dimConfig, condition);
 	}
 

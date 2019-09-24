@@ -21,7 +21,7 @@ import vazkii.quark.world.config.StoneTypeConfig;
 import java.util.ArrayDeque;
 import java.util.Map;
 import java.util.Queue;
-import java.util.function.Supplier;
+import java.util.function.BooleanSupplier;
 
 @LoadModule(category = ModuleCategory.WORLD)
 public class NewStoneTypesModule extends Module {
@@ -53,8 +53,8 @@ public class NewStoneTypesModule extends Module {
 		basaltBlock = makeStone("basalt", basalt, BigStoneClustersModule.basalt, () -> enableBasalt, MaterialColor.BLACK);
 	}
 	
-	private Block makeStone(String name, StoneTypeConfig config, BigStoneClusterConfig bigConfig, Supplier<Boolean> enabledCond, MaterialColor color) {
-		Supplier<Boolean> trueEnabledCond = () -> enabled && !bigConfig.enabled && enabledCond.get();
+	private Block makeStone(String name, StoneTypeConfig config, BigStoneClusterConfig bigConfig, BooleanSupplier enabledCond, MaterialColor color) {
+		BooleanSupplier trueEnabledCond = () -> enabled && !bigConfig.enabled && enabledCond.getAsBoolean();
 		Block.Properties props = Block.Properties.create(Material.ROCK, color).hardnessAndResistance(1.5F, 6.0F);
 		
 		QuarkBlock normal = new QuarkBlock(name, this, ItemGroup.BUILDING_BLOCKS, props).setCondition(enabledCond);

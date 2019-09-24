@@ -15,12 +15,12 @@ import vazkii.quark.base.module.Module;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Objects;
-import java.util.function.Supplier;
+import java.util.function.BooleanSupplier;
 
 public class QuarkSlabBlock extends SlabBlock implements IQuarkBlock {
 
 	public final IQuarkBlock parent;
-	private Supplier<Boolean> enabledSupplier = () -> true;
+	private BooleanSupplier enabledSupplier = () -> true;
 
 	public QuarkSlabBlock(IQuarkBlock parent) {
 		super(Block.Properties.from(parent.getBlock()));
@@ -43,14 +43,14 @@ public class QuarkSlabBlock extends SlabBlock implements IQuarkBlock {
 	}
 
 	@Override
-	public QuarkSlabBlock setCondition(Supplier<Boolean> enabledSupplier) {
+	public QuarkSlabBlock setCondition(BooleanSupplier enabledSupplier) {
 		this.enabledSupplier = enabledSupplier;
 		return this;
 	}
 
 	@Override
 	public boolean doesConditionApply() {
-		return enabledSupplier.get();
+		return enabledSupplier.getAsBoolean();
 	}
 
 	@Nullable

@@ -7,7 +7,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.gen.Heightmap;
+import net.minecraft.world.gen.Heightmap.Type;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.world.WorldEvent;
@@ -62,7 +62,7 @@ public class StonelingsModule extends Module {
 		new QuarkSpawnEggItem(stonelingType, 0xA1A1A1, 0x505050, "stoneling_spawn_egg", this, new Item.Properties().group(ItemGroup.MISC));
 
 		spawnEntry = new Biome.SpawnListEntry(stonelingType, weight, 1, 1);
-		EntitySpawnPlacementRegistry.register(stonelingType, PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, StonelingEntity::spawnPredicate);
+		EntitySpawnPlacementRegistry.register(stonelingType, PlacementType.ON_GROUND, Type.MOTION_BLOCKING_NO_LEAVES, StonelingEntity::spawnPredicate);
 	}
 
 	@SubscribeEvent

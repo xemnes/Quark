@@ -8,12 +8,12 @@ import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.base.module.Module;
 
 import javax.annotation.Nullable;
-import java.util.function.Supplier;
+import java.util.function.BooleanSupplier;
 
 public class QuarkBlock extends BasicBlock implements IQuarkBlock {
 	
 	private final Module module;
-	private Supplier<Boolean> enabledSupplier = () -> true; 
+	private BooleanSupplier enabledSupplier = () -> true;
 
 	public QuarkBlock(String regname, Module module, ItemGroup creativeTab, Properties properties) {
 		super(regname, properties);
@@ -30,14 +30,14 @@ public class QuarkBlock extends BasicBlock implements IQuarkBlock {
 	}
 
 	@Override
-	public QuarkBlock setCondition(Supplier<Boolean> enabledSupplier) {
+	public QuarkBlock setCondition(BooleanSupplier enabledSupplier) {
 		this.enabledSupplier = enabledSupplier;
 		return this;
 	}
 
 	@Override
 	public boolean doesConditionApply() {
-		return enabledSupplier.get();
+		return enabledSupplier.getAsBoolean();
 	}
 
 	@Nullable

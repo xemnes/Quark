@@ -17,6 +17,15 @@
 	"quark.subtitles.throw_pickarang": "Pickarang is flung",
 	"quark.subtitles.clank_pickarang": "Pickarang clanks",
 	"quark.subtitles.pickup_pickarang": "Pickarang is taken",
+	"quark.subtitles.michael_here": "Michael is here",
+
+	"quark.subtitles.frog_die": "Frog croaks",
+	"quark.subtitles.frog_hurt": "Frog squeaks",
+	"quark.subtitles.frog_idle": "Frog ribbits",
+	"quark.subtitles.frog_jump": "Frog hops",
+	"quark.subtitles.crab_die": "Shell crunches",
+	"quark.subtitles.crab_hurt": "Shell chips",
+	"quark.subtitles.crab_scuttle": "Crab scuttles",
 	
 	"quark.emote.wave": "Wave",
 	"quark.emote.yes": "Yes",
@@ -115,6 +124,12 @@
 	"item.quark.diamond_heart": "Heart of Diamond",
 	"item.quark.iron_chain": "Iron Chain",
 	"item.quark.ancient_tome": "Ancient Tome",
+	"item.quark.frog_leg": "Frog Leg",
+	"item.quark.cooked_frog_leg": "Cooked Frog Leg",
+	"item.quark.golden_frog_leg": "Golden Frog Leg",
+	"item.quark.crab_leg": "Crab Leg",
+	"item.quark.cooked_crab_leg": "Cooked Crab Leg",
+	"item.quark.crab_shell": "Crab Shell",
 
 	"block.quark.charcoal_block": "Charcoal Block",
 	"block.quark.black_quilted_wool": "Black Quilted Wool",

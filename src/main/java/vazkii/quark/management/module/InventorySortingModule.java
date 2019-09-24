@@ -13,7 +13,7 @@ import vazkii.quark.base.network.QuarkNetwork;
 import vazkii.quark.base.network.message.SortInventoryMessage;
 import vazkii.quark.management.client.gui.MiniInventoryButton;
 
-import java.util.function.Supplier;
+import java.util.function.BooleanSupplier;
 
 @LoadModule(category = ModuleCategory.MANAGEMENT)
 public class InventorySortingModule extends Module {
@@ -34,8 +34,8 @@ public class InventorySortingModule extends Module {
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	private ButtonProvider provider(String tooltip, boolean forcePlayer, Supplier<Boolean> condition) {
-		return (parent, x, y) -> !condition.get() ? null :
+	private ButtonProvider provider(String tooltip, boolean forcePlayer, BooleanSupplier condition) {
+		return (parent, x, y) -> !condition.getAsBoolean() ? null :
 				new MiniInventoryButton(parent, 0, x, y, "quark.gui.button." + tooltip, (b) -> QuarkNetwork.sendToServer(new SortInventoryMessage(forcePlayer)));
 	}
 

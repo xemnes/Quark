@@ -1,7 +1,5 @@
 package vazkii.quark.building.module;
 
-import com.google.common.base.Supplier;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -17,6 +15,8 @@ import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
 import vazkii.quark.building.block.CharcoalBlock;
+
+import java.util.function.BooleanSupplier;
 
 @LoadModule(category = ModuleCategory.BUILDING, hasSubscriptions = true)
 public class CompressedBlocksModule extends Module {
@@ -82,7 +82,7 @@ public class CompressedBlocksModule extends Module {
 		.setCondition(() -> enableBlazeLantern);
 	}
 	
-	private Block pillar(String name, MaterialColor color, Supplier<Boolean> cond) {
+	private Block pillar(String name, MaterialColor color, BooleanSupplier cond) {
 		return new QuarkPillarBlock(name + "_block", this, ItemGroup.BUILDING_BLOCKS,
 				Block.Properties.create(Material.WOOD, color)
 				.hardnessAndResistance(0.5F)
@@ -90,7 +90,7 @@ public class CompressedBlocksModule extends Module {
 		.setCondition(cond);
 	}
 	
-	private Block crate(String name, MaterialColor color, Supplier<Boolean> cond) {
+	private Block crate(String name, MaterialColor color, BooleanSupplier cond) {
 		return new QuarkBlock(name + "_crate", this, ItemGroup.DECORATIONS, 
 				Block.Properties.create(Material.WOOD, color)
 				.hardnessAndResistance(1.5F)
@@ -98,7 +98,7 @@ public class CompressedBlocksModule extends Module {
 		.setCondition(cond);
 	}
 
-	private Block sack(String name, MaterialColor color, Supplier<Boolean> cond) {
+	private Block sack(String name, MaterialColor color, BooleanSupplier cond) {
 		return new QuarkBlock(name + "_sack", this, ItemGroup.DECORATIONS, 
 				Block.Properties.create(Material.WOOL, color)
 				.hardnessAndResistance(0.5F)

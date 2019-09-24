@@ -7,11 +7,13 @@ import vazkii.arl.item.BasicItem;
 import vazkii.quark.base.module.Module;
 
 import javax.annotation.Nonnull;
+import java.util.function.BooleanSupplier;
 
 public class QuarkItem extends BasicItem {
 
 	private final Module module;
-	
+	private BooleanSupplier enabledSupplier = () -> true;
+
 	public QuarkItem(String regname, Module module, Properties properties) {
 		super(regname, properties);
 		this.module = module;
@@ -22,9 +24,15 @@ public class QuarkItem extends BasicItem {
 		if(isEnabled() || group == ItemGroup.SEARCH)
 			super.fillItemGroup(group, items);
 	}
-	
+
+	public QuarkItem setCondition(BooleanSupplier enabledSupplier) {
+		this.enabledSupplier = enabledSupplier;
+		return this;
+	}
+
+
 	public boolean isEnabled() {
-		return module != null && module.enabled;
+		return module != null && module.enabled && enabledSupplier.getAsBoolean();
 	}
 
 }

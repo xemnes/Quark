@@ -24,14 +24,14 @@ import vazkii.quark.decoration.client.render.VariantChestTileEntityRenderer;
 import vazkii.quark.decoration.tile.VariantChestTileEntity;
 
 import javax.annotation.Nullable;
-import java.util.function.Supplier;
+import java.util.function.BooleanSupplier;
 
 @OnlyIn(value = Dist.CLIENT, _interface = IBlockItemProvider.class)
 public class VariantChestBlock extends ChestBlock implements IBlockItemProvider, IQuarkBlock {
 
 	public final String type;
 	private final Module module;
-	private Supplier<Boolean> enabledSupplier = () -> true;
+	private BooleanSupplier enabledSupplier = () -> true;
 
 	public final ResourceLocation modelNormal, modelDouble;
 	
@@ -54,14 +54,14 @@ public class VariantChestBlock extends ChestBlock implements IBlockItemProvider,
 	}
 
 	@Override
-	public VariantChestBlock setCondition(Supplier<Boolean> enabledSupplier) {
+	public VariantChestBlock setCondition(BooleanSupplier enabledSupplier) {
 		this.enabledSupplier = enabledSupplier;
 		return this;
 	}
 
 	@Override
 	public boolean doesConditionApply() {
-		return enabledSupplier.get();
+		return enabledSupplier.getAsBoolean();
 	}
 
 	@Nullable

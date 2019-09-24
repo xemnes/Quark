@@ -4,7 +4,7 @@ import net.minecraftforge.common.extensions.IForgeBlock;
 import vazkii.quark.base.module.Module;
 
 import javax.annotation.Nullable;
-import java.util.function.Supplier;
+import java.util.function.BooleanSupplier;
 
 /**
  * @author WireSegal
@@ -15,7 +15,7 @@ public interface IQuarkBlock extends IForgeBlock {
     @Nullable
     Module getModule();
 
-    IQuarkBlock setCondition(Supplier<Boolean> condition);
+    IQuarkBlock setCondition(BooleanSupplier condition);
 
     boolean doesConditionApply();
 
