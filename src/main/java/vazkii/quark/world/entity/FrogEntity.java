@@ -461,7 +461,7 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 		}
 
 		@Override
-		public void setJumping() {
+		public void tick() {
 			if (this.isJumping) {
 				startJumping();
 				this.isJumping = false;

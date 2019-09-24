@@ -49,30 +49,34 @@ public class FeedingTroughModule extends Module {
                 Math.ceil(goal.creature.posZ + RANGE));
 
         double shortestDistanceSq = Double.MAX_VALUE;
+        BlockPos location = null;
         FakePlayer target = null;
 
         for (BlockPos pos : BlockPos.getAllInBoxMutable(rangeMin, rangeMax)) {
             double distanceSq = pos.distanceSq(goal.creature.getPositionVector(), true);
             if (distanceSq <= RANGE * RANGE && distanceSq < shortestDistanceSq) {
-                Vec3d eyesPos = new Vec3d(goal.creature.posX, goal.creature.posY + goal.creature.getEyeHeight(), goal.creature.posZ);
-                Vec3d targetPos = new Vec3d(pos).add(0.5, 0.0625, 0.5);
-                BlockRayTraceResult ray = goal.creature.world.rayTraceBlocks(new RayTraceContext(eyesPos, targetPos, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, goal.creature));
-
-                if (ray.getType() != RayTraceResult.Type.BLOCK || ray.getPos().equals(pos))
-                    continue;
-
                 TileEntity tile = goal.creature.world.getTileEntity(pos);
                 if (tile instanceof FeedingTroughTileEntity) {
                     FakePlayer foodHolder = ((FeedingTroughTileEntity) tile).getFoodHolder(goal);
                     if (foodHolder != null) {
                         shortestDistanceSq = distanceSq;
                         target = foodHolder;
+                        location = pos.toImmutable();
                     }
                 }
             }
         }
 
-        return target == null ? found : target;
+        if (target != null) {
+            Vec3d eyesPos = new Vec3d(goal.creature.posX, goal.creature.posY + goal.creature.getEyeHeight(), goal.creature.posZ);
+            Vec3d targetPos = new Vec3d(location).add(0.5, 0.0625, 0.5);
+            BlockRayTraceResult ray = goal.creature.world.rayTraceBlocks(new RayTraceContext(eyesPos, targetPos, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, goal.creature));
+
+            if (ray.getType() == RayTraceResult.Type.BLOCK && ray.getPos().equals(location))
+                return target;
+        }
+
+        return found;
     }
 
     @Override
