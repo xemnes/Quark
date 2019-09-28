@@ -89,10 +89,6 @@ public class PassiveCreaturesModule extends Module {
     @Config
     public static boolean enableJokes = false;
 
-    private Item goldenLeg;
-    private Item shell;
-    private Effect resilience;
-
     @Override
     public void start() {
         new QuarkItem("frog_leg", this, new Item.Properties()
@@ -113,7 +109,7 @@ public class PassiveCreaturesModule extends Module {
                         .build()))
                 .setCondition(() -> enableFrogs);
 
-        goldenLeg = new QuarkItem("golden_frog_leg", this, new Item.Properties()
+        Item goldenLeg = new QuarkItem("golden_frog_leg", this, new Item.Properties()
                 .group(ItemGroup.BREWING)
                 .food(new Food.Builder()
                         .meat()
@@ -140,10 +136,10 @@ public class PassiveCreaturesModule extends Module {
                         .build()))
                 .setCondition(() -> enableCrabs);
 
-        shell = new QuarkItem("crab_shell", this, new Item.Properties().group(ItemGroup.BREWING))
+        Item shell = new QuarkItem("crab_shell", this, new Item.Properties().group(ItemGroup.BREWING))
                 .setCondition(() -> enableCrabs && enableBrewing);
 
-        resilience = new QuarkEffect("resilience", EffectType.BENEFICIAL, 0x5b1a04, PotionIconIndices.RESILIENCE);
+        Effect resilience = new QuarkEffect("resilience", EffectType.BENEFICIAL, 0x5b1a04, PotionIconIndices.RESILIENCE);
 
         BrewingHandler.addPotionMix(() -> enableFrogs && enableBrewing,
                 Ingredient.fromItems(goldenLeg),
