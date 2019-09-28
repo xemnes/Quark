@@ -35,6 +35,7 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
@@ -82,7 +83,12 @@ public class CrabEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 		return world.getBlockState(pos.down()).getBlock() == Blocks.SAND && world.getLightSubtracted(pos, 0) > 8;
 	}
 
-	@Override
+	public static void rave(IWorld world, BlockPos pos, boolean raving) {
+		for(CrabEntity crab : world.getEntitiesWithinAABB(CrabEntity.class, (new AxisAlignedBB(pos)).grow(3.0D)))
+			crab.party(pos, raving);
+	}
+
+    @Override
 	public float getBlockPathWeight(BlockPos pos, IWorldReader world) {
 		return world.getBlockState(pos.down()).getBlock() == Blocks.SAND ? 10.0F : world.getBrightness(pos) - 0.5F;
 	}

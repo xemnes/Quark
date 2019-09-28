@@ -9,5 +9,6 @@
   "quark_springy_slime": "asm/springy-slime.js",
   "quark_pickarang": "asm/pickarang.js",
   "quark_chain_linkage": "asm/chain-linkage.js",
-  "quark_feeding_trough": "asm/feeding-trough.js"
+  "quark_feeding_trough": "asm/feeding-trough.js",
+  "quark_crabs": "asm/crabs.js"
 }

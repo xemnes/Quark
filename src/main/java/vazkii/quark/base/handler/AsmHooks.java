@@ -16,6 +16,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -31,6 +32,7 @@ import vazkii.quark.tweaks.module.SpringySlimeModule;
 import vazkii.quark.vanity.client.emote.EmoteHandler;
 import vazkii.quark.vanity.module.ColorRunesModule;
 import vazkii.quark.vanity.module.ItemSharingModule;
+import vazkii.quark.world.entity.CrabEntity;
 
 /**
  * @author WireSegal
@@ -175,5 +177,14 @@ public class AsmHooks {
 
 	public static PlayerEntity findTroughs(PlayerEntity found, TemptGoal goal) {
 		return FeedingTroughModule.temptWithTroughs(goal, found);
+	}
+
+	// ==========================================================================
+	// Crabs
+	// ==========================================================================
+
+	public static void rave(IWorld world, BlockPos pos, int type, int record) {
+		if (type == 1010)
+			CrabEntity.rave(world, pos, record != 0);
 	}
 }
