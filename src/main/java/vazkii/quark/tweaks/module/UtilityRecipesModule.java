@@ -38,6 +38,7 @@ public class UtilityRecipesModule extends Module {
     @Config(description = "Can Coral be crafted into dye?", flag = "coral_to_dye")
     public static boolean coralToDye = true;
 
+    // Credit to /u/InfiniteNexus for the idea! https://reddit.com/d5k1s9/
     @Config(description = "Can cookies, paper, and bread be crafted in a 2x2 crafting table?", flag = "bent_recipes")
     public static boolean bentRecipes = true;
 
