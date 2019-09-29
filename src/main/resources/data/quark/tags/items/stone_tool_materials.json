@@ -1,0 +1,26 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:flint",
+    "minecraft:stone",
+    "minecraft:cobblestone",
+    "minecraft:granite",
+    "minecraft:andesite",
+    "minecraft:diorite",
+    "minecraft:polished_granite",
+    "minecraft:polished_andesite",
+    "minecraft:polished_diorite",
+    "minecraft:sandstone",
+    "quark:limestone",
+    "quark:polished_limestone",
+    "quark:marble",
+    "quark:polished_marble",
+    "quark:basalt",
+    "quark:polished_basalt",
+    "quark:permafrost",
+    "quark:polished_permafrost",
+    "quark:brimstone",
+    "quark:polished_brimstone",
+    "quark:cobbedstone"
+  ]
+}

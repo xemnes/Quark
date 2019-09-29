@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "group": "oak_chest",
   "pattern": [
     "###",
     "# #",
@@ -7,11 +8,11 @@
   ],
   "key": {
     "#": {
-      "tag": "minecraft:acacia_logs"
+      "tag": "minecraft:oak_logs"
     }
   },
   "result": {
-    "item": "quark:acacia_chest",
+    "item": "minecraft:chest",
     "count": 4
   },
   "conditions": [
@@ -20,4 +21,4 @@
       "flag": "wood_to_chest_recipes"
     }
   ]
-} 
+}

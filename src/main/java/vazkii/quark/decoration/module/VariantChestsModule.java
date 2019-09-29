@@ -38,9 +38,6 @@ public class VariantChestsModule extends Module {
 	@Config public static boolean changeNames = true;
 	@Config public static boolean changeTextures = true;
 	
-	@Config(flag = "wood_to_chest_recipes") 
-	public static boolean addWoodToChestRecipes = true;
-	
 	public static TileEntityType<VariantChestTileEntity> chestTEType;
 	public static TileEntityType<VariantTrappedChestTileEntity> trappedChestTEType;
 
