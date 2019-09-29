@@ -548,6 +548,7 @@
 	"block.quark.white_crystal_pane": "White Crystal Sheet",
 	"block.quark.black_crystal_pane": "Black Crystal Sheet",
 	"block.quark.feeding_trough": "Feeding Trough",
+	"block.quark.chute": "Chute",
 
 	"item.quark.stoneling_spawn_egg": "Stoneling Spawn Egg",
 	"item.quark.frog_spawn_egg": "Frog Spawn Egg",

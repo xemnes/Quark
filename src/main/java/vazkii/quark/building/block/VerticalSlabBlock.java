@@ -99,9 +99,9 @@ public class VerticalSlabBlock extends QuarkBlock implements IWaterLoggable {
 		ItemStack itemstack = useContext.getItem();
 		VerticalSlabType slabtype = state.get(TYPE);
 		if(slabtype != VerticalSlabType.DOUBLE && itemstack.getItem() == this.asItem()) {
-			if(useContext.getFace().getAxis() != slabtype.direction.getAxis() && useContext.replacingClickedOnBlock()) {
+			if(useContext.getFace() != slabtype.direction && useContext.replacingClickedOnBlock()) {
 				Direction dir = getDirectionForPlacement(useContext);
-				return dir == slabtype.direction.getOpposite();
+				return dir == slabtype.direction;
 			}
 
 			return true;
