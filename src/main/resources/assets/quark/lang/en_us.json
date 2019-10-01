@@ -549,6 +549,13 @@
 	"block.quark.black_crystal_pane": "Black Crystal Sheet",
 	"block.quark.feeding_trough": "Feeding Trough",
 	"block.quark.chute": "Chute",
+	"block.quark.paper_wall": "Paper Wall",
+	"block.quark.paper_wall_big": "Big Paper Wall",
+	"block.quark.paper_wall_sakura": "Sakura Paper Wall",
+	"block.quark.paper_lantern": "Paper Lantern",
+	"block.quark.paper_lantern_sakura": "Sakura Paper Lantern",
+
+
 
 	"item.quark.stoneling_spawn_egg": "Stoneling Spawn Egg",
 	"item.quark.frog_spawn_egg": "Frog Spawn Egg",

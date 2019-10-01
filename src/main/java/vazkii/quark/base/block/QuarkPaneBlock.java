@@ -25,12 +25,20 @@ public class QuarkPaneBlock extends PaneBlock implements IQuarkBlock {
     public final IQuarkBlock parent;
     private BooleanSupplier enabledSupplier = () -> true;
 
-    public QuarkPaneBlock(IQuarkBlock parent) {
-        super(Block.Properties.from(parent.getBlock()));
+    public QuarkPaneBlock(IQuarkBlock parent, String name, Block.Properties properties) {
+        super(properties);
 
         this.parent = parent;
-        RegistryHelper.registerBlock(this, Objects.toString(parent.getBlock().getRegistryName()) + "_pane");
+        RegistryHelper.registerBlock(this, name);
         RegistryHelper.setCreativeTab(this, ItemGroup.DECORATIONS);
+    }
+
+    public QuarkPaneBlock(IQuarkBlock parent, Block.Properties properties) {
+        this(parent, Objects.toString(parent.getBlock().getRegistryName()) + "_pane", properties);
+    }
+
+    public QuarkPaneBlock(IQuarkBlock parent) {
+        this(parent, Block.Properties.from(parent.getBlock()));
     }
 
     @Override
@@ -63,6 +71,7 @@ public class QuarkPaneBlock extends PaneBlock implements IQuarkBlock {
     }
 
     @Nonnull
+    @Override
     public BlockRenderLayer getRenderLayer() {
         return parent.getBlock().getRenderLayer();
     }

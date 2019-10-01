@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "PPP",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "tag": "forge:rods/wooden"
+    },
+    "P": {
+      "item": "minecraft:paper"
+    }
+  },
+  "result": {
+    "item": "quark:paper_wall",
+    "count": 6
+  },
+  "conditions": [
+    {
+      "type": "quark:flag",
+      "flag": "paper_decor"
+    }
+  ]
+} 
