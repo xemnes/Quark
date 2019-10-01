@@ -8,7 +8,6 @@ public enum ModuleCategory {
 	// Categories
 	AUTOMATION("automation"),
 	BUILDING("building"),
-	DECORATION("decoration"),
 	MANAGEMENT("management"),
 	TOOLS("tools"),
 	TWEAKS("tweaks"),

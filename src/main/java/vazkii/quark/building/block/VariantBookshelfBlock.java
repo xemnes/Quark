@@ -1,4 +1,4 @@
-package vazkii.quark.decoration.block;
+package vazkii.quark.building.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;

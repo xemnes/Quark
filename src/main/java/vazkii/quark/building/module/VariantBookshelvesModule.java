@@ -1,4 +1,4 @@
-package vazkii.quark.decoration.module;
+package vazkii.quark.building.module;
 
 import net.minecraft.block.Blocks;
 import vazkii.quark.base.handler.ItemOverrideHandler;
@@ -7,9 +7,9 @@ import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
-import vazkii.quark.decoration.block.VariantBookshelfBlock;
+import vazkii.quark.building.block.VariantBookshelfBlock;
 
-@LoadModule(category = ModuleCategory.DECORATION)
+@LoadModule(category = ModuleCategory.BUILDING)
 public class VariantBookshelvesModule extends Module {
 
 	@Config public static boolean changeNames = true;

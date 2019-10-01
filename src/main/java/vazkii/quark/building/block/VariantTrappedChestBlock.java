@@ -1,4 +1,4 @@
-package vazkii.quark.decoration.block;
+package vazkii.quark.building.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -17,7 +17,7 @@ import vazkii.arl.interf.IBlockItemProvider;
 import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.module.Module;
-import vazkii.quark.decoration.tile.VariantTrappedChestTileEntity;
+import vazkii.quark.building.tile.VariantTrappedChestTileEntity;
 
 @OnlyIn(value = Dist.CLIENT, _interface = IBlockItemProvider.class)
 public class VariantTrappedChestBlock extends TrappedChestBlock implements IBlockItemProvider {

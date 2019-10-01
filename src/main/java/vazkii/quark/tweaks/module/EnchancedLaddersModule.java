@@ -32,7 +32,7 @@ import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
-import vazkii.quark.decoration.module.VariantLaddersModule;
+import vazkii.quark.building.module.VariantLaddersModule;
 
 @LoadModule(category = ModuleCategory.TWEAKS, hasSubscriptions = true)
 public class EnchancedLaddersModule extends Module {

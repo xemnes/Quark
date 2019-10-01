@@ -1,4 +1,4 @@
-package vazkii.quark.decoration.block;
+package vazkii.quark.building.block;
 
 import java.util.Random;
 
@@ -21,7 +21,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.quark.base.block.QuarkBlock;
 import vazkii.quark.base.module.Module;
-import vazkii.quark.decoration.module.TallowAndCandlesModule;
+import vazkii.quark.building.module.TallowAndCandlesModule;
 
 public class CandleBlock extends QuarkBlock {
 

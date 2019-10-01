@@ -1,11 +1,11 @@
-package vazkii.quark.decoration.client.render;
+package vazkii.quark.building.client.render;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.tileentity.ChestTileEntityRenderer;
 import net.minecraft.tileentity.ChestTileEntity;
 import net.minecraft.util.ResourceLocation;
-import vazkii.quark.decoration.block.VariantChestBlock;
-import vazkii.quark.decoration.block.VariantTrappedChestBlock;
+import vazkii.quark.building.block.VariantChestBlock;
+import vazkii.quark.building.block.VariantTrappedChestBlock;
 
 public class VariantChestTileEntityRenderer extends ChestTileEntityRenderer<ChestTileEntity> {
 

@@ -1,4 +1,4 @@
-package vazkii.quark.decoration.module;
+package vazkii.quark.building.module;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ItemEntity;
@@ -15,9 +15,9 @@ import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
-import vazkii.quark.decoration.block.CandleBlock;
+import vazkii.quark.building.block.CandleBlock;
 
-@LoadModule(category = ModuleCategory.DECORATION, hasSubscriptions = true)
+@LoadModule(category = ModuleCategory.BUILDING, hasSubscriptions = true)
 public class TallowAndCandlesModule extends Module {
 
 	@Config

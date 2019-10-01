@@ -1,4 +1,4 @@
-package vazkii.quark.decoration.item;
+package vazkii.quark.building.item;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.item.HangingEntity;

@@ -1,4 +1,4 @@
-package vazkii.quark.decoration.entity;
+package vazkii.quark.building.entity;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.item.ItemEntity;
@@ -13,7 +13,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.network.NetworkHooks;
-import vazkii.quark.decoration.module.ItemFramesModule;
+import vazkii.quark.building.module.ItemFramesModule;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

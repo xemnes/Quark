@@ -1,9 +1,9 @@
-package vazkii.quark.decoration.tile;
+package vazkii.quark.building.tile;
 
 import net.minecraft.tileentity.ChestTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.math.AxisAlignedBB;
-import vazkii.quark.decoration.module.VariantChestsModule;
+import vazkii.quark.building.module.VariantChestsModule;
 
 public class VariantChestTileEntity extends ChestTileEntity {
 

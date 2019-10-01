@@ -1,4 +1,4 @@
-package vazkii.quark.decoration.block;
+package vazkii.quark.building.block;
 
 import it.unimi.dsi.fastutil.floats.Float2ObjectArrayMap;
 import net.minecraft.block.Block;
@@ -28,7 +28,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IEnviromentBlockReader;
 import vazkii.quark.base.block.QuarkBlock;
 import vazkii.quark.base.module.Module;
-import vazkii.quark.decoration.module.GrateModule;
+import vazkii.quark.building.module.GrateModule;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

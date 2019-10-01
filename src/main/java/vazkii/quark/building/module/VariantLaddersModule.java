@@ -1,4 +1,4 @@
-package vazkii.quark.decoration.module;
+package vazkii.quark.building.module;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -8,10 +8,10 @@ import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
-import vazkii.quark.decoration.block.IronLadderBlock;
-import vazkii.quark.decoration.block.VariantLadderBlock;
+import vazkii.quark.building.block.IronLadderBlock;
+import vazkii.quark.building.block.VariantLadderBlock;
 
-@LoadModule(category = ModuleCategory.DECORATION)
+@LoadModule(category = ModuleCategory.BUILDING)
 public class VariantLaddersModule extends Module {
 
 	@Config public static boolean changeNames = true;

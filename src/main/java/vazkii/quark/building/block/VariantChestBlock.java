@@ -1,4 +1,4 @@
-package vazkii.quark.decoration.block;
+package vazkii.quark.building.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -20,8 +20,8 @@ import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.block.IQuarkBlock;
 import vazkii.quark.base.module.Module;
-import vazkii.quark.decoration.client.render.VariantChestTileEntityRenderer;
-import vazkii.quark.decoration.tile.VariantChestTileEntity;
+import vazkii.quark.building.client.render.VariantChestTileEntityRenderer;
+import vazkii.quark.building.tile.VariantChestTileEntity;
 
 import javax.annotation.Nullable;
 import java.util.function.BooleanSupplier;

@@ -1,4 +1,4 @@
-package vazkii.quark.decoration.client.render;
+package vazkii.quark.building.client.render;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.Minecraft;
@@ -23,7 +23,7 @@ import net.minecraftforge.client.event.RenderItemInFrameEvent;
 import net.minecraftforge.common.MinecraftForge;
 import org.lwjgl.opengl.GL11;
 import vazkii.quark.base.Quark;
-import vazkii.quark.decoration.entity.GlassItemFrameEntity;
+import vazkii.quark.building.entity.GlassItemFrameEntity;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

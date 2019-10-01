@@ -1,6 +1,6 @@
-package vazkii.quark.decoration.tile;
+package vazkii.quark.building.tile;
 
-import vazkii.quark.decoration.module.VariantChestsModule;
+import vazkii.quark.building.module.VariantChestsModule;
 
 public class VariantTrappedChestTileEntity extends VariantChestTileEntity {
 

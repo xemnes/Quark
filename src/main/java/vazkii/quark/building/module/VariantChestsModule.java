@@ -1,4 +1,4 @@
-package vazkii.quark.decoration.module;
+package vazkii.quark.building.module;
 
 import com.google.common.collect.ImmutableSet;
 import net.minecraft.block.Block;
@@ -26,13 +26,13 @@ import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
-import vazkii.quark.decoration.block.VariantChestBlock;
-import vazkii.quark.decoration.block.VariantTrappedChestBlock;
-import vazkii.quark.decoration.client.render.VariantChestTileEntityRenderer;
-import vazkii.quark.decoration.tile.VariantChestTileEntity;
-import vazkii.quark.decoration.tile.VariantTrappedChestTileEntity;
+import vazkii.quark.building.block.VariantChestBlock;
+import vazkii.quark.building.block.VariantTrappedChestBlock;
+import vazkii.quark.building.client.render.VariantChestTileEntityRenderer;
+import vazkii.quark.building.tile.VariantChestTileEntity;
+import vazkii.quark.building.tile.VariantTrappedChestTileEntity;
 
-@LoadModule(category = ModuleCategory.DECORATION)
+@LoadModule(category = ModuleCategory.BUILDING)
 public class VariantChestsModule extends Module {
 
 	@Config public static boolean changeNames = true;

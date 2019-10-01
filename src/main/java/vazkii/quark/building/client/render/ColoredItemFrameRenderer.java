@@ -1,4 +1,4 @@
-package vazkii.quark.decoration.client.render;
+package vazkii.quark.building.client.render;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.Minecraft;
@@ -25,7 +25,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderItemInFrameEvent;
 import net.minecraftforge.common.MinecraftForge;
 import vazkii.quark.base.Quark;
-import vazkii.quark.decoration.entity.ColoredItemFrameEntity;
+import vazkii.quark.building.entity.ColoredItemFrameEntity;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
