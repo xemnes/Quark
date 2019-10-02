@@ -7,7 +7,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationSettings;
-import vazkii.quark.base.world.Generator;
+import vazkii.quark.base.world.generator.Generator;
 import vazkii.quark.base.world.config.DimensionConfig;
 import vazkii.quark.world.block.SpeleothemBlock;
 import vazkii.quark.world.block.SpeleothemBlock.SpeleothemSize;

@@ -17,7 +17,7 @@ public class UndergroundBiomeGenerator extends MultiChunkFeatureGenerator {
 	public final UndergroundBiomeConfig info;
 
 	public UndergroundBiomeGenerator(UndergroundBiomeConfig info, Module module, String name) {
-		super(info.dimensions, () -> module.enabled, (long) name.hashCode());
+		super(info.dimensions, () -> module.enabled, name.hashCode());
 		this.info = info;
 	}
 

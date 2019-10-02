@@ -1,17 +1,21 @@
 package vazkii.quark.base.world;
 
+import vazkii.quark.base.world.generator.IGenerator;
+
+import javax.annotation.Nonnull;
+
 public class WeightedGenerator implements Comparable<WeightedGenerator> {
 
-	public final Generator generator;
+	public final IGenerator generator;
 	public final int weight;
 	
-	public WeightedGenerator(Generator generator, int weight) {
+	public WeightedGenerator(IGenerator generator, int weight) {
 		this.generator = generator;
 		this.weight = weight;
 	}
 
 	@Override
-	public int compareTo(WeightedGenerator o) {
+	public int compareTo(@Nonnull WeightedGenerator o) {
 		int diff = weight - o.weight;
 		if(diff != 0)
 			return diff;

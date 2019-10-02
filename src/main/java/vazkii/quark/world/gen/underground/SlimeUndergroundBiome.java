@@ -32,10 +32,10 @@ public class SlimeUndergroundBiome extends BasicUndergroundBiome {
 
 	@Override
 	public void fillFloor(UndergroundBiomeGenerationContext context, BlockPos pos, BlockState state) {
-		context.world.setBlockState(pos, floorState, 3);
-		
 		if(context.random.nextDouble() < 0.085)
 			context.world.setBlockState(pos, Blocks.SLIME_BLOCK.getDefaultState(), 2);
+		else
+			context.world.setBlockState(pos, floorState, 3);
 	}
 	
 

@@ -30,6 +30,7 @@ public class GeneralConfig {
 
 	@Config(description = "Blocks that Quark should treat as Shulker Boxes.")
 	public static List<String> shulkerBoxes = SimilarBlockTypeHandler.getBasicShulkerBoxes();
+
 	@Config(description = "Should Quark treat anything with 'shulker_box' in its item identifier as a shulker box?")
 	public static boolean interpretShulkerBoxLikeBlocks = true;
 

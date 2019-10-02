@@ -6,7 +6,6 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationSettings;
-import vazkii.quark.base.world.Generator;
 import vazkii.quark.base.world.config.DimensionConfig;
 
 import java.util.Random;
@@ -28,7 +27,7 @@ public abstract class MultiChunkFeatureGenerator extends Generator {
 		if(radius <= 0)
 			return;
 		
-		int chunkRadius = (int) Math.ceil((double) radius / 16.0);
+		int chunkRadius = (int) Math.ceil(radius / 16.0);
 		
 		long worldSeed = world.getSeed();
 		Random worldRandom = new Random(worldSeed);

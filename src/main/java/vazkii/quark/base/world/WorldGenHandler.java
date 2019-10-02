@@ -14,6 +14,7 @@ import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraft.world.gen.placement.IPlacementConfig;
 import net.minecraftforge.registries.ForgeRegistries;
+import vazkii.quark.base.world.generator.IGenerator;
 
 import java.util.*;
 import java.util.function.BiPredicate;
@@ -30,7 +31,7 @@ public class WorldGenHandler {
 		}
 	}
 
-	public static void addGenerator(Generator generator, GenerationStage.Decoration stage, int weight) {
+	public static void addGenerator(IGenerator generator, GenerationStage.Decoration stage, int weight) {
 		WeightedGenerator weighted = new WeightedGenerator(generator, weight);
 		if(!generators.containsKey(stage))
 			generators.put(stage, new TreeSet<>());
@@ -78,13 +79,10 @@ public class WorldGenHandler {
 			SortedSet<WeightedGenerator> set = generators.get(stage);
 
 			for(WeightedGenerator wgen : set) {
-				Generator gen = wgen.generator;
+				IGenerator gen = wgen.generator;
 
-				if(gen.isEnabled() && gen.dimConfig.canSpawnHere(worldIn.getWorld())) {
-					random.setFeatureSeed(seed, i, stage.ordinal()); 
-
-					gen.generate(worldIn, generator, random, pos);
-					i++;
+				if(gen.canGenerate(worldIn)) {
+					i = gen.generate(i, seed, stage, worldIn, generator, random, pos);
 				}
 			}
 		}

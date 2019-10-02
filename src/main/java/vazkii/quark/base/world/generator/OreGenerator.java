@@ -10,7 +10,6 @@ import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationSettings;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.gen.WorldGenRegion;
-import vazkii.quark.base.world.Generator;
 import vazkii.quark.base.world.config.DimensionConfig;
 import vazkii.quark.base.world.config.OrePocketConfig;
 
