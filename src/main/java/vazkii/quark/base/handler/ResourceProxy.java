@@ -1,7 +1,24 @@
 package vazkii.quark.base.handler;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.BooleanSupplier;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
+import javax.annotation.Nonnull;
+
 import com.google.common.collect.ImmutableSet;
+
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.ClientResourcePackInfo;
 import net.minecraft.resources.IPackFinder;
 import net.minecraft.resources.ResourcePack;
 import net.minecraft.resources.ResourcePackInfo;
@@ -11,21 +28,10 @@ import net.minecraft.util.ResourceLocation;
 import vazkii.quark.base.Quark;
 import vazkii.quark.vanity.module.EmotesModule;
 
-import javax.annotation.Nonnull;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.function.BooleanSupplier;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
-
 public final class ResourceProxy extends ResourcePack {
 
 	private static final String MINECRAFT = "minecraft";
+	private static final String RESOURCE_PROXY_NAME = "quark:resourceproxy";
 	private static final Set<String> RESOURCE_DOMAINS = ImmutableSet.of(MINECRAFT);
 
 	private static final String BARE_FORMAT = "assets/" + MINECRAFT + "/%s/%s/%s";
@@ -43,9 +49,8 @@ public final class ResourceProxy extends ResourcePack {
 
 			@Override
 			public <T extends ResourcePackInfo> void addPackInfosToMap(Map<String, T> nameToPackMap, IFactory<T> packInfoFactory) {
-				String name = "quark:resourceproxy";
-				T t = ResourcePackInfo.createResourcePack(name, true, () -> instance, packInfoFactory, ResourcePackInfo.Priority.TOP);
-				nameToPackMap.put(name, t);
+				T t = ClientResourcePackInfo.createResourcePack(RESOURCE_PROXY_NAME, true, () -> instance, packInfoFactory, ResourcePackInfo.Priority.BOTTOM); 
+				nameToPackMap.put(RESOURCE_PROXY_NAME, t);
 				
 				EmotesModule.addResourcePack(nameToPackMap, packInfoFactory);
 			}
@@ -62,7 +67,35 @@ public final class ResourceProxy extends ResourcePack {
 	public static ResourceProxy instance() {
 		return instance;
 	}
-
+	
+	public void ensureNotLast() {
+		Minecraft mc = Minecraft.getInstance();
+		Collection<ClientResourcePackInfo> coll = mc.getResourcePackList().getEnabledPacks();
+		
+		int i = 0;
+		int quarkPos = -1;
+		int vanillaPos = -1;
+		
+		for(ClientResourcePackInfo pack : coll) {
+			if(pack.getName().equals("vanilla"))
+				vanillaPos = i;
+			else if(pack.getName().equals(RESOURCE_PROXY_NAME))
+				quarkPos = i;
+			
+			i++;
+		}
+		
+		if(quarkPos < vanillaPos) {
+			List<ClientResourcePackInfo> newList = new ArrayList<>(coll);
+			ClientResourcePackInfo vanillaPack = newList.get(vanillaPos);
+			ClientResourcePackInfo quarkPack = newList.get(quarkPos);
+			
+			newList.set(vanillaPos, quarkPack);
+			newList.set(quarkPos, vanillaPack);
+			mc.getResourcePackList().setEnabledPacks(newList);
+		}
+	}
+	
 	public void addResource(String type, String path, String value, BooleanSupplier isEnabled) {
 		ResourceOverride res = new ResourceOverride(type, path, value, isEnabled); 
 		overrides.put(res.getPathKey(), res);

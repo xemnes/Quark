@@ -31,6 +31,7 @@ public class ContributorRewardHandler {
 	private static final Set<String> done = Collections.newSetFromMap(new WeakHashMap<>());
 
 	private static Thread thread;
+	private static boolean doneLoading;
 
 	private static String name;
 
@@ -49,6 +50,8 @@ public class ContributorRewardHandler {
 	public static void init() {
 		if (thread != null && thread.isAlive())
 			return;
+		
+		doneLoading = false;
 		thread = new ThreadContributorListLoader();
 	}
 
@@ -57,6 +60,7 @@ public class ContributorRewardHandler {
 	}
 	
 	public static int getTier(String name) {
+		join();
 		return tiers.getOrDefault(name.toLowerCase(Locale.ROOT), 0);
 	}
 	
@@ -84,6 +88,15 @@ public class ContributorRewardHandler {
 		ContributorRewardHandler.init();
 	}
 	
+	private static void join() {
+		if(!doneLoading)
+			try {
+				thread.join();
+			} catch (InterruptedException e) {
+				throw new RuntimeException();
+			}
+	}
+	
 	private static void load(Properties props) {
 		List<String> allPatrons = new ArrayList<>(props.size());
 
@@ -102,6 +115,8 @@ public class ContributorRewardHandler {
 		
 		if(!allPatrons.isEmpty())
 			featuredPatron = allPatrons.get((int) (Math.random() * allPatrons.size()));
+		
+		doneLoading = true;
 	}
 
 	private static class ThreadContributorListLoader extends Thread {
