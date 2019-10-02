@@ -1,6 +1,7 @@
 package vazkii.quark.building.module;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.ComposterBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
@@ -58,21 +59,21 @@ public class CompressedBlocksModule extends Module {
 		charcoal_block = new CharcoalBlock(this)
 				.setCondition(() -> enableCharcoalBlock);
 		
-		pillar("sugar_cane", MaterialColor.LIME, () -> enableSugarCaneBlock);
-		pillar("bamboo", MaterialColor.YELLOW, () -> enableBambooBlock);
-		pillar("cactus", MaterialColor.GREEN, () -> enableCactusBlock);
-		pillar("chorus_fruit", MaterialColor.PURPLE, () -> enableChorusFruitBlock);
-		stick_block = pillar("stick", MaterialColor.WOOD, () -> enableStickBlock);
+		pillar("sugar_cane", MaterialColor.LIME, true, () -> enableSugarCaneBlock);
+		pillar("bamboo", MaterialColor.YELLOW, true, () -> enableBambooBlock);
+		pillar("cactus", MaterialColor.GREEN, true, () -> enableCactusBlock);
+		pillar("chorus_fruit", MaterialColor.PURPLE, false, () -> enableChorusFruitBlock);
+		stick_block = pillar("stick", MaterialColor.WOOD, false, () -> enableStickBlock);
 		
-		crate("apple", MaterialColor.RED, () -> enableAppleCrate);
-		crate("golden_apple", MaterialColor.GOLD, () -> enableGoldenAppleCrate);
-		crate("potato", MaterialColor.ADOBE, () -> enablePotatoCrate);
-		crate("carrot", MaterialColor.ORANGE_TERRACOTTA, () -> enableCarrotCrate);
-		crate("beetroot", MaterialColor.RED, () -> enableBeetrootCrate);
+		crate("apple", MaterialColor.RED, true, () -> enableAppleCrate);
+		crate("golden_apple", MaterialColor.GOLD, false, () -> enableGoldenAppleCrate);
+		crate("potato", MaterialColor.ADOBE, true, () -> enablePotatoCrate);
+		crate("carrot", MaterialColor.ORANGE_TERRACOTTA, true, () -> enableCarrotCrate);
+		crate("beetroot", MaterialColor.RED, true, () -> enableBeetrootCrate);
 
-		sack("cocoa_beans", MaterialColor.BROWN, () -> enableCocoaBeanSack);
-		sack("nether_wart", MaterialColor.RED, () -> enableNetherWartSack);
-		sack("gunpowder", MaterialColor.GRAY, () -> enableGunpowderSack);
+		sack("cocoa_beans", MaterialColor.BROWN, true, () -> enableCocoaBeanSack);
+		sack("nether_wart", MaterialColor.RED, false, () -> enableNetherWartSack);
+		sack("gunpowder", MaterialColor.GRAY, false, () -> enableGunpowderSack);
 		
 		new QuarkBlock("blaze_lantern", this, ItemGroup.BUILDING_BLOCKS, 
 				Block.Properties.create(Material.GLASS, DyeColor.YELLOW)
@@ -82,28 +83,40 @@ public class CompressedBlocksModule extends Module {
 		.setCondition(() -> enableBlazeLantern);
 	}
 	
-	private Block pillar(String name, MaterialColor color, BooleanSupplier cond) {
-		return new QuarkPillarBlock(name + "_block", this, ItemGroup.BUILDING_BLOCKS,
+	private Block pillar(String name, MaterialColor color, boolean compost, BooleanSupplier cond) {
+		Block block = new QuarkPillarBlock(name + "_block", this, ItemGroup.BUILDING_BLOCKS,
 				Block.Properties.create(Material.WOOD, color)
 				.hardnessAndResistance(0.5F)
 				.sound(SoundType.WOOD))
 		.setCondition(cond);
+
+		if (compost)
+			ComposterBlock.CHANCES.put(block.asItem(), 1F);
+		return block;
 	}
 	
-	private Block crate(String name, MaterialColor color, BooleanSupplier cond) {
-		return new QuarkBlock(name + "_crate", this, ItemGroup.DECORATIONS, 
+	private Block crate(String name, MaterialColor color, boolean compost, BooleanSupplier cond) {
+		Block block = new QuarkBlock(name + "_crate", this, ItemGroup.DECORATIONS,
 				Block.Properties.create(Material.WOOD, color)
 				.hardnessAndResistance(1.5F)
 				.sound(SoundType.WOOD))
 		.setCondition(cond);
+
+		if (compost)
+			ComposterBlock.CHANCES.put(block.asItem(), 1F);
+		return block;
 	}
 
-	private Block sack(String name, MaterialColor color, BooleanSupplier cond) {
-		return new QuarkBlock(name + "_sack", this, ItemGroup.DECORATIONS, 
+	private Block sack(String name, MaterialColor color, boolean compost, BooleanSupplier cond) {
+		Block block = new QuarkBlock(name + "_sack", this, ItemGroup.DECORATIONS,
 				Block.Properties.create(Material.WOOL, color)
 				.hardnessAndResistance(0.5F)
 				.sound(SoundType.CLOTH))
 		.setCondition(cond);
+
+		if (compost)
+			ComposterBlock.CHANCES.put(block.asItem(), 1F);
+		return block;
 	}
 	
 	@SubscribeEvent
