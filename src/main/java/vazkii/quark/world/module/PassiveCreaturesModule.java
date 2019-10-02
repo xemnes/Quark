@@ -30,7 +30,6 @@ import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
-import vazkii.quark.base.util.PotionIconIndices;
 import vazkii.quark.world.client.render.CrabRenderer;
 import vazkii.quark.world.client.render.FrogRenderer;
 import vazkii.quark.world.entity.CrabEntity;
@@ -139,7 +138,7 @@ public class PassiveCreaturesModule extends Module {
         Item shell = new QuarkItem("crab_shell", this, new Item.Properties().group(ItemGroup.BREWING))
                 .setCondition(() -> enableCrabs && enableBrewing);
 
-        Effect resilience = new QuarkEffect("resilience", EffectType.BENEFICIAL, 0x5b1a04, PotionIconIndices.RESILIENCE);
+        Effect resilience = new QuarkEffect("resilience", EffectType.BENEFICIAL, 0x5b1a04);
 
         BrewingHandler.addPotionMix(() -> enableFrogs && enableBrewing,
                 Ingredient.fromItems(goldenLeg),
