@@ -36,9 +36,9 @@ public class CustomUndergroundBiomeModule extends Module {
     private static final String RL_PATTERN = "(?:\\w+:)?\\w+";
     private static final String BLOCKS_PATTERN = "(?:" + RL_PATTERN + "(?:@\\d+)?,)" + RL_PATTERN + "(?:@\\d+)?";
 
-    public static final Pattern PATTERN = Pattern.compile("(?<dimensions>(?:" + RL_PATTERN + ",)*" + RL_PATTERN + ");" +
+    public static final Pattern PATTERN = Pattern.compile("(?<dimensions>(?:(?:" + RL_PATTERN + ",)*" + RL_PATTERN + ")?);" +
             "(?<isDimensionBlacklist>true|false);" +
-            "(?<biomeTypes>(?:" + BIOME_OPTIONS + ",)*(?:" + BIOME_OPTIONS + "));" +
+            "(?<biomeTypes>(?:(?:" + BIOME_OPTIONS + ",)*(?:" + BIOME_OPTIONS + "))?);" +
             "(?<isBiomeBlacklist>true|false);" +
             "(?<rarity>\\d+);" +
             "(?<minY>\\d+)\\.\\.(?<maxY>\\d+);" +
