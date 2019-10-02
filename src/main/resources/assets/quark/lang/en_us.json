@@ -130,6 +130,7 @@
 	"item.quark.crab_leg": "Crab Leg",
 	"item.quark.cooked_crab_leg": "Cooked Crab Leg",
 	"item.quark.crab_shell": "Crab Shell",
+	"item.quark.root_item": "Cave Root",
 
 	"block.quark.charcoal_block": "Charcoal Block",
 	"block.quark.black_quilted_wool": "Black Quilted Wool",
@@ -554,8 +555,7 @@
 	"block.quark.paper_wall_sakura": "Sakura Paper Wall",
 	"block.quark.paper_lantern": "Paper Lantern",
 	"block.quark.paper_lantern_sakura": "Sakura Paper Lantern",
-
-
+	"block.quark.root": "Cave Roots",
 
 	"item.quark.stoneling_spawn_egg": "Stoneling Spawn Egg",
 	"item.quark.frog_spawn_egg": "Frog Spawn Egg",
