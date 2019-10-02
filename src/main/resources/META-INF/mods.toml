@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[25,)"
+loaderVersion="[28,)"
 issueTrackerURL="https://github.com/Vazkii/Psi"
 
 [[mods]]
@@ -10,3 +10,10 @@ authors="Vazkii, Wiiv, WireSegal, MCVinnyq"
 description='''
 Small things.
 '''
+
+[[dependencies.quark]]
+    modId="autoreglib"
+    mandatory=true
+    versionRange="[1.4-34,)"
+    ordering="AFTER"
+    side="BOTH"
