@@ -19,8 +19,8 @@ import javax.annotation.Nonnull;
 
 public class PaperLanternBlock extends QuarkBlock {
 
-	private static final VoxelShape POST_SHAPE = makeCuboidShape(6, 0, 6, 8, 16, 8);
-	private static final VoxelShape LANTERN_SHAPE = makeCuboidShape(3, 3, 3, 13, 13, 13);
+	private static final VoxelShape POST_SHAPE = makeCuboidShape(6, 0, 6, 10, 16, 10);
+	private static final VoxelShape LANTERN_SHAPE = makeCuboidShape(2, 2, 2, 14, 14, 14);
 	private static final VoxelShape SHAPE = VoxelShapes.or(POST_SHAPE, LANTERN_SHAPE);
 
 	public PaperLanternBlock(String regname, Module module) {

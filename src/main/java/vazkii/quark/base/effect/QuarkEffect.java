@@ -10,49 +10,17 @@
  */
 package vazkii.quark.base.effect;
 
-import com.mojang.blaze3d.platform.GlStateManager;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.gui.DisplayEffectsScreen;
 import net.minecraft.potion.Effect;
-import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.EffectType;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.arl.util.RegistryHelper;
-
-import javax.annotation.Nonnull;
 
 public class QuarkEffect extends Effect {
 
-	public static final ResourceLocation TEXTURE = new ResourceLocation("quark", "textures/misc/potions.png");
-
 	protected final String bareName;
 
-	private final int iconX;
-	private final int iconY;
-
-	public QuarkEffect(String name, EffectType type, int color, int iconIndex) {
+	public QuarkEffect(String name, EffectType type, int color) {
 		super(type, color);
-		iconX = iconIndex % 8;
-		iconY = iconIndex / 8;
 		RegistryHelper.register(this, name);
 		bareName = name;
-	}
-
-	@Override
-	@OnlyIn(Dist.CLIENT)
-	public void renderHUDEffect(@Nonnull EffectInstance effect, AbstractGui gui, int x, int y, float z, float alpha) {
-		GlStateManager.color4f(1f, 1f, 1f, alpha);
-		Minecraft.getInstance().textureManager.bindTexture(TEXTURE);
-		gui.blit(x + 3, y + 3, iconX * 18, 198 + iconY * 18, 18, 18);
-		GlStateManager.color3f(1f, 1f, 1f);
-	}
-
-	@Override
-	public void renderInventoryEffect(EffectInstance effect, DisplayEffectsScreen<?> gui, int x, int y, float z) {
-		Minecraft.getInstance().textureManager.bindTexture(TEXTURE);
-		gui.blit(x + 6, y + 7, iconX * 18, 198 + iconY * 18, 18, 18);
 	}
 }
