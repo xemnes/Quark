@@ -29,7 +29,7 @@ import java.util.regex.Pattern;
  * @author WireSegal
  * Created at 8:01 PM on 10/1/19.
  */
-@LoadModule(category = ModuleCategory.WORLD, enabledByDefault = false)
+@LoadModule(category = ModuleCategory.WORLD, enabledByDefault = false, description = "This feature is highly technical. Use only if you know what you're doing!")
 public class CustomUndergroundBiomeModule extends Module {
 
     private static final String BIOME_OPTIONS = "HOT|COLD|SPARSE|DENSE|WET|SAVANNA|CONIFEROUS|JUNGLE|SPOOKY|DEAD|LUSH|NETHER|END|MUSHROOM|MAGICAL|RARE|OCEAN|RIVER|WATER|MESA|FOREST|PLAINS|MOUNTAIN|HILLS|SWAMP|SANDY|SNOWY|WASTELAND|BEACH|VOID";
