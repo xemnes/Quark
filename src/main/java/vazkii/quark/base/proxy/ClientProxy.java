@@ -45,6 +45,8 @@ public class ClientProxy extends CommonProxy {
 	public void clientSetup(FMLClientSetupEvent event) {
 		ModuleLoader.INSTANCE.clientSetup();
 		ContributorRewardHandler.setupClient();
+		
+		ResourceProxy.instance().ensureNotLast();
 	}
 
 	public void modelRegistry(ModelRegistryEvent event) {
