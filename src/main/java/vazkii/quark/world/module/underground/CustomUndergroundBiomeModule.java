@@ -52,7 +52,7 @@ public class CustomUndergroundBiomeModule extends Module {
     @Config(description = "The format for these definitions is:\n" +
             "dimensions;isDimensionBlacklist;biomeTypes;isBiomeBlacklist;rarity;minY..maxY;horizontalSize,verticalSize;horizontalVariation,verticalVariation;floorBlocks@weight;ceilingBlocks@weight;wallBlocks@weight;mimicInside\n" +
             "That's a lot to take in, so here's an example. This would be for the default config of the Slime underground biome. (Spaces are allowed.)\n" +
-            "minecraft:overworld; false; SWAMP; false; 120; 10..40; 26,14; 14,6; minecraft:water@915, minecraft:slime_block@85; minecraft:green_terracotta@2, minecraft:lime_terracotta@3, minecraft:light_blue_terracotta@1;CEILING; false")
+            "minecraft:overworld; false; SWAMP; false; 120; 10..40; 26,14; 14,6; minecraft:water@915, minecraft:slime_block@85; minecraft:green_terracotta@2, minecraft:lime_terracotta@3, minecraft:light_blue_terracotta@1; CEILING; false")
     public static List<String> biomeDefinitions = new ArrayList<>();
 
     private static List<UndergroundBiomeGenerator> generators = new ArrayList<>();
