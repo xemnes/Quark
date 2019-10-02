@@ -20,6 +20,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import vazkii.arl.util.RegistryHelper;
@@ -52,18 +53,19 @@ public class RootBlock extends VineBlock implements IQuarkBlock, IGrowable {
 	
 	@Override
 	public void tick(BlockState state, World worldIn, BlockPos pos, Random random) {
-//		super.tick(state, worldIn, pos, random);
+		if(!worldIn.isRemote && worldIn.rand.nextInt(2) == 0)
+			grow(worldIn, random, pos, state);
 	}
 	
-	public static void growMany(World world, BlockPos pos, BlockState state, float stopChance) {
-//		BlockPos next = pos;
-//		
-//		do {
-//			next = growAndReturnLastPos(world, next, state);
-//		} while(next != null && world.rand.nextFloat() >= stopChance);
+	public static void growMany(IWorld world, Random rand, BlockPos pos, BlockState state, float stopChance) {
+		BlockPos next = pos;
+		
+		do {
+			next = growAndReturnLastPos(world, next, state);
+		} while(next != null && rand.nextFloat() >= stopChance);
 	}
 
-	public static BlockPos growAndReturnLastPos(World world, BlockPos pos, BlockState state) {
+	public static BlockPos growAndReturnLastPos(IWorld world, BlockPos pos, BlockState state) {
 		BlockPos down = pos.down();
 		
 		for(Direction facing : MiscUtil.HORIZONTALS) {
@@ -71,8 +73,8 @@ public class RootBlock extends VineBlock implements IQuarkBlock, IGrowable {
 			if(state.get(prop)) {
 				BlockPos ret = growInFacing(world, down, facing);
 				if(ret != null) {
-					BlockState setState = state.getBlock().getDefaultState();
-					world.setBlockState(ret, setState);
+					BlockState setState = state.getBlock().getDefaultState().with(prop, true);
+					world.setBlockState(ret, setState, 2);
 					return ret;
 				}
 				
@@ -83,7 +85,7 @@ public class RootBlock extends VineBlock implements IQuarkBlock, IGrowable {
 		return null;
 	}
 	
-	public static BlockPos growInFacing(World world, BlockPos pos, Direction facing) {
+	public static BlockPos growInFacing(IWorld world, BlockPos pos, Direction facing) {
 		if(!world.isAirBlock(pos))
 			return null;
 		
@@ -102,7 +104,7 @@ public class RootBlock extends VineBlock implements IQuarkBlock, IGrowable {
 		return null;
 	}
 
-	private static boolean isAcceptableNeighbor(World world, BlockPos pos, Direction side) {
+	public static boolean isAcceptableNeighbor(IWorld world, BlockPos pos, Direction side) {
 		BlockState iblockstate = world.getBlockState(pos);
 		return Block.hasSolidSide(iblockstate, world, pos, side) && iblockstate.getMaterial() == Material.ROCK;
 	}

@@ -11,5 +11,6 @@ public class WorldGenWeights {
 	public static final int BIG_STONE_CLUSTERS = 0;
 	public static final int UNDERGROUND_BIOMES = 1;
 	public static final int SPELEOTHEMS = 2;
+	public static final int CAVE_ROOTS = 3;
 	
 }
