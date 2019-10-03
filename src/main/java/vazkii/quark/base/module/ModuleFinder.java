@@ -1,17 +1,22 @@
 package vazkii.quark.base.module;
 
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.apache.commons.lang3.text.WordUtils;
+import org.objectweb.asm.Type;
+
 import com.google.common.collect.Lists;
+
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.loading.moddiscovery.ModAnnotation;
 import net.minecraftforge.forgespi.language.ModFileScanData;
 import net.minecraftforge.forgespi.language.ModFileScanData.AnnotationData;
-import org.apache.commons.lang3.text.WordUtils;
-import org.objectweb.asm.Type;
 import vazkii.quark.base.Quark;
-
-import java.util.*;
-import java.util.stream.Collectors;
 
 @SuppressWarnings("deprecation")
 public final class ModuleFinder {
@@ -22,12 +27,10 @@ public final class ModuleFinder {
 
 	public void findModules() {
 		ModFileScanData scanData = ModList.get().getModFileById(Quark.MOD_ID).getFile().getScanResult();
-        List<AnnotationData> targets = scanData.getAnnotations().stream()
+        scanData.getAnnotations().stream()
                 .filter(annotationData -> LOAD_MODULE_TYPE.equals(annotationData.getAnnotationType()))
                 .sorted((d1, d2) -> d1.getClassType().getClassName().compareTo(d2.getClassType().getClassName()))
-                .collect(Collectors.toList());
-
-        targets.forEach(this::loadModule);
+                .forEach(this::loadModule);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -38,7 +41,7 @@ public final class ModuleFinder {
 			
 			Map<String, Object> vals = target.getAnnotationData();
 			if(vals.containsKey("requiredMod")) {
-				String mod = (String) vals.get("requiredMod");
+				String mod = (String) vals.get("requiredMod");	
 				if(mod != null && !mod.isEmpty() && !ModList.get().isLoaded(mod))
 					return;
 			}
