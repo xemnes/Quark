@@ -73,7 +73,7 @@ public class UtilityRecipesModule extends Module {
     public void torchBurnTime(FurnaceFuelBurnTimeEvent event) {
         if (torchesBurn) {
             Item item = event.getItemStack().getItem();
-            if (item == Items.REDSTONE_TORCH || item == Items.TORCH)
+            if (item == Items.TORCH)
                 event.setBurnTime(400);
         }
     }
