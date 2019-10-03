@@ -7,7 +7,19 @@ import net.minecraftforge.fml.network.NetworkDirection;
 import vazkii.arl.network.IMessage;
 import vazkii.arl.network.NetworkHandler;
 import vazkii.quark.base.Quark;
-import vazkii.quark.base.network.message.*;
+import vazkii.quark.base.network.message.ChangeHotbarMessage;
+import vazkii.quark.base.network.message.DoEmoteMessage;
+import vazkii.quark.base.network.message.DoubleDoorMessage;
+import vazkii.quark.base.network.message.HarvestMessage;
+import vazkii.quark.base.network.message.InventoryTransferMessage;
+import vazkii.quark.base.network.message.LinkItemMessage;
+import vazkii.quark.base.network.message.OpenBoatChestMessage;
+import vazkii.quark.base.network.message.RequestEmoteMessage;
+import vazkii.quark.base.network.message.SortInventoryMessage;
+import vazkii.quark.base.network.message.SpamlessChatMessage;
+import vazkii.quark.base.network.message.SwapItemsMessage;
+import vazkii.quark.base.network.message.SyncChainMessage;
+import vazkii.quark.base.network.message.UpdateAfkMessage;
 
 public final class QuarkNetwork {
 
@@ -27,6 +39,7 @@ public final class QuarkNetwork {
 		network.register(LinkItemMessage.class, NetworkDirection.PLAY_TO_SERVER);
 		network.register(OpenBoatChestMessage.class, NetworkDirection.PLAY_TO_SERVER);
 		network.register(SwapItemsMessage.class, NetworkDirection.PLAY_TO_SERVER);
+		network.register(ChangeHotbarMessage.class, NetworkDirection.PLAY_TO_SERVER);
 
 		network.register(DoEmoteMessage.class, NetworkDirection.PLAY_TO_CLIENT);
 		network.register(SpamlessChatMessage.class, NetworkDirection.PLAY_TO_CLIENT);
