@@ -18,6 +18,8 @@ import java.util.List;
 
 public class OpenBoatChestMessage implements IMessage {
 
+	private static final long serialVersionUID = 4454710003473142954L;
+
 	@Override
 	public boolean receive(NetworkEvent.Context context) {
 		context.enqueueWork(() -> {
