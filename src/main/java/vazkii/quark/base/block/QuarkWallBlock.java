@@ -27,7 +27,7 @@ public class QuarkWallBlock extends WallBlock implements IQuarkBlock {
 		
 		this.parent = parent;
 		RegistryHelper.registerBlock(this, Objects.toString(parent.getBlock().getRegistryName()) + "_wall");
-		RegistryHelper.setCreativeTab(this, ItemGroup.BUILDING_BLOCKS);
+		RegistryHelper.setCreativeTab(this, ItemGroup.DECORATIONS);
 	}
 	
 	@Override
