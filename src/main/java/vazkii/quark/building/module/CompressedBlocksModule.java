@@ -1,5 +1,6 @@
 package vazkii.quark.building.module;
 
+import com.google.common.collect.Lists;
 import net.minecraft.block.Block;
 import net.minecraft.block.ComposterBlock;
 import net.minecraft.block.SoundType;
@@ -17,6 +18,7 @@ import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
 import vazkii.quark.building.block.CharcoalBlock;
 
+import java.util.List;
 import java.util.function.BooleanSupplier;
 
 @LoadModule(category = ModuleCategory.BUILDING, hasSubscriptions = true)
@@ -54,6 +56,8 @@ public class CompressedBlocksModule extends Module {
 
 	private Block charcoal_block, stick_block;
 
+	private final List<Block> compostable = Lists.newArrayList();
+
 	@Override
 	public void start() {
 		charcoal_block = new CharcoalBlock(this)
@@ -82,7 +86,13 @@ public class CompressedBlocksModule extends Module {
 				.lightValue(15))
 		.setCondition(() -> enableBlazeLantern);
 	}
-	
+
+	@Override
+	public void setup() {
+		for (Block block : compostable)
+			ComposterBlock.CHANCES.put(block.asItem(), 1F);
+	}
+
 	private Block pillar(String name, MaterialColor color, boolean compost, BooleanSupplier cond) {
 		Block block = new QuarkPillarBlock(name + "_block", this, ItemGroup.BUILDING_BLOCKS,
 				Block.Properties.create(Material.WOOD, color)
@@ -91,7 +101,7 @@ public class CompressedBlocksModule extends Module {
 		.setCondition(cond);
 
 		if (compost)
-			ComposterBlock.CHANCES.put(block.asItem(), 1F);
+			compostable.add(block);
 		return block;
 	}
 	
@@ -103,7 +113,7 @@ public class CompressedBlocksModule extends Module {
 		.setCondition(cond);
 
 		if (compost)
-			ComposterBlock.CHANCES.put(block.asItem(), 1F);
+			compostable.add(block);
 		return block;
 	}
 
@@ -115,7 +125,7 @@ public class CompressedBlocksModule extends Module {
 		.setCondition(cond);
 
 		if (compost)
-			ComposterBlock.CHANCES.put(block.asItem(), 1F);
+			compostable.add(block);
 		return block;
 	}
 	

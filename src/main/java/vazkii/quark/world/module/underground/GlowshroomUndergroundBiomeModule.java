@@ -36,17 +36,23 @@ public class GlowshroomUndergroundBiomeModule extends UndergroundBiomeModule {
 	public void start() {
 		glowcelium = new GlowceliumBlock(this);
 		glowshroom = new GlowshroomBlock(this);
-		ComposterBlock.CHANCES.put(glowshroom.asItem(), 0.65F);
 		glowshroom_block = new HugeGlowshroomBlock("glowshroom_block", this);
-		ComposterBlock.CHANCES.put(glowshroom_block.asItem(), 0.65F);
 		glowshroom_stem = new HugeGlowshroomBlock("glowshroom_stem", this);
-		ComposterBlock.CHANCES.put(glowshroom_stem.asItem(), 0.65F);
 
 		RegistryHelper.registerBlock(new FlowerPotBlock(glowshroom, Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(0F).lightValue(14)), "potted_glowshroom", false);
 
 		super.start();
 	}
-	
+
+	@Override
+	public void setup() {
+		ComposterBlock.CHANCES.put(glowshroom_stem.asItem(), 0.65F);
+		ComposterBlock.CHANCES.put(glowshroom.asItem(), 0.65F);
+		ComposterBlock.CHANCES.put(glowshroom_block.asItem(), 0.65F);
+
+		super.setup();
+	}
+
 	@Override
 	protected String getBiomeName() {
 		return "glowshroom";
