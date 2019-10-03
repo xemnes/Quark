@@ -557,6 +557,11 @@
 	"block.quark.paper_lantern": "Paper Lantern",
 	"block.quark.paper_lantern_sakura": "Sakura Paper Lantern",
 	"block.quark.root": "Cave Roots",
+	"block.quark.duskbound_lantern": "Duskbound Lantern",
+	"block.quark.duskbound_block": "Duskbound Block",
+	"block.quark.duskbound_block_stairs": "Duskbound Stairs",
+	"block.quark.duskbound_block_slab": "Duskbound Slab",
+	"block.quark.duskbound_block_vertical_slab": "Duskbound Vertical Slab",
 
 	"item.quark.stoneling_spawn_egg": "Stoneling Spawn Egg",
 	"item.quark.frog_spawn_egg": "Frog Spawn Egg",
