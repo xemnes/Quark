@@ -22,9 +22,10 @@ public final class ModuleFinder {
 
 	public void findModules() {
 		ModFileScanData scanData = ModList.get().getModFileById(Quark.MOD_ID).getFile().getScanResult();
-        List<AnnotationData> targets = scanData.getAnnotations().stream().
-                filter(annotationData -> LOAD_MODULE_TYPE.equals(annotationData.getAnnotationType())).
-                collect(Collectors.toList());
+        List<AnnotationData> targets = scanData.getAnnotations().stream()
+                .filter(annotationData -> LOAD_MODULE_TYPE.equals(annotationData.getAnnotationType()))
+                .sorted((d1, d2) -> d1.getClassType().getClassName().compareTo(d2.getClassType().getClassName()))
+                .collect(Collectors.toList());
 
         targets.forEach(this::loadModule);
 	}
