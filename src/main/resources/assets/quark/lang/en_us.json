@@ -138,6 +138,14 @@
 	"item.quark.crab_shell": "Crab Shell",
 	"item.quark.root_item": "Cave Root",
 	"item.quark.dragon_scale": "Dragon Scale",
+	"item.minecraft.potion.effect.quark.resilience": "Potion of Stability",
+	"item.minecraft.splash_potion.effect.quark.resilience": "Splash Potion of Stability",
+	"item.minecraft.lingering_potion.effect.quark.resilience": "Lingering Potion of Stability",
+	"item.minecraft.tipped_arrow.effect.quark.resilience": "Arrow of Stability",
+	"item.minecraft.potion.effect.quark.danger_sight": "Potion of Prescience",
+	"item.minecraft.splash_potion.effect.quark.danger_sight": "Splash Potion of Prescience",
+	"item.minecraft.lingering_potion.effect.quark.danger_sight": "Lingering Potion of Prescience",
+	"item.minecraft.tipped_arrow.effect.quark.danger_sight": "Arrow of Prescience",
 
 	"block.quark.charcoal_block": "Charcoal Block",
 	"block.quark.black_quilted_wool": "Black Quilted Wool",
@@ -573,6 +581,9 @@
 	"item.quark.frog_spawn_egg": "Frog Spawn Egg",
 	"item.quark.crab_spawn_egg": "Crab Spawn Egg",
 	"item.quark.foxhound_spawn_egg": "Foxhound Spawn Egg",
+
+	"effect.quark.resilience": "Resilience",
+	"effect.quark.danger_sight": "Danger Sight",
 
 	"entity.quark.pickarang": "Pickarang",
 	"entity.quark.chest_passenger": "Chest In Boat",

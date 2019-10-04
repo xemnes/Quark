@@ -1,9 +1,5 @@
 package vazkii.quark.world.block;
 
-import java.util.Random;
-
-import javax.annotation.Nonnull;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -21,13 +17,20 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.IPlantable;
 import vazkii.arl.util.RegistryHelper;
+import vazkii.quark.base.block.IQuarkBlock;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.world.module.underground.GlowshroomUndergroundBiomeModule;
 
-public class GlowshroomBlock extends MushroomBlock {
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Random;
+import java.util.function.BooleanSupplier;
+
+public class GlowshroomBlock extends MushroomBlock implements IQuarkBlock {
 
 	private final Module module;
-	
+	private BooleanSupplier enabledSupplier = () -> true;
+
 	public GlowshroomBlock(Module module) {
 		super(Block.Properties.from(Blocks.RED_MUSHROOM).lightValue(14).tickRandomly());
 		
@@ -43,12 +46,12 @@ public class GlowshroomBlock extends MushroomBlock {
 	}
 	
 	@Override
-	public boolean canSustainPlant(BlockState state, IBlockReader world, BlockPos pos, Direction facing, IPlantable plantable) {
+	public boolean canSustainPlant(@Nonnull BlockState state, @Nonnull IBlockReader world, BlockPos pos, @Nonnull Direction facing, IPlantable plantable) {
 		return state.getBlock() == GlowshroomUndergroundBiomeModule.glowcelium;
 	}
 	
 	@Override
-	public void tick(BlockState state, World worldIn, BlockPos pos, Random rand) {
+	public void tick(@Nonnull BlockState state, @Nonnull World worldIn, @Nonnull BlockPos pos, Random rand) {
 		if(rand.nextInt(GlowshroomUndergroundBiomeModule.glowshroomGrowthRate) == 0) {
 			int i = 5;
 
@@ -108,9 +111,22 @@ public class GlowshroomBlock extends MushroomBlock {
 		if(isEnabled() || group == ItemGroup.SEARCH)
 			super.fillItemGroup(group, items);
 	}
-	
-	public boolean isEnabled() {
-		return module != null && module.enabled;
+
+
+	@Override
+	public GlowshroomBlock setCondition(BooleanSupplier enabledSupplier) {
+		this.enabledSupplier = enabledSupplier;
+		return this;
 	}
 
+	@Override
+	public boolean doesConditionApply() {
+		return enabledSupplier.getAsBoolean();
+	}
+
+	@Nullable
+	@Override
+	public Module getModule() {
+		return module;
+	}
 }

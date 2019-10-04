@@ -30,6 +30,7 @@ public class QuarkItemFrameItem extends QuarkItem {
     }
 
     @Nonnull
+    @Override
     public ActionResultType onItemUse(ItemUseContext context) {
         BlockPos pos = context.getPos();
         Direction facing = context.getFace();
