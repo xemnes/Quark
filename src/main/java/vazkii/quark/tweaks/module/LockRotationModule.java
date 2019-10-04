@@ -1,14 +1,7 @@
 package vazkii.quark.tweaks.module;
 
-import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.UUID;
-
-import org.lwjgl.opengl.GL11;
-
 import com.google.common.collect.ImmutableMap;
 import com.mojang.blaze3d.platform.GlStateManager;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.StairsBlock;
@@ -46,6 +39,7 @@ import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedOutEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import org.lwjgl.opengl.GL11;
 import vazkii.arl.network.MessageSerializer;
 import vazkii.quark.base.handler.MiscUtil;
 import vazkii.quark.base.handler.ModKeybindHandler;
@@ -54,6 +48,10 @@ import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
 import vazkii.quark.base.network.QuarkNetwork;
 import vazkii.quark.base.network.message.SetLockProfileMessage;
+
+import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.UUID;
 
 @LoadModule(category = ModuleCategory.TWEAKS, hasSubscriptions = true)
 public class LockRotationModule extends Module {
@@ -236,11 +234,9 @@ public class LockRotationModule extends Module {
 		else {
 			boolean locked = player.getPersistentData().getBoolean(TAG_LOCKED_ONCE);
 			if(!locked) {
-				ITextComponent text = new TranslationTextComponent("quark.message.rotation_lock_before");
 				ITextComponent keybind = new KeybindTextComponent("quark.keybind.lock_rotation");
 				keybind.getStyle().setColor(TextFormatting.AQUA);
-				text.appendSibling(keybind);
-				text.appendSibling(new TranslationTextComponent("quark.message.rotation_lock_after"));
+				ITextComponent text = new TranslationTextComponent("quark.misc.rotation_lock", keybind);
 				player.sendMessage(text);
 
 				player.getPersistentData().putBoolean(TAG_LOCKED_ONCE, true);
