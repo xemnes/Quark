@@ -3,12 +3,18 @@ package vazkii.quark.base.block;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.StairsBlock;
+import net.minecraft.client.renderer.color.IBlockColor;
+import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorldReader;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import vazkii.arl.interf.IBlockColorProvider;
+import vazkii.arl.interf.IItemColorProvider;
 import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.base.module.Module;
 
@@ -17,7 +23,7 @@ import javax.annotation.Nullable;
 import java.util.Objects;
 import java.util.function.BooleanSupplier;
 
-public class QuarkStairsBlock extends StairsBlock implements IQuarkBlock {
+public class QuarkStairsBlock extends StairsBlock implements IQuarkBlock, IBlockColorProvider {
 
 	private final IQuarkBlock parent;
     private BooleanSupplier enabledSupplier = () -> true;
@@ -60,8 +66,20 @@ public class QuarkStairsBlock extends StairsBlock implements IQuarkBlock {
     }
 
     @Nonnull
+    @Override
     public BlockRenderLayer getRenderLayer() {
         return parent.getBlock().getRenderLayer();
     }
 
+    @Override
+    @OnlyIn(Dist.CLIENT)
+    public IBlockColor getBlockColor() {
+        return parent instanceof IBlockColorProvider ? ((IBlockColorProvider) parent).getBlockColor() : null;
+    }
+
+    @Override
+    @OnlyIn(Dist.CLIENT)
+    public IItemColor getItemColor() {
+        return parent instanceof IItemColorProvider ? ((IItemColorProvider) parent).getItemColor() : null;
+    }
 }

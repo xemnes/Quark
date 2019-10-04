@@ -25,8 +25,8 @@ public class LeafCarpetBlock extends QuarkBlock implements IBlockColorProvider {
 
 	private static final VoxelShape SHAPE = makeCuboidShape(0, 0, 0, 16, 1, 16);
 	
-	final BlockState baseState;
-	final ItemStack baseStack;
+	private final BlockState baseState;
+	private final ItemStack baseStack;
 	
 	public LeafCarpetBlock(String name, Block base, Module module) {
 		super(name + "_leaf_carpet", module, ItemGroup.DECORATIONS, 

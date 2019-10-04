@@ -4,6 +4,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.IWaterLoggable;
 import net.minecraft.block.SlabBlock;
+import net.minecraft.client.renderer.color.IBlockColor;
+import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.fluid.IFluidState;
@@ -27,6 +29,10 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import vazkii.arl.interf.IBlockColorProvider;
+import vazkii.arl.interf.IItemColorProvider;
 import vazkii.quark.base.block.QuarkBlock;
 import vazkii.quark.base.block.QuarkSlabBlock;
 import vazkii.quark.base.module.Module;
@@ -34,7 +40,7 @@ import vazkii.quark.base.module.Module;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class VerticalSlabBlock extends QuarkBlock implements IWaterLoggable {
+public class VerticalSlabBlock extends QuarkBlock implements IWaterLoggable, IBlockColorProvider {
 
 	public static final EnumProperty<VerticalSlabType> TYPE = EnumProperty.create("type", VerticalSlabType.class);
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
@@ -46,10 +52,10 @@ public class VerticalSlabBlock extends QuarkBlock implements IWaterLoggable {
 		this.parent = parent;
 		
 		if(!(parent instanceof SlabBlock))
-			throw new IllegalArgumentException("fucking idiot you made a slab without a slab lol");
+			throw new IllegalArgumentException("Can't rotate a non-slab block into a vertical slab.");
 
 		if(parent instanceof QuarkSlabBlock)
-			setCondition(() -> ((QuarkSlabBlock) parent).parent.isEnabled());
+			setCondition(((QuarkSlabBlock) parent).parent::isEnabled);
 
 		setDefaultState(getDefaultState().with(TYPE, VerticalSlabType.NORTH).with(WATERLOGGED, false));
 	}
@@ -141,6 +147,18 @@ public class VerticalSlabBlock extends QuarkBlock implements IWaterLoggable {
 	@SuppressWarnings("deprecation")
 	public boolean allowsMovement(@Nonnull BlockState state, @Nonnull IBlockReader worldIn, @Nonnull BlockPos pos, PathType type) {
 		return type == PathType.WATER && worldIn.getFluidState(pos).isTagged(FluidTags.WATER); 
+	}
+
+	@Override
+	@OnlyIn(Dist.CLIENT)
+	public IBlockColor getBlockColor() {
+		return parent instanceof IBlockColorProvider ? ((IBlockColorProvider) parent).getBlockColor() : null;
+	}
+
+	@Override
+	@OnlyIn(Dist.CLIENT)
+	public IItemColor getItemColor() {
+		return parent instanceof IItemColorProvider ? ((IItemColorProvider) parent).getItemColor() : null;
 	}
 
 	public enum VerticalSlabType implements IStringSerializable {

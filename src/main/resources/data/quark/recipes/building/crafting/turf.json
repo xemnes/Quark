@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:grass"
+    }
+  },
+  "result": {
+    "item": "quark:turf"
+  },
+  "conditions": [
+    {
+      "type": "quark:flag",
+      "flag": "turf"
+    }
+  ]
+} 
