@@ -19,6 +19,8 @@ import vazkii.arl.interf.IBlockColorProvider;
 import vazkii.quark.base.block.QuarkBlock;
 import vazkii.quark.base.module.Module;
 
+import javax.annotation.Nonnull;
+
 public class LeafCarpetBlock extends QuarkBlock implements IBlockColorProvider {
 
 	private static final VoxelShape SHAPE = makeCuboidShape(0, 0, 0, 16, 1, 16);
@@ -36,16 +38,20 @@ public class LeafCarpetBlock extends QuarkBlock implements IBlockColorProvider {
 		baseStack = new ItemStack(base);
 	}
 	
+	@Nonnull
 	@Override
-	public VoxelShape getShape(BlockState p_220053_1_, IBlockReader p_220053_2_, BlockPos p_220053_3_, ISelectionContext p_220053_4_) {
+	public VoxelShape getShape(BlockState state, IBlockReader world, BlockPos pos, ISelectionContext context) {
 		return SHAPE;
 	}
-	
+
+	@Nonnull
 	@Override
-	public VoxelShape getCollisionShape(BlockState p_220071_1_, IBlockReader p_220071_2_, BlockPos p_220071_3_, ISelectionContext p_220071_4_) {
+	@SuppressWarnings("deprecation")
+	public VoxelShape getCollisionShape(@Nonnull BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos, ISelectionContext p_220071_4_) {
 		return VoxelShapes.empty();
 	}
 
+	@Nonnull
 	@Override
 	public BlockRenderLayer getRenderLayer() {
 		return BlockRenderLayer.CUTOUT_MIPPED;

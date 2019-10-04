@@ -13,7 +13,7 @@ import vazkii.quark.building.block.LeafCarpetBlock;
 public class LeafCarpetModule extends Module {
 
 	@Override
-	public void start() {
+	public void construct() {
 		ImmutableSet.of(Blocks.OAK_LEAVES, Blocks.SPRUCE_LEAVES, Blocks.BIRCH_LEAVES, Blocks.JUNGLE_LEAVES, Blocks.ACACIA_LEAVES, Blocks.DARK_OAK_LEAVES).forEach(this::carpet);
 	}
 	
