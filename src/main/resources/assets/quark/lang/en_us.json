@@ -576,6 +576,12 @@
 	"block.quark.duskbound_block_stairs": "Duskbound Stairs",
 	"block.quark.duskbound_block_slab": "Duskbound Slab",
 	"block.quark.duskbound_block_vertical_slab": "Duskbound Vertical Slab",
+	"block.quark.oak_leaf_carpet": "Oak Leaf Carpet",
+	"block.quark.spruce_leaf_carpet": "Spruce Leaf Carpet",
+	"block.quark.birch_leaf_carpet": "Birch Leaf Carpet",
+	"block.quark.jungle_leaf_carpet": "Jungle Leaf Carpet",
+	"block.quark.acacia_leaf_carpet": "Acacia Leaf Carpet",
+	"block.quark.dark_oak_leaf_carpet": "Dark Oak Leaf Carpet",
 
 	"item.quark.stoneling_spawn_egg": "Stoneling Spawn Egg",
 	"item.quark.frog_spawn_egg": "Frog Spawn Egg",
