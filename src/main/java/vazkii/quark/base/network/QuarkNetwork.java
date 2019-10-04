@@ -10,6 +10,7 @@ import vazkii.quark.base.Quark;
 import vazkii.quark.base.network.message.ChangeHotbarMessage;
 import vazkii.quark.base.network.message.DoEmoteMessage;
 import vazkii.quark.base.network.message.DoubleDoorMessage;
+import vazkii.quark.base.network.message.EditSignMessage;
 import vazkii.quark.base.network.message.HarvestMessage;
 import vazkii.quark.base.network.message.InventoryTransferMessage;
 import vazkii.quark.base.network.message.LinkItemMessage;
@@ -44,6 +45,7 @@ public final class QuarkNetwork {
 		network.register(DoEmoteMessage.class, NetworkDirection.PLAY_TO_CLIENT);
 		network.register(SpamlessChatMessage.class, NetworkDirection.PLAY_TO_CLIENT);
 		network.register(SyncChainMessage.class, NetworkDirection.PLAY_TO_CLIENT);
+		network.register(EditSignMessage.class, NetworkDirection.PLAY_TO_CLIENT);
 	}
 	
 	public static void sendToPlayer(IMessage msg, ServerPlayerEntity player) {
