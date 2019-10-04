@@ -589,6 +589,8 @@
 	"block.quark.turf_stairs": "Turf Stairs",
 	"block.quark.turf_slab": "Turf Slab",
 	"block.quark.turf_vertical_slab": "Turf Vertical Slab",
+	"block.quark.rope": "Rope Coil",
+
 
 	"item.quark.stoneling_spawn_egg": "Stoneling Spawn Egg",
 	"item.quark.frog_spawn_egg": "Frog Spawn Egg",
