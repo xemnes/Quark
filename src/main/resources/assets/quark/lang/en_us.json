@@ -1,4 +1,7 @@
 {
+	"quark.message.rotation_lock_before": "You have enabled Rotation Lock. Any blocks you place will be oriented in the direction you were looking. Press [",
+	"quark.message.rotation_lock_after": "] to change or reset it. This message won't appear again.",
+
 	"quark.gui.button.sort": "Sort",
 	"quark.gui.button.sort_inventory": "Sort Inventory",
 	"quark.gui.button.sort_container": "Sort Container",
@@ -12,6 +15,7 @@
 	"quark.gui.keygroup.emotes": "Quark Emotes",
 	
 	"quark.keybind.change_hotbar": "Hotbar Swapper",
+	"quark.keybind.lock_rotation": "Rotation Lock",
 
 	"quark.subtitles.meep": "Stoneling runs away",
 	"quark.subtitles.give_stoneling": "Stoneling takes item",
