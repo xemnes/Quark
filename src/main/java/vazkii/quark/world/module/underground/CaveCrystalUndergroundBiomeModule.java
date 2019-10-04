@@ -40,7 +40,7 @@ public class CaveCrystalUndergroundBiomeModule extends UndergroundBiomeModule {
 	}
 
 	@Override
-	public void start() {
+	public void construct() {
 		crystals.add(new CaveCrystalBlock("red_crystal", 0xff0000, this, MaterialColor.RED));
 		crystals.add(new CaveCrystalBlock("orange_crystal", 0xff8000, this, MaterialColor.ADOBE));
 		crystals.add(new CaveCrystalBlock("yellow_crystal", 0xffff00, this, MaterialColor.YELLOW));
@@ -54,7 +54,7 @@ public class CaveCrystalUndergroundBiomeModule extends UndergroundBiomeModule {
 		for (CaveCrystalBlock block : crystals)
 			new QuarkPaneBlock(block);
 
-		super.start();
+		super.construct();
 	}
 
 	@Override

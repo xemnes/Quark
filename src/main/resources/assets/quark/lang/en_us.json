@@ -576,6 +576,7 @@
 	"block.quark.duskbound_block_stairs": "Duskbound Stairs",
 	"block.quark.duskbound_block_slab": "Duskbound Slab",
 	"block.quark.duskbound_block_vertical_slab": "Duskbound Vertical Slab",
+	"block.quark.lit_lamp": "Lit Redstone Lamp",
 
 	"item.quark.stoneling_spawn_egg": "Stoneling Spawn Egg",
 	"item.quark.frog_spawn_egg": "Frog Spawn Egg",

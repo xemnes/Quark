@@ -22,7 +22,7 @@ public class VariantLaddersModule extends Module {
 	public static Block iron_ladder;
 
 	@Override
-	public void start() {
+	public void construct() {
 		for(String type : MiscUtil.VARIANT_WOOD_TYPES)
 			new VariantLadderBlock(type, this);
 		

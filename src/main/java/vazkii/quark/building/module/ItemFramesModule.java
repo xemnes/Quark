@@ -44,7 +44,7 @@ public class ItemFramesModule extends Module {
     }
 
     @Override
-    public void start() {
+    public void construct() {
         glassFrameEntity = EntityType.Builder.<GlassItemFrameEntity>create(GlassItemFrameEntity::new, EntityClassification.MISC)
                 .size(0.5F, 0.5F)
                 .setTrackingRange(10)

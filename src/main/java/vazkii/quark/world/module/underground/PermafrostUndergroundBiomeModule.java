@@ -19,7 +19,7 @@ public class PermafrostUndergroundBiomeModule extends UndergroundBiomeModule {
 	public static QuarkBlock permafrost;
 	
 	@Override
-	public void start() {
+	public void construct() {
 		permafrost = new QuarkBlock("permafrost", this, ItemGroup.BUILDING_BLOCKS, 
 				Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_BLUE)
 				.hardnessAndResistance(1.5F, 10F)
@@ -28,7 +28,7 @@ public class PermafrostUndergroundBiomeModule extends UndergroundBiomeModule {
 		VariantHandler.addSlabStairsWall(permafrost);
 		VariantHandler.addSlabStairsWall(new QuarkBlock("permafrost_bricks", this, ItemGroup.BUILDING_BLOCKS, Block.Properties.from(permafrost)));
 		
-		super.start();
+		super.construct();
 	}
 	
 	@Override

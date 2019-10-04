@@ -31,7 +31,7 @@ public class ElderPrismarineUndergroundBiomeModule extends UndergroundBiomeModul
 	public static double lanternChance = 0.0085;
 
     @Override
-	public void start() {
+	public void construct() {
 		elder_prismarine = new QuarkBlock("elder_prismarine", this, ItemGroup.BUILDING_BLOCKS, 
 				Block.Properties.create(Material.ROCK, MaterialColor.ADOBE)
 				.hardnessAndResistance(1.5F, 10F)
@@ -47,7 +47,7 @@ public class ElderPrismarineUndergroundBiomeModule extends UndergroundBiomeModul
 				.lightValue(15)
 				.sound(SoundType.GLASS));
 		
-		super.start();
+		super.construct();
 	}
     
 	@Override

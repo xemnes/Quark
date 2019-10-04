@@ -15,7 +15,7 @@ public class ThatchModule extends Module {
 	@Config public static double fallDamageMultiplier = 0.5;
 	
 	@Override
-	public void start() {
+	public void construct() {
 		VariantHandler.addSlabAndStairs(new ThatchBlock(this));
 	}
 	

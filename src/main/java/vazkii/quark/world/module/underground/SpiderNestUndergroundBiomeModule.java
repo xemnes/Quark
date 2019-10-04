@@ -19,7 +19,7 @@ public class SpiderNestUndergroundBiomeModule extends UndergroundBiomeModule {
 	public static QuarkBlock cobbedstone;
 	
 	@Override
-	public void start() {
+	public void construct() {
 		cobbedstone = new QuarkBlock("cobbedstone", this, ItemGroup.BUILDING_BLOCKS, 
 				Block.Properties.create(Material.ROCK, MaterialColor.GRAY)
 				.hardnessAndResistance(1.5F, 10F)
@@ -27,7 +27,7 @@ public class SpiderNestUndergroundBiomeModule extends UndergroundBiomeModule {
 		
 		VariantHandler.addSlabStairsWall(cobbedstone);
 		
-		super.start();
+		super.construct();
 	}
 	
 	@Override

@@ -41,7 +41,7 @@ public class PickarangModule extends Module {
 	public static Item pickarang;
 
 	@Override
-	public void start() {
+	public void construct() {
 		pickarangType = EntityType.Builder.<PickarangEntity>create(PickarangEntity::new, EntityClassification.MISC)
 				.size(0.4F, 0.4F)
 				.setTrackingRange(80)

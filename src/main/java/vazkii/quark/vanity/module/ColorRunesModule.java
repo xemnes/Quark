@@ -87,7 +87,7 @@ public class ColorRunesModule extends Module {
 	}
 
 	@Override
-	public void start() {
+	public void construct() {
 		for(DyeColor color : DyeColor.values()) {
 			float[] components = color.getColorComponentValues();
 			int rgb = 0xFF000000 |

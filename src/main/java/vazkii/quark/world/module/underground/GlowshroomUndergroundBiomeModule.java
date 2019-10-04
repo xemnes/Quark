@@ -60,7 +60,7 @@ public class GlowshroomUndergroundBiomeModule extends UndergroundBiomeModule {
 	private QuarkEffect dangerSight;
 
 	@Override
-	public void start() {
+	public void construct() {
 		glowcelium = new GlowceliumBlock(this);
 		glowshroom = new GlowshroomBlock(this);
 		glowshroom_block = new HugeGlowshroomBlock("glowshroom_block", this);
@@ -73,7 +73,7 @@ public class GlowshroomUndergroundBiomeModule extends UndergroundBiomeModule {
 
 		RegistryHelper.registerBlock(new FlowerPotBlock(glowshroom, Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(0F).lightValue(14)), "potted_glowshroom", false);
 
-		super.start();
+		super.construct();
 	}
 
 	@Override

@@ -72,7 +72,7 @@ public class AncientTomesModule extends Module {
 	}
 
 	@Override
-	public void start() {
+	public void construct() {
 		ancient_tome = new AncientTomeItem(this);
 	}
 

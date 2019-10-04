@@ -15,7 +15,7 @@ import vazkii.quark.base.module.ModuleLoader;
 public class VerticalPlanksModule extends Module {
 
 	@Override
-	public void start() {
+	public void construct() {
 		for(String type : MiscUtil.ALL_WOOD_TYPES)
 			new QuarkBlock("vertical_" + type + "_planks", this, ItemGroup.BUILDING_BLOCKS, Block.Properties.from(Blocks.OAK_PLANKS));
 

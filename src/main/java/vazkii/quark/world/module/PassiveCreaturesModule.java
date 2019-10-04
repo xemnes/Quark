@@ -91,7 +91,7 @@ public class PassiveCreaturesModule extends Module {
     public static boolean enableJokes = false;
 
     @Override
-    public void start() {
+    public void construct() {
         new QuarkItem("frog_leg", this, new Item.Properties()
                 .group(ItemGroup.FOOD)
                 .food(new Food.Builder()

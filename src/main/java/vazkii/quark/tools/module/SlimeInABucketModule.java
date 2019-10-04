@@ -23,7 +23,7 @@ public class SlimeInABucketModule extends Module {
 	public static Item slime_in_a_bucket;
 	
 	@Override
-	public void start() {
+	public void construct() {
 		slime_in_a_bucket = new SlimeInABucketItem(this);
 	}
 	

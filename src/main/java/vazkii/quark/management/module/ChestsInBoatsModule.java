@@ -35,7 +35,7 @@ public class ChestsInBoatsModule extends Module {
 	public static EntityType<ChestPassengerEntity> chestPassengerEntityType;
 
 	@Override
-	public void start() {
+	public void construct() {
 		chestPassengerEntityType = EntityType.Builder.<ChestPassengerEntity>create(ChestPassengerEntity::new, EntityClassification.MISC)
 				.size(0.8F, 0.8F)
 				.setTrackingRange(64)

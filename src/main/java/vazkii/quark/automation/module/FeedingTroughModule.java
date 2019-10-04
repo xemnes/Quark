@@ -80,7 +80,7 @@ public class FeedingTroughModule extends Module {
     }
 
     @Override
-    public void start() {
+    public void construct() {
         Block feedingTrough = new FeedingTroughBlock("feeding_trough", this, ItemGroup.DECORATIONS,
                 Block.Properties.create(Material.WOOD).hardnessAndResistance(0.6F).sound(SoundType.WOOD));
         tileEntityType = TileEntityType.Builder.create(FeedingTroughTileEntity::new, feedingTrough).build(null);

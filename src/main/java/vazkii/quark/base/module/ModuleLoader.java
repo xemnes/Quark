@@ -19,7 +19,7 @@ public final class ModuleLoader {
 	
 	public void start() {
 		findModules();
-		dispatch(Module::start);
+		dispatch(Module::construct);
 		dispatch(Module::modulesStarted);
 		resolveConfigSpec();
 	}

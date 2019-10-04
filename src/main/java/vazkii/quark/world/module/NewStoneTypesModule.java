@@ -45,7 +45,7 @@ public class NewStoneTypesModule extends Module {
 	private Queue<Runnable> defers = new ArrayDeque<>();
 	
 	@Override
-	public void start() {
+	public void construct() {
 		marbleBlock = makeStone("marble", marble, BigStoneClustersModule.marble, () -> enableMarble, MaterialColor.QUARTZ);
 		limestoneBlock = makeStone("limestone", limestone, BigStoneClustersModule.limestone, () -> enableLimestone, MaterialColor.STONE);
 		jasperBlock = makeStone("jasper", jasper, BigStoneClustersModule.jasper, () -> enableJasper, MaterialColor.RED_TERRACOTTA);

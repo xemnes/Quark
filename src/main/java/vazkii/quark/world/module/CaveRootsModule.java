@@ -27,7 +27,7 @@ public class CaveRootsModule extends Module {
 	public static Block root;
 	
 	@Override
-	public void start() {
+	public void construct() {
 		root = new RootBlock(this);
 		
 		new QuarkItem("root_item", this, new Item.Properties()

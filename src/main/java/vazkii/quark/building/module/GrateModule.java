@@ -28,7 +28,7 @@ public class GrateModule extends Module {
     public static final ThreadLocal<Boolean> RENDER_SHAPE = ThreadLocal.withInitial(() -> false);
 
     @Override
-    public void start() {
+    public void construct() {
         new GrateBlock("grate", this, ItemGroup.DECORATIONS, Block.Properties.create(Material.IRON)
                 .hardnessAndResistance(5, 10).sound(SoundType.METAL));
     }

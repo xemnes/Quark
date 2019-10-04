@@ -39,7 +39,7 @@ import vazkii.quark.tweaks.block.SpringySlimeBlock;
 public class SpringySlimeModule extends Module {
 
 	@Override
-	public void start() {
+	public void construct() {
 		SpringySlimeBlock block = new SpringySlimeBlock(Block.Properties.from(Blocks.SLIME_BLOCK));
 
 		OverrideRegistryHandler.registerBlock(block, "slime_block");

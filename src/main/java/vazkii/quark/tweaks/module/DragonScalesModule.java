@@ -20,7 +20,7 @@ public class DragonScalesModule extends Module {
 	public static Item dragon_scale;
 	
 	@Override
-	public void start() {
+	public void construct() {
 		ForgeRegistries.RECIPE_SERIALIZERS.register(ElytraDuplicationRecipe.SERIALIZER);
 		
 		dragon_scale = new QuarkItem("dragon_scale", this, new Item.Properties().group(ItemGroup.MATERIALS));

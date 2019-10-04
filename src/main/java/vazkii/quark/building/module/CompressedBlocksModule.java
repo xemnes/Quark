@@ -59,7 +59,7 @@ public class CompressedBlocksModule extends Module {
 	private final List<Block> compostable = Lists.newArrayList();
 
 	@Override
-	public void start() {
+	public void construct() {
 		charcoal_block = new CharcoalBlock(this)
 				.setCondition(() -> enableCharcoalBlock);
 		

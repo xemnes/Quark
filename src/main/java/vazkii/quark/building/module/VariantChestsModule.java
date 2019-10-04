@@ -42,7 +42,7 @@ public class VariantChestsModule extends Module {
 	public static TileEntityType<VariantTrappedChestTileEntity> trappedChestTEType;
 
 	@Override
-	public void start() {
+	public void construct() {
 		Block spruceChest = new VariantChestBlock("spruce", this);
 		Block birchChest = new VariantChestBlock("birch", this);
 		Block jungleChest = new VariantChestBlock("jungle", this);

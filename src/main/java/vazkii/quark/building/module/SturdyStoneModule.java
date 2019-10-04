@@ -9,7 +9,7 @@ import vazkii.quark.building.block.SturdyStoneBlock;
 public class SturdyStoneModule extends Module {
 
 	@Override
-	public void start() {
+	public void construct() {
 		new SturdyStoneBlock(this);
 	}
 	

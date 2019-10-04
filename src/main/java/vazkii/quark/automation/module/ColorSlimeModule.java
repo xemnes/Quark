@@ -16,7 +16,7 @@ public class ColorSlimeModule extends Module {
 	public static boolean changeName = true;
 
 	@Override
-	public void start() {
+	public void construct() {
 		for (SlimeColor color : SlimeColor.values())
 			new ColorSlimeBlock(color, this);
 	}

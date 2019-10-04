@@ -24,7 +24,7 @@ public class GravisandModule extends Module {
 	public static Block gravisand;
 
 	@Override
-	public void start() {
+	public void construct() {
 		gravisand = new GravisandBlock("gravisand", this, ItemGroup.REDSTONE, Block.Properties.from(Blocks.SAND));
 
 		gravisandType = EntityType.Builder.<GravisandEntity>create(GravisandEntity::new, EntityClassification.MISC)

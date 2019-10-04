@@ -15,7 +15,7 @@ public class VariantBookshelvesModule extends Module {
 	@Config public static boolean changeNames = true;
 
 	@Override
-	public void start() {
+	public void construct() {
 		for(String type : MiscUtil.VARIANT_WOOD_TYPES)
 			new VariantBookshelfBlock(type, this);
 	}

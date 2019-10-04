@@ -42,7 +42,7 @@ public class TallowAndCandlesModule extends Module {
 	private Item tallow;
 
 	@Override
-	public void start() {
+	public void construct() {
 		tallow = new QuarkItem("tallow", this, new Item.Properties().group(ItemGroup.MATERIALS));
 
 		for (DyeColor dye : DyeColor.values())

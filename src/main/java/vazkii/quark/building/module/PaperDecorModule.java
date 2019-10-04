@@ -21,7 +21,7 @@ import vazkii.quark.building.block.PaperWallBlock;
 public class PaperDecorModule extends Module {
 
 	@Override
-	public void start() {
+	public void construct() {
 		IQuarkBlock parent = new PaperLanternBlock("paper_lantern", this);
 		new PaperLanternBlock("paper_lantern_sakura", this);
 

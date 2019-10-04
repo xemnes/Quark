@@ -46,7 +46,7 @@ public class StonelingsModule extends Module {
 	public static Item diamondHeart;
 
 	@Override
-	public void start() {
+	public void construct() {
 		diamondHeart = new DiamondHeartItem("diamond_heart", this, new Item.Properties().group(ItemGroup.MISC));
 
 

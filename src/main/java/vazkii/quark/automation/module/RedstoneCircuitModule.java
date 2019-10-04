@@ -22,7 +22,7 @@ public class RedstoneCircuitModule extends Module {
     @Config(flag = "redstone_inductor") public static boolean enableInductor = true;
 
     @Override
-    public void start() {
+    public void construct() {
         new RedstoneRandomizerBlock("redstone_randomizer", this, ItemGroup.REDSTONE,
                 Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(0).sound(SoundType.WOOD));
         new RedstoneInductorBlock("redstone_inductor", this, ItemGroup.REDSTONE,

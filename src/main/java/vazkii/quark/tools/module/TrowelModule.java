@@ -15,7 +15,7 @@ public class TrowelModule extends Module {
 	public static int maxDamage = 255;
 	
 	@Override
-	public void start() {
+	public void construct() {
 		new TrowelItem(this);
 	}
 	

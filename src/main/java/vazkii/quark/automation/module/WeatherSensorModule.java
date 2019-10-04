@@ -21,7 +21,7 @@ public class WeatherSensorModule extends Module {
     public static TileEntityType<WeatherSensorTileEntity> weatherSensorTEType;
 
     @Override
-    public void start() {
+    public void construct() {
         Block weatherSensor = new WeatherSensorBlock("weather_sensor", this, ItemGroup.REDSTONE,
                 Block.Properties.create(Material.ROCK, MaterialColor.MAGENTA).hardnessAndResistance(0.2F));
         weatherSensorTEType = TileEntityType.Builder.create(WeatherSensorTileEntity::new, weatherSensor).build(null);

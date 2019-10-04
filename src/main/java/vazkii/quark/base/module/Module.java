@@ -23,7 +23,7 @@ public class Module {
 	public boolean enabled = false;
 	public boolean ignoreAntiOverlap = false;
 
-	public void start() {
+	public void construct() {
 		// NO-OP
 	}
 

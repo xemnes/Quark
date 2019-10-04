@@ -56,7 +56,7 @@ public class FoxhoundModule extends Module {
 
 
     @Override
-    public void start() {
+    public void construct() {
         foxhoundType = EntityType.Builder.create(FoxhoundEntity::new, EntityClassification.CREATURE)
                 .size(0.8F, 0.8F)
                 .setTrackingRange(80)

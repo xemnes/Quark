@@ -15,7 +15,7 @@ public class EnderWatcherModule extends Module {
 	public static TileEntityType<EnderWatcherTileEntity> enderWatcherTEType;
 
 	@Override
-	public void start() {
+	public void construct() {
 		Block ender_watcher = new EnderWatcherBlock(this);
 		enderWatcherTEType = TileEntityType.Builder.create(EnderWatcherTileEntity::new, ender_watcher).build(null);
 		RegistryHelper.register(enderWatcherTEType, "ender_watcher");

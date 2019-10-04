@@ -42,7 +42,7 @@ public class BiotiteModule extends Module {
 	private OreGenerator oregen;
 	
 	@Override
-	public void start() {
+	public void construct() {
 		new QuarkItem("biotite", this, new Item.Properties().group(ItemGroup.MATERIALS));
 		
 		Block biotite_ore = new BiotiteOreBlock(this);

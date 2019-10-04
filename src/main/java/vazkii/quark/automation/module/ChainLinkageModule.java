@@ -50,7 +50,7 @@ public class ChainLinkageModule extends Module {
     public static Item chain;
 
     @Override
-    public void start() {
+    public void construct() {
         chain = new QuarkItem("iron_chain", this, new Item.Properties().group(ItemGroup.TRANSPORTATION));
     }
 

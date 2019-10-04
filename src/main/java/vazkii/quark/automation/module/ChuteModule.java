@@ -22,7 +22,7 @@ public class ChuteModule extends Module {
     public static TileEntityType<ChuteTileEntity> tileEntityType;
 
     @Override
-    public void start() {
+    public void construct() {
         Block chute = new ChuteBlock("chute", this, ItemGroup.REDSTONE,
                 Block.Properties.create(Material.WOOD)
                         .hardnessAndResistance(2.5F)

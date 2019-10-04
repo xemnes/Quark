@@ -47,7 +47,7 @@ public class GlassShardModule extends Module {
     private static final Map<DyeColor, Item> shardColors = new HashMap<>();
 
     @Override
-    public void start() {
+    public void construct() {
         dirtyGlass = new DirtyGlassBlock("dirty_glass", this, ItemGroup.DECORATIONS,
                 Block.Properties.create(Material.GLASS, MaterialColor.BROWN).hardnessAndResistance(0.3F).sound(SoundType.GLASS));
         new QuarkPaneBlock(dirtyGlass);

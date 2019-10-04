@@ -9,7 +9,7 @@ import vazkii.quark.base.module.ModuleCategory;
 public class IronRodModule extends Module {
 	
 	@Override
-	public void start() {
+	public void construct() {
 		new IronRodBlock(this);
 	}
 	

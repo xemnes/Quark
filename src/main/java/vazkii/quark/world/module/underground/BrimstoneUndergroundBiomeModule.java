@@ -19,7 +19,7 @@ public class BrimstoneUndergroundBiomeModule extends UndergroundBiomeModule {
 	public static QuarkBlock brimstone;
 	
 	@Override
-	public void start() {
+	public void construct() {
 		brimstone = new QuarkBlock("brimstone", this, ItemGroup.BUILDING_BLOCKS, 
 				Block.Properties.create(Material.ROCK, MaterialColor.RED)
 				.hardnessAndResistance(1.5F, 10F)
@@ -28,7 +28,7 @@ public class BrimstoneUndergroundBiomeModule extends UndergroundBiomeModule {
 		VariantHandler.addSlabStairsWall(brimstone);
 		VariantHandler.addSlabStairsWall(new QuarkBlock("brimstone_bricks", this, ItemGroup.BUILDING_BLOCKS, Block.Properties.from(brimstone)));
 		
-		super.start();
+		super.construct();
 	}
 	
 	@Override

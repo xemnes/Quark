@@ -14,7 +14,7 @@ import vazkii.quark.base.module.ModuleCategory;
 public class QuiltedWoolModule extends Module {
 
 	@Override
-	public void start() {
+	public void construct() {
 		for(DyeColor dye : DyeColor.values())
 			new QuarkBlock(dye.getName() + "_quilted_wool", this, ItemGroup.BUILDING_BLOCKS,
 					Block.Properties.create(Material.WOOL, dye.getMapColor())

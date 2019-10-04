@@ -14,7 +14,7 @@ import vazkii.quark.base.module.ModuleCategory;
 public class SoulSandstoneModule extends Module {
 
 	@Override
-	public void start() {
+	public void construct() {
 		Block.Properties props = Block.Properties.create(Material.ROCK, MaterialColor.BROWN).hardnessAndResistance(0.8F);
 		
 		VariantHandler.addSlabStairsWall(new QuarkBlock("soul_sandstone", this, ItemGroup.BUILDING_BLOCKS, props));

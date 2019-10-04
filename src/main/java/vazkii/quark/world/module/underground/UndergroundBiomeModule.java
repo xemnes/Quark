@@ -14,7 +14,7 @@ public abstract class UndergroundBiomeModule extends Module {
 	public UndergroundBiomeConfig biomeSettings;
 
 	@Override
-	public void start() {
+	public void construct() {
 		biomeSettings = getBiomeConfig();
 	}
 
