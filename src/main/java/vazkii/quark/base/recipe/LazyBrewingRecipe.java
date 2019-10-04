@@ -15,13 +15,15 @@ public class LazyBrewingRecipe implements IBrewingRecipe {
     @Nonnull
     private final Ingredient input;
     @Nonnull
-    private final Ingredient ingredient;
+    private final Supplier<Ingredient> ingredientSupplier;
     @Nonnull
     private final Supplier<ItemStack> output;
 
-    public LazyBrewingRecipe(@Nonnull Ingredient input, @Nonnull Ingredient ingredient, @Nonnull Supplier<ItemStack> output) {
+    private Ingredient ingredient;
+
+    public LazyBrewingRecipe(@Nonnull Ingredient input, @Nonnull Supplier<Ingredient> ingredientSupplier, @Nonnull Supplier<ItemStack> output) {
         this.input = input;
-        this.ingredient = ingredient;
+        this.ingredientSupplier = ingredientSupplier;
         this.output = output;
     }
 
@@ -37,7 +39,10 @@ public class LazyBrewingRecipe implements IBrewingRecipe {
     }
 
     @Override
-    public boolean isIngredient(@Nonnull ItemStack ingredient) {
-        return this.ingredient.test(ingredient);
+    public boolean isIngredient(@Nonnull ItemStack stack) {
+        if (ingredient == null)
+            ingredient = ingredientSupplier.get();
+
+        return ingredient.test(stack);
     }
 }

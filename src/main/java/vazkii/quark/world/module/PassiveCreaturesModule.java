@@ -4,6 +4,8 @@ import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EntitySpawnPlacementRegistry.PlacementType;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.item.Food;
 import net.minecraft.item.Item;
@@ -139,13 +141,14 @@ public class PassiveCreaturesModule extends Module {
                 .setCondition(() -> enableCrabs && enableBrewing);
 
         Effect resilience = new QuarkEffect("resilience", EffectType.BENEFICIAL, 0x5b1a04);
+        resilience.addAttributesModifier(SharedMonsterAttributes.KNOCKBACK_RESISTANCE, "2ddf3f0a-f386-47b6-aeb0-6bd32851f215", 0.5, AttributeModifier.Operation.ADDITION);
 
-        BrewingHandler.addPotionMix(() -> enableFrogs && enableBrewing,
-                Ingredient.fromItems(goldenLeg),
+        BrewingHandler.addPotionMix(() -> enabled && enableFrogs && enableBrewing,
+                () -> Ingredient.fromItems(goldenLeg),
                 Potions.LEAPING, Potions.LONG_LEAPING, Potions.STRONG_LEAPING);
 
-        BrewingHandler.addPotionMix(() -> enableCrabs && enableBrewing,
-                Ingredient.fromItems(shell), resilience);
+        BrewingHandler.addPotionMix(() -> enabled && enableCrabs && enableBrewing,
+                () -> Ingredient.fromItems(shell), resilience);
 
         frogType = EntityType.Builder.<FrogEntity>create(FrogEntity::new, EntityClassification.CREATURE)
                 .size(0.65F, 0.5F)

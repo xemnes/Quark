@@ -28,26 +28,26 @@ public class CombinedBrewingRecipe implements IBrewingRecipe {
         this.isEnabled = isEnabled;
     }
 
-    public CombinedBrewingRecipe addMix(Ingredient reagent, Effect effect) {
+    public CombinedBrewingRecipe addMix(Supplier<Ingredient> reagent, Effect effect) {
         return BrewingHandler.addPotionMix(this, reagent, effect);
     }
 
-    public CombinedBrewingRecipe addMix(Ingredient reagent, Effect effect,
+    public CombinedBrewingRecipe addMix(Supplier<Ingredient> reagent, Effect effect,
                                         @Nullable Effect negation) {
         return BrewingHandler.addPotionMix(this, reagent, effect, negation);
     }
 
-    public CombinedBrewingRecipe addMix(Ingredient reagent, Effect effect,
+    public CombinedBrewingRecipe addMix(Supplier<Ingredient> reagent, Effect effect,
                                         int normalTime, int longTime, int strongTime) {
         return BrewingHandler.addPotionMix(this, reagent, effect, normalTime, longTime, strongTime);
     }
 
-    public CombinedBrewingRecipe addMix(Ingredient reagent, Effect effect,
+    public CombinedBrewingRecipe addMix(Supplier<Ingredient> reagent, Effect effect,
                                         @Nullable Effect negation, int normalTime, int longTime, int strongTime) {
         return BrewingHandler.addPotionMix(this, reagent, effect, negation, normalTime, longTime, strongTime);
     }
 
-    public CombinedBrewingRecipe addNegation(Ingredient reagent, Potion normalType, Potion longType, @Nullable Potion strongType,
+    public CombinedBrewingRecipe addNegation(Supplier<Ingredient> reagent, Potion normalType, Potion longType, @Nullable Potion strongType,
                                              Potion normalNegatedType, Potion longNegatedType, @Nullable Potion strongNegatedType) {
         return BrewingHandler.addNegation(this, reagent, normalType, longType, strongType, normalNegatedType, longNegatedType, strongNegatedType);
     }
@@ -61,7 +61,7 @@ public class CombinedBrewingRecipe implements IBrewingRecipe {
         return add(new BrewingRecipe(potion, reagent, output));
     }
 
-    public CombinedBrewingRecipe add(Ingredient potion, Ingredient reagent, Supplier<ItemStack> output) {
+    public CombinedBrewingRecipe add(Ingredient potion, Supplier<Ingredient> reagent, Supplier<ItemStack> output) {
         return add(new LazyBrewingRecipe(potion, reagent, output));
     }
 

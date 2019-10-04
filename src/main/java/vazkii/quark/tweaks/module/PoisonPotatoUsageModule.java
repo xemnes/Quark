@@ -31,7 +31,7 @@ public class PoisonPotatoUsageModule extends Module {
 				if(!event.getWorld().isRemote) {
 					if(animal.world.rand.nextDouble() < chance) {
 						animal.playSound(SoundEvents.ENTITY_GENERIC_EAT, 0.5f, 0.25f);
-						animal.world.addParticle(ParticleTypes.EFFECT, animal.posX, animal.posY, animal.posZ, 0.2, 0.8, 0);
+						animal.world.addParticle(ParticleTypes.ENTITY_EFFECT, animal.posX, animal.posY, animal.posZ, 0.2, 0.8, 0);
 						poisonEntity(animal);
 						if (poisonEffect)
 							animal.addPotionEffect(new EffectInstance(Effects.POISON, 200));
