@@ -56,7 +56,8 @@ public class AncientTomeItem extends QuarkItem {
 		if (isEnabled() || group == ItemGroup.SEARCH) {
 			if (group == ItemGroup.SEARCH || group.getRelevantEnchantmentTypes().length != 0) {
 				for (Enchantment ench : ForgeRegistries.ENCHANTMENTS) {
-					if (AncientTomesModule.validEnchants.contains(ench)) {
+					if ((group == ItemGroup.SEARCH && ench.getMaxLevel() != 1) ||
+							AncientTomesModule.validEnchants.contains(ench)) {
 						if ((group == ItemGroup.SEARCH && ench.type != null) || group.hasRelevantEnchantmentType(ench.type)) {
 							items.add(getEnchantedItemStack(new EnchantmentData(ench, ench.getMaxLevel())));
 						}
