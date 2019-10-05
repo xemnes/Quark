@@ -229,7 +229,7 @@ public class CrabEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 			this.dataManager.set(SIZE_MODIFIER, sizeModifier);
 			recalculateSize();
 
-			lightningCooldown = 500;
+			lightningCooldown = 150;
 		}
 	}
 
