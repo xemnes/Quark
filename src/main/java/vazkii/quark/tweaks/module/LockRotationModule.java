@@ -59,8 +59,11 @@ public class LockRotationModule extends Module {
 	private static final String TAG_LOCKED_ONCE = "quark:locked_once";
 
 	private static final HashMap<UUID, LockProfile> lockProfiles = new HashMap<>();
+	
+	@OnlyIn(Dist.CLIENT)
 	private LockProfile clientProfile;
 
+	@OnlyIn(Dist.CLIENT)
 	private KeyBinding keybind;
 
 	@Override
