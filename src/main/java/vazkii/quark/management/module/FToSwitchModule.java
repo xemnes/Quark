@@ -7,6 +7,8 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.GuiScreenEvent.KeyboardKeyPressedEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import vazkii.quark.base.module.LoadModule;
@@ -16,10 +18,11 @@ import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.base.network.QuarkNetwork;
 import vazkii.quark.base.network.message.SwapItemsMessage;
 
-@LoadModule(category = ModuleCategory.MANAGEMENT, hasSubscriptions = true)
+@LoadModule(category = ModuleCategory.MANAGEMENT, hasSubscriptions = true, subscribeOn = Dist.CLIENT)
 public class FToSwitchModule extends Module {
 
 	@SubscribeEvent
+	@OnlyIn(Dist.CLIENT)
 	@SuppressWarnings("rawtypes")
 	public void keyboardEvent(KeyboardKeyPressedEvent event) {
 		Minecraft mc = Minecraft.getInstance();

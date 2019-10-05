@@ -31,7 +31,8 @@ import vazkii.quark.base.network.message.ChangeHotbarMessage;
 @LoadModule(category = ModuleCategory.MANAGEMENT, hasSubscriptions = true, subscribeOn = Dist.CLIENT)
 public class HotbarChangerModule extends Module {
 
-	private static KeyBinding changeHotbarKey = null;
+	@OnlyIn(Dist.CLIENT)
+	private static KeyBinding changeHotbarKey;
 
 	private static final ResourceLocation WIDGETS = new ResourceLocation("textures/gui/widgets.png");
 

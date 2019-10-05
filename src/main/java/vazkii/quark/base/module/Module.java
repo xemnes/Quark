@@ -7,6 +7,7 @@ import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.loading.FMLEnvironment;
+import vazkii.quark.base.Quark;
 
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class Module {
 	public List<Dist> subscriptionTarget = Lists.newArrayList(Dist.CLIENT, Dist.DEDICATED_SERVER);
 	public boolean enabledByDefault = true;
 	
+	private boolean firstLoad = true;
 	public boolean enabled = false;
 	public boolean ignoreAntiOverlap = false;
 
@@ -62,6 +64,10 @@ public class Module {
 	}
 	
 	public final void setEnabled(boolean enabled) {
+		if(firstLoad)
+			Quark.LOG.info("Loading Module " + displayName);
+		firstLoad = false;
+		
 		if(!ignoreAntiOverlap && antiOverlap != null) {
 			ModList list = ModList.get();
 			for(String s : antiOverlap)
