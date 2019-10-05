@@ -15,7 +15,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
-import net.minecraftforge.common.ToolType;
 import vazkii.quark.base.block.IQuarkBlock;
 import vazkii.quark.base.block.QuarkPaneBlock;
 
@@ -24,8 +23,7 @@ public class PaperWallBlock extends QuarkPaneBlock {
 	public PaperWallBlock(IQuarkBlock parent, String name) {
 		super(parent, name,
 				Block.Properties.from(parent.getBlock())
-					.harvestTool(ToolType.AXE)
-					.harvestLevel(0));
+						.lightValue(0));
 	}
 
 	@Override

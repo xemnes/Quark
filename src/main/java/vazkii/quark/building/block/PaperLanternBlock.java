@@ -12,6 +12,7 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
+import net.minecraftforge.common.ToolType;
 import vazkii.quark.base.block.QuarkBlock;
 import vazkii.quark.base.module.Module;
 
@@ -26,9 +27,11 @@ public class PaperLanternBlock extends QuarkBlock {
 	public PaperLanternBlock(String regname, Module module) {
 		super(regname, module, ItemGroup.DECORATIONS,
 				Block.Properties.create(Material.WOOD, MaterialColor.SNOW)
-					.sound(SoundType.WOOD)
-					.lightValue(15)
-					.hardnessAndResistance(1.5F));
+						.sound(SoundType.WOOD)
+						.harvestTool(ToolType.AXE)
+						.harvestLevel(0)
+						.lightValue(15)
+						.hardnessAndResistance(1.5F));
 	}
 
 	@Nonnull
