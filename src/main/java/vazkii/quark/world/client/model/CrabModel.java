@@ -138,7 +138,12 @@ public class CrabModel extends EntityModel<CrabEntity> {
 		leftLeg2.rotateAngleZ = 0.5236F + (1 + MathHelper.cos(limbSwing * 0.6662F)) * 0.7F * limbSwingAmount;
 		leftLeg3.rotateAngleZ = 0.5236F + (1 + MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI)) * 0.7F * limbSwingAmount;
 		leftLeg4.rotateAngleZ = 0.2618F + (1 + MathHelper.cos(limbSwing * 0.6662F)) * 0.7F * limbSwingAmount;
-		
+
+		leftClaw.rotateAngleX = 0.0f;
+		rightClaw.rotateAngleX = 0.0f;
+		group.offsetX = 0.0f;
+		group.offsetY = 0.0f;
+
 		if(crab.isRaving()) {
 			float crabRaveBPM = 125F / 4;
 			float freq = (20F / crabRaveBPM);
@@ -151,7 +156,7 @@ public class CrabModel extends EntityModel<CrabEntity> {
 			
 			float maxHeight = 0.15F;
 			float horizontalOff = 0.2F;
-			group.offsetY = sin * maxHeight;
+			group.offsetY = sin * maxHeight + maxHeight / 2;
 			
 			float slowSin = (float) Math.sin(tick / 2);
 			group.offsetX = slowSin * horizontalOff;
