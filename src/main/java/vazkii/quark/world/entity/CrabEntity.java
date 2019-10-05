@@ -221,7 +221,7 @@ public class CrabEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 			return;
 
 		float sizeMod = getSizeModifier();
-		if (sizeMod < 15) {
+		if (sizeMod <= 15) {
 			this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).applyModifier(new AttributeModifier("Lightning Bonus", 0.5, Operation.ADDITION));
 			this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).applyModifier(new AttributeModifier("Lightning Debuff", -0.05, Operation.ADDITION));
 			this.getAttribute(SharedMonsterAttributes.ARMOR).applyModifier(new AttributeModifier("Lightning Bonus", 1, Operation.ADDITION));
@@ -231,6 +231,12 @@ public class CrabEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 
 			lightningCooldown = 150;
 		}
+	}
+
+	@Override
+	public void applyEntityCollision(@Nonnull Entity entityIn) {
+		if (getSizeModifier() <= 1)
+			super.applyEntityCollision(entityIn);
 	}
 
 	@Override
