@@ -52,16 +52,13 @@ public class ChestPassengerEntity extends Entity implements IInventory {
 		if(!isAlive())
 			return;
 		
-		if(!isPassenger()) {
-			if(!world.isRemote)
-				remove();
-			
-			return;
-		}
-		
-		Entity riding = getRidingEntity();
-		if (riding != null)
-			rotationYaw = riding.prevRotationYaw;
+		if(!isPassenger() && !world.isRemote)
+			remove();
+	}
+
+	@Override
+	public void applyOrientationToEntity(Entity vehicle) {
+		this.setRotation(vehicle.rotationYaw, vehicle.rotationPitch);
 		rotationPitch = 0F;
 	}
 

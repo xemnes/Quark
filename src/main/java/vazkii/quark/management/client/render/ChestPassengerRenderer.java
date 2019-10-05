@@ -53,6 +53,11 @@ public class ChestPassengerRenderer extends EntityRenderer<ChestPassengerEntity>
         if (timeSinceHit > 0.0F)
             GlStateManager.rotatef(MathHelper.sin(timeSinceHit) * timeSinceHit * damageTaken / 10.0F * boat.getForwardDirection(), 1.0F, 0.0F, 0.0F);
 
+        float rock = boat.getRockingAngle(partialTicks);
+        if (!MathHelper.epsilonEquals(rock, 0.0F)) {
+            GlStateManager.rotatef(rock, 1.0F, 0.0F, 1.0F);
+        }
+
         GlStateManager.translatef(0F, 0.7F - 0.375F, -0.15F);
         if(boat.getPassengers().size() == 1)
             GlStateManager.translatef(0F, 0F, 0.6F);
