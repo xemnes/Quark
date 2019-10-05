@@ -177,7 +177,10 @@ public class CrabEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 
 		if (lightningCooldown > 0)
 			lightningCooldown--;
-		
+
+		if (getSizeModifier() > 1)
+			extinguish();
+
         if(isRaving() && (jukeboxPosition == null || jukeboxPosition.distanceSq(posX, posY, posZ, true) > 24.0D || world.getBlockState(jukeboxPosition).getBlock() != Blocks.JUKEBOX))
         	party(null, false);
 		
@@ -206,18 +209,28 @@ public class CrabEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 	}
 
 	@Override
+	public boolean isInvulnerableTo(@Nonnull DamageSource source) {
+		return super.isInvulnerableTo(source) ||
+				source == DamageSource.LIGHTNING_BOLT ||
+				getSizeModifier() > 1 && source.isFireDamage();
+	}
+
+	@Override
 	public void onStruckByLightning(LightningBoltEntity lightningBolt) {
-		if (lightningCooldown > 0)
+		if (lightningCooldown > 0 || world.isRemote)
 			return;
 
-		this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).applyModifier(new AttributeModifier("Lightning Bonus", 0.5, Operation.ADDITION));
-		this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).applyModifier(new AttributeModifier("Lightning Bonus", 0.125, Operation.ADDITION));
-		this.getAttribute(SharedMonsterAttributes.ARMOR).applyModifier(new AttributeModifier("Lightning Bonus", 1, Operation.ADDITION));
-		float sizeModifier = Math.min(getSizeModifier() * 2, 16);
-		this.dataManager.set(SIZE_MODIFIER, sizeModifier);
-		recalculateSize();
+		float sizeMod = getSizeModifier();
+		if (sizeMod < 15) {
+			this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).applyModifier(new AttributeModifier("Lightning Bonus", 0.5, Operation.ADDITION));
+			this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).applyModifier(new AttributeModifier("Lightning Debuff", -0.05, Operation.ADDITION));
+			this.getAttribute(SharedMonsterAttributes.ARMOR).applyModifier(new AttributeModifier("Lightning Bonus", 1, Operation.ADDITION));
+			float sizeModifier = Math.min(sizeMod + 1, 16);
+			this.dataManager.set(SIZE_MODIFIER, sizeModifier);
+			recalculateSize();
 
-		lightningCooldown = 100;
+			lightningCooldown = 500;
+		}
 	}
 
 	@Override
