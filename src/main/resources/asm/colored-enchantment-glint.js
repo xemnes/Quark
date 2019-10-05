@@ -34,7 +34,7 @@ function initializeCoreMod() {
             'target': {
                 'type': 'METHOD',
                 'class': 'net.minecraft.client.renderer.ItemRenderer',
-                'methodName': 'func_184392_a', // renderItem
+                'methodName': 'func_180454_a', // renderItem
                 'methodDesc': '(Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/renderer/model/IBakedModel;)V'
             },
             'transformer': function(method) {
