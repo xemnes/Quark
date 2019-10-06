@@ -24,10 +24,12 @@ public class EasyTransferingModule extends Module {
 
 	@OnlyIn(Dist.CLIENT)
 	private void addButton(int priority, String name, boolean restock) {
-		InventoryButtonHandler.addButtonProvider(this, ButtonTargetType.CONTAINER_PLAYER_INVENTORY, priority, 
+		InventoryButtonHandler.addButtonProvider(this, ButtonTargetType.CONTAINER_PLAYER_INVENTORY, priority,
+				"transfer_" + name,
+				(screen) -> QuarkNetwork.sendToServer(new InventoryTransferMessage(Screen.hasShiftDown(), restock)),
 				(parent, x, y) -> new MiniInventoryButton(parent, priority, x, y, "quark.gui.button." + name,
 						(b) -> QuarkNetwork.sendToServer(new InventoryTransferMessage(Screen.hasShiftDown(), restock)))
-				.setTextureShift(() -> Screen.hasShiftDown()));
+				.setTextureShift(Screen::hasShiftDown));
 	}
 
 }

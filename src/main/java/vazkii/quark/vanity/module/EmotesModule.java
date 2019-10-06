@@ -1,16 +1,8 @@
 package vazkii.quark.vanity.module;
 
-import java.io.File;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
-
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.platform.GlStateManager;
-
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.ChatScreen;
@@ -18,6 +10,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.resources.ResourcePackInfo;
 import net.minecraft.resources.ResourcePackInfo.IFactory;
@@ -25,6 +18,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.GuiScreenEvent;
+import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.RenderLivingEvent;
@@ -33,19 +27,19 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import vazkii.aurelienribon.tweenengine.Tween;
 import vazkii.quark.base.handler.ContributorRewardHandler;
+import vazkii.quark.base.handler.ModKeybindHandler;
 import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
 import vazkii.quark.base.network.QuarkNetwork;
 import vazkii.quark.base.network.message.RequestEmoteMessage;
-import vazkii.quark.vanity.client.emote.CustomEmoteIconResourcePack;
-import vazkii.quark.vanity.client.emote.EmoteBase;
-import vazkii.quark.vanity.client.emote.EmoteDescriptor;
-import vazkii.quark.vanity.client.emote.EmoteHandler;
-import vazkii.quark.vanity.client.emote.ModelAccessor;
+import vazkii.quark.vanity.client.emote.*;
 import vazkii.quark.vanity.client.gui.EmoteButton;
 import vazkii.quark.vanity.client.gui.TranslucentButton;
+
+import java.io.File;
+import java.util.*;
 
 @LoadModule(category = ModuleCategory.VANITY, hasSubscriptions = true, subscribeOn = Dist.CLIENT)
 public class EmotesModule extends Module {
@@ -62,8 +56,7 @@ public class EmotesModule extends Module {
 			"shrug",
 			"headbang",
 			"weep",
-			"facepalm"
-	);
+			"facepalm");
 
 	private static final Set<String> PATREON_EMOTES = ImmutableSet.of(
 			"dance", 
@@ -71,14 +64,13 @@ public class EmotesModule extends Module {
 			"dab",
 			"jet",
 			"exorcist",
-			"zombie"
-			);
+			"zombie");
 
 	public static final int EMOTE_BUTTON_WIDTH = 25;
 	public static final int EMOTES_PER_ROW = 3;
 
 	@Config(description = "The enabled default emotes. Remove from this list to disable them. You can also re-order them, if you feel like it.")
-			public static List<String> enabledEmotes = Lists.newArrayList(DEFAULT_EMOTE_NAMES);
+	public static List<String> enabledEmotes = Lists.newArrayList(DEFAULT_EMOTE_NAMES);
 	
 	@Config(description = "The list of Custom Emotes to be loaded.\nWatch the tutorial on Custom Emotes to learn how to make your own: https://youtu.be/ourHUkan6aQ") 
 	public static List<String> customEmotes = Lists.newArrayList();
@@ -92,6 +84,9 @@ public class EmotesModule extends Module {
 	@OnlyIn(Dist.CLIENT)
 	public static CustomEmoteIconResourcePack resourcePack;
 
+	@OnlyIn(Dist.CLIENT)
+	private static Map<KeyBinding, String> emoteKeybinds;
+
 	@OnlyIn(Dist.CLIENT) 
 	public static <T extends ResourcePackInfo> void addResourcePack(Map<String, T> nameToPackMap, IFactory<T> packInfoFactory) {
 		resourcePack = new CustomEmoteIconResourcePack();
@@ -100,15 +95,29 @@ public class EmotesModule extends Module {
 		T t = ResourcePackInfo.createResourcePack(name, true, () -> resourcePack, packInfoFactory, ResourcePackInfo.Priority.TOP);
 		nameToPackMap.put(name, t);
 	}
-	
+
 	@Override
-	@OnlyIn(Dist.CLIENT)
 	public void clientSetup() {
 		Tween.registerAccessor(BipedModel.class, ModelAccessor.INSTANCE);
 
-		for(String s : enabledEmotes)
-			if(DEFAULT_EMOTE_NAMES.contains(s))
+		int sortOrder = 0;
+
+		emoteKeybinds = new HashMap<>();
+		for (String s : DEFAULT_EMOTE_NAMES)
+			emoteKeybinds.put(ModKeybindHandler.init("quark.emote." + s, null, ModKeybindHandler.EMOTE_GROUP, sortOrder++, false), s);
+		for (String s : PATREON_EMOTES)
+			emoteKeybinds.put(ModKeybindHandler.init("patreon_emote." + s, null, ModKeybindHandler.EMOTE_GROUP, sortOrder++), s);
+	}
+
+	@Override
+	@OnlyIn(Dist.CLIENT)
+	public void configChangedClient() {
+		EmoteHandler.clearEmotes();
+
+		for(String s : enabledEmotes) {
+			if (DEFAULT_EMOTE_NAMES.contains(s))
 				EmoteHandler.addEmote(s);
+		}
 
 		for(String s : PATREON_EMOTES)
 			EmoteHandler.addEmote(s);
@@ -116,8 +125,6 @@ public class EmotesModule extends Module {
 		for(String s : customEmotes)
 			EmoteHandler.addCustomEmote(s);
 
-//		if(enableKeybinds)
-//			ModKeybinds.initEmoteKeybinds();
 	}
 
 	@SubscribeEvent
@@ -129,9 +136,7 @@ public class EmotesModule extends Module {
 
 			for (EmoteDescriptor desc : EmoteHandler.emoteMap.values()) {
 				if (desc.getTier() <= ContributorRewardHandler.localPatronTier) {
-					List<EmoteDescriptor> descriptors = descriptorSorting.get(desc.getTier());
-					if (descriptors == null)
-						descriptorSorting.put(desc.getTier(), descriptors = new LinkedList<>());
+					List<EmoteDescriptor> descriptors = descriptorSorting.computeIfAbsent(desc.getTier(), k -> new LinkedList<>());
 
 					descriptors.add(desc);
 				}
@@ -194,6 +199,21 @@ public class EmotesModule extends Module {
 
 						emotesVisible = !emotesVisible;
 					}));
+		}
+	}
+
+	@SubscribeEvent
+	@OnlyIn(Dist.CLIENT)
+	public void onKeyInput(InputEvent.KeyInputEvent event) {
+		Minecraft mc = Minecraft.getInstance();
+		if(mc.isGameFocused()) {
+			for(KeyBinding key : emoteKeybinds.keySet()) {
+				if (key.isKeyDown()) {
+					String emote = emoteKeybinds.get(key);
+					QuarkNetwork.sendToServer(new RequestEmoteMessage(emote));
+					return;
+				}
+			}
 		}
 	}
 

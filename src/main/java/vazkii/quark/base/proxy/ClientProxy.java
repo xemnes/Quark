@@ -73,6 +73,8 @@ public class ClientProxy extends CommonProxy {
 	public void handleQuarkConfigChange() {
 		super.handleQuarkConfigChange();
 
+		ModuleLoader.INSTANCE.configChangedClient();
+
 		Minecraft mc = Minecraft.getInstance();
 		if(mc.isSingleplayer() && mc.player != null && mc.getIntegratedServer() != null) {
 			mc.player.sendMessage(new TranslationTextComponent("commands.reload.success"));

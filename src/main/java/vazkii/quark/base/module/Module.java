@@ -40,6 +40,11 @@ public class Module {
 	public void configChanged() {
 		// NO-OP
 	}
+
+	@OnlyIn(Dist.CLIENT)
+	public void configChangedClient() {
+		// NO-OP
+	}
 	
 	public void setup() {
 		// NO-OP

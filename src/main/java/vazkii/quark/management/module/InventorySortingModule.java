@@ -1,10 +1,12 @@
 package vazkii.quark.management.module;
 
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.quark.base.handler.InventoryButtonHandler;
 import vazkii.quark.base.handler.InventoryButtonHandler.ButtonProvider;
 import vazkii.quark.base.handler.InventoryButtonHandler.ButtonTargetType;
+import vazkii.quark.base.handler.ModKeybindHandler;
 import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
@@ -28,9 +30,29 @@ public class InventorySortingModule extends Module {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void clientSetup() {
-		InventoryButtonHandler.addButtonProvider(this, ButtonTargetType.PLAYER_INVENTORY, 0, provider("sort", true, () -> enablePlayerInventory));
-		InventoryButtonHandler.addButtonProvider(this, ButtonTargetType.CONTAINER_PLAYER_INVENTORY, 0, provider("sort_inventory", true, () -> enablePlayerInventoryInChests));
-		InventoryButtonHandler.addButtonProvider(this, ButtonTargetType.CONTAINER_INVENTORY, 0, provider("sort_container", false, () -> enableChests));
+		KeyBinding sortPlayer = ModKeybindHandler.init("sort_player", null, ModKeybindHandler.INV_GROUP);
+
+		InventoryButtonHandler.addButtonProvider(this, ButtonTargetType.PLAYER_INVENTORY, 0,
+				sortPlayer,
+				(screen) -> {
+					if (enablePlayerInventory)
+						QuarkNetwork.sendToServer(new SortInventoryMessage(true));
+				},
+				provider("sort", true, () -> enablePlayerInventory));
+		InventoryButtonHandler.addButtonProvider(this, ButtonTargetType.CONTAINER_PLAYER_INVENTORY, 0,
+				sortPlayer,
+				(screen) -> {
+					if (enablePlayerInventoryInChests)
+						QuarkNetwork.sendToServer(new SortInventoryMessage(true));
+				},
+				provider("sort_inventory", true, () -> enablePlayerInventoryInChests));
+		InventoryButtonHandler.addButtonProvider(this, ButtonTargetType.CONTAINER_INVENTORY, 0,
+				"sort_container",
+				(screen) -> {
+					if (enableChests)
+						QuarkNetwork.sendToServer(new SortInventoryMessage(false));
+				},
+				provider("sort_container", false, () -> enableChests));
 	}
 
 	@OnlyIn(Dist.CLIENT)

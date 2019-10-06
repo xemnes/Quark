@@ -39,6 +39,11 @@ public final class ModuleLoader {
 		config.configChanged();
 		dispatch(Module::configChanged);
 	}
+
+	@OnlyIn(Dist.CLIENT)
+	public void configChangedClient() {
+		dispatch(Module::configChangedClient);
+	}
 	
 	public void setup() {
 		dispatch(Module::setup);

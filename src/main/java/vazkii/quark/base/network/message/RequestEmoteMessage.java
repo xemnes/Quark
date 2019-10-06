@@ -21,7 +21,10 @@ public class RequestEmoteMessage implements IMessage {
 	@Override
 	public boolean receive(Context context) {
 		ServerPlayerEntity player = context.getSender();
-		context.enqueueWork(() -> QuarkNetwork.sendToAllPlayers(new DoEmoteMessage(emote, player.getUniqueID(), ContributorRewardHandler.getTier(player)), context.getSender().getServer()));
+		if (player != null && player.server != null)
+			context.enqueueWork(() -> QuarkNetwork.sendToAllPlayers(
+					new DoEmoteMessage(emote, player.getUniqueID(), ContributorRewardHandler.getTier(player)),
+					player.server));
 		return true;
 	}
 

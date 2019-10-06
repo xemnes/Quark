@@ -77,6 +77,7 @@ public class LockRotationModule extends Module {
 	}
 
 	@Override
+	@OnlyIn(Dist.CLIENT)
 	public void clientSetup() {
 		keybind = ModKeybindHandler.init("lock_rotation", "k", ModKeybindHandler.MISC_GROUP);
 	}

@@ -43,6 +43,10 @@ public final class EmoteHandler {
 
 	private static int count;
 
+	public static void clearEmotes() {
+		emoteMap.clear();
+	}
+
 	public static void addEmote(String name, Class<? extends EmoteBase> clazz) {
 		EmoteDescriptor desc = new EmoteDescriptor(clazz, name, name, count++);
 		emoteMap.put(name, desc);
@@ -217,5 +221,4 @@ public final class EmoteHandler {
 		if(part != null)
 			part.rotateAngleZ = part.offsetX = part.offsetY = part.offsetZ = 0F;
 	}
-
 }

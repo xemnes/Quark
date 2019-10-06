@@ -9,10 +9,20 @@
 	
 	"quark.gui.keygroup.misc": "Quark Misc",
 	"quark.gui.keygroup.inv": "Quark Inventory",
-	"quark.gui.keygroup.emotes": "Quark Emotes",
+	"quark.gui.keygroup.emote": "Quark Emotes",
 	
 	"quark.keybind.change_hotbar": "Hotbar Swapper",
 	"quark.keybind.lock_rotation": "Rotation Lock",
+	"quark.keybind.sort_container": "Sort Target Inventory",
+	"quark.keybind.sort_player": "Sort Player Inventory",
+	"quark.keybind.transfer_extract": "Extract Items",
+	"quark.keybind.transfer_insert": "Insert Items",
+	"quark.keybind.patreon_emote.dance": "Default Dance (Patreon)",
+	"quark.keybind.patreon_emote.tpose": "T-Pose (Patreon)",
+	"quark.keybind.patreon_emote.dab": "Dab (Patreon)",
+	"quark.keybind.patreon_emote.jet": "Jet (Patreon)",
+	"quark.keybind.patreon_emote.exorcist": "Exorcist (Patreon)",
+	"quark.keybind.patreon_emote.zombie": "Zombie (Patreon)",
 
 	"quark.subtitles.meep": "Stoneling runs away",
 	"quark.subtitles.give_stoneling": "Stoneling takes item",
