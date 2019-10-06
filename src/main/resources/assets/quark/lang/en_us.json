@@ -590,7 +590,8 @@
 	"block.quark.turf_slab": "Turf Slab",
 	"block.quark.turf_vertical_slab": "Turf Vertical Slab",
 	"block.quark.rope": "Rope Coil",
-
+	"block.quark.framed_glass": "Framed Glass",
+	"block.quark.framed_glass_pane": "Framed Glass Pane",
 
 	"item.quark.stoneling_spawn_egg": "Stoneling Spawn Egg",
 	"item.quark.frog_spawn_egg": "Frog Spawn Egg",

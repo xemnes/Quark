@@ -224,7 +224,7 @@ public class CrabEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 		if (sizeMod <= 15) {
 			this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).applyModifier(new AttributeModifier("Lightning Bonus", 0.5, Operation.ADDITION));
 			this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).applyModifier(new AttributeModifier("Lightning Debuff", -0.05, Operation.ADDITION));
-			this.getAttribute(SharedMonsterAttributes.ARMOR).applyModifier(new AttributeModifier("Lightning Bonus", 1, Operation.ADDITION));
+			this.getAttribute(SharedMonsterAttributes.ARMOR).applyModifier(new AttributeModifier("Lightning Bonus", 0.125, Operation.ADDITION));
 			float sizeModifier = Math.min(sizeMod + 1, 16);
 			this.dataManager.set(SIZE_MODIFIER, sizeModifier);
 			recalculateSize();
