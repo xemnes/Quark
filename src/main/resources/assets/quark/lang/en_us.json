@@ -6,7 +6,7 @@
 	"quark.gui.button.extract": "Extract",
 	"quark.gui.button.filter": "Filter",
 	"quark.gui.button.emotes": "Emotes",
-	
+
 	"quark.gui.keygroup.misc": "Quark Misc",
 	"quark.gui.keygroup.inv": "Quark Inventory",
 	"quark.gui.keygroup.emote": "Quark Emotes",
@@ -602,6 +602,8 @@
 	"block.quark.rope": "Rope Coil",
 	"block.quark.framed_glass": "Framed Glass",
 	"block.quark.framed_glass_pane": "Framed Glass Pane",
+	"block.quark.iron_button": "Iron Button",
+	"block.quark.gold_button": "Gold Button",
 
 	"item.quark.stoneling_spawn_egg": "Stoneling Spawn Egg",
 	"item.quark.frog_spawn_egg": "Frog Spawn Egg",

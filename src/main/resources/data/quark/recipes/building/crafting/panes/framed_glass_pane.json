@@ -1,21 +1,17 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "GIG",
-    "IGI",
-    "GIG"
+    "###",
+    "###"
   ],
   "key": {
-    "G": {
-      "tag": "forge:glass/colorless"
-    },
-    "I": {
-      "tag": "forge:ingots/iron"
+    "#": {
+      "item": "quark:framed_glass"
     }
   },
   "result": {
-    "item": "quark:framed_glass",
-    "count": 4
+    "item": "quark:framed_glass_pane",
+    "count": 16
   },
   "conditions": [
     {

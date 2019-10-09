@@ -4,6 +4,7 @@ def main():
 	walls = []
 	slabs = []
 	stairs = []
+	buttons = []
 
 	for file in os.listdir('../assets/quark/blockstates'):
 		if '.json' in file:
@@ -14,14 +15,18 @@ def main():
 				slabs.append(name)
 			elif '_stairs' in name:
 				stairs.append(name)
+			elif '_button' in name:
+				buttons.append(name)
 
 	write_file('items/walls.json', walls)
 	write_file('items/slabs.json', slabs)
 	write_file('items/stairs.json', stairs)
+	write_file('items/buttons.json', stairs)
 
 	write_file('blocks/walls.json', walls)
 	write_file('blocks/slabs.json', slabs)
 	write_file('blocks/stairs.json', stairs)
+	write_file('blocks/buttons.json', stairs)
 
 def write_file(filename, arr): 
 	first = True
