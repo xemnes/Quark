@@ -21,12 +21,12 @@ def main():
 	write_file('items/walls.json', walls)
 	write_file('items/slabs.json', slabs)
 	write_file('items/stairs.json', stairs)
-	write_file('items/buttons.json', stairs)
+	write_file('items/buttons.json', buttons)
 
 	write_file('blocks/walls.json', walls)
 	write_file('blocks/slabs.json', slabs)
 	write_file('blocks/stairs.json', stairs)
-	write_file('blocks/buttons.json', stairs)
+	write_file('blocks/buttons.json', buttons)
 
 def write_file(filename, arr): 
 	first = True
