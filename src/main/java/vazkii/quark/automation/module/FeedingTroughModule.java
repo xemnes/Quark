@@ -11,16 +11,22 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.math.*;
 import net.minecraftforge.common.util.FakePlayer;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.LogicalSide;
 import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.automation.block.FeedingTroughBlock;
 import vazkii.quark.automation.tile.FeedingTroughTileEntity;
 import vazkii.quark.base.module.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * @author WireSegal
  * Created at 9:48 AM on 9/20/19.
  */
-@LoadModule(category = ModuleCategory.AUTOMATION)
+@LoadModule(category = ModuleCategory.AUTOMATION, hasSubscriptions = true)
 public class FeedingTroughModule extends Module {
     public static TileEntityType<FeedingTroughTileEntity> tileEntityType;
 
@@ -28,6 +34,22 @@ public class FeedingTroughModule extends Module {
     public static int cooldown = 30;
 
     private static final double RANGE = 10;
+
+    private static final Set<FeedingTroughTileEntity> loadedTroughs = new HashSet<>();
+
+    @SubscribeEvent
+    public static void buildTroughSet(TickEvent.WorldTickEvent event) {
+        if (event.side == LogicalSide.SERVER) {
+            if (event.phase == TickEvent.Phase.START) {
+                for (TileEntity tile : event.world.loadedTileEntityList) {
+                    if (tile instanceof FeedingTroughTileEntity)
+                        loadedTroughs.add((FeedingTroughTileEntity) tile);
+                }
+            } else {
+                loadedTroughs.clear();
+            }
+        }
+    }
 
     public static PlayerEntity temptWithTroughs(TemptGoal goal, PlayerEntity found) {
         if (!ModuleLoader.INSTANCE.isModuleEnabled(FeedingTroughModule.class) ||
@@ -39,30 +61,19 @@ public class FeedingTroughModule extends Module {
                 ((AnimalEntity) goal.creature).getGrowingAge() != 0)
             return found;
 
-        BlockPos rangeMin = new BlockPos(
-                Math.floor(goal.creature.posX - RANGE),
-                Math.floor(goal.creature.posY - RANGE),
-                Math.floor(goal.creature.posZ - RANGE));
-        BlockPos rangeMax = new BlockPos(
-                Math.ceil(goal.creature.posX + RANGE),
-                Math.ceil(goal.creature.posY + RANGE),
-                Math.ceil(goal.creature.posZ + RANGE));
-
         double shortestDistanceSq = Double.MAX_VALUE;
         BlockPos location = null;
         FakePlayer target = null;
 
-        for (BlockPos pos : BlockPos.getAllInBoxMutable(rangeMin, rangeMax)) {
+        for (FeedingTroughTileEntity tile : loadedTroughs) {
+            BlockPos pos = tile.getPos();
             double distanceSq = pos.distanceSq(goal.creature.getPositionVector(), true);
             if (distanceSq <= RANGE * RANGE && distanceSq < shortestDistanceSq) {
-                TileEntity tile = goal.creature.world.getTileEntity(pos);
-                if (tile instanceof FeedingTroughTileEntity) {
-                    FakePlayer foodHolder = ((FeedingTroughTileEntity) tile).getFoodHolder(goal);
-                    if (foodHolder != null) {
-                        shortestDistanceSq = distanceSq;
-                        target = foodHolder;
-                        location = pos.toImmutable();
-                    }
+                FakePlayer foodHolder = tile.getFoodHolder(goal);
+                if (foodHolder != null) {
+                    shortestDistanceSq = distanceSq;
+                    target = foodHolder;
+                    location = pos.toImmutable();
                 }
             }
         }
