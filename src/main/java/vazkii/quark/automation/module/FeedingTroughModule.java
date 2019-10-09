@@ -35,18 +35,19 @@ public class FeedingTroughModule extends Module {
 
     private static final double RANGE = 10;
 
-    private static final Set<FeedingTroughTileEntity> loadedTroughs = new HashSet<>();
+    private static final ThreadLocal<Set<FeedingTroughTileEntity>> loadedTroughs = ThreadLocal.withInitial(HashSet::new);
 
     @SubscribeEvent
     public static void buildTroughSet(TickEvent.WorldTickEvent event) {
+        Set<FeedingTroughTileEntity> troughs = loadedTroughs.get();
         if (event.side == LogicalSide.SERVER) {
             if (event.phase == TickEvent.Phase.START) {
                 for (TileEntity tile : event.world.loadedTileEntityList) {
                     if (tile instanceof FeedingTroughTileEntity)
-                        loadedTroughs.add((FeedingTroughTileEntity) tile);
+                        troughs.add((FeedingTroughTileEntity) tile);
                 }
             } else {
-                loadedTroughs.clear();
+                troughs.clear();
             }
         }
     }
@@ -65,7 +66,8 @@ public class FeedingTroughModule extends Module {
         BlockPos location = null;
         FakePlayer target = null;
 
-        for (FeedingTroughTileEntity tile : loadedTroughs) {
+        Set<FeedingTroughTileEntity> troughs = loadedTroughs.get();
+        for (FeedingTroughTileEntity tile : troughs) {
             BlockPos pos = tile.getPos();
             double distanceSq = pos.distanceSq(goal.creature.getPositionVector(), true);
             if (distanceSq <= RANGE * RANGE && distanceSq < shortestDistanceSq) {
