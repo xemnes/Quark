@@ -1,0 +1,145 @@
+{
+    "automation": [
+        {
+            "name": "Iron Chains",
+            "image": "chain.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "Iron Chains can be crafted with Iron Ingots and Nuggets.",
+                "When right clicked onto a boat or minecart, and then onto another, they'll link the two. Linked boats and minecarts will always remain at close distance, which allows you to make trains.",
+                "Additionally, Iron Chains can be used to craft chainmail armor."
+            ]
+        },
+        {
+            "name": "Chute",
+            "image": "chute.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "The Chute is a new automation block. Items can be inserted into it via automation (Hopper, Dropper, etc), and any items inserted are instantly dropped under it, always precisely in the center.",
+                "The Chute can be disabled with a redstone signal or by placing a block under it."
+            ]
+        },
+        {
+            "name": "Color Slime",
+            "image": "color-slime.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "Slime blocks can be dyed Red and Blue. The primary color blocks (Red, Green, and Blue) can be combined to create secondary colors (Cyan, Magenta, and Yellow).",
+                "While being moved by pistons, two slime blocks will only connect if they're the same color, or if one is made of another (so Red won't connect to Blue, but it'll connect to Magenta). Any color of slime will connect to non-slime blocks around it normally."
+            ]
+        },
+        {
+            "name": "Dispensers Place Blocks",
+            "image": "dispensers-place-blocks.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "Dispensers are allowed to place blocks in the world. Any blocks that already had a placement behaviour, like TNT, are ignored.",
+                "The blocks are rotated so they're placed forward from the dispenser. Note that crops such as Wheat Seeds or Potatoes also co"
+            ]
+        },
+        {
+            "name": "Ender Watcher",
+            "image": "ender-watcher.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "The Ender Watcher is a new redstone input block. It emits a full redstone signal if a player is looking directly at it.",
+                "It's crafted with an Eye of Ender, Redstone and Blocks of Biotite (from the World module, or Obsidian if not enabled)."
+            ]
+        },
+        {
+            "name": "Feeding Trough",
+            "image": "floor-food-eating.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "Animals will eat from the Feeding Trough block.",
+                "TODO UPDATE DESC AND IMAGE"
+            ]
+        },
+        {
+            "name": "Gravisand",
+            "image": "gravisand.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "Gravisand is a new sand variant, crafted with sand and an ender pearl.",
+                "Gravisand will not fall unless primed with redstone. However, if gravisand receives a signal, and can not fall, it'll instead float up. Additionally, gravisand will propagate the signal to any adjacent gravisand blocks, causing them to fall or float as well.",
+                "Gravisand allows for a variety of redstone components, especially as its magnetic properties have it constantly output a comparator signal of 15."
+            ]
+        },
+        {
+            "name": "Iron Rod",
+            "image": "piston-block-breakers.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "Pistons pushing an Iron Rod will have it work as a drill of sorts, breaking any blocks in front in the direction the rod is facing. These can break anything the piston can push.",
+                "Iron Rods are crafted with 2 Iron Ingots and an End Rod."
+            ]
+        },
+        {
+            "name": "Pistons Move Tile Entities",
+            "image": "pistons-move-tes.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "Pistons are allowed to move Tile Entities (blocks with extra data attached, like Chests or Furnaces). Attempting to move a block to an invalid position will cause it to break and drop its contents (e.g. trying to create a triple chest).",
+                "For a block that pistons can't move, now that furnaces can't be used, look into Sturdy Stone in the Building module.",
+                "Note that some blocks such as Monster Spawners can't be moved this way, so you don't go and break the game!"
+            ]
+        },
+        {
+            "name": "Redstone Randomizer",
+            "image": "redstone-randomizer.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "The Redstone Randomizer is a new redstone circuit piece, made in the same way as a comparator, but with Biotite instead (from the World module, or an Eye of Ender if it's disabled).",
+                "Whenever the Randomizer receives a signal from the back, it'll enable either the left or right output, randomly.",
+                "TODO CHANGE TO SHOW BOTH CIRCUITS"
+            ]
+        },
+        {
+            "name": "Weather Sensor",
+            "image": "weather-sensor.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "The Weather Sensor is crafted with Purpur Slabs, Biotite (from the World module, or Obsidian if not enabled) and Glass. It works like a Daylight Sensor, but it emits a full redstone signal if it's raining or snowing.",
+                "Right clicking it inverts its output."
+            ]
+        },       
+        {
+            "name": "Obsidian Pressure Plate",
+            "image": "obsidian-plates.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "Pressure Plates made with obsidian will only trigger when Players walk over them."
+            ]
+        },
+        {
+            "name": "Metal Buttons",
+            "image": "metal-buttons.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "Combining a Wooden Button with either an Iron Ingot or a Gold Ingot creates a button of that type.",
+                "Drawing influence from Weighted Pressure Plates, Gold Buttons emit a very short pulse (2 redstone ticks), whereas Iron Buttons emit a very long pulse (5 seconds)."
+            ]
+        }
+    ],
+    "building": [
+
+    ],
+    "client": [
+    
+    ],
+    "management": [
+
+    ], 
+    "tools": [
+
+    ],
+    "tweaks": [
+
+    ], 
+    "vanity": [
+
+    ],
+    "world": [
+
+    ]
+}

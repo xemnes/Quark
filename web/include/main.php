@@ -1,3 +1,7 @@
+<?php
+	include 'include/common.php';
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,15 +43,14 @@
 		<div class="content-holder active-holder" data-entry="home">
 			<div id="big-branding">
 				<div id="big-branding-background">
-					<img src="img/demo/boat-chests.jpg"></img>
-					<img src="img/demo/chests.jpg"></img>
-					<img src="img/demo/color-slime.jpg"></img>
-					<img src="img/demo/foxhounds.jpg"></img>
-					<img src="img/demo/pistons-move-tes.jpg"></img>
-					<img src="img/demo/speleothems.jpg"></img>
-					<img src="img/demo/stonelings.jpg"></img>
+					<img src="img/features/management/boat-chests.jpg"></img>
+					<img src="img/features/building/varied-chests.jpg"></img>
+					<img src="img/features/automation/color-slime.jpg"></img>
+					<img src="img/features/world/foxhounds.jpg"></img>
+					<img src="img/features/automation/pistons-move-tes.jpg"></img>
+					<img src="img/features/world/speleothems.jpg"></img>
+					<img src="img/features/world/stonelings.jpg"></img>
 					<img src="img/demo/underground-biomes.jpg"></img>
-					<img src="img/demo/vanilla-dusts.jpg"></img>
 				</div>
 
 				<div id="big-title"><span class="theme-color">q</span>uark</div>
@@ -55,7 +58,7 @@
 
 				<div class="data-entry-changer std-button button-features" data-entry="features">
 					<div class="button-title">Feature List</div>
-					<div class="button-subtitle">100 and counting!</div>
+					<div class="button-subtitle"><?php include 'include/feature_count.php'; ?> and counting!</div>
 				</div>
 
 				<div class="data-entry-changer std-button button-download" data-entry="download">
@@ -128,11 +131,11 @@
 						<div class="spotlight-header">New Redstone Opportunities</div>
 						<div class="spotlight-desc">Power up your redstone game with many new redstone features, such as pistons moving tile entities, colored slime blocks, block placing, and much more.</div>
 					</div>
-					<div class="spotlight-image"><img src="img/demo/color-slime.jpg"></img></div>
+					<div class="spotlight-image"><img src="img/features/automation/color-slime.jpg"></img></div>
 				</div>
 
 				<div class="spotlight-entry spotlight-left">
-					<div class="spotlight-image"><img src="img/demo/thatch.jpg"></img></div>
+					<div class="spotlight-image"><img src="img/features/building/thatch.jpg"></img></div>
 					<div class="spotlight-info">
 						<div class="spotlight-header">Building Blocks</div>
 						<div class="spotlight-desc">Arm your palette with a large assortment of building blocks, from Thatch (pictured), to Stained Wood Planks, Magma Bricks, and many others!</div>
@@ -144,7 +147,7 @@
 						<div class="spotlight-header">Vertical Slabs</div>
 						<div class="spotlight-desc">Yeah, we got 'em.</div>
 					</div>
-					<div class="spotlight-image"><img src="img/demo/vertical-slabs.jpg"></img></div>
+					<div class="spotlight-image"><img src="img/features/building/vertical-slabs.jpg"></img></div>
 				</div>
 
 				<div class="data-entry-changer std-button button-next" data-entry="features">
@@ -166,7 +169,6 @@
 				<div class="navbar-link category-navbar-link data-category-changer last" data-category="world">World</div>
 			</div>
 			<hr>
-
 			<?php include 'features.php'; ?>
 		</div>
 
