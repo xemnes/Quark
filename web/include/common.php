@@ -1,6 +1,6 @@
 <?php
 	$feature_data = load_json('features.json');
-	
+
 	$elm_stack = [];
 
 	function load_json($file) {
@@ -28,10 +28,10 @@
 
 		$attr_str = "";
 		if(strlen($class) > 0)
-			$attr_str = "class='$class' ";
+			$attr_str = "class='$class'";
 
 		foreach($attrs as $key => $value)
-			$attr_str = "$attr_str $key='$value'";
+			$attr_str = "$key='$value' $attr_str";
 		
 		write("<$type $attr_str>");
 		array_push($elm_stack, $type);

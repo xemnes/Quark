@@ -48,7 +48,7 @@
         },
         {
             "name": "Feeding Trough",
-            "image": "floor-food-eating.jpg",
+            "image": "feeding-trough.jpg",
             "versions": "1.14+",
             "desc": [
                 "Animals will eat from the Feeding Trough block.",
@@ -63,6 +63,20 @@
                 "Gravisand is a new sand variant, crafted with sand and an ender pearl.",
                 "Gravisand will not fall unless primed with redstone. However, if gravisand receives a signal, and can not fall, it'll instead float up. Additionally, gravisand will propagate the signal to any adjacent gravisand blocks, causing them to fall or float as well.",
                 "Gravisand allows for a variety of redstone components, especially as its magnetic properties have it constantly output a comparator signal of 15."
+            ],
+            "expand": [
+                "this is just a test to make sure expand works",
+                "#Cool Stuff",
+                "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                "#More Stuff",
+                "*This is a test",
+                "*for displaying a list",
+                "*with various things",
+                "and it's not a list anymore",
+                "-",
+                "#Image Test:",
+                "!img/renders/animal-skins.png"
             ]
         },
         {
@@ -85,13 +99,13 @@
             ]
         },
         {
-            "name": "Redstone Randomizer",
-            "image": "redstone-randomizer.jpg",
+            "name": "New Redstone Circuits",
+            "image": "redstone-circuits.jpg",
             "versions": "1.14+",
             "desc": [
-                "The Redstone Randomizer is a new redstone circuit piece, made in the same way as a comparator, but with Biotite instead (from the World module, or an Eye of Ender if it's disabled).",
-                "Whenever the Randomizer receives a signal from the back, it'll enable either the left or right output, randomly.",
-                "TODO CHANGE TO SHOW BOTH CIRCUITS"
+                "Two new redstone circuit components are added to the game, the Redstone Randomizer, and the Redstone Inductor.",
+                "The Randomizer is crafted the same was as a comparator, but with Biotite (from the World module, or an Eye of Ender if disabled). When given a redstone signal from the pack, it'll randomly enable either the left or right output.",
+                "The Inductor is crafted made with Stone, Redstone, and Magma Cream. Its output value is the analog sum of all 3 input sides. It can also be locked by having a repeater or comparator pointing to it. While locked, it'll maintain the output value regardless of any changes."
             ]
         },
         {

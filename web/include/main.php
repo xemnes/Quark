@@ -11,7 +11,7 @@
 	<meta name="theme-color" content="#48ddbc">
 
 	<meta name="twitter:card" content="summary_large_image" />
-	<meta name="twitter:description" content="A Minecraft Mod staying in the theme of Vanilla." />
+	<meta name="twitter:description" content="A Minecraft Java Edition Mod staying in the theme of Vanilla." />
 	<meta name="twitter:title" content="quark" />
 	<meta name="twitter:site" content="@VazkiiMods" />
 
@@ -41,6 +41,10 @@
 
 	<div id="main">
 		<div class="content-holder active-holder" data-entry="home">
+			<div class="info">
+				You are looking at a beta test of the new website. It's not finished yet, and will look awful on mobile too. Expect things to maybe break, and content to be missing. (We're still filling in the Features secion, please excuse the mess)
+			</div>
+
 			<div id="big-branding">
 				<div id="big-branding-background">
 					<img src="img/features/management/boat-chests.jpg"></img>
@@ -62,8 +66,8 @@
 				</div>
 
 				<div class="data-entry-changer std-button button-download" data-entry="download">
-					<div class="button-title">Download</div>
-					<div class="button-subtitle">for Minecraft Java Edition 1.14.4</div>
+					<div class="button-title">Download Quark</div>
+					<div class="button-subtitle">for Minecraft Java Edition</div>
 				</div>
 			</div>
 
@@ -136,7 +140,7 @@
 
 				<div class="spotlight-entry spotlight-left">
 					<div class="spotlight-image"><img src="img/features/building/thatch.jpg"></img></div>
-					<div class="spotlight-info">
+						<div class="spotlight-info">
 						<div class="spotlight-header">Building Blocks</div>
 						<div class="spotlight-desc">Arm your palette with a large assortment of building blocks, from Thatch (pictured), to Stained Wood Planks, Magma Bricks, and many others!</div>
 					</div>
@@ -150,7 +154,7 @@
 					<div class="spotlight-image"><img src="img/features/building/vertical-slabs.jpg"></img></div>
 				</div>
 
-				<div class="data-entry-changer std-button button-next" data-entry="features">
+				<div class="data-entry-changer std-button button-long button-next" data-entry="features">
 					<div class="button-title">Full Feature List</div>
 				</div>
 			</div>
@@ -158,6 +162,10 @@
 
 		<div class="content-holder" data-entry="features">
 			<div class="section-header">Features</div>
+			<div class="info">
+				This page shows the list of features available for Quark in Minecraft 1.14.4 and further versions. If you're looking for 1.12.2 or previous, please check the old site in the header.
+			</div>
+
 			<div id="feature-category-strip">
 				<div class="navbar-link category-navbar-link data-category-changer" data-category="automation">Automation</div>
 				<div class="navbar-link category-navbar-link data-category-changer" data-category="building">Building</div>
@@ -168,25 +176,96 @@
 				<div class="navbar-link category-navbar-link data-category-changer" data-category="vanity">Vanity</div>
 				<div class="navbar-link category-navbar-link data-category-changer last" data-category="world">World</div>
 			</div>
-			<hr>
+			
 			<?php include 'features.php'; ?>
 		</div>
 
 		<div class="content-holder" data-entry="download">
 			<div class="section-header">Download</div>
-			<p>
-				Access to the Quark 1.14.4 beta is currently restricted to specific people. You can access it if you are:
+
+			<div class="warning">
+				The only website that hosts <i>official</i> versions of Quark is <b>CurseForge</b>. Make sure you get it from there only. Other websites such as <b>9minecraft</b> or <b>mc-mods</b> are distributing old or tampered versions that may contain bugs or malware.
+			</div>
+
+			<div class="info">
+				Access to the Quark 1.14.4 beta is currently restricted to specific people. You can access it if you are one or more of...
 				<ul>
 					<li>A 5$ or higher patron on <a href="https://www.patreon.com/Vazkii">Vazkii's Patreon</a></li>
 					<li>A subscriber to <a href="https://www.twitch.tv/Vazkii">Vazkii's Twitch Channel</a> (Prime counts!)</li>
 					<li>Specially selected (aka, have the "Nerd" role on the Discord Server)</li>
 				</ul>
-				If you have the appropriate roles, you can access the beta files on the <i>#betas</i> channel of <a href="https://vazkii.net/discord">the Discord server</a>.
+				If you have the appropriate roles, you can access the beta files in the <i>#betas</i> channel of <a href="https://vazkii.net/discord">the Discord server</a>.
 				<ul>
-					<li>As normal, AutoRegLib is required. The latest ARL version will be pinned in <i>#betas</i>.</li>
-					<li>If you're a patron and don't yet have the appropriate roles, please send a DM over patreon with your info so they can be sorted out.</li>
+					<li>As usual, AutoRegLib is required. The latest ARL version will be pinned in <i>#betas</i>.</li>
+					<li>If you're a patron and don't yet have the appropriate roles, please send a DM over patreon with your info so they can be sorted out. For twitch subs, make sure to link your twitch to discord and it's done automatically.</li>
 				</ul>
-			</p>
+			</div>
+
+			<div class="download-holder">
+				<div class="download-strip">
+					<a href="https://www.curseforge.com/minecraft/mc-mods/quark" class="no-external"><div class="std-button button-download">
+						<div class="button-title">Download Quark</div>
+						<div class="button-subtitle">from CurseForge</div>
+					</div></a>
+
+					<a href="https://www.curseforge.com/minecraft/mc-mods/autoreglib" class="no-external"><div class="std-button button-download-muted">
+						<div class="button-title">Download AutoRegLib</div>
+						<div class="button-subtitle">(needed for Quark to work)</div>
+					</div></a>
+				</div>
+				<div class="std-button button-long" id="install-instructions-button">
+					<div class="button-title">Show How to Install</div>
+				</div>
+				<div id="install-instructions">
+					<div class="section-header">How to Install</div>
+						<p>
+							If you're on Windows or Mac, you can use the <a href="https://app.twitch.tv/">Twitch app</a> to install the mod:
+							<ol>
+								<li>Install Twitch App and log in.</li>
+								<li>Select "Mods" in the top bar, and then Minecraft.</li>
+								<li>Click Create Custom Profile, name it and pick your Minecraft version.</li>
+								<li>Open the profile, and click Get More Content</li>
+								<li>Search for Quark and install it. This will also install AutoRegLib.</li>
+								<li>Go back to the profile and hit Play. You're done.</li>
+							</ol>
+						</p>
+						<hr>
+						<p>
+							If you can't or don't want to use the Twitch app, you can install the mod manually:
+							<ol>
+								<li>Locate the version of Minecraft Forge for your target Minecraft version <a href="https://files.minecraftforge.net/">here</a>. Get the <i>latest</i> one.</li>
+								<li>Download the Installer and run it, click OK. This will do a bunch of stuff so wait a bit until it's done.</li>
+								<li>Load up your Minecraft Java Edition Launcher, and run the "forge" Installation it created for you.</li>
+								<li>Click the new "Mods" button in your title screen, and then "Open Mods Folder".</li>
+								<li>Download both Quark and AutoRegLib using the download buttons above.</li>
+									<ul>
+										<li>The Download link on the CurseForge website is in the top right corner.</li>
+									</ul>
+								<li>Drag the two files you just downloaded into the mods folder.</li>
+								<li>Exit the game and open it again. You're done.</li>
+							</ol>
+						</p>
+						<hr>
+						<p>
+							If you want to install the mod on a server:
+							<ol>
+								<li>Run your forge installer like before, but select "Install server" this time.</li>
+								<li>Click the ... button and pick a folder to put your server. It has to be empty so you should make a new one.</li>
+								<li>Open the folder where you put your server, and make a new folder, named "mods"</li>
+								<li>Download AutoRegLib and Quark, and put the downloaded files into that folder.</li>
+								<li>Run the server using the forge jar, <i>not the minecraft_server jar</i>. Don't forget to accept the EULA.</li>
+							</ol>
+						</p>
+				</div>
+			</div>
+
+			<hr>
+
+			<div class="section-header">Need Help?</div>
+			<ul>
+				<li>If you found a bug, you can report it on the <a href="https://github.com/Vazkii/Quark/issues">Issue Tracker</a>.</li>
+				<li>If you need someone to help you solve a problem, try our <a href="https://vazkii.net/discord">Discord Server</a>.</li>
+			</ul><br>
 		</div>
 
 		<div class="content-holder" data-entry="friends">
@@ -197,13 +276,20 @@
 
 	<div id="footer">
 		<hr>
+
 		<div id="footer-info">	
-			website by vazkii (<a href="mailto:vazkii@hotmail.com">contact me</a>)<br>
+			website by vazkii (<a href="mailto:vazkii@hotmail.com" class="no-external">contact me</a>)<br>
 			copyright lolololol
 		</div>
 		
 		<div id="footer-sponsor">
-			<a href="https://www.creeperhost.net/"><img src="https://vazkii.net/sellout.png"></img></a>
+			<a href="https://www.creeperhost.net/" class="no-external"><img src="https://vazkii.net/sellout.png"></img></a>
+		</div>
+	</div>
+
+	<div id="btt-holder">
+		<div id="button-btt", class="std-button">
+			<div class="button-title">&#x1f879;</div>
 		</div>
 	</div>
 

@@ -6,19 +6,22 @@
 	
 	function write_feature_data($data) {
 		$first = true;
-		foreach($data as $key => $value) {
-			write_category($key, $value, $first);
+		$categories = array_keys($data);
+
+		foreach($categories as $i => $key) {
+			$category = $data[$key];
+			$next = $i >= (sizeof($categories) - 1) ? "" : $categories[$i + 1];
+			write_category($key, $category, $first, $next);
 			$first = false;
 		}
 	}
 
-	function write_category($name, $category, $displayed) {
+	function write_category($name, $category, $displayed, $next) {
 		$class = 'feature-category';
 		if($displayed)
 			$class = "$class active-category";
 
 		div($class, array('data-category' => $name ));
-
 			div('section-header');
 				write(ucfirst($name));
 			pop();
@@ -33,9 +36,25 @@
 					write('No features here yet!');
 				pop();
 			} else {
-				usort($category, "cmp_features");	
-				foreach ($category as $k => $feature)
-					write_feature($feature, $name);
+				div('feature-list');
+					usort($category, "cmp_features");
+					foreach($category as $k => $feature)
+						write_feature($feature, $name);
+				pop();
+			}
+
+			if(strlen($next)) {
+				div('data-category-changer std-button button-long button-next button-features', array('data-category' => $next));
+					div('button-title');
+						write('Next: ' . ucfirst($next));
+					pop();
+				pop();	
+			} else {
+				div('data-entry-changer std-button button-long button-next button-features', array('data-entry' => 'download'));
+					div('button-title');
+						write('Download Quark');
+					pop();
+				pop();	
 			}
 		pop();
 	}
@@ -58,14 +77,12 @@
 				pop();
 
 				div('feature-desc');
-					foreach($feature['desc'] as $i => $paragraph)
-						p($paragraph);
+					write_desc($feature['desc']);
 				pop();
 
 				if(array_key_exists('expand', $feature)) {
 					div('feature-expand');
-						foreach($feature['expand'] as $i => $paragraph)
-							p($paragraph);
+						write_desc($feature['expand']);
 					pop();
 
 					div('std-button feature-expand-button');
@@ -76,6 +93,46 @@
 				}
 			pop();
 		pop();
+	}
+
+	function write_desc($arr) {
+		$list = false;
+		foreach($arr as $i => $line) {
+			$fchar = $line[0];
+			$rem = substr($line, 1);
+
+			if($fchar == '*') {
+				if(!$list)
+					push('ul');
+
+				$list = true;
+				push('li');
+					write($rem);
+				pop();
+			} else {
+				if($list) {
+					pop();
+					$list = false;
+				}
+
+				switch ($fchar) {
+					case '#':
+						div('feature-desc-header');
+							write($rem);
+						pop();
+						break;
+					case '!':
+						img($rem);
+						break;
+					case '-':
+						write('<hr>');
+						break;
+					default:
+						p($line);
+						break;
+				}
+			}
+		}
 	}
 
 	function cmp_features($f1, $f2) {

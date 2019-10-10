@@ -14,12 +14,15 @@ $(function() {
 
 	updateEntry(changed, false);
 	updateCategory(false);
+	updateBtt();
 
 	var images = $('#big-branding-background img');
 	shuffle(images);
 	for(var i = 0; i < 4; i++)
 		$(images[i]).addClass('displayed-image');
 });
+
+$(window).scroll(updateBtt);
 
 $('.data-entry-changer').click(function() {
 	if(transitioning)
@@ -56,20 +59,26 @@ $('.data-category-changer').click(function() {
 });
 
 $('.feature-expand-button').click(function() {
-	var title = $(this).find('.button-title');
-	var parent = $(this).parent();
-	var contents = parent.find('.feature-expand');
+	flipFlopCollapsible($(this), $(this).parent().find('.feature-expand'), 'ᕕ( ᐛ )ᕗ', 'More Info', 'Less Info', '50px');
+});
 
+$('#install-instructions-button').click(function() {
+	flipFlopCollapsible($(this), $('#install-instructions'), '', 'Show How to Install', 'Hide How to Install', 0);
+});
+
+function flipFlopCollapsible(button, contents, textAnimating, textShow, textHide, targetMarginBottom) {
 	if(contents.attr('data-animating') == 'true')
 		return;
 
-	title.text('ᕕ( ᐛ )ᕗ');
+	var title = button.find('.button-title');
+	if(textAnimating)
+		title.text(textAnimating);
 
 	if(contents.attr('data-expanded') == 'true') {
 		contents.attr('data-animating', 'true');
 		var height = contents.css('height');
 		contents.animate({'height': 0, 'margin-bottom': 0}, 500, function() {
-			title.text('More Info');
+			title.text(textShow);
 			contents.hide();
 			contents.css('height', height);
 			contents.attr('data-expanded', 'false');	
@@ -81,12 +90,16 @@ $('.feature-expand-button').click(function() {
 
 		contents.show();
 		contents.attr('data-animating', 'true');
-		contents.animate({'height': height, 'margin-bottom': '50px'}, 500, function() {
-			title.text('Less Info');
+		contents.animate({'height': height, 'margin-bottom': targetMarginBottom}, 500, function() {
+			title.text(textHide);
 			contents.attr('data-expanded', 'true');
 			contents.attr('data-animating', 'false');
 		});
 	}
+}
+
+$('#button-btt').click(function() {
+	$("html, body").animate({ scrollTop: 0 }, 500);
 });
 
 function updateEntry(changed, setHash) {
@@ -129,6 +142,12 @@ function updateCategory(changed) {
 			next.animate({opacity: 1, 'margin-left': '0px'}, 250);
 		});
 	}
+}
+
+function updateBtt() {
+	var top = window.pageYOffset || document.documentElement.scrollTop;
+	var bttVisible = top > 200;
+	$('#btt-holder').attr('data-enabled', bttVisible);
 }
 
 // https://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array

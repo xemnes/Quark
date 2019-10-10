@@ -18,7 +18,7 @@ body {
 hr {
 	background-color: #555;
 	margin: 20px 50px 20px 50px;
-	height: 1px;
+	height: 1.01px; /* for some reason 1px breaks sometimes lol */
 	border: none;
 }
 
@@ -37,10 +37,6 @@ hr {
 	color: #ddd;
 }
 
-#footer a::after {
-	display: none;
-}
-
 #footer-info {
 	display: inline-block;
 	float: left;
@@ -53,6 +49,28 @@ hr {
 
 #footer-sponsor img {
 	width: 300px;
+}
+
+#btt-holder {
+	position: fixed;
+	top: calc(100vh - 120px);
+	left: calc(50vw + 550px);
+	margin-top: 0px;
+	transition: margin-top 0.5s;
+}
+
+#btt-holder:not([data-enabled=true]) {
+	margin-top: 100px;
+}
+
+#button-btt {	
+	width: 60px;
+	border-radius: 30px;
+}
+
+#button-btt .button-title {
+	color: #21a587;
+	font-size: 30px;
 }
 
 #main {
@@ -73,7 +91,7 @@ a:hover {
 	color: #84ffff;
 }
 
-a::after {
+a:not(.no-external)::after, .show-external::after {
 	content: "";
 	background-color: #666;
 	-webkit-mask-image: url("img/external.svg");
@@ -119,6 +137,10 @@ a::after {
 	display: inline-block;
 	float: right;
 	display: block;
+	border: 1px dashed #444;
+	border-radius: 7px;
+	box-shadow: 1px 2px rgba(0, 0, 0, 0.1);
+	background-color: rgba(255, 255, 255, 0.03);
 }
 
 #header-navbar a {
@@ -137,6 +159,7 @@ a::after {
 	display: inline-block;
 	text-align: center;
 	width: 100px;
+	min-height: 50px;
 }
 
 .navbar-link:not(.last) {
@@ -235,6 +258,7 @@ a::after {
 	user-select: none;
 	margin: 20px;
 	text-shadow: none;
+	cursor: pointer;
 }
 
 .std-button:hover {
@@ -273,7 +297,21 @@ a::after {
 	box-shadow: 0px 0px #51299a;
 }
 
-.button-next {
+.button-download-muted {
+	background-color: #746889;
+	color: #ddd;
+	box-shadow: 0px 6px #5D5370;
+}
+
+.button-download-muted:hover {
+	box-shadow: 0px 3px #5D5370;
+}
+
+.button-download-muted:active {
+	box-shadow: 0px 0px #5D5370;
+}
+
+.button-long {
 	width: 700px;
 	margin-left: calc(50% - 350px);
 	height: 40px;
@@ -371,7 +409,7 @@ a::after {
 	border-radius: 50%;
 	padding: 4px;
 	border: 1px dashed #444;
-	box-shadow: 1px 2px rgba(0, 0, 0, 0.1)
+	box-shadow: 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .team-name {
@@ -461,6 +499,10 @@ a::after {
 	min-height: 279px;
 }
 
+.feature-info img {
+	max-width: 500px;
+}
+
 .feature-header {
 	font-size: 25px;
 	height: 30px;
@@ -473,6 +515,10 @@ a::after {
 .feature-title {
 	display: inline-block;
 	float: left;
+}
+
+.feature-desc-header {
+	font-size: 25px;
 }
 
 .feature-title::before, .feature-title::after {
@@ -509,7 +555,6 @@ a::after {
 	height: 30px;
 	bottom: 0;
 	left: -20px;
-	cursor: pointer;
 }
 
 .feature-expand-button .button-title {
@@ -527,6 +572,10 @@ a::after {
 	text-align: center;
 	margin-bottom: 40px;
 	line-height: 40px;
+	border: 1px dashed #444;
+	border-radius: 7px;
+	box-shadow: 1px 2px rgba(0, 0, 0, 0.1);
+	background-color: rgba(255, 255, 255, 0.03);
 }
 
 .feature-category {
@@ -543,7 +592,7 @@ a::after {
 }
 
 .category-navbar-link {
-	width: 120px;
+	width: 115px;
 }
 
 .feature-count {
@@ -551,4 +600,52 @@ a::after {
 	margin-top: -30px;
 	margin-bottom: 30px;
 	color: #999;
+}
+
+.warning, .info {
+	background-color: rgba(255, 0, 0, 0.1);
+	border-radius: 7px;
+	border: 1px dashed rgba(255, 0, 0, 0.4);
+	padding: 20px 20px 20px 60px;
+	box-shadow: 1px 2px rgba(0, 0, 0, 0.1);
+	margin-bottom: 30px;
+	min-height: 36px;
+}
+
+.warning::before, .info::before {
+	content: '⚠';
+	position: absolute;
+	margin-left: -40px;
+	font-size: 24px;
+	width: 40px;
+	height: 70px;
+}
+
+.info {
+	background-color: rgba(255, 255, 0, 0.1);
+	border: 1px dashed rgba(255, 255, 0, 0.4)
+}
+
+.info::before {
+	content: '🛈';
+}
+
+.download-holder {
+	border: 1px dashed #444;
+	border-radius: 7px;
+	box-shadow: 1px 2px rgba(0, 0, 0, 0.1);
+	background-color: rgba(255, 255, 255, 0.03);
+	padding: 20px;
+}
+
+.download-strip {
+	text-align: center;
+}
+
+#install-instructions {
+	display: none;
+}
+
+#install-instructions .section-header {
+	margin-top: 15px;
 }
