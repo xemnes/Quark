@@ -1,5 +1,6 @@
 var selectedEntry = "home";
 var selectedCategory = "automation";
+var transitioning = false;
 
 $(function() {
 	var changed = false;
@@ -21,24 +22,36 @@ $(function() {
 });
 
 $('.data-entry-changer').click(function() {
+	if(transitioning)
+		return;
+
 	var newEntry = $(this).attr('data-entry')
 	var changed = newEntry != selectedEntry;
+
+	transitioning = true;
 
 	var top = window.pageYOffset || document.documentElement.scrollTop;
 	$("html, body").animate({ scrollTop: 0 }, Math.min(top, 500), function() {
 		selectedEntry = newEntry;
 		updateEntry(changed, true);	
+		transitioning = false;
 	});
 });
 
 $('.data-category-changer').click(function() {
+	if(transitioning)
+		return;
+
 	var newCategory = $(this).attr('data-category')
 	var changed = newCategory != selectedCategory;
+
+	transitioning = true;
 
 	var top = window.pageYOffset || document.documentElement.scrollTop;
 	$("html, body").animate({ scrollTop: 0 }, Math.min(top, 500), function() {
 		selectedCategory = newCategory;
 		updateCategory(changed);	
+		transitioning = false;
 	});
 });
 

@@ -1,204 +1,86 @@
-<div class="feature-category active-category" data-category="automation">
-	<div class="section-header">Automation</div>
+<?php
+	function main_features() {
+		global $feature_data;
+		write_feature_data($feature_data);
+	}
+	
+	function write_feature_data($data) {
+		$first = true;
+		foreach($data as $key => $value) {
+			write_category($key, $value, $first);
+			$first = false;
+		}
+	}
 
-	<div class="feature">
-		<div class="feature-image"><img src="img/demo/chute.jpg"></img></div>
-		<div class="feature-info">
-			<div class="feature-header">
-				<div class="feature-title">Chute</div>
-				<div class="feature-version">1.14+</div>
-			</div>
-			<div class="feature-desc">
-				<p>
-					The Chute is a new automation block. Items can be inserted into it via automation (Hopper, Dropper, etc), and any items inserted are instantly dropped under it, always precisely in the center.
-				</p>
+	function write_category($name, $category, $displayed) {
+		$class = 'feature-category';
+		if($displayed)
+			$class = "$class active-category";
 
-				<p>
-					The Chute can be disabled with a redstone signal or by placing a block under it.
-				</p>
-			</div>
-			<div class="feature-expand">
-				<p>
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-					tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-					quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-					consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-					cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-					proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-				</p>
-				<p>
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-					tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-					quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-					consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-					cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-					proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-				</p>
-				<p>
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-					tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-					quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-					consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-					cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-					proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-				</p>
-			</div>
-			<div class="std-button feature-expand-button"><div class="button-title">More Info</div></div>
-		</div>
-	</div>
+		div($class, array('data-category' => $name ));
 
-	<div class="feature">
-		<div class="feature-image"><img src="img/demo/color-slime.jpg"></img></div>
-		<div class="feature-info">
-			<div class="feature-header">
-				<div class="feature-title">Color Slime</div>
-				<div class="feature-version">1.14+</div>
-			</div>
-			<div class="feature-desc">
-				<p>
-					Slime blocks can be dyed Red and Blue. The primary color blocks (Red, Green, and Blue) can be combined to create secondary colors (Cyan, Magenta, and Yellow).
-				</p>
+			div('section-header');
+				write(ucfirst($name));
+			pop();
+			$count = sizeof($category);
 
-				<p>
-					While being moved by pistons, two slime blocks will only connect if they're the same color, or if one is made of another (so Red won't connect to Blue, but it'll connect to Magenta). Any color of slime will connect to non-slime blocks around it normally.
-				</p>
-			</div>
-		</div>
-	</div>
+			div('feature-count');
+				write("($count Features)");
+			pop();
 
-	<div class="feature">
-		<div class="feature-image"><img src="img/demo/speleothems.jpg"></img></div>
-		<div class="feature-info">
-			<div class="feature-header">
-				<div class="feature-title">PLACEHOLDER</div>
-				<div class="feature-version">1.14+</div>
-			</div>
-			<div class="feature-desc">
-				<p>
-					Placeholder feature.
-				</p>
-			</div>
-		</div>
-	</div>
+			if($count == 0) {
+				push('h1');
+					write('No features here yet!');
+				pop();
+			} else {
+				usort($category, "cmp_features");	
+				foreach ($category as $k => $feature)
+					write_feature($feature, $name);
+			}
+		pop();
+	}
 
-	<div class="feature">
-		<div class="feature-image"><img src="img/demo/speleothems.jpg"></img></div>
-		<div class="feature-info">
-			<div class="feature-header">
-				<div class="feature-title">PLACEHOLDER</div>
-				<div class="feature-version">1.14+</div>
-			</div>
-			<div class="feature-desc">
-				<p>
-					Placeholder feature.
-				</p>
-			</div>
-		</div>
-	</div>
+	function write_feature($feature, $category_name) {
+		div('feature');
+			div('feature-image');
+				img("img/features/$category_name/{$feature['image']}");
+			pop();
 
-	<div class="feature">
-		<div class="feature-image"><img src="img/demo/speleothems.jpg"></img></div>
-		<div class="feature-info">
-			<div class="feature-header">
-				<div class="feature-title">PLACEHOLDER</div>
-				<div class="feature-version">1.14+</div>
-			</div>
-			<div class="feature-desc">
-				<p>
-					Placeholder feature.
-				</p>
-			</div>
-		</div>
-	</div>
+			div('feature-info');
+				div('feature-header');
+					div('feature-title');
+						write($feature['name']);
+					pop();
 
-	<div class="feature">
-		<div class="feature-image"><img src="img/demo/speleothems.jpg"></img></div>
-		<div class="feature-info">
-			<div class="feature-header">
-				<div class="feature-title">PLACEHOLDER</div>
-				<div class="feature-version">1.14+</div>
-			</div>
-			<div class="feature-desc">
-				<p>
-					Placeholder feature.
-				</p>
-			</div>
-		</div>
-	</div>
+					div('feature-version');
+						write($feature['versions']);
+					pop();
+				pop();
 
-	<div class="data-category-changer std-button button-next button-features" data-category="building">
-		<div class="button-title">Next: Building</div>
-	</div>
-</div>
+				div('feature-desc');
+					foreach($feature['desc'] as $i => $paragraph)
+						p($paragraph);
+				pop();
 
-<div class="feature-category" data-category="building">
-	<div class="section-header">Building</div>
+				if(array_key_exists('expand', $feature)) {
+					div('feature-expand');
+						foreach($feature['expand'] as $i => $paragraph)
+							p($paragraph);
+					pop();
 
-	<div class="feature">
-		<div class="feature-image"><img src="img/demo/speleothems.jpg"></img></div>
-		<div class="feature-info">
-			<div class="feature-header">
-				<div class="feature-title">PLACEHOLDER</div>
-				<div class="feature-version">1.14+</div>
-			</div>
-			<div class="feature-desc">
-				<p>
-					Placeholder feature.
-				</p>
-			</div>
-		</div>
-	</div>
+					div('std-button feature-expand-button');
+						div('button-title');
+							write('More Info');
+						pop();
+					pop();
+				}
+			pop();
+		pop();
+	}
 
-	<div class="feature">
-		<div class="feature-image"><img src="img/demo/speleothems.jpg"></img></div>
-		<div class="feature-info">
-			<div class="feature-header">
-				<div class="feature-title">PLACEHOLDER</div>
-				<div class="feature-version">1.14+</div>
-			</div>
-			<div class="feature-desc">
-				<p>
-					Placeholder feature.
-				</p>
-			</div>
-		</div>
-	</div>
+	function cmp_features($f1, $f2) {
+		return strcmp($f1['name'], $f2['name']);
+	}
 
-	<div class="feature">
-		<div class="feature-image"><img src="img/demo/speleothems.jpg"></img></div>
-		<div class="feature-info">
-			<div class="feature-header">
-				<div class="feature-title">PLACEHOLDER</div>
-				<div class="feature-version">1.14+</div>
-			</div>
-			<div class="feature-desc">
-				<p>
-					Placeholder feature.
-				</p>
-			</div>
-		</div>
-	</div>
-
-	<div class="feature">
-		<div class="feature-image"><img src="img/demo/speleothems.jpg"></img></div>
-		<div class="feature-info">
-			<div class="feature-header">
-				<div class="feature-title">PLACEHOLDER</div>
-				<div class="feature-version">1.14+</div>
-			</div>
-			<div class="feature-desc">
-				<p>
-					Placeholder feature.
-				</p>
-			</div>
-		</div>
-	</div>
-
-	<div class="data-category-changer std-button button-next button-features" data-category="client">
-		<div class="button-title">Next: Client</div>
-	</div>
-</div>
-
-<div class="feature-category" data-category="client">
-	wip
-</div>
+	main_features();
+?>
