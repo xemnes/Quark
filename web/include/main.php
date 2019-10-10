@@ -158,6 +158,22 @@
 					<div class="button-title">Full Feature List</div>
 				</div>
 			</div>
+			<hr>
+
+			<div class="main-page-section">
+				<div class="section-header">Additional Credits</div>
+				<ul>
+					<li><b>cheeserolls</b> for the biome location code from Biomes'o'Plenty used for Pathfinder Maps.</li>
+					<li><b>Daniel Astral</b> for additional texture work.</li>
+					<li><b>Endergy</b> for multiple concept contributions complete with art and textures.</li>
+					<li><b>Evtema3</b> for the original Elder Prismarine idea and textures.</li>
+					<li><b>Jragon014</b> for a bunch of inspiration from The Tempest Box.</li>
+					<li><b>MushirMickeyJoe</b> for the recreation of the bedrock piston model.</li>
+					<li><b>Nyodex</b> for the original Duskbound Block idea and textures.</li>
+					<li><b>wiiv</b> for serving as the main artist for the mod for a few years before passing the role to MCVinnyq</li>
+					<li>The creators of all the awesome suggestions taken from /r/MinecraftSuggestions and /r/QuarkMod.</li>
+				</ul>
+			</div>
 		</div>
 
 		<div class="content-holder" data-entry="features">
