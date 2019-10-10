@@ -11,7 +11,7 @@
 	<meta name="theme-color" content="#48ddbc">
 
 	<meta name="twitter:card" content="summary_large_image" />
-	<meta name="twitter:description" content="A Minecraft Mod staying in the theme of Vanilla." />
+	<meta name="twitter:description" content="A Minecraft mod built with Vanilla's themes." />
 	<meta name="twitter:title" content="quark" />
 	<meta name="twitter:site" content="@VazkiiMods" />
 
@@ -24,7 +24,7 @@
 			<div id="header-icon"><img src="img/icon.png"></img></div>
 			<div id="header-text">
 				<div id="header-title"><span class="theme-color">q</span>uark</div>
-				<div id="header-subtitle">Change your game, not your gameplay.</div>
+				<div id="header-subtitle">Change your game. Not your gameplay.</div>
 			</div>
 		</div>
 
@@ -54,7 +54,7 @@
 				</div>
 
 				<div id="big-title"><span class="theme-color">q</span>uark</div>
-				<div id="big-subtitle">is a Minecraft Mod that adds vanilla-like features</div>
+				<div id="big-subtitle">is a Minecraft mod that aims to enhance Vanilla</div>
 
 				<div class="data-entry-changer std-button button-features" data-entry="features">
 					<div class="button-title">Feature List</div>
@@ -80,10 +80,10 @@
 			<div class="main-page-section">
 				<div class="section-header">About</div>
 				<p>
-					Quark is a mod for Minecraft Java Edition. It aims to create an experience akin to the "vanilla" experience, by having a very simple motto: <i>anything that would be added to Quark could also be added to the default game without compromising its gameplay style.</i> A quark is a very small thing, and the name of the mod derives from that, as each individual feature is small, adding up to a large whole.
+					Quark is a mod for Minecraft Java Edition, aiming to enhance the base game, using a very simple motto: <i>Anything added to Quark could also be added to the default game without compromising its gameplay style.</i> The name of the mod derives from this focus on small, simple change: Like quarks, each individual feature is small, but they build into a larger whole.
 				</p>
 				<p>
-					Every feature in quark can be disabled and tweaked individually. When you load up the game, you'll see a <span class="theme-color">q</span> button in your main menu. Clicking this button lets you configure the mod. You can tweak everything your way, or just disable a few things you don't like, up to you!
+					Every feature in Quark can be disabled and tweaked individually. When you load up the game, you'll see a <span class="theme-color">q</span> button in your main menu. Clicking this button lets you configure the mod. You can tweak everything just your way, or even disable things you don't like!
 				</p>
 			</div>
 			<hr>
@@ -129,23 +129,23 @@
 				<div class="spotlight-entry spotlight-right">
 					<div class="spotlight-info">
 						<div class="spotlight-header">New Redstone Opportunities</div>
-						<div class="spotlight-desc">Power up your redstone game with many new redstone features, such as pistons moving tile entities, colored slime blocks, block placing, and much more.</div>
+						<div class="spotlight-desc">Power up your redstone game with many new redstone features! Pistons can move tile entities, a randomizer diode, dispenser block placing, and much, much more.</div>
 					</div>
-					<div class="spotlight-image"><img src="img/features/automation/color-slime.jpg"></img></div>
+					<div class="spotlight-image"><img src="img/features/automation/redstone-circuits.jpg"></img></div>
 				</div>
 
 				<div class="spotlight-entry spotlight-left">
 					<div class="spotlight-image"><img src="img/features/building/thatch.jpg"></img></div>
 					<div class="spotlight-info">
 						<div class="spotlight-header">Building Blocks</div>
-						<div class="spotlight-desc">Arm your palette with a large assortment of building blocks, from Thatch (pictured), to Stained Wood Planks, Magma Bricks, and many others!</div>
+						<div class="spotlight-desc">Fuel your inner artist with a large assortment of new building blocks, from Thatch (pictured), to Stained Wood Planks, Magma Bricks, and many others!</div>
 					</div>
 				</div>
 
 				<div class="spotlight-entry spotlight-right">
 					<div class="spotlight-info">
 						<div class="spotlight-header">Vertical Slabs</div>
-						<div class="spotlight-desc">Yeah, we got 'em.</div>
+						<div class="spotlight-desc">Yeah. We got 'em.</div>
 					</div>
 					<div class="spotlight-image"><img src="img/features/building/vertical-slabs.jpg"></img></div>
 				</div>
@@ -177,14 +177,14 @@
 			<p>
 				Access to the Quark 1.14.4 beta is currently restricted to specific people. You can access it if you are:
 				<ul>
-					<li>A 5$ or higher patron on <a href="https://www.patreon.com/Vazkii">Vazkii's Patreon</a></li>
+					<li>Pledging 5$ or higher to <a href="https://www.patreon.com/Vazkii">Vazkii's Patreon</a></li>
 					<li>A subscriber to <a href="https://www.twitch.tv/Vazkii">Vazkii's Twitch Channel</a> (Prime counts!)</li>
-					<li>Specially selected (aka, have the "Nerd" role on the Discord Server)</li>
+					<li>Selected by Vazkii (That's what the "Nerd" role on the Discord Server represents!)</li>
 				</ul>
-				If you have the appropriate roles, you can access the beta files on the <i>#betas</i> channel of <a href="https://vazkii.net/discord">the Discord server</a>.
+				If you have the appropriate role, you can access the beta files in the <i>#betas</i> channel of <a href="https://vazkii.net/discord">the Discord server</a>.
 				<ul>
-					<li>As normal, AutoRegLib is required. The latest ARL version will be pinned in <i>#betas</i>.</li>
-					<li>If you're a patron and don't yet have the appropriate roles, please send a DM over patreon with your info so they can be sorted out.</li>
+					<li>As normal, AutoRegLib is required. The latest ARL version will be provided, pinned, in <i>#betas</i>.</li>
+					<li>If you're a patron and don't yet have the appropriate roles, please send a DM over patreon with your info so it can be sorted out.</li>
 				</ul>
 			</p>
 		</div>
