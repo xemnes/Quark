@@ -14,6 +14,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldType;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.provider.BiomeProvider;
+import net.minecraft.world.chunk.AbstractChunkProvider;
+import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationSettings;
 import net.minecraft.world.gen.OverworldGenSettings;
 import net.minecraft.world.gen.layer.LayerUtil;
@@ -21,18 +23,26 @@ import net.minecraft.world.gen.layer.LayerUtil;
 public class BiomeLocator {
 
 	public static BlockPos spiralOutwardsLookingForBiome(World world, Biome biomeToFind, double startX, double startZ) {
-		int sampleSpacing = 4 << getBiomeSize(world);
-		int maxDist = sampleSpacing * 100;
-		return spiralOutwardsLookingForBiome(world, biomeToFind, startX, startZ, maxDist, sampleSpacing);
+		AbstractChunkProvider provider = world.getChunkProvider();
+		if(provider != null) {
+			ChunkGenerator<?> generator = provider.getChunkGenerator();
+			if(generator != null) {
+				int sampleSpacing = 4 << getBiomeSize(world, generator);
+				int maxDist = sampleSpacing * 100;
+				return spiralOutwardsLookingForBiome(world, generator, biomeToFind, startX, startZ, maxDist, sampleSpacing);
+			}
+		}
+		
+		return null;
 	}
 
 	// sample points in an archimedean spiral starting from startX,startY each one sampleSpace apart
 	// stop when the specified biome is found (and return the position it was found at) or when we reach maxDistance (and return null)
-	public static BlockPos spiralOutwardsLookingForBiome(World world, Biome biomeToFind, double startX, double startZ, int maxDist, int sampleSpace) {
+	public static BlockPos spiralOutwardsLookingForBiome(World world, ChunkGenerator<?> generator, Biome biomeToFind, double startX, double startZ, int maxDist, int sampleSpace) {
 		if(maxDist <= 0 || sampleSpace <= 0) 
 			throw new IllegalArgumentException("maxDist and sampleSpace must be positive");
 
-		BiomeProvider chunkManager = world.getChunkProvider().getChunkGenerator().getBiomeProvider();
+		BiomeProvider chunkManager = generator.getBiomeProvider();
 		double a = sampleSpace / Math.sqrt(Math.PI);
 		double b = 2 * Math.sqrt(Math.PI);
 		double x = 0;
@@ -56,10 +66,10 @@ public class BiomeLocator {
 		return null;
 	}
 
-	private static int getBiomeSize(World world) {
+	private static int getBiomeSize(World world, ChunkGenerator<?> generator) {
 		int size = 4;
 
-		GenerationSettings settings = world.getChunkProvider().getChunkGenerator().getSettings();
+		GenerationSettings settings = generator.getSettings();
 		if(settings instanceof OverworldGenSettings)
 			size = ((OverworldGenSettings) settings).getBiomeSize();
 

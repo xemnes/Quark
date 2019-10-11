@@ -14,6 +14,8 @@ import net.minecraft.item.Items;
 import net.minecraft.item.MerchantOffer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
@@ -143,10 +145,9 @@ public class PathfinderMapsModule extends Module {
 			return ItemStack.EMPTY;
 
 		ItemStack stack = FilledMapItem.setupNewMap(world, biomePos.getX(), biomePos.getZ(), (byte) 2, true, true);
-		stack.setDisplayName(new TranslationTextComponent(info.name));
-
 		FilledMapItem.renderBiomePreviewMap(world, stack);
 		MapData.addTargetDecoration(stack, biomePos, "+", Type.RED_X);
+		stack.setDisplayName(new TranslationTextComponent(info.name));
 
 		return stack;
 	}
@@ -170,7 +171,7 @@ public class PathfinderMapsModule extends Module {
 			if(itemstack.isEmpty())
 				return null;
 			
-			return new MerchantOffer(new ItemStack(Items.EMERALD, i), new ItemStack(Items.COMPASS), itemstack, 3, 2, 0.2F);
+			return new MerchantOffer(new ItemStack(Items.EMERALD, i), new ItemStack(Items.COMPASS), itemstack, 12, 2, 0.2F);
 		}
 	}
 
