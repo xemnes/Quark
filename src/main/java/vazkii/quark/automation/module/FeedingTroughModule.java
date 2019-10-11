@@ -30,10 +30,19 @@ import java.util.Set;
 public class FeedingTroughModule extends Module {
     public static TileEntityType<FeedingTroughTileEntity> tileEntityType;
 
-    @Config
+    @Config(description = "How long, in game ticks, between animals being able to eat from the trough")
+    @Config.Min(1)
     public static int cooldown = 30;
 
-    private static final double RANGE = 10;
+    @Config(description = "The maximum amount of animals allowed around the trough's range for an animal to enter love mode")
+    public static int maxAnimals = 32;
+    
+    @Config(description = "The chance (between 0 and 1) for an animal to enter love mode when eating from the trough")
+    @Config.Min(0.0)
+    @Config.Max(1.0)
+    public static double loveChance = 0.333333333;
+    
+    @Config private static double range = 10;
 
     private static final ThreadLocal<Set<FeedingTroughTileEntity>> loadedTroughs = ThreadLocal.withInitial(HashSet::new);
 
@@ -70,7 +79,7 @@ public class FeedingTroughModule extends Module {
         for (FeedingTroughTileEntity tile : troughs) {
             BlockPos pos = tile.getPos();
             double distanceSq = pos.distanceSq(goal.creature.getPositionVector(), true);
-            if (distanceSq <= RANGE * RANGE && distanceSq < shortestDistanceSq) {
+            if (distanceSq <= range * range && distanceSq < shortestDistanceSq) {
                 FakePlayer foodHolder = tile.getFoodHolder(goal);
                 if (foodHolder != null) {
                     shortestDistanceSq = distanceSq;

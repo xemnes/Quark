@@ -1,6 +1,13 @@
 package vazkii.quark.automation.tile;
 
+import java.util.List;
+import java.util.Random;
+import java.util.UUID;
+
+import javax.annotation.Nonnull;
+
 import com.mojang.authlib.GameProfile;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.goal.TemptGoal;
@@ -28,9 +35,6 @@ import vazkii.quark.automation.block.FeedingTroughBlock;
 import vazkii.quark.automation.module.FeedingTroughModule;
 import vazkii.quark.base.handler.MiscUtil;
 
-import javax.annotation.Nonnull;
-import java.util.UUID;
-
 /**
  * @author WireSegal
  * Created at 9:39 AM on 9/20/19.
@@ -44,6 +48,7 @@ public class FeedingTroughTileEntity extends LockableLootTileEntity implements I
     private FakePlayer foodHolder = null;
 
     private int cooldown = 0;
+    private long internalRng = 0;
 
     protected FeedingTroughTileEntity(TileEntityType<? extends FeedingTroughTileEntity> type) {
         super(type);
@@ -91,17 +96,21 @@ public class FeedingTroughTileEntity extends LockableLootTileEntity implements I
             if (cooldown > 0)
                 cooldown--;
             else {
-                for (AnimalEntity creature : world.getEntitiesWithinAABB(AnimalEntity.class, new AxisAlignedBB(pos)
-                        .grow(1.5, 0, 1.5).contract(0, -0.75, 0))) {
+            	cooldown = FeedingTroughModule.cooldown; // minimize aabb calls
+            	List<AnimalEntity> animals = world.getEntitiesWithinAABB(AnimalEntity.class, new AxisAlignedBB(pos).grow(1.5, 0, 1.5).contract(0, -0.75, 0));
+            	
+                for (AnimalEntity creature : animals) {
                     if (creature.canBreed() && creature.getGrowingAge() == 0) {
                         for (int i = 0; i < getSizeInventory(); i++) {
                             ItemStack stack = getStackInSlot(i);
                             if (creature.isBreedingItem(stack)) {
                                 creature.playSound(creature.getEatSound(stack), 0.5F + 0.5F * world.rand.nextInt(2), (world.rand.nextFloat() - world.rand.nextFloat()) * 0.2F + 1.0F);
                                 addItemParticles(creature, stack, 16);
-                                creature.setInLove(null);
+                                
+                                if(animals.size() < FeedingTroughModule.maxAnimals && getSpecialRand().nextDouble() < FeedingTroughModule.loveChance)
+                                	creature.setInLove(null);
                                 stack.shrink(1);
-                                cooldown = FeedingTroughModule.cooldown;
+                                
                                 return;
                             }
                         }
@@ -139,7 +148,12 @@ public class FeedingTroughTileEntity extends LockableLootTileEntity implements I
             else if (this.world != null)
                 this.world.addParticle(new ItemParticleData(ParticleTypes.ITEM, stack), position.x, position.y, position.z, direction.x, direction.y + 0.05D, direction.z);
         }
-
+    }
+    
+    private Random getSpecialRand() {
+        Random specialRand = new Random(internalRng);
+        internalRng = specialRand.nextLong();
+        return specialRand;
     }
 
     @Override
@@ -168,6 +182,7 @@ public class FeedingTroughTileEntity extends LockableLootTileEntity implements I
     public void read(CompoundNBT nbt) {
         super.read(nbt);
         this.cooldown = nbt.getInt("Cooldown");
+        this.internalRng = nbt.getLong("rng");
         this.stacks = NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY);
         if (!this.checkLootAndRead(nbt))
             ItemStackHelper.loadAllItems(nbt, this.stacks);
@@ -179,6 +194,7 @@ public class FeedingTroughTileEntity extends LockableLootTileEntity implements I
     public CompoundNBT write(CompoundNBT nbt) {
         super.write(nbt);
         nbt.putInt("Cooldown", cooldown);
+        nbt.putLong("rng", internalRng);
         if (!this.checkLootAndWrite(nbt))
             ItemStackHelper.saveAllItems(nbt, this.stacks);
 
