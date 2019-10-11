@@ -38,11 +38,13 @@ function initializeCoreMod() {
 
                 return injectForEachInsn(method, Opcodes.ARETURN, function (target) {
                     var newInstructions = new InsnList();
+                    var VarInsnNode = Java.type('org.objectweb.asm.tree.VarInsnNode');
 
+                    newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 0));
                     newInstructions.add(ASM.buildMethodCall(
                         "vazkii/quark/base/handler/AsmHooks",
                         "createStackComponent",
-                        "(Lnet/minecraft/util/text/ITextComponent;)Lnet/minecraft/util/text/ITextComponent;",
+                        "(Lnet/minecraft/util/text/ITextComponent;Lnet/minecraft/item/ItemStack;)Lnet/minecraft/util/text/ITextComponent;",
                         ASM.MethodType.STATIC
                     ));
                     method.instructions.insertBefore(target, newInstructions);

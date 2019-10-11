@@ -122,8 +122,8 @@ public class AsmHooks {
 	// Items In Chat
 	// ==========================================================================
 
-	public static ITextComponent createStackComponent(ITextComponent parent) {
-		return ItemSharingModule.createStackComponent(parent);
+	public static ITextComponent createStackComponent(ITextComponent parent, ItemStack stack) {
+		return ItemSharingModule.createStackComponent(stack, parent);
 	}
 
 	public static int transformQuadRenderColor(int parent) {

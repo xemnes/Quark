@@ -110,11 +110,20 @@ public class ItemSharingModule extends Module {
 
 	private static int chatX, chatY;
 
-	public static ITextComponent createStackComponent(ITextComponent component) {
+	public static ITextComponent createStackComponent(ItemStack stack, ITextComponent component) {
 		if (!ModuleLoader.INSTANCE.isModuleEnabled(ItemSharingModule.class) || !renderItemsInChat)
 			return component;
+		Style style = component.getStyle();
+		if (stack.getCount() > 64) {
+			ItemStack copyStack = stack.copy();
+			copyStack.setCount(64);
+			CompoundNBT nbt = copyStack.write(new CompoundNBT());
+			style.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_ITEM,
+					new StringTextComponent(nbt.toString())));
+		}
+
 		ITextComponent out = new StringTextComponent("   ");
-		out.setStyle(component.getStyle().createDeepCopy());
+		out.setStyle(style.createDeepCopy());
 		return out.appendSibling(component);
 	}
 
