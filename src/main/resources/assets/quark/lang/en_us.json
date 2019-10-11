@@ -150,6 +150,8 @@
 	"item.quark.crab_shell": "Crab Shell",
 	"item.quark.root_item": "Cave Root",
 	"item.quark.dragon_scale": "Dragon Scale",
+	"item.quark.cactus_paste": "Cactus Paste",
+	
 	"item.minecraft.potion.effect.quark.resilience": "Potion of Stability",
 	"item.minecraft.splash_potion.effect.quark.resilience": "Splash Potion of Stability",
 	"item.minecraft.lingering_potion.effect.quark.resilience": "Lingering Potion of Stability",
@@ -158,7 +160,7 @@
 	"item.minecraft.splash_potion.effect.quark.danger_sight": "Splash Potion of Prescience",
 	"item.minecraft.lingering_potion.effect.quark.danger_sight": "Lingering Potion of Prescience",
 	"item.minecraft.tipped_arrow.effect.quark.danger_sight": "Arrow of Prescience",
-
+	
 	"block.quark.charcoal_block": "Charcoal Block",
 	"block.quark.black_quilted_wool": "Black Quilted Wool",
 	"block.quark.blue_quilted_wool": "Blue Quilted Wool",
@@ -606,6 +608,11 @@
 	"block.quark.gold_button": "Gold Button",
 	"block.quark.obsidian_pressure_plate": "Obsidian Pressure Plate",
 	"block.quark.nether_brick_fence_gate": "Nether Brick Fence Gate",
+	"block.quark.midori_block": "Midori Block",
+	"block.quark.midori_pillar": "Midori Pillar",
+	"block.quark.midori_block_stairs": "Midori Stairs",
+	"block.quark.midori_block_slab": "Midori Slab",
+	"block.quark.midori_block_vertical_slab": "Midori Vertical Slab",
 
 	"item.quark.stoneling_spawn_egg": "Stoneling Spawn Egg",
 	"item.quark.frog_spawn_egg": "Frog Spawn Egg",
