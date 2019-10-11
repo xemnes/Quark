@@ -104,8 +104,7 @@ public class PathfinderMapsModule extends Module {
 	}
 	
 	private void loadCustomTradeInfo(Biome biome, boolean enabled, int level, int minPrice, int maxPrice, int color, String name) {
-		TradeInfo info = new TradeInfo(biome, enabled, level, minPrice, maxPrice, color, name);
-		customTrades.add(new TradeInfo(biome, enabled, level, minPrice, maxPrice, color));
+		customTrades.add(new TradeInfo(biome, enabled, level, minPrice, maxPrice, color, name));
 	}
 
 	private void loadCustomTradeInfo(String line) throws IllegalArgumentException {
