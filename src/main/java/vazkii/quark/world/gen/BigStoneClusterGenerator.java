@@ -61,5 +61,10 @@ public class BigStoneClusterGenerator extends MultiChunkFeatureGenerator {
 
 		return sources;
 	}
+	
+	@Override
+	public String toString() {
+		return "BigStoneClusterGenerator[" + placeState + "]";
+	}
 
 }

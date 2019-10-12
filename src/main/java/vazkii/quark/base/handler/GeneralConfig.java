@@ -33,6 +33,9 @@ public class GeneralConfig {
 
 	@Config(description = "Should Quark treat anything with 'shulker_box' in its item identifier as a shulker box?")
 	public static boolean interpretShulkerBoxLikeBlocks = true;
+	
+	@Config(description = "Set to true to enable a system that debugs quark's worldgen features. This should ONLY be used if you're asked to by a dev.")
+	public static boolean enableWorldgenWatchdog = false;
 
 	private GeneralConfig() {
 		// NO-OP

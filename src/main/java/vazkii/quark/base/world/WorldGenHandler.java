@@ -1,5 +1,19 @@
 package vazkii.quark.base.world;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeSet;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.function.BiPredicate;
+import java.util.function.BooleanSupplier;
+
+import javax.xml.ws.Holder;
+
 import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
@@ -14,11 +28,8 @@ import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraft.world.gen.placement.IPlacementConfig;
 import net.minecraftforge.registries.ForgeRegistries;
+import vazkii.quark.base.handler.GeneralConfig;
 import vazkii.quark.base.world.generator.IGenerator;
-
-import java.util.*;
-import java.util.function.BiPredicate;
-import java.util.function.BooleanSupplier;
 
 public class WorldGenHandler {
 
@@ -73,7 +84,7 @@ public class WorldGenHandler {
 		WorldGenRegion region = (WorldGenRegion) worldIn;
 		SharedSeedRandom random = new SharedSeedRandom();
 		long seed = random.setDecorationSeed(region.getSeed(), region.getMainChunkX() * 16, region.getMainChunkZ() * 16);
-		int i = stage.ordinal() * 10000;
+		Holder<Integer> stageHolder = new Holder<>(stage.ordinal() * 10000);
 
 		if(generators.containsKey(stage)) {
 			SortedSet<WeightedGenerator> set = generators.get(stage);
@@ -82,10 +93,28 @@ public class WorldGenHandler {
 				IGenerator gen = wgen.generator;
 
 				if(gen.canGenerate(worldIn)) {
-					i = gen.generate(i, seed, stage, worldIn, generator, random, pos);
+					Runnable run = () ->
+						stageHolder.value = gen.generate(stageHolder.value, seed, stage, worldIn, generator, random, pos);
+					
+					if(GeneralConfig.enableWorldgenWatchdog)
+						watchdogRun(gen, run, 1, TimeUnit.MINUTES);
+					else run.run();
 				}
 			}
 		}
+	}
+	
+	private static void watchdogRun(IGenerator gen, Runnable run, int time, TimeUnit unit) {
+//		System.out.println("Generating " + gen);
+		ExecutorService exec = Executors.newSingleThreadExecutor();
+		Future<?> future = exec.submit(run);
+		exec.shutdown();
+		
+		try {
+			future.get(time, unit);
+		} catch(Exception e) {
+			throw new RuntimeException("Error generating " + gen, e);
+		} 
 	}
 
 }
