@@ -5,14 +5,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.function.BiPredicate;
 import java.util.function.BooleanSupplier;
-
-import javax.xml.ws.Holder;
 
 import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.util.math.BlockPos;
@@ -84,7 +83,7 @@ public class WorldGenHandler {
 		WorldGenRegion region = (WorldGenRegion) worldIn;
 		SharedSeedRandom random = new SharedSeedRandom();
 		long seed = random.setDecorationSeed(region.getSeed(), region.getMainChunkX() * 16, region.getMainChunkZ() * 16);
-		Holder<Integer> stageHolder = new Holder<>(stage.ordinal() * 10000);
+		int stageNum = stage.ordinal() * 10000;
 
 		if(generators.containsKey(stage)) {
 			SortedSet<WeightedGenerator> set = generators.get(stage);
@@ -93,24 +92,22 @@ public class WorldGenHandler {
 				IGenerator gen = wgen.generator;
 
 				if(gen.canGenerate(worldIn)) {
-					Runnable run = () ->
-						stageHolder.value = gen.generate(stageHolder.value, seed, stage, worldIn, generator, random, pos);
-					
-					if(GeneralConfig.enableWorldgenWatchdog)
-						watchdogRun(gen, run, 1, TimeUnit.MINUTES);
-					else run.run();
+					if(GeneralConfig.enableWorldgenWatchdog) {
+						final int finalStageNum = stageNum;
+						stageNum = watchdogRun(gen, () -> gen.generate(finalStageNum, seed, stage, worldIn, generator, random, pos), 1, TimeUnit.MINUTES);
+					} else stageNum = gen.generate(stageNum, seed, stage, worldIn, generator, random, pos);
 				}
 			}
 		}
 	}
 	
-	private static void watchdogRun(IGenerator gen, Runnable run, int time, TimeUnit unit) {
+	private static int watchdogRun(IGenerator gen, Callable<Integer> run, int time, TimeUnit unit) {
 		ExecutorService exec = Executors.newSingleThreadExecutor();
-		Future<?> future = exec.submit(run);
+		Future<Integer> future = exec.submit(run);
 		exec.shutdown();
 		
 		try {
-			future.get(time, unit);
+			return future.get(time, unit);
 		} catch(Exception e) {
 			throw new RuntimeException("Error generating " + gen, e);
 		} 
