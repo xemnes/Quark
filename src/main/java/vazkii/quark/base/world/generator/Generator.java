@@ -22,13 +22,13 @@ public abstract class Generator implements IGenerator {
 	}
 
 	@Override
-	public int generate(int seedIncrement, long seed, GenerationStage.Decoration stage, IWorld worldIn, ChunkGenerator<? extends GenerationSettings> generator, SharedSeedRandom rand, BlockPos pos) {
+	public final int generate(int seedIncrement, long seed, GenerationStage.Decoration stage, IWorld worldIn, ChunkGenerator<? extends GenerationSettings> generator, SharedSeedRandom rand, BlockPos pos) {
 		rand.setFeatureSeed(seed, seedIncrement, stage.ordinal());
-		generate(worldIn, generator, rand, pos);
+		generateChunk(worldIn, generator, rand, pos);
 		return seedIncrement + 1;
 	}
 
-	public abstract void generate(IWorld worldIn, ChunkGenerator<? extends GenerationSettings> generator, Random rand, BlockPos pos);
+	public abstract void generateChunk(IWorld worldIn, ChunkGenerator<? extends GenerationSettings> generator, Random rand, BlockPos pos);
 
 	@Override
 	public boolean canGenerate(IWorld world) {

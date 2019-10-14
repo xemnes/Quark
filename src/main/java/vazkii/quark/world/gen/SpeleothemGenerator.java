@@ -23,7 +23,7 @@ public class SpeleothemGenerator extends Generator {
 	}
 
 	@Override
-	public void generate(IWorld world, ChunkGenerator<? extends GenerationSettings> generator, Random rand, BlockPos pos) {
+	public void generateChunk(IWorld world, ChunkGenerator<? extends GenerationSettings> generator, Random rand, BlockPos pos) {
 		int spread = 10;
 		int tries = SpeleothemsModule.triesPerChunk;
 		int innerSpread = 6;
