@@ -4,6 +4,8 @@ import vazkii.quark.base.module.Config;
 
 import java.util.List;
 
+import com.google.common.collect.Lists;
+
 public class GeneralConfig {
 
 	public static final GeneralConfig INSTANCE = new GeneralConfig();
@@ -36,6 +38,12 @@ public class GeneralConfig {
 	
 	@Config(description = "Set to true to enable a system that debugs quark's worldgen features. This should ONLY be used if you're asked to by a dev.")
 	public static boolean enableWorldgenWatchdog = false;
+	
+	@Config(description = "Set to true if you need to find the class name for a screen that's causing problems")
+	public static boolean printScreenClassnames = false;
+	
+	@Config(description = "A list of screens that don't play well with quark's buttons. Use \"Print Screen Classnames\" to find the names of any others you'd want to add.")
+	public static List<String> ignoredScreens = Lists.newArrayList("com.tfar.craftingstation.client.CraftingStationScreen");
 
 	private GeneralConfig() {
 		// NO-OP

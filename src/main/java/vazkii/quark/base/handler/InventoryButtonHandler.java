@@ -31,7 +31,10 @@ public final class InventoryButtonHandler {
 
 	@SubscribeEvent
 	public static void initGui(GuiScreenEvent.InitGuiEvent.Post event) {
-		if(event.getGui() instanceof ContainerScreen) {
+		if(GeneralConfig.printScreenClassnames)
+			Quark.LOG.info("Opened screen {}", event.getGui().getClass().getName());
+		
+		if(event.getGui() instanceof ContainerScreen && !GeneralConfig.ignoredScreens.contains(event.getGui().getClass().getName())) {
 			Minecraft mc = Minecraft.getInstance();
 			ContainerScreen<?> screen = (ContainerScreen<?>) event.getGui();
 
