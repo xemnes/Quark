@@ -105,7 +105,6 @@ public class WorldGenHandler {
 	}
 	
 	private static void watchdogRun(IGenerator gen, Runnable run, int time, TimeUnit unit) {
-//		System.out.println("Generating " + gen);
 		ExecutorService exec = Executors.newSingleThreadExecutor();
 		Future<?> future = exec.submit(run);
 		exec.shutdown();
