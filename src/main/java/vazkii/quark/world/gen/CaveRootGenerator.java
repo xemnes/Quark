@@ -22,7 +22,7 @@ public class CaveRootGenerator extends Generator {
 	}
 
 	@Override
-	public void generate(IWorld worldIn, ChunkGenerator<? extends GenerationSettings> generator, Random rand, BlockPos corner) {
+	public void generateChunk(IWorld worldIn, ChunkGenerator<? extends GenerationSettings> generator, Random rand, BlockPos corner) {
 		for(int i = 0; i < CaveRootsModule.chunkAttempts; i++) {
 			int x = rand.nextInt(16);
 			int z = rand.nextInt(16);

@@ -58,7 +58,7 @@ public class OreGenerator extends Generator {
 	}
 
 	@Override
-	public void generate(IWorld worldIn, ChunkGenerator<? extends GenerationSettings> generator, Random rand, BlockPos pos) {
+	public void generateChunk(IWorld worldIn, ChunkGenerator<? extends GenerationSettings> generator, Random rand, BlockPos pos) {
 		oreConfig.forEach(pos, rand, npos -> place(worldIn, rand, npos));
 	}
 

@@ -124,7 +124,6 @@ public class EmotesModule extends Module {
 		
 		for(String s : customEmotes)
 			EmoteHandler.addCustomEmote(s);
-
 	}
 
 	@SubscribeEvent

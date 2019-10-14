@@ -18,11 +18,8 @@ public class LushUndergroundBiome extends BasicUndergroundBiome {
 
 	@Override
 	public void finalFloorPass(UndergroundBiomeGenerationContext context, BlockPos pos) {
-		if(context.random.nextDouble() < 0.05) {
-			BlockState stateAt = context.world.getBlockState(pos);
-			if(stateAt.getBlock() instanceof IGrowable)
-				((IGrowable) stateAt.getBlock()).grow(context.world.getWorld(), context.random, pos, stateAt);
-		}
+		if(context.world.getBlockState(pos).getBlock() == Blocks.GRASS_BLOCK && context.random.nextFloat() < 0.6)
+			context.world.setBlockState(pos.up(), Blocks.GRASS.getDefaultState(), 0);
 	}
 
 	@Override
