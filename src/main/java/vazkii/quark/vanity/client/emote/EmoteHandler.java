@@ -21,6 +21,7 @@ import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.Pose;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.world.World;
@@ -93,15 +94,18 @@ public final class EmoteHandler {
 			AbstractClientPlayerEntity player = (AbstractClientPlayerEntity) e;
 			String name = player.getGameProfile().getName();
 
-			resetPlayer(player);
+			if(player.getPose() == Pose.STANDING) {
+				resetPlayer(player);
 
-			if(playerEmotes.containsKey(name)) {
-				EmoteBase emote = playerEmotes.get(name);
-				boolean done = emote.isDone();
+				if(playerEmotes.containsKey(name)) {
+					EmoteBase emote = playerEmotes.get(name);
+					boolean done = emote.isDone();
 
-				if(!done)
-					emote.update();
+					if(!done)
+						emote.update();
+				}
 			}
+			
 		}
 	}
 
