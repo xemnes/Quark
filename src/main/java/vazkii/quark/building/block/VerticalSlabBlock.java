@@ -20,6 +20,7 @@ import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.state.properties.SlabType;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Direction.Axis;
@@ -105,16 +106,8 @@ public class VerticalSlabBlock extends QuarkBlock implements IWaterLoggable, IBl
 	public boolean isReplaceable(BlockState state, @Nonnull BlockItemUseContext useContext) {
 		ItemStack itemstack = useContext.getItem();
 		VerticalSlabType slabtype = state.get(TYPE);
-		if(slabtype != VerticalSlabType.DOUBLE && itemstack.getItem() == this.asItem()) {
-			if(useContext.getFace() != slabtype.direction && useContext.replacingClickedOnBlock()) {
-				Direction dir = getDirectionForPlacement(useContext);
-				return dir == slabtype.direction;
-			}
-
-			return true;
-		}
-
-		return false;
+		return slabtype != VerticalSlabType.DOUBLE && itemstack.getItem() == this.asItem() &&
+			(getDirectionForPlacement(useContext) == slabtype.direction.getOpposite() || useContext.getFace() == slabtype.direction);
 	}
 
 	@Nonnull
