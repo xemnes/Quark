@@ -7,6 +7,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.Tag;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.common.BiomeDictionary;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.block.QuarkPaneBlock;
 import vazkii.quark.base.module.Config;
@@ -51,7 +52,7 @@ public class CaveCrystalUndergroundBiomeModule extends UndergroundBiomeModule {
 		crystals.add(new CaveCrystalBlock("white_crystal", 0xffffff, this, MaterialColor.SNOW));
 		crystals.add(new CaveCrystalBlock("black_crystal", 0x000000, this, MaterialColor.BLACK));
 
-		for (CaveCrystalBlock block : crystals)
+		for(CaveCrystalBlock block : crystals)
 			new QuarkPaneBlock(block);
 
 		super.construct();
@@ -70,7 +71,7 @@ public class CaveCrystalUndergroundBiomeModule extends UndergroundBiomeModule {
 
 	@Override
 	protected UndergroundBiomeConfig getBiomeConfig() {
-		return new UndergroundBiomeConfig(new CaveCrystalUndergroundBiome(), 80, true);
+		return new UndergroundBiomeConfig(new CaveCrystalUndergroundBiome(), 400, true, BiomeDictionary.Type.OCEAN);
 	}
 
 }
