@@ -1,5 +1,11 @@
 package vazkii.quark.base.block;
 
+import java.util.Objects;
+import java.util.function.BooleanSupplier;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SlabBlock;
@@ -10,6 +16,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IEnviromentBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -17,11 +24,6 @@ import vazkii.arl.interf.IBlockColorProvider;
 import vazkii.arl.interf.IItemColorProvider;
 import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.base.module.Module;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.Objects;
-import java.util.function.BooleanSupplier;
 
 public class QuarkSlabBlock extends SlabBlock implements IQuarkBlock, IBlockColorProvider {
 
@@ -70,6 +72,12 @@ public class QuarkSlabBlock extends SlabBlock implements IQuarkBlock, IBlockColo
 	public BlockRenderLayer getRenderLayer() {
 		return parent.getBlock().getRenderLayer();
 	}
+	
+	@Override
+    @SuppressWarnings("deprecation")
+    public int getPackedLightmapCoords(BlockState state, IEnviromentBlockReader worldIn, BlockPos pos) {
+    	return parent.getBlock().getPackedLightmapCoords(state, worldIn, pos);
+    }
 
 	@Override
 	@OnlyIn(Dist.CLIENT)

@@ -10,6 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IEnviromentBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -71,6 +72,12 @@ public class QuarkWallBlock extends WallBlock implements IQuarkBlock, IBlockColo
 		return parent.getBlock().getRenderLayer();
 	}
 
+	@Override
+    @SuppressWarnings("deprecation")
+    public int getPackedLightmapCoords(BlockState state, IEnviromentBlockReader worldIn, BlockPos pos) {
+    	return parent.getBlock().getPackedLightmapCoords(state, worldIn, pos);
+    }
+	
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public IBlockColor getBlockColor() {

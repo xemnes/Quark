@@ -1,5 +1,8 @@
 package vazkii.quark.building.block;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.IWaterLoggable;
@@ -28,6 +31,7 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IEnviromentBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -36,9 +40,6 @@ import vazkii.arl.interf.IItemColorProvider;
 import vazkii.quark.base.block.QuarkBlock;
 import vazkii.quark.base.block.QuarkSlabBlock;
 import vazkii.quark.base.module.Module;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 public class VerticalSlabBlock extends QuarkBlock implements IWaterLoggable, IBlockColorProvider {
 
@@ -148,6 +149,12 @@ public class VerticalSlabBlock extends QuarkBlock implements IWaterLoggable, IBl
 	public boolean allowsMovement(@Nonnull BlockState state, @Nonnull IBlockReader worldIn, @Nonnull BlockPos pos, PathType type) {
 		return type == PathType.WATER && worldIn.getFluidState(pos).isTagged(FluidTags.WATER); 
 	}
+	
+	@Override
+    @SuppressWarnings("deprecation")
+    public int getPackedLightmapCoords(BlockState state, IEnviromentBlockReader worldIn, BlockPos pos) {
+    	return parent.getBlock().getPackedLightmapCoords(state, worldIn, pos);
+    }
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
