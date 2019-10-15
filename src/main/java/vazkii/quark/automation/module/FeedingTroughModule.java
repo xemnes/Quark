@@ -12,6 +12,9 @@ import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.math.*;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.living.BabyEntitySpawnEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
 import vazkii.arl.util.RegistryHelper;
@@ -38,7 +41,7 @@ public class FeedingTroughModule extends Module {
     public static int maxAnimals = 32;
     
     @Config(description = "The chance (between 0 and 1) for an animal to enter love mode when eating from the trough")
-    @Config.Min(0.0)
+    @Config.Min(value = 0.0, exclusive = true)
     @Config.Max(1.0)
     public static double loveChance = 0.333333333;
     
@@ -47,10 +50,11 @@ public class FeedingTroughModule extends Module {
     private static final ThreadLocal<Set<FeedingTroughTileEntity>> loadedTroughs = ThreadLocal.withInitial(HashSet::new);
 
     @SubscribeEvent
-    public static void buildTroughSet(TickEvent.WorldTickEvent event) {
+    public void buildTroughSet(TickEvent.WorldTickEvent event) {
         Set<FeedingTroughTileEntity> troughs = loadedTroughs.get();
         if (event.side == LogicalSide.SERVER) {
             if (event.phase == TickEvent.Phase.START) {
+                breedingPos.remove();
                 for (TileEntity tile : event.world.loadedTileEntityList) {
                     if (tile instanceof FeedingTroughTileEntity)
                         troughs.add((FeedingTroughTileEntity) tile);
@@ -60,6 +64,22 @@ public class FeedingTroughModule extends Module {
             }
         }
     }
+
+    private static final ThreadLocal<Vec3d> breedingPos = new ThreadLocal<>();
+
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public void onBreed(BabyEntitySpawnEvent event) {
+        breedingPos.set(event.getParentA().getPositionVec());
+    }
+
+    @SubscribeEvent
+    public void onOrbSpawn(EntityJoinWorldEvent event) {
+        if (breedingPos.get().equals(event.getEntity().getPositionVec())) {
+            event.setCanceled(true);
+            breedingPos.remove();
+        }
+    }
+
 
     public static PlayerEntity temptWithTroughs(TemptGoal goal, PlayerEntity found) {
         if (!ModuleLoader.INSTANCE.isModuleEnabled(FeedingTroughModule.class) ||
