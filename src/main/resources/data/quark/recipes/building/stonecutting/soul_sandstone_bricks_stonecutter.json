@@ -1,10 +1,10 @@
 {
   "type": "minecraft:stonecutting",
   "ingredient": {
-    "item": "quark:soul_sandstone_bricks"
+    "item": "quark:soul_sandstone"
   },
-  "result": "quark:soul_sandstone_bricks_slab",
-  "count": 2,
+  "result": "quark:soul_sandstone_bricks",
+  "count": 1,
   "conditions": [
     {
       "type": "forge:and",
