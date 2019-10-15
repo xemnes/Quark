@@ -42,7 +42,7 @@ public class FeedingTroughModule extends Module {
     @Config.Max(1.0)
     public static double loveChance = 0.333333333;
     
-    @Config private static double range = 10;
+    @Config public static double range = 10;
 
     private static final ThreadLocal<Set<FeedingTroughTileEntity>> loadedTroughs = ThreadLocal.withInitial(HashSet::new);
 

@@ -107,8 +107,12 @@ public class FeedingTroughTileEntity extends LockableLootTileEntity implements I
                                 creature.playSound(creature.getEatSound(stack), 0.5F + 0.5F * world.rand.nextInt(2), (world.rand.nextFloat() - world.rand.nextFloat()) * 0.2F + 1.0F);
                                 addItemParticles(creature, stack, 16);
                                 
-                                if(animals.size() < FeedingTroughModule.maxAnimals && getSpecialRand().nextDouble() < FeedingTroughModule.loveChance)
-                                	creature.setInLove(null);
+                                if(getSpecialRand().nextDouble() < FeedingTroughModule.loveChance) {
+                                	List<AnimalEntity> animalsAround = world.getEntitiesWithinAABB(AnimalEntity.class, new AxisAlignedBB(pos).grow(FeedingTroughModule.range));
+                                	if(animalsAround.size() <= FeedingTroughModule.maxAnimals)
+                                		creature.setInLove(null);
+                                }
+
                                 stack.shrink(1);
                                 
                                 return;
