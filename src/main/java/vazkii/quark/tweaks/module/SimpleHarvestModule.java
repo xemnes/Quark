@@ -10,14 +10,10 @@
  */
 package vazkii.quark.tweaks.module;
 
-import java.util.List;
-import java.util.Map;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -46,6 +42,9 @@ import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
 import vazkii.quark.base.network.QuarkNetwork;
 import vazkii.quark.base.network.message.HarvestMessage;
+
+import java.util.List;
+import java.util.Map;
 
 @LoadModule(category = ModuleCategory.TWEAKS, hasSubscriptions = true)
 public class SimpleHarvestModule extends Module {
@@ -85,15 +84,30 @@ public class SimpleHarvestModule extends Module {
 
 		for (String harvestKey : harvestableBlocks) {
 			BlockState initial, result;
-			String[] split = harvestKey.split(",", 2);
+			String[] split = tokenize(harvestKey);
 			initial = fromString(split[0]);
 			if (split.length > 1)
 				result = fromString(split[1]);
 			else
 				result = initial.getBlock().getDefaultState();
 
-			crops.put(initial, result);
+			if (initial.getBlock() != Blocks.AIR)
+				crops.put(initial, result);
 		}
+	}
+
+	private String[] tokenize(String harvestKey) {
+		boolean inBracket = false;
+		for (int i = 0; i < harvestKey.length(); i++) {
+			char charAt = harvestKey.charAt(i);
+			if (charAt == '[')
+				inBracket = true;
+			else if (charAt == ']')
+				inBracket = false;
+			else if (charAt == ',' && !inBracket)
+				return new String[] { harvestKey.substring(0, i), harvestKey.substring(i) };
+		}
+		return new String[] { harvestKey };
 	}
 
 	private boolean isVanilla(IForgeRegistryEntry<?> entry) {
