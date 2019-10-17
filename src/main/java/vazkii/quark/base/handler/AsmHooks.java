@@ -25,6 +25,7 @@ import vazkii.quark.automation.client.render.PistonTileEntityRenderer;
 import vazkii.quark.automation.module.ChainLinkageModule;
 import vazkii.quark.automation.module.FeedingTroughModule;
 import vazkii.quark.automation.module.PistonsMoveTileEntitiesModule;
+import vazkii.quark.management.entity.ChestPassengerEntity;
 import vazkii.quark.tools.module.PickarangModule;
 import vazkii.quark.tweaks.module.HoeHarvestingModule;
 import vazkii.quark.tweaks.module.ImprovedSleepingModule;
@@ -186,5 +187,15 @@ public class AsmHooks {
 	public static void rave(IWorld world, BlockPos pos, int type, int record) {
 		if (type == 1010)
 			CrabEntity.rave(world, pos, record != 0);
+	}
+
+	// ==========================================================================
+	// Chests in Boats
+	// ==========================================================================
+
+	public static Entity ensurePassengerIsNotChest(Entity passenger) {
+		if (passenger instanceof ChestPassengerEntity)
+			return null;
+		return passenger;
 	}
 }

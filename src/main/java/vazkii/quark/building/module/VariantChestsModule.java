@@ -32,7 +32,7 @@ import vazkii.quark.building.client.render.VariantChestTileEntityRenderer;
 import vazkii.quark.building.tile.VariantChestTileEntity;
 import vazkii.quark.building.tile.VariantTrappedChestTileEntity;
 
-@LoadModule(category = ModuleCategory.BUILDING)
+@LoadModule(category = ModuleCategory.BUILDING, hasSubscriptions = true)
 public class VariantChestsModule extends Module {
 
 	@Config public static boolean changeNames = true;
