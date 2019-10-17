@@ -10,9 +10,9 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderPlayerEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.network.NetworkEvent;
 import vazkii.quark.base.Quark;
 
 import java.io.IOException;
@@ -84,7 +84,7 @@ public class ContributorRewardHandler {
 
 	@SubscribeEvent
 	@OnlyIn(Dist.DEDICATED_SERVER)
-	public static void onPlayerJoin(NetworkEvent.LoginPayloadEvent event) {
+	public static void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event) {
 		ContributorRewardHandler.init();
 	}
 	
