@@ -74,7 +74,7 @@ public class FeedingTroughModule extends Module {
 
     @SubscribeEvent
     public void onOrbSpawn(EntityJoinWorldEvent event) {
-        if (breedingPos.get().equals(event.getEntity().getPositionVec())) {
+        if (event.getEntity().getPositionVec().equals(breedingPos.get())) {
             event.setCanceled(true);
             breedingPos.remove();
         }
