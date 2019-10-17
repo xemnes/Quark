@@ -105,7 +105,7 @@ public class SimpleHarvestModule extends Module {
 			else if (charAt == ']')
 				inBracket = false;
 			else if (charAt == ',' && !inBracket)
-				return new String[] { harvestKey.substring(0, i), harvestKey.substring(i) };
+				return new String[] { harvestKey.substring(0, i), harvestKey.substring(i + 1) };
 		}
 		return new String[] { harvestKey };
 	}
