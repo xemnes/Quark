@@ -11,5 +11,6 @@
   "quark_chain_linkage": "asm/chain-linkage.js",
   "quark_feeding_trough": "asm/feeding-trough.js",
   "quark_crabs": "asm/crabs.js",
-  "quark_chests_in_boats": "asm/chests-in-boats.js"
+  "quark_chests_in_boats": "asm/chests-in-boats.js",
+  "quark_rotation_lock": "asm/rotation-lock.js"
 }

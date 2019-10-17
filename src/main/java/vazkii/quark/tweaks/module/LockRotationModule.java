@@ -9,17 +9,15 @@ import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.state.IProperty;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.state.properties.Half;
 import net.minecraft.state.properties.SlabType;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Direction.Axis;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.RayTraceResult.Type;
@@ -28,16 +26,12 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.KeybindTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.InputEvent.KeyInputEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedOutEvent;
-import net.minecraftforge.event.world.BlockEvent;
-import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.lwjgl.opengl.GL11;
 import vazkii.arl.network.MessageSerializer;
@@ -46,6 +40,7 @@ import vazkii.quark.base.handler.ModKeybindHandler;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
+import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.base.network.QuarkNetwork;
 import vazkii.quark.base.network.message.SetLockProfileMessage;
 
@@ -81,57 +76,32 @@ public class LockRotationModule extends Module {
 	public void clientSetup() {
 		keybind = ModKeybindHandler.init("lock_rotation", "k", ModKeybindHandler.MISC_GROUP);
 	}
-	
-	@SubscribeEvent
-	public void onBlockPlaced(BlockEvent.EntityPlaceEvent event) {
-		if(event.isCanceled() || event.getResult() == Result.DENY)
-			return;
 
-		Entity e = event.getEntity();
-		if(e instanceof PlayerEntity)
-			fixBlockRotation(event.getWorld(), (PlayerEntity) e, event.getPos());
-	}
+	public static BlockState fixBlockRotation(BlockState state, BlockItemUseContext ctx) {
+		if (state == null || ctx.getPlayer() == null || !ModuleLoader.INSTANCE.isModuleEnabled(LockRotationModule.class))
+			return state;
 
-	public static void fixBlockRotation(IWorld world, PlayerEntity player, BlockPos pos) {
-		BlockState state = world.getBlockState(pos);
-
-		UUID uuid = player.getUniqueID();
+		UUID uuid = ctx.getPlayer().getUniqueID();
 		if(lockProfiles.containsKey(uuid)) {
 			LockProfile profile = lockProfiles.get(uuid);
-			setBlockRotated(world, state, pos, profile.facing.getOpposite(), true, profile.half);
+			BlockState transformed = setBlockRotated(state, profile.facing.getOpposite(), profile.half);
+			return Block.getValidBlockForPosition(transformed, ctx.getWorld(), ctx.getPos());
 		}
+
+		return state;
 	}
 
-	public static void setBlockRotated(IWorld world, BlockState state, BlockPos pos, Direction face) {
-		setBlockRotated(world, state, pos, face, false, -1);
-	}
-
-	public static void setBlockRotated(IWorld world, BlockState state, BlockPos pos, Direction face, boolean stateCheck, int half) {
+	public static BlockState setBlockRotated(BlockState state, Direction face, int half) {
 		BlockState setState = state;
 		ImmutableMap<IProperty<?>, Comparable<?>> props = state.getValues();
 		Block block = state.getBlock();
 
 		// API hook TODO re-add
 		//		if(block instanceof IRotationLockHandler)
-		//			setState = ((IRotationLockHandler) block).setRotation(world, pos, setState, face, half != -1, half == 1);
+		//			setState = ((IRotationLockHandler) block).setRotation(pos, setState, face, half != -1, half == 1);
 
-		// Bed Special Case
-		if(block.isIn(BlockTags.BEDS) && face.getAxis() != Axis.Y) {
-			Direction prevFace = state.get(BlockStateProperties.HORIZONTAL_FACING);
-			Direction opposite = face.getOpposite();
-			if (prevFace != opposite) {
-				BlockPos prevPos = pos.offset(prevFace);
-				setState = state.with(BlockStateProperties.HORIZONTAL_FACING, opposite);
-				BlockState inWorld = world.getBlockState(prevPos);
-				if (inWorld.getBlock().isIn(BlockTags.BEDS)) {
-					world.removeBlock(prevPos, false);
-					world.setBlockState(pos.offset(opposite), inWorld.with(BlockStateProperties.HORIZONTAL_FACING, opposite), 1 | 2);
-				}
-			}
-		}
-		
 		// General Facing
-		else if(props.containsKey(BlockStateProperties.FACING))
+		if(props.containsKey(BlockStateProperties.FACING))
 			setState = state.with(BlockStateProperties.FACING, face);
 
 		// Horizontal Facing
@@ -159,13 +129,8 @@ public class LockRotationModule extends Module {
 			else if(props.containsKey(BlockStateProperties.HALF))
 				setState = setState.with(BlockStateProperties.HALF, half == 1 ? Half.TOP : Half.BOTTOM);
 		}
-			
 
-		if(!stateCheck || setState != state) {
-			world.setBlockState(pos, setState, 1 | 2);
-			if(world instanceof World)
-				((World) world).neighborChanged(pos, setState.getBlock(), pos);
-		}
+		return setState;
 	}
 
 	@SubscribeEvent

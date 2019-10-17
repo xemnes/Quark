@@ -9,6 +9,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.TemptGoal;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.PistonTileEntity;
 import net.minecraft.util.DamageSource;
@@ -29,6 +30,7 @@ import vazkii.quark.management.entity.ChestPassengerEntity;
 import vazkii.quark.tools.module.PickarangModule;
 import vazkii.quark.tweaks.module.HoeHarvestingModule;
 import vazkii.quark.tweaks.module.ImprovedSleepingModule;
+import vazkii.quark.tweaks.module.LockRotationModule;
 import vazkii.quark.tweaks.module.SpringySlimeModule;
 import vazkii.quark.vanity.client.emote.EmoteHandler;
 import vazkii.quark.vanity.module.ColorRunesModule;
@@ -198,4 +200,12 @@ public class AsmHooks {
 			return null;
 		return passenger;
 	}
+
+    // ==========================================================================
+    // Rotation Lock
+    // ==========================================================================
+
+    public static BlockState alterPlacementState(BlockState state, BlockItemUseContext ctx) {
+        return LockRotationModule.fixBlockRotation(state, ctx);
+    }
 }
