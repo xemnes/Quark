@@ -44,7 +44,6 @@ public class ClientProxy extends CommonProxy {
 
 	public void clientSetup(FMLClientSetupEvent event) {
 		ModuleLoader.INSTANCE.clientSetup();
-		ContributorRewardHandler.setupClient();
 		
 		ResourceProxy.instance().ensureNotLast();
 	}
@@ -85,6 +84,12 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void addResourceOverride(String type, String path, String file, BooleanSupplier isEnabled) {
 		ResourceProxy.instance().addResource(type, path, file, isEnabled);
+	}
+	
+	@Override
+	protected void initContributorRewards() {
+		ContributorRewardHandler.getLocalName();
+		super.initContributorRewards();
 	}
 
 }

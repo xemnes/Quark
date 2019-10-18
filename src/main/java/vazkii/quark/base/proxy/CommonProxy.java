@@ -42,8 +42,8 @@ public class CommonProxy {
 	public void setup(FMLCommonSetupEvent event) {
 		QuarkNetwork.setup();
 		CapabilityHandler.setup();
-		ContributorRewardHandler.init();
 		ModuleLoader.INSTANCE.setup();
+		initContributorRewards();
 	}
 	
 	public void loadComplete(FMLLoadCompleteEvent event) {
@@ -65,6 +65,10 @@ public class CommonProxy {
 	
 	public void addResourceOverride(String type, String path, String file, BooleanSupplier isEnabled) {
 		// NO-OP, client only
+	}
+	
+	protected void initContributorRewards() {
+		ContributorRewardHandler.init();
 	}
 
 }

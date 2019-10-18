@@ -43,7 +43,7 @@ public class ContributorRewardHandler {
 	public static String featuredPatron = "";
 
 	@OnlyIn(Dist.CLIENT)
-	public static void setupClient() {
+	public static void getLocalName() {
 		name = Minecraft.getInstance().getSession().getUsername().toLowerCase();
 	}
 
