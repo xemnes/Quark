@@ -71,7 +71,7 @@ public class FeedingTroughModule extends Module {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onBreed(BabyEntitySpawnEvent event) {
-        if (event.getParentA().world.getGameRules().getBoolean(GameRules.DO_MOB_LOOT))
+        if (event.getCausedByPlayer() == null && event.getParentA().world.getGameRules().getBoolean(GameRules.DO_MOB_LOOT))
             breedingPos.set(event.getParentA().getPositionVec());
     }
 
