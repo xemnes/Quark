@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.ai.goal.TemptGoal;
+import net.minecraft.entity.item.ExperienceOrbEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemGroup;
@@ -74,7 +75,8 @@ public class FeedingTroughModule extends Module {
 
     @SubscribeEvent
     public void onOrbSpawn(EntityJoinWorldEvent event) {
-        if (event.getEntity().getPositionVec().equals(breedingPos.get())) {
+        if (event.getEntity() instanceof ExperienceOrbEntity &&
+                event.getEntity().getPositionVec().equals(breedingPos.get())) {
             event.setCanceled(true);
             breedingPos.remove();
         }

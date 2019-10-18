@@ -159,6 +159,10 @@
 	"item.minecraft.splash_potion.effect.quark.danger_sight": "Splash Potion of Prescience",
 	"item.minecraft.lingering_potion.effect.quark.danger_sight": "Lingering Potion of Prescience",
 	"item.minecraft.tipped_arrow.effect.quark.danger_sight": "Arrow of Prescience",
+	"item.minecraft.potion.effect.quark.resistance": "Potion of Fortitude",
+	"item.minecraft.splash_potion.effect.quark.resistance": "Splash Potion of Fortitude",
+	"item.minecraft.lingering_potion.effect.quark.resistance": "Lingering Potion of Fortitude",
+	"item.minecraft.tipped_arrow.effect.quark.resistance": "Arrow of Fortitude",
 	
 	"item.quark.biome_map.snowy_tundra": "Snowy Tundra Pathfinder Map",
 	"item.quark.biome_map.mountains": "Mountain Pathfinder Map",

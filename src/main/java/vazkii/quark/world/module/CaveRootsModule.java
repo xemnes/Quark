@@ -4,7 +4,10 @@ import net.minecraft.block.Block;
 import net.minecraft.item.Food;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.potion.Effects;
 import net.minecraft.world.gen.GenerationStage.Decoration;
+import vazkii.quark.base.handler.BrewingHandler;
 import vazkii.quark.base.item.QuarkItem;
 import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
@@ -23,6 +26,7 @@ public class CaveRootsModule extends Module {
 	@Config public static int minY = 16;
 	@Config public static int maxY = 52;
 	@Config public static DimensionConfig dimensions = DimensionConfig.overworld(false);
+	@Config public static boolean enableBrewing = true;
 	
 	public static Block root;
 	
@@ -30,12 +34,16 @@ public class CaveRootsModule extends Module {
 	public void construct() {
 		root = new RootBlock(this);
 		
-		new QuarkItem("root_item", this, new Item.Properties()
+		Item rootItem = new QuarkItem("root_item", this, new Item.Properties()
 				.food(new Food.Builder()
 						.hunger(3)
 						.saturation(0.4F)
 						.build())
 				.group(ItemGroup.FOOD));
+
+		BrewingHandler.addPotionMix(() -> enabled && enableBrewing,
+				() -> Ingredient.fromItems(rootItem),
+				Effects.RESISTANCE);
 	}
 	
 	@Override
