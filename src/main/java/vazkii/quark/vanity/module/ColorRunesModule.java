@@ -42,10 +42,10 @@ public class ColorRunesModule extends Module {
 	private static final ThreadLocal<ItemStack> targetStack = new ThreadLocal<>();
 	private static Tag<Item> runesTag;
 
-	@Config public static int dungeonWeight = 20;
-	@Config public static int netherFortressWeight = 15;
-	@Config public static int jungleTempleWeight = 15;
-	@Config public static int desertTempleWeight = 15;
+	@Config public static int dungeonWeight = 10;
+	@Config public static int netherFortressWeight = 8;
+	@Config public static int jungleTempleWeight = 8;
+	@Config public static int desertTempleWeight = 8;
 	@Config public static int itemQuality = 0;
 	@Config public static int applyCost = 15;
 
