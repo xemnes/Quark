@@ -41,15 +41,6 @@ public class RopeBlock extends QuarkBlock implements IBlockItemProvider {
 		super(regname, module, creativeTab, properties);
 	}
 
-//	public BlockRope() {
-//		super("rope", Material.CLOTH);
-//
-//		setHardness(0.5F);
-//		setSoundType(SoundType.CLOTH);
-//		setCreativeTab(ItemGroup.DECORATIONS);
-//	}
-
-
 	@Override
 	public BlockItem provideItemBlock(Block block, Item.Properties properties) {
 		return new BlockItem(block, properties) {

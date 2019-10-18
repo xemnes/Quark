@@ -16,6 +16,7 @@ import vazkii.quark.base.handler.MiscUtil;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
+import vazkii.quark.tools.module.PickarangModule;
 
 @LoadModule(category = ModuleCategory.TWEAKS, hasSubscriptions = true)
 public class DirtToPathModule extends Module {
@@ -30,7 +31,7 @@ public class DirtToPathModule extends Module {
 		ItemStack itemstack = player.getHeldItem(hand);
 		BlockState state = world.getBlockState(pos);
 
-		if(/*itemstack.getItem() == Pickarang.pickarang || */!itemstack.getItem().getToolTypes(itemstack).contains(ToolType.SHOVEL) && itemstack.getDestroySpeed(state) > 0)
+		if(itemstack.getItem() == PickarangModule.pickarang || !itemstack.getItem().getToolTypes(itemstack).contains(ToolType.SHOVEL) && itemstack.getDestroySpeed(state) > 0)
 			return;
 
 		if(facing != null && player.canPlayerEdit(pos.offset(facing), facing, itemstack)) {

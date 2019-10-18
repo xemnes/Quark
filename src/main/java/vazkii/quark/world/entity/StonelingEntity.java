@@ -34,9 +34,11 @@ import net.minecraftforge.common.extensions.IForgeWorldServer;
 import net.minecraftforge.fml.network.NetworkHooks;
 import vazkii.quark.base.ai.IfFlagGoal;
 import vazkii.quark.base.handler.QuarkSounds;
+import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.world.ai.ActWaryGoal;
 import vazkii.quark.world.ai.FavorBlockGoal;
 import vazkii.quark.world.ai.RunAndPoofGoal;
+import vazkii.quark.world.module.PassiveCreaturesModule;
 import vazkii.quark.world.module.StonelingsModule;
 
 import javax.annotation.Nonnull;
@@ -232,12 +234,12 @@ public class StonelingEntity extends CreatureEntity {
 		dataManager.set(HOLD_ANGLE, world.getRandom().nextFloat() * 90 - 45);
 
 		if(!isTame && !world.isRemote() && world instanceof IForgeWorldServer) {
-			/*if (ModuleLoader.isFeatureEnabled(Frogs.class) && rand.nextDouble() < 0.01) {
-				EntityFrog frog = new EntityFrog(world, 0.25f);
+			if (ModuleLoader.INSTANCE.isModuleEnabled(PassiveCreaturesModule.class) && PassiveCreaturesModule.enableFrogs && rand.nextDouble() < 0.01) {
+				FrogEntity frog = new FrogEntity(PassiveCreaturesModule.frogType, world.getWorld(), 0.25f);
 				frog.setPosition(posX, posY, posZ);
-				world.spawnEntity(frog);
+				world.addEntity(frog);
 				frog.startRiding(this);
-			} else*/ {
+			} else {
 				List<ItemStack> items = ((IForgeWorldServer) world).getWorldServer().getServer().getLootTableManager()
 						.getLootTableFromLocation(CARRY_LOOT_TABLE).generate(new LootContext.Builder((ServerWorld) world).build(LootParameterSets.EMPTY));
 				if (!items.isEmpty())

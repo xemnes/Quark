@@ -16,6 +16,7 @@ import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
 import vazkii.quark.tweaks.ai.NuzzleGoal;
 import vazkii.quark.tweaks.ai.WantLoveGoal;
+import vazkii.quark.world.entity.FoxhoundEntity;
 
 /**
  * @author WireSegal
@@ -54,8 +55,8 @@ public class PatTheDogsModule extends Module {
 
                     WantLoveGoal.setPetTime(wolf);
 
-//                    if (wolf instanceof FoxhoundEntity && !player.isInWater() && !player.isImmuneToFire() && !player.isCreative())
-//                        player.setFire(5);
+                    if (wolf instanceof FoxhoundEntity && !player.isInWater() && !player.isImmuneToFire() && !player.isCreative())
+                        player.setFire(5);
                 }
 
                 event.setCanceled(true);

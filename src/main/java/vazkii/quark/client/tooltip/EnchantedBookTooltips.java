@@ -21,6 +21,7 @@ import net.minecraftforge.client.event.RenderTooltipEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.registries.GameData;
 import vazkii.quark.client.module.ImprovedTooltipsModule;
+import vazkii.quark.tools.module.AncientTomesModule;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +43,7 @@ public class EnchantedBookTooltips {
 			return;
 
 		ItemStack stack = event.getItemStack();
-		if(stack.getItem() == Items.ENCHANTED_BOOK/* || stack.getItem() == AncientTomes.ancient_tome*/) {
+		if(stack.getItem() == Items.ENCHANTED_BOOK || stack.getItem() == AncientTomesModule.ancient_tome) {
 			Minecraft mc = Minecraft.getInstance();
 			List<ITextComponent> tooltip = event.getToolTip();
 			int tooltipIndex = 0;
@@ -73,7 +74,7 @@ public class EnchantedBookTooltips {
 	public static void renderTooltip(RenderTooltipEvent.PostText event) {
 		ItemStack stack = event.getStack();
 
-		if(stack.getItem() == Items.ENCHANTED_BOOK/* || stack.getItem() == AncientTomes.ancient_tome*/) {
+		if(stack.getItem() == Items.ENCHANTED_BOOK || stack.getItem() == AncientTomesModule.ancient_tome) {
 			Minecraft mc = Minecraft.getInstance();
 			List<String> tooltip = event.getLines();
 
