@@ -71,7 +71,8 @@ public class CaveCrystalUndergroundBiomeModule extends UndergroundBiomeModule {
 
 	@Override
 	protected UndergroundBiomeConfig getBiomeConfig() {
-		return new UndergroundBiomeConfig(new CaveCrystalUndergroundBiome(), 400, true, BiomeDictionary.Type.OCEAN);
+		return new UndergroundBiomeConfig(new CaveCrystalUndergroundBiome(), 400, true, BiomeDictionary.Type.OCEAN)
+				.setDefaultSize(42, 18, 22, 8);
 	}
 
 }

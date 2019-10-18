@@ -56,5 +56,13 @@ public class UndergroundBiomeConfig implements IConfigType {
 	public UndergroundBiomeConfig(UndergroundBiome biomeObj, int rarity, BiomeDictionary.Type... types) {
 		this(biomeObj, rarity, false, types);
 	}
+	
+	public UndergroundBiomeConfig setDefaultSize(int horizontal, int vertical, int horizontalVariation, int verticalVariation) {
+		this.horizontalSize = horizontal;
+		this.verticalSize = vertical;
+		this.horizontalVariation = horizontalVariation;
+		this.verticalVariation = verticalVariation;
+		return this;
+	}
 
 }
