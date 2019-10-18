@@ -11,6 +11,7 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.math.*;
+import net.minecraft.world.GameRules;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -70,7 +71,8 @@ public class FeedingTroughModule extends Module {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onBreed(BabyEntitySpawnEvent event) {
-        breedingPos.set(event.getParentA().getPositionVec());
+        if (event.getParentA().world.getGameRules().getBoolean(GameRules.DO_MOB_LOOT))
+            breedingPos.set(event.getParentA().getPositionVec());
     }
 
     @SubscribeEvent
