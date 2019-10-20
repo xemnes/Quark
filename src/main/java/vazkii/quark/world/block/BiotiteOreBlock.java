@@ -23,7 +23,7 @@ public class BiotiteOreBlock extends QuarkBlock {
 	
 	@Override
 	public int getExpDrop(BlockState state, IWorldReader world, BlockPos pos, int fortune, int silktouch) {
-		return MathHelper.nextInt(RANDOM, 2, 5);
+		return silktouch == 0 ? MathHelper.nextInt(RANDOM, 2, 5) : 0;
 	}
 	
 }
