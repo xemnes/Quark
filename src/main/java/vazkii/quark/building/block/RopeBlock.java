@@ -128,6 +128,9 @@ public class RopeBlock extends QuarkBlock implements IBlockItemProvider {
 		
 		do {
 			pos = pos.down();
+			if (!World.isValid(pos))
+				return false;
+
 			BlockState state = world.getBlockState(pos);
 			Block block = state.getBlock();
 			
