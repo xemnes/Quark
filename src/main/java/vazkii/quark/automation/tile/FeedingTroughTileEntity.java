@@ -1,13 +1,6 @@
 package vazkii.quark.automation.tile;
 
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
-
-import javax.annotation.Nonnull;
-
 import com.mojang.authlib.GameProfile;
-
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.goal.TemptGoal;
@@ -34,6 +27,11 @@ import net.minecraftforge.common.util.FakePlayer;
 import vazkii.quark.automation.block.FeedingTroughBlock;
 import vazkii.quark.automation.module.FeedingTroughModule;
 import vazkii.quark.base.handler.MiscUtil;
+
+import javax.annotation.Nonnull;
+import java.util.List;
+import java.util.Random;
+import java.util.UUID;
 
 /**
  * @author WireSegal
@@ -114,6 +112,7 @@ public class FeedingTroughTileEntity extends LockableLootTileEntity implements I
                                 }
 
                                 stack.shrink(1);
+                                markDirty();
                                 
                                 return;
                             }
