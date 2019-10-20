@@ -1,10 +1,6 @@
 package vazkii.quark.building.block;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
@@ -13,13 +9,10 @@ import vazkii.quark.base.block.QuarkBlock;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.building.module.CompressedBlocksModule;
 
-public class CharcoalBlock extends QuarkBlock {
+public class BurnForeverBlock extends QuarkBlock {
 
-	public CharcoalBlock(Module module) {
-		super("charcoal_block", module, ItemGroup.BUILDING_BLOCKS,
-				Block.Properties.create(Material.ROCK, MaterialColor.BLACK)
-				.hardnessAndResistance(5F, 10F)
-				.sound(SoundType.STONE));
+	public BurnForeverBlock(String regname, Module module, ItemGroup creativeTab, Properties properties) {
+		super(regname, module, creativeTab, properties);
 	}
 
 	@Override

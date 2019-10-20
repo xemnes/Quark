@@ -16,7 +16,7 @@ import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
-import vazkii.quark.building.block.CharcoalBlock;
+import vazkii.quark.building.block.BurnForeverBlock;
 
 import java.util.List;
 import java.util.function.BooleanSupplier;
@@ -24,12 +24,16 @@ import java.util.function.BooleanSupplier;
 @LoadModule(category = ModuleCategory.BUILDING, hasSubscriptions = true)
 public class CompressedBlocksModule extends Module {
 
-	@Config(name = "Charcoal Block Stays On Fire Forever")
+	@Config(name = "Charcoal Block and Blaze Lantern Stay On Fire Forever")
 	public static boolean burnsForever = true;
 
 	@Config(name = "Charcoal Block Fuel Time")
 	@Config.Min(0)
 	public static int charcoalBlockFuelTime = 16000;
+
+	@Config(name = "Blaze Lantern Fuel Time")
+	@Config.Min(0)
+	public static int blazeLanternFuelTime = 24000;
 
 	@Config(name = "Stick Block Fuel Time")
 	@Config.Min(0)
@@ -54,13 +58,16 @@ public class CompressedBlocksModule extends Module {
 	
 	@Config(flag = "blaze_lantern") public static boolean enableBlazeLantern = true;
 
-	private Block charcoal_block, stick_block;
+	private Block charcoal_block, stick_block, blaze_lantern;
 
 	private final List<Block> compostable = Lists.newArrayList();
 
 	@Override
 	public void construct() {
-		charcoal_block = new CharcoalBlock(this)
+		charcoal_block = new BurnForeverBlock("charcoal_block", this, ItemGroup.BUILDING_BLOCKS,
+				Block.Properties.create(Material.ROCK, MaterialColor.BLACK)
+						.hardnessAndResistance(5F, 10F)
+						.sound(SoundType.STONE))
 				.setCondition(() -> enableCharcoalBlock);
 		
 		pillar("sugar_cane", MaterialColor.LIME, true, () -> enableSugarCaneBlock);
@@ -79,7 +86,7 @@ public class CompressedBlocksModule extends Module {
 		sack("nether_wart", MaterialColor.RED, false, () -> enableNetherWartSack);
 		sack("gunpowder", MaterialColor.GRAY, false, () -> enableGunpowderSack);
 		
-		new QuarkBlock("blaze_lantern", this, ItemGroup.BUILDING_BLOCKS, 
+		blaze_lantern = new BurnForeverBlock("blaze_lantern", this, ItemGroup.BUILDING_BLOCKS,
 				Block.Properties.create(Material.GLASS, DyeColor.YELLOW)
 				.hardnessAndResistance(0.3F)
 				.sound(SoundType.GLASS)
@@ -135,6 +142,8 @@ public class CompressedBlocksModule extends Module {
 			event.setBurnTime(stickBlockFuelTime);
 		else if(event.getItemStack().getItem() == charcoal_block.asItem())
 			event.setBurnTime(charcoalBlockFuelTime);
+		else if(event.getItemStack().getItem() == blaze_lantern.asItem())
+			event.setBurnTime(blazeLanternFuelTime);
 	}
 
 }
