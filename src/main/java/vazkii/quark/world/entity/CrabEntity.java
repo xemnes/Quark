@@ -37,6 +37,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
@@ -242,8 +243,10 @@ public class CrabEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 	@Override
 	protected void collideWithEntity(Entity entityIn) {
 		super.collideWithEntity(entityIn);
-		if (entityIn instanceof LivingEntity && !(entityIn instanceof CrabEntity))
-			entityIn.attackEntityFrom(DamageSource.CACTUS, 1f);
+		if (world.getDifficulty() != Difficulty.PEACEFUL) {
+			if (entityIn instanceof LivingEntity && !(entityIn instanceof CrabEntity))
+				entityIn.attackEntityFrom(DamageSource.CACTUS, 1f);
+		}
 	}
 
 	@Override
