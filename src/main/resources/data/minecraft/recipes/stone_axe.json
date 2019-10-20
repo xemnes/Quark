@@ -10,7 +10,7 @@
       "item": "minecraft:stick"
     },
     "X": {
-      "tag": "minecraft:cobblestone"
+      "item": "minecraft:cobblestone"
     }
   },
   "result": {

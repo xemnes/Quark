@@ -26,7 +26,7 @@ public class CaveRootsModule extends Module {
 	@Config public static int minY = 16;
 	@Config public static int maxY = 52;
 	@Config public static DimensionConfig dimensions = DimensionConfig.overworld(false);
-	@Config public static boolean enableBrewing = true;
+	@Config(flag = "cave_roots_brewing") public static boolean enableBrewing = true;
 	
 	public static Block root;
 	
@@ -41,7 +41,7 @@ public class CaveRootsModule extends Module {
 						.build())
 				.group(ItemGroup.FOOD));
 
-		BrewingHandler.addPotionMix(() -> enabled && enableBrewing,
+		BrewingHandler.addPotionMix("cave_roots_brewing",
 				() -> Ingredient.fromItems(rootItem),
 				Effects.RESISTANCE);
 	}

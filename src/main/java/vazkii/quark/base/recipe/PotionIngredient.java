@@ -27,7 +27,6 @@ public class PotionIngredient extends Ingredient {
     private final Item item;
     private final Potion potion;
 
-
     public PotionIngredient(Item item, Potion potion) {
         super(Stream.of(new Ingredient.SingleItemList(BrewingHandler.of(item, potion))));
         this.item = item;

@@ -2,7 +2,6 @@ package vazkii.quark.world.module.underground;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.ComposterBlock;
-import net.minecraft.block.FlowerPotBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
@@ -20,9 +19,9 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.base.effect.QuarkEffect;
 import vazkii.quark.base.handler.BrewingHandler;
+import vazkii.quark.base.handler.VariantHandler;
 import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.ModuleCategory;
@@ -52,10 +51,13 @@ public class GlowshroomUndergroundBiomeModule extends UndergroundBiomeModule {
 	@Config
 	public static boolean enableHugeGlowshrooms = true;
 
-	@Config
+	@Config(flag = "glowshroom_danger_sight")
 	public static boolean enableDangerSight = true;
 
-	public static Block glowcelium, glowshroom, glowshroom_block, glowshroom_stem;
+	public static Block glowcelium;
+	public static GlowshroomBlock glowshroom;
+	public static Block glowshroom_block;
+	public static Block glowshroom_stem;
 
 	private QuarkEffect dangerSight;
 
@@ -68,10 +70,10 @@ public class GlowshroomUndergroundBiomeModule extends UndergroundBiomeModule {
 
 		dangerSight = new QuarkEffect("danger_sight", EffectType.BENEFICIAL, 0x08C8E3);
 
-        BrewingHandler.addPotionMix(() -> enabled && enableDangerSight,
+        BrewingHandler.addPotionMix("glowshroom_danger_sight",
                 () -> Ingredient.fromItems(glowshroom), dangerSight, 3600, 9600, -1);
 
-		RegistryHelper.registerBlock(new FlowerPotBlock(glowshroom, Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(0F).lightValue(14)), "potted_glowshroom", false);
+		VariantHandler.addFlowerPot(glowshroom, Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(0F).lightValue(14));
 
 		super.construct();
 	}

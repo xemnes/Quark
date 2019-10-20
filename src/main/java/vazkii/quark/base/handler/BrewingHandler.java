@@ -1,19 +1,21 @@
 package vazkii.quark.base.handler;
 
+import com.google.common.collect.Lists;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.potion.*;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
+import org.apache.commons.lang3.tuple.ImmutableTriple;
+import org.apache.commons.lang3.tuple.Triple;
 import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.base.Quark;
-import vazkii.quark.base.recipe.CombinedBrewingRecipe;
-import vazkii.quark.base.recipe.PotionIngredient;
+import vazkii.quark.base.recipe.FlagIngredient;
+import vazkii.quark.base.reflect.PotionReflection;
 
 import javax.annotation.Nullable;
-import java.util.function.BooleanSupplier;
+import java.util.List;
 import java.util.function.Supplier;
 
 /**
@@ -23,42 +25,22 @@ import java.util.function.Supplier;
 public class BrewingHandler {
 
 
-    public static CombinedBrewingRecipe addPotionMix(BooleanSupplier isEnabled, Supplier<Ingredient> reagent, Effect effect) {
-        return addPotionMix(isEnabled, reagent, effect, null);
+    public static void addPotionMix(String flag, Supplier<Ingredient> reagent, Effect effect) {
+        addPotionMix(flag, reagent, effect, null);
     }
 
-    public static CombinedBrewingRecipe addPotionMix(CombinedBrewingRecipe recipe, Supplier<Ingredient> reagent, Effect effect) {
-        return addPotionMix(recipe, reagent, effect, null);
-    }
-
-    public static CombinedBrewingRecipe addPotionMix(BooleanSupplier isEnabled, Supplier<Ingredient> reagent, Effect effect,
+    public static void addPotionMix(String flag, Supplier<Ingredient> reagent, Effect effect,
                                                      int normalTime, int longTime, int strongTime) {
-        return addPotionMix(isEnabled, reagent, effect, null, normalTime, longTime, strongTime);
+        addPotionMix(flag, reagent, effect, null, normalTime, longTime, strongTime);
     }
 
-    public static CombinedBrewingRecipe addPotionMix(CombinedBrewingRecipe recipe, Supplier<Ingredient> reagent, Effect effect,
-                                                     int normalTime, int longTime, int strongTime) {
-        return addPotionMix(recipe, reagent, effect, null, normalTime, longTime, strongTime);
-    }
-
-    public static CombinedBrewingRecipe addPotionMix(BooleanSupplier isEnabled, Supplier<Ingredient> reagent, Effect effect,
+    public static void addPotionMix(String flag, Supplier<Ingredient> reagent, Effect effect,
                                                      @Nullable Effect negation) {
-        return addPotionMix(isEnabled, reagent, effect, negation, 3600, 9600, 1800);
+        addPotionMix(flag, reagent, effect, negation, 3600, 9600, 1800);
     }
 
-    public static CombinedBrewingRecipe addPotionMix(CombinedBrewingRecipe recipe, Supplier<Ingredient> reagent, Effect effect,
-                                                     @Nullable Effect negation) {
-        return addPotionMix(recipe, reagent, effect, negation, 3600, 9600, 1800);
-    }
 
-    public static CombinedBrewingRecipe addPotionMix(BooleanSupplier isEnabled, Supplier<Ingredient> reagent, Effect effect,
-                                                     @Nullable Effect negation, int normalTime, int longTime, int strongTime) {
-        CombinedBrewingRecipe recipe = addPotionMix(new CombinedBrewingRecipe(isEnabled), reagent, effect, negation, normalTime, longTime, strongTime);
-        BrewingRecipeRegistry.addRecipe(recipe);
-        return recipe;
-    }
-
-    public static CombinedBrewingRecipe addPotionMix(CombinedBrewingRecipe recipe, Supplier<Ingredient> reagent, Effect effect,
+    public static void addPotionMix(String flag, Supplier<Ingredient> reagent, Effect effect,
                                                      @Nullable Effect negation, int normalTime, int longTime, int strongTime) {
         ResourceLocation loc = effect.getRegistryName();
         if (loc != null) {
@@ -69,7 +51,7 @@ public class BrewingHandler {
             Potion longType = addPotion(new EffectInstance(effect, longTime), baseName, "long_" + baseName);
             Potion strongType = !hasStrong ? null : addPotion(new EffectInstance(effect, strongTime, 1), baseName, "strong_" + baseName);
 
-            addPotionMix(recipe, reagent, normalType, longType, strongType);
+            addPotionMix(flag, reagent, normalType, longType, strongType);
 
             if (negation != null) {
                 ResourceLocation negationLoc = negation.getRegistryName();
@@ -80,60 +62,37 @@ public class BrewingHandler {
                     Potion longNegationType = addPotion(new EffectInstance(negation, longTime), negationBaseName, "long_" + negationBaseName);
                     Potion strongNegationType = !hasStrong ? null : addPotion(new EffectInstance(negation, strongTime, 1), negationBaseName, "strong_" + negationBaseName);
 
-                    addNegation(recipe, reagent, normalType, longType, strongType, normalNegationType, longNegationType, strongNegationType);
+                    addNegation(flag, normalType, longType, strongType, normalNegationType, longNegationType, strongNegationType);
                 }
             }
         }
 
-        return recipe;
     }
 
-    public static CombinedBrewingRecipe addPotionMix(BooleanSupplier isEnabled, Supplier<Ingredient> reagent, Potion normalType, Potion longType, @Nullable Potion strongType) {
-        CombinedBrewingRecipe recipe = addPotionMix(new CombinedBrewingRecipe(isEnabled), reagent, normalType, longType, strongType);
-        BrewingRecipeRegistry.addRecipe(recipe);
-        return recipe;
-    }
-
-    public static CombinedBrewingRecipe addPotionMix(CombinedBrewingRecipe recipe, Supplier<Ingredient> reagent, Potion normalType, Potion longType, @Nullable Potion strongType) {
+    public static void addPotionMix(String flag, Supplier<Ingredient> reagent, Potion normalType, Potion longType, @Nullable Potion strongType) {
         boolean hasStrong = strongType != null;
 
-        add(recipe, Potions.AWKWARD, reagent, normalType);
-        add(recipe, Potions.WATER, reagent, Potions.MUNDANE);
+        add(flag, Potions.AWKWARD, reagent, normalType);
+        add(flag, Potions.WATER, reagent, Potions.MUNDANE);
 
         if (hasStrong)
-            add(recipe, normalType, BrewingHandler::glowstone, strongType);
-        add(recipe, normalType, BrewingHandler::redstone, longType);
-
-        return recipe;
+            add(flag, normalType, BrewingHandler::glowstone, strongType);
+        add(flag, normalType, BrewingHandler::redstone, longType);
     }
 
-    public static CombinedBrewingRecipe addNegation(BooleanSupplier isEnabled, Supplier<Ingredient> reagent, Potion normalType, Potion longType, @Nullable Potion strongType,
-                                                    Potion normalNegatedType, Potion longNegatedType, @Nullable Potion strongNegatedType) {
-        CombinedBrewingRecipe recipe = addNegation(new CombinedBrewingRecipe(isEnabled), reagent, normalType, longType, strongType, normalNegatedType, longNegatedType, strongNegatedType);
-        BrewingRecipeRegistry.addRecipe(recipe);
-        return recipe;
-    }
-
-    public static CombinedBrewingRecipe addNegation(CombinedBrewingRecipe recipe, Supplier<Ingredient> reagent, Potion normalType, Potion longType, @Nullable Potion strongType,
-                                                    Potion normalNegatedType, Potion longNegatedType, @Nullable Potion strongNegatedType) {
-        add(recipe, normalType, BrewingHandler::spiderEye, normalNegatedType);
+    public static void addNegation(String flag, Potion normalType, Potion longType, @Nullable Potion strongType,
+                                   Potion normalNegatedType, Potion longNegatedType, @Nullable Potion strongNegatedType) {
+        add(flag, normalType, BrewingHandler::spiderEye, normalNegatedType);
 
         boolean hasStrong = strongType != null && strongNegatedType != null;
 
         if (hasStrong) {
-            add(recipe, strongType, BrewingHandler::spiderEye, strongNegatedType);
-            add(recipe, normalNegatedType, BrewingHandler::glowstone, strongNegatedType);
+            add(flag, strongType, BrewingHandler::spiderEye, strongNegatedType);
+            add(flag, normalNegatedType, BrewingHandler::glowstone, strongNegatedType);
         }
-        add(recipe, longType, BrewingHandler::spiderEye, longNegatedType);
-        add(recipe, normalNegatedType, BrewingHandler::redstone, longNegatedType);
+        add(flag, longType, BrewingHandler::spiderEye, longNegatedType);
+        add(flag, normalNegatedType, BrewingHandler::redstone, longNegatedType);
 
-        return recipe;
-    }
-
-    private static void add(CombinedBrewingRecipe recipe, Potion from, Supplier<Ingredient> reagent, Potion to) {
-        add(recipe, Items.POTION, from, reagent, () -> of(Items.POTION, to));
-        add(recipe, Items.SPLASH_POTION, from, reagent, () -> of(Items.SPLASH_POTION, to));
-        add(recipe, Items.LINGERING_POTION, from, reagent, () -> of(Items.LINGERING_POTION, to));
     }
 
     public static ItemStack of(Item potionType, Potion potion) {
@@ -142,8 +101,22 @@ public class BrewingHandler {
         return stack;
     }
 
-    private static void add(CombinedBrewingRecipe recipe, Item item, Potion potion, Supplier<Ingredient> reagent, Supplier<ItemStack> to) {
-        recipe.add(new PotionIngredient(item, potion), reagent, to);
+    private static boolean isInjectionPrepared = false;
+    private static final List<Triple<Potion, Supplier<Ingredient>, Potion>> toRegister = Lists.newArrayList();
+
+    public static void setup() {
+        isInjectionPrepared = true;
+        for (Triple<Potion, Supplier<Ingredient>, Potion> triple : toRegister)
+            PotionReflection.addBrewingRecipe(triple.getLeft(), triple.getMiddle().get(), triple.getRight());
+
+        toRegister.clear();
+    }
+
+    private static void add(String flag, Potion potion, Supplier<Ingredient> reagent, Potion to) {
+        if (isInjectionPrepared)
+            PotionReflection.addBrewingRecipe(potion, new FlagIngredient(reagent.get(), flag), to);
+        else
+            toRegister.add(new ImmutableTriple<>(potion, () -> new FlagIngredient(reagent.get(), flag), to));
     }
 
     private static Potion addPotion(EffectInstance eff, String baseName, String name) {

@@ -10,7 +10,7 @@
       "tag": "minecraft:planks"
     },
     "X": {
-      "tag": "minecraft:book"
+      "item": "minecraft:book"
     }
   },
   "result": {

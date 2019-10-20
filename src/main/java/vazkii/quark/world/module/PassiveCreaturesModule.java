@@ -32,6 +32,7 @@ import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
+import vazkii.quark.base.recipe.FlagIngredient;
 import vazkii.quark.world.client.render.CrabRenderer;
 import vazkii.quark.world.client.render.FrogRenderer;
 import vazkii.quark.world.entity.CrabEntity;
@@ -143,12 +144,12 @@ public class PassiveCreaturesModule extends Module {
         Effect resilience = new QuarkEffect("resilience", EffectType.BENEFICIAL, 0x5b1a04);
         resilience.addAttributesModifier(SharedMonsterAttributes.KNOCKBACK_RESISTANCE, "2ddf3f0a-f386-47b6-aeb0-6bd32851f215", 0.5, AttributeModifier.Operation.ADDITION);
 
-        BrewingHandler.addPotionMix(() -> enabled && enableFrogs && enableBrewing,
-                () -> Ingredient.fromItems(goldenLeg),
+        BrewingHandler.addPotionMix("passive_creatures_brewing",
+                () -> new FlagIngredient(Ingredient.fromItems(goldenLeg), "frogs"),
                 Potions.LEAPING, Potions.LONG_LEAPING, Potions.STRONG_LEAPING);
 
-        BrewingHandler.addPotionMix(() -> enabled && enableCrabs && enableBrewing,
-                () -> Ingredient.fromItems(shell), resilience);
+        BrewingHandler.addPotionMix("passive_creatures_brewing",
+                () -> new FlagIngredient(Ingredient.fromItems(shell), "crabs"), resilience);
 
         frogType = EntityType.Builder.<FrogEntity>create(FrogEntity::new, EntityClassification.CREATURE)
                 .size(0.65F, 0.5F)

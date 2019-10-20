@@ -9,6 +9,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import vazkii.arl.util.ClientTicker;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.capability.CapabilityHandler;
+import vazkii.quark.base.handler.BrewingHandler;
 import vazkii.quark.base.handler.ContributorRewardHandler;
 import vazkii.quark.base.handler.QuarkSounds;
 import vazkii.quark.base.handler.StonecutterShiftClickHandler;
@@ -41,6 +42,7 @@ public class CommonProxy {
 	
 	public void setup(FMLCommonSetupEvent event) {
 		QuarkNetwork.setup();
+		BrewingHandler.setup();
 		CapabilityHandler.setup();
 		ModuleLoader.INSTANCE.setup();
 		initContributorRewards();

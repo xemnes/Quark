@@ -1,5 +1,10 @@
 package vazkii.quark.base.handler;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.FlowerPotBlock;
+import net.minecraft.util.ResourceLocation;
+import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.base.block.IQuarkBlock;
 import vazkii.quark.base.block.QuarkSlabBlock;
 import vazkii.quark.base.block.QuarkStairsBlock;
@@ -34,6 +39,17 @@ public class VariantHandler {
 	
 	public static void addWall(IQuarkBlock block) {
 		WALLS.add(new QuarkWallBlock(block));
+	}
+
+	public static void addFlowerPot(IQuarkBlock block, Block.Properties properties) {
+		Block potted = new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, block::getBlock, properties);
+		ResourceLocation resLoc = block.getBlock().getRegistryName();
+		if (resLoc == null)
+			resLoc = new ResourceLocation("missingno");
+		String name = "potted_" + resLoc.getPath();
+		ResourceLocation newLoc = new ResourceLocation(resLoc.getNamespace(), name);
+		RegistryHelper.registerBlock(potted, name, false);
+		((FlowerPotBlock)Blocks.FLOWER_POT).addPlant(newLoc, () -> potted);
 	}
 
 }
