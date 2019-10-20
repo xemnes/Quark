@@ -36,7 +36,7 @@ import javax.annotation.Nullable;
 public class GrateBlock extends QuarkBlock implements IWaterLoggable {
 
 	private static final VoxelShape TRUE_SHAPE = makeCuboidShape(0, 15, 0, 16, 16, 16);
-	private static final VoxelShape SPAWN_BLOCK_SHAPE = makeCuboidShape(0, 15, 0, 16, 17, 16);
+	private static final VoxelShape SPAWN_BLOCK_SHAPE = makeCuboidShape(0, 15, 0, 16, 32, 16);
 	private static final VoxelShape SELECTION_SHAPE;
 	private static final Float2ObjectArrayMap<VoxelShape> WALK_BLOCK_CACHE = new Float2ObjectArrayMap<>();
 
@@ -105,7 +105,7 @@ public class GrateBlock extends QuarkBlock implements IWaterLoggable {
 			return TRUE_SHAPE;
 		}
 
-		return TRUE_SHAPE;
+		return SPAWN_BLOCK_SHAPE;
 	}
 
 	@Nullable
