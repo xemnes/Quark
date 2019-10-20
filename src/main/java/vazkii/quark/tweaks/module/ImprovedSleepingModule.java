@@ -18,6 +18,7 @@ import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
 import org.apache.commons.lang3.tuple.Pair;
@@ -103,7 +104,9 @@ public class ImprovedSleepingModule extends Module {
 		for(PlayerEntity player : world.getPlayers())
 			if(doesPlayerCountForSleeping(player)) {
 				String name = player.getGameProfile().getName();
-				if(player.getPersistentData().getBoolean(TAG_JUST_SLEPT)) sleepingPlayers.add(name);
+				long time = world.getGameTime();
+				long lastSleep = player.getPersistentData().getLong(TAG_JUST_SLEPT);
+				if(lastSleep == time || lastSleep - 1 == time) sleepingPlayers.add(name);
 				else nonSleepingPlayers.add(name);
 			}
 
@@ -150,6 +153,13 @@ public class ImprovedSleepingModule extends Module {
 			}
 
 		return Pair.of(legitPlayers, sleepingPlayers);
+	}
+
+	@SubscribeEvent
+	public void onWakeUp(PlayerWakeUpEvent event) {
+		PlayerEntity player = event.getPlayer();
+		if (event.shouldSetSpawn() && !event.updateWorld() && !event.wakeImmediately())
+			player.getPersistentData().putLong(TAG_JUST_SLEPT, player.world.getGameTime());
 	}
 
 	@SubscribeEvent
