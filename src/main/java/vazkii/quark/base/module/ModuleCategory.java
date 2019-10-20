@@ -13,7 +13,8 @@ public enum ModuleCategory {
 	TWEAKS("tweaks"),
 	VANITY("vanity"),
 	WORLD("world"),
-	CLIENT("client");
+	CLIENT("client"),
+	EXPERIMENTAL("experimental");
 	
 	public final String name;
 	
