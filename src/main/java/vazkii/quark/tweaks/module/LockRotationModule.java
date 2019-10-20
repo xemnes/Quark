@@ -28,7 +28,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.InputEvent.KeyInputEvent;
+import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedOutEvent;
@@ -140,7 +140,17 @@ public class LockRotationModule extends Module {
 
 	@SubscribeEvent
 	@OnlyIn(Dist.CLIENT)
-	public void onKeyInput(KeyInputEvent event) {
+	public void onMouseInput(InputEvent.MouseInputEvent event) {
+		acceptInput();
+	}
+
+	@SubscribeEvent
+	@OnlyIn(Dist.CLIENT)
+	public void onKeyInput(InputEvent.KeyInputEvent event) {
+		acceptInput();
+	}
+
+	private void acceptInput() {
 		Minecraft mc = Minecraft.getInstance();
 		boolean down = keybind.isKeyDown();
 		if(mc.isGameFocused() && down) {

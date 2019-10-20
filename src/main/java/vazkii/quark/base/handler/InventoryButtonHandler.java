@@ -69,6 +69,25 @@ public final class InventoryButtonHandler {
 	}
 
 	@SubscribeEvent
+	public static void mouseInputEvent(GuiScreenEvent.MouseClickedEvent.Post pressed) {
+		Screen gui = pressed.getGui();
+		if (gui instanceof ContainerScreen) {
+			ContainerScreen<?> screen = (ContainerScreen<?>) gui;
+
+			Collection<ButtonProviderHolder> holders = forGui(screen);
+
+			for (ButtonProviderHolder holder : holders) {
+				if (holder.keybind != null &&
+						holder.keybind.matchesMouseKey(pressed.getButton()) &&
+						holder.keybind.getKeyModifier().isActive(KeyConflictContext.GUI)) {
+					holder.pressed.accept(screen);
+				}
+			}
+		}
+
+	}
+
+	@SubscribeEvent
 	public static void keyboardInputEvent(GuiScreenEvent.KeyboardKeyPressedEvent.Post pressed) {
 		Screen gui = pressed.getGui();
 		if (gui instanceof ContainerScreen) {

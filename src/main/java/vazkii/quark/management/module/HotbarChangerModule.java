@@ -1,9 +1,6 @@
 package vazkii.quark.management.module;
 
-import org.lwjgl.opengl.GL11;
-
 import com.mojang.blaze3d.platform.GlStateManager;
-
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemRenderer;
@@ -15,12 +12,13 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.InputEvent.KeyInputEvent;
+import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import org.lwjgl.opengl.GL11;
 import vazkii.quark.base.handler.ModKeybindHandler;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
@@ -53,7 +51,17 @@ public class HotbarChangerModule extends Module {
 
 	@SubscribeEvent
 	@OnlyIn(Dist.CLIENT)
-	public void onKeyInput(KeyInputEvent event) {
+	public void onMouseInput(InputEvent.MouseInputEvent event) {
+		acceptInput();
+	}
+
+	@SubscribeEvent
+	@OnlyIn(Dist.CLIENT)
+	public void onKeyInput(InputEvent.KeyInputEvent event) {
+		acceptInput();
+	}
+
+	private void acceptInput() {
 		Minecraft mc = Minecraft.getInstance();
 		boolean down = changeHotbarKey.isKeyDown();
 		boolean wasDown = keyDown;
@@ -72,7 +80,6 @@ public class HotbarChangerModule extends Module {
 
 		}
 	}
-
 	@SubscribeEvent
 	@OnlyIn(Dist.CLIENT)
 	public void hudPre(RenderGameOverlayEvent.Pre event) {
