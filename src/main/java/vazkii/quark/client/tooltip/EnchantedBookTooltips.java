@@ -5,6 +5,8 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screen.EnchantmentScreen;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -70,19 +72,79 @@ public class EnchantedBookTooltips {
 		}
 	}
 
+	private static final ThreadLocal<Enchantment> clueHolder = new ThreadLocal<>();
+	private static final ThreadLocal<Integer> clueLevelHolder = ThreadLocal.withInitial(() -> 0);
+
+	@OnlyIn(Dist.CLIENT)
+	public static List<String> captureEnchantingData(List<String> list, EnchantmentScreen screen, Enchantment enchantment, int level) {
+		ItemStack last = screen.last;
+		if (!last.isEmpty() && last.getItem() == Items.BOOK) {
+			clueHolder.set(enchantment);
+			clueLevelHolder.set(level);
+			if(enchantment != null) {
+				Minecraft mc = Minecraft.getInstance();
+				int tooltipIndex = 0;
+
+				String match = TextFormatting.getTextWithoutFormattingCodes(I18n.format("container.enchant.clue", enchantment.getDisplayName(level).getFormattedText()));
+
+				for(; tooltipIndex < list.size(); tooltipIndex++) {
+					String line = TextFormatting.getTextWithoutFormattingCodes(list.get(tooltipIndex));
+					if (line != null && line.equals(match)) {
+						List<ItemStack> items = getItemsForEnchantment(enchantment);
+						if (!items.isEmpty()) {
+							int len = 3 + items.size() * 9;
+							String spaces = "";
+							while (mc.fontRenderer.getStringWidth(spaces) < len)
+								spaces += " ";
+
+							list.add(tooltipIndex + 1, spaces);
+						}
+
+						break;
+					}
+				}
+			}
+		}
+
+
+		return list;
+	}
+
 	@OnlyIn(Dist.CLIENT)
 	public static void renderTooltip(RenderTooltipEvent.PostText event) {
 		ItemStack stack = event.getStack();
 
-		if(stack.getItem() == Items.ENCHANTED_BOOK || stack.getItem() == AncientTomesModule.ancient_tome) {
-			Minecraft mc = Minecraft.getInstance();
-			List<String> tooltip = event.getLines();
+		Enchantment enchantment = clueHolder.get();
+		int level = clueLevelHolder.get();
 
-			GlStateManager.pushMatrix();
-			GlStateManager.translatef(event.getX(), event.getY() + 12, 0);
-			GlStateManager.scalef(0.5f, 0.5f, 1.0f);
+		GlStateManager.pushMatrix();
+		GlStateManager.translatef(event.getX(), event.getY() + 12, 0);
+		GlStateManager.scalef(0.5f, 0.5f, 1.0f);
+		Minecraft mc = Minecraft.getInstance();
+		List<String> tooltip = event.getLines();
 
+		if (enchantment != null) {
+			clueHolder.remove();
+			clueLevelHolder.remove();
+			String match = TextFormatting.getTextWithoutFormattingCodes(I18n.format("container.enchant.clue", enchantment.getDisplayName(level).getFormattedText()));
+			for(int tooltipIndex = 0; tooltipIndex < tooltip.size(); tooltipIndex++) {
+				String line = TextFormatting.getTextWithoutFormattingCodes(tooltip.get(tooltipIndex));
+				if(line != null && line.equals(match)) {
+					int drawn = 0;
+
+					List<ItemStack> items = getItemsForEnchantment(enchantment);
+					for(ItemStack testStack : items) {
+						mc.getItemRenderer().renderItemIntoGUI(testStack, 6 + drawn * 18, tooltipIndex * 20 - 2);
+						drawn++;
+					}
+
+					break;
+				}
+			}
+
+		} else if(stack.getItem() == Items.ENCHANTED_BOOK || stack.getItem() == AncientTomesModule.ancient_tome) {
 			List<EnchantmentData> enchants = getEnchantedBookEnchantments(stack);
+
 			for(EnchantmentData ed : enchants) {
 				String match = ed.enchantment.getDisplayName(ed.enchantmentLevel).getString();
 				for(int tooltipIndex = 0; tooltipIndex < tooltip.size(); tooltipIndex++) {
@@ -100,8 +162,9 @@ public class EnchantedBookTooltips {
 					}
 				}
 			}
-			GlStateManager.popMatrix();
 		}
+
+		GlStateManager.popMatrix();
 	}
 
 	public static List<ItemStack> getItemsForEnchantment(Enchantment e) {

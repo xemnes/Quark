@@ -2,6 +2,7 @@ package vazkii.quark.base.handler;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.state.PistonBlockStructureHelper;
+import net.minecraft.client.gui.screen.EnchantmentScreen;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
@@ -26,6 +27,7 @@ import vazkii.quark.automation.client.render.PistonTileEntityRenderer;
 import vazkii.quark.automation.module.ChainLinkageModule;
 import vazkii.quark.automation.module.FeedingTroughModule;
 import vazkii.quark.automation.module.PistonsMoveTileEntitiesModule;
+import vazkii.quark.client.tooltip.EnchantedBookTooltips;
 import vazkii.quark.management.entity.ChestPassengerEntity;
 import vazkii.quark.tools.module.PickarangModule;
 import vazkii.quark.tweaks.module.HoeHarvestingModule;
@@ -36,6 +38,8 @@ import vazkii.quark.vanity.client.emote.EmoteHandler;
 import vazkii.quark.vanity.module.ColorRunesModule;
 import vazkii.quark.vanity.module.ItemSharingModule;
 import vazkii.quark.world.entity.CrabEntity;
+
+import java.util.List;
 
 /**
  * @author WireSegal
@@ -208,4 +212,13 @@ public class AsmHooks {
     public static BlockState alterPlacementState(BlockState state, BlockItemUseContext ctx) {
         return LockRotationModule.fixBlockRotation(state, ctx);
     }
+
+	// ==========================================================================
+	// Enchanted Book Tooltips
+	// ==========================================================================
+
+	@OnlyIn(Dist.CLIENT)
+	public static List<String> captureEnchantingData(List<String> list, EnchantmentScreen screen, Enchantment enchantment, int level) {
+		return EnchantedBookTooltips.captureEnchantingData(list, screen, enchantment, level);
+	}
 }
