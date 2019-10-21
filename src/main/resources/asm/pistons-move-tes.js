@@ -61,7 +61,7 @@ function initializeCoreMod() {
         'clear-piston-data': {
             'target': {
                 'type': 'METHOD',
-                'class': 'net.minecraft.block.PistonBlock',
+                'class': 'net.minecraft.tileentity.PistonTileEntity',
                 'methodName': 'func_145866_f', // clearPistonTileEntity
                 'methodDesc': '()V'
             },
