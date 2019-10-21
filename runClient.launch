@@ -8,7 +8,7 @@
 </listAttribute>
 <mapAttribute key="org.eclipse.debug.core.environmentVariables">
 <mapEntry key="FORGE_GROUP" value="net.minecraftforge"/>
-<mapEntry key="FORGE_VERSION" value="28.1.45"/>
+<mapEntry key="FORGE_VERSION" value="28.1.61"/>
 <mapEntry key="MCP_MAPPINGS" value="snapshot_20191014-1.14.3"/>
 <mapEntry key="MCP_VERSION" value="20190829.143755"/>
 <mapEntry key="MC_VERSION" value="1.14.4"/>
@@ -21,6 +21,6 @@
 <stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="org.eclipse.buildship.core.classpathprovider"/>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="net.minecraftforge.userdev.LaunchTesting"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="Quark"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dforge.logging.console.level=debug -XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump &quot;-Dos.name=Windows 10&quot; -Dos.version=10.0"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dforge.logging.console.level=debug -Dforge.logging.markers=SCAN,REGISTRIES,REGISTRYDUMP -XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump &quot;-Dos.name=Windows 10&quot; -Dos.version=10.0"/>
 <stringAttribute key="org.eclipse.jdt.launching.WORKING_DIRECTORY" value="D:\MCPDev\Quark\run"/>
 </launchConfiguration>
