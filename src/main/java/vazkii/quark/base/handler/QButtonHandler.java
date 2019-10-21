@@ -17,7 +17,9 @@ import net.minecraft.util.Util;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.fml.loading.FMLPaths;
 import vazkii.quark.base.Quark;
 
 @EventBusSubscriber(modid = Quark.MOD_ID, value = Dist.CLIENT)
@@ -69,7 +71,7 @@ public class QButtonHandler {
 		}
 		
 		private static void click(Button b) {
-			Util.getOSType().openFile(new File(".", "config/" + Quark.MOD_ID + "-common.toml"));
+			Util.getOSType().openFile(new File(FMLPaths.CONFIGDIR.get().toFile(), Quark.MOD_ID + "-common.toml"));
 		}
 		
 	}
