@@ -17,11 +17,13 @@ public enum ModuleCategory {
 	EXPERIMENTAL("experimental");
 	
 	public final String name;
+	public boolean enabled;
 	
 	private List<Module> ownedModules = new ArrayList<>();
 	
 	ModuleCategory(String name) {
 		this.name = name;
+		this.enabled = true;
 	}
 	
 	public void addModule(Module module) {

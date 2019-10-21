@@ -10,6 +10,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.text.WordUtils;
+
 public class ConfigResolver {
 
 	private final ConfigFlagManager flagManager;
@@ -39,10 +41,22 @@ public class ConfigResolver {
 		}
 		builder.pop();
 		
+		builder.push("categories");
+		buildCategoryList(builder);
+		builder.pop();
+		
 		for(ModuleCategory category : ModuleCategory.values())
 			buildCategory(builder, category);
 		
 		return null;
+	}
+	
+	@SuppressWarnings("deprecation")
+	private void buildCategoryList(ForgeConfigSpec.Builder builder) { 
+		for(ModuleCategory category : ModuleCategory.values()) {
+			ForgeConfigSpec.ConfigValue<Boolean> value = builder.define(WordUtils.capitalizeFully(category.name), true);
+			refreshRunnables.add(() -> category.enabled = value.get());
+		}
 	}
 	
 	private void buildCategory(ForgeConfigSpec.Builder builder, ModuleCategory category) {
@@ -54,7 +68,7 @@ public class ConfigResolver {
 		for(Module module : modules) {
 			ForgeConfigSpec.ConfigValue<Boolean> value = builder.define(module.displayName, module.enabledByDefault);
 			setEnabledRunnables.put(module, () -> {
-				module.setEnabled(value.get());
+				module.setEnabled(value.get() && category.enabled);
 				flagManager.putEnabledFlag(module);
 			});
 		}
