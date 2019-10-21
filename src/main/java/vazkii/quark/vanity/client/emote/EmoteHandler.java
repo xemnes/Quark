@@ -10,7 +10,13 @@
  */
 package vazkii.quark.vanity.client.emote;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.mojang.blaze3d.platform.GlStateManager;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
@@ -27,11 +33,6 @@ import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
 public final class EmoteHandler {
@@ -63,13 +64,15 @@ public final class EmoteHandler {
 		emoteMap.put(reg, desc);
 	}
 
-	public static void putEmote(AbstractClientPlayerEntity player, String emoteName, int tier) {
-		if(emoteMap.containsKey(emoteName)) {
-			putEmote(player, emoteMap.get(emoteName), tier);
+	@OnlyIn(Dist.CLIENT)
+	public static void putEmote(Entity player, String emoteName, int tier) {
+		if(player instanceof AbstractClientPlayerEntity && emoteMap.containsKey(emoteName)) {
+			putEmote((AbstractClientPlayerEntity) player, emoteMap.get(emoteName), tier);
 		}
 	}
 
-	public static void putEmote(AbstractClientPlayerEntity player, EmoteDescriptor desc, int tier) {
+	@OnlyIn(Dist.CLIENT)
+	private static void putEmote(AbstractClientPlayerEntity player, EmoteDescriptor desc, int tier) {
 		String name = player.getGameProfile().getName();
 		if(desc == null)
 			return;
