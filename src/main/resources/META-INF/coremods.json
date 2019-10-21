@@ -12,5 +12,6 @@
   "quark_feeding_trough": "asm/feeding-trough.js",
   "quark_crabs": "asm/crabs.js",
   "quark_chests_in_boats": "asm/chests-in-boats.js",
-  "quark_rotation_lock": "asm/rotation-lock.js"
+  "quark_rotation_lock": "asm/rotation-lock.js",
+  "quark_enchanted_book_tooltips": "asm/enchanted-book-tooltips.js"
 }
