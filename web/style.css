@@ -175,7 +175,7 @@ a:not(.no-external)::after, .show-external::after {
 	background-color: #DDD;
 	width: 6px;
 	height: 6px;
-	border-radius: 3px;
+	border-radius: 100px;
 	transition: opacity 0.5s, margin-top 0.5s;
 }
 
@@ -648,4 +648,234 @@ a:not(.no-external)::after, .show-external::after {
 
 #install-instructions .section-header {
 	margin-top: 15px;
+}
+
+@media (max-device-width: 1000px) {
+  
+	html {
+		font-size: 10px;
+	}
+
+	body {
+		width: 100%;
+		padding: 0;
+	}
+
+	li {
+		font-size: 11px;
+	}
+
+	.content-holder {
+		width: 100%;
+	}
+
+	#header-branding {
+		display: block;
+		text-align: center;
+		margin-bottom: 30px;
+	}
+
+	#header-text {
+		margin-top: 10px;
+		text-align: left;
+		font-size: 60px;
+	}
+
+	#header-icon img {
+		height: 70px;
+		width: 70px;
+	}
+
+	#header-subtitle {
+		display: none;
+	}
+
+	#header-navbar {
+		display: block;
+		float: none;
+		margin-left: 20px;
+		margin-right: 20px;
+		margin-bottom: 40px;
+	}
+
+	.navbar-link {
+		width: calc(25% - 20px);
+		vertical-align: top;
+		padding-top: 15px;
+		font-size: 30px;
+		height: 65px;
+	}
+
+	.navbar-link::after {
+		margin-top: 3px;
+		width: 10px;
+		height: 10px;
+	}
+
+	#big-subtitle {
+		font-size: 14px;
+	}
+
+	#big-branding-background {
+		white-space: nowrap;
+		height: 300px;
+		width: 100%;
+		overflow-x: hidden;
+	}
+
+	#big-branding-background::before {
+		height: 300px;
+	}
+
+	#big-branding-background img {
+		height: 300px;
+		width: 300px;
+	}
+
+	.std-button {
+		height: 90px;
+		padding: 10px;
+		width: 400px;
+	}
+
+	.button-title {
+		font-size: 40px;
+	}
+
+	.button-subtitle {
+		font-size: 25px;
+	}
+
+	#social-strip {
+		margin-top: 70px;
+	}
+
+	#social-strip::before, #social-strip::after {
+		display: none;
+	}
+
+	.social-link {
+		width: calc(20% - 5px);
+		margin-bottom: 30px;
+		font-size: 30px;
+	}
+
+	.main-page-section p {
+		margin-left: 20px;
+		margin-right: 20px;
+		text-align: justify;;
+	}
+
+	.team-name {
+		font-size: 35px;
+	}
+
+	.team-role {
+		font-size: 25px;
+	}
+
+	.spotlight-info {
+		width: calc(100% - 450px);
+	}
+
+	.spotlight-right {
+		margin-top: 0px;
+	}
+
+	.spotlight-header {
+		font-size: 40px;
+	}
+
+	.spotlight-desc {
+		font-size: 33px;
+	}
+
+	.spotlight-image img {
+		width: 400px;
+		height: 400px;
+	}
+
+	.spotlight-right .spotlight-info {
+		vertical-align: top;
+	}
+
+	.button-long {
+		margin-left: 20px;
+		width: calc(100% - 60px);
+		height: 70px;
+	}
+
+	ul {
+		font-size: 13px;
+	}
+
+	#footer {
+		margin-left: 20px;
+		font-size: 30px;
+	}
+
+	.feature-title {
+		font-size: 40px;
+	}
+
+	.feature-header {
+		height: 50px;
+	}
+
+	.feature-expand-button {
+		height: 30px;
+		padding-bottom: 25px;
+	}
+
+	.feature-expand-button .button-title {
+		font-size: 30px;
+	}
+
+	#feature-category-strip {
+		width: auto;
+		white-space: nowrap;
+		overflow-x: scroll;
+	}
+
+	.content-holder {
+		font-size: 11px;
+	}
+
+	.section-header {
+		font-size: 30px;
+	}
+
+	.feature-category {
+		width: 100%;
+	}
+
+	.feature-info {
+		width: calc(100% - 310px);
+	}
+
+	.category-navbar-link {
+		width: 280px;
+	}
+
+	.feature-desc {
+		font-size: 20px;
+	}
+
+	.feature-desc-with-expand {
+		margin-bottom: 100px;
+	}
+
+	.feature-expand {
+		font-size: 30px;
+	}
+
+	.feature-expand .feature-desc-header {
+		font-size: 40px;
+	}
+
+	.feature-expand li {
+		font-size: 30px;
+	}
+
+
 }

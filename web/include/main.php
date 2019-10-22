@@ -10,6 +10,8 @@
     <meta charset="utf-8">
 	<meta name="theme-color" content="#48ddbc">
 
+	<meta name='viewport' content='user-scalable=0' />
+
 	<meta name="twitter:card" content="summary_large_image" />
 	<meta name="twitter:description" content="A Minecraft Java Edition Mod staying in the theme of Vanilla." />
 	<meta name="twitter:title" content="quark" />
@@ -40,9 +42,9 @@
 	</div>
 
 	<div id="main">
-		<div class="content-holder active-holder" data-entry="home">
+		<div class="content-holder active-holder default-page" data-entry="home">
 			<div class="info">
-				You are looking at a beta test of the new website. It's not finished yet, and will look awful on mobile too. Expect things to maybe break, and content to be missing. (We're still filling in the Features secion, please excuse the mess)
+				You are looking at a beta test of the new website. It's not finished yet. Expect things to maybe break, and content to be missing. (We're still filling in the Features secion, please excuse the mess)
 			</div>
 
 			<div id="big-branding">
@@ -179,7 +181,15 @@
 		<div class="content-holder" data-entry="features">
 			<div class="section-header">Features</div>
 			<div class="info">
-				This page shows the list of features available for Quark in Minecraft 1.14.4 and further versions. If you're looking for 1.12.2 or previous, please check the old site in the header.
+				<p>
+					This page shows the list of features available for Quark in Minecraft 1.14.4 and further versions. If you're looking for 1.12.2 or previous, please check the old site in the header.
+				</p>
+			</div>
+
+			<div class="info">
+				<p>
+					If there's any features you don't want in your game, you can turn them off individually! Simply click the <span class="theme-color">q</span> button in your main menu to open the mod's configuration.
+				</p>
 			</div>
 
 			<div id="feature-category-strip">
@@ -225,7 +235,7 @@
 					</div></a>
 
 					<a href="https://www.curseforge.com/minecraft/mc-mods/autoreglib" class="no-external"><div class="std-button button-download-muted">
-						<div class="button-title">Download AutoRegLib</div>
+						<div class="button-title">Download ARL</div>
 						<div class="button-subtitle">(needed for Quark to work)</div>
 					</div></a>
 				</div>
@@ -253,7 +263,7 @@
 								<li>Download the Installer and run it, click OK. This will do a bunch of stuff so wait a bit until it's done.</li>
 								<li>Load up your Minecraft Java Edition Launcher, and run the "forge" Installation it created for you.</li>
 								<li>Click the new "Mods" button in your title screen, and then "Open Mods Folder".</li>
-								<li>Download both Quark and AutoRegLib using the download buttons above.</li>
+								<li>Download both Quark and AutoRegLib (ARL) using the download buttons above.</li>
 									<ul>
 										<li>The Download link on the CurseForge website is in the top right corner.</li>
 									</ul>

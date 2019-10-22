@@ -76,11 +76,13 @@
 					pop();
 				pop();
 
-				div('feature-desc');
+				$has_expand = array_key_exists('expand', $feature);
+
+				div('feature-desc' . ($has_expand ? ' feature-desc-with-expand' : ''));
 					write_desc($feature['desc']);
 				pop();
 
-				if(array_key_exists('expand', $feature)) {
+				if($has_expand) {
 					div('feature-expand');
 						write_desc($feature['expand']);
 					pop();
