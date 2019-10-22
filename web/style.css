@@ -648,19 +648,11 @@ a:not(.no-external)::after, .show-external::after {
 	margin-top: 15px;
 }
 
-@media (max-device-width: 1000px) {
+@media screen and (max-device-width: 1200px) {
   
-	html {
-		font-size: 10px;
-	}
-
 	body {
 		width: 100%;
 		padding: 0;
-	}
-
-	li {
-		font-size: 11px;
 	}
 
 	.content-holder {
