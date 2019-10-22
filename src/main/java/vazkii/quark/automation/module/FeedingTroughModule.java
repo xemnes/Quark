@@ -56,7 +56,7 @@ public class FeedingTroughModule extends Module {
         Set<FeedingTroughTileEntity> troughs = loadedTroughs.get();
         if (event.side == LogicalSide.SERVER) {
             if (event.phase == TickEvent.Phase.START) {
-                breedingPos.remove();
+                breedingOccurred.remove();
                 for (TileEntity tile : event.world.loadedTileEntityList) {
                     if (tile instanceof FeedingTroughTileEntity)
                         troughs.add((FeedingTroughTileEntity) tile);
@@ -67,20 +67,19 @@ public class FeedingTroughModule extends Module {
         }
     }
 
-    private static final ThreadLocal<Vec3d> breedingPos = new ThreadLocal<>();
+    private static final ThreadLocal<Boolean> breedingOccurred = ThreadLocal.withInitial(() -> false);
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onBreed(BabyEntitySpawnEvent event) {
         if (event.getCausedByPlayer() == null && event.getParentA().world.getGameRules().getBoolean(GameRules.DO_MOB_LOOT))
-            breedingPos.set(event.getParentA().getPositionVec());
+            breedingOccurred.set(true);
     }
 
     @SubscribeEvent
     public void onOrbSpawn(EntityJoinWorldEvent event) {
-        if (event.getEntity() instanceof ExperienceOrbEntity &&
-                event.getEntity().getPositionVec().equals(breedingPos.get())) {
+        if (event.getEntity() instanceof ExperienceOrbEntity && breedingOccurred.get()) {
             event.setCanceled(true);
-            breedingPos.remove();
+            breedingOccurred.remove();
         }
     }
 
