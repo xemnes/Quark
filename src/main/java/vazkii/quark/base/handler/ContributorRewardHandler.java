@@ -114,8 +114,6 @@ public class ContributorRewardHandler {
 		if(!allPatrons.isEmpty())
 			featuredPatron = allPatrons.get((int) (Math.random() * allPatrons.size()));
 
-		Quark.LOG.info("Loaded patreon list: " + tiers);
-		
 		doneLoading = true;
 	}
 
