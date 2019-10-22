@@ -179,15 +179,11 @@
 		<div class="content-holder" data-entry="features">
 			<div class="section-header">Features</div>
 			<div class="info">
-				<p>
-					This page shows the list of features available for Quark in Minecraft 1.14.4 and further versions. If you're looking for 1.12.2 or previous, please check the old site in the header.
-				</p>
+				This page shows the list of features available for Quark in Minecraft 1.14.4 and further versions. If you're looking for 1.12.2 or previous, please check the old site in the header.
 			</div>
 
 			<div class="info">
-				<p>
-					If there's any features you don't want in your game, you can turn them off individually! Simply click the <span class="theme-color">q</span> button in your main menu to open the mod's configuration.
-				</p>
+				If there's any features you don't want in your game, you can turn them off individually! Simply click the <span class="theme-color">q</span> button in your main menu to open the mod's configuration.
 			</div>
 
 			<div id="feature-category-strip">

@@ -877,5 +877,19 @@ a:not(.no-external)::after, .show-external::after {
 		font-size: 30px;
 	}
 
+	#btt-holder:not([data-enabled=true]) {
+		margin-top: 200px;
+	}
+
+	#btt-holder {
+		left: calc(50vw - 30px);
+		top: calc(100vh - 160px);
+	}
+
+	#button-btt {
+		height: 60px;
+		border-radius: 100px;
+	}
+
 
 }
