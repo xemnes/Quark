@@ -37,8 +37,6 @@ public class ContributorRewardHandler {
 
 	private static final Map<String, Integer> tiers = new HashMap<>();
 
-	private static Properties patreonTiers;
-
 	public static int localPatronTier = 0;
 	public static String featuredPatron = "";
 
@@ -115,6 +113,8 @@ public class ContributorRewardHandler {
 		
 		if(!allPatrons.isEmpty())
 			featuredPatron = allPatrons.get((int) (Math.random() * allPatrons.size()));
+
+		Quark.LOG.info("Loaded patreon list: " + tiers);
 		
 		doneLoading = true;
 	}
@@ -131,7 +131,7 @@ public class ContributorRewardHandler {
 		public void run() {
 			try {
 				URL url = new URL("https://raw.githubusercontent.com/Vazkii/Quark/master/contributors.properties");
-				patreonTiers = new Properties();
+				Properties patreonTiers = new Properties();
 				try (InputStreamReader reader = new InputStreamReader(url.openStream())) {
 					patreonTiers.load(reader);
 					load(patreonTiers);

@@ -10,13 +10,7 @@
  */
 package vazkii.quark.vanity.client.emote;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.mojang.blaze3d.platform.GlStateManager;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
@@ -33,6 +27,11 @@ import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
 public final class EmoteHandler {
