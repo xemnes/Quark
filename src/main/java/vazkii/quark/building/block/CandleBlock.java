@@ -29,7 +29,7 @@ public class CandleBlock extends QuarkBlock {
 	
 	public CandleBlock(String regname, Module module, DyeColor color) {
 		super(regname, module, ItemGroup.DECORATIONS, 
-				Block.Properties.create(Material.CLAY, color.getMapColor())
+				Block.Properties.create(Material.MISCELLANEOUS, color.getMapColor())
 				.hardnessAndResistance(0.2F)
 				.lightValue(14)
 				.sound(SoundType.CLOTH));
