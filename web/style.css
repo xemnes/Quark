@@ -627,7 +627,7 @@ a:not(.no-external)::after, .show-external::after {
 }
 
 .info::before {
-	content: '🛈';
+	content: 'ⓘ';
 }
 
 .download-holder {
@@ -858,7 +858,7 @@ a:not(.no-external)::after, .show-external::after {
 	}
 
 	.feature-desc {
-		font-size: 20px;
+		font-size: 21px;
 	}
 
 	.feature-desc-with-expand {

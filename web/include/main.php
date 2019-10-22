@@ -8,8 +8,6 @@
 	<title>quark</title>
 
     <meta charset="utf-8">
-	<meta name="theme-color" content="#48ddbc">
-
 	<meta name='viewport' content='user-scalable=0' />
 
 	<meta name="twitter:card" content="summary_large_image" />
