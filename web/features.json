@@ -34,7 +34,7 @@
             "versions": "1.14+",
             "desc": [
                 "Dispensers are allowed to place blocks in the world. Any blocks that already had a placement behaviour, like TNT, are ignored.",
-                "The blocks are rotated so they're placed forward from the dispenser. Note that crops such as Wheat Seeds or Potatoes also co"
+                "The blocks are rotated so they're placed forward from the dispenser. Note that crops such as Wheat Seeds or Potatoes also count."
             ]
         },
         {

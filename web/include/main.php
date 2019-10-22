@@ -309,7 +309,7 @@
 
 	<div id="btt-holder">
 		<div id="button-btt", class="std-button">
-			<div class="button-title">&#x1f879;</div>
+			<div class="button-title">&#x25B2;</div>
 		</div>
 	</div>
 
