@@ -2,16 +2,24 @@ package vazkii.quark.world.block;
 
 import java.util.Locale;
 
+import javax.annotation.Nonnull;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.IWaterLoggable;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
+import net.minecraft.fluid.Fluids;
+import net.minecraft.fluid.IFluidState;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.pathfinding.PathType;
+import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer.Builder;
+import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
@@ -22,15 +30,18 @@ import net.minecraft.world.World;
 import vazkii.quark.base.block.QuarkBlock;
 import vazkii.quark.base.module.Module;
 
-public class SpeleothemBlock extends QuarkBlock {
+public class SpeleothemBlock extends QuarkBlock implements IWaterLoggable {
 
 	public static final EnumProperty<SpeleothemSize> SIZE = EnumProperty.create("size", SpeleothemSize.class);
-
+	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
+	
 	public SpeleothemBlock(String name, Module module, MaterialColor color, boolean weak) {
 		super(name + "_speleothem", module, ItemGroup.DECORATIONS, 
 				Block.Properties.create(Material.ROCK, color)
 				.hardnessAndResistance(weak ? 0.4F : 1.5F)
 				.sound(SoundType.STONE));
+		
+		setDefaultState(getDefaultState().with(SIZE, SpeleothemSize.BIG).with(WATERLOGGED, false));
 	}
 
 	@Override
@@ -41,10 +52,16 @@ public class SpeleothemBlock extends QuarkBlock {
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
 		SpeleothemSize size = SpeleothemSize.values()[Math.max(0, getBearing(context.getWorld(), context.getPos()) - 1)];
-		return getDefaultState().with(SIZE, size);
+		return getDefaultState().with(SIZE, size).with(WATERLOGGED, context.getWorld().getFluidState(context.getPos()).getFluid() == Fluids.WATER);
 	}
-
+	
+	@Nonnull
 	@Override
+	@SuppressWarnings("deprecation")
+	public IFluidState getFluidState(BlockState state) {
+		return state.get(WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
+	}
+	
 	public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving) {
 		int size = state.get(SIZE).strength;
 		if(getBearing(worldIn, pos) < size + 1)
@@ -52,8 +69,8 @@ public class SpeleothemBlock extends QuarkBlock {
 	}
 
 	@Override
-	public boolean allowsMovement(BlockState state, IBlockReader worldIn, BlockPos pos, PathType type) {
-		return false;
+	public boolean allowsMovement(@Nonnull BlockState state, @Nonnull IBlockReader worldIn, @Nonnull BlockPos pos, PathType type) {
+		return type == PathType.WATER && worldIn.getFluidState(pos).isTagged(FluidTags.WATER); 
 	}
 	
 	private int getBearing(IWorldReader world, BlockPos pos) {
@@ -83,7 +100,7 @@ public class SpeleothemBlock extends QuarkBlock {
 
 	@Override
 	protected void fillStateContainer(Builder<Block, BlockState> builder) {
-		builder.add(SIZE);
+		builder.add(SIZE, WATERLOGGED);
 	}
 	
 	public enum SpeleothemSize implements IStringSerializable {
