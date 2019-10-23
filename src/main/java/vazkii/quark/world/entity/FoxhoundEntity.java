@@ -299,6 +299,11 @@ public class FoxhoundEntity extends WolfEntity implements IMob {
 			return light <= rand.nextInt(8);
 		}
 	}
+	
+	@Override
+	public boolean canSpawn(IWorld world, SpawnReason reason) {
+		return true;
+	}
 
 	public static boolean spawnPredicate(EntityType<? extends FoxhoundEntity> type, IWorld world, SpawnReason reason, BlockPos pos, Random rand) {
 		return world.getDifficulty() != Difficulty.PEACEFUL && canSpawnHere(world, pos, rand) && func_223315_a(type, world, reason, pos, rand); // func_223315_a = spawnPredicate
