@@ -10,10 +10,14 @@
  */
 package vazkii.quark.tweaks.module;
 
+import java.util.List;
+import java.util.Map;
+
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -24,6 +28,7 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.HoeItem;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.ActionResultType;
@@ -42,9 +47,6 @@ import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
 import vazkii.quark.base.network.QuarkNetwork;
 import vazkii.quark.base.network.message.HarvestMessage;
-
-import java.util.List;
-import java.util.Map;
 
 @LoadModule(category = ModuleCategory.TWEAKS, hasSubscriptions = true)
 public class SimpleHarvestModule extends Module {
@@ -137,7 +139,6 @@ public class SimpleHarvestModule extends Module {
 				EnchantmentHelper.getEnchantmentLevel(Enchantments.FORTUNE, mainHand) : 0;
 		fortune--; // Simulate the crop dropping one less seed
 
-
 		ItemStack copy = mainHand.copy();
 		if (copy.isEmpty())
 			copy = new ItemStack(Items.STICK);
@@ -147,7 +148,15 @@ public class SimpleHarvestModule extends Module {
 		EnchantmentHelper.setEnchantments(enchMap, copy);
 
 		if (world instanceof ServerWorld) {
-			Block.spawnDrops(inWorld, world, pos, world.getTileEntity(pos), player, copy);
+			Item blockItem = inWorld.getBlock().asItem();
+	        Block.getDrops(inWorld, (ServerWorld) world, pos, world.getTileEntity(pos), player, copy).forEach((stack) -> {
+	        	if(stack.getItem() == blockItem)
+	        		stack.shrink(1);
+	        	
+	        	if(!stack.isEmpty())
+	        		Block.spawnAsEntity(world, pos, stack);
+	        });
+	        inWorld.spawnAdditionalDrops(world, pos, copy);
 
 			if (!world.isRemote) {
 				world.playEvent(2001, pos, Block.getStateId(newBlock));
