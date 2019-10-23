@@ -2,6 +2,6 @@ package vazkii.quark.base.module;
 
 public interface IConfigType {
 
-	default void onReload() { }
+	default void onReload(ConfigFlagManager flagManager) { }
 	
 }

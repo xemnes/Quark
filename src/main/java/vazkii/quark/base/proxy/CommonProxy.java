@@ -16,6 +16,7 @@ import vazkii.quark.base.handler.StonecutterShiftClickHandler;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.base.network.QuarkNetwork;
 import vazkii.quark.base.recipe.ExclusionRecipe;
+import vazkii.quark.base.world.EntitySpawnHandler;
 import vazkii.quark.base.world.WorldGenHandler;
 
 import java.util.function.BooleanSupplier;
@@ -44,6 +45,7 @@ public class CommonProxy {
 		QuarkNetwork.setup();
 		BrewingHandler.setup();
 		CapabilityHandler.setup();
+		EntitySpawnHandler.refresh();
 		ModuleLoader.INSTANCE.setup();
 		initContributorRewards();
 	}
@@ -57,6 +59,7 @@ public class CommonProxy {
 		if(event.getConfig().getModId().equals(Quark.MOD_ID) && ClientTicker.ticksInGame - lastConfigChange > 10) { 
 			lastConfigChange = ClientTicker.ticksInGame;
 			handleQuarkConfigChange();
+			EntitySpawnHandler.refresh();
 			StonecutterShiftClickHandler.configReload();
 		}
 	}

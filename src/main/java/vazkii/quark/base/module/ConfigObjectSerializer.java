@@ -97,7 +97,7 @@ public final class ConfigObjectSerializer {
 			
 			builder.push(name);
 			serialize(builder, flagManager, callbacks, defaultValue);
-			callbacks.add(((IConfigType) defaultValue)::onReload);
+			callbacks.add(() -> ((IConfigType) defaultValue).onReload(flagManager));
 			builder.pop();
 			
 			return;

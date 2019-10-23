@@ -234,7 +234,7 @@ public class StonelingEntity extends CreatureEntity {
 		dataManager.set(HOLD_ANGLE, world.getRandom().nextFloat() * 90 - 45);
 
 		if(!isTame && !world.isRemote() && world instanceof IForgeWorldServer) {
-			if (ModuleLoader.INSTANCE.isModuleEnabled(PassiveCreaturesModule.class) && PassiveCreaturesModule.enableFrogs && rand.nextDouble() < 0.01) {
+			if (ModuleLoader.INSTANCE.isModuleEnabled(PassiveCreaturesModule.class) && PassiveCreaturesModule.frogConfig.enabled && rand.nextDouble() < 0.01) {
 				FrogEntity frog = new FrogEntity(PassiveCreaturesModule.frogType, world.getWorld(), 0.25f);
 				frog.setPosition(posX, posY, posZ);
 				world.addEntity(frog);

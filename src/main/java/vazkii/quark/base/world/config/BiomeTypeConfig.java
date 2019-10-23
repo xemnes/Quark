@@ -3,6 +3,7 @@ package vazkii.quark.base.world.config;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
 import vazkii.quark.base.module.Config;
+import vazkii.quark.base.module.ConfigFlagManager;
 import vazkii.quark.base.module.IConfigType;
 
 import java.util.Arrays;
@@ -40,7 +41,7 @@ public class BiomeTypeConfig implements IConfigType {
 
 	public boolean canSpawn(Biome b) {
 		if (types == null)
-			onReload();
+			updateTypes();
 
 		Set<BiomeDictionary.Type> currentTypes = BiomeDictionary.getTypes(b);
 
@@ -52,7 +53,11 @@ public class BiomeTypeConfig implements IConfigType {
 	}
 
 	@Override
-	public void onReload() {
+	public void onReload(ConfigFlagManager flagManager) {
+		updateTypes();
+	}
+	
+	public void updateTypes() {
 		types = new LinkedList<>();
 		for (String s : typeStrings) {
 			BiomeDictionary.Type type = BiomeDictionary.Type.getType(s);
