@@ -1,15 +1,15 @@
 package vazkii.quark.base.world.config;
 
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
 import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.ConfigFlagManager;
 import vazkii.quark.base.module.IConfigType;
-
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
 
 public class BiomeTypeConfig implements IConfigType {
 
@@ -38,7 +38,7 @@ public class BiomeTypeConfig implements IConfigType {
 		typeStrings = new LinkedList<>();
 		typeStrings.addAll(Arrays.asList(types));
 	}
-
+	
 	public boolean canSpawn(Biome b) {
 		if (types == null)
 			updateTypes();

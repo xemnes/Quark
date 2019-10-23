@@ -177,6 +177,7 @@ public class CrabModel extends EntityModel<CrabEntity> {
 
 		GlStateManager.translated(0, 1.5 - sizeModifier * 1.5, 0);
 		GlStateManager.scalef(sizeModifier, sizeModifier, sizeModifier);
+		GlStateManager.rotatef(90F, 0F, 1F, 0F);
 		group.render(scaleFactor);
 		GlStateManager.popMatrix();
 	}

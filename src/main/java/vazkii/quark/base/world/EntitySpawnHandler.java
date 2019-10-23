@@ -30,8 +30,10 @@ public class EntitySpawnHandler {
         trackedSpawnConfigs.add(new TrackedSpawnConfig(entityType, classification, config));
 	}
 	
-	public static void addEgg(Module module, EntityType<?> entityType, int color1, int color2, EntitySpawnConfig config) {
-		new QuarkSpawnEggItem(entityType, color1,  color2, entityType.getRegistryName().getPath() + "_spawn_egg", module, new Item.Properties().group(ItemGroup.MISC)).setCondition(() -> config.enabled);
+	public static void addEgg(EntityType<?> entityType, int color1, int color2, EntitySpawnConfig config) {
+		new QuarkSpawnEggItem(entityType, color1,  color2, entityType.getRegistryName().getPath() + "_spawn_egg", config.module, 
+				new Item.Properties().group(ItemGroup.MISC))
+				.setCondition(() -> config.isEnabled());
 	}
 	
 	public static void refresh() {

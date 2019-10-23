@@ -29,7 +29,7 @@ import vazkii.quark.base.module.ModuleCategory;
 import vazkii.quark.base.recipe.FlagIngredient;
 import vazkii.quark.base.world.EntitySpawnHandler;
 import vazkii.quark.base.world.config.BiomeTypeConfig;
-import vazkii.quark.base.world.config.EntitySpawnConfig;
+import vazkii.quark.base.world.config.ConditionalEntitySpawnConfig;
 import vazkii.quark.world.client.render.CrabRenderer;
 import vazkii.quark.world.client.render.FrogRenderer;
 import vazkii.quark.world.entity.CrabEntity;
@@ -45,10 +45,10 @@ public class PassiveCreaturesModule extends Module {
 	public static EntityType<CrabEntity> crabType;
 
 	@Config(name = "frogs")
-	public static EntitySpawnConfig frogConfig = new EntitySpawnConfig("frogs", 40, 1, 3, new BiomeTypeConfig(false, BiomeDictionary.Type.SWAMP));
+	public static ConditionalEntitySpawnConfig frogConfig = new ConditionalEntitySpawnConfig("frogs", 40, 1, 3, new BiomeTypeConfig(false, BiomeDictionary.Type.SWAMP));
 
 	@Config(name = "crabs")
-	public static EntitySpawnConfig crabConfig = new EntitySpawnConfig("crabs", 40, 1, 3, new BiomeTypeConfig(false, BiomeDictionary.Type.BEACH));
+	public static ConditionalEntitySpawnConfig crabConfig = new ConditionalEntitySpawnConfig("crabs", 40, 1, 3, new BiomeTypeConfig(false, BiomeDictionary.Type.BEACH));
 
 	@Config(flag = "passive_creatures_brewing")
 	public static boolean enableBrewing = true;
@@ -125,7 +125,7 @@ public class PassiveCreaturesModule extends Module {
 				.build("frog");
 		RegistryHelper.register(frogType, "frog");
 		EntitySpawnHandler.registerSpawn(this, frogType, EntityClassification.CREATURE, PlacementType.ON_GROUND, Type.MOTION_BLOCKING_NO_LEAVES, AnimalEntity::func_223316_b, frogConfig);
-		EntitySpawnHandler.addEgg(this, frogType, 0xbc9869, 0xffe6ad, frogConfig);
+		EntitySpawnHandler.addEgg(frogType, 0xbc9869, 0xffe6ad, frogConfig);
 
 		crabType = EntityType.Builder.<CrabEntity>create(CrabEntity::new, EntityClassification.CREATURE)
 				.size(0.9F, 0.5F)
@@ -136,7 +136,7 @@ public class PassiveCreaturesModule extends Module {
 				.build("crab");
 		RegistryHelper.register(crabType, "crab");
 		EntitySpawnHandler.registerSpawn(this, crabType, EntityClassification.CREATURE, PlacementType.ON_GROUND, Type.MOTION_BLOCKING_NO_LEAVES, CrabEntity::spawnPredicate, crabConfig);
-		EntitySpawnHandler.addEgg(this, crabType, 0x893c22, 0x916548, crabConfig);
+		EntitySpawnHandler.addEgg(crabType, 0x893c22, 0x916548, crabConfig);
 	}
 
 	@Override

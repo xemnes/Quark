@@ -10,6 +10,8 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.Heightmap.Type;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.BiomeDictionary;
+import net.minecraftforge.common.BiomeManager.BiomeType;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
@@ -19,7 +21,10 @@ import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
+import vazkii.quark.base.world.EntitySpawnHandler;
+import vazkii.quark.base.world.config.BiomeTypeConfig;
 import vazkii.quark.base.world.config.DimensionConfig;
+import vazkii.quark.base.world.config.EntitySpawnConfig;
 import vazkii.quark.world.client.render.StonelingRenderer;
 import vazkii.quark.world.entity.StonelingEntity;
 import vazkii.quark.world.item.DiamondHeartItem;
@@ -28,14 +33,12 @@ import vazkii.quark.world.item.DiamondHeartItem;
 public class StonelingsModule extends Module {
 	public static EntityType<StonelingEntity> stonelingType;
 
-	private static Biome.SpawnListEntry spawnEntry;
-
 	@Config
 	public static int maxYLevel = 24;
 	@Config
-	public static int weight = 80;
-	@Config
 	public static DimensionConfig dimensions = DimensionConfig.overworld(true);
+	@Config 
+	public static EntitySpawnConfig spawnConfig = new EntitySpawnConfig(80, 1, 1, new BiomeTypeConfig(true, BiomeDictionary.Type.VOID));
 	@Config(flag = "stoneling_drop_diamond_heart")
 	public static boolean enableDiamondHeart = true;
 	@Config
@@ -49,7 +52,6 @@ public class StonelingsModule extends Module {
 	public void construct() {
 		diamondHeart = new DiamondHeartItem("diamond_heart", this, new Item.Properties().group(ItemGroup.MISC));
 
-
 		stonelingType = EntityType.Builder.create(StonelingEntity::new, EntityClassification.CREATURE)
 				.size(0.5F, 0.9F)
 				.setTrackingRange(80)
@@ -59,16 +61,8 @@ public class StonelingsModule extends Module {
 				.build("stoneling");
 		RegistryHelper.register(stonelingType, "stoneling");
 
-		new QuarkSpawnEggItem(stonelingType, 0xA1A1A1, 0x505050, "stoneling_spawn_egg", this, new Item.Properties().group(ItemGroup.MISC));
-
-		spawnEntry = new Biome.SpawnListEntry(stonelingType, weight, 1, 1);
-		EntitySpawnPlacementRegistry.register(stonelingType, PlacementType.ON_GROUND, Type.MOTION_BLOCKING_NO_LEAVES, StonelingEntity::spawnPredicate);
-	}
-
-	@SubscribeEvent
-	public void allowSpawn(WorldEvent.PotentialSpawns event) {
-		if (event.getType() == EntityClassification.MONSTER && !event.getList().isEmpty())
-			event.getList().add(spawnEntry);
+		EntitySpawnHandler.registerSpawn(this, stonelingType, EntityClassification.MONSTER, PlacementType.ON_GROUND, Type.MOTION_BLOCKING_NO_LEAVES, StonelingEntity::spawnPredicate, spawnConfig);
+		EntitySpawnHandler.addEgg(stonelingType, 0xA1A1A1, 0x505050, spawnConfig);
 	}
 
 	@Override
