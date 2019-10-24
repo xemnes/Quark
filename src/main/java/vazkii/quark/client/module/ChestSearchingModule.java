@@ -209,19 +209,21 @@ public class ChestSearchingModule extends Module {
 		ResourceLocation res = item.getRegistryName();
 		if(SimilarBlockTypeHandler.isShulkerBox(res)) {
 			CompoundNBT cmp = ItemNBTHelper.getCompound(stack, "BlockEntityTag", true);
-			if (!cmp.contains("id", Constants.NBT.TAG_STRING)) {
-				cmp = cmp.copy();
-				cmp.putString("id", "minecraft:shulker_box");
-			}
-			TileEntity te = TileEntity.create(cmp);
-			if (te != null) {
-				LazyOptional<IItemHandler> handler = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
-				if (handler.isPresent()) {
-					IItemHandler items = handler.orElseGet(EmptyHandler::new);
+			if (cmp != null) {
+				if (!cmp.contains("id", Constants.NBT.TAG_STRING)) {
+					cmp = cmp.copy();
+					cmp.putString("id", "minecraft:shulker_box");
+				}
+				TileEntity te = TileEntity.create(cmp);
+				if (te != null) {
+					LazyOptional<IItemHandler> handler = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+					if (handler.isPresent()) {
+						IItemHandler items = handler.orElseGet(EmptyHandler::new);
 
-					for (int i = 0; i < items.getSlots(); i++)
-						if (namesMatch(items.getStackInSlot(i), search))
-							return true;
+						for (int i = 0; i < items.getSlots(); i++)
+							if (namesMatch(items.getStackInSlot(i), search))
+								return true;
+					}
 				}
 			}
 		}
