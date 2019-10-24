@@ -29,6 +29,7 @@ import vazkii.quark.automation.module.FeedingTroughModule;
 import vazkii.quark.automation.module.PistonsMoveTileEntitiesModule;
 import vazkii.quark.client.tooltip.EnchantedBookTooltips;
 import vazkii.quark.management.entity.ChestPassengerEntity;
+import vazkii.quark.tools.module.AncientTomesModule;
 import vazkii.quark.tools.module.PickarangModule;
 import vazkii.quark.tweaks.module.HoeHarvestingModule;
 import vazkii.quark.tweaks.module.ImprovedSleepingModule;
@@ -40,6 +41,7 @@ import vazkii.quark.vanity.module.ItemSharingModule;
 import vazkii.quark.world.entity.CrabEntity;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author WireSegal
@@ -220,5 +222,9 @@ public class AsmHooks {
 	@OnlyIn(Dist.CLIENT)
 	public static List<String> captureEnchantingData(List<String> list, EnchantmentScreen screen, Enchantment enchantment, int level) {
 		return EnchantedBookTooltips.captureEnchantingData(list, screen, enchantment, level);
+	}
+
+	public static Map<Enchantment, Integer> getAncientTomeEnchantments(ItemStack stack) {
+		return AncientTomesModule.getTomeEnchantments(stack);
 	}
 }

@@ -162,6 +162,9 @@ public class AncientTomesModule extends Module {
 		Map<Enchantment, Integer> enchantsBook = EnchantmentHelper.getEnchantments(book);
 		Map<Enchantment, Integer> enchantsTome = getTomeEnchantments(tome);
 
+		if (enchantsTome == null)
+			return;
+
 		for (Map.Entry<Enchantment, Integer> entry : enchantsTome.entrySet()) {
 			if(enchantsBook.getOrDefault(entry.getKey(), 0).equals(entry.getValue()))
 				enchantsBook.put(entry.getKey(), Math.min(entry.getValue(), entry.getKey().getMaxLevel()) + 1);
@@ -220,6 +223,9 @@ public class AncientTomesModule extends Module {
 	}
 
 	public static Map<Enchantment, Integer> getTomeEnchantments(ItemStack stack) {
+		if (stack.getItem() != ancient_tome)
+			return null;
+
 		Map<Enchantment, Integer> map = Maps.newLinkedHashMap();
 		ListNBT listnbt = EnchantedBookItem.getEnchantments(stack);
 
