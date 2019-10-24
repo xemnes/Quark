@@ -128,6 +128,8 @@ public class AttributeTooltips {
 
                 if (baseCheck == null)
                     baseCheck = slotAttributes;
+                else if (slot == null)
+                    allAreSame = false;
                 else if (allAreSame && !slotAttributes.equals(baseCheck))
                     allAreSame = false;
 
