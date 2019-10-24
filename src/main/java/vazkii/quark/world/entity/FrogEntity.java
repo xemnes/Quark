@@ -49,7 +49,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.network.NetworkHooks;
-import vazkii.quark.base.handler.EntityOpacityHandler;
+import vazkii.quark.base.handler.MiscUtil;
 import vazkii.quark.base.handler.QuarkSounds;
 import vazkii.quark.world.ai.FavorBlockGoal;
 import vazkii.quark.world.ai.PassivePassengerGoal;
@@ -143,7 +143,7 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 
 	@Override
 	public boolean isEntityInsideOpaqueBlock() {
-		return EntityOpacityHandler.isEntityInsideOpaqueBlock(this);
+		return MiscUtil.isEntityInsideOpaqueBlock(this);
 	}
 
 	public int getTalkTime() {

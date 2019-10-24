@@ -1,11 +1,13 @@
 package vazkii.quark.base.handler;
 
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.storage.loot.LootEntry;
@@ -100,6 +102,11 @@ public class MiscUtil {
 		double yaw = Math.asin(direction.x / Math.cos(pitch));
 
 		return new Vec2f((float) (pitch * 180 / Math.PI), (float) (-yaw * 180 / Math.PI));
+	}
+	
+	public static boolean isEntityInsideOpaqueBlock(Entity entity) {
+		BlockPos pos = entity.getPosition();
+		return !entity.noClip && entity.world.getBlockState(pos).causesSuffocation(entity.world, pos);
 	}
 
 }

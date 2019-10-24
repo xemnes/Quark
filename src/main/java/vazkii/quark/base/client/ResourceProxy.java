@@ -1,4 +1,4 @@
-package vazkii.quark.base.handler;
+package vazkii.quark.base.client;
 
 import java.io.File;
 import java.io.IOException;

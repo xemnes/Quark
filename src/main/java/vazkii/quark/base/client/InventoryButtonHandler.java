@@ -1,4 +1,4 @@
-package vazkii.quark.base.handler;
+package vazkii.quark.base.client;
 
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
@@ -16,6 +16,8 @@ import net.minecraftforge.client.settings.KeyConflictContext;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import vazkii.quark.base.Quark;
+import vazkii.quark.base.handler.GeneralConfig;
+import vazkii.quark.base.handler.InventoryTransferHandler;
 import vazkii.quark.base.module.Module;
 
 import javax.annotation.Nonnull;

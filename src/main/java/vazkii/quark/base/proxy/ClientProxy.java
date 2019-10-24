@@ -16,8 +16,8 @@ import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.resource.ReloadRequirements;
 import net.minecraftforge.resource.SelectiveReloadStateHandler;
 import net.minecraftforge.resource.VanillaResourceType;
+import vazkii.quark.base.client.ResourceProxy;
 import vazkii.quark.base.handler.ContributorRewardHandler;
-import vazkii.quark.base.handler.ResourceProxy;
 import vazkii.quark.base.module.ModuleLoader;
 
 import java.util.List;

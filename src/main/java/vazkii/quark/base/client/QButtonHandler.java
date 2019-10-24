@@ -1,4 +1,4 @@
-package vazkii.quark.base.handler;
+package vazkii.quark.base.client;
 
 import java.io.File;
 import java.util.List;
@@ -17,10 +17,13 @@ import net.minecraft.util.Util;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.loading.FMLPaths;
 import vazkii.quark.base.Quark;
+import vazkii.quark.base.client.screen.QButtonInfoScreen;
+import vazkii.quark.base.handler.ContributorRewardHandler;
+import vazkii.quark.base.handler.GeneralConfig;
+import vazkii.quark.base.handler.MiscUtil;
 
 @EventBusSubscriber(modid = Quark.MOD_ID, value = Dist.CLIENT)
 public class QButtonHandler {
@@ -42,6 +45,13 @@ public class QButtonHandler {
 					return;
 				}
 		}
+	}
+	
+	
+	public static void openFile() {
+		File f = new File(FMLPaths.CONFIGDIR.get().toFile(), Quark.MOD_ID + "-common.toml");
+		Quark.LOG.info("Opening Quark Config File: " + f.getAbsolutePath());
+		Util.getOSType().openFile(f);
 	}
 	
 	private static class QButton extends Button {
@@ -70,8 +80,8 @@ public class QButtonHandler {
 			}
 		}
 		
-		private static void click(Button b) {
-			Util.getOSType().openFile(new File(FMLPaths.CONFIGDIR.get().toFile(), Quark.MOD_ID + "-common.toml"));
+		public static void click(Button b) {
+			Minecraft.getInstance().displayGuiScreen(new QButtonInfoScreen(Minecraft.getInstance().currentScreen));
 		}
 		
 	}

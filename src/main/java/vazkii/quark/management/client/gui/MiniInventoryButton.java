@@ -6,8 +6,8 @@ import net.minecraft.client.gui.recipebook.IRecipeShownListener;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.resources.I18n;
+import vazkii.quark.base.client.TopLayerTooltipHandler;
 import vazkii.quark.base.handler.MiscUtil;
-import vazkii.quark.base.handler.TopLayerTooltipHandler;
 
 import java.util.LinkedList;
 import java.util.List;

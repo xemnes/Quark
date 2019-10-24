@@ -10,8 +10,31 @@
  */
 package vazkii.quark.world.entity;
 
-import net.minecraft.entity.*;
-import net.minecraft.entity.ai.goal.*;
+import java.util.List;
+import java.util.Random;
+import java.util.UUID;
+
+import javax.annotation.Nonnull;
+
+import net.minecraft.entity.AgeableEntity;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.ai.goal.BegGoal;
+import net.minecraft.entity.ai.goal.BreedGoal;
+import net.minecraft.entity.ai.goal.FollowOwnerGoal;
+import net.minecraft.entity.ai.goal.HurtByTargetGoal;
+import net.minecraft.entity.ai.goal.LeapAtTargetGoal;
+import net.minecraft.entity.ai.goal.LookAtGoal;
+import net.minecraft.entity.ai.goal.LookRandomlyGoal;
+import net.minecraft.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
+import net.minecraft.entity.ai.goal.NonTamedTargetGoal;
+import net.minecraft.entity.ai.goal.OwnerHurtTargetGoal;
+import net.minecraft.entity.ai.goal.SitGoal;
+import net.minecraft.entity.ai.goal.SwimGoal;
+import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
 import net.minecraft.entity.monster.AbstractSkeletonEntity;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.AnimalEntity;
@@ -43,16 +66,11 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.LightType;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
-import vazkii.quark.base.handler.EntityOpacityHandler;
+import vazkii.quark.base.handler.MiscUtil;
 import vazkii.quark.tweaks.ai.WantLoveGoal;
 import vazkii.quark.world.ai.FindPlaceToSleepGoal;
 import vazkii.quark.world.ai.SleepGoal;
 import vazkii.quark.world.module.FoxhoundModule;
-
-import javax.annotation.Nonnull;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
 
 public class FoxhoundEntity extends WolfEntity implements IMob {
 
@@ -86,7 +104,7 @@ public class FoxhoundEntity extends WolfEntity implements IMob {
 
 	@Override
 	public boolean isEntityInsideOpaqueBlock() {
-		return EntityOpacityHandler.isEntityInsideOpaqueBlock(this);
+		return MiscUtil.isEntityInsideOpaqueBlock(this);
 	}
 
 	@Override
