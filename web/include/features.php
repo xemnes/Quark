@@ -135,6 +135,9 @@
 				}
 			}
 		}
+
+		if($list)
+			pop();
 	}
 
 	function cmp_features($f1, $f2) {

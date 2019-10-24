@@ -25,36 +25,22 @@ $(function() {
 $(window).scroll(updateBtt);
 
 $('.data-entry-changer').click(function() {
-	if(transitioning)
-		return;
-
 	var newEntry = $(this).attr('data-entry')
 	var changed = newEntry != selectedEntry;
 
-	transitioning = true;
-
-	var top = window.pageYOffset || document.documentElement.scrollTop;
-	$("html, body").animate({ scrollTop: 0 }, Math.min(top, 500), function() {
+	scrollTo(0, function() {
 		selectedEntry = newEntry;
-		updateEntry(changed, true);	
-		transitioning = false;
+		updateEntry(changed, true);
 	});
 });
 
 $('.data-category-changer').click(function() {
-	if(transitioning)
-		return;
-
 	var newCategory = $(this).attr('data-category')
 	var changed = newCategory != selectedCategory;
 
-	transitioning = true;
-
-	var top = window.pageYOffset || document.documentElement.scrollTop;
-	$("html, body").animate({ scrollTop: 0 }, Math.min(top, 500), function() {
+	scrollTo($('#feature-category-strip').offset().top - 5, function() {
 		selectedCategory = newCategory;
 		updateCategory(changed);	
-		transitioning = false;
 	});
 });
 
@@ -65,6 +51,20 @@ $('.feature-expand-button').click(function() {
 $('#install-instructions-button').click(function() {
 	flipFlopCollapsible($(this), $('#install-instructions'), '', 'Show How to Install', 'Hide How to Install', 0);
 });
+
+function scrollTo(target, callback) {
+	if(transitioning)
+		return;
+
+	var top = window.pageYOffset || document.documentElement.scrollTop;
+	transitioning = true;
+
+	$("html, body").animate({ scrollTop: target }, Math.min(Math.abs(top - target), 500), function() {
+		transitioning = false;
+		if(callback)
+			callback();
+	});
+}
 
 function flipFlopCollapsible(button, contents, textAnimating, textShow, textHide, targetMarginBottom) {
 	if(contents.attr('data-animating') == 'true')
@@ -99,7 +99,7 @@ function flipFlopCollapsible(button, contents, textAnimating, textShow, textHide
 }
 
 $('#button-btt').click(function() {
-	$("html, body").animate({ scrollTop: 0 }, 500);
+	scrollTo(0, null);
 });
 
 function updateEntry(changed, setHash) {

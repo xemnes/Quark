@@ -47,14 +47,14 @@
 
 			<div id="big-branding">
 				<div id="big-branding-background">
-					<img src="img/features/management/boat-chests.jpg"></img>
-					<img src="img/features/building/varied-chests.jpg"></img>
 					<img src="img/features/automation/color-slime.jpg"></img>
-					<img src="img/features/world/foxhounds.jpg"></img>
 					<img src="img/features/automation/pistons-move-tes.jpg"></img>
+					<img src="img/features/building/variant-chests.jpg"></img>
+					<img src="img/features/management/chests-in-boats.jpg"></img>
+					<img src="img/features/world/foxhounds.jpg"></img>
 					<img src="img/features/world/speleothems.jpg"></img>
 					<img src="img/features/world/stonelings.jpg"></img>
-					<img src="img/demo/underground-biomes.jpg"></img>
+					<img src="img/features/world/underground-biome-crystal-cave.jpg"></img>
 				</div>
 
 				<div id="big-title"><span class="theme-color">q</span>uark</div>
@@ -123,7 +123,7 @@
 				<div class="section-header">Feature Spotlight</div>
 
 				<div class="spotlight-entry spotlight-left">
-					<div class="spotlight-image"><img src="img/demo/underground-biomes.jpg"></img></div>
+					<div class="spotlight-image"><img src="img/features/world/underground-biome-crystal-cave.jpg"></img></div>
 					<div class="spotlight-info">
 						<div class="spotlight-header">Upgraded Caves</div>
 						<div class="spotlight-desc">Quark adds all sorts of new features to caves - underground biomes, stalactites and stalagmites, new mobs, a pickaxe boomerang, you name it!</div>
@@ -164,8 +164,8 @@
 				<div class="section-header">Additional Credits</div>
 				<ul>
 					<li><b>cheeserolls</b> for the biome location code from Biomes'o'Plenty used for Pathfinder Maps.</li>
-					<li><b>Daniel Astral</b> for additional texture work.</li>
-					<li><b>Endergy</b> for multiple concept contributions complete with art and textures.</li>
+					<li><b>Daniel Astral</b> for the world stone variant textures.</li>
+					<li><b>Endergy</b> for the variant chest, bookshelf, and ladder textures, as well as the compressed block textures.</li>
 					<li><b>Evtema3</b> for the original Elder Prismarine idea and textures.</li>
 					<li><b>Jragon014</b> for a bunch of inspiration from The Tempest Box.</li>
 					<li><b>MushirMickeyJoe</b> for the recreation of the bedrock piston model.</li>

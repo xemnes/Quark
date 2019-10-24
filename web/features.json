@@ -2,7 +2,7 @@
     "automation": [
         {
             "name": "Iron Chains",
-            "image": "chain.jpg",
+            "image": "iron-chains.jpg",
             "versions": "1.14+",
             "desc": [
                 "Iron Chains can be crafted with Iron Ingots and Nuggets.",
@@ -51,8 +51,11 @@
             "image": "feeding-trough.jpg",
             "versions": "1.14+",
             "desc": [
-                "Animals will eat from the Feeding Trough block.",
-                "TODO UPDATE DESC AND IMAGE"
+                "The Feeding Trough is a new block you can craft with some planks and fence gates. When right clicked, a menu will pop up where you can put food inside it.",
+                "Nearby animals will flock to the trough to eat the food within. This works just as if a player had fed the animal, but with a few differences:",
+                "*There's a chance the animal will need more than one bit of food to get in love mode;",
+                "*Animals bred with the trough will not produce XP;",
+                "*If there's more than 32 animals in a 10 block radius, the animals will eat, but never enter love mode."
             ]
         },
         {
@@ -63,25 +66,11 @@
                 "Gravisand is a new sand variant, crafted with sand and an ender pearl.",
                 "Gravisand will not fall unless primed with redstone. However, if gravisand receives a signal, and can not fall, it'll instead float up. Additionally, gravisand will propagate the signal to any adjacent gravisand blocks, causing them to fall or float as well.",
                 "Gravisand allows for a variety of redstone components, especially as its magnetic properties have it constantly output a comparator signal of 15."
-            ],
-            "expand": [
-                "this is just a test to make sure expand works",
-                "#Cool Stuff",
-                "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                "#More Stuff",
-                "*This is a test",
-                "*for displaying a list",
-                "*with various things",
-                "and it's not a list anymore",
-                "-",
-                "#Image Test:",
-                "!img/renders/animal-skins.png"
             ]
         },
         {
             "name": "Iron Rod",
-            "image": "piston-block-breakers.jpg",
+            "image": "iron-rod.jpg",
             "versions": "1.14+",
             "desc": [
                 "Pistons pushing an Iron Rod will have it work as a drill of sorts, breaking any blocks in front in the direction the rod is facing. These can break anything the piston can push.",
@@ -100,12 +89,12 @@
         },
         {
             "name": "New Redstone Circuits",
-            "image": "redstone-circuits.jpg",
+            "image": "new-redstone-circuits.jpg",
             "versions": "1.14+",
             "desc": [
-                "Two new redstone circuit components are added to the game, the Redstone Randomizer, and the Redstone Inductor.",
-                "The Randomizer is crafted the same was as a comparator, but with Biotite (from the World module, or an Eye of Ender if disabled). When given a redstone signal from the pack, it'll randomly enable either the left or right output.",
-                "The Inductor is crafted made with Stone, Redstone, and Magma Cream. Its output value is the analog sum of all 3 input sides. It can also be locked by having a repeater or comparator pointing to it. While locked, it'll maintain the output value regardless of any changes."
+                "Two new redstone circuit components are added to the game, the Redstone Randomizer, and the Redstone Inductor:",
+                "*The Randomizer is crafted the same was as a comparator, but with Biotite (from the World module, or an Eye of Ender if disabled). When given a redstone signal from the back, it'll randomly enable either the left or right output.",
+                "*The Inductor is crafted made with Stone, Redstone, and Magma Cream. Its output value is the analog sum of all 3 input sides. It can also be locked by having a repeater or comparator pointing to it. While locked, it'll maintain the output value regardless of any changes."
             ]
         },
         {
@@ -119,7 +108,7 @@
         },       
         {
             "name": "Obsidian Pressure Plate",
-            "image": "obsidian-plates.jpg",
+            "image": "obsidian-pressure-plate.jpg",
             "versions": "1.14+",
             "desc": [
                 "Pressure Plates made with obsidian will only trigger when Players walk over them."
@@ -136,24 +125,713 @@
         }
     ],
     "building": [
-
+        {
+            "name": "Compressed Blocks",
+            "image": "compressed-blocks.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Duskbound Blocks",
+            "image": "duskbound-blocks.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Framed Glass",
+            "image": "framed-glass.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Grate",
+            "image": "grate.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Item Frame Variants",
+            "image": "item-frame-variants.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Leaf Carpet",
+            "image": "leaf-carpet.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Lit Lamp",
+            "image": "lit-lamp.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Midori",
+            "image": "midori.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "More Brick Types",
+            "image": "more-brick-types.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "More Stone Variants",
+            "image": "more-stone-variants.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Nether Brick Fence Gate",
+            "image": "nether-brick-fence-gate.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Paper Decor",
+            "image": "paper-decor.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Quilted Wool",
+            "image": "quilted-wool.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Rope",
+            "image": "rope.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Shingles",
+            "image": "shingles.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Soul Sandstone",
+            "image": "soul-sandstone.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Stained Planks",
+            "image": "stained-planks.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Sturdy Stone",
+            "image": "sturdy-stone.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Tallow And Candles",
+            "image": "tallow-and-candles.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Thatch",
+            "image": "thatch.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Turf",
+            "image": "turf.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Variant Bookshelves",
+            "image": "variant-bookshelves.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Variant Chests",
+            "image": "variant-chests.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Variant Ladders",
+            "image": "variant-ladders.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Vertical Planks",
+            "image": "vertical-planks.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Vertical Slabs",
+            "image": "vertical-slabs.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        }
     ],
     "client": [
-    
+        {
+            "name": "Chest Searching",
+            "image": "chest-searching.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Greener Grass",
+            "image": "greener-grass.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Improved Mount Hud",
+            "image": "improved-mount-hud.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Improved Tooltips",
+            "image": "improved-tooltips.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Usage Ticker",
+            "image": "usage-ticker.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Vanilla Resource Changes",
+            "image": "vanilla-resource-changes.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Variant Animal Textures",
+            "image": "variant-animal-textures.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        }
     ],
     "management": [
-
-    ], 
+        {
+            "name": "Chests In Boats",
+            "image": "chests-in-boats.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Easy Transfering",
+            "image": "easy-transfering.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "F To Switch",
+            "image": "f-to-switch.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Hotbar Changer",
+            "image": "hotbar-changer.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Inventory Sorting",
+            "image": "inventory-sorting.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Shulker Box Right Click",
+            "image": "shulker-box-right-click.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        }
+    ],
     "tools": [
-
+        {
+            "name": "Ancient Tomes",
+            "image": "ancient-tomes.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Pathfinder Maps",
+            "image": "pathfinder-maps.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Pickarang",
+            "image": "pickarang.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Slime Bucket",
+            "image": "slime-bucket.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Trowel",
+            "image": "trowel.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        }
     ],
     "tweaks": [
-
-    ], 
+        {
+            "name": "Armed Armor Stands",
+            "image": "armed-armor-stands.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Automatic Recipe Unlock",
+            "image": "automatic-recipe-unlock.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Axe Leaf Harvesting",
+            "image": "axe-leaf-harvesting.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Dirt To Path",
+            "image": "dirt-to-path.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Double Door Opening",
+            "image": "double-door-opening.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Dragon Scales",
+            "image": "dragon-scales.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Enchanced Ladders",
+            "image": "enchanced-ladders.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Glass Shards",
+            "image": "glass-shards.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Hoe Harvesting",
+            "image": "hoe-harvesting.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Improved Sleeping",
+            "image": "improved-sleeping.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Lock Rotation",
+            "image": "lock-rotation.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Note Block Mob Sounds",
+            "image": "note-block-mob-sounds.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Pat The Dogs",
+            "image": "pat-the-dogs.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Poison Potato Usage",
+            "image": "poison-potato-usage.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Reacharound Placing",
+            "image": "reacharound-placing.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Sign Editing",
+            "image": "sign-editing.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Simple Harvest",
+            "image": "simple-harvest.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Snow Golem Player Heads",
+            "image": "snow-golem-player-heads.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Springy Slime",
+            "image": "springy-slime.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Utility Recipes",
+            "image": "utility-recipes.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Villagers Follow Emeralds",
+            "image": "villagers-follow-emeralds.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        }
+    ],
     "vanity": [
-
+        {
+            "name": "Colored Runes",
+            "image": "colored-runes.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Emotes",
+            "image": "emotes.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Item Sharing",
+            "image": "item-sharing.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        }
     ],
     "world": [
-
+        {
+            "name": "Big Stone Clusters",
+            "image": "big-stone-clusters.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Biotite",
+            "image": "biotite.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Cave Roots",
+            "image": "cave-roots.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Foxhounds",
+            "image": "foxhounds.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "New Stone Types",
+            "image": "new-stone-types.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Passive Creatures",
+            "image": "passive-creatures.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Speleothems",
+            "image": "speleothems.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Stonelings",
+            "image": "stonelings.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Underground Biome: Brimstone",
+            "image": "underground-biome-brimstone.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Underground Biome: Crystal Cave",
+            "image": "underground-biome-crystal-cave.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Underground Biome: Elder Prismarine",
+            "image": "underground-biome-elder-prismarine.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Underground Biome: Glowshroom",
+            "image": "underground-biome-glowshroom.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Underground Biome: Lush",
+            "image": "underground-biome-lush.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Underground Biome: Overgrown",
+            "image": "underground-biome-overgrown.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Underground Biome: Permafrost",
+            "image": "underground-biome-permafrost.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Underground Biome: Sandstone",
+            "image": "underground-biome-sandstone.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Underground Biome: Slime",
+            "image": "underground-biome-slime.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Underground Biome: Spider Nest",
+            "image": "underground-biome-spider-nest.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        },
+        {
+            "name": "Underground Clay",
+            "image": "underground-clay.jpg",
+            "versions": "1.14+",
+            "desc": [
+                "todo"
+            ]
+        }
     ]
 }
