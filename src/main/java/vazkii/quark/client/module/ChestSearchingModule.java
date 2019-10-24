@@ -10,9 +10,10 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.*;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.ListNBT;
 import net.minecraft.potion.PotionUtils;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -252,20 +253,19 @@ public class ChestSearchingModule extends Module {
 
 		List<ITextComponent> potionNames = new ArrayList<>();
 		PotionUtils.addPotionTooltip(stack, potionNames, 1F);
-		for(ITextComponent s : potionNames)
-			if(matcher.test(TextFormatting.getTextWithoutFormattingCodes(s.toString().trim().toLowerCase()), search))
+		for(ITextComponent s : potionNames) {
+			if (matcher.test(TextFormatting.getTextWithoutFormattingCodes(s.toString().trim().toLowerCase()), search))
 				return true;
+		}
 
-		if(stack.getItem() == Items.ENCHANTED_BOOK) {
-			ListNBT enchants = EnchantedBookItem.getEnchantments(stack);
-			for(int i = 0; i < enchants.size(); i++) {
-				CompoundNBT cmp = enchants.getCompound(i);
-				int id = cmp.getInt("id");
-				int lvl = cmp.getInt("lvl");
-				Enchantment e = Enchantment.getEnchantmentByID(id);
-				if(e != null && matcher.test(e.getDisplayName(lvl).toString().toLowerCase(), search))
-					return true;
-			}
+
+
+
+		for(Map.Entry<Enchantment, Integer> entry : EnchantmentHelper.getEnchantments(stack).entrySet()) {
+			int lvl = entry.getValue();
+			Enchantment e = entry.getKey();
+			if(e != null && matcher.test(e.getDisplayName(lvl).toString().toLowerCase(), search))
+				return true;
 		}
 
 		ItemGroup tab = item.getGroup();
