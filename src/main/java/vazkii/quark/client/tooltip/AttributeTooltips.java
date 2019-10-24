@@ -128,12 +128,13 @@ public class AttributeTooltips {
 
                 if (baseCheck == null)
                     baseCheck = slotAttributes;
-                else if (slot == null)
-                    allAreSame = false;
-                else if (allAreSame && !slotAttributes.equals(baseCheck))
+                else if (slot != null && allAreSame && !slotAttributes.equals(baseCheck))
                     allAreSame = false;
 
                 if(!slotAttributes.isEmpty()) {
+                    if (slot == null)
+                        allAreSame = false;
+
                     String slotDesc = slot == null ? "potion.whenDrank" : "item.modifiers." + slot.getName();
 
                     int index = -1;
