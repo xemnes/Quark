@@ -116,8 +116,7 @@ public class EnchancedLaddersModule extends Module {
 				boolean scaffold = player.world.getBlockState(player.getPosition()).getBlock() == Blocks.SCAFFOLDING;
 				if(player.isSneaking() == scaffold && player.moveForward == 0 && player.rotationPitch > 70 && !player.world.getBlockState(player.getPosition().down()).isSolid()) {
 					Vec3d move = new Vec3d(0, fallSpeed, 0);
-					player.setBoundingBox(player.getBoundingBox().offset(move));
-					player.move(MoverType.SELF, Vec3d.ZERO); // update all the things
+					player.move(MoverType.SELF, move);
 				}
 			}
 		}
