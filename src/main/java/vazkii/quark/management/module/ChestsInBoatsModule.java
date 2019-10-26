@@ -69,10 +69,12 @@ public class ChestsInBoatsModule extends Module {
 				World world = event.getWorld();
 				
 				if(!event.getWorld().isRemote) {
+					ItemStack chestStack = stack.copy();
+					chestStack.setCount(1);
 					if (!player.isCreative())
 						stack.shrink(1);
 
-					ChestPassengerEntity passenger = new ChestPassengerEntity(world, stack);
+					ChestPassengerEntity passenger = new ChestPassengerEntity(world, chestStack);
 					passenger.setPosition(target.posX, target.posY, target.posZ);
 					passenger.rotationYaw = target.rotationYaw;
 					passenger.startRiding(target, true);
