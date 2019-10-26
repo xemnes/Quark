@@ -166,7 +166,7 @@ public class DarkWorld implements IWorld {
                 return Math.max(getLightFor(LightType.BLOCK, pos) - amount, 0);
             }
         } else {
-            return 15;
+            return 0;
         }
     }
 
@@ -189,7 +189,7 @@ public class DarkWorld implements IWorld {
 
     @Override
     public int getSkylightSubtracted() {
-        return parent.getSkylightSubtracted();
+        return 0;
     }
 
     @Nonnull
