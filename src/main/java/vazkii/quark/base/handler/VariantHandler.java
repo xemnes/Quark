@@ -47,9 +47,8 @@ public class VariantHandler {
 		if (resLoc == null)
 			resLoc = new ResourceLocation("missingno");
 		String name = "potted_" + resLoc.getPath();
-		ResourceLocation newLoc = new ResourceLocation(resLoc.getNamespace(), name);
 		RegistryHelper.registerBlock(potted, name, false);
-		((FlowerPotBlock)Blocks.FLOWER_POT).addPlant(newLoc, () -> potted);
+		((FlowerPotBlock)Blocks.FLOWER_POT).addPlant(resLoc, () -> potted);
 	}
 
 }
