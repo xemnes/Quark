@@ -80,8 +80,8 @@ public class FoxhoundEntity extends WolfEntity implements IMob {
 	}
 
 	@Override
-	public boolean isNoDespawnRequired() {
-		return isTamed() || super.isNoDespawnRequired();
+	public boolean preventDespawn() {
+		return isTamed();
 	}
 
 	@Override
