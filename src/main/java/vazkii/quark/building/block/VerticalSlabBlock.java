@@ -1,8 +1,5 @@
 package vazkii.quark.building.block;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.IWaterLoggable;
@@ -20,7 +17,6 @@ import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.state.properties.SlabType;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Direction.Axis;
@@ -41,6 +37,9 @@ import vazkii.arl.interf.IItemColorProvider;
 import vazkii.quark.base.block.QuarkBlock;
 import vazkii.quark.base.block.QuarkSlabBlock;
 import vazkii.quark.base.module.Module;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class VerticalSlabBlock extends QuarkBlock implements IWaterLoggable, IBlockColorProvider {
 
@@ -78,6 +77,7 @@ public class VerticalSlabBlock extends QuarkBlock implements IWaterLoggable, IBl
 		return state.get(TYPE).shape;
 	}
 
+	@Override
 	@Nullable
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
 		BlockPos blockpos = context.getPos();
@@ -103,11 +103,12 @@ public class VerticalSlabBlock extends QuarkBlock implements IWaterLoggable, IBl
 		return Direction.fromAngle(angle).getOpposite();
 	}
 
+	@Override
 	public boolean isReplaceable(BlockState state, @Nonnull BlockItemUseContext useContext) {
 		ItemStack itemstack = useContext.getItem();
 		VerticalSlabType slabtype = state.get(TYPE);
-		return slabtype != VerticalSlabType.DOUBLE && itemstack.getItem() == this.asItem() &&
-			(getDirectionForPlacement(useContext) == slabtype.direction.getOpposite() || useContext.getFace() == slabtype.direction);
+		return slabtype != VerticalSlabType.DOUBLE && itemstack.getItem() == this.asItem() && useContext.replacingClickedOnBlock() &&
+			(useContext.getFace() == slabtype.direction && getDirectionForPlacement(useContext) == slabtype.direction);
 	}
 
 	@Nonnull
