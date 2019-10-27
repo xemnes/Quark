@@ -86,6 +86,36 @@ function initializeCoreMod() {
                 return method;
             }
         },
+
+        'use-color-teisr': {
+            'target': {
+                'type': 'METHOD',
+                'class': 'net.minecraft.client.renderer.ItemRenderer',
+                'methodName': 'func_211271_a', // renderEffect
+                'methodDesc': '(Ljava/lang/Runnable;)V'
+            },
+            'transformer': function(method) {
+                var ASM = Java.type('net.minecraftforge.coremod.api.ASMAPI');
+                var InsnList = Java.type('org.objectweb.asm.tree.InsnList');
+
+                return injectForEachMethod(method,
+                    ASM.MethodType.STATIC,
+                    "com/mojang/blaze3d/platform/GlStateManager",
+                    ASM.mapMethod("color3f"), // color3f
+                    "(FFF)V",
+                    function (target) {
+                        var newInstructions = new InsnList();
+                        newInstructions.add(ASM.buildMethodCall(
+                            "vazkii/quark/base/handler/AsmHooks",
+                            "applyRuneColor",
+                            "()V",
+                            ASM.MethodType.STATIC
+                        ));
+                        method.instructions.insert(target, newInstructions);
+                    });
+            }
+        },
+
         'extract-armor-color': {
             'target': {
                 'type': 'METHOD',
