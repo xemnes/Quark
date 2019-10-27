@@ -36,7 +36,7 @@ public class StonelingsModule extends Module {
 	@Config
 	public static int maxYLevel = 24;
 	@Config
-	public static DimensionConfig dimensions = DimensionConfig.overworld(true);
+	public static DimensionConfig dimensions = DimensionConfig.overworld(false);
 	@Config 
 	public static EntitySpawnConfig spawnConfig = new EntitySpawnConfig(80, 1, 1, new BiomeTypeConfig(true, BiomeDictionary.Type.VOID));
 	@Config(flag = "stoneling_drop_diamond_heart")
