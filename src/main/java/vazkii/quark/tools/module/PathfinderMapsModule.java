@@ -1,9 +1,5 @@
 package vazkii.quark.tools.module;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
-
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.merchant.villager.VillagerProfession;
@@ -14,8 +10,6 @@ import net.minecraft.item.Items;
 import net.minecraft.item.MerchantOffer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.Style;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
@@ -27,11 +21,11 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.handler.BiomeLocator;
-import vazkii.quark.base.module.Config;
-import vazkii.quark.base.module.IConfigType;
-import vazkii.quark.base.module.LoadModule;
-import vazkii.quark.base.module.Module;
-import vazkii.quark.base.module.ModuleCategory;
+import vazkii.quark.base.module.*;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
 
 @LoadModule(category = ModuleCategory.TOOLS, hasSubscriptions = true)
 public class PathfinderMapsModule extends Module {
@@ -54,6 +48,10 @@ public class PathfinderMapsModule extends Module {
 				+ "Here's an example of a map to locate Ice Mountains:\n"
 				+ "minecraft:ice_mountains,2,8,14,7FE4FF,Ice Mountains Pathfinder Map")
 	private List<String> customs = new LinkedList<>();
+
+	@Config
+	public static int xpFromTrade = 5;
+
 
 	private static String getBiomeDescriptor(Biome biome) {
 		ResourceLocation rl = biome.getRegistryName();
@@ -171,7 +169,7 @@ public class PathfinderMapsModule extends Module {
 			if(itemstack.isEmpty())
 				return null;
 			
-			return new MerchantOffer(new ItemStack(Items.EMERALD, i), new ItemStack(Items.COMPASS), itemstack, 12, 2, 0.2F);
+			return new MerchantOffer(new ItemStack(Items.EMERALD, i), new ItemStack(Items.COMPASS), itemstack, 12, xpFromTrade, 0.2F);
 		}
 	}
 
