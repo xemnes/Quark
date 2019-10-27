@@ -38,9 +38,13 @@ public class CaveCrystalUndergroundBiome extends BasicUndergroundBiome {
 			if (!context.world.getBlockState(pos).isIn(CaveCrystalUndergroundBiomeModule.crystalTag)) {
 				int dist = pos.getY() - floorPos.getY();
 
+				int start = 0;
+				if (!STONE_TYPES_MATCHER.test(context.world.getBlockState(pos.up())))
+					start++;
+
 				BlockState crystalState = CaveCrystalUndergroundBiomeModule.crystal(ceilIdx).getDefaultState();
 
-				for (int i = 0; i <= dist * 3 / 4; i++)
+				for (int i = start; i <= dist * 3 / 4; i++)
 					context.world.setBlockState(pos.offset(Direction.DOWN, i), crystalState, 2);
 			}
 		}
@@ -59,9 +63,13 @@ public class CaveCrystalUndergroundBiome extends BasicUndergroundBiome {
 			if (!context.world.getBlockState(pos).isIn(CaveCrystalUndergroundBiomeModule.crystalTag)) {
 				int dist = ceilPos.getY() - pos.getY();
 
+				int start = 0;
+				if (!STONE_TYPES_MATCHER.test(context.world.getBlockState(pos.down())))
+					start++;
+
 				BlockState crystalState = CaveCrystalUndergroundBiomeModule.crystal(floorIdx).getDefaultState();
 
-				for (int i = 0; i <= dist * 3 / 4; i++)
+				for (int i = start; i <= dist * 3 / 4; i++)
 					context.world.setBlockState(pos.offset(Direction.UP, i), crystalState, 2);
 				return;
 			}
