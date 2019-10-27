@@ -53,7 +53,7 @@ function initializeCoreMod() {
             'target': {
                 'type': 'METHOD',
                 'class': 'net.minecraft.tileentity.PistonTileEntity',
-                'methodName': 'tick',
+                'methodName': 'func_73660_a', // tick
                 'methodDesc': '()V'
             },
             'transformer': remapBlockState
