@@ -23,6 +23,7 @@ import vazkii.quark.base.Quark;
 import vazkii.quark.base.handler.BiomeLocator;
 import vazkii.quark.base.module.*;
 
+import javax.annotation.Nonnull;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -159,7 +160,7 @@ public class PathfinderMapsModule extends Module {
 		}
 
 		@Override
-		public MerchantOffer getOffer(Entity entity, Random random) {
+		public MerchantOffer getOffer(@Nonnull Entity entity, @Nonnull Random random) {
 			if(!info.enabled)
 				return null;
 			
@@ -169,7 +170,7 @@ public class PathfinderMapsModule extends Module {
 			if(itemstack.isEmpty())
 				return null;
 			
-			return new MerchantOffer(new ItemStack(Items.EMERALD, i), new ItemStack(Items.COMPASS), itemstack, 12, xpFromTrade, 0.2F);
+			return new MerchantOffer(new ItemStack(Items.EMERALD, i), new ItemStack(Items.COMPASS), itemstack, 12, xpFromTrade * Math.max(1, (info.level - 1)), 0.2F);
 		}
 	}
 
