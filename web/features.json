@@ -43,7 +43,7 @@
             "versions": "1.14+",
             "desc": [
                 "The Ender Watcher is a new redstone input block. It emits a full redstone signal if a player is looking directly at it.",
-                "It's crafted with an Eye of Ender, Redstone and Blocks of Biotite (from the World module, or Obsidian if not enabled)."
+                "It's crafted with an Eye of Ender, Redstone and Blocks of Biotite (from the World category, or Obsidian if not enabled)."
             ]
         },
         {
@@ -83,7 +83,7 @@
             "versions": "1.14+",
             "desc": [
                 "Pistons are allowed to move Tile Entities (blocks with extra data attached, like Chests or Furnaces). Attempting to move a block to an invalid position will cause it to break and drop its contents (e.g. trying to create a triple chest).",
-                "For a block that pistons can't move, now that furnaces can't be used, look into Sturdy Stone in the Building module.",
+                "For a block that pistons can't move, now that furnaces can't be used, look into Sturdy Stone in the Building category.",
                 "Note that some blocks such as Monster Spawners can't be moved this way, so you don't go and break the game!"
             ]
         },
@@ -93,7 +93,7 @@
             "versions": "1.14+",
             "desc": [
                 "Two new redstone circuit components are added to the game, the Redstone Randomizer, and the Redstone Inductor:",
-                "*The Randomizer is crafted the same was as a comparator, but with Biotite (from the World module, or an Eye of Ender if disabled). When given a redstone signal from the back, it'll randomly enable either the left or right output.",
+                "*The Randomizer is crafted the same was as a comparator, but with Biotite (from the World category, or an Eye of Ender if disabled). When given a redstone signal from the back, it'll randomly enable either the left or right output.",
                 "*The Inductor is crafted made with Stone, Redstone, and Magma Cream. Its output value is the analog sum of all 3 input sides. It can also be locked by having a repeater or comparator pointing to it. While locked, it'll maintain the output value regardless of any changes."
             ]
         },
@@ -102,7 +102,7 @@
             "image": "weather-sensor.jpg",
             "versions": "1.14+",
             "desc": [
-                "The Weather Sensor is crafted with Purpur Slabs, Biotite (from the World module, or Obsidian if not enabled) and Glass. It works like a Daylight Sensor, but it emits a full redstone signal if it's raining or snowing.",
+                "The Weather Sensor is crafted with Purpur Slabs, Biotite (from the World category, or Obsidian if not enabled) and Glass. It works like a Daylight Sensor, but it emits a full redstone signal if it's raining or snowing.",
                 "Right clicking it inverts its output."
             ]
         },       
@@ -130,7 +130,12 @@
             "image": "compressed-blocks.jpg",
             "versions": "1.14+",
             "desc": [
-                "todo"
+                "A bunch of blocks can now be crafted into compressed variants.",
+                "*Charcoal can be crafted into a Charcoal Block, which will burn forever.",
+                "*Blaze Rods and Powder can be crafted into a Blaze Lantern. It'll also burn forever.",
+                "*Sugar Cane, Bamboo, Cactus, Chorus Fruits, and Sticks can be made into various blocks that can be placed like a pillar.",
+                "*Apples, Golden Apples, Potatoes, Carrots, and Beetroots can be crafted into Crates. Golden Apple crates will work as a beacon base.",
+                "*Cocoa Beans, Nether Wart, and Gunpowder can be crafted into Sacks. If the Nether Wart Sack is enabled, the recipe for Nether Wart Blocks is changed to be 2x2."
             ]
         },
         {
@@ -138,23 +143,26 @@
             "image": "duskbound-blocks.jpg",
             "versions": "1.14+",
             "desc": [
-                "todo"
-            ]
+                "Purple looking blocks made from Purpur and Obsidian, fully featured with stair, slab and wall variants.",
+                "Also includes Duskbound Lamps, made with Duskbound Blocks and Ender Pearls."
+			]
         },
         {
             "name": "Framed Glass",
             "image": "framed-glass.jpg",
             "versions": "1.14+",
             "desc": [
-                "todo"
+                "Combine Iron Ingots and Glass, and you get yourself some fancy Framed Glass, great for some more rustic or medieval builds.",
+                "You can also craft Panes with these, of course."
             ]
         },
         {
-            "name": "Grate",
+            "name": "Iron Grate",
             "image": "grate.jpg",
             "versions": "1.14+",
             "desc": [
-                "todo"
+                "The Iron Grate is a cool new block with multiple uses. Animals are afraid of walking on it, and will never do it, whereas items will just fall through the gaps.",
+                "Players, monsters, and other entities will just walk through normally."
             ]
         },
         {
@@ -162,7 +170,10 @@
             "image": "item-frame-variants.jpg",
             "versions": "1.14+",
             "desc": [
-                "todo"
+                "Item Frames can now be displayed in two new fancy ways:",
+                "*First off, you can dye them any of the 16 colors of the minecraft rainbow.",
+                "*Secondly, you can craft a Glass Item Frame. Glass Item Frames will hide the frame around the item when you put it in, so you can have a display that only shows the item.",
+                "*Lastly, you can use Item Frames as wallpaper. If you put a banner inside a Glass Item Frame, it'll sit flat with the wall with the pattern that's in it."
             ]
         },
         {
@@ -170,7 +181,7 @@
             "image": "leaf-carpet.jpg",
             "versions": "1.14+",
             "desc": [
-                "todo"
+                "Leaf Carpet can be made with all types of leaves in the same recipe as wool carpet. It can be harvested by hand and has no collision box."
             ]
         },
         {
@@ -178,7 +189,7 @@
             "image": "lit-lamp.jpg",
             "versions": "1.14+",
             "desc": [
-                "todo"
+                "Combining a Redstone Lamp with a Redstone Torch creates a Lit Redstone lamp, that's always emitting light."
             ]
         },
         {
@@ -186,7 +197,9 @@
             "image": "midori.jpg",
             "versions": "1.14+",
             "desc": [
-                "todo"
+                "Midori Blocks are a green counterpart to Purpur. These are made with Cactus Paste, with the same recipes as the Purpur blocks.",
+                "Cactus Paste is a new item that replaces Green Dye as the smelting output from Cactus. It can be crafted into Green Dye at a 1:1 rate.",
+                "(Midori means \"green\" in Japanese)"
             ]
         },
         {
@@ -194,7 +207,13 @@
             "image": "more-brick-types.jpg",
             "versions": "1.14+",
             "desc": [
-                "todo"
+                "New brick variants are added for a few blocks:",
+                "*Sandy Bricks can be crafted with Bricks and Sand.",
+                "*Snowy Bricks can be crafted with Snow.",
+                "*Magma Bricks can be crafted with Magma Blocks. These glow in the dark just like Magma.",
+                "*Charred Nether Bricks can be crafted with Nether Bricks and a Fire Charge.",
+                "*Sandstone Bricks (for all sandstone types) can be crafted with Cut Sandstone.",
+                "Additionally, all of these come in Slab, Stairs, and Wall variants."
             ]
         },
         {
@@ -202,7 +221,8 @@
             "image": "more-stone-variants.jpg",
             "versions": "1.14+",
             "desc": [
-                "todo"
+                "Brick, Chiseled Brick, Pillar, and Pavement variants are available for all types of stone added by vanilla and Quark.",
+                "The Brick types come in Slab, Stair, and Wall variants, and the Chiseled Brick types look different for each type of stone."
             ]
         },
         {
@@ -210,7 +230,7 @@
             "image": "nether-brick-fence-gate.jpg",
             "versions": "1.14+",
             "desc": [
-                "todo"
+                "A Fence Gate made of Nether Bricks. Crafted with Nether Brick blocks in the place of planks and Nether Brick Fences in the place of Sticks. The recipe outputs 2."
             ]
         },
         {
@@ -218,7 +238,9 @@
             "image": "paper-decor.jpg",
             "versions": "1.14+",
             "desc": [
-                "todo"
+                "Oriental style decoration can now be made with Paper and Bamboo.",
+                "*Paper Walls (\"Shoji\") come in three variants: Normal, Big, and Decorated. The latter can be crafted by adding a Sapling.",
+                "*Paper Lanterns (\"Chochin\") come in Normal and Decorated variants, the latter similarly crafted with a Sapling. Try hanging or propping them with fences!"
             ]
         },
         {
@@ -226,7 +248,7 @@
             "image": "quilted-wool.jpg",
             "versions": "1.14+",
             "desc": [
-                "todo"
+                "Crafting Wool with String creates Quilted Wool. Quilted Wool comes in all colors and has a framed design."
             ]
         },
         {
@@ -234,7 +256,8 @@
             "image": "rope.jpg",
             "versions": "1.14+",
             "desc": [
-                "todo"
+                "Rope Coils can be crafted using String. This new block can be placed on the bottom face of a block, by players and dispensers, and dropped down by right clicking on the placed Rope block. Shift-right clicking, or right clicking with a non-rope item will pull the rope up.",
+                "If a block is at the end of the rope, it'll drop down and be pulled up alongside it. Lastly, as you'd expect, players can climb rope as if it were a ladder."
             ]
         },
         {
@@ -242,7 +265,8 @@
             "image": "shingles.jpg",
             "versions": "1.14+",
             "desc": [
-                "todo"
+                "Shingles are \"Tile\" style blocks for Terracotta and all its color variants inspired by Portuguese rooftops (\"Telha Lusa\"). They can all be turned into stairs and slabs, and look great for roofs.",
+                "4 Blocks are crafted with a 2x2 of the respective Terracotta block."
             ]
         },
         {
@@ -250,7 +274,8 @@
             "image": "soul-sandstone.jpg",
             "versions": "1.14+",
             "desc": [
-                "todo"
+                "Sandstone made of Soul Sand. All recipes are as expected.",
+                "Soul Sandstone can be turned into Stairs, Slabs, and Walls."
             ]
         },
         {
@@ -258,7 +283,7 @@
             "image": "stained-planks.jpg",
             "versions": "1.14+",
             "desc": [
-                "todo"
+                "Dyed Wooden Planks of all 16 colors, featuring a pastel color palette so you can actually build with them without making your eyes hurt! All include stair and slab variants."
             ]
         },
         {
@@ -266,7 +291,7 @@
             "image": "sturdy-stone.jpg",
             "versions": "1.14+",
             "desc": [
-                "todo"
+                "A hard stone block made with 4 Stone and 4 Cobblestone (outputs 4). The block has the Furnace Texture, and can not be moved by Pistons."
             ]
         },
         {
@@ -274,7 +299,9 @@
             "image": "tallow-and-candles.jpg",
             "versions": "1.14+",
             "desc": [
-                "todo"
+                "In an attempt to make pigs be useful in any way, they drop Tallow. Tallow can be crafted alongside String to create Candles, or as a furnace fuel.",
+                "Candles come in all 16 colors of the spectrum, and emit as much light as torches. Candles will also fall like sand if there's no block under them, which can have many fun uses.",
+                "Lastly, for Enchanting Table purposes, two candles equal one bookshelf."
             ]
         },
         {
@@ -282,7 +309,7 @@
             "image": "thatch.jpg",
             "versions": "1.14+",
             "desc": [
-                "todo"
+                "Thatch is created via a 2x2 of Wheat. It can be used for stairs and slabs or turned back into 4 Wheat. You can use it for some fancy medieval roof styles."
             ]
         },
         {
@@ -290,7 +317,8 @@
             "image": "turf.jpg",
             "versions": "1.14+",
             "desc": [
-                "todo"
+                "Turf Blocks can be crafted using a few bits of Tall Grass.",
+                "These blocks have the grass texture and coloring on all sides, are available in stair and slab variants, and do not decay when a block is on top."
             ]
         },
         {
@@ -298,7 +326,7 @@
             "image": "variant-bookshelves.jpg",
             "versions": "1.14+",
             "desc": [
-                "todo"
+                "You can now make Bookshelves out of all wood types. All of these bookshelves work for the Enchanting Table too."
             ]
         },
         {
@@ -306,7 +334,7 @@
             "image": "variant-chests.jpg",
             "versions": "1.14+",
             "desc": [
-                "todo"
+                "Chests can be made of all the different wood types. Each one is styled differently for the type of wood you use."
             ]
         },
         {
@@ -314,7 +342,8 @@
             "image": "variant-ladders.jpg",
             "versions": "1.14+",
             "desc": [
-                "todo"
+                "Ladders can be made of all the different wood types. To compensate for the fact that sticks do not come in different wood types, the recipe for ladders is changed to have a single plank of the corresponding wood type in the center.",
+                "You can also make Iron Ladders, using Iron Ingots. They work like normal ladders, except that they can stand by themselves as long as there is an Iron Ladder on top, even if there isn't a block behind."
             ]
         },
         {
@@ -322,7 +351,8 @@
             "image": "vertical-planks.jpg",
             "versions": "1.14+",
             "desc": [
-                "todo"
+                "Putting 3 wooden planks in a vertical line creates 3 Vertical Wooden Planks. Doing the same reverts it.",
+                "If Stained Wooden Planks is enabled, vertical versions of those are also added."
             ]
         },
         {
@@ -330,7 +360,8 @@
             "image": "vertical-slabs.jpg",
             "versions": "1.14+",
             "desc": [
-                "todo"
+                "Do I have to explain this?",
+                "They exist for every vanilla and Quark block that has a slab, and can be crafted by placing 3 of the respective slab in a column."
             ]
         }
     ],
@@ -340,7 +371,8 @@
             "image": "chest-searching.jpg",
             "versions": "1.14+",
             "desc": [
-                "todo"
+                "A filter button will now appear on the top right of chests you open. When you click it, a tab with a search bar will pop up, where you can type and filter items in the chest by your query. Items that don't match will be darkened.",
+                "You can also search for enchantment and potion names, or wrap the search in quotes to match entire names."
             ]
         },
         {
@@ -348,15 +380,16 @@
             "image": "greener-grass.jpg",
             "versions": "1.14+",
             "desc": [
-                "todo"
+                "Grass is greener on the Quark side. Biome colors are still respected, but are greener non the less.",
+                "There's also config options to enable Alpha style grass, which gives you the Minecraft Alpha vibe, or to manually set the grass color."
             ]
         },
         {
-            "name": "Improved Mount Hud",
+            "name": "Improved Mount HUD",
             "image": "improved-mount-hud.jpg",
             "versions": "1.14+",
             "desc": [
-                "todo"
+                "While on a mount, your food display is still shown. Furthermore, while on a horse, the jump bar is only shown while holding down the jump key, the XP bar is shown otherwise."
             ]
         },
         {
@@ -372,7 +405,8 @@
             "image": "usage-ticker.jpg",
             "versions": "1.14+",
             "desc": [
-                "todo"
+                "A small interface addition shows up next to the hotbar when items are used, or armor takes damage. This shows how many items or blocks you have left, or how the status of your armor is.",
+                "As this feature is hard to demonstrate in a static picture, click the picture icon in the bottom of this card to see a demo gif."
             ]
         },
         {
@@ -388,7 +422,11 @@
             "image": "variant-animal-textures.jpg",
             "versions": "1.14+",
             "desc": [
-                "todo"
+                "Cows, Pigs, and Chicken will now have randomized textures from a small pool of variants. Additionally, some animals may rarely show up with a special variant..."
+            ],
+            "expand": [
+            	"Here's a render with the new skins for your enjoyment:",
+            	"!img/features/client/variant-animal-textures/render.png"
             ]
         }
     ],
