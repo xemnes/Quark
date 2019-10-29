@@ -123,7 +123,7 @@
 				<div class="section-header">Feature Spotlight</div>
 
 				<div class="spotlight-entry spotlight-left">
-					<div class="spotlight-image"><img src="img/features/world/underground-biome-crystal-cave.jpg"></img></div>
+					<div class="spotlight-image"><img src="img/spotlight/cave_render.png"></img></div>
 					<div class="spotlight-info">
 						<div class="spotlight-header">Upgraded Caves</div>
 						<div class="spotlight-desc">Quark adds all sorts of new features to caves - underground biomes, stalactites and stalagmites, new mobs, a pickaxe boomerang, you name it!</div>
@@ -135,23 +135,23 @@
 						<div class="spotlight-header">New Redstone Opportunities</div>
 						<div class="spotlight-desc">Power up your redstone game with many new redstone features, such as Pistons moving Tile Entities, Colored Slime Blocks, Dispensers placing blocks, and much more.</div>
 					</div>
-					<div class="spotlight-image"><img src="img/features/automation/color-slime.jpg"></img></div>
+					<div class="spotlight-image"><img src="img/spotlight/redstone_render.png"></img></div>
 				</div>
 
 				<div class="spotlight-entry spotlight-left">
-					<div class="spotlight-image"><img src="img/features/building/thatch.jpg"></img></div>
+					<div class="spotlight-image"><img src="img/spotlight/blocks_render.png"></img></div>
 						<div class="spotlight-info">
 						<div class="spotlight-header">Building Blocks</div>
-						<div class="spotlight-desc">Fuel your inner artist with a large assortment of new building blocks, from Thatch (pictured), to Stained Wood Planks, Magma Bricks, and many others!</div>
+						<div class="spotlight-desc">Fuel your inner artist with a large assortment of new building blocks, from Thatch, to Stained Wood Planks, Magma Bricks, and many others! Oh and we have Vertical Slabs too.</div>
 					</div>
 				</div>
 
 				<div class="spotlight-entry spotlight-right">
 					<div class="spotlight-info">
-						<div class="spotlight-header">Vertical Slabs</div>
-						<div class="spotlight-desc">Yeah. We got 'em.</div>
+						<div class="spotlight-header">And Much, Much More!</div>
+						<div class="spotlight-desc">Quark has a ton of different features for you to explore, from Emotes to Chests in Boats, New Animals, Inventory Sorting, Useful Hoes, to Glass Shards, Patting Wolves, and many others. The sky is the limit!</div>
 					</div>
-					<div class="spotlight-image"><img src="img/features/building/vertical-slabs.jpg"></img></div>
+					<div class="spotlight-image"><img src="img/spotlight/misc_render.png"></img></div>
 				</div>
 
 				<div class="data-entry-changer std-button button-long button-next" data-entry="features">
