@@ -1,28 +1,11 @@
 package vazkii.quark.world.entity;
 
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import com.google.common.collect.Lists;
-
 import net.minecraft.block.Blocks;
-import net.minecraft.entity.AgeableEntity;
-import net.minecraft.entity.EntitySize;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.Pose;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.controller.JumpController;
 import net.minecraft.entity.ai.controller.MovementController;
-import net.minecraft.entity.ai.goal.BreedGoal;
-import net.minecraft.entity.ai.goal.FollowParentGoal;
-import net.minecraft.entity.ai.goal.LookAtGoal;
-import net.minecraft.entity.ai.goal.LookRandomlyGoal;
-import net.minecraft.entity.ai.goal.PanicGoal;
-import net.minecraft.entity.ai.goal.SwimGoal;
-import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
+import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -37,11 +20,7 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.Path;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.Hand;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
+import net.minecraft.util.*;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -55,6 +34,11 @@ import vazkii.quark.world.ai.FavorBlockGoal;
 import vazkii.quark.world.ai.PassivePassengerGoal;
 import vazkii.quark.world.ai.TemptGoalButNice;
 import vazkii.quark.world.module.PassiveCreaturesModule;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 
 public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnData {
 
@@ -74,8 +58,7 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 	public int spawnCd = -1;
 	public int spawnChain = 30;
 
-	public boolean isDuplicate = false;
-	public boolean isDependant = false;
+	public boolean isDuplicate;
 
 	public FrogEntity(EntityType<? extends FrogEntity> type, World worldIn) {
 		this(type, worldIn, 1);
@@ -157,11 +140,6 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 
 	@Override
 	public void tick() {
-		if(isDependant && getRidingEntity() == null) {
-			remove();
-			return;
-		}
-		
 		if (this.jumpTicks != this.jumpDuration) ++this.jumpTicks;
 		else if (this.jumpDuration != 0) {
 			this.jumpTicks = 0;
@@ -297,7 +275,6 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 		dataManager.set(SIZE_MODIFIER, sizeModifier);
 
 		isDuplicate = compound.getBoolean("FakeFrog");
-		isDependant = compound.getBoolean("Dependant");
 	}
 
 	@Override
@@ -308,7 +285,6 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 		compound.putInt("Chain", spawnChain);
 		compound.putInt("DudeAmount", getTalkTime());
 		compound.putBoolean("FakeFrog", isDuplicate);
-		compound.putBoolean("Dependant", isDependant);
 	}
 
 	@Override
