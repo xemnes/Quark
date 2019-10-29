@@ -154,7 +154,7 @@ public class PickarangEntity extends ThrowableEntity {
 						attack.setBaseValue(1);
 						map.applyAttributeModifiers(modifiers);
 						ItemStack stack = getStack();
-						stack.attemptDamageItem(1 + getPiercingModifier(), world.rand, null);
+						stack.attemptDamageItem(1, world.rand, null);
 						setStack(stack);
 						hit.attackEntityFrom(new IndirectEntityDamageSource("player", this, this).setProjectile(),
 								(float) attack.getValue());
