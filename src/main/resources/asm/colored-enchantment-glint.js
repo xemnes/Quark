@@ -116,6 +116,39 @@ function initializeCoreMod() {
             }
         },
 
+        'extract-elytra-color': {
+            'target': {
+                'type': 'METHOD',
+                'class': 'net.minecraft.client.renderer.entity.layers.ElytraLayer',
+                'methodName': 'func_212842_a_', // render
+                'methodDesc': '(Lnet/minecraft/entity/LivingEntity;FFFFFFF)V'
+            },
+            'transformer': function(method) {
+                var ASM = Java.type('net.minecraftforge.coremod.api.ASMAPI');
+                var Opcodes = Java.type('org.objectweb.asm.Opcodes');
+                var VarInsnNode = Java.type('org.objectweb.asm.tree.VarInsnNode');
+                var InsnList = Java.type('org.objectweb.asm.tree.InsnList');
+
+                return injectForEachMethod(method,
+                    ASM.MethodType.STATIC,
+                    "net/minecraft/client/renderer/entity/layers/ArmorLayer",
+                    ASM.mapMethod("func_215338_a"), // func_215338_a
+                    "(Ljava/util/function/Consumer;Lnet/minecraft/entity/Entity;Lnet/minecraft/client/renderer/entity/model/EntityModel;FFFFFFF)V",
+                    function (target) {
+                        var newInstructions = new InsnList();
+                        newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 9));
+                        newInstructions.add(ASM.buildMethodCall(
+                            "vazkii/quark/base/handler/AsmHooks",
+                            "setColorRuneTargetStack",
+                            "(Lnet/minecraft/item/ItemStack;)V",
+                            ASM.MethodType.STATIC
+                        ));
+
+                        method.instructions.insertBefore(target, newInstructions);
+                    });
+            }
+        },
+
         'extract-armor-color': {
             'target': {
                 'type': 'METHOD',
