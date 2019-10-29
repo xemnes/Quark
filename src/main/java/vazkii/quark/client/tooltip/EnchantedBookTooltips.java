@@ -1,15 +1,21 @@
 package vazkii.quark.client.tooltip;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.mojang.blaze3d.platform.GlStateManager;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.EnchantmentScreen;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -22,12 +28,11 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderTooltipEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.registries.GameData;
+import vazkii.quark.base.item.QuarkItem;
+import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.client.module.ImprovedTooltipsModule;
 import vazkii.quark.tools.module.AncientTomesModule;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import vazkii.quark.tools.module.PickarangModule;
 
 public class EnchantedBookTooltips {
 
@@ -171,13 +176,20 @@ public class EnchantedBookTooltips {
 		List<ItemStack> list = new ArrayList<>();
 
 		for(ItemStack stack : getTestItems()) {
-			if (!stack.isEmpty() && e.canApply(stack))
+			Item item = stack.getItem();
+			if(item instanceof QuarkItem && !((QuarkItem) item).isEnabled())
+				continue;
+			
+			if(!stack.isEmpty() && e.canApply(stack))
 				list.add(stack);
 		}
 
 		if(getAdditionalStacks().containsKey(e))
 			list.addAll(getAdditionalStacks().get(e));
 
+		if(e == Enchantments.PIERCING && ModuleLoader.INSTANCE.isModuleEnabled(PickarangModule.class))
+			list.add(new ItemStack(PickarangModule.pickarang));
+		
 		return list;
 	}
 

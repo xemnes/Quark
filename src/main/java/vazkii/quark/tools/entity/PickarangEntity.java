@@ -3,6 +3,7 @@ package vazkii.quark.tools.entity;
 import com.google.common.collect.Multimap;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
@@ -44,11 +45,13 @@ public class PickarangEntity extends ThrowableEntity {
 
 	private int liveTime;
 	private int slot;
+	private int hitCount;
 
 	private static final ThreadLocal<Boolean> IS_PICKARANG_UPDATING = ThreadLocal.withInitial(() -> false);
 
 	private static final String TAG_RETURNING = "returning";
 	private static final String TAG_LIVE_TIME = "liveTime";
+	private static final String TAG_BLOCKS_BROKEN = "hitCount";
 	private static final String TAG_RETURN_SLOT = "returnSlot";
 	private static final String TAG_ITEM_STACK = "itemStack";
 
@@ -80,15 +83,17 @@ public class PickarangEntity extends ThrowableEntity {
 		LivingEntity owner = getThrower();
 
 		if(result.getType() == Type.BLOCK && result instanceof BlockRayTraceResult) {
-			dataManager.set(RETURNING, true);
+			BlockPos hit = ((BlockRayTraceResult) result).getPos();
+			BlockState state = world.getBlockState(hit);
 			
+			if(getPiercingModifier() == 0 || state.getBlock().getMaterial(state) != Material.LEAVES)
+				addHit();
+
 			if(!(owner instanceof ServerPlayerEntity))
 				return;
 			
 			ServerPlayerEntity player = (ServerPlayerEntity) owner;
-			BlockPos hit = ((BlockRayTraceResult) result).getPos();
-
-			BlockState state = world.getBlockState(hit);
+			
 			float hardness = state.getBlockHardness(world, hit);
 			if (hardness <= PickarangModule.maxHardness && hardness >= 0) {
 				ItemStack prev = player.getHeldItemMainhand();
@@ -108,12 +113,11 @@ public class PickarangEntity extends ThrowableEntity {
 		} else if(result.getType() == Type.ENTITY && result instanceof EntityRayTraceResult) {
 			Entity hit = ((EntityRayTraceResult) result).getEntity();
 			if(hit != owner) {
-				setReturning();
+				addHit();
 				if (hit instanceof PickarangEntity) {
-					((PickarangEntity) hit).setReturning();
+					((PickarangEntity) hit).addHit();
 					playSound(QuarkSounds.ENTITY_PICKARANG_CLANK, 1, 1);
 				} else {
-
 					ItemStack pickarang = getStack();
 					Multimap<String, AttributeModifier> modifiers = pickarang.getAttributeModifiers(EquipmentSlotType.MAINHAND);
 
@@ -150,17 +154,22 @@ public class PickarangEntity extends ThrowableEntity {
 						attack.setBaseValue(1);
 						map.applyAttributeModifiers(modifiers);
 						ItemStack stack = getStack();
-						stack.attemptDamageItem(1, world.rand, null);
+						stack.attemptDamageItem(1 + getPiercingModifier(), world.rand, null);
 						setStack(stack);
 						hit.attackEntityFrom(new IndirectEntityDamageSource("player", this, this).setProjectile(),
 								(float) attack.getValue());
 					}
-
 				}
 			}
 		}
 	}
 
+	public void addHit() {
+		hitCount++;
+		if(hitCount > getPiercingModifier())
+			setReturning();
+	}
+	
 	protected void setReturning() {
 		dataManager.set(RETURNING, true);
 	}
@@ -297,6 +306,10 @@ public class PickarangEntity extends ThrowableEntity {
 	public int getEfficiencyModifier() {
 		return EnchantmentHelper.getEnchantmentLevel(Enchantments.EFFICIENCY, getStack());
 	}
+	
+	public int getPiercingModifier() {
+		return EnchantmentHelper.getEnchantmentLevel(Enchantments.PIERCING, getStack());
+	}
 
 	public ItemStack getStack() {
 		return dataManager.get(STACK);
@@ -306,13 +319,13 @@ public class PickarangEntity extends ThrowableEntity {
 		dataManager.set(STACK, stack);
 	}
 
-
 	@Override
 	public void readAdditional(CompoundNBT compound) {
 		super.readAdditional(compound);
 		
 		dataManager.set(RETURNING, compound.getBoolean(TAG_RETURNING));
 		liveTime = compound.getInt(TAG_LIVE_TIME);
+		hitCount = compound.getInt(TAG_BLOCKS_BROKEN);
 		slot = compound.getInt(TAG_RETURN_SLOT);
 
 		if (compound.contains(TAG_ITEM_STACK))
@@ -327,6 +340,7 @@ public class PickarangEntity extends ThrowableEntity {
 		
 		compound.putBoolean(TAG_RETURNING, dataManager.get(RETURNING));
 		compound.putInt(TAG_LIVE_TIME, liveTime);
+		compound.putInt(TAG_BLOCKS_BROKEN, hitCount);
 		compound.putInt(TAG_RETURN_SLOT, slot);
 
 		compound.put(TAG_ITEM_STACK, getStack().serializeNBT());
