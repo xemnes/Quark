@@ -132,13 +132,14 @@ public class ColorRunesModule extends Module {
 	public void onAnvilUpdate(AnvilUpdateEvent event) {
 		ItemStack left = event.getLeft();
 		ItemStack right = event.getRight();
+		ItemStack output = event.getOutput();
 
-		if(!left.isEmpty() && !right.isEmpty() && left.isEnchanted() && get(right).isPresent()) {
-			ItemStack out = left.copy();
+		if(!left.isEmpty() && !right.isEmpty() && left.isEnchanted() && right.getItem().isIn(runesTag)) {
+			ItemStack out = (output.isEmpty() ? left : output).copy();
 			ItemNBTHelper.setBoolean(out, TAG_RUNE_ATTACHED, true);
 			ItemNBTHelper.setCompound(out, TAG_RUNE_COLOR, right.serializeNBT());
 			event.setOutput(out);
-			event.setCost(applyCost);
+			event.setCost(event.getCost() + applyCost);
 			event.setMaterialCost(1);
 		}
 	}
