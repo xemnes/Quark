@@ -15,6 +15,9 @@ public class AxeLeafHarvestingModule extends Module {
 
 	@SubscribeEvent
 	public void calcBreakSpeed(BreakSpeed event) {
+		if (event.getOriginalSpeed() == 0)
+			return;
+
 		ItemStack stack = event.getPlayer().getHeldItem(Hand.MAIN_HAND);
 		if(stack.getItem().getToolTypes(stack).contains(ToolType.AXE) && event.getState().getMaterial() == Material.LEAVES)
 			event.setNewSpeed(100F);
