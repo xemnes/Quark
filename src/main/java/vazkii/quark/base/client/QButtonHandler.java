@@ -1,6 +1,5 @@
 package vazkii.quark.base.client;
 
-import java.io.File;
 import java.util.List;
 
 import com.google.common.collect.ImmutableSet;
@@ -49,9 +48,7 @@ public class QButtonHandler {
 	
 	
 	public static void openFile() {
-		File f = new File(FMLPaths.CONFIGDIR.get().toFile(), Quark.MOD_ID + "-common.toml");
-		Quark.LOG.info("Opening Quark Config File: " + f.getAbsolutePath());
-		Util.getOSType().openFile(f);
+		Util.getOSType().openFile(FMLPaths.CONFIGDIR.get().toFile());
 	}
 	
 	private static class QButton extends Button {

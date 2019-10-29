@@ -239,6 +239,7 @@ public class StonelingEntity extends CreatureEntity {
 				frog.setPosition(posX, posY, posZ);
 				world.addEntity(frog);
 				frog.startRiding(this);
+				frog.isDependant = true;
 			} else {
 				List<ItemStack> items = ((IForgeWorldServer) world).getWorldServer().getServer().getLootTableManager()
 						.getLootTableFromLocation(CARRY_LOOT_TABLE).generate(new LootContext.Builder((ServerWorld) world).build(LootParameterSets.EMPTY));

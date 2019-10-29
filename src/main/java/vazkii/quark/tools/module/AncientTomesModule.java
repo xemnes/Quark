@@ -35,8 +35,8 @@ import java.util.Map;
 @LoadModule(category = ModuleCategory.TOOLS, hasSubscriptions = true)
 public class AncientTomesModule extends Module {
 
-	@Config public static int dungeonWeight = 8;
-	@Config public static int libraryWeight = 12;
+	@Config public static int dungeonWeight = 20;
+	@Config public static int libraryWeight = 30;
 	@Config public static int itemQuality = 2;
 	@Config public static int mergeCost = 35;
 	@Config public static int applyCost = 35;

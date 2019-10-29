@@ -74,7 +74,8 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 	public int spawnCd = -1;
 	public int spawnChain = 30;
 
-	public boolean isDuplicate;
+	public boolean isDuplicate = false;
+	public boolean isDependant = false;
 
 	public FrogEntity(EntityType<? extends FrogEntity> type, World worldIn) {
 		this(type, worldIn, 1);
@@ -156,6 +157,11 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 
 	@Override
 	public void tick() {
+		if(isDependant && getRidingEntity() == null) {
+			remove();
+			return;
+		}
+		
 		if (this.jumpTicks != this.jumpDuration) ++this.jumpTicks;
 		else if (this.jumpDuration != 0) {
 			this.jumpTicks = 0;
@@ -291,6 +297,7 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 		dataManager.set(SIZE_MODIFIER, sizeModifier);
 
 		isDuplicate = compound.getBoolean("FakeFrog");
+		isDependant = compound.getBoolean("Dependant");
 	}
 
 	@Override
@@ -301,6 +308,7 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 		compound.putInt("Chain", spawnChain);
 		compound.putInt("DudeAmount", getTalkTime());
 		compound.putBoolean("FakeFrog", isDuplicate);
+		compound.putBoolean("Dependant", isDependant);
 	}
 
 	@Override

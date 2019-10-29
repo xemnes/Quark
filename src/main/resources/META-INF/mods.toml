@@ -1,6 +1,6 @@
 modLoader="javafml"
 loaderVersion="[28,)"
-issueTrackerURL="https://github.com/Vazkii/Psi"
+issueTrackerURL="https://github.com/Vazkii/Quark"
 
 [[mods]]
 modId="quark"
@@ -15,5 +15,12 @@ Small things.
     modId="arl"
     mandatory=true
     versionRange="[1.4-34,)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.quark]]
+    modId="forge"
+    mandatory=true
+    versionRange="[28.1.61,)"
     ordering="AFTER"
     side="BOTH"
