@@ -5,7 +5,6 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.IndirectEntityDamageSource;
 import net.minecraftforge.api.distmarker.Dist;
@@ -70,12 +69,7 @@ public class PickarangModule extends Module {
 		RenderingRegistry.registerEntityRenderingHandler(PickarangEntity.class, PickarangRenderer::new);
 	}
 
-
-	public static boolean canSharpnessApply(ItemStack stack) {
-		return stack.getItem() instanceof PickarangItem;
-	}
-
-	private static final ThreadLocal<PickarangEntity> ACTIVE_PICKARANG = new ThreadLocal<>();
+    private static final ThreadLocal<PickarangEntity> ACTIVE_PICKARANG = new ThreadLocal<>();
 
 	public static void setActivePickarang(PickarangEntity pickarang) {
 		ACTIVE_PICKARANG.set(pickarang);

@@ -5,6 +5,7 @@ import net.minecraft.block.state.PistonBlockStructureHelper;
 import net.minecraft.client.gui.screen.EnchantmentScreen;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.TemptGoal;
@@ -29,6 +30,7 @@ import vazkii.quark.automation.module.FeedingTroughModule;
 import vazkii.quark.automation.module.PistonsMoveTileEntitiesModule;
 import vazkii.quark.client.tooltip.EnchantedBookTooltips;
 import vazkii.quark.management.entity.ChestPassengerEntity;
+import vazkii.quark.tools.item.PickarangItem;
 import vazkii.quark.tools.module.AncientTomesModule;
 import vazkii.quark.tools.module.PickarangModule;
 import vazkii.quark.tweaks.module.HoeHarvestingModule;
@@ -155,8 +157,16 @@ public class AsmHooks {
 	// Pickarang
 	// ==========================================================================
 
+	public static boolean canPiercingApply(Enchantment enchantment, ItemStack stack) {
+		return enchantment == Enchantments.PIERCING && stack.getItem() instanceof PickarangItem;
+	}
+
+	public static boolean isNotEfficiency(Enchantment enchantment) {
+		return enchantment != Enchantments.EFFICIENCY;
+	}
+
 	public static boolean canSharpnessApply(ItemStack stack) {
-		return PickarangModule.canSharpnessApply(stack);
+		return stack.getItem() instanceof PickarangItem;
 	}
 
 	public static DamageSource createPlayerDamage(PlayerEntity player) {

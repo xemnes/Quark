@@ -54,6 +54,65 @@ function initializeCoreMod() {
                 });
             }
         },
+        'allow-piercing': {
+            'target': {
+                'type': 'METHOD',
+                'class': 'net.minecraft.enchantment.Enchantment',
+                'methodName': 'func_92089_a', // canApply
+                'methodDesc': '(Lnet/minecraft/item/ItemStack;)Z'
+            },
+            'transformer': function(method) {
+                var ASM = Java.type('net.minecraftforge.coremod.api.ASMAPI');
+                var Opcodes = Java.type('org.objectweb.asm.Opcodes');
+                var InsnNode = Java.type('org.objectweb.asm.tree.InsnNode');
+                var VarInsnNode = Java.type('org.objectweb.asm.tree.VarInsnNode');
+                var InsnList = Java.type('org.objectweb.asm.tree.InsnList');
+
+                return injectForEachInsn(method, Opcodes.IRETURN, function (target) {
+                    var newInstructions = new InsnList();
+
+                    newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 0));
+                    newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 1));
+                    newInstructions.add(ASM.buildMethodCall(
+                        "vazkii/quark/base/handler/AsmHooks",
+                        "canPiercingApply",
+                        "(Lnet/minecraft/enchantment/Enchantment;Lnet/minecraft/item/ItemStack;)Z",
+                        ASM.MethodType.STATIC
+                    ));
+                    newInstructions.add(new InsnNode(Opcodes.IOR));
+                    method.instructions.insertBefore(target, newInstructions);
+                })
+            }
+        },
+        'piercing-no-efficiency': {
+            'target': {
+                'type': 'METHOD',
+                'class': 'net.minecraft.enchantment.PiercingEnchantment',
+                'methodName': 'func_77326_a', // canApplyTogether
+                'methodDesc': '(Lnet/minecraft/enchantment/Enchantment;)Z'
+            },
+            'transformer': function(method) {
+                var ASM = Java.type('net.minecraftforge.coremod.api.ASMAPI');
+                var Opcodes = Java.type('org.objectweb.asm.Opcodes');
+                var InsnNode = Java.type('org.objectweb.asm.tree.InsnNode');
+                var VarInsnNode = Java.type('org.objectweb.asm.tree.VarInsnNode');
+                var InsnList = Java.type('org.objectweb.asm.tree.InsnList');
+
+                return injectForEachInsn(method, Opcodes.IRETURN, function (target) {
+                    var newInstructions = new InsnList();
+
+                    newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 1));
+                    newInstructions.add(ASM.buildMethodCall(
+                        "vazkii/quark/base/handler/AsmHooks",
+                        "isNotEfficiency",
+                        "(Lnet/minecraft/enchantment/Enchantment;)Z",
+                        ASM.MethodType.STATIC
+                    ));
+                    newInstructions.add(new InsnNode(Opcodes.IAND));
+                    method.instructions.insertBefore(target, newInstructions);
+                })
+            }
+        },
         'replace-damage-source': {
             'target': {
                 'type': 'METHOD',
