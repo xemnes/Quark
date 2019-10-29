@@ -9,8 +9,7 @@
     }
   ],
   "result": {
-    "item": "quark:elder_sea_lantern",
-    "count": 2
+    "item": "quark:elder_sea_lantern"
   },
   "conditions": [
     {
