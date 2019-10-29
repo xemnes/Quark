@@ -62,7 +62,7 @@ public class RunAndPoofGoal<T extends Entity> extends Goal {
 
 	@Override
 	public boolean shouldExecute() {
-		if (entity.isPlayerMade())
+		if (entity.isPlayerMade() || !entity.isStartled())
 			return false;
 
 		List<T> entities = this.entity.world.getEntitiesWithinAABB(this.classToAvoid, this.entity.getBoundingBox().grow(this.avoidDistance, 3.0D, this.avoidDistance),

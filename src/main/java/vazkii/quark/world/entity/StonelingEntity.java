@@ -132,6 +132,16 @@ public class StonelingEntity extends CreatureEntity {
 	}
 
 	@Override
+	protected void checkDespawn() {
+		boolean wasAlive = isAlive();
+		super.checkDespawn();
+		if (!isAlive() && wasAlive)
+			for (Entity passenger : getRecursivePassengers())
+				if (!(passenger instanceof PlayerEntity))
+					passenger.remove();
+	}
+
+	@Override
 	protected boolean processInteract(PlayerEntity player, Hand hand) {
 		ItemStack stack = player.getHeldItem(hand);
 
@@ -303,6 +313,10 @@ public class StonelingEntity extends CreatureEntity {
 				}
 			}
 		}
+	}
+
+	public boolean isStartled() {
+		return waryGoal.isStartled();
 	}
 
 	public void startle() {

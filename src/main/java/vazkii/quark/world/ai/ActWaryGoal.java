@@ -63,6 +63,10 @@ public class ActWaryGoal extends WaterAvoidingRandomWalkingGoal {
 		startled = true;
 	}
 
+	public boolean isStartled() {
+		return startled;
+	}
+
 	protected boolean shouldApplyPath() {
 		return super.shouldExecute();
 	}
