@@ -24,7 +24,7 @@
                   }
                 }
               ],
-              "name": "minecraft:sea_lantern"
+              "name": "quark:elder_sea_lantern"
             },
             {
               "type": "minecraft:item",
