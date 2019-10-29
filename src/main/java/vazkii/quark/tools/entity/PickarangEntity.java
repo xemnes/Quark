@@ -86,7 +86,7 @@ public class PickarangEntity extends ThrowableEntity {
 			BlockPos hit = ((BlockRayTraceResult) result).getPos();
 			BlockState state = world.getBlockState(hit);
 			
-			if(getPiercingModifier() == 0 || state.getBlock().getMaterial(state) != Material.LEAVES)
+			if(getPiercingModifier() == 0 || state.getMaterial() != Material.LEAVES)
 				addHit();
 
 			if(!(owner instanceof ServerPlayerEntity))
