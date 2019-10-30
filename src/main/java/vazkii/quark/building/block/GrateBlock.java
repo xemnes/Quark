@@ -105,7 +105,7 @@ public class GrateBlock extends QuarkBlock implements IWaterLoggable {
 			return TRUE_SHAPE;
 		}
 
-		return SPAWN_BLOCK_SHAPE;
+		return TRUE_SHAPE;
 	}
 
 	@Nullable
