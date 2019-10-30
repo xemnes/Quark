@@ -7,7 +7,7 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationSettings;
 import vazkii.quark.base.module.Module;
-import vazkii.quark.base.world.generator.MultiChunkFeatureGenerator;
+import vazkii.quark.base.world.generator.multichunk.MultiChunkFeatureGenerator;
 import vazkii.quark.world.config.UndergroundBiomeConfig;
 
 import java.util.*;
