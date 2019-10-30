@@ -83,6 +83,13 @@
       { "name": "minecraft:random/anvil_land", "pitch": 2.0, "volume": 0.5 }
     ]
   },
+  "entity.pickarang.spark": {
+    "category": "players",
+    "subtitle": "quark.subtitles.spark_pickarang",
+    "sounds": [
+      { "name": "minecraft:random/fizz", "pitch": 0.5, "volume": 0.5 }
+    ]
+  },
   "entity.pickarang.pickup": {
     "category": "players",
     "subtitle": "quark.subtitles.pickup_pickarang",
