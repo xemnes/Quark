@@ -8,7 +8,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
 import vazkii.quark.base.handler.MiscUtil;
-import vazkii.quark.world.gen.UndergroundBiomeGenerator.UndergroundBiomeGenerationContext;
+import vazkii.quark.world.gen.UndergroundBiomeGenerator.Context;
 
 public class LushUndergroundBiome extends BasicUndergroundBiome {
 
@@ -17,13 +17,13 @@ public class LushUndergroundBiome extends BasicUndergroundBiome {
 	}
 
 	@Override
-	public void finalFloorPass(UndergroundBiomeGenerationContext context, BlockPos pos) {
+	public void finalFloorPass(Context context, BlockPos pos) {
 		if(context.world.getBlockState(pos).getBlock() == Blocks.GRASS_BLOCK && context.random.nextFloat() < 0.6)
 			context.world.setBlockState(pos.up(), Blocks.GRASS.getDefaultState(), 0);
 	}
 
 	@Override
-	public void finalWallPass(UndergroundBiomeGenerationContext context, BlockPos pos) {
+	public void finalWallPass(Context context, BlockPos pos) {
 		IWorld world = context.world;
 		for(Direction facing : MiscUtil.HORIZONTALS) {
 			BlockPos off = pos.offset(facing);

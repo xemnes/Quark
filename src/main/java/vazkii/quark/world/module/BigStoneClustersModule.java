@@ -36,7 +36,7 @@ public class BigStoneClustersModule extends Module {
 	@Config public static BigStoneClusterConfig limestone = new BigStoneClusterConfig(false, Type.SWAMP, Type.OCEAN);
 	@Config public static BigStoneClusterConfig jasper = new BigStoneClusterConfig(false, Type.MESA, Type.SANDY);
 	@Config public static BigStoneClusterConfig slate = new BigStoneClusterConfig(false, Type.COLD);
-	@Config public static BigStoneClusterConfig basalt = new BigStoneClusterConfig(true, 19, 20, 20, 120, Type.NETHER);
+	@Config public static BigStoneClusterConfig basalt = new BigStoneClusterConfig(true, 19, 6, 20, 20, 120, Type.NETHER);
 	
 	@Config public static List<String> blocksToReplace = Lists.newArrayList(
 			"minecraft:stone", "minecraft:andesite", "minecraft:diorite", "minecraft:granite", "minecraft:netherrack", "minecraft:end_stone",

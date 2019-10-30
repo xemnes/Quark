@@ -5,7 +5,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.LeavesBlock;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
-import vazkii.quark.world.gen.UndergroundBiomeGenerator.UndergroundBiomeGenerationContext;
+import vazkii.quark.world.gen.UndergroundBiomeGenerator.Context;
 
 public class OvergrownUndergroundBiome extends BasicUndergroundBiome {
 	
@@ -14,7 +14,7 @@ public class OvergrownUndergroundBiome extends BasicUndergroundBiome {
 	}
 
 	@Override
-	public void finalCeilingPass(UndergroundBiomeGenerationContext context, BlockPos pos) {
+	public void finalCeilingPass(Context context, BlockPos pos) {
 		IWorld world = context.world;
 		if(context.random.nextDouble() < 0.025) {
 			int count = 0;
@@ -35,7 +35,7 @@ public class OvergrownUndergroundBiome extends BasicUndergroundBiome {
 	}
 	
 	@Override
-	public void fillFloor(UndergroundBiomeGenerationContext context, BlockPos pos, BlockState state) {
+	public void fillFloor(Context context, BlockPos pos, BlockState state) {
 		if(context.random.nextBoolean())
 			context.world.setBlockState(pos, Blocks.COARSE_DIRT.getDefaultState(), 2);
 		else super.fillFloor(context, pos, state);

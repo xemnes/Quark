@@ -3,7 +3,7 @@ package vazkii.quark.world.gen.underground;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 import vazkii.quark.base.util.WeightedSelector;
-import vazkii.quark.world.gen.UndergroundBiomeGenerator.UndergroundBiomeGenerationContext;
+import vazkii.quark.world.gen.UndergroundBiomeGenerator.Context;
 
 public class CustomUndergroundBiome extends BasicUndergroundBiome {
 
@@ -18,7 +18,7 @@ public class CustomUndergroundBiome extends BasicUndergroundBiome {
 		this.wall = wall;
 	}
 
-	private void placeState(UndergroundBiomeGenerationContext context, BlockPos pos, BlockState setState) {
+	private void placeState(Context context, BlockPos pos, BlockState setState) {
 		if (setState != null) {
 			int flags = 2;
 			if (setState.getMaterial().isLiquid())
@@ -28,19 +28,19 @@ public class CustomUndergroundBiome extends BasicUndergroundBiome {
 	}
 	
 	@Override
-	public void fillCeiling(UndergroundBiomeGenerationContext context, BlockPos pos, BlockState state) {
+	public void fillCeiling(Context context, BlockPos pos, BlockState state) {
 		BlockState setState = ceil.select();
 		placeState(context, pos, setState);
 	}
 	
 	@Override
-	public void fillWall(UndergroundBiomeGenerationContext context, BlockPos pos, BlockState state) {
+	public void fillWall(Context context, BlockPos pos, BlockState state) {
 		BlockState setState = wall.select();
 		placeState(context, pos, setState);
 	}
 
 	@Override
-	public void fillFloor(UndergroundBiomeGenerationContext context, BlockPos pos, BlockState state) {
+	public void fillFloor(Context context, BlockPos pos, BlockState state) {
 		BlockState setState = floor.select();
 		placeState(context, pos, setState);
 	}

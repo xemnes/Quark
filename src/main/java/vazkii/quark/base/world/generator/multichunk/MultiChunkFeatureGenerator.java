@@ -1,4 +1,4 @@
-package vazkii.quark.base.world.generator;
+package vazkii.quark.base.world.generator.multichunk;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockPos.MutableBlockPos;
@@ -7,6 +7,7 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationSettings;
 import vazkii.quark.base.world.config.DimensionConfig;
+import vazkii.quark.base.world.generator.Generator;
 
 import java.util.Random;
 import java.util.function.BooleanSupplier;

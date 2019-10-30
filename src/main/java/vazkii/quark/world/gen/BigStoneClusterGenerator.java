@@ -1,24 +1,24 @@
 package vazkii.quark.world.gen;
 
+import java.util.Random;
+import java.util.function.BooleanSupplier;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationSettings;
-import vazkii.quark.base.world.generator.MultiChunkFeatureGenerator;
+import vazkii.quark.base.world.generator.multichunk.ClusterBasedGenerator;
 import vazkii.quark.world.config.BigStoneClusterConfig;
 import vazkii.quark.world.module.BigStoneClustersModule;
 
-import java.util.Random;
-import java.util.function.BooleanSupplier;
-
-public class BigStoneClusterGenerator extends MultiChunkFeatureGenerator {
+public class BigStoneClusterGenerator extends ClusterBasedGenerator {
 
 	private final BigStoneClusterConfig config;
 	private final BlockState placeState;
-
+	
 	public BigStoneClusterGenerator(BigStoneClusterConfig config, BlockState placeState, BooleanSupplier condition) {
-		super(config.dimensions, () -> config.enabled && condition.getAsBoolean(), (long) placeState.getBlock().getRegistryName().toString().hashCode());
+		super(config.dimensions, () -> config.enabled && condition.getAsBoolean(), config, (long) placeState.getBlock().getRegistryName().toString().hashCode());
 		this.config = config;
 		this.placeState = placeState;
 	}
@@ -29,25 +29,8 @@ public class BigStoneClusterGenerator extends MultiChunkFeatureGenerator {
 	}
 
 	@Override
-	public int getFeatureRadius() {
-		return config.clusterSize;
-	}
-
-	@Override
-	public void generateChunkPart(BlockPos src, ChunkGenerator<? extends GenerationSettings> generator, Random random, BlockPos chunkCorner, IWorld world) {
-		forEachChunkBlock(chunkCorner, config.minYLevel - config.clusterSize, config.maxYLevel + config.clusterSize, (pos) -> {
-			if(canPlaceBlock(world, pos) && pos.distanceSq(src) < (config.clusterSize * config.clusterSize))
-				world.setBlockState(pos, placeState, 0);
-		});
-	}
-
-	public boolean canPlaceBlock(IWorld world, BlockPos pos) {
-		return BigStoneClustersModule.blockReplacePredicate.test(world.getBlockState(pos).getBlock());
-	}
-
-	@Override
 	public BlockPos[] getSourcesInChunk(Random random, ChunkGenerator<? extends GenerationSettings> generator, BlockPos chunkLeft) {
-		int chance = config.clusterRarity;
+		int chance = config.rarity;
 
 		BlockPos[] sources;
 		if(chance > 0 && random.nextInt(chance) == 0) {
@@ -67,4 +50,28 @@ public class BigStoneClusterGenerator extends MultiChunkFeatureGenerator {
 		return "BigStoneClusterGenerator[" + placeState + "]";
 	}
 
+	@Override
+	public IGenerationContext createContext(BlockPos src, ChunkGenerator<? extends GenerationSettings> generator, Random random, BlockPos chunkCorner, IWorld world) {
+		return new Context();
+	}
+	
+	private class Context implements IGenerationContext {
+
+		@Override
+		public void consume(IWorld world, BlockPos pos) {
+			if(canPlaceBlock(world, pos))
+				world.setBlockState(pos, placeState, 0);
+		}
+		
+		private boolean canPlaceBlock(IWorld world, BlockPos pos) {
+			return BigStoneClustersModule.blockReplacePredicate.test(world.getBlockState(pos).getBlock());
+		}
+
+		@Override
+		public void finish(IWorld world) {
+			// NO-OP
+		}
+		
+	}
+	
 }

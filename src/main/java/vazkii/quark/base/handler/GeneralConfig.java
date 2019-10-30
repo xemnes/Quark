@@ -45,6 +45,9 @@ public class GeneralConfig {
 	@Config(description = "A list of screens that don't play well with quark's buttons. Use \"Print Screen Classnames\" to find the names of any others you'd want to add.")
 	public static List<String> ignoredScreens = Lists.newArrayList("com.tfar.craftingstation.client.CraftingStationScreen");
 
+	@Config(description = "Set to true to make the quark big worldgen features such as stone clusters or underground biomes generate as spheres rather than unique shapes. It's faster, but won't look as cool")
+	public static boolean useFastWorldgen = false;
+	
 	private GeneralConfig() {
 		// NO-OP
 	}

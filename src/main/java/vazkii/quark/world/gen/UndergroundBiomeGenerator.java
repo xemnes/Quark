@@ -7,34 +7,24 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationSettings;
 import vazkii.quark.base.module.Module;
-import vazkii.quark.base.world.generator.MultiChunkFeatureGenerator;
+import vazkii.quark.base.world.generator.multichunk.ClusterBasedGenerator;
+import vazkii.quark.base.world.generator.multichunk.MultiChunkFeatureGenerator;
 import vazkii.quark.world.config.UndergroundBiomeConfig;
 
 import java.util.*;
 
-public class UndergroundBiomeGenerator extends MultiChunkFeatureGenerator {
+public class UndergroundBiomeGenerator extends ClusterBasedGenerator {
 
 	public final UndergroundBiomeConfig info;
 
 	public UndergroundBiomeGenerator(UndergroundBiomeConfig info, Module module, String name) {
-		super(info.dimensions, () -> module.enabled, name.hashCode());
+		super(info.dimensions, () -> module.enabled, info, name.hashCode());
 		this.info = info;
 	}
 
 	@Override
 	public int getFeatureRadius() {
 		return info.horizontalSize + info.horizontalVariation;
-	}
-
-	@Override
-	public void generateChunkPart(BlockPos src, ChunkGenerator<? extends GenerationSettings> generator, Random random, BlockPos chunkCorner, IWorld world) {
-		int radiusX = info.horizontalSize + random.nextInt(info.horizontalVariation);
-		int radiusY = info.verticalSize + random.nextInt(info.verticalVariation);
-		int radiusZ = info.horizontalSize + random.nextInt(info.horizontalVariation);
-		
-		UndergroundBiomeGenerationContext context = new UndergroundBiomeGenerationContext(world, src, generator, random,
-				info, radiusX, radiusY, radiusZ);
-		apply(context, chunkCorner);
 	}
 
 	@Override
@@ -47,58 +37,16 @@ public class UndergroundBiomeGenerator extends MultiChunkFeatureGenerator {
 
 		return new BlockPos[0];
 	}
+	
+	@Override
+	public IGenerationContext createContext(BlockPos src, ChunkGenerator<? extends GenerationSettings> generator, Random random, BlockPos chunkCorner, IWorld world) {
+		return new Context(world, src, generator, random, info);
+	}
 
 	@Override
 	public boolean isSourceValid(IWorld world, ChunkGenerator<? extends GenerationSettings> generator, BlockPos pos) {
 		Biome biome = getBiome(generator, pos);
 		return info.biomes.canSpawn(biome);
-	}
-
-	public void apply(UndergroundBiomeGenerationContext context, BlockPos chunkCorner) {
-		int centerX = context.source.getX();
-		int centerY = context.source.getY();
-		int centerZ = context.source.getZ();
-
-		double radiusX2 = context.radiusX * context.radiusX;
-		double radiusY2 = context.radiusY * context.radiusY;
-		double radiusZ2 = context.radiusZ * context.radiusZ;
-
-		forEachChunkBlock(chunkCorner, centerY - context.radiusY, centerY + context.radiusY, (pos) -> {
-			int x = pos.getX() - centerX;
-			int y = pos.getY() - centerY;
-			int z = pos.getZ() - centerZ;
-
-			double distX = x * x;
-			double distY = y * y;
-			double distZ = z * z;
-			double dist = distX / radiusX2 + distY / radiusY2 + distZ / radiusZ2;
-			boolean inside = dist <= 1;
-
-			if(inside)
-				info.biomeObj.fill(context, pos);
-		});
-
-		context.floorList.forEach(pos -> info.biomeObj.finalFloorPass(context, pos));
-		context.ceilingList.forEach(pos -> info.biomeObj.finalCeilingPass(context, pos));
-		context.wallMap.keySet().forEach(pos -> info.biomeObj.finalWallPass(context, pos));
-		context.insideList.forEach(pos -> info.biomeObj.finalInsidePass(context, pos));
-
-		//		if(info.biome.hasDungeon() && world instanceof ServerWorld && random.nextDouble() < info.biome.dungeonChance) {
-		//			List<BlockPos> candidates = new ArrayList<>(context.wallMap.keySet());
-		//			candidates.removeIf(pos -> {
-		//				BlockPos down = pos.down();
-		//				BlockState state = world.getBlockState(down);
-		//				return info.biome.isWall(world, down, state) || state.getBlock().isAir(state, world, down);
-		//			});
-		//
-		//			if(!candidates.isEmpty()) {
-		//				BlockPos pos = candidates.get(world.rand.nextInt(candidates.size()));
-		//
-		//				Direction border = context.wallMap.get(pos);
-		//				if(border != null)
-		//					info.biome.spawnDungeon((ServerWorld) world, pos, border);
-		//			}
-		//		}
 	}
 	
 	@Override
@@ -106,16 +54,13 @@ public class UndergroundBiomeGenerator extends MultiChunkFeatureGenerator {
 		return "UndergroundBiomeGenerator[" + info.biomeObj + "]";
 	}
 
-	public static class UndergroundBiomeGenerationContext {
+	public static class Context implements IGenerationContext {
 
 		public final IWorld world;
 		public final BlockPos source;
 		public final ChunkGenerator<? extends GenerationSettings> generator;
 		public final Random random;
 		public final UndergroundBiomeConfig info;
-		public final int radiusX;
-		public final int radiusY;
-		public final int radiusZ;
 
 		public final List<BlockPos> floorList = new LinkedList<>();
 		public final List<BlockPos> ceilingList = new LinkedList<>();
@@ -123,16 +68,25 @@ public class UndergroundBiomeGenerator extends MultiChunkFeatureGenerator {
 
 		public final Map<BlockPos, Direction> wallMap = new HashMap<>();
 		
-		public UndergroundBiomeGenerationContext(IWorld world, BlockPos source, ChunkGenerator<? extends GenerationSettings> generator,
-												 Random random, UndergroundBiomeConfig info, int radiusX, int radiusY, int radiusZ) {
+		public Context(IWorld world, BlockPos source, ChunkGenerator<? extends GenerationSettings> generator, Random random, UndergroundBiomeConfig info) {
 			this.world = world;
 			this.source = source;
 			this.generator = generator;
 			this.random = random;
 			this.info = info;
-			this.radiusX = radiusX;
-			this.radiusY = radiusY;
-			this.radiusZ = radiusZ;
+		}
+
+		@Override
+		public void consume(IWorld world, BlockPos pos) {
+			info.biomeObj.fill(this, pos);			
+		}
+
+		@Override
+		public void finish(IWorld world) {
+			floorList.forEach(pos -> info.biomeObj.finalFloorPass(this, pos));
+			ceilingList.forEach(pos -> info.biomeObj.finalCeilingPass(this, pos));
+			wallMap.keySet().forEach(pos -> info.biomeObj.finalWallPass(this, pos));
+			insideList.forEach(pos -> info.biomeObj.finalInsidePass(this, pos));			
 		}
 		
 	}

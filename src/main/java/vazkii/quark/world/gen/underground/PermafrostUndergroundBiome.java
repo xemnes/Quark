@@ -4,7 +4,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
-import vazkii.quark.world.gen.UndergroundBiomeGenerator.UndergroundBiomeGenerationContext;
+import vazkii.quark.world.gen.UndergroundBiomeGenerator.Context;
 import vazkii.quark.world.module.underground.PermafrostUndergroundBiomeModule;
 
 public class PermafrostUndergroundBiome extends BasicUndergroundBiome {
@@ -14,7 +14,7 @@ public class PermafrostUndergroundBiome extends BasicUndergroundBiome {
 	}
 	
 	@Override
-	public void fillFloor(UndergroundBiomeGenerationContext context, BlockPos pos, BlockState state) {
+	public void fillFloor(Context context, BlockPos pos, BlockState state) {
 		super.fillFloor(context, pos, state);
 
 		IWorld world = context.world;
