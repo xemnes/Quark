@@ -10,6 +10,7 @@ import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationSettings;
 import vazkii.quark.base.world.generator.multichunk.ClusterBasedGenerator;
 import vazkii.quark.world.config.BigStoneClusterConfig;
+import vazkii.quark.world.module.BigStoneClustersModule;
 
 public class BigStoneClusterGenerator extends ClusterBasedGenerator {
 
@@ -59,12 +60,11 @@ public class BigStoneClusterGenerator extends ClusterBasedGenerator {
 		@Override
 		public void consume(IWorld world, BlockPos pos) {
 			if(canPlaceBlock(world, pos))
-				world.setBlockState(pos.up(120), placeState, 0);
+				world.setBlockState(pos, placeState, 0);
 		}
 		
 		private boolean canPlaceBlock(IWorld world, BlockPos pos) {
-//			return BigStoneClustersModule.blockReplacePredicate.test(world.getBlockState(pos).getBlock());
-			return true; // TODO test
+			return BigStoneClustersModule.blockReplacePredicate.test(world.getBlockState(pos).getBlock());
 		}
 
 		@Override

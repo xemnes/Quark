@@ -6,6 +6,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.gen.PerlinNoiseGenerator;
+import vazkii.quark.base.handler.GeneralConfig;
 import vazkii.quark.base.world.config.ClusterSizeConfig;
 
 public class ClusterShape {
@@ -26,8 +27,13 @@ public class ClusterShape {
 		double dy = (double) (pos.getY() - src.getY()) / radius.y;
 		double dz = (double) (pos.getZ() - src.getZ()) / radius.z;
 		
-		// convert to spherical
 		double r = Math.sqrt(dx * dx + dy * dy + dz * dz);
+		if(r > 1)
+			return false;
+		if(GeneralConfig.useFastWorldgen)
+			return true;
+		
+		// convert to spherical
 		double phi = Math.atan2(dz, dx);
 		double theta = r == 0 ? 0 : Math.acos(dy / r);
 		
