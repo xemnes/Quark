@@ -3,6 +3,7 @@ package vazkii.quark.base.world.generator.multichunk;
 import java.util.Random;
 
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.gen.PerlinNoiseGenerator;
 import vazkii.quark.base.world.config.ClusterSizeConfig;
@@ -27,16 +28,23 @@ public class ClusterShape {
 		
 		// convert to spherical
 		double r = Math.sqrt(dx * dx + dy * dy + dz * dz);
-		if(r == 0)
-			return true; // special case the center 
-		
 		double phi = Math.atan2(dz, dx);
 		double theta = r == 0 ? 0 : Math.acos(dy / r);
 		
-		double xn = Math.sin((phi + Math.PI) / 2) * Math.PI + src.getX();
+		// use phi, theta + the src pos to get noisemap uv
+		double xn = phi + src.getX();
 		double yn = theta + src.getZ();
-		double maxR = (noiseGenerator.getValue(xn, yn) / 16.0) + 0.5;
+		double noise = noiseGenerator.getValue(xn, yn);
 		
+		// when nearing the end of the loop, lerp back to the start to prevent it cutting off
+		double cutoff = 0.75 * Math.PI;
+		if(phi > cutoff) {
+			double noise0 = noiseGenerator.getValue(-Math.PI + src.getX(), yn);
+			noise = MathHelper.lerp((phi - cutoff) / (Math.PI - cutoff), noise, noise0);
+		}
+		
+		// accept if within constrains
+		double maxR = (noise / 16.0) + 0.5;
 		return r < maxR;
 	}
 
