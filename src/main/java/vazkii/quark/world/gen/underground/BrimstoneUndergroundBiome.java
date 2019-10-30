@@ -3,7 +3,7 @@ package vazkii.quark.world.gen.underground;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
-import vazkii.quark.world.gen.UndergroundBiomeGenerator.UndergroundBiomeGenerationContext;
+import vazkii.quark.world.gen.UndergroundBiomeGenerator.Context;
 import vazkii.quark.world.module.underground.BrimstoneUndergroundBiomeModule;
 
 public class BrimstoneUndergroundBiome extends BasicUndergroundBiome {
@@ -13,14 +13,14 @@ public class BrimstoneUndergroundBiome extends BasicUndergroundBiome {
 	}
 	
 	@Override
-	public void fillCeiling(UndergroundBiomeGenerationContext context, BlockPos pos, BlockState state) {
+	public void fillCeiling(Context context, BlockPos pos, BlockState state) {
 		if(context.random.nextBoolean())
 			 context.world.setBlockState(pos, Blocks.COBBLESTONE.getDefaultState(), 2);
 		else super.fillCeiling(context, pos, state);
 	}
 	
 	@Override
-	public void fillFloor(UndergroundBiomeGenerationContext context, BlockPos pos, BlockState state) {
+	public void fillFloor(Context context, BlockPos pos, BlockState state) {
 		if(!isBorder(context.world, pos) && context.random.nextDouble() < 0.25)
 			context.world.setBlockState(pos, Blocks.LAVA.getDefaultState(), 2);
 		else if(context.random.nextDouble() < 0.0625)

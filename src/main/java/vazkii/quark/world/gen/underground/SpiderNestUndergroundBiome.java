@@ -4,7 +4,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
-import vazkii.quark.world.gen.UndergroundBiomeGenerator.UndergroundBiomeGenerationContext;
+import vazkii.quark.world.gen.UndergroundBiomeGenerator.Context;
 import vazkii.quark.world.module.underground.SpiderNestUndergroundBiomeModule;
 
 public class SpiderNestUndergroundBiome extends BasicUndergroundBiome {
@@ -14,12 +14,12 @@ public class SpiderNestUndergroundBiome extends BasicUndergroundBiome {
 	}
 
 	@Override
-	public void fillCeiling(UndergroundBiomeGenerationContext context, BlockPos pos, BlockState state) {
+	public void fillCeiling(Context context, BlockPos pos, BlockState state) {
 		super.fillCeiling(context, pos, state);
 		placeCobweb(context, pos, Direction.DOWN, 0.1);
 	}
 	
-	private void placeCobweb(UndergroundBiomeGenerationContext context, BlockPos pos, Direction off, double chance) {
+	private void placeCobweb(Context context, BlockPos pos, Direction off, double chance) {
 		if(context.random.nextDouble() < chance) {
 			BlockPos placePos = off == null ? pos : pos.offset(off);
 			context.world.setBlockState(placePos, Blocks.COBWEB.getDefaultState(), 2);
@@ -27,14 +27,14 @@ public class SpiderNestUndergroundBiome extends BasicUndergroundBiome {
 	}
 	
 	@Override
-	public void fillWall(UndergroundBiomeGenerationContext context, BlockPos pos, BlockState state) {
+	public void fillWall(Context context, BlockPos pos, BlockState state) {
 		if(context.random.nextDouble() < 0.3)
 			context.world.setBlockState(pos, SpiderNestUndergroundBiomeModule.cobbedstone.getDefaultState(), 2);
 		else super.fillWall(context, pos, state);
 	}
 	
 	@Override
-	public void fillFloor(UndergroundBiomeGenerationContext context, BlockPos pos, BlockState state) {
+	public void fillFloor(Context context, BlockPos pos, BlockState state) {
 		if(context.random.nextDouble() < 0.3)
 			context.world.setBlockState(pos, SpiderNestUndergroundBiomeModule.cobbedstone.getDefaultState(), 2);
 		else super.fillFloor(context, pos, state);

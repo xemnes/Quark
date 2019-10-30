@@ -12,7 +12,7 @@ public class BigStoneClusterConfig extends ClusterSizeConfig {
 	public boolean enabled = true;
 
 	public BigStoneClusterConfig(boolean nether, BiomeDictionary.Type... types) {
-		this(nether, 14, 9, 20, 20, 80, types);
+		this(nether, 14, 9, 4, 20, 80, types);
 	}
 
 	public BigStoneClusterConfig(boolean nether, int clusterSize, int sizeVariation, int rarity, int minYLevel, int maxYLevel, BiomeDictionary.Type... types) {

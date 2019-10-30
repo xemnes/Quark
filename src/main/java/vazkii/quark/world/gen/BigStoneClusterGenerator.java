@@ -51,7 +51,7 @@ public class BigStoneClusterGenerator extends ClusterBasedGenerator {
 	}
 
 	@Override
-	public IGenerationContext createContext() {
+	public IGenerationContext createContext(BlockPos src, ChunkGenerator<? extends GenerationSettings> generator, Random random, BlockPos chunkCorner, IWorld world) {
 		return new Context();
 	}
 	

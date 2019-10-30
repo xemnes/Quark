@@ -27,7 +27,7 @@ public abstract class ClusterBasedGenerator extends MultiChunkFeatureGenerator {
 	@Override
 	public void generateChunkPart(BlockPos src, ChunkGenerator<? extends GenerationSettings> generator, Random random, BlockPos chunkCorner, IWorld world) {
 		final ClusterShape shape = shapeProvider.around(src);
-		final IGenerationContext context = createContext();
+		final IGenerationContext context = createContext(src, generator, random, chunkCorner, world);
 		
 		forEachChunkBlock(chunkCorner, shape.getLowerBound(), shape.getUpperBound(), (pos) -> {
 			if(shape.isInside(pos))
@@ -36,7 +36,7 @@ public abstract class ClusterBasedGenerator extends MultiChunkFeatureGenerator {
 		context.finish(world);
 	}
 	
-	public abstract IGenerationContext createContext();
+	public abstract IGenerationContext createContext(BlockPos src, ChunkGenerator<? extends GenerationSettings> generator, Random random, BlockPos chunkCorner, IWorld world);
 	
 	public static abstract interface IGenerationContext {
 		public void consume(IWorld world, BlockPos pos);

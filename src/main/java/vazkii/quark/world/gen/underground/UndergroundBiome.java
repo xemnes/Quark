@@ -13,7 +13,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.handler.MiscUtil;
-import vazkii.quark.world.gen.UndergroundBiomeGenerator.UndergroundBiomeGenerationContext;
+import vazkii.quark.world.gen.UndergroundBiomeGenerator.Context;
 
 public abstract class UndergroundBiome {
 	
@@ -32,7 +32,7 @@ public abstract class UndergroundBiome {
 	
 	public double dungeonChance;
 
-	public final void fill(UndergroundBiomeGenerationContext context, BlockPos pos) {
+	public final void fill(Context context, BlockPos pos) {
 		IWorld world = context.world;
 		BlockState state = world.getBlockState(pos);
 		if(state.getBlockHardness(world, pos) == -1 || world.canBlockSeeSky(pos))
@@ -53,24 +53,24 @@ public abstract class UndergroundBiome {
 		}
 	}
 
-	public abstract void fillFloor(UndergroundBiomeGenerationContext context, BlockPos pos, BlockState state);
-	public abstract void fillCeiling(UndergroundBiomeGenerationContext context, BlockPos pos, BlockState state);
-	public abstract void fillWall(UndergroundBiomeGenerationContext context, BlockPos pos, BlockState state);
-	public abstract void fillInside(UndergroundBiomeGenerationContext context, BlockPos pos, BlockState state);
+	public abstract void fillFloor(Context context, BlockPos pos, BlockState state);
+	public abstract void fillCeiling(Context context, BlockPos pos, BlockState state);
+	public abstract void fillWall(Context context, BlockPos pos, BlockState state);
+	public abstract void fillInside(Context context, BlockPos pos, BlockState state);
 	
-	public void finalFloorPass(UndergroundBiomeGenerationContext context, BlockPos pos) {
+	public void finalFloorPass(Context context, BlockPos pos) {
 		// NO-OP
 	}
 
-	public void finalCeilingPass(UndergroundBiomeGenerationContext context, BlockPos pos) {
+	public void finalCeilingPass(Context context, BlockPos pos) {
 		// NO-OP
 	}
 
-	public void finalWallPass(UndergroundBiomeGenerationContext context, BlockPos pos) {
+	public void finalWallPass(Context context, BlockPos pos) {
 		// NO-OP
 	}
 
-	public void finalInsidePass(UndergroundBiomeGenerationContext context, BlockPos pos) {
+	public void finalInsidePass(Context context, BlockPos pos) {
 		// NO-OP
 	}
 
