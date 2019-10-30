@@ -4,33 +4,40 @@ import java.util.Random;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.gen.OctavesNoiseGenerator;
+import net.minecraft.world.gen.PerlinNoiseGenerator;
 import vazkii.quark.base.world.config.ClusterSizeConfig;
 
 public class ClusterShape {
 	
 	private final BlockPos src;
 	private final Vec3d radius;
-	private final Vec3d radiusSq;
+	private final PerlinNoiseGenerator noiseGenerator;
 	
-	public ClusterShape(BlockPos src, Vec3d radius) {
+	public ClusterShape(BlockPos src, Vec3d radius, PerlinNoiseGenerator noiseGenerator) {
 		this.src = src;
 		this.radius = radius;
-		this.radiusSq = new Vec3d(radius.x * radius.x, radius.y * radius.y, radius.z * radius.z);
+		this.noiseGenerator = noiseGenerator;
 	}
 	
 	public boolean isInside(BlockPos pos) {
-		int x = pos.getX() - src.getX();
-		int y = pos.getY() - src.getY();
-		int z = pos.getZ() - src.getZ();
-
-		double distX = x * x;
-		double distY = y * y;
-		double distZ = z * z;
-		double dist = distX / radiusSq.x + distY / radiusSq.y + distZ / radiusSq.z;
-		boolean inside = dist <= 1;
+		// normalize distances by the radius 
+		double dx = (double) (pos.getX() - src.getX()) / radius.x;
+		double dy = (double) (pos.getY() - src.getY()) / radius.y;
+		double dz = (double) (pos.getZ() - src.getZ()) / radius.z;
 		
-		return inside;
+		// convert to spherical
+		double r = Math.sqrt(dx * dx + dy * dy + dz * dz);
+		if(r == 0)
+			return true; // special case the center 
+		
+		double phi = Math.atan2(dz, dx);
+		double theta = r == 0 ? 0 : Math.acos(dy / r);
+		
+		double xn = Math.sin((phi + Math.PI) / 2) * Math.PI + src.getX();
+		double yn = theta + src.getZ();
+		double maxR = (noiseGenerator.getValue(xn, yn) / 16.0) + 0.5;
+		
+		return r < maxR;
 	}
 
 	public int getUpperBound() {
@@ -44,11 +51,11 @@ public class ClusterShape {
 	public static class Provider {
 		
 		private final ClusterSizeConfig sizeProvider;
-		private final OctavesNoiseGenerator noiseGenerator;
+		private final PerlinNoiseGenerator noiseGenerator;
 		
 		public Provider(ClusterSizeConfig provider, long seed) {
 			this.sizeProvider = provider;
-			noiseGenerator = new OctavesNoiseGenerator(new Random(seed), 12);
+			noiseGenerator = new PerlinNoiseGenerator(new Random(seed), 4);
 		}
 		
 		public ClusterShape around(BlockPos src) {
@@ -58,7 +65,7 @@ public class ClusterShape {
 			int radiusY = sizeProvider.verticalSize + rand.nextInt(sizeProvider.verticalVariation);
 			int radiusZ = sizeProvider.horizontalSize + rand.nextInt(sizeProvider.horizontalVariation);
 					
-			return new ClusterShape(src, new Vec3d(radiusX, radiusY, radiusZ));
+			return new ClusterShape(src, new Vec3d(radiusX, radiusY, radiusZ), noiseGenerator);
 		}
 		
 		public int getRadius() {
