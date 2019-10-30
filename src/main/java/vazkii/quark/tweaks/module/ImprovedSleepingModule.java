@@ -85,7 +85,7 @@ public class ImprovedSleepingModule extends Module {
 		int legitPlayers = counts.getLeft();
 		int sleepingPlayers = counts.getRight();
 
-		int reqPlayers = (int) (percentReq / 100f * legitPlayers);
+		int reqPlayers = (int) (percentReq * legitPlayers);
 
 		return (legitPlayers > 0 && ((float) sleepingPlayers / reqPlayers) >= 1);
 	}
@@ -216,7 +216,7 @@ public class ImprovedSleepingModule extends Module {
 
 		ImprovedSleepingModule.sleepingPlayers = sleepingPlayers;
 
-		if((!newSleepingPlayers.isEmpty() || !wasSleepingPlayers.isEmpty())&& world.getPlayers().size() != 1) {
+		if((!newSleepingPlayers.isEmpty() || !wasSleepingPlayers.isEmpty()) && world.getPlayers().size() != 1) {
 			boolean isDay = world.getCelestialAngle(0F) < 0.5;
 
 			int requiredPlayers = Math.max((int) Math.ceil((legitPlayers * percentReq / 100F)), 0);
