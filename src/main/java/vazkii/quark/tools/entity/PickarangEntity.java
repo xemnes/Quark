@@ -102,21 +102,21 @@ public class PickarangEntity extends ThrowableEntity {
 				if (player.interactionManager.tryHarvestBlock(hit))
 					world.playEvent(null, 2001, hit, Block.getStateId(state));
 				else
-					playSound(QuarkSounds.ENTITY_PICKARANG_CLANK, 1, 1);
+					clank();
 
 				setStack(player.getHeldItemMainhand());
 
 				player.setHeldItem(Hand.MAIN_HAND, prev);
 			} else
-				playSound(QuarkSounds.ENTITY_PICKARANG_CLANK, 1, 1);
+				clank();
 
 		} else if(result.getType() == Type.ENTITY && result instanceof EntityRayTraceResult) {
 			Entity hit = ((EntityRayTraceResult) result).getEntity();
 			if(hit != owner) {
 				addHit();
 				if (hit instanceof PickarangEntity) {
-					((PickarangEntity) hit).addHit();
-					playSound(QuarkSounds.ENTITY_PICKARANG_CLANK, 1, 1);
+					((PickarangEntity) hit).setReturning();
+					clank();
 				} else {
 					ItemStack pickarang = getStack();
 					Multimap<String, AttributeModifier> modifiers = pickarang.getAttributeModifiers(EquipmentSlotType.MAINHAND);
@@ -139,7 +139,7 @@ public class PickarangEntity extends ThrowableEntity {
 							owner.attackEntityAsMob(hit);
 
 						if (hit instanceof LivingEntity && ((LivingEntity) hit).getHealth() == prevHealth)
-							playSound(QuarkSounds.ENTITY_PICKARANG_CLANK, 1, 1);
+							clank();
 
 						PickarangModule.setActivePickarang(null);
 
@@ -164,6 +164,11 @@ public class PickarangEntity extends ThrowableEntity {
 		}
 	}
 
+	public void clank() {
+		playSound(QuarkSounds.ENTITY_PICKARANG_CLANK, 1, 1);
+		setReturning();
+	}
+
 	public void addHit() {
 		hitCount++;
 		if(hitCount > getPiercingModifier())
@@ -171,6 +176,9 @@ public class PickarangEntity extends ThrowableEntity {
 	}
 	
 	protected void setReturning() {
+		int piercing = getPiercingModifier();
+		if (hitCount <= piercing)
+			hitCount = piercing + 1;
 		dataManager.set(RETURNING, true);
 	}
 
