@@ -3,7 +3,6 @@ package vazkii.quark.tools.entity;
 import com.google.common.collect.Multimap;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
@@ -86,7 +85,7 @@ public class PickarangEntity extends ThrowableEntity {
 			BlockPos hit = ((BlockRayTraceResult) result).getPos();
 			BlockState state = world.getBlockState(hit);
 			
-			if(getPiercingModifier() == 0 || state.getMaterial() != Material.LEAVES)
+			if(getPiercingModifier() == 0 || !state.getMaterial().isOpaque())
 				addHit();
 
 			if(!(owner instanceof ServerPlayerEntity))
