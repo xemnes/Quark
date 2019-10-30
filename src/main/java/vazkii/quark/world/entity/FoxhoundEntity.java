@@ -10,8 +10,32 @@
  */
 package vazkii.quark.world.entity;
 
-import net.minecraft.entity.*;
-import net.minecraft.entity.ai.goal.*;
+import java.util.List;
+import java.util.Random;
+import java.util.UUID;
+
+import javax.annotation.Nonnull;
+
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.AgeableEntity;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.ai.goal.BegGoal;
+import net.minecraft.entity.ai.goal.BreedGoal;
+import net.minecraft.entity.ai.goal.FollowOwnerGoal;
+import net.minecraft.entity.ai.goal.HurtByTargetGoal;
+import net.minecraft.entity.ai.goal.LeapAtTargetGoal;
+import net.minecraft.entity.ai.goal.LookAtGoal;
+import net.minecraft.entity.ai.goal.LookRandomlyGoal;
+import net.minecraft.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
+import net.minecraft.entity.ai.goal.NonTamedTargetGoal;
+import net.minecraft.entity.ai.goal.OwnerHurtTargetGoal;
+import net.minecraft.entity.ai.goal.SitGoal;
+import net.minecraft.entity.ai.goal.SwimGoal;
+import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
 import net.minecraft.entity.monster.AbstractSkeletonEntity;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.AnimalEntity;
@@ -40,6 +64,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.IWorld;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.LightType;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
@@ -48,11 +73,6 @@ import vazkii.quark.tweaks.ai.WantLoveGoal;
 import vazkii.quark.world.ai.FindPlaceToSleepGoal;
 import vazkii.quark.world.ai.SleepGoal;
 import vazkii.quark.world.module.FoxhoundModule;
-
-import javax.annotation.Nonnull;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
 
 public class FoxhoundEntity extends WolfEntity implements IMob {
 
@@ -80,8 +100,18 @@ public class FoxhoundEntity extends WolfEntity implements IMob {
 	}
 
 	@Override
+	public boolean isNoDespawnRequired() {
+		return super.isNoDespawnRequired();
+	}
+
+	@Override
 	public boolean preventDespawn() {
 		return isTamed();
+	}
+
+	@Override
+	public boolean canDespawn(double distanceToClosestPlayer) {
+		return !isTamed();
 	}
 
 	@Override
@@ -98,17 +128,17 @@ public class FoxhoundEntity extends WolfEntity implements IMob {
 			return;
 		}
 
-//		if (!world.isRemote && TinyPotato.tiny_potato != null) {
-//			if (timeUntilPotatoEmerges == 1) {
-//				timeUntilPotatoEmerges = 0;
-//				ItemStack stack = new ItemStack(TinyPotato.tiny_potato);
-//				ItemNBTHelper.setBoolean(stack, "angery", true);
-//				entityDropItem(stack, 0f);
-//				playSound(SoundEvents.ENTITY_GENERIC_HURT, 1f, 1f);
-//			} else if (timeUntilPotatoEmerges > 1) {
-//				timeUntilPotatoEmerges--;
-//			}
-//		}
+		//		if (!world.isRemote && TinyPotato.tiny_potato != null) {
+		//			if (timeUntilPotatoEmerges == 1) {
+		//				timeUntilPotatoEmerges = 0;
+		//				ItemStack stack = new ItemStack(TinyPotato.tiny_potato);
+		//				ItemNBTHelper.setBoolean(stack, "angery", true);
+		//				entityDropItem(stack, 0f);
+		//				playSound(SoundEvents.ENTITY_GENERIC_HURT, 1f, 1f);
+		//			} else if (timeUntilPotatoEmerges > 1) {
+		//				timeUntilPotatoEmerges--;
+		//			}
+		//		}
 
 		if (WantLoveGoal.needsPets(this)) {
 			Entity owner = getOwner();
@@ -147,7 +177,6 @@ public class FoxhoundEntity extends WolfEntity implements IMob {
 	}
 
 	protected SleepGoal sleepGoal;
-
 
 	@Override
 	protected void registerGoals() {
@@ -234,15 +263,15 @@ public class FoxhoundEntity extends WolfEntity implements IMob {
 			}
 		}
 
-//		if (itemstack.getItem() == Item.getItemFromBlock(TinyPotato.tiny_potato)) {
-//			this.playSound(SoundEvents.ENTITY_GENERIC_EAT, 1F, 0.5F + (float) Math.random() * 0.5F);
-//			if (!player.isCreative())
-//				itemstack.shrink(1);
-//
-//			this.timeUntilPotatoEmerges = 1201;
-//
-//			return true;
-//		}
+		//		if (itemstack.getItem() == Item.getItemFromBlock(TinyPotato.tiny_potato)) {
+		//			this.playSound(SoundEvents.ENTITY_GENERIC_EAT, 1F, 0.5F + (float) Math.random() * 0.5F);
+		//			if (!player.isCreative())
+		//				itemstack.shrink(1);
+		//
+		//			this.timeUntilPotatoEmerges = 1201;
+		//
+		//			return true;
+		//		}
 
 		if (!world.isRemote) {
 			setWoke();
@@ -304,10 +333,10 @@ public class FoxhoundEntity extends WolfEntity implements IMob {
 			return light <= rand.nextInt(8);
 		}
 	}
-	
+
 	@Override
-	public boolean canSpawn(IWorld world, SpawnReason reason) {
-		return true;
+	public float getBlockPathWeight(BlockPos pos, IWorldReader worldIn) {
+		return worldIn.getBlockState(pos.down()).getBlock() == Blocks.NETHERRACK ? 10.0F : worldIn.getBrightness(pos) - 0.5F;
 	}
 
 	public static boolean spawnPredicate(EntityType<? extends FoxhoundEntity> type, IWorld world, SpawnReason reason, BlockPos pos, Random rand) {
@@ -324,11 +353,6 @@ public class FoxhoundEntity extends WolfEntity implements IMob {
 			setSleeping(false);
 			sleep.setSleeping(false);
 		}
-	}
-
-	@Override
-	public float getBlockPathWeight(@Nonnull BlockPos pos) {
-		return 0.5F - this.world.getBrightness(pos);
 	}
 
 	@Nonnull

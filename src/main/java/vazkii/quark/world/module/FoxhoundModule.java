@@ -32,7 +32,7 @@ public class FoxhoundModule extends Module {
     public static double tameChance = 0.05;
     
     @Config
-    public static EntitySpawnConfig spawnConfig = new EntitySpawnConfig(10, 1, 2, new BiomeTypeConfig(false, Type.NETHER));
+    public static EntitySpawnConfig spawnConfig = new EntitySpawnConfig(30, 1, 2, new BiomeTypeConfig(false, Type.NETHER));
 
     @Override
     public void construct() {
