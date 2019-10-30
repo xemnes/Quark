@@ -139,7 +139,7 @@ public class ColorRunesModule extends Module {
 			ItemNBTHelper.setBoolean(out, TAG_RUNE_ATTACHED, true);
 			ItemNBTHelper.setCompound(out, TAG_RUNE_COLOR, right.serializeNBT());
 			event.setOutput(out);
-			event.setCost(event.getCost() + applyCost);
+			event.setCost(applyCost);
 			event.setMaterialCost(1);
 		}
 	}
