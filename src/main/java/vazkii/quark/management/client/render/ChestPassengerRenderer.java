@@ -70,6 +70,13 @@ public class ChestPassengerRenderer extends EntityRenderer<ChestPassengerEntity>
             GlStateManager.rotatef(rock, 1.0F, 0.0F, 1.0F);
         }
 
+        if (riding.getControllingPassenger() == null) {
+            if (riding.getPassengers().size() > 1)
+                GlStateManager.translatef(0F, 0F, -0.9F);
+            else
+                GlStateManager.translatef(0F, 0F, -0.45F);
+        }
+
         GlStateManager.translatef(0F, 0.7F - 0.375F, 0.6F - 0.15F);
 
         GlStateManager.scalef(1.75F, 1.75F, 1.75F);
