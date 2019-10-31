@@ -16,6 +16,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.lighting.LightEngine;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.ToolType;
 import vazkii.quark.base.block.QuarkBlock;
 import vazkii.quark.base.module.Module;
 
@@ -24,12 +25,13 @@ import java.util.Random;
 public class GlowceliumBlock extends QuarkBlock {
 
 	public GlowceliumBlock(Module module) {
-		super("glowcelium", module, ItemGroup.BUILDING_BLOCKS, 
+		super("glowcelium", module, ItemGroup.BUILDING_BLOCKS,
 				Block.Properties.create(Material.ORGANIC, MaterialColor.LIGHT_BLUE)
-				.tickRandomly()
-				.hardnessAndResistance(0.2F)
-				.lightValue(7)
-				.sound(SoundType.PLANT));
+						.tickRandomly()
+						.hardnessAndResistance(0.5F)
+						.lightValue(7)
+						.harvestTool(ToolType.SHOVEL)
+						.sound(SoundType.PLANT));
 	}
 
 	@Override
