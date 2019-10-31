@@ -119,6 +119,7 @@ function updateEntry(changed, setHash) {
 			$(this).removeClass('active-holder');	
 			next.addClass('active-holder');
 			next.animate({opacity: 1, 'margin-left': '0px'}, 250);
+			updateLazyImages();
 		});
 
 		if(setHash)
@@ -140,8 +141,17 @@ function updateCategory(changed) {
 			$(this).removeClass('active-category');	
 			next.addClass('active-category');
 			next.animate({opacity: 1, 'margin-left': '0px'}, 250);
+			updateLazyImages();
 		});
 	}
+}
+
+function updateLazyImages() {
+	$('.active-category img:not(.loaded-image)').each(function(e) {
+		var elm = $(this);
+		elm.attr('src', elm.attr('data-lazy-src'));
+		elm.addClass('loaded-image');
+	});
 }
 
 function updateBtt() {
