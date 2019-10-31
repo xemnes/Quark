@@ -415,7 +415,7 @@
 				"#Maps",
 				"!img/features/client/improved-tooltips/map.jpg",
 				"#Enchanted Books",
-				"!img/features/client/improved-tooltips/map.jpg"
+				"!img/features/client/improved-tooltips/books.jpg"
 			]
 		},
 		{
@@ -858,9 +858,10 @@
 			"image": "new-stone-types.jpg",
 			"versions": "1.14+",
 			"desc": [
-				"Five new stone types are added to your world:",
-				"!img/features/world/new-stone-types/render.png",
-				"From left to right: WIP, WIP, WIP, WIP, WIP. Basalt will spawn in the Nether, and the other ones will spawn in the Overworld."
+				"Five new stone types are added to your world. These will generate around in the overworld, except Basaslt, which generates in the Nether.",
+				"Pictured in the screenshot:",
+				"*Top layer: Slate, Basalt",
+				"*Bottom layer: Limestone, Marble, Jasper"
 			]
 		},
 		{

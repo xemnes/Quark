@@ -41,10 +41,6 @@
 
 	<div id="main">
 		<div class="content-holder active-holder default-page" data-entry="home">
-			<div class="info">
-				You are looking at a beta test of the new website. It's not finished yet. Expect things to maybe break, and content to be missing. (We're still filling in the Features secion, please excuse the mess)
-			</div>
-
 			<div id="big-branding">
 				<div id="big-branding-background">
 					<img src="img/features/automation/color-slime.jpg"></img>
@@ -146,13 +142,13 @@
 					</div>
 				</div>
 
-				<div class="spotlight-entry spotlight-right">
+				<!--<div class="spotlight-entry spotlight-right">
 					<div class="spotlight-info">
 						<div class="spotlight-header">And Much, Much More!</div>
 						<div class="spotlight-desc">Quark has a ton of different features for you to explore, from Emotes to Chests in Boats, New Animals, Inventory Sorting, Useful Hoes, to Glass Shards, Patting Wolves, and many others. The sky is the limit!</div>
 					</div>
 					<div class="spotlight-image"><img src="img/spotlight/misc_render.png"></img></div>
-				</div>
+				</div>-->
 
 				<div class="data-entry-changer std-button button-long button-next" data-entry="features">
 					<div class="button-title">Full Feature List</div>
