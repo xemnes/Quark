@@ -26,11 +26,10 @@ public class PistonTileEntityRenderer {
 		Block block = state.getBlock();
 		String id = Objects.toString(block.getRegistryName());
 		BlockPos truePos = piston.getPos();
-		if (piston.isExtending())
-			truePos = truePos.offset(piston.getFacing().getOpposite());
 
 		try {
 			TileEntity tile = PistonsMoveTileEntitiesModule.getMovement(piston.getWorld(), truePos);
+			
 			if(tile == null || PistonsMoveTileEntitiesModule.renderBlacklist.contains(id))
 				return false;
 

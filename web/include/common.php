@@ -9,7 +9,7 @@
 	}
 
 	function img($src, $class="") {
-		push('img', $class, array('src' => $src));
+		push('img', $class, array('src' => 'img/loading.jpg', 'data-lazy-src' => $src));
 		pop();
 	}
 
