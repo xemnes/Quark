@@ -15,7 +15,7 @@
 	<meta name="twitter:title" content="quark" />
 	<meta name="twitter:site" content="@VazkiiMods" />
 
-	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="quark2.css">
 	<link rel="icon" href="favicon.ico">
 </head>
 <body>
@@ -310,6 +310,6 @@
 	</div>
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-	<script src="quark.js"></script>
+	<script src="quark2.js"></script>
 </body>
 </html>

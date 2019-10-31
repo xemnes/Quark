@@ -811,8 +811,9 @@ a:not(.no-external)::after, .show-external::after {
 	}
 
 	.feature-expand-button {
-		height: 30px;
-		padding-bottom: 25px;
+		height: 45px;
+		padding-top: 0px;
+		padding-bottom: 0px;
 	}
 
 	.feature-expand-button .button-title {
