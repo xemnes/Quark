@@ -69,7 +69,8 @@ public class PickarangEntity extends Entity implements IProjectile {
 	
     public PickarangEntity(World worldIn, LivingEntity throwerIn) {
     	super(PickarangModule.pickarangType, worldIn);
-    	this.setPosition(posX, throwerIn.posY + throwerIn.getEyeHeight(), posZ);
+    	this.setPosition(throwerIn.posX, throwerIn.posY + throwerIn.getEyeHeight(), throwerIn.posZ);
+    	ownerId = throwerIn.getUniqueID();
     }
 
 	@Override
@@ -138,7 +139,7 @@ public class PickarangEntity extends Entity implements IProjectile {
 			BlockPos hit = ((BlockRayTraceResult) result).getPos();
 			BlockState state = world.getBlockState(hit);
 			
-			if(getPiercingModifier() == 0 || !state.getMaterial().isOpaque())
+			if(getPiercingModifier() == 0 || state.getMaterial().isOpaque())
 				addHit();
 
 			if(!(owner instanceof ServerPlayerEntity))
@@ -237,6 +238,8 @@ public class PickarangEntity extends Entity implements IProjectile {
 	public void postHit() {
 		if((entitiesHit == null ? 0 : entitiesHit.size()) + blockHitCount > getPiercingModifier())
 			setReturning();
+		else if (getPiercingModifier() > 0)
+			setMotion(getMotion().scale(0.8));
 	}
 
 	public void addHit() {
@@ -269,30 +272,38 @@ public class PickarangEntity extends Entity implements IProjectile {
 		Vec3d vec3d = this.getMotion();
 
 
-		Vec3d vec3d1 = new Vec3d(this.posX, this.posY, this.posZ);
-		Vec3d vec3d2 = vec3d1.add(vec3d);
-		RayTraceResult raytraceresult = this.world.rayTraceBlocks(new RayTraceContext(vec3d1, vec3d2, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, this));
-		if (raytraceresult.getType() != RayTraceResult.Type.MISS) vec3d2 = raytraceresult.getHitVec();
+		if (!dataManager.get(RETURNING)) {
+			Vec3d vec3d1 = new Vec3d(this.posX, this.posY, this.posZ);
+			Vec3d vec3d2 = vec3d1.add(vec3d);
+			RayTraceResult raytraceresult = this.world.rayTraceBlocks(new RayTraceContext(vec3d1, vec3d2, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, this));
+			if (raytraceresult.getType() != RayTraceResult.Type.MISS) vec3d2 = raytraceresult.getHitVec();
 
-		while(this.isAlive()) {
-			EntityRayTraceResult entityraytraceresult = this.raycast(vec3d1, vec3d2);
-			if (entityraytraceresult != null) raytraceresult = entityraytraceresult;
+			while (this.isAlive()) {
+				EntityRayTraceResult entityraytraceresult = this.raycast(vec3d1, vec3d2);
+				if (entityraytraceresult != null) raytraceresult = entityraytraceresult;
 
-			if (raytraceresult != null && raytraceresult.getType() == RayTraceResult.Type.ENTITY && raytraceresult instanceof EntityRayTraceResult) {
-				Entity entity = ((EntityRayTraceResult)raytraceresult).getEntity();
-				Entity entity1 = this.getThrower();
-				if (entity instanceof PlayerEntity && entity1 instanceof PlayerEntity && !((PlayerEntity)entity1).canAttackPlayer((PlayerEntity)entity)) {
-					raytraceresult = null;
+				if (raytraceresult != null && raytraceresult.getType() == RayTraceResult.Type.ENTITY && raytraceresult instanceof EntityRayTraceResult) {
+					Entity entity = ((EntityRayTraceResult) raytraceresult).getEntity();
+					Entity entity1 = this.getThrower();
+					if (entity == entity1 || (entity instanceof PlayerEntity && entity1 instanceof PlayerEntity && !((PlayerEntity) entity1).canAttackPlayer((PlayerEntity) entity))) {
+						raytraceresult = null;
+					}
 				}
-			}
 
-			if (raytraceresult != null && !ForgeEventFactory.onProjectileImpact(this, raytraceresult)) {
-				this.onImpact(raytraceresult);
-				this.isAirBorne = true;
-			}
+				if (raytraceresult != null && !ForgeEventFactory.onProjectileImpact(this, raytraceresult)) {
+					this.onImpact(raytraceresult);
+					this.isAirBorne = true;
+				}
 
-			raytraceresult = null;
+				if (entityraytraceresult == null || this.getPiercingModifier() <= 0) {
+					break;
+				}
+
+				raytraceresult = null;
+			}
 		}
+
+		vec3d = this.getMotion();
 
 		this.posX += vec3d.x;
 		this.posY += vec3d.y;
@@ -327,14 +338,14 @@ public class PickarangEntity extends Entity implements IProjectile {
 		if(!isAlive())
 			return;
 
-		
+
 		boolean returning = dataManager.get(RETURNING);
 		liveTime++;
 		
 		if(!returning) {
 			if(liveTime > PickarangModule.timeout)
 				setReturning();
-			if (world.getWorldBorder().contains(getPosition()))
+			if (!world.getWorldBorder().contains(getPosition()))
 				spark();
 		} else {
 			noClip = true;
