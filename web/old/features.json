@@ -1138,7 +1138,7 @@
 			{
 				"name": "Stonelings",
 				"classname":"Stonelings",
-				"description":"Stonelings are new passive mobs that spawn in the deep underground. These little stone fairies will spawn in carrying an item, and will get startled if you get too close to them without sneaking. Once startled, they'll run away from you and eventually poof out of existence. If you manage to kill one, you'll get the item its carrying.<br><br>Additionally, Stonelings may drop a Heart of Diamond, a new item which you can use on any stone block to create your own tamed Stoneling! Tamed Stonelings can hold items you give them, eat Stone (they love it!), and follow you if you hold a Diamond.",
+				"description":"Stonelings are new passive mobs that spawn in the deep underground. These little guys will spawn in carrying an item, and will get startled if you get too close to them without sneaking. Once startled, they'll run away from you and eventually poof out of existence. If you manage to kill one, you'll get the item its carrying.<br><br>Additionally, Stonelings may drop a Heart of Diamond, a new item which you can use on any stone block to create your own tamed Stoneling! Tamed Stonelings can hold items you give them, eat Stone (they love it!), and follow you if you hold a Diamond.",
 				"image":"stonelings.jpg",
 				"introduced":12
 			},
