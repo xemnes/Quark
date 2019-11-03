@@ -102,6 +102,7 @@
 				"models/block/piston_head_sticky.json",
 				"models/block/piston_head_short_sticky.json",
 				"models/block/piston_head.json",
+				"models/block/piston_head_short.json",
 				"models/block/piston_base.json"
 			]
 		},

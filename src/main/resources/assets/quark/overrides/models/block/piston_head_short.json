@@ -1,11 +1,10 @@
 {
 "__comment": "Designed by the resident Inuit with BDcraft Cubik PRO 0.96 Beta - http://bdcraft.net",
 "textures": {
-    "particle": "quark:block/override_res/piston_side_sticky",
-    "texture": "quark:block/override_res/piston_side_sticky",
-    "piston_top_normal": "block/piston_top_sticky",
-    "piston": "quark:block/override_res/piston_arm",
-    "back": "block/piston_top"
+    "particle": "block/piston_side",
+    "texture": "block/piston_side",
+    "piston_top_normal": "block/piston_top",
+    "piston": "quark:block/override_res/piston_arm"
 },
 "elements": [ 
 {
@@ -15,7 +14,7 @@
         "down":  { "uv": [ 0, 4, 16, 0 ], "texture": "#texture", "cullface": "down" },
         "up":    { "uv": [ 16, 0, 0, 4 ], "texture": "#texture", "cullface": "up" },
         "north": { "uv": [ 0, 0, 16, 16 ], "texture": "#piston_top_normal", "cullface": "north" },
-        "south": { "uv": [ 0, 0, 16, 16 ], "texture": "#back" },
+        "south": { "uv": [ 0, 0, 16, 16 ], "texture": "#piston_top_normal" },
         "west":  { "uv": [ 16, 0, 0, 4 ], "rotation": 270, "texture": "#texture", "cullface": "west" },
         "east":  { "uv": [ 16, 4, 0, 0 ], "rotation": 270, "texture": "#texture", "cullface": "east" }
     }
