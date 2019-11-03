@@ -278,6 +278,7 @@ public class PickarangEntity extends Entity implements IProjectile {
 			RayTraceResult raytraceresult = this.world.rayTraceBlocks(new RayTraceContext(vec3d1, vec3d2, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, this));
 			if (raytraceresult.getType() != RayTraceResult.Type.MISS) vec3d2 = raytraceresult.getHitVec();
 
+			int tries = 0;
 			while (this.isAlive()) {
 				EntityRayTraceResult entityraytraceresult = this.raycast(vec3d1, vec3d2);
 				if (entityraytraceresult != null) raytraceresult = entityraytraceresult;
@@ -300,6 +301,8 @@ public class PickarangEntity extends Entity implements IProjectile {
 				}
 
 				raytraceresult = null;
+				if((++tries) > 50)
+					break;
 			}
 		}
 
