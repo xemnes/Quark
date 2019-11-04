@@ -99,6 +99,7 @@ public class ChestSearchingModule extends Module {
 	private void updateSearchStatus() {
 		searchBar.setEnabled(searchEnabled);
 		searchBar.setVisible(searchEnabled);
+		searchBar.setFocused2(searchEnabled);
 	}
 
 	@SubscribeEvent
