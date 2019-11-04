@@ -1,82 +1,95 @@
-/**
- * This class was created by <Vazkii>. It's distributed as
- * part of the Quark Mod. Get the Source Code in github:
- * https://github.com/Vazkii/Quark
- *
- * Quark is Open Source and distributed under the
- * CC-BY-NC-SA 3.0 License: https://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_GB
- *
- * File Created @ [18/03/2016, 21:51:45 (GMT)]
- */
 package vazkii.quark.base.proxy;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.AbstractClientPlayer;
-import net.minecraft.client.resources.IResourcePack;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.world.World;
-import net.minecraftforge.client.resource.VanillaResourceType;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.client.FMLClientHandler;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import vazkii.quark.base.client.ContributorRewardHandler;
+import net.minecraft.resources.IAsyncReloader;
+import net.minecraft.resources.IReloadableResourceManager;
+import net.minecraft.resources.IResourcePack;
+import net.minecraft.resources.ResourcePackInfo;
+import net.minecraft.util.Unit;
+import net.minecraft.util.Util;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.StartupMessageManager;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
+import net.minecraftforge.resource.ReloadRequirements;
+import net.minecraftforge.resource.SelectiveReloadStateHandler;
+import net.minecraftforge.resource.VanillaResourceType;
 import vazkii.quark.base.client.ResourceProxy;
-import vazkii.quark.base.client.gui.config.ConfigEvents;
-import vazkii.quark.base.lib.LibObfuscation;
+import vazkii.quark.base.handler.ContributorRewardHandler;
 import vazkii.quark.base.module.ModuleLoader;
-import vazkii.quark.vanity.client.emotes.EmoteHandler;
-import vazkii.quark.vanity.feature.EmoteSystem;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.function.BooleanSupplier;
+import java.util.stream.Collectors;
 
 public class ClientProxy extends CommonProxy {
 
-	private static ResourceProxy resourceProxy;
-
 	@Override
-	public void preInit(FMLPreInitializationEvent event) {
-		List<IResourcePack> packs = ObfuscationReflectionHelper.getPrivateValue(Minecraft.class, Minecraft.getMinecraft(), LibObfuscation.DEFAULT_RESOURCE_PACKS);
-		resourceProxy = new ResourceProxy(event.getSourceFile());
-		packs.add(resourceProxy);
+	public void start() {
+		ResourceProxy.init();
 
-		EmoteSystem.addResourcePack(packs);
-
-		super.preInit(event);
-		ModuleLoader.preInitClient(event);
-
-		FMLClientHandler.instance().refreshResources(VanillaResourceType.TEXTURES);
+		super.start();
 	}
 
 	@Override
-	public void init(FMLInitializationEvent event) {
-		ContributorRewardHandler.setupClient();
+	public void registerListeners(IEventBus bus) {
+		super.registerListeners(bus);
 
-		super.init(event);
-		ModuleLoader.initClient(event);
+		bus.addListener(this::clientSetup);
+		bus.addListener(this::modelRegistry);
+	}
 
-		MinecraftForge.EVENT_BUS.register(ConfigEvents.class);
+	public void clientSetup(FMLClientSetupEvent event) {
+		ModuleLoader.INSTANCE.clientSetup();
+		
+		ResourceProxy.instance().ensureNotLast();
+	}
+
+	public void modelRegistry(ModelRegistryEvent event) {
+		ModuleLoader.INSTANCE.modelRegistry();
 	}
 
 	@Override
-	public void postInit(FMLPostInitializationEvent event) {
-		super.postInit(event);
-		ModuleLoader.postInitClient(event);
+	public void loadComplete(FMLLoadCompleteEvent event) {
+		super.loadComplete(event);
+		
+		if(ResourceProxy.instance().hasAny()) {
+			StartupMessageManager.addModMessage("Quark: Applying vanilla resource overrides...");
+			Minecraft mc = Minecraft.getInstance();
+			List<IResourcePack> packs = mc.getResourcePackList().getEnabledPacks().stream().map(ResourcePackInfo::getResourcePack).collect(Collectors.toList());
+			
+			SelectiveReloadStateHandler.INSTANCE.beginReload(ReloadRequirements.include(VanillaResourceType.MODELS));
+			IAsyncReloader async = ((IReloadableResourceManager) mc.getResourceManager()).reloadResources(Util.getServerExecutor(), mc, CompletableFuture.completedFuture(Unit.INSTANCE), packs);
+			async.join();
+			SelectiveReloadStateHandler.INSTANCE.endReload();
+		}
+	}
+
+	@Override	
+	public void handleQuarkConfigChange() {
+		super.handleQuarkConfigChange();
+
+		ModuleLoader.INSTANCE.configChangedClient();
+
+		Minecraft mc = Minecraft.getInstance();
+		if(mc.isSingleplayer() && mc.player != null && mc.getIntegratedServer() != null) {
+			mc.player.sendMessage(new TranslationTextComponent("commands.reload.success"));
+			mc.getIntegratedServer().reload();
+		}
 	}
 
 	@Override
-	public void doEmote(String playerName, String emoteName, int tier) {
-		World world = Minecraft.getMinecraft().world;
-		EntityPlayer player = world.getPlayerEntityByName(playerName);
-		if(player instanceof AbstractClientPlayer)
-			EmoteHandler.putEmote((AbstractClientPlayer) player, emoteName, tier);
+	public void addResourceOverride(String type, String path, String file, BooleanSupplier isEnabled) {
+		ResourceProxy.instance().addResource(type, path, file, isEnabled);
 	}
-
+	
 	@Override
-	public void addResourceOverride(String path, String file) {
-		resourceProxy.addResource(path, file);
+	protected void initContributorRewards() {
+		ContributorRewardHandler.getLocalName();
+		super.initContributorRewards();
 	}
 
 }

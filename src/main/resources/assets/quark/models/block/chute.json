@@ -1,10 +1,10 @@
 {
     "ambientocclusion": false,
     "textures": {
-        "particle": "quark:blocks/chute_side",
-        "side": "quark:blocks/chute_side",
-        "top": "quark:blocks/chute_top",
-        "bottom": "quark:blocks/chute_bottom"
+        "particle": "quark:block/chute_side",
+        "side": "quark:block/chute_side",
+        "top": "quark:block/chute_top",
+        "bottom": "quark:block/chute_bottom"
     },
     "elements": [
         {   "from": [ 0, 10, 0 ],

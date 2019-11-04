@@ -1,5 +1,5 @@
 {
 	"variants": {
-		"normal": { "model": "quark:turf" }
+		"": { "model": "quark:block/turf" }
 	}
 }

@@ -1,9 +1,9 @@
 {
 	"Comment": "Designed by Wiiv with Cubik Studio - https://cubik.studio",
-	"parent": "block/end_rod",
+	"parent": "block/block",
 	"textures": {
-		"iron_rod": "quark:blocks/iron_rod",
-		"particle": "quark:blocks/iron_rod"
+		"iron_rod": "quark:block/iron_rod",
+		"particle": "quark:block/iron_rod"
 		
 	},
 	"elements": [

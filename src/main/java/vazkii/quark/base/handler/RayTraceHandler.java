@@ -3,36 +3,40 @@ package vazkii.quark.base.handler;
 import org.apache.commons.lang3.tuple.Pair;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceContext;
+import net.minecraft.util.math.RayTraceContext.BlockMode;
+import net.minecraft.util.math.RayTraceContext.FluidMode;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class RayTraceHandler {
 
-	public static RayTraceResult rayTrace(World world, EntityPlayer player, boolean stopOnLiquid) {
-		return rayTrace(world, player, stopOnLiquid, getEntityRange(player));
+	public static RayTraceResult rayTrace(Entity entity, World world, PlayerEntity player, BlockMode blockMode, FluidMode fluidMode) {
+		return rayTrace(entity, world, player, blockMode, fluidMode, getEntityRange(player));
 	}
 	
-	public static RayTraceResult rayTrace(World world, Entity player, boolean stopOnLiquid, double range) {
+	public static RayTraceResult rayTrace(Entity entity, World world, Entity player, BlockMode blockMode, FluidMode fluidMode, double range) {
 		 Pair<Vec3d, Vec3d> params = getEntityParams(player);
 		
-		return rayTrace(world, params.getLeft(), params.getRight(), stopOnLiquid, range);
+		return rayTrace(entity, world, params.getLeft(), params.getRight(), blockMode, fluidMode, range);
 	}
 	
-	public static RayTraceResult rayTrace(World world, Vec3d startPos, Vec3d ray, boolean stopOnLiquid, double range) {
-		return rayTrace(world, startPos, ray.scale(range), stopOnLiquid);
+	public static RayTraceResult rayTrace(Entity entity, World world, Vec3d startPos, Vec3d ray, BlockMode blockMode, FluidMode fluidMode, double range) {
+		return rayTrace(entity, world, startPos, ray.scale(range), blockMode, fluidMode);
 	}
 
-	public static RayTraceResult rayTrace(World world, Vec3d startPos, Vec3d ray, boolean stopOnLiquid) {
+	public static RayTraceResult rayTrace(Entity entity, World world, Vec3d startPos, Vec3d ray, BlockMode blockMode, FluidMode fluidMode) {
 		Vec3d end = startPos.add(ray);
-		return world.rayTraceBlocks(startPos, end, stopOnLiquid);
+		RayTraceContext context = new RayTraceContext(startPos, end, blockMode, fluidMode, entity);
+		return world.rayTraceBlocks(context);
 	}
 	
-	public static double getEntityRange(EntityLivingBase player) {
-		return player.getEntityAttribute(EntityPlayer.REACH_DISTANCE).getAttributeValue();
+	public static double getEntityRange(LivingEntity player) {
+		return player.getAttribute(PlayerEntity.REACH_DISTANCE).getValue();
 	}
 	
 	public static Pair<Vec3d, Vec3d> getEntityParams(Entity player) {
@@ -41,8 +45,8 @@ public class RayTraceHandler {
 		float yaw = player.prevRotationYaw + (player.rotationYaw - player.prevRotationYaw) * scale;
 		double posX = player.prevPosX + (player.posX - player.prevPosX) * scale;
 		double posY = player.prevPosY + (player.posY - player.prevPosY) * scale;
-		if (player instanceof EntityPlayer)
-			posY += ((EntityPlayer) player).eyeHeight;
+		if (player instanceof PlayerEntity)
+			posY += ((PlayerEntity) player).getEyeHeight();
 		double posZ = player.prevPosZ + (player.posZ - player.prevPosZ) * scale;
 		Vec3d rayPos = new Vec3d(posX, posY, posZ);
 

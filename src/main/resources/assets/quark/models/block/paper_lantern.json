@@ -2,10 +2,10 @@
 	"__comment": "Designed by Wiiv with Cubik Studio - https://cubik.studio",
 	"parent": "minecraft:block/block",
 	"textures": {
-		"particle": "quark:blocks/paper_lantern_side",
-		"side": "quark:blocks/paper_lantern_side",
-		"bottom": "quark:blocks/paper_lantern_top_bottom",
-		"inside": "quark:blocks/paper_lantern_inside"
+		"particle": "quark:block/paper_lantern_side",
+		"side": "quark:block/paper_lantern_side",
+		"bottom": "quark:block/paper_lantern_top_bottom",
+		"inside": "quark:block/paper_lantern_inside"
 	},
 	"elements": [ 	 
 		{
