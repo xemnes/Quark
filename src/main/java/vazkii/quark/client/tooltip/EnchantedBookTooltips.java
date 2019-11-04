@@ -187,9 +187,6 @@ public class EnchantedBookTooltips {
 		if(getAdditionalStacks().containsKey(e))
 			list.addAll(getAdditionalStacks().get(e));
 
-		if(e == Enchantments.PIERCING && ModuleLoader.INSTANCE.isModuleEnabled(PickarangModule.class))
-			list.add(new ItemStack(PickarangModule.pickarang));
-		
 		return list;
 	}
 

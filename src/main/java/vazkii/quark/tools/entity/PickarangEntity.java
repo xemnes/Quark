@@ -66,12 +66,12 @@ public class PickarangEntity extends Entity implements IProjectile {
 	public PickarangEntity(EntityType<? extends PickarangEntity> type, World worldIn) {
 		super(type, worldIn);
 	}
-	
-    public PickarangEntity(World worldIn, LivingEntity throwerIn) {
-    	super(PickarangModule.pickarangType, worldIn);
-    	this.setPosition(throwerIn.posX, throwerIn.posY + throwerIn.getEyeHeight(), throwerIn.posZ);
-    	ownerId = throwerIn.getUniqueID();
-    }
+
+	public PickarangEntity(World worldIn, LivingEntity throwerIn) {
+		super(PickarangModule.pickarangType, worldIn);
+		this.setPosition(throwerIn.posX, throwerIn.posY + throwerIn.getEyeHeight(), throwerIn.posZ);
+		ownerId = throwerIn.getUniqueID();
+	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
@@ -117,36 +117,74 @@ public class PickarangEntity extends Entity implements IProjectile {
 		}
 
 	}
-    
-    public void setThrowData(int slot, ItemStack stack) {
-    	this.slot = slot;
-    	setStack(stack.copy());
-    }
+
+	public void setThrowData(int slot, ItemStack stack) {
+		this.slot = slot;
+		setStack(stack.copy());
+	}
 
 	@Override
 	protected void registerData() {
 		dataManager.register(STACK, new ItemStack(PickarangModule.pickarang));
-    	dataManager.register(RETURNING, false);
-    }
+		dataManager.register(RETURNING, false);
+	}
 
-	protected void onImpact(@Nonnull RayTraceResult result) {
-		if(dataManager.get(RETURNING) || world.isRemote)
+	protected void checkImpact() {
+		if(world.isRemote)
 			return;
 		
+		Vec3d motion = getMotion();
+		Vec3d position = new Vec3d(posX, posY, posZ);
+		Vec3d rayEnd = position.add(motion);
+		
+		boolean doEntities = true;
+		int tries = 100;
+		
+		while(isAlive() && !dataManager.get(RETURNING)) {
+			if(doEntities) {
+				EntityRayTraceResult result = raycastEntities(position, rayEnd);
+				if(result != null)
+					onImpact(result);
+				else doEntities = false;
+			} else {
+				RayTraceResult result = world.rayTraceBlocks(new RayTraceContext(position, rayEnd, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, this));
+				if(result.getType() == Type.MISS)
+					return;
+				else onImpact(result);
+			}
+			
+			if(tries-- <= 0) {
+				(new RuntimeException("Pickarang hit way too much, this shouldn't happen")).printStackTrace();
+				return;
+			}
+		}
+	}
+
+	@Nullable
+	protected EntityRayTraceResult raycastEntities(Vec3d from, Vec3d to) {
+		return ProjectileHelper.func_221271_a(world, this, from, to, getBoundingBox().expand(getMotion()).grow(1.0D), (entity) -> 
+		!entity.isSpectator() 
+		&& entity.isAlive() 
+		&& (entity.canBeCollidedWith() || entity instanceof PickarangEntity) 
+		&& entity != getThrower() 
+		&& (entitiesHit == null || !entitiesHit.contains(entity.getEntityId())));
+	}
+
+	protected void onImpact(@Nonnull RayTraceResult result) {
 		LivingEntity owner = getThrower();
 
 		if(result.getType() == Type.BLOCK && result instanceof BlockRayTraceResult) {
 			BlockPos hit = ((BlockRayTraceResult) result).getPos();
 			BlockState state = world.getBlockState(hit);
-			
+
 			if(getPiercingModifier() == 0 || state.getMaterial().isOpaque())
 				addHit();
 
 			if(!(owner instanceof ServerPlayerEntity))
 				return;
-			
+
 			ServerPlayerEntity player = (ServerPlayerEntity) owner;
-			
+
 			float hardness = state.getBlockHardness(world, hit);
 			if (hardness <= PickarangModule.maxHardness && hardness >= 0) {
 				ItemStack prev = player.getHeldItemMainhand();
@@ -246,7 +284,7 @@ public class PickarangEntity extends Entity implements IProjectile {
 		blockHitCount++;
 		postHit();
 	}
-	
+
 	protected void setReturning() {
 		dataManager.set(RETURNING, true);
 	}
@@ -256,11 +294,7 @@ public class PickarangEntity extends Entity implements IProjectile {
 		return false;
 	}
 
-	@Nullable
-	protected EntityRayTraceResult raycast(Vec3d from, Vec3d to) {
-		return ProjectileHelper.func_221271_a(this.world, this, from, to, this.getBoundingBox().expand(this.getMotion()).grow(1.0D),
-				(entity) -> !entity.isSpectator() && entity.isAlive() && (entity.canBeCollidedWith() || entity instanceof PickarangEntity) && entity != this.getThrower() && (this.entitiesHit == null || !this.entitiesHit.contains(entity.getEntityId())));
-	}
+
 
 	@Override
 	public void tick() {
@@ -269,44 +303,10 @@ public class PickarangEntity extends Entity implements IProjectile {
 		this.lastTickPosZ = this.posZ;
 		super.tick();
 
-		Vec3d vec3d = this.getMotion();
+		if(!dataManager.get(RETURNING))
+			checkImpact();
 
-
-		if (!dataManager.get(RETURNING)) {
-			Vec3d vec3d1 = new Vec3d(this.posX, this.posY, this.posZ);
-			Vec3d vec3d2 = vec3d1.add(vec3d);
-			RayTraceResult raytraceresult = this.world.rayTraceBlocks(new RayTraceContext(vec3d1, vec3d2, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, this));
-			if (raytraceresult.getType() != RayTraceResult.Type.MISS) vec3d2 = raytraceresult.getHitVec();
-
-			int tries = 0;
-			while (this.isAlive()) {
-				EntityRayTraceResult entityraytraceresult = this.raycast(vec3d1, vec3d2);
-				if (entityraytraceresult != null) raytraceresult = entityraytraceresult;
-
-				if (raytraceresult != null && raytraceresult.getType() == RayTraceResult.Type.ENTITY && raytraceresult instanceof EntityRayTraceResult) {
-					Entity entity = ((EntityRayTraceResult) raytraceresult).getEntity();
-					Entity entity1 = this.getThrower();
-					if (entity == entity1 || (entity instanceof PlayerEntity && entity1 instanceof PlayerEntity && !((PlayerEntity) entity1).canAttackPlayer((PlayerEntity) entity))) {
-						raytraceresult = null;
-					}
-				}
-
-				if (raytraceresult != null && !ForgeEventFactory.onProjectileImpact(this, raytraceresult)) {
-					this.onImpact(raytraceresult);
-					this.isAirBorne = true;
-				}
-
-				if (entityraytraceresult == null || this.getPiercingModifier() <= 0) {
-					break;
-				}
-
-				raytraceresult = null;
-				if((++tries) > 50)
-					break;
-			}
-		}
-
-		vec3d = this.getMotion();
+		Vec3d  vec3d = this.getMotion();
 
 		this.posX += vec3d.x;
 		this.posY += vec3d.y;
@@ -344,7 +344,7 @@ public class PickarangEntity extends Entity implements IProjectile {
 
 		boolean returning = dataManager.get(RETURNING);
 		liveTime++;
-		
+
 		if(!returning) {
 			if(liveTime > PickarangModule.timeout)
 				setReturning();
@@ -355,7 +355,7 @@ public class PickarangEntity extends Entity implements IProjectile {
 
 			ItemStack stack = getStack();
 			int eff = getEfficiencyModifier();
-			
+
 			List<ItemEntity> items = world.getEntitiesWithinAABB(ItemEntity.class, getBoundingBox().grow(2));
 			List<ExperienceOrbEntity> xp = world.getEntitiesWithinAABB(ExperienceOrbEntity.class, getBoundingBox().grow(2));
 
@@ -364,7 +364,7 @@ public class PickarangEntity extends Entity implements IProjectile {
 				if (item.isPassenger())
 					continue;
 				item.startRiding(this);
-				
+
 				item.setPickupDelay(2);
 			}
 
@@ -386,7 +386,7 @@ public class PickarangEntity extends Entity implements IProjectile {
 
 				return;
 			}
-			
+
 			Vec3d ownerPos = owner.getPositionVector().add(0, 1, 0);
 			Vec3d motion = ownerPos.subtract(ourPos);
 			double motionMag = 3.25 + eff * 0.25;
@@ -394,16 +394,16 @@ public class PickarangEntity extends Entity implements IProjectile {
 			if(motion.lengthSquared() < motionMag) {
 				PlayerEntity player = (PlayerEntity) owner;
 				ItemStack stackInSlot = player.inventory.getStackInSlot(slot);
-				
-		        if(!world.isRemote) {
-		        	playSound(QuarkSounds.ENTITY_PICKARANG_PICKUP, 1, 1);
 
-			        if(!stack.isEmpty()) if (player.isAlive() && stackInSlot.isEmpty())
+				if(!world.isRemote) {
+					playSound(QuarkSounds.ENTITY_PICKARANG_PICKUP, 1, 1);
+
+					if(!stack.isEmpty()) if (player.isAlive() && stackInSlot.isEmpty())
 						player.inventory.setInventorySlotContents(slot, stack);
 					else if (!player.isAlive() || !player.inventory.addItemStackToInventory(stack))
 						player.dropItem(stack, false);
 
-			        if (player.isAlive()) {
+					if (player.isAlive()) {
 						for (ItemEntity item : items) {
 							ItemStack drop = item.getItem();
 							if (!player.addItemStackToInventory(drop))
@@ -428,7 +428,7 @@ public class PickarangEntity extends Entity implements IProjectile {
 					}
 
 					remove();
-		        }
+				}
 			} else
 				setMotion(motion.normalize().scale(0.7 + eff * 0.325F));
 		}
@@ -467,7 +467,7 @@ public class PickarangEntity extends Entity implements IProjectile {
 	public int getEfficiencyModifier() {
 		return EnchantmentHelper.getEnchantmentLevel(Enchantments.EFFICIENCY, getStack());
 	}
-	
+
 	public int getPiercingModifier() {
 		return EnchantmentHelper.getEnchantmentLevel(Enchantments.PIERCING, getStack());
 	}
