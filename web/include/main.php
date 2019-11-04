@@ -138,7 +138,7 @@
 					<div class="spotlight-image"><img src="img/spotlight/blocks_render.png"></img></div>
 						<div class="spotlight-info">
 						<div class="spotlight-header">Building Blocks</div>
-						<div class="spotlight-desc">Fuel your inner artist with a large assortment of new building blocks, from Thatch, to Stained Wood Planks, Magma Bricks, and many others! Oh and we have Vertical Slabs too.</div>
+						<div class="spotlight-desc">Fuel your inner artist with a large assortment of new building blocks, from Thatch, to Stained Wood Planks, Magma Bricks, and many others!<br><br>Oh and we have Vertical Slabs too.</div>
 					</div>
 				</div>
 
@@ -203,7 +203,7 @@
 				The only website that hosts <i>official</i> versions of Quark is <b>CurseForge</b>. Make sure you get it from there only. Other websites such as <b>9minecraft</b> or <b>mc-mods</b> are distributing old or tampered versions that may contain bugs or malware.
 			</div>
 
-			<div class="info">
+			<!--<div class="info">
 				Access to the Quark 1.14.4 beta is currently restricted to specific people. You can access it if you are one or more of...
 				<ul>
 					<li>A $5 or higher pleding patron on <a href="https://www.patreon.com/Vazkii">Vazkii's Patreon</a></li>
@@ -215,7 +215,7 @@
 					<li>As usual, AutoRegLib is required. The latest ARL version will be pinned in <i>#betas</i>.</li>
 					<li>If you're a patron and don't yet have the appropriate roles, please send a DM over patreon with your info so they can be sorted out. For twitch subs, make sure to link your twitch to discord and it's done automatically.</li>
 				</ul>
-			</div>
+			</div>-->
 
 			<div class="download-holder">
 				<div class="download-strip">
