@@ -9,7 +9,7 @@
     }
   ],
   "result": {
-    "item": "quark:yellow_stained_glass"
+    "item": "quark:yellow_item_frame"
   },
   "group": "quark:item_frames",
   "conditions": [
