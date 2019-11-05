@@ -119,7 +119,7 @@ public class ImprovedSleepingModule extends Module {
 
 		ITextComponent hoverText = new TranslationTextComponent(isDay ? "quark.misc.napping_list_header" : "quark.misc.sleeping_list_header", sleepingList);
 
-		ITextComponent sibling = new StringTextComponent("(" + sleepingPlayers.size() + "/" + sleepingPlayers.size() + ")");
+		ITextComponent sibling = new StringTextComponent("(" + sleepingPlayers.size() + "/" + (sleepingPlayers.size() + nonSleepingPlayers.size()) + ")");
 		sibling.getStyle().setHoverEvent(new HoverEvent(Action.SHOW_TEXT, hoverText.deepCopy()));
 
 
