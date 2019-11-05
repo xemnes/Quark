@@ -9,7 +9,7 @@
     }
   ],
   "result": {
-    "item": "quark:green_stained_frame"
+    "item": "quark:green_item_frame"
   },
   "group": "quark:item_frames",
   "conditions": [
