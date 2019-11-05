@@ -174,7 +174,7 @@ public class UsageTickerModule extends Module {
 		
 		@OnlyIn(Dist.CLIENT)
 		public boolean shouldChange(ItemStack currStack, ItemStack prevStack, int currentTotal, int pastTotal) {
-			return !prevStack.isItemEqual(currStack) || currentTotal != pastTotal;
+			return !prevStack.isItemEqual(currStack) || (currStack.isDamageable() && currStack.getDamage() != prevStack.getDamage()) || currentTotal != pastTotal;
 		}
 		
 		@OnlyIn(Dist.CLIENT)
