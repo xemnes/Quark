@@ -52,22 +52,6 @@ public class ClientProxy extends CommonProxy {
 		ModuleLoader.INSTANCE.modelRegistry();
 	}
 
-	@Override
-	public void loadComplete(FMLLoadCompleteEvent event) {
-		super.loadComplete(event);
-		
-		if(ResourceProxy.instance().hasAny()) {
-			StartupMessageManager.addModMessage("Quark: Applying vanilla resource overrides...");
-			Minecraft mc = Minecraft.getInstance();
-			List<IResourcePack> packs = mc.getResourcePackList().getEnabledPacks().stream().map(ResourcePackInfo::getResourcePack).collect(Collectors.toList());
-			
-			SelectiveReloadStateHandler.INSTANCE.beginReload(ReloadRequirements.include(VanillaResourceType.MODELS));
-			IAsyncReloader async = ((IReloadableResourceManager) mc.getResourceManager()).reloadResources(Util.getServerExecutor(), mc, CompletableFuture.completedFuture(Unit.INSTANCE), packs);
-			async.join();
-			SelectiveReloadStateHandler.INSTANCE.endReload();
-		}
-	}
-
 	@Override	
 	public void handleQuarkConfigChange() {
 		super.handleQuarkConfigChange();

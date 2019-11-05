@@ -14,6 +14,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Resource;
 
 import com.google.common.collect.ImmutableSet;
 
@@ -97,6 +98,8 @@ public final class ResourceProxy extends ResourcePack {
 	}
 	
 	public void addResource(String type, String path, String value, BooleanSupplier isEnabled) {
+		Quark.LOG.info("Adding ResourceProxy Override: " + type + " " + path + " " + value);
+		Quark.LOG.info("Current Enabled Status: " + isEnabled.getAsBoolean());
 		ResourceOverride res = new ResourceOverride(type, path, value, isEnabled); 
 		overrides.put(res.getPathKey(), res);
 	}
@@ -115,23 +118,30 @@ public final class ResourceProxy extends ResourcePack {
 	@Override
 	protected InputStream getInputStream(String resourcePath) throws IOException {
 		ResourceOverride target = overrides.get(resourcePath);
+		Quark.LOG.info("Requesting Resource InputStream: " + resourcePath);
 		return target == null || !target.isEnabled() ? null : Quark.class.getResourceAsStream(target.getReplacementValue());
 	}
 
 	@Override
 	protected boolean resourceExists(String resourcePath) {
 		ResourceOverride res = overrides.get(resourcePath);
+		Quark.LOG.info("resourceExists request for " + resourcePath);
+		if(res != null)
+			Quark.LOG.info(" ^ EXISTS");
 		return res != null && res.isEnabled();
 	}
 
 	@Override
 	public Collection<ResourceLocation> getAllResourceLocations(ResourcePackType type, String pathIn, int maxDepth, Predicate<String> filter) {
-		return overrides.values().stream()
+		Collection<ResourceLocation> ret = overrides.values().stream()
 				.filter(ResourceOverride::isEnabled)
 				.filter(o -> o.type.equals(pathIn))
 				.filter(o -> !o.file.contains(".mcmeta"))
 				.map(o -> new ResourceLocation(o.getReplacementValue()))
 				.collect(Collectors.toList());
+		
+		Quark.LOG.info("ResourceProxy locations for path " + pathIn + ": " + ret);
+		return ret;
 	}
 
 	@Override
@@ -146,14 +156,6 @@ public final class ResourceProxy extends ResourcePack {
 	
 	@Override
 	public boolean isHidden() {
-		return false;
-	}
-	
-	public boolean hasAny() {
-		for(ResourceOverride over : overrides.values())
-			if(over.isEnabled())
-				return true;
-		
 		return false;
 	}
 	
