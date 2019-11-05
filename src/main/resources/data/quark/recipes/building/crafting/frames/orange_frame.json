@@ -9,7 +9,7 @@
     }
   ],
   "result": {
-    "item": "quark:orange_stained_glass"
+    "item": "quark:orange_stained_frame"
   },
   "group": "quark:item_frames",
   "conditions": [

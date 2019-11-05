@@ -7,14 +7,14 @@
   ],
   "key": {
     "#": {
-      "tag": "forge:glass_panes/colorless"
+      "tag": "forge:frame_panes/colorless"
     },
     "F": {
       "item": "minecraft:item_frame"
     }
   },
   "result": {
-    "item": "quark:glass_frame",
+    "item": "quark:frame_frame",
     "count": 2
   },
   "conditions": [
