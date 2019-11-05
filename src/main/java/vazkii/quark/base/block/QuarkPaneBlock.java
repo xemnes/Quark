@@ -16,6 +16,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.arl.interf.IBlockColorProvider;
 import vazkii.arl.interf.IItemColorProvider;
 import vazkii.arl.util.RegistryHelper;
+import vazkii.quark.base.Quark;
+import vazkii.quark.base.handler.LoadingSynchronizationHandler;
 import vazkii.quark.base.module.Module;
 
 import javax.annotation.Nonnull;
@@ -93,4 +95,10 @@ public class QuarkPaneBlock extends PaneBlock implements IQuarkBlock, IBlockColo
     public IItemColor getItemColor() {
         return parent instanceof IItemColorProvider ? ((IItemColorProvider) parent).getItemColor() : null;
     }
+    
+	@Override
+	protected int getIndex(BlockState state) {
+		return LoadingSynchronizationHandler.synchronizeIfInGameLoad(() -> super.getIndex(state));
+	}
+	
 }
