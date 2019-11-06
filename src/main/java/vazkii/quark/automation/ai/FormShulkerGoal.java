@@ -28,7 +28,6 @@ public class FormShulkerGoal extends RandomWalkingGoal {
 	
 	@Override
 	public boolean shouldExecute() {
-		System.out.println("h");
 		if(endermite.getAttackTarget() != null)
 			return false;
 		else if(!endermite.getNavigator().noPath())
@@ -36,12 +35,10 @@ public class FormShulkerGoal extends RandomWalkingGoal {
 		else {
 			Random random = endermite.getRNG();
 
-			System.out.println("try");
 			if(random.nextDouble() < EndermitesFormShulkersModule.chance) {
 				facing = Direction.random(random);
 				BlockPos blockpos = (new BlockPos(endermite.posX, endermite.posY + 0.5D, endermite.posZ)).offset(facing);
 				BlockState iblockstate = endermite.getEntityWorld().getBlockState(blockpos);
-				System.out.println(iblockstate);
 
 				if(iblockstate.getBlock() == Blocks.PURPUR_BLOCK) {
 					doMerge = true;
