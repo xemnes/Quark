@@ -38,7 +38,7 @@ public class GrateBlock extends QuarkBlock implements IWaterLoggable {
 	private static final VoxelShape TRUE_SHAPE = makeCuboidShape(0, 15, 0, 16, 16, 16);
 	private static final VoxelShape SPAWN_BLOCK_SHAPE = makeCuboidShape(0, 15, 0, 16, 32, 16);
 	private static final VoxelShape SELECTION_SHAPE;
-	private static final Float2ObjectArrayMap<VoxelShape> WALK_BLOCK_CACHE = new Float2ObjectArrayMap<>();
+	private static final Float2ObjectArrayMap<Float2ObjectArrayMap<VoxelShape>> WALK_BLOCK_CACHE = new Float2ObjectArrayMap<>();
 
 	public static BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
@@ -59,8 +59,19 @@ public class GrateBlock extends QuarkBlock implements IWaterLoggable {
 		setDefaultState(getDefaultState().with(WATERLOGGED, false));
 	}
 
-	private static VoxelShape createNewBox(double height) {
-		return makeCuboidShape(0, 15, 0, 16, 17 + height * 16, 16);
+	private static VoxelShape createNewBox(double stepHeight, double height) {
+		VoxelShape shape = TRUE_SHAPE;
+
+		double steps = (stepHeight + 0.0625) / height;
+		for (int i = 0; i < steps; i++) {
+			double plateHeight = 17 + i * 16 * height;
+			double extraComponent = stepHeight - i * height;
+			if (extraComponent < 1 / height)
+				plateHeight += extraComponent * 16;
+			shape = VoxelShapes.or(shape, makeCuboidShape(0, plateHeight - 1, 0, 16, plateHeight, 16));
+		}
+
+		return shape;
 	}
 
 	@Override
@@ -86,6 +97,11 @@ public class GrateBlock extends QuarkBlock implements IWaterLoggable {
 		return SELECTION_SHAPE;
 	}
 
+	private static VoxelShape getCachedShape(float stepHeight, float height) {
+		Float2ObjectArrayMap<VoxelShape> heightMap = WALK_BLOCK_CACHE.computeIfAbsent(stepHeight, (k) -> new Float2ObjectArrayMap<>());
+		return heightMap.computeIfAbsent(height, (k) -> createNewBox(stepHeight, height));
+	}
+
 	@Nonnull
 	@Override
 	@SuppressWarnings("deprecation")
@@ -97,7 +113,7 @@ public class GrateBlock extends QuarkBlock implements IWaterLoggable {
 				return VoxelShapes.empty();
 
 			if (entity instanceof AnimalEntity)
-				return WALK_BLOCK_CACHE.computeIfAbsent(entity.stepHeight, GrateBlock::createNewBox);
+				return getCachedShape(entity.stepHeight, entity.getHeight());
 
 			if (!(entity instanceof PlayerEntity))
 				return SPAWN_BLOCK_SHAPE;
