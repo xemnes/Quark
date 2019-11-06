@@ -122,6 +122,14 @@
 				"Combining a Wooden Button with either an Iron Ingot or a Gold Ingot creates a button of that type.",
 				"Drawing influence from Weighted Pressure Plates, Gold Buttons emit a very short pulse (2 redstone ticks), whereas Iron Buttons emit a very long pulse (5 seconds)."
 			]
+		},
+		{
+			"name": "Endermites Form Shulkers",
+			"image": "endermites-form-shulkers.jpg",
+			"versions": "1.14+",
+			"desc": [
+				"Similarly to how a Silverfish can bury into stone, Endermites can now bury into Purpur. When they do so, they'll transform themselves and the block into a Shulker at that position, making Shulker Shells renewable."
+			]
 		}
 	],
 	"building": [
@@ -423,30 +431,7 @@
 			"image": "usage-ticker.jpg",
 			"versions": "1.14+",
 			"desc": [
-				"A small interface addition shows up next to the hotbar when items are used, or armor takes damage. This shows how many items or blocks you have left, or how the status of your armor is.",
-				"As this feature is hard to demonstrate in a static picture, click the picture icon in the bottom of this card to see a demo gif."
-			]
-		},
-		{
-			"name": "Vanilla Resource Changes",
-			"image": "vanilla-resource-changes.jpg",
-			"versions": "1.14+",
-			"desc": [
-				"Quark generates an automatic resource pack that overrides some vanilla textures with its own variants. Each of them can be turned off individually, and any resource packs you put on top of it will take precedence.",
-				"*A bunch of mobs and random things got a small makevoer to look more like JAPPA's style.",
-				"*The model for shields is moved down a bit so they take up less space in your screen.",
-				"*Pistons get their Bedrock Edition model, as well as sticky looking sides to help you differentiate them from the side.",
-				"*Observers get arrows from the side that light up when they trigger."
-			],
-			"expand": [
-				"#JAPPA Makeovers",
-				"!img/features/client/vanilla-resource-changes/render.png",
-				"#Subtle Shields",
-				"!img/features/client/vanilla-resource-changes/subtler-shields.jpg",
-				"#Bedrock Edition Pistons",
-				"!img/features/client/vanilla-resource-changes/bedrock-pistons.jpg",
-				"#Observer Side Arrow",
-				"!img/features/client/vanilla-resource-changes/observer-side-arrow.jpg"
+				"A small interface addition shows up next to the hotbar when items are used, or armor takes damage. This shows how many items or blocks you have left, or how the status of your armor is."
 			]
 		},
 		{
