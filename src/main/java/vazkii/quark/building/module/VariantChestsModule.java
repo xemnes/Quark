@@ -36,7 +36,6 @@ import vazkii.quark.building.tile.VariantTrappedChestTileEntity;
 public class VariantChestsModule extends Module {
 
 	@Config public static boolean changeNames = true;
-	@Config public static boolean changeTextures = true;
 	
 	public static TileEntityType<VariantChestTileEntity> chestTEType;
 	public static TileEntityType<VariantTrappedChestTileEntity> trappedChestTEType;
@@ -61,7 +60,7 @@ public class VariantChestsModule extends Module {
 		RegistryHelper.register(chestTEType, "variant_chest");
 		RegistryHelper.register(trappedChestTEType, "variant_trapped_chest");
 		
-		ImmutableSet.of("normal", "normal_double", "trapped", "trapped_double").forEach(this::addOverride);
+//		ImmutableSet.of("normal", "normal_double", "trapped", "trapped_double").forEach(this::addOverride);
 	}
 	
 	@Override
@@ -76,9 +75,9 @@ public class VariantChestsModule extends Module {
 		ItemOverrideHandler.changeBlockLocalizationKey(Blocks.TRAPPED_CHEST, "block.quark.oak_trapped_chest", changeNames && enabled);
 	}
 	
-	private void addOverride(String name) {
-		Quark.proxy.addResourceOverride("textures", "entity/chest", name + ".png", () -> enabled && changeTextures);
-	}
+//	private void addOverride(String name) {
+//		Quark.proxy.addResourceOverride("textures", "entity/chest", name + ".png", () -> enabled && changeTextures);
+//	}
 
 	private static final String DONK_CHEST = "Quark:DonkChest";
 

@@ -68,9 +68,9 @@ public class CommonProxy {
 		ModuleLoader.INSTANCE.configChanged();
 	}
 	
-	public void addResourceOverride(String type, String path, String file, BooleanSupplier isEnabled) {
-		// NO-OP, client only
-	}
+//	public void addResourceOverride(String type, String path, String file, BooleanSupplier isEnabled) {
+//		// NO-OP, client only
+//	}
 	
 	protected void initContributorRewards() {
 		ContributorRewardHandler.init();
