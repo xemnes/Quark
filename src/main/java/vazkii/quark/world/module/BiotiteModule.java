@@ -46,8 +46,8 @@ public class BiotiteModule extends Module {
 		new QuarkItem("biotite", this, new Item.Properties().group(ItemGroup.MATERIALS));
 		
 		Block biotite_ore = new BiotiteOreBlock(this);
-		oregen = new OreGenerator(dimensions, oreSettings, biotite_ore.getDefaultState(), OreGenerator.ENDSTONE_MATCHER, () -> enabled && generateNaturally);
-		WorldGenHandler.addGenerator(oregen, Decoration.UNDERGROUND_ORES, WorldGenWeights.BIOTITE);
+		oregen = new OreGenerator(dimensions, oreSettings, biotite_ore.getDefaultState(), OreGenerator.ENDSTONE_MATCHER, () -> generateNaturally);
+		WorldGenHandler.addGenerator(this, oregen, Decoration.UNDERGROUND_ORES, WorldGenWeights.BIOTITE);
 		
 		Block.Properties props = Block.Properties.create(Material.ROCK, MaterialColor.BLACK).hardnessAndResistance(0.8F);
 		VariantHandler.addSlabAndStairs(new QuarkBlock("biotite_block", this, ItemGroup.BUILDING_BLOCKS, props));

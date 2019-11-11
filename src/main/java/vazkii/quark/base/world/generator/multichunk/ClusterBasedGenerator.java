@@ -9,10 +9,15 @@ import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationSettings;
 import vazkii.quark.base.world.config.ClusterSizeConfig;
 import vazkii.quark.base.world.config.DimensionConfig;
+import vazkii.quark.base.world.generator.Generator;
 
 public abstract class ClusterBasedGenerator extends MultiChunkFeatureGenerator {
 
 	public final ClusterShape.Provider shapeProvider;
+	
+	public ClusterBasedGenerator(DimensionConfig dimConfig, ClusterSizeConfig sizeConfig, long seedXor) {
+		this(dimConfig, Generator.NO_COND, sizeConfig, seedXor);
+	}
 	
 	public ClusterBasedGenerator(DimensionConfig dimConfig, BooleanSupplier condition, ClusterSizeConfig sizeConfig, long seedXor) {
 		super(dimConfig, condition, seedXor);

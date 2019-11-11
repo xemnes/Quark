@@ -5,6 +5,7 @@ import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.base.world.WorldGenHandler;
 import vazkii.quark.base.world.WorldGenWeights;
+import vazkii.quark.base.world.generator.Generator;
 import vazkii.quark.world.config.UndergroundBiomeConfig;
 import vazkii.quark.world.gen.UndergroundBiomeGenerator;
 
@@ -20,7 +21,7 @@ public abstract class UndergroundBiomeModule extends Module {
 
 	@Override
 	public void setup() {
-		WorldGenHandler.addGenerator(new UndergroundBiomeGenerator(biomeSettings, this, getBiomeName()), Decoration.UNDERGROUND_DECORATION, WorldGenWeights.UNDERGROUND_BIOMES);
+		WorldGenHandler.addGenerator(this, new UndergroundBiomeGenerator(biomeSettings, getBiomeName()), Decoration.UNDERGROUND_DECORATION, WorldGenWeights.UNDERGROUND_BIOMES);
 	}
 	
 	protected abstract String getBiomeName();

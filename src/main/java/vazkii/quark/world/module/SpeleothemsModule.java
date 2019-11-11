@@ -14,6 +14,7 @@ import vazkii.quark.base.module.ModuleCategory;
 import vazkii.quark.base.world.WorldGenHandler;
 import vazkii.quark.base.world.WorldGenWeights;
 import vazkii.quark.base.world.config.DimensionConfig;
+import vazkii.quark.base.world.generator.Generator;
 import vazkii.quark.world.block.SpeleothemBlock;
 import vazkii.quark.world.gen.SpeleothemGenerator;
 
@@ -53,7 +54,7 @@ public class SpeleothemsModule extends Module {
 	
 	@Override
 	public void setup() {
-		WorldGenHandler.addGenerator(new SpeleothemGenerator(dimensions, () -> enabled), Decoration.UNDERGROUND_DECORATION, WorldGenWeights.SPELEOTHEMS);
+		WorldGenHandler.addGenerator(this, new SpeleothemGenerator(dimensions, Generator.NO_COND), Decoration.UNDERGROUND_DECORATION, WorldGenWeights.SPELEOTHEMS);
 	}
 
 }

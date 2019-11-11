@@ -11,10 +11,18 @@ import vazkii.quark.base.world.config.DimensionConfig;
 import java.util.Random;
 import java.util.function.BooleanSupplier;
 
+import com.google.common.primitives.Booleans;
+
 public abstract class Generator implements IGenerator {
+	
+	public static final BooleanSupplier NO_COND = () -> true;
 	
 	public final DimensionConfig dimConfig;
 	private final BooleanSupplier condition;
+	
+	public Generator(DimensionConfig dimConfig) {
+		this(dimConfig, NO_COND);
+	}
 	
 	public Generator(DimensionConfig dimConfig, BooleanSupplier condition) {
 		this.dimConfig = dimConfig;

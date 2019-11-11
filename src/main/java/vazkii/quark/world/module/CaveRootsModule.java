@@ -48,7 +48,7 @@ public class CaveRootsModule extends Module {
 	
 	@Override
 	public void setup() {
-		WorldGenHandler.addGenerator(new CaveRootGenerator(dimensions, this), Decoration.UNDERGROUND_DECORATION, WorldGenWeights.CAVE_ROOTS);
+		WorldGenHandler.addGenerator(this, new CaveRootGenerator(dimensions), Decoration.UNDERGROUND_DECORATION, WorldGenWeights.CAVE_ROOTS);
 	}
 	
 }

@@ -63,7 +63,7 @@ public class BigStoneClustersModule extends Module {
 	}
 	
 	private void add(BigStoneClusterConfig config, Block block, BooleanSupplier condition) {
-		WorldGenHandler.addGenerator(new BigStoneClusterGenerator(config, block.getDefaultState(), condition), Decoration.UNDERGROUND_DECORATION, WorldGenWeights.BIG_STONE_CLUSTERS);
+		WorldGenHandler.addGenerator(this, new BigStoneClusterGenerator(config, block.getDefaultState(), condition), Decoration.UNDERGROUND_DECORATION, WorldGenWeights.BIG_STONE_CLUSTERS);
 	}
 	
 	private void conditionalize(Block block, BooleanSupplier condition) {

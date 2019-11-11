@@ -28,6 +28,7 @@ import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraft.world.gen.placement.IPlacementConfig;
 import net.minecraftforge.registries.ForgeRegistries;
 import vazkii.quark.base.handler.GeneralConfig;
+import vazkii.quark.base.module.Module;
 import vazkii.quark.base.world.generator.IGenerator;
 
 public class WorldGenHandler {
@@ -41,8 +42,8 @@ public class WorldGenHandler {
 		}
 	}
 
-	public static void addGenerator(IGenerator generator, GenerationStage.Decoration stage, int weight) {
-		WeightedGenerator weighted = new WeightedGenerator(generator, weight);
+	public static void addGenerator(Module module, IGenerator generator, GenerationStage.Decoration stage, int weight) {
+		WeightedGenerator weighted = new WeightedGenerator(module, generator, weight);
 		if(!generators.containsKey(stage))
 			generators.put(stage, new TreeSet<>());
 
@@ -91,7 +92,7 @@ public class WorldGenHandler {
 			for(WeightedGenerator wgen : set) {
 				IGenerator gen = wgen.generator;
 
-				if(gen.canGenerate(worldIn)) {
+				if(wgen.module.enabled && gen.canGenerate(worldIn)) {
 					if(GeneralConfig.enableWorldgenWatchdog) {
 						final int finalStageNum = stageNum;
 						stageNum = watchdogRun(gen, () -> gen.generate(finalStageNum, seed, stage, worldIn, generator, random, pos), 1, TimeUnit.MINUTES);
