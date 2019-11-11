@@ -46,6 +46,10 @@ public class Module {
 		// NO-OP
 	}
 	
+	public void earlySetup() {
+		// NO-OP
+	}
+	
 	public void setup() {
 		// NO-OP
 	}

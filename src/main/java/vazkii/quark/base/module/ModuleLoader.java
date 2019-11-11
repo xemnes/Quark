@@ -47,6 +47,7 @@ public final class ModuleLoader {
 	}
 	
 	public void setup() {
+		dispatch(Module::earlySetup);
 		Quark.proxy.handleQuarkConfigChange();
 		dispatch(Module::setup);
 	}
