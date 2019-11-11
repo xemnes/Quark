@@ -35,6 +35,9 @@ public class DispensersPlaceBlocksModule extends Module {
 	
 	@Override
 	public void loadComplete() {
+		if(!enabled)
+			return;
+		
 		Map<Item, IDispenseItemBehavior> registry = DispenserBlock.DISPENSE_BEHAVIOR_REGISTRY;
 
 		for(Block block : ForgeRegistries.BLOCKS.getValues()) {
