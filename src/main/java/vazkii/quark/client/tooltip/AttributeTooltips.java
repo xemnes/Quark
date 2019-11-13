@@ -33,6 +33,7 @@ import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import vazkii.arl.util.ItemNBTHelper;
 import vazkii.quark.base.handler.MiscUtil;
 
+import javax.annotation.Nullable;
 import java.util.*;
 
 /**
@@ -112,7 +113,7 @@ public class AttributeTooltips {
         ItemStack stack = event.getItemStack();
 
 
-        if(!Screen.hasShiftDown() && canStripAttributes(stack)) {
+        if(!Screen.hasShiftDown()) {
 
             List<ITextComponent> tooltipRaw = event.getToolTip();
             Map<EquipmentSlotType, StringBuilder> attributeTooltips = Maps.newHashMap();
@@ -124,36 +125,38 @@ public class AttributeTooltips {
             EquipmentSlotType[] slots = EquipmentSlotType.values();
             slots = Arrays.copyOf(slots, slots.length + 1);
             for(EquipmentSlotType slot : slots) {
-                Multimap<String, AttributeModifier> slotAttributes = getModifiers(stack, slot);
+                if (canStripAttributes(stack, slot)) {
+                    Multimap<String, AttributeModifier> slotAttributes = getModifiers(stack, slot);
 
-                if (baseCheck == null)
-                    baseCheck = slotAttributes;
-                else if (slot != null && allAreSame && !slotAttributes.equals(baseCheck))
-                    allAreSame = false;
-
-                if(!slotAttributes.isEmpty()) {
-                    if (slot == null)
+                    if (baseCheck == null)
+                        baseCheck = slotAttributes;
+                    else if (slot != null && allAreSame && !slotAttributes.equals(baseCheck))
                         allAreSame = false;
 
-                    String slotDesc = slot == null ? "potion.whenDrank" : "item.modifiers." + slot.getName();
+                    if (!slotAttributes.isEmpty()) {
+                        if (slot == null)
+                            allAreSame = false;
 
-                    int index = -1;
-                    for (int i = 0; i < tooltipRaw.size(); i++) {
-                        ITextComponent component = tooltipRaw.get(i);
-                        if (equalsOrSibling(component, slotDesc)) {
-                            index = i;
-                            break;
+                        String slotDesc = slot == null ? "potion.whenDrank" : "item.modifiers." + slot.getName();
+
+                        int index = -1;
+                        for (int i = 0; i < tooltipRaw.size(); i++) {
+                            ITextComponent component = tooltipRaw.get(i);
+                            if (equalsOrSibling(component, slotDesc)) {
+                                index = i;
+                                break;
+                            }
                         }
+
+                        if (index < 0)
+                            continue;
+
+                        tooltipRaw.remove(index - 1); // Remove blank space
+                        tooltipRaw.remove(index - 1); // Remove actual line
                     }
 
-                    if(index < 0)
-                        continue;
-
-                    tooltipRaw.remove(index - 1); // Remove blank space
-                    tooltipRaw.remove(index - 1); // Remove actual line
+                    onlyInvalid = extractAttributeValues(event, stack, tooltipRaw, attributeTooltips, onlyInvalid, slot, slotAttributes);
                 }
-
-                onlyInvalid = extractAttributeValues(event, stack, tooltipRaw, attributeTooltips, onlyInvalid, slot, slotAttributes);
             }
 
             EquipmentSlotType primarySlot = MobEntity.getSlotForItemStack(stack);
@@ -317,7 +320,7 @@ public class AttributeTooltips {
     @OnlyIn(Dist.CLIENT)
     public static void renderTooltip(RenderTooltipEvent.PostText event) {
         ItemStack stack = event.getStack();
-        if(!Screen.hasShiftDown() && canStripAttributes(stack)) {
+        if(!Screen.hasShiftDown()) {
             GlStateManager.pushMatrix();
             GlStateManager.color3f(1F, 1F, 1F);
             Minecraft mc = Minecraft.getInstance();
@@ -338,18 +341,20 @@ public class AttributeTooltips {
             slots = Arrays.copyOf(slots, slots.length + 1);
 
             shouldShow: for (EquipmentSlotType slot : slots) {
-                Multimap<String, AttributeModifier> slotAttributes = getModifiers(stack, slot);
-                if (slot == EquipmentSlotType.MAINHAND)
-                    attributeHash = slotAttributes.hashCode();
-                else if (allAreSame && attributeHash != slotAttributes.hashCode())
-                    allAreSame = false;
+                if (canStripAttributes(stack, slot)) {
+                    Multimap<String, AttributeModifier> slotAttributes = getModifiers(stack, slot);
+                    if (slot == EquipmentSlotType.MAINHAND)
+                        attributeHash = slotAttributes.hashCode();
+                    else if (allAreSame && attributeHash != slotAttributes.hashCode())
+                        allAreSame = false;
 
-                for (String s : slotAttributes.keys()) {
-                    if (VALID_ATTRIBUTES.contains(s)) {
-                        onlyInvalid = false;
-                        if (slot != primarySlot) {
-                            showSlots = true;
-                            break shouldShow;
+                    for (String s : slotAttributes.keys()) {
+                        if (VALID_ATTRIBUTES.contains(s)) {
+                            onlyInvalid = false;
+                            if (slot != primarySlot) {
+                                showSlots = true;
+                                break shouldShow;
+                            }
                         }
                     }
                 }
@@ -362,53 +367,58 @@ public class AttributeTooltips {
 
 
             for (EquipmentSlotType slot : slots) {
-                int x = baseX;
+                if (canStripAttributes(stack, slot)) {
+                    int x = baseX;
 
-                Multimap<String, AttributeModifier> slotAttributes = getModifiers(stack, slot);
+                    Multimap<String, AttributeModifier> slotAttributes = getModifiers(stack, slot);
 
-                boolean anyToRender = false;
-                for(String s : slotAttributes.keys()) {
-                    double value = getAttribute(mc.player, slot, stack, slotAttributes, s);
-                    if (value != 0) {
-                        anyToRender = true;
-                        break;
+                    boolean anyToRender = false;
+                    for (String s : slotAttributes.keys()) {
+                        double value = getAttribute(mc.player, slot, stack, slotAttributes, s);
+                        if (value != 0) {
+                            anyToRender = true;
+                            break;
+                        }
                     }
-                }
 
-                if (!anyToRender)
-                    continue;
+                    if (!anyToRender)
+                        continue;
 
-                if (showSlots) {
-                    GlStateManager.color3f(1F, 1F, 1F);
-                    mc.getTextureManager().bindTexture(MiscUtil.GENERAL_ICONS);
-                    AbstractGui.blit(x, y, 202 + (slot == null ? -1 : slot.ordinal()) * 9, 35, 9, 9, 256, 256);
-                    x += 20;
-                }
-
-                for (String key : VALID_ATTRIBUTES)
-                    x = renderAttribute(key, slot, x, y, stack, slotAttributes, mc);
-
-                for (String key : slotAttributes.keys()) {
-                    if (!VALID_ATTRIBUTES.contains(key)) {
-                        mc.fontRenderer.drawStringWithShadow("[+]", x + 1, y + 1, 0xFFFF55);
-                        break;
+                    if (showSlots) {
+                        GlStateManager.color3f(1F, 1F, 1F);
+                        mc.getTextureManager().bindTexture(MiscUtil.GENERAL_ICONS);
+                        AbstractGui.blit(x, y, 202 + (slot == null ? -1 : slot.ordinal()) * 9, 35, 9, 9, 256, 256);
+                        x += 20;
                     }
+
+                    for (String key : VALID_ATTRIBUTES)
+                        x = renderAttribute(key, slot, x, y, stack, slotAttributes, mc);
+
+                    for (String key : slotAttributes.keys()) {
+                        if (!VALID_ATTRIBUTES.contains(key)) {
+                            mc.fontRenderer.drawStringWithShadow("[+]", x + 1, y + 1, 0xFFFF55);
+                            break;
+                        }
+                    }
+
+
+                    y += 10;
+
+                    if (allAreSame)
+                        break;
                 }
-
-
-                y += 10;
-
-                if (allAreSame)
-                    break;
             }
 
             GlStateManager.popMatrix();
         }
     }
 
-    private static boolean canStripAttributes(ItemStack stack) {
+    private static boolean canStripAttributes(ItemStack stack, @Nullable EquipmentSlotType slot) {
         if (stack.isEmpty())
             return false;
+
+        if (slot == null)
+            return (ItemNBTHelper.getInt(stack, "HideFlags", 0) & 32) == 0;
 
         return (ItemNBTHelper.getInt(stack, "HideFlags", 0) & 2) == 0;
     }
