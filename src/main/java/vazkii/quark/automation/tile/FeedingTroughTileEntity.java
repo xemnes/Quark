@@ -95,7 +95,7 @@ public class FeedingTroughTileEntity extends LockableLootTileEntity implements I
                 cooldown--;
             else {
             	cooldown = FeedingTroughModule.cooldown; // minimize aabb calls
-            	List<AnimalEntity> animals = world.getEntitiesWithinAABB(AnimalEntity.class, new AxisAlignedBB(pos).grow(1.5, 0, 1.5).contract(0, -0.75, 0));
+            	List<AnimalEntity> animals = world.getEntitiesWithinAABB(AnimalEntity.class, new AxisAlignedBB(pos).grow(1.5, 0, 1.5).contract(0, 0.75, 0));
             	
                 for (AnimalEntity creature : animals) {
                     if (creature.canBreed() && creature.getGrowingAge() == 0) {
