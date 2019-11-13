@@ -7,6 +7,7 @@ import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.GameRules;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.furnace.FurnaceFuelBurnTimeEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -52,7 +53,7 @@ public class TallowAndCandlesModule extends Module {
 	@SubscribeEvent
 	public void onDrops(LivingDropsEvent event) {
 		LivingEntity e = event.getEntityLiving();
-		if (e instanceof PigEntity && maxDrop > 0) {
+		if (e instanceof PigEntity && maxDrop > 0 && e.world.getGameRules().getBoolean(GameRules.DO_ENTITY_DROPS)) {
 			int drops = minDrop + e.world.rand.nextInt(maxDrop - minDrop + 1);
 			if (drops > 0)
 				event.getDrops().add(new ItemEntity(e.world, e.posX, e.posY, e.posZ, new ItemStack(tallow, drops)));

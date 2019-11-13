@@ -1,5 +1,6 @@
 package vazkii.quark.client.module;
 
+import java.io.Console;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.HashMap;
@@ -20,6 +21,7 @@ import net.minecraft.entity.passive.horse.LlamaEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.module.Config;
@@ -45,12 +47,17 @@ public class VariantAnimalTexturesModule extends Module {
 	@Config public static boolean enableCow = true; 
 	@Config public static boolean enablePig = true; 
 	@Config public static boolean enableChicken = true;
+	@Config public static boolean enableShinyRabbit = true;
+	@Config public static boolean enableShinyLlama = true;
 	
 	@Config(description = "The chance for an animal to have a special \"Shiny\" skin, like a shiny pokemon. This is 1 in X. Set to 0 to disable.")
 	public static int shinyAnimalChance = 2048;
 	
 	@Override
 	public void clientSetup() {
+		if(!enabled)
+			return;
+		
 		textures = Multimaps.newListMultimap(new EnumMap<>(VariantTextureType.class), ArrayList::new);
 		shinyTextures = new HashMap<>();
 		
@@ -60,11 +67,20 @@ public class VariantAnimalTexturesModule extends Module {
 		registerShiny(VariantTextureType.RABBIT);
 		registerShiny(VariantTextureType.LLAMA);
 
-		RenderingRegistry.registerEntityRenderingHandler(CowEntity.class, VariantCowRenderer::new);
-		RenderingRegistry.registerEntityRenderingHandler(PigEntity.class, VariantPigRenderer::new);
-		RenderingRegistry.registerEntityRenderingHandler(ChickenEntity.class, VariantChickenRenderer::new);
-		RenderingRegistry.registerEntityRenderingHandler(RabbitEntity.class, VariantRabbitRenderer::new);
-		RenderingRegistry.registerEntityRenderingHandler(LlamaEntity.class, VariantLlamaRenderer::new);
+		if(enableCow)
+			RenderingRegistry.registerEntityRenderingHandler(CowEntity.class, VariantCowRenderer::new);
+		if(enablePig)
+			RenderingRegistry.registerEntityRenderingHandler(PigEntity.class, VariantPigRenderer::new);
+		if(enableChicken)
+			RenderingRegistry.registerEntityRenderingHandler(ChickenEntity.class, VariantChickenRenderer::new);
+		if(enableShinyRabbit)
+			RenderingRegistry.registerEntityRenderingHandler(RabbitEntity.class, VariantRabbitRenderer::new);
+		if(enableShinyLlama)
+			RenderingRegistry.registerEntityRenderingHandler(LlamaEntity.class, VariantLlamaRenderer::new);
+	}
+	
+	public <T extends Entity> void register(Class<T> e, IRenderFactory<T> factory) {
+		
 	}
 	
 	@OnlyIn(Dist.CLIENT)

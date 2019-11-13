@@ -1,15 +1,18 @@
 package vazkii.quark.base.world;
 
-import vazkii.quark.base.world.generator.IGenerator;
-
 import javax.annotation.Nonnull;
+
+import vazkii.quark.base.module.Module;
+import vazkii.quark.base.world.generator.IGenerator;
 
 public class WeightedGenerator implements Comparable<WeightedGenerator> {
 
+	public final Module module;
 	public final IGenerator generator;
 	public final int weight;
 	
-	public WeightedGenerator(IGenerator generator, int weight) {
+	public WeightedGenerator(Module module, IGenerator generator, int weight) {
+		this.module = module;
 		this.generator = generator;
 		this.weight = weight;
 	}

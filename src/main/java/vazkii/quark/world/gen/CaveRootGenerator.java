@@ -9,7 +9,6 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationSettings;
 import vazkii.quark.base.handler.MiscUtil;
-import vazkii.quark.base.module.Module;
 import vazkii.quark.base.world.config.DimensionConfig;
 import vazkii.quark.base.world.generator.Generator;
 import vazkii.quark.world.block.RootBlock;
@@ -17,8 +16,8 @@ import vazkii.quark.world.module.CaveRootsModule;
 
 public class CaveRootGenerator extends Generator {
 
-	public CaveRootGenerator(DimensionConfig dimConfig, Module module) {
-		super(dimConfig, () -> module.enabled);
+	public CaveRootGenerator(DimensionConfig dimConfig) {
+		super(dimConfig);
 	}
 
 	@Override

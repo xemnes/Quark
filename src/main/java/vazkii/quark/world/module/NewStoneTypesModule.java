@@ -54,7 +54,7 @@ public class NewStoneTypesModule extends Module {
 	}
 	
 	private Block makeStone(String name, StoneTypeConfig config, BigStoneClusterConfig bigConfig, BooleanSupplier enabledCond, MaterialColor color) {
-		BooleanSupplier trueEnabledCond = () -> enabled && !bigConfig.enabled && enabledCond.getAsBoolean();
+		BooleanSupplier trueEnabledCond = () -> !bigConfig.enabled && enabledCond.getAsBoolean();
 		Block.Properties props = Block.Properties.create(Material.ROCK, color).hardnessAndResistance(1.5F, 6.0F);
 		
 		QuarkBlock normal = new QuarkBlock(name, this, ItemGroup.BUILDING_BLOCKS, props).setCondition(enabledCond);
@@ -65,7 +65,7 @@ public class NewStoneTypesModule extends Module {
 		VariantHandler.addSlabAndStairs(polished);
 		
 		defers.add(() ->
-			WorldGenHandler.addGenerator(new OreGenerator(config.dimensions, config.oregen, normal.getDefaultState(), OreGenerator.ALL_DIMS_STONE_MATCHER, trueEnabledCond), Decoration.UNDERGROUND_ORES, WorldGenWeights.NEW_STONES)
+			WorldGenHandler.addGenerator(this, new OreGenerator(config.dimensions, config.oregen, normal.getDefaultState(), OreGenerator.ALL_DIMS_STONE_MATCHER, trueEnabledCond), Decoration.UNDERGROUND_ORES, WorldGenWeights.NEW_STONES)
 		);
 		
 		return normal;

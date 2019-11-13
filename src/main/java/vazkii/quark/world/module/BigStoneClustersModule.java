@@ -57,13 +57,13 @@ public class BigStoneClustersModule extends Module {
 		add(slate, NewStoneTypesModule.slateBlock, () -> NewStoneTypesModule.enableSlate);
 		add(basalt, NewStoneTypesModule.basaltBlock, () -> NewStoneTypesModule.enableBasalt);
 		
-		conditionalize(Blocks.GRANITE, () -> !granite.enabled);
-		conditionalize(Blocks.DIORITE, () -> !diorite.enabled);
-		conditionalize(Blocks.ANDESITE, () -> !andesite.enabled);
+		conditionalize(Blocks.GRANITE, () -> (!enabled || !granite.enabled));
+		conditionalize(Blocks.DIORITE, () -> (!enabled || !diorite.enabled));
+		conditionalize(Blocks.ANDESITE, () -> (!enabled || !andesite.enabled));
 	}
 	
 	private void add(BigStoneClusterConfig config, Block block, BooleanSupplier condition) {
-		WorldGenHandler.addGenerator(new BigStoneClusterGenerator(config, block.getDefaultState(), condition), Decoration.UNDERGROUND_DECORATION, WorldGenWeights.BIG_STONE_CLUSTERS);
+		WorldGenHandler.addGenerator(this, new BigStoneClusterGenerator(config, block.getDefaultState(), condition), Decoration.UNDERGROUND_DECORATION, WorldGenWeights.BIG_STONE_CLUSTERS);
 	}
 	
 	private void conditionalize(Block block, BooleanSupplier condition) {

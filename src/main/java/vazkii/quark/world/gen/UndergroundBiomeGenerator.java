@@ -17,8 +17,8 @@ public class UndergroundBiomeGenerator extends ClusterBasedGenerator {
 
 	public final UndergroundBiomeConfig info;
 
-	public UndergroundBiomeGenerator(UndergroundBiomeConfig info, Module module, String name) {
-		super(info.dimensions, () -> module.enabled, info, name.hashCode());
+	public UndergroundBiomeGenerator(UndergroundBiomeConfig info, String name) {
+		super(info.dimensions, info, name.hashCode());
 		this.info = info;
 	}
 

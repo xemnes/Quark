@@ -119,7 +119,7 @@ public class CustomUndergroundBiomeModule extends Module {
                 config.horizontalVariation = Math.max(0, horizontalVariation);
                 config.verticalVariation = Math.max(0, verticalVariation);
 
-                generators.add(new UndergroundBiomeGenerator(config, this, strippedDef));
+                generators.add(new UndergroundBiomeGenerator(config, strippedDef));
             }
         }
     }
@@ -150,6 +150,6 @@ public class CustomUndergroundBiomeModule extends Module {
 
     @Override
     public void setup() {
-        WorldGenHandler.addGenerator(new CombinedGenerator(generators), GenerationStage.Decoration.UNDERGROUND_DECORATION, WorldGenWeights.UNDERGROUND_BIOMES);
+        WorldGenHandler.addGenerator(this, new CombinedGenerator(generators), GenerationStage.Decoration.UNDERGROUND_DECORATION, WorldGenWeights.UNDERGROUND_BIOMES);
     }
 }
