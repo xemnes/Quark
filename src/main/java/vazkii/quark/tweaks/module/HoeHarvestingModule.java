@@ -6,11 +6,12 @@ import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.HoeItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
+import net.minecraft.item.*;
+import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
@@ -51,7 +52,7 @@ public class HoeHarvestingModule extends Module {
 		PlayerEntity player = event.getPlayer();
 		BlockPos basePos = event.getPos();
 		ItemStack stack = player.getHeldItemMainhand();
-		if (!stack.isEmpty() && stack.getItem() instanceof HoeItem && canHarvest(world, basePos, event.getState())) {
+		if (!stack.isEmpty() && stack.getItem() instanceof HoeItem && canHarvest(player, world, basePos, event.getState())) {
 			int range = getRange(stack);
 
 			for (int i = 1 - range; i < range; i++)
@@ -61,7 +62,7 @@ public class HoeHarvestingModule extends Module {
 
 					BlockPos pos = basePos.add(i, 0, k);
 					BlockState state = world.getBlockState(pos);
-					if (canHarvest(world, pos, state)) {
+					if (canHarvest(player, world, pos, state)) {
 						Block block = state.getBlock();
 						if (block.canHarvestBlock(state, world, pos, player))
 							block.harvestBlock((World) world, player, pos, state, world.getTileEntity(pos), stack);
@@ -74,7 +75,7 @@ public class HoeHarvestingModule extends Module {
 		}
 	}
 
-	private boolean canHarvest(IWorld world, BlockPos pos, BlockState state) {
+	private boolean canHarvest(PlayerEntity player, IWorld world, BlockPos pos, BlockState state) {
 		Block block = state.getBlock();
 		if(block instanceof IPlantable) {
 			IPlantable plant = (IPlantable) block;
@@ -82,7 +83,8 @@ public class HoeHarvestingModule extends Module {
 			return type != PlantType.Water && type != PlantType.Desert;
 		}
 
-		return state.getMaterial() == Material.PLANTS && state.getMaterial().isReplaceable();
+		return state.getMaterial() == Material.PLANTS && state.isReplaceable(new BlockItemUseContext(new ItemUseContext(player, Hand.MAIN_HAND,
+				new BlockRayTraceResult(new Vec3d(0.5, 0.5, 0.5), Direction.DOWN, pos, false))));
 	}
 
 }
