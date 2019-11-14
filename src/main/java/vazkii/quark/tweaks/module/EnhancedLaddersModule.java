@@ -11,12 +11,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.Tag;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.MovementInput;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.IWorldReader;
@@ -24,7 +19,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.InputUpdateEvent;
-import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import vazkii.quark.base.Quark;
@@ -35,7 +30,7 @@ import vazkii.quark.base.module.ModuleCategory;
 import vazkii.quark.building.module.VariantLaddersModule;
 
 @LoadModule(category = ModuleCategory.TWEAKS, hasSubscriptions = true)
-public class EnchancedLaddersModule extends Module {
+public class EnhancedLaddersModule extends Module {
 
 	@Config.Max(0)
 	@Config
@@ -109,12 +104,18 @@ public class EnchancedLaddersModule extends Module {
 	}
 
 	@SubscribeEvent
-	public void onPlayerTick(LivingUpdateEvent event) {
-		if(event.getEntityLiving() instanceof PlayerEntity) {
-			PlayerEntity player = (PlayerEntity) event.getEntityLiving();
+	public void onPlayerTick(TickEvent.PlayerTickEvent event) {
+		if(event.phase == TickEvent.Phase.START) {
+			PlayerEntity player = event.player;
 			if(player.isOnLadder()) {
 				boolean scaffold = player.world.getBlockState(player.getPosition()).getBlock() == Blocks.SCAFFOLDING;
-				if(player.isSneaking() == scaffold && player.moveForward == 0 && player.moveVertical <= 0 && player.moveStrafing == 0 && player.rotationPitch > 70 && !player.world.getBlockState(player.getPosition().down()).isSolid()) {
+				if(player.isSneaking() == scaffold &&
+						player.moveForward == 0 &&
+						player.moveVertical <= 0 &&
+						player.moveStrafing == 0 &&
+						player.rotationPitch > 70 &&
+						!player.isJumping &&
+						!player.world.getBlockState(player.getPosition().down()).isSolid()) {
 					Vec3d move = new Vec3d(0, fallSpeed, 0);
 					player.move(MoverType.SELF, move);
 				}

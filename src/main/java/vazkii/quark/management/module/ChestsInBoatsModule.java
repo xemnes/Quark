@@ -40,7 +40,6 @@ public class ChestsInBoatsModule extends Module {
 				.size(0.8F, 0.8F)
 				.setTrackingRange(64)
 				.setUpdateInterval(128)
-				.setShouldReceiveVelocityUpdates(false)
 				.setCustomClientFactory((spawnEntity, world) -> new ChestPassengerEntity(chestPassengerEntityType, world))
 				.build("chest_passenger");
 		RegistryHelper.register(chestPassengerEntityType, "chest_passenger");
