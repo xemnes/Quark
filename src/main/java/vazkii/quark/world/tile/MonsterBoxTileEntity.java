@@ -83,6 +83,7 @@ public class MonsterBoxTileEntity extends TileMod implements ITickableTileEntity
 			double my = (world.rand.nextFloat() - 0.5) * motionMultiplier;
 			double mz = (world.rand.nextFloat() - 0.5) * motionMultiplier;
 			e.setMotion(mx, my, mz);
+			e.getPersistentData().putBoolean(MonsterBoxModule.TAG_MONSTER_BOX_SPAWNED, true);
 			
 			world.addEntity(e);
 		}
