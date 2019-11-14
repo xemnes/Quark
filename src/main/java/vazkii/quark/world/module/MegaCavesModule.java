@@ -1,4 +1,4 @@
-package vazkii.quark.experimental.module;
+package vazkii.quark.world.module;
 
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraftforge.common.BiomeDictionary.Type;
@@ -10,9 +10,9 @@ import vazkii.quark.base.world.WorldGenHandler;
 import vazkii.quark.base.world.WorldGenWeights;
 import vazkii.quark.base.world.config.ClusterSizeConfig;
 import vazkii.quark.base.world.config.DimensionConfig;
-import vazkii.quark.experimental.world.MegaCaveGenerator;
+import vazkii.quark.world.gen.MegaCaveGenerator;
 
-@LoadModule(category = ModuleCategory.EXPERIMENTAL, enabledByDefault = false)
+@LoadModule(category = ModuleCategory.WORLD)
 public class MegaCavesModule extends Module {
 
 	@Config public DimensionConfig dimensions = DimensionConfig.overworld(false);

@@ -1,4 +1,4 @@
-package vazkii.quark.experimental.world;
+package vazkii.quark.world.gen;
 
 import java.util.Random;
 
