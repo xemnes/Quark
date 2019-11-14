@@ -35,6 +35,7 @@ public class QuarkSounds {
     public static final SoundEvent ENTITY_CRAB_DIE = register("entity.crab.die");
     public static final SoundEvent ENTITY_CRAB_HURT = register("entity.crab.hurt");
     public static final SoundEvent ENTITY_CRAB_IDLE = register("entity.crab.idle");
+    public static final SoundEvent BLOCK_MONSTER_BOX_GROWL = register("block.monster_box.growl");
 
     public static void start() {
         for (SoundEvent event : REGISTRY_DEFERENCE)

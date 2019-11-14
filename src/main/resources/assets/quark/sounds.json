@@ -158,5 +158,12 @@
     "category": "neutral",
     "subtitle": "quark.subtitles.crab_die",
     "sounds": []
+  },
+  "block.monster_box.growl": {
+    "category": "blocks",
+    "subtitle": "quark.subtitles.growl",
+    "sounds": [
+      "quark:block/monster_box"   
+     ]
   }
 }

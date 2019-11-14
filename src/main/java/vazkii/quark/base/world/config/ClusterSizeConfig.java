@@ -50,6 +50,12 @@ public class ClusterSizeConfig implements IConfigType {
 		this.verticalVariation = verticalVariation;
 		biomes = new BiomeTypeConfig(isBlacklist, types);
 	}
+	
+	public ClusterSizeConfig setYLevels(int min, int max) {
+		this.minYLevel = min;
+		this.maxYLevel = max;
+		return this;
+	}
 
 	
 }
