@@ -64,26 +64,34 @@ public class ClusterShape {
 	
 	public static class Provider {
 		
-		private final ClusterSizeConfig sizeProvider;
+		private final ClusterSizeConfig config;
 		private final PerlinNoiseGenerator noiseGenerator;
 		
-		public Provider(ClusterSizeConfig provider, long seed) {
-			this.sizeProvider = provider;
+		public Provider(ClusterSizeConfig config, long seed) {
+			this.config = config;
 			noiseGenerator = new PerlinNoiseGenerator(new Random(seed), 4);
 		}
 		
 		public ClusterShape around(BlockPos src) {
 			Random rand = randAroundBlockPos(src);
 			
-			int radiusX = sizeProvider.horizontalSize + rand.nextInt(sizeProvider.horizontalVariation);
-			int radiusY = sizeProvider.verticalSize + rand.nextInt(sizeProvider.verticalVariation);
-			int radiusZ = sizeProvider.horizontalSize + rand.nextInt(sizeProvider.horizontalVariation);
+			int radiusX = config.horizontalSize + rand.nextInt(config.horizontalVariation);
+			int radiusY = config.verticalSize + rand.nextInt(config.verticalVariation);
+			int radiusZ = config.horizontalSize + rand.nextInt(config.horizontalVariation);
 					
 			return new ClusterShape(src, new Vec3d(radiusX, radiusY, radiusZ), noiseGenerator);
 		}
 		
 		public int getRadius() {
-			return sizeProvider.horizontalSize + sizeProvider.horizontalVariation;
+			return config.horizontalSize + config.horizontalVariation;
+		}
+		
+		public int getRarity() {
+			return config.rarity;
+		}
+		
+		public int getRandomYLevel(Random rand) {
+			return config.minYLevel + (config.minYLevel == config.maxYLevel ? 0 : rand.nextInt(Math.max(config.maxYLevel, config.minYLevel) - Math.min(config.maxYLevel, config.minYLevel)));
 		}
 		
 		public Random randAroundBlockPos(BlockPos pos) {

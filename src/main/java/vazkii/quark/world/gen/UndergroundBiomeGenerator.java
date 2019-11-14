@@ -1,17 +1,19 @@
 package vazkii.quark.world.gen;
 
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationSettings;
-import vazkii.quark.base.module.Module;
 import vazkii.quark.base.world.generator.multichunk.ClusterBasedGenerator;
-import vazkii.quark.base.world.generator.multichunk.MultiChunkFeatureGenerator;
 import vazkii.quark.world.config.UndergroundBiomeConfig;
-
-import java.util.*;
 
 public class UndergroundBiomeGenerator extends ClusterBasedGenerator {
 
@@ -54,7 +56,7 @@ public class UndergroundBiomeGenerator extends ClusterBasedGenerator {
 		return "UndergroundBiomeGenerator[" + info.biomeObj + "]";
 	}
 
-	public static class Context implements IGenerationContext {
+	public static class Context implements IFinishableContext {
 
 		public final IWorld world;
 		public final BlockPos source;
@@ -77,12 +79,12 @@ public class UndergroundBiomeGenerator extends ClusterBasedGenerator {
 		}
 
 		@Override
-		public void consume(IWorld world, BlockPos pos) {
+		public void consume(BlockPos pos) {
 			info.biomeObj.fill(this, pos);			
 		}
 
 		@Override
-		public void finish(IWorld world) {
+		public void finish() {
 			floorList.forEach(pos -> info.biomeObj.finalFloorPass(this, pos));
 			ceilingList.forEach(pos -> info.biomeObj.finalCeilingPass(this, pos));
 			wallMap.keySet().forEach(pos -> info.biomeObj.finalWallPass(this, pos));
