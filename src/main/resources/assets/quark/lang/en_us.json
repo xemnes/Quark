@@ -50,6 +50,7 @@
 	"quark.subtitles.crab_die": "Shell crunches",
 	"quark.subtitles.crab_hurt": "Shell chips",
 	"quark.subtitles.crab_scuttle": "Crab scuttles",
+	"quark.subtitles.growl": "Monsters arise",
 	
 	"quark.emote.wave": "Wave",
 	"quark.emote.yes": "Yes",
@@ -737,6 +738,7 @@
 	"block.quark.limestone_pillar": "Limestone Pillar",
 	"block.quark.jasper_pillar": "Jasper Pillar",
 	"block.quark.slate_pillar": "Slate Pillar",
+	"block.quark.monster_box": "Monster Box",
 
 	"item.quark.stoneling_spawn_egg": "Stoneling Spawn Egg",
 	"item.quark.frog_spawn_egg": "Frog Spawn Egg",
