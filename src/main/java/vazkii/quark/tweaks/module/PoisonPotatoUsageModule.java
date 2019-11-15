@@ -1,5 +1,6 @@
 package vazkii.quark.tweaks.module;
 
+import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.item.Items;
@@ -25,19 +26,19 @@ public class PoisonPotatoUsageModule extends Module {
 	
 	@SubscribeEvent
 	public void onInteract(EntityInteract event) {
-		if(event.getTarget() instanceof AnimalEntity && event.getItemStack().getItem() == Items.POISONOUS_POTATO) {
-			AnimalEntity animal = (AnimalEntity) event.getTarget();
-			if(animal.isChild() && !isEntityPoisoned(animal)) {
+		if(event.getTarget() instanceof AgeableEntity && event.getItemStack().getItem() == Items.POISONOUS_POTATO) {
+			AgeableEntity ageable = (AgeableEntity) event.getTarget();
+			if(ageable.isChild() && !isEntityPoisoned(ageable)) {
 				if(!event.getWorld().isRemote) {
-					if(animal.world.rand.nextDouble() < chance) {
-						animal.playSound(SoundEvents.ENTITY_GENERIC_EAT, 0.5f, 0.25f);
-						animal.world.addParticle(ParticleTypes.ENTITY_EFFECT, animal.posX, animal.posY, animal.posZ, 0.2, 0.8, 0);
-						poisonEntity(animal);
+					if(ageable.world.rand.nextDouble() < chance) {
+						ageable.playSound(SoundEvents.ENTITY_GENERIC_EAT, 0.5f, 0.25f);
+						ageable.world.addParticle(ParticleTypes.ENTITY_EFFECT, ageable.posX, ageable.posY, ageable.posZ, 0.2, 0.8, 0);
+						poisonEntity(ageable);
 						if (poisonEffect)
-							animal.addPotionEffect(new EffectInstance(Effects.POISON, 200));
+							ageable.addPotionEffect(new EffectInstance(Effects.POISON, 200));
 					} else {
-						animal.playSound(SoundEvents.ENTITY_GENERIC_EAT, 0.5f, 0.5f + animal.world.rand.nextFloat() / 2);
-						animal.world.addParticle(ParticleTypes.SMOKE, animal.posX, animal.posY, animal.posZ, 0, 0.1, 0);
+						ageable.playSound(SoundEvents.ENTITY_GENERIC_EAT, 0.5f, 0.5f + ageable.world.rand.nextFloat() / 2);
+						ageable.world.addParticle(ParticleTypes.SMOKE, ageable.posX, ageable.posY, ageable.posZ, 0, 0.1, 0);
 					}
 
 					if (!event.getPlayer().isCreative())
