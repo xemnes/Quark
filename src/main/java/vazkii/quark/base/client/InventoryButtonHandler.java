@@ -1,7 +1,18 @@
 package vazkii.quark.base.client;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
+
+import javax.annotation.Nonnull;
+
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
@@ -19,11 +30,6 @@ import vazkii.quark.base.Quark;
 import vazkii.quark.base.handler.GeneralConfig;
 import vazkii.quark.base.handler.InventoryTransferHandler;
 import vazkii.quark.base.module.Module;
-
-import javax.annotation.Nonnull;
-import java.util.*;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
 
 @OnlyIn(Dist.CLIENT)
 @EventBusSubscriber(modid = Quark.MOD_ID, value = Dist.CLIENT)
@@ -71,7 +77,7 @@ public final class InventoryButtonHandler {
 	}
 
 	@SubscribeEvent
-	public static void mouseInputEvent(GuiScreenEvent.MouseClickedEvent.Post pressed) {
+	public static void mouseInputEvent(GuiScreenEvent.MouseClickedEvent.Pre pressed) {
 		Screen gui = pressed.getGui();
 		if (gui instanceof ContainerScreen) {
 			ContainerScreen<?> screen = (ContainerScreen<?>) gui;
