@@ -10,13 +10,16 @@
  */
 package vazkii.quark.automation.module;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
 import io.netty.util.collection.IntObjectHashMap;
 import io.netty.util.collection.IntObjectMap;
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResultType;
 import net.minecraftforge.api.distmarker.Dist;
@@ -28,8 +31,8 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
 import vazkii.quark.automation.base.ChainHandler;
+import vazkii.quark.automation.block.IronChainBlock;
 import vazkii.quark.automation.client.render.ChainRenderer;
-import vazkii.quark.base.item.QuarkItem;
 import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
@@ -37,21 +40,17 @@ import vazkii.quark.base.module.ModuleCategory;
 import vazkii.quark.base.network.QuarkNetwork;
 import vazkii.quark.base.network.message.SyncChainMessage;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
 @LoadModule(category = ModuleCategory.AUTOMATION, hasSubscriptions = true)
 public class ChainLinkageModule extends Module {
 
     @Config(description = "Can vehicle-linking chains be used for crafting chain armor?", flag = "chain_craft_armor")
     public static boolean craftsArmor = true;
 
-    public static Item chain;
+    public static Block chain;
 
     @Override
     public void construct() {
-        chain = new QuarkItem("iron_chain", this, new Item.Properties().group(ItemGroup.TRANSPORTATION));
+        chain = new IronChainBlock(this);
     }
 
     private static final IntObjectMap<UUID> AWAIT_MAP = new IntObjectHashMap<>();
@@ -89,7 +88,7 @@ public class ChainLinkageModule extends Module {
                 linkedToPlayer.add(linkCandidate);
         }
 
-        if (ChainHandler.canBeLinked(entity) && linkedToPlayer.isEmpty() && !stack.isEmpty() && stack.getItem() == chain && link == null) {
+        if (ChainHandler.canBeLinked(entity) && linkedToPlayer.isEmpty() && !stack.isEmpty() && stack.getItem() == chain.asItem() && link == null) {
             if (!entity.world.isRemote) {
                 ChainHandler.setLink(entity, player.getUniqueID(), true);
                 if (!player.isCreative())

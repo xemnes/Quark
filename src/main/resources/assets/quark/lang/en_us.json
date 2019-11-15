@@ -148,7 +148,6 @@
 	"item.quark.yellow_item_frame": "Yellow Item Frame",
 	"item.quark.pickarang": "Pickarang",
 	"item.quark.diamond_heart": "Heart of Diamond",
-	"item.quark.iron_chain": "Iron Chain",
 	"item.quark.ancient_tome": "Ancient Tome",
 	"item.quark.frog_leg": "Frog Leg",
 	"item.quark.cooked_frog_leg": "Cooked Frog Leg",
@@ -739,7 +738,8 @@
 	"block.quark.jasper_pillar": "Jasper Pillar",
 	"block.quark.slate_pillar": "Slate Pillar",
 	"block.quark.monster_box": "Monster Box",
-
+	"block.quark.iron_chain": "Iron Chain",
+	
 	"item.quark.stoneling_spawn_egg": "Stoneling Spawn Egg",
 	"item.quark.frog_spawn_egg": "Frog Spawn Egg",
 	"item.quark.crab_spawn_egg": "Crab Spawn Egg",
