@@ -62,11 +62,17 @@ public class AttributeTooltips {
             "generic.knockbackResistance",
             "generic.luck");
 
+    private static final ImmutableSet<String> DIFFERENCE_ATTRIBUTES = ImmutableSet.of(
+            "generic.maxHealth",
+            "generic.reachDistance");
+
     private static String format(String attribute, double value, EquipmentSlotType slot) {
         if (PERCENT_ATTRIBUTES.contains(attribute))
             return (value > 0 ? "+" : "") + ItemStack.DECIMALFORMAT.format(value * 100) + "%";
         else if (MULTIPLIER_ATTRIBUTES.contains(attribute) || (slot == null && POTION_MULTIPLIER_ATTRIBUTES.contains(attribute)))
             return ItemStack.DECIMALFORMAT.format(value / baseValue(attribute)) + "x";
+        else if (DIFFERENCE_ATTRIBUTES.contains(attribute))
+            return (value > 0 ? "+" : "") + ItemStack.DECIMALFORMAT.format(value);
         else
             return ItemStack.DECIMALFORMAT.format(value);
     }
@@ -77,6 +83,8 @@ public class AttributeTooltips {
                 return 0.1;
             case "generic.attackSpeed":
                 return 4;
+            case "generic.maxHealth":
+                return 20;
             default:
                 return 1;
         }
@@ -461,6 +469,14 @@ public class AttributeTooltips {
 
         if (key.equals(SharedMonsterAttributes.ATTACK_DAMAGE.getName()) && slot == EquipmentSlotType.MAINHAND)
             value += EnchantmentHelper.getModifierForCreature(stack, CreatureAttribute.UNDEFINED);
+
+        if (DIFFERENCE_ATTRIBUTES.contains(key)) {
+            if (slot != null || !key.equals(SharedMonsterAttributes.ATTACK_DAMAGE.getName())) {
+                IAttributeInstance attribute = player.getAttributes().getAttributeInstanceByName(key);
+                if (attribute != null)
+                    value -= attribute.getBaseValue();
+            }
+        }
 
         return value;
     }
