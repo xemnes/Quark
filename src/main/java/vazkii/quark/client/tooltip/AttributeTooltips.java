@@ -474,7 +474,7 @@ public class AttributeTooltips {
         if (key.equals(SharedMonsterAttributes.ATTACK_DAMAGE.getName()) && slot == EquipmentSlotType.MAINHAND)
             value += EnchantmentHelper.getModifierForCreature(stack, CreatureAttribute.UNDEFINED);
 
-        if (DIFFERENCE_ATTRIBUTES.contains(key)) {
+        if (DIFFERENCE_ATTRIBUTES.contains(key) || (slot != EquipmentSlotType.MAINHAND && NONMAIN_DIFFERENCE_ATTRIBUTES.contains(key))) {
             if (slot != null || !key.equals(SharedMonsterAttributes.ATTACK_DAMAGE.getName())) {
                 IAttributeInstance attribute = player.getAttributes().getAttributeInstanceByName(key);
                 if (attribute != null)
