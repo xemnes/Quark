@@ -32,7 +32,7 @@ import vazkii.quark.world.tile.MonsterBoxTileEntity;
 public class MonsterBoxModule extends Module {
 
 	public static final String TAG_MONSTER_BOX_SPAWNED = "quark:monster_box_spawned";
-	private static final ResourceLocation MONSTER_BOX_LOOT_TABLE = new ResourceLocation(Quark.MOD_ID, "misc/monster_box");
+	public static final ResourceLocation MONSTER_BOX_LOOT_TABLE = new ResourceLocation(Quark.MOD_ID, "misc/monster_box");
 	
 	public static TileEntityType<MonsterBoxTileEntity> tileEntityType;
 	

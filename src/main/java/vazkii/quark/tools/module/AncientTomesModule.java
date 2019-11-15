@@ -1,6 +1,12 @@
 package vazkii.quark.tools.module;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 import com.google.common.collect.Maps;
+
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -26,17 +32,15 @@ import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
 import vazkii.quark.tools.item.AncientTomeItem;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import vazkii.quark.world.module.MonsterBoxModule;
 
 @LoadModule(category = ModuleCategory.TOOLS, hasSubscriptions = true)
 public class AncientTomesModule extends Module {
 
 	@Config public static int dungeonWeight = 20;
 	@Config public static int libraryWeight = 30;
+	@Config public static int monsterBoxWeight = 5;
+	
 	@Config public static int itemQuality = 2;
 	@Config public static int mergeCost = 35;
 	@Config public static int applyCost = 35;
@@ -55,6 +59,8 @@ public class AncientTomesModule extends Module {
 			weight = libraryWeight;
 		else if(event.getName().equals(LootTables.CHESTS_SIMPLE_DUNGEON))
 			weight = dungeonWeight;
+		else if(event.getName().equals(MonsterBoxModule.MONSTER_BOX_LOOT_TABLE))
+			weight = monsterBoxWeight;
 		
 		if(weight > 0) {
 			LootEntry entry = ItemLootEntry.builder(ancient_tome)

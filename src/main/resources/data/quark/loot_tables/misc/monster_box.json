@@ -165,18 +165,13 @@
 			"name": "minecraft:name_tag",
 			"weight": 10
 		}, {
-			"type": "item",
-			"name": "minecraft:enchanted_book",
-			"weight": 5,
-			"functions": [{
-				"function": "enchant_with_levels",
-				"treasure": true,
-				"levels": {
-					"min": 20,
-					"max": 25
-				}
-			}]
-		}, {
+          "type": "minecraft:item",
+          "name": "minecraft:book",
+          "weight": 5,
+          "functions": [{
+              "function": "minecraft:enchant_randomly"
+           }]
+        }, {
 			"type": "item",
 			"name": "minecraft:music_disc_13",
 			"weight": 1
