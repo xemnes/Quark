@@ -66,12 +66,16 @@ public class AttributeTooltips {
             "generic.maxHealth",
             "generic.reachDistance");
 
+    private static final ImmutableSet<String> NONMAIN_DIFFERENCE_ATTRIBUTES = ImmutableSet.of(
+            "generic.attackDamage",
+            "generic.attackSpeed");
+
     private static String format(String attribute, double value, EquipmentSlotType slot) {
         if (PERCENT_ATTRIBUTES.contains(attribute))
             return (value > 0 ? "+" : "") + ItemStack.DECIMALFORMAT.format(value * 100) + "%";
         else if (MULTIPLIER_ATTRIBUTES.contains(attribute) || (slot == null && POTION_MULTIPLIER_ATTRIBUTES.contains(attribute)))
             return ItemStack.DECIMALFORMAT.format(value / baseValue(attribute)) + "x";
-        else if (DIFFERENCE_ATTRIBUTES.contains(attribute))
+        else if (DIFFERENCE_ATTRIBUTES.contains(attribute) || (slot != EquipmentSlotType.MAINHAND && NONMAIN_DIFFERENCE_ATTRIBUTES.contains(attribute)))
             return (value > 0 ? "+" : "") + ItemStack.DECIMALFORMAT.format(value);
         else
             return ItemStack.DECIMALFORMAT.format(value);
