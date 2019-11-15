@@ -60,7 +60,7 @@ public class IronChainBlock extends QuarkBlock implements IWaterLoggable {
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
 		return super.getStateForPlacement(context)
 				.with(TYPE, getChainType(context.getWorld(), context.getPos()))
-				.with(WATERLOGGED, context.getWorld().getFluidState(context.getPos()) == Fluids.WATER);
+				.with(WATERLOGGED, context.getWorld().getFluidState(context.getPos()).getFluid() == Fluids.WATER);
 	}
 	
 	@Override
@@ -119,7 +119,7 @@ public class IronChainBlock extends QuarkBlock implements IWaterLoggable {
 			return ChainType.TOP;
 		
 		BlockPos down = pos.down();
-		if(world.isAirBlock(down))
+		if(world.isAirBlock(down) || world.getBlockState(down).getBlock() == Blocks.WATER)
 			return ChainType.BOTTOM;
 		
 		return ChainType.MIDDLE;
