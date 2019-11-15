@@ -1,8 +1,10 @@
 package vazkii.quark.world.module.underground;
 
+import java.util.Random;
+import java.util.stream.Stream;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.ComposterBlock;
-import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EntityType;
@@ -32,9 +34,6 @@ import vazkii.quark.world.block.GlowshroomBlock;
 import vazkii.quark.world.block.HugeGlowshroomBlock;
 import vazkii.quark.world.config.UndergroundBiomeConfig;
 import vazkii.quark.world.gen.underground.GlowshroomUndergroundBiome;
-
-import java.util.Random;
-import java.util.stream.Stream;
 
 @LoadModule(category = ModuleCategory.WORLD, hasSubscriptions = true, subscribeOn = Dist.CLIENT)
 public class GlowshroomUndergroundBiomeModule extends UndergroundBiomeModule {
@@ -73,7 +72,7 @@ public class GlowshroomUndergroundBiomeModule extends UndergroundBiomeModule {
         BrewingHandler.addPotionMix("glowshroom_danger_sight",
                 () -> Ingredient.fromItems(glowshroom), dangerSight, 3600, 9600, -1);
 
-		VariantHandler.addFlowerPot(glowshroom, Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(0F).lightValue(14));
+		VariantHandler.addFlowerPot(glowshroom, "glowshroom", p -> p.lightValue(14));
 
 		super.construct();
 	}
