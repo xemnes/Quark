@@ -749,6 +749,11 @@
 	"block.quark.pink_blossom_sapling": "Sweet Blossom Sapling",
 	"block.quark.yellow_blossom_leaves": "Sunny Blossom Leaves",
 	"block.quark.yellow_blossom_sapling": "Sunny Blossom Sapling",
+	"block.quark.yellow_blossom_leaf_carpet": "Sunny Blossom Leaf Carpet",
+	"block.quark.pink_blossom_leaf_carpet": "Sweet Blossom Leaf Carpet",
+	"block.quark.orange_blossom_leaf_carpet": "Warm Blossom Leaf Carpet",
+	"block.quark.lavender_blossom_leaf_carpet": "Serene Blossom Leaf Carpet",
+	"block.quark.blue_blossom_leaf_carpet": "Frosty Blossom Leaf Carpet",
 	
 	"item.quark.stoneling_spawn_egg": "Stoneling Spawn Egg",
 	"item.quark.frog_spawn_egg": "Frog Spawn Egg",

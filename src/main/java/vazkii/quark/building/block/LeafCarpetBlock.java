@@ -26,7 +26,7 @@ public class LeafCarpetBlock extends QuarkBlock implements IBlockColorProvider {
 	private static final VoxelShape SHAPE = makeCuboidShape(0, 0, 0, 16, 1, 16);
 	
 	private final BlockState baseState;
-	private final ItemStack baseStack;
+	private ItemStack baseStack;
 	
 	public LeafCarpetBlock(String name, Block base, Module module) {
 		super(name + "_leaf_carpet", module, ItemGroup.DECORATIONS, 
@@ -35,7 +35,6 @@ public class LeafCarpetBlock extends QuarkBlock implements IBlockColorProvider {
 				.sound(SoundType.PLANT));
 		
 		baseState = base.getDefaultState();
-		baseStack = new ItemStack(base);
 	}
 	
 	@Nonnull
@@ -59,6 +58,9 @@ public class LeafCarpetBlock extends QuarkBlock implements IBlockColorProvider {
 	
 	@Override
 	public IItemColor getItemColor() {
+		if(baseStack == null)
+			baseStack = new ItemStack(baseState.getBlock());
+
 		return (stack, tintIndex) -> Minecraft.getInstance().getItemColors().getColor(baseStack, tintIndex);
 	}
 
