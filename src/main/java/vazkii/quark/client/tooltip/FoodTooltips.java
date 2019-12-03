@@ -55,7 +55,7 @@ public class FoodTooltips {
 
 				boolean poison = false;
 				for (Pair<EffectInstance, Float> effect : food.getEffects()) {
-					if (effect.getLeft().getPotion().getEffectType() == EffectType.HARMFUL) {
+					if (effect.getLeft() != null && effect.getLeft().getPotion() != null && effect.getLeft().getPotion().getEffectType() == EffectType.HARMFUL) {
 						poison = true;
 						break;
 					}
