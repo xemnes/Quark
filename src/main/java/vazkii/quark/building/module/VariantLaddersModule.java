@@ -1,7 +1,11 @@
 package vazkii.quark.building.module;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import vazkii.quark.base.handler.FuelHandler;
 import vazkii.quark.base.handler.ItemOverrideHandler;
 import vazkii.quark.base.handler.MiscUtil;
 import vazkii.quark.base.module.Config;
@@ -19,14 +23,20 @@ public class VariantLaddersModule extends Module {
 	@Config(flag = "iron_ladder")
 	public static boolean enableIronLadder = true;
 	
+	public static List<Block> variantLadders = new LinkedList<>();
 	public static Block iron_ladder;
 
 	@Override
 	public void construct() {
 		for(String type : MiscUtil.VARIANT_WOOD_TYPES)
-			new VariantLadderBlock(type, this);
+			variantLadders.add(new VariantLadderBlock(type, this));
 		
 		iron_ladder = new IronLadderBlock(this);
+	}
+	
+	@Override
+	public void loadComplete() {
+		variantLadders.forEach(FuelHandler::addWood);
 	}
 
 	@Override

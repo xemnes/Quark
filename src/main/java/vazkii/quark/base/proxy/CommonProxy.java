@@ -11,6 +11,7 @@ import vazkii.quark.base.Quark;
 import vazkii.quark.base.capability.CapabilityHandler;
 import vazkii.quark.base.handler.BrewingHandler;
 import vazkii.quark.base.handler.ContributorRewardHandler;
+import vazkii.quark.base.handler.FuelHandler;
 import vazkii.quark.base.handler.QuarkSounds;
 import vazkii.quark.base.handler.StonecutterShiftClickHandler;
 import vazkii.quark.base.module.ModuleLoader;
@@ -53,6 +54,7 @@ public class CommonProxy {
 	public void loadComplete(FMLLoadCompleteEvent event) {
 		ModuleLoader.INSTANCE.loadComplete();
 		WorldGenHandler.loadComplete();
+		FuelHandler.addAllWoods();
 	}
 	
 	public void configChanged(ModConfigEvent event) {

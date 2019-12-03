@@ -1,6 +1,10 @@
 package vazkii.quark.building.module;
 
+import java.util.List;
+import java.util.function.BooleanSupplier;
+
 import com.google.common.collect.Lists;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.ComposterBlock;
 import net.minecraft.block.SoundType;
@@ -8,10 +12,9 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemGroup;
-import net.minecraftforge.event.furnace.FurnaceFuelBurnTimeEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import vazkii.quark.base.block.QuarkBlock;
 import vazkii.quark.base.block.QuarkPillarBlock;
+import vazkii.quark.base.handler.FuelHandler;
 import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
@@ -19,10 +22,7 @@ import vazkii.quark.base.module.ModuleCategory;
 import vazkii.quark.building.block.BeaconBaseBlock;
 import vazkii.quark.building.block.BurnForeverBlock;
 
-import java.util.List;
-import java.util.function.BooleanSupplier;
-
-@LoadModule(category = ModuleCategory.BUILDING, hasSubscriptions = true)
+@LoadModule(category = ModuleCategory.BUILDING)
 public class CompressedBlocksModule extends Module {
 
 	@Config(name = "Charcoal Block and Blaze Lantern Stay On Fire Forever")
@@ -104,6 +104,10 @@ public class CompressedBlocksModule extends Module {
 	public void setup() {
 		for (Block block : compostable)
 			ComposterBlock.CHANCES.put(block.asItem(), 1F);
+		
+		FuelHandler.addFuel(stick_block, stickBlockFuelTime);
+		FuelHandler.addFuel(charcoal_block, charcoalBlockFuelTime);
+		FuelHandler.addFuel(blaze_lantern, blazeLanternFuelTime);
 	}
 
 	private Block pillar(String name, MaterialColor color, boolean compost, BooleanSupplier cond) {
@@ -140,16 +144,6 @@ public class CompressedBlocksModule extends Module {
 		if (compost)
 			compostable.add(block);
 		return block;
-	}
-	
-	@SubscribeEvent
-	public void onFurnaceFuelEvent(FurnaceFuelBurnTimeEvent event) {
-		if(event.getItemStack().getItem() == stick_block.asItem())
-			event.setBurnTime(stickBlockFuelTime);
-		else if(event.getItemStack().getItem() == charcoal_block.asItem())
-			event.setBurnTime(charcoalBlockFuelTime);
-		else if(event.getItemStack().getItem() == blaze_lantern.asItem())
-			event.setBurnTime(blazeLanternFuelTime);
 	}
 
 }
