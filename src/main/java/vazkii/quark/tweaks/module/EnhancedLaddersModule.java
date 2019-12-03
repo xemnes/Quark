@@ -9,6 +9,7 @@ import net.minecraft.entity.MoverType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.Tag;
 import net.minecraft.util.*;
@@ -78,12 +79,13 @@ public class EnhancedLaddersModule extends Module {
 				if(stateDown.getBlock() == block)
 					pos = posDown;
 				else {
-					if(stateDown.getBlock().isAir(stateDown, world, posDown)) {
+					boolean water = stateDown.getBlock() == Blocks.WATER;
+					if(water || stateDown.getBlock().isAir(stateDown, world, posDown)) {
 						BlockState copyState = world.getBlockState(pos);
 
 						Direction facing = copyState.get(LadderBlock.FACING);
 						if(canAttachTo(copyState, block, world, posDown, facing.getOpposite())) {
-							world.setBlockState(posDown, copyState);
+							world.setBlockState(posDown, copyState.with(BlockStateProperties.WATERLOGGED, water));
 							world.playSound(null, posDown.getX(), posDown.getY(), posDown.getZ(), SoundEvents.BLOCK_LADDER_PLACE, SoundCategory.BLOCKS, 1F, 1F);
 
 							if(world.isRemote)
