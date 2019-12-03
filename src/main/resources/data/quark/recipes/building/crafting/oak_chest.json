@@ -1,15 +1,6 @@
 {
-  "type": "quark:exclusion",
-  "true_type": "minecraft:crafting_shaped",
+  "type": "minecraft:crafting_shaped",
   "group": "oak_chest",
-  "exclusions": [
-    "quark:building/crafting/oak_chest",
-    "quark:building/crafting/spruce_chest",
-    "quark:building/crafting/birch_chest",
-    "quark:building/crafting/jungle_chest",
-    "quark:building/crafting/acacia_chest",
-    "quark:building/crafting/dark_oak_chest"
-  ],
   "pattern": [
     "###",
     "# #",
@@ -17,11 +8,11 @@
   ],
   "key": {
     "#": {
-      "tag": "minecraft:planks"
+      "item": "minecraft:oak_planks"
     }
   },
   "result": {
-    "item": "minecraft:chest",
+    "item": "quark:oak_chest",
     "count": 1
   },
   "conditions": [

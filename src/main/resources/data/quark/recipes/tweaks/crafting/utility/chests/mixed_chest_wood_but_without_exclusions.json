@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "oak_chest",
+  "group": "chest",
   "pattern": [
     "###",
     "# #",
@@ -8,11 +8,11 @@
   ],
   "key": {
     "#": {
-      "tag": "minecraft:oak_logs"
+      "tag": "minecraft:logs"
     }
   },
   "result": {
-    "item": "quark:oak_chest",
+    "item": "minecraft:chest",
     "count": 4
   },
   "conditions": [
@@ -24,8 +24,11 @@
           "flag": "wood_to_chest_recipes"
         },
         {
-          "type": "quark:flag",
-          "flag": "variant_chests"
+          "type": "forge:not",
+          "value": {
+            "type": "quark:flag",
+            "flag": "variant_chests"
+          }
         }
       ]
     }
