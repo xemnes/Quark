@@ -37,6 +37,7 @@ import net.minecraftforge.items.wrapper.EmptyHandler;
 import vazkii.arl.util.ItemNBTHelper;
 import vazkii.quark.base.client.InventoryButtonHandler;
 import vazkii.quark.base.client.InventoryButtonHandler.ButtonTargetType;
+import vazkii.quark.base.handler.GeneralConfig;
 import vazkii.quark.base.handler.InventoryTransferHandler;
 import vazkii.quark.base.handler.MiscUtil;
 import vazkii.quark.base.handler.SimilarBlockTypeHandler;
@@ -78,7 +79,7 @@ public class ChestSearchingModule extends Module {
 	@OnlyIn(Dist.CLIENT)
 	public void initGui(GuiScreenEvent.InitGuiEvent.Post event) {
 		Screen gui = event.getGui();
-		if(gui instanceof ContainerScreen) {
+		if(gui instanceof ContainerScreen && !GeneralConfig.ignoredScreens.contains(event.getGui().getClass().getName())) {
 			Minecraft mc = gui.getMinecraft();
 			ContainerScreen<?> chest = (ContainerScreen<?>) gui;
 			if(InventoryTransferHandler.accepts(chest.getContainer(), mc.player)) {

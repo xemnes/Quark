@@ -35,19 +35,24 @@ public class GeneralConfig {
 
 	@Config(description = "Should Quark treat anything with 'shulker_box' in its item identifier as a shulker box?")
 	public static boolean interpretShulkerBoxLikeBlocks = true;
-	
+
 	@Config(description = "Set to true to enable a system that debugs quark's worldgen features. This should ONLY be used if you're asked to by a dev.")
 	public static boolean enableWorldgenWatchdog = false;
-	
+
 	@Config(description = "Set to true if you need to find the class name for a screen that's causing problems")
 	public static boolean printScreenClassnames = false;
-	
+
 	@Config(description = "A list of screens that don't play well with quark's buttons. Use \"Print Screen Classnames\" to find the names of any others you'd want to add.")
-	public static List<String> ignoredScreens = Lists.newArrayList("com.tfar.craftingstation.client.CraftingStationScreen");
+	public static List<String> ignoredScreens = Lists.newArrayList(
+			"com.tfar.craftingstation.client.CraftingStationScreen",
+			"com.raoulvdberge.refinedstorage.screen.grid.GridScreen",
+			"com.raoulvdberge.refinedstorage.screen.DiskManipulatorScreen",
+			"com.raoulvdberge.refinedstorage.screen.InterfaceScreen"
+			);
 
 	@Config(description = "Set to true to make the quark big worldgen features such as stone clusters or underground biomes generate as spheres rather than unique shapes. It's faster, but won't look as cool")
 	public static boolean useFastWorldgen = false;
-	
+
 	private GeneralConfig() {
 		// NO-OP
 	}
