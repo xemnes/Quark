@@ -8,6 +8,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.item.BoatEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
@@ -109,6 +110,6 @@ public class ChestsInBoatsModule extends Module {
 		if (stack.isEmpty())
 			return false;
 
-		return stack.getItem().isIn(Tags.Items.CHESTS);
+		return stack.getItem().isIn(Tags.Items.CHESTS) && stack.getItem() != Items.ENDER_CHEST;
 	}
 }
