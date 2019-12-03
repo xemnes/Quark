@@ -41,7 +41,7 @@ public class WorldGenHandler {
 			ForgeRegistries.BIOMES.forEach(biome -> biome.addFeature(stage, feature));
 		}
 	}
-
+	
 	public static void addGenerator(Module module, IGenerator generator, GenerationStage.Decoration stage, int weight) {
 		WeightedGenerator weighted = new WeightedGenerator(module, generator, weight);
 		if(!generators.containsKey(stage))

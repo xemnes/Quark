@@ -15,4 +15,7 @@ public class WorldGenWeights {
 	public static final int MONSTER_BOXES = 4;
 	public static final int UNDERGROUND_OPEN_ROOMS = 100;
 	
+	// TOP_LAYER_MODIFICATION
+	public static final int BLOSSOM_TREES = 0;
+	
 }

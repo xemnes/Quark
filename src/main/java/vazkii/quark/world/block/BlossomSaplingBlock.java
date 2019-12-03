@@ -35,8 +35,8 @@ public class BlossomSaplingBlock extends SaplingBlock implements IQuarkBlock {
 	private final Module module;
 	private BooleanSupplier enabledSupplier = () -> true;
 
-	public BlossomSaplingBlock(String colorName, Module module, Block leaf) {
-		super(new BlossomTree(leaf), Block.Properties.from(Blocks.OAK_SAPLING));
+	public BlossomSaplingBlock(String colorName, Module module, BlossomTree tree, Block leaf) {
+		super(tree, Block.Properties.from(Blocks.OAK_SAPLING));
 		this.module = module;
 
 		RegistryHelper.registerBlock(this, colorName + "_blossom_sapling");
@@ -64,25 +64,27 @@ public class BlossomSaplingBlock extends SaplingBlock implements IQuarkBlock {
 	public boolean doesConditionApply() {
 		return enabledSupplier.getAsBoolean();
 	}
+	
+	public static class BlossomTree extends OakTree {
 
-	private static class BlossomTree extends OakTree {
-
-		final BlockState leaf;
+		public final BlockState leaf;
+		public final BlossomTreeFeature feature;
 
 		public BlossomTree(Block leafBlock) {
 			leaf = leafBlock.getDefaultState(); 
+			feature = new BlossomTreeFeature();
 		}
 
 		@Override
 		protected AbstractTreeFeature<NoFeatureConfig> getTreeFeature(Random rand) {
-			return new BlossomTreeFeature();
+			return feature;
 		}
 
 		// ============================================================================================
 		// All vanilla copy paste from BigTreeFeature from here on out 
 		//=============================================================================================
 		
-		private class BlossomTreeFeature extends AbstractTreeFeature<NoFeatureConfig> {
+		public class BlossomTreeFeature extends AbstractTreeFeature<NoFeatureConfig> {
 
 			public BlossomTreeFeature() {
 				super(idk -> NoFeatureConfig.NO_FEATURE_CONFIG, true);

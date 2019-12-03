@@ -3,6 +3,7 @@ package vazkii.quark.base.world.generator;
 import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationSettings;
 import net.minecraft.world.gen.GenerationStage;
@@ -41,6 +42,10 @@ public abstract class Generator implements IGenerator {
 	@Override
 	public boolean canGenerate(IWorld world) {
 		return condition.getAsBoolean() && dimConfig.canSpawnHere(world.getWorld());
+	}
+	
+	public Biome getBiome(ChunkGenerator<? extends GenerationSettings> generator, BlockPos pos) {
+		return generator.getBiomeProvider().getBiome(pos);
 	}
 	
 }

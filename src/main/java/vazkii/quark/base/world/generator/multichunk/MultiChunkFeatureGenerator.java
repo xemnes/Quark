@@ -83,8 +83,4 @@ public abstract class MultiChunkFeatureGenerator extends Generator {
 		return pos.getX() > x && pos.getZ() > z && pos.getX() < (x + 16) && pos.getZ() < (z + 16); 
 	}
 	
-	public Biome getBiome(ChunkGenerator<? extends GenerationSettings> generator, BlockPos pos) {
-		return generator.getBiomeProvider().getBiome(pos);
-	}
-
 }

@@ -21,7 +21,7 @@ public class LeafCarpetModule extends Module {
 	
 	@Override
 	public void modulesStarted() {
-		BlossomTreesModule.leafList.forEach(this::blossomCarpet);
+		BlossomTreesModule.trees.keySet().stream().map(t -> (BlossomLeavesBlock) t.leaf.getBlock()).forEach(this::blossomCarpet);
 	}
 	
 	private void carpet(Block base) {
