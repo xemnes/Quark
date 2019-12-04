@@ -7,7 +7,7 @@
 			"desc": [
 				"Iron Chains can be crafted with Iron Ingots and Nuggets.",
 				"When right clicked onto a boat or minecart, and then onto another, they'll link the two. Linked boats and minecarts will always remain at close distance, which allows you to make trains.",
-				"Additionally, Iron Chains can be used to craft chainmail armor."
+				"Additionally, Iron Chains can be used to craft chainmail armor, or placed down as a block that connects perfectly to Lanterns."
 			]
 		},
 		{
@@ -189,7 +189,8 @@
 			"image": "leaf-carpet.jpg",
 			"versions": "1.14+",
 			"desc": [
-				"Leaf Carpet can be made with all types of leaves in the same recipe as wool carpet. It can be harvested by hand and has no collision box."
+				"Leaf Carpet can be made with all types of leaves in the same recipe as wool carpet. It can be harvested by hand and has no collision box.",
+				"If Blossom Trees (from the World category) are enabled, you can use their leaves as carpet too."
 			]
 		},
 		{
@@ -343,7 +344,7 @@
 			"versions": "1.14+",
 			"desc": [
 				"Chests can be made of all the different wood types. Each one is styled differently for the type of wood you use.",
-				"Additionally, the Oak Chest is retextured to match the look of Oak blocks. This can be disabled individually if you don't like it."
+				"To get the vanilla chest, you can craft a chest with more than one type of wood, or woods added by other mods."
 			]
 		},
 		{
@@ -371,6 +372,15 @@
 			"desc": [
 				"Do I have to explain this?",
 				"They exist for every vanilla and Quark block that has a slab, and can be crafted by placing 3 of the respective slab in a column."
+			]
+		},
+		{
+			"name": "More Potted Plants",
+			"image": "more-potted-plants.jpg",
+			"versions": "1.14+",
+			"desc": [
+				"13 new blocks can now be added to Flower Pots. Look at the feature image to see everything you can add.",
+				"Potted. Melon. That's it."
 			]
 		}
 	],
@@ -754,6 +764,18 @@
 			"desc": [
 				"Holding an Emerald Block causes nearby villagers to follow the player, much like animals do for food items."
 			]
+		},
+		{
+			"name": "Compasses Work Everywhere",
+			"image": "compasses-work-everywhere.jpg",
+			"versions": "1.14+",
+			"desc": [
+				"Compasses will now work in the Nether and the End.",
+				"*In the Nether, a compass will point to the portal you entered from, provided you had it on you when you did.",
+				"*In the End, a compass will point to the overworld portal.",
+				"*As a bonus, Compasses and Clocks will not function until crafted to prevent cheesing with the recipe book.",
+				"*If you prefer, this feature can be configured to only have the anti-cheese, and not the former points, or vice-versa."
+			]
 		}
 	],
 	"vanity": [
@@ -990,6 +1012,37 @@
 			"desc": [
 				"Clay generates in patches underground, similarly to Dirt, albeit less often.",
 				"We apologize in advance for any breaks in balance you may encounter from this feature."
+			]
+		},
+		{
+			"name": "Blossom Trees",
+			"image": "blossom-trees.jpg",
+			"versions": "1.14+",
+			"desc": [
+				"Blossom Trees are new uncommon specimen in esoteric colors that dot your landscape. Each color of tree will spawn in different types of biomes:",
+				"*Frosty Blossom Trees (blue) spawn in cold biomes.",
+				"*Serene Blossom Trees (lavender) spawn in swamps.",
+				"*Warm Blossom Trees (orange) spawn in savannas.",
+				"*Sweet Blossom Trees (pink) spawn in mountains.",
+				"*Sunny Blossom Trees (yellow) spawn in plains.",
+				"The trees come with spruce wood and pretty leaves, as well as new saplings you can put in flower pots for decor."
+			]
+		},
+		{
+			"name": "Mega Caves",
+			"image": "mega-caves.jpg",
+			"versions": "1.14+",
+			"desc": [
+				"Extremely rare massive caves will now spawn underground. These caves are purposely empty, so you can fill them with your imagination. Secret evil lair anyone?"
+			]
+		}, 
+		{
+			"name": "Monster Boxes",
+			"image": "monster-boxes.jpg",
+			"versions": "1.14+",
+			"desc": [
+				"Monster Boxes are new blocks you may find randomly scattered around caves. When you get near one, it'll start spawning a few mobs, and then break.",
+				"Mobs you kill that are spawned from one of these get an extra loot table tacked onto them, including cool rare items like Infested Blocks (the ones with Silverfish!), ores, and even a Monster Box you can use to prank your friends!"
 			]
 		}
 	]
