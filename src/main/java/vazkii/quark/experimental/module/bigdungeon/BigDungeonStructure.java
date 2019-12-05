@@ -1,10 +1,13 @@
 package vazkii.quark.experimental.module.bigdungeon;
 
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Lists;
 
+import net.minecraft.entity.EntityType;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Rotation;
@@ -13,6 +16,7 @@ import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.Biome.SpawnListEntry;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.gen.feature.jigsaw.JigsawManager;
@@ -27,6 +31,14 @@ import net.minecraft.world.gen.feature.template.TemplateManager;
 import vazkii.quark.base.Quark;
 
 public class BigDungeonStructure extends ScatteredStructure<NoFeatureConfig> {
+
+	private static final List<Biome.SpawnListEntry> ENEMIES = Lists.newArrayList(
+			new Biome.SpawnListEntry(EntityType.ZOMBIE, 8, 1, 3),
+			new Biome.SpawnListEntry(EntityType.SKELETON, 8, 1, 3),
+			new Biome.SpawnListEntry(EntityType.CREEPER, 8, 1, 3),
+			new Biome.SpawnListEntry(EntityType.WITCH, 4, 1, 1),
+			new Biome.SpawnListEntry(EntityType.ILLUSIONER, 10, 1, 1)
+			);
 
 	private static final String NAMESPACE = "big_dungeon";
 
@@ -43,21 +55,21 @@ public class BigDungeonStructure extends ScatteredStructure<NoFeatureConfig> {
 			"climb_parkour", "climb_plain",
 			"double_hall_plain", "double_hall_silverfish",
 			"connector_base", "connector_bush", "connector_fountain", "connector_melon");
-	
+
 	private static final String CORRIDORS_DIR = "corridors";
 	private static final Set<String> CORRIDORS = ImmutableSet.of(
 			"forward_cobweb", "forward_plain",
 			"left_cobweb", "left_plain",
 			"right_cobweb", "right_plain",
 			"t_cobweb", "t_plain");
-	
+
 	private static final String ENDPOINT = "misc/endpoint";
-			
+
 	private static final ResourceLocation START_POOL = new ResourceLocation(Quark.MOD_ID, NAMESPACE + "/" + STARTS_DIR);
-	
-	private static final int MAX_ROOMS = 10;
-	private static final int MAX_CHUNK_WIDTH = 5;
- 
+
+	private static final int MAX_ROOMS = 14;
+	private static final int MAX_CHUNK_WIDTH = 6;
+
 	static {
 		JigsawRegistryHelper.pool(NAMESPACE, STARTS_DIR)
 		.addMult(STARTS_DIR, STARTS, 1)
@@ -66,15 +78,15 @@ public class BigDungeonStructure extends ScatteredStructure<NoFeatureConfig> {
 		JigsawRegistryHelper.pool(NAMESPACE, ROOMS_DIR)
 		.addMult(ROOMS_DIR, ROOMS, 1)
 		.register(PlacementBehaviour.RIGID);
-		
+
 		JigsawRegistryHelper.pool(NAMESPACE, CORRIDORS_DIR)
 		.addMult(CORRIDORS_DIR, CORRIDORS, 1)
 		.register(PlacementBehaviour.RIGID);
-		
+
 		final int roomWeight = 100;
 		final int corridorWeight = 70;
 		final double endpointWeightMult = 1.5;
-		
+
 		JigsawRegistryHelper.pool(NAMESPACE, "rooms_or_endpoint")
 		.addMult(ROOMS_DIR, ROOMS, roomWeight)
 		.addMult(CORRIDORS_DIR, CORRIDORS, corridorWeight)
@@ -85,6 +97,11 @@ public class BigDungeonStructure extends ScatteredStructure<NoFeatureConfig> {
 	public BigDungeonStructure() {
 		super(fc -> NoFeatureConfig.NO_FEATURE_CONFIG);
 		setRegistryName(Quark.MOD_ID, NAMESPACE);
+	}
+
+	@Override
+	public List<SpawnListEntry> getSpawnList() {
+		return ENEMIES;
 	}
 
 	public boolean hasStartAt(ChunkGenerator<?> chunkGen, Random rand, int chunkPosX, int chunkPosZ) {
@@ -129,6 +146,7 @@ public class BigDungeonStructure extends ScatteredStructure<NoFeatureConfig> {
 			BlockPos blockpos = new BlockPos(chunkX * 16, 40, chunkZ * 16); // TODO proper height check here
 			JigsawManager.func_214889_a(START_POOL, MAX_ROOMS, Piece::new, generator, templateManagerIn, blockpos, components, this.rand);
 			recalculateStructureSize();
+			func_214628_a(generator.getSeaLevel(), this.rand, 10);
 		}
 
 	}
