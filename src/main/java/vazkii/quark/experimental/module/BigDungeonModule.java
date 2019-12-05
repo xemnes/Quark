@@ -34,7 +34,7 @@ public class BigDungeonModule extends Module {
 		if(enabled)
 			for(Biome b : ForgeRegistries.BIOMES.getValues()) {
 				b.addStructure(structure, NoFeatureConfig.NO_FEATURE_CONFIG);
-				b.addFeature(Decoration.SURFACE_STRUCTURES, Biome.createDecoratedFeature(structure, IFeatureConfig.NO_FEATURE_CONFIG, Placement.NOPE, IPlacementConfig.NO_PLACEMENT_CONFIG));
+				b.addFeature(Decoration.UNDERGROUND_STRUCTURES, Biome.createDecoratedFeature(structure, IFeatureConfig.NO_FEATURE_CONFIG, Placement.NOPE, IPlacementConfig.NO_PLACEMENT_CONFIG));
 			}
 	}
 

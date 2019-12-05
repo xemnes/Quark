@@ -9,6 +9,7 @@ import com.mojang.datafixers.types.DynamicOps;
 import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.block.Blocks;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
@@ -48,6 +49,13 @@ public class JigsawRegistryHelper {
 		
 		public PoolBuilder add(String name, int weight, StructureProcessor... processors) {
 			pieces.add(new PiecePrototype(name, weight, processors));
+			return this;
+		}
+		
+		public PoolBuilder addMult(String dir, Iterable<String> names, int weight) {
+			String pref = dir.isEmpty() ? "" : (dir + "/");
+			for(String s : names)
+				add(pref + s, weight);
 			return this;
 		}
 		
@@ -99,6 +107,9 @@ public class JigsawRegistryHelper {
 	    public BlockInfo process(IWorldReader worldReaderIn, BlockPos pos, BlockInfo p_215194_3_, BlockInfo blockInfo, PlacementSettings placementSettingsIn) {
 	        if(blockInfo.state.getBlock() == Blocks.BARRIER)
 	            return new BlockInfo(blockInfo.pos, Blocks.AIR.getDefaultState(), blockInfo.nbt);
+	        
+	        else if(blockInfo.state.getProperties().contains(BlockStateProperties.WATERLOGGED) && blockInfo.state.get(BlockStateProperties.WATERLOGGED))
+	        	return new BlockInfo(blockInfo.pos, blockInfo.state.with(BlockStateProperties.WATERLOGGED, false), blockInfo.nbt);
 	            
 	    	return blockInfo;
 	    }
