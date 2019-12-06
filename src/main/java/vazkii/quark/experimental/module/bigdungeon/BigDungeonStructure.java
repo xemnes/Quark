@@ -110,7 +110,8 @@ public class BigDungeonStructure extends ScatteredStructure<NoFeatureConfig> {
 			int i = chunkPosX >> 4;
 			int j = chunkPosZ >> 4;
 			rand.setSeed((long)(i ^ j << 4) ^ chunkGen.getSeed());
-			return true;
+			rand.nextInt();
+			return rand.nextInt(5) == 0; // TODO allow config
 		}
 		return false;
 	}
@@ -143,10 +144,10 @@ public class BigDungeonStructure extends ScatteredStructure<NoFeatureConfig> {
 
 		@Override
 		public void init(ChunkGenerator<?> generator, TemplateManager templateManagerIn, int chunkX, int chunkZ, Biome biomeIn) {
-			BlockPos blockpos = new BlockPos(chunkX * 16, 40, chunkZ * 16); // TODO proper height check here
+			BlockPos blockpos = new BlockPos(chunkX * 16, 90, chunkZ * 16);
 			JigsawManager.func_214889_a(START_POOL, MAX_ROOMS, Piece::new, generator, templateManagerIn, blockpos, components, this.rand);
 			recalculateStructureSize();
-			func_214628_a(generator.getSeaLevel(), this.rand, 10);
+			func_214628_a(generator.getSeaLevel() - 10, this.rand, 10);
 		}
 
 	}
