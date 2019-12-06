@@ -1,14 +1,17 @@
 package vazkii.quark.base.world;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Streams;
 import com.mojang.datafixers.Dynamic;
 import com.mojang.datafixers.types.DynamicOps;
 import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.block.Blocks;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -36,10 +39,19 @@ public class JigsawRegistryHelper {
 		
 		private final String namespace, name;
 		private final List<PiecePrototype> pieces = new LinkedList<>();
+		private final List<StructureProcessor> globalProcessors = new LinkedList<>();
 		
 		private PoolBuilder(String namespace, String name) {
 			this.namespace = namespace;
 			this.name = name;
+			
+			globalProcessors.add(FAKE_AIR);
+		}
+		
+		public PoolBuilder processor(StructureProcessor... processors) {
+			for(StructureProcessor p : processors)
+				globalProcessors.add(p);
+			return this;
 		}
 		
 		public PoolBuilder add(String name, int weight) {
@@ -71,21 +83,19 @@ public class JigsawRegistryHelper {
 			JigsawManager.REGISTRY.register(new JigsawPattern(resource, new ResourceLocation("empty"), createdPieces, placementBehaviour));
 		}
  		
-		private static class PiecePrototype {
+		private class PiecePrototype {
 			final String name;
 			final int weight;
 			final List<StructureProcessor> processors;
 			
 			public PiecePrototype(String name, int weight) {
-				this.name = name;
-				this.weight = weight;
-				this.processors = ImmutableList.of(FAKE_AIR);
+				this(name, weight, new StructureProcessor[0]);
 			}
 			
 			public PiecePrototype(String name, int weight, StructureProcessor... processors) {
-				this.name = "";
+				this.name = name;
 				this.weight = weight;
-				this.processors = ImmutableList.copyOf(processors);
+				this.processors = Streams.concat(Arrays.stream(processors), globalProcessors.stream()).collect(ImmutableList.toImmutableList());
 			}
 		}
 		
@@ -106,7 +116,7 @@ public class JigsawRegistryHelper {
 	    @Override
 	    public BlockInfo process(IWorldReader worldReaderIn, BlockPos pos, BlockInfo p_215194_3_, BlockInfo blockInfo, PlacementSettings placementSettingsIn) {
 	        if(blockInfo.state.getBlock() == Blocks.BARRIER)
-	            return new BlockInfo(blockInfo.pos, Blocks.AIR.getDefaultState(), blockInfo.nbt);
+	            return new BlockInfo(blockInfo.pos, Blocks.CAVE_AIR.getDefaultState(), new CompoundNBT());
 	        
 	        else if(blockInfo.state.getProperties().contains(BlockStateProperties.WATERLOGGED) && blockInfo.state.get(BlockStateProperties.WATERLOGGED))
 	        	return new BlockInfo(blockInfo.pos, blockInfo.state.with(BlockStateProperties.WATERLOGGED, false), blockInfo.nbt);
@@ -121,7 +131,7 @@ public class JigsawRegistryHelper {
 
 		@Override
 		protected <T> Dynamic<T> serialize0(DynamicOps<T> ops) {
-			return null; // don't really care about this
+			return new Dynamic<>(ops);
 		}
 		
 	}

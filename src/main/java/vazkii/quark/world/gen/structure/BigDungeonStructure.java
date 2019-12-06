@@ -30,6 +30,9 @@ import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.feature.template.TemplateManager;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.world.JigsawRegistryHelper;
+import vazkii.quark.world.gen.structure.processor.BigDungeonChestProcessor;
+import vazkii.quark.world.gen.structure.processor.BigDungeonSpawnerProcessor;
+import vazkii.quark.world.module.BigDungeonModule;
 
 public class BigDungeonStructure extends ScatteredStructure<NoFeatureConfig> {
 
@@ -68,15 +71,17 @@ public class BigDungeonStructure extends ScatteredStructure<NoFeatureConfig> {
 
 	private static final ResourceLocation START_POOL = new ResourceLocation(Quark.MOD_ID, NAMESPACE + "/" + STARTS_DIR);
 
-	private static final int MAX_ROOMS = 14;
-	private static final int MAX_CHUNK_WIDTH = 6;
-
 	static {
+		BigDungeonChestProcessor chest = new BigDungeonChestProcessor();
+		BigDungeonSpawnerProcessor spawn = new BigDungeonSpawnerProcessor();
+		
 		JigsawRegistryHelper.pool(NAMESPACE, STARTS_DIR)
+		.processor(chest, spawn)
 		.addMult(STARTS_DIR, STARTS, 1)
 		.register(PlacementBehaviour.RIGID);
 
 		JigsawRegistryHelper.pool(NAMESPACE, ROOMS_DIR)
+		.processor(chest, spawn)
 		.addMult(ROOMS_DIR, ROOMS, 1)
 		.register(PlacementBehaviour.RIGID);
 
@@ -89,6 +94,7 @@ public class BigDungeonStructure extends ScatteredStructure<NoFeatureConfig> {
 		final double endpointWeightMult = 1.5;
 
 		JigsawRegistryHelper.pool(NAMESPACE, "rooms_or_endpoint")
+		.processor(chest, spawn)
 		.addMult(ROOMS_DIR, ROOMS, roomWeight)
 		.addMult(CORRIDORS_DIR, CORRIDORS, corridorWeight)
 		.add(ENDPOINT, (int) ((ROOMS.size() * roomWeight + CORRIDORS.size() * corridorWeight) * endpointWeightMult))
@@ -112,7 +118,7 @@ public class BigDungeonStructure extends ScatteredStructure<NoFeatureConfig> {
 			int j = chunkPosZ >> 4;
 			rand.setSeed((long)(i ^ j << 4) ^ chunkGen.getSeed());
 			rand.nextInt();
-			return rand.nextInt(5) == 0; // TODO allow config
+			return rand.nextDouble() < BigDungeonModule.spawnChance;
 		}
 		return false;
 	}
@@ -134,7 +140,7 @@ public class BigDungeonStructure extends ScatteredStructure<NoFeatureConfig> {
 
 	@Override
 	public int getSize() {
-		return MAX_CHUNK_WIDTH;
+		return (int) Math.ceil((double) BigDungeonModule.maxRooms / 1.5);
 	}
 
 	public static class Start extends MarginedStructureStart {
@@ -145,10 +151,16 @@ public class BigDungeonStructure extends ScatteredStructure<NoFeatureConfig> {
 
 		@Override
 		public void init(ChunkGenerator<?> generator, TemplateManager templateManagerIn, int chunkX, int chunkZ, Biome biomeIn) {
-			BlockPos blockpos = new BlockPos(chunkX * 16, 90, chunkZ * 16);
-			JigsawManager.func_214889_a(START_POOL, MAX_ROOMS, Piece::new, generator, templateManagerIn, blockpos, components, this.rand);
+			BlockPos blockpos = new BlockPos(chunkX * 16, 40, chunkZ * 16);
+			JigsawManager.func_214889_a(START_POOL, BigDungeonModule.maxRooms, Piece::new, generator, templateManagerIn, blockpos, components, this.rand);
 			recalculateStructureSize();
-			func_214628_a(generator.getSeaLevel() - 10, this.rand, 10);
+
+			int maxTop = 60;
+			if(bounds.maxY >= maxTop) {
+				int shift = 5 + (bounds.maxY - maxTop);
+				bounds.offset(0, -shift, 0);
+				components.forEach(p -> p.offset(0, -shift, 0));
+			}
 		}
 
 	}
