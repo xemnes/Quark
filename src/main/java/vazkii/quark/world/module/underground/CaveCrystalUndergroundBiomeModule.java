@@ -29,6 +29,9 @@ public class CaveCrystalUndergroundBiomeModule extends UndergroundBiomeModule {
 
 	@Config
 	public static boolean crystalsGrowInLava = false;
+	
+	@Config(description = "The chance that a crystal can grow, this is on average 1 in X world ticks, set to a higher value to make them grow slower. Minimum is 1, for every tick. Set to 0 to disable growth.")
+	public static int caveCrystalGrowthChance = 5;
 
 	@Config(flag = "cave_crystal_runes")
 	public static boolean crystalsCraftRunes = true;

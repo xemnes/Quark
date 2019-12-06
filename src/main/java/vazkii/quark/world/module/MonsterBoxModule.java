@@ -1,10 +1,7 @@
 package vazkii.quark.world.module;
 
-import java.util.List;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.GameRules;
