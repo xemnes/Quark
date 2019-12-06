@@ -37,7 +37,7 @@ public class MonsterBoxModule extends Module {
 	public static TileEntityType<MonsterBoxTileEntity> tileEntityType;
 	
 	@Config(description = "The chance for the monster box generator to try and place one in a chunk, 1 is 100%\nThis can be higher than 100% if you want multiple per chunk, , 0 is 0%") 
-	public static double chancePerChunk = 0.5;
+	public static double chancePerChunk = 0.8;
 	
 	@Config public static int minY = 5;
 	@Config public static int maxY = 30;
