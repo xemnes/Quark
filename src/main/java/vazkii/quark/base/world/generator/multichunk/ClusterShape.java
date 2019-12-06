@@ -7,6 +7,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.gen.PerlinNoiseGenerator;
 import vazkii.quark.base.handler.GeneralConfig;
+import vazkii.quark.base.world.config.BiomeTypeConfig;
 import vazkii.quark.base.world.config.ClusterSizeConfig;
 
 public class ClusterShape {
@@ -92,6 +93,10 @@ public class ClusterShape {
 		
 		public int getRandomYLevel(Random rand) {
 			return config.minYLevel + (config.minYLevel == config.maxYLevel ? 0 : rand.nextInt(Math.max(config.maxYLevel, config.minYLevel) - Math.min(config.maxYLevel, config.minYLevel)));
+		}
+
+		public BiomeTypeConfig getBiomeTypes() {
+			return config.biomes;
 		}
 		
 		public Random randAroundBlockPos(BlockPos pos) {
