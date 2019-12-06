@@ -1,4 +1,4 @@
-package vazkii.quark.experimental.module;
+package vazkii.quark.world.module;
 
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage.Decoration;
@@ -14,16 +14,16 @@ import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
 import vazkii.quark.experimental.debug.FloodFillItem;
-import vazkii.quark.experimental.module.bigdungeon.BigDungeonStructure;
+import vazkii.quark.world.gen.structure.BigDungeonStructure;
 
-@LoadModule(category = ModuleCategory.EXPERIMENTAL, enabledByDefault = false)
+@LoadModule(category = ModuleCategory.WORLD)
 public class BigDungeonModule extends Module {
 
 	public static Structure<NoFeatureConfig> structure;
 
 	@Override
 	public void construct() {
-		new FloodFillItem(this);
+		new FloodFillItem(this); // TODO remove
 
 		structure = new BigDungeonStructure();
 		RegistryHelper.register(structure);

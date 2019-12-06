@@ -1,4 +1,4 @@
-package vazkii.quark.experimental.module.bigdungeon;
+package vazkii.quark.base.world;
 
 import java.util.LinkedList;
 import java.util.List;

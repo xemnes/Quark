@@ -1,4 +1,4 @@
-package vazkii.quark.experimental.module.bigdungeon;
+package vazkii.quark.world.gen.structure;
 
 import java.util.List;
 import java.util.Random;
@@ -29,6 +29,7 @@ import net.minecraft.world.gen.feature.structure.ScatteredStructure;
 import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.feature.template.TemplateManager;
 import vazkii.quark.base.Quark;
+import vazkii.quark.base.world.JigsawRegistryHelper;
 
 public class BigDungeonStructure extends ScatteredStructure<NoFeatureConfig> {
 
