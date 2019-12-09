@@ -771,6 +771,7 @@
 	"entity.quark.gravisand": "Floating Gravisand",
 	"entity.quark.frog": "Frog",
 	"entity.quark.crab": "Crab",
-	"entity.quark.foxhound": "Foxhound"
+	"entity.quark.foxhound": "Foxhound",
+	"entity.quark.wrapped": "Wrapped"
 	
 }
