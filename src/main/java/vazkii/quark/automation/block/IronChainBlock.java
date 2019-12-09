@@ -1,5 +1,7 @@
 package vazkii.quark.automation.block;
 
+import java.util.Locale;
+
 import javax.annotation.Nonnull;
 
 import net.minecraft.block.Block;
@@ -130,7 +132,7 @@ public class IronChainBlock extends QuarkBlock implements IWaterLoggable {
 
 		@Override
 		public String getName() {
-			return name().toLowerCase();
+			return name().toLowerCase(Locale.ROOT);
 		}
 		
 	}
