@@ -16,7 +16,7 @@ import vazkii.quark.world.gen.MegaCaveGenerator;
 public class MegaCavesModule extends Module {
 
 	@Config public DimensionConfig dimensions = DimensionConfig.overworld(false);
-	@Config public ClusterSizeConfig spawnSettings = new ClusterSizeConfig(500, 80, 25, 30, 10, true, Type.OCEAN, Type.BEACH)
+	@Config public ClusterSizeConfig spawnSettings = new ClusterSizeConfig(800, 80, 25, 30, 10, true, Type.OCEAN, Type.BEACH)
 			.setYLevels(10, 20);
 	
 	@Override
