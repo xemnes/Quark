@@ -24,10 +24,10 @@ public class CompassesWorkEverywhereModule extends Module {
 	
 	@Override
 	public void setup() {
-		if(enableCompassNerf || enableNether || enableEnd)
+		if(enabled && (enableCompassNerf || enableNether || enableEnd))
 			Items.COMPASS.addPropertyOverride(new ResourceLocation("angle"), new CompassAngleGetter());
 		
-		if(enableClockNerf)
+		if(enabled && enableClockNerf)
 			Items.CLOCK.addPropertyOverride(new ResourceLocation("time"), new ClockTimeGetter());
 	}
 	
