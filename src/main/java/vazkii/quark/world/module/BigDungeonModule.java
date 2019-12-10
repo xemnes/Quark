@@ -35,7 +35,7 @@ public class BigDungeonModule extends Module {
 	
 	@Override
 	public void construct() {
-		new FloodFillItem(this); // TODO remove
+//		new FloodFillItem(this);
 
 		structure = new BigDungeonStructure();
 		RegistryHelper.register(structure);
