@@ -55,10 +55,12 @@ public class BigDungeonStructure extends ScatteredStructure<NoFeatureConfig> {
 	private static final String ROOMS_DIR = "rooms";
 	private static final Set<String> ROOMS = ImmutableSet.of(
 			"4room_plain", "4room_trapped",
-			"ascend_intersection", "ascend_plain",
-			"climb_parkour", "climb_plain",
+			"ascend_intersection", "ascend_ruined", "ascend_plain",
+			"climb_parkour", "climb_redstone", "climb_plain",
 			"double_hall_plain", "double_hall_silverfish",
-			"connector_base", "connector_bush", "connector_fountain", "connector_melon");
+			"laddered_bridge", "laddered_tnt", "laddered_plain",
+			"triple_library", "triple_plain",
+			"connector_base", "connector_bush", "connector_fountain", "connector_melon", "connector_room");
 
 	private static final String CORRIDORS_DIR = "corridors";
 	private static final Set<String> CORRIDORS = ImmutableSet.of(
@@ -90,8 +92,8 @@ public class BigDungeonStructure extends ScatteredStructure<NoFeatureConfig> {
 		.register(PlacementBehaviour.RIGID);
 
 		final int roomWeight = 100;
-		final int corridorWeight = 70;
-		final double endpointWeightMult = 1.5;
+		final int corridorWeight = 120;
+		final double endpointWeightMult = 1.2;
 
 		JigsawRegistryHelper.pool(NAMESPACE, "rooms_or_endpoint")
 		.processor(chest, spawn)
@@ -160,6 +162,12 @@ public class BigDungeonStructure extends ScatteredStructure<NoFeatureConfig> {
 				int shift = 5 + (bounds.maxY - maxTop);
 				bounds.offset(0, -shift, 0);
 				components.forEach(p -> p.offset(0, -shift, 0));
+			}
+			
+			if(bounds.minY < 6) {
+				int shift = 6 - bounds.minY;
+				bounds.offset(0, shift, 0);
+				components.forEach(p -> p.offset(0, shift, 0));
 			}
 		}
 

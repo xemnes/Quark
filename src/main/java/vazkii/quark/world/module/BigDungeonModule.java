@@ -22,7 +22,7 @@ public class BigDungeonModule extends Module {
 	public static Structure<NoFeatureConfig> structure;
 
 	@Config(description = "The chance that a big dungeon spawn candidate will be allowed to spawn. 0.2 is 20%, which is the same as the Pillager Outpost.")
-	public static double spawnChance = 0.2;
+	public static double spawnChance = 0.1;
 	
 	@Config
 	public static String lootTable = "minecraft:chests/simple_dungeon";
