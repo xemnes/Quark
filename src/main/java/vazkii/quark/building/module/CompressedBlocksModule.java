@@ -59,7 +59,7 @@ public class CompressedBlocksModule extends Module {
 	
 	@Config(flag = "blaze_lantern") public static boolean enableBlazeLantern = true;
 
-	private Block charcoal_block, stick_block, blaze_lantern;
+	public static Block charcoal_block, stick_block, blaze_lantern;
 
 	private final List<Block> compostable = Lists.newArrayList();
 
