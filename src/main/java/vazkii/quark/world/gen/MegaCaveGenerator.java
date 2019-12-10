@@ -7,6 +7,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.gen.ChunkGenerator;
+import net.minecraft.world.gen.FlatChunkGenerator;
 import net.minecraft.world.gen.GenerationSettings;
 import vazkii.quark.base.world.config.ClusterSizeConfig;
 import vazkii.quark.base.world.config.DimensionConfig;
@@ -33,11 +34,13 @@ public class MegaCaveGenerator extends ClusterBasedGenerator {
 
 	@Override
 	public BlockPos[] getSourcesInChunk(Random random, ChunkGenerator<? extends GenerationSettings> generator, BlockPos chunkLeft) {
-		int rarity = shapeProvider.getRarity();
-		if(rarity > 0 && random.nextInt(rarity) == 0) {
-			BlockPos pos = chunkLeft.add(random.nextInt(16), shapeProvider.getRandomYLevel(random), random.nextInt(16));
-			if(shapeProvider.getBiomeTypes().canSpawn(getBiome(generator, pos)))
-				return new BlockPos[] { pos };
+		if(!(generator instanceof FlatChunkGenerator)) {
+			int rarity = shapeProvider.getRarity();
+			if(rarity > 0 && random.nextInt(rarity) == 0) {
+				BlockPos pos = chunkLeft.add(random.nextInt(16), shapeProvider.getRandomYLevel(random), random.nextInt(16));
+				if(shapeProvider.getBiomeTypes().canSpawn(getBiome(generator, pos)))
+					return new BlockPos[] { pos };
+			}
 		}
 		
 		return new BlockPos[0];
