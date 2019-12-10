@@ -925,7 +925,8 @@
 			"desc": [
 				"A new underground biome that spawns under any biome that isn't an Ocean - It comes with new Cave Crystals, fancy semi-transparent, light emitting blocks.",
 				"Each Crystal Cave will come with two colors of crystals, chosen from a pool of the seven colors that make up the rainbow, as well as white and black.",
-				"Cave Crystals can also be turned into pane variants, and crafted into Colored Runes (from the Vanity category), if enabled."
+				"Cave Crystals can also be turned into pane variants, and crafted into Colored Runes (from the Vanity category), if enabled.",
+				"Lastly, if placed deep underground, they'll grow up to 4 blocks tall, and will emit some particles to let you know they're growing."
 			]
 		},
 		{
@@ -1001,8 +1002,12 @@
 			"image": "underground-biome-spider-nest.jpg",
 			"versions": "1.14+",
 			"desc": [
-				"A new underground biome that spawns under Plains - It comes with a worn down look, including Cobwebs, and a new Cobbedstone block.",
-				"Cobbedstone can be turned into Slabs, Stairs, and Walls. They're great if you want to make an area look like it's infested."
+				"A new underground biome that spawns under Plains - It comes with a worn down look, including Cobwebs, and a new Cobbedstone block. Cobbedstone can be turned into Slabs, Stairs, and Walls.",
+				"Furthermore, if a zombie would spwan on Cobbedstone (even from a spawner), you'll instead get a new mob, the Wrapped. This is a simple zombie variant that inflicts Slowness on hit, but the real spice comes from it having a high chance to drop Cobwebs when killed. This not only allows for a Cobweb farm, but gives a good purpose to Zombie spawners, hurray!"
+			],
+			"expand": [
+				"#Wrapped",
+				"!img/features/world/underground-biome-spider-nest/wrapped.jpg"
 			]
 		},
 		{
@@ -1043,6 +1048,28 @@
 			"desc": [
 				"Monster Boxes are new blocks you may find randomly scattered around caves. When you get near one, it'll start spawning a few mobs, and then break.",
 				"Mobs you kill that are spawned from one of these get an extra loot table tacked onto them, including cool rare items like Infested Blocks (the ones with Silverfish!), ores, and even a Monster Box you can use to prank your friends!"
+			]
+		},
+		{
+			"name": "Nether Obsidian Spikes",
+			"image": "nether-obsidian-spikes.jpg",
+			"versions": "1.14+",
+			"desc": [
+				"Obsidian spikes will now decorate the nether's lava floors. Rarely, you may find a big one with a light in the top, like in the picture. If you choose to climb it, you'll be treated with a loot chest and a Blaze spawner under it."
+			]
+		},
+		{
+			"name": "Mega Dungeons",
+			"image": "mega-dungeons.jpg",
+			"versions": "1.14+",
+			"desc": [
+				"Mega dungeons are new massive, rare, dungeons you can find underground. These come with a large variety of different rooms and mini challenges, as well as a shower of loot and monsters to fight.",
+				"By default, these will spawn roughly half as often as Pillager Outposts.",
+				"If you click on the More Info button, you can see an X-Ray shot of one of these dungeons as a demonstration of how large they can be."
+			],
+			"expand": [
+				"#X-Ray Shot",
+				"!img/features/world/mega-dungeons/xray.jpg"
 			]
 		}
 	]
