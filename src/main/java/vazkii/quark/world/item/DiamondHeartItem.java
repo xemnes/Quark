@@ -1,10 +1,14 @@
 package vazkii.quark.world.item;
 
+import javax.annotation.Nonnull;
+
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
 import net.minecraft.item.Rarity;
@@ -20,8 +24,6 @@ import vazkii.quark.base.module.Module;
 import vazkii.quark.world.entity.EnumStonelingVariant;
 import vazkii.quark.world.entity.StonelingEntity;
 import vazkii.quark.world.module.StonelingsModule;
-
-import javax.annotation.Nonnull;
 
 public class DiamondHeartItem extends QuarkItem {
 
@@ -61,6 +63,9 @@ public class DiamondHeartItem extends QuarkItem {
 						stoneling.rotationYaw = player.rotationYaw + 180F;
 						stoneling.onInitialSpawn(world, world.getDifficultyForLocation(pos), SpawnReason.STRUCTURE, variant, null);
 						world.addEntity(stoneling);
+						
+						if(player instanceof ServerPlayerEntity)
+							CriteriaTriggers.SUMMONED_ENTITY.trigger((ServerPlayerEntity) player, stoneling);
 
 						if (!player.abilities.isCreativeMode)
 							stack.shrink(1);
