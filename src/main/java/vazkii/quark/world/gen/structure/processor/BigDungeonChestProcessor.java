@@ -38,7 +38,7 @@ public class BigDungeonChestProcessor extends StructureProcessor {
     @Override
     public BlockInfo process(IWorldReader worldReaderIn, BlockPos pos, BlockInfo p_215194_3_, BlockInfo blockInfo, PlacementSettings placementSettingsIn, Template template) {
     	if(blockInfo.state.getBlock() instanceof ChestBlock) {
-    		Random rand = placementSettingsIn.getRandom(pos);
+    		Random rand = placementSettingsIn.getRandom(blockInfo.pos);
     		if(rand.nextDouble() > BigDungeonModule.chestChance)
 	            return new BlockInfo(blockInfo.pos, Blocks.CAVE_AIR.getDefaultState(), new CompoundNBT());
     		
@@ -49,6 +49,7 @@ public class BigDungeonChestProcessor extends StructureProcessor {
     			for(int i = 0; i < chest.getSizeInventory(); i++)
     				chest.setInventorySlotContents(i, ItemStack.EMPTY);
     			
+    			System.out.println("Setting chest");
     			chest.setLootTable(new ResourceLocation(BigDungeonModule.lootTable), rand.nextLong());
     			CompoundNBT nbt = new CompoundNBT();
     			chest.write(nbt);

@@ -36,7 +36,7 @@ public class BigDungeonSpawnerProcessor extends StructureProcessor {
     @Override
     public BlockInfo process(IWorldReader worldReaderIn, BlockPos pos, BlockInfo p_215194_3_, BlockInfo blockInfo, PlacementSettings placementSettingsIn, Template template) {
     	if(blockInfo.state.getBlock() instanceof SpawnerBlock) {
-    		Random rand = placementSettingsIn.getRandom(pos);
+    		Random rand = placementSettingsIn.getRandom(blockInfo.pos);
     		TileEntity tile = TileEntity.create(blockInfo.nbt);
     		
     		if(tile instanceof MobSpawnerTileEntity) {
