@@ -29,7 +29,7 @@ public class BigDungeonModule extends Module {
 	public static String lootTable = "minecraft:chests/simple_dungeon";
 
 	@Config 
-	public static int maxRooms = 14;
+	public static int maxRooms = 10;
 	
 	@Config
 	public static double chestChance = 0.5;
