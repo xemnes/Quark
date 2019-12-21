@@ -1,5 +1,8 @@
 package vazkii.quark.base.proxy;
 
+import java.time.LocalDateTime;
+import java.time.Month;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.client.event.ModelRegistryEvent;
@@ -10,10 +13,14 @@ import vazkii.quark.base.module.ModuleLoader;
 
 public class ClientProxy extends CommonProxy {
 
+	public static boolean jingleBellsMotherfucker = false;
+	
 	@Override
 	public void start() {
-//		ResourceProxy.init();
-
+		LocalDateTime now = LocalDateTime.now();
+		if(now.getMonth() == Month.DECEMBER && now.getDayOfMonth() >= 16 || now.getMonth() == Month.JANUARY && now.getDayOfMonth() <= 6)
+			jingleBellsMotherfucker = true;
+		
 		super.start();
 	}
 
@@ -27,8 +34,6 @@ public class ClientProxy extends CommonProxy {
 
 	public void clientSetup(FMLClientSetupEvent event) {
 		ModuleLoader.INSTANCE.clientSetup();
-		
-//		ResourceProxy.instance().ensureNotLast();
 	}
 
 	public void modelRegistry(ModelRegistryEvent event) {
