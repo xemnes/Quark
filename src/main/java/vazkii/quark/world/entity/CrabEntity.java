@@ -75,6 +75,7 @@ public class CrabEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 	public static final ResourceLocation CRAB_LOOT_TABLE = new ResourceLocation("quark", "entities/crab");
 
 	private static final DataParameter<Float> SIZE_MODIFIER = EntityDataManager.createKey(CrabEntity.class, DataSerializers.FLOAT);
+	private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(CrabEntity.class, DataSerializers.VARINT);
 
 	private static final Ingredient TEMPTATION_ITEMS = Ingredient.merge(Lists.newArrayList(
 			Ingredient.fromItems(Items.WHEAT, Items.CHICKEN),
@@ -126,6 +127,7 @@ public class CrabEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 		super.registerData();
 
 		dataManager.register(SIZE_MODIFIER, 1f);
+		dataManager.register(VARIANT, -1);
 	}
 
 	@Nullable
@@ -186,6 +188,15 @@ public class CrabEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 	@Override
 	public void tick() {
 		super.tick();
+		
+		if(!world.isRemote && dataManager.get(VARIANT) == -1) {
+			int variant = 0;
+			if(rand.nextBoolean()) {
+				variant += rand.nextInt(2) + 1;
+			}
+			
+			dataManager.set(VARIANT, variant);
+		}
 
 		if (inWater)
 			stepHeight = 1F;
@@ -281,7 +292,10 @@ public class CrabEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 		return CRAB_LOOT_TABLE;
 	}
 
-
+	public int getVariant() {
+		return Math.max(0, dataManager.get(VARIANT));
+	}
+	
 	public void party(BlockPos pos, boolean isPartying) {
 		// A separate method, due to setPartying being side-only.
 		jukeboxPosition = pos;
@@ -332,6 +346,9 @@ public class CrabEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 			float sizeModifier = compound.getFloat("EnemyCrabRating");
 			dataManager.set(SIZE_MODIFIER, sizeModifier);
 		}
+		
+		if(compound.contains("Variant"))
+			dataManager.set(VARIANT, compound.getInt("Variant"));
 	}
 
 	@Override
@@ -339,6 +356,7 @@ public class CrabEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 		super.writeAdditional(compound);
 		compound.putFloat("EnemyCrabRating", getSizeModifier());
 		compound.putInt("LightningCooldown", lightningCooldown);
+		compound.putInt("Variant", dataManager.get(VARIANT));
 	}
 	
 }
