@@ -150,13 +150,13 @@ public class CrabModel extends EntityModel<CrabEntity> {
 			float tick = ageInTicks * freq;
 			float sin = (float) (Math.sin(tick) * 0.5 + 0.5);
 			
-			float legRot = sin * 1.4F;
+			float legRot = (sin * 0.8F) + 0.6F;
 			leftLegs.forEach(l -> l.rotateAngleZ = legRot);
 			rightLegs.forEach(l -> l.rotateAngleZ = -legRot);
 			
-			float maxHeight = 0.15F;
+			float maxHeight = -0.05F;
 			float horizontalOff = 0.2F;
-			group.offsetY = sin * maxHeight + maxHeight / 2;
+			group.offsetY = (sin - 0.5F) * 2 * maxHeight + maxHeight / 2;
 			
 			float slowSin = (float) Math.sin(tick / 2);
 			group.offsetX = slowSin * horizontalOff;

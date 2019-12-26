@@ -14,7 +14,7 @@ public class CrabRenderer extends MobRenderer<CrabEntity, CrabModel> {
 	private static final ResourceLocation TEXTURE = new ResourceLocation("quark", "textures/model/entity/crab.png");
 
 	public CrabRenderer(EntityRendererManager render) {
-		super(render, new CrabModel(), 0.5F);
+		super(render, new CrabModel(), 0.25F);
 	}
 
 	@Nullable
