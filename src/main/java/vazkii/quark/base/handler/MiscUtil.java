@@ -1,5 +1,11 @@
 package vazkii.quark.base.handler;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.List;
+import java.util.Random;
+
+import net.minecraft.client.gui.screen.MainMenuScreen;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -7,20 +13,21 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.storage.loot.LootEntry;
 import net.minecraft.world.storage.loot.LootPool;
 import net.minecraft.world.storage.loot.LootTable;
+import net.minecraftforge.client.event.GuiScreenEvent.KeyboardKeyPressedEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 import vazkii.quark.base.Quark;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.util.List;
-
+@EventBusSubscriber(modid = Quark.MOD_ID)
 public class MiscUtil {
 
 	public static final ResourceLocation GENERAL_ICONS = new ResourceLocation(Quark.MOD_ID, "textures/gui/general_icons.png");
@@ -107,6 +114,27 @@ public class MiscUtil {
 	public static boolean isEntityInsideOpaqueBlock(Entity entity) {
 		BlockPos pos = entity.getPosition();
 		return !entity.noClip && entity.world.getBlockState(pos).causesSuffocation(entity.world, pos);
+	}
+	
+	private static int progress;
+	@SubscribeEvent
+	public static void onKeystroke(KeyboardKeyPressedEvent.Pre event) {
+		final String[] ids = new String[] {
+			"FCYE87P5L0","mybsDDymrsc","6a4BWpBJppI","thpTOAS1Vgg","ZNcBZM5SvbY","_qJEoSa3Ie0", 
+			"RWeyOyY_puQ","VBbeuXW8Nko","LIDe-yTxda0","BVVfMFS3mgc","m5qwcYL8a0o","UkY8HvgvBJ8",
+			"4K4b9Z9lSwc","tyInv6RWL0Q","tIWpr3tHzII","AFJPFfnzZ7w","846cjX0ZTrk","XEOCbFJjRw0"
+		};
+		final int[] keys = new int[] { 265, 265, 264, 264, 263, 262, 263, 262, 66, 65 };
+		if(event.getGui() instanceof MainMenuScreen) {
+			if(keys[progress] == event.getKeyCode()) {
+				progress++;
+				
+				if(progress >= keys.length) {
+					progress = 0;
+					Util.getOSType().openURI("https://www.youtube.com/watch?v=" + ids[new Random().nextInt(ids.length)]);
+				}
+			} else progress = 0;
+		}
 	}
 
 }
