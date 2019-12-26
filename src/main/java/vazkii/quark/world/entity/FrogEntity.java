@@ -168,7 +168,7 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 
 	@Override
 	public void tick() {
-		if(!sweatered) {
+		if(!world.isRemote && !sweatered) {
 			setSweater(getUniqueID().getLeastSignificantBits() % 10 == 0);
 			sweatered = true;
 		}
