@@ -5,7 +5,9 @@ import java.util.Map;
 
 import com.google.common.base.Functions;
 
+import net.minecraft.block.ComposterBlock;
 import net.minecraft.block.material.MaterialColor;
+import net.minecraft.item.Items;
 import net.minecraft.world.gen.GenerationStage.Decoration;
 import net.minecraftforge.common.BiomeDictionary;
 import vazkii.quark.base.handler.VariantHandler;
@@ -43,7 +45,11 @@ public class BlossomTreesModule extends Module {
 	
 	@Override
 	public void setup() {
-		trees.forEach((tree, config) -> WorldGenHandler.addGenerator(this, new BlossomTreeGenerator(config, tree), Decoration.TOP_LAYER_MODIFICATION, WorldGenWeights.BLOSSOM_TREES));
+		trees.forEach((tree, config) -> {
+			ComposterBlock.CHANCES.put(tree.leaf.getBlock().asItem(), 0.3F);
+			ComposterBlock.CHANCES.put(tree.sapling.asItem(), 0.3F);
+			WorldGenHandler.addGenerator(this, new BlossomTreeGenerator(config, tree), Decoration.TOP_LAYER_MODIFICATION, WorldGenWeights.BLOSSOM_TREES);
+		});
 	}
 	
 	private void add(String colorName, MaterialColor color, BlossomTreeConfig config) {
@@ -51,6 +57,7 @@ public class BlossomTreesModule extends Module {
 		BlossomTree tree = new BlossomTree(leaves);
 		BlossomSaplingBlock sapling = new BlossomSaplingBlock(colorName, this, tree, leaves);
 		VariantHandler.addFlowerPot(sapling, sapling.getRegistryName().getPath(), Functions.identity());
+		
 		trees.put(tree, config);
 	}
 	

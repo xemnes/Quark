@@ -41,6 +41,7 @@ public class BlossomSaplingBlock extends SaplingBlock implements IQuarkBlock {
 
 		RegistryHelper.registerBlock(this, colorName + "_blossom_sapling");
 		RegistryHelper.setCreativeTab(this, ItemGroup.DECORATIONS);
+		tree.sapling = this;
 	}
 
 	@Override
@@ -69,6 +70,8 @@ public class BlossomSaplingBlock extends SaplingBlock implements IQuarkBlock {
 
 		public final BlockState leaf;
 		public final BlossomTreeFeature feature;
+		
+		public BlossomSaplingBlock sapling;
 
 		public BlossomTree(Block leafBlock) {
 			leaf = leafBlock.getDefaultState(); 
