@@ -20,6 +20,8 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.storage.loot.LootEntry;
 import net.minecraft.world.storage.loot.LootPool;
 import net.minecraft.world.storage.loot.LootTable;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.GuiScreenEvent.KeyboardKeyPressedEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -118,6 +120,7 @@ public class MiscUtil {
 	
 	private static int progress;
 	@SubscribeEvent
+	@OnlyIn(Dist.CLIENT)
 	public static void onKeystroke(KeyboardKeyPressedEvent.Pre event) {
 		final String[] ids = new String[] {
 			"FCYE87P5L0","mybsDDymrsc","6a4BWpBJppI","thpTOAS1Vgg","ZNcBZM5SvbY","_qJEoSa3Ie0", 
