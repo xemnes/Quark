@@ -1,5 +1,8 @@
 package vazkii.quark.building.module;
 
+import net.minecraft.block.Block;import net.minecraft.block.Blocks;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.passive.PigEntity;
@@ -11,6 +14,7 @@ import net.minecraft.world.GameRules;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.furnace.FurnaceFuelBurnTimeEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import vazkii.quark.base.block.QuarkBlock;
 import vazkii.quark.base.item.QuarkItem;
 import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
@@ -46,8 +50,10 @@ public class TallowAndCandlesModule extends Module {
 	public void construct() {
 		tallow = new QuarkItem("tallow", this, new Item.Properties().group(ItemGroup.MATERIALS));
 
-		for (DyeColor dye : DyeColor.values())
+		for(DyeColor dye : DyeColor.values())
 			new CandleBlock(dye.getName() + "_candle", this, dye);
+		
+		new QuarkBlock("tallow_block", this, ItemGroup.BUILDING_BLOCKS, Block.Properties.from(Blocks.YELLOW_TERRACOTTA));
 	}
 
 	@SubscribeEvent
