@@ -20,10 +20,7 @@ public class FrogRenderer extends MobRenderer<FrogEntity, FrogModel> {
 
 	@Override
 	protected ResourceLocation getEntityTexture(@Nonnull FrogEntity entity) {
-		if(ClientProxy.jingleBellsMotherfucker && entity.getUniqueID().getLeastSignificantBits() % 10 == 0)
-			return TEXTURE_SWEATER;
-		
-		return TEXTURE;
+		return entity.hasSweater() ? TEXTURE_SWEATER : TEXTURE;
 	}
 
 }

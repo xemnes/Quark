@@ -1,11 +1,30 @@
 package vazkii.quark.world.entity;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.util.List;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.google.common.collect.Lists;
+
 import net.minecraft.block.Blocks;
-import net.minecraft.entity.*;
+import net.minecraft.block.SoundType;
+import net.minecraft.entity.AgeableEntity;
+import net.minecraft.entity.EntitySize;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.Pose;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.controller.JumpController;
 import net.minecraft.entity.ai.controller.MovementController;
-import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.ai.goal.BreedGoal;
+import net.minecraft.entity.ai.goal.FollowParentGoal;
+import net.minecraft.entity.ai.goal.LookAtGoal;
+import net.minecraft.entity.ai.goal.LookRandomlyGoal;
+import net.minecraft.entity.ai.goal.PanicGoal;
+import net.minecraft.entity.ai.goal.SwimGoal;
+import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -20,12 +39,21 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.Path;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.util.*;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.Hand;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.IWorld;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.IShearable;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.network.NetworkHooks;
 import vazkii.quark.base.handler.MiscUtil;
@@ -35,17 +63,15 @@ import vazkii.quark.world.ai.PassivePassengerGoal;
 import vazkii.quark.world.ai.TemptGoalButNice;
 import vazkii.quark.world.module.PassiveCreaturesModule;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-
-public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnData {
+@SuppressWarnings("deprecation")
+public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnData, IShearable {
 
 	public static final ResourceLocation FROG_LOOT_TABLE = new ResourceLocation("quark", "entities/frog");
 
 	private static final DataParameter<Integer> TALK_TIME = EntityDataManager.createKey(FrogEntity.class, DataSerializers.VARINT);
 	private static final DataParameter<Float> SIZE_MODIFIER = EntityDataManager.createKey(FrogEntity.class, DataSerializers.FLOAT);
+	private static final DataParameter<Boolean> HAS_SWEATER = EntityDataManager.createKey(FrogEntity.class, DataSerializers.BOOLEAN);
+
 	private static final Ingredient TEMPTATION_ITEMS = Ingredient.merge(Lists.newArrayList(
 			Ingredient.fromItems(Items.SPIDER_EYE),
 			Ingredient.fromTag(ItemTags.FISHES)
@@ -54,11 +80,12 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 			Ingredient.fromItems(Items.SPIDER_EYE, Items.CLOCK),
 			Ingredient.fromTag(ItemTags.FISHES)
 	));
-
+	
 	public int spawnCd = -1;
 	public int spawnChain = 30;
 
-	public boolean isDuplicate;
+	public boolean isDuplicate = false;
+	private boolean sweatered = false;
 
 	public FrogEntity(EntityType<? extends FrogEntity> type, World worldIn) {
 		this(type, worldIn, 1);
@@ -80,6 +107,7 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 
 		dataManager.register(TALK_TIME, 0);
 		dataManager.register(SIZE_MODIFIER, 1f);
+		dataManager.register(HAS_SWEATER, false);
 	}
 
 	@Override
@@ -140,6 +168,11 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 
 	@Override
 	public void tick() {
+		if(!sweatered) {
+			setSweater(getUniqueID().getLeastSignificantBits() % 10 == 0);
+			sweatered = true;
+		}
+		
 		if (this.jumpTicks != this.jumpDuration) ++this.jumpTicks;
 		else if (this.jumpDuration != 0) {
 			this.jumpTicks = 0;
@@ -220,18 +253,47 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 		if (super.processInteract(player, hand))
 			return true;
 
+		ItemStack stack = player.getHeldItem(hand);
+		
 		LocalDate date = LocalDate.now();
-		if (PassiveCreaturesModule.enableJokes && DayOfWeek.from(date) == DayOfWeek.WEDNESDAY) {
-			if (!world.isRemote && spawnChain > 0 && !isDuplicate) {
-				spawnCd = 50;
-				dataManager.set(TALK_TIME, 80);
+		if(DayOfWeek.from(date) == DayOfWeek.WEDNESDAY && stack.getItem() == Items.CLOCK) {
+			if(!world.isRemote && spawnChain > 0 && !isDuplicate) {
+				if(PassiveCreaturesModule.enableJokes) {
+					spawnCd = 50;
+					dataManager.set(TALK_TIME, 80);
+				}
+					
 				world.playSound(null, posX, posY, posZ, QuarkSounds.ENTITY_FROG_WEDNESDAY, SoundCategory.NEUTRAL, 1F, 1F);
 			}
 
 			return true;
 		}
+		
+		if(stack.getItem().isIn(ItemTags.WOOL) && !hasSweater()) {
+			if(!world.isRemote) {
+				setSweater(true);
+				world.playSound(null, posX, posY, posZ, SoundType.CLOTH.getPlaceSound(), SoundCategory.PLAYERS, 1F, 1F);
+				stack.shrink(1);
+			}
+			
+			player.swingArm(hand);
+			return true;
+		}
 
 		return false;
+	}
+	
+	@Override
+	public boolean isShearable(ItemStack item, IWorldReader world, BlockPos pos) {
+		return hasSweater();
+	}
+	
+	@Override
+	public List<ItemStack> onSheared(ItemStack item, IWorld iworld, BlockPos pos, int fortune) {
+		setSweater(false);
+		world.playSound(null, posX, posY, posZ, SoundEvents.ENTITY_SHEEP_SHEAR, SoundCategory.PLAYERS, 1F, 1F);
+		
+		return Lists.newArrayList();
 	}
 
 	@Nullable
@@ -275,6 +337,9 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 		dataManager.set(SIZE_MODIFIER, sizeModifier);
 
 		isDuplicate = compound.getBoolean("FakeFrog");
+		
+		sweatered = compound.getBoolean("SweaterComp");
+		setSweater(compound.getBoolean("Sweater"));
 	}
 
 	@Override
@@ -285,6 +350,8 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 		compound.putInt("Chain", spawnChain);
 		compound.putInt("DudeAmount", getTalkTime());
 		compound.putBoolean("FakeFrog", isDuplicate);
+		compound.putBoolean("SweaterComp", sweatered);
+		compound.putBoolean("Sweater", hasSweater());
 	}
 
 	@Override
@@ -304,6 +371,14 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 
 	protected SoundEvent getJumpSound() {
 		return QuarkSounds.ENTITY_FROG_JUMP;
+	}
+	
+	public boolean hasSweater() {
+		return dataManager.get(HAS_SWEATER);
+	}
+	
+	public void setSweater(boolean sweater) {
+		dataManager.set(HAS_SWEATER, sweater);
 	}
 
 	// Begin copypasta from EntityRabbit
@@ -508,3 +583,4 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 		}
 	}
 }
+
