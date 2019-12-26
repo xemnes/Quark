@@ -1,7 +1,15 @@
 package vazkii.quark.tweaks.module;
 
+import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Objects;
+import java.util.UUID;
+
+import org.lwjgl.opengl.GL11;
+
 import com.google.common.collect.ImmutableMap;
 import com.mojang.blaze3d.platform.GlStateManager;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.StairsBlock;
@@ -18,6 +26,7 @@ import net.minecraft.state.properties.Half;
 import net.minecraft.state.properties.SlabType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Direction.Axis;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.RayTraceResult.Type;
@@ -26,6 +35,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.KeybindTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.InputEvent;
@@ -33,8 +43,8 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedOutEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import org.lwjgl.opengl.GL11;
 import vazkii.arl.network.MessageSerializer;
+import vazkii.quark.api.IRotationLockable;
 import vazkii.quark.base.client.ModKeybindHandler;
 import vazkii.quark.base.handler.MiscUtil;
 import vazkii.quark.base.module.LoadModule;
@@ -45,11 +55,6 @@ import vazkii.quark.base.network.QuarkNetwork;
 import vazkii.quark.base.network.message.SetLockProfileMessage;
 import vazkii.quark.building.block.VerticalSlabBlock;
 import vazkii.quark.building.block.VerticalSlabBlock.VerticalSlabType;
-
-import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.Objects;
-import java.util.UUID;
 
 @LoadModule(category = ModuleCategory.TWEAKS, hasSubscriptions = true)
 public class LockRotationModule extends Module {
@@ -87,24 +92,26 @@ public class LockRotationModule extends Module {
 		UUID uuid = ctx.getPlayer().getUniqueID();
 		if(lockProfiles.containsKey(uuid)) {
 			LockProfile profile = lockProfiles.get(uuid);
-			BlockState transformed = setBlockRotated(state, profile.facing.getOpposite(), profile.half);
-			return Block.getValidBlockForPosition(transformed, ctx.getWorld(), ctx.getPos());
+			BlockState transformed = getRotatedState(ctx.getWorld(), ctx.getPos(), state, profile.facing.getOpposite(), profile.half);
+			
+			if(!transformed.equals(state))
+				return Block.getValidBlockForPosition(transformed, ctx.getWorld(), ctx.getPos());
 		}
 
 		return state;
 	}
 
-	public static BlockState setBlockRotated(BlockState state, Direction face, int half) {
+	public static BlockState getRotatedState(World world, BlockPos pos, BlockState state, Direction face, int half) {
 		BlockState setState = state;
 		ImmutableMap<IProperty<?>, Comparable<?>> props = state.getValues();
 		Block block = state.getBlock();
 
-		// API hook TODO re-add
-		//		if(block instanceof IRotationLockHandler)
-		//			setState = ((IRotationLockHandler) block).setRotation(pos, setState, face, half != -1, half == 1);
 
+		if(block instanceof IRotationLockable)
+			setState = ((IRotationLockable) block).applyRotationLock(world, pos, state, face, half);
+		
 		// General Facing
-		if(props.containsKey(BlockStateProperties.FACING))
+		else if(props.containsKey(BlockStateProperties.FACING))
 			setState = state.with(BlockStateProperties.FACING, face);
 
 		// Vertical Slabs
@@ -136,7 +143,7 @@ public class LockRotationModule extends Module {
 			else if(props.containsKey(BlockStateProperties.HALF))
 				setState = setState.with(BlockStateProperties.HALF, half == 1 ? Half.TOP : Half.BOTTOM);
 		}
-
+		
 		return setState;
 	}
 
