@@ -1,6 +1,7 @@
 package vazkii.quark.building.module;
 
 import net.minecraft.block.Block;import net.minecraft.block.Blocks;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.LivingEntity;
@@ -53,13 +54,13 @@ public class TallowAndCandlesModule extends Module {
 		for(DyeColor dye : DyeColor.values())
 			new CandleBlock(dye.getName() + "_candle", this, dye);
 		
-		new QuarkBlock("tallow_block", this, ItemGroup.BUILDING_BLOCKS, Block.Properties.from(Blocks.YELLOW_TERRACOTTA));
+		new QuarkBlock("tallow_block", this, ItemGroup.BUILDING_BLOCKS, Block.Properties.from(Blocks.YELLOW_TERRACOTTA).sound(SoundType.CLOTH));
 	}
 
 	@SubscribeEvent
 	public void onDrops(LivingDropsEvent event) {
 		LivingEntity e = event.getEntityLiving();
-		if (e instanceof PigEntity && maxDrop > 0 && e.world.getGameRules().getBoolean(GameRules.DO_ENTITY_DROPS)) {
+		if (e instanceof PigEntity && !((PigEntity) e).isChild() && maxDrop > 0 && e.world.getGameRules().getBoolean(GameRules.DO_ENTITY_DROPS)) {
 			int drops = minDrop + e.world.rand.nextInt(maxDrop - minDrop + 1);
 			if (drops > 0)
 				event.getDrops().add(new ItemEntity(e.world, e.posX, e.posY, e.posZ, new ItemStack(tallow, drops)));
