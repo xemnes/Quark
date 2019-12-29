@@ -1,5 +1,8 @@
 package vazkii.quark.building.block;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import it.unimi.dsi.fastutil.floats.Float2ObjectArrayMap;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -7,6 +10,7 @@ import net.minecraft.block.IWaterLoggable;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.item.ExperienceOrbEntity;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -29,9 +33,6 @@ import net.minecraft.world.IEnviromentBlockReader;
 import vazkii.quark.base.block.QuarkBlock;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.building.module.GrateModule;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 public class GrateBlock extends QuarkBlock implements IWaterLoggable {
 
@@ -109,7 +110,7 @@ public class GrateBlock extends QuarkBlock implements IWaterLoggable {
 		Entity entity = context.getEntity();
 
 		if(entity != null) {
-			if (entity instanceof ItemEntity)
+			if (entity instanceof ItemEntity || entity instanceof ExperienceOrbEntity)
 				return VoxelShapes.empty();
 
 			if (entity instanceof AnimalEntity)
