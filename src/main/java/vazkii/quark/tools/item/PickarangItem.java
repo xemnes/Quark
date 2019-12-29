@@ -85,9 +85,6 @@ public class PickarangItem extends QuarkItem {
 	@SuppressWarnings("ConstantConditions")
     public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, @Nonnull Hand handIn) {
         ItemStack itemstack = playerIn.getHeldItem(handIn);
-		if(playerIn.isElytraFlying())
-			return new ActionResult<>(ActionResultType.PASS, itemstack); 
-		
         playerIn.setHeldItem(handIn, ItemStack.EMPTY);
 		int eff = EnchantmentHelper.getEnchantmentLevel(Enchantments.EFFICIENCY, itemstack);
         worldIn.playSound(null, playerIn.posX, playerIn.posY, playerIn.posZ, QuarkSounds.ENTITY_PICKARANG_THROW, SoundCategory.NEUTRAL, 0.5F + eff * 0.14F, 0.4F / (worldIn.rand.nextFloat() * 0.4F + 0.8F));

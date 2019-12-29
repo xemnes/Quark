@@ -404,14 +404,17 @@ public class PickarangEntity extends Entity implements IProjectile {
 						player.dropItem(stack, false);
 
 					if (player.isAlive()) {
-						for (ItemEntity item : items) {
-							ItemStack drop = item.getItem();
-							if (!player.addItemStackToInventory(drop))
-								player.dropItem(drop, false);
-							item.remove();
-						}
+						for (ItemEntity item : items)
+							if(item.isAlive()) {
+								ItemStack drop = item.getItem();
+								if (!player.addItemStackToInventory(drop))
+									player.dropItem(drop, false);
+								item.remove();
+							}
 
-						for (ExperienceOrbEntity xpOrb : xp) xpOrb.onCollideWithPlayer(player);
+						for (ExperienceOrbEntity xpOrb : xp) 
+							if(xpOrb.isAlive())
+								xpOrb.onCollideWithPlayer(player);
 
 						for (Entity riding : getPassengers()) {
 							if (!riding.isAlive())
