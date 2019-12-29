@@ -49,7 +49,6 @@ public class BigDungeonChestProcessor extends StructureProcessor {
     			for(int i = 0; i < chest.getSizeInventory(); i++)
     				chest.setInventorySlotContents(i, ItemStack.EMPTY);
     			
-    			System.out.println("Setting chest");
     			chest.setLootTable(new ResourceLocation(BigDungeonModule.lootTable), rand.nextLong());
     			CompoundNBT nbt = new CompoundNBT();
     			chest.write(nbt);
