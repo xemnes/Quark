@@ -26,6 +26,7 @@ import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.settings.KeyConflictContext;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import vazkii.quark.api.IQuarkButtonIgnored;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.handler.GeneralConfig;
 import vazkii.quark.base.handler.InventoryTransferHandler;
@@ -42,7 +43,7 @@ public final class InventoryButtonHandler {
 		if(GeneralConfig.printScreenClassnames)
 			Quark.LOG.info("Opened screen {}", event.getGui().getClass().getName());
 		
-		if(event.getGui() instanceof ContainerScreen && !GeneralConfig.ignoredScreens.contains(event.getGui().getClass().getName())) {
+		if(event.getGui() instanceof ContainerScreen && !(event.getGui() instanceof IQuarkButtonIgnored) && !GeneralConfig.ignoredScreens.contains(event.getGui().getClass().getName())) {
 			Minecraft mc = Minecraft.getInstance();
 			ContainerScreen<?> screen = (ContainerScreen<?>) event.getGui();
 
