@@ -45,7 +45,8 @@ public class TallowAndCandlesModule extends Module {
 	@Config.Max(15)
 	public static double enchantPower = 0.5;
 
-	private Item tallow;
+	public static Item tallow;
+	public static Block tallow_block;
 
 	@Override
 	public void construct() {
@@ -54,7 +55,7 @@ public class TallowAndCandlesModule extends Module {
 		for(DyeColor dye : DyeColor.values())
 			new CandleBlock(dye.getName() + "_candle", this, dye);
 		
-		new QuarkBlock("tallow_block", this, ItemGroup.BUILDING_BLOCKS, Block.Properties.from(Blocks.YELLOW_TERRACOTTA).sound(SoundType.CLOTH));
+		tallow_block = new QuarkBlock("tallow_block", this, ItemGroup.BUILDING_BLOCKS, Block.Properties.from(Blocks.YELLOW_TERRACOTTA).sound(SoundType.CLOTH));
 	}
 
 	@SubscribeEvent
@@ -69,8 +70,14 @@ public class TallowAndCandlesModule extends Module {
 
 	@SubscribeEvent
 	public void onFurnaceTimeCheck(FurnaceFuelBurnTimeEvent event) {
-		if (event.getItemStack().getItem() == tallow && tallowBurnTime > 0)
+		if(tallowBurnTime <= 0)
+			return;
+		
+		Item item = event.getItemStack().getItem();
+		if(item == tallow)
 			event.setBurnTime(tallowBurnTime);
+		else if(item == tallow_block.asItem())
+			event.setBurnTime(tallowBurnTime * 9);
 	}
 
 }
