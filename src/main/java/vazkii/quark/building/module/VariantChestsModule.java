@@ -1,6 +1,5 @@
 package vazkii.quark.building.module;
 
-import com.google.common.collect.ImmutableSet;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
@@ -20,9 +19,6 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import vazkii.arl.util.RegistryHelper;
-import vazkii.quark.base.Quark;
-import vazkii.quark.base.handler.ItemOverrideHandler;
-import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
@@ -40,22 +36,32 @@ public class VariantChestsModule extends Module {
 
 	@Override
 	public void construct() {
-		Block oakChest = new VariantChestBlock("oak", this);
-		Block spruceChest = new VariantChestBlock("spruce", this);
-		Block birchChest = new VariantChestBlock("birch", this);
-		Block jungleChest = new VariantChestBlock("jungle", this);
-		Block acaciaChest = new VariantChestBlock("acacia", this);
-		Block darkOakChest = new VariantChestBlock("dark_oak", this);
+		Block.Properties woodProps = Block.Properties.from(Blocks.CHEST);
+		Block.Properties netherProps = Block.Properties.from(Blocks.NETHER_BRICKS);
+		Block.Properties purpurProps = Block.Properties.from(Blocks.PURPUR_BLOCK);
 		
-		Block oakChestTrapped = new VariantTrappedChestBlock("oak", this);
-		Block spruceChestTrapped = new VariantTrappedChestBlock("spruce", this);
-		Block birchChestTrapped = new VariantTrappedChestBlock("birch", this);
-		Block jungleChestTrapped = new VariantTrappedChestBlock("jungle", this);
-		Block acaciaChestTrapped = new VariantTrappedChestBlock("acacia", this);
-		Block darkOakChestTrapped = new VariantTrappedChestBlock("dark_oak", this);
+		Block oakChest = new VariantChestBlock("oak", this, woodProps);
+		Block spruceChest = new VariantChestBlock("spruce", this, woodProps);
+		Block birchChest = new VariantChestBlock("birch", this, woodProps);
+		Block jungleChest = new VariantChestBlock("jungle", this, woodProps);
+		Block acaciaChest = new VariantChestBlock("acacia", this, woodProps);
+		Block darkOakChest = new VariantChestBlock("dark_oak", this, woodProps);
 		
-		chestTEType = TileEntityType.Builder.create(VariantChestTileEntity::new, oakChest, spruceChest, birchChest, jungleChest, acaciaChest, darkOakChest).build(null);
-		trappedChestTEType = TileEntityType.Builder.create(VariantTrappedChestTileEntity::new, oakChestTrapped, spruceChestTrapped, birchChestTrapped, jungleChestTrapped, acaciaChestTrapped, darkOakChestTrapped).build(null);
+		Block netherBrickChest = new VariantChestBlock("nether_brick", this, netherProps);
+		Block purpurChest = new VariantChestBlock("purpur", this, purpurProps);
+		
+		Block oakChestTrapped = new VariantTrappedChestBlock("oak", this, woodProps);
+		Block spruceChestTrapped = new VariantTrappedChestBlock("spruce", this, woodProps);
+		Block birchChestTrapped = new VariantTrappedChestBlock("birch", this, woodProps);
+		Block jungleChestTrapped = new VariantTrappedChestBlock("jungle", this, woodProps);
+		Block acaciaChestTrapped = new VariantTrappedChestBlock("acacia", this, woodProps);
+		Block darkOakChestTrapped = new VariantTrappedChestBlock("dark_oak", this, woodProps);
+		
+		Block netherBrickChestTrapped = new VariantTrappedChestBlock("nether_brick", this, netherProps);
+		Block purpurChestTrapped = new VariantTrappedChestBlock("purpur", this, purpurProps);
+		
+		chestTEType = TileEntityType.Builder.create(VariantChestTileEntity::new, oakChest, spruceChest, birchChest, jungleChest, acaciaChest, darkOakChest, netherBrickChest, purpurChest).build(null);
+		trappedChestTEType = TileEntityType.Builder.create(VariantTrappedChestTileEntity::new, oakChestTrapped, spruceChestTrapped, birchChestTrapped, jungleChestTrapped, acaciaChestTrapped, darkOakChestTrapped, netherBrickChestTrapped, purpurChestTrapped).build(null);
 
 		RegistryHelper.register(chestTEType, "variant_chest");
 		RegistryHelper.register(trappedChestTEType, "variant_trapped_chest");

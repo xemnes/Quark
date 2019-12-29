@@ -35,8 +35,8 @@ public class VariantChestBlock extends ChestBlock implements IBlockItemProvider,
 
 	public final ResourceLocation modelNormal, modelDouble;
 	
-	public VariantChestBlock(String type, Module module) {
-		super(Block.Properties.from(Blocks.CHEST));
+	public VariantChestBlock(String type, Module module, Block.Properties props) {
+		super(props);
 		RegistryHelper.registerBlock(this, type + "_chest");
 		RegistryHelper.setCreativeTab(this, ItemGroup.DECORATIONS);
 		

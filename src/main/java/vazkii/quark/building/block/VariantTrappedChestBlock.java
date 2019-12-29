@@ -27,8 +27,8 @@ public class VariantTrappedChestBlock extends TrappedChestBlock implements IBloc
 	
 	public final ResourceLocation modelNormal, modelDouble;
 	
-	public VariantTrappedChestBlock(String type, Module module) {
-		super(Block.Properties.from(Blocks.CHEST));
+	public VariantTrappedChestBlock(String type, Module module, Block.Properties props) {
+		super(props);
 		RegistryHelper.registerBlock(this, type + "_trapped_chest");
 		RegistryHelper.setCreativeTab(this, ItemGroup.DECORATIONS);
 		
