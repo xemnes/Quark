@@ -56,7 +56,8 @@ public class CompressedBlocksModule extends Module {
 	@Config(flag = "cocoa_beans_sack") public static boolean enableCocoaBeanSack = true;
 	@Config(flag = "nether_wart_sack") public static boolean enableNetherWartSack = true;
 	@Config(flag = "gunpowder_sack") public static boolean enableGunpowderSack = true;
-	
+	@Config(flag = "berry_sack") public static boolean enableBerrySack = true;
+
 	@Config(flag = "blaze_lantern") public static boolean enableBlazeLantern = true;
 
 	public static Block charcoal_block, stick_block, blaze_lantern;
@@ -91,7 +92,8 @@ public class CompressedBlocksModule extends Module {
 		sack("cocoa_beans", MaterialColor.BROWN, true, () -> enableCocoaBeanSack);
 		sack("nether_wart", MaterialColor.RED, false, () -> enableNetherWartSack);
 		sack("gunpowder", MaterialColor.GRAY, false, () -> enableGunpowderSack);
-		
+		sack("berry", MaterialColor.RED, true, () -> enableBerrySack);
+
 		blaze_lantern = new BurnForeverBlock("blaze_lantern", this, ItemGroup.BUILDING_BLOCKS,
 				Block.Properties.create(Material.GLASS, DyeColor.YELLOW)
 				.hardnessAndResistance(0.3F)
