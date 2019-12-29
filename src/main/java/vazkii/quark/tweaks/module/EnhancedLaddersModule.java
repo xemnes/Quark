@@ -119,7 +119,8 @@ public class EnhancedLaddersModule extends Module {
 						!player.isJumping &&
 						!player.world.getBlockState(player.getPosition().down()).isSolid()) {
 					Vec3d move = new Vec3d(0, fallSpeed, 0);
-					player.move(MoverType.SELF, move);
+					player.setBoundingBox(player.getBoundingBox().offset(move));						
+					player.move(MoverType.SELF, Vec3d.ZERO);
 				}
 			}
 		}
