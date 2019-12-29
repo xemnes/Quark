@@ -1,6 +1,7 @@
 package vazkii.quark.world.module;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.ComposterBlock;
 import net.minecraft.item.Food;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -29,12 +30,13 @@ public class CaveRootsModule extends Module {
 	@Config(flag = "cave_roots_brewing") public static boolean enableBrewing = true;
 	
 	public static Block root;
+	public static Item rootItem;
 	
 	@Override
 	public void construct() {
 		root = new RootBlock(this);
 		
-		Item rootItem = new QuarkItem("root_item", this, new Item.Properties()
+		rootItem = new QuarkItem("root_item", this, new Item.Properties()
 				.food(new Food.Builder()
 						.hunger(3)
 						.saturation(0.4F)
@@ -49,6 +51,7 @@ public class CaveRootsModule extends Module {
 	@Override
 	public void setup() {
 		WorldGenHandler.addGenerator(this, new CaveRootGenerator(dimensions), Decoration.UNDERGROUND_DECORATION, WorldGenWeights.CAVE_ROOTS);
+		ComposterBlock.CHANCES.put(rootItem, 0.1F);
 	}
 	
 }
