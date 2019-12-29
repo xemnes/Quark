@@ -25,6 +25,7 @@ import vazkii.quark.base.handler.VariantHandler;
 import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.ModuleCategory;
+import vazkii.quark.base.world.EntitySpawnHandler;
 import vazkii.quark.world.client.render.WrappedRenderer;
 import vazkii.quark.world.config.UndergroundBiomeConfig;
 import vazkii.quark.world.entity.WrappedEntity;
@@ -54,6 +55,7 @@ public class SpiderNestUndergroundBiomeModule extends UndergroundBiomeModule {
 				.setCustomClientFactory((spawnEntity, world) -> new WrappedEntity(wrappedType, world))
 				.build("wrapped");
 		RegistryHelper.register(wrappedType, "wrapped");
+        EntitySpawnHandler.addEgg(wrappedType, 0x246565, 0x9f978b, this, () -> enabledWrapped);
 
 		super.construct();
 	}

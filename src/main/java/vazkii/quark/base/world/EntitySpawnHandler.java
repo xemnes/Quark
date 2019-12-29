@@ -2,6 +2,7 @@ package vazkii.quark.base.world;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.BooleanSupplier;
 
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
@@ -31,10 +32,15 @@ public class EntitySpawnHandler {
 	}
 	
 	public static void addEgg(EntityType<?> entityType, int color1, int color2, EntitySpawnConfig config) {
-		new QuarkSpawnEggItem(entityType, color1,  color2, entityType.getRegistryName().getPath() + "_spawn_egg", config.module, 
-				new Item.Properties().group(ItemGroup.MISC))
-				.setCondition(() -> config.isEnabled());
+		addEgg(entityType, color1, color2, config.module, config::isEnabled);
 	}
+	
+	public static void addEgg(EntityType<?> entityType, int color1, int color2, Module module, BooleanSupplier enabledSupplier) {
+		new QuarkSpawnEggItem(entityType, color1,  color2, entityType.getRegistryName().getPath() + "_spawn_egg", module, 
+				new Item.Properties().group(ItemGroup.MISC))
+				.setCondition(enabledSupplier);
+	}
+
 	
 	public static void refresh() {
 		for(TrackedSpawnConfig c : trackedSpawnConfigs) {
