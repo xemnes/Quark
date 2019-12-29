@@ -143,7 +143,7 @@
 				"*Blaze Rods and Powder can be crafted into a Blaze Lantern. It'll also burn forever.",
 				"*Sugar Cane, Bamboo, Cactus, Chorus Fruits, and Sticks can be made into various blocks that can be placed like a pillar.",
 				"*Apples, Golden Apples, Potatoes, Carrots, and Beetroots can be crafted into Crates. Golden Apple crates will work as a beacon base.",
-				"*Cocoa Beans, Nether Wart, and Gunpowder can be crafted into Sacks. If the Nether Wart Sack is enabled, the recipe for Nether Wart Blocks is changed to be 2x2."
+				"*Cocoa Beans, Sweet Berries, Nether Wart, and Gunpowder can be crafted into Sacks. If the Nether Wart Sack is enabled, the recipe for Nether Wart Blocks is changed to be 2x2."
 			]
 		},
 		{
@@ -775,6 +775,14 @@
 				"*In the End, a compass will point to the overworld portal.",
 				"*As a bonus, Compasses and Clocks will not function until crafted to prevent cheesing with the recipe book.",
 				"*If you prefer, this feature can be configured to only have the anti-cheese, and not the former points, or vice-versa."
+			]
+		},
+		{
+			"name": "Campfires Boost Elytra",
+			"image": "campfires-boost-elytra.jpg",
+			"versions": "1.14+",
+			"desc": [
+				"When flying using an Elytra over a Campfire with a Hay Bale under it, the player will be propelled upwards slightly."
 			]
 		}
 	],
