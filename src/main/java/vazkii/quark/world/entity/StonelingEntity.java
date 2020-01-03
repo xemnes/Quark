@@ -210,7 +210,7 @@ public class StonelingEntity extends CreatureEntity {
 							playSound(QuarkSounds.ENTITY_STONELING_GIVE, 1F, 1F);
 						else playSound(QuarkSounds.ENTITY_STONELING_TAKE, 1F, 1F);
 					}
-				} else if (StonelingsModule.tamableStonelings && !playerItem.getItem().isIn(Tags.Items.GEMS_DIAMOND)) {
+				} else if (StonelingsModule.tamableStonelings && playerItem.getItem().isIn(Tags.Items.GEMS_DIAMOND)) {
 					heal(8);
 
 					setPlayerMade(true);

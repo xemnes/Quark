@@ -31,6 +31,9 @@ public class StonelingModel extends EntityModel<StonelingEntity> {
 		head.cubeList.add(new ModelBox(head, 0, 24, -1.0F, -4.0F, 3.0F, 2, 4, 2, 0.0F, false));
 		head.cubeList.add(new ModelBox(head, 16, 24, -1.0F, -4.0F, -3.0F, 2, 2, 6, 0.0F, false));
 		head.cubeList.add(new ModelBox(head, 24, 20, -1.0F, -4.0F, -1.0F, 2, 2, 2, 0.0F, false));
+		head.cubeList.add(new ModelBox(head, 18, 0, -1.0F, 1.0F, -5.0F, 2, 2, 2, 0.0F, false));
+		head.cubeList.add(new ModelBox(head, 0, 0, -4.0F, -1.0F, -3.0F, 1, 2, 2, 0.0F, false));
+		head.cubeList.add(new ModelBox(head, 0, 0, 3.0F, -1.0F, -3.0F, 1, 2, 2, 0.0F, true));
 
 		arm_right = new RendererModel(this);
 		arm_right.setRotationPoint(-3.0F, 2.0F, 0.0F);

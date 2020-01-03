@@ -29,7 +29,9 @@ public enum EnumStonelingVariant implements ILivingEntityData {
 	GRANITE("stoneling_granite", Blocks.GRANITE, Blocks.POLISHED_GRANITE),
 	LIMESTONE("stoneling_limestone", limestoneBlock, polishedBlocks.get(limestoneBlock)),
 	BASALT("stoneling_basalt", basaltBlock, polishedBlocks.get(basaltBlock)),
-	MARBLE("stoneling_marble", marbleBlock, polishedBlocks.get(marbleBlock));
+	MARBLE("stoneling_marble", marbleBlock, polishedBlocks.get(marbleBlock)),
+	SLATE("stoneling_slate", slateBlock, polishedBlocks.get(slateBlock)),
+	JASPER("stoneling_jasper", jasperBlock, polishedBlocks.get(jasperBlock));
 
 	private final ResourceLocation texture;
 	private final List<Block> blocks;
