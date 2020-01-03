@@ -30,7 +30,7 @@ public class FToSwitchModule extends Module {
 		if(event.getKeyCode() == mc.gameSettings.keyBindSwapHands.getKey().getKeyCode() && event.getGui() instanceof ContainerScreen) {
 			ContainerScreen gui = (ContainerScreen) event.getGui();
 			Slot slot = gui.getSlotUnderMouse();
-			if(slot != null) {
+			if(slot != null && slot.canTakeStack(mc.player)) {
 				IInventory inv = slot.inventory;
 				if(inv instanceof PlayerInventory) {
 					int index = slot.getSlotIndex();
