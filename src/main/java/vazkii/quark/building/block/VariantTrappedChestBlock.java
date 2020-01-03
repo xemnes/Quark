@@ -1,7 +1,6 @@
 package vazkii.quark.building.block;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
 import net.minecraft.block.TrappedChestBlock;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -30,7 +29,7 @@ public class VariantTrappedChestBlock extends TrappedChestBlock implements IBloc
 	public VariantTrappedChestBlock(String type, Module module, Block.Properties props) {
 		super(props);
 		RegistryHelper.registerBlock(this, type + "_trapped_chest");
-		RegistryHelper.setCreativeTab(this, ItemGroup.DECORATIONS);
+		RegistryHelper.setCreativeTab(this, ItemGroup.REDSTONE);
 		
 		this.type = type;
 		this.module = module;
