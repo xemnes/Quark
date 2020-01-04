@@ -13,7 +13,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.api.INonSticky;
-import vazkii.quark.base.module.Module;
+import vazkii.quark.api.Module;
 
 public class ColorSlimeBlock extends SlimeBlock implements INonSticky {
 

@@ -31,7 +31,7 @@ import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IEnviromentBlockReader;
 import vazkii.quark.base.block.QuarkBlock;
-import vazkii.quark.base.module.Module;
+import vazkii.quark.api.Module;
 import vazkii.quark.building.module.GrateModule;
 
 public class GrateBlock extends QuarkBlock implements IWaterLoggable {

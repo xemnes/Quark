@@ -8,7 +8,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.arl.interf.IItemColorProvider;
 import vazkii.arl.util.ClientTicker;
-import vazkii.quark.base.module.Module;
+import vazkii.quark.api.Module;
 
 public class RainbowRuneItem extends RuneItem implements IItemColorProvider {
 

@@ -1,5 +1,7 @@
 package vazkii.quark.base.module;
 
+import vazkii.quark.api.Module;
+
 import java.util.ArrayList;
 import java.util.List;
 

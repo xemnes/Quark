@@ -15,6 +15,7 @@ import net.minecraftforge.event.TickEvent.WorldTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.apache.commons.lang3.tuple.Pair;
 import vazkii.quark.api.IPistonCallback;
+import vazkii.quark.api.Module;
 import vazkii.quark.api.QuarkCapabilities;
 import vazkii.quark.base.module.*;
 

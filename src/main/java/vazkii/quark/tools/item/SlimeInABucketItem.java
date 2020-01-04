@@ -26,7 +26,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import vazkii.arl.util.ItemNBTHelper;
 import vazkii.quark.base.item.QuarkItem;
-import vazkii.quark.base.module.Module;
+import vazkii.quark.api.Module;
 
 public class SlimeInABucketItem extends QuarkItem {
 

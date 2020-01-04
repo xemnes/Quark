@@ -2,7 +2,7 @@ package vazkii.quark.base.world;
 
 import javax.annotation.Nonnull;
 
-import vazkii.quark.base.module.Module;
+import vazkii.quark.api.Module;
 import vazkii.quark.base.world.generator.IGenerator;
 
 public class WeightedGenerator implements Comparable<WeightedGenerator> {

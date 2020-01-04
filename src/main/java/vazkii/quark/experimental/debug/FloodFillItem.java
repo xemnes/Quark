@@ -1,8 +1,6 @@
 package vazkii.quark.experimental.debug;
 
 import java.util.ArrayDeque;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Queue;
 
 import net.minecraft.block.BlockState;
@@ -14,7 +12,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import vazkii.quark.base.item.QuarkItem;
-import vazkii.quark.base.module.Module;
+import vazkii.quark.api.Module;
 
 public class FloodFillItem extends QuarkItem {
 

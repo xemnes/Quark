@@ -2,10 +2,9 @@ package vazkii.quark.world.module.underground;
 
 import net.minecraft.world.gen.GenerationStage.Decoration;
 import vazkii.quark.base.module.Config;
-import vazkii.quark.base.module.Module;
+import vazkii.quark.api.Module;
 import vazkii.quark.base.world.WorldGenHandler;
 import vazkii.quark.base.world.WorldGenWeights;
-import vazkii.quark.base.world.generator.Generator;
 import vazkii.quark.world.config.UndergroundBiomeConfig;
 import vazkii.quark.world.gen.UndergroundBiomeGenerator;
 

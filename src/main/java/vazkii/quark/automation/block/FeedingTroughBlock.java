@@ -25,7 +25,7 @@ import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import vazkii.quark.automation.tile.FeedingTroughTileEntity;
 import vazkii.quark.base.block.QuarkBlock;
-import vazkii.quark.base.module.Module;
+import vazkii.quark.api.Module;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

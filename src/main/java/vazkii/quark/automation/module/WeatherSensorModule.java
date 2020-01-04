@@ -9,7 +9,7 @@ import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.automation.block.WeatherSensorBlock;
 import vazkii.quark.automation.tile.WeatherSensorTileEntity;
 import vazkii.quark.base.module.LoadModule;
-import vazkii.quark.base.module.Module;
+import vazkii.quark.api.Module;
 import vazkii.quark.base.module.ModuleCategory;
 
 /**

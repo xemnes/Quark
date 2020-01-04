@@ -17,7 +17,7 @@ import net.minecraft.world.biome.Biome.SpawnListEntry;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraftforge.registries.ForgeRegistries;
 import vazkii.quark.base.item.QuarkSpawnEggItem;
-import vazkii.quark.base.module.Module;
+import vazkii.quark.api.Module;
 import vazkii.quark.base.world.config.EntitySpawnConfig;
 
 public class EntitySpawnHandler {

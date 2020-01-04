@@ -8,7 +8,7 @@ import net.minecraft.world.gen.GenerationStage;
 import net.minecraftforge.registries.GameData;
 import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
-import vazkii.quark.base.module.Module;
+import vazkii.quark.api.Module;
 import vazkii.quark.base.module.ModuleCategory;
 import vazkii.quark.base.util.WeightedSelector;
 import vazkii.quark.base.world.WorldGenHandler;

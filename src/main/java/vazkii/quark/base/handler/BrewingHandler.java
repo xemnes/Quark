@@ -11,7 +11,7 @@ import org.apache.commons.lang3.tuple.ImmutableTriple;
 import org.apache.commons.lang3.tuple.Triple;
 import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.base.Quark;
-import vazkii.quark.base.recipe.FlagIngredient;
+import vazkii.quark.api.flag.FlagIngredient;
 import vazkii.quark.base.reflect.PotionReflection;
 
 import javax.annotation.Nullable;
@@ -93,12 +93,6 @@ public class BrewingHandler {
         add(flag, longType, BrewingHandler::spiderEye, longNegatedType);
         add(flag, normalNegatedType, BrewingHandler::redstone, longNegatedType);
 
-    }
-
-    public static ItemStack of(Item potionType, Potion potion) {
-        ItemStack stack = new ItemStack(potionType);
-        PotionUtils.addPotionToItemStack(stack, potion);
-        return stack;
     }
 
     private static boolean isInjectionPrepared = false;

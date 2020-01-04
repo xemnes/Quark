@@ -14,7 +14,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import vazkii.quark.automation.tile.EnderWatcherTileEntity;
 import vazkii.quark.base.block.QuarkBlock;
-import vazkii.quark.base.module.Module;
+import vazkii.quark.api.Module;
 
 public class EnderWatcherBlock extends QuarkBlock {
 	

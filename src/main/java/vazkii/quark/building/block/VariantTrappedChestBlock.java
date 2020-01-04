@@ -15,7 +15,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.arl.interf.IBlockItemProvider;
 import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.base.Quark;
-import vazkii.quark.base.module.Module;
+import vazkii.quark.api.Module;
 import vazkii.quark.building.tile.VariantTrappedChestTileEntity;
 
 @OnlyIn(value = Dist.CLIENT, _interface = IBlockItemProvider.class)

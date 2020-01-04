@@ -3,14 +3,16 @@ package vazkii.quark.base.module;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.config.ModConfig;
+import org.apache.commons.lang3.text.WordUtils;
+import vazkii.quark.api.Module;
+import vazkii.quark.api.flag.ConfigFlagManager;
+import vazkii.quark.base.Quark;
 import vazkii.quark.base.handler.GeneralConfig;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.commons.lang3.text.WordUtils;
 
 public class ConfigResolver {
 
@@ -68,7 +70,7 @@ public class ConfigResolver {
 		for(Module module : modules) {
 			ForgeConfigSpec.ConfigValue<Boolean> value = builder.define(module.displayName, module.enabledByDefault);
 			setEnabledRunnables.put(module, () -> {
-				module.setEnabled(value.get() && category.enabled);
+				module.setEnabled(Quark.LOG, value.get() && category.enabled);
 				flagManager.putEnabledFlag(module);
 			});
 		}

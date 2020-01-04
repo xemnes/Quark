@@ -6,6 +6,7 @@ import java.util.function.Consumer;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import vazkii.quark.api.Module;
 import vazkii.quark.base.Quark;
 
 public final class ModuleLoader {
