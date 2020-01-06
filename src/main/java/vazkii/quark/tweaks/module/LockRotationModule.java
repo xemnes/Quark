@@ -48,7 +48,7 @@ import vazkii.quark.api.IRotationLockable;
 import vazkii.quark.base.client.ModKeybindHandler;
 import vazkii.quark.base.handler.MiscUtil;
 import vazkii.quark.base.module.LoadModule;
-import vazkii.quark.base.module.Module;
+import vazkii.quark.api.Module;
 import vazkii.quark.base.module.ModuleCategory;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.base.network.QuarkNetwork;

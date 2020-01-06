@@ -20,7 +20,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.registries.ForgeRegistries;
 import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
-import vazkii.quark.base.module.Module;
+import vazkii.quark.api.Module;
 import vazkii.quark.base.module.ModuleCategory;
 
 import javax.annotation.Nonnull;

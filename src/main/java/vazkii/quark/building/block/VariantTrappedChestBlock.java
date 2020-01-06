@@ -1,7 +1,6 @@
 package vazkii.quark.building.block;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
 import net.minecraft.block.TrappedChestBlock;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -16,7 +15,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.arl.interf.IBlockItemProvider;
 import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.base.Quark;
-import vazkii.quark.base.module.Module;
+import vazkii.quark.api.Module;
 import vazkii.quark.building.tile.VariantTrappedChestTileEntity;
 
 @OnlyIn(value = Dist.CLIENT, _interface = IBlockItemProvider.class)
@@ -30,7 +29,7 @@ public class VariantTrappedChestBlock extends TrappedChestBlock implements IBloc
 	public VariantTrappedChestBlock(String type, Module module, Block.Properties props) {
 		super(props);
 		RegistryHelper.registerBlock(this, type + "_trapped_chest");
-		RegistryHelper.setCreativeTab(this, ItemGroup.DECORATIONS);
+		RegistryHelper.setCreativeTab(this, ItemGroup.REDSTONE);
 		
 		this.type = type;
 		this.module = module;

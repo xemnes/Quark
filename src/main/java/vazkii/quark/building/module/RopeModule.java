@@ -16,7 +16,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
-import vazkii.quark.base.module.Module;
+import vazkii.quark.api.Module;
 import vazkii.quark.base.module.ModuleCategory;
 import vazkii.quark.building.block.RopeBlock;
 

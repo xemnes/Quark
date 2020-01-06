@@ -1,7 +1,7 @@
 package vazkii.quark.base.world.config;
 
 import vazkii.quark.base.module.Config;
-import vazkii.quark.base.module.ConfigFlagManager;
+import vazkii.quark.api.flag.ConfigFlagManager;
 
 public class ConditionalEntitySpawnConfig extends EntitySpawnConfig {
 

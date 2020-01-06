@@ -6,7 +6,7 @@ import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.ItemGroup;
 import vazkii.quark.base.block.QuarkFenceGateBlock;
 import vazkii.quark.base.module.LoadModule;
-import vazkii.quark.base.module.Module;
+import vazkii.quark.api.Module;
 import vazkii.quark.base.module.ModuleCategory;
 
 /**

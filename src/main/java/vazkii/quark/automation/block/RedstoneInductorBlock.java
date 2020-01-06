@@ -23,7 +23,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.arl.interf.IBlockColorProvider;
 import vazkii.quark.base.block.QuarkBlock;
-import vazkii.quark.base.module.Module;
+import vazkii.quark.api.Module;
 
 import javax.annotation.Nonnull;
 import java.util.Random;

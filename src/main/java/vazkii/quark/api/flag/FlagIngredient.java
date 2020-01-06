@@ -1,4 +1,4 @@
-package vazkii.quark.base.recipe;
+package vazkii.quark.api.flag;
 
 import com.google.gson.JsonObject;
 import it.unimi.dsi.fastutil.ints.IntList;
@@ -7,7 +7,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.common.crafting.IIngredientSerializer;
-import vazkii.quark.base.module.ConfigFlagManager;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

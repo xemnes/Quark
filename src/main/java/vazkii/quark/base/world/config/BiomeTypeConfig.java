@@ -8,7 +8,7 @@ import java.util.Set;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
 import vazkii.quark.base.module.Config;
-import vazkii.quark.base.module.ConfigFlagManager;
+import vazkii.quark.api.flag.ConfigFlagManager;
 import vazkii.quark.base.module.IConfigType;
 
 public class BiomeTypeConfig implements IConfigType {

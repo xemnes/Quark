@@ -20,6 +20,7 @@ public class SleepGoal extends Goal {
 
 	private final FoxhoundEntity foxhound;
 	private boolean isSleeping;
+	private boolean wasSitting;
 
 	public SleepGoal(FoxhoundEntity foxhound) {
 		this.foxhound = foxhound;
@@ -42,6 +43,7 @@ public class SleepGoal extends Goal {
 	@Override
 	public void startExecuting() {
 		this.foxhound.getNavigator().clearPath();
+		wasSitting = foxhound.isSitting();
 		this.foxhound.getAISit().setSitting(true);
 		this.foxhound.setSitting(true);
 		this.foxhound.setSleeping(true);
@@ -49,8 +51,8 @@ public class SleepGoal extends Goal {
 
 	@Override
 	public void resetTask() {
-		this.foxhound.getAISit().setSitting(false);
-		this.foxhound.setSitting(false);
+		this.foxhound.getAISit().setSitting(wasSitting);
+		this.foxhound.setSitting(wasSitting);
 		this.foxhound.setSleeping(false);
 	}
 

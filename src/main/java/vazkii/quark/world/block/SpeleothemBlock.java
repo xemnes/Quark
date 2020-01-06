@@ -28,7 +28,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import vazkii.quark.base.block.QuarkBlock;
-import vazkii.quark.base.module.Module;
+import vazkii.quark.api.Module;
 
 public class SpeleothemBlock extends QuarkBlock implements IWaterLoggable {
 

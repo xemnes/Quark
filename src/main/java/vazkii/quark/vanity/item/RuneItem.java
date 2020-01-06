@@ -16,7 +16,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import vazkii.quark.api.IRuneColorProvider;
 import vazkii.quark.api.QuarkCapabilities;
 import vazkii.quark.base.item.QuarkItem;
-import vazkii.quark.base.module.Module;
+import vazkii.quark.api.Module;
 
 /**
  * @author WireSegal

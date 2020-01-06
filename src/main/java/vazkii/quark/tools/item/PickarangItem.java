@@ -27,7 +27,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
 import vazkii.quark.base.handler.QuarkSounds;
 import vazkii.quark.base.item.QuarkItem;
-import vazkii.quark.base.module.Module;
+import vazkii.quark.api.Module;
 import vazkii.quark.tools.entity.PickarangEntity;
 import vazkii.quark.tools.module.PickarangModule;
 

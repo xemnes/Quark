@@ -1,4 +1,4 @@
-package vazkii.quark.base.module;
+package vazkii.quark.api;
 
 import com.google.common.collect.Lists;
 import net.minecraftforge.api.distmarker.Dist;
@@ -7,7 +7,8 @@ import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.loading.FMLEnvironment;
-import vazkii.quark.base.Quark;
+import org.apache.logging.log4j.Logger;
+import vazkii.quark.api.flag.ConfigFlagManager;
 
 import java.util.List;
 
@@ -20,7 +21,8 @@ public class Module {
 	public boolean hasSubscriptions = false;
 	public List<Dist> subscriptionTarget = Lists.newArrayList(Dist.CLIENT, Dist.DEDICATED_SERVER);
 	public boolean enabledByDefault = true;
-	
+
+	private boolean forcefullyDisabled = false;
 	private boolean firstLoad = true;
 	public boolean enabled = false;
 	public boolean ignoreAntiOverlap = false;
@@ -72,9 +74,9 @@ public class Module {
 		// NO-OP
 	}
 	
-	public final void setEnabled(boolean enabled) {
+	public final void setEnabled(Logger log, boolean enabled) {
 		if(firstLoad)
-			Quark.LOG.info("Loading Module " + displayName);
+			log.info("Loading Module " + displayName);
 		firstLoad = false;
 		
 		if(!ignoreAntiOverlap && antiOverlap != null) {
@@ -83,6 +85,15 @@ public class Module {
 				if(list.isLoaded(s))
 					return;
 		}
+
+		if (firstLoad) {
+			forcefullyDisabled = MinecraftForge.EVENT_BUS.post(new ModuleLoadedEvent(this));
+			if (forcefullyDisabled)
+				log.info("Module " + displayName + " forcefully disabled");
+		}
+
+		if (forcefullyDisabled)
+			enabled = false;
 		
 		setEnabledAndManageSubscriptions(enabled);
 	}

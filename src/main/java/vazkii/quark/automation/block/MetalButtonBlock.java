@@ -8,7 +8,7 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.world.IWorldReader;
 import vazkii.quark.base.block.QuarkButtonBlock;
-import vazkii.quark.base.module.Module;
+import vazkii.quark.api.Module;
 
 import javax.annotation.Nonnull;
 

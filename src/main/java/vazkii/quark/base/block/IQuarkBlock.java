@@ -7,7 +7,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraftforge.common.extensions.IForgeBlock;
-import vazkii.quark.base.module.Module;
+import vazkii.quark.api.Module;
 
 import javax.annotation.Nullable;
 import java.util.function.BooleanSupplier;

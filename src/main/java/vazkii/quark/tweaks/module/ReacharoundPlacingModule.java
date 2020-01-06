@@ -28,7 +28,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import vazkii.quark.base.handler.RayTraceHandler;
 import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
-import vazkii.quark.base.module.Module;
+import vazkii.quark.api.Module;
 import vazkii.quark.base.module.ModuleCategory;
 
 import java.util.List;

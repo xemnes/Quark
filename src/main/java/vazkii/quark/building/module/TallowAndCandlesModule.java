@@ -2,8 +2,6 @@ package vazkii.quark.building.module;
 
 import net.minecraft.block.Block;import net.minecraft.block.Blocks;
 import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.passive.PigEntity;
@@ -19,7 +17,7 @@ import vazkii.quark.base.block.QuarkBlock;
 import vazkii.quark.base.item.QuarkItem;
 import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
-import vazkii.quark.base.module.Module;
+import vazkii.quark.api.Module;
 import vazkii.quark.base.module.ModuleCategory;
 import vazkii.quark.building.block.CandleBlock;
 

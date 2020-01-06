@@ -6,7 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.SpawnEggItem;
 import net.minecraft.util.NonNullList;
 import vazkii.arl.util.RegistryHelper;
-import vazkii.quark.base.module.Module;
+import vazkii.quark.api.Module;
 
 import javax.annotation.Nonnull;
 import java.util.function.BooleanSupplier;

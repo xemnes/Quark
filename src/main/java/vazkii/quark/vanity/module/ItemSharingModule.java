@@ -48,6 +48,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.lwjgl.opengl.GL11;
+import vazkii.quark.api.Module;
 import vazkii.quark.base.module.*;
 import vazkii.quark.base.network.QuarkNetwork;
 import vazkii.quark.base.network.message.LinkItemMessage;

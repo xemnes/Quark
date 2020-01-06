@@ -21,7 +21,7 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import vazkii.arl.util.ItemNBTHelper;
 import vazkii.quark.base.handler.MiscUtil;
 import vazkii.quark.base.item.QuarkItem;
-import vazkii.quark.base.module.Module;
+import vazkii.quark.api.Module;
 import vazkii.quark.tools.module.TrowelModule;
 
 public class TrowelItem extends QuarkItem {

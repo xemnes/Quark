@@ -6,7 +6,7 @@ import net.minecraft.item.ItemGroup;
 import vazkii.quark.base.block.IQuarkBlock;
 import vazkii.quark.base.handler.VariantHandler;
 import vazkii.quark.base.module.LoadModule;
-import vazkii.quark.base.module.Module;
+import vazkii.quark.api.Module;
 import vazkii.quark.base.module.ModuleCategory;
 import vazkii.quark.building.block.TurfBlock;
 
