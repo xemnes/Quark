@@ -20,7 +20,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.quark.automation.tile.ChuteTileEntity;
 import vazkii.quark.base.block.QuarkBlock;
-import vazkii.quark.api.Module;
+import vazkii.quark.base.module.Module;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

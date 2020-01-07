@@ -18,7 +18,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.api.ICollateralMover;
-import vazkii.quark.api.Module;
+import vazkii.quark.base.module.Module;
 
 public class IronRodBlock extends EndRodBlock implements ICollateralMover {
 

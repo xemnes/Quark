@@ -11,7 +11,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistries;
 import vazkii.quark.base.item.QuarkItem;
-import vazkii.quark.api.Module;
+import vazkii.quark.base.module.Module;
 import vazkii.quark.tools.module.AncientTomesModule;
 
 import javax.annotation.Nonnull;

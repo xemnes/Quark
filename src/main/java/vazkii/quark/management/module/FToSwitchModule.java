@@ -12,7 +12,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.GuiScreenEvent.KeyboardKeyPressedEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import vazkii.quark.base.module.LoadModule;
-import vazkii.quark.api.Module;
+import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.base.network.QuarkNetwork;

@@ -7,7 +7,7 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.IWorldReader;
 import vazkii.arl.util.RegistryHelper;
-import vazkii.quark.api.Module;
+import vazkii.quark.base.module.Module;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

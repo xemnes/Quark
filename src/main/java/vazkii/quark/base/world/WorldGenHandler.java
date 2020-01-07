@@ -28,7 +28,7 @@ import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraft.world.gen.placement.IPlacementConfig;
 import net.minecraftforge.registries.ForgeRegistries;
 import vazkii.quark.base.handler.GeneralConfig;
-import vazkii.quark.api.Module;
+import vazkii.quark.base.module.Module;
 import vazkii.quark.base.world.generator.IGenerator;
 
 public class WorldGenHandler {

@@ -22,7 +22,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.base.module.LoadModule;
-import vazkii.quark.api.Module;
+import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
 import vazkii.quark.base.network.QuarkNetwork;
 import vazkii.quark.base.network.message.OpenBoatChestMessage;

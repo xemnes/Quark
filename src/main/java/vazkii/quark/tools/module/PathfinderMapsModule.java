@@ -19,7 +19,6 @@ import net.minecraft.world.storage.MapDecoration.Type;
 import net.minecraftforge.event.village.VillagerTradesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.ForgeRegistries;
-import vazkii.quark.api.Module;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.handler.BiomeLocator;
 import vazkii.quark.base.module.*;

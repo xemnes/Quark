@@ -5,7 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import vazkii.arl.block.BasicBlock;
 import vazkii.arl.util.RegistryHelper;
-import vazkii.quark.api.Module;
+import vazkii.quark.base.module.Module;
 
 import javax.annotation.Nullable;
 import java.util.function.BooleanSupplier;

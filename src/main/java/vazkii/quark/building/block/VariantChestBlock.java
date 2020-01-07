@@ -1,6 +1,7 @@
 package vazkii.quark.building.block;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.ChestBlock;
 import net.minecraft.client.renderer.tileentity.ItemStackTileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
@@ -18,7 +19,7 @@ import vazkii.arl.interf.IBlockItemProvider;
 import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.block.IQuarkBlock;
-import vazkii.quark.api.Module;
+import vazkii.quark.base.module.Module;
 import vazkii.quark.building.client.render.VariantChestTileEntityRenderer;
 import vazkii.quark.building.tile.VariantChestTileEntity;
 

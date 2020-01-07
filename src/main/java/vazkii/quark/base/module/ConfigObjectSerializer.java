@@ -2,8 +2,6 @@ package vazkii.quark.base.module;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 import org.apache.commons.lang3.text.WordUtils;
-import vazkii.quark.api.Module;
-import vazkii.quark.api.flag.ConfigFlagManager;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;

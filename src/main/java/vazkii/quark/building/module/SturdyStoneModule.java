@@ -1,7 +1,7 @@
 package vazkii.quark.building.module;
 
 import vazkii.quark.base.module.LoadModule;
-import vazkii.quark.api.Module;
+import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
 import vazkii.quark.building.block.SturdyStoneBlock;
 

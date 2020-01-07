@@ -28,7 +28,7 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import vazkii.arl.interf.IBlockItemProvider;
 import vazkii.quark.automation.module.PistonsMoveTileEntitiesModule;
 import vazkii.quark.base.block.QuarkBlock;
-import vazkii.quark.api.Module;
+import vazkii.quark.base.module.Module;
 import vazkii.quark.building.module.RopeModule;
 
 import javax.annotation.Nonnull;

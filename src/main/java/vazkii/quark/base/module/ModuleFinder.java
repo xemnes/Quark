@@ -16,7 +16,6 @@ import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.loading.moddiscovery.ModAnnotation;
 import net.minecraftforge.forgespi.language.ModFileScanData;
 import net.minecraftforge.forgespi.language.ModFileScanData.AnnotationData;
-import vazkii.quark.api.Module;
 import vazkii.quark.base.Quark;
 
 @SuppressWarnings("deprecation")

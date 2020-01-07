@@ -13,7 +13,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockReader;
 import vazkii.quark.base.block.QuarkBlock;
-import vazkii.quark.api.Module;
+import vazkii.quark.base.module.Module;
 import vazkii.quark.world.tile.MonsterBoxTileEntity;
 
 public class MonsterBoxBlock extends QuarkBlock {

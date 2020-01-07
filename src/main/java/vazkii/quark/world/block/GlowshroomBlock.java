@@ -18,7 +18,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.IPlantable;
 import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.base.block.IQuarkBlock;
-import vazkii.quark.api.Module;
+import vazkii.quark.base.module.Module;
 import vazkii.quark.world.module.underground.GlowshroomUndergroundBiomeModule;
 
 import javax.annotation.Nonnull;

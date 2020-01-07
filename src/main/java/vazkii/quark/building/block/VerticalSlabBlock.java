@@ -36,7 +36,7 @@ import vazkii.arl.interf.IBlockColorProvider;
 import vazkii.arl.interf.IItemColorProvider;
 import vazkii.quark.base.block.QuarkBlock;
 import vazkii.quark.base.block.QuarkSlabBlock;
-import vazkii.quark.api.Module;
+import vazkii.quark.base.module.Module;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

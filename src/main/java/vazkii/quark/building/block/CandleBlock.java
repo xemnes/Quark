@@ -20,7 +20,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.quark.base.block.QuarkBlock;
-import vazkii.quark.api.Module;
+import vazkii.quark.base.module.Module;
 import vazkii.quark.building.module.TallowAndCandlesModule;
 
 public class CandleBlock extends QuarkBlock {

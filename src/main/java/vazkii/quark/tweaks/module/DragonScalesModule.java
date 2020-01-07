@@ -10,7 +10,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import vazkii.quark.base.item.QuarkItem;
 import vazkii.quark.base.module.LoadModule;
-import vazkii.quark.api.Module;
+import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
 import vazkii.quark.tweaks.recipe.ElytraDuplicationRecipe;
 

@@ -1,4 +1,4 @@
-package vazkii.quark.api.flag;
+package vazkii.quark.base.module;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;

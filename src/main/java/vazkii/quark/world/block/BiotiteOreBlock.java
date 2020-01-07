@@ -10,7 +10,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IWorldReader;
 import vazkii.quark.base.block.QuarkBlock;
-import vazkii.quark.api.Module;
+import vazkii.quark.base.module.Module;
 
 public class BiotiteOreBlock extends QuarkBlock {
 

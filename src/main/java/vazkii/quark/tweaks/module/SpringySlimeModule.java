@@ -29,7 +29,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import vazkii.quark.base.handler.OverrideRegistryHandler;
 import vazkii.quark.base.module.LoadModule;
-import vazkii.quark.api.Module;
+import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.tweaks.base.MutableVectorHolder;

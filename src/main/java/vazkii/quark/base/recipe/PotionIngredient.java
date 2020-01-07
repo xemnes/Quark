@@ -1,4 +1,4 @@
-package vazkii.quark.api.flag;
+package vazkii.quark.base.recipe;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -12,6 +12,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.common.crafting.IIngredientSerializer;
 import net.minecraftforge.registries.ForgeRegistries;
+import vazkii.quark.base.handler.BrewingHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -27,15 +28,9 @@ public class PotionIngredient extends Ingredient {
     private final Potion potion;
 
     public PotionIngredient(Item item, Potion potion) {
-        super(Stream.of(new Ingredient.SingleItemList(of(item, potion))));
+        super(Stream.of(new Ingredient.SingleItemList(BrewingHandler.of(item, potion))));
         this.item = item;
         this.potion = potion;
-    }
-
-    public static ItemStack of(Item potionType, Potion potion) {
-        ItemStack stack = new ItemStack(potionType);
-        PotionUtils.addPotionToItemStack(stack, potion);
-        return stack;
     }
 
     @Override

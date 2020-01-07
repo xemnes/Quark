@@ -16,7 +16,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.arl.interf.IBlockColorProvider;
 import vazkii.arl.interf.IItemColorProvider;
 import vazkii.arl.util.RegistryHelper;
-import vazkii.quark.api.Module;
+import vazkii.quark.base.module.Module;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

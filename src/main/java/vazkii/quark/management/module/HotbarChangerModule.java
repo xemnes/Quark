@@ -22,7 +22,7 @@ import org.lwjgl.opengl.GL11;
 
 import vazkii.quark.base.client.ModKeybindHandler;
 import vazkii.quark.base.module.LoadModule;
-import vazkii.quark.api.Module;
+import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
 import vazkii.quark.base.network.QuarkNetwork;
 import vazkii.quark.base.network.message.ChangeHotbarMessage;

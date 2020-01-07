@@ -7,7 +7,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.material.PushReaction;
 import net.minecraft.item.ItemGroup;
 import vazkii.quark.base.block.QuarkBlock;
-import vazkii.quark.api.Module;
+import vazkii.quark.base.module.Module;
 
 public class SturdyStoneBlock extends QuarkBlock {
 

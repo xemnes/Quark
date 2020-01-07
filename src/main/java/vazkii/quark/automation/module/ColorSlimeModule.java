@@ -6,7 +6,7 @@ import vazkii.quark.automation.block.ColorSlimeBlock.SlimeColor;
 import vazkii.quark.base.handler.ItemOverrideHandler;
 import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
-import vazkii.quark.api.Module;
+import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
 
 @LoadModule(category = ModuleCategory.AUTOMATION)

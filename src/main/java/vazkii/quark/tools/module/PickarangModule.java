@@ -14,7 +14,7 @@ import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
-import vazkii.quark.api.Module;
+import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
 import vazkii.quark.tools.client.render.PickarangRenderer;
 import vazkii.quark.tools.entity.PickarangEntity;

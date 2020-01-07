@@ -17,7 +17,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ToolType;
 import vazkii.quark.base.block.QuarkGlassBlock;
-import vazkii.quark.api.Module;
+import vazkii.quark.base.module.Module;
 import vazkii.quark.world.module.underground.CaveCrystalUndergroundBiomeModule;
 
 import java.util.Random;

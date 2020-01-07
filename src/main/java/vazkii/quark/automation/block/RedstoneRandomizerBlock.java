@@ -27,7 +27,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.ForgeEventFactory;
 import vazkii.quark.automation.base.RandomizerPowerState;
 import vazkii.quark.base.block.QuarkBlock;
-import vazkii.quark.api.Module;
+import vazkii.quark.base.module.Module;
 
 import javax.annotation.Nonnull;
 import java.util.EnumSet;

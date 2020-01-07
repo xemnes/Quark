@@ -20,7 +20,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.quark.base.item.QuarkItem;
-import vazkii.quark.api.Module;
+import vazkii.quark.base.module.Module;
 import vazkii.quark.world.entity.EnumStonelingVariant;
 import vazkii.quark.world.entity.StonelingEntity;
 import vazkii.quark.world.module.StonelingsModule;

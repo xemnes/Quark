@@ -3,7 +3,7 @@ package vazkii.quark.world.module;
 import net.minecraft.world.gen.GenerationStage.Decoration;
 import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
-import vazkii.quark.api.Module;
+import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
 import vazkii.quark.base.world.WorldGenHandler;
 import vazkii.quark.base.world.WorldGenWeights;

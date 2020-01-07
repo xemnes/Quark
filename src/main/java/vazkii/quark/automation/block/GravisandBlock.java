@@ -11,7 +11,7 @@ import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import vazkii.quark.automation.entity.GravisandEntity;
 import vazkii.quark.base.block.QuarkBlock;
-import vazkii.quark.api.Module;
+import vazkii.quark.base.module.Module;
 
 import java.util.Random;
 

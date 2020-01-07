@@ -18,7 +18,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.base.block.IQuarkBlock;
-import vazkii.quark.api.Module;
+import vazkii.quark.base.module.Module;
 
 public class BlossomLeavesBlock extends LeavesBlock implements IQuarkBlock {
 
