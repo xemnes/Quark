@@ -67,13 +67,16 @@ public class FormShulkerGoal extends RandomWalkingGoal {
 
 			if(iblockstate.getBlock() == Blocks.PURPUR_BLOCK) {
 				world.removeBlock(blockpos, false);
-				endermite.spawnExplosionParticle();
-				endermite.remove();
-				
+
 				ShulkerEntity shulker = new ShulkerEntity(EntityType.SHULKER, world);
 				shulker.setAttachmentPos(blockpos);
 				shulker.setPosition(blockpos.getX() + 0.5, blockpos.getY() + 0.5, blockpos.getZ() + 0.5);
 				world.addEntity(shulker);
+				
+				if(endermite.hasCustomName())
+					shulker.setCustomName(endermite.getCustomName());
+				endermite.spawnExplosionParticle();
+				endermite.remove();
 			}
 		}
 	}
