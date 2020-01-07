@@ -1,15 +1,18 @@
 package vazkii.quark.base.module;
 
+import java.util.List;
+
 import com.google.common.collect.Lists;
+
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.loading.FMLEnvironment;
+import vazkii.quark.api.event.ModuleLoadedEvent;
+import vazkii.quark.api.event.ModuleStateChangedEvent;
 import vazkii.quark.base.Quark;
-
-import java.util.List;
 
 public class Module {
 
@@ -73,8 +76,10 @@ public class Module {
 	}
 	
 	public final void setEnabled(boolean enabled) {
-		if(firstLoad)
+		if(firstLoad) {
 			Quark.LOG.info("Loading Module " + displayName);
+			MinecraftForge.EVENT_BUS.post(new ModuleLoadedEvent(lowercaseName));
+		}
 		firstLoad = false;
 		
 		if(!ignoreAntiOverlap && antiOverlap != null) {
@@ -88,6 +93,9 @@ public class Module {
 	}
 	
 	private void setEnabledAndManageSubscriptions(boolean enabled) {
+		if(MinecraftForge.EVENT_BUS.post(new ModuleStateChangedEvent(lowercaseName, enabled)))
+			enabled = false;
+		
 		boolean wasEnabled = this.enabled;
 		this.enabled = enabled;
 		
