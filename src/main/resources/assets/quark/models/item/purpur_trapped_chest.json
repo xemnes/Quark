@@ -1,7 +1,7 @@
 {
     "parent": "builtin/entity",
     "textures": {
-        "particle": "block/purpur_chest"
+        "particle": "block/purpur_block"
     },
     "display": {
         "gui": {
