@@ -44,7 +44,7 @@ public class IronChainBlock extends QuarkBlock implements IWaterLoggable {
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 	
 	public IronChainBlock(Module module) {
-		super("iron_chain", module, ItemGroup.TRANSPORTATION, Block.Properties.create(Material.IRON).sound(SoundType.LANTERN));
+		super("iron_chain", module, ItemGroup.TRANSPORTATION, Block.Properties.create(Material.IRON).hardnessAndResistance(0.5F).sound(SoundType.LANTERN));
 		setDefaultState(getDefaultState().with(TYPE, ChainType.MIDDLE).with(WATERLOGGED, false));
 	}
 	
