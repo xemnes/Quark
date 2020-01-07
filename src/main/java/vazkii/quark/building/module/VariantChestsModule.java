@@ -39,7 +39,8 @@ public class VariantChestsModule extends Module {
 		Block.Properties woodProps = Block.Properties.from(Blocks.CHEST);
 		Block.Properties netherProps = Block.Properties.from(Blocks.NETHER_BRICKS);
 		Block.Properties purpurProps = Block.Properties.from(Blocks.PURPUR_BLOCK);
-		
+		Block.Properties prismarineProps = Block.Properties.from(Blocks.PRISMARINE);
+
 		Block oakChest = new VariantChestBlock("oak", this, woodProps);
 		Block spruceChest = new VariantChestBlock("spruce", this, woodProps);
 		Block birchChest = new VariantChestBlock("birch", this, woodProps);
@@ -49,6 +50,7 @@ public class VariantChestsModule extends Module {
 		
 		Block netherBrickChest = new VariantChestBlock("nether_brick", this, netherProps);
 		Block purpurChest = new VariantChestBlock("purpur", this, purpurProps);
+		Block prismarineChest = new VariantChestBlock("prismarine", this, prismarineProps);
 		
 		Block oakChestTrapped = new VariantTrappedChestBlock("oak", this, woodProps);
 		Block spruceChestTrapped = new VariantTrappedChestBlock("spruce", this, woodProps);
@@ -59,9 +61,10 @@ public class VariantChestsModule extends Module {
 		
 		Block netherBrickChestTrapped = new VariantTrappedChestBlock("nether_brick", this, netherProps);
 		Block purpurChestTrapped = new VariantTrappedChestBlock("purpur", this, purpurProps);
-		
-		chestTEType = TileEntityType.Builder.create(VariantChestTileEntity::new, oakChest, spruceChest, birchChest, jungleChest, acaciaChest, darkOakChest, netherBrickChest, purpurChest).build(null);
-		trappedChestTEType = TileEntityType.Builder.create(VariantTrappedChestTileEntity::new, oakChestTrapped, spruceChestTrapped, birchChestTrapped, jungleChestTrapped, acaciaChestTrapped, darkOakChestTrapped, netherBrickChestTrapped, purpurChestTrapped).build(null);
+		Block prismarineChestTrapped = new VariantTrappedChestBlock("prismarine", this, prismarineProps);
+
+		chestTEType = TileEntityType.Builder.create(VariantChestTileEntity::new, oakChest, spruceChest, birchChest, jungleChest, acaciaChest, darkOakChest, netherBrickChest, purpurChest, prismarineChest).build(null);
+		trappedChestTEType = TileEntityType.Builder.create(VariantTrappedChestTileEntity::new, oakChestTrapped, spruceChestTrapped, birchChestTrapped, jungleChestTrapped, acaciaChestTrapped, darkOakChestTrapped, netherBrickChestTrapped, purpurChestTrapped, prismarineChestTrapped).build(null);
 
 		RegistryHelper.register(chestTEType, "variant_chest");
 		RegistryHelper.register(trappedChestTEType, "variant_trapped_chest");
