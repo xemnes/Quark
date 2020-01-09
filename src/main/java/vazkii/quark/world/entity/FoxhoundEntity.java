@@ -62,6 +62,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
@@ -146,8 +147,9 @@ public class FoxhoundEntity extends WolfEntity implements IMob {
 				owner.setFire(5);
 		}
 
+		Vec3d pos = getPositionVec();
 		if(this.world.isRemote)
-			this.world.addParticle(isSleeping() ? ParticleTypes.SMOKE : ParticleTypes.FLAME, this.posX + (this.rand.nextDouble() - 0.5D) * this.getWidth(), this.posY + (this.rand.nextDouble() - 0.5D) * this.getHeight(), this.posZ + (this.rand.nextDouble() - 0.5D) * this.getWidth(), 0.0D, 0.0D, 0.0D);
+			this.world.addParticle(isSleeping() ? ParticleTypes.SMOKE : ParticleTypes.FLAME, pos.x + (this.rand.nextDouble() - 0.5D) * this.getWidth(), pos.y + (this.rand.nextDouble() - 0.5D) * this.getHeight(), pos.z + (this.rand.nextDouble() - 0.5D) * this.getWidth(), 0.0D, 0.0D, 0.0D);
 
 		if(isTamed()) {
 			BlockPos below = getPosition().down();
@@ -189,7 +191,7 @@ public class FoxhoundEntity extends WolfEntity implements IMob {
 		this.goalSelector.addGoal(5, new MeleeAttackGoal(this, 1.0D, true));
 		this.goalSelector.addGoal(6, new FindPlaceToSleepGoal(this, 0.8D, true));
 		this.goalSelector.addGoal(7, new FindPlaceToSleepGoal(this, 0.8D, false));
-		this.goalSelector.addGoal(8, new FollowOwnerGoal(this, 1.0D, 10.0F, 2.0F));
+		this.goalSelector.addGoal(8, new FollowOwnerGoal(this, 1.0D, 10.0F, 2.0F, false));
 		this.goalSelector.addGoal(9, new BreedGoal(this, 1.0D));
 		this.goalSelector.addGoal(10, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
 		this.goalSelector.addGoal(11, new BegGoal(this, 8.0F));
@@ -326,7 +328,7 @@ public class FoxhoundEntity extends WolfEntity implements IMob {
 
 
 	public static boolean canSpawnHere(IWorld world, BlockPos pos, Random rand) {
-		if (world.getLightFor(LightType.SKY, pos) > rand.nextInt(32)) {
+		if (world.getLightLevel(LightType.SKY, pos) > rand.nextInt(32)) {
 			return false;
 		} else {
 			int light = world.getWorld().isThundering() ? world.getNeighborAwareLightSubtracted(pos, 10) : world.getLight(pos);
@@ -340,7 +342,7 @@ public class FoxhoundEntity extends WolfEntity implements IMob {
 	}
 
 	public static boolean spawnPredicate(EntityType<? extends FoxhoundEntity> type, IWorld world, SpawnReason reason, BlockPos pos, Random rand) {
-		return world.getDifficulty() != Difficulty.PEACEFUL && canSpawnHere(world, pos, rand) && func_223315_a(type, world, reason, pos, rand); // func_223315_a = spawnPredicate
+		return world.getDifficulty() != Difficulty.PEACEFUL && canSpawnHere(world, pos, rand) && spawnPredicate(type, world, reason, pos, rand);
 	}
 
 	public SleepGoal getSleepGoal() {

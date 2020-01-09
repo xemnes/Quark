@@ -8,10 +8,10 @@ import net.minecraft.block.SaplingBlock;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
+import net.minecraft.world.biome.DefaultBiomeFeatures;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationSettings;
 import net.minecraft.world.gen.Heightmap.Type;
-import net.minecraft.world.gen.feature.NoFeatureConfig;
 import vazkii.quark.base.world.generator.Generator;
 import vazkii.quark.world.block.BlossomSaplingBlock.BlossomTree;
 import vazkii.quark.world.config.BlossomTreeConfig;
@@ -32,10 +32,10 @@ public class BlossomTreeGenerator extends Generator {
 		BlockPos placePos = pos.add(rand.nextInt(16), 0, rand.nextInt(16));
 		if(config.biomeTypes.canSpawn(getBiome(generator, placePos)) && rand.nextInt(config.rarity) == 0) {
 			placePos = worldIn.getHeight(Type.MOTION_BLOCKING, placePos).down();
-			
+
 			BlockState state = worldIn.getBlockState(placePos);
 			if(state.getBlock().canSustainPlant(state, worldIn, pos, Direction.UP, (SaplingBlock) Blocks.OAK_SAPLING))
-				tree.feature.place(worldIn, generator, rand, placePos.up(), NoFeatureConfig.NO_FEATURE_CONFIG);
+				tree.feature.place(worldIn, generator, rand, placePos.up(), DefaultBiomeFeatures.FANCY_TREE_CONFIG);
 		}
 	}
 

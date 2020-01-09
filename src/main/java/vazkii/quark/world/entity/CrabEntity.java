@@ -10,15 +10,35 @@
  */
 package vazkii.quark.world.entity;
 
+import java.util.Random;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.google.common.collect.Lists;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.*;
+import net.minecraft.entity.AgeableEntity;
+import net.minecraft.entity.CreatureAttribute;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntitySize;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.Pose;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.AttributeModifier.Operation;
-import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.ai.goal.BreedGoal;
+import net.minecraft.entity.ai.goal.FollowParentGoal;
+import net.minecraft.entity.ai.goal.LookAtGoal;
+import net.minecraft.entity.ai.goal.LookRandomlyGoal;
+import net.minecraft.entity.ai.goal.PanicGoal;
+import net.minecraft.entity.ai.goal.TemptGoal;
+import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
 import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -38,6 +58,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
@@ -50,10 +71,6 @@ import vazkii.quark.base.handler.MiscUtil;
 import vazkii.quark.base.handler.QuarkSounds;
 import vazkii.quark.world.ai.RaveGoal;
 import vazkii.quark.world.module.PassiveCreaturesModule;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.Random;
 
 public class CrabEntity extends AnimalEntity implements IEntityAdditionalSpawnData {
 
@@ -84,7 +101,7 @@ public class CrabEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 	}
 
 	public static boolean spawnPredicate(EntityType<? extends AnimalEntity> type, IWorld world, SpawnReason reason, BlockPos pos, Random random) {
-		return world.getBlockState(pos.down()).getMaterial() == Material.SAND && world.getLightSubtracted(pos, 0) > 8;
+		return world.getBlockState(pos.down()).getMaterial() == Material.SAND && world.getLight(pos) > 8;
 	}
 
 	public static void rave(IWorld world, BlockPos pos, boolean raving) {
@@ -194,7 +211,8 @@ public class CrabEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 			extinguish();
 		}
 
-        if(isRaving() && (jukeboxPosition == null || jukeboxPosition.distanceSq(posX, posY, posZ, true) > 24.0D || world.getBlockState(jukeboxPosition).getBlock() != Blocks.JUKEBOX))
+		Vec3d pos = getPositionVec();
+        if(isRaving() && (jukeboxPosition == null || jukeboxPosition.distanceSq(pos.x, pos.y, pos.z, true) > 24.0D || world.getBlockState(jukeboxPosition).getBlock() != Blocks.JUKEBOX))
         	party(null, false);
 		
 		if(isRaving() && world.isRemote && ticksExisted % 10 == 0) {

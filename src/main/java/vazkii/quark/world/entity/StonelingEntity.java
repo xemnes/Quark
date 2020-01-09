@@ -1,10 +1,25 @@
 package vazkii.quark.world.entity;
 
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.google.common.collect.Sets;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.*;
+import net.minecraft.entity.CreatureEntity;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityClassification;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ILivingEntityData;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.PrioritizedGoal;
 import net.minecraft.entity.ai.goal.TemptGoal;
 import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
@@ -20,12 +35,22 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.particles.BlockParticleData;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.pathfinding.PathNodeType;
-import net.minecraft.util.*;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.Hand;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.*;
+import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.world.Difficulty;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.IWorld;
+import net.minecraft.world.IWorldReader;
+import net.minecraft.world.LightType;
+import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.loot.LootContext;
 import net.minecraft.world.storage.loot.LootParameterSets;
@@ -40,12 +65,6 @@ import vazkii.quark.world.ai.FavorBlockGoal;
 import vazkii.quark.world.ai.RunAndPoofGoal;
 import vazkii.quark.world.module.PassiveCreaturesModule;
 import vazkii.quark.world.module.StonelingsModule;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
 
 public class StonelingEntity extends CreatureEntity {
 
@@ -130,9 +149,9 @@ public class StonelingEntity extends CreatureEntity {
 	public boolean canDespawn(double distanceToClosestPlayer) {
 		return !isTame;
 	}
-
+	
 	@Override
-	protected void checkDespawn() {
+	public void checkDespawn() {
 		boolean wasAlive = isAlive();
 		super.checkDespawn();
 		if (!isAlive() && wasAlive)
@@ -157,6 +176,7 @@ public class StonelingEntity extends CreatureEntity {
 	public ActionResultType applyPlayerInteraction(PlayerEntity player, Vec3d vec, Hand hand) {
 		if(hand == Hand.MAIN_HAND) {
 			ItemStack playerItem = player.getHeldItem(hand);
+			Vec3d pos = getPositionVector();
 
 			if(!world.isRemote) {
 				if (isPlayerMade()) {
@@ -177,9 +197,9 @@ public class StonelingEntity extends CreatureEntity {
 
 						if (targetVariant != null) {
 							if (world instanceof ServerWorld) {
-								((ServerWorld) world).spawnParticle(ParticleTypes.HEART, posX, posY + getHeight(), posZ, 1, 0.1, 0.1, 0.1, 0.1);
+								((ServerWorld) world).spawnParticle(ParticleTypes.HEART, pos.x, pos.y + getHeight(), pos.z, 1, 0.1, 0.1, 0.1, 0.1);
 								if (targetVariant != currentVariant)
-									((ServerWorld) world).spawnParticle(new BlockParticleData(ParticleTypes.BLOCK, targetBlock.getDefaultState()), posX, posY + getHeight() / 2, posZ, 16, 0.1, 0.1, 0.1, 0.25);
+									((ServerWorld) world).spawnParticle(new BlockParticleData(ParticleTypes.BLOCK, targetBlock.getDefaultState()), pos.x, pos.y + getHeight() / 2, pos.z, 16, 0.1, 0.1, 0.1, 0.25);
 							}
 
 							if (targetVariant != currentVariant) {
@@ -221,7 +241,7 @@ public class StonelingEntity extends CreatureEntity {
 						playerItem.shrink(1);
 
 					if (world instanceof ServerWorld)
-						((ServerWorld) world).spawnParticle(ParticleTypes.HEART, posX, posY + getHeight(), posZ, 4, 0.1, 0.1, 0.1, 0.1);
+						((ServerWorld) world).spawnParticle(ParticleTypes.HEART, pos.x, pos.y + getHeight(), pos.z, 4, 0.1, 0.1, 0.1, 0.1);
 
 					return ActionResultType.SUCCESS;
 				}
@@ -246,7 +266,9 @@ public class StonelingEntity extends CreatureEntity {
 		if(!isTame && !world.isRemote() && world instanceof IForgeWorldServer) {
 			if (ModuleLoader.INSTANCE.isModuleEnabled(PassiveCreaturesModule.class) && PassiveCreaturesModule.frogConfig.enabled && rand.nextDouble() < 0.01) {
 				FrogEntity frog = new FrogEntity(PassiveCreaturesModule.frogType, world.getWorld(), 0.25f);
-				frog.setPosition(posX, posY, posZ);
+				Vec3d pos = getPositionVector();
+
+				frog.setPosition(pos.x, pos.y, pos.z);
 				world.addEntity(frog);
 				frog.startRiding(this);
 			} else {
@@ -274,7 +296,7 @@ public class StonelingEntity extends CreatureEntity {
 
 	@Override
 	public boolean isNotColliding(IWorldReader worldReader) {
-		return worldReader.checkNoEntityCollision(this);
+		return worldReader.checkNoEntityCollision(this, VoxelShapes.create(getBoundingBox()));
 	}
 
 	@Override
@@ -293,8 +315,8 @@ public class StonelingEntity extends CreatureEntity {
 	}
 
 	@Override
-	public void fall(float distance, float damageMultiplier) {
-		// NO-OP
+	public boolean handleFallDamage(float distance, float damageMultiplier) {
+		return false;
 	}
 
 	@Override
@@ -374,11 +396,13 @@ public class StonelingEntity extends CreatureEntity {
 
 	@Override
 	public boolean canEntityBeSeen(Entity entityIn) {
-		Vec3d origin = new Vec3d(posX, posY + getEyeHeight(), posZ);
-		Vec3d targetBase = new Vec3d(entityIn.posX, entityIn.posY, entityIn.posZ);
+		Vec3d pos = getPositionVector();
+		Vec3d epos = entityIn.getPositionVec();
+		
+		Vec3d origin = new Vec3d(pos.x, pos.y + getEyeHeight(), pos.z);
 		float otherEyes = entityIn.getEyeHeight();
 		for (float height = 0; height <= otherEyes; height += otherEyes / 8) {
-			if (this.world.rayTraceBlocks(new RayTraceContext(origin, targetBase.add(0, height, 0), RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, this)).getType() == RayTraceResult.Type.MISS)
+			if (this.world.rayTraceBlocks(new RayTraceContext(origin, epos.add(0, height, 0), RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, this)).getType() == RayTraceResult.Type.MISS)
 				return true;
 		}
 
@@ -398,7 +422,7 @@ public class StonelingEntity extends CreatureEntity {
 
 
 	public static boolean validLight(IWorld world, BlockPos pos, Random rand) {
-		if (world.getLightFor(LightType.SKY, pos) > rand.nextInt(32)) {
+		if (world.getLightLevel(LightType.SKY, pos) > rand.nextInt(32)) {
 			return false;
 		} else {
 			int light = world.getWorld().isThundering() ? world.getNeighborAwareLightSubtracted(pos, 10) : world.getLight(pos);

@@ -1,8 +1,9 @@
 package vazkii.quark.world.client.model;
 
 import com.mojang.blaze3d.platform.GlStateManager;
+
 import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraft.client.renderer.entity.model.RendererModel;
+import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.util.math.MathHelper;
 import vazkii.quark.world.entity.FoxhoundEntity;
 
@@ -11,56 +12,56 @@ import vazkii.quark.world.entity.FoxhoundEntity;
  * Created using Tabula 7.0.0
  */
 public class FoxhoundModel extends EntityModel<FoxhoundEntity> {
-    public final RendererModel head;
-    public final RendererModel rightFrontLeg;
-    public final RendererModel leftFrontLeg;
-    public final RendererModel rightBackLeg;
-    public final RendererModel leftBackLeg;
-    public final RendererModel body;
-    public final RendererModel snout;
-    public final RendererModel rightEar;
-    public final RendererModel leftEar;
-    public final RendererModel tail;
-    public final RendererModel fluff;
+    public final ModelRenderer head;
+    public final ModelRenderer rightFrontLeg;
+    public final ModelRenderer leftFrontLeg;
+    public final ModelRenderer rightBackLeg;
+    public final ModelRenderer leftBackLeg;
+    public final ModelRenderer body;
+    public final ModelRenderer snout;
+    public final ModelRenderer rightEar;
+    public final ModelRenderer leftEar;
+    public final ModelRenderer tail;
+    public final ModelRenderer fluff;
 
     public FoxhoundModel() {
         this.textureWidth = 64;
         this.textureHeight = 64;
-        this.leftBackLeg = new RendererModel(this, 36, 32);
+        this.leftBackLeg = new ModelRenderer(this, 36, 32);
         this.leftBackLeg.setRotationPoint(3.0F, 12.0F, 9.5F);
-        this.leftBackLeg.addBox(-1.5F, 0.0F, -1.5F, 3, 12, 3, 0.0F);
-        this.rightFrontLeg = new RendererModel(this, 0, 32);
+        this.leftBackLeg.addCuboid(-1.5F, 0.0F, -1.5F, 3, 12, 3, 0.0F);
+        this.rightFrontLeg = new ModelRenderer(this, 0, 32);
         this.rightFrontLeg.setRotationPoint(-2.0F, 12.0F, 2.0F);
-        this.rightFrontLeg.addBox(-1.5F, 0.0F, -1.5F, 3, 12, 3, 0.0F);
-        this.rightEar = new RendererModel(this, 0, 47);
+        this.rightFrontLeg.addCuboid(-1.5F, 0.0F, -1.5F, 3, 12, 3, 0.0F);
+        this.rightEar = new ModelRenderer(this, 0, 47);
         this.rightEar.setRotationPoint(0.0F, 0.0F, 0.0F);
-        this.rightEar.addBox(-4.0F, -5.0F, -5.0F, 2, 2, 3, 0.0F);
-        this.tail = new RendererModel(this, 36, 16);
+        this.rightEar.addCuboid(-4.0F, -5.0F, -5.0F, 2, 2, 3, 0.0F);
+        this.tail = new ModelRenderer(this, 36, 16);
         this.tail.setRotationPoint(0.0F, 0.0F, 1.5F);
-        this.tail.addBox(-2.0F, -4.0F, 0.0F, 4, 5, 10, 0.0F);
+        this.tail.addCuboid(-2.0F, -4.0F, 0.0F, 4, 5, 10, 0.0F);
         this.setRotateAngle(tail, -1.3089969389957472F, 0.0F, 0.0F);
-        this.body = new RendererModel(this, 0, 2);
+        this.body = new ModelRenderer(this, 0, 2);
         this.body.setRotationPoint(0.0F, 17.0F, 12.0F);
-        this.body.addBox(-4.0F, -12.0F, 0.0F, 8, 12, 6, 0.0F);
+        this.body.addCuboid(-4.0F, -12.0F, 0.0F, 8, 12, 6, 0.0F);
         this.setRotateAngle(body, 1.5707963267948966F, 0.0F, 0.0F);
-        this.fluff = new RendererModel(this, 28, 0);
+        this.fluff = new ModelRenderer(this, 28, 0);
         this.fluff.setRotationPoint(0.0F, -13.0F, 3.0F);
-        this.fluff.addBox(-5.0F, 0.0F, -4.0F, 10, 8, 8, 0.05F);
-        this.leftFrontLeg = new RendererModel(this, 12, 32);
+        this.fluff.addCuboid(-5.0F, 0.0F, -4.0F, 10, 8, 8, 0.05F);
+        this.leftFrontLeg = new ModelRenderer(this, 12, 32);
         this.leftFrontLeg.setRotationPoint(2.0F, 12.0F, 2.0F);
-        this.leftFrontLeg.addBox(-1.5F, 0.0F, -1.5F, 3, 12, 3, 0.0F);
-        this.rightBackLeg = new RendererModel(this, 24, 32);
+        this.leftFrontLeg.addCuboid(-1.5F, 0.0F, -1.5F, 3, 12, 3, 0.0F);
+        this.rightBackLeg = new ModelRenderer(this, 24, 32);
         this.rightBackLeg.setRotationPoint(-3.0F, 12.0F, 9.5F);
-        this.rightBackLeg.addBox(-1.5F, 0.0F, -1.5F, 3, 12, 3, 0.0F);
-        this.leftEar = new RendererModel(this, 10, 47);
+        this.rightBackLeg.addCuboid(-1.5F, 0.0F, -1.5F, 3, 12, 3, 0.0F);
+        this.leftEar = new ModelRenderer(this, 10, 47);
         this.leftEar.setRotationPoint(0.0F, 0.0F, 0.0F);
-        this.leftEar.addBox(2.0F, -5.0F, -5.0F, 2, 2, 3, 0.0F);
-        this.head = new RendererModel(this, 0, 20);
+        this.leftEar.addCuboid(2.0F, -5.0F, -5.0F, 2, 2, 3, 0.0F);
+        this.head = new ModelRenderer(this, 0, 20);
         this.head.setRotationPoint(0.0F, 14.5F, 0.0F);
-        this.head.addBox(-4.0F, -3.0F, -6.0F, 8, 6, 6, 0.0F);
-        this.snout = new RendererModel(this, 29, 18);
+        this.head.addCuboid(-4.0F, -3.0F, -6.0F, 8, 6, 6, 0.0F);
+        this.snout = new ModelRenderer(this, 29, 18);
         this.snout.setRotationPoint(0.0F, 0.0F, 0.0F);
-        this.snout.addBox(-2.0F, 1.0F, -10.0F, 4, 2, 4, 0.0F);
+        this.snout.addCuboid(-2.0F, 1.0F, -10.0F, 4, 2, 4, 0.0F);
         this.head.addChild(this.rightEar);
         this.body.addChild(this.tail);
         this.body.addChild(this.fluff);
@@ -167,7 +168,7 @@ public class FoxhoundModel extends EntityModel<FoxhoundEntity> {
         GlStateManager.popMatrix();
     }
 
-    public void setRotateAngle(RendererModel modelRenderer, float x, float y, float z) {
+    public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
         modelRenderer.rotateAngleX = x;
         modelRenderer.rotateAngleY = y;
         modelRenderer.rotateAngleZ = z;

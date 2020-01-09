@@ -144,8 +144,8 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 	}
 
 	@Override
-	public void fall(float distance, float damageMultiplier) {
-		// NO-OP
+	public boolean handleFallDamage(float distance, float damageMultiplier) {
+		return false;
 	}
 
 	@Override
@@ -191,7 +191,8 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 			if (spawnCd == 0 && !world.isRemote) {
 				float multiplier = 0.8F;
 				FrogEntity newFrog = new FrogEntity(PassiveCreaturesModule.frogType, world);
-				newFrog.setPosition(posX, posY, posZ);
+				Vec3d pos = getPositionVector();
+				newFrog.setPosition(pos.x, pos.y, pos.z);
 				newFrog.setMotion((Math.random() - 0.5) * multiplier, (Math.random() - 0.5) * multiplier, (Math.random() - 0.5) * multiplier);
 				newFrog.isDuplicate = true;
 				newFrog.spawnCd = 2;
@@ -263,7 +264,8 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 					dataManager.set(TALK_TIME, 80);
 				}
 					
-				world.playSound(null, posX, posY, posZ, QuarkSounds.ENTITY_FROG_WEDNESDAY, SoundCategory.NEUTRAL, 1F, 1F);
+				Vec3d pos = getPositionVector();
+				world.playSound(null, pos.x, pos.y, pos.z, QuarkSounds.ENTITY_FROG_WEDNESDAY, SoundCategory.NEUTRAL, 1F, 1F);
 			}
 
 			return true;
@@ -272,7 +274,8 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 		if(stack.getItem().isIn(ItemTags.WOOL) && !hasSweater()) {
 			if(!world.isRemote) {
 				setSweater(true);
-				world.playSound(null, posX, posY, posZ, SoundType.CLOTH.getPlaceSound(), SoundCategory.PLAYERS, 1F, 1F);
+				Vec3d pos = getPositionVector();
+				world.playSound(null, pos.x, pos.y, pos.z, SoundType.CLOTH.getPlaceSound(), SoundCategory.PLAYERS, 1F, 1F);
 				stack.shrink(1);
 			}
 			
@@ -291,7 +294,8 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 	@Override
 	public List<ItemStack> onSheared(ItemStack item, IWorld iworld, BlockPos pos, int fortune) {
 		setSweater(false);
-		world.playSound(null, posX, posY, posZ, SoundEvents.ENTITY_SHEEP_SHEAR, SoundCategory.PLAYERS, 1F, 1F);
+		Vec3d epos = getPositionVector();
+		world.playSound(null, epos.x, epos.y, epos.z, SoundEvents.ENTITY_SHEEP_SHEAR, SoundCategory.PLAYERS, 1F, 1F);
 		
 		return Lists.newArrayList();
 	}
@@ -423,7 +427,8 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 	}
 
 	private void calculateRotationYaw(double x, double z) {
-		this.rotationYaw = (float) (MathHelper.atan2(z - this.posZ, x - this.posX) * (180D / Math.PI)) - 90.0F;
+		Vec3d pos = getPositionVector();
+		this.rotationYaw = (float) (MathHelper.atan2(z - pos.z, x - pos.x) * (180D / Math.PI)) - 90.0F;
 	}
 
 	private void enableJumpControl() {

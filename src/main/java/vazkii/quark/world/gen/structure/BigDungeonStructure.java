@@ -147,8 +147,8 @@ public class BigDungeonStructure extends ScatteredStructure<NoFeatureConfig> {
 
 	public static class Start extends MarginedStructureStart {
 
-		public Start(Structure<?> structureIn, int chunkX, int chunkZ, Biome biomeIn, MutableBoundingBox boundsIn, int referenceIn, long seed) {
-			super(structureIn, chunkX, chunkZ, biomeIn, boundsIn, referenceIn, seed);
+		public Start(Structure<?> structureIn, int chunkX, int chunkZ, MutableBoundingBox boundsIn, int referenceIn, long seed) {
+			super(structureIn, chunkX, chunkZ, boundsIn, referenceIn, seed);
 		}
 
 		@Override

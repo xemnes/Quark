@@ -3,7 +3,6 @@ package vazkii.quark.world.module;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntitySpawnPlacementRegistry.PlacementType;
 import net.minecraft.entity.EntityType;
-import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -53,6 +52,6 @@ public class FoxhoundModule extends Module {
     @Override
     @OnlyIn(Dist.CLIENT)
     public void clientSetup() {
-        RenderingRegistry.registerEntityRenderingHandler(FoxhoundEntity.class, FoxhoundRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(foxhoundType, FoxhoundRenderer::new);
     }
 }

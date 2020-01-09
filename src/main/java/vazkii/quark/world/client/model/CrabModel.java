@@ -1,102 +1,103 @@
 package vazkii.quark.world.client.model;
 
-import com.google.common.collect.ImmutableSet;
-import com.mojang.blaze3d.platform.GlStateManager;
-import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraft.client.renderer.entity.model.RendererModel;
-import net.minecraft.util.math.MathHelper;
-import vazkii.quark.world.entity.CrabEntity;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import com.google.common.collect.ImmutableSet;
+import com.mojang.blaze3d.platform.GlStateManager;
+
+import net.minecraft.client.renderer.entity.model.EntityModel;
+import net.minecraft.client.renderer.model.ModelRenderer;
+import net.minecraft.util.math.MathHelper;
+import vazkii.quark.world.entity.CrabEntity;
+
 public class CrabModel extends EntityModel<CrabEntity> {
 
-	public RendererModel group;
+	public ModelRenderer group;
 
-	public RendererModel body;
-	public RendererModel rightClaw;
-	public RendererModel leftClaw;
-	public RendererModel rightLeg1;
-	public RendererModel rightLeg2;
-	public RendererModel rightLeg3;
-	public RendererModel rightLeg4;
-	public RendererModel leftLeg1;
-	public RendererModel leftLeg2;
-	public RendererModel leftLeg3;
-	public RendererModel leftLeg4;
-	public RendererModel rightEye;
-	public RendererModel leftEye;
+	public ModelRenderer body;
+	public ModelRenderer rightClaw;
+	public ModelRenderer leftClaw;
+	public ModelRenderer rightLeg1;
+	public ModelRenderer rightLeg2;
+	public ModelRenderer rightLeg3;
+	public ModelRenderer rightLeg4;
+	public ModelRenderer leftLeg1;
+	public ModelRenderer leftLeg2;
+	public ModelRenderer leftLeg3;
+	public ModelRenderer leftLeg4;
+	public ModelRenderer rightEye;
+	public ModelRenderer leftEye;
 
 	private final List<Runnable> resetFunctions;
-	private final Set<RendererModel> leftLegs;
-	private final Set<RendererModel> rightLegs;
+	private final Set<ModelRenderer> leftLegs;
+	private final Set<ModelRenderer> rightLegs;
 
 	public CrabModel() {
 		resetFunctions = new ArrayList<>();
 		this.textureWidth = 32;
 		this.textureHeight = 32;
 
-		group = new RendererModel(this);
+		group = new ModelRenderer(this);
 		group.setRotationPoint(0.0F, 0.0F, 0.0F);
 		setRotationAngle(group, 0F, 0F, 0F);
 
-		this.leftLeg4 = new RendererModel(this, 0, 19);
+		this.leftLeg4 = new ModelRenderer(this, 0, 19);
 		this.leftLeg4.mirror = true;
 		this.leftLeg4.setRotationPoint(3.0F, 20.0F, -1.0F);
-		this.leftLeg4.addBox(0.0F, -0.5F, -0.5F, 6, 1, 1, 0.0F);
+		this.leftLeg4.addCuboid(0.0F, -0.5F, -0.5F, 6, 1, 1, 0.0F);
 		this.setRotateAngle(leftLeg4, 0.0F, 0.4363323129985824F, 0.7853981633974483F);
-		this.leftLeg3 = new RendererModel(this, 0, 19);
+		this.leftLeg3 = new ModelRenderer(this, 0, 19);
 		this.leftLeg3.mirror = true;
 		this.leftLeg3.setRotationPoint(3.0F, 20.0F, 0.0F);
-		this.leftLeg3.addBox(0.0F, -0.5F, -0.5F, 6, 1, 1, 0.0F);
+		this.leftLeg3.addCuboid(0.0F, -0.5F, -0.5F, 6, 1, 1, 0.0F);
 		this.setRotateAngle(leftLeg3, 0.0F, 0.2181661564992912F, 0.7853981633974483F);
-		this.rightEye = new RendererModel(this, 0, 11);
+		this.rightEye = new ModelRenderer(this, 0, 11);
 		this.rightEye.setRotationPoint(0.0F, 0.0F, 0.0F);
-		this.rightEye.addBox(-3.0F, -3.5F, -2.85F, 1, 3, 1, 0.0F);
+		this.rightEye.addCuboid(-3.0F, -3.5F, -2.85F, 1, 3, 1, 0.0F);
 		this.setRotateAngle(rightEye, -0.39269908169872414F, 0.0F, 0.0F);
-		this.rightLeg4 = new RendererModel(this, 0, 19);
+		this.rightLeg4 = new ModelRenderer(this, 0, 19);
 		this.rightLeg4.setRotationPoint(-3.0F, 20.0F, -1.0F);
-		this.rightLeg4.addBox(-6.0F, -0.5F, -0.5F, 6, 1, 1, 0.0F);
+		this.rightLeg4.addCuboid(-6.0F, -0.5F, -0.5F, 6, 1, 1, 0.0F);
 		this.setRotateAngle(rightLeg4, 0.0F, -0.4363323129985824F, -0.7853981633974483F);
-		this.rightClaw = new RendererModel(this, 14, 11);
+		this.rightClaw = new ModelRenderer(this, 14, 11);
 		this.rightClaw.setRotationPoint(-3.0F, 20.0F, -4.0F);
-		this.rightClaw.addBox(-3.0F, -2.5F, -6.0F, 3, 5, 6, 0.0F);
+		this.rightClaw.addCuboid(-3.0F, -2.5F, -6.0F, 3, 5, 6, 0.0F);
 		this.setRotateAngle(rightClaw, 0.0F, 0.39269908169872414F, -0.39269908169872414F);
-		this.leftLeg1 = new RendererModel(this, 0, 19);
+		this.leftLeg1 = new ModelRenderer(this, 0, 19);
 		this.leftLeg1.mirror = true;
 		this.leftLeg1.setRotationPoint(3.0F, 20.0F, 2.0F);
-		this.leftLeg1.addBox(0.0F, -0.5F, -0.5F, 6, 1, 1, 0.0F);
+		this.leftLeg1.addCuboid(0.0F, -0.5F, -0.5F, 6, 1, 1, 0.0F);
 		this.setRotateAngle(leftLeg1, 0.0F, -0.4363323129985824F, 0.7853981633974483F);
-		this.rightLeg2 = new RendererModel(this, 0, 19);
+		this.rightLeg2 = new ModelRenderer(this, 0, 19);
 		this.rightLeg2.setRotationPoint(-3.0F, 20.0F, 0.9F);
-		this.rightLeg2.addBox(-6.0F, -0.5F, -0.5F, 6, 1, 1, 0.0F);
+		this.rightLeg2.addCuboid(-6.0F, -0.5F, -0.5F, 6, 1, 1, 0.0F);
 		this.setRotateAngle(rightLeg2, 0.0F, 0.2181661564992912F, -0.7853981633974483F);
-		this.leftClaw = new RendererModel(this, 14, 11);
+		this.leftClaw = new ModelRenderer(this, 14, 11);
 		this.leftClaw.mirror = true;
 		this.leftClaw.setRotationPoint(3.0F, 20.0F, -4.0F);
-		this.leftClaw.addBox(0.0F, -2.5F, -6.0F, 3, 5, 6, 0.0F);
+		this.leftClaw.addCuboid(0.0F, -2.5F, -6.0F, 3, 5, 6, 0.0F);
 		this.setRotateAngle(leftClaw, 0.0F, -0.39269908169872414F, 0.39269908169872414F);
-		this.rightLeg1 = new RendererModel(this, 0, 19);
+		this.rightLeg1 = new ModelRenderer(this, 0, 19);
 		this.rightLeg1.setRotationPoint(-3.0F, 20.0F, 2.0F);
-		this.rightLeg1.addBox(-6.0F, -0.5F, -0.5F, 6, 1, 1, 0.0F);
+		this.rightLeg1.addCuboid(-6.0F, -0.5F, -0.5F, 6, 1, 1, 0.0F);
 		this.setRotateAngle(rightLeg1, 0.0F, 0.4363323129985824F, -0.7853981633974483F);
-		this.body = new RendererModel(this, 0, 0);
+		this.body = new ModelRenderer(this, 0, 0);
 		this.body.setRotationPoint(0.0F, 20.0F, 0.0F);
-		this.body.addBox(-4.0F, -2.5F, -3.0F, 8, 5, 6, 0.0F);
-		this.leftEye = new RendererModel(this, 0, 11);
+		this.body.addCuboid(-4.0F, -2.5F, -3.0F, 8, 5, 6, 0.0F);
+		this.leftEye = new ModelRenderer(this, 0, 11);
 		this.leftEye.setRotationPoint(0.0F, 0.0F, 0.0F);
-		this.leftEye.addBox(2.0F, -3.5F, -2.85F, 1, 3, 1, 0.0F);
+		this.leftEye.addCuboid(2.0F, -3.5F, -2.85F, 1, 3, 1, 0.0F);
 		this.setRotateAngle(leftEye, -0.39269908169872414F, 0.0F, 0.0F);
-		this.leftLeg2 = new RendererModel(this, 0, 19);
+		this.leftLeg2 = new ModelRenderer(this, 0, 19);
 		this.leftLeg2.mirror = true;
 		this.leftLeg2.setRotationPoint(3.0F, 20.0F, 0.9F);
-		this.leftLeg2.addBox(0.0F, -0.5F, -0.5F, 6, 1, 1, 0.0F);
+		this.leftLeg2.addCuboid(0.0F, -0.5F, -0.5F, 6, 1, 1, 0.0F);
 		this.setRotateAngle(leftLeg2, 0.0F, -0.2181661564992912F, 0.7853981633974483F);
-		this.rightLeg3 = new RendererModel(this, 0, 19);
+		this.rightLeg3 = new ModelRenderer(this, 0, 19);
 		this.rightLeg3.setRotationPoint(-3.0F, 20.0F, 0.0F);
-		this.rightLeg3.addBox(-6.0F, -0.5F, -0.5F, 6, 1, 1, 0.0F);
+		this.rightLeg3.addCuboid(-6.0F, -0.5F, -0.5F, 6, 1, 1, 0.0F);
 		this.setRotateAngle(rightLeg3, 0.0F, -0.2181661564992912F, -0.7853981633974483F);
 		this.body.addChild(this.rightEye);
 		this.body.addChild(this.leftEye);
@@ -120,7 +121,7 @@ public class CrabModel extends EntityModel<CrabEntity> {
 	/**
 	 * This is a helper function from Tabula to set the rotation of model parts
 	 */
-	public void setRotateAngle(RendererModel modelRenderer, float x, float y, float z) {
+	public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
 		modelRenderer.rotateAngleX = x;
 		modelRenderer.rotateAngleY = y;
 		modelRenderer.rotateAngleZ = z;
@@ -182,7 +183,7 @@ public class CrabModel extends EntityModel<CrabEntity> {
 		GlStateManager.popMatrix();
 	}
 	
-	private void setRotationAngle(RendererModel modelRenderer, float x, float y, float z) {
+	private void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {
 		float offX = modelRenderer.offsetX;
 		float offY = modelRenderer.offsetY;
 		float offZ = modelRenderer.offsetZ;

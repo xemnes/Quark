@@ -2,6 +2,7 @@ package vazkii.quark.world.module;
 
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage.Decoration;
+import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.gen.feature.structure.Structure;
@@ -48,10 +49,14 @@ public class BigDungeonModule extends Module {
 	@Override
 	public void setup() {
 		if(enabled)
-			for(Biome b : ForgeRegistries.BIOMES.getValues()) {
+			for(Biome b : ForgeRegistries.BIOMES.getValues()) { // TODO aaaaaaaaaaaaaa
+				ConfiguredFeature<NoFeatureConfig, BigDungeonStructure> configured = 
+						(ConfiguredFeature<NoFeatureConfig, BigDungeonStructure>) 
+						structure.configure(IFeatureConfig.NO_FEATURE_CONFIG).createDecoratedFeature(Placement.NOPE.configure(IPlacementConfig.NO_PLACEMENT_CONFIG));
+					
 				if(biomeTypes.canSpawn(b))
-					b.addFeature(Decoration.UNDERGROUND_STRUCTURES, Biome.createDecoratedFeature(structure, IFeatureConfig.NO_FEATURE_CONFIG, Placement.NOPE, IPlacementConfig.NO_PLACEMENT_CONFIG));	
-				b.addStructure(structure, NoFeatureConfig.NO_FEATURE_CONFIG);
+					b.addFeature(Decoration.UNDERGROUND_STRUCTURES, configured);	
+				b.addStructureFeature(configured);
 			}
 	}
 

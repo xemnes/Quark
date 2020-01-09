@@ -142,7 +142,7 @@ public class PassiveCreaturesModule extends Module {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void clientSetup() {
-		RenderingRegistry.registerEntityRenderingHandler(FrogEntity.class, FrogRenderer::new);
-		RenderingRegistry.registerEntityRenderingHandler(CrabEntity.class, CrabRenderer::new);
+		RenderingRegistry.registerEntityRenderingHandler(frogType, FrogRenderer::new);
+		RenderingRegistry.registerEntityRenderingHandler(crabType, CrabRenderer::new);
 	}
 }

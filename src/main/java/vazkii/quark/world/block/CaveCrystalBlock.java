@@ -1,5 +1,9 @@
 package vazkii.quark.world.block;
 
+import java.util.Random;
+
+import javax.annotation.Nullable;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
@@ -8,22 +12,17 @@ import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ToolType;
 import vazkii.quark.base.block.QuarkGlassBlock;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.world.module.underground.CaveCrystalUndergroundBiomeModule;
-
-import java.util.Random;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 /**
  * @author WireSegal
@@ -62,7 +61,7 @@ public class CaveCrystalBlock extends QuarkGlassBlock {
 	}
 
 	@Override
-	public void tick(BlockState state, World worldIn, BlockPos pos, Random random) {
+	public void scheduledTick(BlockState state, ServerWorld worldIn, BlockPos pos, Random random) {
 		if(canGrow(worldIn, pos) && random.nextInt(CaveCrystalUndergroundBiomeModule.caveCrystalGrowthChance) == 0)
 			worldIn.setBlockState(pos.up(), state);
 	}
@@ -89,8 +88,8 @@ public class CaveCrystalBlock extends QuarkGlassBlock {
 		return colorVector;
 	}
 
-	@Nonnull
-	public BlockRenderLayer getRenderLayer() {
-		return BlockRenderLayer.TRANSLUCENT;
-	}
+//	@Nonnull TODO
+//	public BlockRenderLayer getRenderLayer() {
+//		return BlockRenderLayer.TRANSLUCENT;
+//	}
 }

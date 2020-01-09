@@ -1,5 +1,11 @@
 package vazkii.quark.world.block;
 
+import java.util.Random;
+import java.util.function.BooleanSupplier;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -13,6 +19,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.IPlantable;
@@ -20,11 +27,6 @@ import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.base.block.IQuarkBlock;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.world.module.underground.GlowshroomUndergroundBiomeModule;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.Random;
-import java.util.function.BooleanSupplier;
 
 public class GlowshroomBlock extends MushroomBlock implements IQuarkBlock {
 
@@ -51,7 +53,7 @@ public class GlowshroomBlock extends MushroomBlock implements IQuarkBlock {
 	}
 	
 	@Override
-	public void tick(@Nonnull BlockState state, @Nonnull World worldIn, @Nonnull BlockPos pos, Random rand) {
+	public void scheduledTick(@Nonnull BlockState state, @Nonnull ServerWorld worldIn, @Nonnull BlockPos pos, Random rand) {
 		if(rand.nextInt(GlowshroomUndergroundBiomeModule.glowshroomGrowthRate) == 0) {
 			int i = 5;
 
@@ -98,7 +100,7 @@ public class GlowshroomBlock extends MushroomBlock implements IQuarkBlock {
 	}
 
 	@Override
-	public void grow(@Nonnull World worldIn, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull BlockState state) {
+	public void grow(@Nonnull ServerWorld worldIn, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull BlockState state) {
 		if(GlowshroomUndergroundBiomeModule.enableHugeGlowshrooms) {
 			worldIn.removeBlock(pos, false);
 			if(!HugeGlowshroomBlock.place(worldIn, rand, pos))

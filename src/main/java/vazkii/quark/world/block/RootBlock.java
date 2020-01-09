@@ -23,6 +23,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.base.block.IQuarkBlock;
 import vazkii.quark.base.handler.MiscUtil;
@@ -52,7 +53,7 @@ public class RootBlock extends VineBlock implements IQuarkBlock, IGrowable {
 	}
 	
 	@Override
-	public void tick(BlockState state, World worldIn, BlockPos pos, Random random) {
+	public void scheduledTick(BlockState state, ServerWorld worldIn, BlockPos pos, Random random) {
 		if(!worldIn.isRemote && worldIn.rand.nextInt(2) == 0)
 			grow(worldIn, random, pos, state);
 	}
@@ -143,8 +144,8 @@ public class RootBlock extends VineBlock implements IQuarkBlock, IGrowable {
 	}
 
 	@Override
-	public void grow(World world, Random rand, BlockPos pos, BlockState state) {
-//		growAndReturnLastPos(world, pos, state);
+	public void grow(ServerWorld world, Random rand, BlockPos pos, BlockState state) {
+		growAndReturnLastPos(world, pos, state);
 	}
 	
 }

@@ -10,16 +10,17 @@
  */
 package vazkii.quark.world.ai;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
-import net.minecraft.entity.player.PlayerEntity;
-import vazkii.quark.tweaks.base.MutableVectorHolder;
-import vazkii.quark.world.entity.StonelingEntity;
-
 import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
 import java.util.function.BooleanSupplier;
+
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.math.Vec3d;
+import vazkii.quark.tweaks.base.MutableVectorHolder;
+import vazkii.quark.world.entity.StonelingEntity;
 
 public class ActWaryGoal extends WaterAvoidingRandomWalkingGoal {
 
@@ -48,9 +49,10 @@ public class ActWaryGoal extends WaterAvoidingRandomWalkingGoal {
 	}
 
 	private static void updatePos(MutableVectorHolder holder, Entity entity) {
-		holder.x = entity.posX;
-		holder.y = entity.posY;
-		holder.z = entity.posZ;
+		Vec3d pos = entity.getPositionVec();
+		holder.x = pos.x;
+		holder.y = pos.y;
+		holder.z = pos.z;
 	}
 
 	private static MutableVectorHolder initPos(PlayerEntity p) {
@@ -103,9 +105,11 @@ public class ActWaryGoal extends WaterAvoidingRandomWalkingGoal {
 				if (scaredBySuddenMovement.getAsBoolean()) {
 					MutableVectorHolder lastSpeed = lastSpeeds.computeIfAbsent(player, p -> new MutableVectorHolder());
 					MutableVectorHolder lastPos = lastPositions.computeIfAbsent(player, ActWaryGoal::initPos);
-					double dX = player.posX - lastPos.x;
-					double dY = player.posY - lastPos.y;
-					double dZ = player.posZ - lastPos.z;
+					Vec3d pos = player.getPositionVec();
+
+					double dX = pos.x - lastPos.x;
+					double dY = pos.y - lastPos.y;
+					double dZ = pos.z - lastPos.z;
 
 					double xDisplacement = dX - lastSpeed.x;
 					double yDisplacement = dY - lastSpeed.y;

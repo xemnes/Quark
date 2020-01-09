@@ -10,8 +10,14 @@
  */
 package vazkii.quark.vanity.module;
 
+import java.util.List;
+
+import org.lwjgl.opengl.GL11;
+
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+
 import net.minecraft.block.Blocks;
 import net.minecraft.client.GameSettings;
 import net.minecraft.client.Minecraft;
@@ -36,7 +42,11 @@ import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.network.play.ServerPlayNetHandler;
 import net.minecraft.server.management.PlayerList;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.*;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.util.text.event.HoverEvent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -47,12 +57,13 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import org.lwjgl.opengl.GL11;
-import vazkii.quark.base.module.*;
+import vazkii.quark.base.module.Config;
+import vazkii.quark.base.module.LoadModule;
+import vazkii.quark.base.module.Module;
+import vazkii.quark.base.module.ModuleCategory;
+import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.base.network.QuarkNetwork;
 import vazkii.quark.base.network.message.LinkItemMessage;
-
-import java.util.List;
 
 @LoadModule(category = ModuleCategory.VANITY, hasSubscriptions = true, subscribeOn = Dist.CLIENT)
 public class ItemSharingModule extends Module {
@@ -65,7 +76,7 @@ public class ItemSharingModule extends Module {
 	public void keyboardEvent(GuiScreenEvent.KeyboardKeyPressedEvent.Pre event) {
 		Minecraft mc = Minecraft.getInstance();
 		GameSettings settings = mc.gameSettings;
-		if(InputMappings.isKeyDown(mc.mainWindow.getHandle(), settings.keyBindChat.getKey().getKeyCode()) &&
+		if(InputMappings.isKeyDown(mc.getWindow().getHandle(), settings.keyBindChat.getKey().getKeyCode()) &&
 				event.getGui() instanceof ContainerScreen && Screen.hasShiftDown()) {
 			ContainerScreen gui = (ContainerScreen) event.getGui();
 
@@ -200,7 +211,7 @@ public class ItemSharingModule extends Module {
 				int y = chatY - mc.fontRenderer.FONT_HEIGHT * lineHeight;
 
 				if (alpha > 0) {
-					RenderHelper.enableGUIStandardItemLighting();
+					RenderHelper.enable();
 					alphaValue = ((int) (alpha * 255) << 24);
 
 					renderItemIntoGUI(mc, mc.getItemRenderer(), stack, x, y);
@@ -230,24 +241,24 @@ public class ItemSharingModule extends Module {
 	private static void renderItemModelIntoGUI(Minecraft mc, ItemRenderer render, ItemStack stack, int x, int y, IBakedModel model) {
 		TextureManager textureManager = mc.getTextureManager();
 
-		GlStateManager.pushMatrix();
+		RenderSystem.pushMatrix();
 		textureManager.bindTexture(AtlasTexture.LOCATION_BLOCKS_TEXTURE);
-		textureManager.getTexture(AtlasTexture.LOCATION_BLOCKS_TEXTURE).setBlurMipmap(false, false);
-		GlStateManager.enableRescaleNormal();
-		GlStateManager.enableAlphaTest();
-		GlStateManager.alphaFunc(GL11.GL_GREATER, 0.1F);
-		GlStateManager.enableBlend();
-		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-		GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-		GlStateManager.translatef(-4, -4, -4);
-		render.setupGuiTransform(x, y, model.isGui3d());
-		GlStateManager.scalef(0.65f, 0.65f, 0.65f);
-		model = ForgeHooksClient.handleCameraTransforms(model, TransformType.GUI, false);
-		render.renderItem(stack, model);
-		GlStateManager.disableAlphaTest();
-		GlStateManager.disableRescaleNormal();
-		GlStateManager.disableLighting();
-		GlStateManager.popMatrix();
+		textureManager.getTexture(AtlasTexture.LOCATION_BLOCKS_TEXTURE).setBlurMipmapDirect(false, false);
+		RenderSystem.enableRescaleNormal();
+		RenderSystem.enableAlphaTest();
+		RenderSystem.alphaFunc(GL11.GL_GREATER, 0.1F);
+		RenderSystem.enableBlend();
+		RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+		RenderSystem.translatef(-4, -4, -4);
+//		render.setupGuiTransform(x, y, model.isGui3d()); TODO
+//		RenderSystem.scalef(0.65f, 0.65f, 0.65f);
+//		model = ForgeHooksClient.handleCameraTransforms(model, TransformType.GUI, false);
+//		render.renderItem(stack, model);
+		RenderSystem.disableAlphaTest();
+		RenderSystem.disableRescaleNormal();
+		RenderSystem.disableLighting();
+		RenderSystem.popMatrix();
 		textureManager.bindTexture(AtlasTexture.LOCATION_BLOCKS_TEXTURE);
 		textureManager.getTexture(AtlasTexture.LOCATION_BLOCKS_TEXTURE).restoreLastBlurMipmap();
 	}

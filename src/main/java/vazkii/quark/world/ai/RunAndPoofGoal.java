@@ -10,6 +10,10 @@
  */
 package vazkii.quark.world.ai;
 
+import java.util.EnumSet;
+import java.util.List;
+import java.util.function.Predicate;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.RandomPositionGenerator;
 import net.minecraft.entity.ai.goal.Goal;
@@ -26,10 +30,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import vazkii.quark.base.handler.QuarkSounds;
 import vazkii.quark.world.entity.StonelingEntity;
-
-import java.util.EnumSet;
-import java.util.List;
-import java.util.function.Predicate;
 
 public class RunAndPoofGoal<T extends Entity> extends Goal {
 
@@ -78,7 +78,7 @@ public class RunAndPoofGoal<T extends Entity> extends Goal {
 				return false;
 			else {
 				if (target != null)
-					this.path = this.navigation.func_225466_a(target.x, target.y, target.z, 0); // pathToXYZ
+					this.path = this.navigation.findPathTo(target.x, target.y, target.z, 0); // TODO is this rigth?
 				return target == null || this.path != null;
 			}
 		}
@@ -90,12 +90,13 @@ public class RunAndPoofGoal<T extends Entity> extends Goal {
 			return false;
 		}
 
-		BlockPos.PooledMutableBlockPos pos = BlockPos.PooledMutableBlockPos.retain();
-
+		BlockPos.PooledMutable pos = BlockPos.PooledMutable.retain();
+		Vec3d epos = entity.getPositionVec();
+		
 		for (int i = 0; i < 8; ++i) {
-			int j = MathHelper.floor(entity.posY + (i % 2 - 0.5F) * 0.1F + entity.getEyeHeight());
-			int k = MathHelper.floor(entity.posX + ((i >> 1) % 2 - 0.5F) * entity.getWidth() * 0.8F);
-			int l = MathHelper.floor(entity.posZ + ((i >> 2) % 2 - 0.5F) * entity.getWidth() * 0.8F);
+			int j = MathHelper.floor(epos.x + (i % 2 - 0.5F) * 0.1F + entity.getEyeHeight());
+			int k = MathHelper.floor(epos.y + ((i >> 1) % 2 - 0.5F) * entity.getWidth() * 0.8F);
+			int l = MathHelper.floor(epos.z + ((i >> 2) % 2 - 0.5F) * entity.getWidth() * 0.8F);
 
 			if (pos.getX() != k || pos.getY() != j || pos.getZ() != l) {
 				pos.setPos(k, j, l);
@@ -113,9 +114,11 @@ public class RunAndPoofGoal<T extends Entity> extends Goal {
 
 	@Override
 	public void startExecuting() {
+		Vec3d epos = entity.getPositionVec();
+
 		if (this.path != null)
 			this.navigation.setPath(this.path, this.farSpeed);
-		entity.world.playSound(null, entity.posX, entity.posY, entity.posZ, QuarkSounds.ENTITY_STONELING_MEEP, SoundCategory.NEUTRAL, 1.0F, 1.0F);
+		entity.world.playSound(null, epos.x, epos.y, epos.z, QuarkSounds.ENTITY_STONELING_MEEP, SoundCategory.NEUTRAL, 1.0F, 1.0F);
 	}
 
 	@Override
@@ -126,8 +129,10 @@ public class RunAndPoofGoal<T extends Entity> extends Goal {
 
 		if (world instanceof ServerWorld) {
 			ServerWorld ws = (ServerWorld) world;
-			ws.spawnParticle(ParticleTypes.CLOUD, entity.posX, entity.posY, entity.posZ, 40, 0.5, 0.5, 0.5, 0.1);
-			ws.spawnParticle(ParticleTypes.EXPLOSION, entity.posX, entity.posY, entity.posZ, 20, 0.5, 0.5, 0.5, 0);
+			Vec3d epos = entity.getPositionVec();
+
+			ws.spawnParticle(ParticleTypes.CLOUD, epos.x, epos.y, epos.z, 40, 0.5, 0.5, 0.5, 0.1);
+			ws.spawnParticle(ParticleTypes.EXPLOSION, epos.x, epos.y, epos.z, 20, 0.5, 0.5, 0.5, 0);
 		}
 		for (Entity passenger : entity.getRecursivePassengers())
 			if (!(passenger instanceof PlayerEntity))

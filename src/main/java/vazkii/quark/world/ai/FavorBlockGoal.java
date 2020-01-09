@@ -87,11 +87,12 @@ public class FavorBlockGoal extends Goal {
 
 	private boolean searchForDestination() {
 		double followRange = creature.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).getValue();
-		double xBase = creature.posX;
-		double yBase = creature.posY;
-		double zBase = creature.posZ;
+		Vec3d cpos = creature.getPositionVec();
+		double xBase = cpos.x;
+		double yBase = cpos.y;
+		double zBase = cpos.z;
 
-		BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
+		BlockPos.Mutable pos = new BlockPos.Mutable();
 
 		for (int yShift = 0;
 			 yShift <= 1;

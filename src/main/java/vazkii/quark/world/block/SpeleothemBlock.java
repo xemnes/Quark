@@ -88,10 +88,10 @@ public class SpeleothemBlock extends QuarkBlock implements IWaterLoggable {
 		return 0;
 	}
 	
-	@Override
-	public boolean isSolid(BlockState state) {
-		return false;
-	}
+//	@Override TODO
+//	public boolean isSolid(BlockState state) {
+//		return false;
+//	}
 	
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
