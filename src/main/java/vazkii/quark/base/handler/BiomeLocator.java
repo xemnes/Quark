@@ -13,23 +13,25 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldType;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.provider.BiomeProvider;
+import net.minecraft.world.biome.BiomeManager;
 import net.minecraft.world.chunk.AbstractChunkProvider;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationSettings;
 import net.minecraft.world.gen.OverworldGenSettings;
 import net.minecraft.world.gen.layer.LayerUtil;
+import net.minecraft.world.server.ServerChunkProvider;
 
 public class BiomeLocator {
 
 	public static BlockPos spiralOutwardsLookingForBiome(World world, Biome biomeToFind, double startX, double startZ) {
 		AbstractChunkProvider provider = world.getChunkProvider();
-		if(provider != null) {
-			ChunkGenerator<?> generator = provider.getChunkGenerator();
-			if(generator != null) {
-				int sampleSpacing = 4 << getBiomeSize(world, generator);
+		if(provider != null && provider instanceof ServerChunkProvider) {
+			ServerChunkProvider sprovider = (ServerChunkProvider) provider;
+			BiomeManager manager = world.getBiomeAccess();
+			if(manager != null) {
+				int sampleSpacing = 4 << getBiomeSize(world, sprovider.generator);
 				int maxDist = sampleSpacing * 100;
-				return spiralOutwardsLookingForBiome(world, generator, biomeToFind, startX, startZ, maxDist, sampleSpacing);
+				return spiralOutwardsLookingForBiome(world, manager, biomeToFind, startX, startZ, maxDist, sampleSpacing);
 			}
 		}
 		
@@ -38,11 +40,10 @@ public class BiomeLocator {
 
 	// sample points in an archimedean spiral starting from startX,startY each one sampleSpace apart
 	// stop when the specified biome is found (and return the position it was found at) or when we reach maxDistance (and return null)
-	public static BlockPos spiralOutwardsLookingForBiome(World world, ChunkGenerator<?> generator, Biome biomeToFind, double startX, double startZ, int maxDist, int sampleSpace) {
+	public static BlockPos spiralOutwardsLookingForBiome(World world, BiomeManager manager, Biome biomeToFind, double startX, double startZ, int maxDist, int sampleSpace) {
 		if(maxDist <= 0 || sampleSpace <= 0) 
 			throw new IllegalArgumentException("maxDist and sampleSpace must be positive");
 
-		BiomeProvider chunkManager = generator.getBiomeProvider();
 		double a = sampleSpace / Math.sqrt(Math.PI);
 		double b = 2 * Math.sqrt(Math.PI);
 		double x = 0;
@@ -58,9 +59,9 @@ public class BiomeLocator {
 			// chunkManager.genBiomes is the first layer returned from initializeAllBiomeGenerators()
 			// chunkManager.biomeIndexLayer is the second layer returned from initializeAllBiomeGenerators(), it's zoomed twice from genBiomes (>> 2) this one is actual size
 			// chunkManager.getBiomeGenAt uses biomeIndexLayer to get the biome
-			Biome[] biomesAtSample = chunkManager.getBiomes((int)x, (int)z, 1, 1, false);
-			if(biomesAtSample[0] == biomeToFind)
-				return new BlockPos((int)x, 0, (int)z);
+			BlockPos pos = new BlockPos(x, world.getSeaLevel(), z);
+			if(manager.getBiome(pos) == biomeToFind)
+				return pos;
 		}
 
 		return null;

@@ -10,17 +10,18 @@
  */
 package vazkii.quark.vanity.client.emote;
 
+import java.lang.ref.WeakReference;
+import java.util.List;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ITickableSound;
 import net.minecraft.client.audio.LocatableSound;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-
-import java.lang.ref.WeakReference;
-import java.util.List;
 
 @OnlyIn(Dist.CLIENT)
 public class EmoteSound extends LocatableSound implements ITickableSound {
@@ -77,9 +78,10 @@ public class EmoteSound extends LocatableSound implements ITickableSound {
 			if (emote == null || emote.desc.template != template)
 				donePlaying = true;
 			else {
-				x = (float) player.posX;
-				y = (float) player.posY;
-				z = (float) player.posZ;
+				Vec3d pos = player.getPositionVec();
+				x = (float) pos.x;
+				y = (float) pos.y;
+				z = (float) pos.z;
 			}
 		}
 	}

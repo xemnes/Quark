@@ -26,7 +26,6 @@ public class ChestPassengerRenderer extends EntityRenderer<ChestPassengerEntity>
 
     @Override
     public void doRender(@Nonnull ChestPassengerEntity entity, double x, double y, double z, float entityYaw, float partialTicks) {
-
         if(!entity.isPassenger())
             return;
 

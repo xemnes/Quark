@@ -1,5 +1,12 @@
 package vazkii.quark.base.util;
 
+import java.util.List;
+import java.util.Random;
+import java.util.function.Predicate;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
@@ -12,38 +19,52 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.*;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.ITickList;
+import net.minecraft.world.IWorld;
+import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.BiomeManager;
 import net.minecraft.world.border.WorldBorder;
 import net.minecraft.world.chunk.AbstractChunkProvider;
 import net.minecraft.world.chunk.ChunkStatus;
 import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.dimension.Dimension;
 import net.minecraft.world.gen.Heightmap;
+import net.minecraft.world.lighting.WorldLightManager;
 import net.minecraft.world.storage.WorldInfo;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.List;
-import java.util.Random;
-import java.util.function.Predicate;
 
 public class DarkWorld implements IWorld {
     private final IWorld parent;
     private final AbstractChunkProvider provider;
+    private final WorldLightManager light;
 
     public DarkWorld(IWorld parent) {
         this.parent = parent;
         provider = new DarkChunkProvider(parent.getChunkProvider());
+        light = new DarkLightManager(parent.getChunkProvider());
     }
 
-    @Override
-    public int getLightFor(@Nonnull LightType type, @Nonnull BlockPos pos) {
-        if (type == LightType.SKY)
-            return 0;
-        return parent.getLightFor(type, pos);
-    }
+	@Override
+	public BiomeManager getBiomeAccess() {
+		return parent.getBiomeAccess();
+	}
 
+	@Override
+	public Biome getGeneratorStoredBiome(int p_225604_1_, int p_225604_2_, int p_225604_3_) {
+		return parent.getGeneratorStoredBiome(p_225604_1_, p_225604_2_, p_225604_3_);
+	}
+
+	@Override
+	public WorldLightManager getLightingProvider() {
+		return light;
+	}
+
+	@Override
+	public boolean breakBlock(BlockPos arg0, boolean arg1, Entity arg2) {
+		return false;
+	}
+    
     @Override
     public long getSeed() {
         return parent.getSeed();
@@ -153,23 +174,6 @@ public class DarkWorld implements IWorld {
         return parent.getPlayers();
     }
 
-    @Override
-    public int getLightSubtracted(@Nonnull BlockPos pos, int amount) {
-        if (pos.getX() >= -30000000 && pos.getZ() >= -30000000 && pos.getX() < 30000000 && pos.getZ() < 30000000) {
-            if (pos.getY() < 0) {
-                return 0;
-            } else {
-                if (pos.getY() >= 256) {
-                    pos = new BlockPos(pos.getX(), 255, pos.getZ());
-                }
-
-                return Math.max(getLightFor(LightType.BLOCK, pos) - amount, 0);
-            }
-        } else {
-            return 0;
-        }
-    }
-
     @Nullable
     @Override
     public IChunk getChunk(int x, int z, @Nonnull ChunkStatus requiredStatus, boolean nonnull) {
@@ -239,4 +243,18 @@ public class DarkWorld implements IWorld {
     public boolean hasBlockState(@Nonnull BlockPos pos, @Nonnull Predicate<BlockState> predicate) {
         return parent.hasBlockState(pos, predicate);
     }
+
+    private static class DarkLightManager extends WorldLightManager {
+
+		public DarkLightManager(AbstractChunkProvider parent) {
+			super(new DarkChunkProvider(parent), false, false);
+		}
+		
+		@Override
+		public int getLight(BlockPos p_227470_1_, int p_227470_2_) {
+			return 0; // TODO is this right?
+		}
+    	
+    }
+
 }

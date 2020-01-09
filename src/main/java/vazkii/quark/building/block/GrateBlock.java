@@ -23,13 +23,11 @@ import net.minecraft.pathfinding.PathType;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IEnviromentBlockReader;
 import vazkii.quark.base.block.QuarkBlock;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.building.module.GrateModule;
@@ -88,7 +86,7 @@ public class GrateBlock extends QuarkBlock implements IWaterLoggable {
 			GrateModule.RENDER_SHAPE.remove();
 			return SELECTION_SHAPE;
 		}
-		return context.isSneaking() ? TRUE_SHAPE : SELECTION_SHAPE;
+		return context.getEntity().isSneaking() ? TRUE_SHAPE : SELECTION_SHAPE;
 	}
 
 	@Nonnull
@@ -151,27 +149,27 @@ public class GrateBlock extends QuarkBlock implements IWaterLoggable {
 		return false;
 	}
 
-	@Override
-	public boolean doesSideBlockRendering(BlockState state, IEnviromentBlockReader world, BlockPos pos, Direction side) {
-		if (side.getAxis() == Direction.Axis.Y)
-			return super.doesSideBlockRendering(state, world, pos, side);
-
-		BlockState stateAt = world.getBlockState(pos.offset(side));
-		Block block = stateAt.getBlock();
-
-		return block != this && super.doesSideBlockRendering(stateAt, world, pos, side);
-	}
+//	@Override TODO
+//	public boolean doesSideBlockRendering(BlockState state, IEnviromentBlockReader world, BlockPos pos, Direction side) {
+//		if (side.getAxis() == Direction.Axis.Y)
+//			return super.doesSideBlockRendering(state, world, pos, side);
+//
+//		BlockState stateAt = world.getBlockState(pos.offset(side));
+//		Block block = stateAt.getBlock();
+//
+//		return block != this && super.doesSideBlockRendering(stateAt, world, pos, side);
+//	}
 
 	@Override
 	public boolean propagatesSkylightDown(BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos) {
 		return !state.get(WATERLOGGED);
 	}
 
-	@Override
-	@SuppressWarnings("deprecation")
-	public boolean causesSuffocation(@Nonnull BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos) {
-		return false;
-	}
+//	@Override TODO
+//	@SuppressWarnings("deprecation")
+//	public boolean causesSuffocation(@Nonnull BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos) {
+//		return false;
+//	}
 
 	@Override
 	@SuppressWarnings("deprecation")

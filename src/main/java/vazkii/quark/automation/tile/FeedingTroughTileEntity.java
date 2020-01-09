@@ -143,9 +143,10 @@ public class FeedingTroughTileEntity extends LockableLootTileEntity implements I
             direction = direction.rotateYaw(-entity.rotationYaw * ((float)Math.PI / 180F));
             double yVelocity = (-entity.world.rand.nextFloat()) * 0.6D - 0.3D;
             Vec3d position = new Vec3d((entity.world.rand.nextFloat() - 0.5D) * 0.3D, yVelocity, 0.6D);
+            Vec3d entityPos = entity.getPositionVec();
             position = position.rotatePitch(-entity.rotationPitch * ((float)Math.PI / 180F));
             position = position.rotateYaw(-entity.rotationYaw * ((float)Math.PI / 180F));
-            position = position.add(entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ);
+            position = position.add(entityPos.x, entityPos.y + entity.getEyeHeight(), entityPos.z);
             if (this.world instanceof ServerWorld)
                 ((ServerWorld)this.world).spawnParticle(new ItemParticleData(ParticleTypes.ITEM, stack), position.x, position.y, position.z, 1, direction.x, direction.y + 0.05D, direction.z, 0.0D);
             else if (this.world != null)

@@ -21,6 +21,7 @@ import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
@@ -47,8 +48,9 @@ public class SlimeInABucketItem extends QuarkItem {
 	@Override
 	public void inventoryTick(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected) {
 		if(!world.isRemote) {
-			int x = MathHelper.floor(entity.posX);
-			int z = MathHelper.floor(entity.posZ);
+			Vec3d pos = entity.getPositionVec();
+			int x = MathHelper.floor(pos.x);
+			int z = MathHelper.floor(pos.x);
 			boolean slime = isSlimeChunk(world, x, z);
 			boolean excited = ItemNBTHelper.getBoolean(stack, TAG_EXCITED, false);
 			if(excited != slime)

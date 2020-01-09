@@ -43,12 +43,6 @@ public class DarkChunkProvider extends AbstractChunkProvider {
 
     @Nonnull
     @Override
-    public ChunkGenerator<?> getChunkGenerator() {
-        return parent.getChunkGenerator();
-    }
-
-    @Nonnull
-    @Override
     public WorldLightManager getLightManager() {
         return manager;
     }

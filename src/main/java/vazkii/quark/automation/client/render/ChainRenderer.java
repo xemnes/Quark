@@ -22,6 +22,7 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.minecart.AbstractMinecartEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.lwjgl.opengl.GL11;
@@ -47,15 +48,15 @@ public class ChainRenderer {
 			}
 
 			float amount = seg / 24.0F;
-			buf.pos(x + offsetX * amount - centroid, y + offsetY * (amount * amount + amount) * 0.5D + ((24.0F - seg) / 18.0F + 0.125F) * height + xOff / 2 - zOff / 2, z + offsetZ * amount - xOff / 2).color(r, g, b, 1.0F).endVertex();
-			buf.pos(x + offsetX * amount + centroid, y + offsetY * (amount * amount + amount) * 0.5D + ((24.0F - seg) / 18.0F + 0.125F) * height + zOff / 2 - xOff / 2, z + offsetZ * amount + xOff / 2).color(r, g, b, 1.0F).endVertex();
+			buf.vertex(x + offsetX * amount - centroid, y + offsetY * (amount * amount + amount) * 0.5D + ((24.0F - seg) / 18.0F + 0.125F) * height + xOff / 2 - zOff / 2, z + offsetZ * amount - xOff / 2).color(r, g, b, 1.0F).endVertex();
+			buf.vertex(x + offsetX * amount + centroid, y + offsetY * (amount * amount + amount) * 0.5D + ((24.0F - seg) / 18.0F + 0.125F) * height + zOff / 2 - xOff / 2, z + offsetZ * amount + xOff / 2).color(r, g, b, 1.0F).endVertex();
 		}
 
 		Tessellator.getInstance().draw();
 	}
 
 	public static void renderChain(EntityRenderer render, double x, double y, double z, Entity entity, float partTicks) {
-		if (ChainHandler.canBeLinked(entity) && !render.renderOutlines) {
+		if (ChainHandler.canBeLinked(entity)/* && !render.renderOutlines*/) { // TODO does this break anything?
 			renderChain(entity, x, y, z, partTicks);
 		}
 	}
@@ -101,10 +102,13 @@ public class ChainRenderer {
 
 			double height = player ? entity.getEyeHeight() * 0.7 : 0;
 
+			Vec3d entityPos = entity.getPositionVec();
+			Vec3d cartPos = cart.getPositionVec();
+			
 			double pitchMod = Math.cos(pitch);
-			double xLocus = interp(prevX(entity), entity.posX, partialTicks);
-			double yLocus = interp(prevY(entity), entity.posY, partialTicks) + height;
-			double zLocus = interp(prevZ(entity), entity.posZ, partialTicks);
+			double xLocus = interp(prevX(entity), entityPos.x, partialTicks);
+			double yLocus = interp(prevY(entity), entityPos.y, partialTicks) + height;
+			double zLocus = interp(prevZ(entity), entityPos.z, partialTicks);
 
 			if (player) {
 				xLocus += -rotX * 0.7D - rotZ * 0.5D * pitchMod;
@@ -115,9 +119,9 @@ public class ChainRenderer {
 				yLocus += 2;
 			}
 
-			double targetX = interp(prevX(cart), cart.posX, partialTicks);
-			double targetY = interp(prevY(cart), cart.posY, partialTicks);
-			double targetZ = interp(prevZ(cart), cart.posZ, partialTicks);
+			double targetX = interp(prevX(cart), entityPos.x, partialTicks);
+			double targetY = interp(prevY(cart), entityPos.y, partialTicks);
+			double targetZ = interp(prevZ(cart), entityPos.z, partialTicks);
 			if (player) {
 				xLocus -= rotX;
 				zLocus -= rotZ;

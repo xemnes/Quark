@@ -5,6 +5,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvents;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.AnimalTameEvent;
@@ -49,7 +50,8 @@ public class PatTheDogsModule extends Module {
             if(player.isSneaking() && player.getHeldItemMainhand().isEmpty()) {
                 if(event.getHand() == Hand.MAIN_HAND && WantLoveGoal.canPet(wolf)) {
                     if(player.world instanceof ServerWorld) {
-                        ((ServerWorld) player.world).spawnParticle(ParticleTypes.HEART, wolf.posX, wolf.posY + 0.5, wolf.posZ, 1, 0, 0, 0, 0.1);
+                    	Vec3d pos = wolf.getPositionVec();
+                        ((ServerWorld) player.world).spawnParticle(ParticleTypes.HEART, pos.x, pos.y + 0.5, pos.z, 1, 0, 0, 0, 0.1);
                         wolf.playSound(SoundEvents.ENTITY_WOLF_WHINE, 1F, 0.5F + (float) Math.random() * 0.5F);
                     } else player.swingArm(Hand.MAIN_HAND);
 

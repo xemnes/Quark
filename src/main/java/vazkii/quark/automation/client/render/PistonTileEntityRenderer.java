@@ -1,6 +1,9 @@
 package vazkii.quark.automation.client.render;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import java.util.Objects;
+
+import com.mojang.blaze3d.systems.RenderSystem;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -13,8 +16,6 @@ import net.minecraft.util.math.BlockPos;
 import vazkii.quark.automation.module.PistonsMoveTileEntitiesModule;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.module.ModuleLoader;
-
-import java.util.Objects;
 
 public class PistonTileEntityRenderer {
 
@@ -33,19 +34,19 @@ public class PistonTileEntityRenderer {
 			if(tile == null || PistonsMoveTileEntitiesModule.renderBlacklist.contains(id))
 				return false;
 
-			GlStateManager.pushMatrix();
-			tile.setWorld(piston.getWorld());
+			RenderSystem.pushMatrix();
+			tile.setWorld(piston.getWorld(), piston.getPos());
 			tile.validate();
 
-			GlStateManager.translated(x + piston.getOffsetX(pTicks), y + piston.getOffsetY(pTicks), z + piston.getOffsetZ(pTicks));
+			RenderSystem.translated(x + piston.getOffsetX(pTicks), y + piston.getOffsetY(pTicks), z + piston.getOffsetZ(pTicks));
 
-			RenderHelper.enableStandardItemLighting();
+			RenderHelper.enable();
 			tile.cachedBlockState = state;
 			TileEntityRenderer<TileEntity> tileentityrenderer = TileEntityRendererDispatcher.instance.getRenderer(tile);
-			if (tileentityrenderer != null)
-				tileentityrenderer.render(tile, 0, 0, 0, pTicks, -1);
+//			if (tileentityrenderer != null) TODO update with new things
+//				tileentityrenderer.render(tile, 0, 0, 0, pTicks, -1);
 			RenderHelper.disableStandardItemLighting();
-			GlStateManager.popMatrix();
+			RenderSystem.popMatrix();
 
 		} catch(Throwable e) {
 			Quark.LOG.warn(id + " can't be rendered for piston TE moving", e);

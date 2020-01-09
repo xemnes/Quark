@@ -1,12 +1,23 @@
 package vazkii.quark.tools.entity;
 
+import java.util.List;
+import java.util.UUID;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.google.common.collect.Multimap;
+
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
-import net.minecraft.entity.*;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.IProjectile;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeMap;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
@@ -27,21 +38,21 @@ import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.Hand;
 import net.minecraft.util.IndirectEntityDamageSource;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.*;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.EntityRayTraceResult;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceContext;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.RayTraceResult.Type;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.fml.network.NetworkHooks;
 import vazkii.quark.base.handler.QuarkSounds;
 import vazkii.quark.tools.module.PickarangModule;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.List;
-import java.util.UUID;
 
 public class PickarangEntity extends Entity implements IProjectile {
 
@@ -69,7 +80,8 @@ public class PickarangEntity extends Entity implements IProjectile {
 
 	public PickarangEntity(World worldIn, LivingEntity throwerIn) {
 		super(PickarangModule.pickarangType, worldIn);
-		this.setPosition(throwerIn.posX, throwerIn.posY + throwerIn.getEyeHeight(), throwerIn.posZ);
+		Vec3d pos = throwerIn.getPositionVec();
+		this.setPosition(pos.x, pos.y + throwerIn.getEyeHeight(), pos.z);
 		ownerId = throwerIn.getUniqueID();
 	}
 
@@ -97,7 +109,7 @@ public class PickarangEntity extends Entity implements IProjectile {
 	public void shoot(double x, double y, double z, float velocity, float inaccuracy) {
 		Vec3d vec3d = (new Vec3d(x, y, z)).normalize().add(this.rand.nextGaussian() * 0.0075F * inaccuracy, this.rand.nextGaussian() * 0.0075F * inaccuracy, this.rand.nextGaussian() * 0.0075F * inaccuracy).scale(velocity);
 		this.setMotion(vec3d);
-		float f = MathHelper.sqrt(func_213296_b(vec3d));
+		float f = MathHelper.sqrt(horizontalMag(vec3d));
 		this.rotationYaw = (float)(MathHelper.atan2(vec3d.x, vec3d.z) * (180F / (float)Math.PI));
 		this.rotationPitch = (float)(MathHelper.atan2(vec3d.y, f) * (180F / (float)Math.PI));
 		this.prevRotationYaw = this.rotationYaw;
@@ -134,7 +146,7 @@ public class PickarangEntity extends Entity implements IProjectile {
 			return;
 		
 		Vec3d motion = getMotion();
-		Vec3d position = new Vec3d(posX, posY, posZ);
+		Vec3d position = getPositionVector();
 		Vec3d rayEnd = position.add(motion);
 		
 		boolean doEntities = true;
@@ -162,7 +174,7 @@ public class PickarangEntity extends Entity implements IProjectile {
 
 	@Nullable
 	protected EntityRayTraceResult raycastEntities(Vec3d from, Vec3d to) {
-		return ProjectileHelper.func_221271_a(world, this, from, to, getBoundingBox().expand(getMotion()).grow(1.0D), (entity) -> 
+		return ProjectileHelper.rayTraceEntities(world, this, from, to, getBoundingBox().expand(getMotion()).grow(1.0D), (entity) -> 
 		!entity.isSpectator() 
 		&& entity.isAlive() 
 		&& (entity.canBeCollidedWith() || entity instanceof PickarangEntity) 
@@ -298,9 +310,11 @@ public class PickarangEntity extends Entity implements IProjectile {
 
 	@Override
 	public void tick() {
-		this.lastTickPosX = this.posX;
-		this.lastTickPosY = this.posY;
-		this.lastTickPosZ = this.posZ;
+		Vec3d pos = getPositionVec();
+		
+		this.lastTickPosX = pos.x;
+		this.lastTickPosY = pos.y;
+		this.lastTickPosZ = pos.z;
 		super.tick();
 
 		if(!dataManager.get(RETURNING))
@@ -308,10 +322,8 @@ public class PickarangEntity extends Entity implements IProjectile {
 
 		Vec3d  vec3d = this.getMotion();
 
-		this.posX += vec3d.x;
-		this.posY += vec3d.y;
-		this.posZ += vec3d.z;
-		float f = MathHelper.sqrt(func_213296_b(vec3d));
+		setPos(pos.x + vec3d.x, pos.y + vec3d.y, pos.z + vec3d.z);
+		float f = MathHelper.sqrt(horizontalMag(vec3d));
 		this.rotationYaw = (float)(MathHelper.atan2(vec3d.x, vec3d.z) * (180F / (float)Math.PI));
 
 		this.rotationPitch = (float)(MathHelper.atan2(vec3d.y, f) * (180F / (float)Math.PI));
@@ -328,7 +340,7 @@ public class PickarangEntity extends Entity implements IProjectile {
 		float drag;
 		if (this.isInWater()) {
 			for(int i = 0; i < 4; ++i) {
-				this.world.addParticle(ParticleTypes.BUBBLE, this.posX - vec3d.x * 0.25D, this.posY - vec3d.y * 0.25D, this.posZ - vec3d.z * 0.25D, vec3d.x, vec3d.y, vec3d.z);
+				this.world.addParticle(ParticleTypes.BUBBLE, pos.x - vec3d.x * 0.25D, pos.y - vec3d.y * 0.25D, pos.z - vec3d.z * 0.25D, vec3d.x, vec3d.y, vec3d.z);
 			}
 
 			drag = 0.8F;
@@ -336,7 +348,7 @@ public class PickarangEntity extends Entity implements IProjectile {
 
 		this.setMotion(vec3d.scale(drag));
 
-		this.setPosition(this.posX, this.posY, this.posZ);
+		this.setPosition(pos.x, pos.y, pos.z);
 
 		if(!isAlive())
 			return;

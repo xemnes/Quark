@@ -28,11 +28,11 @@ public class QuarkGlassBlock extends QuarkBlock {
     public boolean isSideInvisible(BlockState state, BlockState adjacent, Direction side) {
         return adjacent.getBlock() == this || super.isSideInvisible(state, adjacent, side);
     }
+    
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    @SuppressWarnings("deprecation")
-    public float func_220080_a(BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos) {
+    public float getAmbientOcclusionLightValue(BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos) {
         return 1.0F; // Ambient Occlusion
     }
 
@@ -40,12 +40,13 @@ public class QuarkGlassBlock extends QuarkBlock {
     public boolean propagatesSkylightDown(BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos) {
         return true;
     }
-
-    @Override
-    @SuppressWarnings("deprecation")
-    public boolean causesSuffocation(@Nonnull BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos) {
-        return false;
-    }
+    
+// TODO check later
+//    @Override
+//    @SuppressWarnings("deprecation")
+//    public boolean causesSuffocation(@Nonnull BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos) {
+//        return false;
+//    }
 
     @Override
     @SuppressWarnings("deprecation")

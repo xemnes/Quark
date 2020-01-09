@@ -1,5 +1,6 @@
 package vazkii.quark.management.entity;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -14,6 +15,7 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 import vazkii.quark.management.module.ChestsInBoatsModule;
@@ -60,9 +62,9 @@ public class ChestPassengerEntity extends Entity implements IInventory {
 			rotationYaw = riding.prevRotationYaw;
 		}
 	}
-
+	
 	@Override
-	protected boolean canTriggerWalking() {
+	public boolean canTrample(BlockState state, BlockPos pos, float fallDistance) {
 		return false;
 	}
 

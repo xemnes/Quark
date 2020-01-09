@@ -52,7 +52,7 @@ public class CustomEmoteIconResourcePack extends ResourcePack {
 
 	@Nonnull
 	@Override
-	public Collection<ResourceLocation> getAllResourceLocations(@Nonnull ResourcePackType type, @Nonnull String pathIn, int maxDepth, @Nonnull Predicate<String> filter) {
+	public Collection<ResourceLocation> findResources(@Nonnull ResourcePackType type, @Nonnull String pathIn, String idk, int maxDepth, @Nonnull Predicate<String> filter) {
 		File rootPath = new File(this.file, type.getDirectoryName());
 		List<ResourceLocation> allResources = Lists.newArrayList();
 
@@ -112,4 +112,6 @@ public class CustomEmoteIconResourcePack extends ResourcePack {
 	public String getName() {
 		return "quark-emote-pack";
 	}
+
+
 }

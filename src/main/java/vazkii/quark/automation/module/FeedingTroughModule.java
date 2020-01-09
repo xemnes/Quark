@@ -113,7 +113,7 @@ public class FeedingTroughModule extends Module {
         }
 
         if (target != null) {
-            Vec3d eyesPos = new Vec3d(goal.creature.posX, goal.creature.posY + goal.creature.getEyeHeight(), goal.creature.posZ);
+        	Vec3d eyesPos = goal.creature.getPositionVec().add(0, goal.creature.getEyeHeight(), 0);
             Vec3d targetPos = new Vec3d(location).add(0.5, 0.0625, 0.5);
             BlockRayTraceResult ray = goal.creature.world.rayTraceBlocks(new RayTraceContext(eyesPos, targetPos, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, goal.creature));
 

@@ -8,7 +8,6 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IEnviromentBlockReader;
 import vazkii.quark.base.block.QuarkBlock;
 import vazkii.quark.base.module.Module;
 
@@ -25,10 +24,10 @@ public class MagmaBrickBlock extends QuarkBlock {
 		return true;
 	}
 	
-	@Override
-	public int getPackedLightmapCoords(BlockState state, IEnviromentBlockReader worldIn, BlockPos pos) {
-		return 0xf000f0;
-	}
+//	@Override TODO hasEmissiveLighting
+//	public int getPackedLightmapCoords(BlockState state, IEnviromentBlockReader worldIn, BlockPos pos) {
+//		return 0xf000f0;
+//	}
 	
 	@Override
 	public boolean canEntitySpawn(BlockState state, IBlockReader worldIn, BlockPos pos, EntityType<?> type) {

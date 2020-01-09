@@ -1,13 +1,13 @@
 package vazkii.quark.tweaks.ai;
 
+import java.util.EnumSet;
+
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import vazkii.quark.tweaks.module.PatTheDogsModule;
-
-import java.util.EnumSet;
 
 /**
  * @author WireSegal
@@ -73,8 +73,11 @@ public class WantLoveGoal extends Goal {
     }
 
     public void startExecuting() {
-        double dX = this.leapTarget.posX - this.creature.posX;
-        double dZ = this.leapTarget.posZ - this.creature.posZ;
+    	Vec3d leapPos = leapTarget.getPositionVec();
+    	Vec3d creaturePos = creature.getPositionVec();
+    	
+        double dX = leapPos.x - creaturePos.x;
+        double dZ = leapPos.z - creaturePos.z;
         float leapMagnitude = MathHelper.sqrt(dX * dX + dZ * dZ);
 
         Vec3d motion = this.creature.getMotion();

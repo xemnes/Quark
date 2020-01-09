@@ -1,5 +1,7 @@
 package vazkii.quark.building.module;
 
+import java.util.function.Supplier;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
@@ -8,6 +10,7 @@ import net.minecraft.entity.passive.horse.AbstractChestedHorseEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.tileentity.ChestTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ActionResultType;
 import net.minecraftforge.api.distmarker.Dist;
@@ -41,27 +44,30 @@ public class VariantChestsModule extends Module {
 		Block.Properties purpurProps = Block.Properties.from(Blocks.PURPUR_BLOCK);
 		Block.Properties prismarineProps = Block.Properties.from(Blocks.PRISMARINE);
 
-		Block oakChest = new VariantChestBlock("oak", this, woodProps);
-		Block spruceChest = new VariantChestBlock("spruce", this, woodProps);
-		Block birchChest = new VariantChestBlock("birch", this, woodProps);
-		Block jungleChest = new VariantChestBlock("jungle", this, woodProps);
-		Block acaciaChest = new VariantChestBlock("acacia", this, woodProps);
-		Block darkOakChest = new VariantChestBlock("dark_oak", this, woodProps);
+		Supplier<TileEntityType<? extends ChestTileEntity>> normal = () -> chestTEType;
+		Supplier<TileEntityType<? extends ChestTileEntity>> trapped = () -> trappedChestTEType;
 		
-		Block netherBrickChest = new VariantChestBlock("nether_brick", this, netherProps);
-		Block purpurChest = new VariantChestBlock("purpur", this, purpurProps);
-		Block prismarineChest = new VariantChestBlock("prismarine", this, prismarineProps);
+		Block oakChest = new VariantChestBlock("oak", this, normal, woodProps);
+		Block spruceChest = new VariantChestBlock("spruce", this, normal, woodProps);
+		Block birchChest = new VariantChestBlock("birch", this, normal, woodProps);
+		Block jungleChest = new VariantChestBlock("jungle", this, normal, woodProps);
+		Block acaciaChest = new VariantChestBlock("acacia", this, normal, woodProps);
+		Block darkOakChest = new VariantChestBlock("dark_oak", this, normal, woodProps);
 		
-		Block oakChestTrapped = new VariantTrappedChestBlock("oak", this, woodProps);
-		Block spruceChestTrapped = new VariantTrappedChestBlock("spruce", this, woodProps);
-		Block birchChestTrapped = new VariantTrappedChestBlock("birch", this, woodProps);
-		Block jungleChestTrapped = new VariantTrappedChestBlock("jungle", this, woodProps);
-		Block acaciaChestTrapped = new VariantTrappedChestBlock("acacia", this, woodProps);
-		Block darkOakChestTrapped = new VariantTrappedChestBlock("dark_oak", this, woodProps);
+		Block netherBrickChest = new VariantChestBlock("nether_brick", this, normal, netherProps);
+		Block purpurChest = new VariantChestBlock("purpur", this, normal, purpurProps);
+		Block prismarineChest = new VariantChestBlock("prismarine", this, normal, prismarineProps);
 		
-		Block netherBrickChestTrapped = new VariantTrappedChestBlock("nether_brick", this, netherProps);
-		Block purpurChestTrapped = new VariantTrappedChestBlock("purpur", this, purpurProps);
-		Block prismarineChestTrapped = new VariantTrappedChestBlock("prismarine", this, prismarineProps);
+		Block oakChestTrapped = new VariantTrappedChestBlock("oak", this, trapped, woodProps);
+		Block spruceChestTrapped = new VariantTrappedChestBlock("spruce", this, trapped, woodProps);
+		Block birchChestTrapped = new VariantTrappedChestBlock("birch", this, trapped, woodProps);
+		Block jungleChestTrapped = new VariantTrappedChestBlock("jungle", this, trapped, woodProps);
+		Block acaciaChestTrapped = new VariantTrappedChestBlock("acacia", this, trapped, woodProps);
+		Block darkOakChestTrapped = new VariantTrappedChestBlock("dark_oak", this, trapped, woodProps);
+		
+		Block netherBrickChestTrapped = new VariantTrappedChestBlock("nether_brick", this, trapped, netherProps);
+		Block purpurChestTrapped = new VariantTrappedChestBlock("purpur", this, trapped, purpurProps);
+		Block prismarineChestTrapped = new VariantTrappedChestBlock("prismarine", this, trapped, prismarineProps);
 
 		chestTEType = TileEntityType.Builder.create(VariantChestTileEntity::new, oakChest, spruceChest, birchChest, jungleChest, acaciaChest, darkOakChest, netherBrickChest, purpurChest, prismarineChest).build(null);
 		trappedChestTEType = TileEntityType.Builder.create(VariantTrappedChestTileEntity::new, oakChestTrapped, spruceChestTrapped, birchChestTrapped, jungleChestTrapped, acaciaChestTrapped, darkOakChestTrapped, netherBrickChestTrapped, purpurChestTrapped, prismarineChestTrapped).build(null);
@@ -75,7 +81,8 @@ public class VariantChestsModule extends Module {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void clientSetup() {
-		ClientRegistry.bindTileEntitySpecialRenderer(VariantChestTileEntity.class, new VariantChestTileEntityRenderer());
+		ClientRegistry.bindTileEntityRenderer(chestTEType, (d) -> new VariantChestTileEntityRenderer());
+		ClientRegistry.bindTileEntityRenderer(trappedChestTEType, (d) -> new VariantChestTileEntityRenderer());
 	}
 	
 //	private void addOverride(String name) {

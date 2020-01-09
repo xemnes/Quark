@@ -1,6 +1,10 @@
 package vazkii.quark.client.tooltip;
 
+import org.lwjgl.opengl.GL11;
+
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.renderer.BufferBuilder;
@@ -15,7 +19,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderTooltipEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-import org.lwjgl.opengl.GL11;
 import vazkii.quark.client.module.ImprovedTooltipsModule;
 
 public class MapTooltips {
@@ -41,7 +44,7 @@ public class MapTooltips {
 				return;
 
 			GlStateManager.pushMatrix();
-			GlStateManager.color3f(1F, 1F, 1F);
+			RenderSystem.color3f(1F, 1F, 1F);
 			RenderHelper.disableStandardItemLighting();
 			mc.getTextureManager().bindTexture(RES_MAP_BACKGROUND);
 			Tessellator tessellator = Tessellator.getInstance();
@@ -55,13 +58,14 @@ public class MapTooltips {
 			GlStateManager.scalef(scale, scale, scale);
 
 			buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
-			buffer.pos(-pad, size, 0.0D).tex(0.0D, 1.0D).endVertex();
-			buffer.pos(size, size, 0.0D).tex(1.0D, 1.0D).endVertex();
-			buffer.pos(size, -pad, 0.0D).tex(1.0D, 0.0D).endVertex();
-			buffer.pos(-pad, -pad, 0.0D).tex(0.0D, 0.0D).endVertex();
+			buffer.vertex(-pad, size, 0.0D).texture(0.0F, 1.0f).endVertex();
+			buffer.vertex(size, size, 0.0D).texture(1.0F, 1.0f).endVertex();
+			buffer.vertex(size, -pad, 0.0D).texture(1.0F, 0.0F).endVertex();
+			buffer.vertex(-pad, -pad, 0.0D).texture(0.0F, 0.0F).endVertex();
 			tessellator.draw();
 
-			mc.gameRenderer.getMapItemRenderer().renderMap(mapdata, false);
+			// TODO change to draw
+//			mc.gameRenderer.getMapItemRenderer().renderMap(mapdata, false);
 
 			GlStateManager.enableLighting();
 			GlStateManager.popMatrix();

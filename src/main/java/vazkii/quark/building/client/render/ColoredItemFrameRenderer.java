@@ -1,6 +1,13 @@
 package vazkii.quark.building.client.render;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import com.mojang.blaze3d.systems.RenderSystem;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockRendererDispatcher;
 import net.minecraft.client.renderer.ItemRenderer;
@@ -26,11 +33,6 @@ import net.minecraftforge.client.event.RenderItemInFrameEvent;
 import net.minecraftforge.common.MinecraftForge;
 import vazkii.quark.base.Quark;
 import vazkii.quark.building.entity.ColoredItemFrameEntity;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author WireSegal
@@ -65,49 +67,49 @@ public class ColoredItemFrameRenderer extends EntityRenderer<ColoredItemFrameEnt
 
     @Override
     public void doRender(@Nonnull ColoredItemFrameEntity entity, double x, double y, double z, float entityYaw, float partialTicks) {
-        GlStateManager.pushMatrix();
+        RenderSystem.pushMatrix();
         BlockPos blockpos = entity.getHangingPosition();
         double d0 = (double)blockpos.getX() - entity.posX + x;
         double d1 = (double)blockpos.getY() - entity.posY + y;
         double d2 = (double)blockpos.getZ() - entity.posZ + z;
-        GlStateManager.translated(d0 + 0.5D, d1 + 0.5D, d2 + 0.5D);
-        GlStateManager.rotatef(entity.rotationPitch, 1.0F, 0.0F, 0.0F);
-        GlStateManager.rotatef(180.0F - entity.rotationYaw, 0.0F, 1.0F, 0.0F);
+        RenderSystem.translated(d0 + 0.5D, d1 + 0.5D, d2 + 0.5D);
+        RenderSystem.rotatef(entity.rotationPitch, 1.0F, 0.0F, 0.0F);
+        RenderSystem.rotatef(180.0F - entity.rotationYaw, 0.0F, 1.0F, 0.0F);
         this.renderManager.textureManager.bindTexture(AtlasTexture.LOCATION_BLOCKS_TEXTURE);
         BlockRendererDispatcher blockrendererdispatcher = this.mc.getBlockRendererDispatcher();
         ModelManager modelmanager = blockrendererdispatcher.getBlockModelShapes().getModelManager();
 
         DyeColor color = entity.getColor();
         ModelResourceLocation modelresourcelocation = entity.getDisplayedItem().getItem() instanceof FilledMapItem ? LOCATIONS_MODEL_MAP.get(color) : LOCATIONS_MODEL.get(color);
-        GlStateManager.pushMatrix();
-        GlStateManager.translatef(-0.5F, -0.5F, -0.5F);
+        RenderSystem.pushMatrix();
+        RenderSystem.translatef(-0.5F, -0.5F, -0.5F);
         if (this.renderOutlines) {
-            GlStateManager.enableColorMaterial();
-            GlStateManager.setupSolidRenderingTextureCombine(this.getTeamColor(entity));
+            RenderSystem.enableColorMaterial();
+            RenderSystem.setupSolidRenderingTextureCombine(this.getTeamColor(entity));
         }
 
         blockrendererdispatcher.getBlockModelRenderer().renderModelBrightnessColor(modelmanager.getModel(modelresourcelocation), 1.0F, 1.0F, 1.0F, 1.0F);
         if (this.renderOutlines) {
-            GlStateManager.tearDownSolidRenderingTextureCombine();
-            GlStateManager.disableColorMaterial();
+            RenderSystem.tearDownSolidRenderingTextureCombine();
+            RenderSystem.disableColorMaterial();
         }
 
-        GlStateManager.popMatrix();
-        GlStateManager.enableLighting();
+        RenderSystem.popMatrix();
+        RenderSystem.enableLighting();
         if (entity.getDisplayedItem().getItem() == Items.FILLED_MAP) {
-            GlStateManager.pushLightingAttributes();
+            RenderSystem.pushLightingAttributes();
             RenderHelper.enableStandardItemLighting();
         }
 
-        GlStateManager.translatef(0.0F, 0.0F, 0.4375F);
+        RenderSystem.translatef(0.0F, 0.0F, 0.4375F);
         this.renderItem(entity);
         if (entity.getDisplayedItem().getItem() == Items.FILLED_MAP) {
             RenderHelper.disableStandardItemLighting();
-            GlStateManager.popAttributes();
+            RenderSystem.popAttributes();
         }
 
-        GlStateManager.enableLighting();
-        GlStateManager.popMatrix();
+        RenderSystem.enableLighting();
+        RenderSystem.popMatrix();
         this.renderName(entity, x + (double)((float)entity.getHorizontalFacing().getXOffset() * 0.3F), y - 0.25D, z + (double)((float)entity.getHorizontalFacing().getZOffset() * 0.3F));
     }
 
@@ -120,26 +122,26 @@ public class ColoredItemFrameRenderer extends EntityRenderer<ColoredItemFrameEnt
     private void renderItem(ColoredItemFrameEntity itemFrame) {
         ItemStack stack = itemFrame.getDisplayedItem();
         if (!stack.isEmpty()) {
-            GlStateManager.pushMatrix();
+            RenderSystem.pushMatrix();
             MapData mapdata = FilledMapItem.getMapData(stack, itemFrame.world);
             int rotation = mapdata != null ? itemFrame.getRotation() % 4 * 2 : itemFrame.getRotation();
-            GlStateManager.rotatef((float)rotation * 360.0F / 8.0F, 0.0F, 0.0F, 1.0F);
+            RenderSystem.rotatef((float)rotation * 360.0F / 8.0F, 0.0F, 0.0F, 1.0F);
             if (!MinecraftForge.EVENT_BUS.post(new RenderItemInFrameEvent(itemFrame, defaultRenderer))) {
                 if (mapdata != null) {
-                    GlStateManager.disableLighting();
+                    RenderSystem.disableLighting();
                     this.renderManager.textureManager.bindTexture(MAP_BACKGROUND_TEXTURES);
-                    GlStateManager.rotatef(180.0F, 0.0F, 0.0F, 1.0F);
-                    GlStateManager.scalef(0.0078125F, 0.0078125F, 0.0078125F);
-                    GlStateManager.translatef(-64.0F, -64.0F, 0.0F);
-                    GlStateManager.translatef(0.0F, 0.0F, -1.0F);
+                    RenderSystem.rotatef(180.0F, 0.0F, 0.0F, 1.0F);
+                    RenderSystem.scalef(0.0078125F, 0.0078125F, 0.0078125F);
+                    RenderSystem.translatef(-64.0F, -64.0F, 0.0F);
+                    RenderSystem.translatef(0.0F, 0.0F, -1.0F);
                     this.mc.gameRenderer.getMapItemRenderer().renderMap(mapdata, true);
                 } else {
-                    GlStateManager.scalef(0.5F, 0.5F, 0.5F);
+                    RenderSystem.scalef(0.5F, 0.5F, 0.5F);
                     this.itemRenderer.renderItem(stack, TransformType.FIXED);
                 }
             }
 
-            GlStateManager.popMatrix();
+            RenderSystem.popMatrix();
         }
     }
 

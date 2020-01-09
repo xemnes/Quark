@@ -13,6 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.dimension.Dimension;
 import net.minecraft.world.dimension.DimensionType;
@@ -132,7 +133,8 @@ public class CompassAngleGetter implements IItemPropertyGetter {
 	}
 
 	private double getAngleToPosition(Entity entity, BlockPos blockpos) {
-		return Math.atan2(blockpos.getZ() - entity.posZ, blockpos.getX() - entity.posX);
+		Vec3d pos = entity.getPositionVec();
+		return Math.atan2(blockpos.getZ() - pos.z, blockpos.getX() - pos.z);
 	}
 
 }

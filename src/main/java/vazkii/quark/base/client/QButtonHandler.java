@@ -3,7 +3,7 @@ package vazkii.quark.base.client;
 import java.util.List;
 
 import com.google.common.collect.ImmutableSet;
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.IngameMenuScreen;
@@ -67,7 +67,7 @@ public class QButtonHandler {
 			super.renderButton(p_renderButton_1_, p_renderButton_2_, p_renderButton_3_);
 			
 			if(ContributorRewardHandler.localPatronTier > 0) {
-				GlStateManager.color3f(1F, 1F, 1F);
+				RenderSystem.color3f(1F, 1F, 1F);
 				int tier = Math.min(4, ContributorRewardHandler.localPatronTier);
 				int u = 256 - tier * 9;
 				int v = 26;

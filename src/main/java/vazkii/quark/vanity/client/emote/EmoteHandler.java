@@ -10,7 +10,13 @@
  */
 package vazkii.quark.vanity.client.emote;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.mojang.blaze3d.platform.GlStateManager;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
@@ -19,7 +25,7 @@ import net.minecraft.client.renderer.entity.layers.BipedArmorLayer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.client.renderer.entity.model.PlayerModel;
-import net.minecraft.client.renderer.entity.model.RendererModel;
+import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.Pose;
 import net.minecraft.entity.player.PlayerEntity;
@@ -27,11 +33,6 @@ import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
 public final class EmoteHandler {
@@ -223,8 +224,8 @@ public final class EmoteHandler {
 		}
 	}
 
-	private static void resetPart(RendererModel part) {
+	private static void resetPart(ModelRenderer part) {
 		if(part != null)
-			part.rotateAngleZ = part.offsetX = part.offsetY = part.offsetZ = 0F;
+			part.rotateAngleZ = /*part.offsetX = part.offsetY = part.offsetZ =*/ 0F; // TODO
 	}
 }

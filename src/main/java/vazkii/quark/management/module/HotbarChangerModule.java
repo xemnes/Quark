@@ -1,6 +1,9 @@
 package vazkii.quark.management.module;
 
+import org.lwjgl.opengl.GL11;
+
 import com.mojang.blaze3d.platform.GlStateManager;
+
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemRenderer;
@@ -18,8 +21,6 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import org.lwjgl.opengl.GL11;
-
 import vazkii.quark.base.client.ModKeybindHandler;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
@@ -128,7 +129,7 @@ public class HotbarChangerModule extends Module {
 			for(int i = 0; i < 3; i++)
 				mc.fontRenderer.drawStringWithShadow(TextFormatting.BOLD + Integer.toString(i + 1), xStart - 9, yStart + i * 21 + 7, 0xFFFFFF);
 
-			RenderHelper.enableGUIStandardItemLighting();
+			RenderHelper.enable();
 
 			GlStateManager.translatef(xStart, yStart, 0);
 			for(int i = 0; i < 27; i++) {

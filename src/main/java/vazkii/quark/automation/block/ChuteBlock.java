@@ -1,5 +1,8 @@
 package vazkii.quark.automation.block;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemGroup;
@@ -8,7 +11,6 @@ import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
@@ -16,14 +18,9 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.quark.automation.tile.ChuteTileEntity;
 import vazkii.quark.base.block.QuarkBlock;
 import vazkii.quark.base.module.Module;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 public class ChuteBlock extends QuarkBlock {
 
@@ -81,12 +78,12 @@ public class ChuteBlock extends QuarkBlock {
 		builder.add(ENABLED);
 	}
 
-	@Nonnull
-	@Override
-	@OnlyIn(Dist.CLIENT)
-	public BlockRenderLayer getRenderLayer() {
-		return BlockRenderLayer.CUTOUT_MIPPED;
-	}
+//	@Nonnull
+//	@Override TODO
+//	@OnlyIn(Dist.CLIENT)
+//	public BlockRenderLayer getRenderLayer() {
+//		return BlockRenderLayer.CUTOUT_MIPPED;
+//	}
 
 	@Override
 	@SuppressWarnings("deprecation")

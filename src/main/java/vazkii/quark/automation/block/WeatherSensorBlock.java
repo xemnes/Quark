@@ -9,6 +9,7 @@ import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
@@ -95,18 +96,18 @@ public class WeatherSensorBlock extends QuarkBlock {
 
     @Override
     @SuppressWarnings("deprecation")
-    public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult ray) {
+    public ActionResultType onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult ray) {
         if (player.isAllowEdit()) {
             if (world.isRemote) {
-                return true;
+                return ActionResultType.SUCCESS;
             } else {
                 BlockState inverted = state.cycle(INVERTED);
                 world.setBlockState(pos, inverted, 4);
                 updatePower(inverted, world, pos);
-                return true;
+                return ActionResultType.SUCCESS;
             }
         } else {
-            return super.onBlockActivated(state, world, pos, player, hand, ray);
+            return super.onUse(state, world, pos, player, hand, ray);
         }
     }
 }

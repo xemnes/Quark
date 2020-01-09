@@ -12,7 +12,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.Tag;
-import net.minecraft.util.*;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
+import net.minecraft.util.MovementInput;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.IWorldReader;
@@ -51,7 +56,7 @@ public class EnhancedLaddersModule extends Module {
 		if (ladder instanceof LadderBlock) {
 			BlockPos offset = pos.offset(facing);
 			BlockState blockstate = world.getBlockState(offset);
-			return !blockstate.canProvidePower() && blockstate.func_224755_d(world, offset, facing); 
+			return !blockstate.canProvidePower() && blockstate.isSideSolidFullSquare(world, offset, facing); 
 		}
 
 		return false;
@@ -133,7 +138,7 @@ public class EnhancedLaddersModule extends Module {
 		if(player.isOnLadder() && Minecraft.getInstance().currentScreen != null && !(player.moveForward == 0 && player.rotationPitch > 70)) {
 			MovementInput input = event.getMovementInput();
 			if(input != null)
-				input.sneak = true;
+				input.sneaking = true;
 		}
 	}
 

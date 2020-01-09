@@ -13,14 +13,11 @@ import vazkii.quark.base.handler.BrewingHandler;
 import vazkii.quark.base.handler.ContributorRewardHandler;
 import vazkii.quark.base.handler.FuelHandler;
 import vazkii.quark.base.handler.QuarkSounds;
-import vazkii.quark.base.handler.StonecutterShiftClickHandler;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.base.network.QuarkNetwork;
 import vazkii.quark.base.recipe.ExclusionRecipe;
 import vazkii.quark.base.world.EntitySpawnHandler;
 import vazkii.quark.base.world.WorldGenHandler;
-
-import java.util.function.BooleanSupplier;
 
 public class CommonProxy {
 
@@ -62,7 +59,6 @@ public class CommonProxy {
 			lastConfigChange = ClientTicker.ticksInGame;
 			handleQuarkConfigChange();
 			EntitySpawnHandler.refresh();
-			StonecutterShiftClickHandler.configReload();
 		}
 	}
 	

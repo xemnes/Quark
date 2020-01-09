@@ -1,5 +1,7 @@
 package vazkii.quark.building.block;
 
+import javax.annotation.Nonnull;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -7,15 +9,24 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.material.PushReaction;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.*;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.potion.PotionUtils;
 import net.minecraft.potion.Potions;
 import net.minecraft.stats.Stats;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.*;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
@@ -30,8 +41,6 @@ import vazkii.quark.automation.module.PistonsMoveTileEntitiesModule;
 import vazkii.quark.base.block.QuarkBlock;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.building.module.RopeModule;
-
-import javax.annotation.Nonnull;
 
 public class RopeBlock extends QuarkBlock implements IBlockItemProvider {
 
@@ -53,7 +62,7 @@ public class RopeBlock extends QuarkBlock implements IBlockItemProvider {
 
 	@Override
 	@SuppressWarnings("deprecation")
-	public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
+	public ActionResultType onUse(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
 		if(hand == Hand.MAIN_HAND) {
 			ItemStack stack = player.getHeldItem(hand);
 			if(stack.getItem() == asItem() && !player.isSneaking()) {
@@ -62,15 +71,16 @@ public class RopeBlock extends QuarkBlock implements IBlockItemProvider {
 						stack.shrink(1);
 					
 					worldIn.playSound(null, pos, soundType.getPlaceSound(), SoundCategory.BLOCKS, 0.5F, 1F);
-					return true;
+					return ActionResultType.SUCCESS;
 				}
 			} else if (stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY).isPresent()) {
-				return FluidUtil.interactWithFluidHandler(player, hand, worldIn, getBottomPos(worldIn, pos), Direction.UP);
+				return FluidUtil.interactWithFluidHandler(player, hand, worldIn, getBottomPos(worldIn, pos), Direction.UP) ? ActionResultType.SUCCESS : ActionResultType.PASS;
 			} else if (stack.getItem() == Items.GLASS_BOTTLE) {
 				BlockPos bottomPos = getBottomPos(worldIn, pos);
 				BlockState stateAt = worldIn.getBlockState(bottomPos);
 				if (stateAt.getMaterial() == Material.WATER) {
-					worldIn.playSound(player, player.posX, player.posY, player.posZ, SoundEvents.ITEM_BOTTLE_FILL, SoundCategory.NEUTRAL, 1.0F, 1.0F);
+					Vec3d playerPos = player.getPositionVec();
+					worldIn.playSound(player, playerPos.x, playerPos.y, playerPos.z, SoundEvents.ITEM_BOTTLE_FILL, SoundCategory.NEUTRAL, 1.0F, 1.0F);
 					stack.shrink(1);
 					ItemStack bottleStack = PotionUtils.addPotionToItemStack(new ItemStack(Items.POTION), Potions.WATER);
 					player.addStat(Stats.ITEM_USED.get(stack.getItem()));
@@ -81,10 +91,10 @@ public class RopeBlock extends QuarkBlock implements IBlockItemProvider {
 						player.dropItem(bottleStack, false);
 
 
-					return true;
+					return ActionResultType.SUCCESS;
 				}
 
-				return false;
+				return ActionResultType.PASS;
 			} else {
 				if(pullUp(worldIn, pos)) {
 					if(!player.isCreative()) {
@@ -93,12 +103,12 @@ public class RopeBlock extends QuarkBlock implements IBlockItemProvider {
 					}
 					
 					worldIn.playSound(null, pos, soundType.getBreakSound(), SoundCategory.BLOCKS, 0.5F, 1F);
-					return true;
+					return ActionResultType.SUCCESS;
 				}
 			}
 		}
 		
-		return false;
+		return ActionResultType.PASS;
 	}
 
 	public boolean pullUp(World world, BlockPos pos) {
@@ -209,7 +219,7 @@ public class RopeBlock extends QuarkBlock implements IBlockItemProvider {
 	@Override
 	@SuppressWarnings("deprecation")
 	public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
-		return func_220055_a(worldIn, pos.up(), Direction.DOWN);
+		return state.isSideSolidFullSquare(worldIn, pos.up(), Direction.DOWN);
 	}
 
 	@Override
@@ -244,11 +254,11 @@ public class RopeBlock extends QuarkBlock implements IBlockItemProvider {
 		return 60;
 	}
 	
-	@Nonnull
-	@Override
-	@OnlyIn(Dist.CLIENT)
-	public BlockRenderLayer getRenderLayer() {
-		return BlockRenderLayer.CUTOUT;
-	}
+//	@Nonnull TODO
+//	@Override
+//	@OnlyIn(Dist.CLIENT)
+//	public BlockRenderLayer getRenderLayer() {
+//		return BlockRenderLayer.CUTOUT;
+//	}
 
 }

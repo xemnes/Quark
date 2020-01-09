@@ -1,5 +1,7 @@
 package vazkii.quark.building.block;
 
+import javax.annotation.Nonnull;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
@@ -9,7 +11,6 @@ import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
@@ -18,8 +19,6 @@ import net.minecraft.world.IBlockReader;
 import vazkii.arl.interf.IBlockColorProvider;
 import vazkii.quark.base.block.QuarkBlock;
 import vazkii.quark.base.module.Module;
-
-import javax.annotation.Nonnull;
 
 public class LeafCarpetBlock extends QuarkBlock implements IBlockColorProvider {
 
@@ -50,11 +49,11 @@ public class LeafCarpetBlock extends QuarkBlock implements IBlockColorProvider {
 		return VoxelShapes.empty();
 	}
 
-	@Nonnull
-	@Override
-	public BlockRenderLayer getRenderLayer() {
-		return BlockRenderLayer.CUTOUT_MIPPED;
-	}
+//	@Nonnull TODO 
+//	@Override
+//	public BlockRenderLayer getRenderLayer() {
+//		return BlockRenderLayer.CUTOUT_MIPPED;
+//	}
 	
 	@Override
 	public IItemColor getItemColor() {

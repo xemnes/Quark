@@ -8,6 +8,7 @@ import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.SoundEvents;
+import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.EntityInteract;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -30,15 +31,16 @@ public class PoisonPotatoUsageModule extends Module {
 			AgeableEntity ageable = (AgeableEntity) event.getTarget();
 			if(ageable.isChild() && !isEntityPoisoned(ageable)) {
 				if(!event.getWorld().isRemote) {
+					Vec3d pos = ageable.getPositionVec();
 					if(ageable.world.rand.nextDouble() < chance) {
 						ageable.playSound(SoundEvents.ENTITY_GENERIC_EAT, 0.5f, 0.25f);
-						ageable.world.addParticle(ParticleTypes.ENTITY_EFFECT, ageable.posX, ageable.posY, ageable.posZ, 0.2, 0.8, 0);
+						ageable.world.addParticle(ParticleTypes.ENTITY_EFFECT, pos.x, pos.y, pos.z, 0.2, 0.8, 0);
 						poisonEntity(ageable);
 						if (poisonEffect)
 							ageable.addPotionEffect(new EffectInstance(Effects.POISON, 200));
 					} else {
 						ageable.playSound(SoundEvents.ENTITY_GENERIC_EAT, 0.5f, 0.5f + ageable.world.rand.nextFloat() / 2);
-						ageable.world.addParticle(ParticleTypes.SMOKE, ageable.posX, ageable.posY, ageable.posZ, 0, 0.1, 0);
+						ageable.world.addParticle(ParticleTypes.SMOKE, pos.x, pos.y, pos.z, 0, 0.1, 0);
 					}
 
 					if (!event.getPlayer().isCreative())

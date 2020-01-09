@@ -1,6 +1,5 @@
 package vazkii.quark.client.module;
 
-import java.io.Console;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.HashMap;
@@ -13,11 +12,7 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Multimaps;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.passive.ChickenEntity;
-import net.minecraft.entity.passive.CowEntity;
-import net.minecraft.entity.passive.PigEntity;
-import net.minecraft.entity.passive.RabbitEntity;
-import net.minecraft.entity.passive.horse.LlamaEntity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -68,15 +63,15 @@ public class VariantAnimalTexturesModule extends Module {
 		registerShiny(VariantTextureType.LLAMA);
 
 		if(enableCow)
-			RenderingRegistry.registerEntityRenderingHandler(CowEntity.class, VariantCowRenderer::new);
+			RenderingRegistry.registerEntityRenderingHandler(EntityType.COW, VariantCowRenderer::new);
 		if(enablePig)
-			RenderingRegistry.registerEntityRenderingHandler(PigEntity.class, VariantPigRenderer::new);
+			RenderingRegistry.registerEntityRenderingHandler(EntityType.PIG, VariantPigRenderer::new);
 		if(enableChicken)
-			RenderingRegistry.registerEntityRenderingHandler(ChickenEntity.class, VariantChickenRenderer::new);
+			RenderingRegistry.registerEntityRenderingHandler(EntityType.CHICKEN, VariantChickenRenderer::new);
 		if(enableShinyRabbit)
-			RenderingRegistry.registerEntityRenderingHandler(RabbitEntity.class, VariantRabbitRenderer::new);
+			RenderingRegistry.registerEntityRenderingHandler(EntityType.RABBIT, VariantRabbitRenderer::new);
 		if(enableShinyLlama)
-			RenderingRegistry.registerEntityRenderingHandler(LlamaEntity.class, VariantLlamaRenderer::new);
+			RenderingRegistry.registerEntityRenderingHandler(EntityType.LLAMA, VariantLlamaRenderer::new);
 	}
 	
 	public <T extends Entity> void register(Class<T> e, IRenderFactory<T> factory) {

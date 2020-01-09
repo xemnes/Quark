@@ -1,7 +1,10 @@
 package vazkii.quark.base.handler;
 
+import java.util.List;
+import java.util.Map;
+
 import net.minecraft.block.BlockState;
-import net.minecraft.block.state.PistonBlockStructureHelper;
+import net.minecraft.block.PistonBlockStructureHelper;
 import net.minecraft.client.gui.screen.EnchantmentScreen;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.enchantment.Enchantment;
@@ -41,9 +44,6 @@ import vazkii.quark.vanity.client.emote.EmoteHandler;
 import vazkii.quark.vanity.module.ColorRunesModule;
 import vazkii.quark.vanity.module.ItemSharingModule;
 import vazkii.quark.world.entity.CrabEntity;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author WireSegal

@@ -6,6 +6,7 @@ import net.minecraft.entity.monster.WitchEntity;
 import net.minecraft.entity.passive.SnowGolemEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import vazkii.arl.util.ItemNBTHelper;
@@ -25,7 +26,8 @@ public class SnowGolemPlayerHeadsModule extends Module {
 			if(snowman.isPumpkinEquipped()) { 
 				ItemStack stack = new ItemStack(Items.PLAYER_HEAD);
 				ItemNBTHelper.setString(stack, "SkullOwner", e.getCustomName().getUnformattedComponentText());
-				event.getDrops().add(new ItemEntity(e.getEntityWorld(), e.posX, e.posY, e.posZ, stack));
+				Vec3d pos = e.getPositionVec();
+				event.getDrops().add(new ItemEntity(e.getEntityWorld(), pos.x, pos.y, pos.z, stack));
 			}
 		}
 	}

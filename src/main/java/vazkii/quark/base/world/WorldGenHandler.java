@@ -16,7 +16,6 @@ import java.util.function.BooleanSupplier;
 import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
-import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationSettings;
 import net.minecraft.world.gen.GenerationStage;
@@ -25,7 +24,7 @@ import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.DecoratedFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.IFeatureConfig;
-import net.minecraft.world.gen.placement.IPlacementConfig;
+import net.minecraft.world.gen.placement.NoPlacementConfig;
 import net.minecraftforge.registries.ForgeRegistries;
 import vazkii.quark.base.handler.GeneralConfig;
 import vazkii.quark.base.module.Module;
@@ -37,7 +36,7 @@ public class WorldGenHandler {
 
 	public static void loadComplete() {
 		for(GenerationStage.Decoration stage : GenerationStage.Decoration.values()) {
-			ConfiguredFeature<?> feature = Biome.createDecoratedFeature(new DeferedFeature(stage), IFeatureConfig.NO_FEATURE_CONFIG, new ChunkCornerPlacement(), IPlacementConfig.NO_PLACEMENT_CONFIG);
+			ConfiguredFeature<?, ?> feature = new DeferedFeature(stage).configure(IFeatureConfig.NO_FEATURE_CONFIG).createDecoratedFeature(new ChunkCornerPlacement().configure(NoPlacementConfig.NO_PLACEMENT_CONFIG));
 			ForgeRegistries.BIOMES.forEach(biome -> biome.addFeature(stage, feature));
 		}
 	}
@@ -53,10 +52,10 @@ public class WorldGenHandler {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static void conditionalizeFeatures(GenerationStage.Decoration stage, BiPredicate<Feature<? extends IFeatureConfig>, IFeatureConfig> pred, BooleanSupplier condition) {
 		ForgeRegistries.BIOMES.forEach(b -> {
-			List<ConfiguredFeature<?>> features = b.getFeatures(stage);
+			List<ConfiguredFeature<?, ?>> features = b.getFeatures(stage);
 
 			for(int i = 0; i < features.size(); i++) {
-				ConfiguredFeature<?> configuredFeature = features.get(i);
+				ConfiguredFeature<?, ?> configuredFeature = features.get(i);
 
 				if(!(configuredFeature instanceof ConditionalConfiguredFeature)) {
 					Feature<?> feature = configuredFeature.feature;

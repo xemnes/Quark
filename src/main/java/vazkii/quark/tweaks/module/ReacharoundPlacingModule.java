@@ -119,7 +119,7 @@ public class ReacharoundPlacingModule extends Module {
 				BlockPos pos = ((BlockRayTraceResult) take2Res).getPos().down();
 				BlockState state = world.getBlockState(pos);
 
-				if (player.posY - pos.getY() > 1 && (world.isAirBlock(pos) || state.getMaterial().isReplaceable()))
+				if (player.getPositionVec().y - pos.getY() > 1 && (world.isAirBlock(pos) || state.getMaterial().isReplaceable()))
 					return pos;
 			}
 		}

@@ -44,8 +44,8 @@ public abstract class Generator implements IGenerator {
 		return condition.getAsBoolean() && dimConfig.canSpawnHere(world.getWorld());
 	}
 	
-	public Biome getBiome(ChunkGenerator<? extends GenerationSettings> generator, BlockPos pos) {
-		return generator.getBiomeProvider().getBiome(pos);
+	public Biome getBiome(ChunkGenerator<? extends GenerationSettings> generator, BlockPos pos) { // TODO does this work?
+		return generator.getBiomeProvider().getBiomeForNoiseGen(pos.getX(), pos.getY(), pos.getZ());
 	}
 	
 }

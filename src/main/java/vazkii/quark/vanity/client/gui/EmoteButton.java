@@ -1,6 +1,7 @@
 package vazkii.quark.vanity.client.gui;
 
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
@@ -24,7 +25,7 @@ public class EmoteButton extends TranslucentButton {
 		if(visible) {
 			Minecraft mc = Minecraft.getInstance();
 			mc.getTextureManager().bindTexture(desc.texture);
-			GlStateManager.color3f(1F, 1F, 1F);
+			RenderSystem.color3f(1F, 1F, 1F);
 			blit(x + 4, y + 4, 0, 0, 16, 16, 16, 16);
 
 			ResourceLocation tierTexture = desc.getTierTexture();
@@ -43,7 +44,7 @@ public class EmoteButton extends TranslucentButton {
 				int top = y - 8;
 				
 				GlStateManager.pushMatrix();
-				GlStateManager.color3f(1F, 1F, 1F);
+				RenderSystem.color3f(1F, 1F, 1F);
 				GlStateManager.translated(0, 0, 100);
 				blit(left, top, 242, 9, 5, 17, 256, 256);
 				for(int i = 0; i < w; i++)

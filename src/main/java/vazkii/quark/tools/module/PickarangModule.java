@@ -66,7 +66,7 @@ public class PickarangModule extends Module {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void clientSetup() {
-		RenderingRegistry.registerEntityRenderingHandler(PickarangEntity.class, PickarangRenderer::new);
+		RenderingRegistry.registerEntityRenderingHandler(pickarangType, PickarangRenderer::new);
 	}
 
     private static final ThreadLocal<PickarangEntity> ACTIVE_PICKARANG = new ThreadLocal<>();

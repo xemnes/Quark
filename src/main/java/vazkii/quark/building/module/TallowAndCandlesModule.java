@@ -1,9 +1,8 @@
 package vazkii.quark.building.module;
 
-import net.minecraft.block.Block;import net.minecraft.block.Blocks;
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.passive.PigEntity;
@@ -11,6 +10,7 @@ import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.GameRules;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.furnace.FurnaceFuelBurnTimeEvent;
@@ -63,8 +63,10 @@ public class TallowAndCandlesModule extends Module {
 		LivingEntity e = event.getEntityLiving();
 		if (e instanceof PigEntity && !((PigEntity) e).isChild() && maxDrop > 0 && e.world.getGameRules().getBoolean(GameRules.DO_ENTITY_DROPS)) {
 			int drops = minDrop + e.world.rand.nextInt(maxDrop - minDrop + 1);
-			if (drops > 0)
-				event.getDrops().add(new ItemEntity(e.world, e.posX, e.posY, e.posZ, new ItemStack(tallow, drops)));
+			if (drops > 0) {
+				Vec3d pos = e.getPositionVec();
+				event.getDrops().add(new ItemEntity(e.world, pos.x, pos.y, pos.z, new ItemStack(tallow, drops)));
+			}
 		}
 	}
 

@@ -3,7 +3,6 @@ package vazkii.quark.base.block;
 import java.util.Objects;
 import java.util.function.BooleanSupplier;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import net.minecraft.block.Block;
@@ -13,10 +12,8 @@ import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IEnviromentBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -67,17 +64,17 @@ public class QuarkSlabBlock extends SlabBlock implements IQuarkBlock, IBlockColo
 		return parent.getBlock().getBeaconColorMultiplier(parent.getBlock().getDefaultState(), world, pos, beaconPos);
 	}
 
-	@Override
-	@Nonnull
-	public BlockRenderLayer getRenderLayer() {
-		return parent.getBlock().getRenderLayer();
-	}
+//	@Override TODO
+//	@Nonnull
+//	public BlockRenderLayer getRenderLayer() {
+//		return parent.getBlock().getRenderLayer();
+//	}
 	
-	@Override
-    @SuppressWarnings("deprecation")
-    public int getPackedLightmapCoords(BlockState state, IEnviromentBlockReader worldIn, BlockPos pos) {
-    	return parent.getBlock().getPackedLightmapCoords(state, worldIn, pos);
-    }
+//	@Override TODO
+//    @SuppressWarnings("deprecation")
+//    public int getPackedLightmapCoords(BlockState state, IBlockReader worldIn, BlockPos pos) {
+//    	return parent.getBlock().getPackedLightmapCoords(state, worldIn, pos);
+//    }
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
