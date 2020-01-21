@@ -39,6 +39,8 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import vazkii.arl.interf.IBlockItemProvider;
 import vazkii.quark.automation.module.PistonsMoveTileEntitiesModule;
 import vazkii.quark.base.block.QuarkBlock;
+import vazkii.quark.base.handler.RenderLayerHandler;
+import vazkii.quark.base.handler.RenderLayerHandler.RenderTypeSkeleton;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.building.module.RopeModule;
 
@@ -48,7 +50,11 @@ public class RopeBlock extends QuarkBlock implements IBlockItemProvider {
 
 	public RopeBlock(String regname, Module module, ItemGroup creativeTab, Properties properties) {
 		super(regname, module, creativeTab, properties);
+		
+		RenderLayerHandler.setRenderType(this, RenderTypeSkeleton.CUTOUT);
 	}
+	
+	// TODO not sticking
 
 	@Override
 	public BlockItem provideItemBlock(Block block, Item.Properties properties) {
@@ -253,12 +259,5 @@ public class RopeBlock extends QuarkBlock implements IBlockItemProvider {
 	public int getFireSpreadSpeed(BlockState state, IBlockReader world, BlockPos pos, Direction face) {
 		return 60;
 	}
-	
-//	@Nonnull TODO
-//	@Override
-//	@OnlyIn(Dist.CLIENT)
-//	public BlockRenderLayer getRenderLayer() {
-//		return BlockRenderLayer.CUTOUT;
-//	}
 
 }

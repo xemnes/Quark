@@ -24,10 +24,10 @@ public class MagmaBrickBlock extends QuarkBlock {
 		return true;
 	}
 	
-//	@Override TODO hasEmissiveLighting
-//	public int getPackedLightmapCoords(BlockState state, IEnviromentBlockReader worldIn, BlockPos pos) {
-//		return 0xf000f0;
-//	}
+	@Override
+	public boolean hasEmissiveLighting(BlockState p_225543_1_) {
+		return true;
+	}
 	
 	@Override
 	public boolean canEntitySpawn(BlockState state, IBlockReader worldIn, BlockPos pos, EntityType<?> type) {

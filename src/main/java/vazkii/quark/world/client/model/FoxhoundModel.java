@@ -150,8 +150,6 @@ public class FoxhoundModel extends EntityModel<FoxhoundEntity> {
 
 		matrix.push();
 		
-		// TODO what is scale
-		// baby don't hurt me
 		if (isChild)
 			matrix.translate(0.0F, 5.0F, 0F);
 

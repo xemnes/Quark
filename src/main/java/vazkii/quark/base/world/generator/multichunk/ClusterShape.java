@@ -42,12 +42,12 @@ public class ClusterShape {
 		// use phi, theta + the src pos to get noisemap uv
 		double xn = phi + src.getX();
 		double yn = theta + src.getZ();
-		double noise = noiseGenerator.noiseAt(xn, yn, false); // TODO does this work?
+		double noise = noiseGenerator.noiseAt(xn, yn, false);
 		
 		// when nearing the end of the loop, lerp back to the start to prevent it cutting off
 		double cutoff = 0.75 * Math.PI;
 		if(phi > cutoff) {
-			double noise0 = noiseGenerator.noiseAt(-Math.PI + src.getX(), yn, false); // TODO does this work?
+			double noise0 = noiseGenerator.noiseAt(-Math.PI + src.getX(), yn, false);
 			noise = MathHelper.lerp((phi - cutoff) / (Math.PI - cutoff), noise, noise0);
 		}
 		
@@ -71,7 +71,7 @@ public class ClusterShape {
 		
 		public Provider(ClusterSizeConfig config, long seed) {
 			this.config = config;
-			noiseGenerator = new PerlinNoiseGenerator(new SharedSeedRandom(seed), 4, 4); // TODO what's the other one?
+			noiseGenerator = new PerlinNoiseGenerator(new SharedSeedRandom(seed), 4, 4);
 		}
 		
 		public ClusterShape around(BlockPos src) {

@@ -251,7 +251,7 @@ public class ItemSharingModule extends Module {
 		RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 		RenderSystem.translatef(-4, -4, -4);
-//		render.setupGuiTransform(x, y, model.isGui3d()); TODO
+//		render.setupGuiTransform(x, y, model.isGui3d()); TODO Wire
 //		RenderSystem.scalef(0.65f, 0.65f, 0.65f);
 //		model = ForgeHooksClient.handleCameraTransforms(model, TransformType.GUI, false);
 //		render.renderItem(stack, model);

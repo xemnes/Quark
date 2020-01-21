@@ -88,7 +88,7 @@ public class SpeleothemBlock extends QuarkBlock implements IWaterLoggable {
 		return 0;
 	}
 	
-//	@Override TODO
+//	@Override does this work?
 //	public boolean isSolid(BlockState state) {
 //		return false;
 //	}

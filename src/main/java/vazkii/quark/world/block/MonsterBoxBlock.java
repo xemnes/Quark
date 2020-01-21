@@ -12,6 +12,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockReader;
 import vazkii.quark.base.block.QuarkBlock;
+import vazkii.quark.base.handler.RenderLayerHandler;
+import vazkii.quark.base.handler.RenderLayerHandler.RenderTypeSkeleton;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.world.tile.MonsterBoxTileEntity;
 
@@ -22,17 +24,14 @@ public class MonsterBoxBlock extends QuarkBlock {
 				Block.Properties.create(Material.IRON)
 				.hardnessAndResistance(25F)
 				.sound(SoundType.METAL));
+		
+		RenderLayerHandler.setRenderType(this, RenderTypeSkeleton.CUTOUT);
 	}
 	
 	@Override
 	public ItemStack getPickBlock(BlockState state, RayTraceResult target, IBlockReader world, BlockPos pos, PlayerEntity player) {
 		return ItemStack.EMPTY;
 	}
-	
-//	@Override TODO
-//	public BlockRenderLayer getRenderLayer() {
-//		return BlockRenderLayer.CUTOUT;
-//	}
 	
 	@Override
 	public boolean hasTileEntity(BlockState state) {

@@ -30,6 +30,8 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import vazkii.quark.base.block.QuarkBlock;
+import vazkii.quark.base.handler.RenderLayerHandler;
+import vazkii.quark.base.handler.RenderLayerHandler.RenderTypeSkeleton;
 import vazkii.quark.base.module.Module;
 
 public class IronChainBlock extends QuarkBlock implements IWaterLoggable {
@@ -42,7 +44,11 @@ public class IronChainBlock extends QuarkBlock implements IWaterLoggable {
 	public IronChainBlock(Module module) {
 		super("iron_chain", module, ItemGroup.TRANSPORTATION, Block.Properties.create(Material.IRON).hardnessAndResistance(0.5F).sound(SoundType.LANTERN));
 		setDefaultState(getDefaultState().with(TYPE, ChainType.MIDDLE).with(WATERLOGGED, false));
+		
+		RenderLayerHandler.setRenderType(this, RenderTypeSkeleton.CUTOUT);
 	}
+	
+	// TODO doesn't stick
 	
 	@Override
 	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
@@ -51,7 +57,7 @@ public class IronChainBlock extends QuarkBlock implements IWaterLoggable {
 	
 	@Override
 	public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
-		return state.isSideSolidFullSquare(worldIn, pos.up(), Direction.DOWN); // TODO does it work?
+		return state.isSideSolidFullSquare(worldIn, pos.up(), Direction.DOWN);
 	}
 	
 	@Override
@@ -80,13 +86,6 @@ public class IronChainBlock extends QuarkBlock implements IWaterLoggable {
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
 		return SHAPE;
 	}
-	
-//	@Nonnull TODO
-//	@Override
-//	@OnlyIn(Dist.CLIENT)
-//	public BlockRenderLayer getRenderLayer() {
-//		return BlockRenderLayer.CUTOUT;
-//	}
 	
 	@Nonnull
 	@Override

@@ -48,7 +48,7 @@ public class QuarkJeiPlugin implements IModPlugin {
 	}
 
 	@Override
-	public void registerVanillaCategoryExtensions(IVanillaCategoryExtensionRegistration registration) { //TODO check if this works properly once JEI is fixed
+	public void registerVanillaCategoryExtensions(IVanillaCategoryExtensionRegistration registration) {
 		registration.getCraftingCategory().addCategoryExtension(ElytraDuplicationRecipe.class, ElytraDuplicationExtension::new);
 	}
 

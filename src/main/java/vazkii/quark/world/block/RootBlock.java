@@ -34,6 +34,8 @@ public class RootBlock extends VineBlock implements IQuarkBlock, IGrowable {
 	private final Module module;
 	private BooleanSupplier enabledSupplier = () -> true;
 
+	// TODO wrong layer
+	
 	public RootBlock(Module module) {
 		super(Block.Properties.create(Material.TALL_PLANTS).doesNotBlockMovement().tickRandomly().hardnessAndResistance(0.2F).sound(SoundType.PLANT));
 		this.module = module;

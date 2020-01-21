@@ -32,6 +32,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.ForgeEventFactory;
 import vazkii.quark.automation.base.RandomizerPowerState;
 import vazkii.quark.base.block.QuarkBlock;
+import vazkii.quark.base.handler.RenderLayerHandler;
+import vazkii.quark.base.handler.RenderLayerHandler.RenderTypeSkeleton;
 import vazkii.quark.base.module.Module;
 
 /**
@@ -52,6 +54,8 @@ public class RedstoneRandomizerBlock extends QuarkBlock {
         setDefaultState(getDefaultState()
                 .with(FACING, Direction.NORTH)
                 .with(POWERED, RandomizerPowerState.OFF));
+        
+		RenderLayerHandler.setRenderType(this, RenderTypeSkeleton.CUTOUT);
     }
 
     @Override
@@ -208,18 +212,5 @@ public class RedstoneRandomizerBlock extends QuarkBlock {
             worldIn.addParticle(RedstoneParticleData.REDSTONE_DUST, x, y, z, 0.0D, 0.0D, 0.0D);
         }
     }
-
-//    @Override TODO is needed?
-//    @SuppressWarnings("deprecation")
-//    public boolean isSolid(BlockState state) {
-//        return true;
-//    }
-
-//    @Nonnull TODO
-//    @Override
-//    @OnlyIn(Dist.CLIENT)
-//    public BlockRenderLayer getRenderLayer() {
-//        return BlockRenderLayer.CUTOUT;
-//    }
 
 }

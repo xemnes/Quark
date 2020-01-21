@@ -56,9 +56,6 @@ public class EmoteState {
 		if(states.length == 0)
 			return;
 
-		float offsetX = states[ModelAccessor.MODEL_OFF_X];
-		float offsetY = states[ModelAccessor.MODEL_OFF_Y];
-		float offsetZ = states[ModelAccessor.MODEL_OFF_Z];
 		float rotX = states[ModelAccessor.MODEL_X];
 		float rotY = states[ModelAccessor.MODEL_Y];
 		float rotZ = states[ModelAccessor.MODEL_Z];
@@ -66,8 +63,6 @@ public class EmoteState {
 		float height = player.getHeight();
 
 		GlStateManager.translatef(0, height / 2, 0);
-
-		GlStateManager.translatef(offsetX, offsetY, offsetZ);
 
 		if (rotY != 0)
 			GlStateManager.rotatef(rotY * 180 / PI_F, 0, 1, 0);

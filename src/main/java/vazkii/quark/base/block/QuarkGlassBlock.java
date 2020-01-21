@@ -19,7 +19,7 @@ import javax.annotation.Nonnull;
 public class QuarkGlassBlock extends QuarkBlock {
 
     public QuarkGlassBlock(String regname, Module module, ItemGroup creativeTab, Properties properties) {
-        super(regname, module, creativeTab, properties);
+        super(regname, module, creativeTab, properties.nonOpaque());
     }
 
     @Override
@@ -28,7 +28,6 @@ public class QuarkGlassBlock extends QuarkBlock {
     public boolean isSideInvisible(BlockState state, BlockState adjacent, Direction side) {
         return adjacent.getBlock() == this || super.isSideInvisible(state, adjacent, side);
     }
-    
 
     @Override
     @OnlyIn(Dist.CLIENT)
@@ -41,12 +40,11 @@ public class QuarkGlassBlock extends QuarkBlock {
         return true;
     }
     
-// TODO check later
-//    @Override
-//    @SuppressWarnings("deprecation")
-//    public boolean causesSuffocation(@Nonnull BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos) {
-//        return false;
-//    }
+    @Override
+    @SuppressWarnings("deprecation")
+    public boolean canSuffocate(@Nonnull BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos) {
+        return false;
+    }
 
     @Override
     @SuppressWarnings("deprecation")

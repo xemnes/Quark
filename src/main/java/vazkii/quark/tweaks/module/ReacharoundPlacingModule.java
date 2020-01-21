@@ -85,12 +85,8 @@ public class ReacharoundPlacingModule extends Module {
 				event.setCanceled(true);
 				event.setCancellationResult(res);
 
-				if (res == ActionResultType.SUCCESS) {
-//					if(!player.world.getBlockState(pos).equals(currState)) TODO add back after lock direction
-//						LockDirectionHotkey.fixBlockRotation(player.world, player, pos);
-
+				if(res == ActionResultType.SUCCESS)
 					player.swingArm(hand);
-				}
 
 				if (player.isCreative() && stack.getCount() < count)
 					stack.setCount(count);

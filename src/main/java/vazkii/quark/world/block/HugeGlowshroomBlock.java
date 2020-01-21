@@ -20,6 +20,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.arl.util.RegistryHelper;
+import vazkii.quark.base.handler.RenderLayerHandler;
+import vazkii.quark.base.handler.RenderLayerHandler.RenderTypeSkeleton;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.world.module.underground.GlowshroomUndergroundBiomeModule;
 
@@ -33,6 +35,8 @@ public class HugeGlowshroomBlock extends HugeMushroomBlock {
 		this.module = module;
 		RegistryHelper.registerBlock(this, name);
 		RegistryHelper.setCreativeTab(this, ItemGroup.DECORATIONS);
+		
+		RenderLayerHandler.setRenderType(this, RenderTypeSkeleton.TRANSLUCENT);
 	}
 
 	@Override
@@ -43,13 +47,6 @@ public class HugeGlowshroomBlock extends HugeMushroomBlock {
 		if(rand.nextInt(10) == 0)
 			worldIn.addParticle(ParticleTypes.END_ROD, pos.getX() + rand.nextFloat(), pos.getY() + rand.nextFloat(), pos.getZ() + rand.nextFloat(), 0, 0, 0);
 	}
-
-//	@Nonnull TODO
-//	@Override
-//	@OnlyIn(Dist.CLIENT)
-//	public BlockRenderLayer getRenderLayer() {
-//		return BlockRenderLayer.TRANSLUCENT;
-//	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)

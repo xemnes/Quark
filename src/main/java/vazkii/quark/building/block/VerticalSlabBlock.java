@@ -142,11 +142,10 @@ public class VerticalSlabBlock extends QuarkBlock implements IWaterLoggable, IBl
 		return type == PathType.WATER && worldIn.getFluidState(pos).isTagged(FluidTags.WATER); 
 	}
 	
-//	@Override TODO emissive
-//    @SuppressWarnings("deprecation")
-//    public int getPackedLightmapCoords(BlockState state, IEnviromentBlockReader worldIn, BlockPos pos) {
-//    	return parent.getBlock().getPackedLightmapCoords(state, worldIn, pos);
-//    }
+	@Override
+	public boolean hasEmissiveLighting(BlockState p_225543_1_) {
+		return parent.getBlock().hasEmissiveLighting(p_225543_1_);
+	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)

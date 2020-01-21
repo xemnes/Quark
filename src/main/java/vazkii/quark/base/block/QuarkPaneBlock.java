@@ -20,6 +20,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.arl.interf.IBlockColorProvider;
 import vazkii.arl.interf.IItemColorProvider;
 import vazkii.arl.util.RegistryHelper;
+import vazkii.quark.base.handler.RenderLayerHandler;
 import vazkii.quark.base.module.Module;
 
 /**
@@ -36,6 +37,8 @@ public class QuarkPaneBlock extends PaneBlock implements IQuarkBlock, IBlockColo
 		this.parent = parent;
 		RegistryHelper.registerBlock(this, name);
 		RegistryHelper.setCreativeTab(this, ItemGroup.DECORATIONS);
+		
+		RenderLayerHandler.setInherited(this, parent.getBlock());
 	}
 
 	public QuarkPaneBlock(IQuarkBlock parent, Block.Properties properties) {
@@ -74,12 +77,6 @@ public class QuarkPaneBlock extends PaneBlock implements IQuarkBlock, IBlockColo
 	public float[] getBeaconColorMultiplier(BlockState state, IWorldReader world, BlockPos pos, BlockPos beaconPos) {
 		return parent.getBlock().getBeaconColorMultiplier(parent.getBlock().getDefaultState(), world, pos, beaconPos);
 	}
-
-//	@Nonnull TODO figure something out
-//	@Override
-//	public BlockRenderLayer getRenderLayer() {
-//		return parent.getBlock().getRenderLayer();
-//	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)

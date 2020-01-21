@@ -49,7 +49,7 @@ public class BigDungeonModule extends Module {
 	@Override
 	public void setup() {
 		if(enabled)
-			for(Biome b : ForgeRegistries.BIOMES.getValues()) { // TODO aaaaaaaaaaaaaa
+			for(Biome b : ForgeRegistries.BIOMES.getValues()) { // TODO big dungeons don't spawn yet
 				ConfiguredFeature<NoFeatureConfig, BigDungeonStructure> configured = 
 						(ConfiguredFeature<NoFeatureConfig, BigDungeonStructure>) 
 						structure.configure(IFeatureConfig.NO_FEATURE_CONFIG).createDecoratedFeature(Placement.NOPE.configure(IPlacementConfig.NO_PLACEMENT_CONFIG));

@@ -2,12 +2,13 @@ package vazkii.quark.client.tooltip;
 
 import org.lwjgl.opengl.GL11;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -34,6 +35,8 @@ public class MapTooltips {
 		}
 	}
 
+	// TODO does not work
+	
 	@OnlyIn(Dist.CLIENT)
 	public static void renderTooltip(RenderTooltipEvent.PostText event) {
 		if(!event.getStack().isEmpty() && event.getStack().getItem() instanceof FilledMapItem && (!ImprovedTooltipsModule.mapRequireShift || Screen.hasShiftDown())) {
@@ -43,7 +46,7 @@ public class MapTooltips {
 			if(mapdata == null)
 				return;
 
-			GlStateManager.pushMatrix();
+			RenderSystem.pushMatrix();
 			RenderSystem.color3f(1F, 1F, 1F);
 			RenderHelper.disableStandardItemLighting();
 			mc.getTextureManager().bindTexture(RES_MAP_BACKGROUND);
@@ -54,8 +57,8 @@ public class MapTooltips {
 			float size = 135;
 			float scale = 0.5F;
 
-			GlStateManager.translatef(event.getX(), event.getY() - size * scale - 5, 0);
-			GlStateManager.scalef(scale, scale, scale);
+			RenderSystem.translatef(event.getX(), event.getY() - size * scale - 5, 0);
+			RenderSystem.scalef(scale, scale, scale);
 
 			buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
 			buffer.vertex(-pad, size, 0.0D).texture(0.0F, 1.0f).endVertex();
@@ -64,11 +67,13 @@ public class MapTooltips {
 			buffer.vertex(-pad, -pad, 0.0D).texture(0.0F, 0.0F).endVertex();
 			tessellator.draw();
 
-			// TODO change to draw
-//			mc.gameRenderer.getMapItemRenderer().renderMap(mapdata, false);
-
-			GlStateManager.enableLighting();
-			GlStateManager.popMatrix();
+			IRenderTypeBuffer.Impl immediateBuffer = IRenderTypeBuffer.immediate(buffer);
+			MatrixStack matrix = new MatrixStack();
+			mc.gameRenderer.getMapItemRenderer().draw(matrix, immediateBuffer, mapdata, true, 0xFFFFFF);
+			immediateBuffer.draw();
+			
+			RenderSystem.enableLighting();
+			RenderSystem.popMatrix();
 		}
 	}
 

@@ -20,6 +20,8 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import vazkii.quark.automation.tile.ChuteTileEntity;
 import vazkii.quark.base.block.QuarkBlock;
+import vazkii.quark.base.handler.RenderLayerHandler;
+import vazkii.quark.base.handler.RenderLayerHandler.RenderTypeSkeleton;
 import vazkii.quark.base.module.Module;
 
 public class ChuteBlock extends QuarkBlock {
@@ -34,6 +36,8 @@ public class ChuteBlock extends QuarkBlock {
 	public ChuteBlock(String regname, Module module, ItemGroup creativeTab, Properties properties) {
 		super(regname, module, creativeTab, properties);
 		setDefaultState(getDefaultState().with(ENABLED, true));
+		
+		RenderLayerHandler.setRenderType(this, RenderTypeSkeleton.CUTOUT_MIPPED);
 	}
 
 	@Override
@@ -77,13 +81,6 @@ public class ChuteBlock extends QuarkBlock {
 	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
 		builder.add(ENABLED);
 	}
-
-//	@Nonnull
-//	@Override TODO
-//	@OnlyIn(Dist.CLIENT)
-//	public BlockRenderLayer getRenderLayer() {
-//		return BlockRenderLayer.CUTOUT_MIPPED;
-//	}
 
 	@Override
 	@SuppressWarnings("deprecation")

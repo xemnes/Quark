@@ -34,6 +34,7 @@ import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.lighting.WorldLightManager;
 import net.minecraft.world.storage.WorldInfo;
 
+// TODO doesn't work at all
 public class DarkWorld implements IWorld {
     private final IWorld parent;
     private final AbstractChunkProvider provider;
@@ -252,7 +253,7 @@ public class DarkWorld implements IWorld {
 		
 		@Override
 		public int getLight(BlockPos p_227470_1_, int p_227470_2_) {
-			return 0; // TODO is this right?
+			return 0;
 		}
     	
     }

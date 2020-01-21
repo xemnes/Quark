@@ -28,9 +28,6 @@ public class ModelAccessor implements TweenAccessor<BipedModel<?>> {
 	private static final int ROT_X = 0;
 	private static final int ROT_Y = 1;
 	private static final int ROT_Z = 2;
-	private static final int OFF_X = 3;
-	private static final int OFF_Y = 4;
-	private static final int OFF_Z = 5;
 	
 	protected static final int MODEL_PROPS = 6;
 	protected static final int BODY_PARTS = 7;
@@ -66,34 +63,11 @@ public class ModelAccessor implements TweenAccessor<BipedModel<?>> {
 	public static final int MODEL_X = MODEL + ROT_X;
 	public static final int MODEL_Y = MODEL + ROT_Y;
 	public static final int MODEL_Z = MODEL + ROT_Z;
-	
-	public static final int HEAD_OFF_X = HEAD + OFF_X;
-	public static final int HEAD_OFF_Y = HEAD + OFF_Y;
-	public static final int HEAD_OFF_Z = HEAD + OFF_Z;
-	public static final int BODY_OFF_X = BODY + OFF_X;
-	public static final int BODY_OFF_Y = BODY + OFF_Y;
-	public static final int BODY_OFF_Z = BODY + OFF_Z;
-	public static final int RIGHT_ARM_OFF_X = RIGHT_ARM + OFF_X;
-	public static final int RIGHT_ARM_OFF_Y = RIGHT_ARM + OFF_Y;
-	public static final int RIGHT_ARM_OFF_Z = RIGHT_ARM + OFF_Z;
-	public static final int LEFT_ARM_OFF_X = LEFT_ARM + OFF_X;
-	public static final int LEFT_ARM_OFF_Y = LEFT_ARM + OFF_Y;
-	public static final int LEFT_ARM_OFF_Z = LEFT_ARM + OFF_Z;
-	public static final int RIGHT_LEG_OFF_X = RIGHT_LEG + OFF_X;
-	public static final int RIGHT_LEG_OFF_Y = RIGHT_LEG + OFF_Y;
-	public static final int RIGHT_LEG_OFF_Z = RIGHT_LEG + OFF_Z;
-	public static final int LEFT_LEG_OFF_X = LEFT_LEG + OFF_X;
-	public static final int LEFT_LEG_OFF_Y = LEFT_LEG + OFF_Y;
-	public static final int LEFT_LEG_OFF_Z = LEFT_LEG + OFF_Z;
-
-	public static final int MODEL_OFF_X = MODEL + OFF_X;
-	public static final int MODEL_OFF_Y = MODEL + OFF_Y;
-	public static final int MODEL_OFF_Z = MODEL + OFF_Z;
 
 	private final Map<BipedModel<?>, float[]> MODEL_VALUES = new WeakHashMap<>();
 
 	public static ModelRenderer getEarsModel(PlayerModel<?> model) {
-		return model.bipedBody; //model.parts.get(model.parts.indexOf(model.bipedLeftArm) - 2); TODO AT into model.parts
+		return model.bipedBody; //model.parts.get(model.parts.indexOf(model.bipedLeftArm) - 2); TODO Wire: AT into model.parts
 	}
 
 	public void resetModel(BipedModel<?> model) {
@@ -127,12 +101,6 @@ public class ModelAccessor implements TweenAccessor<BipedModel<?>> {
 				returnValues[0] = model.rotateAngleY; break;
 			case ROT_Z:
 				returnValues[0] = model.rotateAngleZ; break;
-//			case OFF_X: TODO
-//				returnValues[0] = model.offsetX; break;
-//			case OFF_Y:
-//				returnValues[0] = model.offsetY; break;
-//			case OFF_Z:
-//				returnValues[0] = model.offsetZ; break;
 		}
 
 		return 1;
@@ -178,7 +146,6 @@ public class ModelAccessor implements TweenAccessor<BipedModel<?>> {
 	private void messWithPlayerModel(PlayerModel<?> biped, ModelRenderer part, int axis, float val) {
 		if(part == biped.bipedHead) {
 			setPartAxis(biped.bipedHeadwear, axis, val);
-			setPartOffset(getEarsModel(biped), axis, val);
 		} else if(part == biped.bipedLeftArm)
 			setPartAxis(biped.bipedLeftArmwear, axis, val);
 		else if(part == biped.bipedRightArm)
@@ -189,20 +156,6 @@ public class ModelAccessor implements TweenAccessor<BipedModel<?>> {
 			setPartAxis(biped.bipedRightLegwear, axis, val);
 		else if(part == biped.bipedBody)
 			setPartAxis(biped.bipedBodyWear, axis, val);
-	}
-
-	private void setPartOffset(ModelRenderer part, int axis, float val) {
-		if(part == null)
-			return;
-
-//		switch(axis) { TODO
-//			case OFF_X:
-//				part.offsetX = val; break;
-//			case OFF_Y:
-//				part.offsetY = val; break;
-//			case OFF_Z:
-//				part.offsetZ = val; break;
-//		}
 	}
 
 	private void setPartAxis(ModelRenderer part, int axis, float val) {
@@ -216,12 +169,6 @@ public class ModelAccessor implements TweenAccessor<BipedModel<?>> {
 				part.rotateAngleY = val; break;
 			case ROT_Z:
 				part.rotateAngleZ = val; break;
-//			case OFF_X: TODO
-//				part.offsetX = val; break;
-//			case OFF_Y:
-//				part.offsetY = val; break;
-//			case OFF_Z:
-//				part.offsetZ = val; break;
 		}
 	}
 

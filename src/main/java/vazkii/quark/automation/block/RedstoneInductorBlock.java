@@ -35,6 +35,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.arl.interf.IBlockColorProvider;
 import vazkii.quark.base.block.QuarkBlock;
+import vazkii.quark.base.handler.RenderLayerHandler;
+import vazkii.quark.base.handler.RenderLayerHandler.RenderTypeSkeleton;
 import vazkii.quark.base.module.Module;
 
 /**
@@ -55,6 +57,8 @@ public class RedstoneInductorBlock extends QuarkBlock implements IBlockColorProv
                 .with(FACING, Direction.NORTH)
                 .with(LOCKED, false)
                 .with(POWER, 0));
+        
+		RenderLayerHandler.setRenderType(this, RenderTypeSkeleton.CUTOUT);
     }
 
     @Override
@@ -190,7 +194,7 @@ public class RedstoneInductorBlock extends QuarkBlock implements IBlockColorProv
         }
     }
 
-//    @Override TODO is this relevant?
+//    @Override does this work?
 //    @SuppressWarnings("deprecation")
 //    public boolean isSolid(BlockState state) {
 //        return true;
@@ -223,11 +227,4 @@ public class RedstoneInductorBlock extends QuarkBlock implements IBlockColorProv
     public IItemColor getItemColor() {
         return null;
     }
-
-//    @Nonnull TODO
-//    @Override
-//    @OnlyIn(Dist.CLIENT)
-//    public BlockRenderLayer getRenderLayer() {
-//        return BlockRenderLayer.CUTOUT;
-//    }
 }

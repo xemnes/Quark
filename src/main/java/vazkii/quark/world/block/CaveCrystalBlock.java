@@ -9,6 +9,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
+import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.particles.ParticleTypes;
@@ -21,6 +22,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ToolType;
 import vazkii.quark.base.block.QuarkGlassBlock;
+import vazkii.quark.base.handler.RenderLayerHandler;
+import vazkii.quark.base.handler.RenderLayerHandler.RenderTypeSkeleton;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.world.module.underground.CaveCrystalUndergroundBiomeModule;
 
@@ -48,6 +51,8 @@ public class CaveCrystalBlock extends QuarkGlassBlock {
 		float b = (color & 0xff) / 255f;
 		colorComponents = new float[]{r, g, b};
 		colorVector = new Vec3d(r, g, b);
+		
+		RenderLayerHandler.setRenderType(this, RenderTypeSkeleton.TRANSLUCENT);
 	}
 
 	private boolean canGrow(World world, BlockPos pos) {
@@ -88,8 +93,4 @@ public class CaveCrystalBlock extends QuarkGlassBlock {
 		return colorVector;
 	}
 
-//	@Nonnull TODO
-//	public BlockRenderLayer getRenderLayer() {
-//		return BlockRenderLayer.TRANSLUCENT;
-//	}
 }

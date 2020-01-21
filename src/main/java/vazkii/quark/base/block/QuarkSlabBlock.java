@@ -20,6 +20,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.arl.interf.IBlockColorProvider;
 import vazkii.arl.interf.IItemColorProvider;
 import vazkii.arl.util.RegistryHelper;
+import vazkii.quark.base.handler.RenderLayerHandler;
+import vazkii.quark.base.handler.RenderLayerHandler.RenderTypeSkeleton;
 import vazkii.quark.base.module.Module;
 
 public class QuarkSlabBlock extends SlabBlock implements IQuarkBlock, IBlockColorProvider {
@@ -33,6 +35,8 @@ public class QuarkSlabBlock extends SlabBlock implements IQuarkBlock, IBlockColo
 		this.parent = parent;
 		RegistryHelper.registerBlock(this, Objects.toString(parent.getBlock().getRegistryName()) + "_slab");
 		RegistryHelper.setCreativeTab(this, ItemGroup.BUILDING_BLOCKS);
+		
+		RenderLayerHandler.setInherited(this, parent.getBlock());
 	}
 	
 	@Override
@@ -64,17 +68,10 @@ public class QuarkSlabBlock extends SlabBlock implements IQuarkBlock, IBlockColo
 		return parent.getBlock().getBeaconColorMultiplier(parent.getBlock().getDefaultState(), world, pos, beaconPos);
 	}
 
-//	@Override TODO
-//	@Nonnull
-//	public BlockRenderLayer getRenderLayer() {
-//		return parent.getBlock().getRenderLayer();
-//	}
-	
-//	@Override TODO
-//    @SuppressWarnings("deprecation")
-//    public int getPackedLightmapCoords(BlockState state, IBlockReader worldIn, BlockPos pos) {
-//    	return parent.getBlock().getPackedLightmapCoords(state, worldIn, pos);
-//    }
+	@Override
+	public boolean hasEmissiveLighting(BlockState p_225543_1_) {
+		return parent.getBlock().hasEmissiveLighting(p_225543_1_);
+	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)

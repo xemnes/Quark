@@ -226,6 +226,6 @@ public final class EmoteHandler {
 
 	private static void resetPart(ModelRenderer part) {
 		if(part != null)
-			part.rotateAngleZ = /*part.offsetX = part.offsetY = part.offsetZ =*/ 0F; // TODO
+			part.rotateAngleZ = 0F;
 	}
 }

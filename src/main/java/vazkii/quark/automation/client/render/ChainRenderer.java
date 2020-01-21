@@ -54,9 +54,11 @@ public class ChainRenderer {
 
 		Tessellator.getInstance().draw();
 	}
+	
+	// TODO does not render
 
 	public static void renderChain(EntityRenderer render, double x, double y, double z, Entity entity, float partTicks) {
-		if (ChainHandler.canBeLinked(entity)/* && !render.renderOutlines*/) { // TODO does this break anything?
+		if (ChainHandler.canBeLinked(entity)/* && !render.renderOutlines*/) {
 			renderChain(entity, x, y, z, partTicks);
 		}
 	}

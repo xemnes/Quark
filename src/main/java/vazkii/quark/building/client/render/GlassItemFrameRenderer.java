@@ -188,29 +188,6 @@ public class GlassItemFrameRenderer extends EntityRenderer<GlassItemFrameEntity>
 //    }
 //
     protected void renderItemStack(ItemFrameEntity itemFrame, float p_225623_2_, float p_225623_3_, MatrixStack matrix, IRenderTypeBuffer p_225623_5_, int p_225623_6_, ItemStack stack) {
-//        if (stack.getItem() instanceof BannerItem) {
-//            banner.loadFromItemStack(stack, ((BannerItem) stack.getItem()).getColor()); 
-//                Minecraft.getInstance().getTextureManager().bindTexture(res);
-//                Tessellator tessellator = Tessellator.getInstance();
-//                BufferBuilder buffer = tessellator.getBuffer();
-//
-//                float f = 1F / 64F;
-//                float u = 1 * f;
-//                float v = 1 * f;
-//                float w = 20 * f;
-//                float h = 40 * f;
-//
-//                GlStateManager.pushMatrix();
-//                GlStateManager.rotatef(180, 0F, 0F, 1F);
-//                GlStateManager.translatef(-0.5F, -0.5F, 0.060546875F);
-//                buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
-//                buffer.pos(0, 1, -0.000078125F).tex(u + 0, v + h).endVertex();
-//                buffer.pos(1, 1, -0.000078125F).tex(u + w, v + h).endVertex();
-//                buffer.pos(1, 0, -0.000078125F).tex(u + w, v + 0).endVertex();
-//                buffer.pos(0, 0, -0.000078125F).tex(u + 0, v + 0).endVertex();
-//                tessellator.draw();
-//                GlStateManager.popMatrix();
-//        } else {// TODO figure this out
             if (!stack.isEmpty()) {
             	matrix.push();
             	MapData mapdata = FilledMapItem.getMapData(stack, itemFrame.world);
@@ -220,18 +197,16 @@ public class GlassItemFrameRenderer extends EntityRenderer<GlassItemFrameEntity>
                     if (mapdata != null) {
                     	matrix.multiply(Vector3f.POSITIVE_Z.getDegreesQuaternion(180.0F));
                        	matrix.scale(0.0078125F, 0.0078125F, 0.0078125F);
-                        matrix.translate(-64.0F, -64.0F, 7.75F);
-
+                        matrix.translate(-64.0F, -64.0F, 64F);
                       this.mc.gameRenderer.getMapItemRenderer().draw(matrix, p_225623_5_, mapdata, true, p_225623_6_);
                     } else {
-
                         float s = 1.5F;
                         if (stack.getItem() instanceof ShieldItem) {
                             s = 4F;
-                            matrix.translate(-0.25F, 0F, 0.2F);
+                            matrix.translate(-0.25F, 0F, 0.5F);
                             matrix.scale(s, s, s);
                         } else {
-                        	matrix.translate(0F, 0F, 0.05F);
+                        	matrix.translate(0F, 0F, 0.475F);
                         	matrix.scale(s, s, s);
                         }
                         matrix.scale(0.5F, 0.5F, 0.5F);
@@ -239,7 +214,7 @@ public class GlassItemFrameRenderer extends EntityRenderer<GlassItemFrameEntity>
                     }
                 }
 
-                GlStateManager.popMatrix();
+                matrix.pop();
             }
 //        }
     }

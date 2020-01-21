@@ -88,7 +88,7 @@ public class VariantChestBlock extends ChestBlock implements IBlockItemProvider,
 //				VariantChestTileEntityRenderer.forceNormal = modelNormal;
 //				VariantChestTileEntityRenderer.forceDouble = modelDouble;
 //				TileEntityRendererDispatcher.instance.renderAsItem(tile);
-//			} TODO
+//			} TODO chest rendering
 		});
 	}
 

@@ -149,7 +149,7 @@ public class GrateBlock extends QuarkBlock implements IWaterLoggable {
 		return false;
 	}
 
-//	@Override TODO
+//	@Override TODO Wire
 //	public boolean doesSideBlockRendering(BlockState state, IEnviromentBlockReader world, BlockPos pos, Direction side) {
 //		if (side.getAxis() == Direction.Axis.Y)
 //			return super.doesSideBlockRendering(state, world, pos, side);
@@ -164,12 +164,12 @@ public class GrateBlock extends QuarkBlock implements IWaterLoggable {
 	public boolean propagatesSkylightDown(BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos) {
 		return !state.get(WATERLOGGED);
 	}
-
-//	@Override TODO
-//	@SuppressWarnings("deprecation")
-//	public boolean causesSuffocation(@Nonnull BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos) {
-//		return false;
-//	}
+	
+	@Override
+	@SuppressWarnings("deprecation")
+	public boolean canSuffocate(@Nonnull BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos) {
+		return false;
+	}
 
 	@Override
 	@SuppressWarnings("deprecation")

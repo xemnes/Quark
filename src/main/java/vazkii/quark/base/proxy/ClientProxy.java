@@ -9,6 +9,7 @@ import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import vazkii.quark.base.handler.ContributorRewardHandler;
+import vazkii.quark.base.handler.RenderLayerHandler;
 import vazkii.quark.base.module.ModuleLoader;
 
 public class ClientProxy extends CommonProxy {
@@ -33,6 +34,7 @@ public class ClientProxy extends CommonProxy {
 	}
 
 	public void clientSetup(FMLClientSetupEvent event) {
+		RenderLayerHandler.init();
 		ModuleLoader.INSTANCE.clientSetup();
 	}
 
