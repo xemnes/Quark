@@ -10,7 +10,9 @@
  */
 package vazkii.quark.world.client.layer;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.matrix.MatrixStack;
+
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.IEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.util.ResourceLocation;
@@ -18,9 +20,8 @@ import vazkii.quark.base.Quark;
 import vazkii.quark.world.client.model.FoxhoundModel;
 import vazkii.quark.world.entity.FoxhoundEntity;
 
-import javax.annotation.Nonnull;
-
 public class FoxhoundCollarLayer extends LayerRenderer<FoxhoundEntity, FoxhoundModel> {
+
 	private static final ResourceLocation WOLF_COLLAR = new ResourceLocation(Quark.MOD_ID, "textures/model/entity/foxhound_collar.png");
 
 	public FoxhoundCollarLayer(IEntityRenderer<FoxhoundEntity, FoxhoundModel> renderer) {
@@ -28,17 +29,11 @@ public class FoxhoundCollarLayer extends LayerRenderer<FoxhoundEntity, FoxhoundM
 	}
 
 	@Override
-	public void render(@Nonnull FoxhoundEntity foxhound, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+	public void render(MatrixStack matrix, IRenderTypeBuffer buffer, int light, FoxhoundEntity foxhound,  float limbAngle, float limbDistance, float tickDelta, float customAngle, float headYaw, float headPitch) {
 		if (foxhound.isTamed() && !foxhound.isInvisible()) {
-			bindTexture(WOLF_COLLAR);
 			float[] afloat = foxhound.getCollarColor().getColorComponentValues();
-			GlStateManager.color3f(afloat[0], afloat[1], afloat[2]);
-			getEntityModel().render(foxhound, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
+			renderModel(getEntityModel(), WOLF_COLLAR, matrix, buffer, light, foxhound, afloat[0], afloat[1], afloat[2]);
 		}
 	}
 
-	@Override
-	public boolean shouldCombineTextures() {
-		return true;
-	}
 }

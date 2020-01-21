@@ -19,7 +19,7 @@ public class FrogRenderer extends MobRenderer<FrogEntity, FrogModel> {
 	}
 
 	@Override
-	protected ResourceLocation getEntityTexture(@Nonnull FrogEntity entity) {
+	public ResourceLocation getEntityTexture(@Nonnull FrogEntity entity) {
 		return entity.hasSweater() ? TEXTURE_SWEATER : TEXTURE;
 	}
 

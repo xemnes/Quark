@@ -23,7 +23,7 @@ public class CrabRenderer extends MobRenderer<CrabEntity, CrabModel> {
 
 	@Nullable
 	@Override
-	protected ResourceLocation getEntityTexture(@Nonnull CrabEntity entity) {
+	public ResourceLocation getEntityTexture(@Nonnull CrabEntity entity) {
 		return TEXTURES[Math.min(TEXTURES.length - 1, entity.getVariant())];
 	}
 }

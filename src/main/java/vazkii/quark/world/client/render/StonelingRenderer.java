@@ -20,7 +20,7 @@ public class StonelingRenderer extends MobRenderer<StonelingEntity, StonelingMod
 	}
 	
 	@Override
-	protected ResourceLocation getEntityTexture(@Nonnull StonelingEntity entity) {
+	public ResourceLocation getEntityTexture(@Nonnull StonelingEntity entity) {
 		return entity.getVariant().getTexture();
 	}
 

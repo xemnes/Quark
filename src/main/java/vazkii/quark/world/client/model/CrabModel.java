@@ -5,8 +5,11 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.common.collect.ImmutableSet;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 
+import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.util.math.MathHelper;
@@ -14,6 +17,10 @@ import vazkii.quark.world.entity.CrabEntity;
 
 public class CrabModel extends EntityModel<CrabEntity> {
 
+	private float wiggleX = 0;
+	private float wiggleY = 0;
+	private float crabSize = 0;
+	
 	public ModelRenderer group;
 
 	public ModelRenderer body;
@@ -30,18 +37,15 @@ public class CrabModel extends EntityModel<CrabEntity> {
 	public ModelRenderer rightEye;
 	public ModelRenderer leftEye;
 
-	private final List<Runnable> resetFunctions;
 	private final Set<ModelRenderer> leftLegs;
 	private final Set<ModelRenderer> rightLegs;
 
 	public CrabModel() {
-		resetFunctions = new ArrayList<>();
 		this.textureWidth = 32;
 		this.textureHeight = 32;
 
 		group = new ModelRenderer(this);
 		group.setRotationPoint(0.0F, 0.0F, 0.0F);
-		setRotationAngle(group, 0F, 0F, 0F);
 
 		this.leftLeg4 = new ModelRenderer(this, 0, 19);
 		this.leftLeg4.mirror = true;
@@ -128,9 +132,7 @@ public class CrabModel extends EntityModel<CrabEntity> {
 	}
 
 	@Override
-	public void setRotationAngles(CrabEntity crab, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
-		resetModel();
-		
+	public void setAngles(CrabEntity crab, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		rightLeg1.rotateAngleZ = -0.2618F + (-1 + MathHelper.cos(limbSwing * 0.6662F)) * 0.7F * limbSwingAmount;
 		rightLeg2.rotateAngleZ = -0.5236F + (-1 + MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI)) * 0.7F * limbSwingAmount;
 		rightLeg3.rotateAngleZ = -0.5236F + (-1 + MathHelper.cos(limbSwing * 0.6662F)) * 0.7F * limbSwingAmount;
@@ -142,8 +144,12 @@ public class CrabModel extends EntityModel<CrabEntity> {
 
 		leftClaw.rotateAngleX = 0.0f;
 		rightClaw.rotateAngleX = 0.0f;
-		group.offsetX = 0.0f;
-		group.offsetY = 0.0f;
+		wiggleX = 0.0f;
+		wiggleY = 0.0f;
+		
+		crabSize = crab.getSizeModifier();
+		if(isChild) 
+			crabSize /= 2;
 
 		if(crab.isRaving()) {
 			float crabRaveBPM = 125F / 4;
@@ -157,50 +163,27 @@ public class CrabModel extends EntityModel<CrabEntity> {
 			
 			float maxHeight = -0.05F;
 			float horizontalOff = 0.2F;
-			group.offsetY = (sin - 0.5F) * 2 * maxHeight + maxHeight / 2;
+			wiggleX = (sin - 0.5F) * 2 * maxHeight + maxHeight / 2;
 			
 			float slowSin = (float) Math.sin(tick / 2);
-			group.offsetX = slowSin * horizontalOff;
+			wiggleY = slowSin * horizontalOff;
 			
 			float armRot = sin * 0.5F - 1.2F;
 			leftClaw.rotateAngleX = armRot;
 			rightClaw.rotateAngleX = armRot;
 		}
 	}
-
-	@Override
-	public void render(CrabEntity crab, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
-		GlStateManager.pushMatrix();
-		float sizeModifier = crab.getSizeModifier();
-
-		if(isChild) 
-			sizeModifier /= 2;
-
-		GlStateManager.translated(0, 1.5 - sizeModifier * 1.5, 0);
-		GlStateManager.scalef(sizeModifier, sizeModifier, sizeModifier);
-		GlStateManager.rotatef(90F, 0F, 1F, 0F);
-		group.render(scaleFactor);
-		GlStateManager.popMatrix();
-	}
 	
-	private void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {
-		float offX = modelRenderer.offsetX;
-		float offY = modelRenderer.offsetY;
-		float offZ = modelRenderer.offsetZ;
-		
-		resetFunctions.add(() -> {
-			modelRenderer.rotateAngleX = x;
-			modelRenderer.rotateAngleY = y;
-			modelRenderer.rotateAngleZ = z;
-			
-			modelRenderer.offsetX = offX;
-			modelRenderer.offsetY = offY;
-			modelRenderer.offsetZ = offZ;
-		});
-	}
 	
-	private void resetModel() {
-		resetFunctions.forEach(Runnable::run);
+	public void render(MatrixStack matrix, IVertexBuilder vb, int p_225598_3_, int p_225598_4_, float p_225598_5_, float p_225598_6_, float p_225598_7_, float p_225598_8_) {
+		matrix.push();
+		matrix.translate(0, 1.5 - crabSize * 1.5, 0);
+		matrix.scale(crabSize, crabSize, crabSize);
+		matrix.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(90F));
+		matrix.translate(wiggleX, wiggleY, 0);
+		group.render(matrix, vb, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
+		matrix.pop();
 	}
+
 	
 }
