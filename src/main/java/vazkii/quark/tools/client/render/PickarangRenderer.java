@@ -3,7 +3,7 @@ package vazkii.quark.tools.client.render;
 import javax.annotation.Nonnull;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -31,7 +31,7 @@ public class PickarangRenderer extends EntityRenderer<PickarangEntity> {
 		float time = entity.ticksExisted + (mc.isGamePaused() ? 0 : partialTicks);
 		matrix.multiply(Vector3f.POSITIVE_Z.getDegreesQuaternion(time * 20F));
 
-		GlStateManager.enableBlend();
+		RenderSystem.enableBlend();
 		mc.getItemRenderer().renderItem(entity.getStack(), TransformType.FIXED, light, OverlayTexture.DEFAULT_UV, matrix, buffer);
 		
 		matrix.pop();

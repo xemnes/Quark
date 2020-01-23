@@ -2,7 +2,7 @@ package vazkii.quark.management.module;
 
 import org.lwjgl.opengl.GL11;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
@@ -88,10 +88,10 @@ public class HotbarChangerModule extends Module {
 		float shift = -getRealHeight(event.getPartialTicks()) + 22;
 		if(shift < 0)
 			if(event.getType() == ElementType.HEALTH) {
-				GlStateManager.translatef(0, shift, 0);
+				RenderSystem.translatef(0, shift, 0);
 				shifting = true;
 			} else if(shifting && (event.getType() == ElementType.DEBUG || event.getType() == ElementType.POTION_ICONS)) {
-				GlStateManager.translatef(0, -shift, 0);
+				RenderSystem.translatef(0, -shift, 0);
 				shifting = false;
 			}
 	}
@@ -113,17 +113,17 @@ public class HotbarChangerModule extends Module {
 
 			ItemRenderer render = mc.getItemRenderer();
 
-			GlStateManager.pushMatrix();
-			GlStateManager.enableBlend();
-			GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+			RenderSystem.pushMatrix();
+			RenderSystem.enableBlend();
+			RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 			
 			mc.textureManager.bindTexture(WIDGETS);
 			for(int i = 0; i < 3; i++) {
-				GlStateManager.pushMatrix();
-				GlStateManager.color4f(1F, 1F, 1F, 0.75F);
-				GlStateManager.translatef(xStart, yStart + i * 21, 0);
+				RenderSystem.pushMatrix();
+				RenderSystem.color4f(1F, 1F, 1F, 0.75F);
+				RenderSystem.translatef(xStart, yStart + i * 21, 0);
 				mc.ingameGUI.blit(0, 0, 0, 0, 182, 22);
-				GlStateManager.popMatrix();
+				RenderSystem.popMatrix();
 			}
 
 			for(int i = 0; i < 3; i++)
@@ -131,7 +131,7 @@ public class HotbarChangerModule extends Module {
 
 			RenderHelper.enable();
 
-			GlStateManager.translatef(xStart, yStart, 0);
+			RenderSystem.translatef(xStart, yStart, 0);
 			for(int i = 0; i < 27; i++) {
 				ItemStack invStack = player.inventory.getStackInSlot(i + 9);
 				int x = (i % 9) * 20 + 3;
@@ -142,7 +142,7 @@ public class HotbarChangerModule extends Module {
 			}
 			RenderHelper.disableStandardItemLighting();
 
-			GlStateManager.popMatrix();
+			RenderSystem.popMatrix();
 		}
 	}
 

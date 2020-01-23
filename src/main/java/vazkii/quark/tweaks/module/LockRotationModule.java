@@ -8,7 +8,7 @@ import java.util.UUID;
 import org.lwjgl.opengl.GL11;
 
 import com.google.common.collect.ImmutableMap;
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -199,11 +199,11 @@ public class LockRotationModule extends Module {
 	public void onHUDRender(RenderGameOverlayEvent.Post event) {
 		if(event.getType() == ElementType.ALL && clientProfile != null) {
 			Minecraft mc = Minecraft.getInstance();
-			GlStateManager.pushMatrix();
-			GlStateManager.enableBlend();
-			GlStateManager.enableAlphaTest();
-			GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-			GlStateManager.color4f(1F, 1F, 1F, 0.5F);
+			RenderSystem.pushMatrix();
+			RenderSystem.enableBlend();
+			RenderSystem.enableAlphaTest();
+			RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+			RenderSystem.color4f(1F, 1F, 1F, 0.5F);
 
 			mc.textureManager.bindTexture(MiscUtil.GENERAL_ICONS);
 
@@ -215,7 +215,7 @@ public class LockRotationModule extends Module {
 			if(clientProfile.half > -1)
 				Screen.blit(x + 16, y, clientProfile.half * 16, 81, 16, 16, 256, 256);
 
-			GlStateManager.popMatrix();
+			RenderSystem.popMatrix();
 		}
 	}
 

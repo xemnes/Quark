@@ -12,7 +12,7 @@ package vazkii.quark.vanity.client.emote;
 
 import static vazkii.quark.vanity.client.emote.EmoteBase.PI_F;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.entity.player.PlayerEntity;
@@ -62,16 +62,16 @@ public class EmoteState {
 
 		float height = player.getHeight();
 
-		GlStateManager.translatef(0, height / 2, 0);
+		RenderSystem.translatef(0, height / 2, 0);
 
 		if (rotY != 0)
-			GlStateManager.rotatef(rotY * 180 / PI_F, 0, 1, 0);
+			RenderSystem.rotatef(rotY * 180 / PI_F, 0, 1, 0);
 		if (rotX != 0)
-			GlStateManager.rotatef(rotX * 180 / PI_F, 1, 0, 0);
+			RenderSystem.rotatef(rotX * 180 / PI_F, 1, 0, 0);
 		if (rotZ != 0)
-			GlStateManager.rotatef(rotZ * 180 / PI_F, 0, 0, 1);
+			RenderSystem.rotatef(rotZ * 180 / PI_F, 0, 0, 1);
 
-		GlStateManager.translatef(0, -height / 2, 0);
+		RenderSystem.translatef(0, -height / 2, 0);
 	}
 }
 

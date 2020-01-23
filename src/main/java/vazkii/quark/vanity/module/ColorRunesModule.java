@@ -1,6 +1,7 @@
 package vazkii.quark.vanity.module;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
+
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -82,7 +83,7 @@ public class ColorRunesModule extends Module {
 			int g = (color >> 8) & 0xFF;
 			int b = color & 0xFF;
 
-			GlStateManager.color4f(r / 255f, g / 255f, b / 255f, a / 255f);
+			RenderSystem.color4f(r / 255f, g / 255f, b / 255f, a / 255f);
 		}
 	}
 

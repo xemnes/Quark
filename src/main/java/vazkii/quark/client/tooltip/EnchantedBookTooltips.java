@@ -7,7 +7,7 @@ import java.util.Map;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.EnchantmentScreen;
@@ -119,9 +119,9 @@ public class EnchantedBookTooltips {
 		Enchantment enchantment = clueHolder.get();
 		int level = clueLevelHolder.get();
 
-		GlStateManager.pushMatrix();
-		GlStateManager.translatef(event.getX(), event.getY() + 12, 0);
-		GlStateManager.scalef(0.5f, 0.5f, 1.0f);
+		RenderSystem.pushMatrix();
+		RenderSystem.translatef(event.getX(), event.getY() + 12, 0);
+		RenderSystem.scalef(0.5f, 0.5f, 1.0f);
 		Minecraft mc = Minecraft.getInstance();
 		List<String> tooltip = event.getLines();
 
@@ -166,7 +166,7 @@ public class EnchantedBookTooltips {
 			}
 		}
 
-		GlStateManager.popMatrix();
+		RenderSystem.popMatrix();
 	}
 
 	public static List<ItemStack> getItemsForEnchantment(Enchantment e) {
