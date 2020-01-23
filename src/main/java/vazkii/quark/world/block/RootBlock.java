@@ -27,6 +27,8 @@ import net.minecraft.world.server.ServerWorld;
 import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.base.block.IQuarkBlock;
 import vazkii.quark.base.handler.MiscUtil;
+import vazkii.quark.base.handler.RenderLayerHandler;
+import vazkii.quark.base.handler.RenderLayerHandler.RenderTypeSkeleton;
 import vazkii.quark.base.module.Module;
 
 public class RootBlock extends VineBlock implements IQuarkBlock, IGrowable {
@@ -34,14 +36,14 @@ public class RootBlock extends VineBlock implements IQuarkBlock, IGrowable {
 	private final Module module;
 	private BooleanSupplier enabledSupplier = () -> true;
 
-	// TODO wrong layer
-	
 	public RootBlock(Module module) {
 		super(Block.Properties.create(Material.TALL_PLANTS).doesNotBlockMovement().tickRandomly().hardnessAndResistance(0.2F).sound(SoundType.PLANT));
 		this.module = module;
 
 		RegistryHelper.registerBlock(this, "root");
 		RegistryHelper.setCreativeTab(this, ItemGroup.DECORATIONS);
+		
+		RenderLayerHandler.setRenderType(this, RenderTypeSkeleton.CUTOUT);
 	}
 	
 	@Override

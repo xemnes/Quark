@@ -45,7 +45,7 @@ public abstract class MultiChunkFeatureGenerator extends Generator {
 				Random chunkRandom = new Random(chunkSeed);
 				BlockPos chunkCorner = new BlockPos(x << 4, 0, z << 4);
 
-				BlockPos[] sources = getSourcesInChunk(chunkRandom, generator, chunkCorner);
+				BlockPos[] sources = getSourcesInChunk(world, chunkRandom, generator, chunkCorner);
 				for(BlockPos source : sources)
 					if(source != null && isSourceValid(world, generator, source))
 						generateChunkPart(source, generator, ourRandom, pos, world);
@@ -60,7 +60,7 @@ public abstract class MultiChunkFeatureGenerator extends Generator {
 	
 	public abstract void generateChunkPart(BlockPos src, ChunkGenerator<? extends GenerationSettings> generator, Random random, BlockPos chunkCorner, IWorld world);
 	
-	public abstract BlockPos[] getSourcesInChunk(Random random, ChunkGenerator<? extends GenerationSettings> generator, BlockPos chunkLeft);
+	public abstract BlockPos[] getSourcesInChunk(IWorld world, Random random, ChunkGenerator<? extends GenerationSettings> generator, BlockPos chunkLeft);
 	
 	public void forEachChunkBlock(BlockPos chunkCorner, int minY, int maxY, Consumer<BlockPos> func) {
 		minY = Math.max(1, minY);

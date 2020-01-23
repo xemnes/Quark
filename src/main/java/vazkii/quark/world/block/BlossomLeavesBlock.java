@@ -18,14 +18,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.base.block.IQuarkBlock;
+import vazkii.quark.base.handler.RenderLayerHandler;
+import vazkii.quark.base.handler.RenderLayerHandler.RenderTypeSkeleton;
 import vazkii.quark.base.module.Module;
 
 public class BlossomLeavesBlock extends LeavesBlock implements IQuarkBlock {
 
 	private final Module module;
 	private BooleanSupplier enabledSupplier = () -> true;
-	
-	// TODO wrong layer
 	
 	public BlossomLeavesBlock(String colorName, Module module, MaterialColor color) {
 		super(Block.Properties.create(Material.LEAVES, color).hardnessAndResistance(0.2F).tickRandomly().sound(SoundType.PLANT));
@@ -34,6 +34,8 @@ public class BlossomLeavesBlock extends LeavesBlock implements IQuarkBlock {
 
 		RegistryHelper.registerBlock(this, colorName + "_blossom_leaves");
 		RegistryHelper.setCreativeTab(this, ItemGroup.DECORATIONS);
+		
+		RenderLayerHandler.setRenderType(this, RenderTypeSkeleton.CUTOUT_MIPPED);
 	}
 	
 	@Override

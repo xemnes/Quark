@@ -10,7 +10,7 @@ public class VariantChestTileEntityRenderer extends ChestTileEntityRenderer<Ches
 		super(p_i226008_1_);
 	}
 
-//	private ChestTileEntity tile; TODO later
+//	private ChestTileEntity tile;
 //
 //	public static ResourceLocation forceNormal, forceDouble;
 //

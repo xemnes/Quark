@@ -67,7 +67,7 @@ public class ModelAccessor implements TweenAccessor<BipedModel<?>> {
 	private final Map<BipedModel<?>, float[]> MODEL_VALUES = new WeakHashMap<>();
 
 	public static ModelRenderer getEarsModel(PlayerModel<?> model) {
-		return model.bipedBody; //model.parts.get(model.parts.indexOf(model.bipedLeftArm) - 2); TODO Wire: AT into model.parts
+		return model.bipedBody; //model.parts.get(model.parts.indexOf(model.bipedLeftArm) - 2); TODO WIRE: AT into model.parts
 	}
 
 	public void resetModel(BipedModel<?> model) {

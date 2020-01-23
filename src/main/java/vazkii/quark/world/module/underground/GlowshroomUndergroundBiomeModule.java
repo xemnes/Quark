@@ -103,7 +103,7 @@ public class GlowshroomUndergroundBiomeModule extends UndergroundBiomeModule {
 				if(world.rand.nextFloat() < 0.1 &&
                         WorldEntitySpawner.canSpawnAtBody(EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, world, pos, EntityType.ZOMBIE) &&
                         EntitySpawnPlacementRegistry.func_223515_a(EntityType.ZOMBIE, veryDarkWorld, SpawnReason.NATURAL, pos, perfectlyFairRandom) && // canSpawnHere
-                        world.checkBlockCollision(EntityType.ZOMBIE.func_220328_a(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5))) { // bounding TODO is this right?
+                        world.checkBlockCollision(EntityType.ZOMBIE.func_220328_a(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5))) { // bounding TODO CHECK
 					float x = pos.getX() + 0.3F + world.rand.nextFloat() * 0.4F;
 					float y = pos.getY();
 					float z = pos.getZ() + 0.3F + world.rand.nextFloat() * 0.4F;

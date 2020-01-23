@@ -35,7 +35,7 @@ public class MapTooltips {
 		}
 	}
 
-	// TODO does not work
+	// TODO WIRE: does not work
 	
 	@OnlyIn(Dist.CLIENT)
 	public static void renderTooltip(RenderTooltipEvent.PostText event) {

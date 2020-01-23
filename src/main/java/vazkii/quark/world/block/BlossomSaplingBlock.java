@@ -28,14 +28,14 @@ import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.TreeFeatureConfig;
 import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.base.block.IQuarkBlock;
+import vazkii.quark.base.handler.RenderLayerHandler;
+import vazkii.quark.base.handler.RenderLayerHandler.RenderTypeSkeleton;
 import vazkii.quark.base.module.Module;
 
 public class BlossomSaplingBlock extends SaplingBlock implements IQuarkBlock {
 
 	private static final BlockState SPRUCE_LOG = Blocks.SPRUCE_LOG.getDefaultState();
 
-	// TODO wrong layer
-	
 	private final Module module;
 	private BooleanSupplier enabledSupplier = () -> true;
 
@@ -46,6 +46,8 @@ public class BlossomSaplingBlock extends SaplingBlock implements IQuarkBlock {
 		RegistryHelper.registerBlock(this, colorName + "_blossom_sapling");
 		RegistryHelper.setCreativeTab(this, ItemGroup.DECORATIONS);
 		tree.sapling = this;
+		
+		RenderLayerHandler.setRenderType(this, RenderTypeSkeleton.CUTOUT);
 	}
 
 	@Override

@@ -54,8 +54,6 @@ public class RopeBlock extends QuarkBlock implements IBlockItemProvider {
 		RenderLayerHandler.setRenderType(this, RenderTypeSkeleton.CUTOUT);
 	}
 	
-	// TODO not sticking
-
 	@Override
 	public BlockItem provideItemBlock(Block block, Item.Properties properties) {
 		return new BlockItem(block, properties) {
@@ -223,9 +221,10 @@ public class RopeBlock extends QuarkBlock implements IBlockItemProvider {
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
-		return state.isSideSolidFullSquare(worldIn, pos.up(), Direction.DOWN);
+		BlockPos upPos = pos.up();
+		BlockState upState = worldIn.getBlockState(upPos);
+		return upState.getBlock() == this || upState.isSideSolidFullSquare(worldIn, upPos, Direction.DOWN);
 	}
 
 	@Override

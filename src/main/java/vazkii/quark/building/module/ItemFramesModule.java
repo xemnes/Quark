@@ -85,7 +85,7 @@ public class ItemFramesModule extends Module {
     @Override
     @OnlyIn(Dist.CLIENT)
     public void modelRegistry() {
-        // TODO: reinstate when Forge fixes itself
+        //reinstate when Forge fixes itself
 
 //        StateContainer<Block, BlockState> dummyContainer = new StateContainer.Builder<Block, BlockState>(Blocks.AIR)
 //                .add(BooleanProperty.create("map"))

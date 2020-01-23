@@ -1,5 +1,8 @@
 package vazkii.quark.base.world.generator;
 
+import java.util.Random;
+import java.util.function.BooleanSupplier;
+
 import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
@@ -8,11 +11,6 @@ import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationSettings;
 import net.minecraft.world.gen.GenerationStage;
 import vazkii.quark.base.world.config.DimensionConfig;
-
-import java.util.Random;
-import java.util.function.BooleanSupplier;
-
-import com.google.common.primitives.Booleans;
 
 public abstract class Generator implements IGenerator {
 	
@@ -44,8 +42,8 @@ public abstract class Generator implements IGenerator {
 		return condition.getAsBoolean() && dimConfig.canSpawnHere(world.getWorld());
 	}
 	
-	public Biome getBiome(ChunkGenerator<? extends GenerationSettings> generator, BlockPos pos) { // TODO pulling wrong biomes BAD
-		return generator.getBiomeProvider().getBiomeForNoiseGen(pos.getX(), pos.getY(), pos.getZ());
+	public Biome getBiome(IWorld world, BlockPos pos) { // TODO pulling wrong biomes BAD
+		return world.getBiomeAccess().getBiome(pos);
 	}
 	
 }

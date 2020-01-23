@@ -34,7 +34,8 @@ import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.lighting.WorldLightManager;
 import net.minecraft.world.storage.WorldInfo;
 
-// TODO doesn't work at all
+// TODO WIRE: I have no idea what you did with this but it don work
+
 public class DarkWorld implements IWorld {
     private final IWorld parent;
     private final AbstractChunkProvider provider;

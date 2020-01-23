@@ -43,7 +43,10 @@ public class PistonTileEntityRenderer {
 			RenderHelper.enable();
 			tile.cachedBlockState = state;
 			TileEntityRenderer<TileEntity> tileentityrenderer = TileEntityRendererDispatcher.instance.getRenderer(tile);
-//			if (tileentityrenderer != null) TODO update with new things
+			// TODO: WIRE: update the passed values
+			// we need the params for the render method
+			
+//			if (tileentityrenderer != null)
 //				tileentityrenderer.render(tile, 0, 0, 0, pTicks, -1);
 			RenderHelper.disableStandardItemLighting();
 			RenderSystem.popMatrix();

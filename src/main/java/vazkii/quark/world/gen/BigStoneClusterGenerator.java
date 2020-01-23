@@ -25,11 +25,11 @@ public class BigStoneClusterGenerator extends ClusterBasedGenerator {
 
 	@Override
 	public boolean isSourceValid(IWorld world, ChunkGenerator<? extends GenerationSettings> generator, BlockPos pos) {
-		return config.biomes.canSpawn(getBiome(generator, pos));
+		return config.biomes.canSpawn(getBiome(world, pos));
 	}
 
 	@Override
-	public BlockPos[] getSourcesInChunk(Random random, ChunkGenerator<? extends GenerationSettings> generator, BlockPos chunkLeft) {
+	public BlockPos[] getSourcesInChunk(IWorld world, Random random, ChunkGenerator<? extends GenerationSettings> generator, BlockPos chunkLeft) {
 		int chance = config.rarity;
 
 		BlockPos[] sources;

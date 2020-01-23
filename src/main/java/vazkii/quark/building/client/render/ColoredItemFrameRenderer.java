@@ -55,7 +55,7 @@ public class ColoredItemFrameRenderer extends EntityRenderer<ColoredItemFrameEnt
         this.defaultRenderer = (ItemFrameRenderer) renderManagerIn.renderers.get(EntityType.ITEM_FRAME);
 
         for (DyeColor color : DyeColor.values()) {
-            // TODO: reinstate when Forge fixes itself
+            // reinstate when Forge fixes itself
 //            LOCATIONS_MODEL.put(color, new ModelResourceLocation(new ResourceLocation(Quark.MOD_ID, color.getName() + "_frame"), "map=false"));
 //            LOCATIONS_MODEL_MAP.put(color, new ModelResourceLocation(new ResourceLocation(Quark.MOD_ID, color.getName() + "_frame"), "map=true"));
 

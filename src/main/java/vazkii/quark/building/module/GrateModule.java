@@ -24,7 +24,7 @@ public class GrateModule extends Module {
                 .hardnessAndResistance(5, 10).sound(SoundType.METAL));
     }
 
-//    @OnlyIn(Dist.CLIENT) TODO wire fix this
+//    @OnlyIn(Dist.CLIENT) TODO WIRE: get this back in
 //    @SubscribeEvent
 //    public void drawBlockHighlight(DrawBlockHighlightEvent event) {
 //        if (event.getTarget().getType() == RayTraceResult.Type.BLOCK) {

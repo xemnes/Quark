@@ -46,7 +46,7 @@ import javax.annotation.Nullable;
 @OnlyIn(Dist.CLIENT)
 public class GlassItemFrameRenderer extends EntityRenderer<GlassItemFrameEntity> {
 
-    // TODO: reinstate when Forge fixes itself
+    // reinstate when Forge fixes itself
 //    private static final ModelResourceLocation LOCATION_MODEL = new ModelResourceLocation(new ResourceLocation(Quark.MOD_ID, "glass_frame"), "normal");
 
     private static final ModelResourceLocation LOCATION_MODEL = new ModelResourceLocation(new ResourceLocation(Quark.MOD_ID, "glass_frame"), "inventory");
