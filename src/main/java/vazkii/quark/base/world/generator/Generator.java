@@ -42,7 +42,7 @@ public abstract class Generator implements IGenerator {
 		return condition.getAsBoolean() && dimConfig.canSpawnHere(world.getWorld());
 	}
 	
-	public Biome getBiome(IWorld world, BlockPos pos) { // TODO pulling wrong biomes BAD
+	public Biome getBiome(IWorld world, BlockPos pos) {
 		return world.getBiomeAccess().getBiome(pos);
 	}
 	
