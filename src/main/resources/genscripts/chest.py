@@ -9,7 +9,7 @@ copy([
 	('unique/chest/item_model.json', 'assets/{modid}/models/item/{name}_chest.json'),
 	('unique/chest/item_model.json', 'assets/{modid}/models/item/{name}_trapped_chest.json'),
 
-	('unique/chest/recipe.json', 'data/{modid}/recipes/building/crafting/chests/compat{name}_chest.json'),
+	('unique/chest/recipe.json', 'data/{modid}/recipes/building/crafting/chests/compat/{name}_chest.json'),
 	('unique/chest/recipe_trapped.json', 'data/{modid}/recipes/building/crafting/chests/compat/{name}_chest_trapped.json'),
 	('unique/chest/recipe_utility.json', 'data/{modid}/recipes/tweaks/crafting/utility/chests/compat/{name}_chest_wood.json'),
 ])

@@ -3,12 +3,17 @@
   "true_type": "minecraft:crafting_shaped",
   "group": "oak_chest",
   "exclusions": [
-    "quark:building/crafting/oak_chest",
-    "quark:building/crafting/spruce_chest",
-    "quark:building/crafting/birch_chest",
-    "quark:building/crafting/jungle_chest",
-    "quark:building/crafting/acacia_chest",
-    "quark:building/crafting/dark_oak_chest"
+    "quark:building/crafting/chests/oak_chest",
+    "quark:building/crafting/chests/spruce_chest",
+    "quark:building/crafting/chests/birch_chest",
+    "quark:building/crafting/chests/jungle_chest",
+    "quark:building/crafting/chests/acacia_chest",
+    "quark:building/crafting/chests/dark_oak_chest",
+    "quark:building/crafting/chests/compat/bamboo_chest",
+    "quark:building/crafting/chests/compat/driftwood_chest",
+    "quark:building/crafting/chests/compat/poise_chest",
+    "quark:building/crafting/chests/compat/willow_chest",
+    "quark:building/crafting/chests/compat/wisteria_chest",
   ],
   "pattern": [
     "###",
