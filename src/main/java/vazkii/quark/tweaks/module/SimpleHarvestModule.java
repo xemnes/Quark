@@ -137,7 +137,6 @@ public class SimpleHarvestModule extends Module {
 		BlockState newBlock = crops.get(inWorld);
 		int fortune = HoeHarvestingModule.canFortuneApply(Enchantments.FORTUNE, mainHand) && isHoe ?
 				EnchantmentHelper.getEnchantmentLevel(Enchantments.FORTUNE, mainHand) : 0;
-		fortune--; // Simulate the crop dropping one less seed
 
 		ItemStack copy = mainHand.copy();
 		if (copy.isEmpty())
