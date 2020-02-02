@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.google.common.base.Supplier;
-import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -40,16 +40,24 @@ import vazkii.quark.building.tile.VariantTrappedChestTileEntity;
 public class VariantChestsModule extends Module {
 
 	private static final String DONK_CHEST = "Quark:DonkChest";
+
+	private static final ImmutableSet<String> WOODS = ImmutableSet.of(
+			"oak", "spruce", "birch", "jungle", "acacia", "dark_oak");
 	
+	private static final ImmutableSet<String> MOD_WOODS = ImmutableSet.of(
+			"bambooblocks:bamboo", "upgrade_aquatic:driftwood", "endergetic:poise", "swampexpansion:willow", "bloomful:wisteria");
+
 	public static TileEntityType<VariantChestTileEntity> chestTEType;
 	public static TileEntityType<VariantTrappedChestTileEntity> trappedChestTEType;
-	
+
 	private List<Supplier<Block>> chestTypes = new LinkedList<>();
 	private List<Supplier<Block>> trappedChestTypes = new LinkedList<>();
 
 	@Override
 	public void construct() {
-		ImmutableList.of("oak", "spruce", "birch", "jungle", "acacia", "dark_oak").forEach(s -> addChest(s, Blocks.CHEST));
+		WOODS.forEach(s -> addChest(s, Blocks.CHEST));
+		MOD_WOODS.forEach(s -> addModChest(s, Blocks.CHEST));
+
 		addChest("nether_brick", Blocks.NETHER_BRICKS);
 		addChest("purpur", Blocks.PURPUR_BLOCK);
 		addChest("prismarine", Blocks.PRISMARINE);
@@ -61,27 +69,39 @@ public class VariantChestsModule extends Module {
 		RegistryHelper.register(chestTEType, "variant_chest");
 		RegistryHelper.register(trappedChestTEType, "variant_trapped_chest");
 	}
-	
+
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void clientSetup() {
 		ClientRegistry.bindTileEntitySpecialRenderer(VariantChestTileEntity.class, new VariantChestTileEntityRenderer());
 	}
-	
+
 	private void addChest(String name, Block from) {
 		addChest(name, Block.Properties.from(from));
 	}
-	
+
 	private void addChest(String name, Block.Properties props) {
 		chestTypes.add(() -> new VariantChestBlock(name, this, props));
 		trappedChestTypes.add(() -> new VariantTrappedChestBlock(name, this, props));
 	}
-	
-    public static <T extends TileEntity> TileEntityType<T> registerChests(Supplier<? extends T> factory, List<Supplier<Block>> list) {
-    	List<Block> blockTypes = list.stream().map(Supplier::get).collect(Collectors.toList());
-    	return TileEntityType.Builder.<T>create(factory, blockTypes.toArray(new Block[blockTypes.size()])).build(null);
-    }
-	
+
+	private void addModChest(String nameRaw, Block from) {
+		String[] toks = nameRaw.split(":");
+		String name = toks[1];
+		String mod = toks[0];
+		addModChest(name, mod, Block.Properties.from(from));
+	}
+
+	private void addModChest(String name, String mod, Block.Properties props) {
+		chestTypes.add(() -> new VariantChestBlock.Compat(name, mod, this, props));
+		trappedChestTypes.add(() -> new VariantTrappedChestBlock.Compat(name, mod, this, props));
+	}
+
+	public static <T extends TileEntity> TileEntityType<T> registerChests(Supplier<? extends T> factory, List<Supplier<Block>> list) {
+		List<Block> blockTypes = list.stream().map(Supplier::get).collect(Collectors.toList());
+		return TileEntityType.Builder.<T>create(factory, blockTypes.toArray(new Block[blockTypes.size()])).build(null);
+	}
+
 	@SubscribeEvent
 	public void onClickEntity(PlayerInteractEvent.EntityInteractSpecific event) {
 		Entity target = event.getTarget();
@@ -135,5 +155,5 @@ public class VariantChestsModule extends Module {
 			WAIT_TO_REPLACE_CHEST.remove();
 		}
 	}
-	
+
 }

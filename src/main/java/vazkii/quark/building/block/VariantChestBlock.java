@@ -1,7 +1,10 @@
 package vazkii.quark.building.block;
 
+import java.util.function.BooleanSupplier;
+
+import javax.annotation.Nullable;
+
 import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
 import net.minecraft.block.ChestBlock;
 import net.minecraft.client.renderer.tileentity.ItemStackTileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
@@ -15,6 +18,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.IBlockReader;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.ModList;
 import vazkii.arl.interf.IBlockItemProvider;
 import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.base.Quark;
@@ -22,9 +26,6 @@ import vazkii.quark.base.block.IQuarkBlock;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.building.client.render.VariantChestTileEntityRenderer;
 import vazkii.quark.building.tile.VariantChestTileEntity;
-
-import javax.annotation.Nullable;
-import java.util.function.BooleanSupplier;
 
 @OnlyIn(value = Dist.CLIENT, _interface = IBlockItemProvider.class)
 public class VariantChestBlock extends ChestBlock implements IBlockItemProvider, IQuarkBlock {
@@ -43,8 +44,9 @@ public class VariantChestBlock extends ChestBlock implements IBlockItemProvider,
 		this.type = type;
 		this.module = module;
 		
-		modelNormal = new ResourceLocation(Quark.MOD_ID, "textures/model/chest/" + type + ".png");
-		modelDouble = new ResourceLocation(Quark.MOD_ID, "textures/model/chest/" + type + "_double.png");
+		String path = (this instanceof Compat ? "compat/" : "");
+		modelNormal = new ResourceLocation(Quark.MOD_ID, "textures/model/chest/" + path + type + ".png");
+		modelDouble = new ResourceLocation(Quark.MOD_ID, "textures/model/chest/" + path + type + "_double.png");
 	}
 
 	@Override
@@ -94,6 +96,15 @@ public class VariantChestBlock extends ChestBlock implements IBlockItemProvider,
 	public BlockItem provideItemBlock(Block block, Item.Properties props) {
 		setTEISR(props, modelNormal, modelDouble);
 		return new BlockItem(block, props);
+	}
+	
+	public static class Compat extends VariantChestBlock {
+
+		public Compat(String type, String mod, Module module, Properties props) {
+			super(type, module, props);
+			setCondition(() -> ModList.get().isLoaded(mod));
+		}
+		
 	}
 	
 }
