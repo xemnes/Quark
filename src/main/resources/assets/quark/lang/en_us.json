@@ -241,6 +241,7 @@
 	"block.quark.nether_brick_chest": "Nether Brick Chest",
 	"block.quark.purpur_chest": "Purpur Chest",
 	"block.quark.prismarine_chest": "Prismarine Chest",
+	"block.quark.mushroom_chest": "Mushroom Chest",
 	"block.quark.oak_trapped_chest": "Oak Trapped Chest",
 	"block.quark.spruce_trapped_chest": "Spruce Trapped Chest",
 	"block.quark.birch_trapped_chest": "Birch Trapped Chest",
@@ -250,6 +251,7 @@
 	"block.quark.nether_brick_trapped_chest": "Nether Brick Trapped Chest",
 	"block.quark.purpur_trapped_chest": "Purpur Trapped Chest",
 	"block.quark.prismarine_trapped_chest": "Prismarine Trapped Chest",
+	"block.quark.mushroom_trapped_chest": "Mushroom Trapped Chest",
 	"block.quark.blaze_lantern": "Blaze Lantern",
 	"block.quark.sugar_cane_block": "Sugar Cane Bundle",
 	"block.quark.brimstone": "Brimstone",
@@ -784,4 +786,5 @@
 	"entity.quark.wrapped": "Wrapped"
 	
 }
+
 

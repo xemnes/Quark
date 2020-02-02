@@ -53,6 +53,7 @@ public class VariantChestsModule extends Module {
 		addChest("nether_brick", Blocks.NETHER_BRICKS);
 		addChest("purpur", Blocks.PURPUR_BLOCK);
 		addChest("prismarine", Blocks.PRISMARINE);
+		addChest("mushroom", Blocks.RED_MUSHROOM_BLOCK);
 
 		chestTEType = registerChests(VariantChestTileEntity::new, chestTypes);
 		trappedChestTEType = registerChests(VariantTrappedChestTileEntity::new, trappedChestTypes);
