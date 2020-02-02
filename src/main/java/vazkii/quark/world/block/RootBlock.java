@@ -144,7 +144,7 @@ public class RootBlock extends VineBlock implements IQuarkBlock, IGrowable {
 
 	@Override
 	public void grow(World world, Random rand, BlockPos pos, BlockState state) {
-//		growAndReturnLastPos(world, pos, state);
+		growAndReturnLastPos(world, pos, state);
 	}
 	
 }
