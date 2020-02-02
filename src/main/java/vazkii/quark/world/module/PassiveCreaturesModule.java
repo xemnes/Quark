@@ -48,7 +48,7 @@ public class PassiveCreaturesModule extends Module {
 	public static ConditionalEntitySpawnConfig frogConfig = new ConditionalEntitySpawnConfig("frogs", 40, 1, 3, new BiomeTypeConfig(false, BiomeDictionary.Type.SWAMP));
 
 	@Config(name = "crabs")
-	public static ConditionalEntitySpawnConfig crabConfig = new ConditionalEntitySpawnConfig("crabs", 40, 1, 3, new BiomeTypeConfig(false, BiomeDictionary.Type.BEACH));
+	public static ConditionalEntitySpawnConfig crabConfig = new ConditionalEntitySpawnConfig("crabs", 5, 1, 3, new BiomeTypeConfig(false, BiomeDictionary.Type.BEACH));
 
 	@Config(flag = "passive_creatures_brewing")
 	public static boolean enableBrewing = true;
