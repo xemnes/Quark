@@ -59,7 +59,7 @@ function injectDropHook(clazz) {
         return injectForEachMethod(method,
             ASM.MethodType.VIRTUAL,
             clazz,
-            ASM.mapMethod("func_70106_y"), // color4f
+            ASM.mapMethod("func_70106_y"), // remove
             "()V",
             function (target) {
                 var newInstructions = new InsnList();
@@ -118,7 +118,7 @@ function initializeCoreMod() {
         'add-minecart-drops': {
             'target': {
                 'type': 'METHOD',
-                'class': 'net.minecraft.entity.item.BoatEntity',
+                'class': 'net.minecraft.entity.item.minecart.AbstractMinecartEntity',
                 'methodName': 'func_94095_a', // killMinecart
                 'methodDesc': '()V' //  remove ()V
             },
