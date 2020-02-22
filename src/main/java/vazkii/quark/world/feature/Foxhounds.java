@@ -35,7 +35,7 @@ public class Foxhounds extends Feature {
 	
 	@Override
 	public void setupConfig() {
-		weight = loadPropInt("Spawn Weight", "The higher, the more will spawn", 10);
+		weight = loadPropInt("Spawn Weight", "The higher, the more will spawn", 4);
 		min = loadPropInt("Smallest spawn group", "", 1);
 		max = loadPropInt("Largest spawn group", "", 2);
 		

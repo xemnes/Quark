@@ -102,12 +102,8 @@ public class EntityStoneling extends EntityCreature {
 		else
 			stepHeight = 0.6F;
 
-		if (!world.isRemote && world.getDifficulty() == EnumDifficulty.PEACEFUL && !isTame) {
+		if (!world.isRemote && world.getDifficulty() == EnumDifficulty.PEACEFUL && !isTame)
 			setDead();
-			for (Entity passenger : getRecursivePassengers())
-				if (!(passenger instanceof EntityPlayer))
-					passenger.setDead();
-		}
 
 		this.prevRenderYawOffset = this.prevRotationYaw;
 		this.renderYawOffset = this.rotationYaw;
@@ -416,6 +412,14 @@ public class EntityStoneling extends EntityCreature {
 		SoundEvent sound = this.getAmbientSound();
 
 		if (sound != null) this.playSound(sound, this.getSoundVolume(), 1f);
+	}
+
+	@Override
+	public void setDead() {
+		super.setDead();
+		for (Entity passenger : getRecursivePassengers())
+			if (!(passenger instanceof EntityPlayer))
+				passenger.setDead();
 	}
 
 	@Nullable
