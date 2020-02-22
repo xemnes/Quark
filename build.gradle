@@ -71,7 +71,11 @@ jar {
     exclude "**/unused"
 
     manifest {
-        attributes("FMLCorePluginContainsFMLMod": "true", "FMLCorePlugin": "vazkii.quark.base.asm.LoadingPlugin")
+        attributes(
+                "FMLCorePluginContainsFMLMod": "true",
+                "FMLCorePlugin": "vazkii.quark.base.asm.LoadingPlugin",
+                "FMLAT": "quark_at.cfg"
+        )
     }
 
 }
@@ -89,6 +93,8 @@ processResources {
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info', '**/psd/**'
     }
+
+    rename '(.+_at.cfg)', 'META-INF/$1'
 }
 
 task deobfJar(type: Jar) {

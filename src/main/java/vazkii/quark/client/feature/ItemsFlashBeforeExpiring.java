@@ -27,11 +27,11 @@ public class ItemsFlashBeforeExpiring extends Feature {
 	// Note: The following code, despite this being a client tweak, must run on servers! However, it doesn't affect clients without the tweak.
 
 	public static void setItemAge(EntityItem item, int age) {
-		ObfuscationReflectionHelper.setPrivateValue(EntityItem.class, item, age, "field_70292_b");
+		item.age = age;
 	}
 
 	public static int getItemAge(EntityItem item) {
-		return ObfuscationReflectionHelper.getPrivateValue(EntityItem.class, item, "field_70292_b");
+		return item.age;
 	}
 
 	private static final WeakHashMap<EntityItem, Integer> AGE_MAP = new WeakHashMap<>();
