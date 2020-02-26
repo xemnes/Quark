@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.google.common.collect.ImmutableSet;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.resources.I18n;
@@ -68,6 +69,10 @@ public class BackButtonKeybind extends Module {
 					return;
 				}
 			}
+		
+		Minecraft mc = Minecraft.getInstance();
+		if(mc.world != null)
+			mc.displayGuiScreen(null);
 	}
 
 }
