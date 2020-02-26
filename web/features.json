@@ -141,6 +141,7 @@
 				"A bunch of blocks can now be crafted into compressed variants.",
 				"*Charcoal can be crafted into a Charcoal Block, which will burn forever.",
 				"*Blaze Rods and Powder can be crafted into a Blaze Lantern. It'll also burn forever.",
+				"*Leather can be crafted into Bonded Leather.",
 				"*Sugar Cane, Bamboo, Cactus, Chorus Fruits, and Sticks can be made into various blocks that can be placed like a pillar.",
 				"*Apples, Golden Apples, Potatoes, Carrots, and Beetroots can be crafted into Crates. Golden Apple crates will work as a beacon base.",
 				"*Cocoa Beans, Sweet Berries, Nether Wart, and Gunpowder can be crafted into Sacks. If the Nether Wart Sack is enabled, the recipe for Nether Wart Blocks is changed to be 2x2."
@@ -382,12 +383,20 @@
 				"13 new blocks can now be added to Flower Pots. Look at the feature image to see everything you can add.",
 				"Potted. Melon. That's it."
 			]
+		},
+		{
+			"name": "Iron Plates",
+			"image": "iron-plates.jpg",
+			"versions": "1.14+",
+			"desc": [
+				"Iron Plates can now be crafted using Iron Ingots. You can also craft Rusty Iron Plates using a Water Bucket as well."
+			]
 		}
 	],
 	"client": [
 		{
-			"name": "Chest Searching",
-			"image": "chest-searching.jpg",
+			"name": "Chest Searching"
+,			"image": "chest-searching.jpg",
 			"versions": "1.14+",
 			"desc": [
 				"A filter button will now appear on the top right of chests you open. When you click it, a tab with a search bar will pop up, where you can type and filter items in the chest by your query. Items that don't match will be darkened.",
@@ -454,6 +463,14 @@
 			"expand": [
 				"Here's a render with the new skins for your enjoyment:",
 				"!img/features/client/variant-animal-textures/render.png"
+			]
+		},
+		{
+			"name": "Mouse 4 as Back",
+			"image": "back-keybind.jpg",
+			"versions": "1.14+",
+			"desc": [
+				"Pressing Mouse 4 (by default, rebindable) will try to find a Back/Done/Cancel button in your current GUI and click it. This makes the button work as a \"Back\" button like in most programs."
 			]
 		}
 	],
