@@ -104,7 +104,7 @@ public class EmotesModule extends Module {
 
 		emoteKeybinds = new HashMap<>();
 		for (String s : DEFAULT_EMOTE_NAMES)
-			emoteKeybinds.put(ModKeybindHandler.init("quark.emote." + s, null, ModKeybindHandler.EMOTE_GROUP, sortOrder++, false), s);
+			emoteKeybinds.put(ModKeybindHandler.init("quark.emote." + s, null, "", ModKeybindHandler.EMOTE_GROUP, sortOrder++, false), s);
 		for (String s : PATREON_EMOTES)
 			emoteKeybinds.put(ModKeybindHandler.init("patreon_emote." + s, null, ModKeybindHandler.EMOTE_GROUP, sortOrder++), s);
 	}

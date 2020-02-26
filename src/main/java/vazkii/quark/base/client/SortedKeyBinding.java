@@ -1,6 +1,7 @@
 package vazkii.quark.base.client;
 
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.client.util.InputMappings.Type;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -12,8 +13,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class SortedKeyBinding extends KeyBinding {
     private final int priority;
 
-    public SortedKeyBinding(String description, int keyCode, String category, int priority) {
-        super(description, keyCode, category);
+    public SortedKeyBinding(String description, Type type, int keyCode, String category, int priority) {
+        super(description, type, keyCode, category);
         this.priority = priority;
     }
 

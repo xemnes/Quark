@@ -44,7 +44,7 @@ public class HotbarChangerModule extends Module {
 	public static boolean animating;
 	public static boolean keyDown;
 	public static boolean hotbarChangeOpen, shifting;
-	
+
 	@Override
 	public void clientSetup() {
 		changeHotbarKey = ModKeybindHandler.init("change_hotbar", "z", ModKeybindHandler.MISC_GROUP);
@@ -81,6 +81,7 @@ public class HotbarChangerModule extends Module {
 
 		}
 	}
+	
 	@SubscribeEvent
 	@OnlyIn(Dist.CLIENT)
 	public void hudPre(RenderGameOverlayEvent.Pre event) {
@@ -115,7 +116,7 @@ public class HotbarChangerModule extends Module {
 			GlStateManager.pushMatrix();
 			GlStateManager.enableBlend();
 			GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-			
+
 			mc.textureManager.bindTexture(WIDGETS);
 			for(int i = 0; i < 3; i++) {
 				GlStateManager.pushMatrix();
@@ -155,7 +156,7 @@ public class HotbarChangerModule extends Module {
 				currentHeldItem = -1;
 			}
 		} 
-		
+
 		if(hotbarChangeOpen && height < MAX_HEIGHT) {
 			height += ANIM_PER_TICK;
 			animating = true;
@@ -170,5 +171,5 @@ public class HotbarChangerModule extends Module {
 			return height;
 		return height + part * ANIM_PER_TICK * (hotbarChangeOpen ? 1 : -1);
 	}
-	
+
 }
