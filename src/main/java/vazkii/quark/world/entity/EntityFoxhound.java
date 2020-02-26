@@ -86,6 +86,11 @@ public class EntityFoxhound extends EntityWolf implements IMob {
 	}
 
 	@Override
+	protected boolean canDespawn() {
+		return !isTamed();
+	}
+
+	@Override
 	public boolean isEntityInsideOpaqueBlock() {
 		return EntityOpacityHandler.isEntityInsideOpaqueBlock(this);
 	}
