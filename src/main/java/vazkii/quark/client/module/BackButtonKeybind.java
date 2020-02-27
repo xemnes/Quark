@@ -24,8 +24,10 @@ import vazkii.quark.base.module.ModuleCategory;
 @LoadModule(category = ModuleCategory.CLIENT, hasSubscriptions = true, subscribeOn = Dist.CLIENT)
 public class BackButtonKeybind extends Module {
 
+	@OnlyIn(Dist.CLIENT)
 	private static KeyBinding backKey;
-
+	
+	@OnlyIn(Dist.CLIENT)
 	private static List<Widget> widgets;
 
 	@Override
