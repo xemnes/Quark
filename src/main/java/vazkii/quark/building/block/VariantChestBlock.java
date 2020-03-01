@@ -24,20 +24,20 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.ModList;
 import vazkii.arl.interf.IBlockItemProvider;
 import vazkii.arl.util.RegistryHelper;
-import vazkii.quark.base.Quark;
 import vazkii.quark.base.block.IQuarkBlock;
 import vazkii.quark.base.module.Module;
+import vazkii.quark.building.module.VariantChestsModule.IChestTextureProvider;
 import vazkii.quark.building.tile.VariantChestTileEntity;
 
 @OnlyIn(value = Dist.CLIENT, _interface = IBlockItemProvider.class)
-public class VariantChestBlock extends ChestBlock implements IBlockItemProvider, IQuarkBlock {
+public class VariantChestBlock extends ChestBlock implements IBlockItemProvider, IQuarkBlock, IChestTextureProvider {
 
 	public final String type;
 	private final Module module;
 	private BooleanSupplier enabledSupplier = () -> true;
-
-	public final ResourceLocation modelNormal, modelDouble;
 	
+	private String path;
+
 	public VariantChestBlock(String type, Module module, Supplier<TileEntityType<? extends ChestTileEntity>> supplier, Properties props) {
 		super(props, supplier);
 		RegistryHelper.registerBlock(this, type + "_chest");
@@ -46,9 +46,7 @@ public class VariantChestBlock extends ChestBlock implements IBlockItemProvider,
 		this.type = type;
 		this.module = module;
 		
-		String path = (this instanceof Compat ? "compat/" : "");
-		modelNormal = new ResourceLocation(Quark.MOD_ID, "textures/model/chest/" + path + type + ".png");
-		modelDouble = new ResourceLocation(Quark.MOD_ID, "textures/model/chest/" + path + type + "_double.png");
+		path = (this instanceof Compat ? "compat/" : "") + type + "/";
 	}
 
 	@Override
@@ -89,7 +87,7 @@ public class VariantChestBlock extends ChestBlock implements IBlockItemProvider,
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public BlockItem provideItemBlock(Block block, Item.Properties props) {
-		setTEISR(props, modelNormal, modelDouble);
+//		setTEISR(props, modelNormal, modelDouble);
 		return new BlockItem(block, props);
 	}
 	
@@ -100,6 +98,16 @@ public class VariantChestBlock extends ChestBlock implements IBlockItemProvider,
 			setCondition(() -> ModList.get().isLoaded(mod));
 		}
 		
+	}
+
+	@Override
+	public String getChestTexturePath() {
+		return "model/chest/" + path;
+	}
+
+	@Override
+	public boolean isTrap() {
+		return false;
 	}
 	
 }

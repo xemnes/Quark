@@ -1,48 +1,76 @@
 package vazkii.quark.building.client.render;
 
-import net.minecraft.client.renderer.tileentity.ChestTileEntityRenderer;
+import java.util.HashMap;
+import java.util.Map;
+
+import net.minecraft.block.Block;
+import net.minecraft.client.renderer.model.Material;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
+import net.minecraft.state.properties.ChestType;
 import net.minecraft.tileentity.ChestTileEntity;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.event.TextureStitchEvent;
+import vazkii.quark.base.Quark;
+import vazkii.quark.base.client.GenericChestTERenderer;
+import vazkii.quark.building.module.VariantChestsModule.IChestTextureProvider;
 
-public class VariantChestTileEntityRenderer extends ChestTileEntityRenderer<ChestTileEntity> {
+public class VariantChestTileEntityRenderer extends GenericChestTERenderer<ChestTileEntity> {
 
-	public VariantChestTileEntityRenderer(TileEntityRendererDispatcher p_i226008_1_) {
-		super(p_i226008_1_);
+	private static Map<Block, ChestTextureBatch> chestTextures = new HashMap<>();
+
+	public VariantChestTileEntityRenderer(TileEntityRendererDispatcher disp) {
+		super(disp);
 	}
 
-//	private ChestTileEntity tile;
-//
-//	public static ResourceLocation forceNormal, forceDouble;
-//
-//	@Override
-//	public void render(ChestTileEntity tileEntityIn, double x, double y, double z, float partialTicks, int destroyStage) {
-//		tile = tileEntityIn;
-//		super.render(tileEntityIn, x, y, z, partialTicks, destroyStage);
-//	}
-//
-//	@Override
-//	protected void bindTexture(ResourceLocation location) {
-//		boolean isDouble = location.getPath().contains("double");
-//
-//		if(tile != null && tile.hasWorld()) {
-//			if(location.getPath().contains("normal")) {
-//				Block block = tile.getBlockState().getBlock();
-//				if(block instanceof VariantChestBlock) {
-//					VariantChestBlock vblock = (VariantChestBlock) block;
-//					location = isDouble ? vblock.modelDouble : vblock.modelNormal;
-//				} else if(block instanceof VariantTrappedChestBlock) {
-//					VariantTrappedChestBlock vblock = (VariantTrappedChestBlock) block;
-//					location = isDouble ? vblock.modelDouble : vblock.modelNormal;
-//				}
-//			}
-//		}
-//		else {
-//			ResourceLocation forced = isDouble ? forceDouble : forceNormal;
-//			if(forced != null)
-//				location = forced;
-//		}
-//
-//		super.bindTexture(location);
-//	}
+	@Override
+	public Material getMaterial(ChestTileEntity t, ChestType type) {
+		Block block = t.getBlockState().getBlock();
+		ChestTextureBatch batch = chestTextures.get(block);
+		
+		switch(type) {
+		case LEFT: return batch.left;
+		case RIGHT: return batch.right;
+		default: return batch.normal;
+		}
+	}
+
+	public static void accept(TextureStitchEvent.Pre event, Block chest) {
+		ResourceLocation atlas = event.getMap().getId();
+		System.out.println("Accepting " + chest);
+
+		if(chest instanceof IChestTextureProvider) {
+			IChestTextureProvider prov = (IChestTextureProvider) chest;
+
+			String path = prov.getChestTexturePath();
+			if(!prov.isTrap())
+				add(event, atlas, chest, path, "normal", "left", "right");
+			else
+				add(event, atlas, chest, path, "trap", "trap_left", "trap_right");
+		}
+	}
+
+	private static void add(TextureStitchEvent.Pre event, ResourceLocation atlas, Block chest, String path, String normal, String left, String right) {
+		ResourceLocation resNormal = new ResourceLocation(Quark.MOD_ID, path + normal);
+		ResourceLocation resLeft = new ResourceLocation(Quark.MOD_ID, path + left);
+		ResourceLocation resRight = new ResourceLocation(Quark.MOD_ID, path + right);
+
+		ChestTextureBatch batch = new ChestTextureBatch(atlas, resNormal, resLeft, resRight);
+		chestTextures.put(chest, batch);
+
+		event.addSprite(resNormal);
+		event.addSprite(resLeft);
+		event.addSprite(resRight);
+	}
+
+	private static class ChestTextureBatch {
+		public final Material normal, left, right;
+
+		public ChestTextureBatch(ResourceLocation atlas, ResourceLocation normal, ResourceLocation left, ResourceLocation right) {
+			this.normal = new Material(atlas, normal);
+			this.left = new Material(atlas, left);
+			this.right = new Material(atlas, right);
+		}
+
+	}
 
 }

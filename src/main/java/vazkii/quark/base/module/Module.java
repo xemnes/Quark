@@ -6,6 +6,7 @@ import com.google.common.collect.Lists;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.ModList;
@@ -64,6 +65,11 @@ public class Module {
 
 	@OnlyIn(Dist.CLIENT)
 	public void modelRegistry() {
+		// NO-OP
+	}
+	
+	@OnlyIn(Dist.CLIENT)
+	public void textureStitch(TextureStitchEvent.Pre event) {
 		// NO-OP
 	}
 	

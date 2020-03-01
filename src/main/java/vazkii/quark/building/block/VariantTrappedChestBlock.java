@@ -32,17 +32,19 @@ import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.block.IQuarkBlock;
 import vazkii.quark.base.module.Module;
+import vazkii.quark.building.block.VariantChestBlock.Compat;
+import vazkii.quark.building.module.VariantChestsModule.IChestTextureProvider;
 import vazkii.quark.building.tile.VariantTrappedChestTileEntity;
 
 @OnlyIn(value = Dist.CLIENT, _interface = IBlockItemProvider.class)
-public class VariantTrappedChestBlock extends ChestBlock implements IBlockItemProvider, IQuarkBlock {
+public class VariantTrappedChestBlock extends ChestBlock implements IBlockItemProvider, IQuarkBlock, IChestTextureProvider {
 
 	public final String type;
 	private final Module module;
 	private BooleanSupplier enabledSupplier = () -> true;
 
-	public final ResourceLocation modelNormal, modelDouble;
-
+	private String path;
+	
 	public VariantTrappedChestBlock(String type, Module module, Supplier<TileEntityType<? extends ChestTileEntity>> supplier, Properties props) {
 		super(props, supplier);
 		RegistryHelper.registerBlock(this, type + "_trapped_chest");
@@ -51,9 +53,7 @@ public class VariantTrappedChestBlock extends ChestBlock implements IBlockItemPr
 		this.type = type;
 		this.module = module;
 
-		String path = (this instanceof Compat ? "compat/" : "");
-		modelNormal = new ResourceLocation(Quark.MOD_ID, "textures/model/chest/" + path + type + "_trap.png");
-		modelDouble = new ResourceLocation(Quark.MOD_ID, "textures/model/chest/" + path + type + "_trap_double.png");
+		path = (this instanceof Compat ? "compat/" : "") + type + "/";
 	}
 
 	@Override
@@ -87,7 +87,7 @@ public class VariantTrappedChestBlock extends ChestBlock implements IBlockItemPr
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public BlockItem provideItemBlock(Block block, Item.Properties props) {
-		VariantChestBlock.setTEISR(props, modelNormal, modelDouble);
+//		VariantChestBlock.setTEISR(props, modelNormal, modelDouble);
 		return new BlockItem(block, props);
 	}
 
@@ -98,6 +98,16 @@ public class VariantTrappedChestBlock extends ChestBlock implements IBlockItemPr
 			setCondition(() -> ModList.get().isLoaded(mod));
 		}
 
+	}
+	
+	@Override
+	public String getChestTexturePath() {
+		return "model/chest/" + path;
+	}
+
+	@Override
+	public boolean isTrap() {
+		return true;
 	}
 
 	// VANILLA TrappedChestBlock copy

@@ -20,6 +20,7 @@ import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ActionResultType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -50,8 +51,10 @@ public class VariantChestsModule extends Module {
 	public static TileEntityType<VariantChestTileEntity> chestTEType;
 	public static TileEntityType<VariantTrappedChestTileEntity> trappedChestTEType;
 
-	private List<Supplier<Block>> chestTypes = new LinkedList<>();
-	private List<Supplier<Block>> trappedChestTypes = new LinkedList<>();
+	private static List<Supplier<Block>> chestTypes = new LinkedList<>();
+	private static List<Supplier<Block>> trappedChestTypes = new LinkedList<>();
+	
+	private static List<Block> allChests = new LinkedList<>();
 
 	@Override
 	public void construct() {
@@ -100,9 +103,19 @@ public class VariantChestsModule extends Module {
 
 	public static <T extends TileEntity> TileEntityType<T> registerChests(Supplier<? extends T> factory, List<Supplier<Block>> list) {
 		List<Block> blockTypes = list.stream().map(Supplier::get).collect(Collectors.toList());
+		allChests.addAll(blockTypes);
 		return TileEntityType.Builder.<T>create(factory, blockTypes.toArray(new Block[blockTypes.size()])).build(null);
 	}
-
+	
+	@Override
+	public void textureStitch(TextureStitchEvent.Pre event) {
+		if(event.getMap().getId().toString().equals("minecraft:textures/atlas/chest.png")) {
+			System.out.println("Its event time " + allChests);
+			for(Block b : allChests)
+				VariantChestTileEntityRenderer.accept(event, b);
+		}
+	}
+	
 	@SubscribeEvent
 	public void onClickEntity(PlayerInteractEvent.EntityInteractSpecific event) {
 		Entity target = event.getTarget();
@@ -155,6 +168,11 @@ public class VariantChestsModule extends Module {
 				((ItemEntity) target).setItem(local);
 			WAIT_TO_REPLACE_CHEST.remove();
 		}
+	}
+	
+	public static interface IChestTextureProvider {
+		String getChestTexturePath();
+		boolean isTrap();
 	}
 
 }
