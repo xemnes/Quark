@@ -4,15 +4,18 @@ import java.util.function.BooleanSupplier;
 
 import javax.annotation.Nullable;
 
+import com.google.common.base.Supplier;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.ChestBlock;
 import net.minecraft.client.renderer.tileentity.ItemStackTileEntityRenderer;
-import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.ChestTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.IBlockReader;
@@ -24,7 +27,6 @@ import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.block.IQuarkBlock;
 import vazkii.quark.base.module.Module;
-import vazkii.quark.building.client.render.VariantChestTileEntityRenderer;
 import vazkii.quark.building.tile.VariantChestTileEntity;
 
 @OnlyIn(value = Dist.CLIENT, _interface = IBlockItemProvider.class)
@@ -36,8 +38,8 @@ public class VariantChestBlock extends ChestBlock implements IBlockItemProvider,
 
 	public final ResourceLocation modelNormal, modelDouble;
 	
-	public VariantChestBlock(String type, Module module, Block.Properties props) {
-		super(props);
+	public VariantChestBlock(String type, Module module, Supplier<TileEntityType<? extends ChestTileEntity>> supplier, Properties props) {
+		super(props, supplier);
 		RegistryHelper.registerBlock(this, type + "_chest");
 		RegistryHelper.setCreativeTab(this, ItemGroup.DECORATIONS);
 		
@@ -80,14 +82,7 @@ public class VariantChestBlock extends ChestBlock implements IBlockItemProvider,
 	@OnlyIn(Dist.CLIENT)
 	public static void setTEISR(Item.Properties props, ResourceLocation modelNormal, ResourceLocation modelDouble) {
 		props.setTEISR(() -> () -> new ItemStackTileEntityRenderer() {
-			private final TileEntity tile = new VariantChestTileEntity();
-			
-			@Override
-			public void renderByItem(ItemStack itemStackIn) {
-				VariantChestTileEntityRenderer.forceNormal = modelNormal;
-				VariantChestTileEntityRenderer.forceDouble = modelDouble;
-				TileEntityRendererDispatcher.instance.renderAsItem(tile);
-			}
+			// TODO
 		});
 	}
 
@@ -100,8 +95,8 @@ public class VariantChestBlock extends ChestBlock implements IBlockItemProvider,
 	
 	public static class Compat extends VariantChestBlock {
 
-		public Compat(String type, String mod, Module module, Properties props) {
-			super(type, module, props);
+		public Compat(String type, String mod, Module module, Supplier<TileEntityType<? extends ChestTileEntity>> supplier, Properties props) {
+			super(type, module, supplier, props);
 			setCondition(() -> ModList.get().isLoaded(mod));
 		}
 		

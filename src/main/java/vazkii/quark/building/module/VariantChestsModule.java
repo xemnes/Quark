@@ -73,7 +73,8 @@ public class VariantChestsModule extends Module {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void clientSetup() {
-		ClientRegistry.bindTileEntitySpecialRenderer(VariantChestTileEntity.class, new VariantChestTileEntityRenderer());
+		ClientRegistry.bindTileEntityRenderer(chestTEType, (d) -> new VariantChestTileEntityRenderer(d));
+		ClientRegistry.bindTileEntityRenderer(trappedChestTEType, (d) -> new VariantChestTileEntityRenderer(d));
 	}
 
 	private void addChest(String name, Block from) {
@@ -81,8 +82,8 @@ public class VariantChestsModule extends Module {
 	}
 
 	private void addChest(String name, Block.Properties props) {
-		chestTypes.add(() -> new VariantChestBlock(name, this, props));
-		trappedChestTypes.add(() -> new VariantTrappedChestBlock(name, this, props));
+		chestTypes.add(() -> new VariantChestBlock(name, this, () -> chestTEType, props));
+		trappedChestTypes.add(() -> new VariantTrappedChestBlock(name, this, () -> trappedChestTEType, props));
 	}
 
 	private void addModChest(String nameRaw, Block from) {
@@ -93,8 +94,8 @@ public class VariantChestsModule extends Module {
 	}
 
 	private void addModChest(String name, String mod, Block.Properties props) {
-		chestTypes.add(() -> new VariantChestBlock.Compat(name, mod, this, props));
-		trappedChestTypes.add(() -> new VariantTrappedChestBlock.Compat(name, mod, this, props));
+		chestTypes.add(() -> new VariantChestBlock.Compat(name, mod, this, () -> chestTEType, props));
+		trappedChestTypes.add(() -> new VariantTrappedChestBlock.Compat(name, mod, this, () -> trappedChestTEType, props));
 	}
 
 	public static <T extends TileEntity> TileEntityType<T> registerChests(Supplier<? extends T> factory, List<Supplier<Block>> list) {
