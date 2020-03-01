@@ -87,7 +87,7 @@ public class VariantTrappedChestBlock extends ChestBlock implements IBlockItemPr
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public BlockItem provideItemBlock(Block block, Item.Properties props) {
-//		VariantChestBlock.setTEISR(props, modelNormal, modelDouble);
+		VariantChestBlock.setTEISR(props, block);
 		return new BlockItem(block, props);
 	}
 

@@ -17,6 +17,8 @@ import vazkii.quark.building.module.VariantChestsModule.IChestTextureProvider;
 public class VariantChestTileEntityRenderer extends GenericChestTERenderer<ChestTileEntity> {
 
 	private static Map<Block, ChestTextureBatch> chestTextures = new HashMap<>();
+	
+	public static Block invBlock = null; 
 
 	public VariantChestTileEntityRenderer(TileEntityRendererDispatcher disp) {
 		super(disp);
@@ -24,7 +26,10 @@ public class VariantChestTileEntityRenderer extends GenericChestTERenderer<Chest
 
 	@Override
 	public Material getMaterial(ChestTileEntity t, ChestType type) {
-		Block block = t.getBlockState().getBlock();
+		Block block = invBlock;
+		if(block == null)
+			block = t.getBlockState().getBlock();
+		
 		ChestTextureBatch batch = chestTextures.get(block);
 		
 		switch(type) {
@@ -36,7 +41,6 @@ public class VariantChestTileEntityRenderer extends GenericChestTERenderer<Chest
 
 	public static void accept(TextureStitchEvent.Pre event, Block chest) {
 		ResourceLocation atlas = event.getMap().getId();
-		System.out.println("Accepting " + chest);
 
 		if(chest instanceof IChestTextureProvider) {
 			IChestTextureProvider prov = (IChestTextureProvider) chest;
