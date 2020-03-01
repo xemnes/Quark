@@ -2,22 +2,21 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     "###",
-    "# #",
+    "###",
     "###"
   ],
   "key": {
     "#": {
-      "item": "minecraft:%name%_planks"
+      "item": "minecraft:leather"
     }
   },
   "result": {
-    "item": "%modid%:%name%_chest",
-    "count": 1
+    "item": "quark:bonded_leather"
   },
   "conditions": [
     {
       "type": "quark:flag",
-      "flag": "variant_chests"
+      "flag": "bonded_leather"
     }
   ]
-} 
+}

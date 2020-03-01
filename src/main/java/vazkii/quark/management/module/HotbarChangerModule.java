@@ -1,9 +1,6 @@
 package vazkii.quark.management.module;
 
-import org.lwjgl.opengl.GL11;
-
-import com.mojang.blaze3d.systems.RenderSystem;
-
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemRenderer;
@@ -21,6 +18,8 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import org.lwjgl.opengl.GL11;
+
 import vazkii.quark.base.client.ModKeybindHandler;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
@@ -45,7 +44,7 @@ public class HotbarChangerModule extends Module {
 	public static boolean animating;
 	public static boolean keyDown;
 	public static boolean hotbarChangeOpen, shifting;
-	
+
 	@Override
 	public void clientSetup() {
 		changeHotbarKey = ModKeybindHandler.init("change_hotbar", "z", ModKeybindHandler.MISC_GROUP);
@@ -82,16 +81,17 @@ public class HotbarChangerModule extends Module {
 
 		}
 	}
+	
 	@SubscribeEvent
 	@OnlyIn(Dist.CLIENT)
 	public void hudPre(RenderGameOverlayEvent.Pre event) {
 		float shift = -getRealHeight(event.getPartialTicks()) + 22;
 		if(shift < 0)
 			if(event.getType() == ElementType.HEALTH) {
-				RenderSystem.translatef(0, shift, 0);
+				GlStateManager.translatef(0, shift, 0);
 				shifting = true;
 			} else if(shifting && (event.getType() == ElementType.DEBUG || event.getType() == ElementType.POTION_ICONS)) {
-				RenderSystem.translatef(0, -shift, 0);
+				GlStateManager.translatef(0, -shift, 0);
 				shifting = false;
 			}
 	}
@@ -113,25 +113,25 @@ public class HotbarChangerModule extends Module {
 
 			ItemRenderer render = mc.getItemRenderer();
 
-			RenderSystem.pushMatrix();
-			RenderSystem.enableBlend();
-			RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-			
+			GlStateManager.pushMatrix();
+			GlStateManager.enableBlend();
+			GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+
 			mc.textureManager.bindTexture(WIDGETS);
 			for(int i = 0; i < 3; i++) {
-				RenderSystem.pushMatrix();
-				RenderSystem.color4f(1F, 1F, 1F, 0.75F);
-				RenderSystem.translatef(xStart, yStart + i * 21, 0);
+				GlStateManager.pushMatrix();
+				GlStateManager.color4f(1F, 1F, 1F, 0.75F);
+				GlStateManager.translatef(xStart, yStart + i * 21, 0);
 				mc.ingameGUI.blit(0, 0, 0, 0, 182, 22);
-				RenderSystem.popMatrix();
+				GlStateManager.popMatrix();
 			}
 
 			for(int i = 0; i < 3; i++)
 				mc.fontRenderer.drawStringWithShadow(TextFormatting.BOLD + Integer.toString(i + 1), xStart - 9, yStart + i * 21 + 7, 0xFFFFFF);
 
-			RenderHelper.enable();
+			RenderHelper.enableGUIStandardItemLighting();
 
-			RenderSystem.translatef(xStart, yStart, 0);
+			GlStateManager.translatef(xStart, yStart, 0);
 			for(int i = 0; i < 27; i++) {
 				ItemStack invStack = player.inventory.getStackInSlot(i + 9);
 				int x = (i % 9) * 20 + 3;
@@ -142,7 +142,7 @@ public class HotbarChangerModule extends Module {
 			}
 			RenderHelper.disableStandardItemLighting();
 
-			RenderSystem.popMatrix();
+			GlStateManager.popMatrix();
 		}
 	}
 
@@ -156,7 +156,7 @@ public class HotbarChangerModule extends Module {
 				currentHeldItem = -1;
 			}
 		} 
-		
+
 		if(hotbarChangeOpen && height < MAX_HEIGHT) {
 			height += ANIM_PER_TICK;
 			animating = true;
@@ -171,5 +171,5 @@ public class HotbarChangerModule extends Module {
 			return height;
 		return height + part * ANIM_PER_TICK * (hotbarChangeOpen ? 1 : -1);
 	}
-	
+
 }

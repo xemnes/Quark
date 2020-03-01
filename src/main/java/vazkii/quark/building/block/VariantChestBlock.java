@@ -1,7 +1,6 @@
 package vazkii.quark.building.block;
 
 import java.util.function.BooleanSupplier;
-import java.util.function.Supplier;
 
 import javax.annotation.Nullable;
 
@@ -13,14 +12,13 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.ChestTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.IBlockReader;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.ModList;
 import vazkii.arl.interf.IBlockItemProvider;
 import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.base.Quark;
@@ -38,16 +36,17 @@ public class VariantChestBlock extends ChestBlock implements IBlockItemProvider,
 
 	public final ResourceLocation modelNormal, modelDouble;
 	
-	public VariantChestBlock(String type, Module module, Supplier<TileEntityType<? extends ChestTileEntity>> supplier, Properties props) {
-		super(props, supplier);
+	public VariantChestBlock(String type, Module module, Block.Properties props) {
+		super(props);
 		RegistryHelper.registerBlock(this, type + "_chest");
 		RegistryHelper.setCreativeTab(this, ItemGroup.DECORATIONS);
 		
 		this.type = type;
 		this.module = module;
 		
-		modelNormal = new ResourceLocation(Quark.MOD_ID, "textures/model/chest/" + type + ".png");
-		modelDouble = new ResourceLocation(Quark.MOD_ID, "textures/model/chest/" + type + "_double.png");
+		String path = (this instanceof Compat ? "compat/" : "");
+		modelNormal = new ResourceLocation(Quark.MOD_ID, "textures/model/chest/" + path + type + ".png");
+		modelDouble = new ResourceLocation(Quark.MOD_ID, "textures/model/chest/" + path + type + "_double.png");
 	}
 
 	@Override
@@ -83,12 +82,12 @@ public class VariantChestBlock extends ChestBlock implements IBlockItemProvider,
 		props.setTEISR(() -> () -> new ItemStackTileEntityRenderer() {
 			private final TileEntity tile = new VariantChestTileEntity();
 			
-//			@Override
-//			public void renderByItem(ItemStack itemStackIn) {
-//				VariantChestTileEntityRenderer.forceNormal = modelNormal;
-//				VariantChestTileEntityRenderer.forceDouble = modelDouble;
-//				TileEntityRendererDispatcher.instance.renderAsItem(tile);
-//			} TODO chest rendering
+			@Override
+			public void renderByItem(ItemStack itemStackIn) {
+				VariantChestTileEntityRenderer.forceNormal = modelNormal;
+				VariantChestTileEntityRenderer.forceDouble = modelDouble;
+				TileEntityRendererDispatcher.instance.renderAsItem(tile);
+			}
 		});
 	}
 
@@ -97,6 +96,15 @@ public class VariantChestBlock extends ChestBlock implements IBlockItemProvider,
 	public BlockItem provideItemBlock(Block block, Item.Properties props) {
 		setTEISR(props, modelNormal, modelDouble);
 		return new BlockItem(block, props);
+	}
+	
+	public static class Compat extends VariantChestBlock {
+
+		public Compat(String type, String mod, Module module, Properties props) {
+			super(type, module, props);
+			setCondition(() -> ModList.get().isLoaded(mod));
+		}
+		
 	}
 	
 }

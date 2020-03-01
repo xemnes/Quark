@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.SlabBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
 import net.minecraftforge.event.furnace.FurnaceFuelBurnTimeEvent;
@@ -11,6 +12,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.registries.ForgeRegistries;
 import vazkii.quark.base.Quark;
+import vazkii.quark.building.block.VerticalSlabBlock;
 
 @EventBusSubscriber(modid = Quark.MOD_ID)
 public class FuelHandler {
@@ -27,7 +29,9 @@ public class FuelHandler {
 	}
 
 	public static void addWood(Block block) {
-		addFuel(block, 300);
+		if(block instanceof VerticalSlabBlock || block instanceof SlabBlock)
+			addFuel(block, 150);
+		else addFuel(block, 300);
 	}
 
 	@SuppressWarnings("deprecation")
