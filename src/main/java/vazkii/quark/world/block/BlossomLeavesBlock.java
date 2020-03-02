@@ -28,7 +28,7 @@ public class BlossomLeavesBlock extends LeavesBlock implements IQuarkBlock {
 	private BooleanSupplier enabledSupplier = () -> true;
 	
 	public BlossomLeavesBlock(String colorName, Module module, MaterialColor color) {
-		super(Block.Properties.create(Material.LEAVES, color).hardnessAndResistance(0.2F).tickRandomly().sound(SoundType.PLANT));
+		super(Block.Properties.create(Material.LEAVES, color).hardnessAndResistance(0.2F).tickRandomly().sound(SoundType.PLANT).notSolid());
 		
 		this.module = module;
 

@@ -30,7 +30,7 @@ public class HugeGlowshroomBlock extends HugeMushroomBlock {
 	private final Module module;
 
 	public HugeGlowshroomBlock(String name, Module module) {
-		super(Block.Properties.from(Blocks.RED_MUSHROOM_BLOCK).lightValue(14).tickRandomly());
+		super(Block.Properties.from(Blocks.RED_MUSHROOM_BLOCK).lightValue(14).tickRandomly().notSolid());
 
 		this.module = module;
 		RegistryHelper.registerBlock(this, name);

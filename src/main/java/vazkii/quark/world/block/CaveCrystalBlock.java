@@ -44,7 +44,8 @@ public class CaveCrystalBlock extends QuarkGlassBlock {
 				.lightValue(11)
 				.harvestTool(ToolType.PICKAXE)
 				.harvestLevel(0)
-				.tickRandomly());
+				.tickRandomly()
+				.notSolid());
 
 		float r = ((color >> 16) & 0xff) / 255f;
 		float g = ((color >> 8) & 0xff) / 255f;
