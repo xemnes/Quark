@@ -36,21 +36,9 @@ public class GrateBlock extends QuarkBlock implements IWaterLoggable {
 
 	private static final VoxelShape TRUE_SHAPE = makeCuboidShape(0, 15, 0, 16, 16, 16);
 	private static final VoxelShape SPAWN_BLOCK_SHAPE = makeCuboidShape(0, 15, 0, 16, 32, 16);
-	private static final VoxelShape SELECTION_SHAPE;
 	private static final Float2ObjectArrayMap<Float2ObjectArrayMap<VoxelShape>> WALK_BLOCK_CACHE = new Float2ObjectArrayMap<>();
 
 	public static BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
-
-	static {
-		VoxelShape shape = VoxelShapes.empty();
-
-		for (int x = 0; x < 4; x++)
-			shape = VoxelShapes.or(shape, makeCuboidShape(1 + x * 4, 15, 0, 3 + x * 4, 16, 16));
-		for (int z = 0; z < 4; z++)
-			shape = VoxelShapes.or(shape, makeCuboidShape(0, 15, 1 + z * 4, 16, 16, 3 + z * 4));
-
-		SELECTION_SHAPE = shape;
-	}
 
 	public GrateBlock(String regname, Module module, ItemGroup creativeTab, Properties properties) {
 		super(regname, module, creativeTab, properties);
@@ -82,18 +70,7 @@ public class GrateBlock extends QuarkBlock implements IWaterLoggable {
 	@Override
 	@SuppressWarnings("deprecation")
 	public VoxelShape getShape(BlockState state, IBlockReader world, BlockPos pos, ISelectionContext context) {
-		if (GrateModule.RENDER_SHAPE.get()) {
-			GrateModule.RENDER_SHAPE.remove();
-			return SELECTION_SHAPE;
-		}
-		return context.getEntity().isDiscrete() ? TRUE_SHAPE : SELECTION_SHAPE;
-	}
-
-	@Nonnull
-	@Override
-	@SuppressWarnings("deprecation")
-	public VoxelShape getRenderShape(BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos) {
-		return SELECTION_SHAPE;
+		return TRUE_SHAPE;
 	}
 
 	private static VoxelShape getCachedShape(float stepHeight, float height) {
