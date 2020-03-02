@@ -43,7 +43,7 @@ public class PistonTileEntityRenderer {
 			RenderHelper.enableStandardItemLighting();
 			tile.cachedBlockState = state;
 			TileEntityRenderer<TileEntity> tileentityrenderer = TileEntityRendererDispatcher.instance.getRenderer(tile);
-			// TODO: WIRE: update the passed values
+			// TODO: WIRE: update ASM
 			// we need the params for the render method
 			
 //			if (tileentityrenderer != null)

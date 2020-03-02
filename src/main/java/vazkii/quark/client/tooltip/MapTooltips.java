@@ -3,6 +3,7 @@ package vazkii.quark.client.tooltip;
 import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
@@ -35,8 +36,6 @@ public class MapTooltips {
 		}
 	}
 
-	// TODO WIRE: does not work
-	
 	@OnlyIn(Dist.CLIENT)
 	public static void renderTooltip(RenderTooltipEvent.PostText event) {
 		if(!event.getStack().isEmpty() && event.getStack().getItem() instanceof FilledMapItem && (!ImprovedTooltipsModule.mapRequireShift || Screen.hasShiftDown())) {
@@ -67,11 +66,12 @@ public class MapTooltips {
 			buffer.pos(-pad, -pad, 0.0D).tex(0.0F, 0.0F).endVertex();
 			tessellator.draw();
 
+			RenderSystem.translatef(0, 0, 500);
 			IRenderTypeBuffer.Impl immediateBuffer = IRenderTypeBuffer.getImpl(buffer);
 			MatrixStack matrix = new MatrixStack();
-			mc.gameRenderer.getMapItemRenderer().renderMap(matrix, immediateBuffer, mapdata, true, 0xFFFFFF);
+			mc.gameRenderer.getMapItemRenderer().renderMap(matrix, immediateBuffer, mapdata, true, 240);
 			immediateBuffer.finish();
-			
+
 			RenderSystem.enableLighting();
 			RenderSystem.popMatrix();
 		}
