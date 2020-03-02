@@ -25,7 +25,7 @@ public class PickarangRenderer extends EntityRenderer<PickarangEntity> {
 	public void render(PickarangEntity entity, float yaw, float partialTicks, MatrixStack matrix, IRenderTypeBuffer buffer, int light) {
 		matrix.push();
 		matrix.translate(0, 0.2, 0);
-		matrix.rotate(Vector3f.YP.rotationDegrees(90F));
+		matrix.rotate(Vector3f.XP.rotationDegrees(90F));
 		
 		Minecraft mc = Minecraft.getInstance();
 		float time = entity.ticksExisted + (mc.isGamePaused() ? 0 : partialTicks);
