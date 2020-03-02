@@ -120,7 +120,7 @@ public class EnchantedBookTooltips {
 		int level = clueLevelHolder.get();
 
 		RenderSystem.pushMatrix();
-		RenderSystem.translatef(event.getX(), event.getY() + 12, 0);
+		RenderSystem.translatef(event.getX(), event.getY() + 12, 500);
 		RenderSystem.scalef(0.5f, 0.5f, 1.0f);
 		Minecraft mc = Minecraft.getInstance();
 		List<String> tooltip = event.getLines();
