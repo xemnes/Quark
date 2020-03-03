@@ -12,7 +12,6 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
@@ -340,10 +339,11 @@ public class AttributeTooltips {
     public static void renderTooltip(RenderTooltipEvent.PostText event) {
         ItemStack stack = event.getStack();	
         if(!Screen.hasShiftDown()) {
-            GlStateManager.pushMatrix();
+            RenderSystem.pushMatrix();
+            RenderSystem.translatef(0, 0, 500);
             RenderSystem.color3f(1F, 1F, 1F);
             Minecraft mc = Minecraft.getInstance();
-            GlStateManager.translatef(0F, 0F, mc.getItemRenderer().zLevel);
+            RenderSystem.translatef(0F, 0F, mc.getItemRenderer().zLevel);
 
             int baseX = event.getX();
             int y = TooltipUtils.shiftTextByLines(event.getLines(), event.getY() + 10);
@@ -428,7 +428,7 @@ public class AttributeTooltips {
                 }
             }
 
-            GlStateManager.popMatrix();
+            RenderSystem.popMatrix();
         }
     }
 

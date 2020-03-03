@@ -54,9 +54,9 @@ public class MiniInventoryButton extends Button {
 	public void renderButton(int mouseX, int mouseY, float pticks) {
 		Minecraft mc = Minecraft.getInstance();
 		mc.getTextureManager().bindTexture(MiscUtil.GENERAL_ICONS);
-		GlStateManager.color4f(1.0F, 1.0F, 1.0F, alpha);
-		GlStateManager.disableLighting();
-		GlStateManager.enableBlend();
+		RenderSystem.color4f(1.0F, 1.0F, 1.0F, alpha);
+		RenderSystem.disableLighting();
+		RenderSystem.enableBlend();
 		RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
 		RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 

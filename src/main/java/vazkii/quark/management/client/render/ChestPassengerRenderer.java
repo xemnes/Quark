@@ -39,20 +39,6 @@ public class ChestPassengerRenderer extends EntityRenderer<ChestPassengerEntity>
             return;
 
         BoatEntity boat = (BoatEntity) riding;
-        Vec3d pos = entity.getPositionVec();
-//        double entityYaw = MathHelper.lerp(partialTicks, boat.prevRotationYaw, boat.rotationYaw);
-//        
-//        double dX = MathHelper.lerp(partialTicks, entity.lastTickPosX, pos.x);
-//        double dY = MathHelper.lerp(partialTicks, entity.lastTickPosY, pos.y);
-//        double dZ = MathHelper.lerp(partialTicks, entity.lastTickPosZ, pos.z);
-        
-//        double renderX = dX - x; TODO fix this later
-//        double renderY = dY - y;
-//        double renderZ = dZ - z;
-//        x = MathHelper.lerp(partialTicks, boat.lastTickPosX, boat.posX) - renderX;
-//        y = MathHelper.lerp(partialTicks, boat.lastTickPosY, boat.posY) - renderY;
-//        z = MathHelper.lerp(partialTicks, boat.lastTickPosZ, boat.posZ) - renderZ;
-
         super.render(entity, yaw, partialTicks, matrix, buffer, light);
         
         float rot = 180F - yaw;
@@ -61,7 +47,7 @@ public class ChestPassengerRenderer extends EntityRenderer<ChestPassengerEntity>
 
         matrix.push();
         matrix.translate(0, 0.375, 0);
-        matrix.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(rot));
+        matrix.rotate(Vector3f.YP.rotationDegrees(rot));
         float timeSinceHit = boat.getTimeSinceHit() - partialTicks;
         float damageTaken = boat.getDamageTaken() - partialTicks;
 
@@ -70,26 +56,24 @@ public class ChestPassengerRenderer extends EntityRenderer<ChestPassengerEntity>
 
         if (timeSinceHit > 0.0F) {
         	double angle = MathHelper.sin(timeSinceHit) * timeSinceHit * damageTaken / 10.0F * boat.getForwardDirection();
-            matrix.multiply(Vector3f.POSITIVE_X.getDegreesQuaternion((float) angle));
+            matrix.rotate(Vector3f.XP.rotationDegrees((float) angle));
         }
 
         float rock = boat.getRockingAngle(partialTicks);
         if (!MathHelper.epsilonEquals(rock, 0.0F)) {
-        	 matrix.multiply(Vector3f.POSITIVE_X.getDegreesQuaternion(rock));
+        	 matrix.rotate(Vector3f.XP.rotationDegrees(rock));
         }
 
-        if (riding.getControllingPassenger() == null) {
-            if (riding.getPassengers().size() > 1)
-            	matrix.translate(0F, 0F, -0.9F);
-            else
-            	matrix.translate(0F, 0F, -0.45F);
-        }
+        if (riding.getPassengers().size() > 1)
+        	matrix.translate(0F, 0F, -0.6F);
+        else
+        	matrix.translate(0F, 0F, -0.45F);
 
         matrix.translate(0F, 0.7F - 0.375F, 0.6F - 0.15F);
 
         matrix.scale(1.75F, 1.75F, 1.75F);
 
-        Minecraft.getInstance().getItemRenderer().renderItem(stack, TransformType.FIXED, light, OverlayTexture.DEFAULT_UV, matrix, buffer);
+        Minecraft.getInstance().getItemRenderer().renderItem(stack, TransformType.FIXED, light, OverlayTexture.NO_OVERLAY, matrix, buffer);
         matrix.pop();
     }
 

@@ -1,6 +1,6 @@
 package vazkii.quark.experimental.module;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -22,14 +22,14 @@ public class AdjustableChatModule extends Module {
 	@OnlyIn(Dist.CLIENT)
 	public void pre(RenderGameOverlayEvent.Pre event) {
 		if(event.getType() == ElementType.CHAT)
-			GlStateManager.translated(horizontalShift, verticalShift, 0);
+			RenderSystem.translated(horizontalShift, verticalShift, 0);
 	}
 	
 	@SubscribeEvent
 	@OnlyIn(Dist.CLIENT)
 	public void post(RenderGameOverlayEvent.Post event) {
 		if(event.getType() == ElementType.CHAT)
-			GlStateManager.translated(-horizontalShift, -verticalShift, 0);
+			RenderSystem.translated(-horizontalShift, -verticalShift, 0);
 	}
 	
 }

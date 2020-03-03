@@ -16,7 +16,7 @@ public class RenderLayerHandler {
 	private static final Map<Block, Block> inheritances = new HashMap<>();
 	
 	@OnlyIn(Dist.CLIENT)
-	private static Map<RenderTypeSkeleton, RenderType> renderTypes = null;
+	private static Map<RenderTypeSkeleton, RenderType> renderTypes;
 
 	public static void setRenderType(Block block, RenderTypeSkeleton skeleton) {
 		DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> {

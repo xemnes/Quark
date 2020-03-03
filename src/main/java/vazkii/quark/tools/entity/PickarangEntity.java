@@ -306,8 +306,6 @@ public class PickarangEntity extends Entity implements IProjectile {
 		return false;
 	}
 
-
-
 	@Override
 	public void tick() {
 		Vec3d pos = getPositionVec();
@@ -320,9 +318,9 @@ public class PickarangEntity extends Entity implements IProjectile {
 		if(!dataManager.get(RETURNING))
 			checkImpact();
 
-		Vec3d  vec3d = this.getMotion();
-
-		setPos(pos.x + vec3d.x, pos.y + vec3d.y, pos.z + vec3d.z);
+		Vec3d vec3d = this.getMotion();
+		setPosition(pos.x + vec3d.x, pos.y + vec3d.y, pos.z + vec3d.z);
+		
 		float f = MathHelper.sqrt(horizontalMag(vec3d));
 		this.rotationYaw = (float)(MathHelper.atan2(vec3d.x, vec3d.z) * (180F / (float)Math.PI));
 
@@ -348,11 +346,11 @@ public class PickarangEntity extends Entity implements IProjectile {
 
 		this.setMotion(vec3d.scale(drag));
 
+		pos = getPositionVec();
 		this.setPosition(pos.x, pos.y, pos.z);
 
 		if(!isAlive())
 			return;
-
 
 		boolean returning = dataManager.get(RETURNING);
 		liveTime++;

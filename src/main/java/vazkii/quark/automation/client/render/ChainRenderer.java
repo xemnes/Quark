@@ -10,7 +10,10 @@
  */
 package vazkii.quark.automation.client.render;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import org.lwjgl.opengl.GL11;
+
+import com.mojang.blaze3d.systems.RenderSystem;
+
 import io.netty.util.collection.IntObjectHashMap;
 import io.netty.util.collection.IntObjectMap;
 import net.minecraft.client.Minecraft;
@@ -25,7 +28,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import org.lwjgl.opengl.GL11;
 import vazkii.quark.automation.base.ChainHandler;
 
 @OnlyIn(Dist.CLIENT)
@@ -48,14 +50,14 @@ public class ChainRenderer {
 			}
 
 			float amount = seg / 24.0F;
-			buf.vertex(x + offsetX * amount - centroid, y + offsetY * (amount * amount + amount) * 0.5D + ((24.0F - seg) / 18.0F + 0.125F) * height + xOff / 2 - zOff / 2, z + offsetZ * amount - xOff / 2).color(r, g, b, 1.0F).endVertex();
-			buf.vertex(x + offsetX * amount + centroid, y + offsetY * (amount * amount + amount) * 0.5D + ((24.0F - seg) / 18.0F + 0.125F) * height + zOff / 2 - xOff / 2, z + offsetZ * amount + xOff / 2).color(r, g, b, 1.0F).endVertex();
+			buf.pos(x + offsetX * amount - centroid, y + offsetY * (amount * amount + amount) * 0.5D + ((24.0F - seg) / 18.0F + 0.125F) * height + xOff / 2 - zOff / 2, z + offsetZ * amount - xOff / 2).color(r, g, b, 1.0F).endVertex();
+			buf.pos(x + offsetX * amount + centroid, y + offsetY * (amount * amount + amount) * 0.5D + ((24.0F - seg) / 18.0F + 0.125F) * height + zOff / 2 - xOff / 2, z + offsetZ * amount + xOff / 2).color(r, g, b, 1.0F).endVertex();
 		}
 
 		Tessellator.getInstance().draw();
 	}
 	
-	// TODO does not render
+	// TODO WIRE: does not render
 
 	public static void renderChain(EntityRenderer render, double x, double y, double z, Entity entity, float partTicks) {
 		if (ChainHandler.canBeLinked(entity)/* && !render.renderOutlines*/) {
@@ -132,17 +134,17 @@ public class ChainRenderer {
 			double offsetX = ((float) (xLocus - targetX));
 			double offsetY = ((float) (yLocus - targetY));
 			double offsetZ = ((float) (zLocus - targetZ));
-			GlStateManager.disableTexture();
-			GlStateManager.disableLighting();
-			GlStateManager.disableCull();
+			RenderSystem.disableTexture();
+			RenderSystem.disableLighting();
+			RenderSystem.disableCull();
 
 			drawChainSegment(x, y, z, buf, offsetX, offsetY, offsetZ, 0.025, 0, 0.3f, 0.3f, 0.3f, height);
 
 			drawChainSegment(x, y, z, buf, offsetX, offsetY, offsetZ, 0, 0.025, 0.3f, 0.3f, 0.3f, height);
 
-			GlStateManager.enableLighting();
-			GlStateManager.enableTexture();
-			GlStateManager.enableCull();
+			RenderSystem.enableLighting();
+			RenderSystem.enableTexture();
+			RenderSystem.enableCull();
 		}
 	}
 

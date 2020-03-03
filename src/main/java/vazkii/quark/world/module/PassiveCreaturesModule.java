@@ -48,7 +48,7 @@ public class PassiveCreaturesModule extends Module {
 	public static ConditionalEntitySpawnConfig frogConfig = new ConditionalEntitySpawnConfig("frogs", 40, 1, 3, new BiomeTypeConfig(false, BiomeDictionary.Type.SWAMP));
 
 	@Config(name = "crabs")
-	public static ConditionalEntitySpawnConfig crabConfig = new ConditionalEntitySpawnConfig("crabs", 40, 1, 3, new BiomeTypeConfig(false, BiomeDictionary.Type.BEACH));
+	public static ConditionalEntitySpawnConfig crabConfig = new ConditionalEntitySpawnConfig("crabs", 5, 1, 3, new BiomeTypeConfig(false, BiomeDictionary.Type.BEACH));
 
 	@Config(flag = "passive_creatures_brewing")
 	public static boolean enableBrewing = true;
@@ -124,7 +124,7 @@ public class PassiveCreaturesModule extends Module {
 				.setCustomClientFactory((spawnEntity, world) -> new FrogEntity(frogType, world))
 				.build("frog");
 		RegistryHelper.register(frogType, "frog");
-		EntitySpawnHandler.registerSpawn(this, frogType, EntityClassification.CREATURE, PlacementType.ON_GROUND, Type.MOTION_BLOCKING_NO_LEAVES, AnimalEntity::func_223316_b, frogConfig);
+		EntitySpawnHandler.registerSpawn(this, frogType, EntityClassification.CREATURE, PlacementType.ON_GROUND, Type.MOTION_BLOCKING_NO_LEAVES, AnimalEntity::canAnimalSpawn, frogConfig);
 		EntitySpawnHandler.addEgg(frogType, 0xbc9869, 0xffe6ad, frogConfig);
 
 		crabType = EntityType.Builder.<CrabEntity>create(CrabEntity::new, EntityClassification.CREATURE)

@@ -328,7 +328,7 @@ public class FoxhoundEntity extends WolfEntity implements IMob {
 
 
 	public static boolean canSpawnHere(IWorld world, BlockPos pos, Random rand) {
-		if (world.getLightLevel(LightType.SKY, pos) > rand.nextInt(32)) {
+		if (world.getLightFor(LightType.SKY, pos) > rand.nextInt(32)) {
 			return false;
 		} else {
 			int light = world.getWorld().isThundering() ? world.getNeighborAwareLightSubtracted(pos, 10) : world.getLight(pos);
@@ -342,7 +342,7 @@ public class FoxhoundEntity extends WolfEntity implements IMob {
 	}
 
 	public static boolean spawnPredicate(EntityType<? extends FoxhoundEntity> type, IWorld world, SpawnReason reason, BlockPos pos, Random rand) {
-		return world.getDifficulty() != Difficulty.PEACEFUL && canSpawnHere(world, pos, rand) && spawnPredicate(type, world, reason, pos, rand);
+		return world.getDifficulty() != Difficulty.PEACEFUL && canSpawnHere(world, pos, rand) && canAnimalSpawn(type, world, reason, pos, rand);
 	}
 
 	public SleepGoal getSleepGoal() {

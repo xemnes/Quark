@@ -1,8 +1,17 @@
 package vazkii.quark.vanity.module;
 
+import java.io.File;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
+
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.ChatScreen;
@@ -34,12 +43,13 @@ import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
 import vazkii.quark.base.network.QuarkNetwork;
 import vazkii.quark.base.network.message.RequestEmoteMessage;
-import vazkii.quark.vanity.client.emote.*;
+import vazkii.quark.vanity.client.emote.CustomEmoteIconResourcePack;
+import vazkii.quark.vanity.client.emote.EmoteBase;
+import vazkii.quark.vanity.client.emote.EmoteDescriptor;
+import vazkii.quark.vanity.client.emote.EmoteHandler;
+import vazkii.quark.vanity.client.emote.ModelAccessor;
 import vazkii.quark.vanity.client.gui.EmoteButton;
 import vazkii.quark.vanity.client.gui.TranslucentButton;
-
-import java.io.File;
-import java.util.*;
 
 @LoadModule(category = ModuleCategory.VANITY, hasSubscriptions = true, subscribeOn = Dist.CLIENT)
 public class EmotesModule extends Module {
@@ -104,7 +114,7 @@ public class EmotesModule extends Module {
 
 		emoteKeybinds = new HashMap<>();
 		for (String s : DEFAULT_EMOTE_NAMES)
-			emoteKeybinds.put(ModKeybindHandler.init("quark.emote." + s, null, ModKeybindHandler.EMOTE_GROUP, sortOrder++, false), s);
+			emoteKeybinds.put(ModKeybindHandler.init("quark.emote." + s, null, "", ModKeybindHandler.EMOTE_GROUP, sortOrder++, false), s);
 		for (String s : PATREON_EMOTES)
 			emoteKeybinds.put(ModKeybindHandler.init("patreon_emote." + s, null, ModKeybindHandler.EMOTE_GROUP, sortOrder++), s);
 	}
@@ -235,19 +245,19 @@ public class EmotesModule extends Module {
 				else if(emote.timeDone > emote.totalTime - tween)
 					transparency = (emote.totalTime - emote.timeDone) / tween;
 
-				GlStateManager.pushMatrix();
-				GlStateManager.disableLighting();
-				GlStateManager.enableBlend();
-				GlStateManager.disableAlphaTest();
+				RenderSystem.pushMatrix();
+				RenderSystem.disableLighting();
+				RenderSystem.enableBlend();
+				RenderSystem.disableAlphaTest();
 
-				GlStateManager.color4f(1F, 1F, 1F, transparency);
+				RenderSystem.color4f(1F, 1F, 1F, transparency);
 				mc.getTextureManager().bindTexture(resource);
 				Screen.blit(x, y, 0, 0, 32, 32, 32, 32);
-				GlStateManager.enableBlend();
+				RenderSystem.enableBlend();
 
 				String name = I18n.format(emote.desc.getTranslationKey());
 				mc.fontRenderer.drawStringWithShadow(name, res.getScaledWidth() / 2f - mc.fontRenderer.getStringWidth(name) / 2f, y + 34, 0xFFFFFF + (((int) (transparency * 255F)) << 24));
-				GlStateManager.popMatrix();
+				RenderSystem.popMatrix();
 			}
 		}
 	}	

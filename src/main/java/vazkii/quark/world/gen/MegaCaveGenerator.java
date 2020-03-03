@@ -33,12 +33,12 @@ public class MegaCaveGenerator extends ClusterBasedGenerator {
 	}
 
 	@Override
-	public BlockPos[] getSourcesInChunk(Random random, ChunkGenerator<? extends GenerationSettings> generator, BlockPos chunkLeft) {
+	public BlockPos[] getSourcesInChunk(IWorld world, Random random, ChunkGenerator<? extends GenerationSettings> generator, BlockPos chunkLeft) {
 		if(!(generator instanceof FlatChunkGenerator)) {
 			int rarity = shapeProvider.getRarity();
 			if(rarity > 0 && random.nextInt(rarity) == 0) {
 				BlockPos pos = chunkLeft.add(random.nextInt(16), shapeProvider.getRandomYLevel(random), random.nextInt(16));
-				if(shapeProvider.getBiomeTypes().canSpawn(getBiome(generator, pos)))
+				if(shapeProvider.getBiomeTypes().canSpawn(getBiome(world, pos)))
 					return new BlockPos[] { pos };
 			}
 		}

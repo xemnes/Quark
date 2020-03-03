@@ -1,6 +1,5 @@
 package vazkii.quark.vanity.client.gui;
 
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
@@ -43,16 +42,16 @@ public class EmoteButton extends TranslucentButton {
 				int left = x - w;
 				int top = y - 8;
 				
-				GlStateManager.pushMatrix();
+				RenderSystem.pushMatrix();
 				RenderSystem.color3f(1F, 1F, 1F);
-				GlStateManager.translated(0, 0, 100);
+				RenderSystem.translated(0, 0, 100);
 				blit(left, top, 242, 9, 5, 17, 256, 256);
 				for(int i = 0; i < w; i++)
 					blit(left + i + 5, top, 248, 9, 1, 17, 256, 256);
 				blit(left + w + 5, top, 250, 9, 6, 17, 256, 256);
 
 				mc.fontRenderer.drawString(name, left + 5, top + 3, 0);
-				GlStateManager.popMatrix();
+				RenderSystem.popMatrix();
 			}
 		}
 	}

@@ -15,7 +15,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
@@ -115,7 +115,7 @@ public final class EmoteHandler {
 	public static void preRender(PlayerEntity player) {
 		EmoteBase emote = getPlayerEmote(player);
 		if (emote != null) {
-			GlStateManager.pushMatrix();
+			RenderSystem.pushMatrix();
 			emote.rotateAndOffset();
 		}
 	}
@@ -123,7 +123,7 @@ public final class EmoteHandler {
 	public static void postRender(PlayerEntity player) {
 		EmoteBase emote = getPlayerEmote(player);
 		if (emote != null) {
-			GlStateManager.popMatrix();
+			RenderSystem.popMatrix();
 		}
 	}
 
@@ -188,7 +188,7 @@ public final class EmoteHandler {
 				PlayerModel<AbstractClientPlayerEntity>>> list = render.layerRenderers;
 		for(LayerRenderer<?, ?> r : list) {
 			if(r instanceof BipedArmorLayer)	
-				return ((BipedArmorLayer<?, ?, ?>) r).func_215337_a(slot);
+				return ((BipedArmorLayer<?, ?, ?>) r).getModelFromSlot(slot);
 		}
 		
 		return null;

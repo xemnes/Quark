@@ -6,6 +6,7 @@ import java.util.function.Consumer;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.TextureStitchEvent;
 import vazkii.quark.base.Quark;
 
 public final class ModuleLoader {
@@ -62,6 +63,11 @@ public final class ModuleLoader {
 		dispatch(Module::modelRegistry);
 	}
 
+	@OnlyIn(Dist.CLIENT)
+	public void textureStitch(TextureStitchEvent.Pre event) {
+		dispatch(m -> m.textureStitch(event));
+	}
+	
 	public void loadComplete() {
 		dispatch(Module::loadComplete);
 	}

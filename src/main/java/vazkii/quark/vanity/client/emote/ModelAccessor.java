@@ -20,6 +20,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.aurelienribon.tweenengine.TweenAccessor;
 
+// TODO WIRE: update ASM to inject properly into the model render
+
 @OnlyIn(Dist.CLIENT)
 public class ModelAccessor implements TweenAccessor<BipedModel<?>> {
 
@@ -29,7 +31,7 @@ public class ModelAccessor implements TweenAccessor<BipedModel<?>> {
 	private static final int ROT_Y = 1;
 	private static final int ROT_Z = 2;
 	
-	protected static final int MODEL_PROPS = 6;
+	protected static final int MODEL_PROPS = 3;
 	protected static final int BODY_PARTS = 7;
 	protected static final int STATE_COUNT = MODEL_PROPS * BODY_PARTS;
 	
@@ -67,7 +69,7 @@ public class ModelAccessor implements TweenAccessor<BipedModel<?>> {
 	private final Map<BipedModel<?>, float[]> MODEL_VALUES = new WeakHashMap<>();
 
 	public static ModelRenderer getEarsModel(PlayerModel<?> model) {
-		return model.bipedBody; //model.parts.get(model.parts.indexOf(model.bipedLeftArm) - 2); TODO Wire: AT into model.parts
+		return model.bipedBody; //model.parts.get(model.parts.indexOf(model.bipedLeftArm) - 2); TODO WIRE is this really necessary lol
 	}
 
 	public void resetModel(BipedModel<?> model) {

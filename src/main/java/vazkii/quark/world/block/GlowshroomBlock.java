@@ -25,6 +25,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.IPlantable;
 import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.base.block.IQuarkBlock;
+import vazkii.quark.base.handler.RenderLayerHandler;
+import vazkii.quark.base.handler.RenderLayerHandler.RenderTypeSkeleton;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.world.module.underground.GlowshroomUndergroundBiomeModule;
 
@@ -39,6 +41,8 @@ public class GlowshroomBlock extends MushroomBlock implements IQuarkBlock {
 		this.module = module;
 		RegistryHelper.registerBlock(this, "glowshroom");
 		RegistryHelper.setCreativeTab(this, ItemGroup.DECORATIONS);
+		
+		RenderLayerHandler.setRenderType(this, RenderTypeSkeleton.CUTOUT);
 	}
 	
 	@Override
@@ -53,7 +57,7 @@ public class GlowshroomBlock extends MushroomBlock implements IQuarkBlock {
 	}
 	
 	@Override
-	public void scheduledTick(@Nonnull BlockState state, @Nonnull ServerWorld worldIn, @Nonnull BlockPos pos, Random rand) {
+	public void tick(@Nonnull BlockState state, @Nonnull ServerWorld worldIn, @Nonnull BlockPos pos, Random rand) {
 		if(rand.nextInt(GlowshroomUndergroundBiomeModule.glowshroomGrowthRate) == 0) {
 			int i = 5;
 

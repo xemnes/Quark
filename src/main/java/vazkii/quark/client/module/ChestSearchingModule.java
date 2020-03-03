@@ -1,6 +1,14 @@
 package vazkii.quark.client.module;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.BiPredicate;
+import java.util.regex.Pattern;
+
+import com.mojang.blaze3d.systems.RenderSystem;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
@@ -46,13 +54,6 @@ import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
 import vazkii.quark.management.client.gui.MiniInventoryButton;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.function.BiPredicate;
-import java.util.regex.Pattern;
 
 @LoadModule(category = ModuleCategory.CLIENT, hasSubscriptions = true, subscribeOn = Dist.CLIENT)
 public class ChestSearchingModule extends Module {
@@ -173,7 +174,7 @@ public class ChestSearchingModule extends Module {
 						int x = guiLeft + s.xPos;
 						int y = guiTop + s.yPos;
 
-						GlStateManager.disableDepthTest();
+						RenderSystem.disableDepthTest();
 						Screen.fill(x, y, x + 16, y + 16, 0xAA000000);
 					} else matched++;
 				}
@@ -191,8 +192,8 @@ public class ChestSearchingModule extends Module {
 		if(gui == null)
 			return;
 
-		GlStateManager.color4f(1F, 1F, 1F, 1F);
-		GlStateManager.disableLighting();
+		RenderSystem.color4f(1F, 1F, 1F, 1F);
+		RenderSystem.disableLighting();
 		Minecraft.getInstance().getTextureManager().bindTexture(MiscUtil.GENERAL_ICONS);
 		Screen.blit(x, y, 0, 0, 126, 13, 256, 256);
 	}
@@ -232,7 +233,7 @@ public class ChestSearchingModule extends Module {
 			}
 		}
 
-		String name = stack.getDisplayName().toString();
+		String name = stack.getDisplayName().getUnformattedComponentText();
 		name = TextFormatting.getTextWithoutFormattingCodes(name.trim().toLowerCase());
 
 		StringMatcher matcher = String::contains;

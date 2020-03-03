@@ -47,12 +47,12 @@ public class ClusterShape {
 		// when nearing the end of the loop, lerp back to the start to prevent it cutting off
 		double cutoff = 0.75 * Math.PI;
 		if(phi > cutoff) {
-			double noise0 = noiseGenerator.noiseAt(-Math.PI + src.getX(), yn, false);
+			double noise0 = noiseGenerator.noiseAt(-Math.PI + src.getX(), yn, false); 
 			noise = MathHelper.lerp((phi - cutoff) / (Math.PI - cutoff), noise, noise0);
 		}
 		
 		// accept if within constrains
-		double maxR = (noise / 16.0) + 0.5;
+		double maxR = noise + 0.5;
 		return r < maxR;
 	}
 

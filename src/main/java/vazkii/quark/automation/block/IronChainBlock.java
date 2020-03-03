@@ -48,8 +48,6 @@ public class IronChainBlock extends QuarkBlock implements IWaterLoggable {
 		RenderLayerHandler.setRenderType(this, RenderTypeSkeleton.CUTOUT);
 	}
 	
-	// TODO doesn't stick
-	
 	@Override
 	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
 		builder.add(TYPE, WATERLOGGED);
@@ -57,7 +55,9 @@ public class IronChainBlock extends QuarkBlock implements IWaterLoggable {
 	
 	@Override
 	public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
-		return state.isSideSolidFullSquare(worldIn, pos.up(), Direction.DOWN);
+		BlockPos upPos = pos.up();
+		BlockState upState = worldIn.getBlockState(upPos);
+		return upState.getBlock() == this || upState.isSolidSide(worldIn, upPos, Direction.DOWN);
 	}
 	
 	@Override

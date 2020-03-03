@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
@@ -50,7 +49,7 @@ public class FoodTooltips {
 		if(event.getStack().isFood()) {
 			Food food = event.getStack().getItem().getFood();
 			if (food != null) {
-				GlStateManager.pushMatrix();
+				RenderSystem.pushMatrix();
 				RenderSystem.color3f(1F, 1F, 1F);
 				Minecraft mc = Minecraft.getInstance();
 				mc.getTextureManager().bindTexture(ForgeIngameGui.GUI_ICONS_LOCATION);
@@ -86,7 +85,7 @@ public class FoodTooltips {
 					AbstractGui.blit(x, y, u, v, 9, 9, 256, 256);
 				}
 
-				GlStateManager.popMatrix();
+				RenderSystem.popMatrix();
 			}
 		}
 	}

@@ -3,7 +3,6 @@ package vazkii.quark.client.tooltip;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.block.ShulkerBoxBlock;
@@ -100,15 +99,15 @@ public class ShulkerBoxTooltips {
 							currentY = event.getY() + event.getLines().size() * 10 + 5;
 
 						int right = currentX + texWidth;
-						MainWindow window = mc.getWindow();
+						MainWindow window = mc.getMainWindow();
 						if (right > window.getScaledWidth())
 							currentX -= (right - window.getScaledWidth());
 
-						GlStateManager.pushMatrix();
-						RenderHelper.enable();
-						GlStateManager.enableRescaleNormal();
+						RenderSystem.pushMatrix();
+						RenderHelper.enableStandardItemLighting();
+						RenderSystem.enableRescaleNormal();
 						RenderSystem.color3f(1F, 1F, 1F);
-						GlStateManager.translatef(0, 0, 700);
+						RenderSystem.translatef(0, 0, 700);
 						mc.getTextureManager().bindTexture(WIDGET_RESOURCE);
 
 						RenderHelper.disableStandardItemLighting();
@@ -129,8 +128,8 @@ public class ShulkerBoxTooltips {
 
 						ItemRenderer render = mc.getItemRenderer();
 
-						RenderHelper.enable();
-						GlStateManager.enableDepthTest();
+						RenderHelper.enableStandardItemLighting();
+						RenderSystem.enableDepthTest();
 						for (int i = 0; i < size; i++) {
 							ItemStack itemstack = capability.getStackInSlot(i);
 							int xp = currentX + 6 + (i % 9) * 18;
@@ -142,14 +141,14 @@ public class ShulkerBoxTooltips {
 							}
 
 							if (!ChestSearchingModule.namesMatch(itemstack)) {
-								GlStateManager.disableDepthTest();
+								RenderSystem.disableDepthTest();
 								AbstractGui.fill(xp, yp, xp + 16, yp + 16, 0xAA000000);
 							}
 						}
 
-						GlStateManager.disableDepthTest();
-						GlStateManager.disableRescaleNormal();
-						GlStateManager.popMatrix();
+						RenderSystem.disableDepthTest();
+						RenderSystem.disableRescaleNormal();
+						RenderSystem.popMatrix();
 					});
 
 				}

@@ -29,7 +29,6 @@ import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.model.IBakedModel;
-import net.minecraft.client.renderer.model.ItemCameraTransforms.TransformType;
 import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.util.InputMappings;
@@ -50,7 +49,6 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.util.text.event.HoverEvent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.event.ClientChatEvent;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -76,7 +74,7 @@ public class ItemSharingModule extends Module {
 	public void keyboardEvent(GuiScreenEvent.KeyboardKeyPressedEvent.Pre event) {
 		Minecraft mc = Minecraft.getInstance();
 		GameSettings settings = mc.gameSettings;
-		if(InputMappings.isKeyDown(mc.getWindow().getHandle(), settings.keyBindChat.getKey().getKeyCode()) &&
+		if(InputMappings.isKeyDown(mc.getMainWindow().getHandle(), settings.keyBindChat.getKey().getKeyCode()) &&
 				event.getGui() instanceof ContainerScreen && Screen.hasShiftDown()) {
 			ContainerScreen gui = (ContainerScreen) event.getGui();
 
@@ -211,7 +209,7 @@ public class ItemSharingModule extends Module {
 				int y = chatY - mc.fontRenderer.FONT_HEIGHT * lineHeight;
 
 				if (alpha > 0) {
-					RenderHelper.enable();
+					RenderHelper.enableStandardItemLighting();
 					alphaValue = ((int) (alpha * 255) << 24);
 
 					renderItemIntoGUI(mc, mc.getItemRenderer(), stack, x, y);
@@ -250,11 +248,9 @@ public class ItemSharingModule extends Module {
 		RenderSystem.enableBlend();
 		RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-		RenderSystem.translatef(-4, -4, -4);
-//		render.setupGuiTransform(x, y, model.isGui3d()); TODO Wire
-//		RenderSystem.scalef(0.65f, 0.65f, 0.65f);
-//		model = ForgeHooksClient.handleCameraTransforms(model, TransformType.GUI, false);
-//		render.renderItem(stack, model);
+		RenderSystem.translatef(x - 2, y - 2, -2);
+		RenderSystem.scalef(0.65f, 0.65f, 0.65f);
+		render.renderItemIntoGUI(stack, 0, 0);
 		RenderSystem.disableAlphaTest();
 		RenderSystem.disableRescaleNormal();
 		RenderSystem.disableLighting();

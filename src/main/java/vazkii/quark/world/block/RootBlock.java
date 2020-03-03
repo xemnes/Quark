@@ -34,8 +34,6 @@ public class RootBlock extends VineBlock implements IQuarkBlock, IGrowable {
 	private final Module module;
 	private BooleanSupplier enabledSupplier = () -> true;
 
-	// TODO wrong layer
-	
 	public RootBlock(Module module) {
 		super(Block.Properties.create(Material.TALL_PLANTS).doesNotBlockMovement().tickRandomly().hardnessAndResistance(0.2F).sound(SoundType.PLANT));
 		this.module = module;
@@ -55,7 +53,7 @@ public class RootBlock extends VineBlock implements IQuarkBlock, IGrowable {
 	}
 	
 	@Override
-	public void scheduledTick(BlockState state, ServerWorld worldIn, BlockPos pos, Random random) {
+	public void tick(BlockState state, ServerWorld worldIn, BlockPos pos, Random random) {
 		if(!worldIn.isRemote && worldIn.rand.nextInt(2) == 0)
 			grow(worldIn, random, pos, state);
 	}
@@ -144,7 +142,7 @@ public class RootBlock extends VineBlock implements IQuarkBlock, IGrowable {
 	public boolean canUseBonemeal(World world, Random rand, BlockPos pos, BlockState state) {
 		return rand.nextFloat() < 0.4;
 	}
-
+	
 	@Override
 	public void grow(ServerWorld world, Random rand, BlockPos pos, BlockState state) {
 		growAndReturnLastPos(world, pos, state);

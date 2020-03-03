@@ -33,7 +33,8 @@ public class LeafCarpetBlock extends QuarkBlock implements IBlockColorProvider {
 		super(name + "_leaf_carpet", module, ItemGroup.DECORATIONS, 
 				Block.Properties.create(Material.CARPET)
 				.hardnessAndResistance(0.2F)
-				.sound(SoundType.PLANT));
+				.sound(SoundType.PLANT)
+				.notSolid());
 		
 		baseState = base.getDefaultState();
 		

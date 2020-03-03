@@ -241,6 +241,7 @@
 	"block.quark.nether_brick_chest": "Nether Brick Chest",
 	"block.quark.purpur_chest": "Purpur Chest",
 	"block.quark.prismarine_chest": "Prismarine Chest",
+	"block.quark.mushroom_chest": "Mushroom Chest",
 	"block.quark.oak_trapped_chest": "Oak Trapped Chest",
 	"block.quark.spruce_trapped_chest": "Spruce Trapped Chest",
 	"block.quark.birch_trapped_chest": "Birch Trapped Chest",
@@ -250,6 +251,19 @@
 	"block.quark.nether_brick_trapped_chest": "Nether Brick Trapped Chest",
 	"block.quark.purpur_trapped_chest": "Purpur Trapped Chest",
 	"block.quark.prismarine_trapped_chest": "Prismarine Trapped Chest",
+	"block.quark.mushroom_trapped_chest": "Mushroom Trapped Chest",
+	"block.quark.bamboo_chest": "Bamboo Chest",
+	"block.quark.driftwood_chest": "Driftwood Chest",
+	"block.quark.poise_chest": "Poise Chest",
+	"block.quark.willow_chest": "Willow Chest",
+	"block.quark.wisteria_chest": "Wisteria Chest",
+	"block.quark.hive_chest": "Hive Chest",
+	"block.quark.bamboo_trapped_chest": "Bamboo Trapped Chest",
+	"block.quark.driftwood_trapped_chest": "Driftwood Trapped Chest",
+	"block.quark.poise_trapped_chest": "Poise Trapped Chest",
+	"block.quark.willow_trapped_chest": "Willow Trapped Chest",
+	"block.quark.wisteria_trapped_chest": "Wisteria Trapped Chest",
+	"block.quark.hive_trapped_chest": "Hive Trapped Chest",
 	"block.quark.blaze_lantern": "Blaze Lantern",
 	"block.quark.sugar_cane_block": "Sugar Cane Bundle",
 	"block.quark.brimstone": "Brimstone",
@@ -762,6 +776,15 @@
 	"block.quark.lavender_blossom_leaf_carpet": "Serene Blossom Leaf Carpet",
 	"block.quark.blue_blossom_leaf_carpet": "Frosty Blossom Leaf Carpet",
 	"block.quark.tallow_block": "Tallow Block",
+	"block.quark.bonded_leather": "Bonded Leather",
+	"block.quark.iron_plate": "Iron Plate",
+	"block.quark.rusty_iron_plate": "Rusty Iron Plate",
+	"block.quark.iron_plate_stairs": "Iron Plate Stairs",
+	"block.quark.rusty_iron_plate_stairs": "Rusty Iron Plate Stairs",
+	"block.quark.iron_plate_slab": "Iron Plate Slab",
+	"block.quark.rusty_iron_plate_slab": "Rusty Iron Plate Slab",
+	"block.quark.iron_plate_vertical_slab": "Iron Plate Vertical Slab",
+	"block.quark.rusty_iron_plate_vertical_slab": "Rusty Iron Plate Vertical Slab",
 	
 	"item.quark.stoneling_spawn_egg": "Stoneling Spawn Egg",
 	"item.quark.frog_spawn_egg": "Frog Spawn Egg",
@@ -784,4 +807,5 @@
 	"entity.quark.wrapped": "Wrapped"
 	
 }
+
 
