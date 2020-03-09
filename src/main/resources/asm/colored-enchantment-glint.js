@@ -34,8 +34,8 @@ function initializeCoreMod() {
             'target': {
                 'type': 'METHOD',
                 'class': 'net.minecraft.client.renderer.ItemRenderer',
-                'methodName': 'func_180454_a', // renderItem
-                'methodDesc': '(Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/renderer/model/IBakedModel;)V'
+                'methodName': 'func_229111_a_', // renderItem
+                'methodDesc': '(Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/renderer/model/ItemCameraTransforms$TransformType;ZLcom/mojang/blaze3d/matrix/MatrixStack;Lnet/minecraft/client/renderer/IRenderTypeBuffer;IILnet/minecraft/client/renderer/model/IBakedModel;)V'
             },
             'transformer': function(method) {
                 var ASM = Java.type('net.minecraftforge.coremod.api.ASMAPI');
@@ -58,12 +58,12 @@ function initializeCoreMod() {
             }
         },
 
-        'use-color': {
+        'change-glint-render': {
             'target': {
                 'type': 'METHOD',
-                'class': 'net.minecraft.client.renderer.ItemRenderer',
-                'methodName': 'func_191965_a', // renderModel
-                'methodDesc': '(Lnet/minecraft/client/renderer/model/IBakedModel;I)V'
+                'class': 'net.minecraft.client.renderer.RenderType',
+                'methodName': 'func_228653_j_', // getGlint
+                'methodDesc': '()Lnet/minecraft/client/renderer/RenderType;'
             },
             'transformer': function(method) {
                 var ASM = Java.type('net.minecraftforge.coremod.api.ASMAPI');
@@ -72,47 +72,43 @@ function initializeCoreMod() {
                 var InsnList = Java.type('org.objectweb.asm.tree.InsnList');
 
                 var newInstructions = new InsnList();
-                newInstructions.add(new VarInsnNode(Opcodes.ILOAD, 2));
                 newInstructions.add(ASM.buildMethodCall(
                     "vazkii/quark/base/handler/AsmHooks", 
-                    "changeColor",
-                    "(I)I", 
+                    "getGlintRender",
+                    "(Lnet/minecraft/client/renderer/RenderType;)Lnet/minecraft/client/renderer/RenderType;", 
                     ASM.MethodType.STATIC
                 ));
-                newInstructions.add(new VarInsnNode(Opcodes.ISTORE, 2));
 
-                method.instructions.insertBefore(method.instructions.getFirst(), newInstructions);
+                method.instructions.insertBefore(method.instructions.getLast(), newInstructions);
 
                 return method;
             }
         },
 
-        'use-color-teisr': {
+        'change-entity-glint-render': {
             'target': {
                 'type': 'METHOD',
-                'class': 'net.minecraft.client.renderer.ItemRenderer',
-                'methodName': 'func_211271_a', // renderEffect
-                'methodDesc': '(Ljava/lang/Runnable;)V'
+                'class': 'net.minecraft.client.renderer.RenderType',
+                'methodName': 'func_228655_k_', // getEntityGlint
+                'methodDesc': '()Lnet/minecraft/client/renderer/RenderType;'
             },
             'transformer': function(method) {
                 var ASM = Java.type('net.minecraftforge.coremod.api.ASMAPI');
+                var Opcodes = Java.type('org.objectweb.asm.Opcodes');
+                var VarInsnNode = Java.type('org.objectweb.asm.tree.VarInsnNode');
                 var InsnList = Java.type('org.objectweb.asm.tree.InsnList');
 
-                return injectForEachMethod(method,
-                    ASM.MethodType.STATIC,
-                    "com/mojang/blaze3d/platform/GlStateManager",
-                    ASM.mapMethod("color3f"), // color3f
-                    "(FFF)V",
-                    function (target) {
-                        var newInstructions = new InsnList();
-                        newInstructions.add(ASM.buildMethodCall(
-                            "vazkii/quark/base/handler/AsmHooks",
-                            "applyRuneColor",
-                            "()V",
-                            ASM.MethodType.STATIC
-                        ));
-                        method.instructions.insert(target, newInstructions);
-                    });
+                var newInstructions = new InsnList();
+                newInstructions.add(ASM.buildMethodCall(
+                    "vazkii/quark/base/handler/AsmHooks", 
+                    "getEntityGlintRender",
+                    "(Lnet/minecraft/client/renderer/RenderType;)Lnet/minecraft/client/renderer/RenderType;", 
+                    ASM.MethodType.STATIC
+                ));
+
+                method.instructions.insertBefore(method.instructions.getLast(), newInstructions);
+
+                return method;
             }
         },
 
@@ -120,8 +116,8 @@ function initializeCoreMod() {
             'target': {
                 'type': 'METHOD',
                 'class': 'net.minecraft.client.renderer.entity.layers.ElytraLayer',
-                'methodName': 'func_212842_a_', // render
-                'methodDesc': '(Lnet/minecraft/entity/LivingEntity;FFFFFFF)V'
+                'methodName': 'func_225628_a_', // render
+                'methodDesc': '(Lcom/mojang/blaze3d/matrix/MatrixStack;Lcom/mojang/blaze3d/vertex/IVertexBuilder;IIFFFF)V'
             },
             'transformer': function(method) {
                 var ASM = Java.type('net.minecraftforge.coremod.api.ASMAPI');
@@ -130,13 +126,13 @@ function initializeCoreMod() {
                 var InsnList = Java.type('org.objectweb.asm.tree.InsnList');
 
                 return injectForEachMethod(method,
-                    ASM.MethodType.STATIC,
-                    "net/minecraft/client/renderer/entity/layers/ArmorLayer",
-                    ASM.mapMethod("func_215338_a"), // func_215338_a
-                    "(Ljava/util/function/Consumer;Lnet/minecraft/entity/Entity;Lnet/minecraft/client/renderer/entity/model/EntityModel;FFFFFFF)V",
+                    ASM.MethodType.VIRTUAL,
+                    "com/mojang/blaze3d/matrix/MatrixStack",
+                    ASM.mapMethod("func_227860_a_"), // push
+                    "()V",
                     function (target) {
                         var newInstructions = new InsnList();
-                        newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 9));
+                        newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 11));
                         newInstructions.add(ASM.buildMethodCall(
                             "vazkii/quark/base/handler/AsmHooks",
                             "setColorRuneTargetStack",
@@ -153,8 +149,8 @@ function initializeCoreMod() {
             'target': {
                 'type': 'METHOD',
                 'class': 'net.minecraft.client.renderer.entity.layers.ArmorLayer',
-                'methodName': 'func_188361_a', // renderArmorLayer
-                'methodDesc': '(Lnet/minecraft/entity/LivingEntity;FFFFFFFLnet/minecraft/inventory/EquipmentSlotType;)V'
+                'methodName': 'func_229129_a_', // renderArmorPart
+                'methodDesc': '(Lcom/mojang/blaze3d/matrix/MatrixStack;Lnet/minecraft/client/renderer/IRenderTypeBuffer;Lnet/minecraft/entity/LivingEntity;FFFFFFLnet/minecraft/inventory/EquipmentSlotType;I)V'
             },
             'transformer': function(method) {
                 var ASM = Java.type('net.minecraftforge.coremod.api.ASMAPI');
@@ -163,47 +159,25 @@ function initializeCoreMod() {
                 var InsnList = Java.type('org.objectweb.asm.tree.InsnList');
 
                 var newInstructions = new InsnList();
-                newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 1));
-                newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 9));
-                newInstructions.add(ASM.buildMethodCall(
-                    "vazkii/quark/base/handler/AsmHooks",
-                    "setColorRuneTargetStack",
-                    "(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/inventory/EquipmentSlotType;)V",
-                    ASM.MethodType.STATIC
-                ));
-
-                method.instructions.insertBefore(method.instructions.getFirst(), newInstructions);
-
-                return method;
-            }
-        },
-
-        'armor-recolor': {
-            'target': {
-                'type': 'METHOD',
-                'class': 'net.minecraft.client.renderer.entity.layers.ArmorLayer',
-                'methodName': 'func_215338_a',
-                'methodDesc': '(Ljava/util/function/Consumer;Lnet/minecraft/entity/Entity;Lnet/minecraft/client/renderer/entity/model/EntityModel;FFFFFFF)V'
-            },
-            'transformer': function(method) {
-                var ASM = Java.type('net.minecraftforge.coremod.api.ASMAPI');
-                var InsnList = Java.type('org.objectweb.asm.tree.InsnList');
-
                 return injectForEachMethod(method,
-                    ASM.MethodType.STATIC,
-                    "com/mojang/blaze3d/platform/GlStateManager",
-                    ASM.mapMethod("color4f"), // color4f
-                    "(FFFF)V",
+                    ASM.MethodType.VIRTUAL,
+                    "net/minecraft/client/renderer/entity/layers/ArmorLayer",
+                    ASM.mapMethod("func_215337_a"), // getModelFromSlot
+                    "(Lnet/minecraft/inventory/EquipmentSlotType;)Lnet/minecraft/client/renderer/entity/model/BipedModel;",
                     function (target) {
                         var newInstructions = new InsnList();
+                        newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 12));
                         newInstructions.add(ASM.buildMethodCall(
                             "vazkii/quark/base/handler/AsmHooks",
-                            "applyRuneColor",
-                            "()V",
+                            "setColorRuneTargetStack",
+                            "(Lnet/minecraft/item/ItemStack;)V",
                             ASM.MethodType.STATIC
                         ));
-                        method.instructions.insert(target, newInstructions);
+
+                        method.instructions.insertBefore(target, newInstructions);
                     });
+
+                return method;
             }
         }
     }

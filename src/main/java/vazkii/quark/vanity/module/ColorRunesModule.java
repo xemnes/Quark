@@ -2,6 +2,7 @@ package vazkii.quark.vanity.module;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -22,11 +23,13 @@ import vazkii.arl.util.ItemNBTHelper;
 import vazkii.quark.api.IRuneColorProvider;
 import vazkii.quark.api.QuarkCapabilities;
 import vazkii.quark.base.Quark;
+import vazkii.quark.base.client.QuarkRenderTypes;
 import vazkii.quark.base.handler.MiscUtil;
 import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
+import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.vanity.item.RainbowRuneItem;
 import vazkii.quark.vanity.item.RuneItem;
 
@@ -49,46 +52,53 @@ public class ColorRunesModule extends Module {
 	@Config public static int desertTempleWeight = 8;
 	@Config public static int itemQuality = 0;
 	@Config public static int applyCost = 15;
+	
+	private static int[] colors = new int[16];
+	public static int currColor;
 
 	public static void setTargetStack(ItemStack stack) {
 		targetStack.set(stack);
+		setCurrColor();
 	}
 
-	public static int changeColor(int color) {
+	private static int getCurrColor() {
+		int fallback = 0xFFFF0000;
+		
 		ItemStack target = targetStack.get();
 		if (target == null)
-			return color;
+			return fallback;
+		targetStack.remove();
 
 		LazyOptional<IRuneColorProvider> cap = get(target);
 
 		if (cap.isPresent())
-			return cap.orElse((s) -> color).getRuneColor(target);
+			return cap.orElse((s) -> fallback).getRuneColor(target);
 
 		if (!ItemNBTHelper.getBoolean(target, TAG_RUNE_ATTACHED, false))
-			return color;
+			return fallback;
 
 		ItemStack proxied = ItemStack.read(ItemNBTHelper.getCompound(target, TAG_RUNE_COLOR, false));
 
 		LazyOptional<IRuneColorProvider> proxyCap = get(proxied);
 
-		return proxyCap.orElse((s) -> color).getRuneColor(target);
+		return proxyCap.orElse((s) -> fallback).getRuneColor(target);
+	}
+	
+	private static void setCurrColor() {
+		currColor = getCurrColor();
 	}
 
-	@OnlyIn(Dist.CLIENT)
-	public static void applyColor() {
-		int color = changeColor(0xFF8040CC);
-		if (color != 0xFF8040CC) {
-			int a = (color >> 24) & 0xFF;
-			int r = (color >> 16) & 0xFF;
-			int g = (color >> 8) & 0xFF;
-			int b = color & 0xFF;
+	public static RenderType getGlintRender(RenderType fallback) {
+		return QuarkRenderTypes.generateColoredEntityGlint(currColor, 8F);
+	}
 
-			RenderSystem.color4f(r / 255f, g / 255f, b / 255f, a / 255f);
-		}
+	public static RenderType getEntityGlintRender(RenderType fallback) {
+		return QuarkRenderTypes.generateColoredEntityGlint(currColor, 0.16F);
 	}
 
 	@Override
 	public void construct() {
+		int i = 0;
 		for(DyeColor color : DyeColor.values()) {
 			float[] components = color.getColorComponentValues();
 			int rgb = 0xFF000000 |
@@ -96,9 +106,10 @@ public class ColorRunesModule extends Module {
 					((int) (255 * components[1]) << 8) |
 					(int) (255 * components[2]);
 
+			colors[i++] = rgb;
 			new RuneItem(color.getName() + "_rune", this, rgb);
 		}
-		
+
 		new RainbowRuneItem(this);
 	}
 
@@ -119,7 +130,7 @@ public class ColorRunesModule extends Module {
 			weight = jungleTempleWeight;
 		else if(event.getName().equals(LootTables.CHESTS_DESERT_PYRAMID))
 			weight = desertTempleWeight;
-		
+
 		if(weight > 0) {
 			LootEntry entry = TagLootEntry.func_216176_b(runesTag) // withTag
 					.weight(weight)

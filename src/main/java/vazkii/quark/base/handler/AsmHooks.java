@@ -9,6 +9,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.PistonBlockStructureHelper;
 import net.minecraft.client.gui.screen.EnchantmentScreen;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.Enchantments;
@@ -66,17 +67,13 @@ public class AsmHooks {
 	public static void setColorRuneTargetStack(ItemStack stack) {
 		ColorRunesModule.setTargetStack(stack);
 	}
-
-	public static int changeColor(int color) {
-		if (color == 0xFF8040CC)
-			return ColorRunesModule.changeColor(color);
-
-		return color;
+	
+	public static RenderType getGlintRender(RenderType fallback) {
+		return ColorRunesModule.getGlintRender(fallback);
 	}
-
-	@OnlyIn(Dist.CLIENT)
-	public static void applyRuneColor() {
-		ColorRunesModule.applyColor();
+	
+	public static RenderType getEntityGlintRender(RenderType fallback) {
+		return ColorRunesModule.getEntityGlintRender(fallback);
 	}
 
 	// ==========================================================================
