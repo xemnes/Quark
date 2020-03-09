@@ -39,7 +39,8 @@ public class SpeleothemBlock extends QuarkBlock implements IWaterLoggable {
 		super(name + "_speleothem", module, ItemGroup.DECORATIONS, 
 				Block.Properties.create(Material.ROCK, color)
 				.hardnessAndResistance(weak ? 0.4F : 1.5F)
-				.sound(SoundType.STONE));
+				.sound(SoundType.STONE)
+				.notSolid());
 		
 		setDefaultState(getDefaultState().with(SIZE, SpeleothemSize.BIG).with(WATERLOGGED, false));
 	}
