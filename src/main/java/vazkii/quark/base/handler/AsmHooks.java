@@ -9,7 +9,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.PistonBlockStructureHelper;
 import net.minecraft.client.gui.screen.EnchantmentScreen;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.Enchantments;
@@ -17,7 +16,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.TemptGoal;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.PistonTileEntity;
@@ -45,7 +43,6 @@ import vazkii.quark.tweaks.module.ImprovedSleepingModule;
 import vazkii.quark.tweaks.module.LockRotationModule;
 import vazkii.quark.tweaks.module.SpringySlimeModule;
 import vazkii.quark.vanity.client.emote.EmoteHandler;
-import vazkii.quark.vanity.module.ColorRunesModule;
 import vazkii.quark.vanity.module.ItemSharingModule;
 import vazkii.quark.world.entity.CrabEntity;
 
@@ -55,26 +52,6 @@ import vazkii.quark.world.entity.CrabEntity;
  */
 @SuppressWarnings("unused")
 public class AsmHooks {
-
-	// ==========================================================================
-	// Color Runes
-	// ==========================================================================
-
-	public static void setColorRuneTargetStack(LivingEntity living, EquipmentSlotType slot) {
-		setColorRuneTargetStack(living.getItemStackFromSlot(slot));
-	}
-
-	public static void setColorRuneTargetStack(ItemStack stack) {
-		ColorRunesModule.setTargetStack(stack);
-	}
-	
-	public static RenderType getGlintRender(RenderType fallback) {
-		return ColorRunesModule.getGlintRender(fallback);
-	}
-	
-	public static RenderType getEntityGlintRender(RenderType fallback) {
-		return ColorRunesModule.getEntityGlintRender(fallback);
-	}
 
 	// ==========================================================================
 	// Piston Logic Replacing

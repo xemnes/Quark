@@ -17,7 +17,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import vazkii.quark.api.ICustomSorting;
 import vazkii.quark.api.IPistonCallback;
-import vazkii.quark.api.IRuneColorProvider;
 import vazkii.quark.api.ITransferManager;
 import vazkii.quark.api.QuarkCapabilities;
 import vazkii.quark.base.Quark;
@@ -28,7 +27,6 @@ import vazkii.quark.base.capability.dummy.DummySorting;
 public class CapabilityHandler {
 
 	public static void setup() {
-		registerLambda(IRuneColorProvider.class, (stack) -> -1);
 		registerLambda(ITransferManager.class, (player) -> false);
 
 		register(ICustomSorting.class, DummySorting::new);
