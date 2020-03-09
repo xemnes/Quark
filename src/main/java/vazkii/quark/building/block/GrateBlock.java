@@ -127,17 +127,6 @@ public class GrateBlock extends QuarkBlock implements IWaterLoggable {
 		return false;
 	}
 
-//	@Override TODO WIRE: idk what this does lol
-//	public boolean doesSideBlockRendering(BlockState state, IEnviromentBlockReader world, BlockPos pos, Direction side) {
-//		if (side.getAxis() == Direction.Axis.Y)
-//			return super.doesSideBlockRendering(state, world, pos, side);
-//
-//		BlockState stateAt = world.getBlockState(pos.offset(side));
-//		Block block = stateAt.getBlock();
-//
-//		return block != this && super.doesSideBlockRendering(stateAt, world, pos, side);
-//	}
-
 	@Override
 	public boolean propagatesSkylightDown(BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos) {
 		return !state.get(WATERLOGGED);

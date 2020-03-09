@@ -6,6 +6,7 @@
 	"quark.gui.button.extract": "Extract",
 	"quark.gui.button.filter": "Filter",
 	"quark.gui.button.emotes": "Emotes",
+	"quark.gui.button.back": "Back",
 
 	"quark.gui.keygroup.misc": "Quark Misc",
 	"quark.gui.keygroup.inv": "Quark Inventory",
