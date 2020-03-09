@@ -151,7 +151,7 @@ public class PathfinderMapsModule extends Module {
 
 		ItemStack stack = FilledMapItem.setupNewMap(world, biomePos.getX(), biomePos.getZ(), (byte) 2, true, true);
 		// fillExplorationMap
-		FilledMapItem.func_226642_a_((ServerWorld) world, stack); // TODO CHECK
+		FilledMapItem.func_226642_a_((ServerWorld) world, stack);
 		MapData.addTargetDecoration(stack, biomePos, "+", Type.RED_X);
 		stack.setDisplayName(new TranslationTextComponent(info.name));
 

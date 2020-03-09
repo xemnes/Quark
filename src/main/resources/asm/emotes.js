@@ -27,9 +27,9 @@ function initializeCoreMod() {
         'emote-update': {
             'target': {
                 'type': 'METHOD',
-                'class': 'net.minecraft.client.renderer.entity.model.BipedModel',
-                'methodName': 'func_212844_a_', // setRotationAngles
-                'methodDesc': '(Lnet/minecraft/entity/LivingEntity;FFFFFF)V'
+                'class': 'net.minecraft.client.renderer.entity.model.PlayerModel',
+                'methodName': 'func_225597_a_', // setRotationAngles
+                'methodDesc': '(Lnet/minecraft/entity/LivingEntity;FFFFF)V'
             },
             'transformer': function(method) {
                 var ASM = Java.type('net.minecraftforge.coremod.api.ASMAPI');

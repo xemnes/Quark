@@ -158,7 +158,7 @@ public class ImprovedSleepingModule extends Module {
 	@SubscribeEvent
 	public void onWakeUp(PlayerWakeUpEvent event) {
 		PlayerEntity player = event.getPlayer();
-		if (/*event.shouldSetSpawn() && */!event.updateWorld() && !event.wakeImmediately()) // TODO CHECK
+		if (/*event.shouldSetSpawn() && */!event.updateWorld() && !event.wakeImmediately())
 			player.getPersistentData().putLong(TAG_JUST_SLEPT, player.world.getGameTime());
 	}
 
@@ -180,7 +180,7 @@ public class ImprovedSleepingModule extends Module {
 			}
 
 			world.getPlayers().stream().filter(LivingEntity::isSleeping).forEach((player) -> {
-				player.wakeUp(); // TODO CHECK
+				player.wakeUp();
 			});
 			if (world.getGameRules().getBoolean(GameRules.DO_WEATHER_CYCLE))
 				world.dimension.resetRainAndThunder();

@@ -216,7 +216,6 @@ public final class EmoteHandler {
 				resetPart(pmodel.bipedRightArmwear);
 				resetPart(pmodel.bipedLeftLegwear);
 				resetPart(pmodel.bipedRightLegwear);
-				resetPart(ModelAccessor.getEarsModel(pmodel));
 			}
 			
 

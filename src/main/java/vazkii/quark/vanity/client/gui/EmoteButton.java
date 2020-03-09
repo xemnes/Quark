@@ -44,7 +44,6 @@ public class EmoteButton extends TranslucentButton {
 				
 				RenderSystem.pushMatrix();
 				RenderSystem.color3f(1F, 1F, 1F);
-				RenderSystem.translated(0, 0, 100);
 				blit(left, top, 242, 9, 5, 17, 256, 256);
 				for(int i = 0; i < w; i++)
 					blit(left + i + 5, top, 248, 9, 1, 17, 256, 256);
