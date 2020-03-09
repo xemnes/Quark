@@ -15,9 +15,9 @@ import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
+import vazkii.quark.mobs.entity.FoxhoundEntity;
 import vazkii.quark.tweaks.ai.NuzzleGoal;
 import vazkii.quark.tweaks.ai.WantLoveGoal;
-import vazkii.quark.world.entity.FoxhoundEntity;
 
 /**
  * @author WireSegal

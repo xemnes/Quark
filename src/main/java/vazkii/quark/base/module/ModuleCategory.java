@@ -11,8 +11,8 @@ public enum ModuleCategory {
 	MANAGEMENT("management"),
 	TOOLS("tools"),
 	TWEAKS("tweaks"),
-	VANITY("vanity"),
 	WORLD("world"),
+	MOBS("mobs"),
 	CLIENT("client"),
 	EXPERIMENTAL("experimental");
 	

@@ -7,7 +7,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkEvent.Context;
 import vazkii.arl.network.IMessage;
-import vazkii.quark.vanity.client.emote.EmoteHandler;
+import vazkii.quark.tweaks.client.emote.EmoteHandler;
 
 import java.util.UUID;
 

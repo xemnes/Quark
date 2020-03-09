@@ -35,16 +35,16 @@ import vazkii.quark.automation.module.FeedingTroughModule;
 import vazkii.quark.automation.module.PistonsMoveTileEntitiesModule;
 import vazkii.quark.client.tooltip.EnchantedBookTooltips;
 import vazkii.quark.management.entity.ChestPassengerEntity;
+import vazkii.quark.management.module.ItemSharingModule;
+import vazkii.quark.mobs.entity.CrabEntity;
 import vazkii.quark.tools.item.PickarangItem;
 import vazkii.quark.tools.module.AncientTomesModule;
 import vazkii.quark.tools.module.PickarangModule;
+import vazkii.quark.tweaks.client.emote.EmoteHandler;
 import vazkii.quark.tweaks.module.HoeHarvestingModule;
 import vazkii.quark.tweaks.module.ImprovedSleepingModule;
 import vazkii.quark.tweaks.module.LockRotationModule;
 import vazkii.quark.tweaks.module.SpringySlimeModule;
-import vazkii.quark.vanity.client.emote.EmoteHandler;
-import vazkii.quark.vanity.module.ItemSharingModule;
-import vazkii.quark.world.entity.CrabEntity;
 
 /**
  * @author WireSegal
