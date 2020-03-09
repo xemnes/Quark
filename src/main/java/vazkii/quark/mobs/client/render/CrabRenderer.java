@@ -12,9 +12,9 @@ import javax.annotation.Nullable;
 public class CrabRenderer extends MobRenderer<CrabEntity, CrabModel> {
 
 	private static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-			new ResourceLocation("quark", "textures/model/entity/crab.png"),
-			new ResourceLocation("quark", "textures/model/entity/crab_blue.png"),
-			new ResourceLocation("quark", "textures/model/entity/crab_green.png")
+			new ResourceLocation("quark", "textures/model/entity/crab/red.png"),
+			new ResourceLocation("quark", "textures/model/entity/crab/blue.png"),
+			new ResourceLocation("quark", "textures/model/entity/crab/green.png")
 	};
 
 	public CrabRenderer(EntityRendererManager render) {

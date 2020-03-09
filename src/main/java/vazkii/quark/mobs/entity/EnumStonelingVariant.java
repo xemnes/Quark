@@ -23,21 +23,21 @@ import java.util.List;
 import static vazkii.quark.world.module.NewStoneTypesModule.*;
 
 public enum EnumStonelingVariant implements ILivingEntityData {
-	STONE("stoneling", Blocks.COBBLESTONE, Blocks.STONE),
-	ANDESITE("stoneling_andesite", Blocks.ANDESITE, Blocks.POLISHED_ANDESITE),
-	DIORITE("stoneling_diorite", Blocks.DIORITE, Blocks.POLISHED_DIORITE),
-	GRANITE("stoneling_granite", Blocks.GRANITE, Blocks.POLISHED_GRANITE),
-	LIMESTONE("stoneling_limestone", limestoneBlock, polishedBlocks.get(limestoneBlock)),
-	BASALT("stoneling_basalt", basaltBlock, polishedBlocks.get(basaltBlock)),
-	MARBLE("stoneling_marble", marbleBlock, polishedBlocks.get(marbleBlock)),
-	SLATE("stoneling_slate", slateBlock, polishedBlocks.get(slateBlock)),
-	JASPER("stoneling_jasper", jasperBlock, polishedBlocks.get(jasperBlock));
+	STONE("stone", Blocks.COBBLESTONE, Blocks.STONE),
+	ANDESITE("andesite", Blocks.ANDESITE, Blocks.POLISHED_ANDESITE),
+	DIORITE("diorite", Blocks.DIORITE, Blocks.POLISHED_DIORITE),
+	GRANITE("granite", Blocks.GRANITE, Blocks.POLISHED_GRANITE),
+	LIMESTONE("limestone", limestoneBlock, polishedBlocks.get(limestoneBlock)),
+	BASALT("basalt", basaltBlock, polishedBlocks.get(basaltBlock)),
+	MARBLE("marble", marbleBlock, polishedBlocks.get(marbleBlock)),
+	SLATE("slate", slateBlock, polishedBlocks.get(slateBlock)),
+	JASPER("jasper", jasperBlock, polishedBlocks.get(jasperBlock));
 
 	private final ResourceLocation texture;
 	private final List<Block> blocks;
 
 	EnumStonelingVariant(String variantPath, Block... blocks) {
-		this.texture = new ResourceLocation(Quark.MOD_ID, "textures/model/entity/" + variantPath + ".png");
+		this.texture = new ResourceLocation(Quark.MOD_ID, "textures/model/entity/stoneling/" + variantPath + ".png");
 		this.blocks = Lists.newArrayList(blocks);
 	}
 

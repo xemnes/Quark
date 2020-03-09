@@ -22,7 +22,7 @@ import vazkii.quark.mobs.entity.FoxhoundEntity;
 
 public class FoxhoundCollarLayer extends LayerRenderer<FoxhoundEntity, FoxhoundModel> {
 
-	private static final ResourceLocation WOLF_COLLAR = new ResourceLocation(Quark.MOD_ID, "textures/model/entity/foxhound_collar.png");
+	private static final ResourceLocation WOLF_COLLAR = new ResourceLocation(Quark.MOD_ID, "textures/model/entity/foxhound/collar.png");
 
 	public FoxhoundCollarLayer(IEntityRenderer<FoxhoundEntity, FoxhoundModel> renderer) {
 		super(renderer);

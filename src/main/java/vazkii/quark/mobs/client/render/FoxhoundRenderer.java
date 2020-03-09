@@ -10,6 +10,9 @@
  */
 package vazkii.quark.mobs.client.render;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
@@ -18,16 +21,10 @@ import vazkii.quark.mobs.client.layer.FoxhoundCollarLayer;
 import vazkii.quark.mobs.client.model.FoxhoundModel;
 import vazkii.quark.mobs.entity.FoxhoundEntity;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 public class FoxhoundRenderer extends MobRenderer<FoxhoundEntity, FoxhoundModel> {
-	private static final ResourceLocation FOXHOUND_IDLE = new ResourceLocation(Quark.MOD_ID,
-			"textures/model/entity/foxhound_idle.png");
-	private static final ResourceLocation FOXHOUND_ANGRY = new ResourceLocation(Quark.MOD_ID,
-			"textures/model/entity/foxhound_angry.png");
-	private static final ResourceLocation FOXHOUND_SLEEPING = new ResourceLocation(Quark.MOD_ID,
-			"textures/model/entity/foxhound_sleeping.png");
+	private static final ResourceLocation FOXHOUND_IDLE = new ResourceLocation(Quark.MOD_ID, "textures/model/entity/foxhound/idle.png");
+	private static final ResourceLocation FOXHOUND_HOSTILE = new ResourceLocation(Quark.MOD_ID, "textures/model/entity/foxhound/hostile.png");
+	private static final ResourceLocation FOXHOUND_SLEEPING = new ResourceLocation(Quark.MOD_ID, "textures/model/entity/foxhound/sleeping.png");
 
 	public FoxhoundRenderer(EntityRendererManager render) {
 		super(render, new FoxhoundModel(), 0.5F);
@@ -37,6 +34,6 @@ public class FoxhoundRenderer extends MobRenderer<FoxhoundEntity, FoxhoundModel>
 	@Nullable
 	@Override
 	public ResourceLocation getEntityTexture(@Nonnull FoxhoundEntity entity) {
-		return entity.isSleeping() ? FOXHOUND_SLEEPING : (entity.isAngry() ? FOXHOUND_ANGRY : FOXHOUND_IDLE);
+		return entity.isSleeping() ? FOXHOUND_SLEEPING : (entity.isAngry() ? FOXHOUND_HOSTILE : FOXHOUND_IDLE);
 	}
 }
