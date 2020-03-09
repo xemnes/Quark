@@ -1,6 +1,5 @@
 package vazkii.quark.world.module.underground;
 
-import java.util.Random;
 import java.util.stream.Stream;
 
 import net.minecraft.block.Block;
@@ -8,12 +7,13 @@ import net.minecraft.block.ComposterBlock;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.EffectType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
+import net.minecraft.world.LightType;
 import net.minecraft.world.World;
 import net.minecraft.world.spawner.WorldEntitySpawner;
 import net.minecraftforge.api.distmarker.Dist;
@@ -27,8 +27,6 @@ import vazkii.quark.base.handler.VariantHandler;
 import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.ModuleCategory;
-import vazkii.quark.base.util.DarkWorld;
-import vazkii.quark.base.util.FairRandom;
 import vazkii.quark.world.block.GlowceliumBlock;
 import vazkii.quark.world.block.GlowshroomBlock;
 import vazkii.quark.world.block.HugeGlowshroomBlock;
@@ -69,8 +67,8 @@ public class GlowshroomUndergroundBiomeModule extends UndergroundBiomeModule {
 
 		dangerSight = new QuarkEffect("danger_sight", EffectType.BENEFICIAL, 0x08C8E3);
 
-        BrewingHandler.addPotionMix("glowshroom_danger_sight",
-                () -> Ingredient.fromItems(glowshroom), dangerSight, 3600, 9600, -1);
+		BrewingHandler.addPotionMix("glowshroom_danger_sight",
+				() -> Ingredient.fromItems(glowshroom), dangerSight, 3600, 9600, -1);
 
 		VariantHandler.addFlowerPot(glowshroom, "glowshroom", p -> p.lightValue(14));
 
@@ -96,21 +94,26 @@ public class GlowshroomUndergroundBiomeModule extends UndergroundBiomeModule {
 			World world = mc.world;
 			Stream<BlockPos> positions = BlockPos.getAllInBox(mc.player.getPosition().add(-range, -range, -range), mc.player.getPosition().add(range, range, range));
 
-			Random perfectlyFairRandom = new FairRandom();
-			IWorld veryDarkWorld = new DarkWorld(world);
-
 			positions.forEach((pos) -> {
-				if(world.rand.nextFloat() < 0.1 &&
-                        WorldEntitySpawner.canSpawnAtBody(EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, world, pos, EntityType.ZOMBIE) &&
-                        EntitySpawnPlacementRegistry.func_223515_a(EntityType.ZOMBIE, veryDarkWorld, SpawnReason.NATURAL, pos, perfectlyFairRandom) && // canSpawnHere
-                        world.checkBlockCollision(EntityType.ZOMBIE.func_220328_a(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5))) {
+				if(world.rand.nextFloat() < 0.1 && canSpawnOn(EntityType.ZOMBIE, world, pos)) { 
 					float x = pos.getX() + 0.3F + world.rand.nextFloat() * 0.4F;
 					float y = pos.getY();
 					float z = pos.getZ() + 0.3F + world.rand.nextFloat() * 0.4F;
+					
 					world.addParticle(ParticleTypes.ENTITY_EFFECT, x, y, z, world.rand.nextFloat() < 0.9 ? 0 : 1, 0, 0);
 				}
 			});
 		}
+	}
+
+
+	public static boolean canSpawnOn(EntityType<? extends MobEntity> typeIn, IWorld worldIn, BlockPos pos) {
+		BlockPos testPos = pos.down();
+		return worldIn instanceof World
+				&& worldIn.getLightFor(LightType.BLOCK, pos) <= 7
+				&& worldIn.getBlockState(testPos).canEntitySpawn(worldIn, testPos, typeIn)
+				&& WorldEntitySpawner.canSpawnAtBody(EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, worldIn, pos, EntityType.ZOMBIE)
+				&& !((World) worldIn).checkBlockCollision(EntityType.ZOMBIE.func_220328_a(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5)); // canSpawnHere
 	}
 
 	@Override
