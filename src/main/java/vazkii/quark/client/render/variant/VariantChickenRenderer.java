@@ -17,5 +17,5 @@ public class VariantChickenRenderer extends ChickenRenderer {
 	public ResourceLocation getEntityTexture(ChickenEntity entity) {
 		return VariantAnimalTexturesModule.getTextureOrShiny(entity, VariantTextureType.CHICKEN, VariantAnimalTexturesModule.enableChicken);
 	}
-
+	
 }

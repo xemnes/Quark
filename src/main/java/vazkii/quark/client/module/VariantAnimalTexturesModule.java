@@ -23,6 +23,7 @@ import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
+import vazkii.quark.client.render.variant.VariantBeeRenderer;
 import vazkii.quark.client.render.variant.VariantChickenRenderer;
 import vazkii.quark.client.render.variant.VariantCowRenderer;
 import vazkii.quark.client.render.variant.VariantLlamaRenderer;
@@ -44,6 +45,9 @@ public class VariantAnimalTexturesModule extends Module {
 	@Config public static boolean enableChicken = true;
 	@Config public static boolean enableShinyRabbit = true;
 	@Config public static boolean enableShinyLlama = true;
+	@Config public static boolean enableLGBTBees = true;
+	
+	@Config public static boolean everyBeeIsLGBT = false;
 	
 	@Config(description = "The chance for an animal to have a special \"Shiny\" skin, like a shiny pokemon. This is 1 in X. Set to 0 to disable.")
 	public static int shinyAnimalChance = 2048;
@@ -72,12 +76,10 @@ public class VariantAnimalTexturesModule extends Module {
 			RenderingRegistry.registerEntityRenderingHandler(EntityType.RABBIT, VariantRabbitRenderer::new);
 		if(enableShinyLlama)
 			RenderingRegistry.registerEntityRenderingHandler(EntityType.LLAMA, VariantLlamaRenderer::new);
+		if(enableLGBTBees)
+			RenderingRegistry.registerEntityRenderingHandler(EntityType.BEE, VariantBeeRenderer::new);
 	}
-	
-	public <T extends Entity> void register(Class<T> e, IRenderFactory<T> factory) {
-		
-	}
-	
+
 	@OnlyIn(Dist.CLIENT)
 	public static ResourceLocation getTextureOrShiny(Entity e, VariantTextureType type, boolean enabled) {
 		return getTextureOrShiny(e, type, () -> getRandomTexture(e, type, enabled));
