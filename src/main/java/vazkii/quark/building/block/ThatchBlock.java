@@ -20,7 +20,7 @@ public class ThatchBlock extends QuarkBlock {
 				.hardnessAndResistance(0.5F)
 				.sound(SoundType.PLANT));
 	}
-
+	
 	@Override
 	public void onFallenUpon(World worldIn, BlockPos pos, Entity entityIn, float fallDistance) {
 		entityIn.onLivingFall(fallDistance, (float) ThatchModule.fallDamageMultiplier);
