@@ -8,6 +8,7 @@ import com.google.common.collect.Lists;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.PistonBlock;
 import net.minecraft.block.PistonBlockStructureHelper;
 import net.minecraft.block.material.PushReaction;
@@ -276,15 +277,26 @@ public class QuarkPistonStructureHelper extends PistonBlockStructureHelper {
 	}
 	
 	private MoveResult getStickCompatibility(World world, BlockState state1, BlockState state2, BlockPos pos1, BlockPos pos2, Direction face) {
-		Block block = state1.getBlock();
-		if(block instanceof INonSticky && !((INonSticky) block).canStickToBlock(world, pistonPos, pos1, pos2, state1, state2, moveDirection))
+		INonSticky stick = getStickCondition(state1);
+		if(stick != null && !stick.canStickToBlock(world, pistonPos, pos1, pos2, state1, state2, moveDirection))
 			return MoveResult.SKIP;
 		
-		block = state2.getBlock();
-		if(block instanceof INonSticky && !((INonSticky) block).canStickToBlock(world, pistonPos, pos2, pos1, state2, state1, moveDirection))
+		stick = getStickCondition(state2);
+		if(stick != null && !stick.canStickToBlock(world, pistonPos, pos2, pos1, state2, state1, moveDirection))
 			return MoveResult.SKIP;
-		
+
 		return MoveResult.MOVE;
+	}
+	
+	private INonSticky getStickCondition(BlockState state) {
+		Block block = state.getBlock();
+		if(block == Blocks.HONEY_BLOCK)
+			return HoneyStickCondition.INSTANCE;
+		
+		if(block instanceof INonSticky)
+			return (INonSticky) block;
+		
+		return null;
 	}
 
 	@Nonnull
@@ -303,6 +315,17 @@ public class QuarkPistonStructureHelper extends PistonBlockStructureHelper {
 			return parent.getBlocksToDestroy();
 
 		return toDestroy;
+	}
+	
+	private static class HoneyStickCondition implements INonSticky {
+
+		private static final HoneyStickCondition INSTANCE = new HoneyStickCondition();
+		
+		@Override
+		public boolean canStickToBlock(World world, BlockPos pistonPos, BlockPos pos, BlockPos slimePos, BlockState state, BlockState slimeState, Direction direction) {
+			return state.getBlock() == slimeState.getBlock();
+		}
+		
 	}
 
 }

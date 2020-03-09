@@ -71,8 +71,8 @@ function initializeCoreMod() {
             'target': {
                 'type': 'METHOD',
                 'class': 'net.minecraft.client.renderer.tileentity.PistonTileEntityRenderer',
-                'methodName': 'func_199341_a', // render
-                'methodDesc': '(Lnet/minecraft/tileentity/PistonTileEntity;DDDFI)V'
+                'methodName': 'func_225616_a_', // render
+                'methodDesc': '(Lnet/minecraft/tileentity/PistonTileEntity;FLcom/mojang/blaze3d/matrix/MatrixStack;Lnet/minecraft/client/renderer/IRenderTypeBuffer;II)V'
             },
             'transformer': function(method) {
                 var ASM = Java.type('net.minecraftforge.coremod.api.ASMAPI');
@@ -88,14 +88,15 @@ function initializeCoreMod() {
                 var escape = new LabelNode();
 
                 newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 1));
-                newInstructions.add(new VarInsnNode(Opcodes.DLOAD, 2));
-                newInstructions.add(new VarInsnNode(Opcodes.DLOAD, 4));
-                newInstructions.add(new VarInsnNode(Opcodes.DLOAD, 6));
-                newInstructions.add(new VarInsnNode(Opcodes.FLOAD, 8));
+                newInstructions.add(new VarInsnNode(Opcodes.FLOAD, 2));
+                newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 3));
+                newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 4));
+                newInstructions.add(new VarInsnNode(Opcodes.ILOAD, 5));
+                newInstructions.add(new VarInsnNode(Opcodes.ILOAD, 6));
                 newInstructions.add(ASM.buildMethodCall(
                     "vazkii/quark/base/handler/AsmHooks",
                     "renderPistonBlock",
-                    "(Lnet/minecraft/tileentity/PistonTileEntity;DDDF)Z",
+                    "(Lnet/minecraft/tileentity/PistonTileEntity;FLcom/mojang/blaze3d/matrix/MatrixStack;Lnet/minecraft/client/renderer/IRenderTypeBuffer;II)Z",
                     ASM.MethodType.STATIC));
                 newInstructions.add(new JumpInsnNode(Opcodes.IFEQ, escape));
                 newInstructions.add(new InsnNode(Opcodes.RETURN));
@@ -152,7 +153,7 @@ function initializeCoreMod() {
 
                 var target = ASM.findFirstMethodCall(method,
                     ASM.MethodType.VIRTUAL,
-                    "net/minecraft/block/state/PistonBlockStructureHelper",
+                    "net/minecraft/block/PistonBlockStructureHelper",
                     ASM.mapMethod("func_177254_c"), // getBlocksToMove
                     "()Ljava/util/List;");
 
@@ -166,7 +167,7 @@ function initializeCoreMod() {
                 newInstructions.add(ASM.buildMethodCall(
                     "vazkii/quark/base/handler/AsmHooks",
                     "postPistonPush",
-                    "(Lnet/minecraft/block/state/PistonBlockStructureHelper;Lnet/minecraft/world/World;Lnet/minecraft/util/Direction;Z)V",
+                    "(Lnet/minecraft/block/PistonBlockStructureHelper;Lnet/minecraft/world/World;Lnet/minecraft/util/Direction;Z)V",
                     ASM.MethodType.STATIC));
 
                 method.instructions.insertBefore(target, newInstructions);

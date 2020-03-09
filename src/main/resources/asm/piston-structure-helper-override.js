@@ -44,7 +44,7 @@ function initializeCoreMod() {
                 var InsnList = Java.type('org.objectweb.asm.tree.InsnList');
 
                 return injectForEachMethod(method, ASM.MethodType.SPECIAL,
-                    "net/minecraft/block/state/PistonBlockStructureHelper",
+                    "net/minecraft/block/PistonBlockStructureHelper",
                     "<init>",
                     "(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/Direction;Z)V",
                     function (target) {
@@ -57,7 +57,7 @@ function initializeCoreMod() {
                         newInstructions.add(ASM.buildMethodCall(
                             "vazkii/quark/base/handler/AsmHooks",
                             "transformStructureHelper",
-                            "(Lnet/minecraft/block/state/PistonBlockStructureHelper;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/Direction;Z)Lnet/minecraft/block/state/PistonBlockStructureHelper;",
+                            "(Lnet/minecraft/block/PistonBlockStructureHelper;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/Direction;Z)Lnet/minecraft/block/PistonBlockStructureHelper;",
                             ASM.MethodType.STATIC
                         ));
 
@@ -82,7 +82,7 @@ function initializeCoreMod() {
 
                 return injectForEachMethod(method,
                     ASM.MethodType.SPECIAL, 
-                    "net/minecraft/block/state/PistonBlockStructureHelper",
+                    "net/minecraft/block/PistonBlockStructureHelper",
                     "<init>",
                     "(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/Direction;Z)V",
                 function (target) {
@@ -95,7 +95,7 @@ function initializeCoreMod() {
                     newInstructions.add(ASM.buildMethodCall(
                         "vazkii/quark/base/handler/AsmHooks",
                         "transformStructureHelper",
-                        "(Lnet/minecraft/block/state/PistonBlockStructureHelper;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/Direction;Z)Lnet/minecraft/block/state/PistonBlockStructureHelper;",
+                        "(Lnet/minecraft/block/PistonBlockStructureHelper;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/Direction;Z)Lnet/minecraft/block/PistonBlockStructureHelper;",
                         ASM.MethodType.STATIC
                     ));
 

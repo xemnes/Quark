@@ -3,9 +3,12 @@ package vazkii.quark.base.handler;
 import java.util.List;
 import java.util.Map;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.block.PistonBlockStructureHelper;
 import net.minecraft.client.gui.screen.EnchantmentScreen;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.Enchantments;
@@ -101,8 +104,8 @@ public class AsmHooks {
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	public static boolean renderPistonBlock(PistonTileEntity piston, double x, double y, double z, float pTicks) {
-		return PistonTileEntityRenderer.renderPistonBlock(piston, x, y, z, pTicks);
+	public static boolean renderPistonBlock(PistonTileEntity tileEntityIn, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
+		return PistonTileEntityRenderer.renderPistonBlock(tileEntityIn, partialTicks, matrixStackIn, bufferIn, combinedLightIn, combinedOverlayIn);
 	}
 
 	// ==========================================================================
