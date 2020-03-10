@@ -14,7 +14,10 @@ import vazkii.quark.client.module.VariantAnimalTexturesModule;
 
 public class VariantBeeRenderer extends BeeRenderer {
 
-	private static final List<String> VARIANTS = ImmutableList.of("acebee", "arobee", "beesexual", "enbee", "gaybee", "lesbeean", "panbee", "transbee");
+	private static final List<String> VARIANTS = ImmutableList.of(
+			"acebee", "agenbee", "arobee", "beefluid", "beesexual", 
+			"beequeer", "enbee", "gaybee", "interbee", "lesbeean", 
+			"panbee", "polysexbee", "transbee");
 	
 	public VariantBeeRenderer(EntityRendererManager renderManagerIn) {
 		super(renderManagerIn);
@@ -22,8 +25,6 @@ public class VariantBeeRenderer extends BeeRenderer {
 	
 	@Override
 	public ResourceLocation getEntityTexture(BeeEntity entity) {
-		VariantAnimalTexturesModule.everyBeeIsLGBT = true;
-		
 		if(entity.hasCustomName() || VariantAnimalTexturesModule.everyBeeIsLGBT) {
 			String custName = entity.hasCustomName() ? entity.getCustomName().getUnformattedComponentText().trim() : "";
 			String name = custName;
