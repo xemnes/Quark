@@ -1,5 +1,6 @@
 package vazkii.quark.tweaks.module;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -85,7 +86,7 @@ public class ImprovedSleepingModule extends Module {
 		int legitPlayers = counts.getLeft();
 		int sleepingPlayers = counts.getRight();
 
-		int reqPlayers = (int) (percentReq * legitPlayers);
+		int reqPlayers = (int) (percentReq * (double) legitPlayers);
 
 		return (legitPlayers > 0 && ((float) sleepingPlayers / reqPlayers) >= 1);
 	}
@@ -121,7 +122,6 @@ public class ImprovedSleepingModule extends Module {
 
 		ITextComponent sibling = new StringTextComponent("(" + sleepingPlayers.size() + "/" + (sleepingPlayers.size() + nonSleepingPlayers.size()) + ")");
 		sibling.getStyle().setHoverEvent(new HoverEvent(Action.SHOW_TEXT, hoverText.deepCopy()));
-
 
 		ITextComponent message = new TranslationTextComponent(world.getGameRules().getBoolean(GameRules.DO_DAYLIGHT_CYCLE) ?
 				(isDay ? "quark.misc.day_has_passed" : "quark.misc.night_has_passed") :
@@ -219,7 +219,7 @@ public class ImprovedSleepingModule extends Module {
 		if((!newSleepingPlayers.isEmpty() || !wasSleepingPlayers.isEmpty()) && world.getPlayers().size() != 1) {
 			boolean isDay = world.getCelestialAngle(0F) < 0.5;
 
-			int requiredPlayers = Math.max((int) Math.ceil((legitPlayers * percentReq / 100F)), 0);
+			int requiredPlayers = Math.max((int) Math.ceil((legitPlayers * percentReq)), 0);
 
 			ITextComponent sibling = new StringTextComponent("(" + sleepingPlayers.size() + "/" + requiredPlayers + ")");
 
@@ -271,8 +271,8 @@ public class ImprovedSleepingModule extends Module {
 	
 	@SubscribeEvent
 	@OnlyIn(Dist.CLIENT)
-	public void onClientTick(TickEvent.WorldTickEvent event) {
-		if(event.phase == TickEvent.Phase.END && event.side == LogicalSide.CLIENT) {
+	public void onClientTick(TickEvent.ClientTickEvent event) {
+		if(event.phase == TickEvent.Phase.END && Minecraft.getInstance().world != null) {
 			timeSinceKeystroke++;
 
 			if(timeSinceKeystroke == afkTime)
@@ -305,7 +305,7 @@ public class ImprovedSleepingModule extends Module {
 	}
 
 	private void registerPress() {
-		if(timeSinceKeystroke >= afkTime)
+		if(timeSinceKeystroke >= afkTime && Minecraft.getInstance().world != null)
 			QuarkNetwork.sendToServer(new UpdateAfkMessage(false));
 		timeSinceKeystroke = 0;
 	}
