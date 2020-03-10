@@ -34,17 +34,20 @@ public class PistonTileEntityRenderer {
 			if(tile == null || PistonsMoveTileEntitiesModule.renderBlacklist.contains(id))
 				return false;
 
-			matrix.push();
-			tile.setWorldAndPos(piston.getWorld(), piston.getPos());
-			tile.validate();
-
-			matrix.translate(piston.getOffsetX(pTicks), piston.getOffsetY(pTicks), piston.getOffsetZ(pTicks));
-
-			tile.cachedBlockState = state;
 			TileEntityRenderer<TileEntity> tileentityrenderer = TileEntityRendererDispatcher.instance.getRenderer(tile);
-			tileentityrenderer.render(tile, pTicks, matrix, bufferIn, combinedLightIn, combinedOverlayIn);
-			
-			matrix.pop();
+			if(tileentityrenderer != null) {
+				matrix.push();
+				tile.setWorldAndPos(piston.getWorld(), piston.getPos());
+				tile.validate();
+
+				matrix.translate(piston.getOffsetX(pTicks), piston.getOffsetY(pTicks), piston.getOffsetZ(pTicks));
+
+				tile.cachedBlockState = state;
+				tileentityrenderer.render(tile, pTicks, matrix, bufferIn, combinedLightIn, combinedOverlayIn);
+
+				
+				matrix.pop();
+			}
 		} catch(Throwable e) {
 			Quark.LOG.warn(id + " can't be rendered for piston TE moving", e);
 			PistonsMoveTileEntitiesModule.renderBlacklist.add(id);
