@@ -115,7 +115,7 @@ public class MiscUtil {
 	
 	public static boolean isEntityInsideOpaqueBlock(Entity entity) {
 		BlockPos pos = entity.getPosition();
-		return !entity.noClip && entity.world.getBlockState(pos).causesSuffocation(entity.world, pos);
+		return !entity.noClip && entity.world.getBlockState(pos).isSuffocating(entity.world, pos);
 	}
 	
 	private static int progress;
