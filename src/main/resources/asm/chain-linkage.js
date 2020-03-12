@@ -128,8 +128,8 @@ function initializeCoreMod() {
             'target': {
                 'type': 'METHOD',
                 'class': 'net.minecraft.client.renderer.entity.EntityRendererManager',
-                'methodName': 'func_188391_a', // renderEntity
-                'methodDesc': '(Lnet/minecraft/entity/Entity;DDDFFZ)V'
+                'methodName': 'func_229084_a_', // renderEntityStatic
+                'methodDesc': '(Lnet/minecraft/entity/Entity;DDDFFLcom/mojang/blaze3d/matrix/MatrixStack;Lnet/minecraft/client/renderer/IRenderTypeBuffer;I)V'
             },
             'transformer': function (method) {
                 var ASM = Java.type('net.minecraftforge.coremod.api.ASMAPI');
@@ -140,22 +140,21 @@ function initializeCoreMod() {
                 return injectForEachMethod(method,
                     ASM.MethodType.VIRTUAL,
                     "net/minecraft/client/renderer/entity/EntityRenderer",
-                    ASM.mapMethod("func_76986_a"), // doRender
-                    "(Lnet/minecraft/entity/Entity;DDDFF)V",
+                    ASM.mapMethod("func_225623_a_"), // render
+                    "(Lnet/minecraft/entity/Entity;FFLcom/mojang/blaze3d/matrix/MatrixStack;Lnet/minecraft/client/renderer/IRenderTypeBuffer;I)V",
                     function (target) {
                         var newInstructions = new InsnList();
 
-                        newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 11));
+                        newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 13));
                         newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 1));
-                        newInstructions.add(new VarInsnNode(Opcodes.DLOAD, 2));
-                        newInstructions.add(new VarInsnNode(Opcodes.DLOAD, 4));
-                        newInstructions.add(new VarInsnNode(Opcodes.DLOAD, 6));
+                        newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 10));
+                        newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 11));
                         newInstructions.add(new VarInsnNode(Opcodes.FLOAD, 9));
 
                         newInstructions.add(ASM.buildMethodCall(
                             "vazkii/quark/base/handler/AsmHooks",
                             "renderChain",
-                            "(Lnet/minecraft/client/renderer/entity/EntityRenderer;Lnet/minecraft/entity/Entity;DDDF)V",
+                            "(Lnet/minecraft/client/renderer/entity/EntityRenderer;Lnet/minecraft/entity/Entity;Lcom/mojang/blaze3d/matrix/MatrixStack;Lnet/minecraft/client/renderer/IRenderTypeBuffer;F)V",
                             ASM.MethodType.STATIC
                         ));
 

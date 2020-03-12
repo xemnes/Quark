@@ -1,10 +1,6 @@
 package vazkii.quark.base.handler;
 
-import java.util.List;
-import java.util.Map;
-
 import com.mojang.blaze3d.matrix.MatrixStack;
-
 import net.minecraft.block.BlockState;
 import net.minecraft.block.PistonBlockStructureHelper;
 import net.minecraft.client.gui.screen.EnchantmentScreen;
@@ -45,6 +41,9 @@ import vazkii.quark.tweaks.module.HoeHarvestingModule;
 import vazkii.quark.tweaks.module.ImprovedSleepingModule;
 import vazkii.quark.tweaks.module.LockRotationModule;
 import vazkii.quark.tweaks.module.SpringySlimeModule;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author WireSegal
@@ -159,8 +158,8 @@ public class AsmHooks {
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	public static void renderChain(EntityRenderer render, Entity entity, double x, double y, double z, float partTicks) {
-		ChainRenderer.renderChain(render, x, y, z, entity, partTicks);
+	public static void renderChain(EntityRenderer render, Entity entity, MatrixStack matrixStack, IRenderTypeBuffer renderBuffer, float partTicks) {
+		ChainRenderer.renderChain(render, entity, matrixStack, renderBuffer, partTicks);
 	}
 
 	public static void dropChain(Entity entity) {
