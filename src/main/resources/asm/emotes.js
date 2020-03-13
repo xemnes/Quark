@@ -27,7 +27,7 @@ function initializeCoreMod() {
         'emote-update': {
             'target': {
                 'type': 'METHOD',
-                'class': 'net.minecraft.client.renderer.entity.model.PlayerModel',
+                'class': 'net.minecraft.client.renderer.entity.model.BipedModel',
                 'methodName': 'func_225597_a_', // setRotationAngles
                 'methodDesc': '(Lnet/minecraft/entity/LivingEntity;FFFFF)V'
             },

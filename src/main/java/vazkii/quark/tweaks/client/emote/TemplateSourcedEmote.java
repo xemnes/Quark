@@ -29,6 +29,7 @@ public class TemplateSourcedEmote extends EmoteBase {
 
 	@Override
 	public Timeline getTimeline(PlayerEntity player, BipedModel<?> model) {
+		System.out.println(model);
 		return desc.template.getTimeline(desc, player, model);
 	}
 
