@@ -54,7 +54,7 @@ public class RenderLayerHandler {
 	@OnlyIn(Dist.CLIENT)
 	private static void setInheritedClient(Block block, Block parent) {
 		resolveRenderTypes();
-		inheritances.put(block, block);
+		inheritances.put(block, parent);
 		
 	}
 

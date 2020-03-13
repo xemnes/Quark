@@ -10,6 +10,7 @@ public class FramedGlassBlock extends QuarkGlassBlock {
 
 	public FramedGlassBlock(String regname, Module module, ItemGroup creativeTab, Properties properties) {
 		super(regname, module, creativeTab, properties);
+		
 		RenderLayerHandler.setRenderType(this, RenderTypeSkeleton.CUTOUT);
 	}
 
