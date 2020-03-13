@@ -174,7 +174,7 @@ public class EmotesModule extends Module {
 					for (EmoteDescriptor desc : descriptors) {
 						int rowSize = Math.min(descriptors.size() - tierRow * EMOTES_PER_ROW, EMOTES_PER_ROW);
 
-						int x = gui.width - (((rowPos + 1) * 2 + EMOTES_PER_ROW - rowSize) * EMOTE_BUTTON_WIDTH / 2 + 1);
+						int x = gui.width - (EMOTE_BUTTON_WIDTH * (EMOTES_PER_ROW + 1)) + (((rowPos + 1) * 2 + EMOTES_PER_ROW - rowSize) * EMOTE_BUTTON_WIDTH / 2 + 1);
 						int y = gui.height - (40 + EMOTE_BUTTON_WIDTH * (rows - row));
 
 						Button button = new EmoteButton(x, y, desc, (b) -> {
