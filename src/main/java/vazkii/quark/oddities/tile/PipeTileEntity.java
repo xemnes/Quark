@@ -28,6 +28,7 @@ import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Direction.Axis;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -43,6 +44,7 @@ import net.minecraftforge.items.wrapper.InvWrapper;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import vazkii.arl.block.tile.TileSimpleInventory;
 import vazkii.quark.base.handler.MiscUtil;
+import vazkii.quark.base.handler.QuarkSounds;
 import vazkii.quark.oddities.block.PipeBlock;
 import vazkii.quark.oddities.module.PipesModule;
 
@@ -73,8 +75,6 @@ public class PipeTileEntity extends TileSimpleInventory implements ITickableTile
 		if (isPipeEnabled() && blockAt.getBlock() instanceof PipeBlock) {
 			for (Direction side : Direction.values()) {
 				BlockPos offset = pos.offset(side);
-//				if (world.getBlockState(offset).getBlockFaceShape(world, offset, side.getOpposite()) != BlockFaceShape.UNDEFINED) TODO ?
-//					continue;
 
 				if (!world.isRemote && PipeBlock.getType(blockAt, side) == null) {
 					double minX = pos.getX() + 0.25 + 0.5 * Math.min(0, side.getXOffset());
@@ -100,12 +100,12 @@ public class PipeTileEntity extends TileSimpleInventory implements ITickableTile
 					for (ItemEntity item : world.getEntitiesWithinAABB(ItemEntity.class, new AxisAlignedBB(minX, minY, minZ, maxX, maxY, maxZ), predicate)) {
 						passIn(item.getItem().copy(), side);
 						
-//						if (PipesModule.doPipesWhoosh) { TODO sfx
-//							if (isTheGoodDay(world))
-//								world.playSound(null, item.getPosX(), item.getPosY(), item.getPosZ(), QuarkSounds.BLOCK_PIPE_PICKUP_LENNY, SoundCategory.BLOCKS, 1f, 1f);
-//							else
-//								world.playSound(null, item.getPosX(), item.getPosY(), item.getPosZ(), QuarkSounds.BLOCK_PIPE_PICKUP, SoundCategory.BLOCKS, 1f, 1f);
-//						}
+						if (PipesModule.doPipesWhoosh) { 
+							if (isTheGoodDay(world))
+								world.playSound(null, item.getPosX(), item.getPosY(), item.getPosZ(), QuarkSounds.BLOCK_PIPE_PICKUP_LENNY, SoundCategory.BLOCKS, 1f, 1f);
+							else
+								world.playSound(null, item.getPosX(), item.getPosY(), item.getPosZ(), QuarkSounds.BLOCK_PIPE_PICKUP, SoundCategory.BLOCKS, 1f, 1f);
+						}
 
 						any = true;
 						item.remove();
@@ -229,12 +229,12 @@ public class PipeTileEntity extends TileSimpleInventory implements ITickableTile
 			if (!shootOut)
 				pitch = 0.025f;
 
-//			if (playSound && PipesModule.doPipesWhoosh) { TODO sfx
-//				if (isTheGoodDay(world))
-//					world.playSound(null, posX, posY, posZ, QuarkSounds.BLOCK_PIPE_SHOOT_LENNY, SoundCategory.BLOCKS, 1f, pitch);
-//				else
-//					world.playSound(null, posX, posY, posZ, QuarkSounds.BLOCK_PIPE_SHOOT, SoundCategory.BLOCKS, 1f, pitch);
-//			}
+			if (playSound && PipesModule.doPipesWhoosh) { 
+				if (isTheGoodDay(world))
+					world.playSound(null, posX, posY, posZ, QuarkSounds.BLOCK_PIPE_SHOOT_LENNY, SoundCategory.BLOCKS, 1f, pitch);
+				else
+					world.playSound(null, posX, posY, posZ, QuarkSounds.BLOCK_PIPE_SHOOT, SoundCategory.BLOCKS, 1f, pitch);
+			}
 
 			ItemEntity entity = new ItemEntity(world, posX, posY, posZ, stack);
 			entity.setDefaultPickupDelay();

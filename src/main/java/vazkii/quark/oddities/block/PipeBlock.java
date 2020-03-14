@@ -98,8 +98,6 @@ public class PipeBlock extends QuarkBlock {
 				.sound(SoundType.GLASS)
 				.notSolid());
 
-//		setHarvestLevel("pickaxe", 1); TODO
-
 		setDefaultState(getDefaultState()
 				.with(DOWN, ConnectionType.NONE).with(UP, ConnectionType.NONE)
 				.with(NORTH, ConnectionType.NONE).with(SOUTH, ConnectionType.NONE)
