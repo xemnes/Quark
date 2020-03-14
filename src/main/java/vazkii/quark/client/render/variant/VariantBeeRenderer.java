@@ -17,7 +17,7 @@ public class VariantBeeRenderer extends BeeRenderer {
 	private static final List<String> VARIANTS = ImmutableList.of(
 			"acebee", "agenbee", "arobee", "beefluid", "beesexual", 
 			"beequeer", "enbee", "gaybee", "interbee", "lesbeean", 
-			"panbee", "polysexbee", "transbee");
+			"panbee", "polysexbee", "transbee", "helen");
 	
 	public VariantBeeRenderer(EntityRendererManager renderManagerIn) {
 		super(renderManagerIn);
@@ -27,7 +27,7 @@ public class VariantBeeRenderer extends BeeRenderer {
 	public ResourceLocation getEntityTexture(BeeEntity entity) {
 		if(entity.hasCustomName() || VariantAnimalTexturesModule.everyBeeIsLGBT) {
 			String custName = entity.hasCustomName() ? entity.getCustomName().getUnformattedComponentText().trim() : "";
-			String name = custName;
+			String name = custName.toLowerCase();
 			
 			if(VariantAnimalTexturesModule.everyBeeIsLGBT) {
 				UUID id = entity.getUniqueID();

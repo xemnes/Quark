@@ -52,6 +52,10 @@
 	"quark.subtitles.crab_hurt": "Shell chips",
 	"quark.subtitles.crab_scuttle": "Crab scuttles",
 	"quark.subtitles.growl": "Monsters arise",
+	"quark.subtitles.pipe_shoot": "Pipe ejects",
+	"quark.subtitles.pipe_pickup": "Pipe absorbs",
+	"quark.subtitles.pipe_shoot_lenny": "Pipe nuts",
+	"quark.subtitles.pipe_pickup_lenny": "Pipe succ",
 	
 	"quark.emote.wave": "Wave",
 	"quark.emote.yes": "Yes",

@@ -165,5 +165,33 @@
     "sounds": [
       "quark:block/monster_box"   
      ]
+  },
+  "block.pipe.shoot": {
+    "category": "blocks",
+    "subtitle": "quark.subtitles.pipe_shoot",
+    "sounds": [
+      "quark:block/pipe/shoot"
+    ]
+  },
+  "block.pipe.pickup": {
+    "category": "blocks",
+    "subtitle": "quark.subtitles.pipe_pickup",
+    "sounds": [
+      "quark:block/pipe/pickup"
+    ]
+  },
+  "block.pipe.shoot.lenny": {
+    "category": "blocks",
+    "subtitle": "quark.subtitles.pipe_shoot_lenny",
+    "sounds": [
+      "quark:block/pipe/shoot"
+    ]
+  },
+  "block.pipe.pickup.lenny": {
+    "category": "blocks",
+    "subtitle": "quark.subtitles.pipe_pickup_lenny",
+    "sounds": [
+      "quark:block/pipe/pickup"
+    ]
   }
 }
