@@ -3,21 +3,27 @@ package vazkii.quark.oddities.block;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.annotation.Nonnull;
+
 import com.google.common.collect.Maps;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.DirectionalBlock;
+import net.minecraft.block.IWaterLoggable;
 import net.minecraft.block.PistonBlock;
 import net.minecraft.block.PistonHeadBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.fluid.Fluids;
+import net.minecraft.fluid.IFluidState;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer.Builder;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
@@ -37,7 +43,7 @@ import vazkii.quark.base.handler.RenderLayerHandler.RenderTypeSkeleton;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.oddities.tile.PipeTileEntity;
 
-public class PipeBlock extends QuarkBlock {
+public class PipeBlock extends QuarkBlock implements IWaterLoggable {
 
 	private static final VoxelShape CENTER_SHAPE = VoxelShapes.create(0.3125, 0.3125, 0.3125, 0.6875, 0.6875, 0.6875);
 
@@ -69,6 +75,7 @@ public class PipeBlock extends QuarkBlock {
 	public static final EnumProperty<ConnectionType> WEST = EnumProperty.create("west", ConnectionType.class);
 	public static final EnumProperty<ConnectionType> EAST = EnumProperty.create("east", ConnectionType.class);
 	public static final BooleanProperty ENABLED = BooleanProperty.create("enabled");
+	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
 	@SuppressWarnings("unchecked")
 	private static final EnumProperty<ConnectionType>[] CONNECTIONS = new EnumProperty[] {
@@ -102,7 +109,8 @@ public class PipeBlock extends QuarkBlock {
 				.with(DOWN, ConnectionType.NONE).with(UP, ConnectionType.NONE)
 				.with(NORTH, ConnectionType.NONE).with(SOUTH, ConnectionType.NONE)
 				.with(WEST, ConnectionType.NONE).with(EAST, ConnectionType.NONE)
-				.with(ENABLED, true));
+				.with(ENABLED, true)
+				.with(WATERLOGGED, false));
 
 		stateLoop: for (BlockState state : stateContainer.getValidStates()) {
 			Direction onlySide = null;
@@ -123,22 +131,28 @@ public class PipeBlock extends QuarkBlock {
 		RenderLayerHandler.setRenderType(this, RenderTypeSkeleton.CUTOUT);
 	}
 	
+	@Nonnull
+	@Override
+	@SuppressWarnings("deprecation")
+	public IFluidState getFluidState(BlockState state) {
+		return state.get(WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
+	}
 	
 	@Override
 	public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving) {
-		BlockState targetState = getTargetState(worldIn, pos);
+		BlockState targetState = getTargetState(worldIn, pos, state.get(WATERLOGGED));
 		if(!targetState.equals(state))
 			worldIn.setBlockState(pos, targetState, 2 | 4);
 	}
 	
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
-		return getTargetState(context.getWorld(), context.getPos());
+		return getTargetState(context.getWorld(), context.getPos(), context.getWorld().getFluidState(context.getPos()).getFluid() == Fluids.WATER);
 	}
 	
-	private BlockState getTargetState(World worldIn, BlockPos pos) {
+	private BlockState getTargetState(World worldIn, BlockPos pos, boolean waterlog) {
 		BlockState newState = getDefaultState();
-		newState = newState.with(ENABLED, !worldIn.isBlockPowered(pos));
+		newState = newState.with(ENABLED, !worldIn.isBlockPowered(pos)).with(WATERLOGGED, waterlog);
 		
 		for(Direction facing : Direction.values()) {
 			EnumProperty<ConnectionType> prop = CONNECTIONS[facing.ordinal()];
@@ -175,7 +189,7 @@ public class PipeBlock extends QuarkBlock {
 
 	@Override
 	protected void fillStateContainer(Builder<Block, BlockState> builder) {
-		builder.add(UP, DOWN, NORTH, SOUTH, WEST, EAST, ENABLED);
+		builder.add(UP, DOWN, NORTH, SOUTH, WEST, EAST, ENABLED, WATERLOGGED);
 	}
 
 	@Override
