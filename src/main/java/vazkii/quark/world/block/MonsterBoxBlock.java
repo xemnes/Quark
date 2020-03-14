@@ -23,7 +23,8 @@ public class MonsterBoxBlock extends QuarkBlock {
 		super("monster_box", module, null,
 				Block.Properties.create(Material.IRON)
 				.hardnessAndResistance(25F)
-				.sound(SoundType.METAL));
+				.sound(SoundType.METAL)
+				.notSolid());
 		
 		RenderLayerHandler.setRenderType(this, RenderTypeSkeleton.CUTOUT);
 	}
