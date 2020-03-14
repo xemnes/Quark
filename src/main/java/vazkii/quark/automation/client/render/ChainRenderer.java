@@ -39,7 +39,7 @@ public class ChainRenderer {
 
 	private static void renderLeash(EntityRenderer<Entity> renderer, Entity cart, float partialTicks, MatrixStack matrixStack, IRenderTypeBuffer renderBuffer, Entity holder) {
 		Entity entity = holder;
-		
+
 		if(entity != null && holder != null) {
 			boolean player = entity instanceof PlayerEntity;
 
@@ -56,7 +56,7 @@ public class ChainRenderer {
 			if (player) {
 				xLocus += rotX;
 				zLocus += rotZ;
-				
+
 				yLocus += 1.3;
 			}
 
@@ -67,30 +67,34 @@ public class ChainRenderer {
 				xLocus -= rotX;
 				zLocus -= rotZ;
 			}
-			
+
 			float offsetX = ((float) (xLocus - targetX));
 			float offsetY = ((float) (yLocus - targetY));
 			float offsetZ = ((float) (zLocus - targetZ));
-			
+
 			IVertexBuilder vertexBuilder = renderBuffer.getBuffer(RenderType.getLeash());
-			
-			int lightAtEntity = renderer.getBlockLight(entity, partialTicks);
-			int lightAtOther = renderer.getRenderManager().getRenderer(holder).getBlockLight(holder, partialTicks);
+
+			int lightAtEntity = getBlockLight(entity, partialTicks);
+			int lightAtOther = getBlockLight(holder, partialTicks);
 			int skyLightAtEntity = entity.world.getLightFor(LightType.SKY, new BlockPos(entity.getEyePosition(partialTicks)));
 			int skyLightAtOther = entity.world.getLightFor(LightType.SKY, new BlockPos(holder.getEyePosition(partialTicks)));
-			
+
 			float mag = MathHelper.fastInvSqrt(offsetX * offsetX + offsetZ * offsetZ) * 0.025F / 2.0F;
 			float zMag = offsetZ * mag;
 			float xMag = offsetX * mag;
-			
+
 			matrixStack.push();
 			matrixStack.translate(0, 0.1F, 0);
-			
+
 			Matrix4f matrix = matrixStack.getLast().getMatrix();
 			renderSide(vertexBuilder, matrix, offsetX, offsetY, offsetZ, lightAtEntity, lightAtOther, skyLightAtEntity, skyLightAtOther, 0.025F, 0.025F, zMag, xMag);
 			renderSide(vertexBuilder, matrix, offsetX, offsetY, offsetZ, lightAtEntity, lightAtOther, skyLightAtEntity, skyLightAtOther, 0.025F, 0.0F, zMag, xMag);
 			matrixStack.pop();
 		}
+	}
+
+	private static int getBlockLight(Entity entityIn, float partialTicks) {
+		return entityIn.isBurning() ? 15 : entityIn.world.getLightFor(LightType.BLOCK, new BlockPos(entityIn.getEyePosition(partialTicks)));
 	}
 
 	public static void renderSide(IVertexBuilder vertexBuilder, Matrix4f matrix, float dX, float dY, float dZ, int lightAtEntity, int lightAtOther, int skyLightAtEntity, int skyLightAtOther, float width, float rotation, float xMag, float zMag) {
