@@ -19,6 +19,7 @@ import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Direction;
 import net.minecraft.util.IStringSerializable;
@@ -57,7 +58,7 @@ public class IronChainBlock extends QuarkBlock implements IWaterLoggable {
 	public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
 		BlockPos upPos = pos.up();
 		BlockState upState = worldIn.getBlockState(upPos);
-		return upState.getBlock() == this || upState.isSolidSide(worldIn, upPos, Direction.DOWN);
+		return upState.getBlock() == this || getChainType(worldIn, pos) == ChainType.TOP;
 	}
 	
 	@Override
@@ -109,10 +110,10 @@ public class IronChainBlock extends QuarkBlock implements IWaterLoggable {
 		return type == PathType.WATER && worldIn.getFluidState(pos).isTagged(FluidTags.WATER); 
 	}
 	
-	public ChainType getChainType(World world, BlockPos pos) {
+	public ChainType getChainType(IWorldReader world, BlockPos pos) {
 		BlockPos up = pos.up();
 		BlockState state = world.getBlockState(up);
-		if(hasSolidSide(state, world, up, Direction.DOWN))
+		if(hasSolidSide(state, world, up, Direction.DOWN) || state.getBlock().isIn(BlockTags.FENCES) || state.getBlock().isIn(BlockTags.WALLS))
 			return ChainType.TOP;
 		
 		BlockPos down = pos.down();
