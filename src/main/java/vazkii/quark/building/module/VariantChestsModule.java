@@ -26,7 +26,6 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.base.module.LoadModule;
@@ -94,9 +93,7 @@ public class VariantChestsModule extends Module {
 		String[] toks = nameRaw.split(":");
 		String name = toks[1];
 		String mod = toks[0];
-		
-		if(ModList.get().isLoaded(mod))
-			addModChest(name, mod, Block.Properties.from(from));
+		addModChest(name, mod, Block.Properties.from(from));
 	}
 
 	private void addModChest(String name, String mod, Block.Properties props) {
