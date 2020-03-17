@@ -87,7 +87,6 @@ public class VariantAnimalTexturesModule extends Module {
 	
 	@OnlyIn(Dist.CLIENT)
 	public static ResourceLocation getTextureOrShiny(Entity e, VariantTextureType type, Supplier<ResourceLocation> nonShiny) {
-		shinyAnimalChance = 20;
 		UUID id = e.getUniqueID();
 		long most = id.getMostSignificantBits();
 		if(shinyAnimalChance > 0 && (most % shinyAnimalChance) == 0)
