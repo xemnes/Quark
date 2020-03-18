@@ -806,6 +806,7 @@
 	"item.quark.crab_spawn_egg": "Crab Spawn Egg",
 	"item.quark.foxhound_spawn_egg": "Foxhound Spawn Egg",
 	"item.quark.wrapped_spawn_egg": "Wrapped Spawn Egg",
+	"item.quark.toretoise_spawn_egg": "Toretoise Spawn Egg",
 
 	"effect.quark.resilience": "Resilience",
 	"effect.quark.danger_sight": "Danger Sight",
@@ -819,8 +820,7 @@
 	"entity.quark.frog": "Frog",
 	"entity.quark.crab": "Crab",
 	"entity.quark.foxhound": "Foxhound",
-	"entity.quark.wrapped": "Wrapped"
+	"entity.quark.wrapped": "Wrapped",
+	"entity.quark.toretoise": "Toretoise"
 	
 }
-
-
