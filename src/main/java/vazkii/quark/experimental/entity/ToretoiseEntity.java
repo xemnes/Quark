@@ -2,10 +2,10 @@ package vazkii.quark.experimental.entity;
 
 import java.util.Random;
 
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.BreedGoal;
@@ -17,6 +17,7 @@ import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.ai.goal.TemptGoal;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
@@ -26,18 +27,17 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.pathfinding.PathNodeType;
-import net.minecraft.util.ActionResultType;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.Difficulty;
 import net.minecraft.world.IWorld;
-import net.minecraft.world.IWorldReader;
 import net.minecraft.world.LightType;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.common.ToolType;
 import vazkii.quark.base.handler.MiscUtil;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.experimental.module.ToretoiseModule;
@@ -46,6 +46,8 @@ import vazkii.quark.world.module.CaveRootsModule;
 
 public class ToretoiseEntity extends AnimalEntity {
 
+	public static final int ORE_TYPES = 4; 
+	
 	private static final String TAG_TAMED = "tamed";
 	private static final String TAG_ORE = "oreType";
 	
@@ -71,15 +73,21 @@ public class ToretoiseEntity extends AnimalEntity {
 
 	@Override
 	protected void registerGoals() {
-		goodFood = Ingredient.fromItems(ModuleLoader.INSTANCE.isModuleEnabled(CaveRootsModule.class) ? CaveRootsModule.rootItem : Items.CACTUS);
 		
 		goalSelector.addGoal(0, new SwimGoal(this));
 		goalSelector.addGoal(1, new BreedGoal(this, 1.0));
-		goalSelector.addGoal(2, new TemptGoal(this, 1.25, goodFood, false));
+		goalSelector.addGoal(2, new TemptGoal(this, 1.25, getGoodFood(), false));
 		goalSelector.addGoal(3, new FollowParentGoal(this, 1.25));
 		goalSelector.addGoal(5, new RandomWalkingGoal(this, 1.0D));
 		goalSelector.addGoal(4, new LookAtGoal(this, PlayerEntity.class, 6.0F));
 		goalSelector.addGoal(5, new LookRandomlyGoal(this));
+	}
+	
+	private Ingredient getGoodFood() {
+		if(goodFood == null)
+			goodFood = Ingredient.fromItems(ModuleLoader.INSTANCE.isModuleEnabled(CaveRootsModule.class) ? CaveRootsModule.rootItem : Items.CACTUS);
+		
+		return goodFood;
 	}
 
 	@Override
@@ -95,8 +103,61 @@ public class ToretoiseEntity extends AnimalEntity {
 		if(riding != null)
 			rideTime++;
 		else rideTime = 0;
+	}
+	
+	@Override
+	public boolean attackEntityFrom(DamageSource source, float amount) {
+		Entity e = source.getImmediateSource();
+		int ore = getOreType();
+		if(e instanceof LivingEntity && ore != 0) {
+			LivingEntity living = (LivingEntity) e;
+			ItemStack held = living.getHeldItemMainhand();
+			
+			if(held.getItem().getToolTypes(held).contains(ToolType.PICKAXE)) {
+				if(!world.isRemote) {
+					if(held.isDamageable() && e instanceof PlayerEntity)
+						MiscUtil.damageStack((PlayerEntity) e, Hand.MAIN_HAND, held, 1);
+					
+					if(world instanceof ServerWorld)
+						((ServerWorld) world).playSound(null, getPosX(), getPosY(), getPosZ(), SoundEvents.BLOCK_LANTERN_BREAK, SoundCategory.NEUTRAL, 1F, 0.6F);
+					
+					Item drop = null;
+					int countMult = 1;
+					switch(ore) {
+					case 1: 
+						drop = Items.COAL;
+						break;
+					case 2:
+						drop = Items.IRON_NUGGET;
+						countMult *= 9;
+						break;
+					case 3:
+						drop = Items.REDSTONE;
+						countMult *= 3;
+						break;
+					case 4:
+						drop = Items.LAPIS_LAZULI;
+						countMult *= 3;
+						break;
+					}
+					
+					if(drop != null) {
+						int count = 1;
+						while(rand.nextBoolean())
+							count++;
+						count *= countMult;
+						
+						entityDropItem(new ItemStack(drop, count));
+					}
+					
+					dataManager.set(ORE_TYPE, 0);
+				}
 
+				return false;
+			}
+		}
 		
+		return super.attackEntityFrom(source, amount);
 	}
 	
 	@Override
@@ -109,15 +170,33 @@ public class ToretoiseEntity extends AnimalEntity {
 		if(world.isRemote)
 			return;
 		
+		heal(8);
+		
 		if(!isTamed) {
 			isTamed = true;
-	        world.addParticle(ParticleTypes.HEART, getPosX(), getPosY(), getPosZ(), 0, 0, 0);
+			
+			if(world instanceof ServerWorld)
+				((ServerWorld) world).spawnParticle(ParticleTypes.HEART, getPosX(), getPosY(), getPosZ(), 20, 0.5, 0.5, 0.5, 0);
+		} else {
+			popOre();
+		}
+	}
+	
+	private void popOre() {
+		if(getOreType() == 0 && world.rand.nextInt(3) == 0) {
+			int ore = rand.nextInt(ORE_TYPES) + 1;
+			dataManager.set(ORE_TYPE, ore);
+			
+			if(world instanceof ServerWorld) {
+				((ServerWorld) world).spawnParticle(ParticleTypes.CLOUD, getPosX(), getPosY() + 0.5, getPosZ(), 100, 0.6, 0.6, 0.6, 0);
+				((ServerWorld) world).playSound(null, getPosX(), getPosY(), getPosZ(), SoundEvents.BLOCK_STONE_PLACE, SoundCategory.NEUTRAL, 10, 0.7F);
+			}
 		}
 	}
 	
 	@Override
 	public boolean isBreedingItem(ItemStack stack) {
-		return goodFood.test(stack);
+		return getGoodFood().test(stack);
 	}
 	
 	@Override
@@ -205,7 +284,9 @@ public class ToretoiseEntity extends AnimalEntity {
 
 	@Override
 	public AgeableEntity createChild(AgeableEntity arg0) {
-		return new ToretoiseEntity(ToretoiseModule.toretoiseType, world); // TODO baby
+		ToretoiseEntity e = new ToretoiseEntity(ToretoiseModule.toretoiseType, world);
+		e.remove(); // kill the entity cuz toretoise doesn't make babies
+		return e;
 	}
 
 }

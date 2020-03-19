@@ -24,6 +24,23 @@ public class ToretoiseModel extends EntityModel<ToretoiseEntity> {
     public ModelRenderer rightBackLeg;
     public ModelRenderer leftBackLeg;
     public ModelRenderer mouth;
+    
+    public ModelRenderer CoalOre1;
+    public ModelRenderer CoalOre2;
+    public ModelRenderer CoalOre3;
+    public ModelRenderer CoalOre4;
+    public ModelRenderer IronOre1;
+    public ModelRenderer IronOre2;
+    public ModelRenderer IronOre3;
+    public ModelRenderer LapisOre1;
+    public ModelRenderer LapisOre2;
+    public ModelRenderer LapisOre3;
+    public ModelRenderer LapisOre4;
+    public ModelRenderer RedstoneOre1;
+    public ModelRenderer RedstoneOre2;
+    public ModelRenderer RedstoneOre3;
+    public ModelRenderer RedstoneOre4;
+    public ModelRenderer RedstoneOre5;
 
     public ToretoiseModel() {
         textureWidth = 100;
@@ -63,6 +80,75 @@ public class ToretoiseModel extends EntityModel<ToretoiseEntity> {
         
         setRotateAngle(leftBackLeg, 0.0F, -0.7853981633974483F, 0.0F);
         head.addChild(mouth);
+        
+        CoalOre1 = new ModelRenderer(this, 36, 56);
+        CoalOre1.addBox(0.0F, -7.0F, -6.0F, 3, 3, 3, 0.0F);
+        CoalOre1.setRotationPoint(0.0F, 0.0F, 0.0F);
+        CoalOre2 = new ModelRenderer(this, 42, 56);
+        CoalOre2.addBox(7.0F, -2.0F, -10.0F, 6, 6, 6, 0.0F);
+        CoalOre2.setRotationPoint(0.0F, 0.0F, 0.0F);
+        CoalOre3 = new ModelRenderer(this, 66, 50);
+        CoalOre3.addBox(-2.0F, -7.0F, -4.0F, 7, 7, 7, 0.0F);
+        CoalOre3.setRotationPoint(0.0F, 0.0F, 0.0F);
+        CoalOre4 = new ModelRenderer(this, 60, 64);
+        CoalOre4.addBox(-15.0F, 0.0F, 1.0F, 4, 6, 6, 0.0F);
+        CoalOre4.setRotationPoint(0.0F, 0.0F, 0.0F);
+        
+        IronOre1 = new ModelRenderer(this, 36, 89);
+        IronOre1.addBox(1.0F, -3.0F, 1.0F, 8, 3, 8, 0.0F);
+        IronOre1.setRotationPoint(0.0F, 0.0F, 0.0F);
+        IronOre2 = new ModelRenderer(this, 32, 81);
+        IronOre2.addBox(-7.0F, -2.0F, -11.0F, 6, 2, 6, 0.0F);
+        IronOre2.setRotationPoint(0.0F, 0.0F, 0.0F);
+        IronOre3 = new ModelRenderer(this, 30, 76);
+        IronOre3.addBox(-9.0F, -1.0F, 6.0F, 4, 1, 4, 0.0F);
+        IronOre3.setRotationPoint(0.0F, 0.0F, 0.0F);
+        
+        LapisOre1 = new ModelRenderer(this, 0, 51);
+        LapisOre1.addBox(-5.0F, -8.0F, 0.0F, 8, 8, 0, 0.0F);
+        LapisOre1.setRotationPoint(0.0F, 0.0F, 0.0F);
+        LapisOre2 = new ModelRenderer(this, 0, 53);
+        LapisOre2.addBox(-1.0F, -8.0F, -4.0F, 0, 8, 8, 0.0F);
+        LapisOre2.setRotationPoint(0.0F, 0.0F, 0.0F);
+        LapisOre3 = new ModelRenderer(this, 18, 51);
+        LapisOre3.addBox(-10.0F, -8.0F, 8.0F, 8, 8, 0, 0.0F);
+        LapisOre3.setRotationPoint(0.0F, 0.0F, 0.0F);
+        LapisOre4 = new ModelRenderer(this, 18, 53);
+        LapisOre4.addBox(-6.0F, -8.0F, 4.0F, 0, 8, 8, 0.0F);
+        LapisOre4.setRotationPoint(0.0F, 0.0F, 0.0F);
+        
+        RedstoneOre1 = new ModelRenderer(this, 0, 83);
+        RedstoneOre1.addBox(-8.0F, -12.0F, -6.0F, 5, 12, 5, 0.0F);
+        RedstoneOre1.setRotationPoint(0.0F, 0.0F, 0.0F);
+        RedstoneOre2 = new ModelRenderer(this, 0, 74);
+        RedstoneOre2.addBox(6.0F, -6.0F, -1.0F, 3, 6, 3, 0.0F);
+        RedstoneOre2.setRotationPoint(0.0F, 0.0F, 0.0F);
+        RedstoneOre3 = new ModelRenderer(this, 12, 76);
+        RedstoneOre3.addBox(-7.0F, -4.0F, 2.0F, 2, 4, 2, 0.0F);
+        RedstoneOre3.setRotationPoint(0.0F, 0.0F, 0.0F);
+        RedstoneOre4 = new ModelRenderer(this, 20, 87);
+        RedstoneOre4.addBox(1.0F, -9.0F, -9.0F, 4, 9, 4, 0.0F);
+        RedstoneOre4.setRotationPoint(0.0F, 0.0F, 0.0F);
+        RedstoneOre5 = new ModelRenderer(this, 15, 77);
+        RedstoneOre5.addBox(-1.0F, -5.0F, 5.0F, 5, 5, 5, 0.0F);
+        RedstoneOre5.setRotationPoint(0.0F, 0.0F, 0.0F);
+        
+        body.addChild(CoalOre2);
+        body.addChild(CoalOre3);
+        body.addChild(CoalOre4);
+        body.addChild(IronOre1);
+        body.addChild(IronOre2);
+        body.addChild(IronOre3);
+        body.addChild(LapisOre1);
+        body.addChild(LapisOre2);
+        body.addChild(LapisOre3);
+        body.addChild(LapisOre4);
+        body.addChild(RedstoneOre1);
+        body.addChild(RedstoneOre2);
+        body.addChild(RedstoneOre3);
+        body.addChild(RedstoneOre4);
+        body.addChild(RedstoneOre5);
+        head.addChild(CoalOre1);
     }
     
 	@Override
@@ -146,6 +232,5 @@ public class ToretoiseModel extends EntityModel<ToretoiseEntity> {
         modelRenderer.rotateAngleY = y;
         modelRenderer.rotateAngleZ = z;
     }
-
 	
 }
