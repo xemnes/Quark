@@ -36,6 +36,7 @@ import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ToolType;
 import net.minecraftforge.items.CapabilityItemHandler;
 import vazkii.quark.base.block.QuarkBlock;
 import vazkii.quark.base.handler.RenderLayerHandler;
@@ -104,7 +105,7 @@ public class PipeBlock extends QuarkBlock implements IWaterLoggable {
 				.hardnessAndResistance(3F, 10F)
 				.sound(SoundType.GLASS)
 				.notSolid());
-
+		
 		setDefaultState(getDefaultState()
 				.with(DOWN, ConnectionType.NONE).with(UP, ConnectionType.NONE)
 				.with(NORTH, ConnectionType.NONE).with(SOUTH, ConnectionType.NONE)
@@ -129,6 +130,11 @@ public class PipeBlock extends QuarkBlock implements IWaterLoggable {
 		}
 		
 		RenderLayerHandler.setRenderType(this, RenderTypeSkeleton.CUTOUT);
+	}
+	
+	@Override
+	public boolean isToolEffective(BlockState state, ToolType tool) {
+		return tool == ToolType.PICKAXE;
 	}
 	
 	@Nonnull
