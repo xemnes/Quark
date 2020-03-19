@@ -342,7 +342,7 @@ public class FoxhoundEntity extends WolfEntity implements IMob {
 	}
 
 	public static boolean spawnPredicate(EntityType<? extends FoxhoundEntity> type, IWorld world, SpawnReason reason, BlockPos pos, Random rand) {
-		return world.getDifficulty() != Difficulty.PEACEFUL && canSpawnHere(world, pos, rand) && canAnimalSpawn(type, world, reason, pos, rand);
+		return world.getDifficulty() != Difficulty.PEACEFUL && canSpawnHere(world, pos, rand);
 	}
 
 	public SleepGoal getSleepGoal() {
