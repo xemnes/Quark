@@ -12,7 +12,7 @@ public class ToretoiseRenderer extends MobRenderer<ToretoiseEntity, ToretoiseMod
 	private static final ResourceLocation BASE_TEXTURE = new ResourceLocation(Quark.MOD_ID, "textures/model/entity/toretoise/base.png");
 	
 	public ToretoiseRenderer(EntityRendererManager m) {
-		super(m, new ToretoiseModel(), 1.5F);
+		super(m, new ToretoiseModel(), 1.2F);
 	}
 
 	@Override
