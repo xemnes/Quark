@@ -1,4 +1,4 @@
-package vazkii.quark.experimental.client.layer;
+package vazkii.quark.mobs.client.layer;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
@@ -7,8 +7,8 @@ import net.minecraft.client.renderer.entity.IEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.util.ResourceLocation;
 import vazkii.quark.base.Quark;
-import vazkii.quark.experimental.client.model.ToretoiseModel;
-import vazkii.quark.experimental.entity.ToretoiseEntity;
+import vazkii.quark.mobs.client.model.ToretoiseModel;
+import vazkii.quark.mobs.entity.ToretoiseEntity;
 
 public class ToretoiseOreLayer extends LayerRenderer<ToretoiseEntity, ToretoiseModel> {
 

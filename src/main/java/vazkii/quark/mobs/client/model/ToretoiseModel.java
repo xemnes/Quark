@@ -1,4 +1,4 @@
-package vazkii.quark.experimental.client.model;
+package vazkii.quark.mobs.client.model;
 
 import java.util.function.BiConsumer;
 
@@ -10,7 +10,7 @@ import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.client.renderer.model.ModelRenderer.ModelBox;
 import vazkii.arl.util.ClientTicker;
-import vazkii.quark.experimental.entity.ToretoiseEntity;
+import vazkii.quark.mobs.entity.ToretoiseEntity;
 
 public class ToretoiseModel extends EntityModel<ToretoiseEntity> {
 	

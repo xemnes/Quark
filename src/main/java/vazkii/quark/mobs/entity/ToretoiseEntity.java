@@ -1,4 +1,4 @@
-package vazkii.quark.experimental.entity;
+package vazkii.quark.mobs.entity;
 
 import java.util.Random;
 
@@ -40,8 +40,7 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.ToolType;
 import vazkii.quark.base.handler.MiscUtil;
 import vazkii.quark.base.module.ModuleLoader;
-import vazkii.quark.experimental.module.ToretoiseModule;
-import vazkii.quark.mobs.entity.FoxhoundEntity;
+import vazkii.quark.mobs.module.ToretoiseModule;
 import vazkii.quark.world.module.CaveRootsModule;
 
 public class ToretoiseEntity extends AnimalEntity {
@@ -137,7 +136,7 @@ public class ToretoiseEntity extends AnimalEntity {
 						break;
 					case 4:
 						drop = Items.LAPIS_LAZULI;
-						countMult *= 3;
+						countMult *= 2;
 						break;
 					}
 					
@@ -147,7 +146,7 @@ public class ToretoiseEntity extends AnimalEntity {
 							count++;
 						count *= countMult;
 						
-						entityDropItem(new ItemStack(drop, count));
+						entityDropItem(new ItemStack(drop, count), 1.2F);
 					}
 					
 					dataManager.set(ORE_TYPE, 0);
@@ -213,8 +212,8 @@ public class ToretoiseEntity extends AnimalEntity {
 		}
 	}
 
-	public static boolean spawnPredicate(EntityType<? extends FoxhoundEntity> type, IWorld world, SpawnReason reason, BlockPos pos, Random rand) {
-		return canSpawnHere(world, pos, rand);
+	public static boolean spawnPredicate(EntityType<? extends ToretoiseEntity> type, IWorld world, SpawnReason reason, BlockPos pos, Random rand) {
+		return canSpawnHere(world, pos, rand) && pos.getY() <= ToretoiseModule.maxYLevel;
 	}
 	
 	@Override

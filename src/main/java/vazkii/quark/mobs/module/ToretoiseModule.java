@@ -1,24 +1,39 @@
-package vazkii.quark.experimental.module;
+package vazkii.quark.mobs.module;
 
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.EntitySpawnPlacementRegistry.PlacementType;
+import net.minecraft.world.gen.Heightmap.Type;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import vazkii.arl.util.RegistryHelper;
+import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
 import vazkii.quark.base.world.EntitySpawnHandler;
 import vazkii.quark.base.world.config.BiomeTypeConfig;
+import vazkii.quark.base.world.config.DimensionConfig;
 import vazkii.quark.base.world.config.EntitySpawnConfig;
-import vazkii.quark.experimental.client.render.ToretoiseRenderer;
-import vazkii.quark.experimental.entity.ToretoiseEntity;
+import vazkii.quark.mobs.client.render.ToretoiseRenderer;
+import vazkii.quark.mobs.entity.StonelingEntity;
+import vazkii.quark.mobs.entity.ToretoiseEntity;
 
-@LoadModule(category = ModuleCategory.EXPERIMENTAL, enabledByDefault = false)
+@LoadModule(category = ModuleCategory.MOBS)
 public class ToretoiseModule extends Module {
 
 	public static EntityType<ToretoiseEntity> toretoiseType;
+	
+	@Config
+	public static int maxYLevel = 32;
+	
+	@Config
+	public static DimensionConfig dimensions = DimensionConfig.overworld(false);
+	
+	@Config 
+	public static EntitySpawnConfig spawnConfig = new EntitySpawnConfig(80, 1, 3, new BiomeTypeConfig(true, BiomeDictionary.Type.VOID));
 	
 	@Override
 	public void construct() {
@@ -31,7 +46,8 @@ public class ToretoiseModule extends Module {
 				.build("toretoise");
 		
 		RegistryHelper.register(toretoiseType, "toretoise");
-		EntitySpawnHandler.addEgg(toretoiseType, 0x55413b, 0x383237, new EntitySpawnConfig(0, 0, 0, new BiomeTypeConfig(true, new String[0])));
+		EntitySpawnHandler.registerSpawn(this, toretoiseType, EntityClassification.MONSTER, PlacementType.ON_GROUND, Type.MOTION_BLOCKING_NO_LEAVES, ToretoiseEntity::spawnPredicate, spawnConfig);
+		EntitySpawnHandler.addEgg(toretoiseType, 0x55413b, 0x383237, spawnConfig);
 	}
 	
 	@Override
