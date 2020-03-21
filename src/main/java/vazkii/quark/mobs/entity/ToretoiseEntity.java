@@ -146,6 +146,7 @@ public class ToretoiseEntity extends AnimalEntity {
 	public boolean attackEntityFrom(DamageSource source, float amount) {
 		Entity e = source.getImmediateSource();
 		int ore = getOreType();
+		
 		if(e instanceof LivingEntity && ore != 0) {
 			LivingEntity living = (LivingEntity) e;
 			ItemStack held = living.getHeldItemMainhand();
@@ -165,7 +166,7 @@ public class ToretoiseEntity extends AnimalEntity {
 		return super.attackEntityFrom(source, amount);
 	}
 	
-	private void dropOre(int ore) {
+	public void dropOre(int ore) {
 		if(world instanceof ServerWorld)
 			((ServerWorld) world).playSound(null, getPosX(), getPosY(), getPosZ(), SoundEvents.BLOCK_LANTERN_BREAK, SoundCategory.NEUTRAL, 1F, 0.6F);
 		
