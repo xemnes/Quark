@@ -72,7 +72,6 @@ public class ToretoiseEntity extends AnimalEntity {
 
 	@Override
 	protected void registerGoals() {
-		
 		goalSelector.addGoal(0, new SwimGoal(this));
 		goalSelector.addGoal(1, new BreedGoal(this, 1.0));
 		goalSelector.addGoal(2, new TemptGoal(this, 1.25, getGoodFood(), false));
@@ -87,6 +86,16 @@ public class ToretoiseEntity extends AnimalEntity {
 			goodFood = Ingredient.fromItems(ModuleLoader.INSTANCE.isModuleEnabled(CaveRootsModule.class) ? CaveRootsModule.rootItem : Items.CACTUS);
 		
 		return goodFood;
+	}
+	
+	@Override
+	public boolean canBreed() {
+		return getOreType() == 0;
+	}
+	
+	@Override
+	public SoundEvent getEatSound(ItemStack itemStackIn) {
+		return null;
 	}
 
 	@Override
@@ -169,6 +178,7 @@ public class ToretoiseEntity extends AnimalEntity {
 		if(world.isRemote)
 			return;
 		
+        playSound(SoundEvents.ENTITY_GENERIC_EAT, 0.5F + 0.5F * world.rand.nextInt(2), (world.rand.nextFloat() - world.rand.nextFloat()) * 0.2F + 1.0F);
 		heal(8);
 		
 		if(!isTamed) {
