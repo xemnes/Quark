@@ -5,6 +5,7 @@ import java.util.Random;
 import javax.annotation.Nonnull;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.Entity;
@@ -31,6 +32,8 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.pathfinding.PathNodeType;
+import net.minecraft.tileentity.PistonTileEntity;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
@@ -42,6 +45,7 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.ToolType;
+import vazkii.quark.automation.module.IronRodModule;
 import vazkii.quark.base.handler.MiscUtil;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.mobs.module.ToretoiseModule;
@@ -115,6 +119,27 @@ public class ToretoiseEntity extends AnimalEntity {
 		if(riding != null)
 			rideTime++;
 		else rideTime = 0;
+		
+		int ore = getOreType();
+		if(ore != 0) breakOre: {
+			BlockPos up = getPosition().up();
+			for(int i = 0; i < 2; i++)
+				for(int j = 0; j < 2; j++) {
+					BlockPos test = up.add(i, 0, j - 1);
+					BlockState state = world.getBlockState(test);
+					if(state.getBlock() == Blocks.MOVING_PISTON) {
+						TileEntity tile = world.getTileEntity(test);
+						if(tile instanceof PistonTileEntity) {
+							PistonTileEntity piston = (PistonTileEntity) tile;
+							BlockState pistonState = piston.getPistonState();
+							if(pistonState.getBlock() == IronRodModule.iron_rod) {
+								dropOre(ore);
+								break breakOre;
+							}
+						}
+					}
+				}
+		}
 	}
 	
 	@Override
@@ -130,39 +155,7 @@ public class ToretoiseEntity extends AnimalEntity {
 					if(held.isDamageable() && e instanceof PlayerEntity)
 						MiscUtil.damageStack((PlayerEntity) e, Hand.MAIN_HAND, held, 1);
 					
-					if(world instanceof ServerWorld)
-						((ServerWorld) world).playSound(null, getPosX(), getPosY(), getPosZ(), SoundEvents.BLOCK_LANTERN_BREAK, SoundCategory.NEUTRAL, 1F, 0.6F);
-					
-					Item drop = null;
-					int countMult = 1;
-					switch(ore) {
-					case 1: 
-						drop = Items.COAL;
-						break;
-					case 2:
-						drop = Items.IRON_NUGGET;
-						countMult *= 9;
-						break;
-					case 3:
-						drop = Items.REDSTONE;
-						countMult *= 3;
-						break;
-					case 4:
-						drop = Items.LAPIS_LAZULI;
-						countMult *= 2;
-						break;
-					}
-					
-					if(drop != null) {
-						int count = 1;
-						while(rand.nextBoolean())
-							count++;
-						count *= countMult;
-						
-						entityDropItem(new ItemStack(drop, count), 1.2F);
-					}
-					
-					dataManager.set(ORE_TYPE, 0);
+					dropOre(ore);
 				}
 
 				return false;
@@ -170,6 +163,42 @@ public class ToretoiseEntity extends AnimalEntity {
 		}
 		
 		return super.attackEntityFrom(source, amount);
+	}
+	
+	private void dropOre(int ore) {
+		if(world instanceof ServerWorld)
+			((ServerWorld) world).playSound(null, getPosX(), getPosY(), getPosZ(), SoundEvents.BLOCK_LANTERN_BREAK, SoundCategory.NEUTRAL, 1F, 0.6F);
+		
+		Item drop = null;
+		int countMult = 1;
+		switch(ore) {
+		case 1: 
+			drop = Items.COAL;
+			break;
+		case 2:
+			drop = Items.IRON_NUGGET;
+			countMult *= 9;
+			break;
+		case 3:
+			drop = Items.REDSTONE;
+			countMult *= 3;
+			break;
+		case 4:
+			drop = Items.LAPIS_LAZULI;
+			countMult *= 2;
+			break;
+		}
+		
+		if(drop != null) {
+			int count = 1;
+			while(rand.nextBoolean())
+				count++;
+			count *= countMult;
+			
+			entityDropItem(new ItemStack(drop, count), 1.2F);
+		}
+		
+		dataManager.set(ORE_TYPE, 0);
 	}
 	
 	@Override
