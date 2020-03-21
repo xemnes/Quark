@@ -2,6 +2,10 @@ package vazkii.quark.mobs.entity;
 
 import java.util.Random;
 
+import javax.annotation.Nonnull;
+
+import net.minecraft.block.BlockState;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -33,8 +37,8 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.IWorld;
-import net.minecraft.world.LightType;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.ToolType;
@@ -213,17 +217,17 @@ public class ToretoiseEntity extends AnimalEntity {
 		return !isTamed;
 	}
 	
-	public static boolean canSpawnHere(IWorld world, BlockPos pos, Random rand) {
-		if (world.getLightFor(LightType.SKY, pos) > rand.nextInt(32)) {
-			return false;
-		} else {
-			int light = world.getWorld().isThundering() ? world.getNeighborAwareLightSubtracted(pos, 10) : world.getLight(pos);
-			return light <= rand.nextInt(8);
-		}
+	public static boolean spawnPredicate(EntityType<? extends ToretoiseEntity> type, IWorld world, SpawnReason reason, BlockPos pos, Random rand) {
+		return world.getDifficulty() != Difficulty.PEACEFUL && pos.getY() <= ToretoiseModule.maxYLevel && MiscUtil.validSpawnLight(world, pos, rand) && MiscUtil.validSpawnLocation(type, world, reason, pos);
 	}
 
-	public static boolean spawnPredicate(EntityType<? extends ToretoiseEntity> type, IWorld world, SpawnReason reason, BlockPos pos, Random rand) {
-		return canSpawnHere(world, pos, rand) && pos.getY() <= ToretoiseModule.maxYLevel;
+	@Override
+	public boolean canSpawn(@Nonnull IWorld world, SpawnReason reason) {
+		BlockState state = world.getBlockState((new BlockPos(this)).down());
+		if (state.getMaterial() != Material.ROCK)
+			return false;
+		
+		return ToretoiseModule.dimensions.canSpawnHere(world);
 	}
 	
 	@Override

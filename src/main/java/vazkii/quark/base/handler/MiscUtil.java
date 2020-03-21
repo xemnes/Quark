@@ -5,9 +5,16 @@ import java.lang.reflect.Modifier;
 import java.util.List;
 import java.util.Random;
 
+import javax.annotation.Nonnull;
+
+import net.minecraft.block.BlockState;
+import net.minecraft.block.material.Material;
 import net.minecraft.client.gui.screen.MainMenuScreen;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
@@ -17,6 +24,8 @@ import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.IWorld;
+import net.minecraft.world.LightType;
 import net.minecraft.world.storage.loot.LootEntry;
 import net.minecraft.world.storage.loot.LootPool;
 import net.minecraft.world.storage.loot.LootTable;
@@ -116,6 +125,23 @@ public class MiscUtil {
 	public static boolean isEntityInsideOpaqueBlock(Entity entity) {
 		BlockPos pos = entity.getPosition();
 		return !entity.noClip && entity.world.getBlockState(pos).isSuffocating(entity.world, pos);
+	}
+	
+	public static boolean validSpawnLight(IWorld world, BlockPos pos, Random rand) {
+		if (world.getLightFor(LightType.SKY, pos) > rand.nextInt(32)) {
+			return false;
+		} else {
+			int light = world.getWorld().isThundering() ? world.getNeighborAwareLightSubtracted(pos, 10) : world.getLight(pos);
+			return light <= rand.nextInt(8);
+		}
+	}
+	
+	public static boolean validSpawnLocation(@Nonnull EntityType<? extends MobEntity> type, @Nonnull IWorld world, SpawnReason reason, BlockPos pos) {
+		BlockPos below = pos.down();
+		if (reason == SpawnReason.SPAWNER)
+			return true;
+		BlockState state = world.getBlockState(below);
+		return state.getMaterial() == Material.ROCK && state.canEntitySpawn(world, below, type);
 	}
 	
 	private static int progress;
