@@ -45,6 +45,7 @@ public class ToretoiseModule extends Module {
 				.setTrackingRange(80)
 				.setUpdateInterval(3)
 				.setShouldReceiveVelocityUpdates(true)
+				.immuneToFire()
 				.setCustomClientFactory((spawnEntity, world) -> new ToretoiseEntity(toretoiseType, world))
 				.build("toretoise");
 		

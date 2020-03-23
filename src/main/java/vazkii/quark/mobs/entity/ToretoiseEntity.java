@@ -97,6 +97,11 @@ public class ToretoiseEntity extends AnimalEntity {
 	}
 	
 	@Override
+	public boolean canBreatheUnderwater() {
+		return true;
+	}
+	
+	@Override
 	public boolean canBreed() {
 		return getOreType() == 0;
 	}
