@@ -2,10 +2,14 @@ package vazkii.quark.base.handler;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.Collection;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
+
+import com.google.common.base.Predicates;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
@@ -36,6 +40,8 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraftforge.registries.IForgeRegistryEntry;
 import vazkii.quark.base.Quark;
 
 @EventBusSubscriber(modid = Quark.MOD_ID)
@@ -142,6 +148,10 @@ public class MiscUtil {
 			return true;
 		BlockState state = world.getBlockState(below);
 		return state.getMaterial() == Material.ROCK && state.canEntitySpawn(world, below, type);
+	}
+	
+	public static <T extends IForgeRegistryEntry<T>> List<T> massRegistryGet(Collection<String> coll, IForgeRegistry<T> registry) {
+		return coll.stream().map(ResourceLocation::new).map(registry::getValue).filter(Predicates.notNull()).collect(Collectors.toList());
 	}
 	
 	private static int progress;

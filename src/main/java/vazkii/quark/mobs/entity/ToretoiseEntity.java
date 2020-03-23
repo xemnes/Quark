@@ -158,7 +158,7 @@ public class ToretoiseEntity extends AnimalEntity {
 		if(eatCooldown > 0)
 			eatCooldown--;
 		
-		if(angeryTicks > 0) {
+		if(angeryTicks > 0 && isAlive()) {
 			angeryTicks--;
 			
 			if(onGround) {
