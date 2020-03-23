@@ -10,6 +10,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.SpawnReason;
@@ -41,6 +42,7 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Difficulty;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
@@ -54,12 +56,15 @@ import vazkii.quark.world.module.CaveRootsModule;
 public class ToretoiseEntity extends AnimalEntity {
 
 	public static final int ORE_TYPES = 4; 
+	private static final int DEFAULT_EAT_COOLDOWN = 20 * 60;
 	
 	private static final String TAG_TAMED = "tamed";
 	private static final String TAG_ORE = "oreType";
+	private static final String TAG_EAT_COOLDOWN = "eatCooldown";
 	
 	public int rideTime;
 	private boolean isTamed;
+	private int eatCooldown;
 	
 	private Ingredient goodFood;
 
@@ -80,11 +85,10 @@ public class ToretoiseEntity extends AnimalEntity {
 
 	@Override
 	protected void registerGoals() {
-		goalSelector.addGoal(0, new SwimGoal(this));
-		goalSelector.addGoal(1, new BreedGoal(this, 1.0));
-		goalSelector.addGoal(2, new TemptGoal(this, 1.25, getGoodFood(), false));
-		goalSelector.addGoal(3, new FollowParentGoal(this, 1.25));
-		goalSelector.addGoal(5, new RandomWalkingGoal(this, 1.0D));
+		goalSelector.addGoal(0, new BreedGoal(this, 1.0));
+		goalSelector.addGoal(1, new TemptGoal(this, 1.25, getGoodFood(), false));
+		goalSelector.addGoal(2, new FollowParentGoal(this, 1.25));
+		goalSelector.addGoal(3, new RandomWalkingGoal(this, 1.0D));
 		goalSelector.addGoal(4, new LookAtGoal(this, PlayerEntity.class, 6.0F));
 		goalSelector.addGoal(5, new LookRandomlyGoal(this));
 	}
@@ -97,13 +101,29 @@ public class ToretoiseEntity extends AnimalEntity {
 	}
 	
 	@Override
+	public ILivingEntityData onInitialSpawn(IWorld p_213386_1_, DifficultyInstance p_213386_2_, SpawnReason p_213386_3_, ILivingEntityData p_213386_4_, CompoundNBT p_213386_5_) {
+		popOre(true);
+		return p_213386_4_;
+	}
+	
+	@Override
 	public boolean canBreatheUnderwater() {
 		return true;
 	}
 	
 	@Override
+	public boolean isPushedByWater() {
+		return false;
+	}
+
+	@Override
+	protected int decreaseAirSupply(int air) {
+		return air;
+	}
+	
+	@Override
 	public boolean canBreed() {
-		return getOreType() == 0;
+		return getOreType() == 0 && eatCooldown == 0;
 	}
 	
 	@Override
@@ -124,6 +144,9 @@ public class ToretoiseEntity extends AnimalEntity {
 		if(riding != null)
 			rideTime++;
 		else rideTime = 0;
+		
+		if(eatCooldown > 0)
+			eatCooldown--;
 		
 		int ore = getOreType();
 		if(ore != 0) breakOre: {
@@ -226,18 +249,22 @@ public class ToretoiseEntity extends AnimalEntity {
 			if(world instanceof ServerWorld)
 				((ServerWorld) world).spawnParticle(ParticleTypes.HEART, getPosX(), getPosY(), getPosZ(), 20, 0.5, 0.5, 0.5, 0);
 		} else {
-			popOre();
+			popOre(false);
 		}
 	}
 	
-	private void popOre() {
-		if(getOreType() == 0 && world.rand.nextInt(3) == 0) {
+	private void popOre(boolean natural) {
+		if(getOreType() == 0 && (natural || world.rand.nextInt(3) == 0)) {
 			int ore = rand.nextInt(ORE_TYPES) + 1;
 			dataManager.set(ORE_TYPE, ore);
 			
-			if(world instanceof ServerWorld) {
-				((ServerWorld) world).spawnParticle(ParticleTypes.CLOUD, getPosX(), getPosY() + 0.5, getPosZ(), 100, 0.6, 0.6, 0.6, 0);
-				((ServerWorld) world).playSound(null, getPosX(), getPosY(), getPosZ(), SoundEvents.BLOCK_STONE_PLACE, SoundCategory.NEUTRAL, 10, 0.7F);
+			if(!natural) {
+				eatCooldown = DEFAULT_EAT_COOLDOWN;
+				
+				if(world instanceof ServerWorld) {
+					((ServerWorld) world).spawnParticle(ParticleTypes.CLOUD, getPosX(), getPosY() + 0.5, getPosZ(), 100, 0.6, 0.6, 0.6, 0);
+					((ServerWorld) world).playSound(null, getPosX(), getPosY(), getPosZ(), SoundEvents.BLOCK_STONE_PLACE, SoundCategory.NEUTRAL, 10, 0.7F);
+				}
 			}
 		}
 	}
