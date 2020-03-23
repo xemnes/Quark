@@ -40,6 +40,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
@@ -139,7 +140,12 @@ public class ToretoiseEntity extends AnimalEntity {
 	@Override
 	public void tick() {
 		super.tick();
-
+		
+		AxisAlignedBB aabb = getBoundingBox();
+		double rheight = getOreType() == 0 ? 1 : 1.4;
+		aabb = new AxisAlignedBB(aabb.minX, aabb.minY, aabb.minZ, aabb.maxX, aabb.minY + rheight, aabb.maxZ);
+		setBoundingBox(aabb);
+		
 		Entity riding = getRidingEntity();
 		if(riding != null)
 			rideTime++;
@@ -341,6 +347,7 @@ public class ToretoiseEntity extends AnimalEntity {
 		super.writeAdditional(compound);
 		compound.putBoolean(TAG_TAMED, isTamed);
 		compound.putInt(TAG_ORE, getOreType());
+		compound.putInt(TAG_EAT_COOLDOWN, eatCooldown);
 	}
 	
 	@Override
@@ -348,6 +355,7 @@ public class ToretoiseEntity extends AnimalEntity {
 		super.readAdditional(compound);
 		isTamed = compound.getBoolean(TAG_TAMED);
 		dataManager.set(ORE_TYPE, compound.getInt(TAG_ORE));
+		eatCooldown = compound.getInt(TAG_EAT_COOLDOWN);
 	}
 
 	protected void registerAttributes() {

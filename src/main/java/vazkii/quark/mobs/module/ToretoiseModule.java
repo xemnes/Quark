@@ -41,7 +41,7 @@ public class ToretoiseModule extends Module {
 	@Override
 	public void construct() {
 		toretoiseType = EntityType.Builder.<ToretoiseEntity>create(ToretoiseEntity::new, EntityClassification.CREATURE)
-				.size(2F, 1.1F)
+				.size(2F, 1F)
 				.setTrackingRange(80)
 				.setUpdateInterval(3)
 				.setShouldReceiveVelocityUpdates(true)
