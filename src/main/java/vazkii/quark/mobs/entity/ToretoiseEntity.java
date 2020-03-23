@@ -1,5 +1,6 @@
 package vazkii.quark.mobs.entity;
 
+import java.util.List;
 import java.util.Random;
 
 import javax.annotation.Nonnull;
@@ -19,7 +20,6 @@ import net.minecraft.entity.ai.goal.FollowParentGoal;
 import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.LookRandomlyGoal;
 import net.minecraft.entity.ai.goal.RandomWalkingGoal;
-import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.ai.goal.TemptGoal;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -58,16 +58,20 @@ public class ToretoiseEntity extends AnimalEntity {
 
 	public static final int ORE_TYPES = 4; 
 	private static final int DEFAULT_EAT_COOLDOWN = 20 * 60;
+	public static final int ANGERY_TIME = 20; 
 	
 	private static final String TAG_TAMED = "tamed";
 	private static final String TAG_ORE = "oreType";
 	private static final String TAG_EAT_COOLDOWN = "eatCooldown";
-	
+	private static final String TAG_ANGERY_TICKS = "angeryTicks";
+
 	public int rideTime;
 	private boolean isTamed;
 	private int eatCooldown;
+	public int angeryTicks;
 	
 	private Ingredient goodFood;
+	private LivingEntity lastAggressor;
 
 	private static final DataParameter<Integer> ORE_TYPE = EntityDataManager.createKey(ToretoiseEntity.class, DataSerializers.VARINT);
 
@@ -154,6 +158,35 @@ public class ToretoiseEntity extends AnimalEntity {
 		if(eatCooldown > 0)
 			eatCooldown--;
 		
+		if(angeryTicks > 0) {
+			angeryTicks--;
+			
+			if(onGround) {
+				int dangerRange = 3;
+				double x = getPosX() + getWidth() / 2;
+				double y = getPosY();
+				double z = getPosZ() + getWidth() / 2;
+
+				if(world instanceof ServerWorld) {
+					if(angeryTicks == 3)
+						((ServerWorld) world).playSound(null, x, y, z, SoundEvents.ENTITY_WITHER_BREAK_BLOCK, SoundCategory.NEUTRAL, 1F, 0.2F);
+					else if(angeryTicks == 0) {
+						((ServerWorld) world).spawnParticle(ParticleTypes.CLOUD, x, y, z, 200, dangerRange, 0.5, dangerRange, 0);
+					}
+				}
+				
+				if(angeryTicks == 0) {
+					AxisAlignedBB hurtAabb = new AxisAlignedBB(x - dangerRange, y - 1, z - dangerRange, x + dangerRange, y + 1, z + dangerRange);
+					List<LivingEntity> hurtMeDaddy = world.getEntitiesWithinAABB(LivingEntity.class, hurtAabb, e -> !(e instanceof ToretoiseEntity));
+					
+					LivingEntity aggressor = lastAggressor == null ? this : lastAggressor;
+					DamageSource damageSource = DamageSource.causeMobDamage(aggressor);
+					for(LivingEntity e : hurtMeDaddy)
+						e.attackEntityFrom(damageSource, 4 + world.getDifficulty().ordinal());
+				}
+			}
+		}
+		
 		int ore = getOreType();
 		if(ore != 0) breakOre: {
 			BlockPos up = getPosition().up();
@@ -181,11 +214,11 @@ public class ToretoiseEntity extends AnimalEntity {
 		Entity e = source.getImmediateSource();
 		int ore = getOreType();
 		
-		if(e instanceof LivingEntity && ore != 0) {
+		if(e instanceof LivingEntity) {
 			LivingEntity living = (LivingEntity) e;
 			ItemStack held = living.getHeldItemMainhand();
 			
-			if(held.getItem().getToolTypes(held).contains(ToolType.PICKAXE)) {
+			if(ore != 0 && held.getItem().getToolTypes(held).contains(ToolType.PICKAXE)) {
 				if(!world.isRemote) {
 					if(held.isDamageable() && e instanceof PlayerEntity)
 						MiscUtil.damageStack((PlayerEntity) e, Hand.MAIN_HAND, held, 1);
@@ -194,6 +227,11 @@ public class ToretoiseEntity extends AnimalEntity {
 				}
 
 				return false;
+			}
+			
+			if(angeryTicks == 0) {
+				angeryTicks = ANGERY_TIME;
+				lastAggressor = living;
 			}
 		}
 		
@@ -348,6 +386,7 @@ public class ToretoiseEntity extends AnimalEntity {
 		compound.putBoolean(TAG_TAMED, isTamed);
 		compound.putInt(TAG_ORE, getOreType());
 		compound.putInt(TAG_EAT_COOLDOWN, eatCooldown);
+		compound.putInt(TAG_ANGERY_TICKS, angeryTicks);
 	}
 	
 	@Override
@@ -356,6 +395,7 @@ public class ToretoiseEntity extends AnimalEntity {
 		isTamed = compound.getBoolean(TAG_TAMED);
 		dataManager.set(ORE_TYPE, compound.getInt(TAG_ORE));
 		eatCooldown = compound.getInt(TAG_EAT_COOLDOWN);
+		angeryTicks = compound.getInt(TAG_ANGERY_TICKS);
 	}
 
 	protected void registerAttributes() {
