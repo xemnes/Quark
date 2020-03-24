@@ -73,6 +73,7 @@ public class MiscUtil {
 			"dark_oak"
 	};
 
+	// TODO change to ATs
 	public static void addToLootTable(LootTable table, LootEntry entry) {
 		List<LootPool> pools = ObfuscationReflectionHelper.getPrivateValue(LootTable.class, table, "field_186466_c"); // table.pools;
 		if (pools == null)

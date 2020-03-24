@@ -6,22 +6,28 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.inventory.InventoryScreen;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Rarity;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.common.extensions.IForgeContainerType;
 import net.minecraftforge.event.TickEvent.ClientTickEvent;
+import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.base.Quark;
+import vazkii.quark.base.item.QuarkItem;
 import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
@@ -37,8 +43,15 @@ public class BackpackModule extends Module {
 
 	@Config(description =  "Set this to true to allow the backpacks to be unequipped even with items in them") 
 	public static boolean superOpMode = false;
+	
+	@Config(flag = "ravager_hide")
+	public static boolean enableRavagerHide = true;
+	
+	@Config public static int baseRavagerHideDrop = 1;
+	@Config public static double extraChancePerLooting = 0.5;
 
 	public static Item backpack;
+	public static Item ravager_hide;
 	
     public static ContainerType<BackpackContainer> container;
 
@@ -48,6 +61,7 @@ public class BackpackModule extends Module {
 	@Override
 	public void construct() {
 		backpack = new BackpackItem(this);
+		ravager_hide = new QuarkItem("ravager_hide", this, new Item.Properties().rarity(Rarity.RARE).group(ItemGroup.MATERIALS)).setCondition(() -> enableRavagerHide);
 		
 		container = IForgeContainerType.create(BackpackContainer::fromNetwork);
 		RegistryHelper.register(container, "backpack");
@@ -56,6 +70,23 @@ public class BackpackModule extends Module {
 	@Override
 	public void clientSetup() {
 		ScreenManager.registerFactory(container, BackpackInventoryScreen::new);
+	}
+	
+	@SubscribeEvent
+	public void onDrops(LivingDropsEvent event) {
+		LivingEntity entity = event.getEntityLiving();
+		if(enableRavagerHide && entity.getType() == EntityType.RAVAGER) {
+			int amount = baseRavagerHideDrop;
+			double chance = (double) event.getLootingLevel() * extraChancePerLooting;
+			while(chance > baseRavagerHideDrop) {
+				chance--;
+				amount++;
+			}
+			if(chance > 0 && entity.world.rand.nextDouble() < chance)
+				amount++;
+			
+			event.getDrops().add(new ItemEntity(entity.world, entity.getPosX(), entity.getPosY(), entity.getPosZ(), new ItemStack(ravager_hide, amount)));
+		}
 	}
 
 	@SubscribeEvent
