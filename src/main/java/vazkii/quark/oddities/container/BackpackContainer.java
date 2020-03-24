@@ -18,14 +18,14 @@ import vazkii.quark.oddities.module.BackpackModule;
 
 public class BackpackContainer extends PlayerContainer {
 
-	public BackpackContainer(PlayerEntity player) {
+	public BackpackContainer(int windowId, PlayerEntity player) {
 		super(player.inventory, !player.world.isRemote, player);
 
-		for(Slot slot : inventorySlots) {	
-			if (slot.inventory == player.inventory && slot.getSlotIndex() < player.inventory.getSizeInventory() - 5) {
+		this.windowId = windowId;
+		
+		for(Slot slot : inventorySlots)
+			if (slot.inventory == player.inventory && slot.getSlotIndex() < player.inventory.getSizeInventory() - 5)
 				slot.yPos += 58;
-			}
-		}
 
 		Slot anchor = inventorySlots.get(9);
 		int left = anchor.xPos;
@@ -44,28 +44,12 @@ public class BackpackContainer extends PlayerContainer {
 	}
 
 	public static BackpackContainer fromNetwork(int windowId, PlayerInventory playerInventory, PacketBuffer buf) {
-		return new BackpackContainer(playerInventory.player);
+		return new BackpackContainer(windowId, playerInventory.player);
 	}
 
 	@Nonnull
 	@Override
 	public ItemStack transferStackInSlot(@Nonnull PlayerEntity playerIn, int index) {
-		//		Slot slot = inventorySlots.get(index);
-		//
-		//		if(index >= 9 && index < 36 && slot != null && slot.getHasStack()) {
-		//			ItemStack stack = slot.getStack();
-		//			ItemStack origStack = stack.copy();
-		//			if (!mergeItemStack(stack, 46, 73, false))
-		//				return ItemStack.EMPTY;
-		//
-		//			if (stack.isEmpty()) slot.putStack(ItemStack.EMPTY);
-		//			else slot.onSlotChanged();
-		//
-		//			if (origStack.getCount() == stack.getCount()) return ItemStack.EMPTY;
-		//
-		//			slot.onTake(playerIn, stack);
-		//		}
-
 		ItemStack baseStack = ItemStack.EMPTY;
 		Slot slot = this.inventorySlots.get(index);
 
@@ -73,26 +57,34 @@ public class BackpackContainer extends PlayerContainer {
 			ItemStack stack = slot.getStack();
 			baseStack = stack.copy();
 			EquipmentSlotType slotType = stack.getEquipmentSlot();
-			int equipIndex = 8 - slotType.getIndex();
+			int equipIndex = 8 - (slotType == null ? 0 : slotType.getIndex());
 
 			if (index == 0) {
-				if (!this.mergeItemStack(stack, 9, 45, false) && !this.mergeItemStack(stack, 46, 73, false)) return ItemStack.EMPTY;
+				if (!this.mergeItemStack(stack, 9, 45, false) && !this.mergeItemStack(stack, 46, 73, false)) 
+					return ItemStack.EMPTY;
 
 				slot.onSlotChange(stack, baseStack);
 			} else if (index < 5) {
-				if (!this.mergeItemStack(stack, 9, 45, false)) return ItemStack.EMPTY;
+				if (!this.mergeItemStack(stack, 9, 45, false)) 
+					return ItemStack.EMPTY;
 			} else if (index < 9) {
-				if (!this.mergeItemStack(stack, 9, 45, false) && !this.mergeItemStack(stack, 46, 73, false)) return ItemStack.EMPTY;
-			} else if (slotType.getSlotType() == Group.ARMOR && !this.inventorySlots.get(equipIndex).getHasStack()) {
-				if (!this.mergeItemStack(stack, equipIndex, equipIndex + 1, false)) return ItemStack.EMPTY;
-			} else if (slotType == EquipmentSlotType.OFFHAND && !this.inventorySlots.get(45).getHasStack()) {
-				if (!this.mergeItemStack(stack, 45, 46, false)) return ItemStack.EMPTY;
+				if (!this.mergeItemStack(stack, 9, 45, false) && !this.mergeItemStack(stack, 46, 73, false)) 
+					return ItemStack.EMPTY;
+			} else if (slotType != null && slotType.getSlotType() == Group.ARMOR && !this.inventorySlots.get(equipIndex).getHasStack()) {
+				if (!this.mergeItemStack(stack, equipIndex, equipIndex + 1, false)) 
+					return ItemStack.EMPTY;
+			} else if (slotType != null && slotType == EquipmentSlotType.OFFHAND && !this.inventorySlots.get(45).getHasStack()) {
+				if (!this.mergeItemStack(stack, 45, 46, false)) 
+					return ItemStack.EMPTY;
 			} else if (index < 36) {
-				if (!this.mergeItemStack(stack, 46, 73, false) && !this.mergeItemStack(stack, 36, 45, false)) return ItemStack.EMPTY;
+				if (!this.mergeItemStack(stack, 46, 73, false) && !this.mergeItemStack(stack, 36, 45, false)) 
+					return ItemStack.EMPTY;
 			} else if (index < 73) {
-				if (!this.mergeItemStack(stack, 9, 36, false)) return ItemStack.EMPTY;
+				if (!this.mergeItemStack(stack, 9, 36, false)) 
+					return ItemStack.EMPTY;
 			} else {
-				if (!this.mergeItemStack(stack, 46, 73, false) && !this.mergeItemStack(stack, 9, 45, false)) return ItemStack.EMPTY;
+				if (!this.mergeItemStack(stack, 46, 73, false) && !this.mergeItemStack(stack, 9, 45, false)) 
+					return ItemStack.EMPTY;
 			}
 
 			if (stack.isEmpty())
@@ -104,7 +96,8 @@ public class BackpackContainer extends PlayerContainer {
 
 			ItemStack remainder = slot.onTake(playerIn, stack);
 
-			if (index == 0) playerIn.dropItem(remainder, false);
+			if (index == 0) 
+				playerIn.dropItem(remainder, false);
 		}
 
 		return baseStack;
