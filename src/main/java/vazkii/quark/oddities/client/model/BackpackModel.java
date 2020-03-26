@@ -3,8 +3,11 @@ package vazkii.quark.oddities.client.model;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.quark.base.client.BaseArmorModel;
 
+@OnlyIn(Dist.CLIENT)
 public class BackpackModel extends BaseArmorModel {
 
 	private final ModelRenderer straps;

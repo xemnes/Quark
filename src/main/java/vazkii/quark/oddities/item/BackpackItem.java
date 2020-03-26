@@ -182,6 +182,7 @@ public class BackpackItem extends DyeableArmorItem implements IItemColorProvider
 
 	@Override
 	@SuppressWarnings( { "rawtypes", "unchecked" } )
+	@OnlyIn(Dist.CLIENT)
 	public BipedModel getArmorModel(LivingEntity entityLiving, ItemStack itemStack, EquipmentSlotType armorSlot, BipedModel _default) {
 		if(model == null)
 			model = new BackpackModel();
