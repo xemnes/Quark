@@ -43,6 +43,7 @@ import vazkii.quark.api.IMagnetTracker;
 import vazkii.quark.api.QuarkCapabilities;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.handler.MiscUtil;
+import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.oddities.module.MagnetsModule;
 import vazkii.quark.oddities.tile.MagnetTileEntity;
 
@@ -67,6 +68,9 @@ public class MagnetSystem {
 	
 	@SubscribeEvent
 	public static void tick(WorldTickEvent event) {
+		if(!ModuleLoader.INSTANCE.isModuleEnabled(MagnetsModule.class))
+			return;
+		
 		if (event.phase == Phase.START) {
 			getCapability(event.world).ifPresent(IMagnetTracker::clear);
 		} else {
@@ -83,6 +87,9 @@ public class MagnetSystem {
 	@SubscribeEvent
 	@OnlyIn(Dist.CLIENT)
 	public static void tick(ClientTickEvent event) {
+		if(!ModuleLoader.INSTANCE.isModuleEnabled(MagnetsModule.class))
+			return;
+		
 		if (Minecraft.getInstance().world == null) {
 			magnetizableBlocks.clear();
 		}
