@@ -2,6 +2,7 @@ package vazkii.quark.mobs.entity;
 
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 
@@ -59,7 +60,7 @@ public class ToretoiseEntity extends AnimalEntity {
 	public static final int ORE_TYPES = 4; 
 	private static final int DEFAULT_EAT_COOLDOWN = 20 * 60;
 	public static final int ANGERY_TIME = 20; 
-	
+
 	private static final String TAG_TAMED = "tamed";
 	private static final String TAG_ORE = "oreType";
 	private static final String TAG_EAT_COOLDOWN = "eatCooldown";
@@ -69,7 +70,7 @@ public class ToretoiseEntity extends AnimalEntity {
 	private boolean isTamed;
 	private int eatCooldown;
 	public int angeryTicks;
-	
+
 	private Ingredient goodFood;
 	private LivingEntity lastAggressor;
 
@@ -80,11 +81,11 @@ public class ToretoiseEntity extends AnimalEntity {
 		stepHeight = 1.0F;
 		setPathPriority(PathNodeType.WATER, 1.0F);
 	}
-	
+
 	@Override
 	protected void registerData() {
 		super.registerData();
-		
+
 		dataManager.register(ORE_TYPE, 0);
 	}
 
@@ -97,25 +98,25 @@ public class ToretoiseEntity extends AnimalEntity {
 		goalSelector.addGoal(4, new LookAtGoal(this, PlayerEntity.class, 6.0F));
 		goalSelector.addGoal(5, new LookRandomlyGoal(this));
 	}
-	
+
 	private Ingredient getGoodFood() {
 		if(goodFood == null)
 			goodFood = Ingredient.fromItems(ModuleLoader.INSTANCE.isModuleEnabled(CaveRootsModule.class) ? CaveRootsModule.rootItem : Items.CACTUS);
-		
+
 		return goodFood;
 	}
-	
+
 	@Override
 	public ILivingEntityData onInitialSpawn(IWorld p_213386_1_, DifficultyInstance p_213386_2_, SpawnReason p_213386_3_, ILivingEntityData p_213386_4_, CompoundNBT p_213386_5_) {
 		popOre(true);
 		return p_213386_4_;
 	}
-	
+
 	@Override
 	public boolean canBreatheUnderwater() {
 		return true;
 	}
-	
+
 	@Override
 	public boolean isPushedByWater() {
 		return false;
@@ -125,12 +126,12 @@ public class ToretoiseEntity extends AnimalEntity {
 	protected int decreaseAirSupply(int air) {
 		return air;
 	}
-	
+
 	@Override
 	public boolean canBreed() {
 		return getOreType() == 0 && eatCooldown == 0;
 	}
-	
+
 	@Override
 	public SoundEvent getEatSound(ItemStack itemStackIn) {
 		return null;
@@ -144,23 +145,23 @@ public class ToretoiseEntity extends AnimalEntity {
 	@Override
 	public void tick() {
 		super.tick();
-		
+
 		AxisAlignedBB aabb = getBoundingBox();
 		double rheight = getOreType() == 0 ? 1 : 1.4;
 		aabb = new AxisAlignedBB(aabb.minX, aabb.minY, aabb.minZ, aabb.maxX, aabb.minY + rheight, aabb.maxZ);
 		setBoundingBox(aabb);
-		
+
 		Entity riding = getRidingEntity();
 		if(riding != null)
 			rideTime++;
 		else rideTime = 0;
-		
+
 		if(eatCooldown > 0)
 			eatCooldown--;
-		
+
 		if(angeryTicks > 0 && isAlive()) {
 			angeryTicks--;
-			
+
 			if(onGround) {
 				int dangerRange = 3;
 				double x = getPosX() + getWidth() / 2;
@@ -174,11 +175,11 @@ public class ToretoiseEntity extends AnimalEntity {
 						((ServerWorld) world).spawnParticle(ParticleTypes.CLOUD, x, y, z, 200, dangerRange, 0.5, dangerRange, 0);
 					}
 				}
-				
+
 				if(angeryTicks == 0) {
 					AxisAlignedBB hurtAabb = new AxisAlignedBB(x - dangerRange, y - 1, z - dangerRange, x + dangerRange, y + 1, z + dangerRange);
 					List<LivingEntity> hurtMeDaddy = world.getEntitiesWithinAABB(LivingEntity.class, hurtAabb, e -> !(e instanceof ToretoiseEntity));
-					
+
 					LivingEntity aggressor = lastAggressor == null ? this : lastAggressor;
 					DamageSource damageSource = DamageSource.causeMobDamage(aggressor);
 					for(LivingEntity e : hurtMeDaddy)
@@ -186,62 +187,66 @@ public class ToretoiseEntity extends AnimalEntity {
 				}
 			}
 		}
-		
+
 		int ore = getOreType();
 		if(ore != 0) breakOre: {
-			BlockPos up = getPosition().up();
-			for(int i = 0; i < 2; i++)
-				for(int j = 0; j < 2; j++) {
-					BlockPos test = up.add(i, 0, j - 1);
-					BlockState state = world.getBlockState(test);
-					if(state.getBlock() == Blocks.MOVING_PISTON) {
-						TileEntity tile = world.getTileEntity(test);
-						if(tile instanceof PistonTileEntity) {
-							PistonTileEntity piston = (PistonTileEntity) tile;
-							BlockState pistonState = piston.getPistonState();
-							if(pistonState.getBlock() == IronRodModule.iron_rod) {
-								dropOre(ore);
-								break breakOre;
+			AxisAlignedBB ourBoundingBox = getBoundingBox();
+			BlockPos min = new BlockPos(Math.round(ourBoundingBox.minX), Math.round(ourBoundingBox.minY), Math.round(ourBoundingBox.minZ));
+			BlockPos max = new BlockPos(Math.round(ourBoundingBox.maxX), Math.round(ourBoundingBox.maxY), Math.round(ourBoundingBox.maxZ));
+
+			for(int ix = min.getX(); ix <= max.getX(); ix++)
+				for(int iy = min.getY(); iy <= max.getY(); iy++)
+					for(int iz = min.getZ(); iz <= max.getZ(); iz++) {
+						BlockPos test = new BlockPos(ix, iy, iz);
+						BlockState state = world.getBlockState(test);
+						if(state.getBlock() == Blocks.MOVING_PISTON) {
+							TileEntity tile = world.getTileEntity(test);
+							if(tile instanceof PistonTileEntity) {
+								PistonTileEntity piston = (PistonTileEntity) tile;
+								BlockState pistonState = piston.getPistonState();
+								if(pistonState.getBlock() == IronRodModule.iron_rod) {
+									dropOre(ore);
+									break breakOre;
+								}
 							}
 						}
 					}
-				}
 		}
 	}
-	
+
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount) {
 		Entity e = source.getImmediateSource();
 		int ore = getOreType();
-		
+
 		if(e instanceof LivingEntity) {
 			LivingEntity living = (LivingEntity) e;
 			ItemStack held = living.getHeldItemMainhand();
-			
+
 			if(ore != 0 && held.getItem().getToolTypes(held).contains(ToolType.PICKAXE)) {
 				if(!world.isRemote) {
 					if(held.isDamageable() && e instanceof PlayerEntity)
 						MiscUtil.damageStack((PlayerEntity) e, Hand.MAIN_HAND, held, 1);
-					
+
 					dropOre(ore);
 				}
 
 				return false;
 			}
-			
+
 			if(angeryTicks == 0) {
 				angeryTicks = ANGERY_TIME;
 				lastAggressor = living;
 			}
 		}
-		
+
 		return super.attackEntityFrom(source, amount);
 	}
-	
+
 	public void dropOre(int ore) {
 		if(world instanceof ServerWorld)
 			((ServerWorld) world).playSound(null, getPosX(), getPosY(), getPosZ(), SoundEvents.BLOCK_LANTERN_BREAK, SoundCategory.NEUTRAL, 1F, 0.6F);
-		
+
 		Item drop = null;
 		int countMult = 1;
 		switch(ore) {
@@ -261,19 +266,19 @@ public class ToretoiseEntity extends AnimalEntity {
 			countMult *= 2;
 			break;
 		}
-		
+
 		if(drop != null) {
 			int count = 1;
 			while(rand.nextBoolean())
 				count++;
 			count *= countMult;
-			
+
 			entityDropItem(new ItemStack(drop, count), 1.2F);
 		}
-		
+
 		dataManager.set(ORE_TYPE, 0);
 	}
-	
+
 	@Override
 	public void setInLove(PlayerEntity player) {
 		setInLove(0);
@@ -283,28 +288,28 @@ public class ToretoiseEntity extends AnimalEntity {
 	public void setInLove(int ticks) {
 		if(world.isRemote)
 			return;
-		
-        playSound(SoundEvents.ENTITY_GENERIC_EAT, 0.5F + 0.5F * world.rand.nextInt(2), (world.rand.nextFloat() - world.rand.nextFloat()) * 0.2F + 1.0F);
+
+		playSound(SoundEvents.ENTITY_GENERIC_EAT, 0.5F + 0.5F * world.rand.nextInt(2), (world.rand.nextFloat() - world.rand.nextFloat()) * 0.2F + 1.0F);
 		heal(8);
-		
+
 		if(!isTamed) {
 			isTamed = true;
-			
+
 			if(world instanceof ServerWorld)
 				((ServerWorld) world).spawnParticle(ParticleTypes.HEART, getPosX(), getPosY(), getPosZ(), 20, 0.5, 0.5, 0.5, 0);
 		} else {
 			popOre(false);
 		}
 	}
-	
+
 	private void popOre(boolean natural) {
 		if(getOreType() == 0 && (natural || world.rand.nextInt(3) == 0)) {
 			int ore = rand.nextInt(ORE_TYPES) + 1;
 			dataManager.set(ORE_TYPE, ore);
-			
+
 			if(!natural) {
 				eatCooldown = DEFAULT_EAT_COOLDOWN;
-				
+
 				if(world instanceof ServerWorld) {
 					((ServerWorld) world).spawnParticle(ParticleTypes.CLOUD, getPosX(), getPosY() + 0.5, getPosZ(), 100, 0.6, 0.6, 0.6, 0);
 					((ServerWorld) world).playSound(null, getPosX(), getPosY(), getPosZ(), SoundEvents.BLOCK_STONE_PLACE, SoundCategory.NEUTRAL, 10, 0.7F);
@@ -312,17 +317,17 @@ public class ToretoiseEntity extends AnimalEntity {
 			}
 		}
 	}
-	
+
 	@Override
 	public boolean isBreedingItem(ItemStack stack) {
 		return getGoodFood().test(stack);
 	}
-	
+
 	@Override
 	public boolean canDespawn(double distanceToClosestPlayer) {
 		return !isTamed;
 	}
-	
+
 	public static boolean spawnPredicate(EntityType<? extends ToretoiseEntity> type, IWorld world, SpawnReason reason, BlockPos pos, Random rand) {
 		return world.getDifficulty() != Difficulty.PEACEFUL && pos.getY() <= ToretoiseModule.maxYLevel && MiscUtil.validSpawnLight(world, pos, rand) && MiscUtil.validSpawnLocation(type, world, reason, pos);
 	}
@@ -332,10 +337,10 @@ public class ToretoiseEntity extends AnimalEntity {
 		BlockState state = world.getBlockState((new BlockPos(this)).down());
 		if (state.getMaterial() != Material.ROCK)
 			return false;
-		
+
 		return ToretoiseModule.dimensions.canSpawnHere(world);
 	}
-	
+
 	@Override
 	protected void jump() {
 		// NO-OP
@@ -375,11 +380,11 @@ public class ToretoiseEntity extends AnimalEntity {
 	protected SoundEvent getDeathSound() {
 		return SoundEvents.ENTITY_TURTLE_DEATH;
 	}
-	
+
 	public int getOreType() {
 		return dataManager.get(ORE_TYPE);
 	}
-	
+
 	@Override
 	public void writeAdditional(CompoundNBT compound) {
 		super.writeAdditional(compound);
@@ -388,7 +393,7 @@ public class ToretoiseEntity extends AnimalEntity {
 		compound.putInt(TAG_EAT_COOLDOWN, eatCooldown);
 		compound.putInt(TAG_ANGERY_TICKS, angeryTicks);
 	}
-	
+
 	@Override
 	public void readAdditional(CompoundNBT compound) {
 		super.readAdditional(compound);
