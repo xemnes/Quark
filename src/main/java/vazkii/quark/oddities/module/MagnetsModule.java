@@ -27,7 +27,10 @@ public class MagnetsModule extends Module {
     public static TileEntityType<MagnetTileEntity> magnetType;
     public static TileEntityType<MagnetizedBlockTileEntity> magnetizedBlockType;
     
-    @Config public static List<String> magneticItems = Lists.newArrayList("minecraft:iron_ingot");
+    @Config(description = "Any items you place in this list will be derived so that any block made of it will become magnetizable") 
+    public static List<String> magneticDerivationList = Lists.newArrayList("minecraft:iron_ingot");
+    
+    @Config public static List<String> magneticWhitelist = Lists.newArrayList("minecraft:chipped_anvil", "minecraft:damaged_anvil");
     @Config public static List<String> magneticBlacklist = Lists.newArrayList("minecraft:tripwire_hook");
 	
 	public static Block magnet;

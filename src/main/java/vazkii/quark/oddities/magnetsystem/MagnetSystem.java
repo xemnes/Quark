@@ -10,6 +10,7 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
+import com.google.common.collect.Streams;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -136,13 +137,17 @@ public class MagnetSystem {
 			}
 
 
-			List<Item> magneticList = MiscUtil.massRegistryGet(MagnetsModule.magneticItems, ForgeRegistries.ITEMS);
+			List<Item> magneticDerivationList = MiscUtil.massRegistryGet(MagnetsModule.magneticDerivationList, ForgeRegistries.ITEMS);
+			List<Item> magneticWhitelist = MiscUtil.massRegistryGet(MagnetsModule.magneticWhitelist, ForgeRegistries.ITEMS);
 			List<Item> magneticBlacklist = MiscUtil.massRegistryGet(MagnetsModule.magneticBlacklist, ForgeRegistries.ITEMS);
 			
-			magneticList.stream().filter(i -> i instanceof BlockItem).map(i -> ((BlockItem) i).getBlock()).forEach(magnetizableBlocks::add);
+			Streams.concat(magneticDerivationList.stream(), magneticWhitelist.stream())
+				.filter(i -> i instanceof BlockItem)
+				.map(i -> ((BlockItem) i).getBlock())
+				.forEach(magnetizableBlocks::add);
 			
-			Set<Item> scanned = Sets.newHashSet(magneticList);
-			List<Item> magnetizableToScan = Lists.newArrayList(magneticList);
+			Set<Item> scanned = Sets.newHashSet(magneticDerivationList);
+			List<Item> magnetizableToScan = Lists.newArrayList(magneticDerivationList);
 
 			while (!magnetizableToScan.isEmpty()) {
 				Item scan = magnetizableToScan.remove(0);
