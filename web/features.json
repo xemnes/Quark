@@ -526,6 +526,59 @@
 			"desc": [
 				"While holding an item in your cursor (that isn't a Shulker Box), you can right click on top of a non-full Shulker Box to add the item to it."
 			]
+		},
+		{
+			"name": "Item Sharing",
+			"image": "item-sharing.jpg",
+			"versions": "1.14+",
+            "desc": [
+                "Pressing Shift+T (or whatever your Chat key is set to) while looking at an item in an inventory links that item to chat. Other players can hover over it to check it out."
+            ]
+		}
+	],
+	"mobs": [
+		{
+			"name": "Foxhounds",
+			"image": "foxhounds.jpg",
+			"versions": "1.14+",
+            "desc": [
+                "Foxhounds are new hostile mobs that spawn in the Nether. These fierce doggos will attack you and set you on fire.",
+                "If you're brave enough, drink a fire resistance potion and feed them some Coal to tame them. Tamed Foxhounds work just like regular wolves, but with a few extra tidbits:",
+                "*They'll sleep on hot blocks like magma.",
+                "*If put on top of a furnace, they'll make the furnace faster. You can't put multiple doggos on a furnace to speed it up more, though."
+            ]
+		},
+		{
+			"name": "Stonelings",
+			"image": "stonelings.jpg",
+			"versions": "1.14+",
+            "desc": [
+                "Stonelings are new passive mobs that spawn in the deep underground. These little stone fairies will spawn in carrying an item, and will get startled if you get too close to them without sneaking. Once startled, they'll run away from you and eventually poof out of existence. If you manage to kill one, you'll get the item its carrying.",
+                "Additionally, Stonelings may drop a Heart of Diamond, a new item which you can use on any stone block to create your own tamed Stoneling! Tamed Stonelings can hold items you give them, eat Stone (they love it!), and follow you if you hold a Diamond."
+            ]
+		},
+		{
+			"name": "Crabs",
+			"image": "crabs.jpg",
+			"versions": "1.14+",
+			"desc": [
+				"Crabs are cute new animals that spawn in beaches. They walk sideways and will prick you if you get too close! If you kill one, they might drop Crab Legs or Crab Shells.",
+				"*Crab Legs can be cooked and eaten, they're quite tasty!",
+				"*Crab Shells can be brewed into a Potion of Resillience. While under its effect, you'll gain additional knockback resistance.",
+				"*Crabs can be bred with Wheat, Chicken, or any type of Fish.",
+				"*They are also known to enjoy music, or so we've been told."
+			]
+		},
+		{
+			"name": "Frogs",
+			"image": "frogs.jpg",
+			"versions": "1.14+",
+			"desc": [
+				"These wednesday loving critters will spawn in swamps, they jump and croak around, and look very derpy. If you kill one, you'll get some Frog Legs.",
+				"*Frog Legs can be cooked and eaten, or made golden to brew into a Potion of Leaping.",
+				"*Frogs are known to come in a variety of sizes, which can be passed down to their children. I wonder what you could do with that.",
+				"*Frogs can be bred with Spider Eyes or any type of Fish."
+			]
 		}
 	],
 	"tools": [
@@ -557,7 +610,7 @@
 			"versions": "1.14+",
 			"desc": [
 				"A new tool for mining! The pickarang is a boomerang pickaxe - throw it, it breaks whatever it hits, and comes back to you with the drops.",
-				"The Pickarang is crafted with a Heart of Diamond (from Stonelings, in the World category, or just diamonds if it's disabled), and can be enchanted with Efficiency, Unbreaking, Fortune, Silk Touch, and Piercing."
+				"The Pickarang is crafted with a Heart of Diamond (from Stonelings, in the Mobs category, or just diamonds if it's disabled), and can be enchanted with Efficiency, Unbreaking, Fortune, Silk Touch, and Piercing."
 			]
 		},
 		{
@@ -577,6 +630,17 @@
 				"A Trowel tool can be crafted with Iron and Sticks. The Trowel, when right clicked, will place a random block from your hotbar, making it useful for ruins or paths.",
 				"A Trowel will break after placing 256 blocks, or four stacks."
 			]
+		},
+		{
+			"name": "Colored Runes",
+			"image": "colored-runes.jpg",
+			"versions": "1.14 Only",
+			"removed": true,
+            "desc": [
+                "Colored Runes are a rare loot item from dungeons, temples and nether fortresses. They can be applied to enchanted items in an anvil, and doing so changes the color of the enchantment glint from purple to the color of the rune. These come in all 16 colors of the spectrum.",
+                "If you're dedicated enough, you can craft a Rainbow Rune by mixing together the runes that make the colors of the rainbow. It'll change color over time and look really cool!",
+                "<b>This feature was removed in 1.15 due to the changes in the render system making it not doable.</b>"
+            ]
 		}
 	],
 	"tweaks": [
@@ -801,17 +865,6 @@
 			"desc": [
 				"When flying using an Elytra over a Campfire with a Hay Bale under it, the player will be propelled upwards slightly."
 			]
-		}
-	],
-	"vanity": [
-		{
-			"name": "Colored Runes",
-			"image": "colored-runes.jpg",
-			"versions": "1.14+",
-            "desc": [
-                "Colored Runes are a rare loot item from dungeons, temples and nether fortresses. They can be applied to enchanted items in an anvil, and doing so changes the color of the enchantment glint from purple to the color of the rune. These come in all 16 colors of the spectrum.",
-                "If you're dedicated enough, you can craft a Rainbow Rune by mixing together the runes that make the colors of the rainbow. It'll change color over time and look really cool!"
-            ]
 		},
 		{
 			"name": "Emotes",
@@ -821,14 +874,6 @@
                 "In the corner of the Chat menu there's a button to open an emote panel with 12 different emotes your character can do. In this picture, you can see the \"Wave\" emote.",
                 "Each emote is also assigned a key binding. Pressing that key will do the emote without you having to open the chat menu. By default all emote keybinds are unset and must be set manually.",
                 "A special language is provided to allow for custom emotes to be made. Here's <a href='https://www.youtube.com/watch?v=YBUXMf2juTQ'>an example</a> and <a href='https://www.youtube.com/watch?v=ourHUkan6aQ'>a tutorial</a> on how to do it."
-            ]
-		},
-		{
-			"name": "Item Sharing",
-			"image": "item-sharing.jpg",
-			"versions": "1.14+",
-            "desc": [
-                "Pressing Shift+T (or whatever your Chat key is set to) while looking at an item in an inventory links that item to chat. Other players can hover over it to check it out."
             ]
 		}
 	],
@@ -875,17 +920,6 @@
             ]
 		},
 		{
-			"name": "Foxhounds",
-			"image": "foxhounds.jpg",
-			"versions": "1.14+",
-            "desc": [
-                "Foxhounds are new hostile mobs that spawn in the Nether. These fierce doggos will attack you and set you on fire.",
-                "If you're brave enough, drink a fire resistance potion and feed them some Coal to tame them. Tamed Foxhounds work just like regular wolves, but with a few extra tidbits:",
-                "*They'll sleep on hot blocks like magma.",
-                "*If put on top of a furnace, they'll make the furnace faster. You can't put multiple doggos on a furnace to speed it up more, though."
-            ]
-		},
-		{
 			"name": "New Stone Types",
 			"image": "new-stone-types.jpg",
 			"versions": "1.14+",
@@ -897,41 +931,12 @@
 			]
 		},
 		{
-			"name": "Passive Creatures",
-			"image": "passive-creatures.jpg",
-			"versions": "1.14+",
-			"desc": [
-				"Two new passive critters are added to liven up your world.",
-				"You can now find Crabs in beaches, and Frogs in swamps. Press More Info for a deeper breakdown of what they do."
-			], 
-			"expand": [
-				"!img/features/world/passive-creatures/crab.jpg",
-				"*Crabs spawn in beaches. They walk sideways and will prick you if you get too close! If you kill one, they might drop Crab Legs or Crab Shells.",
-				"*Crab Legs can be cooked and eaten, they're quite tasty!",
-				"*Crab Shells can be brewed into a Potion of Resillience. While under its effect, you'll gain additional knockback resistance.",
-				"*Crabs can be bred with Wheat, Chicken, and Fish. They are also known to enjoy music, or so we've been told.",
-				"!img/features/world/passive-creatures/frog.jpg",
-				"*Frogs spawn in swamps. These wednesday loving critters will jump and croak around. If you kill one, you'll get some Frog Legs.",
-				"*Frog Legs can be cooked and eaten, or made golden to brew into a Potion of Leaping.",
-				"*Frogs are known to come in a variety of sizes, which can be passed down to their children. I wonder what you could do with that."
-			]
-		},
-		{
 			"name": "Speleothems",
 			"image": "speleothems.jpg",
 			"versions": "1.14+",
             "desc": [
                 "Speleothems (commonly known as Stalactites and Stalagmites) will generate in caves and the Nether, in all stone type variants. These can be harvested only with Silk Touch (or crafted, if you want), and can grow up to 3 blocks high.",
                 "If you break the supporting blocks, the rest of the structure falls apart, which is super satisfying to do."
-            ]
-		},
-		{
-			"name": "Stonelings",
-			"image": "stonelings.jpg",
-			"versions": "1.14+",
-            "desc": [
-                "Stonelings are new passive mobs that spawn in the deep underground. These little stone fairies will spawn in carrying an item, and will get startled if you get too close to them without sneaking. Once startled, they'll run away from you and eventually poof out of existence. If you manage to kill one, you'll get the item its carrying.",
-                "Additionally, Stonelings may drop a Heart of Diamond, a new item which you can use on any stone block to create your own tamed Stoneling! Tamed Stonelings can hold items you give them, eat Stone (they love it!), and follow you if you hold a Diamond."
             ]
 		},
 		{
@@ -950,7 +955,7 @@
 			"desc": [
 				"A new underground biome that spawns under any biome that isn't an Ocean - It comes with new Cave Crystals, fancy semi-transparent, light emitting blocks.",
 				"Each Crystal Cave will come with two colors of crystals, chosen from a pool of the seven colors that make up the rainbow, as well as white and black.",
-				"Cave Crystals can also be turned into pane variants, and crafted into Colored Runes (from the Vanity category), if enabled.",
+				"Cave Crystals can also be turned into pane variants, and crafted into Colored Runes (from the Tools category), if enabled.",
 				"Lastly, if placed deep underground, they'll grow up to 4 blocks tall, and will emit some particles to let you know they're growing."
 			]
 		},
@@ -1095,6 +1100,20 @@
 			"expand": [
 				"#X-Ray Shot",
 				"!img/features/world/mega-dungeons/xray.jpg"
+			]
+		}
+	],
+	"oddities": [
+		{
+			"addon": true,
+			"addon_url": "https://www.curseforge.com/minecraft/mc-mods/quark-oddities"
+		},
+		{
+			"name": "Magnets",
+			"image": "magnets.jpg",
+			"versions": "1.15+",
+			"desc": [
+				"Magnets!"
 			]
 		}
 	]

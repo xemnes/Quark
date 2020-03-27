@@ -47,9 +47,9 @@
 					<img src="img/features/automation/pistons-move-tes.jpg"></img>
 					<img src="img/features/building/variant-chests.jpg"></img>
 					<img src="img/features/management/chests-in-boats.jpg"></img>
-					<img src="img/features/world/foxhounds.jpg"></img>
+					<img src="img/features/mobs/foxhounds.jpg"></img>
 					<img src="img/features/world/speleothems.jpg"></img>
-					<img src="img/features/world/stonelings.jpg"></img>
+					<img src="img/features/mobs/stonelings.jpg"></img>
 					<img src="img/features/world/underground-biome-crystal-cave.jpg"></img>
 				</div>
 
@@ -187,10 +187,17 @@
 				<div class="navbar-link category-navbar-link data-category-changer" data-category="building">Building</div>
 				<div class="navbar-link category-navbar-link data-category-changer" data-category="client">Client</div>
 				<div class="navbar-link category-navbar-link data-category-changer" data-category="management">Management</div>
+				<div class="navbar-link category-navbar-link data-category-changer" data-category="mobs">Mobs</div>
 				<div class="navbar-link category-navbar-link data-category-changer" data-category="tools">Tools</div>
 				<div class="navbar-link category-navbar-link data-category-changer" data-category="tweaks">Tweaks</div>
-				<div class="navbar-link category-navbar-link data-category-changer" data-category="vanity">Vanity</div>
 				<div class="navbar-link category-navbar-link data-category-changer last" data-category="world">World</div>
+
+				<div id="addon-strip">
+					<div id="addon-strip-content">
+						<div class="addon-info">Addons: </div>
+						<div class="navbar-link category-navbar-link data-category-changer" data-category="oddities">Oddities</div>
+					</div>
+				</div>
 			</div>
 			
 			<?php include 'features.php'; ?>

@@ -27,6 +27,12 @@
 			pop();
 			$count = sizeof($category);
 
+			if($count > 0) {
+				$first = $category[0];
+				if(array_key_exists('addon', $first) && $first['addon'])
+					$count--;
+			}
+
 			div('feature-count');
 				write("($count Features)");
 			pop();
@@ -60,6 +66,14 @@
 	}
 
 	function write_feature($feature, $category_name) {
+		if(array_key_exists('addon', $feature) && $feature['addon']) {
+			div('info');
+				write('Note: This module is an Addon, and is not included with base Quark.<br>');
+				write("If you want these features, you can <a href='{$feature['addon_url']}''>install it separately</a>, just like you wuould Quark.");
+			pop();
+			return;
+		}
+
 		div('feature');
 			div('feature-image');
 				img("img/features/$category_name/{$feature['image']}");
@@ -69,6 +83,11 @@
 				div('feature-header');
 					div('feature-title');
 						write($feature['name']);
+						if(array_key_exists('removed', $feature) && $feature['removed']) {
+							span('feature-removed');
+								write(' (Removed)');
+							pop();
+						}
 					pop();
 
 					div('feature-version');
@@ -141,6 +160,9 @@
 	}
 
 	function cmp_features($f1, $f2) {
+		if((array_key_exists('addon', $f1) && $f1['addon']) || (array_key_exists('addon', $f2) && $f2['addon']))
+			return 0;	
+
 		return strcmp($f1['name'], $f2['name']);
 	}
 

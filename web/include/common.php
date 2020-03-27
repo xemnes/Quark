@@ -23,6 +23,10 @@
 		push('div', $class, $attrs);
 	}
 
+	function span($class="", $attrs=array()) {
+		push('span', $class, $attrs);
+	}
+
 	function push($type, $class="", $attrs=array()) {
 		global $elm_stack;
 
