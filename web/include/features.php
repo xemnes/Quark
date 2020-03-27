@@ -27,15 +27,21 @@
 			pop();
 			$count = sizeof($category);
 
+			$hide_count = false;
 			if($count > 0) {
 				$first = $category[0];
 				if(array_key_exists('addon', $first) && $first['addon'])
 					$count--;
+
+				if(array_key_exists('hide_count', $first) && $first['hide_count'])
+					$hide_count = true;
 			}
 
-			div('feature-count');
-				write("($count Features)");
-			pop();
+			if(!$hide_count) {
+				div('feature-count');
+					write("($count Features)");
+				pop();
+			}
 
 			if($count == 0) {
 				push('h1');
@@ -66,10 +72,9 @@
 	}
 
 	function write_feature($feature, $category_name) {
-		if(array_key_exists('addon', $feature) && $feature['addon']) {
+		if(array_key_exists('info', $feature)) {
 			div('info');
-				write('Note: This module is an Addon, and is not included with base Quark.<br>');
-				write("If you want these features, you can <a href='{$feature['addon_url']}'>install it separately</a>, just like you would Quark.");
+				write($feature['info']);
 			pop();
 			return;
 		}
@@ -111,6 +116,18 @@
 							write('More Info');
 						pop();
 					pop();
+				} else {
+					$has_download = array_key_exists('download', $feature);
+
+					if($has_download) {
+						a($feature['download'], 'no-external friend-dl-container');
+							div('std-button button-download button-download-friend');
+								div('button-title');
+									write('Download ');
+								pop();
+							pop();
+						pop();
+					}
 				}
 			pop();
 		pop();

@@ -19,6 +19,10 @@
 		pop();
 	}
 
+	function a($href, $class="") {
+		push('a', $class, array('href' => $href));
+	}
+
 	function div($class="", $attrs=array()) {
 		push('div', $class, $attrs);
 	}

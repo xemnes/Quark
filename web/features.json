@@ -1115,7 +1115,7 @@
 	"oddities": [
 		{
 			"addon": true,
-			"addon_url": "https://www.curseforge.com/minecraft/mc-mods/quark-oddities"
+			"info": "Note: This module is an Addon, and is not included with base Quark.<br>If you want these features, you can <a href='https://www.curseforge.com/minecraft/mc-mods/quark-oddities'>install it separately</a>, just like you would Quark."
 		},
 		{
 			"name": "Magnets",
@@ -1140,6 +1140,31 @@
 			"desc": [
 				"Backpack WIP"
 			]
+		}
+	],
+	"friends": [
+		{
+			"addon": true,
+			"info": "These are separate mods you can get that enchance your experience! They're curated and in the same style as Quark. Note that despite them being promoted here, they're not officially supported by Quark. Are you a modder? <a href='https://github.com/Vazkii/Quark/issues/1939'>Add yours!</a>",
+			"hide_count": true
+		},
+		{
+			"name": "Atmospheric",
+			"image": "atmospheric.jpg",
+			"versions": "Friend",
+			"desc": [
+				"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+			],
+			"download": "https://www.curseforge.com/minecraft/mc-mods/atmospheric"
+		},
+		{
+			"name": "Swamp Expansion",
+			"image": "swamp-expansion.jpg",
+			"versions": "Friend",
+			"desc": [
+				"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+			],
+			"download": "https://www.curseforge.com/minecraft/mc-mods/swamp-expansion"
 		}
 	]
 }
