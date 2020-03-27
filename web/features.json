@@ -586,7 +586,21 @@
 			"image": "toretoises.jpg",
 			"versions": "1.15+",
             "desc": [
-                "Toretoise WIP"
+                "Toretoises are new neutral mobs that will spawn underground. When a Toretoise spawns, it'll come with a random type of ore (Coal, Iron, Lapis, or Redstone). You may attack the Toretoise with a pickaxe to have it drop that ore!",
+           		"If you hit a Toretoise without a pickaxe, or when it has no ore, it'll emit a shockwave attack. This will damage any non-Toretoise entities around, and redirect their aggro to you.",
+           		"With enough care, it's possible to carry a Toretoise home and feed it so it grows more ores, feel free to click More Info for some tips on how to do it."
+            ],
+            "expand": [
+            	"If you want to take these huge creatures home and use them to generate ores, there's some things you should know.",
+            	"*Feeding the Toretoise Cave Roots (from the World module) will sometimes have it regenerate its ores. (if Cave Roots is disabled, Cactus is used instead)",
+            	"*The Toretoise will regenerate a random ore each time.",
+            	"*If the Feeding Trough (from the Automation module) is enabled, the Toretoise will eat from it.",
+            	"*Toretoises do not breed. They do spawn like hostile mobs, so you can go back for more.",
+            	"*When a Toretoise generates ore, it will enter an eating cooldown for 1 minute.",
+            	"*Toretoises will sink in water, and are immune to drowning, fall, and fire damage.",
+            	"*Toretoises are 1 block tall, but grow to 1.4 blocks tall if they have an ore.",
+            	"*Toretoises move very slowly, and can't be leashed, using Minecarts is recommended.",
+            	"*If Iron Rods (from the Automation module) are enabled, pushing them onto a Toretoise with a piston will break its ore."
             ]
 		}
 	],
