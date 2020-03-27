@@ -42,7 +42,8 @@
 			"image": "ender-watcher.jpg",
 			"versions": "1.14+",
 			"desc": [
-				"The Ender Watcher is a new redstone input block. It emits a full redstone signal if a player is looking directly at it.",
+				"The Ender Watcher is a new redstone input block. It emits a redstone signal if a player is looking directly at it.",
+				"In 1.15+, the signal is higher the closer to the center of the block the player is looking. In previous versions, it will always emit a full signal.",
 				"It's crafted with an Eye of Ender, Redstone and Blocks of Biotite (from the World category, or Obsidian if not enabled)."
 			]
 		},
@@ -579,6 +580,14 @@
 				"*Frogs are known to come in a variety of sizes, which can be passed down to their children. I wonder what you could do with that.",
 				"*Frogs can be bred with Spider Eyes or any type of Fish."
 			]
+		},
+		{
+			"name": "Toretoises",
+			"image": "toretoises.jpg",
+			"versions": "1.15+",
+            "desc": [
+                "Toretoise WIP"
+            ]
 		}
 	],
 	"tools": [
@@ -1113,7 +1122,23 @@
 			"image": "magnets.jpg",
 			"versions": "1.15+",
 			"desc": [
-				"Magnets!"
+				"Magnets WIP"
+			]
+		},
+		{
+			"name": "Pipes",
+			"image": "pipes.jpg",
+			"versions": "1.15+",
+			"desc": [
+				"Pipes WIP"
+			]
+		},
+		{
+			"name": "Backpack",
+			"image": "backpack.jpg",
+			"versions": "1.15+",
+			"desc": [
+				"Backpack WIP"
 			]
 		}
 	]

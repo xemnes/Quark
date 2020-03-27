@@ -69,7 +69,7 @@
 		if(array_key_exists('addon', $feature) && $feature['addon']) {
 			div('info');
 				write('Note: This module is an Addon, and is not included with base Quark.<br>');
-				write("If you want these features, you can <a href='{$feature['addon_url']}''>install it separately</a>, just like you wuould Quark.");
+				write("If you want these features, you can <a href='{$feature['addon_url']}'>install it separately</a>, just like you would Quark.");
 			pop();
 			return;
 		}
