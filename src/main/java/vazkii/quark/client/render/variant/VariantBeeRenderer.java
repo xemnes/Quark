@@ -1,6 +1,7 @@
 package vazkii.quark.client.render.variant;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 import com.google.common.collect.ImmutableList;
@@ -27,7 +28,7 @@ public class VariantBeeRenderer extends BeeRenderer {
 	public ResourceLocation getEntityTexture(BeeEntity entity) {
 		if(entity.hasCustomName() || VariantAnimalTexturesModule.everyBeeIsLGBT) {
 			String custName = entity.hasCustomName() ? entity.getCustomName().getUnformattedComponentText().trim() : "";
-			String name = custName.toLowerCase();
+			String name = custName.toLowerCase(Locale.ROOT);
 			
 			if(VariantAnimalTexturesModule.everyBeeIsLGBT) {
 				UUID id = entity.getUniqueID();

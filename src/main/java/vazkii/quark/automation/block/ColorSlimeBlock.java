@@ -1,5 +1,7 @@
 package vazkii.quark.automation.block;
 
+import java.util.Locale;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -25,7 +27,7 @@ public class ColorSlimeBlock extends SlimeBlock implements INonSticky {
 	public ColorSlimeBlock(SlimeColor color, Module module) {
 		super(Block.Properties.from(Blocks.SLIME_BLOCK));
 
-		RegistryHelper.registerBlock(this, color.name().toLowerCase() + "_slime_block");
+		RegistryHelper.registerBlock(this, color.name().toLowerCase(Locale.ROOT) + "_slime_block");
 		RegistryHelper.setCreativeTab(this, ItemGroup.DECORATIONS);
 
 		this.color = color;

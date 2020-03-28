@@ -3,6 +3,7 @@ package vazkii.quark.base.module;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -50,7 +51,7 @@ public final class ModuleFinder {
 				moduleObj.displayName = (String) vals.get("name");
 			else
 				moduleObj.displayName = WordUtils.capitalizeFully(clazz.getSimpleName().replaceAll("Module$", "").replaceAll("(?<=.)([A-Z])", " $1"));
-			moduleObj.lowercaseName = moduleObj.displayName.toLowerCase().replaceAll(" ", "_");
+			moduleObj.lowercaseName = moduleObj.displayName.toLowerCase(Locale.ROOT).replaceAll(" ", "_");
 			
 			if(vals.containsKey("description"))
 				moduleObj.description = (String) vals.get("description");
