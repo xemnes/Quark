@@ -1247,6 +1247,33 @@
 			],
 			"download": "https://www.curseforge.com/minecraft/mc-mods/bloomful"
 		},
+    {
+			"name": "Berry Good",
+			"image": "berry-good.jpg",
+			"versions": "Friend",
+			"desc": [
+				"Berry Good is a small mod focusing on fixing the annoying placement of Sweet Berries in addition to fleshing them out a little more."
+			],
+			"download": "https://www.curseforge.com/minecraft/mc-mods/berry-good"
+		},
+		{
+			"name": "Extra Boats",
+			"image": "extra-boats.jpg",
+			"versions": "Friend",
+			"desc": [
+				"Extra Boats adds more content for ocean travellers. Chest boats, furnace boats, and large boats can be obtained with compatability and variants for other mods' wood types."
+			],
+			"download": "https://www.curseforge.com/minecraft/mc-mods/extra-boats"
+		},
+		{
+			"name": "Incubation",
+			"image": "incubation.jpg",
+			"versions": "Friend",
+			"desc": [
+				"Incubation makes chickens just a bit better, by adding new recipes for eggs, as well as a nest that chickens will prefer to lay eggs in!"
+			],
+			"download": "https://www.curseforge.com/minecraft/mc-mods/incubation"
+    },
 		{
 			"name": "Respawnable Pets",
 			"image": "respawnable-pets.jpg",
