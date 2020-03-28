@@ -96,7 +96,7 @@ public class TrowelItem extends QuarkItem {
 
 		public TrowelBlockItemUseContext(ItemUseContext context, ItemStack stack) {
 			super(context.getWorld(), context.getPlayer(), context.getHand(), stack, 
-					new BlockRayTraceResult(context.getHitVec(), context.getFace(), context.getPos(), context.func_221533_k()));
+					new BlockRayTraceResult(context.getHitVec(), context.getFace(), context.getPos(), context.isInside()));
 		}
 		
 	}

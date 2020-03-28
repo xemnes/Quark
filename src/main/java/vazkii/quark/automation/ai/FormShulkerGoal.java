@@ -11,6 +11,7 @@ import net.minecraft.entity.monster.EndermiteEntity;
 import net.minecraft.entity.monster.ShulkerEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import vazkii.quark.automation.module.EndermitesFormShulkersModule;
 
@@ -37,7 +38,8 @@ public class FormShulkerGoal extends RandomWalkingGoal {
 
 			if(random.nextDouble() < EndermitesFormShulkersModule.chance) {
 				facing = Direction.random(random);
-				BlockPos blockpos = (new BlockPos(endermite.posX, endermite.posY + 0.5D, endermite.posZ)).offset(facing);
+				Vec3d pos = endermite.getPositionVec();
+				BlockPos blockpos = (new BlockPos(pos.x, pos.y + 0.5D, pos.z)).offset(facing);
 				BlockState iblockstate = endermite.getEntityWorld().getBlockState(blockpos);
 
 				if(iblockstate.getBlock() == Blocks.PURPUR_BLOCK) {
@@ -62,7 +64,8 @@ public class FormShulkerGoal extends RandomWalkingGoal {
 			super.startExecuting();
 		else {
 			World world = endermite.getEntityWorld();
-			BlockPos blockpos = (new BlockPos(endermite.posX, endermite.posY + 0.5D, endermite.posZ)).offset(facing);
+			Vec3d pos = endermite.getPositionVec();
+			BlockPos blockpos = (new BlockPos(pos.x, pos.y + 0.5D, pos.z)).offset(facing);
 			BlockState iblockstate = world.getBlockState(blockpos);
 
 			if(iblockstate.getBlock() == Blocks.PURPUR_BLOCK) {

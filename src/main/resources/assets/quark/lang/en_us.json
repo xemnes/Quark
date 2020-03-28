@@ -6,6 +6,7 @@
 	"quark.gui.button.extract": "Extract",
 	"quark.gui.button.filter": "Filter",
 	"quark.gui.button.emotes": "Emotes",
+	"quark.gui.button.back": "Back",
 
 	"quark.gui.keygroup.misc": "Quark Misc",
 	"quark.gui.keygroup.inv": "Quark Inventory",
@@ -24,7 +25,7 @@
 	"quark.keybind.sort_player": "Sort Player Inventory",
 	"quark.keybind.transfer_extract": "Extract Items",
 	"quark.keybind.transfer_insert": "Insert Items",
-	"quark.keybind.patreon_emote.dance": "Default Dance (Patreon)",
+	"quark.keybind.patreon_emote.dance": "Dance (Patreon)",
 	"quark.keybind.patreon_emote.tpose": "T-Pose (Patreon)",
 	"quark.keybind.patreon_emote.dab": "Dab (Patreon)",
 	"quark.keybind.patreon_emote.jet": "Jet (Patreon)",
@@ -51,6 +52,10 @@
 	"quark.subtitles.crab_hurt": "Shell chips",
 	"quark.subtitles.crab_scuttle": "Crab scuttles",
 	"quark.subtitles.growl": "Monsters arise",
+	"quark.subtitles.pipe_shoot": "Pipe ejects",
+	"quark.subtitles.pipe_pickup": "Pipe absorbs",
+	"quark.subtitles.pipe_shoot_lenny": "Pipe nuts",
+	"quark.subtitles.pipe_pickup_lenny": "Pipe succ",
 	
 	"quark.emote.wave": "Wave",
 	"quark.emote.yes": "Yes",
@@ -66,7 +71,7 @@
 	"quark.emote.headbang": "Headbang",
 	"quark.emote.dab": "Dab",
 	"quark.emote.tpose": "T-Pose",
-	"quark.emote.dance": "Default Dance",
+	"quark.emote.dance": "Dance",
 	"quark.emote.zombie": "Zombie",
 	"quark.emote.exorcist": "Exorcist",
 	"quark.emote.jet": "Jet",
@@ -81,7 +86,16 @@
 	"quark.misc.person_not_napping": "%s has stopped napping.",
 	"quark.misc.night_no_passage": "Players have slept.",
 	"quark.misc.day_no_passage": "Players have napped.",
-	"quark.misc.night_has_passed": "The night has passed.",
+	"quark.misc.night_has_passed0": "The night has passed - Good morning!",
+	"quark.misc.night_has_passed1": "The night has passed - Here's to another great day!",
+	"quark.misc.night_has_passed2": "The night has passed - What's your plan today?",
+	"quark.misc.night_has_passed3": "The night has passed - Let's have a fun time!",
+	"quark.misc.night_has_passed4": "The night has passed - It's fime for sunshine!",
+	"quark.misc.night_has_passed5": "The night has passed - Rise and shine!",
+	"quark.misc.night_has_passed6": "The night has passed - So much time for activities!",
+	"quark.misc.night_has_passed7": "The night has passed - Wakey wakey!",
+	"quark.misc.night_has_passed8": "The night has passed - The day is calling!",
+	"quark.misc.night_has_passed9": "The night has passed - Go seize the day!",
 	"quark.misc.day_has_passed": "The day has passed.",
 	"quark.misc.shulker_box_shift": "Hold Shift to see contents",
 	"quark.misc.map_shift": "Hold Shift to see the map",
@@ -158,6 +172,8 @@
 	"item.quark.root_item": "Cave Root",
 	"item.quark.dragon_scale": "Dragon Scale",
 	"item.quark.cactus_paste": "Cactus Paste",
+	"item.quark.backpack": "Backpack",
+	"item.quark.ravager_hide": "Ravager Hide",
 	
 	"item.minecraft.potion.effect.quark.resilience": "Potion of Stability",
 	"item.minecraft.splash_potion.effect.quark.resilience": "Splash Potion of Stability",
@@ -257,11 +273,15 @@
 	"block.quark.poise_chest": "Poise Chest",
 	"block.quark.willow_chest": "Willow Chest",
 	"block.quark.wisteria_chest": "Wisteria Chest",
+	"block.quark.hive_chest": "Hive Chest",
+	"block.quark.rosewood_chest": "Rosewood Chest",
 	"block.quark.bamboo_trapped_chest": "Bamboo Trapped Chest",
 	"block.quark.driftwood_trapped_chest": "Driftwood Trapped Chest",
 	"block.quark.poise_trapped_chest": "Poise Trapped Chest",
 	"block.quark.willow_trapped_chest": "Willow Trapped Chest",
 	"block.quark.wisteria_trapped_chest": "Wisteria Trapped Chest",
+	"block.quark.hive_trapped_chest": "Hive Trapped Chest",
+	"block.quark.rosewood_trapped_chest": "Rosewood Trapped Chest",
 	"block.quark.blaze_lantern": "Blaze Lantern",
 	"block.quark.sugar_cane_block": "Sugar Cane Bundle",
 	"block.quark.brimstone": "Brimstone",
@@ -783,12 +803,15 @@
 	"block.quark.rusty_iron_plate_slab": "Rusty Iron Plate Slab",
 	"block.quark.iron_plate_vertical_slab": "Iron Plate Vertical Slab",
 	"block.quark.rusty_iron_plate_vertical_slab": "Rusty Iron Plate Vertical Slab",
-	
+	"block.quark.pipe": "Item Pipe",
+	"block.quark.magnet": "Magnet",
+
 	"item.quark.stoneling_spawn_egg": "Stoneling Spawn Egg",
 	"item.quark.frog_spawn_egg": "Frog Spawn Egg",
 	"item.quark.crab_spawn_egg": "Crab Spawn Egg",
 	"item.quark.foxhound_spawn_egg": "Foxhound Spawn Egg",
 	"item.quark.wrapped_spawn_egg": "Wrapped Spawn Egg",
+	"item.quark.toretoise_spawn_egg": "Toretoise Spawn Egg",
 
 	"effect.quark.resilience": "Resilience",
 	"effect.quark.danger_sight": "Danger Sight",
@@ -802,8 +825,7 @@
 	"entity.quark.frog": "Frog",
 	"entity.quark.crab": "Crab",
 	"entity.quark.foxhound": "Foxhound",
-	"entity.quark.wrapped": "Wrapped"
+	"entity.quark.wrapped": "Wrapped",
+	"entity.quark.toretoise": "Toretoise"
 	
 }
-
-

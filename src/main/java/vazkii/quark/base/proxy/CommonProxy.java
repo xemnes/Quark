@@ -1,5 +1,8 @@
 package vazkii.quark.base.proxy;
 
+import java.time.LocalDateTime;
+import java.time.Month;
+
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.config.ModConfig.ModConfigEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -13,18 +16,16 @@ import vazkii.quark.base.handler.BrewingHandler;
 import vazkii.quark.base.handler.ContributorRewardHandler;
 import vazkii.quark.base.handler.FuelHandler;
 import vazkii.quark.base.handler.QuarkSounds;
-import vazkii.quark.base.handler.StonecutterShiftClickHandler;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.base.network.QuarkNetwork;
 import vazkii.quark.base.recipe.ExclusionRecipe;
 import vazkii.quark.base.world.EntitySpawnHandler;
 import vazkii.quark.base.world.WorldGenHandler;
 
-import java.util.function.BooleanSupplier;
-
 public class CommonProxy {
 
 	private int lastConfigChange = 0;
+	public static boolean jingleTheBells = false;
 	
 	public void start() {
 		ForgeRegistries.RECIPE_SERIALIZERS.register(ExclusionRecipe.SERIALIZER);
@@ -34,6 +35,10 @@ public class CommonProxy {
 		
 		IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 		registerListeners(bus);
+		
+		LocalDateTime now = LocalDateTime.now();
+		if (now.getMonth() == Month.DECEMBER && now.getDayOfMonth() >= 16 || now.getMonth() == Month.JANUARY && now.getDayOfMonth() <= 2)
+			jingleTheBells = true;
 	}
 	
 	public void registerListeners(IEventBus bus) {
@@ -62,7 +67,6 @@ public class CommonProxy {
 			lastConfigChange = ClientTicker.ticksInGame;
 			handleQuarkConfigChange();
 			EntitySpawnHandler.refresh();
-			StonecutterShiftClickHandler.configReload();
 		}
 	}
 	

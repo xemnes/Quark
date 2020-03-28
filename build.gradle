@@ -90,10 +90,10 @@ repositories {
 dependencies {
     minecraft "net.minecraftforge:forge:${config.mc_version}-${config.forge_version}"
 
-    compile fg.deobf("vazkii.arl:AutoRegLib:${config.arl_version}")
+    compile fg.deobf("vazkii.autoreglib:AutoRegLib:${config.arl_version}")
 
-    compileOnly fg.deobf("mezz.jei:jei-1.14.4:${config.jei_version}:api")
-    runtimeOnly fg.deobf("mezz.jei:jei-1.14.4:${config.jei_version}")
+    compileOnly fg.deobf("mezz.jei:jei-${config.mc_version}:${config.jei_version}:api")
+    runtimeOnly fg.deobf("mezz.jei:jei-${config.mc_version}:${config.jei_version}")
 }
 
 processResources {

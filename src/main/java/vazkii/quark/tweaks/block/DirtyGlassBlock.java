@@ -1,15 +1,15 @@
 package vazkii.quark.tweaks.block;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemGroup;
-import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorldReader;
 import vazkii.quark.base.block.QuarkGlassBlock;
+import vazkii.quark.base.handler.RenderLayerHandler;
+import vazkii.quark.base.handler.RenderLayerHandler.RenderTypeSkeleton;
 import vazkii.quark.base.module.Module;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 /**
  * @author WireSegal
@@ -21,6 +21,7 @@ public class DirtyGlassBlock extends QuarkGlassBlock {
 
     public DirtyGlassBlock(String regname, Module module, ItemGroup creativeTab, Properties properties) {
         super(regname, module, creativeTab, properties);
+        RenderLayerHandler.setRenderType(this, RenderTypeSkeleton.TRANSLUCENT);
     }
 
     @Nullable
@@ -29,8 +30,4 @@ public class DirtyGlassBlock extends QuarkGlassBlock {
         return BEACON_COLOR_MULTIPLIER;
     }
 
-    @Nonnull
-    public BlockRenderLayer getRenderLayer() {
-        return BlockRenderLayer.TRANSLUCENT;
-    }
 }

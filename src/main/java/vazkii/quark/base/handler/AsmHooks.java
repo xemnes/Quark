@@ -1,8 +1,10 @@
 package vazkii.quark.base.handler;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.state.PistonBlockStructureHelper;
+import net.minecraft.block.PistonBlockStructureHelper;
 import net.minecraft.client.gui.screen.EnchantmentScreen;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.Enchantments;
@@ -10,7 +12,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.TemptGoal;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.PistonTileEntity;
@@ -30,17 +31,16 @@ import vazkii.quark.automation.module.FeedingTroughModule;
 import vazkii.quark.automation.module.PistonsMoveTileEntitiesModule;
 import vazkii.quark.client.tooltip.EnchantedBookTooltips;
 import vazkii.quark.management.entity.ChestPassengerEntity;
+import vazkii.quark.management.module.ItemSharingModule;
+import vazkii.quark.mobs.entity.CrabEntity;
 import vazkii.quark.tools.item.PickarangItem;
 import vazkii.quark.tools.module.AncientTomesModule;
 import vazkii.quark.tools.module.PickarangModule;
+import vazkii.quark.tweaks.client.emote.EmoteHandler;
 import vazkii.quark.tweaks.module.HoeHarvestingModule;
 import vazkii.quark.tweaks.module.ImprovedSleepingModule;
 import vazkii.quark.tweaks.module.LockRotationModule;
 import vazkii.quark.tweaks.module.SpringySlimeModule;
-import vazkii.quark.vanity.client.emote.EmoteHandler;
-import vazkii.quark.vanity.module.ColorRunesModule;
-import vazkii.quark.vanity.module.ItemSharingModule;
-import vazkii.quark.world.entity.CrabEntity;
 
 import java.util.List;
 import java.util.Map;
@@ -51,30 +51,6 @@ import java.util.Map;
  */
 @SuppressWarnings("unused")
 public class AsmHooks {
-
-	// ==========================================================================
-	// Color Runes
-	// ==========================================================================
-
-	public static void setColorRuneTargetStack(LivingEntity living, EquipmentSlotType slot) {
-		setColorRuneTargetStack(living.getItemStackFromSlot(slot));
-	}
-
-	public static void setColorRuneTargetStack(ItemStack stack) {
-		ColorRunesModule.setTargetStack(stack);
-	}
-
-	public static int changeColor(int color) {
-		if (color == 0xFF8040CC)
-			return ColorRunesModule.changeColor(color);
-
-		return color;
-	}
-
-	@OnlyIn(Dist.CLIENT)
-	public static void applyRuneColor() {
-		ColorRunesModule.applyColor();
-	}
 
 	// ==========================================================================
 	// Piston Logic Replacing
@@ -101,8 +77,8 @@ public class AsmHooks {
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	public static boolean renderPistonBlock(PistonTileEntity piston, double x, double y, double z, float pTicks) {
-		return PistonTileEntityRenderer.renderPistonBlock(piston, x, y, z, pTicks);
+	public static boolean renderPistonBlock(PistonTileEntity tileEntityIn, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
+		return PistonTileEntityRenderer.renderPistonBlock(tileEntityIn, partialTicks, matrixStackIn, bufferIn, combinedLightIn, combinedOverlayIn);
 	}
 
 	// ==========================================================================
@@ -182,8 +158,8 @@ public class AsmHooks {
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	public static void renderChain(EntityRenderer render, Entity entity, double x, double y, double z, float partTicks) {
-		ChainRenderer.renderChain(render, x, y, z, entity, partTicks);
+	public static void renderChain(EntityRenderer render, Entity entity, MatrixStack matrixStack, IRenderTypeBuffer renderBuffer, float partTicks) {
+		ChainRenderer.renderChain(render, entity, matrixStack, renderBuffer, partTicks);
 	}
 
 	public static void dropChain(Entity entity) {

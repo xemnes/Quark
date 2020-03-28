@@ -11,10 +11,10 @@ public class QuarkCapabilities {
 	@CapabilityInject(ITransferManager.class)
 	public static final Capability<ITransferManager> TRANSFER = null;
 	
-    @CapabilityInject(IRuneColorProvider.class)
-    public static final Capability<IRuneColorProvider> RUNE_COLOR = null;
-	
 	@CapabilityInject(IPistonCallback.class)
 	public static final Capability<IPistonCallback> PISTON_CALLBACK = null;
+
+    @CapabilityInject(IMagnetTracker.class)
+    public static final Capability<IMagnetTracker> MAGNET_TRACKER_CAPABILITY = null;
     
 }

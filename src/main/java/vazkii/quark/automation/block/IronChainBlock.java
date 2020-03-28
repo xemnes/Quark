@@ -19,21 +19,20 @@ import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.quark.base.block.QuarkBlock;
+import vazkii.quark.base.handler.RenderLayerHandler;
+import vazkii.quark.base.handler.RenderLayerHandler.RenderTypeSkeleton;
 import vazkii.quark.base.module.Module;
 
 public class IronChainBlock extends QuarkBlock implements IWaterLoggable {
@@ -46,6 +45,8 @@ public class IronChainBlock extends QuarkBlock implements IWaterLoggable {
 	public IronChainBlock(Module module) {
 		super("iron_chain", module, ItemGroup.TRANSPORTATION, Block.Properties.create(Material.IRON).hardnessAndResistance(0.5F).sound(SoundType.LANTERN));
 		setDefaultState(getDefaultState().with(TYPE, ChainType.MIDDLE).with(WATERLOGGED, false));
+		
+		RenderLayerHandler.setRenderType(this, RenderTypeSkeleton.CUTOUT);
 	}
 	
 	@Override
@@ -55,7 +56,9 @@ public class IronChainBlock extends QuarkBlock implements IWaterLoggable {
 	
 	@Override
 	public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
-		return func_220055_a(worldIn, pos.up(), Direction.DOWN);
+		BlockPos upPos = pos.up();
+		BlockState upState = worldIn.getBlockState(upPos);
+		return upState.getBlock() == this || getChainType(worldIn, pos) == ChainType.TOP;
 	}
 	
 	@Override
@@ -87,13 +90,6 @@ public class IronChainBlock extends QuarkBlock implements IWaterLoggable {
 	
 	@Nonnull
 	@Override
-	@OnlyIn(Dist.CLIENT)
-	public BlockRenderLayer getRenderLayer() {
-		return BlockRenderLayer.CUTOUT;
-	}
-	
-	@Nonnull
-	@Override
 	@SuppressWarnings("deprecation")
 	public IFluidState getFluidState(BlockState state) {
 		return state.get(WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
@@ -114,10 +110,10 @@ public class IronChainBlock extends QuarkBlock implements IWaterLoggable {
 		return type == PathType.WATER && worldIn.getFluidState(pos).isTagged(FluidTags.WATER); 
 	}
 	
-	public ChainType getChainType(World world, BlockPos pos) {
+	public ChainType getChainType(IWorldReader world, BlockPos pos) {
 		BlockPos up = pos.up();
 		BlockState state = world.getBlockState(up);
-		if(hasSolidSide(state, world, up, Direction.DOWN))
+		if(hasSolidSide(state, world, up, Direction.DOWN) || state.getBlock().isIn(BlockTags.FENCES) || state.getBlock().isIn(BlockTags.WALLS))
 			return ChainType.TOP;
 		
 		BlockPos down = pos.down();

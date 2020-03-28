@@ -13,6 +13,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.api.INonSticky;
+import vazkii.quark.base.handler.RenderLayerHandler;
+import vazkii.quark.base.handler.RenderLayerHandler.RenderTypeSkeleton;
 import vazkii.quark.base.module.Module;
 
 public class ColorSlimeBlock extends SlimeBlock implements INonSticky {
@@ -28,6 +30,8 @@ public class ColorSlimeBlock extends SlimeBlock implements INonSticky {
 
 		this.color = color;
 		this.module = module;
+		
+		RenderLayerHandler.setRenderType(this, RenderTypeSkeleton.TRANSLUCENT);
 	}
 
 	@Override

@@ -1,6 +1,11 @@
 package vazkii.quark.client.module;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Predicate;
+
+import com.mojang.blaze3d.systems.RenderSystem;
+
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;
@@ -27,10 +32,6 @@ import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
 import vazkii.quark.tools.item.TrowelItem;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Predicate;
 
 @LoadModule(category = ModuleCategory.CLIENT, hasSubscriptions = true, subscribeOn = Dist.CLIENT)
 public class UsageTickerModule extends Module {
@@ -162,13 +163,13 @@ public class UsageTickerModule extends Module {
 					
 				ItemStack stack = getRenderedStack(player);
 				
-				GlStateManager.pushMatrix();
-				GlStateManager.translatef(x, y, 0);
-				RenderHelper.enableGUIStandardItemLighting();
+				RenderSystem.pushMatrix();
+				RenderSystem.translatef(x, y, 0);
+				RenderHelper.enableStandardItemLighting();
 				mc.getItemRenderer().renderItemAndEffectIntoGUI(stack, 0, 0);
 				mc.getItemRenderer().renderItemOverlays(Minecraft.getInstance().fontRenderer, stack, 0, 0);
 				RenderHelper.disableStandardItemLighting();
-				GlStateManager.popMatrix();
+				RenderSystem.popMatrix();
 			}
 		}
 		

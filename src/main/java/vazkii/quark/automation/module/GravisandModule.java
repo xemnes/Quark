@@ -40,6 +40,6 @@ public class GravisandModule extends Module {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void clientSetup() {
-		RenderingRegistry.registerEntityRenderingHandler(GravisandEntity.class, FallingBlockRenderer::new);
+		RenderingRegistry.registerEntityRenderingHandler(gravisandType, FallingBlockRenderer::new);
 	}
 }

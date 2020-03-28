@@ -1,10 +1,19 @@
 package vazkii.quark.client.tooltip;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+import javax.annotation.Nullable;
+
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.screen.Screen;
@@ -32,9 +41,6 @@ import net.minecraftforge.client.event.RenderTooltipEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import vazkii.arl.util.ItemNBTHelper;
 import vazkii.quark.base.handler.MiscUtil;
-
-import javax.annotation.Nullable;
-import java.util.*;
 
 /**
  * @author WireSegal
@@ -239,7 +245,7 @@ public class AttributeTooltips {
         for(String s : slotAttributes.keys()) {
             if(VALID_ATTRIBUTES.contains(s)) {
                 onlyInvalid = false;
-                double attributeValue = getAttribute(event.getEntityPlayer(), slot, stack, slotAttributes, s);
+                double attributeValue = getAttribute(event.getPlayer(), slot, stack, slotAttributes, s);
                 if (attributeValue != 0) {
                     if (!attributeTooltips.containsKey(slot))
                         attributeTooltips.put(slot, new StringBuilder());
@@ -308,7 +314,7 @@ public class AttributeTooltips {
     private static int renderAttribute(String attribute, EquipmentSlotType slot, int x, int y, ItemStack stack, Multimap<String, AttributeModifier> slotAttributes, Minecraft mc) {
         double value = getAttribute(mc.player, slot, stack, slotAttributes, attribute);
         if (value != 0) {
-            GlStateManager.color3f(1F, 1F, 1F);
+            RenderSystem.color3f(1F, 1F, 1F);
             mc.getTextureManager().bindTexture(MiscUtil.GENERAL_ICONS);
             AbstractGui.blit(x, y, renderPosition(attribute), 0, 9, 9, 256, 256);
 
@@ -331,12 +337,13 @@ public class AttributeTooltips {
 
     @OnlyIn(Dist.CLIENT)
     public static void renderTooltip(RenderTooltipEvent.PostText event) {
-        ItemStack stack = event.getStack();
+        ItemStack stack = event.getStack();	
         if(!Screen.hasShiftDown()) {
-            GlStateManager.pushMatrix();
-            GlStateManager.color3f(1F, 1F, 1F);
+            RenderSystem.pushMatrix();
+            RenderSystem.translatef(0, 0, 500);
+            RenderSystem.color3f(1F, 1F, 1F);
             Minecraft mc = Minecraft.getInstance();
-            GlStateManager.translatef(0F, 0F, mc.getItemRenderer().zLevel);
+            RenderSystem.translatef(0F, 0F, mc.getItemRenderer().zLevel);
 
             int baseX = event.getX();
             int y = TooltipUtils.shiftTextByLines(event.getLines(), event.getY() + 10);
@@ -397,7 +404,7 @@ public class AttributeTooltips {
                         continue;
 
                     if (showSlots) {
-                        GlStateManager.color3f(1F, 1F, 1F);
+                    	RenderSystem.color3f(1F, 1F, 1F);
                         mc.getTextureManager().bindTexture(MiscUtil.GENERAL_ICONS);
                         AbstractGui.blit(x, y, 202 + (slot == null ? -1 : slot.ordinal()) * 9, 35, 9, 9, 256, 256);
                         x += 20;
@@ -421,7 +428,7 @@ public class AttributeTooltips {
                 }
             }
 
-            GlStateManager.popMatrix();
+            RenderSystem.popMatrix();
         }
     }
 

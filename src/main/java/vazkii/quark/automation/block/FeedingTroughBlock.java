@@ -1,5 +1,8 @@
 package vazkii.quark.automation.block;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
@@ -12,6 +15,7 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
@@ -26,9 +30,6 @@ import net.minecraft.world.World;
 import vazkii.quark.automation.tile.FeedingTroughTileEntity;
 import vazkii.quark.base.block.QuarkBlock;
 import vazkii.quark.base.module.Module;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 /**
  * @author WireSegal
@@ -89,7 +90,7 @@ public class FeedingTroughBlock extends QuarkBlock {
     @Override
     public void onFallenUpon(World world, BlockPos pos, Entity entity, float distance) {
         if (world.getBlockState(pos).get(FULL))
-            entity.fall(distance, 0.2F);
+            entity.onLivingFall(distance, 0.2F);
         else
             super.onFallenUpon(world, pos, entity, distance);
     }
@@ -130,17 +131,18 @@ public class FeedingTroughBlock extends QuarkBlock {
         return Container.calcRedstone(world.getTileEntity(pos));
     }
 
+    
     @Override
     @SuppressWarnings("deprecation")
-    public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult trace) {
+    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult trace) {
         if (world.isRemote)
-            return true;
+            return ActionResultType.SUCCESS;
         else {
             INamedContainerProvider container = this.getContainer(state, world, pos);
             if (container != null)
                 player.openContainer(container);
 
-            return true;
+            return ActionResultType.SUCCESS;
         }
     }
 

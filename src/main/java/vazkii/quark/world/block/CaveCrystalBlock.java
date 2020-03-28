@@ -1,29 +1,31 @@
 package vazkii.quark.world.block;
 
+import java.util.Random;
+
+import javax.annotation.Nullable;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
+import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ToolType;
 import vazkii.quark.base.block.QuarkGlassBlock;
+import vazkii.quark.base.handler.RenderLayerHandler;
+import vazkii.quark.base.handler.RenderLayerHandler.RenderTypeSkeleton;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.world.module.underground.CaveCrystalUndergroundBiomeModule;
-
-import java.util.Random;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 /**
  * @author WireSegal
@@ -42,13 +44,16 @@ public class CaveCrystalBlock extends QuarkGlassBlock {
 				.lightValue(11)
 				.harvestTool(ToolType.PICKAXE)
 				.harvestLevel(0)
-				.tickRandomly());
+				.tickRandomly()
+				.notSolid());
 
 		float r = ((color >> 16) & 0xff) / 255f;
 		float g = ((color >> 8) & 0xff) / 255f;
 		float b = (color & 0xff) / 255f;
 		colorComponents = new float[]{r, g, b};
 		colorVector = new Vec3d(r, g, b);
+		
+		RenderLayerHandler.setRenderType(this, RenderTypeSkeleton.TRANSLUCENT);
 	}
 
 	private boolean canGrow(World world, BlockPos pos) {
@@ -62,7 +67,7 @@ public class CaveCrystalBlock extends QuarkGlassBlock {
 	}
 
 	@Override
-	public void tick(BlockState state, World worldIn, BlockPos pos, Random random) {
+	public void tick(BlockState state, ServerWorld worldIn, BlockPos pos, Random random) {
 		if(canGrow(worldIn, pos) && random.nextInt(CaveCrystalUndergroundBiomeModule.caveCrystalGrowthChance) == 0)
 			worldIn.setBlockState(pos.up(), state);
 	}
@@ -89,8 +94,4 @@ public class CaveCrystalBlock extends QuarkGlassBlock {
 		return colorVector;
 	}
 
-	@Nonnull
-	public BlockRenderLayer getRenderLayer() {
-		return BlockRenderLayer.TRANSLUCENT;
-	}
 }

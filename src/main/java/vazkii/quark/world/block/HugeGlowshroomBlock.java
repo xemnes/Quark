@@ -1,5 +1,9 @@
 package vazkii.quark.world.block;
 
+import java.util.Random;
+
+import javax.annotation.Nonnull;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -8,7 +12,6 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
@@ -17,22 +20,23 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.arl.util.RegistryHelper;
+import vazkii.quark.base.handler.RenderLayerHandler;
+import vazkii.quark.base.handler.RenderLayerHandler.RenderTypeSkeleton;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.world.module.underground.GlowshroomUndergroundBiomeModule;
-
-import javax.annotation.Nonnull;
-import java.util.Random;
 
 public class HugeGlowshroomBlock extends HugeMushroomBlock {
 
 	private final Module module;
 
 	public HugeGlowshroomBlock(String name, Module module) {
-		super(Block.Properties.from(Blocks.RED_MUSHROOM_BLOCK).lightValue(14).tickRandomly());
+		super(Block.Properties.from(Blocks.RED_MUSHROOM_BLOCK).lightValue(14).tickRandomly().notSolid());
 
 		this.module = module;
 		RegistryHelper.registerBlock(this, name);
 		RegistryHelper.setCreativeTab(this, ItemGroup.DECORATIONS);
+		
+		RenderLayerHandler.setRenderType(this, RenderTypeSkeleton.TRANSLUCENT);
 	}
 
 	@Override
@@ -42,13 +46,6 @@ public class HugeGlowshroomBlock extends HugeMushroomBlock {
 
 		if(rand.nextInt(10) == 0)
 			worldIn.addParticle(ParticleTypes.END_ROD, pos.getX() + rand.nextFloat(), pos.getY() + rand.nextFloat(), pos.getZ() + rand.nextFloat(), 0, 0, 0);
-	}
-
-	@Nonnull
-	@Override
-	@OnlyIn(Dist.CLIENT)
-	public BlockRenderLayer getRenderLayer() {
-		return BlockRenderLayer.TRANSLUCENT;
 	}
 
 	@Override
@@ -77,7 +74,7 @@ public class HugeGlowshroomBlock extends HugeMushroomBlock {
 			if (block != GlowshroomUndergroundBiomeModule.glowcelium) {
 				return false;
 			} else {
-				BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+				BlockPos.Mutable blockpos$mutableblockpos = new BlockPos.Mutable();
 
 				for(int k = 0; k <= i; ++k) {
 					int l = 0;

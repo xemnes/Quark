@@ -1,7 +1,12 @@
 package vazkii.quark.client.tooltip;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.mojang.blaze3d.systems.RenderSystem;
+
 import net.minecraft.block.ShulkerBoxBlock;
+import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.screen.Screen;
@@ -27,9 +32,6 @@ import vazkii.arl.util.ItemNBTHelper;
 import vazkii.quark.base.handler.SimilarBlockTypeHandler;
 import vazkii.quark.client.module.ChestSearchingModule;
 import vazkii.quark.client.module.ImprovedTooltipsModule;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ShulkerBoxTooltips {
 
@@ -97,14 +99,15 @@ public class ShulkerBoxTooltips {
 							currentY = event.getY() + event.getLines().size() * 10 + 5;
 
 						int right = currentX + texWidth;
-						if (right > mc.mainWindow.getScaledWidth())
-							currentX -= (right - mc.mainWindow.getScaledWidth());
+						MainWindow window = mc.getMainWindow();
+						if (right > window.getScaledWidth())
+							currentX -= (right - window.getScaledWidth());
 
-						GlStateManager.pushMatrix();
+						RenderSystem.pushMatrix();
 						RenderHelper.enableStandardItemLighting();
-						GlStateManager.enableRescaleNormal();
-						GlStateManager.color3f(1F, 1F, 1F);
-						GlStateManager.translatef(0, 0, 700);
+						RenderSystem.enableRescaleNormal();
+						RenderSystem.color3f(1F, 1F, 1F);
+						RenderSystem.translatef(0, 0, 700);
 						mc.getTextureManager().bindTexture(WIDGET_RESOURCE);
 
 						RenderHelper.disableStandardItemLighting();
@@ -125,8 +128,8 @@ public class ShulkerBoxTooltips {
 
 						ItemRenderer render = mc.getItemRenderer();
 
-						RenderHelper.enableGUIStandardItemLighting();
-						GlStateManager.enableDepthTest();
+						RenderHelper.enableStandardItemLighting();
+						RenderSystem.enableDepthTest();
 						for (int i = 0; i < size; i++) {
 							ItemStack itemstack = capability.getStackInSlot(i);
 							int xp = currentX + 6 + (i % 9) * 18;
@@ -138,14 +141,14 @@ public class ShulkerBoxTooltips {
 							}
 
 							if (!ChestSearchingModule.namesMatch(itemstack)) {
-								GlStateManager.disableDepthTest();
+								RenderSystem.disableDepthTest();
 								AbstractGui.fill(xp, yp, xp + 16, yp + 16, 0xAA000000);
 							}
 						}
 
-						GlStateManager.disableDepthTest();
-						GlStateManager.disableRescaleNormal();
-						GlStateManager.popMatrix();
+						RenderSystem.disableDepthTest();
+						RenderSystem.disableRescaleNormal();
+						RenderSystem.popMatrix();
 					});
 
 				}
@@ -170,7 +173,7 @@ public class ShulkerBoxTooltips {
 
 	public static void renderTooltipBackground(Minecraft mc, int x, int y, int width, int height, int color) {
 		mc.getTextureManager().bindTexture(WIDGET_RESOURCE);
-		GlStateManager.color3f(((color & 0xFF0000) >> 16) / 255f,
+		RenderSystem.color3f(((color & 0xFF0000) >> 16) / 255f,
 				((color & 0x00FF00) >> 8) / 255f,
 				(color & 0x0000FF) / 255f);
 
@@ -211,7 +214,7 @@ public class ShulkerBoxTooltips {
 			}
 		}
 
-		GlStateManager.color3f(1F, 1F, 1F);
+		RenderSystem.color3f(1F, 1F, 1F);
 	}
 
 }

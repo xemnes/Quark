@@ -1,5 +1,11 @@
 package vazkii.quark.tools.module;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
+
+import javax.annotation.Nonnull;
+
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.merchant.villager.VillagerProfession;
@@ -14,6 +20,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biomes;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.MapData;
 import net.minecraft.world.storage.MapDecoration.Type;
 import net.minecraftforge.event.village.VillagerTradesEvent;
@@ -21,12 +28,11 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.handler.BiomeLocator;
-import vazkii.quark.base.module.*;
-
-import javax.annotation.Nonnull;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
+import vazkii.quark.base.module.Config;
+import vazkii.quark.base.module.IConfigType;
+import vazkii.quark.base.module.LoadModule;
+import vazkii.quark.base.module.Module;
+import vazkii.quark.base.module.ModuleCategory;
 
 @LoadModule(category = ModuleCategory.TOOLS, hasSubscriptions = true)
 public class PathfinderMapsModule extends Module {
@@ -140,11 +146,12 @@ public class PathfinderMapsModule extends Module {
 	public static ItemStack createMap(World world, BlockPos pos, TradeInfo info) {
 		BlockPos biomePos = BiomeLocator.spiralOutwardsLookingForBiome(world, info.biome, pos.getX(), pos.getZ());
 
-		if(biomePos == null)
+		if(biomePos == null || !(world instanceof ServerWorld))
 			return ItemStack.EMPTY;
 
 		ItemStack stack = FilledMapItem.setupNewMap(world, biomePos.getX(), biomePos.getZ(), (byte) 2, true, true);
-		FilledMapItem.renderBiomePreviewMap(world, stack);
+		// fillExplorationMap
+		FilledMapItem.func_226642_a_((ServerWorld) world, stack);
 		MapData.addTargetDecoration(stack, biomePos, "+", Type.RED_X);
 		stack.setDisplayName(new TranslationTextComponent(info.name));
 

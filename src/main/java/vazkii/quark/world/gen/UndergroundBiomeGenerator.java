@@ -30,7 +30,7 @@ public class UndergroundBiomeGenerator extends ClusterBasedGenerator {
 	}
 
 	@Override
-	public BlockPos[] getSourcesInChunk(Random random, ChunkGenerator<? extends GenerationSettings> generator, BlockPos chunkCorner) {
+	public BlockPos[] getSourcesInChunk(IWorld world, Random random, ChunkGenerator<? extends GenerationSettings> generator, BlockPos chunkCorner) {
 		if(info.rarity > 0 && random.nextInt(info.rarity) == 0) {
 			return new BlockPos[] {
 					chunkCorner.add(random.nextInt(16), info.minYLevel + random.nextInt(info.maxYLevel - info.minYLevel), random.nextInt(16))
@@ -47,7 +47,7 @@ public class UndergroundBiomeGenerator extends ClusterBasedGenerator {
 
 	@Override
 	public boolean isSourceValid(IWorld world, ChunkGenerator<? extends GenerationSettings> generator, BlockPos pos) {
-		Biome biome = getBiome(generator, pos);
+		Biome biome = getBiome(world, pos);
 		return info.biomes.canSpawn(biome);
 	}
 	

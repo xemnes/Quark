@@ -14,7 +14,7 @@ public class VariantRabbitRenderer extends RabbitRenderer {
 	}
 	
 	@Override
-	protected ResourceLocation getEntityTexture(RabbitEntity entity) {
+	public ResourceLocation getEntityTexture(RabbitEntity entity) {
 		return VariantAnimalTexturesModule.getTextureOrShiny(entity, VariantTextureType.RABBIT, () -> super.getEntityTexture(entity));
 	}
 

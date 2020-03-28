@@ -42,7 +42,8 @@
 			"image": "ender-watcher.jpg",
 			"versions": "1.14+",
 			"desc": [
-				"The Ender Watcher is a new redstone input block. It emits a full redstone signal if a player is looking directly at it.",
+				"The Ender Watcher is a new redstone input block. It emits a redstone signal if a player is looking directly at it.",
+				"In 1.15+, the signal is higher the closer to the center of the block the player is looking. In previous versions, it will always emit a full signal.",
 				"It's crafted with an Eye of Ender, Redstone and Blocks of Biotite (from the World category, or Obsidian if not enabled)."
 			]
 		},
@@ -526,6 +527,81 @@
 			"desc": [
 				"While holding an item in your cursor (that isn't a Shulker Box), you can right click on top of a non-full Shulker Box to add the item to it."
 			]
+		},
+		{
+			"name": "Item Sharing",
+			"image": "item-sharing.jpg",
+			"versions": "1.14+",
+            "desc": [
+                "Pressing Shift+T (or whatever your Chat key is set to) while looking at an item in an inventory links that item to chat. Other players can hover over it to check it out."
+            ]
+		}
+	],
+	"mobs": [
+		{
+			"name": "Foxhounds",
+			"image": "foxhounds.jpg",
+			"versions": "1.14+",
+            "desc": [
+                "Foxhounds are new hostile mobs that spawn in the Nether. These fierce doggos will attack you and set you on fire.",
+                "If you're brave enough, drink a fire resistance potion and feed them some Coal to tame them. Tamed Foxhounds work just like regular wolves, but with a few extra tidbits:",
+                "*They'll sleep on hot blocks like magma.",
+                "*If put on top of a furnace, they'll make the furnace faster. You can't put multiple doggos on a furnace to speed it up more, though."
+            ]
+		},
+		{
+			"name": "Stonelings",
+			"image": "stonelings.jpg",
+			"versions": "1.14+",
+            "desc": [
+                "Stonelings are new passive mobs that spawn in the deep underground. These little stone fairies will spawn in carrying an item, and will get startled if you get too close to them without sneaking. Once startled, they'll run away from you and eventually poof out of existence. If you manage to kill one, you'll get the item its carrying.",
+                "Additionally, Stonelings may drop a Heart of Diamond, a new item which you can use on any stone block to create your own tamed Stoneling! Tamed Stonelings can hold items you give them, eat Stone (they love it!), and follow you if you hold a Diamond."
+            ]
+		},
+		{
+			"name": "Crabs",
+			"image": "crabs.jpg",
+			"versions": "1.14+",
+			"desc": [
+				"Crabs are cute new animals that spawn in beaches. They walk sideways and will prick you if you get too close! If you kill one, they might drop Crab Legs or Crab Shells.",
+				"*Crab Legs can be cooked and eaten, they're quite tasty!",
+				"*Crab Shells can be brewed into a Potion of Resillience. While under its effect, you'll gain additional knockback resistance.",
+				"*Crabs can be bred with Wheat, Chicken, or any type of Fish.",
+				"*They are also known to enjoy music, or so we've been told."
+			]
+		},
+		{
+			"name": "Frogs",
+			"image": "frogs.jpg",
+			"versions": "1.14+",
+			"desc": [
+				"These wednesday loving critters will spawn in swamps, they jump and croak around, and look very derpy. If you kill one, you'll get some Frog Legs.",
+				"*Frog Legs can be cooked and eaten, or made golden to brew into a Potion of Leaping.",
+				"*Frogs are known to come in a variety of sizes, which can be passed down to their children. I wonder what you could do with that.",
+				"*Frogs can be bred with Spider Eyes or any type of Fish."
+			]
+		},
+		{
+			"name": "Toretoises",
+			"image": "toretoises.jpg",
+			"versions": "1.15+",
+            "desc": [
+                "Toretoises are new neutral mobs that will spawn underground. When a Toretoise spawns, it'll come with a random type of ore (Coal, Iron, Lapis, or Redstone). You may attack the Toretoise with a pickaxe to have it drop that ore!",
+           		"If you hit a Toretoise without a pickaxe, or when it has no ore, it'll emit a shockwave attack. This will damage any non-Toretoise entities around, and redirect their aggro to you.",
+           		"With enough care, it's possible to carry a Toretoise home and feed it so it grows more ores, feel free to click More Info for some tips on how to do it."
+            ],
+            "expand": [
+            	"If you want to take these huge creatures home and use them to generate ores, there's some things you should know.",
+            	"*Feeding the Toretoise Cave Roots (from the World module) will sometimes have it regenerate its ores. (if Cave Roots is disabled, Cactus is used instead)",
+            	"*The Toretoise will regenerate a random ore each time.",
+            	"*If the Feeding Trough (from the Automation module) is enabled, the Toretoise will eat from it.",
+            	"*Toretoises do not breed. They do spawn like hostile mobs, so you can go back for more.",
+            	"*When a Toretoise generates ore, it will enter an eating cooldown for 1 minute.",
+            	"*Toretoises will sink in water, and are immune to drowning, fall, and fire damage.",
+            	"*Toretoises are 1 block tall, but grow to 1.4 blocks tall if they have an ore.",
+            	"*Toretoises move very slowly, and can't be leashed, using Minecarts is recommended.",
+            	"*If Iron Rods (from the Automation module) are enabled, pushing them onto a Toretoise with a piston will break its ore."
+            ]
 		}
 	],
 	"tools": [
@@ -557,7 +633,7 @@
 			"versions": "1.14+",
 			"desc": [
 				"A new tool for mining! The pickarang is a boomerang pickaxe - throw it, it breaks whatever it hits, and comes back to you with the drops.",
-				"The Pickarang is crafted with a Heart of Diamond (from Stonelings, in the World category, or just diamonds if it's disabled), and can be enchanted with Efficiency, Unbreaking, Fortune, Silk Touch, and Piercing."
+				"The Pickarang is crafted with a Heart of Diamond (from Stonelings, in the Mobs category, or just diamonds if it's disabled), and can be enchanted with Efficiency, Unbreaking, Fortune, Silk Touch, and Piercing."
 			]
 		},
 		{
@@ -577,6 +653,17 @@
 				"A Trowel tool can be crafted with Iron and Sticks. The Trowel, when right clicked, will place a random block from your hotbar, making it useful for ruins or paths.",
 				"A Trowel will break after placing 256 blocks, or four stacks."
 			]
+		},
+		{
+			"name": "Colored Runes",
+			"image": "colored-runes.jpg",
+			"versions": "1.14 Only",
+			"removed": true,
+            "desc": [
+                "Colored Runes are a rare loot item from dungeons, temples and nether fortresses. They can be applied to enchanted items in an anvil, and doing so changes the color of the enchantment glint from purple to the color of the rune. These come in all 16 colors of the spectrum.",
+                "If you're dedicated enough, you can craft a Rainbow Rune by mixing together the runes that make the colors of the rainbow. It'll change color over time and look really cool!",
+                "<b>This feature was removed in 1.15 due to the changes in the render system making it not doable.</b>"
+            ]
 		}
 	],
 	"tweaks": [
@@ -801,17 +888,6 @@
 			"desc": [
 				"When flying using an Elytra over a Campfire with a Hay Bale under it, the player will be propelled upwards slightly."
 			]
-		}
-	],
-	"vanity": [
-		{
-			"name": "Colored Runes",
-			"image": "colored-runes.jpg",
-			"versions": "1.14+",
-            "desc": [
-                "Colored Runes are a rare loot item from dungeons, temples and nether fortresses. They can be applied to enchanted items in an anvil, and doing so changes the color of the enchantment glint from purple to the color of the rune. These come in all 16 colors of the spectrum.",
-                "If you're dedicated enough, you can craft a Rainbow Rune by mixing together the runes that make the colors of the rainbow. It'll change color over time and look really cool!"
-            ]
 		},
 		{
 			"name": "Emotes",
@@ -821,14 +897,6 @@
                 "In the corner of the Chat menu there's a button to open an emote panel with 12 different emotes your character can do. In this picture, you can see the \"Wave\" emote.",
                 "Each emote is also assigned a key binding. Pressing that key will do the emote without you having to open the chat menu. By default all emote keybinds are unset and must be set manually.",
                 "A special language is provided to allow for custom emotes to be made. Here's <a href='https://www.youtube.com/watch?v=YBUXMf2juTQ'>an example</a> and <a href='https://www.youtube.com/watch?v=ourHUkan6aQ'>a tutorial</a> on how to do it."
-            ]
-		},
-		{
-			"name": "Item Sharing",
-			"image": "item-sharing.jpg",
-			"versions": "1.14+",
-            "desc": [
-                "Pressing Shift+T (or whatever your Chat key is set to) while looking at an item in an inventory links that item to chat. Other players can hover over it to check it out."
             ]
 		}
 	],
@@ -875,17 +943,6 @@
             ]
 		},
 		{
-			"name": "Foxhounds",
-			"image": "foxhounds.jpg",
-			"versions": "1.14+",
-            "desc": [
-                "Foxhounds are new hostile mobs that spawn in the Nether. These fierce doggos will attack you and set you on fire.",
-                "If you're brave enough, drink a fire resistance potion and feed them some Coal to tame them. Tamed Foxhounds work just like regular wolves, but with a few extra tidbits:",
-                "*They'll sleep on hot blocks like magma.",
-                "*If put on top of a furnace, they'll make the furnace faster. You can't put multiple doggos on a furnace to speed it up more, though."
-            ]
-		},
-		{
 			"name": "New Stone Types",
 			"image": "new-stone-types.jpg",
 			"versions": "1.14+",
@@ -897,41 +954,12 @@
 			]
 		},
 		{
-			"name": "Passive Creatures",
-			"image": "passive-creatures.jpg",
-			"versions": "1.14+",
-			"desc": [
-				"Two new passive critters are added to liven up your world.",
-				"You can now find Crabs in beaches, and Frogs in swamps. Press More Info for a deeper breakdown of what they do."
-			], 
-			"expand": [
-				"!img/features/world/passive-creatures/crab.jpg",
-				"*Crabs spawn in beaches. They walk sideways and will prick you if you get too close! If you kill one, they might drop Crab Legs or Crab Shells.",
-				"*Crab Legs can be cooked and eaten, they're quite tasty!",
-				"*Crab Shells can be brewed into a Potion of Resillience. While under its effect, you'll gain additional knockback resistance.",
-				"*Crabs can be bred with Wheat, Chicken, and Fish. They are also known to enjoy music, or so we've been told.",
-				"!img/features/world/passive-creatures/frog.jpg",
-				"*Frogs spawn in swamps. These wednesday loving critters will jump and croak around. If you kill one, you'll get some Frog Legs.",
-				"*Frog Legs can be cooked and eaten, or made golden to brew into a Potion of Leaping.",
-				"*Frogs are known to come in a variety of sizes, which can be passed down to their children. I wonder what you could do with that."
-			]
-		},
-		{
 			"name": "Speleothems",
 			"image": "speleothems.jpg",
 			"versions": "1.14+",
             "desc": [
                 "Speleothems (commonly known as Stalactites and Stalagmites) will generate in caves and the Nether, in all stone type variants. These can be harvested only with Silk Touch (or crafted, if you want), and can grow up to 3 blocks high.",
                 "If you break the supporting blocks, the rest of the structure falls apart, which is super satisfying to do."
-            ]
-		},
-		{
-			"name": "Stonelings",
-			"image": "stonelings.jpg",
-			"versions": "1.14+",
-            "desc": [
-                "Stonelings are new passive mobs that spawn in the deep underground. These little stone fairies will spawn in carrying an item, and will get startled if you get too close to them without sneaking. Once startled, they'll run away from you and eventually poof out of existence. If you manage to kill one, you'll get the item its carrying.",
-                "Additionally, Stonelings may drop a Heart of Diamond, a new item which you can use on any stone block to create your own tamed Stoneling! Tamed Stonelings can hold items you give them, eat Stone (they love it!), and follow you if you hold a Diamond."
             ]
 		},
 		{
@@ -950,7 +978,7 @@
 			"desc": [
 				"A new underground biome that spawns under any biome that isn't an Ocean - It comes with new Cave Crystals, fancy semi-transparent, light emitting blocks.",
 				"Each Crystal Cave will come with two colors of crystals, chosen from a pool of the seven colors that make up the rainbow, as well as white and black.",
-				"Cave Crystals can also be turned into pane variants, and crafted into Colored Runes (from the Vanity category), if enabled.",
+				"Cave Crystals can also be turned into pane variants, and crafted into Colored Runes (from the Tools category), if enabled.",
 				"Lastly, if placed deep underground, they'll grow up to 4 blocks tall, and will emit some particles to let you know they're growing."
 			]
 		},
@@ -1096,6 +1124,164 @@
 				"#X-Ray Shot",
 				"!img/features/world/mega-dungeons/xray.jpg"
 			]
+		}
+	],
+	"oddities": [
+		{
+			"addon": true,
+			"info": "Note: This module is an Addon, and is not included with base Quark.<br>If you want these features, you can <a href='https://www.curseforge.com/minecraft/mc-mods/quark-oddities'>install it separately</a>, just like you would Quark."
+		},
+		{
+			"name": "Magnets",
+			"image": "magnets.jpg",
+			"versions": "1.15+",
+			"desc": [
+				"Magnets are new technical blocks that can move metallic blocks. A metallic block is defined as block made of Iron Ingots, or made of things made of Iron Ingots. When powered, the front (red) side of the Magnet will push blocks forward like a piston, whereas the back side will pull blocks towards it.",
+				"When multiple Magnets are exerting force upon the same block, the one with the higest force wins. A magnet's force upon a block is the redstone level applied to it, minus the distance.",
+				"Check out More Info for blocks that do special things when moved."
+			],
+			"expand": [
+				"-",
+				"#Blocks with Custom Behaviours",
+				"*When a Hopper is moved, it'll drop one of its items directly in front of it. If this item is a seed, it'll plant it either directly in front or one block down.",
+				"*When a Stonecutter is moved, it'll break any block that's above it. Very hard blocks such as Obsidian can't be broken like this.",
+				"*When a Cauldron is moved, the items inside will move with it. (This isn't really a custom behaviour, because any concave block will do this, but it was worth noting)"
+			]
+		},
+		{
+			"name": "Pipes",
+			"image": "pipes.jpg",
+			"versions": "1.15+",
+			"desc": [
+				"Item Pipes are crafted using some Iron and Glass. As you would expect, they transport items from point A to point B. To get items into a pipe simply use a Hopper, Dropper, or any other insertion means you may have handy.",
+				"Item Pipes are rudimentary and don't include any filtering or pathing for items. The way items flow in pipes is based in a small set of rules.",
+				"If you want to know more about how Item Pipes work and how the items flow in them, press More Info."
+			],
+			"expand": [
+				"-",
+				"#Pathing Rules",
+				"Apply the following rules, in order, to determine where an item will go when in a pipe:",
+				"*Items will move down if possible:",
+				"!img/features/oddities/pipes/rule1.jpg",
+				"*Items will move forward if possible:",
+				"!img/features/oddities/pipes/rule2.jpg",
+				"*At an intersection, items will randomly flow left or right:",
+				"!img/features/oddities/pipes/rule3.jpg",
+				"*Items will not go upwards unless that's the only possibility:",
+				"!img/features/oddities/pipes/rule4.jpg",
+				"*Items attempting to enter a full container will bounce back:",
+				"!img/features/oddities/pipes/rule5.jpg",
+				"*Items will not flow into disabled (powered) pipes:",
+				"!img/features/oddities/pipes/rule6.jpg",
+				"*Items will fall out of pipes with momentum and enter pipes with open ends:",
+				"!img/features/oddities/pipes/rule7.jpg",
+				"-",
+				"#Other Tips",
+				"*Comparators can read how many items are in a pipe:",
+				"!img/features/oddities/pipes/tip1.jpg",
+				"*A pipe with 15 or more items inside at once will break:",
+				"!img/features/oddities/pipes/tip2.jpg",
+				"*If you connect walls to pipes, you'll get a structural tidbit:",
+				"!img/features/oddities/pipes/tip3.jpg"
+			]
+		},
+		{
+			"name": "Backpack",
+			"image": "backpack.jpg",
+			"versions": "1.15+",
+			"desc": [
+				"Should you find yourself slaying a Ravager in a raid, you'll get a rare drop of Ravager Hide. The Ravager will always drop one, but may drop more depending on your level of Fortune.",
+				"This Backpack can be worn in the Chest slot, and it'll give you a bunch of extra slots in your inventory to store all your stuff. Note that the backpack does not provide any protection, nor is it enchantable. Ravager Hide is extremely resistent, though, so it'll never break!",
+				"Beware however, if your backpack has items in it, you can't unequip it, and if you die with it, all the items will scatter. You may also dye the backpack just like any other leather armor."
+			]
+		}
+	],
+	"friends": [
+		{
+			"addon": true,
+			"info": "These are separate mods you can get that enchance your experience! They're curated and in the same style as Quark. Note that despite them being promoted here, they're not officially supported by Quark. Are you a modder? <a href='https://github.com/Vazkii/Quark/issues/1939'>Add yours!</a>",
+			"hide_count": true
+		},
+		{
+			"name": "Atmospheric",
+			"image": "atmospheric.jpg",
+			"versions": "Friend",
+			"desc": [
+				"Atmospheric is a mod designed to create new and fun experiences in brand new biomes, each with specialized and unique content. With new forests, deserts, and more, there are tons of new things to discover. There are plenty of new wood types and other building blocks to obtain as well."
+			],
+			"download": "https://www.curseforge.com/minecraft/mc-mods/atmospheric"
+		},
+				{
+			"name": "Buzzier Bees",
+			"image": "buzzier-bees.jpg",
+			"versions": "Friend",
+			"desc": [
+				"Buzzier Bees is designed to expand upon 1.15 - the Buzzy Bees update. Introducing variant beehives for each wood type (with mod support), bee themed building blocks, bottles of bugs, candles (that don't interfere with Quark's), scented candles, and tons of new flowers to find throughout biomes."
+			],
+			"download": "https://www.curseforge.com/minecraft/mc-mods/buzzier-bees"
+		},
+		{
+			"name": "Swamp Expansion",
+			"image": "swamp-expansion.jpg",
+			"versions": "Friend",
+			"desc": [
+				"Swamp Expansion adds a new wood type which replaces swamp oaks - Willow. It also adds Cattails to Swamps and adds Large Mushrooms into Swamps for Minecraft Bedrock parity! On top of that, there are Mud Bricks - and much more to come, including Mud Pools and a new Swamp Creature - the Slabfish!"
+			],
+			"download": "https://www.curseforge.com/minecraft/mc-mods/swamp-expansion"
+		},
+		{
+			"name": "Bloomful",
+			"image": "bloomful.jpg",
+			"versions": "Friend",
+			"desc": [
+				"Bloomful introduces the Wisteria Forest, a new Flower Forest that has a mystical new tree type! With leaves of many colors, a new light colored wood type, and new flowers, it offers many things to builders and explorers!"
+			],
+			"download": "https://www.curseforge.com/minecraft/mc-mods/bloomful"
+		},
+    	{
+			"name": "Berry Good",
+			"image": "berry-good.jpg",
+			"versions": "Friend",
+			"desc": [
+				"Berry Good is a small mod focusing on fixing the annoying placement of Sweet Berries in addition to fleshing them out a little more."
+			],
+			"download": "https://www.curseforge.com/minecraft/mc-mods/berry-good"
+		},
+		{
+			"name": "Extra Boats",
+			"image": "extra-boats.jpg",
+			"versions": "Friend",
+			"desc": [
+				"Extra Boats adds more content for ocean travellers. Chest boats, furnace boats, and large boats can be obtained with compatability and variants for other mods' wood types."
+			],
+			"download": "https://www.curseforge.com/minecraft/mc-mods/extra-boats"
+		},
+		{
+			"name": "Incubation",
+			"image": "incubation.jpg",
+			"versions": "Friend",
+			"desc": [
+				"Incubation makes chickens just a bit better, by adding new recipes for eggs, as well as a nest that chickens will prefer to lay eggs in!"
+			],
+			"download": "https://www.curseforge.com/minecraft/mc-mods/incubation"
+   		},
+		{
+			"name": "Respawnable Pets",
+			"image": "respawnable-pets.jpg",
+			"versions": "Friend",
+			"desc": [
+				"Respawnable Pets is a simple mod that allows your pets to respawn after death when you next sleep using a new item, the Etheric Gem."
+			],
+			"download": "https://www.curseforge.com/minecraft/mc-mods/respawnable-pets"
+		},
+		{
+			"name": "V-Tweaks",
+			"image": "vtweaks.jpg",
+			"versions": "Friend",
+			"desc": [
+				"Adds dozens of tweaks to the game without adding any new items. V-Tweaks accomplishes this by adding a couple of enchantments and adding new interactions that the player can have. These interactions vary from entity tweaks, block tweaks, item tweaks and overall improvements."
+			],
+			"download": "https://www.curseforge.com/minecraft/mc-mods/v-tweaks"
 		}
 	]
 }

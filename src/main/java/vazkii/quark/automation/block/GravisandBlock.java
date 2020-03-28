@@ -1,5 +1,7 @@
 package vazkii.quark.automation.block;
 
+import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -9,11 +11,10 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import vazkii.quark.automation.entity.GravisandEntity;
 import vazkii.quark.base.block.QuarkBlock;
 import vazkii.quark.base.module.Module;
-
-import java.util.Random;
 
 public class GravisandBlock extends QuarkBlock {
 
@@ -67,7 +68,7 @@ public class GravisandBlock extends QuarkBlock {
 
 	@Override
 	@SuppressWarnings("deprecation")
-	public void tick(BlockState state, World worldIn, BlockPos pos, Random rand) {
+	public void tick(BlockState state, ServerWorld worldIn, BlockPos pos, Random rand) {
 		if(!worldIn.isRemote) {
 			if(checkFallable(worldIn, pos))
 				for(Direction face : Direction.values()) {

@@ -1,6 +1,14 @@
 package vazkii.quark.automation.block;
 
-import net.minecraft.block.*;
+import java.util.Random;
+
+import javax.annotation.Nonnull;
+
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.RedstoneDiodeBlock;
+import net.minecraft.block.RedstoneWireBlock;
 import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.entity.LivingEntity;
@@ -13,20 +21,23 @@ import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.world.*;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
+import net.minecraft.world.IWorldReader;
+import net.minecraft.world.TickPriority;
+import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.arl.interf.IBlockColorProvider;
 import vazkii.quark.base.block.QuarkBlock;
+import vazkii.quark.base.handler.RenderLayerHandler;
+import vazkii.quark.base.handler.RenderLayerHandler.RenderTypeSkeleton;
 import vazkii.quark.base.module.Module;
-
-import javax.annotation.Nonnull;
-import java.util.Random;
 
 /**
  * @author WireSegal
@@ -46,11 +57,13 @@ public class RedstoneInductorBlock extends QuarkBlock implements IBlockColorProv
                 .with(FACING, Direction.NORTH)
                 .with(LOCKED, false)
                 .with(POWER, 0));
+        
+		RenderLayerHandler.setRenderType(this, RenderTypeSkeleton.CUTOUT);
     }
 
     @Override
     @SuppressWarnings("deprecation")
-    public void tick(BlockState state, World world, BlockPos pos, Random rand) {
+    public void tick(BlockState state, ServerWorld world, BlockPos pos, Random rand) {
         if (!isLocked(world, pos, state)) {
             int currentPower = state.get(POWER);
             int power = this.calculateInputStrength(world, pos, state);
@@ -101,7 +114,7 @@ public class RedstoneInductorBlock extends QuarkBlock implements IBlockColorProv
     @Override
     @SuppressWarnings("deprecation")
     public boolean isValidPosition(BlockState state, IWorldReader world, BlockPos pos) {
-        return func_220064_c(world, pos.down()); // canCircuitStay
+        return hasSolidSideOnTop(world, pos.down());
     }
 
     @Override
@@ -181,11 +194,11 @@ public class RedstoneInductorBlock extends QuarkBlock implements IBlockColorProv
         }
     }
 
-    @Override
-    @SuppressWarnings("deprecation")
-    public boolean isSolid(BlockState state) {
-        return true;
-    }
+//    @Override does this work?
+//    @SuppressWarnings("deprecation")
+//    public boolean isSolid(BlockState state) {
+//        return true;
+//    }
 
     @OnlyIn(Dist.CLIENT)
     @Override
@@ -213,12 +226,5 @@ public class RedstoneInductorBlock extends QuarkBlock implements IBlockColorProv
     @OnlyIn(Dist.CLIENT)
     public IItemColor getItemColor() {
         return null;
-    }
-
-    @Nonnull
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public BlockRenderLayer getRenderLayer() {
-        return BlockRenderLayer.CUTOUT;
     }
 }

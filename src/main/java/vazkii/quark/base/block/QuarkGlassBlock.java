@@ -19,7 +19,7 @@ import javax.annotation.Nonnull;
 public class QuarkGlassBlock extends QuarkBlock {
 
     public QuarkGlassBlock(String regname, Module module, ItemGroup creativeTab, Properties properties) {
-        super(regname, module, creativeTab, properties);
+        super(regname, module, creativeTab, properties.notSolid());
     }
 
     @Override
@@ -31,8 +31,7 @@ public class QuarkGlassBlock extends QuarkBlock {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    @SuppressWarnings("deprecation")
-    public float func_220080_a(BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos) {
+    public float getAmbientOcclusionLightValue(BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos) {
         return 1.0F; // Ambient Occlusion
     }
 
@@ -40,7 +39,7 @@ public class QuarkGlassBlock extends QuarkBlock {
     public boolean propagatesSkylightDown(BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos) {
         return true;
     }
-
+    
     @Override
     @SuppressWarnings("deprecation")
     public boolean causesSuffocation(@Nonnull BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos) {

@@ -1,9 +1,15 @@
 package vazkii.quark.client.tooltip;
 
+import org.lwjgl.opengl.GL11;
+
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -15,7 +21,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderTooltipEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-import org.lwjgl.opengl.GL11;
 import vazkii.quark.client.module.ImprovedTooltipsModule;
 
 public class MapTooltips {
@@ -40,8 +45,8 @@ public class MapTooltips {
 			if(mapdata == null)
 				return;
 
-			GlStateManager.pushMatrix();
-			GlStateManager.color3f(1F, 1F, 1F);
+			RenderSystem.pushMatrix();
+			RenderSystem.color3f(1F, 1F, 1F);
 			RenderHelper.disableStandardItemLighting();
 			mc.getTextureManager().bindTexture(RES_MAP_BACKGROUND);
 			Tessellator tessellator = Tessellator.getInstance();
@@ -51,20 +56,25 @@ public class MapTooltips {
 			float size = 135;
 			float scale = 0.5F;
 
-			GlStateManager.translatef(event.getX(), event.getY() - size * scale - 5, 0);
-			GlStateManager.scalef(scale, scale, scale);
+			RenderSystem.translatef(event.getX(), event.getY() - size * scale - 5, 500);
+			RenderSystem.scalef(scale, scale, 1F);
+			RenderSystem.enableBlend();
 
 			buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
-			buffer.pos(-pad, size, 0.0D).tex(0.0D, 1.0D).endVertex();
-			buffer.pos(size, size, 0.0D).tex(1.0D, 1.0D).endVertex();
-			buffer.pos(size, -pad, 0.0D).tex(1.0D, 0.0D).endVertex();
-			buffer.pos(-pad, -pad, 0.0D).tex(0.0D, 0.0D).endVertex();
+			buffer.pos(-pad, size, 0.0D).tex(0.0F, 1.0f).endVertex();
+			buffer.pos(size, size, 0.0D).tex(1.0F, 1.0f).endVertex();
+			buffer.pos(size, -pad, 0.0D).tex(1.0F, 0.0F).endVertex();
+			buffer.pos(-pad, -pad, 0.0D).tex(0.0F, 0.0F).endVertex();
 			tessellator.draw();
 
-			mc.gameRenderer.getMapItemRenderer().renderMap(mapdata, false);
+			IRenderTypeBuffer.Impl immediateBuffer = IRenderTypeBuffer.getImpl(buffer);
+			MatrixStack matrix = new MatrixStack();
+			mc.gameRenderer.getMapItemRenderer().renderMap(matrix, immediateBuffer, mapdata, true, 240);
+			immediateBuffer.finish();
 
-			GlStateManager.enableLighting();
-			GlStateManager.popMatrix();
+			RenderSystem.disableBlend();
+			RenderSystem.enableLighting();
+			RenderSystem.popMatrix();
 		}
 	}
 

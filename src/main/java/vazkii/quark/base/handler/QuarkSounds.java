@@ -23,19 +23,28 @@ public class QuarkSounds {
     public static final SoundEvent ENTITY_STONELING_DIE = register("entity.stoneling.die");
     public static final SoundEvent ENTITY_STONELING_CRY = register("entity.stoneling.cry");
     public static final SoundEvent ENTITY_STONELING_MICHAEL = register("entity.stoneling.michael");
+    
     public static final SoundEvent ENTITY_PICKARANG_THROW = register("entity.pickarang.throw");
     public static final SoundEvent ENTITY_PICKARANG_CLANK = register("entity.pickarang.clank");
     public static final SoundEvent ENTITY_PICKARANG_SPARK = register("entity.pickarang.spark");
     public static final SoundEvent ENTITY_PICKARANG_PICKUP = register("entity.pickarang.pickup");
+    
     public static final SoundEvent ENTITY_FROG_WEDNESDAY = register("entity.frog.wednesday");
     public static final SoundEvent ENTITY_FROG_JUMP = register("entity.frog.jump");
     public static final SoundEvent ENTITY_FROG_DIE = register("entity.frog.die");
     public static final SoundEvent ENTITY_FROG_HURT = register("entity.frog.hurt");
     public static final SoundEvent ENTITY_FROG_IDLE = register("entity.frog.idle");
+    
     public static final SoundEvent ENTITY_CRAB_DIE = register("entity.crab.die");
     public static final SoundEvent ENTITY_CRAB_HURT = register("entity.crab.hurt");
     public static final SoundEvent ENTITY_CRAB_IDLE = register("entity.crab.idle");
+    
     public static final SoundEvent BLOCK_MONSTER_BOX_GROWL = register("block.monster_box.growl");
+    
+    public static final SoundEvent BLOCK_PIPE_SHOOT = register("block.pipe.shoot");
+    public static final SoundEvent BLOCK_PIPE_PICKUP = register("block.pipe.pickup");
+    public static final SoundEvent BLOCK_PIPE_SHOOT_LENNY = register("block.pipe.shoot.lenny");
+    public static final SoundEvent BLOCK_PIPE_PICKUP_LENNY = register("block.pipe.pickup.lenny");
 
     public static void start() {
         for (SoundEvent event : REGISTRY_DEFERENCE)

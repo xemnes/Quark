@@ -1,6 +1,5 @@
 package vazkii.quark.client.module;
 
-import java.io.Console;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.HashMap;
@@ -13,11 +12,7 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Multimaps;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.passive.ChickenEntity;
-import net.minecraft.entity.passive.CowEntity;
-import net.minecraft.entity.passive.PigEntity;
-import net.minecraft.entity.passive.RabbitEntity;
-import net.minecraft.entity.passive.horse.LlamaEntity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -28,6 +23,7 @@ import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
+import vazkii.quark.client.render.variant.VariantBeeRenderer;
 import vazkii.quark.client.render.variant.VariantChickenRenderer;
 import vazkii.quark.client.render.variant.VariantCowRenderer;
 import vazkii.quark.client.render.variant.VariantLlamaRenderer;
@@ -49,6 +45,9 @@ public class VariantAnimalTexturesModule extends Module {
 	@Config public static boolean enableChicken = true;
 	@Config public static boolean enableShinyRabbit = true;
 	@Config public static boolean enableShinyLlama = true;
+	@Config public static boolean enableLGBTBees = true;
+	
+	@Config public static boolean everyBeeIsLGBT = false;
 	
 	@Config(description = "The chance for an animal to have a special \"Shiny\" skin, like a shiny pokemon. This is 1 in X. Set to 0 to disable.")
 	public static int shinyAnimalChance = 2048;
@@ -68,21 +67,19 @@ public class VariantAnimalTexturesModule extends Module {
 		registerShiny(VariantTextureType.LLAMA);
 
 		if(enableCow)
-			RenderingRegistry.registerEntityRenderingHandler(CowEntity.class, VariantCowRenderer::new);
+			RenderingRegistry.registerEntityRenderingHandler(EntityType.COW, VariantCowRenderer::new);
 		if(enablePig)
-			RenderingRegistry.registerEntityRenderingHandler(PigEntity.class, VariantPigRenderer::new);
+			RenderingRegistry.registerEntityRenderingHandler(EntityType.PIG, VariantPigRenderer::new);
 		if(enableChicken)
-			RenderingRegistry.registerEntityRenderingHandler(ChickenEntity.class, VariantChickenRenderer::new);
+			RenderingRegistry.registerEntityRenderingHandler(EntityType.CHICKEN, VariantChickenRenderer::new);
 		if(enableShinyRabbit)
-			RenderingRegistry.registerEntityRenderingHandler(RabbitEntity.class, VariantRabbitRenderer::new);
+			RenderingRegistry.registerEntityRenderingHandler(EntityType.RABBIT, VariantRabbitRenderer::new);
 		if(enableShinyLlama)
-			RenderingRegistry.registerEntityRenderingHandler(LlamaEntity.class, VariantLlamaRenderer::new);
+			RenderingRegistry.registerEntityRenderingHandler(EntityType.LLAMA, VariantLlamaRenderer::new);
+		if(enableLGBTBees)
+			RenderingRegistry.registerEntityRenderingHandler(EntityType.BEE, VariantBeeRenderer::new);
 	}
-	
-	public <T extends Entity> void register(Class<T> e, IRenderFactory<T> factory) {
-		
-	}
-	
+
 	@OnlyIn(Dist.CLIENT)
 	public static ResourceLocation getTextureOrShiny(Entity e, VariantTextureType type, boolean enabled) {
 		return getTextureOrShiny(e, type, () -> getRandomTexture(e, type, enabled));
@@ -118,6 +115,7 @@ public class VariantAnimalTexturesModule extends Module {
 		
 		if(vanilla != null)
 			textures.put(type, vanilla);
+		registerShiny(type);
 	}
 	
 	private static void registerShiny(VariantTextureType type) {

@@ -1,6 +1,9 @@
 package vazkii.quark.building.module;
 
+import java.util.Map;
+
 import com.google.common.collect.Maps;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.model.ModelResourceLocation;
 import net.minecraft.entity.EntityClassification;
@@ -24,8 +27,6 @@ import vazkii.quark.building.client.render.GlassItemFrameRenderer;
 import vazkii.quark.building.entity.ColoredItemFrameEntity;
 import vazkii.quark.building.entity.GlassItemFrameEntity;
 import vazkii.quark.building.item.QuarkItemFrameItem;
-
-import java.util.Map;
 
 /**
  * @author WireSegal
@@ -77,14 +78,14 @@ public class ItemFramesModule extends Module {
     public void clientSetup() {
         Minecraft mc = Minecraft.getInstance();
 
-        RenderingRegistry.registerEntityRenderingHandler(GlassItemFrameEntity.class, (manager) -> new GlassItemFrameRenderer(manager, mc.getItemRenderer()));
-        RenderingRegistry.registerEntityRenderingHandler(ColoredItemFrameEntity.class, (manager) -> new ColoredItemFrameRenderer(manager, mc.getItemRenderer()));
+        RenderingRegistry.registerEntityRenderingHandler(glassFrameEntity, (manager) -> new GlassItemFrameRenderer(manager, mc.getItemRenderer()));
+        RenderingRegistry.registerEntityRenderingHandler(coloredFrameEntity, (manager) -> new ColoredItemFrameRenderer(manager, mc.getItemRenderer()));
     }
 
     @Override
     @OnlyIn(Dist.CLIENT)
     public void modelRegistry() {
-        // TODO: reinstate when Forge fixes itself
+        //reinstate when Forge fixes itself
 
 //        StateContainer<Block, BlockState> dummyContainer = new StateContainer.Builder<Block, BlockState>(Blocks.AIR)
 //                .add(BooleanProperty.create("map"))

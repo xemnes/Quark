@@ -1,5 +1,7 @@
 package vazkii.quark.integration.jei;
 
+import javax.annotation.Nullable;
+
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.extensions.vanilla.crafting.ICraftingCategoryExtension;
@@ -7,8 +9,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 import vazkii.quark.tweaks.recipe.ElytraDuplicationRecipe;
-
-import javax.annotation.Nullable;
 
 public class ElytraDuplicationExtension implements ICraftingCategoryExtension {
 	private final ElytraDuplicationRecipe recipe;
@@ -25,7 +25,7 @@ public class ElytraDuplicationExtension implements ICraftingCategoryExtension {
 
 	@Override
 	public void drawInfo(int recipeWidth, int recipeHeight, double mouseX, double mouseY) {
-//		Minecraft.getInstance().fontRenderer.drawString(I18n.format("quark.jei.makes_copy"), 60, 46, 0x555555); TODO verify position once this is functional
+		Minecraft.getInstance().fontRenderer.drawString(I18n.format("quark.jei.makes_copy"), 60, 46, 0x555555);
 	}
 
 	@Nullable

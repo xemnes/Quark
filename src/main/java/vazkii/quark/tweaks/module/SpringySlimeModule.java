@@ -63,10 +63,11 @@ public class SpringySlimeModule extends Module {
 			double motionY = motion.y;
 			double motionZ = motion.z;
 
+			Vec3d epos = entity.getPositionVector();
 			Direction sideHit = Direction.getFacingFromVector(
-					(float) (entity.posX + motionX) - (pos.getX() + 0.5f),
-					(float) (entity.posY + motionY) - (pos.getY() + 0.5f),
-					(float) (entity.posZ + motionZ) - (pos.getZ() + 0.5f));
+					(float) (epos.x + motionX) - (pos.getX() + 0.5f),
+					(float) (epos.y + motionY) - (pos.getY() + 0.5f),
+					(float) (epos.z + motionZ) - (pos.getZ() + 0.5f));
 
 			switch (sideHit.getAxis()) {
 				case X:
@@ -96,7 +97,7 @@ public class SpringySlimeModule extends Module {
 		if (!ModuleLoader.INSTANCE.isModuleEnabled(SpringySlimeModule.class))
 			return;
 
-		if (entity.isSneaking() || (entity instanceof PlayerEntity && ((PlayerEntity) entity).abilities.isFlying))
+		if (entity.isDiscrete() || (entity instanceof PlayerEntity && ((PlayerEntity) entity).abilities.isFlying))
 			return;
 
 		double attemptedX = attempted.x;
@@ -108,13 +109,15 @@ public class SpringySlimeModule extends Module {
 
 		double height = entity.getHeight();
 		double width = entity.getWidth();
+		
+		Vec3d pos = entity.getPositionVec();
 
-		double minX = entity.posX - width / 2;
-		double minY = entity.posY;
-		double minZ = entity.posZ - width / 2;
-		double maxX = entity.posX + width / 2;
-		double maxY = entity.posY + height;
-		double maxZ = entity.posZ + width / 2;
+		double minX = pos.x - width / 2;
+		double minY = pos.y;
+		double minZ = pos.z - width / 2;
+		double maxX = pos.x + width / 2;
+		double maxY = pos.y + height;
+		double maxZ = pos.z + width / 2;
 
 		if (attemptedX != dX)
 			applyForAxis(entity, Axis.X, minX, minY, minZ, maxX, maxY, maxZ, dX, attemptedX);

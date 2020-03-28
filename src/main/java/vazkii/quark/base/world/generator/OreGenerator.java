@@ -1,5 +1,10 @@
 package vazkii.quark.base.world.generator;
 
+import java.util.BitSet;
+import java.util.Random;
+import java.util.function.BooleanSupplier;
+import java.util.function.Predicate;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -12,11 +17,6 @@ import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.gen.WorldGenRegion;
 import vazkii.quark.base.world.config.DimensionConfig;
 import vazkii.quark.base.world.config.OrePocketConfig;
-
-import java.util.BitSet;
-import java.util.Random;
-import java.util.function.BooleanSupplier;
-import java.util.function.Predicate;
 
 public class OreGenerator extends Generator {
 
@@ -99,7 +99,7 @@ public class OreGenerator extends Generator {
 	protected boolean func_207803_a(IWorld worldIn, Random random, double p_207803_4_, double p_207803_6_, double p_207803_8_, double p_207803_10_, double p_207803_12_, double p_207803_14_, int p_207803_16_, int p_207803_17_, int p_207803_18_, int p_207803_19_, int p_207803_20_) {
 		int i = 0;
 		BitSet bitset = new BitSet(p_207803_19_ * p_207803_20_ * p_207803_19_);
-		BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+		BlockPos.Mutable blockpos$mutableblockpos = new BlockPos.Mutable();
 		double[] adouble = new double[oreConfig.clusterSize * 4];
 
 		for(int j = 0; j < oreConfig.clusterSize; ++j) {

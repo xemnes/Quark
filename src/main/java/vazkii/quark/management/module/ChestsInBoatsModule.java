@@ -1,5 +1,7 @@
 package vazkii.quark.management.module;
 
+import java.util.List;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.inventory.InventoryScreen;
 import net.minecraft.entity.Entity;
@@ -11,6 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -28,8 +31,6 @@ import vazkii.quark.base.network.QuarkNetwork;
 import vazkii.quark.base.network.message.OpenBoatChestMessage;
 import vazkii.quark.management.client.render.ChestPassengerRenderer;
 import vazkii.quark.management.entity.ChestPassengerEntity;
-
-import java.util.List;
 
 @LoadModule(category = ModuleCategory.MANAGEMENT, hasSubscriptions = true)
 public class ChestsInBoatsModule extends Module {
@@ -49,7 +50,7 @@ public class ChestsInBoatsModule extends Module {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void clientSetup() {
-		RenderingRegistry.registerEntityRenderingHandler(ChestPassengerEntity.class, ChestPassengerRenderer::new);
+		RenderingRegistry.registerEntityRenderingHandler(chestPassengerEntityType, ChestPassengerRenderer::new);
 	}
 
 	@SubscribeEvent
@@ -75,7 +76,8 @@ public class ChestsInBoatsModule extends Module {
 						stack.shrink(1);
 
 					ChestPassengerEntity passenger = new ChestPassengerEntity(world, chestStack);
-					passenger.setPosition(target.posX, target.posY, target.posZ);
+					Vec3d pos = target.getPositionVec();
+					passenger.setPosition(pos.x, pos.y, pos.z);
 					passenger.rotationYaw = target.rotationYaw;
 					passenger.startRiding(target, true);
 					world.addEntity(passenger);

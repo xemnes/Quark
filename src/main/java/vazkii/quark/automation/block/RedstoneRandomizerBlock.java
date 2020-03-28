@@ -1,5 +1,10 @@
 package vazkii.quark.automation.block;
 
+import java.util.EnumSet;
+import java.util.Random;
+
+import javax.annotation.Nonnull;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -13,7 +18,6 @@ import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
@@ -22,16 +26,15 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.TickPriority;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.ForgeEventFactory;
 import vazkii.quark.automation.base.RandomizerPowerState;
 import vazkii.quark.base.block.QuarkBlock;
+import vazkii.quark.base.handler.RenderLayerHandler;
+import vazkii.quark.base.handler.RenderLayerHandler.RenderTypeSkeleton;
 import vazkii.quark.base.module.Module;
-
-import javax.annotation.Nonnull;
-import java.util.EnumSet;
-import java.util.Random;
 
 /**
  * @author WireSegal
@@ -51,11 +54,13 @@ public class RedstoneRandomizerBlock extends QuarkBlock {
         setDefaultState(getDefaultState()
                 .with(FACING, Direction.NORTH)
                 .with(POWERED, RandomizerPowerState.OFF));
+        
+		RenderLayerHandler.setRenderType(this, RenderTypeSkeleton.CUTOUT);
     }
 
     @Override
     @SuppressWarnings("deprecation")
-    public void tick(BlockState state, World world, BlockPos pos, Random rand) {
+    public void tick(BlockState state, ServerWorld world, BlockPos pos, Random rand) {
         boolean isPowered = isPowered(state);
         boolean willBePowered = shouldBePowered(world, pos, state);
         if(isPowered != willBePowered) {
@@ -94,7 +99,7 @@ public class RedstoneRandomizerBlock extends QuarkBlock {
     @Override
     @SuppressWarnings("deprecation")
     public boolean isValidPosition(BlockState state, IWorldReader world, BlockPos pos) {
-        return func_220064_c(world, pos.down()); // canCircuitStay
+        return hasSolidSideOnTop(world, pos.down());
     }
 
     protected boolean isPowered(BlockState state) {
@@ -206,19 +211,6 @@ public class RedstoneRandomizerBlock extends QuarkBlock {
 
             worldIn.addParticle(RedstoneParticleData.REDSTONE_DUST, x, y, z, 0.0D, 0.0D, 0.0D);
         }
-    }
-
-    @Override
-    @SuppressWarnings("deprecation")
-    public boolean isSolid(BlockState state) {
-        return true;
-    }
-
-    @Nonnull
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public BlockRenderLayer getRenderLayer() {
-        return BlockRenderLayer.CUTOUT;
     }
 
 }

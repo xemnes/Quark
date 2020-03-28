@@ -14,7 +14,7 @@ public class VariantCowRenderer extends CowRenderer {
 	}
 	
 	@Override
-	protected ResourceLocation getEntityTexture(CowEntity entity) {
+	public ResourceLocation getEntityTexture(CowEntity entity) {
 		return VariantAnimalTexturesModule.getTextureOrShiny(entity, VariantTextureType.COW, VariantAnimalTexturesModule.enableCow);
 	}
 	

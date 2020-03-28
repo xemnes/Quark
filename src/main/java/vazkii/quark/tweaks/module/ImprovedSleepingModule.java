@@ -1,5 +1,6 @@
 package vazkii.quark.tweaks.module;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -85,9 +86,8 @@ public class ImprovedSleepingModule extends Module {
 		int legitPlayers = counts.getLeft();
 		int sleepingPlayers = counts.getRight();
 
-		int reqPlayers = (int) (percentReq * legitPlayers);
-
-		return (legitPlayers > 0 && ((float) sleepingPlayers / reqPlayers) >= 1);
+		int reqPlayers = Math.max(1, (int) (percentReq * (double) legitPlayers));
+		return (legitPlayers > 0 && ((float) sleepingPlayers / (float) reqPlayers) >= 1);
 	}
 
 	public static void whenNightPasses(ServerWorld world) {
@@ -96,37 +96,13 @@ public class ImprovedSleepingModule extends Module {
 		if (world.getPlayers().size() == 1)
 			return;
 
-		boolean isDay = world.getCelestialAngle(0F) < 0.5;
-
-		List<String> sleepingPlayers = new ArrayList<>();
-		List<String> nonSleepingPlayers = new ArrayList<>();
-
-		for(PlayerEntity player : world.getPlayers())
-			if(doesPlayerCountForSleeping(player)) {
-				String name = player.getGameProfile().getName();
-				long time = world.getGameTime();
-				long lastSleep = player.getPersistentData().getLong(TAG_JUST_SLEPT);
-				if(lastSleep == time || lastSleep - 1 == time) sleepingPlayers.add(name);
-				else nonSleepingPlayers.add(name);
-			}
-
-		ITextComponent sleepingList = new StringTextComponent("");
-
-		for(String s : sleepingPlayers)
-			sleepingList.appendSibling(new StringTextComponent("\n\u2714 " + s).setStyle(new Style().setColor(TextFormatting.GREEN)));
-		for(String s : nonSleepingPlayers)
-			sleepingList.appendSibling(new StringTextComponent("\n\u2718 " + s).setStyle(new Style().setColor(TextFormatting.RED)));
-
-		ITextComponent hoverText = new TranslationTextComponent(isDay ? "quark.misc.napping_list_header" : "quark.misc.sleeping_list_header", sleepingList);
-
-		ITextComponent sibling = new StringTextComponent("(" + sleepingPlayers.size() + "/" + (sleepingPlayers.size() + nonSleepingPlayers.size()) + ")");
-		sibling.getStyle().setHoverEvent(new HoverEvent(Action.SHOW_TEXT, hoverText.deepCopy()));
-
-
+		boolean isDay = world.getSkylightSubtracted() < 4;
+		int msgCount = 10;
+		int msg = world.rand.nextInt(msgCount);
+		
 		ITextComponent message = new TranslationTextComponent(world.getGameRules().getBoolean(GameRules.DO_DAYLIGHT_CYCLE) ?
-				(isDay ? "quark.misc.day_has_passed" : "quark.misc.night_has_passed") :
+				(isDay ? "quark.misc.day_has_passed" : ("quark.misc.night_has_passed" + msg)) :
 				(isDay ? "quark.misc.day_no_passage" : "quark.misc.night_no_passage"));
-		message.appendText(" ").appendSibling(sibling);
 		message.getStyle().setColor(TextFormatting.GOLD);
 
 		for (ServerPlayerEntity player : server.getPlayerList().getPlayers())
@@ -158,7 +134,7 @@ public class ImprovedSleepingModule extends Module {
 	@SubscribeEvent
 	public void onWakeUp(PlayerWakeUpEvent event) {
 		PlayerEntity player = event.getPlayer();
-		if (event.shouldSetSpawn() && !event.updateWorld() && !event.wakeImmediately())
+		if (/*event.shouldSetSpawn() && */!event.updateWorld() && !event.wakeImmediately())
 			player.getPersistentData().putLong(TAG_JUST_SLEPT, player.world.getGameTime());
 	}
 
@@ -180,7 +156,7 @@ public class ImprovedSleepingModule extends Module {
 			}
 
 			world.getPlayers().stream().filter(LivingEntity::isSleeping).forEach((player) -> {
-				player.wakeUpPlayer(false, false, true);
+				player.wakeUp();
 			});
 			if (world.getGameRules().getBoolean(GameRules.DO_WEATHER_CYCLE))
 				world.dimension.resetRainAndThunder();
@@ -219,7 +195,7 @@ public class ImprovedSleepingModule extends Module {
 		if((!newSleepingPlayers.isEmpty() || !wasSleepingPlayers.isEmpty()) && world.getPlayers().size() != 1) {
 			boolean isDay = world.getCelestialAngle(0F) < 0.5;
 
-			int requiredPlayers = Math.max((int) Math.ceil((legitPlayers * percentReq / 100F)), 0);
+			int requiredPlayers = Math.max((int) Math.ceil((legitPlayers * percentReq)), 0);
 
 			ITextComponent sibling = new StringTextComponent("(" + sleepingPlayers.size() + "/" + requiredPlayers + ")");
 
@@ -271,8 +247,8 @@ public class ImprovedSleepingModule extends Module {
 	
 	@SubscribeEvent
 	@OnlyIn(Dist.CLIENT)
-	public void onClientTick(TickEvent.WorldTickEvent event) {
-		if(event.phase == TickEvent.Phase.END && event.side == LogicalSide.CLIENT) {
+	public void onClientTick(TickEvent.ClientTickEvent event) {
+		if(event.phase == TickEvent.Phase.END && Minecraft.getInstance().world != null) {
 			timeSinceKeystroke++;
 
 			if(timeSinceKeystroke == afkTime)
@@ -305,7 +281,7 @@ public class ImprovedSleepingModule extends Module {
 	}
 
 	private void registerPress() {
-		if(timeSinceKeystroke >= afkTime)
+		if(timeSinceKeystroke >= afkTime && Minecraft.getInstance().world != null)
 			QuarkNetwork.sendToServer(new UpdateAfkMessage(false));
 		timeSinceKeystroke = 0;
 	}

@@ -3,7 +3,6 @@ package vazkii.quark.base.block;
 import java.util.Objects;
 import java.util.function.BooleanSupplier;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import net.minecraft.block.Block;
@@ -13,16 +12,16 @@ import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IEnviromentBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.arl.interf.IBlockColorProvider;
 import vazkii.arl.interf.IItemColorProvider;
 import vazkii.arl.util.RegistryHelper;
+import vazkii.quark.base.handler.RenderLayerHandler;
+import vazkii.quark.base.handler.RenderLayerHandler.RenderTypeSkeleton;
 import vazkii.quark.base.module.Module;
 
 public class QuarkSlabBlock extends SlabBlock implements IQuarkBlock, IBlockColorProvider {
@@ -36,6 +35,8 @@ public class QuarkSlabBlock extends SlabBlock implements IQuarkBlock, IBlockColo
 		this.parent = parent;
 		RegistryHelper.registerBlock(this, Objects.toString(parent.getBlock().getRegistryName()) + "_slab");
 		RegistryHelper.setCreativeTab(this, ItemGroup.BUILDING_BLOCKS);
+		
+		RenderLayerHandler.setInherited(this, parent.getBlock());
 	}
 	
 	@Override
@@ -68,16 +69,9 @@ public class QuarkSlabBlock extends SlabBlock implements IQuarkBlock, IBlockColo
 	}
 
 	@Override
-	@Nonnull
-	public BlockRenderLayer getRenderLayer() {
-		return parent.getBlock().getRenderLayer();
+	public boolean isEmissiveRendering(BlockState p_225543_1_) {
+		return parent.getBlock().isEmissiveRendering(p_225543_1_);
 	}
-	
-	@Override
-    @SuppressWarnings("deprecation")
-    public int getPackedLightmapCoords(BlockState state, IEnviromentBlockReader worldIn, BlockPos pos) {
-    	return parent.getBlock().getPackedLightmapCoords(state, worldIn, pos);
-    }
 
 	@Override
 	@OnlyIn(Dist.CLIENT)

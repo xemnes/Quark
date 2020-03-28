@@ -6,9 +6,11 @@ import java.time.Month;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import vazkii.quark.base.handler.ContributorRewardHandler;
+import vazkii.quark.base.handler.RenderLayerHandler;
 import vazkii.quark.base.module.ModuleLoader;
 
 public class ClientProxy extends CommonProxy {
@@ -30,14 +32,20 @@ public class ClientProxy extends CommonProxy {
 
 		bus.addListener(this::clientSetup);
 		bus.addListener(this::modelRegistry);
+		bus.addListener(this::textureStitch);
 	}
 
 	public void clientSetup(FMLClientSetupEvent event) {
+		RenderLayerHandler.init();
 		ModuleLoader.INSTANCE.clientSetup();
 	}
 
 	public void modelRegistry(ModelRegistryEvent event) {
 		ModuleLoader.INSTANCE.modelRegistry();
+	}
+	
+	public void textureStitch(TextureStitchEvent.Pre event) {
+		ModuleLoader.INSTANCE.textureStitch(event);
 	}
 
 //	@Override

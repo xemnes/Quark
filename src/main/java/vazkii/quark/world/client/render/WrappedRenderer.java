@@ -15,7 +15,7 @@ public class WrappedRenderer extends ZombieRenderer {
 	}
 	
 	@Override
-	protected ResourceLocation getEntityTexture(ZombieEntity entity) {
+	public ResourceLocation getEntityTexture(ZombieEntity entity) {
 		return TEXTURE;
 	}
 

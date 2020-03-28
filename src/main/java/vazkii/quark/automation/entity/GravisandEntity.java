@@ -59,13 +59,13 @@ public class GravisandEntity extends FallingBlockEntity {
 	// Mostly vanilla copy but supporting directional falling
 	@Override
 	public void tick() {
-
-		if (this.fallTile.isAir(world, new BlockPos(this)) || posY > 300 || posY < -50) {
+		Vec3d pos = getPositionVec();
+		if (this.fallTile.isAir(world, new BlockPos(this)) || pos.y > 300 || pos.y < -50) {
 			this.remove();
 		} else {
-			this.prevPosX = this.posX;
-			this.prevPosY = this.posY;
-			this.prevPosZ = this.posZ;
+			this.prevPosX = pos.x;
+			this.prevPosY = pos.y;
+			this.prevPosZ = pos.z;
 			Block block = this.fallTile.getBlock();
 			if (this.fallTime++ == 0) {
 				BlockPos blockpos = new BlockPos(this);
@@ -88,7 +88,7 @@ public class GravisandEntity extends FallingBlockEntity {
 				boolean flag1 = flag && this.world.getFluidState(fallTarget).isTagged(FluidTags.WATER);
 				double d0 = this.getMotion().lengthSquared();
 				if (flag && d0 > 1.0D) {
-					BlockRayTraceResult blockraytraceresult = this.world.rayTraceBlocks(new RayTraceContext(new Vec3d(this.prevPosX, this.prevPosY, this.prevPosZ), new Vec3d(this.posX, this.posY, this.posZ), RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.SOURCE_ONLY, this));
+					BlockRayTraceResult blockraytraceresult = this.world.rayTraceBlocks(new RayTraceContext(new Vec3d(this.prevPosX, this.prevPosY, this.prevPosZ), pos, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.SOURCE_ONLY, this));
 					if (blockraytraceresult.getType() != RayTraceResult.Type.MISS && this.world.getFluidState(blockraytraceresult.getPos()).isTagged(FluidTags.WATER)) {
 						fallTarget = blockraytraceresult.getPos();
 						flag1 = true;
@@ -127,8 +127,8 @@ public class GravisandEntity extends FallingBlockEntity {
 	}
 
 	@Override
-	public void fall(float distance, float damageMultiplier) {
-		// NO-OP
+	public boolean onLivingFall(float distance, float damageMultiplier) {
+		return false;
 	}
 
 	private float getFallDirection() {

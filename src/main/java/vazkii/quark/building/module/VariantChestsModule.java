@@ -20,6 +20,7 @@ import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ActionResultType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -45,13 +46,15 @@ public class VariantChestsModule extends Module {
 			"oak", "spruce", "birch", "jungle", "acacia", "dark_oak");
 	
 	private static final ImmutableSet<String> MOD_WOODS = ImmutableSet.of(
-			"bambooblocks:bamboo", "upgrade_aquatic:driftwood", "endergetic:poise", "swampexpansion:willow", "bloomful:wisteria");
+			"bambooblocks:bamboo", "upgrade_aquatic:driftwood", "endergetic:poise", "swampexpansion:willow", "bloomful:wisteria", "buzzierbees:hive", "atmospheric:rosewood");
 
 	public static TileEntityType<VariantChestTileEntity> chestTEType;
 	public static TileEntityType<VariantTrappedChestTileEntity> trappedChestTEType;
 
-	private List<Supplier<Block>> chestTypes = new LinkedList<>();
-	private List<Supplier<Block>> trappedChestTypes = new LinkedList<>();
+	private static List<Supplier<Block>> chestTypes = new LinkedList<>();
+	private static List<Supplier<Block>> trappedChestTypes = new LinkedList<>();
+	
+	private static List<Block> allChests = new LinkedList<>();
 
 	@Override
 	public void construct() {
@@ -73,7 +76,8 @@ public class VariantChestsModule extends Module {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void clientSetup() {
-		ClientRegistry.bindTileEntitySpecialRenderer(VariantChestTileEntity.class, new VariantChestTileEntityRenderer());
+		ClientRegistry.bindTileEntityRenderer(chestTEType, (d) -> new VariantChestTileEntityRenderer(d));
+		ClientRegistry.bindTileEntityRenderer(trappedChestTEType, (d) -> new VariantChestTileEntityRenderer(d));
 	}
 
 	private void addChest(String name, Block from) {
@@ -81,8 +85,8 @@ public class VariantChestsModule extends Module {
 	}
 
 	private void addChest(String name, Block.Properties props) {
-		chestTypes.add(() -> new VariantChestBlock(name, this, props));
-		trappedChestTypes.add(() -> new VariantTrappedChestBlock(name, this, props));
+		chestTypes.add(() -> new VariantChestBlock(name, this, () -> chestTEType, props));
+		trappedChestTypes.add(() -> new VariantTrappedChestBlock(name, this, () -> trappedChestTEType, props));
 	}
 
 	private void addModChest(String nameRaw, Block from) {
@@ -93,15 +97,24 @@ public class VariantChestsModule extends Module {
 	}
 
 	private void addModChest(String name, String mod, Block.Properties props) {
-		chestTypes.add(() -> new VariantChestBlock.Compat(name, mod, this, props));
-		trappedChestTypes.add(() -> new VariantTrappedChestBlock.Compat(name, mod, this, props));
+		chestTypes.add(() -> new VariantChestBlock.Compat(name, mod, this, () -> chestTEType, props));
+		trappedChestTypes.add(() -> new VariantTrappedChestBlock.Compat(name, mod, this, () -> trappedChestTEType, props));
 	}
 
 	public static <T extends TileEntity> TileEntityType<T> registerChests(Supplier<? extends T> factory, List<Supplier<Block>> list) {
 		List<Block> blockTypes = list.stream().map(Supplier::get).collect(Collectors.toList());
+		allChests.addAll(blockTypes);
 		return TileEntityType.Builder.<T>create(factory, blockTypes.toArray(new Block[blockTypes.size()])).build(null);
 	}
-
+	
+	@Override
+	public void textureStitch(TextureStitchEvent.Pre event) {
+		if(event.getMap().getTextureLocation().toString().equals("minecraft:textures/atlas/chest.png")) {
+			for(Block b : allChests)
+				VariantChestTileEntityRenderer.accept(event, b);
+		}
+	}
+	
 	@SubscribeEvent
 	public void onClickEntity(PlayerInteractEvent.EntityInteractSpecific event) {
 		Entity target = event.getTarget();
@@ -154,6 +167,11 @@ public class VariantChestsModule extends Module {
 				((ItemEntity) target).setItem(local);
 			WAIT_TO_REPLACE_CHEST.remove();
 		}
+	}
+	
+	public static interface IChestTextureProvider {
+		String getChestTexturePath();
+		boolean isTrap();
 	}
 
 }

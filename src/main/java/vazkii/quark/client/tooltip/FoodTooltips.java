@@ -1,6 +1,11 @@
 package vazkii.quark.client.tooltip;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import java.util.List;
+
+import org.apache.commons.lang3.tuple.Pair;
+
+import com.mojang.blaze3d.systems.RenderSystem;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.item.Food;
@@ -10,13 +15,10 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.ForgeIngameGui;
 import net.minecraftforge.client.event.RenderTooltipEvent;
+import net.minecraftforge.client.gui.ForgeIngameGui;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-import org.apache.commons.lang3.tuple.Pair;
 import vazkii.quark.client.module.ImprovedTooltipsModule;
-
-import java.util.List;
 
 public class FoodTooltips {
 
@@ -47,8 +49,8 @@ public class FoodTooltips {
 		if(event.getStack().isFood()) {
 			Food food = event.getStack().getItem().getFood();
 			if (food != null) {
-				GlStateManager.pushMatrix();
-				GlStateManager.color3f(1F, 1F, 1F);
+				RenderSystem.pushMatrix();
+				RenderSystem.color3f(1F, 1F, 1F);
 				Minecraft mc = Minecraft.getInstance();
 				mc.getTextureManager().bindTexture(ForgeIngameGui.GUI_ICONS_LOCATION);
 				int pips = food.getHealing();
@@ -83,7 +85,7 @@ public class FoodTooltips {
 					AbstractGui.blit(x, y, u, v, 9, 9, 256, 256);
 				}
 
-				GlStateManager.popMatrix();
+				RenderSystem.popMatrix();
 			}
 		}
 	}

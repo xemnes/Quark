@@ -1,5 +1,8 @@
 package vazkii.quark.building.block;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.IWaterLoggable;
@@ -28,7 +31,6 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IEnviromentBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -37,9 +39,6 @@ import vazkii.arl.interf.IItemColorProvider;
 import vazkii.quark.base.block.QuarkBlock;
 import vazkii.quark.base.block.QuarkSlabBlock;
 import vazkii.quark.base.module.Module;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 public class VerticalSlabBlock extends QuarkBlock implements IWaterLoggable, IBlockColorProvider {
 
@@ -60,9 +59,9 @@ public class VerticalSlabBlock extends QuarkBlock implements IWaterLoggable, IBl
 
 		setDefaultState(getDefaultState().with(TYPE, VerticalSlabType.NORTH).with(WATERLOGGED, false));
 	}
-
+	
 	@Override
-	public boolean func_220074_n(BlockState state) {
+	public boolean isTransparent(BlockState state) {
 		return state.get(TYPE) != VerticalSlabType.DOUBLE;
 	}
 
@@ -144,10 +143,9 @@ public class VerticalSlabBlock extends QuarkBlock implements IWaterLoggable, IBl
 	}
 	
 	@Override
-    @SuppressWarnings("deprecation")
-    public int getPackedLightmapCoords(BlockState state, IEnviromentBlockReader worldIn, BlockPos pos) {
-    	return parent.getBlock().getPackedLightmapCoords(state, worldIn, pos);
-    }
+	public boolean isEmissiveRendering(BlockState p_225543_1_) {
+		return parent.getBlock().isEmissiveRendering(p_225543_1_);
+	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)

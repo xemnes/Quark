@@ -13,7 +13,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.LogBlock;
 import net.minecraft.block.SaplingBlock;
-import net.minecraft.block.trees.OakTree;
+import net.minecraft.block.trees.Tree;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
@@ -21,17 +21,21 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.MutableBoundingBox;
+import net.minecraft.world.biome.DefaultBiomeFeatures;
 import net.minecraft.world.gen.IWorldGenerationReader;
 import net.minecraft.world.gen.feature.AbstractTreeFeature;
-import net.minecraft.world.gen.feature.NoFeatureConfig;
+import net.minecraft.world.gen.feature.ConfiguredFeature;
+import net.minecraft.world.gen.feature.TreeFeatureConfig;
 import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.base.block.IQuarkBlock;
+import vazkii.quark.base.handler.RenderLayerHandler;
+import vazkii.quark.base.handler.RenderLayerHandler.RenderTypeSkeleton;
 import vazkii.quark.base.module.Module;
 
 public class BlossomSaplingBlock extends SaplingBlock implements IQuarkBlock {
 
 	private static final BlockState SPRUCE_LOG = Blocks.SPRUCE_LOG.getDefaultState();
-	
+
 	private final Module module;
 	private BooleanSupplier enabledSupplier = () -> true;
 
@@ -42,6 +46,8 @@ public class BlossomSaplingBlock extends SaplingBlock implements IQuarkBlock {
 		RegistryHelper.registerBlock(this, colorName + "_blossom_sapling");
 		RegistryHelper.setCreativeTab(this, ItemGroup.DECORATIONS);
 		tree.sapling = this;
+		
+		RenderLayerHandler.setRenderType(this, RenderTypeSkeleton.CUTOUT);
 	}
 
 	@Override
@@ -65,32 +71,45 @@ public class BlossomSaplingBlock extends SaplingBlock implements IQuarkBlock {
 	public boolean doesConditionApply() {
 		return enabledSupplier.getAsBoolean();
 	}
-	
-	public static class BlossomTree extends OakTree {
+
+	public static class BlossomTree extends Tree {
 
 		public final BlockState leaf;
 		public final BlossomTreeFeature feature;
-		
+
 		public BlossomSaplingBlock sapling;
 
 		public BlossomTree(Block leafBlock) {
 			leaf = leafBlock.getDefaultState(); 
-			feature = new BlossomTreeFeature();
+			feature = new BlossomTreeFeature(leaf);
 		}
 
 		@Override
-		protected AbstractTreeFeature<NoFeatureConfig> getTreeFeature(Random rand) {
-			return feature;
+		protected ConfiguredFeature<TreeFeatureConfig, ?> getTreeFeature(Random rand, boolean hjskfsd) {
+			return feature.withConfiguration(DefaultBiomeFeatures.FANCY_TREE_CONFIG);
+		}
+		
+		public void setSapling(BlossomSaplingBlock sapling) {
+			this.sapling = sapling;
+			feature.setSapling(sapling);
 		}
 
 		// ============================================================================================
 		// All vanilla copy paste from BigTreeFeature from here on out 
 		//=============================================================================================
-		
-		public class BlossomTreeFeature extends AbstractTreeFeature<NoFeatureConfig> {
 
-			public BlossomTreeFeature() {
-				super(idk -> NoFeatureConfig.NO_FEATURE_CONFIG, true);
+		public static class BlossomTreeFeature extends AbstractTreeFeature<TreeFeatureConfig> {
+
+			public final BlockState leaf;
+			public BlossomSaplingBlock sapling;
+
+			public BlossomTreeFeature(BlockState leaf) {
+				super(TreeFeatureConfig::func_227338_a_); // deserialize
+				this.leaf = leaf;
+			}
+			
+			public void setSapling(BlossomSaplingBlock sapling) {
+				this.sapling = sapling;
 			}
 
 			private void crossSection(IWorldGenerationReader worldIn, BlockPos pos, float p_208529_3_, MutableBoundingBox p_208529_4_, Set<BlockPos> changedBlocks) {
@@ -164,6 +183,18 @@ public class BlossomSaplingBlock extends SaplingBlock implements IQuarkBlock {
 				}
 			}
 
+			// fuck
+			protected boolean setLogState(Set<BlockPos> p_227216_4_, IWorldGenerationReader p_227216_1_, BlockPos p_227216_3_, BlockState state, MutableBoundingBox p_227216_5_) {
+				if (!isAirOrLeaves(p_227216_1_, p_227216_3_) && !isTallPlants(p_227216_1_, p_227216_3_) && !isWater(p_227216_1_, p_227216_3_)) {
+					return false;
+				} else {
+					this.func_227217_a_(p_227216_1_, p_227216_3_, state, p_227216_5_); // setBlockState
+					p_227216_4_.add(p_227216_3_.toImmutable());
+					return true;
+				}
+			}
+
+
 			/**
 			 * Returns the absolute greatest distance in the BlockPos object.
 			 */
@@ -221,8 +252,8 @@ public class BlossomSaplingBlock extends SaplingBlock implements IQuarkBlock {
 				}
 			}
 
-			@Override
-			public boolean place(Set<BlockPos> changedBlocks, IWorldGenerationReader worldIn, Random rand, BlockPos position, MutableBoundingBox boundsIn) {
+			@Override // generate
+			public boolean func_225557_a_(IWorldGenerationReader worldIn, Random rand, BlockPos position, Set<BlockPos> changedBlocks, Set<BlockPos> what, MutableBoundingBox boundsIn, TreeFeatureConfig config) {
 				Random random = new Random(rand.nextLong());
 				int i = this.checkLocation(changedBlocks, worldIn, position, 5 + random.nextInt(12), boundsIn);
 				if (i == -1) {
@@ -276,7 +307,7 @@ public class BlossomSaplingBlock extends SaplingBlock implements IQuarkBlock {
 			}
 
 			private int checkLocation(Set<BlockPos> p_208528_1_, IWorldGenerationReader p_208528_2_, BlockPos p_208528_3_, int p_208528_4_, MutableBoundingBox p_208528_5_) {
-				if (!isSoilOrFarm(p_208528_2_, p_208528_3_.down(), getSapling())) {
+				if (!isSoilOrFarm(p_208528_2_, p_208528_3_.down(), sapling)) {
 					return -1;
 				} else {
 					int i = this.makeLimb(p_208528_1_, p_208528_2_, p_208528_3_, p_208528_3_.up(p_208528_4_ - 1), false, p_208528_5_);
@@ -288,7 +319,7 @@ public class BlossomSaplingBlock extends SaplingBlock implements IQuarkBlock {
 				}
 			}
 
-			class FoliageCoordinates extends BlockPos {
+			static class FoliageCoordinates extends BlockPos {
 				private final int branchBase;
 
 				public FoliageCoordinates(BlockPos pos, int p_i45635_2_) {

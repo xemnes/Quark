@@ -14,7 +14,7 @@ public class VariantLlamaRenderer extends LlamaRenderer {
 	}
 
 	@Override
-	protected ResourceLocation getEntityTexture(LlamaEntity entity) {
+	public ResourceLocation getEntityTexture(LlamaEntity entity) {
 		return VariantAnimalTexturesModule.getTextureOrShiny(entity, VariantTextureType.LLAMA, () -> super.getEntityTexture(entity));
 	}
 	

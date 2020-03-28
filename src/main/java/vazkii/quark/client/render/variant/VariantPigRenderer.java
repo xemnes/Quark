@@ -14,7 +14,7 @@ public class VariantPigRenderer extends PigRenderer {
 	}
 	
 	@Override
-	protected ResourceLocation getEntityTexture(PigEntity entity) {
+	public ResourceLocation getEntityTexture(PigEntity entity) {
 		return VariantAnimalTexturesModule.getTextureOrShiny(entity, VariantTextureType.PIG, VariantAnimalTexturesModule.enablePig);
 	}
 

@@ -21,13 +21,14 @@ public class IronLadderBlock extends VariantLadderBlock {
 	public IronLadderBlock(Module module) {
 		super("iron", module, Block.Properties.create(Material.MISCELLANEOUS)
 				.hardnessAndResistance(0.8F)
-				.sound(SOUND_TYPE));
+				.sound(SOUND_TYPE)
+				.notSolid());
 	}
 
 	@Override
 	public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
 		Direction facing = state.get(FACING);
-		boolean solid = facing.getAxis() != Axis.Y && worldIn.getBlockState(pos.offset(facing.getOpposite())).func_224755_d(worldIn, pos.offset(facing.getOpposite()), facing);
+		boolean solid = facing.getAxis() != Axis.Y && worldIn.getBlockState(pos.offset(facing.getOpposite())).isSolidSide(worldIn, pos.offset(facing.getOpposite()), facing);
 		BlockState topState = worldIn.getBlockState(pos.up());
 		return solid || (topState.getBlock() == this && (facing.getAxis() == Axis.Y || topState.get(FACING) == facing));
 	}
