@@ -177,8 +177,10 @@
 	}
 
 	function cmp_features($f1, $f2) {
-		if((array_key_exists('addon', $f1) && $f1['addon']) || (array_key_exists('addon', $f2) && $f2['addon']))
-			return 0;	
+		if((array_key_exists('addon', $f1) && $f1['addon']))
+			return -1;	
+		if((array_key_exists('addon', $f2) && $f2['addon']))
+			return 1;	
 
 		return strcmp($f1['name'], $f2['name']);
 	}
