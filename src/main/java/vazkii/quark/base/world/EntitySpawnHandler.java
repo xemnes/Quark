@@ -50,7 +50,7 @@ public class EntitySpawnHandler {
 				List<SpawnListEntry> l = b.getSpawns(c.classification);
 				l.removeIf(e -> e.entityType == c.entityType);
 				
-				if(c.config.biomes.canSpawn(b))
+				if(c.config.module.enabled && c.config.biomes.canSpawn(b))
 					l.add(c.entry);
 			}
 		}
