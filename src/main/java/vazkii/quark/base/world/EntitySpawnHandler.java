@@ -44,13 +44,14 @@ public class EntitySpawnHandler {
 	
 	public static void refresh() {
 		for(TrackedSpawnConfig c : trackedSpawnConfigs) {
+			boolean enabled = c.config.isEnabled();
 			c.refresh();
 			
 			for(Biome b : ForgeRegistries.BIOMES.getValues()) {
 				List<SpawnListEntry> l = b.getSpawns(c.classification);
 				l.removeIf(e -> e.entityType == c.entityType);
 				
-				if(c.config.module.enabled && c.config.biomes.canSpawn(b))
+				if(enabled && c.config.biomes.canSpawn(b))
 					l.add(c.entry);
 			}
 		}

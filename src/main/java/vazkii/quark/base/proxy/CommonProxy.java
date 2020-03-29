@@ -51,7 +51,6 @@ public class CommonProxy {
 		QuarkNetwork.setup();
 		BrewingHandler.setup();
 		CapabilityHandler.setup();
-		EntitySpawnHandler.refresh();
 		ModuleLoader.INSTANCE.setup();
 		initContributorRewards();
 	}
@@ -66,12 +65,12 @@ public class CommonProxy {
 		if(event.getConfig().getModId().equals(Quark.MOD_ID) && ClientTicker.ticksInGame - lastConfigChange > 10) { 
 			lastConfigChange = ClientTicker.ticksInGame;
 			handleQuarkConfigChange();
-			EntitySpawnHandler.refresh();
 		}
 	}
 	
 	public void handleQuarkConfigChange() {
 		ModuleLoader.INSTANCE.configChanged();
+		EntitySpawnHandler.refresh();
 	}
 	
 //	public void addResourceOverride(String type, String path, String file, BooleanSupplier isEnabled) {
