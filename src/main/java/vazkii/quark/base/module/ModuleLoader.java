@@ -1,21 +1,13 @@
 package vazkii.quark.base.module;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
-
-import net.minecraft.client.gui.ScreenManager;
-import net.minecraft.client.gui.ScreenManager.IScreenFactory;
-import net.minecraft.client.gui.screen.inventory.ContainerScreen;
-import net.minecraft.inventory.container.ContainerType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.TextureStitchEvent;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.DistExecutor;
 import vazkii.quark.base.Quark;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Consumer;
 
 public final class ModuleLoader {
 	
@@ -74,6 +66,11 @@ public final class ModuleLoader {
 	@OnlyIn(Dist.CLIENT)
 	public void textureStitch(TextureStitchEvent.Pre event) {
 		dispatch(m -> m.textureStitch(event));
+	}
+
+	@OnlyIn(Dist.CLIENT)
+	public void postTextureStitch(TextureStitchEvent.Post event) {
+		dispatch(m -> m.postTextureStitch(event));
 	}
 	
 	public void loadComplete() {
