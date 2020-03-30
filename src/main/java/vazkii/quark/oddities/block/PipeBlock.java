@@ -55,19 +55,19 @@ public class PipeBlock extends QuarkBlock implements IWaterLoggable {
 	private static final VoxelShape WEST_SHAPE = VoxelShapes.create(0, 0.3125, 0.3125, 0.6875, 0.6875, 0.6875);
 	private static final VoxelShape EAST_SHAPE = VoxelShapes.create(0.3125, 0.3125, 0.3125, 1, 0.6875, 0.6875);
 
-	private static final VoxelShape DOWN_FLARE_SHAPE = VoxelShapes.create(0.25, 0.25, 0.25, 0.75, 0.325, 0.75);
-	private static final VoxelShape UP_FLARE_SHAPE = VoxelShapes.create(0.25, 0.625, 0.25, 0.75, 0.75, 0.75);
-	private static final VoxelShape NORTH_FLARE_SHAPE = VoxelShapes.create(0.25, 0.25, 0.25, 0.75, 0.75, 0.325);
-	private static final VoxelShape SOUTH_FLARE_SHAPE = VoxelShapes.create(0.25, 0.25, 0.625, 0.75, 0.75, 0.75);
-	private static final VoxelShape WEST_FLARE_SHAPE = VoxelShapes.create(0.25, 0.25, 0.25, 0.325, 0.75, 0.75);
-	private static final VoxelShape EAST_FLARE_SHAPE = VoxelShapes.create(0.625, 0.25, 0.25, 0.75, 0.75, 0.75);
-
-	private static final VoxelShape DOWN_TERMINAL_SHAPE = VoxelShapes.create(0.25, 0, 0.25, 0.75, 0.125, 0.75);
-	private static final VoxelShape UP_TERMINAL_SHAPE = VoxelShapes.create(0.25, 0.875, 0.25, 0.75, 1, 0.75);
-	private static final VoxelShape NORTH_TERMINAL_SHAPE = VoxelShapes.create(0.25, 0.25, 0, 0.75, 0.75, 0.125);
-	private static final VoxelShape SOUTH_TERMINAL_SHAPE = VoxelShapes.create(0.25, 0.25, 0.875, 0.75, 0.75, 1);
-	private static final VoxelShape WEST_TERMINAL_SHAPE = VoxelShapes.create(0, 0.25, 0.25, 0.125, 0.75, 0.75);
-	private static final VoxelShape EAST_TERMINAL_SHAPE = VoxelShapes.create(0.875, 0.25, 0.25, 1, 0.75, 0.75);
+//	private static final VoxelShape DOWN_FLARE_SHAPE = VoxelShapes.create(0.25, 0.25, 0.25, 0.75, 0.325, 0.75);
+//	private static final VoxelShape UP_FLARE_SHAPE = VoxelShapes.create(0.25, 0.625, 0.25, 0.75, 0.75, 0.75);
+//	private static final VoxelShape NORTH_FLARE_SHAPE = VoxelShapes.create(0.25, 0.25, 0.25, 0.75, 0.75, 0.325);
+//	private static final VoxelShape SOUTH_FLARE_SHAPE = VoxelShapes.create(0.25, 0.25, 0.625, 0.75, 0.75, 0.75);
+//	private static final VoxelShape WEST_FLARE_SHAPE = VoxelShapes.create(0.25, 0.25, 0.25, 0.325, 0.75, 0.75);
+//	private static final VoxelShape EAST_FLARE_SHAPE = VoxelShapes.create(0.625, 0.25, 0.25, 0.75, 0.75, 0.75);
+//
+//	private static final VoxelShape DOWN_TERMINAL_SHAPE = VoxelShapes.create(0.25, 0, 0.25, 0.75, 0.125, 0.75);
+//	private static final VoxelShape UP_TERMINAL_SHAPE = VoxelShapes.create(0.25, 0.875, 0.25, 0.75, 1, 0.75);
+//	private static final VoxelShape NORTH_TERMINAL_SHAPE = VoxelShapes.create(0.25, 0.25, 0, 0.75, 0.75, 0.125);
+//	private static final VoxelShape SOUTH_TERMINAL_SHAPE = VoxelShapes.create(0.25, 0.25, 0.875, 0.75, 0.75, 1);
+//	private static final VoxelShape WEST_TERMINAL_SHAPE = VoxelShapes.create(0, 0.25, 0.25, 0.125, 0.75, 0.75);
+//	private static final VoxelShape EAST_TERMINAL_SHAPE = VoxelShapes.create(0.875, 0.25, 0.25, 1, 0.75, 0.75);
 
 	public static final EnumProperty<ConnectionType> DOWN = EnumProperty.create("down", ConnectionType.class);
 	public static final EnumProperty<ConnectionType> UP = EnumProperty.create("up", ConnectionType.class);
@@ -86,17 +86,18 @@ public class PipeBlock extends QuarkBlock implements IWaterLoggable {
 	private static final VoxelShape[] SIDE_BOXES = new VoxelShape[] {
 			DOWN_SHAPE, UP_SHAPE, NORTH_SHAPE, SOUTH_SHAPE, WEST_SHAPE, EAST_SHAPE
 	};
+	
+//	private static final VoxelShape[] FLARE_BOXES = new VoxelShape[] {
+//			DOWN_FLARE_SHAPE, UP_FLARE_SHAPE, NORTH_FLARE_SHAPE,
+//			SOUTH_FLARE_SHAPE, WEST_FLARE_SHAPE, EAST_FLARE_SHAPE
+//	};
+//
+//	private static final VoxelShape[] TERMINAL_BOXES = new VoxelShape[] {
+//			DOWN_TERMINAL_SHAPE, UP_TERMINAL_SHAPE, NORTH_TERMINAL_SHAPE,
+//			SOUTH_TERMINAL_SHAPE, WEST_TERMINAL_SHAPE, EAST_TERMINAL_SHAPE
+//	};
 
-	private static final VoxelShape[] FLARE_BOXES = new VoxelShape[] {
-			DOWN_FLARE_SHAPE, UP_FLARE_SHAPE, NORTH_FLARE_SHAPE,
-			SOUTH_FLARE_SHAPE, WEST_FLARE_SHAPE, EAST_FLARE_SHAPE
-	};
-
-	private static final VoxelShape[] TERMINAL_BOXES = new VoxelShape[] {
-			DOWN_TERMINAL_SHAPE, UP_TERMINAL_SHAPE, NORTH_TERMINAL_SHAPE,
-			SOUTH_TERMINAL_SHAPE, WEST_TERMINAL_SHAPE, EAST_TERMINAL_SHAPE
-	};
-
+	private static final VoxelShape[] shapeCache = new VoxelShape[64];
 	private static final Map<BlockState, Direction> FLARE_STATES = Maps.newHashMap();
 
 	public PipeBlock(Module module) {
@@ -172,17 +173,30 @@ public class PipeBlock extends QuarkBlock implements IWaterLoggable {
 	
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		VoxelShape currShape = CENTER_SHAPE;
-		
+		int index = 0;
 		for(Direction dir : Direction.values()) {
-			ConnectionType type = getType(state, dir);
-			if(type != null && type.isSolid)
-				currShape = VoxelShapes.or(currShape, SIDE_BOXES[dir.ordinal()]);
-			if(type == null || type.isFlared)
-				currShape = VoxelShapes.or(currShape, (type == ConnectionType.TERMINAL ? TERMINAL_BOXES : FLARE_BOXES)[dir.ordinal()]);
+			int ord = dir.ordinal();
+			if(state.get(CONNECTIONS[ord]).isSolid)
+				index += (1 << ord);
 		}
 		
-		return currShape;
+		VoxelShape cached = shapeCache[index];
+		if(cached == null) {
+			VoxelShape currShape = CENTER_SHAPE;
+			
+			for(Direction dir : Direction.values()) {
+				ConnectionType type = getType(state, dir);
+				if(type != null && type.isSolid)
+					currShape = VoxelShapes.or(currShape, SIDE_BOXES[dir.ordinal()]);
+//				if(type == null || type.isFlared)
+//					currShape = VoxelShapes.or(currShape, (type == ConnectionType.TERMINAL ? TERMINAL_BOXES : FLARE_BOXES)[dir.ordinal()]);
+			}
+			
+			shapeCache[index] = currShape;
+			cached = currShape;
+		}
+		
+		return cached;
 	}
 
 	public static ConnectionType getType(BlockState state, Direction side) {

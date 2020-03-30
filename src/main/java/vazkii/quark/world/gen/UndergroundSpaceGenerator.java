@@ -9,11 +9,9 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.FlatChunkGenerator;
 import net.minecraft.world.gen.GenerationSettings;
-import net.minecraftforge.common.util.Constants;
 import vazkii.quark.base.world.config.ClusterSizeConfig;
 import vazkii.quark.base.world.config.DimensionConfig;
 import vazkii.quark.base.world.generator.multichunk.ClusterBasedGenerator;
-import vazkii.quark.world.module.MegaCavesModule;
 
 public class UndergroundSpaceGenerator extends ClusterBasedGenerator {
 
