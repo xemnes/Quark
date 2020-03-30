@@ -1,21 +1,7 @@
 package vazkii.quark.automation.module;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.WeakHashMap;
-
-import org.apache.commons.lang3.tuple.Pair;
-
 import com.google.common.collect.Lists;
-
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.ChestBlock;
-import net.minecraft.block.JukeboxBlock;
-import net.minecraft.block.PistonBlockStructureHelper;
+import net.minecraft.block.*;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.state.properties.ChestType;
 import net.minecraft.tileentity.TileEntity;
@@ -26,13 +12,12 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.WorldTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import org.apache.commons.lang3.tuple.Pair;
 import vazkii.quark.api.IPistonCallback;
 import vazkii.quark.api.QuarkCapabilities;
-import vazkii.quark.base.module.Config;
-import vazkii.quark.base.module.LoadModule;
-import vazkii.quark.base.module.Module;
-import vazkii.quark.base.module.ModuleCategory;
-import vazkii.quark.base.module.ModuleLoader;
+import vazkii.quark.base.module.*;
+
+import java.util.*;
 
 @LoadModule(category = ModuleCategory.AUTOMATION, hasSubscriptions = true)
 public class PistonsMoveTileEntitiesModule extends Module {
@@ -154,6 +139,7 @@ public class PistonsMoveTileEntitiesModule extends Module {
 					registerDelayedUpdate(world, pos, tile);
 				else {
 					world.setTileEntity(pos, tile);
+					world.getChunk(pos).addTileEntity(pos, tile);
 					tile.updateContainingBlockInfo();
 
 				}
