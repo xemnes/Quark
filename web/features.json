@@ -1124,6 +1124,14 @@
 				"#X-Ray Shot",
 				"!img/features/world/mega-dungeons/xray.jpg"
 			]
+		},
+		{
+			"name": "Crevices",
+			"image": "crevices.jpg",
+			"versions": "1.15+",
+			"desc": [
+				"Crevices are a new underground cave feature you'll find uncommonly while caving. You could think of them as a sideways ravine."
+			]
 		}
 	],
 	"oddities": [
@@ -1193,6 +1201,16 @@
 				"Should you find yourself slaying a Ravager in a raid, you'll get a rare drop of Ravager Hide. The Ravager will always drop one, but may drop more depending on your level of Fortune.",
 				"This Backpack can be worn in the Chest slot, and it'll give you a bunch of extra slots in your inventory to store all your stuff. Note that the backpack does not provide any protection, nor is it enchantable. Ravager Hide is extremely resistent, though, so it'll never break!",
 				"Beware however, if your backpack has items in it, you can't unequip it, and if you die with it, all the items will scatter. You may also dye the backpack just like any other leather armor."
+			]
+		},
+		{
+			"name": "Totem of Holding",
+			"image": "totem-of-holding.jpg",
+			"versions": "1.15+",
+			"desc": [
+				"When a player dies, a Totem of Holding will spawn at the dead player's position. This totem will float around in the air, holding the player's items. Any player can retrieve the items the totem is holding by punching it a few times. (The totem won't spawn for PVP kills)",
+				"Do note that if the player who spawned the totem dies again, the totem will break and drop all of the items on the ground, like a normal death.",
+				"A player's totem can be located by crafting a Soul Compass, which is done using a Compass and an Ender Pearl."
 			]
 		}
 	],
