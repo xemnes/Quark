@@ -9,15 +9,16 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.FlatChunkGenerator;
 import net.minecraft.world.gen.GenerationSettings;
+import net.minecraftforge.common.util.Constants;
 import vazkii.quark.base.world.config.ClusterSizeConfig;
 import vazkii.quark.base.world.config.DimensionConfig;
 import vazkii.quark.base.world.generator.multichunk.ClusterBasedGenerator;
 import vazkii.quark.world.module.MegaCavesModule;
 
-public class MegaCaveGenerator extends ClusterBasedGenerator {
+public class UndergroundSpaceGenerator extends ClusterBasedGenerator {
 
-	public MegaCaveGenerator(DimensionConfig dimConfig, ClusterSizeConfig sizeConfig) {
-		super(dimConfig, sizeConfig, 4); // https://dilbert.com/strip/2001-10-25
+	public UndergroundSpaceGenerator(DimensionConfig dimConfig, ClusterSizeConfig sizeConfig, long seedXor) {
+		super(dimConfig, sizeConfig, seedXor);
 	}
 
 	@Override
@@ -26,8 +27,8 @@ public class MegaCaveGenerator extends ClusterBasedGenerator {
 			BlockState state = world.getBlockState(pos);
 			if(state.getBlockHardness(world, pos) > -1) {
 				if(pos.getY() < 6)
-					world.setBlockState(pos, Blocks.LAVA.getDefaultState(), 0);
-				else world.removeBlock(pos, false);
+					world.setBlockState(pos, Blocks.LAVA.getDefaultState(), 1);
+				else world.setBlockState(pos, Blocks.AIR.getDefaultState(), 2);
 			}
 		};
 	}

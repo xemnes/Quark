@@ -12,8 +12,8 @@ public class WorldGenWeights {
 	public static final int UNDERGROUND_BIOMES = 1;
 	public static final int SPELEOTHEMS = 2;
 	public static final int CAVE_ROOTS = 3;
-	public static final int MONSTER_BOXES = 4;
-	public static final int UNDERGROUND_OPEN_ROOMS = 100;
+	public static final int UNDERGROUND_OPEN_ROOMS = 4;
+	public static final int MONSTER_BOXES = 5;
 	
 	// UNDERGROUND_DECORATION (nether)
 	public static final int OBSIDIAN_SPIKES = 10;
