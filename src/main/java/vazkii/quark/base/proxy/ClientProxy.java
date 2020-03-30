@@ -1,8 +1,5 @@
 package vazkii.quark.base.proxy;
 
-import java.time.LocalDateTime;
-import java.time.Month;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.client.event.ModelRegistryEvent;
@@ -12,6 +9,9 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import vazkii.quark.base.handler.ContributorRewardHandler;
 import vazkii.quark.base.handler.RenderLayerHandler;
 import vazkii.quark.base.module.ModuleLoader;
+
+import java.time.LocalDateTime;
+import java.time.Month;
 
 public class ClientProxy extends CommonProxy {
 
@@ -33,6 +33,7 @@ public class ClientProxy extends CommonProxy {
 		bus.addListener(this::clientSetup);
 		bus.addListener(this::modelRegistry);
 		bus.addListener(this::textureStitch);
+		bus.addListener(this::postTextureStitch);
 	}
 
 	public void clientSetup(FMLClientSetupEvent event) {
@@ -46,6 +47,10 @@ public class ClientProxy extends CommonProxy {
 	
 	public void textureStitch(TextureStitchEvent.Pre event) {
 		ModuleLoader.INSTANCE.textureStitch(event);
+	}
+
+	public void postTextureStitch(TextureStitchEvent.Post event) {
+		ModuleLoader.INSTANCE.postTextureStitch(event);
 	}
 
 //	@Override
