@@ -1,7 +1,10 @@
 package vazkii.quark.experimental.module;
 
+import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.item.Items;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
@@ -28,6 +31,11 @@ public class ShaderPlaygroundModule extends Module {
 			new ResourceLocation(Quark.MOD_ID, "shaders/post/cool.json"),
 			new ResourceLocation(Quark.MOD_ID, "shaders/post/warm.json"),
 			new ResourceLocation(Quark.MOD_ID, "shaders/post/conjugate.json"),
+			
+			new ResourceLocation(Quark.MOD_ID, "shaders/post/redfocus.json"),
+			new ResourceLocation(Quark.MOD_ID, "shaders/post/greenfocus.json"),
+			new ResourceLocation(Quark.MOD_ID, "shaders/post/bluefocus.json"),
+			new ResourceLocation(Quark.MOD_ID, "shaders/post/yellowfocus.json"),
 			
 			new ResourceLocation("shaders/post/invert.json"),
 			new ResourceLocation("shaders/post/bumpy.json"),
@@ -71,14 +79,24 @@ public class ShaderPlaygroundModule extends Module {
 		if(event.phase == Phase.END) {
 			Minecraft mc = Minecraft.getInstance();
 			
-			if(mc.world != null && mc.currentScreen == null) {
+			if(mc.world != null && mc.currentScreen == null && mc.player != null && mc.player.getHeldItemMainhand().getItem() == Items.SPIDER_EYE) {
 				ResourceLocation shader = SHADERS[currShader];
-				String text = "Shader: ";
-				if(shader == null)
-					text += "none";
-				else text += shader.getPath().replaceAll(".+/(.+)\\.json", "$1");
+				String text = "none";
+				if(shader != null)
+					text = shader.getPath().replaceAll(".+/(.+)\\.json", "$1");
+				text = I18n.format("quark.filter." + text);
 				
 				mc.fontRenderer.drawStringWithShadow(text, 20, 20, 0xFFFFFF);
+				
+				MainWindow mw = mc.getMainWindow();
+				int width = mw.getScaledWidth();
+				int height = mw.getScaledHeight();
+				
+				Screen.fill(width / 3, 0, width / 3 + 1, height, 0x33000000);
+				Screen.fill(width / 3 * 2, 0, width / 3 * 2 + 1, height, 0x33000000);
+				
+				Screen.fill(0, height / 3, width, height / 3 + 1, 0x33000000);
+				Screen.fill(0, height / 3 * 2, width, height / 3 * 2 + 1, 0x33000000);
 			}
 		}
 	}
