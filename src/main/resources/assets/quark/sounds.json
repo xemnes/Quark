@@ -193,5 +193,12 @@
     "sounds": [
       "quark:block/pipe/pickup"
     ]
+  },
+  "item.camera.shutter": {
+    "category": "players",
+    "subtitle": "quark.subtitles.camera_shutter",
+    "sounds": [
+      "quark:item/camera"
+    ]
   }
 }

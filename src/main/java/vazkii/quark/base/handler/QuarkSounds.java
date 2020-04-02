@@ -46,6 +46,8 @@ public class QuarkSounds {
     public static final SoundEvent BLOCK_PIPE_SHOOT_LENNY = register("block.pipe.shoot.lenny");
     public static final SoundEvent BLOCK_PIPE_PICKUP_LENNY = register("block.pipe.pickup.lenny");
 
+    public static final SoundEvent ITEM_CAMERA_SHUTTER = register("item.camera.shutter");
+
     public static void start() {
         for (SoundEvent event : REGISTRY_DEFERENCE)
             RegistryHelper.register(event);
