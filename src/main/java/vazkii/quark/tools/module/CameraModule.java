@@ -146,17 +146,7 @@ public class CameraModule extends Module {
 	@OnlyIn(Dist.CLIENT)
 	public void renderTick(RenderTickEvent event) {
 		Minecraft mc = Minecraft.getInstance();
-		
-		if(queueScreenshot) {
-			screenshotting = true;
-			queueScreenshot = false;
-			ScreenShotHelper.saveScreenshot(mc.gameDir, mc.getMainWindow().getFramebufferWidth(), mc.getMainWindow().getFramebufferHeight(), mc.getFramebuffer(), (msg) -> {
-				mc.execute(() -> {
-					mc.ingameGUI.getChatGUI().printChatMessage(msg);
-				});
-			});
-		}
-		
+
 		PlayerEntity player = mc.player;
 		if(player != null && currentHeldItem != -1 && player.inventory.currentItem != currentHeldItem) {
 			player.inventory.currentItem = currentHeldItem;
@@ -169,8 +159,21 @@ public class CameraModule extends Module {
 		if(wasHolding != currentlyHoldingCamera || queuedRefresh)
 			refreshShader();
 
-		if(event.phase == Phase.END && currentlyHoldingCamera)
+		if(event.phase == Phase.END && currentlyHoldingCamera) {
+			if(queueScreenshot)
+				screenshotting = true;
+			
 			renderCameraHUD(mc);
+			
+			if(queueScreenshot) {
+				queueScreenshot = false;
+				ScreenShotHelper.saveScreenshot(mc.gameDir, mc.getMainWindow().getFramebufferWidth(), mc.getMainWindow().getFramebufferHeight(), mc.getFramebuffer(), (msg) -> {
+					mc.execute(() -> {
+						mc.ingameGUI.getChatGUI().printChatMessage(msg);
+					});
+				});
+			}
+		}
 	}
 
 	private static void renderCameraHUD(Minecraft mc) {
