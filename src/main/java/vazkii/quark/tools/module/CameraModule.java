@@ -13,12 +13,11 @@ import net.minecraft.client.audio.SimpleSound;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.Rarity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.ScreenShotHelper;
+import net.minecraft.util.text.KeybindTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -28,8 +27,8 @@ import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.RenderTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import vazkii.quark.base.Quark;
+import vazkii.quark.base.client.ModKeybindHandler;
 import vazkii.quark.base.handler.QuarkSounds;
-import vazkii.quark.base.item.QuarkItem;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
@@ -60,6 +59,7 @@ public class CameraModule extends Module {
 
 			new ResourceLocation("shaders/post/bumpy.json"),
 			new ResourceLocation("shaders/post/notch.json"),
+			new ResourceLocation(Quark.MOD_ID, "shaders/post/mirror.json"),
 			new ResourceLocation("shaders/post/creeper.json"),
 			new ResourceLocation(Quark.MOD_ID, "shaders/post/enderman.json"),
 
@@ -67,9 +67,13 @@ public class CameraModule extends Module {
 			new ResourceLocation("shaders/post/blobs.json"),
 			new ResourceLocation("shaders/post/pencil.json"),
 			new ResourceLocation(Quark.MOD_ID, "shaders/post/watercolor.json"),
+			new ResourceLocation(Quark.MOD_ID, "shaders/post/monochrome.json"),
 			new ResourceLocation("shaders/post/sobel.json")
 	};
 
+	@OnlyIn(Dist.CLIENT)
+	private static KeyBinding cameraModeKey;
+	
 	private static int currentHeldItem = -1;
 	private static int currShader = 0;
 	private static int currRulers = 0;
@@ -79,14 +83,13 @@ public class CameraModule extends Module {
 	private static boolean queueScreenshot = false;
 	private static boolean screenshotting = false;
 
-	private static Item camera;
-	private static boolean currentlyHoldingCamera;
+	private static boolean cameraMode;
 
 	@Override
-	public void construct() {
-		camera = new QuarkItem("camera", this, new Item.Properties().maxStackSize(1).group(ItemGroup.TOOLS).rarity(Rarity.UNCOMMON));
+	public void clientSetup() {
+		cameraModeKey = ModKeybindHandler.init("camera_mode", "f12", ModKeybindHandler.MISC_GROUP);
 	}
-
+	
 	@SubscribeEvent
 	@OnlyIn(Dist.CLIENT)
 	public void screenshotTaken(ScreenshotEvent event) {
@@ -97,47 +100,55 @@ public class CameraModule extends Module {
 	@OnlyIn(Dist.CLIENT)
 	public void keystroke(KeyInputEvent event) {
 		Minecraft mc = Minecraft.getInstance();
-		if(isHoldingCamera(mc) && event.getAction() == GLFW.GLFW_PRESS) {
-			int key = event.getKey();
-			boolean affected = false;
-			boolean sneak = mc.player.isDiscrete();
-			System.out.println(key);
-			switch(key) {
-			case 49: // 1
-				currShader = cycle(currShader, SHADERS.length, sneak);
-				affected = true;
-				break;
-			case 50: // 2
-				currRulers = cycle(currRulers, RULERS, sneak);
-				affected = true;
-				break;
-			case 51: // 3
-				currBorders = cycle(currBorders, BORERS, sneak);
-				affected = true;
-				break;
-			case 52: // 4
-				currOverlay = cycle(currOverlay, OVERLAYS, sneak);
-				affected = true;
-				break;
-			case 53: // 5
-				if(sneak) {
-					currShader = 0;
-					currRulers = 0;
-					currBorders = 0;
-					currOverlay = 0;
-					affected = true;
-				}
-				break;
-			case 257: // ENTER
-				if(!queueScreenshot && !screenshotting)
-					mc.getSoundHandler().play(SimpleSound.master(QuarkSounds.ITEM_CAMERA_SHUTTER, 1.0F));
-
-				queueScreenshot = true;
+		if(mc.world != null && event.getAction() == GLFW.GLFW_PRESS) {
+			if(cameraModeKey.isKeyDown()) {
+				cameraMode = !cameraMode;
+				queuedRefresh = true;
+				return;
 			}
 
-			if(affected) {
-				queuedRefresh = true;
-				currentHeldItem = mc.player.inventory.currentItem;
+			if(cameraMode && mc.currentScreen == null) {
+				int key = event.getKey();
+				
+				boolean affected = false;
+				boolean sneak = mc.player.isDiscrete();
+				switch(key) {
+				case 49: // 1
+					currShader = cycle(currShader, SHADERS.length, sneak);
+					affected = true;
+					break;
+				case 50: // 2
+					currRulers = cycle(currRulers, RULERS, sneak);
+					affected = true;
+					break;
+				case 51: // 3
+					currBorders = cycle(currBorders, BORERS, sneak);
+					affected = true;
+					break;
+				case 52: // 4
+					currOverlay = cycle(currOverlay, OVERLAYS, sneak);
+					affected = true;
+					break;
+				case 53: // 5
+					if(sneak) {
+						currShader = 0;
+						currRulers = 0;
+						currBorders = 0;
+						currOverlay = 0;
+						affected = true;
+					}
+					break;
+				case 257: // ENTER
+					if(!queueScreenshot && !screenshotting)
+						mc.getSoundHandler().play(SimpleSound.master(QuarkSounds.ITEM_CAMERA_SHUTTER, 1.0F));
+
+					queueScreenshot = true;
+				}
+
+				if(affected) {
+					queuedRefresh = true;
+					currentHeldItem = mc.player.inventory.currentItem;
+				}
 			}
 		}
 	}
@@ -146,6 +157,9 @@ public class CameraModule extends Module {
 	@OnlyIn(Dist.CLIENT)
 	public void renderTick(RenderTickEvent event) {
 		Minecraft mc = Minecraft.getInstance();
+		
+		if(mc.world == null)
+			cameraMode = false;
 
 		PlayerEntity player = mc.player;
 		if(player != null && currentHeldItem != -1 && player.inventory.currentItem != currentHeldItem) {
@@ -153,18 +167,15 @@ public class CameraModule extends Module {
 			currentHeldItem = -1;	
 		}
 
-		boolean wasHolding = currentlyHoldingCamera;
-		currentlyHoldingCamera = isHoldingCamera(mc);
-
-		if(wasHolding != currentlyHoldingCamera || queuedRefresh)
+		if(queuedRefresh)
 			refreshShader();
 
-		if(event.phase == Phase.END && currentlyHoldingCamera) {
+		if(event.phase == Phase.END && cameraMode && mc.currentScreen == null) {
 			if(queueScreenshot)
 				screenshotting = true;
-			
+
 			renderCameraHUD(mc);
-			
+
 			if(queueScreenshot) {
 				queueScreenshot = false;
 				ScreenShotHelper.saveScreenshot(mc.gameDir, mc.getMainWindow().getFramebufferWidth(), mc.getMainWindow().getFramebufferHeight(), mc.getFramebuffer(), (msg) -> {
@@ -250,7 +261,13 @@ public class CameraModule extends Module {
 			overlayColor = 0xf77700;
 			break;
 		case 2: // Postcard
-			overlayText = I18n.format("quark.camera.greetings", mc.getIntegratedServer().getWorldName());
+			String worldName = "N/A";
+			if(mc.getIntegratedServer() != null) 
+				worldName = mc.getIntegratedServer().getWorldName();
+			else if(mc.getCurrentServerData() != null)
+				worldName = mc.getCurrentServerData().serverName;
+			
+			overlayText = I18n.format("quark.camera.greetings", worldName);
 			overlayX = paddingHoriz + 20;
 			overlayY = paddingVert + 20;
 			overlayScale = 3;
@@ -262,8 +279,8 @@ public class CameraModule extends Module {
 			overlayShadow = false;
 			overlayColor = 0x44000000;
 			break;
-		case 4: // Offhand Item
-			overlayText = mc.player.getHeldItemOffhand().getDisplayName().getFormattedText();
+		case 4: // Held Item
+			overlayText = mc.player.getHeldItemMainhand().getDisplayName().getFormattedText();
 			overlayX = twidth / 2 - mc.fontRenderer.getStringWidth(overlayText);
 			overlayY = paddingVert + 40;
 			break;
@@ -312,7 +329,7 @@ public class CameraModule extends Module {
 			RenderSystem.popMatrix();
 
 			int left = 30;
-			int top = theight - 80;
+			int top = theight - 65;
 
 			// =============================================== DRAW SETTINGS ===============================================
 			ResourceLocation shader = SHADERS[currShader];
@@ -333,11 +350,16 @@ public class CameraModule extends Module {
 
 			text = TextFormatting.BOLD + "[5] " + TextFormatting.RESET + I18n.format("quark.camera.reset");
 			mc.fontRenderer.drawStringWithShadow(text, left, top + 48, 0xFFFFFF);
-
-			text = TextFormatting.BOLD + "[ENTER] " + TextFormatting.RESET + I18n.format("quark.camera.shoot");
-			mc.fontRenderer.drawStringWithShadow(text, left, top + 60, 0xFFFFFF);
-
-			mc.getItemRenderer().renderItemIntoGUI(mc.player.getHeldItemMainhand(), left - 25, top + 20);
+			
+			text = TextFormatting.AQUA + I18n.format("quark.camera.header");
+			mc.fontRenderer.drawStringWithShadow(text, twidth / 2 - mc.fontRenderer.getStringWidth(text) / 2, 6, 0xFFFFFF);
+			
+			text = I18n.format("quark.camera.info", new KeybindTextComponent("quark.keybind.camera_mode").getUnformattedComponentText());
+			mc.fontRenderer.drawStringWithShadow(text, twidth / 2 - mc.fontRenderer.getStringWidth(text) / 2, 16, 0xFFFFFF);
+			
+			ResourceLocation CAMERA_TEXTURE = new ResourceLocation(Quark.MOD_ID, "textures/misc/camera.png");
+			mc.textureManager.bindTexture(CAMERA_TEXTURE);
+			Screen.blit(left - 22, top + 18, 0, 0, 0, 16, 16, 16, 16);
 		}
 	}
 
@@ -347,9 +369,9 @@ public class CameraModule extends Module {
 
 		Minecraft mc = Minecraft.getInstance();
 		GameRenderer render = mc.gameRenderer;
-		mc.gameSettings.hideGUI = currentlyHoldingCamera;
+		mc.gameSettings.hideGUI = cameraMode;
 
-		if(currentlyHoldingCamera) {
+		if(cameraMode) {
 			ResourceLocation shader = SHADERS[currShader];
 
 			if(shader != null) {
@@ -377,10 +399,6 @@ public class CameraModule extends Module {
 			val = 0;
 
 		return val;
-	}
-
-	private static boolean isHoldingCamera(Minecraft mc) {
-		return mc.world != null && mc.currentScreen == null && mc.player != null && mc.player.getHeldItemMainhand().getItem() == camera;
 	}
 
 }
