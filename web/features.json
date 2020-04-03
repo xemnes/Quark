@@ -473,6 +473,15 @@
 			"desc": [
 				"Pressing Mouse 4 (by default, rebindable) will try to find a Back/Done/Cancel button in your current GUI and click it. This makes the button work as a \"Back\" button like in most programs."
 			]
+		},
+		{
+			"name": "Camera Mode",
+			"image": "camera.jpg",
+			"versions": "1.15+",
+			"desc": [
+				"Pressing F12 (by default, rebindable) will open Camera Mode.",
+				"In this new mode, you can take enhanced screenshots, by using over 20 image filters, and combining them with borders and overlays. You can even enable grid lines such as the Rule of Thirds or the Golden Ratio to help you take a perfect image!"
+			]
 		}
 	],
 	"management": [
