@@ -93,7 +93,7 @@ public final class ConfigObjectSerializer {
 			throw new IllegalArgumentException("Floats can't be used in config, use double instead. Offender: " + field);
 		
 		if(defaultValue instanceof IConfigType) {
-			name = name.toLowerCase().replaceAll(" ", "_");
+			name = name.toLowerCase(Locale.ROOT).replaceAll(" ", "_");
 			
 			builder.push(name);
 			serialize(builder, flagManager, callbacks, defaultValue);

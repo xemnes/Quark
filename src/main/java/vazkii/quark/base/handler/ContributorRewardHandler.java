@@ -42,7 +42,7 @@ public class ContributorRewardHandler {
 
 	@OnlyIn(Dist.CLIENT)
 	public static void getLocalName() {
-		name = Minecraft.getInstance().getSession().getUsername().toLowerCase();
+		name = Minecraft.getInstance().getSession().getUsername().toLowerCase(Locale.ROOT);
 	}
 
 	public static void init() {

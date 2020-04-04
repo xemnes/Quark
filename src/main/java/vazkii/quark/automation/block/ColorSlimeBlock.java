@@ -28,7 +28,7 @@ public class ColorSlimeBlock extends SlimeBlock implements INonSticky {
 				.hardnessAndResistance(5F, 10F)
 				.sound(SoundType.SLIME));
 		
-		RegistryHelper.registerBlock(this, color.name().toLowerCase() + "_slime_block");
+		RegistryHelper.registerBlock(this, color.name().toLowerCase(Locale.ROOT) + "_slime_block");
 		RegistryHelper.setCreativeTab(this, ItemGroup.DECORATIONS);
 		
 		this.color = color;

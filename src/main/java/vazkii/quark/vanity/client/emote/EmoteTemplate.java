@@ -50,7 +50,7 @@ public class EmoteTemplate {
 			if(Modifier.isPublic(modifiers) && Modifier.isStatic(modifiers) && Modifier.isFinal(modifiers)) {
 				try {
 					int val = f.getInt(null);
-					String name = f.getName().toLowerCase();
+					String name = f.getName().toLowerCase(Locale.ROOT);
 					if(name.matches("^.+?_[xyz]$"))
 						tweenables.put(name, val);
 					else
@@ -64,7 +64,7 @@ public class EmoteTemplate {
 		clazz = TweenEquations.class;
 		fields = clazz.getDeclaredFields();
 		for(Field f : fields) {
-			String name = f.getName().replaceAll("[A-Z]", "_$0").substring(5).toLowerCase();
+			String name = f.getName().replaceAll("[A-Z]", "_$0").substring(5).toLowerCase(Locale.ROOT);
 			try {
 				TweenEquation eq = (TweenEquation) f.get(null);
 				equations.put(name, eq);

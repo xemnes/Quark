@@ -50,7 +50,7 @@ public final class ModuleFinder {
 				moduleObj.displayName = (String) vals.get("name");
 			else
 				moduleObj.displayName = WordUtils.capitalizeFully(clazz.getSimpleName().replaceAll("Module$", "").replaceAll("(?<=.)([A-Z])", " $1"));
-			moduleObj.lowercaseName = moduleObj.displayName.toLowerCase().replaceAll(" ", "_");
+			moduleObj.lowercaseName = moduleObj.displayName.toLowerCase(Locale.ROOT).replaceAll(" ", "_");
 			
 			if(vals.containsKey("description"))
 				moduleObj.description = (String) vals.get("description");

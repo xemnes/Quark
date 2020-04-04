@@ -200,7 +200,7 @@ public class ChestSearchingModule extends Module {
 	}
 
 	public static boolean namesMatch(ItemStack stack, String search) {
-		search = TextFormatting.getTextWithoutFormattingCodes(search.trim().toLowerCase());
+		search = TextFormatting.getTextWithoutFormattingCodes(search.trim().toLowerCase(Locale.ROOT));
 		if(search == null || search.isEmpty())
 			return true;
 
@@ -231,7 +231,7 @@ public class ChestSearchingModule extends Module {
 		}
 
 		String name = stack.getDisplayName().toString();
-		name = TextFormatting.getTextWithoutFormattingCodes(name.trim().toLowerCase());
+		name = TextFormatting.getTextWithoutFormattingCodes(name.trim().toLowerCase(Locale.ROOT));
 
 		StringMatcher matcher = String::contains;
 
@@ -248,14 +248,14 @@ public class ChestSearchingModule extends Module {
 		if(stack.isEnchanted()) {
 			Map<Enchantment, Integer> enchants = EnchantmentHelper.getEnchantments(stack);
 			for(Enchantment e : enchants.keySet())
-				if(e != null && matcher.test(e.getDisplayName(enchants.get(e)).toString().toLowerCase(), search))
+				if(e != null && matcher.test(e.getDisplayName(enchants.get(e)).toString().toLowerCase(Locale.ROOT), search))
 					return true;
 		}
 
 		List<ITextComponent> potionNames = new ArrayList<>();
 		PotionUtils.addPotionTooltip(stack, potionNames, 1F);
 		for(ITextComponent s : potionNames) {
-			if (matcher.test(TextFormatting.getTextWithoutFormattingCodes(s.toString().trim().toLowerCase()), search))
+			if (matcher.test(TextFormatting.getTextWithoutFormattingCodes(s.toString().trim().toLowerCase(Locale.ROOT)), search))
 				return true;
 		}
 
@@ -265,12 +265,12 @@ public class ChestSearchingModule extends Module {
 		for(Map.Entry<Enchantment, Integer> entry : EnchantmentHelper.getEnchantments(stack).entrySet()) {
 			int lvl = entry.getValue();
 			Enchantment e = entry.getKey();
-			if(e != null && matcher.test(e.getDisplayName(lvl).toString().toLowerCase(), search))
+			if(e != null && matcher.test(e.getDisplayName(lvl).toString().toLowerCase(Locale.ROOT), search))
 				return true;
 		}
 
 		ItemGroup tab = item.getGroup();
-		if(tab != null && matcher.test(I18n.format(tab.getTranslationKey()).toLowerCase(), search))
+		if(tab != null && matcher.test(I18n.format(tab.getTranslationKey()).toLowerCase(Locale.ROOT), search))
 			return true;
 
 		//		if(search.matches("favou?rites?") && FavoriteItems.isItemFavorited(stack))
@@ -278,7 +278,7 @@ public class ChestSearchingModule extends Module {
 
 		ResourceLocation itemName = item.getRegistryName();
 		Optional<? extends ModContainer> mod = ModList.get().getModContainerById(itemName.getPath());
-		if(mod.isPresent() && matcher.test(mod.orElse(null).getModInfo().getDisplayName().toLowerCase(), search))
+		if(mod.isPresent() && matcher.test(mod.orElse(null).getModInfo().getDisplayName().toLowerCase(Locale.ROOT), search))
 			return true;
 
 		if(matcher.test(name, search))

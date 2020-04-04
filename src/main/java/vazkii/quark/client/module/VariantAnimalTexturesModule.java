@@ -96,7 +96,7 @@ public class VariantAnimalTexturesModule extends Module {
 
 	@OnlyIn(Dist.CLIENT)
 	private static void registerTextures(VariantTextureType type, int count, ResourceLocation vanilla) {
-		String name = type.name().toLowerCase();
+		String name = type.name().toLowerCase(Locale.ROOT);
 		for(int i = 1; i < count + 1; i++)
 			textures.put(type, new ResourceLocation(Quark.MOD_ID, String.format("textures/model/entity/variants/%s%d.png", name, i)));
 		
@@ -105,7 +105,7 @@ public class VariantAnimalTexturesModule extends Module {
 	}
 	
 	private static void registerShiny(VariantTextureType type) {
-		shinyTextures.put(type, new ResourceLocation(Quark.MOD_ID, String.format("textures/model/entity/variants/%s_shiny.png", type.name().toLowerCase())));
+		shinyTextures.put(type, new ResourceLocation(Quark.MOD_ID, String.format("textures/model/entity/variants/%s_shiny.png", type.name().toLowerCase(Locale.ROOT))));
 	}
 
 	public enum VariantTextureType {
