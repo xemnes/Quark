@@ -5,7 +5,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.arl.network.NetworkHandler;
@@ -53,7 +52,8 @@ public class ItemsFlashBeforeExpiring extends Feature {
 
 			if (age != prev && age != prev + 1) {
 				anyChange = true;
-			}
+			} else
+				AGE_MAP.put(item, prev + 1);
 		}
 
 		if (!LIFESPAN_MAP.containsKey(item))
