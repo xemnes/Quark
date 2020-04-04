@@ -53,7 +53,7 @@ public class ItemsFlashBeforeExpiring extends Feature {
 			if (age != prev && age != prev + 1) {
 				anyChange = true;
 			} else
-				AGE_MAP.put(item, prev + 1);
+				AGE_MAP.put(item, age);
 		}
 
 		if (!LIFESPAN_MAP.containsKey(item))
