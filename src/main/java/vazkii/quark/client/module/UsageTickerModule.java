@@ -16,6 +16,7 @@ import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.inventory.EquipmentSlotType.Group;
 import net.minecraft.item.ArrowItem;
 import net.minecraft.item.BowItem;
+import net.minecraft.item.CrossbowItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.Hand;
@@ -186,7 +187,7 @@ public class UsageTickerModule extends Module {
 		@OnlyIn(Dist.CLIENT)
 		public ItemStack getDisplayedStack(ItemStack stack, int count) {
 			boolean verifySize = true;
-			if(stack.getItem() instanceof BowItem && EnchantmentHelper.getEnchantmentLevel(Enchantments.INFINITY, stack) == 0) {
+			if((stack.getItem() instanceof BowItem || stack.getItem() instanceof CrossbowItem) && EnchantmentHelper.getEnchantmentLevel(Enchantments.INFINITY, stack) == 0) {
 				stack = new ItemStack(Items.ARROW);
 				verifySize = false;
 			}
