@@ -33,7 +33,7 @@ public class StonelingsModule extends Module {
 	@Config
 	public static DimensionConfig dimensions = DimensionConfig.overworld(false);
 	@Config 
-	public static EntitySpawnConfig spawnConfig = new EntitySpawnConfig(80, 1, 1, new BiomeTypeConfig(true, BiomeDictionary.Type.VOID));
+	public static EntitySpawnConfig spawnConfig = new EntitySpawnConfig(80, 1, 1, new BiomeTypeConfig(true, BiomeDictionary.Type.VOID, BiomeDictionary.Type.NETHER, BiomeDictionary.Type.END));
 	@Config(flag = "stoneling_drop_diamond_heart")
 	public static boolean enableDiamondHeart = true;
 	@Config
