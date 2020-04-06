@@ -1,9 +1,5 @@
 package vazkii.quark.oddities.block;
 
-import java.util.function.BooleanSupplier;
-
-import javax.annotation.Nullable;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -24,8 +20,6 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
-import vazkii.quark.base.block.IQuarkBlock;
-import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.oddities.module.MatrixEnchantingModule;
 import vazkii.quark.oddities.tile.MatrixEnchantingTableTileEntity;

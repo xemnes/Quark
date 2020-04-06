@@ -90,6 +90,9 @@ public class MatrixEnchantingModule extends Module {
 
 	@Config(description = "By default, enchantment rarities are fuzzed a bit to feel better with the new system. Set this to false to override this behaviour.")
 	public static boolean normalizeRarity = true;
+	
+	@Config(description = "Matrix Enchanting can be done with water instead of air around the enchanting table. Set this to false to disable this behaviour.")
+	public static boolean allowUnderwaterEnchanting = true;
 
 	@Config(description = "A list of enchantment IDs you don't want the enchantment table to be able to create")
 	public static List<String> disallowedEnchantments = Lists.newArrayList();

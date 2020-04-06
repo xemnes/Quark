@@ -10,6 +10,7 @@ import java.util.function.Predicate;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -222,10 +223,11 @@ public class MatrixEnchantingTableTileEntity extends BaseEnchantingTableTile imp
 
 		enchantability = item.getItem().getItemEnchantability(item);
 
+		boolean allowWater = MatrixEnchantingModule.allowUnderwaterEnchanting;
 		float power = 0;
 		for (int j = -1; j <= 1; ++j) {
 			for (int k = -1; k <= 1; ++k) {
-				if ((j != 0 || k != 0) && world.isAirBlock(pos.add(k, 0, j)) && world.isAirBlock(pos.add(k, 1, j))) {
+				if(isAirGap(j, k, allowWater)) {
 					power += getEnchantPowerAt(world, pos.add(k * 2, 0, j * 2));
 					power += getEnchantPowerAt(world, pos.add(k * 2, 1, j * 2));
 					if (k != 0 && j != 0) {
@@ -239,6 +241,18 @@ public class MatrixEnchantingTableTileEntity extends BaseEnchantingTableTile imp
 		}
 
 		bookshelfPower = Math.min((int) power, MatrixEnchantingModule.maxBookshelves);
+	}
+	
+	private boolean isAirGap(int j, int k, boolean allowWater) {
+		if(j != 0 || k != 0) {
+			BlockPos test = pos.add(k, 0, j);
+			BlockPos testUp = test.up();
+			
+			return (world.isAirBlock(test) || (allowWater && world.getBlockState(test).getBlock() == Blocks.WATER))
+					&& (world.isAirBlock(testUp) || (allowWater && world.getBlockState(testUp).getBlock() == Blocks.WATER));
+		}
+		
+		return false;
 	}
 	
 	private float getEnchantPowerAt(World world, BlockPos pos) {
