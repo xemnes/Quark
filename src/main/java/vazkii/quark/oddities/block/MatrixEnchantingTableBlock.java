@@ -18,6 +18,7 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
@@ -42,7 +43,7 @@ public class MatrixEnchantingTableBlock extends EnchantingTableBlock implements 
 	
 	@Override
 	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult raytrace) {
-		if(worldIn.getTileEntity(pos) instanceof MatrixEnchantingTableTileEntity)
+		if(!(worldIn.getTileEntity(pos) instanceof MatrixEnchantingTableTileEntity))
 			worldIn.setTileEntity(pos, createTileEntity(state, worldIn));
 		
 		if(player instanceof ServerPlayerEntity)

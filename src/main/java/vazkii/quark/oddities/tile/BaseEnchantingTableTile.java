@@ -156,6 +156,11 @@ public abstract class BaseEnchantingTableTile extends TileSimpleInventory implem
 	}
 	
 	@Override
+	protected boolean needsToSyncInventory() {
+		return true;
+	}
+	
+	@Override
 	public void sync() {
 		MiscUtil.syncTE(this);
 	}

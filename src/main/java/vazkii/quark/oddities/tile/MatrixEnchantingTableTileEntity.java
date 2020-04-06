@@ -29,6 +29,7 @@ import vazkii.arl.util.ItemNBTHelper;
 import vazkii.quark.building.block.CandleBlock;
 import vazkii.quark.oddities.container.EnchantmentMatrix;
 import vazkii.quark.oddities.container.EnchantmentMatrix.Piece;
+import vazkii.quark.oddities.container.MatrixEnchantingContainer;
 import vazkii.quark.oddities.module.MatrixEnchantingModule;
 
 public class MatrixEnchantingTableTileEntity extends BaseEnchantingTableTile implements INamedContainerProvider {
@@ -48,6 +49,7 @@ public class MatrixEnchantingTableTileEntity extends BaseEnchantingTableTile imp
 
 	public EnchantmentMatrix matrix;
 	private boolean matrixDirty = false;
+	public boolean clientMatrixDirty = false;
 	private UUID matrixId;
 
 	public final Map<Enchantment, Integer> influences = new HashMap<>();
@@ -291,6 +293,7 @@ public class MatrixEnchantingTableTileEntity extends BaseEnchantingTableTile imp
 				matrix = new EnchantmentMatrix(getStackInSlot(0), new Random());
 				matrix.readFromNBT(matrixCmp);
 			}
+			clientMatrixDirty = true;
 		} else matrix = null;
 		
 		charge = cmp.getInt(TAG_CHARGE);
@@ -298,7 +301,7 @@ public class MatrixEnchantingTableTileEntity extends BaseEnchantingTableTile imp
 
 	@Override
 	public Container createMenu(int id, PlayerInventory inv, PlayerEntity player) {
-		return null;
+		return new MatrixEnchantingContainer(id, inv, this);
 	}
 
 	@Override

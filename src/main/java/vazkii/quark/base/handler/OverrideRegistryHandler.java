@@ -30,6 +30,7 @@ import java.util.Map;
 
 public final class OverrideRegistryHandler {
 	
+	// TODO proper blockItem handling
 	public static void registerBlock(Block block, String baseName) {
 		register(block, Blocks.class, baseName);
 	}
@@ -52,6 +53,7 @@ public final class OverrideRegistryHandler {
 			obj.setRegistryName(regName);
 		}
 
+		// TODO: ARL needs an update to handle registering blockitems
 		RegistryHelper.register(obj);
 
 		for (Field declared : registryType.getDeclaredFields()) {
@@ -66,7 +68,8 @@ public final class OverrideRegistryHandler {
 							Map<Block, Item> itemMap = GameData.getBlockItemMap();
 							itemMap.put(((BlockItem) obj).getBlock(), (Item) obj);
 						}
-
+						
+						Quark.LOG.info("Overriding " + registryType + "." + declared + " with " + obj);
 						MiscUtil.editFinalField(declared, null, obj);
 					}
 				} catch (IllegalAccessException e) {

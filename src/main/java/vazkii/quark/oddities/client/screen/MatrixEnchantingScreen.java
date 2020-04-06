@@ -55,7 +55,8 @@ public class MatrixEnchantingScreen extends ContainerScreen<MatrixEnchantingCont
 
 		selectedPiece = -1;
 		addButton(plusButton = new MatrixEnchantingPlusButton(guiLeft + 86, guiTop + 63, this::add));
-		pieceList = new MatrixEnchantingPieceList(this, 29, 64, guiTop + 11, guiLeft + 139, 22);
+		pieceList = new MatrixEnchantingPieceList(this, 28, 64, guiTop + 11, guiTop + 75, 22);
+		pieceList.setLeftPos(guiLeft + 139);
 		children.add(pieceList);
 		updateButtonStatus();
 	}
@@ -65,8 +66,15 @@ public class MatrixEnchantingScreen extends ContainerScreen<MatrixEnchantingCont
 		super.tick();
 		updateButtonStatus();
 
-		if(enchanter.matrix == null)
+		if(enchanter.matrix == null) {
 			selectedPiece = -1;
+			pieceList.refresh();
+		}
+		
+		if(enchanter.clientMatrixDirty) {
+			pieceList.refresh();
+			enchanter.clientMatrixDirty = false;
+		}
 	}
 
 	@Override
@@ -83,6 +91,8 @@ public class MatrixEnchantingScreen extends ContainerScreen<MatrixEnchantingCont
 			int barHeight = (int) (((float) enchanter.charge / MatrixEnchantingModule.chargePerLapis) * maxHeight);
 			blit(i + 7, j + 32 + maxHeight - barHeight, 50, 176 + maxHeight - barHeight, 4, barHeight);
 		}
+		
+		pieceList.render(mouseX, mouseY, partialTicks);
 
 		if(enchanter.matrix != null && enchanter.matrix.canGeneratePiece(enchanter.bookshelfPower, enchanter.enchantability)) {
 			int x = i + 74;
@@ -114,7 +124,10 @@ public class MatrixEnchantingScreen extends ContainerScreen<MatrixEnchantingCont
 		font.drawString(playerInv.getDisplayName().getUnformattedComponentText(), 8, ySize - 96 + 2, 4210752);
 
 		if(enchanter.matrix != null) {
+			boolean needsRefresh = listPieces == null;
 			listPieces = enchanter.matrix.benchedPieces;
+			if(needsRefresh)
+				pieceList.refresh();
 			renderMatrixGrid(enchanter.matrix);
 		}
 	}
@@ -175,14 +188,13 @@ public class MatrixEnchantingScreen extends ContainerScreen<MatrixEnchantingCont
 
 		super.mouseMoved(mouseX, mouseY);
 	}
-	
 
 	@Override
-	protected void handleMouseClick(Slot slotIn, int slotId, int mouseButton, ClickType type) {
-		super.handleMouseClick(slotIn, slotId, mouseButton, type);
-
+	public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
+		super.mouseClicked(mouseX, mouseY, mouseButton);
+		
 		if(enchanter.matrix == null)
-			return;
+			return true;
 
 		if(mouseButton == 0 && gridHoverX != -1) { // left click
 			int hover = enchanter.matrix.matrix[gridHoverX][gridHoverY];
@@ -199,6 +211,15 @@ public class MatrixEnchantingScreen extends ContainerScreen<MatrixEnchantingCont
 		} else if(mouseButton == 1 && selectedPiece != -1) {
 			rotate(selectedPiece);
 		}
+		
+		return true;
+	}
+	
+	@Override
+	protected void handleMouseClick(Slot slotIn, int slotId, int mouseButton, ClickType type) {
+		super.handleMouseClick(slotIn, slotId, mouseButton, type);
+
+
 	}
 
 	private void renderMatrixGrid(EnchantmentMatrix matrix) {
@@ -292,6 +313,7 @@ public class MatrixEnchantingScreen extends ContainerScreen<MatrixEnchantingCont
 	}	
 
 	private void send(int operation, int arg0, int arg1, int arg2) {
+		System.out.println("send");
 		MatrixEnchanterOperationMessage message = new MatrixEnchanterOperationMessage(operation, arg0, arg1, arg2);
 		QuarkNetwork.sendToServer(message);
 	}
