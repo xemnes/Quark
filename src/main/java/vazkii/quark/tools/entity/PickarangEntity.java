@@ -244,6 +244,7 @@ public class PickarangEntity extends Entity implements IProjectile {
 								int ore = toretoise.getOreType();
 								
 								if(ore != 0) {
+									addHit(toretoise);
 									toretoise.dropOre(ore);
 									break hitEntity;
 								}
