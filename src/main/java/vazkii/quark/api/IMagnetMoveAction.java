@@ -1,4 +1,4 @@
-package vazkii.quark.oddities.magnetsystem;
+package vazkii.quark.api;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.tileentity.TileEntity;

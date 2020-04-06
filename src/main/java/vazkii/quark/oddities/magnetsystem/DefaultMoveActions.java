@@ -18,6 +18,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.IPlantable;
+import vazkii.quark.api.IMagnetMoveAction;
 
 public class DefaultMoveActions {
 

@@ -26,7 +26,7 @@ import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import vazkii.quark.oddities.magnetsystem.IMagnetMoveAction;
+import vazkii.quark.api.IMagnetMoveAction;
 import vazkii.quark.oddities.magnetsystem.MagnetSystem;
 import vazkii.quark.oddities.module.MagnetsModule;
 

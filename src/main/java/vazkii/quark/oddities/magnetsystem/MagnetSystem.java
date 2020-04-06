@@ -39,6 +39,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import net.minecraftforge.registries.ForgeRegistries;
+import vazkii.quark.api.IMagnetMoveAction;
 import vazkii.quark.api.IMagnetTracker;
 import vazkii.quark.api.QuarkCapabilities;
 import vazkii.quark.base.Quark;
