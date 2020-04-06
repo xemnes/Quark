@@ -42,11 +42,7 @@ public class SpringySlimeModule extends Module {
 	public void construct() {
 		SpringySlimeBlock block = new SpringySlimeBlock(Block.Properties.from(Blocks.SLIME_BLOCK));
 
-		OverrideRegistryHandler.registerBlock(block, "slime_block");
-
-		BlockItem item = new BlockItem(block, new Item.Properties().group(ItemGroup.DECORATIONS));
-
-		OverrideRegistryHandler.registerItem(item, "slime_block");
+		OverrideRegistryHandler.registerBlock(block, "slime_block", ItemGroup.DECORATIONS);
 	}
 
 	private static final ThreadLocal<MutableVectorHolder> motionRecorder = ThreadLocal.withInitial(MutableVectorHolder::new);
@@ -57,7 +53,6 @@ public class SpringySlimeModule extends Module {
 
 	public static void collideWithSlimeBlock(BlockPos pos, Entity entity) {
 		if (entity instanceof AbstractArrowEntity) {
-
 			Vec3d motion = entity.getMotion();
 			double motionX = motion.x;
 			double motionY = motion.y;

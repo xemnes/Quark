@@ -59,6 +59,8 @@ public class MatrixEnchantingScreen extends ContainerScreen<MatrixEnchantingCont
 		pieceList.setLeftPos(guiLeft + 139);
 		children.add(pieceList);
 		updateButtonStatus();
+		
+		pieceList.refresh();
 	}
 
 	@Override
@@ -105,7 +107,7 @@ public class MatrixEnchantingScreen extends ContainerScreen<MatrixEnchantingCont
 
 			if(!has && mc.player.experienceLevel < xpMin) {
 				font.drawStringWithShadow("!", x + 6, y + 3, 0xFF0000);
-				text = I18n.format("quarkmisc.matrixMin", xpMin);
+				text = I18n.format("quark.gui.enchanting.min", xpMin);
 			}
 
 			x -= (font.getStringWidth(text) - 5);
@@ -141,24 +143,24 @@ public class MatrixEnchantingScreen extends ContainerScreen<MatrixEnchantingCont
 
 		if(hoveredPiece != null) {
 			List<String> tooltip = new LinkedList<>();
-			tooltip.add(hoveredPiece.enchant.getDisplayName(hoveredPiece.level).getUnformattedComponentText());
+			tooltip.add(TextFormatting.AQUA + hoveredPiece.enchant.getDisplayName(hoveredPiece.level).getFormattedText().replaceAll("\\u00A7.", ""));
 
 			if(hoveredPiece.influence > 0)
-				tooltip.add(TextFormatting.GRAY + I18n.format("quarkmisc.matrixInfluence", (int) (hoveredPiece.influence * MatrixEnchantingModule.influencePower * 100)));
+				tooltip.add(TextFormatting.GRAY + I18n.format("quark.gui.enchanting.influence", (int) (hoveredPiece.influence * MatrixEnchantingModule.influencePower * 100)));
 
 			int max = hoveredPiece.getMaxXP();
 			if(max > 0)
-				tooltip.add(TextFormatting.GRAY + I18n.format("quarkmisc.matrixUpgrade", hoveredPiece.xp, max));
+				tooltip.add(TextFormatting.GRAY + I18n.format("quark.gui.enchanting.upgrade", hoveredPiece.xp, max));
 
 			if(gridHoverX == -1) {
 				tooltip.add("");
-				tooltip.add(TextFormatting.GRAY + I18n.format("quarkmisc.matrixLeftClick"));
-				tooltip.add(TextFormatting.GRAY + I18n.format("quarkmisc.matrixRightClick"));
+				tooltip.add(TextFormatting.GRAY + I18n.format("quark.gui.enchanting.left_click"));
+				tooltip.add(TextFormatting.GRAY + I18n.format("quark.gui.enchanting.right_click"));
 			} else if(selectedPiece != -1) {
 				Piece p = getPiece(selectedPiece);
 				if(p != null && p.enchant == hoveredPiece.enchant && hoveredPiece.level < hoveredPiece.enchant.getMaxLevel()) {
 					tooltip.add("");
-					tooltip.add(TextFormatting.GRAY + I18n.format("quarkmisc.matrixMerge"));
+					tooltip.add(TextFormatting.GRAY + I18n.format("quark.gui.enchanting.merge"));
 				}
 			}
 
@@ -169,9 +171,6 @@ public class MatrixEnchantingScreen extends ContainerScreen<MatrixEnchantingCont
 
 	@Override
 	public void mouseMoved(double mouseX, double mouseY) {
-		//		int mouseX = Mouse.getEventX() * width / mc.displayWidth;
-		//		int mouseY = height - Mouse.getEventY() * height / mc.displayHeight - 1;
-
 		int gridMouseX = (int) (mouseX - guiLeft - 86);
 		int gridMouseY = (int) (mouseY - guiTop - 11);
 

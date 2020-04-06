@@ -12,6 +12,7 @@ import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.DyeColor;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
@@ -23,6 +24,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.extensions.IForgeContainerType;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.registries.ForgeRegistries;
 import vazkii.arl.util.ItemNBTHelper;
 import vazkii.arl.util.RegistryHelper;
@@ -33,6 +35,7 @@ import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
 import vazkii.quark.oddities.block.MatrixEnchantingTableBlock;
+import vazkii.quark.oddities.client.render.MatrixEnchantingTableTileEntityRenderer;
 import vazkii.quark.oddities.client.screen.MatrixEnchantingScreen;
 import vazkii.quark.oddities.container.MatrixEnchantingContainer;
 import vazkii.quark.oddities.tile.MatrixEnchantingTableTileEntity;
@@ -124,9 +127,8 @@ public class MatrixEnchantingModule extends Module {
 
 	@Override
 	public void construct() {
-		// TODO allow hotswapping
 		Block matrixEnchanter = new MatrixEnchantingTableBlock(this);
-		OverrideRegistryHandler.registerBlock(matrixEnchanter, "enchanting_table");
+		OverrideRegistryHandler.registerBlock(matrixEnchanter, "enchanting_table", ItemGroup.DECORATIONS);
 
 		containerType = IForgeContainerType.create(MatrixEnchantingContainer::fromNetwork);
 		RegistryHelper.register(containerType, "matrix_enchanting");
@@ -136,16 +138,19 @@ public class MatrixEnchantingModule extends Module {
 	}
 
 	@Override
+	@OnlyIn(Dist.CLIENT)
 	public void clientSetup() {
 		ScreenManager.registerFactory(containerType, MatrixEnchantingScreen::new);
+		ClientRegistry.bindTileEntityRenderer(tileEntityType, (d) -> new MatrixEnchantingTableTileEntityRenderer(d));
 	}
+	
 
 	@SubscribeEvent
 	@OnlyIn(Dist.CLIENT)
 	public void onTooltip(ItemTooltipEvent event) {
 		ItemStack stack = event.getItemStack();
 		if(showTooltip && ItemNBTHelper.verifyExistence(stack, MatrixEnchantingTableTileEntity.TAG_STACK_MATRIX))
-			event.getToolTip().add(new TranslationTextComponent("quarkmisc.pendingEnchants").setStyle(new Style().setColor(TextFormatting.AQUA)));
+			event.getToolTip().add(new TranslationTextComponent("quark.gui.enchanting.pending").setStyle(new Style().setColor(TextFormatting.AQUA)));
 	}
 
 	@Override
@@ -180,6 +185,5 @@ public class MatrixEnchantingModule extends Module {
 			}
 		}
 	}
-
 
 }

@@ -10,10 +10,17 @@
  */
 package vazkii.quark.base.handler;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.Map;
+
+import javax.annotation.Nullable;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.Items;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
@@ -24,17 +31,22 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
 import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.base.Quark;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.util.Map;
-
 public final class OverrideRegistryHandler {
 	
-	// TODO proper blockItem handling
-	public static void registerBlock(Block block, String baseName) {
+	public static void registerBlock(Block block, String baseName, @Nullable ItemGroup group) {
 		register(block, Blocks.class, baseName);
+		registerBlockItem(block, group);
 	}
 
+	private static void registerBlockItem(Block block, @Nullable ItemGroup group) {
+		Item.Properties props = new Item.Properties();
+		if(group != null)
+			props = props.group(group);
+		
+		BlockItem item = new BlockItem(block, props);
+		registerItem(item, block.getRegistryName().getPath());
+	}
+	
 	public static void registerItem(Item item, String baseName) {
 		register(item, Items.class, baseName);
 	}
@@ -53,7 +65,6 @@ public final class OverrideRegistryHandler {
 			obj.setRegistryName(regName);
 		}
 
-		// TODO: ARL needs an update to handle registering blockitems
 		RegistryHelper.register(obj);
 
 		for (Field declared : registryType.getDeclaredFields()) {

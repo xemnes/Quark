@@ -8,6 +8,14 @@
 	"quark.gui.button.emotes": "Emotes",
 	"quark.gui.button.back": "Back",
 
+	"quark.gui.enchanting.min": "Min: %d",
+	"quark.gui.enchanting.influence": "Candle Influence: +%d%%",
+	"quark.gui.enchanting.upgrade": "Upgrade: %d/%d",
+	"quark.gui.enchanting.left_click": "Left Click to Select",
+	"quark.gui.enchanting.right_click": "Right Click to Rotate",
+	"quark.gui.enchanting.merge": "Click to Upgrade",
+	"quark.gui.enchanting.pending": "Has Pending Enchantments",
+
 	"quark.gui.keygroup.misc": "Quark Misc",
 	"quark.gui.keygroup.inv": "Quark Inventory",
 	"quark.gui.keygroup.emote": "Quark Emotes",
