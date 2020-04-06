@@ -127,7 +127,7 @@ public class MatrixEnchantingModule extends Module {
 
 	@Override
 	public void construct() {
-		Block matrixEnchanter = new MatrixEnchantingTableBlock(this);
+		Block matrixEnchanter = new MatrixEnchantingTableBlock();
 		OverrideRegistryHandler.registerBlock(matrixEnchanter, "enchanting_table", ItemGroup.DECORATIONS);
 
 		containerType = IForgeContainerType.create(MatrixEnchantingContainer::fromNetwork);

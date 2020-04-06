@@ -40,7 +40,7 @@ public class SpringySlimeModule extends Module {
 
 	@Override
 	public void construct() {
-		SpringySlimeBlock block = new SpringySlimeBlock(Block.Properties.from(Blocks.SLIME_BLOCK));
+		SpringySlimeBlock block = new SpringySlimeBlock();
 
 		OverrideRegistryHandler.registerBlock(block, "slime_block", ItemGroup.DECORATIONS);
 	}
@@ -52,7 +52,7 @@ public class SpringySlimeModule extends Module {
 	}
 
 	public static void collideWithSlimeBlock(BlockPos pos, Entity entity) {
-		if (entity instanceof AbstractArrowEntity) {
+		if (entity instanceof AbstractArrowEntity && ModuleLoader.INSTANCE.isModuleEnabled(SpringySlimeModule.class)) {
 			Vec3d motion = entity.getMotion();
 			double motionX = motion.x;
 			double motionY = motion.y;

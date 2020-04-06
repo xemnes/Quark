@@ -10,19 +10,23 @@
  */
 package vazkii.quark.tweaks.block;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.SlimeBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.tweaks.module.SpringySlimeModule;
 
 import javax.annotation.Nonnull;
 
 public class SpringySlimeBlock extends SlimeBlock {
-    public SpringySlimeBlock(Properties properties) {
-        super(properties);
+	
+    public SpringySlimeBlock() {
+        super(Block.Properties.from(Blocks.SLIME_BLOCK));
     }
 
     @Override
@@ -33,7 +37,8 @@ public class SpringySlimeBlock extends SlimeBlock {
 
     @Override
     public void onLanded(@Nonnull IBlockReader world, Entity entity) {
-        // Override slime block behavior, as it's handled in SpringySlime
-        entity.setMotion(entity.getMotion().mul(1, 0, 1));
+    	if(ModuleLoader.INSTANCE.isModuleEnabled(SpringySlimeModule.class)) {
+    		entity.setMotion(entity.getMotion().mul(1, 0, 1));
+    	} else super.onLanded(world, entity);
     }
 }

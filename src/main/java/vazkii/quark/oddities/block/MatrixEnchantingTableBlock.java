@@ -30,14 +30,10 @@ import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.oddities.module.MatrixEnchantingModule;
 import vazkii.quark.oddities.tile.MatrixEnchantingTableTileEntity;
 
-public class MatrixEnchantingTableBlock extends EnchantingTableBlock implements IQuarkBlock {
+public class MatrixEnchantingTableBlock extends EnchantingTableBlock {
 
-	private final Module module;
-	private BooleanSupplier enabledSupplier = () -> true;
-	
-	public MatrixEnchantingTableBlock(Module module) {
+	public MatrixEnchantingTableBlock() {
 		super(Block.Properties.from(Blocks.ENCHANTING_TABLE));
-		this.module = module;
 	}
 	
 	@Override
@@ -88,23 +84,6 @@ public class MatrixEnchantingTableBlock extends EnchantingTableBlock implements 
 		}
 		
 		super.onReplaced(state, worldIn, pos, newState, isMoving);
-	}
-
-	@Override
-	public IQuarkBlock setCondition(BooleanSupplier enabledSupplier) {
-		this.enabledSupplier = enabledSupplier;
-		return this;
-	}
-
-	@Override
-	public boolean doesConditionApply() {
-		return enabledSupplier.getAsBoolean();
-	}
-
-	@Nullable
-	@Override
-	public Module getModule() {
-		return module;
 	}
 
 }
