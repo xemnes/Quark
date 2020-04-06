@@ -26,7 +26,7 @@
         },
         {
           "type": "quark:flag",
-          "flag": "passive_creatures_brewing"
+          "flag": "frog_brewing"
         }
       ]
     }
