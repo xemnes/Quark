@@ -15,6 +15,7 @@ import vazkii.quark.base.network.message.HandleBackpackMessage;
 import vazkii.quark.base.network.message.HarvestMessage;
 import vazkii.quark.base.network.message.InventoryTransferMessage;
 import vazkii.quark.base.network.message.LinkItemMessage;
+import vazkii.quark.base.network.message.MatrixEnchanterOperationMessage;
 import vazkii.quark.base.network.message.OpenBoatChestMessage;
 import vazkii.quark.base.network.message.RequestEmoteMessage;
 import vazkii.quark.base.network.message.SetLockProfileMessage;
@@ -45,6 +46,7 @@ public final class QuarkNetwork {
 		network.register(ChangeHotbarMessage.class, NetworkDirection.PLAY_TO_SERVER);
 		network.register(SetLockProfileMessage.class, NetworkDirection.PLAY_TO_SERVER);
 		network.register(HandleBackpackMessage.class, NetworkDirection.PLAY_TO_SERVER);
+		network.register(MatrixEnchanterOperationMessage.class, NetworkDirection.PLAY_TO_SERVER);
 
 		network.register(DoEmoteMessage.class, NetworkDirection.PLAY_TO_CLIENT);
 		network.register(SpamlessChatMessage.class, NetworkDirection.PLAY_TO_CLIENT);

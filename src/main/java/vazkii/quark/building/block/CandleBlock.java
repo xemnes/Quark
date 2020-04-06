@@ -28,12 +28,16 @@ public class CandleBlock extends QuarkBlock {
 
 	private static final VoxelShape SHAPE = Block.makeCuboidShape(6F, 0F, 6F, 10F, 8F, 10F);
 	
+	public final DyeColor color;
+	
 	public CandleBlock(String regname, Module module, DyeColor color) {
 		super(regname, module, ItemGroup.DECORATIONS, 
 				Block.Properties.create(Material.MISCELLANEOUS, color.getMapColor())
 				.hardnessAndResistance(0.2F)
 				.lightValue(14)
 				.sound(SoundType.CLOTH));
+		
+		this.color = color;
 	}
 	
 	@Override

@@ -339,14 +339,9 @@ public class PipeTileEntity extends TileSimpleInventory implements ITickableTile
 		return true;
 	}
 	
+	@Override
 	public void sync() {
-		SUpdateTileEntityPacket packet = getUpdatePacket();
-		
-		if(packet != null && world instanceof ServerWorld) {
-			((ServerChunkProvider) world.getChunkProvider()).chunkManager
-					.getTrackingPlayers(new ChunkPos(pos), false)
-					.forEach(e -> e.connection.sendPacket(packet));
-		}
+		MiscUtil.syncTE(this);
 	}
 
 	public static class PipeItem {
