@@ -8,6 +8,6 @@ import net.minecraft.world.World;
 
 public interface IMagnetMoveAction {
 
-	void onMoved(World world, BlockPos pos, Direction direction, BlockState state, TileEntity tile);
+	void onMagnetMoved(World world, BlockPos pos, Direction direction, BlockState state, TileEntity tile);
 	
 }

@@ -236,7 +236,7 @@ public class MagnetizedBlockTileEntity extends TileEntity implements ITickableTi
 
         IMagnetMoveAction action = getMoveAction();
         if(action != null)
-            action.onMoved(world, pos, magnetFacing, blockState, newTile);
+            action.onMagnetMoved(world, pos, magnetFacing, blockState, newTile);
     }
     
     public TileEntity getSubTile() {
