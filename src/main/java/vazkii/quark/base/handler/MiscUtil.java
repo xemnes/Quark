@@ -78,16 +78,13 @@ public class MiscUtil {
 			"dark_oak"
 	};
 
-	// TODO change to ATs
 	public static void addToLootTable(LootTable table, LootEntry entry) {
-		List<LootPool> pools = ObfuscationReflectionHelper.getPrivateValue(LootTable.class, table, "field_186466_c"); // table.pools;
-		if (pools == null)
+		if(table.pools == null)
 			return;
-		LootPool pool = pools.get(0);
-		List<LootEntry> list = ObfuscationReflectionHelper.getPrivateValue(LootPool.class, pool, "field_186453_a"); // pool.lootEntries;
-		if (list == null)
+		LootPool pool = table.pools.get(0);
+		if (pool.lootEntries == null)
 			return;
-		list.add(entry);
+		pool.lootEntries.add(entry);
 	}
 
 	public static void damageStack(PlayerEntity player, Hand hand, ItemStack stack, int dmg) {
