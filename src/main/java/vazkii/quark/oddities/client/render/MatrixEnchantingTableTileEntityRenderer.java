@@ -51,7 +51,7 @@ public class MatrixEnchantingTableTileEntityRenderer extends TileEntityRenderer<
 		matrix.scale(0.6F, 0.6F, 0.6F);
 
 		rot *= -180F / (float) Math.PI;
-		rot += 90F;
+		rot -= 90F;
 		rot *= bookOpen;
 
 		matrix.rotate(Vector3f.YP.rotationDegrees(rot));
