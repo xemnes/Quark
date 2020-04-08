@@ -20,6 +20,7 @@ import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.state.properties.SlabType;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Direction.Axis;
@@ -81,7 +82,7 @@ public class VerticalSlabBlock extends QuarkBlock implements IWaterLoggable, IBl
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
 		BlockPos blockpos = context.getPos();
 		BlockState blockstate = context.getWorld().getBlockState(blockpos);
-		if(blockstate.getBlock() == this)
+		if(blockstate.getBlock() == this) 
 			return blockstate.with(TYPE, VerticalSlabType.DOUBLE).with(WATERLOGGED, false);
 		
 		IFluidState fluid = context.getWorld().getFluidState(blockpos);
@@ -106,8 +107,9 @@ public class VerticalSlabBlock extends QuarkBlock implements IWaterLoggable, IBl
 	public boolean isReplaceable(BlockState state, @Nonnull BlockItemUseContext useContext) {
 		ItemStack itemstack = useContext.getItem();
 		VerticalSlabType slabtype = state.get(TYPE);
-		return slabtype != VerticalSlabType.DOUBLE && itemstack.getItem() == this.asItem() && useContext.replacingClickedOnBlock() &&
-			(useContext.getFace() == slabtype.direction && getDirectionForPlacement(useContext) == slabtype.direction);
+		return slabtype != VerticalSlabType.DOUBLE && itemstack.getItem() == this.asItem()  &&
+			(useContext.replacingClickedOnBlock() && (useContext.getFace() == slabtype.direction && getDirectionForPlacement(useContext) == slabtype.direction)
+					|| (!useContext.replacingClickedOnBlock() && useContext.getFace().getAxis() != slabtype.direction.getAxis()));
 	}
 
 	@Nonnull
