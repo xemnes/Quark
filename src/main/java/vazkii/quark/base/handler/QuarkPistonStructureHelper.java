@@ -323,7 +323,9 @@ public class QuarkPistonStructureHelper extends PistonBlockStructureHelper {
 		
 		@Override
 		public boolean canStickToBlock(World world, BlockPos pistonPos, BlockPos pos, BlockPos slimePos, BlockState state, BlockState slimeState, Direction direction) {
-			return state.getBlock() == slimeState.getBlock();
+			Block block = state.getBlock();
+			Block slime = slimeState.getBlock();
+			return !slime.isStickyBlock(slimeState) || block == slime;
 		}
 		
 	}
