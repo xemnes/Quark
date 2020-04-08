@@ -1221,6 +1221,49 @@
 				"Do note that if the player who spawned the totem dies again, the totem will break and drop all of the items on the ground, like a normal death.",
 				"A player's totem can be located by crafting a Soul Compass, which is done using a Compass and an Ender Pearl."
 			]
+		},
+		{
+			"name": "Matrix Enchanting",
+			"image": "matrix-enchanting.jpg",
+			"versions": "1.15+",
+			"desc": [
+				"Matrix Encahnting is a complete overhaul of the enchanting system. Pieces can be generated using lapis and XP. The pieces then have to be laid on the grid to enchant the item. Pieces can be rotated and upgraded into higher levels.",
+				"Furthermore, the enchanting table can now hold Lapis and the item you put in. The item will even render in the world! You can enchant underwater too.",
+				"If you want to know more about how to use Matrix Enchanting, press More Info."
+			],		
+			"expand": [
+				"-",
+				"#Basic Points",
+				"*Lapis can be placed in the the bottom-left slot. The lapis is stored as a \"charge\" meter, which you can see in the left blue bar.",
+				"*You can press the <b>+</b> button to generate new pieces. Each piece will contain an enchantment.",
+				"*The pieces you generate will land in the docket, the rightmost side bar.",
+				"*You can pick pieces from the docket and put them in the grid. Pieces put in the grid will affect the output enchantment.",
+				"*You can rotate pieces by right clicking.",
+				"*Generated pieces always come at enchantment level 1. To upgrade a piece you placed down in the grid, simply grab one with the same enchantment and click it on top of the placed one.",
+				"-",
+				"#Tips",
+				"*Incompatible pieces can never be generated - if you see a Fortune piece, you'll never see Silk Touch in that session.",
+				"*The item you're enchanting will retain its pending enchantments if you take it out.",
+				"*If candles (from the Building module) are enabled, you can use those to manipulate what type of enchantments you'd like to get. Placing down up to 4 candles of a single type will enhance the chance you'll find a given enchantment.",
+				"-",
+				"#Candle Influences",
+				"*White: Unbreaking",
+				"*Orange: Fire Protection",
+				"*Magenta: Knockback, Punch",
+				"*Light Blue: Feather Falling",
+				"*Yellow: Looting, Fortune, Luck of the Sea",
+				"*Lime: Blast Protection",
+				"*Pink: Silk Touch, Channeling",
+				"*Gray: Bane of Arhtropods",
+				"*Light Gray: Protection",
+				"*Cyan: Respiration, Loyalty, Infinity",
+				"*Purple: Sweeping Edge, Multishot",
+				"*Blue: Efficiency, Sharpness, Lure, Power, Impaling, Quick Charge",
+				"*Brown: Aqua Affinity, Depth Strider, Riptide",
+				"*Green: Thorns, Piercing",
+				"*Red: Fire Aspect, Flame",
+				"*Black: Smite, Projectile Protection"
+			]
 		}
 	],
 	"friends": [
