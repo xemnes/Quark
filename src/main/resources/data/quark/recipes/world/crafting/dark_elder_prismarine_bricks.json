@@ -10,7 +10,7 @@
       "item": "quark:elder_prismarine"
     },
     "D": {
-      "item": "minecraft:ink_sac"
+      "tag": "forge:dyes/black"
     }
   },
   "result": {
