@@ -170,7 +170,7 @@ public class ToretoiseEntity extends AnimalEntity {
 
 				if(world instanceof ServerWorld) {
 					if(angeryTicks == 3)
-						((ServerWorld) world).playSound(null, x, y, z, SoundEvents.ENTITY_WITHER_BREAK_BLOCK, SoundCategory.NEUTRAL, 1F, 0.2F);
+						playSound(SoundEvents.ENTITY_WITHER_BREAK_BLOCK, 1F, 0.2F);
 					else if(angeryTicks == 0) {
 						((ServerWorld) world).spawnParticle(ParticleTypes.CLOUD, x, y, z, 200, dangerRange, 0.5, dangerRange, 0);
 					}
@@ -244,8 +244,7 @@ public class ToretoiseEntity extends AnimalEntity {
 	}
 
 	public void dropOre(int ore) {
-		if(world instanceof ServerWorld)
-			((ServerWorld) world).playSound(null, getPosX(), getPosY(), getPosZ(), SoundEvents.BLOCK_LANTERN_BREAK, SoundCategory.NEUTRAL, 1F, 0.6F);
+		playSound(SoundEvents.BLOCK_LANTERN_BREAK, 1F, 0.6F);
 
 		Item drop = null;
 		int countMult = 1;
@@ -312,7 +311,7 @@ public class ToretoiseEntity extends AnimalEntity {
 
 				if(world instanceof ServerWorld) {
 					((ServerWorld) world).spawnParticle(ParticleTypes.CLOUD, getPosX(), getPosY() + 0.5, getPosZ(), 100, 0.6, 0.6, 0.6, 0);
-					((ServerWorld) world).playSound(null, getPosX(), getPosY(), getPosZ(), SoundEvents.BLOCK_STONE_PLACE, SoundCategory.NEUTRAL, 10, 0.7F);
+					playSound(SoundEvents.BLOCK_STONE_PLACE, 10F, 0.7F);
 				}
 			}
 		}
