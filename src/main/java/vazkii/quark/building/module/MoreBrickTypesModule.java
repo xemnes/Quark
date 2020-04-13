@@ -30,7 +30,7 @@ public class MoreBrickTypesModule extends Module {
 	@Override
 	public void construct() {
 		add("sandy", MaterialColor.SAND, () -> enableSandyBricks);
-		add("snow", MaterialColor.SNOW, () -> enableSnowBricks);
+		add("snow", MaterialColor.SNOW, Material.SNOW_BLOCK, () -> enableSnowBricks);
 		add("charred_nether", MaterialColor.BLACK, () -> enableCharredNetherBricks);
 		add("sandstone", MaterialColor.SAND, () -> enableSandstoneBricks);
 		add("red_sandstone", MaterialColor.ADOBE, () -> enableSandstoneBricks);
@@ -40,8 +40,12 @@ public class MoreBrickTypesModule extends Module {
 	}
 	
 	private void add(String name, MaterialColor color, BooleanSupplier cond) {
+		add(name, color, Material.ROCK, cond);
+	}
+	
+	private void add(String name, MaterialColor color, Material material, BooleanSupplier cond) {
 		VariantHandler.addSlabStairsWall(new QuarkBlock(name + "_bricks", this, ItemGroup.BUILDING_BLOCKS, 
-				Block.Properties.create(Material.ROCK, color)
+				Block.Properties.create(material, color)
 				.hardnessAndResistance(2F, 6F))
 				.setCondition(cond));
 	}
