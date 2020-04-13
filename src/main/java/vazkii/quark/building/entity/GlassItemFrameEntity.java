@@ -20,6 +20,8 @@ import javax.annotation.Nullable;
 
 public class GlassItemFrameEntity extends ItemFrameEntity implements IEntityAdditionalSpawnData {
 
+	private boolean didHackery = false;
+	
 	public GlassItemFrameEntity(EntityType<? extends GlassItemFrameEntity> type, World worldIn) {
 		super(type, worldIn);
 	}
@@ -33,8 +35,11 @@ public class GlassItemFrameEntity extends ItemFrameEntity implements IEntityAddi
 	@Nullable
 	@Override
 	public ItemEntity entityDropItem(@Nonnull ItemStack stack, float offset) {
-		if (stack.getItem() == Items.ITEM_FRAME)
+		if (stack.getItem() == Items.ITEM_FRAME && !didHackery) {
 			stack = new ItemStack(ItemFramesModule.glassFrame);
+			didHackery = true;
+		}
+			
 		return super.entityDropItem(stack, offset);
 	}
 
