@@ -1,11 +1,20 @@
 package vazkii.quark.tweaks.module;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.lang3.tuple.Pair;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.text.*;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.util.text.event.HoverEvent;
 import net.minecraft.util.text.event.HoverEvent.Action;
 import net.minecraft.world.GameRules;
@@ -16,20 +25,21 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.InputEvent;
+import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
-import org.apache.commons.lang3.tuple.Pair;
-import vazkii.quark.base.module.*;
+import vazkii.quark.base.module.Config;
+import vazkii.quark.base.module.LoadModule;
+import vazkii.quark.base.module.Module;
+import vazkii.quark.base.module.ModuleCategory;
+import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.base.network.QuarkNetwork;
 import vazkii.quark.base.network.message.SpamlessChatMessage;
 import vazkii.quark.base.network.message.UpdateAfkMessage;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @LoadModule(category = ModuleCategory.TWEAKS, hasSubscriptions = true)
 public class ImprovedSleepingModule extends Module {
@@ -150,9 +160,9 @@ public class ImprovedSleepingModule extends Module {
 			return;
 
 		if (isEveryoneAsleep(world)) {
-			if (world.getGameRules().getBoolean(GameRules.DO_DAYLIGHT_CYCLE)) {
+			if (world.getGameRules().getBoolean(GameRules.DO_DAYLIGHT_CYCLE) && world instanceof ServerWorld) {
 				long time = world.getDayTime() + 24000L;
-				world.setDayTime(time - time % 24000L);
+				world.setDayTime(ForgeEventFactory.onSleepFinished((ServerWorld) world, time - time % 24000L, world.getDayTime()));
 			}
 
 			world.getPlayers().stream().filter(LivingEntity::isSleeping).forEach((player) -> {
