@@ -38,6 +38,8 @@ public class ColoredItemFrameEntity extends ItemFrameEntity implements IEntityAd
 	private static final DataParameter<Integer> COLOR = EntityDataManager.createKey(ColoredItemFrameEntity.class, DataSerializers.VARINT);
 	private static final String TAG_COLOR = "DyeColor";
 
+	private boolean didHackery = false;
+	
 	public ColoredItemFrameEntity(EntityType<? extends ColoredItemFrameEntity> type, World worldIn) {
 		super(type, worldIn);
 	}
@@ -67,8 +69,11 @@ public class ColoredItemFrameEntity extends ItemFrameEntity implements IEntityAd
 	@Nullable
 	@Override
 	public ItemEntity entityDropItem(@Nonnull ItemStack stack, float offset) {
-		if (stack.getItem() == Items.ITEM_FRAME)
+		if (stack.getItem() == Items.ITEM_FRAME && !didHackery) {
 			stack = new ItemStack(ItemFramesModule.getColoredFrame(getColor()));
+			didHackery = true;
+		}
+			
 		return super.entityDropItem(stack, offset);
 	}
 
