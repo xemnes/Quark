@@ -14,6 +14,7 @@ public class FrogRenderer extends MobRenderer<FrogEntity, FrogModel> {
 	private static final ResourceLocation TEXTURE_SWEATER = new ResourceLocation("quark", "textures/model/entity/events/sweater_frog.png");
 	private static final ResourceLocation TEXTURE_FUNNY = new ResourceLocation("quark", "textures/model/entity/events/funny_rat_frog.png");
 	private static final ResourceLocation TEXTURE_SNAKE = new ResourceLocation("quark", "textures/model/entity/events/snake_block_frog.png");
+	private static final ResourceLocation TEXTURE_KERMIT = new ResourceLocation("quark", "textures/model/entity/events/kermit_frog.png");
 
 	public FrogRenderer(EntityRendererManager manager) {
 		super(manager, new FrogModel(), 0.2F);
@@ -27,6 +28,8 @@ public class FrogRenderer extends MobRenderer<FrogEntity, FrogModel> {
 				return TEXTURE_FUNNY;
 			if(name.equalsIgnoreCase("Snake") || name.equalsIgnoreCase("SnakeBlock") || name.equalsIgnoreCase("Snake Block"))
 				return TEXTURE_SNAKE;
+			if(name.equalsIgnoreCase("Kermit"))
+				return TEXTURE_KERMIT;
 		}
 		return entity.hasSweater() ? TEXTURE_SWEATER : TEXTURE;
 	}
