@@ -1,5 +1,8 @@
 package vazkii.quark.oddities.module;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
+import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.gui.screen.Screen;
@@ -12,6 +15,7 @@ import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.inventory.container.ContainerType;
+import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -27,6 +31,7 @@ import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.base.Quark;
+import vazkii.quark.base.block.QuarkBlock;
 import vazkii.quark.base.item.QuarkItem;
 import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
@@ -65,6 +70,11 @@ public class BackpackModule extends Module {
 		
 		container = IForgeContainerType.create(BackpackContainer::fromNetwork);
 		RegistryHelper.register(container, "backpack");
+		
+		new QuarkBlock("bonded_ravager_hide", this, ItemGroup.BUILDING_BLOCKS, Block.Properties.create(Material.WOOL, DyeColor.BLACK)
+				.hardnessAndResistance(1F)
+				.sound(SoundType.CLOTH))
+		.setCondition(() -> enableRavagerHide);
 	}
 	
 	@Override

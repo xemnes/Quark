@@ -60,6 +60,7 @@ public class CompressedBlocksModule extends Module {
 
 	@Config(flag = "blaze_lantern") public static boolean enableBlazeLantern = true;
 	@Config(flag = "bonded_leather") public static boolean enableBondedLeather = true;
+	@Config(flag = "bonded_leather") public static boolean enableBondedRabbitHide = true;
 
 	public static Block charcoal_block, stick_block, blaze_lantern;
 
@@ -106,6 +107,11 @@ public class CompressedBlocksModule extends Module {
 				.hardnessAndResistance(0.4F)
 				.sound(SoundType.CLOTH))
 		.setCondition(() -> enableBondedLeather);
+		
+		new QuarkBlock("bonded_rabbit_hide", this, ItemGroup.BUILDING_BLOCKS, Block.Properties.create(Material.WOOL, DyeColor.WHITE)
+				.hardnessAndResistance(0.4F)
+				.sound(SoundType.CLOTH))
+		.setCondition(() -> enableBondedRabbitHide);
 	}
 
 	@Override
