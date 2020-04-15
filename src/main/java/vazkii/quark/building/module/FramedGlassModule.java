@@ -6,7 +6,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.item.ItemGroup;
 import net.minecraftforge.common.ToolType;
 import vazkii.quark.base.block.IQuarkBlock;
-import vazkii.quark.base.block.QuarkPaneBlock;
+import vazkii.quark.base.block.QuarkInheritedPaneBlock;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
@@ -23,7 +23,7 @@ public class FramedGlassModule extends Module {
 						.sound(SoundType.GLASS)
 						.harvestLevel(1)
 						.harvestTool(ToolType.PICKAXE));
-		new QuarkPaneBlock(framedGlass);
+		new QuarkInheritedPaneBlock(framedGlass);
 	}
 
 }

@@ -9,7 +9,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.common.BiomeDictionary;
 import vazkii.quark.base.Quark;
-import vazkii.quark.base.block.QuarkPaneBlock;
+import vazkii.quark.base.block.QuarkInheritedPaneBlock;
 import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.ModuleCategory;
@@ -56,7 +56,7 @@ public class CaveCrystalUndergroundBiomeModule extends UndergroundBiomeModule {
 		crystals.add(new CaveCrystalBlock("black_crystal", 0x000000, this, MaterialColor.BLACK));
 
 		for(CaveCrystalBlock block : crystals)
-			new QuarkPaneBlock(block);
+			new QuarkInheritedPaneBlock(block);
 
 		super.construct();
 	}

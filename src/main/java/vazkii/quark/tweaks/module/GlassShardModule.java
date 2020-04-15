@@ -19,7 +19,7 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.block.QuarkBlock;
-import vazkii.quark.base.block.QuarkPaneBlock;
+import vazkii.quark.base.block.QuarkInheritedPaneBlock;
 import vazkii.quark.base.item.QuarkItem;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
@@ -50,7 +50,7 @@ public class GlassShardModule extends Module {
     public void construct() {
         dirtyGlass = new DirtyGlassBlock("dirty_glass", this, ItemGroup.DECORATIONS,
                 Block.Properties.create(Material.GLASS, MaterialColor.BROWN).hardnessAndResistance(0.3F).sound(SoundType.GLASS));
-        new QuarkPaneBlock(dirtyGlass);
+        new QuarkInheritedPaneBlock(dirtyGlass);
 
         clearShard = new QuarkItem("clear_shard", this, new Item.Properties().group(ItemGroup.MATERIALS));
         dirtyShard = new QuarkItem("dirty_shard", this, new Item.Properties().group(ItemGroup.MATERIALS));
