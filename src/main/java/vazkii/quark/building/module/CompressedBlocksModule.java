@@ -60,7 +60,7 @@ public class CompressedBlocksModule extends Module {
 
 	@Config(flag = "blaze_lantern") public static boolean enableBlazeLantern = true;
 	@Config(flag = "bonded_leather") public static boolean enableBondedLeather = true;
-	@Config(flag = "bonded_leather") public static boolean enableBondedRabbitHide = true;
+	@Config(flag = "bonded_rabbit_hide") public static boolean enableBondedRabbitHide = true;
 
 	public static Block charcoal_block, stick_block, blaze_lantern;
 
