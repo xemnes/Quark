@@ -19,6 +19,8 @@ public class WorldGenWeights {
 	public static final int OBSIDIAN_SPIKES = 10;
 	
 	// TOP_LAYER_MODIFICATION
-	public static final int BLOSSOM_TREES = 0;
+	public static final int FAIRY_RINGS = 0;
+	public static final int BLOSSOM_TREES = 1;
 	
 }
+
