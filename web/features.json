@@ -392,6 +392,22 @@
 			"desc": [
 				"Iron Plates can now be crafted using Iron Ingots. You can also craft Rusty Iron Plates using a Water Bucket as well."
 			]
+		},
+		{
+			"name": "Cobblestone Bricks",
+			"image": "cobblestone-bricks.jpg",
+			"versions": "1.15+",
+			"desc": [
+				"Cobblestone Bricks, as well as their mossy variants, are made just like you'd make Stone Bricks. They're a fancy new way to improve your rustic stone builds."
+			]
+		},
+		{
+			"name": "Gold Bars",
+			"image": "gold-bars.jpg",
+			"versions": "1.15+",
+			"desc": [
+				"Gold Bars are just like Iron Bars, but with gold! They look great for nether builds."
+			]
 		}
 	],
 	"client": [
@@ -1140,6 +1156,14 @@
 			"versions": "1.15+",
 			"desc": [
 				"Crevices are a new underground cave feature you'll find uncommonly while caving. You could think of them as a sideways ravine."
+			]
+		},
+		{
+			"name": "Fairy Rings",
+			"image": "fairy-rings.jpg",
+			"versions": "1.15+",
+			"desc": [
+				"Rarely in Forests and Plains (rarer), you may find little flower circles. Should you dig in the center, you'll find some emeralds or diamonds!"
 			]
 		}
 	],
