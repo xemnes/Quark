@@ -1,10 +1,5 @@
 package vazkii.quark.base.capability;
 
-import java.util.concurrent.Callable;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -21,16 +16,17 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import vazkii.quark.api.ICustomSorting;
-import vazkii.quark.api.IMagnetTracker;
-import vazkii.quark.api.IPistonCallback;
-import vazkii.quark.api.ITransferManager;
-import vazkii.quark.api.QuarkCapabilities;
+import vazkii.quark.api.*;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.capability.dummy.DummyMagnetTracker;
 import vazkii.quark.base.capability.dummy.DummyPistonCallback;
+import vazkii.quark.base.capability.dummy.DummyRuneColor;
 import vazkii.quark.base.capability.dummy.DummySorting;
 import vazkii.quark.oddities.capability.MagnetTracker;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.concurrent.Callable;
 
 @Mod.EventBusSubscriber(modid = Quark.MOD_ID)
 public class CapabilityHandler {
@@ -41,6 +37,7 @@ public class CapabilityHandler {
 		register(ICustomSorting.class, DummySorting::new);
 		register(IPistonCallback.class, DummyPistonCallback::new);
 		register(IMagnetTracker.class, DummyMagnetTracker::new);
+		register(IRuneColorProvider.class, DummyRuneColor::new);
 	}
 
 	private static <T> void registerLambda(Class<T> clazz, T provider) {
@@ -72,6 +69,7 @@ public class CapabilityHandler {
 	private static final ResourceLocation DROPOFF_MANAGER = new ResourceLocation(Quark.MOD_ID, "dropoff");
 	private static final ResourceLocation SORTING_HANDLER = new ResourceLocation(Quark.MOD_ID, "sort");
     private static final ResourceLocation MAGNET_TRACKER = new ResourceLocation(Quark.MOD_ID, "magnet_tracker");
+    private static final ResourceLocation RUNE_COLOR_HANDLER = new ResourceLocation(Quark.MOD_ID, "rune_color");
 
 	@SubscribeEvent
 	public static void attachItemCapabilities(AttachCapabilitiesEvent<ItemStack> event) {
@@ -79,6 +77,9 @@ public class CapabilityHandler {
 
 		if(item instanceof ICustomSorting)
 			SelfProvider.attachItem(SORTING_HANDLER, QuarkCapabilities.SORTING, event);
+
+		if(item instanceof IRuneColorProvider)
+			SelfProvider.attachItem(RUNE_COLOR_HANDLER, QuarkCapabilities.RUNE_COLOR, event);
 	}
 
 	@SubscribeEvent
