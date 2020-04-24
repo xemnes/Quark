@@ -21,9 +21,9 @@ import vazkii.quark.base.Quark;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.tools.item.AncientTomeItem;
 import vazkii.quark.tools.module.AncientTomesModule;
+import vazkii.quark.tools.module.ColorRunesModule;
 import vazkii.quark.tools.module.PickarangModule;
 import vazkii.quark.tweaks.recipe.ElytraDuplicationRecipe;
-import vazkii.quark.vanity.module.ColorRunesModule;
 
 import java.util.*;
 import java.util.stream.Collectors;

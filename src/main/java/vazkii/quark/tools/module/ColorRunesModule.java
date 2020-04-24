@@ -1,4 +1,4 @@
-package vazkii.quark.vanity.module;
+package vazkii.quark.tools.module;
 
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.item.DyeColor;
@@ -26,15 +26,15 @@ import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
-import vazkii.quark.vanity.client.GlintRenderType;
-import vazkii.quark.vanity.item.RuneItem;
+import vazkii.quark.tools.client.GlintRenderType;
+import vazkii.quark.tools.item.RuneItem;
 
 /**
  * @author WireSegal
  * Hacked by svenhjol
  * Created at 1:52 PM on 8/17/19.
  */
-@LoadModule(category = ModuleCategory.VANITY, hasSubscriptions = true)
+@LoadModule(category = ModuleCategory.TOOLS, hasSubscriptions = true)
 public class ColorRunesModule extends Module {
 
     public static final String TAG_RUNE_ATTACHED = Quark.MOD_ID + ":RuneAttached";

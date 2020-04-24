@@ -1,4 +1,4 @@
-package vazkii.quark.vanity.item;
+package vazkii.quark.tools.item;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;

@@ -1,4 +1,4 @@
-package vazkii.quark.vanity.client;
+package vazkii.quark.tools.client;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import net.minecraft.client.renderer.BufferBuilder;
