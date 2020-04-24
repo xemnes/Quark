@@ -13,6 +13,7 @@ public enum ModuleCategory {
 	TWEAKS("tweaks"),
 	WORLD("world"),
 	MOBS("mobs"),
+	VANITY("vanity"),
 	CLIENT("client"),
 	ODDITIES("oddities"),
 	EXPERIMENTAL("experimental");
