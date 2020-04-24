@@ -149,7 +149,7 @@ function initializeCoreMod() {
                 'type': 'METHOD',
                 'class': 'net.minecraft.client.renderer.entity.layers.ElytraLayer',
                 'methodName': 'func_225628_a_', // render
-                'methodDesc': '(Lcom/mojang/blaze3d/matrix/MatrixStack;Lcom/mojang/blaze3d/vertex/IVertexBuilder;IIFFFF)V'
+                'methodDesc': '(Lcom/mojang/blaze3d/matrix/MatrixStack;Lnet/minecraft/client/renderer/IRenderTypeBuffer;ILnet/minecraft/entity/LivingEntity;FFFFFF)V'
             },
             'transformer': function(method) {
                 var ASM = Java.type('net.minecraftforge.coremod.api.ASMAPI');
