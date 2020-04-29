@@ -82,7 +82,7 @@ public class ColorRunesModule extends Module {
     @OnlyIn(Dist.CLIENT)
     public static RenderType getEntityGlint() {
         int color = changeColor();
-        return color >= 0 && GlintRenderType.entityGlintColorMap.containsKey(color) ? GlintRenderType.entityGlintColorMap.get(color) : RenderType.getGlint();
+        return color >= 0 && GlintRenderType.entityGlintColorMap.containsKey(color) ? GlintRenderType.entityGlintColorMap.get(color) : RenderType.getEntityGlint();
     }
 
     @Override
