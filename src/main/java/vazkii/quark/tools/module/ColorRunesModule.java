@@ -41,7 +41,7 @@ public class ColorRunesModule extends Module {
     public static final String TAG_RUNE_COLOR = Quark.MOD_ID + ":RuneColor";
 
     private static final ThreadLocal<ItemStack> targetStack = new ThreadLocal<>();
-    public static Tag<Item> runesTag;
+    public static Tag<Item> runesTag, runesLootableTag;
 
     @Config public static int dungeonWeight = 10;
     @Config public static int netherFortressWeight = 8;
@@ -87,14 +87,15 @@ public class ColorRunesModule extends Module {
 
     @Override
     public void construct() {
-        for(DyeColor color : DyeColor.values()) {
+        for(DyeColor color : DyeColor.values())
             new RuneItem(color.getName() + "_rune", this, color.getId());
-        }
+        new RuneItem("rainbow_rune", this, 16);
     }
 
     @Override
     public void setup() {
         runesTag = new ItemTags.Wrapper(new ResourceLocation(Quark.MOD_ID, "runes"));
+        runesLootableTag = new ItemTags.Wrapper(new ResourceLocation(Quark.MOD_ID, "runes_lootable"));
     }
 
     @SubscribeEvent
@@ -111,7 +112,7 @@ public class ColorRunesModule extends Module {
             weight = desertTempleWeight;
 
         if(weight > 0) {
-            LootEntry entry = TagLootEntry.func_216176_b(runesTag) // withTag
+            LootEntry entry = TagLootEntry.func_216176_b(runesLootableTag) // withTag
                 .weight(weight)
                 .quality(itemQuality)
                 .build();

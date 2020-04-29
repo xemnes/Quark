@@ -18,12 +18,14 @@ import java.util.Map;
 public class GlintRenderType {
     public static Map<Integer, RenderType> glintColorMap = new HashMap<Integer, RenderType>() {{
         for (DyeColor color : DyeColor.values())
-            put(color.getId(), buildGlintRenderType(color));
+            put(color.getId(), buildGlintRenderType(color.getName()));
+        put(16, buildGlintRenderType("rainbow"));
     }};
 
     public static Map<Integer, RenderType> entityGlintColorMap = new HashMap<Integer, RenderType>() {{
         for (DyeColor color : DyeColor.values())
-            put(color.getId(), buildEntityGlintRenderType(color));
+            put(color.getId(), buildEntityGlintRenderType(color.getName()));
+        put(16, buildEntityGlintRenderType("rainbow"));
     }};
 
     public static void addGlintTypes(Object2ObjectLinkedOpenHashMap<RenderType, BufferBuilder> map) {
@@ -38,8 +40,7 @@ public class GlintRenderType {
         });
     }
 
-    private static RenderType buildGlintRenderType(DyeColor color) {
-        String name = color.getName();
+    private static RenderType buildGlintRenderType(String name) {
         final ResourceLocation res = new ResourceLocation(Quark.MOD_ID, "textures/glint/enchanted_item_glint_" + name + ".png");
 
         return RenderType.makeType("glint_" + name, DefaultVertexFormats.POSITION_TEX, 7, 256, RenderType.State.getBuilder()
@@ -52,8 +53,7 @@ public class GlintRenderType {
             .build(false));
     }
 
-    private static RenderType buildEntityGlintRenderType(DyeColor color) {
-        String name = color.getName();
+    private static RenderType buildEntityGlintRenderType(String name) {
         final ResourceLocation res = new ResourceLocation(Quark.MOD_ID, "textures/glint/enchanted_item_glint_" + name + ".png");
 
         return RenderType.makeType("entity_glint_" + name, DefaultVertexFormats.POSITION_TEX, 7, 256, RenderType.State.getBuilder()
