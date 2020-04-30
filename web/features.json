@@ -685,7 +685,7 @@
 			"versions": "1.14+",
             "desc": [
                 "Colored Runes are a rare loot item from dungeons, temples and nether fortresses. They can be applied to enchanted items in an anvil, and doing so changes the color of the enchantment glint from purple to the color of the rune. These come in all 16 colors of the spectrum.",
-                "If you're dedicated enough, you can craft a Rainbow Rune by mixing together the runes that make the colors of the rainbow. It'll change color over time and look really cool! <b>(The rainbow rune is not available in 1.15+ because of changes in the render system, sorry!)</b>"
+                "If you're dedicated enough, you can craft a Rainbow Rune by mixing together the runes that make the colors of the rainbow. It'll change color over time and look really cool!"
             ]
 		}
 	],
