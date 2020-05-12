@@ -96,7 +96,7 @@ public class MatrixEnchantingScreen extends ContainerScreen<MatrixEnchantingCont
 		
 		pieceList.render(mouseX, mouseY, partialTicks);
 
-		if(enchanter.matrix != null && enchanter.matrix.canGeneratePiece(enchanter.bookshelfPower, enchanter.enchantability)) {
+		if(enchanter.matrix != null && enchanter.matrix.canGeneratePiece(enchanter.bookshelfPower, enchanter.enchantability) && !mc.player.isCreative()) {
 			int x = i + 74;
 			int y = j + 58;
 			int xpCost = enchanter.matrix.getNewPiecePrice();
@@ -312,7 +312,6 @@ public class MatrixEnchantingScreen extends ContainerScreen<MatrixEnchantingCont
 	}	
 
 	private void send(int operation, int arg0, int arg1, int arg2) {
-		System.out.println("send");
 		MatrixEnchanterOperationMessage message = new MatrixEnchanterOperationMessage(operation, arg0, arg1, arg2);
 		QuarkNetwork.sendToServer(message);
 	}
@@ -323,7 +322,7 @@ public class MatrixEnchantingScreen extends ContainerScreen<MatrixEnchantingCont
 
 	private void updateButtonStatus() {
 		plusButton.active = (enchanter.matrix != null 
-				&& enchanter.charge > 0
+				&& (getMinecraft().player.isCreative() || enchanter.charge > 0)
 				&& enchanter.matrix.validateXp(getMinecraft().player, enchanter.bookshelfPower)
 				&& enchanter.matrix.canGeneratePiece(enchanter.bookshelfPower, enchanter.enchantability));
 	}
