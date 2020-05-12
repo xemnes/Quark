@@ -23,15 +23,15 @@ public class CaveRootGenerator extends Generator {
 	@Override
 	public void generateChunk(IWorld worldIn, ChunkGenerator<? extends GenerationSettings> generator, Random rand, BlockPos corner) {
 		for(int i = 0; i < CaveRootsModule.chunkAttempts; i++) {
-			int x = rand.nextInt(16);
-			int z = rand.nextInt(16);
+			int x = rand.nextInt(12) + 2;
+			int z = rand.nextInt(12) + 2;
 			int y = rand.nextInt(CaveRootsModule.maxY - CaveRootsModule.minY) + CaveRootsModule.minY;
 			
 			BlockPos pos = corner.add(x, y, z);
 			if(worldIn.isAirBlock(pos)) {
 				for(Direction facing : MiscUtil.HORIZONTALS) {
 					BlockPos target = pos.offset(facing);
-					if(RootBlock.isAcceptableNeighbor(worldIn, target, facing.getOpposite()) && worldIn.isBlockLoaded(pos)) {
+					if(RootBlock.isAcceptableNeighbor(worldIn, target, facing.getOpposite())) {
 						BlockState state = CaveRootsModule.root.getDefaultState().with(RootBlock.getPropertyFor(facing), true);
 						worldIn.setBlockState(pos, state, 2);
 						RootBlock.growMany(worldIn, rand, pos, state, 0.4F);
