@@ -10,6 +10,7 @@
  */
 package vazkii.quark.tweaks.module;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -81,7 +82,8 @@ public class SimpleHarvestModule extends Module {
 		if (doHarvestingSearch) {
 			GameRegistry.findRegistry(Block.class).getValues().stream()
 					.filter(b -> !isVanilla(b) && b instanceof CropsBlock)
-					.forEach(b -> crops.put(b.getDefaultState().with(((CropsBlock) b).getAgeProperty(), ((CropsBlock) b).getMaxAge()), b.getDefaultState()));
+					.map(b -> (CropsBlock) b)
+					.forEach(b -> crops.put(b.getDefaultState().with(b.getAgeProperty(), last(b.getAgeProperty().getAllowedValues())), b.getDefaultState()));
 		}
 
 		for (String harvestKey : harvestableBlocks) {
@@ -96,6 +98,10 @@ public class SimpleHarvestModule extends Module {
 			if (initial.getBlock() != Blocks.AIR)
 				crops.put(initial, result);
 		}
+	}
+	
+	private int last(Collection<Integer> vals) {
+		return vals.stream().max(Integer::compare).orElse(0);
 	}
 
 	private String[] tokenize(String harvestKey) {
