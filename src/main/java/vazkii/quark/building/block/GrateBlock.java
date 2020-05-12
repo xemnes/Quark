@@ -7,6 +7,8 @@ import it.unimi.dsi.fastutil.floats.Float2ObjectArrayMap;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.IWaterLoggable;
+import net.minecraft.block.SoundType;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MobEntity;
@@ -30,6 +32,8 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import vazkii.quark.base.block.QuarkBlock;
+import vazkii.quark.base.handler.RenderLayerHandler;
+import vazkii.quark.base.handler.RenderLayerHandler.RenderTypeSkeleton;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.building.module.GrateModule;
 
@@ -41,10 +45,15 @@ public class GrateBlock extends QuarkBlock implements IWaterLoggable {
 
 	public static BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
-	public GrateBlock(String regname, Module module, ItemGroup creativeTab, Properties properties) {
-		super(regname, module, creativeTab, properties);
+	public GrateBlock(Module module) {
+		super("grate", module, ItemGroup.DECORATIONS, 
+				Block.Properties.create(Material.IRON)
+                .hardnessAndResistance(5, 10)
+                .sound(SoundType.METAL)
+                .notSolid());
 
 		setDefaultState(getDefaultState().with(WATERLOGGED, false));
+		RenderLayerHandler.setRenderType(this, RenderTypeSkeleton.CUTOUT);
 	}
 
 	private static VoxelShape createNewBox(double stepHeight, double height) {
