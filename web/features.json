@@ -1419,6 +1419,33 @@
 				"Savage and Ravage aims to improve and expand on everything Illager-related through new structures, enemies and challenges. So far it adds a better raid starting mechanic, changes to pillagers, creeper-related features and more."
 			],
 			"download": "https://www.curseforge.com/minecraft/mc-mods/savage-and-ravage"
+		},
+		{
+			"name": "YUNG's Better Caves",
+			"image": "yungs-better-caves.jpg",
+			"versions": "Friend",
+			"desc": [
+				"YUNG's Better Caves is a powerful and customizable Minecraft cave mod. Completely overhauls cave generation to add vast lava seas, flooded caverns, and underground lakes and rivers."
+			],
+			"download": "https://www.curseforge.com/minecraft/mc-mods/yungs-better-caves"
+    },
+    {
+			"name": "Inspirations",
+			"image": "inspirations.jpg",
+			"versions": "Friend",
+			"desc": [
+				"Adds many small features to Minecraft in a modular way. Contains features such as functional bookshelves, carpeted stairs, enchantable shields, colored nether portals, simple item pipes, climbable ropes, and more. See the mod description for more information. "
+			],
+			"download": "https://www.curseforge.com/minecraft/mc-mods/inspirations"
+		},
+		{
+			"name": "Simply Tea!",
+			"image": "simply-tea.jpg",
+			"versions": "Friend",
+			"desc": [
+				"Adds tea trees to the game, the leaves of which can be crafted into drinkable tea that provides passive effects."
+			],
+			"download": "https://www.curseforge.com/minecraft/mc-mods/simply-tea"
 		}
 	]
 }
