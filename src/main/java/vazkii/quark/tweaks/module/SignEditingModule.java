@@ -60,7 +60,7 @@ public class SignEditingModule extends Module {
 
 			SignTileEntity sign = (SignTileEntity) tile;
 			sign.setPlayer(player);
-			sign.setEditable(true);
+			sign.isEditable = true;
 
 			QuarkNetwork.sendToPlayer(new EditSignMessage(event.getPos()), (ServerPlayerEntity) player);
 		}
