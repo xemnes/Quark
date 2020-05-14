@@ -1421,6 +1421,15 @@
 			"download": "https://www.curseforge.com/minecraft/mc-mods/savage-and-ravage"
 		},
 		{
+			"name": "YUNG's Better Caves",
+			"image": "yungs-better-caves.jpg",
+			"versions": "Friend",
+			"desc": [
+				"YUNG's Better Caves is a powerful and customizable Minecraft cave mod. Completely overhauls cave generation to add vast lava seas, flooded caverns, and underground lakes and rivers."
+			],
+			"download": "https://www.curseforge.com/minecraft/mc-mods/yungs-better-caves"
+    },
+    {
 			"name": "Inspirations",
 			"image": "inspirations.jpg",
 			"versions": "Friend",
