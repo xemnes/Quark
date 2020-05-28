@@ -818,8 +818,9 @@
 			"image": "reacharound-placing.jpg",
 			"versions": "1.14+",
 			"desc": [
-				"Blocks can be placed in the bottom face of other blocks while you're standing on them, you can do this by looking at the bottom of the block from above, as seen in the image.",
-				"You'll know this option is available when a [ ] shows up around your crosshair."
+				"Reacharound Placing allows you to place blocks behind the block you're looking at. This can be done either vertically or horizontally, provided you wouldn't be placing a block given normal rules.",
+				"*To do it vertically, sneak on the edge of a block and look at the area directly below it This is what the image is demonstrating. A [  ] will appear around your crosshair if you do it properly.",
+				"*To do it horizontally (1.15+ only), look in front of a block, where the next block would be. A <  > will appear around your crosshair for this one."
 			]
 		},
 		{
