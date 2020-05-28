@@ -23,6 +23,7 @@ public class Module {
 	public boolean hasSubscriptions = false;
 	public List<Dist> subscriptionTarget = Lists.newArrayList(Dist.CLIENT, Dist.DEDICATED_SERVER);
 	public boolean enabledByDefault = true;
+	public boolean missingDep = false;
 	
 	private boolean firstLoad = true;
 	public boolean enabled = false;
@@ -92,11 +93,15 @@ public class Module {
 		}
 		firstLoad = false;
 		
-		if(!ignoreAntiOverlap && antiOverlap != null) {
+		if(missingDep)
+			enabled = false;
+		else if(!ignoreAntiOverlap && antiOverlap != null) {
 			ModList list = ModList.get();
 			for(String s : antiOverlap)
-				if(list.isLoaded(s))
-					return;
+				if(list.isLoaded(s)) {
+					enabled = false;
+					break;
+				}
 		}
 		
 		setEnabledAndManageSubscriptions(enabled);

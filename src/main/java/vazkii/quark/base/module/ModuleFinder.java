@@ -44,7 +44,7 @@ public final class ModuleFinder {
 			if(vals.containsKey("requiredMod")) {
 				String mod = (String) vals.get("requiredMod");	
 				if(mod != null && !mod.isEmpty() && !ModList.get().isLoaded(mod))
-					return;
+					moduleObj.missingDep = true;
 			}
 			
 			if(vals.containsKey("name"))
