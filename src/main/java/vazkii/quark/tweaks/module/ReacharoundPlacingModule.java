@@ -6,6 +6,7 @@ import java.util.Objects;
 import org.apache.commons.lang3.tuple.Pair;
 
 import com.google.common.collect.Lists;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MainWindow;
@@ -29,6 +30,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.event.TickEvent.ClientTickEvent;
+import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import vazkii.quark.base.handler.RayTraceHandler;
@@ -54,23 +57,50 @@ public class ReacharoundPlacingModule extends Module {
 	@Config
 	public String displayHorizontal = "<  >";
 
+	private Pair<BlockPos, Direction> currentTarget;
+	private int ticksDisplayed;
+
 	@SubscribeEvent
 	@OnlyIn(Dist.CLIENT)
-	public void onRender(RenderGameOverlayEvent.Post event) {
+	public void onRender(RenderGameOverlayEvent.Pre event) {
 		if (event.getType() != RenderGameOverlayEvent.ElementType.CROSSHAIRS)
 			return;
 
 		Minecraft mc = Minecraft.getInstance();
 		PlayerEntity player = mc.player;
 
-		if (player != null) {
-			Pair<BlockPos, Direction> pair = getPlayerReacharoundTarget(player);
-			if (pair != null) {
-				MainWindow res = event.getWindow();
-				String text = (pair.getRight().getAxis() == Axis.Y ? display : displayHorizontal);
+		if (player != null && currentTarget != null) {
+			MainWindow res = event.getWindow();
+			String text = (currentTarget.getRight().getAxis() == Axis.Y ? display : displayHorizontal);
 
-				mc.fontRenderer.drawString(text, res.getScaledWidth() / 2f - mc.fontRenderer.getStringWidth(text) / 2f, res.getScaledHeight() / 2f - 4, 0xFFFFFF);
-			}
+			RenderSystem.pushMatrix();
+			RenderSystem.translatef(res.getScaledWidth() / 2F, res.getScaledHeight() / 2f - 4, 0);
+			
+			float scale = (float) Math.min(5, ticksDisplayed + event.getPartialTicks()) / 5F;
+			scale *= scale;
+			int opacity = ((int) (255 * scale)) << 24;
+			
+			RenderSystem.scaled(scale, 1F, 1F);
+			RenderSystem.translatef(-mc.fontRenderer.getStringWidth(text) / 2f, 0, 0);
+			mc.fontRenderer.drawString(text, 0, 0, 0xFFFFFF | opacity);
+			RenderSystem.popMatrix();
+		}
+	}
+
+	@SubscribeEvent
+	@OnlyIn(Dist.CLIENT)
+	public void clientTick(ClientTickEvent event) {
+		if(event.phase == Phase.END) {
+			currentTarget = null;
+			
+			PlayerEntity player = Minecraft.getInstance().player;
+			if(player != null)
+				currentTarget = getPlayerReacharoundTarget(player);
+			
+			if(currentTarget != null) {
+				if(ticksDisplayed < 5)
+					ticksDisplayed++;
+			} else ticksDisplayed = 0;
 		}
 	}
 
