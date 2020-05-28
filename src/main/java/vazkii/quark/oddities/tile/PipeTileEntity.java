@@ -311,7 +311,7 @@ public class PipeTileEntity extends TileSimpleInventory implements ITickableTile
 			handler = new InvWrapper((IInventory) tile);
 
 		if(handler != null)
-			return ItemHandlerHelper.insertItem(handler, stack, simulate);
+			return simulate ? ItemStack.EMPTY : ItemHandlerHelper.insertItem(handler, stack, simulate);
 		return stack;
 	}
 
