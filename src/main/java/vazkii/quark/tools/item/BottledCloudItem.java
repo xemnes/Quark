@@ -51,7 +51,7 @@ public class BottledCloudItem extends QuarkItem {
 						player.dropItem(returnStack, false);
 				}
 				
-				player.getCooldownTracker().setCooldown(this, 20);
+				player.getCooldownTracker().setCooldown(this, 10);
 				return new ActionResult<ItemStack>(ActionResultType.SUCCESS, stack);
 			}
 		}
