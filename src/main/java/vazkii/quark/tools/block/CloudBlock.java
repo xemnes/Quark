@@ -39,6 +39,13 @@ public class CloudBlock extends QuarkBlock {
 	@Override
 	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult raytrace) {
 		ItemStack stack = player.getHeldItem(hand);
+		
+		if(stack.getItem() == Items.GLASS_BOTTLE) {
+			fillBottle(player, player.inventory.currentItem);
+			world.removeBlock(pos, false);
+			return ActionResultType.SUCCESS;
+		}
+		
 		if(stack.getItem() instanceof BlockItem) {
 			BlockItem bitem = (BlockItem) stack.getItem();
 			Block block = bitem.getBlock();
@@ -52,24 +59,27 @@ public class CloudBlock extends QuarkBlock {
 			
 			if(!player.isCreative()) {
 				stack.shrink(1);
-				
-				PlayerInventory inv = player.inventory;
-				for(int i = 0 ; i < inv.getSizeInventory(); i++) {
-					ItemStack stackInSlot = inv.getStackInSlot(i);
-					if(stackInSlot.getItem() == Items.GLASS_BOTTLE) {
-						stackInSlot.shrink(1);
-						
-						ItemStack give = new ItemStack(BottledCloudModule.bottled_cloud);
-						if(!player.addItemStackToInventory(give))
-							player.dropItem(give, false);
-					}
-				}
+				fillBottle(player, 0);
 			}
 			
 			return ActionResultType.SUCCESS;
 		}
 		
 		return ActionResultType.PASS;
+	}
+	
+	private void fillBottle(PlayerEntity player, int startIndex) {
+		PlayerInventory inv = player.inventory;
+		for(int i = startIndex ; i < inv.getSizeInventory(); i++) {
+			ItemStack stackInSlot = inv.getStackInSlot(i);
+			if(stackInSlot.getItem() == Items.GLASS_BOTTLE) {
+				stackInSlot.shrink(1);
+				
+				ItemStack give = new ItemStack(BottledCloudModule.bottled_cloud);
+				if(!player.addItemStackToInventory(give))
+					player.dropItem(give, false);
+			}
+		}
 	}
 	
 	@Override
