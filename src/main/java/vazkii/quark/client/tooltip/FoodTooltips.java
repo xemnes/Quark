@@ -13,6 +13,9 @@ import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.EffectType;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderTooltipEvent;
@@ -34,12 +37,32 @@ public class FoodTooltips {
 				for (int i = 0; i < len; i++)
 					s.append("  ");
 
+				int saturationSimplified = 0;
+				float saturation = food.getSaturation();
+				if(saturation < 1) {
+					if(saturation > 0.7)
+						saturationSimplified = 1;
+					else if(saturation > 0.5)
+						saturationSimplified = 2;
+					else if(saturation > 0.2)
+						saturationSimplified = 3;
+					else saturationSimplified = 4;
+				}
 
 				ITextComponent spaces = new StringTextComponent(s.toString());
+				ITextComponent saturationText = new TranslationTextComponent("quark.misc.saturation" + saturationSimplified).setStyle(new Style().setColor(TextFormatting.GRAY));
 				List<ITextComponent> tooltip = event.getToolTip();
-				if (tooltip.isEmpty())
+
+				if (tooltip.isEmpty()) {
 					tooltip.add(spaces);
-				else tooltip.add(1, spaces);
+					if(ImprovedTooltipsModule.showSaturation)
+						tooltip.add(saturationText);
+				}
+				else {
+					tooltip.add(1, spaces);
+					if(ImprovedTooltipsModule.showSaturation)
+						tooltip.add(2, saturationText);
+				}
 			}
 		}
 	}

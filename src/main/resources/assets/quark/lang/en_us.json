@@ -162,6 +162,11 @@
 	"quark.misc.shulker_box_shift": "Hold Shift to see contents",
 	"quark.misc.map_shift": "Hold Shift to see the map",
 	"quark.misc.rotation_lock": "You have enabled Rotation Lock. Any blocks you place will be oriented in the direction you were looking. Press [%s] to change or reset it. This message won't appear again.",
+	"quark.misc.saturation0": "Fulfilling Meal",
+	"quark.misc.saturation1": "Hearty Meal",
+	"quark.misc.saturation2": "Meal",
+	"quark.misc.saturation3": "Light Meal",
+	"quark.misc.saturation4": "Light Snack",
 
 	"quark.container.feeding_trough": "Feeding Trough",
 
