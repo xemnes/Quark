@@ -687,6 +687,15 @@
                 "Colored Runes are a rare loot item from dungeons, temples and nether fortresses. They can be applied to enchanted items in an anvil, and doing so changes the color of the enchantment glint from purple to the color of the rune. These come in all 16 colors of the spectrum.",
                 "If you're dedicated enough, you can craft a Rainbow Rune by mixing together the runes that make the colors of the rainbow. It'll change color over time and look really cool!"
             ]
+		},
+		{
+			"name": "Bottled Cloud",
+			"image": "bottled-cloud.jpg",
+			"versions": "1.15+",
+            "desc": [
+                "Using a Glass Bottle at the cloud levels (126-132 by default) will get you a Bottled Cloud.",
+                "The Bottled Cloud can be right clicked to produce a block floating in midair in front of you. The cloud block disappears after a few seconds, but you can right click it with any other block to replace the two. The cloud will go back in the bottle when you do this."
+            ]
 		}
 	],
 	"tweaks": [
@@ -921,6 +930,15 @@
                 "In the corner of the Chat menu there's a button to open an emote panel with 12 different emotes your character can do. In this picture, you can see the \"Wave\" emote.",
                 "Each emote is also assigned a key binding. Pressing that key will do the emote without you having to open the chat menu. By default all emote keybinds are unset and must be set manually.",
                 "A special language is provided to allow for custom emotes to be made. Here's <a href='https://www.youtube.com/watch?v=YBUXMf2juTQ'>an example</a> and <a href='https://www.youtube.com/watch?v=ourHUkan6aQ'>a tutorial</a> on how to do it."
+            ]
+		},
+		{
+			"name": "Scaffolding Substitution",
+			"image": "scaffolding-substitution.jpg",
+			"versions": "1.15+",
+            "desc": [
+                "Right clicking on a Scaffold with a block will attempt to place the block at the end of the Scaffold chain. By default it'll turn direction once, so it can build blocks horizontally if you extend scaffolds that way.",
+                "If you wish to use the default behaviour of placing blocks on the scaffold, you can still do it with shift-right click."
             ]
 		}
 	],
