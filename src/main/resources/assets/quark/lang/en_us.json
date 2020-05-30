@@ -242,7 +242,7 @@
 	"item.quark.backpack": "Backpack",
 	"item.quark.ravager_hide": "Ravager Hide",
 	"item.quark.soul_compass": "Soul Compass",
-	"item.quark.camera": "Camera",
+	"item.quark.bottled_cloud": "Bottled Cloud",
 
 	"item.minecraft.potion.effect.quark.resilience": "Potion of Stability",
 	"item.minecraft.splash_potion.effect.quark.resilience": "Splash Potion of Stability",
@@ -891,6 +891,7 @@
 	"block.quark.cobblestone_bricks_wall": "Cobblestone Brick Wall",
 	"block.quark.mossy_cobblestone_bricks_wall": "Mossy Cobblestone Brick Wall",
 	"block.quark.gold_bars": "Gold Bars",
+	"block.quark.cloud": "Cloud",
 
 	"item.quark.stoneling_spawn_egg": "Stoneling Spawn Egg",
 	"item.quark.frog_spawn_egg": "Frog Spawn Egg",

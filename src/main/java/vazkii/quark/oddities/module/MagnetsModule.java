@@ -51,7 +51,7 @@ public class MagnetsModule extends Module {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void clientSetup() {
-		ClientRegistry.bindTileEntityRenderer(magnetizedBlockType, (d) -> new MagnetizedBlockTileEntityRenderer(d));
+		ClientRegistry.bindTileEntityRenderer(magnetizedBlockType, MagnetizedBlockTileEntityRenderer::new);
 	}
 	
 }

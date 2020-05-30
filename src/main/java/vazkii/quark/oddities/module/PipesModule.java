@@ -45,7 +45,7 @@ public class PipesModule extends Module {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void clientSetup() {
-		ClientRegistry.bindTileEntityRenderer(tileEntityType, (d) -> new PipeTileEntityRenderer(d));
+		ClientRegistry.bindTileEntityRenderer(tileEntityType, PipeTileEntityRenderer::new);
 	}
 	
 }

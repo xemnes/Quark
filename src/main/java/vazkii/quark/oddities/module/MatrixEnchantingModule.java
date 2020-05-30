@@ -144,7 +144,7 @@ public class MatrixEnchantingModule extends Module {
 	@OnlyIn(Dist.CLIENT)
 	public void clientSetup() {
 		ScreenManager.registerFactory(containerType, MatrixEnchantingScreen::new);
-		ClientRegistry.bindTileEntityRenderer(tileEntityType, (d) -> new MatrixEnchantingTableTileEntityRenderer(d));
+		ClientRegistry.bindTileEntityRenderer(tileEntityType, MatrixEnchantingTableTileEntityRenderer::new);	
 	}
 	
 

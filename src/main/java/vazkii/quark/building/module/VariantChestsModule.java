@@ -76,8 +76,8 @@ public class VariantChestsModule extends Module {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void clientSetup() {
-		ClientRegistry.bindTileEntityRenderer(chestTEType, (d) -> new VariantChestTileEntityRenderer(d));
-		ClientRegistry.bindTileEntityRenderer(trappedChestTEType, (d) -> new VariantChestTileEntityRenderer(d));
+		ClientRegistry.bindTileEntityRenderer(chestTEType, VariantChestTileEntityRenderer::new);
+		ClientRegistry.bindTileEntityRenderer(trappedChestTEType, VariantChestTileEntityRenderer::new);
 	}
 
 	private void addChest(String name, Block from) {
