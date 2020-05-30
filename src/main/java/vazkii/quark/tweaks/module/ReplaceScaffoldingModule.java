@@ -20,12 +20,16 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import vazkii.quark.base.handler.MiscUtil;
+import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
 
 @LoadModule(category = ModuleCategory.TWEAKS, hasSubscriptions = true)
 public class ReplaceScaffoldingModule extends Module {
+	
+	@Config(description = "How many times the algorithm for finding out where a block would be placed is allowed to turn. If you set this to large values (> 3) it may start producing weird effects.")
+	public int maxBounces = 1;
 
 	@SubscribeEvent
 	public void onInteract(PlayerInteractEvent.RightClickBlock event) {
@@ -95,7 +99,7 @@ public class ReplaceScaffoldingModule extends Module {
 	}
 	
 	private BlockPos getLastInLineOrNull(World world, BlockPos start, Direction dir) {
-		BlockPos last = getLastInLineRecursive(world, start, dir, 1);
+		BlockPos last = getLastInLineRecursive(world, start, dir, maxBounces);
 		if(last.equals(start))
 			return null;
 		
