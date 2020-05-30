@@ -32,9 +32,9 @@ public class ReplaceScaffoldingModule extends Module {
 		World world = event.getWorld();
 		BlockPos pos = event.getPos();
 		BlockState state = world.getBlockState(pos);
-		if(state.getBlock() == Blocks.SCAFFOLDING) {
+		PlayerEntity player = event.getPlayer();
+		if(state.getBlock() == Blocks.SCAFFOLDING && !player.isDiscrete()) {
 			Direction dir = event.getFace();
-			PlayerEntity player = event.getPlayer();
 			ItemStack stack = event.getItemStack();
 			Hand hand = event.getHand();
 			
