@@ -1268,7 +1268,7 @@
 			"image": "matrix-enchanting.jpg",
 			"versions": "1.15+",
 			"desc": [
-				"Matrix Encahnting is a complete overhaul of the enchanting system. Pieces can be generated using lapis and XP. The pieces then have to be laid on the grid to enchant the item. Pieces can be rotated and upgraded into higher levels.",
+				"Matrix Enchanting is a complete overhaul of the enchanting system. Pieces can be generated using lapis and XP. The pieces then have to be laid on the grid to enchant the item. Pieces can be rotated and upgraded into higher levels.",
 				"Furthermore, the enchanting table can now hold Lapis and the item you put in. The item will even render in the world! You can enchant underwater too.",
 				"If you want to know more about how to use Matrix Enchanting, press More Info."
 			],		
