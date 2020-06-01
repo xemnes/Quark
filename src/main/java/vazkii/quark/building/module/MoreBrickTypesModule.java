@@ -6,6 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.ItemGroup;
+import net.minecraftforge.common.ToolType;
 import vazkii.quark.base.block.QuarkBlock;
 import vazkii.quark.base.handler.VariantHandler;
 import vazkii.quark.base.module.Config;
@@ -46,7 +47,8 @@ public class MoreBrickTypesModule extends Module {
 	private void add(String name, MaterialColor color, Material material, BooleanSupplier cond) {
 		VariantHandler.addSlabStairsWall(new QuarkBlock(name + "_bricks", this, ItemGroup.BUILDING_BLOCKS, 
 				Block.Properties.create(material, color)
-				.hardnessAndResistance(2F, 6F))
+				.hardnessAndResistance(2F, 6F)
+				.harvestTool(ToolType.PICKAXE))
 				.setCondition(cond));
 	}
 	
