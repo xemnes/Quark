@@ -54,15 +54,17 @@ public class CloudBlock extends QuarkBlock {
 			BlockItemUseContext bcontext = new BlockItemUseContext(context);
 			
 			BlockState stateToPlace = block.getStateForPlacement(bcontext);
-			world.setBlockState(pos, stateToPlace);
-			world.playSound(player, pos, stateToPlace.getSoundType().getPlaceSound(), SoundCategory.BLOCKS, 1F, 1F);
-			
-			if(!player.isCreative()) {
-				stack.shrink(1);
-				fillBottle(player, 0);
+			if(stateToPlace != null && stateToPlace.isValidPosition(world, pos)) {
+				world.setBlockState(pos, stateToPlace);
+				world.playSound(player, pos, stateToPlace.getSoundType().getPlaceSound(), SoundCategory.BLOCKS, 1F, 1F);
+				
+				if(!player.isCreative()) {
+					stack.shrink(1);
+					fillBottle(player, 0);
+				}
+				
+				return ActionResultType.SUCCESS;
 			}
-			
-			return ActionResultType.SUCCESS;
 		}
 		
 		return ActionResultType.PASS;

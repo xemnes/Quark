@@ -53,19 +53,21 @@ public class ReplaceScaffoldingModule extends Module {
 					BlockItemUseContext bcontext = new BlockItemUseContext(context);
 					
 					BlockState stateToPlace = block.getStateForPlacement(bcontext);
-					world.setBlockState(last, stateToPlace);
-					world.playSound(player, last, stateToPlace.getSoundType().getPlaceSound(), SoundCategory.BLOCKS, 1F, 1F);
-					
-					if(!player.isCreative()) {
-						stack.shrink(1);
+					if(stateToPlace != null && stateToPlace.isValidPosition(world, last)) {
+						world.setBlockState(last, stateToPlace);
+						world.playSound(player, last, stateToPlace.getSoundType().getPlaceSound(), SoundCategory.BLOCKS, 1F, 1F);
 						
-						ItemStack giveStack = new ItemStack(Items.SCAFFOLDING);
-						if(!player.addItemStackToInventory(giveStack))
-							player.dropItem(giveStack, false);
+						if(!player.isCreative()) {
+							stack.shrink(1);
+							
+							ItemStack giveStack = new ItemStack(Items.SCAFFOLDING);
+							if(!player.addItemStackToInventory(giveStack))
+								player.dropItem(giveStack, false);
+						}
+						
+						event.setCanceled(true);
+						event.setCancellationResult(ActionResultType.SUCCESS);
 					}
-					
-					event.setCanceled(true);
-					event.setCancellationResult(ActionResultType.SUCCESS);
 				}
 			}
 		}
