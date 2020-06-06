@@ -1465,6 +1465,33 @@
 				"Adds tea trees to the game, the leaves of which can be crafted into drinkable tea that provides passive effects."
 			],
 			"download": "https://www.curseforge.com/minecraft/mc-mods/simply-tea"
+		},
+		{
+			"name": "Charm",
+			"image": "charm.jpg",
+			"versions": "Friend",
+			"desc": [
+				"Charm enhances the vanilla game experience without compromising its gameplay style, adding extra features with a similar feel to Quark."
+			],
+			"download": "https://www.curseforge.com/minecraft/mc-mods/charm"
+		},
+		{
+			"name": "Covalent",
+			"image": "covalent.jpg",
+			"versions": "Friend",
+			"desc": [
+				"Provides Barrels, Charm Crates and Charm Bookshelf Chests in wood types from Friends mods!"
+			],
+			"download": "https://www.curseforge.com/minecraft/mc-mods/covalent"
+		},
+		{
+			"name": "Strange",
+			"image": "strange.jpg",
+			"versions": "Friend",
+			"desc": [
+				"A Charm expansion mod that adds exploration, adventure and treasure to the game without dramatically altering the vanilla playstyle."
+			],
+			"download": "https://www.curseforge.com/minecraft/mc-mods/strange"
 		}
 	]
 }
