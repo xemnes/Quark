@@ -18,7 +18,6 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import vazkii.quark.base.Quark;
 
 @EventBusSubscriber(modid = Quark.MOD_ID)
-@OnlyIn(Dist.CLIENT)
 public class BLMHandler {
 
 	private static boolean didTheThing = false;
