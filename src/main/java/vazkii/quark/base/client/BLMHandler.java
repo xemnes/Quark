@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.ConfirmOpenLinkScreen;
+import net.minecraft.client.gui.screen.MultiplayerScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ServerListScreen;
 import net.minecraft.client.gui.screen.WorldSelectionScreen;
@@ -25,14 +26,12 @@ public class BLMHandler {
 	@SubscribeEvent
 	@OnlyIn(Dist.CLIENT)
 	public static void clientTick(ClientTickEvent event) {
-		didTheThing = false;
-
 		Minecraft mc = Minecraft.getInstance();
 		if(!didTheThing && mc.getLanguageManager().getCurrentLanguage().getName().equals("English")) {
 			Screen curr = mc.currentScreen;
 
-			if(curr instanceof WorldSelectionScreen || curr instanceof ServerListScreen) {
-				mc.displayGuiScreen(new BLMScreen());
+			if(curr instanceof WorldSelectionScreen || curr instanceof MultiplayerScreen) {
+				mc.displayGuiScreen(new BLMScreen(curr));
 				didTheThing = true;
 			}
 		}
@@ -43,12 +42,14 @@ public class BLMHandler {
 
 		private static final int TOTAL_TIME = (8 * 60 * 20) + (46 * 20);
 
+		final Screen parent;
 		int ticksElapsed = 0;
 		boolean attemptedEsc = false;
 		boolean openedWebsite = false;
 
-		protected BLMScreen() {
+		protected BLMScreen(Screen parent) {
 			super(new StringTextComponent(""));
+			this.parent = parent;
 		}
 
 		@Override
@@ -110,13 +111,19 @@ public class BLMHandler {
 
 			ticksElapsed++;
 			if(ticksElapsed > TOTAL_TIME)
-				minecraft.displayGuiScreen(null);
+				minecraft.displayGuiScreen(parent);
 		}
 
 		@Override
 		public boolean keyPressed(int p_keyPressed_1_, int p_keyPressed_2_, int p_keyPressed_3_) {
-			if(p_keyPressed_1_ == 256 && !attemptedEsc) {
-				attemptedEsc = true;
+			if(p_keyPressed_1_ == 256) {
+				if(!attemptedEsc)
+					attemptedEsc = true;
+				else {
+					minecraft.displayGuiScreen(parent);
+					return true;
+				}
+				
 				return false;
 			}
 
