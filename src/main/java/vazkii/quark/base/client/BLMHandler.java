@@ -1,12 +1,14 @@
 package vazkii.quark.base.client;
 
+import java.io.File;
+import java.io.IOException;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.ConfirmOpenLinkScreen;
 import net.minecraft.client.gui.screen.MultiplayerScreen;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.ServerListScreen;
 import net.minecraft.client.gui.screen.WorldSelectionScreen;
 import net.minecraft.util.Util;
 import net.minecraft.util.text.StringTextComponent;
@@ -19,7 +21,8 @@ import vazkii.quark.base.Quark;
 
 @EventBusSubscriber(modid = Quark.MOD_ID)
 public class BLMHandler {
-
+	private static final long KILLSWITCH = 1593561600000L; // 1 Jul 2020
+	
 	private static boolean didTheThing = false;
 
 	@SubscribeEvent
@@ -30,10 +33,21 @@ public class BLMHandler {
 			Screen curr = mc.currentScreen;
 
 			if(curr instanceof WorldSelectionScreen || curr instanceof MultiplayerScreen) {
-				mc.displayGuiScreen(new BLMScreen(curr));
+				if(!getMarker().exists() && System.currentTimeMillis() < KILLSWITCH)
+					mc.displayGuiScreen(new BLMScreen(curr));
+				
 				didTheThing = true;
 			}
 		}
+	}
+	
+	private static File getMarker() {
+		File root = new File(".");
+		File ourDir = new File(root, "saves/.quark");
+		if(!ourDir.exists())
+			ourDir.mkdirs();
+		
+		return new File(ourDir, ".blm_marker");
 	}
 
 	@OnlyIn(Dist.CLIENT)
@@ -62,11 +76,13 @@ public class BLMHandler {
 			int secs = timeLeft / 20;
 			int mins = secs / 60; 
 			secs -= (mins * 60);
-
-			RenderSystem.pushMatrix();
-			RenderSystem.scalef(3, 3, 3);
-			drawCenteredString(font, String.format("%dm%02ds", mins, secs), middle / 3, 10, 0xFFFFFF);
-			RenderSystem.popMatrix();
+			
+			if(attemptedEsc || ticksElapsed > 500) {
+				RenderSystem.pushMatrix();
+				RenderSystem.scalef(3, 3, 3);
+				drawCenteredString(font, String.format("%dm%02ds", mins, secs), middle / 3, 10, 0xFFFFFF);
+				RenderSystem.popMatrix();
+			}
 			
 			String[] message = new String[0];
 			int dist = 15;
@@ -74,27 +90,28 @@ public class BLMHandler {
 			if(attemptedEsc) {
 				message = new String[] {
 						"Before you go, remember: You can skip this.",
-						"George Floyd couldn't.",
-						"While you're waiting to play, he was waiting to die.",
+						"George Floyd couldn't. Black americans can't.",
+						"While you're waiting to play, they're waiting to die.",
 						"",
 						"Black people are disproportionately killed by the police",
 						"in the United States. It's time to stand up.",
 						"Click anywhere on screen to find out how to help.",
 						"#BlackLivesMatter",
-						"(Press ESC again to leave)"
+						"",
+						"(Press ESC again to leave, this mesasge won't show again)"
 				};
 			} else {
 				message = new String[] {
 						"Before you start playing, please read this message provided by Quark.",
-						"George Floyd was killed by a police officer, who stood on him for 8m46s.",
-						"All he'd done was attempt to pay with a fake $20 bill.",
+						"George Floyd was killed by a police officer, who knelt on him for 8m46s.",
+						"He was accused of paying with a counterfeit $20 bill.",
 						"Innocent black lives are being taken by police officers all over the USA.",
 						"It's time to make history.",
 						"",
 						"Click anywhere on screen to find out how to help.",
+						"(You may press ESC to skip)",
 						"#BlackLivesMatter",
-						"",
-						"(You may press ESC to skip)"
+						
 				};
 			}
 			
@@ -110,7 +127,17 @@ public class BLMHandler {
 
 			ticksElapsed++;
 			if(ticksElapsed > TOTAL_TIME)
-				minecraft.displayGuiScreen(parent);
+				leave();
+		}
+		
+		private void leave() {
+			try {
+				getMarker().createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			minecraft.displayGuiScreen(parent);
 		}
 
 		@Override
@@ -119,7 +146,7 @@ public class BLMHandler {
 				if(!attemptedEsc)
 					attemptedEsc = true;
 				else {
-					minecraft.displayGuiScreen(parent);
+					leave();
 					return true;
 				}
 				
@@ -131,6 +158,9 @@ public class BLMHandler {
 
 		@Override
 		public boolean mouseClicked(double p_mouseClicked_1_, double p_mouseClicked_3_, int p_mouseClicked_5_) {
+			if(ticksElapsed < 400)
+				return false;
+			
 			if(p_mouseClicked_5_ == 0 && !openedWebsite) {
 				minecraft.displayGuiScreen(new ConfirmOpenLinkScreen(this::consume, "https://blacklivesmatter.carrd.co/", true));
 				return true;
@@ -147,6 +177,5 @@ public class BLMHandler {
 		}
 		
 	}
-
 
 }
