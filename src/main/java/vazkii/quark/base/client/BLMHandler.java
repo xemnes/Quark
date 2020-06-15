@@ -41,7 +41,7 @@ public class BLMHandler {
 		}
 	}
 	
-	private boolean isEnglish(Minecraft mc) {
+	private static boolean isEnglish(Minecraft mc) {
 		return mc.getLanguageManager() != null
 				&& mc.getLanguageManager().getCurrentLanguage() != null
 				&& mc.getLanguageManager().getCurrentLanguage().getName() != null
