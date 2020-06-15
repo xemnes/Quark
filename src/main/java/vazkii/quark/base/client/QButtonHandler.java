@@ -1,5 +1,7 @@
 package vazkii.quark.base.client;
 
+import java.awt.Color;
+import java.util.Calendar;
 import java.util.List;
 
 import com.google.common.collect.ImmutableSet;
@@ -15,9 +17,11 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.util.Util;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.GuiScreenEvent;
+import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.loading.FMLPaths;
+import vazkii.arl.util.ClientTicker;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.client.screen.QButtonInfoScreen;
 import vazkii.quark.base.handler.ContributorRewardHandler;
@@ -53,13 +57,16 @@ public class QButtonHandler {
 	
 	private static class QButton extends Button {
 
+		private final boolean gay;
+		
 		public QButton(int x, int y) {
 			super(x, y, 20, 20, "q", QButton::click);
+			gay = Calendar.getInstance().get(Calendar.MONTH) + 1 == 6;
 		}
 		
 		@Override
 		public int getFGColor() {
-			return 0x48DDBC;
+			return gay ? Color.HSBtoRGB((ClientTicker.total / 200F), 1F, 1F) : 0x48DDBC;
 		}
 		
 		@Override
