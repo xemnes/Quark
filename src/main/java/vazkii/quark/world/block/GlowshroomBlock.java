@@ -90,7 +90,7 @@ public class GlowshroomBlock extends MushroomBlock implements IQuarkBlock {
 		super.animateTick(stateIn, worldIn, pos, rand);
 
 		if(rand.nextInt(20) == 0)
-			worldIn.addParticle(ParticleTypes.END_ROD, pos.getX() + 0.2 + rand.nextFloat() * 0.6, pos.getY() + 0.3F, pos.getZ() + 0.2 + rand.nextFloat() * 0.6, 0, 0, 0);
+			worldIn.addParticle(ParticleTypes.END_ROD, pos.getX() + 0.2 + rand.nextDouble() * 0.6, pos.getY() + 0.3, pos.getZ() + 0.2 + rand.nextDouble() * 0.6, 0, 0, 0);
 	}
 
 	@Override

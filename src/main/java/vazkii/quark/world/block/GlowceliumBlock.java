@@ -69,7 +69,7 @@ public class GlowceliumBlock extends QuarkBlock {
 		super.animateTick(stateIn, worldIn, pos, rand);
 
 		if(rand.nextInt(40) == 0)
-			worldIn.addParticle(ParticleTypes.END_ROD, pos.getX() + rand.nextFloat(), pos.getY() + 1.15F, pos.getZ() + rand.nextFloat(), 0, 0, 0);
+			worldIn.addParticle(ParticleTypes.END_ROD, pos.getX() + rand.nextDouble(), pos.getY() + 1.15, pos.getZ() + rand.nextDouble(), 0, 0, 0);
 	}
 
 }

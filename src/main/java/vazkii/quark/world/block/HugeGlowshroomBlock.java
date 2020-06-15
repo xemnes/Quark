@@ -45,7 +45,7 @@ public class HugeGlowshroomBlock extends HugeMushroomBlock {
 		super.animateTick(stateIn, worldIn, pos, rand);
 
 		if(rand.nextInt(10) == 0)
-			worldIn.addParticle(ParticleTypes.END_ROD, pos.getX() + rand.nextFloat(), pos.getY() + rand.nextFloat(), pos.getZ() + rand.nextFloat(), 0, 0, 0);
+			worldIn.addParticle(ParticleTypes.END_ROD, pos.getX() + rand.nextDouble(), pos.getY() + rand.nextDouble(), pos.getZ() + rand.nextDouble(), 0, 0, 0);
 	}
 
 	@Override
