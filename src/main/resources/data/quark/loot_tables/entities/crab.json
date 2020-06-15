@@ -6,7 +6,7 @@
       "conditions": [
         {
           "condition": "quark:flag",
-          "flag": "passive_creatures_brewing"
+          "flag": "crab_brewing"
         },
         {
           "condition": "killed_by_player"
