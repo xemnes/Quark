@@ -21,7 +21,7 @@ import vazkii.quark.base.Quark;
 
 @EventBusSubscriber(modid = Quark.MOD_ID)
 public class BLMHandler {
-	private static final long KILLSWITCH = 1593561600000L; // 1 Jul 2020
+	private static final long KILLSWITCH = 1594771200000L; // 15 Jul 2020
 	
 	private static boolean didTheThing = false;
 
