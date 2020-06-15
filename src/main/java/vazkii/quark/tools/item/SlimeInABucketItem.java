@@ -89,7 +89,9 @@ public class SlimeInABucketItem extends QuarkItem {
 			playerIn.swingArm(hand);
 		}
 
-		playerIn.setHeldItem(hand, new ItemStack(Items.BUCKET));
+		if(!playerIn.isCreative())
+			playerIn.setHeldItem(hand, new ItemStack(Items.BUCKET));
+		
 		return ActionResultType.SUCCESS;
 	}
 
