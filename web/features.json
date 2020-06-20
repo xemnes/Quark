@@ -1492,6 +1492,15 @@
 				"A Charm expansion mod that adds exploration, adventure and treasure to the game without dramatically altering the vanilla playstyle."
 			],
 			"download": "https://www.curseforge.com/minecraft/mc-mods/strange"
+		},
+		{
+			"name": "Enhanced Mushrooms",
+			"image": "enhanced-mushrooms.jpg",
+			"versions": "Friend",
+			"desc": [
+				"Enhanced Mushrooms adds new wood types for both vanilla mushroom types. It also includes a transparent, glowing wood type for glowshrooms when Quark is installed, and has a couple of new mushroom-related foods."
+			],
+			"download": "https://www.curseforge.com/minecraft/mc-mods/enhanced-mushrooms"
 		}
 	]
 }
