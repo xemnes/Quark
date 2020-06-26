@@ -26,8 +26,8 @@
 	"quark.gui.qbutton_info": "Konfiguracja wewnątrz gry w nowszych jej wersjach nie jest obecnie możliwa. Na chwilę obecną, ten przycisk tylko otwiera folder z plikiem konfiguracyjnym. Będziesz musiał znaleźć plik \"quark-common.toml\" i otworzyć go. To jest plik tekstowy, więc możesz go otworzyć w dowolnym pliku do edycji tekstu (na przykład Notatnik). Po zapisaniu pliku wszystkie dokonane zmiany zostaną od razu wprowadzone.",
 
 	"quark.camera.filter": "Filtr: ",
-	"quark.camera.filter.none": "Bez Filtra",	
-	"quark.camera.filter.grayscale": "Skala Szarości",
+	"quark.camera.filter.none": "Bez filtra",	
+	"quark.camera.filter.grayscale": "Skala szarości",
 	"quark.camera.filter.monochrome": "Monochromia",
 	"quark.camera.filter.sepia": "Sepia",
 	"quark.camera.filter.desaturate": "Niedosycenie",
