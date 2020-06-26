@@ -1492,6 +1492,15 @@
 				"A Charm expansion mod that adds exploration, adventure and treasure to the game without dramatically altering the vanilla playstyle."
 			],
 			"download": "https://www.curseforge.com/minecraft/mc-mods/strange"
+		},
+		{
+			"name": "Voyage",
+			"image": "voyage.jpg",
+			"versions": "Friend",
+			"desc": [
+				"Voyage adds a multitude of new biomes to go alongside the vanilla ones, without adding any new blocks or items. It includes lagoons, rock fields, tall mountains, and much more."
+			],
+			"download": "https://www.curseforge.com/minecraft/mc-mods/voyage"
 		}
 	]
 }
