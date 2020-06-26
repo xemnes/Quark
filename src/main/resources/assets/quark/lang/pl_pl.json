@@ -73,7 +73,7 @@
 
 	"quark.camera.header": "Tryb kamery",
 	"quark.camera.info": "[%s by wyjść, ENTER aby zrobić zdjęcie]",
-	"quark.camera.reset": "Reset Ustawień (Musisz się skradać)",
+	"quark.camera.reset": "Reset ustawień (Musisz się skradać)",
 	"quark.camera.greetings": "Pozdrowienia z %s!",
 
 	"quark.jei.makes_copy": "Stwórz kopię",
