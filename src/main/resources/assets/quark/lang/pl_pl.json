@@ -64,12 +64,12 @@
 	"quark.camera.borders4": "21:9",
 	"quark.camera.borders5": "Polaroid",
 
-	"quark.camera.overlay": "Narzuta: ",
-	"quark.camera.overlay0": "Bez Narzuty",
+	"quark.camera.overlay": "Nakładka: ",
+	"quark.camera.overlay0": "Bez nakładki",
 	"quark.camera.overlay1": "Data",
-	"quark.camera.overlay2": "Postcard",
-	"quark.camera.overlay3": "Znak Wodny",
-	"quark.camera.overlay4": "Trzymany Przedmiot",
+	"quark.camera.overlay2": "Kartka pocztowa",
+	"quark.camera.overlay3": "Znak wodny",
+	"quark.camera.overlay4": "Trzymany przedmiot",
 
 	"quark.camera.header": "Tryb Kamery",
 	"quark.camera.info": "[%s by wyjść, ENTER aby zrobić zdjęcie]",
