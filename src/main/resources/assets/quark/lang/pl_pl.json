@@ -160,7 +160,7 @@
 	"quark.misc.day_has_passed": "Dzień minął.",
 	"quark.misc.shulker_box_shift": "Trzymaj Shift by zobaczyć zawartość",
 	"quark.misc.map_shift": "Trzymaj Shift by zobaczyć mapę",
-	"quark.misc.rotation_lock": "Aktywowałeś BOB (Blokowanie Obracania Bloków). Bloki będą obrócone w kierunku w którym patrzyłeś kiedy użyłeś BOB. Naciśnij [%s] by zmienić orientację, wyłączyć lub ponownie włączyć BOB. Nie zobaczysz tej wiadomości ponownie.",
+	"quark.misc.rotation_lock": "Aktywowałeś blokadę obrotu bloków. Bloki będą obrócone w kierunku w którym patrzyłeś kiedy użyłeś blokady. Naciśnij [%s] by zmienić orientację, wyłączyć lub ponownie włączyć blokadę. Ta wiadomość nie pokaże się ponownie.",
 	"quark.misc.saturation0": "Obwity posiłek",
 	"quark.misc.saturation1": "Spory posiłek",
 	"quark.misc.saturation2": "Posiłek",
