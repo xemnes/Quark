@@ -5,7 +5,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.CampfireBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -25,7 +25,7 @@ public class CampfiresBoostElytraModule extends Module {
 		PlayerEntity player = event.player;
 		
 		if(player.isElytraFlying()) {
-			Vec3d motion = player.getMotion();
+			Vector3d motion = player.getMotion();
 			if(motion.getY() < maxSpeed) {
 				BlockPos pos = player.getPosition();
 				World world = player.world;

@@ -30,7 +30,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.RayTraceResult.Type;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.KeybindTextComponent;
 import net.minecraft.util.text.TextFormatting;
@@ -173,7 +173,7 @@ public class LockRotationModule extends Module {
 
 			if(result instanceof BlockRayTraceResult && result.getType() == Type.BLOCK) {
 				BlockRayTraceResult bresult = (BlockRayTraceResult) result;
-				Vec3d hitVec = bresult.getHitVec();
+				Vector3d hitVec = bresult.getHitVec();
 				Direction face = bresult.getFace();
 
 				int half = (int) ((hitVec.y - (int) hitVec.y) * 2);
@@ -183,7 +183,7 @@ public class LockRotationModule extends Module {
 				newProfile = new LockProfile(face.getOpposite(), half);
 
 			} else {
-				Vec3d look = mc.player.getLookVec();
+				Vector3d look = mc.player.getLookVec();
 				newProfile = new LockProfile(Direction.getFacingFromVector((float) look.x, (float) look.y, (float) look.z), -1);
 			}
 

@@ -1,5 +1,8 @@
 package vazkii.quark.automation.module;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -10,7 +13,11 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.math.*;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.RayTraceContext;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.GameRules;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.TickEvent;
@@ -22,10 +29,11 @@ import net.minecraftforge.fml.LogicalSide;
 import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.automation.block.FeedingTroughBlock;
 import vazkii.quark.automation.tile.FeedingTroughTileEntity;
-import vazkii.quark.base.module.*;
-
-import java.util.HashSet;
-import java.util.Set;
+import vazkii.quark.base.module.Config;
+import vazkii.quark.base.module.LoadModule;
+import vazkii.quark.base.module.Module;
+import vazkii.quark.base.module.ModuleCategory;
+import vazkii.quark.base.module.ModuleLoader;
 
 /**
  * @author WireSegal
@@ -113,8 +121,8 @@ public class FeedingTroughModule extends Module {
         }
 
         if (target != null) {
-        	Vec3d eyesPos = goal.creature.getPositionVec().add(0, goal.creature.getEyeHeight(), 0);
-            Vec3d targetPos = new Vec3d(location).add(0.5, 0.0625, 0.5);
+        	Vector3d eyesPos = goal.creature.getPositionVec().add(0, goal.creature.getEyeHeight(), 0);
+            Vector3d targetPos = new Vector3d(location).add(0.5, 0.0625, 0.5);
             BlockRayTraceResult ray = goal.creature.world.rayTraceBlocks(new RayTraceContext(eyesPos, targetPos, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, goal.creature));
 
             if (ray.getType() == RayTraceResult.Type.BLOCK && ray.getPos().equals(location))

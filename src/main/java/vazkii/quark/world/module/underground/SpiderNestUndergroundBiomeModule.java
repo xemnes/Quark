@@ -11,7 +11,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.BiomeDictionary.Type;
@@ -100,7 +100,7 @@ public class SpiderNestUndergroundBiomeModule extends UndergroundBiomeModule {
 
 			if(entity.world.getBlockState(pos).getBlock() == cobbedstone) {
 				WrappedEntity wrapped = new WrappedEntity(wrappedType, entity.world);
-				Vec3d epos = entity.getPositionVec();
+				Vector3d epos = entity.getPositionVec();
 				
 				wrapped.setPositionAndRotation(epos.x, epos.y, epos.z, entity.rotationYaw, entity.rotationPitch);
 				entity.world.addEntity(wrapped);

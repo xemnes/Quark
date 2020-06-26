@@ -34,7 +34,7 @@ public class GravisandBlock extends QuarkBlock {
 	public int tickRate(IWorldReader world) {
 		return 2;
 	}
-
+	
 	@Override
 	@SuppressWarnings("deprecation")
 	public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean isMoving) {

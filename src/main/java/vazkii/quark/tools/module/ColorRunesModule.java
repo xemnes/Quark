@@ -4,12 +4,12 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.loot.LootEntry;
+import net.minecraft.loot.LootTables;
+import net.minecraft.loot.TagLootEntry;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.Tag;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.storage.loot.LootEntry;
-import net.minecraft.world.storage.loot.LootTables;
-import net.minecraft.world.storage.loot.TagLootEntry;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -64,7 +64,6 @@ public class ColorRunesModule extends Module {
 
         if (cap.isPresent())
             return cap.orElse((s) -> -1).getRuneColor(target);
-
         if (!ItemNBTHelper.getBoolean(target, TAG_RUNE_ATTACHED, false))
             return -1;
 

@@ -2,7 +2,6 @@ package vazkii.quark.mobs.entity;
 
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 
@@ -38,7 +37,6 @@ import net.minecraft.tileentity.PistonTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
-import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.AxisAlignedBB;

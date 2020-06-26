@@ -11,23 +11,20 @@
 package vazkii.quark.mobs.client.layer;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.platform.GlStateManager;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.entity.IEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.model.ItemCameraTransforms.TransformType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.quark.mobs.client.model.StonelingModel;
-import vazkii.quark.mobs.entity.FoxhoundEntity;
 import vazkii.quark.mobs.entity.StonelingEntity;
-
-import javax.annotation.Nonnull;
 
 @OnlyIn(Dist.CLIENT)
 public class StonelingItemLayer extends LayerRenderer<StonelingEntity, StonelingModel> {

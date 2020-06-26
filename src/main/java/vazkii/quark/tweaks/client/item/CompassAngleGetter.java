@@ -1,5 +1,8 @@
 package vazkii.quark.tweaks.client.item;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -9,17 +12,14 @@ import net.minecraft.item.IItemPropertyGetter;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.Dimension;
+import net.minecraft.world.DimensionType;
 import net.minecraft.world.World;
-import net.minecraft.world.dimension.Dimension;
-import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.arl.util.ItemNBTHelper;
 import vazkii.quark.tweaks.module.CompassesWorkEverywhereModule;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 public class CompassAngleGetter implements IItemPropertyGetter {
 
@@ -130,7 +130,7 @@ public class CompassAngleGetter implements IItemPropertyGetter {
 	}
 
 	private double getAngleToPosition(Entity entity, BlockPos blockpos) {
-		Vec3d pos = entity.getPositionVec();
+		Vector3d pos = entity.getPositionVec();
 		return Math.atan2(blockpos.getZ() - pos.z, blockpos.getX() - pos.x);
 	}
 

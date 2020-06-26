@@ -10,16 +10,16 @@
  */
 package vazkii.quark.mobs.ai;
 
+import javax.annotation.Nonnull;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.ai.goal.MoveToBlockGoal;
 import net.minecraft.tileentity.FurnaceTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IWorldReader;
 import vazkii.quark.mobs.entity.FoxhoundEntity;
-
-import javax.annotation.Nonnull;
 
 public class FindPlaceToSleepGoal extends MoveToBlockGoal {
 	private final FoxhoundEntity foxhound;
@@ -68,7 +68,7 @@ public class FindPlaceToSleepGoal extends MoveToBlockGoal {
 	public void tick() {
 		super.tick();
 
-		Vec3d motion = foxhound.getMotion();
+		Vector3d motion = foxhound.getMotion();
 
 		if (!this.getIsAboveDestination() || motion.x > 0 || motion.z > 0) {
 			this.foxhound.getAISit().setSitting(false);

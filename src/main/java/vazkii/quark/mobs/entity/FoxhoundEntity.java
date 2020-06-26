@@ -10,9 +10,31 @@
  */
 package vazkii.quark.mobs.entity;
 
+import java.util.List;
+import java.util.Random;
+import java.util.UUID;
+
+import javax.annotation.Nonnull;
+
 import net.minecraft.block.Blocks;
-import net.minecraft.entity.*;
-import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.AgeableEntity;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.ai.goal.BegGoal;
+import net.minecraft.entity.ai.goal.BreedGoal;
+import net.minecraft.entity.ai.goal.FollowOwnerGoal;
+import net.minecraft.entity.ai.goal.HurtByTargetGoal;
+import net.minecraft.entity.ai.goal.LeapAtTargetGoal;
+import net.minecraft.entity.ai.goal.LookAtGoal;
+import net.minecraft.entity.ai.goal.LookRandomlyGoal;
+import net.minecraft.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
+import net.minecraft.entity.ai.goal.NonTamedTargetGoal;
+import net.minecraft.entity.ai.goal.OwnerHurtTargetGoal;
+import net.minecraft.entity.ai.goal.SitGoal;
+import net.minecraft.entity.ai.goal.SwimGoal;
+import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
 import net.minecraft.entity.monster.AbstractSkeletonEntity;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.AnimalEntity;
@@ -39,19 +61,18 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.*;
+import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.Difficulty;
+import net.minecraft.world.IWorld;
+import net.minecraft.world.IWorldReader;
+import net.minecraft.world.LightType;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 import vazkii.quark.base.handler.MiscUtil;
 import vazkii.quark.mobs.ai.FindPlaceToSleepGoal;
 import vazkii.quark.mobs.ai.SleepGoal;
 import vazkii.quark.mobs.module.FoxhoundModule;
 import vazkii.quark.tweaks.ai.WantLoveGoal;
-
-import javax.annotation.Nonnull;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
 
 public class FoxhoundEntity extends WolfEntity implements IMob {
 
@@ -125,7 +146,7 @@ public class FoxhoundEntity extends WolfEntity implements IMob {
 				owner.setFire(5);
 		}
 
-		Vec3d pos = getPositionVec();
+		Vector3d pos = getPositionVec();
 		if(this.world.isRemote)
 			this.world.addParticle(isSleeping() ? ParticleTypes.SMOKE : ParticleTypes.FLAME, pos.x + (this.rand.nextDouble() - 0.5D) * this.getWidth(), pos.y + (this.rand.nextDouble() - 0.5D) * this.getHeight(), pos.z + (this.rand.nextDouble() - 0.5D) * this.getWidth(), 0.0D, 0.0D, 0.0D);
 

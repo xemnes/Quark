@@ -10,8 +10,8 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.IWaterLoggable;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
-import net.minecraft.fluid.IFluidState;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.pathfinding.PathType;
@@ -91,7 +91,7 @@ public class IronChainBlock extends QuarkBlock implements IWaterLoggable {
 	@Nonnull
 	@Override
 	@SuppressWarnings("deprecation")
-	public IFluidState getFluidState(BlockState state) {
+	public FluidState getFluidState(BlockState state) {
 		return state.get(WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
 	}
 
@@ -127,7 +127,7 @@ public class IronChainBlock extends QuarkBlock implements IWaterLoggable {
 		TOP, MIDDLE, BOTTOM;
 
 		@Override
-		public String getName() {
+		public String func_176610_l() { // getName
 			return name().toLowerCase(Locale.ROOT);
 		}
 		

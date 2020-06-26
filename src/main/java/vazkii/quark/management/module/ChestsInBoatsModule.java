@@ -13,7 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -76,7 +76,7 @@ public class ChestsInBoatsModule extends Module {
 						stack.shrink(1);
 
 					ChestPassengerEntity passenger = new ChestPassengerEntity(world, chestStack);
-					Vec3d pos = target.getPositionVec();
+					Vector3d pos = target.getPositionVec();
 					passenger.setPosition(pos.x, pos.y, pos.z);
 					passenger.rotationYaw = target.rotationYaw;
 					passenger.startRiding(target, true);

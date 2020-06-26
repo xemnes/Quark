@@ -1,5 +1,9 @@
 package vazkii.quark.tweaks.module;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.SoundType;
@@ -25,10 +29,6 @@ import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
 import vazkii.quark.tweaks.block.DirtyGlassBlock;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
 
 /**
  * @author WireSegal

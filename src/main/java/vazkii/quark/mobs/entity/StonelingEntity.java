@@ -26,6 +26,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.loot.LootContext;
+import net.minecraft.loot.LootParameterSets;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
 import net.minecraft.network.datasync.DataParameter;
@@ -42,16 +44,14 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraft.world.storage.loot.LootContext;
-import net.minecraft.world.storage.loot.LootParameterSets;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.extensions.IForgeWorldServer;
 import net.minecraftforge.fml.network.NetworkHooks;
@@ -172,10 +172,10 @@ public class StonelingEntity extends CreatureEntity {
 
 	@Nonnull
 	@Override
-	public ActionResultType applyPlayerInteraction(PlayerEntity player, Vec3d vec, Hand hand) {
+	public ActionResultType applyPlayerInteraction(PlayerEntity player, Vector3d vec, Hand hand) {
 		if(hand == Hand.MAIN_HAND) {
 			ItemStack playerItem = player.getHeldItem(hand);
-			Vec3d pos = getPositionVector();
+			Vector3d pos = getPositionVector();
 
 			if(!world.isRemote) {
 				if (isPlayerMade()) {
@@ -265,7 +265,7 @@ public class StonelingEntity extends CreatureEntity {
 		if(!isTame && !world.isRemote() && world instanceof IForgeWorldServer) {
 			if (ModuleLoader.INSTANCE.isModuleEnabled(FrogsModule.class) && rand.nextDouble() < 0.01) {
 				FrogEntity frog = new FrogEntity(FrogsModule.frogType, world.getWorld(), 0.25f);
-				Vec3d pos = getPositionVector();
+				Vector3d pos = getPositionVector();
 
 				frog.setPosition(pos.x, pos.y, pos.z);
 				world.addEntity(frog);
@@ -395,10 +395,10 @@ public class StonelingEntity extends CreatureEntity {
 
 	@Override
 	public boolean canEntityBeSeen(Entity entityIn) {
-		Vec3d pos = getPositionVector();
-		Vec3d epos = entityIn.getPositionVec();
+		Vector3d pos = getPositionVector();
+		Vector3d epos = entityIn.getPositionVec();
 		
-		Vec3d origin = new Vec3d(pos.x, pos.y + getEyeHeight(), pos.z);
+		Vector3d origin = new Vector3d(pos.x, pos.y + getEyeHeight(), pos.z);
 		float otherEyes = entityIn.getEyeHeight();
 		for (float height = 0; height <= otherEyes; height += otherEyes / 8) {
 			if (this.world.rayTraceBlocks(new RayTraceContext(origin, epos.add(0, height, 0), RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, this)).getType() == RayTraceResult.Type.MISS)

@@ -58,7 +58,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
@@ -211,7 +211,7 @@ public class CrabEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 			extinguish();
 		}
 
-		Vec3d pos = getPositionVec();
+		Vector3d pos = getPositionVec();
         if(isRaving() && (jukeboxPosition == null || jukeboxPosition.distanceSq(pos.x, pos.y, pos.z, true) > 24.0D || world.getBlockState(jukeboxPosition).getBlock() != Blocks.JUKEBOX))
         	party(null, false);
 		

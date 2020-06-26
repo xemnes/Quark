@@ -12,8 +12,8 @@ import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 
 import com.google.common.base.Predicates;
-
 import com.google.common.base.Throwables;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.gui.screen.MainMenuScreen;
@@ -24,6 +24,9 @@ import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.loot.LootEntry;
+import net.minecraft.loot.LootPool;
+import net.minecraft.loot.LootTable;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
@@ -32,15 +35,12 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.math.Vec2f;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector2f;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.LightType;
 import net.minecraft.world.server.ServerChunkProvider;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraft.world.storage.loot.LootEntry;
-import net.minecraft.world.storage.loot.LootPool;
-import net.minecraft.world.storage.loot.LootTable;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.GuiScreenEvent.KeyboardKeyPressedEvent;
@@ -155,7 +155,7 @@ public class MiscUtil {
 		}
 	}
 
-	public static Vec2f getMinecraftAngles(Vec3d direction) {
+	public static Vector2f getMinecraftAngles(Vector3d direction) {
 		// <sin(-y) * cos(p), -sin(-p), cos(-y) * cos(p)>
 
 		direction = direction.normalize();
@@ -163,7 +163,7 @@ public class MiscUtil {
 		double pitch = Math.asin(direction.y);
 		double yaw = Math.asin(direction.x / Math.cos(pitch));
 
-		return new Vec2f((float) (pitch * 180 / Math.PI), (float) (-yaw * 180 / Math.PI));
+		return new Vector2f((float) (pitch * 180 / Math.PI), (float) (-yaw * 180 / Math.PI));
 	}
 
 	public static boolean isEntityInsideOpaqueBlock(Entity entity) {

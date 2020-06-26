@@ -13,8 +13,6 @@ import net.minecraft.block.ChestBlock;
 import net.minecraft.client.renderer.Atlases;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.Vector3f;
-import net.minecraft.client.renderer.model.Material;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.client.renderer.tileentity.DualBrightnessCallback;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
@@ -25,7 +23,9 @@ import net.minecraft.tileentity.IChestLid;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityMerger;
 import net.minecraft.util.Direction;
+import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.obj.MaterialLibrary.Material;
 
 // A copy of ChestTileEntityRenderer from vanilla but less private
 public abstract class GenericChestTERenderer<T extends TileEntity & IChestLid> extends TileEntityRenderer<T> {

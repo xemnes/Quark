@@ -19,7 +19,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
@@ -123,9 +123,9 @@ public class EnhancedLaddersModule extends Module {
 						player.rotationPitch > 70 &&
 						!player.isJumping &&
 						!player.world.getBlockState(player.getPosition().down()).isSolid()) {
-					Vec3d move = new Vec3d(0, fallSpeed, 0);
+					Vector3d move = new Vector3d(0, fallSpeed, 0);
 					player.setBoundingBox(player.getBoundingBox().offset(move));						
-					player.move(MoverType.SELF, Vec3d.ZERO);
+					player.move(MoverType.SELF, Vector3d.ZERO);
 				}
 			}
 		}

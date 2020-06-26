@@ -1,5 +1,8 @@
 package vazkii.quark.tools.client;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.RenderState;
@@ -11,20 +14,17 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.quark.base.Quark;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @OnlyIn(Dist.CLIENT)
 public class GlintRenderType {
     public static Map<Integer, RenderType> glintColorMap = new HashMap<Integer, RenderType>() {{
         for (DyeColor color : DyeColor.values())
-            put(color.getId(), buildGlintRenderType(color.getName()));
+            put(color.getId(), buildGlintRenderType(color.name()));
         put(16, buildGlintRenderType("rainbow"));
     }};
 
     public static Map<Integer, RenderType> entityGlintColorMap = new HashMap<Integer, RenderType>() {{
         for (DyeColor color : DyeColor.values())
-            put(color.getId(), buildEntityGlintRenderType(color.getName()));
+            put(color.getId(), buildEntityGlintRenderType(color.name()));
         put(16, buildEntityGlintRenderType("rainbow"));
     }};
 

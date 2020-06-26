@@ -74,7 +74,7 @@ minecraft {
     }
 }
 
-repositories {
+/*repositories {
     maven {
         // for AutoRegLib
         name "blamejared"
@@ -85,7 +85,7 @@ repositories {
         name "progwml6"
         url "http://dvs1.progwml6.com/files/maven"
     }
-}
+}*/
 
 dependencies {
     minecraft "net.minecraftforge:forge:${config.mc_version}-${config.forge_version}"

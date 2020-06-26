@@ -1,6 +1,9 @@
 package vazkii.quark.world.module.underground;
 
+import java.util.List;
+
 import com.google.common.collect.Lists;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.tags.BlockTags;
@@ -16,8 +19,6 @@ import vazkii.quark.base.module.ModuleCategory;
 import vazkii.quark.world.block.CaveCrystalBlock;
 import vazkii.quark.world.config.UndergroundBiomeConfig;
 import vazkii.quark.world.gen.underground.CaveCrystalUndergroundBiome;
-
-import java.util.List;
 
 @LoadModule(category = ModuleCategory.WORLD)
 public class CaveCrystalUndergroundBiomeModule extends UndergroundBiomeModule {

@@ -12,21 +12,18 @@ package vazkii.quark.tweaks.module;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.block.SlimeBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.AbstractArrowEntity;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Direction.Axis;
 import net.minecraft.util.Direction.AxisDirection;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vector3d;
 import vazkii.quark.base.handler.OverrideRegistryHandler;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
@@ -53,12 +50,12 @@ public class SpringySlimeModule extends Module {
 
 	public static void collideWithSlimeBlock(BlockPos pos, Entity entity) {
 		if (entity instanceof AbstractArrowEntity && ModuleLoader.INSTANCE.isModuleEnabled(SpringySlimeModule.class)) {
-			Vec3d motion = entity.getMotion();
+			Vector3d motion = entity.getMotion();
 			double motionX = motion.x;
 			double motionY = motion.y;
 			double motionZ = motion.z;
 
-			Vec3d epos = entity.getPositionVector();
+			Vector3d epos = entity.getPositionVector();
 			Direction sideHit = Direction.getFacingFromVector(
 					(float) (epos.x + motionX) - (pos.getX() + 0.5f),
 					(float) (epos.y + motionY) - (pos.getY() + 0.5f),
@@ -88,7 +85,7 @@ public class SpringySlimeModule extends Module {
 		}
 	}
 
-	public static void onEntityCollision(Entity entity, Vec3d attempted, Vec3d actual) {
+	public static void onEntityCollision(Entity entity, Vector3d attempted, Vector3d actual) {
 		if (!ModuleLoader.INSTANCE.isModuleEnabled(SpringySlimeModule.class))
 			return;
 
@@ -105,7 +102,7 @@ public class SpringySlimeModule extends Module {
 		double height = entity.getHeight();
 		double width = entity.getWidth();
 		
-		Vec3d pos = entity.getPositionVec();
+		Vector3d pos = entity.getPositionVec();
 
 		double minX = pos.x - width / 2;
 		double minY = pos.y;
@@ -166,7 +163,7 @@ public class SpringySlimeModule extends Module {
 			if (impacted == Direction.UP && entity instanceof ItemEntity)
 				entity.onGround = false;
 
-			Vec3d motion = entity.getMotion();
+			Vector3d motion = entity.getMotion();
 			double motionX = motion.x;
 			double motionY = motion.y;
 			double motionZ = motion.z;

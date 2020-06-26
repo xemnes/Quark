@@ -25,7 +25,7 @@ import net.minecraft.util.EntityPredicates;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import vazkii.quark.base.handler.QuarkSounds;
@@ -72,7 +72,7 @@ public class RunAndPoofGoal<T extends Entity> extends Goal {
 			return false;
 		else {
 			this.closestLivingEntity = entities.get(0);
-			Vec3d target = RandomPositionGenerator.findRandomTargetBlockAwayFrom(this.entity, 16, 7, this.closestLivingEntity.getPositionVector());
+			Vector3d target = RandomPositionGenerator.findRandomTargetBlockAwayFrom(this.entity, 16, 7, this.closestLivingEntity.getPositionVector());
 
 			if (target != null && this.closestLivingEntity.getDistanceSq(target.x, target.y, target.z) < this.closestLivingEntity.getDistanceSq(this.entity))
 				return false;
@@ -91,7 +91,7 @@ public class RunAndPoofGoal<T extends Entity> extends Goal {
 		}
 
 		BlockPos.PooledMutable pos = BlockPos.PooledMutable.retain();
-		Vec3d epos = entity.getPositionVec();
+		Vector3d epos = entity.getPositionVec();
 		
 		for (int i = 0; i < 8; ++i) {
 			int j = MathHelper.floor(epos.x + (i % 2 - 0.5F) * 0.1F + entity.getEyeHeight());
@@ -114,7 +114,7 @@ public class RunAndPoofGoal<T extends Entity> extends Goal {
 
 	@Override
 	public void startExecuting() {
-		Vec3d epos = entity.getPositionVec();
+		Vector3d epos = entity.getPositionVec();
 
 		if (this.path != null)
 			this.navigation.setPath(this.path, this.farSpeed);
@@ -129,7 +129,7 @@ public class RunAndPoofGoal<T extends Entity> extends Goal {
 
 		if (world instanceof ServerWorld) {
 			ServerWorld ws = (ServerWorld) world;
-			Vec3d epos = entity.getPositionVec();
+			Vector3d epos = entity.getPositionVec();
 
 			ws.spawnParticle(ParticleTypes.CLOUD, epos.x, epos.y, epos.z, 40, 0.5, 0.5, 0.5, 0.1);
 			ws.spawnParticle(ParticleTypes.EXPLOSION, epos.x, epos.y, epos.z, 20, 0.5, 0.5, 0.5, 0);

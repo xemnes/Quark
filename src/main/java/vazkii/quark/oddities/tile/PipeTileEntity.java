@@ -22,7 +22,6 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.particles.RedstoneParticleData;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
@@ -31,10 +30,8 @@ import net.minecraft.util.Direction.Axis;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
-import net.minecraft.world.server.ServerChunkProvider;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -88,7 +85,7 @@ public class PipeTileEntity extends TileSimpleInventory implements ITickableTile
 						if(entity == null || !entity.isAlive())
 							return false;
 						
-						Vec3d motion = entity.getMotion();
+						Vector3d motion = entity.getMotion();
 						Direction dir = Direction.getFacingFromVector(motion.x, motion.y, motion.z);
 						
 						return dir == opposite;

@@ -15,6 +15,7 @@ import net.minecraft.block.SoundType;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.EntitySize;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.IShearable;
 import net.minecraft.entity.Pose;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.controller.JumpController;
@@ -48,13 +49,12 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.IShearable;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.network.NetworkHooks;
 import vazkii.quark.base.handler.MiscUtil;
@@ -198,7 +198,7 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 			if (spawnCd == 0 && !world.isRemote) {
 				float multiplier = 0.8F;
 				FrogEntity newFrog = new FrogEntity(FrogsModule.frogType, world);
-				Vec3d pos = getPositionVector();
+				Vector3d pos = getPositionVector();
 				newFrog.setPosition(pos.x, pos.y, pos.z);
 				newFrog.setMotion((Math.random() - 0.5) * multiplier, (Math.random() - 0.5) * multiplier, (Math.random() - 0.5) * multiplier);
 				newFrog.isDuplicate = true;
@@ -271,7 +271,7 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 					dataManager.set(TALK_TIME, 80);
 				}
 					
-				Vec3d pos = getPositionVector();
+				Vector3d pos = getPositionVector();
 				world.playSound(null, pos.x, pos.y, pos.z, QuarkSounds.ENTITY_FROG_WEDNESDAY, SoundCategory.NEUTRAL, 1F, 1F);
 			}
 
@@ -281,7 +281,7 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 		if(stack.getItem().isIn(ItemTags.WOOL) && !hasSweater()) {
 			if(!world.isRemote) {
 				setSweater(true);
-				Vec3d pos = getPositionVector();
+				Vector3d pos = getPositionVector();
 				world.playSound(null, pos.x, pos.y, pos.z, SoundType.CLOTH.getPlaceSound(), SoundCategory.PLAYERS, 1F, 1F);
 				stack.shrink(1);
 			}
@@ -301,7 +301,7 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 	@Override
 	public List<ItemStack> onSheared(ItemStack item, IWorld iworld, BlockPos pos, int fortune) {
 		setSweater(false);
-		Vec3d epos = getPositionVector();
+		Vector3d epos = getPositionVector();
 		world.playSound(null, epos.x, epos.y, epos.z, SoundEvents.ENTITY_SHEEP_SHEAR, SoundCategory.PLAYERS, 1F, 1F);
 		
 		return Lists.newArrayList();
@@ -414,12 +414,12 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 			if (!jumpHelper.getIsJumping()) {
 				if (this.moveController.isUpdating() && this.currentMoveTypeDuration == 0) {
 					Path path = this.navigator.getPath();
-					Vec3d vec3d = new Vec3d(this.moveController.getX(), this.moveController.getY(), this.moveController.getZ());
+					Vector3d Vector3d = new Vector3d(this.moveController.getX(), this.moveController.getY(), this.moveController.getZ());
 
 					if (path != null && path.getCurrentPathIndex() < path.getCurrentPathLength())
-						vec3d = path.getPosition(this);
+						Vector3d = path.getPosition(this);
 
-					this.calculateRotationYaw(vec3d.x, vec3d.z);
+					this.calculateRotationYaw(Vector3d.x, Vector3d.z);
 					this.startJumping();
 				}
 			} else if (!jumpHelper.canJump()) this.enableJumpControl();
@@ -434,7 +434,7 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 	}
 
 	private void calculateRotationYaw(double x, double z) {
-		Vec3d pos = getPositionVector();
+		Vector3d pos = getPositionVector();
 		this.rotationYaw = (float) (MathHelper.atan2(z - pos.z, x - pos.x) * (180D / Math.PI)) - 90.0F;
 	}
 
@@ -472,10 +472,10 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 		double d0 = this.moveController.getSpeed();
 
 		if (d0 > 0.0D) {
-			Vec3d motion = getMotion();
+			Vector3d motion = getMotion();
 			double d1 = motion.x * motion.x + motion.z * motion.z;
 
-			if (d1 < 0.01) this.moveRelative(0.1F, new Vec3d(0.0F, 0.0F, 1.0F));
+			if (d1 < 0.01) this.moveRelative(0.1F, new Vector3d(0.0F, 0.0F, 1.0F));
 		}
 
 		if (!this.world.isRemote)

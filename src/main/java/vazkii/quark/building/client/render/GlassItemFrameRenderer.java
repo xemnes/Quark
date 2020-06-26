@@ -3,7 +3,6 @@ package vazkii.quark.building.client.render;
 import java.util.List;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
 import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.block.BlockState;
@@ -12,13 +11,10 @@ import net.minecraft.client.renderer.Atlases;
 import net.minecraft.client.renderer.BlockRendererDispatcher;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.ItemRenderer;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.ItemFrameRenderer;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
-import net.minecraft.client.renderer.model.Material;
 import net.minecraft.client.renderer.model.ModelBakery;
 import net.minecraft.client.renderer.model.ModelManager;
 import net.minecraft.client.renderer.model.ModelRenderer;
@@ -37,7 +33,8 @@ import net.minecraft.tileentity.BannerPattern;
 import net.minecraft.tileentity.BannerTileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.world.storage.MapData;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -75,8 +72,8 @@ public class GlassItemFrameRenderer extends EntityRenderer<GlassItemFrameEntity>
 		super.render(p_225623_1_, p_225623_2_, p_225623_3_, p_225623_4_, p_225623_5_, p_225623_6_);
 		p_225623_4_.push();
 		Direction direction = p_225623_1_.getHorizontalFacing();
-		Vec3d vec3d = this.getRenderOffset(p_225623_1_, p_225623_3_);
-		p_225623_4_.translate(-vec3d.getX(), -vec3d.getY(), -vec3d.getZ());
+		Vector3d Vector3d = this.getRenderOffset(p_225623_1_, p_225623_3_);
+		p_225623_4_.translate(-Vector3d.getX(), -Vector3d.getY(), -Vector3d.getZ());
 		p_225623_4_.translate((double)direction.getXOffset() * 0.46875D, (double)direction.getYOffset() * 0.46875D, (double)direction.getZOffset() * 0.46875D);
 		p_225623_4_.rotate(Vector3f.XP.rotationDegrees(p_225623_1_.rotationPitch));
 		p_225623_4_.rotate(Vector3f.YP.rotationDegrees(180.0F - p_225623_1_.rotationYaw));
@@ -98,8 +95,8 @@ public class GlassItemFrameRenderer extends EntityRenderer<GlassItemFrameEntity>
 	}
 
 	@Override
-	public Vec3d getRenderOffset(GlassItemFrameEntity p_225627_1_, float p_225627_2_) {
-		return new Vec3d((double)((float)p_225627_1_.getHorizontalFacing().getXOffset() * 0.3F), -0.25D, (double)((float)p_225627_1_.getHorizontalFacing().getZOffset() * 0.3F));
+	public Vector3d getRenderOffset(GlassItemFrameEntity p_225627_1_, float p_225627_2_) {
+		return new Vector3d((double)((float)p_225627_1_.getHorizontalFacing().getXOffset() * 0.3F), -0.25D, (double)((float)p_225627_1_.getHorizontalFacing().getZOffset() * 0.3F));
 	}
 
 	@Override

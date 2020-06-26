@@ -5,10 +5,10 @@ import java.util.function.BiConsumer;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.client.renderer.model.ModelRenderer.ModelBox;
+import net.minecraft.util.math.vector.Vector3f;
 import vazkii.arl.util.ClientTicker;
 import vazkii.quark.mobs.entity.ToretoiseEntity;
 

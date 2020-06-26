@@ -4,12 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.model.Material;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.state.properties.ChestType;
 import net.minecraft.tileentity.ChestTileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.TextureStitchEvent;
+import net.minecraftforge.client.model.obj.MaterialLibrary.Material;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.client.GenericChestTERenderer;
 import vazkii.quark.building.module.VariantChestsModule.IChestTextureProvider;
