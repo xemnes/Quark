@@ -51,9 +51,9 @@
 	"quark.camera.filter.sobel": "Sobel",
 
 	"quark.camera.rulers": "Linijki: ",
-	"quark.camera.rulers0": "Bez Linijki",
-	"quark.camera.rulers1": "Reguła Trzecia",
-	"quark.camera.rulers2": "Złoty Podział",
+	"quark.camera.rulers0": "Bez linijki",
+	"quark.camera.rulers1": "Zasada trójpodziału",
+	"quark.camera.rulers2": "Złoty podział",
 	"quark.camera.rulers3": "Celownik",
 
 	"quark.camera.borders": "Obramowanie: ",
