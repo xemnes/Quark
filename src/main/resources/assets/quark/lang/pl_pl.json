@@ -139,7 +139,7 @@
 
 	"quark.misc.sleeping_list_header": "Śpiący gracze: %s",
 	"quark.misc.napping_list_header": "Drzemiący gracze: %s",
-	"quark.misc.now_afk": "Jesteś teraz AFK (Away From Keyboard - Z Dala od Klawiatury).",
+	"quark.misc.now_afk": "Jesteś teraz AFK (z dala od klawiatury).",
 	"quark.misc.left_afk": "Nie jesteś już AFK.",
 	"quark.misc.person_sleeping": "%s teraz śpi.",
 	"quark.misc.person_not_sleeping": "%s przestał spać.",
