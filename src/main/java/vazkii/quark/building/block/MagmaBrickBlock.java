@@ -3,11 +3,13 @@ package vazkii.quark.building.block;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.entity.EntitySpawnPlacementRegistry.PlacementType;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorldReader;
 import vazkii.quark.base.block.QuarkBlock;
 import vazkii.quark.base.module.Module;
 
@@ -20,7 +22,7 @@ public class MagmaBrickBlock extends QuarkBlock {
 	}
 	
 	@Override
-	public boolean isFireSource(BlockState state, IBlockReader world, BlockPos pos, Direction side) {
+	public boolean isFireSource(BlockState state, IWorldReader world, BlockPos pos, Direction side) {
 		return true;
 	}
 	
@@ -30,8 +32,8 @@ public class MagmaBrickBlock extends QuarkBlock {
 	}
 	
 	@Override
-	public boolean canEntitySpawn(BlockState state, IBlockReader worldIn, BlockPos pos, EntityType<?> type) {
-		return type.isImmuneToFire();
+	public boolean canCreatureSpawn(BlockState state, IBlockReader world, BlockPos pos, PlacementType type, EntityType<?> entityType) {
+		return entityType.isImmuneToFire();
 	}
 
 }

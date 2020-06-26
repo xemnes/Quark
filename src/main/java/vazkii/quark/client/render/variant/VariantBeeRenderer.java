@@ -41,8 +41,8 @@ public class VariantBeeRenderer extends BeeRenderer {
 			
 			if(VARIANTS.contains(name)) {
 				String type = "normal";
-				boolean angery = entity.func_226427_ez_();
-				boolean nectar = entity.func_226411_eD_();
+				boolean angery = entity.hasStung();
+				boolean nectar = entity.hasNectar();
 				
 				if(angery)
 					type = nectar ? "angry_nectar" : "angry";

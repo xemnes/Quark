@@ -72,7 +72,7 @@ public class RunAndPoofGoal<T extends Entity> extends Goal {
 			return false;
 		else {
 			this.closestLivingEntity = entities.get(0);
-			Vector3d target = RandomPositionGenerator.findRandomTargetBlockAwayFrom(this.entity, 16, 7, this.closestLivingEntity.getPositionVector());
+			Vector3d target = RandomPositionGenerator.findRandomTargetBlockAwayFrom(this.entity, 16, 7, this.closestLivingEntity.getPositionVec());
 
 			if (target != null && this.closestLivingEntity.getDistanceSq(target.x, target.y, target.z) < this.closestLivingEntity.getDistanceSq(this.entity))
 				return false;
@@ -90,7 +90,7 @@ public class RunAndPoofGoal<T extends Entity> extends Goal {
 			return false;
 		}
 
-		BlockPos.PooledMutable pos = BlockPos.PooledMutable.retain();
+		BlockPos.Mutable pos = new BlockPos.Mutable();
 		Vector3d epos = entity.getPositionVec();
 		
 		for (int i = 0; i < 8; ++i) {
@@ -102,13 +102,11 @@ public class RunAndPoofGoal<T extends Entity> extends Goal {
 				pos.setPos(k, j, l);
 
 				if (entity.world.getBlockState(pos).getMaterial().blocksMovement()) {
-					pos.close();
 					return false;
 				}
 			}
 		}
 
-		pos.close();
 		return true;
 	}
 

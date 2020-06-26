@@ -20,7 +20,7 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.state.IProperty;
+import net.minecraft.state.Property;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.state.properties.Half;
 import net.minecraft.state.properties.SlabType;
@@ -103,7 +103,7 @@ public class LockRotationModule extends Module {
 
 	public static BlockState getRotatedState(World world, BlockPos pos, BlockState state, Direction face, int half) {
 		BlockState setState = state;
-		ImmutableMap<IProperty<?>, Comparable<?>> props = state.getValues();
+		ImmutableMap<Property<?>, Comparable<?>> props = state.getValues();
 		Block block = state.getBlock();
 
 

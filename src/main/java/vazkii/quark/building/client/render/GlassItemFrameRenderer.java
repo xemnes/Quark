@@ -35,6 +35,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.storage.MapData;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -116,8 +117,8 @@ public class GlassItemFrameRenderer extends EntityRenderer<GlassItemFrameEntity>
 	}
 
 	@Override
-	protected void renderName(GlassItemFrameEntity p_225629_1_, String p_225629_2_, MatrixStack p_225629_3_, IRenderTypeBuffer p_225629_4_, int p_225629_5_) {
-		super.renderName(p_225629_1_, p_225629_1_.getDisplayedItem().getDisplayName().getFormattedText(), p_225629_3_, p_225629_4_, p_225629_5_);
+	protected void renderName(GlassItemFrameEntity p_225629_1_, ITextComponent p_225629_2_, MatrixStack p_225629_3_, IRenderTypeBuffer p_225629_4_, int p_225629_5_) {
+		super.renderName(p_225629_1_, p_225629_1_.getDisplayedItem().getDisplayName(), p_225629_3_, p_225629_4_, p_225629_5_);
 	}
 
 	protected void renderItemStack(ItemFrameEntity itemFrame, float p_225623_2_, float p_225623_3_, MatrixStack matrix, IRenderTypeBuffer buff, int p_225623_6_, ItemStack stack) {

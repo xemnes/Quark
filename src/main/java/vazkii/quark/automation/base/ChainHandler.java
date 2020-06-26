@@ -42,8 +42,8 @@ public class ChainHandler {
 
 		double dist = master.getDistance(follower);
 
-		Vector3d masterPosition = master.getPositionVector();
-		Vector3d followerPosition = follower.getPositionVector();
+		Vector3d masterPosition = master.getPositionVec();
+		Vector3d followerPosition = follower.getPositionVec();
 
 		Vector3d masterMotion = master.getMotion();
 		Vector3d followerMotion = follower.getMotion();

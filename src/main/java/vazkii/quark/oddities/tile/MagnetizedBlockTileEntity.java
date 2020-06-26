@@ -286,7 +286,7 @@ public class MagnetizedBlockTileEntity extends TileEntity implements ITickableTi
                     this.world.setBlockState(this.pos, this.magnetState, 84);
                     Block.replaceBlock(this.magnetState, blockstate, this.world, this.pos, 3);
                 } else {
-                    if (blockstate.has(BlockStateProperties.WATERLOGGED) && blockstate.get(BlockStateProperties.WATERLOGGED)) {
+                    if (blockstate.getValues().containsKey(BlockStateProperties.WATERLOGGED) && blockstate.get(BlockStateProperties.WATERLOGGED)) {
                         blockstate = blockstate.with(BlockStateProperties.WATERLOGGED, Boolean.FALSE);
                     }
 
@@ -307,10 +307,12 @@ public class MagnetizedBlockTileEntity extends TileEntity implements ITickableTi
 
         }
     }
-
+    
+    
     @Override
-    public void read(CompoundNBT compound) {
-        super.read(compound);
+    public void func_230337_a_(BlockState p_230337_1_, CompoundNBT compound) { // read
+    	super.func_230337_a_(p_230337_1_, compound);
+    	
         this.magnetState = NBTUtil.readBlockState(compound.getCompound("blockState"));
         this.magnetFacing = Direction.byIndex(compound.getInt("facing"));
         this.progress = compound.getFloat("progress");

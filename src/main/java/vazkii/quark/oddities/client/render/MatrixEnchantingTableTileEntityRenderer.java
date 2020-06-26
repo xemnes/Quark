@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.model.BookModel;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
+import net.minecraft.client.renderer.model.RenderMaterial;
 import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
@@ -16,7 +17,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3f;
-import net.minecraftforge.client.model.obj.MaterialLibrary.Material;
 import vazkii.quark.oddities.tile.MatrixEnchantingTableTileEntity;
 
 public class MatrixEnchantingTableTileEntityRenderer extends TileEntityRenderer<MatrixEnchantingTableTileEntity> {
@@ -66,7 +66,7 @@ public class MatrixEnchantingTableTileEntityRenderer extends TileEntityRenderer<
 		matrix.pop();
 	}
 
-	public static final Material TEXTURE_BOOK = new Material(AtlasTexture.LOCATION_BLOCKS_TEXTURE, new ResourceLocation("entity/enchanting_table_book"));
+	public static final RenderMaterial TEXTURE_BOOK = new RenderMaterial(AtlasTexture.LOCATION_BLOCKS_TEXTURE, new ResourceLocation("entity/enchanting_table_book"));
 	private final BookModel modelBook = new BookModel();
 
 	// Copy of vanilla's book render

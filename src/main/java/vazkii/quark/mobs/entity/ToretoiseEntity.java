@@ -331,7 +331,7 @@ public class ToretoiseEntity extends AnimalEntity {
 
 	@Override
 	public boolean canSpawn(@Nonnull IWorld world, SpawnReason reason) {
-		BlockState state = world.getBlockState((new BlockPos(this)).down());
+		BlockState state = world.getBlockState((new BlockPos(getPositionVec())).down());
 		if (state.getMaterial() != Material.ROCK)
 			return false;
 

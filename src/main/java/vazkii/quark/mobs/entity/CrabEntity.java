@@ -216,7 +216,7 @@ public class CrabEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
         	party(null, false);
 		
 		if(isRaving() && world.isRemote && ticksExisted % 10 == 0) {
-			BlockPos below = getPosition().down();
+			BlockPos below = func_233580_cy_().down(); // getPosition
 			BlockState belowState = world.getBlockState(below);
 			if(belowState.getMaterial() == Material.SAND)
 				world.playEvent(2001, below, Block.getStateId(belowState));

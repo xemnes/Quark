@@ -72,7 +72,7 @@ public class SignEditingModule extends Module {
 	}
 
 	private boolean doesSignHaveCommand(SignTileEntity sign) {
-		for(ITextComponent itextcomponent : sign.signText) {
+		for(ITextComponent itextcomponent : sign.signText) { // TODO AT
 			Style style = itextcomponent == null ? null : itextcomponent.getStyle();
 			if (style != null && style.getClickEvent() != null) {
 				ClickEvent clickevent = style.getClickEvent();

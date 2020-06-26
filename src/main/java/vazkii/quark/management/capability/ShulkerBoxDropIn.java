@@ -1,6 +1,7 @@
 package vazkii.quark.management.capability;
 
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
@@ -38,7 +39,7 @@ public class ShulkerBoxDropIn extends AbstractDropIn {
 				cmp.putString("id", "minecraft:shulker_box");
 			}
 
-			TileEntity te = TileEntity.create(cmp);
+			TileEntity te = TileEntity.func_235657_b_(((BlockItem) shulkerBox.getItem()).getBlock().getDefaultState(), cmp);
 			if (te != null) {
 				LazyOptional<IItemHandler> handlerHolder = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
 				if (handlerHolder.isPresent()) {

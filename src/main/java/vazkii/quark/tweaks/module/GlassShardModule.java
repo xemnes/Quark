@@ -56,7 +56,7 @@ public class GlassShardModule extends Module {
         dirtyShard = new QuarkItem("dirty_shard", this, new Item.Properties().group(ItemGroup.MATERIALS));
 
         for(DyeColor color : DyeColor.values())
-            shardColors.put(color, new QuarkItem(color.getName() + "_shard", this, new Item.Properties().group(ItemGroup.MATERIALS)));
+            shardColors.put(color, new QuarkItem(color.func_176610_l() + "_shard", this, new Item.Properties().group(ItemGroup.MATERIALS)));
     }
 
     @Override

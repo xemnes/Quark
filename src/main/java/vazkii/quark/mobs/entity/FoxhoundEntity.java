@@ -151,13 +151,13 @@ public class FoxhoundEntity extends WolfEntity implements IMob {
 			this.world.addParticle(isSleeping() ? ParticleTypes.SMOKE : ParticleTypes.FLAME, pos.x + (this.rand.nextDouble() - 0.5D) * this.getWidth(), pos.y + (this.rand.nextDouble() - 0.5D) * this.getHeight(), pos.z + (this.rand.nextDouble() - 0.5D) * this.getWidth(), 0.0D, 0.0D, 0.0D);
 
 		if(isTamed()) {
-			BlockPos below = getPosition().down();
+			BlockPos below = func_233580_cy_().down(); // getPosition
 			TileEntity tile = world.getTileEntity(below);
 			if (tile instanceof FurnaceTileEntity) {
 				FurnaceTileEntity furnace = (FurnaceTileEntity) tile;
 				int cookTime = furnace.cookTime;
 				if (cookTime > 0 && cookTime % 3 == 0) {
-					List<FoxhoundEntity> foxhounds = world.getEntitiesWithinAABB(FoxhoundEntity.class, new AxisAlignedBB(getPosition()),
+					List<FoxhoundEntity> foxhounds = world.getEntitiesWithinAABB(FoxhoundEntity.class, new AxisAlignedBB(func_233580_cy_()),
 							(fox) -> fox != null && fox.isTamed());
 					if(!foxhounds.isEmpty() && foxhounds.get(0) == this)
 						furnace.cookTime = Math.min(furnace.cookTimeTotal - 1, cookTime + 1);

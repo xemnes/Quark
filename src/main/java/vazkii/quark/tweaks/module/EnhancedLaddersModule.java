@@ -115,14 +115,14 @@ public class EnhancedLaddersModule extends Module {
 		if(event.phase == TickEvent.Phase.START) {
 			PlayerEntity player = event.player;
 			if(player.isOnLadder() && player.world.isRemote) {
-				boolean scaffold = player.world.getBlockState(player.getPosition()).getBlock() == Blocks.SCAFFOLDING;
-				if(player.isShiftKeyDown() == scaffold &&
+				boolean scaffold = player.world.getBlockState(player.func_233580_cy_()).getBlock() == Blocks.SCAFFOLDING;
+				if(player.isCrouching() == scaffold &&
 						player.moveForward == 0 &&
 						player.moveVertical <= 0 &&
 						player.moveStrafing == 0 &&
 						player.rotationPitch > 70 &&
 						!player.isJumping &&
-						!player.world.getBlockState(player.getPosition().down()).isSolid()) {
+						!player.world.getBlockState(player.func_233580_cy_().down()).isSolid()) {
 					Vector3d move = new Vector3d(0, fallSpeed, 0);
 					player.setBoundingBox(player.getBoundingBox().offset(move));						
 					player.move(MoverType.SELF, Vector3d.ZERO);
@@ -138,7 +138,7 @@ public class EnhancedLaddersModule extends Module {
 		if(player.isOnLadder() && Minecraft.getInstance().currentScreen != null && !(player.moveForward == 0 && player.rotationPitch > 70)) {
 			MovementInput input = event.getMovementInput();
 			if(input != null)
-				input.field_228350_h_ = true; // sneaking
+				input.sneaking = true; // sneaking
 		}
 	}
 

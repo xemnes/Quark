@@ -42,7 +42,7 @@ public class FavorBlockGoal extends Goal {
 	}
 
 	public FavorBlockGoal(CreatureEntity creature, double speed, Tag<Block> tag) {
-		this(creature, speed, (state) -> tag.contains(state.getBlock()));
+		this(creature, speed, (state) -> tag.func_230235_a_(state.getBlock())); // contains
 	}
 
 	public FavorBlockGoal(CreatureEntity creature, double speed, Block block) {
@@ -75,7 +75,7 @@ public class FavorBlockGoal extends Goal {
 
 	@Override
 	public void tick() {
-		if (creature.getDistanceSq(new Vector3d(destinationBlock).add(0.5, 1.5, 0.5)) > 1.0D) {
+		if (creature.getDistanceSq(new Vector3d(destinationBlock.getX(), destinationBlock.getY(), destinationBlock.getZ()).add(0.5, 1.5, 0.5)) > 1.0D) {
 			++timeoutCounter;
 
 			if (timeoutCounter % 40 == 0)

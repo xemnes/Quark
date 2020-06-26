@@ -2,6 +2,7 @@ package vazkii.quark.base.proxy;
 
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.util.UUID;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -77,8 +78,8 @@ public class ClientProxy extends CommonProxy {
 
 		Minecraft mc = Minecraft.getInstance();
 		if(mc.isSingleplayer() && mc.player != null && mc.getIntegratedServer() != null) {
-			mc.player.sendMessage(new TranslationTextComponent("commands.reload.success"));
-			mc.getIntegratedServer().reload();
+			mc.player.sendMessage(new TranslationTextComponent("commands.reload.success"), UUID.randomUUID());
+//			mc.getIntegratedServer().reload(); TODO what's this in 1.16?
 		}
 	}
 

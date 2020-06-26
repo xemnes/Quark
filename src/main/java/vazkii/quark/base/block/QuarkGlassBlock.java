@@ -2,6 +2,7 @@ package vazkii.quark.base.block;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.EntitySpawnPlacementRegistry.PlacementType;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
@@ -41,20 +42,25 @@ public class QuarkGlassBlock extends QuarkBlock {
     }
     
     @Override
-    @SuppressWarnings("deprecation")
-    public boolean causesSuffocation(@Nonnull BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos) {
-        return false;
+    public boolean canCreatureSpawn(BlockState state, IBlockReader world, BlockPos pos, PlacementType type, EntityType<?> entityType) {
+    	return false;
     }
+    
+    @Override // TODO does this work?
+    public boolean isTransparent(BlockState state) {
+    	return true;
+    }
+//    
+//    @Override
+//    @SuppressWarnings("deprecation")
+//    public boolean causesSuffocation(@Nonnull BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos) {
+//        return false;
+//    }
+//
+//    @Override
+//    @SuppressWarnings("deprecation")
+//    public boolean isNormalCube(BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos) {
+//        return false;
+//    }
 
-    @Override
-    @SuppressWarnings("deprecation")
-    public boolean isNormalCube(BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos) {
-        return false;
-    }
-
-    @Override
-    @SuppressWarnings("deprecation")
-    public boolean canEntitySpawn(BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos, EntityType<?> type) {
-        return false;
-    }
 }

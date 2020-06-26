@@ -82,7 +82,7 @@ public class WeatherSensorBlock extends QuarkBlock {
     }
 
     public static void updatePower(BlockState state, World world, BlockPos pos) {
-        if (world.dimension.hasSkyLight()) {
+        if (world.func_230315_m_().hasSkyLight()) { // getDimension
             boolean inverted = state.get(INVERTED);
 
             if (world.isThundering())
@@ -101,7 +101,7 @@ public class WeatherSensorBlock extends QuarkBlock {
             if (world.isRemote) {
                 return ActionResultType.SUCCESS;
             } else {
-                BlockState inverted = state.cycle(INVERTED);
+                BlockState inverted = state.func_235896_a_(INVERTED); // cycle
                 world.setBlockState(pos, inverted, 4);
                 updatePower(inverted, world, pos);
                 return ActionResultType.SUCCESS;

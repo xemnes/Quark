@@ -87,7 +87,7 @@ public class ColorRunesModule extends Module {
     @Override
     public void construct() {
         for(DyeColor color : DyeColor.values())
-            new RuneItem(color.getName() + "_rune", this, color.getId());
+            new RuneItem(color.func_176610_l() + "_rune", this, color.getId());
         new RuneItem("rainbow_rune", this, 16);
     }
 

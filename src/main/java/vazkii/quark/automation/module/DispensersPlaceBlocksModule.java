@@ -61,7 +61,7 @@ public class DispensersPlaceBlocksModule extends Module {
 		@Nonnull
 		@Override
 		public ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
-			successful = false;
+			successful = false; // TODO AT
 
 			Direction direction = source.getBlockState().get(DispenserBlock.FACING);
 			Direction against = direction;

@@ -20,7 +20,7 @@ public class VerticalPlanksModule extends Module {
 			new QuarkBlock("vertical_" + type + "_planks", this, ItemGroup.BUILDING_BLOCKS, Block.Properties.from(Blocks.OAK_PLANKS));
 
 		for(DyeColor dye : DyeColor.values())
-			new QuarkBlock("vertical_" + dye.getName() + "_stained_planks", this, ItemGroup.BUILDING_BLOCKS, Block.Properties.from(Blocks.OAK_PLANKS))
+			new QuarkBlock("vertical_" + dye.func_176610_l() + "_stained_planks", this, ItemGroup.BUILDING_BLOCKS, Block.Properties.from(Blocks.OAK_PLANKS))
 			.setCondition(() -> ModuleLoader.INSTANCE.isModuleEnabled(StainedPlanksModule.class));
 	}
 

@@ -84,7 +84,7 @@ public class HoeHarvestingModule extends Module {
 		if(block instanceof IPlantable) {
 			IPlantable plant = (IPlantable) block;
 			PlantType type = plant.getPlantType(world, pos);
-			return type != PlantType.Water && type != PlantType.Desert;
+			return type != PlantType.WATER && type != PlantType.DESERT;
 		}
 
 		return state.getMaterial() == Material.PLANTS && state.isReplaceable(new BlockItemUseContext(new ItemUseContext(player, Hand.MAIN_HAND,

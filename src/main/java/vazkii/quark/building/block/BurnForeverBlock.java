@@ -4,7 +4,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorldReader;
 import vazkii.quark.base.block.QuarkBlock;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.building.module.CompressedBlocksModule;
@@ -16,7 +16,7 @@ public class BurnForeverBlock extends QuarkBlock {
 	}
 
 	@Override
-	public boolean isFireSource(BlockState state, IBlockReader world, BlockPos pos, Direction side) {
+	public boolean isFireSource(BlockState state, IWorldReader world, BlockPos pos, Direction side) {
 		return side == Direction.UP && CompressedBlocksModule.burnsForever;
 	}
 	

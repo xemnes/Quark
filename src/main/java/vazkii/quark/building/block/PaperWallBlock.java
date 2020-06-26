@@ -23,7 +23,7 @@ public class PaperWallBlock extends QuarkInheritedPaneBlock {
 	public PaperWallBlock(IQuarkBlock parent, String name) {
 		super(parent, name,
 				Block.Properties.from(parent.getBlock())
-						.lightValue(0));
+					.func_235838_a_(b -> 0)); // light level
 	}
 
 	@Override

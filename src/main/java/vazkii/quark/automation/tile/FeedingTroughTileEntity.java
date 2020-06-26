@@ -70,8 +70,8 @@ public class FeedingTroughTileEntity extends LockableLootTileEntity implements I
                 ItemStack stack = getStackInSlot(i);
                 if (goal.isTempting(stack) && entity.isBreedingItem(stack)) {
                     foodHolder.inventory.mainInventory.set(foodHolder.inventory.currentItem, stack);
-                    Vector3d position = new Vector3d(pos).add(0.5, 0.5, 0.5);
-                    Vector3d direction = goal.creature.getPositionVector().subtract(position).normalize();
+                    Vector3d position = new Vector3d(pos.getX(), pos.getY(), pos.getZ()).add(0.5, 0.5, 0.5);
+                    Vector3d direction = goal.creature.getPositionVec().subtract(position).normalize();
                     Vector2f angles = MiscUtil.getMinecraftAngles(direction);
 
                     Vector3d shift = direction.scale(-0.5 / Math.max(
@@ -185,8 +185,9 @@ public class FeedingTroughTileEntity extends LockableLootTileEntity implements I
     }
 
     @Override
-    public void read(CompoundNBT nbt) {
-        super.read(nbt);
+    public void func_230337_a_(BlockState state, CompoundNBT nbt) { // read
+    	super.func_230337_a_(state, nbt);
+    	
         this.cooldown = nbt.getInt("Cooldown");
         this.internalRng = nbt.getLong("rng");
         this.stacks = NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY);

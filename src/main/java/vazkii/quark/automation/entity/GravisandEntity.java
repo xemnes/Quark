@@ -48,7 +48,7 @@ public class GravisandEntity extends FallingBlockEntity {
 		this.prevPosX = x;
 		this.prevPosY = y;
 		this.prevPosZ = z;
-		this.setOrigin(new BlockPos(this));
+		this.setOrigin(new BlockPos(getPositionVec()));
 		dataManager.set(DIRECTION, direction);
 	}
 
@@ -64,7 +64,7 @@ public class GravisandEntity extends FallingBlockEntity {
 	@Override
 	public void tick() {
 		Vector3d pos = getPositionVec();
-		if (this.fallTile.isAir(world, new BlockPos(this)) || pos.y > 300 || pos.y < -50) {
+		if (this.fallTile.isAir(world, new BlockPos(getPositionVec())) || pos.y > 300 || pos.y < -50) {
 			this.remove();
 		} else {
 			this.prevPosX = pos.x;
@@ -72,7 +72,7 @@ public class GravisandEntity extends FallingBlockEntity {
 			this.prevPosZ = pos.z;
 			Block block = this.fallTile.getBlock();
 			if (this.fallTime++ == 0) {
-				BlockPos blockpos = new BlockPos(this);
+				BlockPos blockpos = new BlockPos(getPositionVec());
 				if (this.world.getBlockState(blockpos).getBlock() == block) {
 					this.world.removeBlock(blockpos, false);
 				} else if (!this.world.isRemote) {
@@ -87,7 +87,7 @@ public class GravisandEntity extends FallingBlockEntity {
 
 			this.move(MoverType.SELF, this.getMotion());
 			if (!this.world.isRemote) {
-				BlockPos fallTarget = new BlockPos(this);
+				BlockPos fallTarget = new BlockPos(getPositionVec());
 				boolean flag = this.fallTile.getBlock() instanceof ConcretePowderBlock;
 				boolean flag1 = flag && this.world.getFluidState(fallTarget).isTagged(FluidTags.WATER);
 				double d0 = this.getMotion().lengthSquared();

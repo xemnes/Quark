@@ -122,7 +122,7 @@ public class TotemOfHoldingModule extends Module {
                 event.setCanceled(true);
             } else persistent.putString(TAG_LAST_TOTEM, "");
 
-            BlockPos pos = player.getPosition();
+            BlockPos pos = player.func_233580_cy_(); // getPosition
             persistent.putInt(TAG_DEATH_X, pos.getX());
             persistent.putInt(TAG_DEATH_Z, pos.getZ());
             persistent.putInt(TAG_DEATH_DIM, player.world.getDimension().getType().getId());

@@ -100,7 +100,7 @@ public class CompressedBlocksModule extends Module {
 				Block.Properties.create(Material.GLASS, DyeColor.YELLOW)
 				.hardnessAndResistance(0.3F)
 				.sound(SoundType.GLASS)
-				.lightValue(15))
+				.func_235838_a_(b -> 15)) // light value
 		.setCondition(() -> enableBlazeLantern);
 		
 		new QuarkBlock("bonded_leather", this, ItemGroup.BUILDING_BLOCKS, Block.Properties.create(Material.WOOL, DyeColor.ORANGE)

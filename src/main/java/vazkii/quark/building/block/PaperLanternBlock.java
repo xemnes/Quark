@@ -28,9 +28,9 @@ public class PaperLanternBlock extends QuarkBlock {
 		super(regname, module, ItemGroup.DECORATIONS,
 				Block.Properties.create(Material.WOOD, MaterialColor.SNOW)
 						.sound(SoundType.WOOD)
-						.harvestTool(ToolType.AXE)
-						.harvestLevel(0)
-						.lightValue(15)
+//						.(ToolType.AXE) TODO ?
+//						.harvestLevel(0)
+						.func_235838_a_(b -> 15) // light level
 						.hardnessAndResistance(1.5F));
 	}
 

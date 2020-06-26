@@ -97,7 +97,8 @@ public class VerticalSlabBlock extends QuarkBlock implements IWaterLoggable, IBl
 		if(direction.getAxis() != Axis.Y)
 			return direction;
 		
-		Vector3d vec = context.getHitVec().subtract(new Vector3d(context.getPos())).subtract(0.5, 0, 0.5);
+		BlockPos pos = context.getPos();
+		Vector3d vec = context.getHitVec().subtract(new Vector3d(pos.getX(), pos.getY(), pos.getZ())).subtract(0.5, 0, 0.5);
 		double angle = Math.atan2(vec.x, vec.z) * -180.0 / Math.PI;
 		return Direction.fromAngle(angle).getOpposite();
 	}
@@ -172,7 +173,7 @@ public class VerticalSlabBlock extends QuarkBlock implements IWaterLoggable, IBl
 		public final VoxelShape shape;
 
 		VerticalSlabType(Direction direction) {
-			this.name = direction == null ? "double" : direction.getName();
+			this.name = direction == null ? "double" : direction.func_176610_l(); // name()
 			this.direction = direction;
 
 			if(direction == null)

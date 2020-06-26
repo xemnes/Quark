@@ -167,7 +167,7 @@ public class MiscUtil {
 	}
 
 	public static boolean isEntityInsideOpaqueBlock(Entity entity) {
-		BlockPos pos = entity.getPosition();
+		BlockPos pos = entity.func_233580_cy_(); // getPosition TODO is this right?
 		return !entity.noClip && entity.world.getBlockState(pos).isSuffocating(entity.world, pos);
 	}
 

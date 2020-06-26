@@ -109,7 +109,7 @@ public class FeedingTroughModule extends Module {
         Set<FeedingTroughTileEntity> troughs = loadedTroughs.get();
         for (FeedingTroughTileEntity tile : troughs) {
             BlockPos pos = tile.getPos();
-            double distanceSq = pos.distanceSq(goal.creature.getPositionVector(), true);
+            double distanceSq = pos.distanceSq(goal.creature.getPositionVec(), true);
             if (distanceSq <= range * range && distanceSq < shortestDistanceSq) {
                 FakePlayer foodHolder = tile.getFoodHolder(goal);
                 if (foodHolder != null) {
@@ -122,7 +122,7 @@ public class FeedingTroughModule extends Module {
 
         if (target != null) {
         	Vector3d eyesPos = goal.creature.getPositionVec().add(0, goal.creature.getEyeHeight(), 0);
-            Vector3d targetPos = new Vector3d(location).add(0.5, 0.0625, 0.5);
+            Vector3d targetPos = new Vector3d(location.getX(), location.getY(), location.getZ()).add(0.5, 0.0625, 0.5);
             BlockRayTraceResult ray = goal.creature.world.rayTraceBlocks(new RayTraceContext(eyesPos, targetPos, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, goal.creature));
 
             if (ray.getType() == RayTraceResult.Type.BLOCK && ray.getPos().equals(location))

@@ -173,7 +173,7 @@ public class PathfinderMapsModule extends Module {
 			
 			int i = random.nextInt(info.maxPrice - info.minPrice + 1) + info.minPrice;
 
-			ItemStack itemstack = createMap(entity.world, entity.getPosition(), info); 
+			ItemStack itemstack = createMap(entity.world, entity.func_233580_cy_(), info); // getPosition 
 			if(itemstack.isEmpty())
 				return null;
 			

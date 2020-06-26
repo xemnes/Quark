@@ -198,7 +198,7 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 			if (spawnCd == 0 && !world.isRemote) {
 				float multiplier = 0.8F;
 				FrogEntity newFrog = new FrogEntity(FrogsModule.frogType, world);
-				Vector3d pos = getPositionVector();
+				Vector3d pos = getPositionVec();
 				newFrog.setPosition(pos.x, pos.y, pos.z);
 				newFrog.setMotion((Math.random() - 0.5) * multiplier, (Math.random() - 0.5) * multiplier, (Math.random() - 0.5) * multiplier);
 				newFrog.isDuplicate = true;
@@ -434,7 +434,7 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 	}
 
 	private void calculateRotationYaw(double x, double z) {
-		Vector3d pos = getPositionVector();
+		Vector3d pos = getPositionVec();
 		this.rotationYaw = (float) (MathHelper.atan2(z - pos.z, x - pos.x) * (180D / Math.PI)) - 90.0F;
 	}
 

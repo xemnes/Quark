@@ -23,7 +23,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.Direction.Axis;
 import net.minecraft.util.Direction.AxisDirection;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vector3d;
+import net.minecraft.util.math.vector.Vector3d;
 import vazkii.quark.base.handler.OverrideRegistryHandler;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
@@ -55,7 +55,7 @@ public class SpringySlimeModule extends Module {
 			double motionY = motion.y;
 			double motionZ = motion.z;
 
-			Vector3d epos = entity.getPositionVector();
+			Vector3d epos = entity.getPositionVec();
 			Direction sideHit = Direction.getFacingFromVector(
 					(float) (epos.x + motionX) - (pos.getX() + 0.5f),
 					(float) (epos.y + motionY) - (pos.getY() + 0.5f),

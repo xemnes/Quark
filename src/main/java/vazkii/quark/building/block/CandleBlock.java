@@ -93,12 +93,12 @@ public class CandleBlock extends QuarkBlock implements IWaterLoggable {
 
 	@Override
 	public void onBlockAdded(BlockState state, World worldIn, BlockPos pos, BlockState oldState, boolean isMoving) {
-	      worldIn.getPendingBlockTicks().scheduleTick(pos, this, this.tickRate(worldIn));
+	      worldIn.getPendingBlockTicks().scheduleTick(pos, this, 2);
 	}
 
 	@Override
 	public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving) {		
-	      worldIn.getPendingBlockTicks().scheduleTick(pos, this, this.tickRate(worldIn));
+	      worldIn.getPendingBlockTicks().scheduleTick(pos, this, 2);
 	}
 
 	@Override
@@ -120,11 +120,6 @@ public class CandleBlock extends QuarkBlock implements IWaterLoggable {
 				worldIn.addEntity(fallingblockentity);
 			}
 		}
-	}
-
-	@Override
-	public int tickRate(IWorldReader worldIn) {
-		return 2;
 	}
 
 	@Override

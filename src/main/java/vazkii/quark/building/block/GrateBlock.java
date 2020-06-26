@@ -12,6 +12,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.EntitySpawnPlacementRegistry.PlacementType;
 import net.minecraft.entity.item.ExperienceOrbEntity;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.passive.AnimalEntity;
@@ -140,22 +141,26 @@ public class GrateBlock extends QuarkBlock implements IWaterLoggable {
 	}
 	
 	@Override
-	@SuppressWarnings("deprecation")
-	public boolean causesSuffocation(@Nonnull BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos) {
+	public boolean canCreatureSpawn(BlockState state, IBlockReader world, BlockPos pos, PlacementType type, EntityType<?> entityType) {
 		return false;
 	}
-
+	
 	@Override
-	@SuppressWarnings("deprecation")
-	public boolean isNormalCube(BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos) {
-		return false;
+	public boolean isTransparent(BlockState state) { // TODO check
+		return true;
 	}
-
-	@Override
-	@SuppressWarnings("deprecation")
-	public boolean canEntitySpawn(BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos, EntityType<?> type) {
-		return false;
-	}
+	
+//	@Override
+//	@SuppressWarnings("deprecation")
+//	public boolean causesSuffocation(@Nonnull BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos) {
+//		return false;
+//	}
+//
+//	@Override
+//	@SuppressWarnings("deprecation")
+//	public boolean isNormalCube(BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos) {
+//		return false;
+//	}
 
 	@Override
 	public boolean collisionExtendsVertically(BlockState state, IBlockReader world, BlockPos pos, Entity collidingEntity) {

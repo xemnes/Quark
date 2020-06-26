@@ -57,7 +57,7 @@ public class PistonsMoveTileEntitiesModule extends Module {
 			return;
 
 		for (Pair<BlockPos, CompoundNBT> delay : delays) {
-			TileEntity tile = TileEntity.create(delay.getRight());
+			TileEntity tile = TileEntity.func_235657_b_(event.world.getBlockState(delay.getLeft()), delay.getRight()); // create
 			event.world.setTileEntity(delay.getLeft(), tile);
 			if (tile != null)
 				tile.updateContainingBlockInfo();
@@ -76,7 +76,7 @@ public class PistonsMoveTileEntitiesModule extends Module {
 
 	public static boolean shouldMoveTE(BlockState state) {
 		// Jukeboxes that are playing can't be moved so the music can be stopped
-		if (state.getProperties().contains(JukeboxBlock.HAS_RECORD) && state.get(JukeboxBlock.HAS_RECORD))
+		if (state.getValues().containsKey(JukeboxBlock.HAS_RECORD) && state.get(JukeboxBlock.HAS_RECORD))
 			return true;
 
 		if (state.getBlock() == Blocks.PISTON_HEAD)
@@ -118,7 +118,7 @@ public class PistonsMoveTileEntitiesModule extends Module {
 			return false;
 		}
 
-		if (state.getProperties().contains(ChestBlock.TYPE))
+		if (state.getValues().containsKey(ChestBlock.TYPE))
 			state = state.with(ChestBlock.TYPE, ChestType.SINGLE);
 
 		Block block = state.getBlock();
@@ -188,7 +188,7 @@ public class PistonsMoveTileEntitiesModule extends Module {
 		if (remove)
 			worldMovements.remove(pos);
 
-		return TileEntity.create(ret);
+		return TileEntity.func_235657_b_(world.getBlockState(pos), ret); // create TODO: works?
 	}
 
 	private static TileEntity getAndClearMovement(World world, BlockPos pos) {

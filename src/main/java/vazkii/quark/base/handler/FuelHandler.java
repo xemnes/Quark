@@ -40,7 +40,7 @@ public class FuelHandler {
 		.stream()
 		.filter(r -> r.getNamespace().equals(Quark.MOD_ID))
 		.map(ForgeRegistries.BLOCKS::getValue)
-		.filter(b -> b.getMaterial(b.getDefaultState()) == Material.WOOD)
+		.filter(b -> b.material == Material.WOOD) // TODO AT
 		.forEach(FuelHandler::addWood);
 	}
 

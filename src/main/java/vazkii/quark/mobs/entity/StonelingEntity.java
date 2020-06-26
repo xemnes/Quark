@@ -175,7 +175,7 @@ public class StonelingEntity extends CreatureEntity {
 	public ActionResultType applyPlayerInteraction(PlayerEntity player, Vector3d vec, Hand hand) {
 		if(hand == Hand.MAIN_HAND) {
 			ItemStack playerItem = player.getHeldItem(hand);
-			Vector3d pos = getPositionVector();
+			Vector3d pos = getPositionVec();
 
 			if(!world.isRemote) {
 				if (isPlayerMade()) {
@@ -265,7 +265,7 @@ public class StonelingEntity extends CreatureEntity {
 		if(!isTame && !world.isRemote() && world instanceof IForgeWorldServer) {
 			if (ModuleLoader.INSTANCE.isModuleEnabled(FrogsModule.class) && rand.nextDouble() < 0.01) {
 				FrogEntity frog = new FrogEntity(FrogsModule.frogType, world.getWorld(), 0.25f);
-				Vector3d pos = getPositionVector();
+				Vector3d pos = getPositionVec();
 
 				frog.setPosition(pos.x, pos.y, pos.z);
 				world.addEntity(frog);
@@ -395,7 +395,7 @@ public class StonelingEntity extends CreatureEntity {
 
 	@Override
 	public boolean canEntityBeSeen(Entity entityIn) {
-		Vector3d pos = getPositionVector();
+		Vector3d pos = getPositionVec();
 		Vector3d epos = entityIn.getPositionVec();
 		
 		Vector3d origin = new Vector3d(pos.x, pos.y + getEyeHeight(), pos.z);
@@ -425,7 +425,7 @@ public class StonelingEntity extends CreatureEntity {
 
 	@Override
 	public boolean canSpawn(@Nonnull IWorld world, SpawnReason reason) {
-		BlockState state = world.getBlockState((new BlockPos(this)).down());
+		BlockState state = world.getBlockState(new BlockPos(getPositionVec()).down());
 		if (state.getMaterial() != Material.ROCK)
 			return false;
 		
