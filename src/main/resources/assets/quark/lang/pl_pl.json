@@ -80,8 +80,8 @@
 	
 	"quark.keybind.change_hotbar": "Podmieniacz pasków narzędzi",
 	"quark.keybind.lock_rotation": "BOB - Blokowanie Obracania Bloków",
-	"quark.keybind.sort_container": "Sort inwentarz celu",
-	"quark.keybind.sort_player": "Segreguj inwentarz gracza",
+	"quark.keybind.sort_container": "Segreguj zawartość pojemnika",
+	"quark.keybind.sort_player": "Segreguj ekwipunek gracza",
 	"quark.keybind.transfer_extract": "Wyciągnij przedmioty",
 	"quark.keybind.transfer_insert": "Włóż przedmioty",
 	"quark.keybind.patreon_emote.dance": "Taniec (Patreon)",
