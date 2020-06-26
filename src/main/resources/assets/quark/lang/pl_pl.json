@@ -20,10 +20,10 @@
 	"quark.gui.keygroup.inv": "Quark - ekwipunek",
 	"quark.gui.keygroup.emote": "Quark - emotikony",
 	
-	"quark.gui.qbutton_info.title": "q Przycisk Informacyjny (READ ME)",
-	"quark.gui.qbutton_info.open": "Otwórz Plik",
+	"quark.gui.qbutton_info.title": "Przycisk q - informacje",
+	"quark.gui.qbutton_info.open": "Otwórz plik",
 	"quark.gui.qbutton_info.back": "Wróć",
-	"quark.gui.qbutton_info": "Konfiguracja wewnątrz gry w nowszych jej wersjach nie jest możliwa na ten moment. Na chwilę obecną, ten przycisk tylko otwiera folder z plikiem konfiguracyjnym. Będziesz musiał znaleźć plik \"quark-common.toml\" i otworzyć go. To jest plik tekstowy, więc możesz go otworzyć w dowolnym pliku do edycji tekstu (na przykład Notatnik). Po zapisaniu zmian w pliku, wszystkie zmiany w nim dokonane zostaną od razu, w wielu przypadkach bez resetu gry, wprowadzone w twoim świecie gry.",
+	"quark.gui.qbutton_info": "Konfiguracja wewnątrz gry w nowszych jej wersjach nie jest obecnie możliwa. Na chwilę obecną, ten przycisk tylko otwiera folder z plikiem konfiguracyjnym. Będziesz musiał znaleźć plik \"quark-common.toml\" i otworzyć go. To jest plik tekstowy, więc możesz go otworzyć w dowolnym pliku do edycji tekstu (na przykład Notatnik). Po zapisaniu pliku wszystkie dokonane zmiany zostaną od razu wprowadzone.",
 
 	"quark.camera.filter": "Filtr: ",
 	"quark.camera.filter.none": "Bez Filtra",	
