@@ -16,9 +16,9 @@
 	"quark.gui.enchanting.merge": "Kliknij by ulepszyć",
 	"quark.gui.enchanting.pending": "Ma oczekujące zaklęcia",
 
-	"quark.gui.keygroup.misc": "Quark Różne",
-	"quark.gui.keygroup.inv": "Quark Inventarz",
-	"quark.gui.keygroup.emote": "Quark Emotikony",
+	"quark.gui.keygroup.misc": "Quark - różne",
+	"quark.gui.keygroup.inv": "Quark - ekwipunek",
+	"quark.gui.keygroup.emote": "Quark - emotikony",
 	
 	"quark.gui.qbutton_info.title": "q Przycisk Informacyjny (READ ME)",
 	"quark.gui.qbutton_info.open": "Otwórz Plik",
