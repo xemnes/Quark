@@ -9,7 +9,7 @@
 	"quark.gui.button.back": "Wróć",
 
 	"quark.gui.enchanting.min": "Min: %d",
-	"quark.gui.enchanting.influence": "Wpływ od świec: +%d%%",
+	"quark.gui.enchanting.influence": "Wpływ świec: +%d%%",
 	"quark.gui.enchanting.upgrade": "Ulepsz: %d/%d",
 	"quark.gui.enchanting.left_click": "Lewy przycisk myszy by Wybrać",
 	"quark.gui.enchanting.right_click": "Prawy przycisk myszy by Obrócić",
