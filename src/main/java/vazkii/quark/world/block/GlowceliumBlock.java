@@ -30,8 +30,8 @@ public class GlowceliumBlock extends QuarkBlock {
 				Block.Properties.create(Material.ORGANIC, MaterialColor.LIGHT_BLUE)
 						.tickRandomly()
 						.hardnessAndResistance(0.5F)
-						.lightValue(7)
-						.harvestTool(ToolType.SHOVEL)
+						.func_235838_a_(b -> 7)
+//						.harvestTool(ToolType.SHOVEL) TODO how do
 						.sound(SoundType.PLANT));
 	}
 
