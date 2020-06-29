@@ -89,7 +89,7 @@ public class SpiderNestUndergroundBiomeModule extends UndergroundBiomeModule {
 	}
 	
 	private static boolean changeToWrapped(Entity entity) {
-		BlockPos pos = entity.getPosition();
+		BlockPos pos = entity.func_233580_cy_(); // getPosition
 		int i = 0;
 
 		while(i < 4) {

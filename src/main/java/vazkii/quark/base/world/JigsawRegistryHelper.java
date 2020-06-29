@@ -6,9 +6,8 @@ import java.util.List;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Streams;
-import com.mojang.datafixers.Dynamic;
-import com.mojang.datafixers.types.DynamicOps;
 import com.mojang.datafixers.util.Pair;
+import com.mojang.serialization.Codec;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.nbt.CompoundNBT;
@@ -24,6 +23,7 @@ import net.minecraft.world.gen.feature.jigsaw.SingleJigsawPiece;
 import net.minecraft.world.gen.feature.template.IStructureProcessorType;
 import net.minecraft.world.gen.feature.template.PlacementSettings;
 import net.minecraft.world.gen.feature.template.StructureProcessor;
+import net.minecraft.world.gen.feature.template.Template;
 import net.minecraft.world.gen.feature.template.Template.BlockInfo;
 import vazkii.quark.base.Quark;
 
@@ -103,37 +103,29 @@ public class JigsawRegistryHelper {
 
 	private static class FakeAirProcessor extends StructureProcessor {
 
-	    private static final IStructureProcessorType TYPE = Registry.register(Registry.STRUCTURE_PROCESSOR, Quark.MOD_ID + ":fake_air", FakeAirProcessor::new);
+//		private static final Codec<FakeAirProcessor> CODEC = Codec.unit(FakeAirProcessor::new);
+//	    private static final IStructureProcessorType<FakeAirProcessor> TYPE = Registry.register(Registry.STRUCTURE_PROCESSOR, Quark.MOD_ID + ":fake_air", CODEC);
 	    
 	    public FakeAirProcessor() { 
 	    	// NO-OP
 	    }
 	    
-	    public FakeAirProcessor(Dynamic<?> dyn) {
-	    	this();
-	    }
-	    
 	    @Override
-	    public BlockInfo process(IWorldReader worldReaderIn, BlockPos pos, BlockInfo p_215194_3_, BlockInfo blockInfo, PlacementSettings placementSettingsIn) {
+	    public BlockInfo process(IWorldReader worldReaderIn, BlockPos pos, BlockPos otherposidk, BlockInfo p_215194_3_, BlockInfo blockInfo, PlacementSettings placementSettingsIn, Template template) {
 	        if(blockInfo.state.getBlock() == Blocks.BARRIER)
 	            return new BlockInfo(blockInfo.pos, Blocks.CAVE_AIR.getDefaultState(), new CompoundNBT());
 	        
-	        else if(blockInfo.state.getProperties().contains(BlockStateProperties.WATERLOGGED) && blockInfo.state.get(BlockStateProperties.WATERLOGGED))
+	        else if(blockInfo.state.getValues().containsKey(BlockStateProperties.WATERLOGGED) && blockInfo.state.get(BlockStateProperties.WATERLOGGED))
 	        	return new BlockInfo(blockInfo.pos, blockInfo.state.with(BlockStateProperties.WATERLOGGED, false), blockInfo.nbt);
 	            
 	    	return blockInfo;
 	    }
-	    
-		@Override
-		protected IStructureProcessorType getType() {
-			return TYPE;
-		}
 
 		@Override
-		protected <T> Dynamic<T> serialize0(DynamicOps<T> ops) {
-			return new Dynamic<>(ops);
+		protected IStructureProcessorType<?> getType() {
+			return null; // TODO is this a bad idea probably 
 		}
-		
+	    
 	}
 	
 }

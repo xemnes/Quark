@@ -12,7 +12,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraft.world.gen.GenerationSettings;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.gen.WorldGenRegion;
 import vazkii.quark.base.world.config.DimensionConfig;
@@ -58,7 +57,7 @@ public class OreGenerator extends Generator {
 	}
 
 	@Override
-	public void generateChunk(IWorld worldIn, ChunkGenerator<? extends GenerationSettings> generator, Random rand, BlockPos pos) {
+	public void generateChunk(WorldGenRegion worldIn, ChunkGenerator generator, Random rand, BlockPos pos) {
 		oreConfig.forEach(pos, rand, npos -> place(worldIn, rand, npos));
 	}
 

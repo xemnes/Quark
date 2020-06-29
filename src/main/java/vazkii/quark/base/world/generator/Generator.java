@@ -8,8 +8,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraft.world.gen.GenerationSettings;
 import net.minecraft.world.gen.GenerationStage;
+import net.minecraft.world.gen.WorldGenRegion;
 import vazkii.quark.base.world.config.DimensionConfig;
 
 public abstract class Generator implements IGenerator {
@@ -29,13 +29,13 @@ public abstract class Generator implements IGenerator {
 	}
 
 	@Override
-	public final int generate(int seedIncrement, long seed, GenerationStage.Decoration stage, IWorld worldIn, ChunkGenerator<? extends GenerationSettings> generator, SharedSeedRandom rand, BlockPos pos) {
+	public final int generate(int seedIncrement, long seed, GenerationStage.Decoration stage, WorldGenRegion worldIn, ChunkGenerator generator, SharedSeedRandom rand, BlockPos pos) {
 		rand.setFeatureSeed(seed, seedIncrement, stage.ordinal());
 		generateChunk(worldIn, generator, rand, pos);
 		return seedIncrement + 1;
 	}
 
-	public abstract void generateChunk(IWorld worldIn, ChunkGenerator<? extends GenerationSettings> generator, Random rand, BlockPos pos);
+	public abstract void generateChunk(WorldGenRegion worldIn, ChunkGenerator generator, Random rand, BlockPos pos);
 
 	@Override
 	public boolean canGenerate(IWorld world) {

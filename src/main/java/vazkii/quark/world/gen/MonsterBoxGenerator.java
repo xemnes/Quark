@@ -5,10 +5,9 @@ import java.util.Random;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorld;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.FlatChunkGenerator;
-import net.minecraft.world.gen.GenerationSettings;
+import net.minecraft.world.gen.WorldGenRegion;
 import vazkii.quark.base.world.config.DimensionConfig;
 import vazkii.quark.base.world.generator.Generator;
 import vazkii.quark.world.module.MonsterBoxModule;
@@ -20,7 +19,7 @@ public class MonsterBoxGenerator extends Generator {
 	}
 
 	@Override
-	public void generateChunk(IWorld world, ChunkGenerator<? extends GenerationSettings> generator, Random rand, BlockPos chunkCorner) {
+	public void generateChunk(WorldGenRegion world, ChunkGenerator generator, Random rand, BlockPos chunkCorner) {
 		if(generator instanceof FlatChunkGenerator)
 			return;
 		

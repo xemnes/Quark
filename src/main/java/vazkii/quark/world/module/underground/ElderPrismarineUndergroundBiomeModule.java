@@ -44,7 +44,7 @@ public class ElderPrismarineUndergroundBiomeModule extends UndergroundBiomeModul
 		elder_sea_lantern = new QuarkBlock("elder_sea_lantern", this, ItemGroup.BUILDING_BLOCKS, 
 				Block.Properties.create(Material.GLASS, MaterialColor.ADOBE)
 				.hardnessAndResistance(0.3F)
-				.lightValue(15)
+				.func_235838_a_(b -> 15) // lightValue
 				.sound(SoundType.GLASS));
 		
 		super.construct();

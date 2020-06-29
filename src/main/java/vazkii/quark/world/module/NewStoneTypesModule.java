@@ -5,19 +5,14 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.function.BooleanSupplier;
 
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.ItemGroup;
-import net.minecraft.tags.Tag;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.tags.ITag;
 import net.minecraft.world.gen.GenerationStage.Decoration;
-import net.minecraftforge.event.TagsUpdatedEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import vazkii.quark.base.block.IQuarkBlock;
 import vazkii.quark.base.block.QuarkBlock;
 import vazkii.quark.base.handler.VariantHandler;
 import vazkii.quark.base.module.Config;
@@ -48,7 +43,7 @@ public class NewStoneTypesModule extends Module {
 	public static Block marbleBlock, limestoneBlock, jasperBlock, slateBlock, basaltBlock;
 
 	public static Map<Block, Block> polishedBlocks = Maps.newHashMap();
-	private static Tag<Block> wgStoneTag = null;
+	private static ITag<Block> wgStoneTag = null;
 	
 	private Queue<Runnable> defers = new ArrayDeque<>();
 	
@@ -79,28 +74,29 @@ public class NewStoneTypesModule extends Module {
 		return normal;
 	}
 	
-	@SubscribeEvent
-	public void tagsLoaded(TagsUpdatedEvent event) {
-		wgStoneTag = event.getTagManager().getBlocks().get(new ResourceLocation("forge", "wg_stone"));
-		setTag();
-	}
-	
-	@Override
-	public void configChanged() {
-		setTag();
-	}
-	
-	// Terraforged support
-	private static void setTag() {
-		if(wgStoneTag != null) {
-			ImmutableSet.of(jasperBlock, limestoneBlock, marbleBlock, slateBlock).forEach(b -> {
-				if(((IQuarkBlock) b).isEnabled()) {
-					wgStoneTag.getAllElements().add(b);
-					wgStoneTag.getEntries().add(new Tag.TagEntry<Block>(b.getRegistryName()));
-				}
-			});
-		}
-	}
+// TODO Terraforged support	
+//	@SubscribeEvent
+//	public void tagsLoaded(TagsUpdatedEvent event) {
+//		wgStoneTag = event.getTagManager().getBlocks().get(new ResourceLocation("forge", "wg_stone"));
+//		setTag();
+//	}
+//	
+//	@Override
+//	public void configChanged() {
+//		setTag();
+//	}
+//	
+//	// Terraforged support
+//	private static void setTag() {
+//		if(wgStoneTag != null) {
+//			ImmutableSet.of(jasperBlock, limestoneBlock, marbleBlock, slateBlock).forEach(b -> {
+//				if(((IQuarkBlock) b).isEnabled()) {
+//					wgStoneTag.func_230236_b_().add(b);
+//					wgStoneTag.getEntries().add(new Tag.TagEntry<Block>(b.getRegistryName()));
+//				}
+//			});
+//		}
+//	}
 	
 	@Override
 	public void setup() {

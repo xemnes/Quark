@@ -43,7 +43,7 @@ public class DimensionConfig implements IConfigType {
 		if (world == null)
 			return false;
 
-		return dimensions.contains(Objects.toString(world.getDimension().getType().getRegistryName())) != isBlacklist;
+		return dimensions.contains(world.func_230315_m_().field_241504_y_) != isBlacklist; // TODO wtf
 	}
 
 }
