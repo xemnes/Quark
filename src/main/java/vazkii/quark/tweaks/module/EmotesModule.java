@@ -8,8 +8,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+import com.google.common.base.Functions;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.MainWindow;
@@ -102,7 +104,7 @@ public class EmotesModule extends Module {
 		resourcePack = new CustomEmoteIconResourcePack();
 		
 		String name = "quark:emote_resources";
-		T t = ResourcePackInfo.createResourcePack(name, true, () -> resourcePack, packInfoFactory, ResourcePackInfo.Priority.TOP);
+		T t = ResourcePackInfo.createResourcePack(name, true, () -> resourcePack, packInfoFactory, ResourcePackInfo.Priority.TOP, tx->tx);
 		nameToPackMap.put(name, t);
 	}
 
@@ -232,6 +234,7 @@ public class EmotesModule extends Module {
 		if(event.getType() == ElementType.ALL) {
 			Minecraft mc = Minecraft.getInstance();
 			MainWindow res = event.getWindow();
+			MatrixStack matrix = event.getMatrixStack();
 			EmoteBase emote = EmoteHandler.getPlayerEmote(mc.player);
 			if(emote != null && emote.timeDone < emote.totalTime) {
 				ResourceLocation resource = emote.desc.texture;
@@ -252,11 +255,11 @@ public class EmotesModule extends Module {
 
 				RenderSystem.color4f(1F, 1F, 1F, transparency);
 				mc.getTextureManager().bindTexture(resource);
-				Screen.blit(x, y, 0, 0, 32, 32, 32, 32);
+				Screen.blit(matrix, x, y, 0, 0, 32, 32, 32, 32);
 				RenderSystem.enableBlend();
 
 				String name = I18n.format(emote.desc.getTranslationKey());
-				mc.fontRenderer.drawStringWithShadow(name, res.getScaledWidth() / 2f - mc.fontRenderer.getStringWidth(name) / 2f, y + 34, 0xFFFFFF + (((int) (transparency * 255F)) << 24));
+				mc.fontRenderer.drawStringWithShadow(matrix, name, res.getScaledWidth() / 2f - mc.fontRenderer.getStringWidth(name) / 2f, y + 34, 0xFFFFFF + (((int) (transparency * 255F)) << 24));
 				RenderSystem.popMatrix();
 			}
 		}

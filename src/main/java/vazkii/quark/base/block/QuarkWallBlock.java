@@ -67,10 +67,10 @@ public class QuarkWallBlock extends WallBlock implements IQuarkBlock, IBlockColo
 		return parent.getBlock().getBeaconColorMultiplier(parent.getBlock().getDefaultState(), world, pos, beaconPos);
 	}
 
-	@Override
-	public boolean isEmissiveRendering(BlockState p_225543_1_) {
-		return parent.getBlock().isEmissiveRendering(p_225543_1_);
-	}
+//	@Override TODO
+//	public boolean isEmissiveRendering(BlockState p_225543_1_) {
+//		return parent.getBlock().isEmissiveRendering(p_225543_1_);
+//	}
 	
 	@Override
 	@OnlyIn(Dist.CLIENT)

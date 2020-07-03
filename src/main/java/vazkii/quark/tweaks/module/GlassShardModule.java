@@ -14,9 +14,8 @@ import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.Tag;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -39,7 +38,7 @@ public class GlassShardModule extends Module {
 
     public static QuarkBlock dirtyGlass;
 
-    public static Tag<Item> shardTag;
+    public static ITag<Item> shardTag;
 
     public static Item clearShard;
     public static Item dirtyShard;
@@ -61,7 +60,7 @@ public class GlassShardModule extends Module {
 
     @Override
     public void setup() {
-        shardTag = new ItemTags.Wrapper(new ResourceLocation(Quark.MOD_ID, "shards"));
+        shardTag = ItemTags.makeWrapperTag(Quark.MOD_ID + ":shards");
     }
 
     @SubscribeEvent(priority = EventPriority.LOW)

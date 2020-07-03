@@ -527,6 +527,18 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 	public void readSpawnData(PacketBuffer buffer) {
 		dataManager.set(SIZE_MODIFIER, buffer.readFloat());
 	}
+	
+
+	// something idk
+	@Override
+	public void func_230263_a_(SoundCategory p_230263_1_) {
+	}
+
+	// isShearable
+	@Override
+	public boolean func_230262_K__() {
+		return false;
+	}
 
 	public class FrogJumpController extends JumpController {
 		private boolean canJump;
@@ -581,7 +593,7 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 			if (speedIn > 0.0D) this.nextJumpSpeed = speedIn;
 		}
 	}
-
+	
 	public class FrogPanicGoal extends PanicGoal {
 
 		public FrogPanicGoal(double speedIn) {
@@ -594,5 +606,6 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 			setMovementSpeed(this.speed);
 		}
 	}
+
 }
 

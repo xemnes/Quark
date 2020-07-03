@@ -4,6 +4,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import net.minecraft.block.Blocks;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ItemFrameEntity;
@@ -38,7 +39,7 @@ public class CompassAngleGetter implements IItemPropertyGetter {
 		boolean nether = player.world.dimension.getType() == DimensionType.THE_NETHER; 
 		if(calculated) {
 			boolean wasInNether = ItemNBTHelper.getBoolean(stack, TAG_WAS_IN_NETHER, false);
-			BlockPos pos = player.getPosition();
+			BlockPos pos = player.func_233580_cy_(); // getPosition
 			boolean isInPortal = player.world.getBlockState(pos).getBlock() == Blocks.NETHER_PORTAL;
 			if(nether && !wasInNether && isInPortal) {
 				ItemNBTHelper.setInt(stack, TAG_NETHER_TARGET_X, pos.getX());
@@ -61,7 +62,7 @@ public class CompassAngleGetter implements IItemPropertyGetter {
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public float call(@Nonnull ItemStack stack, @Nullable World worldIn, @Nullable LivingEntity entityIn) {
+	public float call(@Nonnull ItemStack stack, @Nullable ClientWorld worldIn, @Nullable LivingEntity entityIn) {
 		if(entityIn == null && !stack.isOnItemFrame())
 			return 0F;
 		
@@ -74,8 +75,8 @@ public class CompassAngleGetter implements IItemPropertyGetter {
 		if (entity == null)
 			return 0;
 
-		if(worldIn == null)
-			worldIn = entity.world;
+		if(worldIn == null && entity != null && entity.world instanceof ClientWorld)
+			worldIn = (ClientWorld) entity.world;
 
 		double angle;
 

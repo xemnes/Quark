@@ -39,6 +39,7 @@ import net.minecraft.util.math.vector.Vector2f;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.LightType;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.server.ServerChunkProvider;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
@@ -200,6 +201,10 @@ public class MiscUtil {
 			.getTrackingPlayers(new ChunkPos(tile.getPos()), false)
 			.forEach(e -> e.connection.sendPacket(packet));
 		}
+	}
+	
+	public static BlockPos locateBiome(ServerWorld world, Biome biomeToFind, BlockPos start) {
+		return world.func_241116_a_(biomeToFind, start, 0, 0); // TODO find out what the values are
 	}
 
 	private static int progress;

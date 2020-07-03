@@ -35,7 +35,7 @@ public class CaveCrystalUndergroundBiome extends BasicUndergroundBiome {
 			while (context.world.isAirBlock(floorPos))
 				floorPos = floorPos.down();
 
-			if (!context.world.getBlockState(pos).func_235714_a_(CaveCrystalUndergroundBiomeModule.crystalTag)) { // isIn
+			if (!context.world.getBlockState(pos).isIn(CaveCrystalUndergroundBiomeModule.crystalTag)) {
 				int dist = pos.getY() - floorPos.getY();
 
 				int start = 0;
@@ -60,7 +60,7 @@ public class CaveCrystalUndergroundBiome extends BasicUndergroundBiome {
 			while (context.world.isAirBlock(ceilPos))
 				ceilPos = ceilPos.up();
 
-			if (!context.world.getBlockState(pos).func_235714_a_(CaveCrystalUndergroundBiomeModule.crystalTag)) { // isIn
+			if (!context.world.getBlockState(pos).isIn(CaveCrystalUndergroundBiomeModule.crystalTag)) { 
 				int dist = ceilPos.getY() - pos.getY();
 
 				int start = 0;

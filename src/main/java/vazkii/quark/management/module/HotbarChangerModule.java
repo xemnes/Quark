@@ -2,6 +2,7 @@ package vazkii.quark.management.module;
 
 import org.lwjgl.opengl.GL11;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.MainWindow;
@@ -105,6 +106,7 @@ public class HotbarChangerModule extends Module {
 
 		Minecraft mc = Minecraft.getInstance();
 		PlayerEntity player = mc.player;
+		MatrixStack matrix = event.getMatrixStack();
 
 		if(event.getType() == ElementType.HOTBAR) {
 			MainWindow res = event.getWindow();
@@ -123,12 +125,12 @@ public class HotbarChangerModule extends Module {
 				RenderSystem.pushMatrix();
 				RenderSystem.color4f(1F, 1F, 1F, 0.75F);
 				RenderSystem.translatef(xStart, yStart + i * 21, 0);
-				mc.ingameGUI.blit(0, 0, 0, 0, 182, 22);
+				mc.ingameGUI.blit(matrix, 0, 0, 0, 0, 182, 22);
 				RenderSystem.popMatrix();
 			}
 
 			for(int i = 0; i < 3; i++)
-				mc.fontRenderer.drawStringWithShadow(TextFormatting.BOLD + Integer.toString(i + 1), xStart - 9, yStart + i * 21 + 7, 0xFFFFFF);
+				mc.fontRenderer.drawStringWithShadow(matrix, TextFormatting.BOLD + Integer.toString(i + 1), xStart - 9, yStart + i * 21 + 7, 0xFFFFFF);
 
 			RenderHelper.enableStandardItemLighting();
 

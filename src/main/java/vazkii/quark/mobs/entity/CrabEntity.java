@@ -27,11 +27,13 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntitySize;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.Pose;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.AttributeModifier.Operation;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.BreedGoal;
 import net.minecraft.entity.ai.goal.FollowParentGoal;
 import net.minecraft.entity.ai.goal.LookAtGoal;
@@ -172,17 +174,15 @@ public class CrabEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 		this.goalSelector.addGoal(8, new LookRandomlyGoal(this));
 	}
 
-
-	@Override
-	protected void registerAttributes() {
-		super.registerAttributes();
-		this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(10.0D);
-		this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.25D);
-		this.getAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(3.0D);
-		this.getAttribute(SharedMonsterAttributes.ARMOR_TOUGHNESS).setBaseValue(2.0D);
-		this.getAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(0.5D);
-	}
-
+    public static AttributeModifierMap.MutableAttribute prepareAttributes() {
+        return MobEntity.func_233666_p_()
+                .func_233815_a_(Attributes.field_233818_a_, 20.0D) // MAX_HEALTH
+                .func_233815_a_(Attributes.field_233821_d_, 0.25D) // MOEVMENT_SPEED
+                .func_233815_a_(Attributes.field_233826_i_, 3.0D) // ARMOR
+                .func_233815_a_(Attributes.field_233827_j_, 2.0D) // ARMOR_TOUGHNESS
+                .func_233815_a_(Attributes.field_233820_c_, 0.5D); // KNOCKBACK_RESISTANCE
+    }
+	
 	@Override
 	public boolean isEntityInsideOpaqueBlock() {
 		return MiscUtil.isEntityInsideOpaqueBlock(this);
@@ -253,9 +253,12 @@ public class CrabEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 
 		float sizeMod = getSizeModifier();
 		if (sizeMod <= 15) {
-			this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).applyModifier(new AttributeModifier("Lightning Bonus", 0.5, Operation.ADDITION));
-			this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).applyModifier(new AttributeModifier("Lightning Debuff", -0.05, Operation.ADDITION));
-			this.getAttribute(SharedMonsterAttributes.ARMOR).applyModifier(new AttributeModifier("Lightning Bonus", 0.125, Operation.ADDITION));
+			
+			// func_233767_b_ = applyModifier
+			this.getAttribute(Attributes.field_233818_a_).func_233767_b_(new AttributeModifier("Lightning Bonus", 0.5, Operation.ADDITION)); // MAX_HEALTH
+			this.getAttribute(Attributes.field_233821_d_).func_233767_b_(new AttributeModifier("Lightning Debuff", -0.05, Operation.ADDITION)); // MOVEMENT_SPEED
+			this.getAttribute(Attributes.field_233826_i_).func_233767_b_(new AttributeModifier("Lightning Bonus", 0.125, Operation.ADDITION)); // ARMOR
+			
 			float sizeModifier = Math.min(sizeMod + 1, 16);
 			this.dataManager.set(SIZE_MODIFIER, sizeModifier);
 			recalculateSize();

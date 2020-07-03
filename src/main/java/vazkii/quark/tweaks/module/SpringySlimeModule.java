@@ -161,7 +161,7 @@ public class SpringySlimeModule extends Module {
 		BlockState state = entity.world.getBlockState(position);
 		if (isSlime(state)) {
 			if (impacted == Direction.UP && entity instanceof ItemEntity)
-				entity.onGround = false;
+				entity.func_230245_c_(false); // setOnGround
 
 			Vector3d motion = entity.getMotion();
 			double motionX = motion.x;

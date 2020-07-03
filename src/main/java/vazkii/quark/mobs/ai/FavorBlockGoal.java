@@ -16,7 +16,7 @@ import java.util.function.Predicate;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.CreatureEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.tags.Tag;
 import net.minecraft.util.math.BlockPos;
@@ -86,7 +86,7 @@ public class FavorBlockGoal extends Goal {
 	}
 
 	private boolean searchForDestination() {
-		double followRange = creature.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).getValue();
+		double followRange = creature.getAttribute(Attributes.field_233819_b_).getValue(); // FOLLOW_RANGE
 		Vector3d cpos = creature.getPositionVec();
 		double xBase = cpos.x;
 		double yBase = cpos.y;

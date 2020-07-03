@@ -95,7 +95,7 @@ public class HugeGlowshroomBlock extends HugeMushroomBlock {
 					for(int i1 = -l; i1 <= l; ++i1) {
 						for(int j1 = -l; j1 <= l; ++j1) {
 							BlockState blockstate = worldIn.getBlockState(blockpos$mutableblockpos.setPos(pos).move(i1, k, j1));
-							if (!blockstate.isAir(worldIn, blockpos$mutableblockpos) && !blockstate.func_235714_a_(BlockTags.LEAVES)) { // isIn
+							if (!blockstate.isAir(worldIn, blockpos$mutableblockpos) && !blockstate.isIn(BlockTags.LEAVES)) { // isIn
 								return false;
 							}
 						}

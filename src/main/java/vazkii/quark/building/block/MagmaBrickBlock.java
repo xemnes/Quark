@@ -26,10 +26,10 @@ public class MagmaBrickBlock extends QuarkBlock {
 		return true;
 	}
 	
-	@Override
-	public boolean isEmissiveRendering(BlockState p_225543_1_) {
-		return true;
-	}
+//	@Override TODO
+//	public boolean isEmissiveRendering(BlockState p_225543_1_) {
+//		return true;
+//	}
 	
 	@Override
 	public boolean canCreatureSpawn(BlockState state, IBlockReader world, BlockPos pos, PlacementType type, EntityType<?> entityType) {

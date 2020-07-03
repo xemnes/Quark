@@ -18,7 +18,7 @@ public class QButtonInfoScreen extends ConfirmScreen {
 		}, 
 				new TranslationTextComponent("quark.gui.qbutton_info.title"), 
 				new TranslationTextComponent("quark.gui.qbutton_info", Minecraft.getInstance().getVersion()), 
-				I18n.format("quark.gui.qbutton_info.open"), 
-				I18n.format("quark.gui.qbutton_info.back"));
+				new TranslationTextComponent("quark.gui.qbutton_info.open"), 
+				new TranslationTextComponent("quark.gui.qbutton_info.back"));
 	}
 }

@@ -6,6 +6,7 @@ import java.util.Objects;
 import org.apache.commons.lang3.tuple.Pair;
 
 import com.google.common.collect.Lists;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.block.BlockState;
@@ -71,6 +72,7 @@ public class ReacharoundPlacingModule extends Module {
 
 		if (player != null && currentTarget != null) {
 			MainWindow res = event.getWindow();
+			MatrixStack matrix = event.getMatrixStack();
 			String text = (currentTarget.getRight().getAxis() == Axis.Y ? display : displayHorizontal);
 
 			RenderSystem.pushMatrix();
@@ -82,7 +84,7 @@ public class ReacharoundPlacingModule extends Module {
 			
 			RenderSystem.scaled(scale, 1F, 1F);
 			RenderSystem.translatef(-mc.fontRenderer.getStringWidth(text) / 2f, 0, 0);
-			mc.fontRenderer.drawString(text, 0, 0, 0xFFFFFF | opacity);
+			mc.fontRenderer.drawString(matrix, text, 0, 0, 0xFFFFFF | opacity);
 			RenderSystem.popMatrix();
 		}
 	}

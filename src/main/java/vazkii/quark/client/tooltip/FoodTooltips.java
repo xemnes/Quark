@@ -2,9 +2,9 @@ package vazkii.quark.client.tooltip;
 
 import java.util.List;
 
-import org.apache.commons.lang3.tuple.Pair;
-
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
@@ -13,8 +13,6 @@ import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.EffectType;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.Style;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -50,7 +48,7 @@ public class FoodTooltips {
 				}
 
 				ITextComponent spaces = new StringTextComponent(s.toString());
-				ITextComponent saturationText = new TranslationTextComponent("quark.misc.saturation" + saturationSimplified).setStyle(new Style().setColor(TextFormatting.GRAY));
+				ITextComponent saturationText = new TranslationTextComponent("quark.misc.saturation" + saturationSimplified); // TODO make this gray
 				List<ITextComponent> tooltip = event.getToolTip();
 
 				if (tooltip.isEmpty()) {
@@ -75,12 +73,13 @@ public class FoodTooltips {
 				RenderSystem.pushMatrix();
 				RenderSystem.color3f(1F, 1F, 1F);
 				Minecraft mc = Minecraft.getInstance();
+				MatrixStack matrix = event.getMatrixStack();
 				mc.getTextureManager().bindTexture(ForgeIngameGui.GUI_ICONS_LOCATION);
 				int pips = food.getHealing();
 
 				boolean poison = false;
 				for (Pair<EffectInstance, Float> effect : food.getEffects()) {
-					if (effect.getLeft() != null && effect.getLeft().getPotion() != null && effect.getLeft().getPotion().getEffectType() == EffectType.HARMFUL) {
+					if (effect.getFirst() != null && effect.getFirst().getPotion() != null && effect.getFirst().getPotion().getEffectType() == EffectType.HARMFUL) {
 						poison = true;
 						break;
 					}
@@ -97,7 +96,7 @@ public class FoodTooltips {
 						u += 117;
 					int v = 27;
 
-					AbstractGui.blit(x, y, u, v, 9, 9, 256, 256);
+					AbstractGui.blit(matrix, x, y, u, v, 9, 9, 256, 256);
 
 					u = 52;
 					if (pips % 2 != 0 && i == 0)
@@ -105,7 +104,7 @@ public class FoodTooltips {
 					if (poison)
 						u += 36;
 
-					AbstractGui.blit(x, y, u, v, 9, 9, 256, 256);
+					AbstractGui.blit(matrix, x, y, u, v, 9, 9, 256, 256);
 				}
 
 				RenderSystem.popMatrix();

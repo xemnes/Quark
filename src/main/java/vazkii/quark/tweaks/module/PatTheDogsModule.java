@@ -3,6 +3,7 @@ package vazkii.quark.tweaks.module;
 import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particles.ParticleTypes;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.vector.Vector3d;
@@ -57,7 +58,7 @@ public class PatTheDogsModule extends Module {
 
                     WantLoveGoal.setPetTime(wolf);
 
-                    if (wolf instanceof FoxhoundEntity && !player.isInWater() && !player.isImmuneToFire() && !player.isCreative())
+                    if (wolf instanceof FoxhoundEntity && !player.isInWater() && !player.isPotionActive(Effects.FIRE_RESISTANCE) && !player.isCreative())
                         player.setFire(5);
                 }
 

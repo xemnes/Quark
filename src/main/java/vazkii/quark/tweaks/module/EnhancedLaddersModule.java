@@ -10,12 +10,11 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.Tag;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.MovementInput;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
@@ -42,11 +41,11 @@ public class EnhancedLaddersModule extends Module {
 	@Config
     public double fallSpeed = -0.2;
 
-	private static Tag<Item> laddersTag;
+	private static ITag<Item> laddersTag;
 	
 	@Override
 	public void setup() {
-		laddersTag = new ItemTags.Wrapper(new ResourceLocation(Quark.MOD_ID, "ladders"));
+		laddersTag = ItemTags.makeWrapperTag(Quark.MOD_ID + ":ladders");
 	}
 	
 	@SuppressWarnings("deprecation")

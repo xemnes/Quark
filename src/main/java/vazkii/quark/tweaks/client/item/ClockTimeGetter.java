@@ -3,6 +3,7 @@ package vazkii.quark.tweaks.client.item;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.IItemPropertyGetter;
@@ -33,15 +34,15 @@ public class ClockTimeGetter implements IItemPropertyGetter {
 	
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public float call(@Nonnull ItemStack stack, @Nullable World worldIn, @Nullable LivingEntity entityIn) {
+	public float call(@Nonnull ItemStack stack, @Nullable ClientWorld worldIn, @Nullable LivingEntity entityIn) {
 		if(!isCalculated(stack))
 			return 0F;
 		
 		boolean carried = entityIn != null;
 		Entity entity = carried ? entityIn : stack.getItemFrame();
 
-		if(worldIn == null && entity != null)
-			worldIn = entity.world;
+		if(worldIn == null && entity != null && entity.world instanceof ClientWorld)
+			worldIn = (ClientWorld) entity.world;
 
 		if(worldIn == null)
 			return 0F;

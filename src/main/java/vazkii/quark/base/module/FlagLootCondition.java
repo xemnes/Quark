@@ -29,7 +29,14 @@ public class FlagLootCondition implements ILootCondition {
     public boolean test(LootContext lootContext) {
         return manager.getFlag(flag);
     }
+    
 
+	@Override
+	public LootConditionType func_230419_b_() {
+		return null;
+	}
+
+    
     public static class Serializer extends AbstractSerializer<FlagLootCondition> {
         private final ConfigFlagManager manager;
 

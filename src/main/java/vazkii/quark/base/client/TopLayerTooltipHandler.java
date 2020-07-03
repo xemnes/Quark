@@ -19,7 +19,7 @@ public class TopLayerTooltipHandler {
 	@SubscribeEvent
 	public static void renderTick(RenderTickEvent event) {
 		if(event.phase == Phase.END && tooltip != null) {
-			RenderHelper.renderTooltip(tooltipX, tooltipY, tooltip);
+//			RenderHelper.renderTooltip(tooltipX, tooltipY, tooltip); TODO how do we get a matrix in this context
 			tooltip = null;
 		}
 	}
