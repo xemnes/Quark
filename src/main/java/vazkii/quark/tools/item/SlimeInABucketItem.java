@@ -4,7 +4,7 @@ import javax.annotation.Nonnull;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.monster.SlimeEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -25,6 +25,7 @@ import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import vazkii.arl.util.ItemNBTHelper;
 import vazkii.quark.base.item.QuarkItem;
 import vazkii.quark.base.module.Module;
@@ -40,18 +41,15 @@ public class SlimeInABucketItem extends QuarkItem {
 				.maxStackSize(1)
 				.group(ItemGroup.MISC)
 				.containerItem(Items.BUCKET));
-		
-		addPropertyOverride(new ResourceLocation("excited"), 
-				(stack, world, e) -> ItemNBTHelper.getBoolean(stack, TAG_EXCITED, false) ? 1 : 0);
 	}
 	
 	@Override
 	public void inventoryTick(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected) {
-		if(!world.isRemote) {
+		if(world instanceof ServerWorld) {
 			Vector3d pos = entity.getPositionVec();
 			int x = MathHelper.floor(pos.x);
 			int z = MathHelper.floor(pos.x);
-			boolean slime = isSlimeChunk(world, x, z);
+			boolean slime = isSlimeChunk((ServerWorld) world, x, z);
 			boolean excited = ItemNBTHelper.getBoolean(stack, TAG_EXCITED, false);
 			if(excited != slime)
 				ItemNBTHelper.setBoolean(stack, TAG_EXCITED, slime);
@@ -78,8 +76,8 @@ public class SlimeInABucketItem extends QuarkItem {
 			if(data != null)
 				slime.read(data);
 			else {
-				slime.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(1.0);
-				slime.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.3);
+				slime.getAttribute(Attributes.field_233818_a_).setBaseValue(1.0); // MAX_HEALTH
+				slime.getAttribute(Attributes.field_233821_d_).setBaseValue(0.3); // MOVEMENT_SPEED
 				slime.setHealth(slime.getMaxHealth());
 			}
 				
@@ -101,7 +99,7 @@ public class SlimeInABucketItem extends QuarkItem {
 		if(stack.hasTag()) {
 			CompoundNBT cmp = ItemNBTHelper.getCompound(stack, TAG_ENTITY_DATA, false);
 			if(cmp != null && cmp.contains("CustomName")) {
-				ITextComponent custom = ITextComponent.Serializer.fromJson(cmp.getString("CustomName"));
+				ITextComponent custom = ITextComponent.Serializer.func_240643_a_(cmp.getString("CustomName")); // TODO is this right?
 				return new TranslationTextComponent("item.quark.slime_in_a_bucket.named", custom);
 			}
 		}
@@ -109,7 +107,7 @@ public class SlimeInABucketItem extends QuarkItem {
 		return super.getDisplayName(stack);
 	}
 
-	public static boolean isSlimeChunk(World world, int x, int z) {
+	public static boolean isSlimeChunk(ServerWorld world, int x, int z) {
 		ChunkPos chunkpos = new ChunkPos(new BlockPos(x, 0, z));
 		return SharedSeedRandom.seedSlimeChunk(chunkpos.x, chunkpos.z, world.getSeed(), 987234911L).nextInt(10) == 0;
 	}

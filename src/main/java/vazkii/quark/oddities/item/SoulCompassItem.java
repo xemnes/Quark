@@ -1,5 +1,7 @@
 package vazkii.quark.oddities.item;
 
+import com.mojang.datafixers.util.Pair;
+
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -24,7 +26,7 @@ import vazkii.quark.oddities.module.TotemOfHoldingModule;
 public class SoulCompassItem extends QuarkItem {
 
     private static final String TAG_POS_X = "posX";
-    private static final String TAG_POS_Y = "posY";
+    private static final String TAG_DIMENSION_ID = "dimensionID";
     private static final String TAG_POS_Z = "posZ";
 
     @OnlyIn(Dist.CLIENT)
@@ -55,7 +57,7 @@ public class SoulCompassItem extends QuarkItem {
             double angle;
             BlockPos pos = getPos(stack);
 
-            if(pos.getY() == world.getDimension().getType().getId()) {
+            if(getDim(stack).equals(world.func_230315_m_().field_241504_y_.toString())) { // getDimensionType().resourceLocation
                 double yaw = hasEntity ? entity.rotationYaw : getFrameRotation((ItemFrameEntity) entity);
                 yaw = MathHelper.positiveModulo(yaw / 360.0, 1.0);
                 double relAngle = getDeathToAngle(entity, pos) / (Math.PI * 2);
@@ -73,23 +75,33 @@ public class SoulCompassItem extends QuarkItem {
     @Override
     public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
         if(!worldIn.isRemote) {
-            BlockPos pos = TotemOfHoldingModule.getPlayerDeathPosition(entityIn);
-            ItemNBTHelper.setInt(stack, TAG_POS_X, pos.getX());
-            ItemNBTHelper.setInt(stack, TAG_POS_Y, pos.getY());
-            ItemNBTHelper.setInt(stack, TAG_POS_Z, pos.getZ());
+            Pair<BlockPos, String> deathPos = TotemOfHoldingModule.getPlayerDeathPosition(entityIn);
+            
+            if(deathPos != null) {
+            	ItemNBTHelper.setInt(stack, TAG_POS_X, deathPos.getFirst().getX());
+                ItemNBTHelper.setInt(stack, TAG_POS_Z, deathPos.getFirst().getZ());
+                ItemNBTHelper.setString(stack, TAG_DIMENSION_ID, deathPos.getSecond());
+            }
         }
     }
 
     private static BlockPos getPos(ItemStack stack) {
         if(stack.hasTag()) {
             int x = ItemNBTHelper.getInt(stack, TAG_POS_X, 0);
-            int y = ItemNBTHelper.getInt(stack, TAG_POS_Y, -1);
+            int y = -1;
             int z = ItemNBTHelper.getInt(stack, TAG_POS_Z, 0);
 
             return new BlockPos(x, y, z);
         }
 
         return new BlockPos(0, -1, 0);
+    }
+    
+    private static String getDim(ItemStack stack) {
+    	if(stack.hasTag())
+    		return ItemNBTHelper.getString(stack, TAG_DIMENSION_ID, "");
+    	
+    	return "";
     }
 
     @OnlyIn(Dist.CLIENT)

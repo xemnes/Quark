@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 
 import org.lwjgl.glfw.GLFW;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.MainWindow;
@@ -174,7 +175,8 @@ public class CameraModule extends Module {
 			if(queueScreenshot)
 				screenshotting = true;
 
-			renderCameraHUD(mc);
+			MatrixStack stack = new MatrixStack();
+			renderCameraHUD(mc, stack); // TODO can you do this?
 
 			if(queueScreenshot) {
 				queueScreenshot = false;
@@ -187,7 +189,7 @@ public class CameraModule extends Module {
 		}
 	}
 
-	private static void renderCameraHUD(Minecraft mc) {
+	private static void renderCameraHUD(Minecraft mc, MatrixStack matrix) {
 		MainWindow mw = mc.getMainWindow();
 		int twidth = mw.getScaledWidth();
 		int theight = mw.getScaledHeight();
@@ -238,13 +240,13 @@ public class CameraModule extends Module {
 
 		// =============================================== DRAW BORDERS ===============================================
 		if(paddingHoriz > 0) {
-			Screen.fill(0, 0, paddingHoriz, theight, paddingColor);
-			Screen.fill(twidth - paddingHoriz, 0, twidth, theight, paddingColor);
+			Screen.fill(matrix, 0, 0, paddingHoriz, theight, paddingColor);
+			Screen.fill(matrix, twidth - paddingHoriz, 0, twidth, theight, paddingColor);
 		}
 
 		if(paddingVert > 0) {
-			Screen.fill(0, 0, twidth, paddingVert, paddingColor);
-			Screen.fill(0, theight - paddingVert, twidth, theight, paddingColor);
+			Screen.fill(matrix, 0, 0, twidth, paddingVert, paddingColor);
+			Screen.fill(matrix, 0, theight - paddingVert, twidth, theight, paddingColor);
 		}
 
 		// =============================================== DRAW OVERLAYS ===============================================
@@ -263,7 +265,7 @@ public class CameraModule extends Module {
 		case 2: // Postcard
 			String worldName = "N/A";
 			if(mc.getIntegratedServer() != null) 
-				worldName = mc.getIntegratedServer().getWorldName();
+				worldName = mc.getIntegratedServer().getName();
 			else if(mc.getCurrentServerData() != null)
 				worldName = mc.getCurrentServerData().serverName;
 			
@@ -280,7 +282,7 @@ public class CameraModule extends Module {
 			overlayColor = 0x44000000;
 			break;
 		case 4: // Held Item
-			overlayText = mc.player.getHeldItemMainhand().getDisplayName().getFormattedText();
+			overlayText = mc.player.getHeldItemMainhand().getDisplayName().getString();
 			overlayX = twidth / 2 - mc.fontRenderer.getStringWidth(overlayText);
 			overlayY = paddingVert + 40;
 			break;
@@ -297,8 +299,8 @@ public class CameraModule extends Module {
 			RenderSystem.translatef(overlayX, overlayY, 0);
 			RenderSystem.scaled(overlayScale, overlayScale, 1.0);
 			if(overlayShadow)
-				mc.fontRenderer.drawStringWithShadow(overlayText, 0, 0, overlayColor);
-			else mc.fontRenderer.drawString(overlayText, 0, 0, overlayColor);
+				mc.fontRenderer.drawStringWithShadow(matrix, overlayText, 0, 0, overlayColor);
+			else mc.fontRenderer.drawString(matrix, overlayText, 0, 0, overlayColor);
 			RenderSystem.popMatrix();
 		}
 
@@ -308,22 +310,22 @@ public class CameraModule extends Module {
 			RenderSystem.translatef(paddingHoriz, paddingVert, 0);
 			switch(currRulers) {
 			case 1: // Rule of Thirds
-				vruler(width / 3, height);
-				vruler(width / 3 * 2, height);
-				hruler(height / 3, width);
-				hruler(height / 3 * 2, width);
+				vruler(matrix, width / 3, height);
+				vruler(matrix, width / 3 * 2, height);
+				hruler(matrix, height / 3, width);
+				hruler(matrix, height / 3 * 2, width);
 				break;
 			case 2: // Golden Ratio
 				double phi1 = 1 / 2.61;
 				double phi2 = 1.61 / 2.61;
-				vruler((int) (width * phi1), height);
-				vruler((int) (width * phi2), height);
-				hruler((int) (height * phi1), width);
-				hruler((int) (height * phi2), width);
+				vruler(matrix, (int) (width * phi1), height);
+				vruler(matrix, (int) (width * phi2), height);
+				hruler(matrix, (int) (height * phi1), width);
+				hruler(matrix, (int) (height * phi2), width);
 				break;
 			case 3: // Center
-				vruler(width / 2, height);
-				hruler(height / 2, width);
+				vruler(matrix, width / 2, height);
+				hruler(matrix, height / 2, width);
 				break;
 			}
 			RenderSystem.popMatrix();
@@ -337,29 +339,29 @@ public class CameraModule extends Module {
 			if(shader != null)
 				text = shader.getPath().replaceAll(".+/(.+)\\.json", "$1");
 			text = TextFormatting.BOLD + "[1] " + TextFormatting.RESET + I18n.format("quark.camera.filter") + TextFormatting.GOLD + I18n.format("quark.camera.filter." + text);
-			mc.fontRenderer.drawStringWithShadow(text, left, top, 0xFFFFFF);
+			mc.fontRenderer.drawStringWithShadow(matrix, text, left, top, 0xFFFFFF);
 
 			text = TextFormatting.BOLD + "[2] " + TextFormatting.RESET + I18n.format("quark.camera.rulers") + TextFormatting.GOLD + I18n.format("quark.camera.rulers" + currRulers);
-			mc.fontRenderer.drawStringWithShadow(text, left, top + 12, 0xFFFFFF);
+			mc.fontRenderer.drawStringWithShadow(matrix, text, left, top + 12, 0xFFFFFF);
 
 			text = TextFormatting.BOLD + "[3] " + TextFormatting.RESET + I18n.format("quark.camera.borders") + TextFormatting.GOLD + I18n.format("quark.camera.borders" + currBorders);
-			mc.fontRenderer.drawStringWithShadow(text, left, top + 24, 0xFFFFFF);
+			mc.fontRenderer.drawStringWithShadow(matrix, text, left, top + 24, 0xFFFFFF);
 
 			text = TextFormatting.BOLD + "[4] " + TextFormatting.RESET + I18n.format("quark.camera.overlay") + TextFormatting.GOLD + I18n.format("quark.camera.overlay" + currOverlay);
-			mc.fontRenderer.drawStringWithShadow(text, left, top + 36, 0xFFFFFF);
+			mc.fontRenderer.drawStringWithShadow(matrix, text, left, top + 36, 0xFFFFFF);
 
 			text = TextFormatting.BOLD + "[5] " + TextFormatting.RESET + I18n.format("quark.camera.reset");
-			mc.fontRenderer.drawStringWithShadow(text, left, top + 48, 0xFFFFFF);
+			mc.fontRenderer.drawStringWithShadow(matrix, text, left, top + 48, 0xFFFFFF);
 			
 			text = TextFormatting.AQUA + I18n.format("quark.camera.header");
-			mc.fontRenderer.drawStringWithShadow(text, twidth / 2 - mc.fontRenderer.getStringWidth(text) / 2, 6, 0xFFFFFF);
+			mc.fontRenderer.drawStringWithShadow(matrix, text, twidth / 2 - mc.fontRenderer.getStringWidth(text) / 2, 6, 0xFFFFFF);
 			
 			text = I18n.format("quark.camera.info", new KeybindTextComponent("quark.keybind.camera_mode").getUnformattedComponentText());
-			mc.fontRenderer.drawStringWithShadow(text, twidth / 2 - mc.fontRenderer.getStringWidth(text) / 2, 16, 0xFFFFFF);
+			mc.fontRenderer.drawStringWithShadow(matrix, text, twidth / 2 - mc.fontRenderer.getStringWidth(text) / 2, 16, 0xFFFFFF);
 			
 			ResourceLocation CAMERA_TEXTURE = new ResourceLocation(Quark.MOD_ID, "textures/misc/camera.png");
 			mc.textureManager.bindTexture(CAMERA_TEXTURE);
-			Screen.blit(left - 22, top + 18, 0, 0, 0, 16, 16, 16, 16);
+			Screen.blit(matrix, left - 22, top + 18, 0, 0, 0, 16, 16, 16, 16);
 		}
 	}
 
@@ -383,12 +385,12 @@ public class CameraModule extends Module {
 		render.loadEntityShader(null);
 	}
 
-	private static void vruler(int x, int height) {
-		Screen.fill(x, 0, x + 1, height, RULER_COLOR);
+	private static void vruler(MatrixStack matrix, int x, int height) {
+		Screen.fill(matrix, x, 0, x + 1, height, RULER_COLOR);
 	}
 
-	private static void hruler(int y, int width) {
-		Screen.fill(0, y, width, y + 1, RULER_COLOR);
+	private static void hruler(MatrixStack matrix, int y, int width) {
+		Screen.fill(matrix, 0, y, width, y + 1, RULER_COLOR);
 	}
 
 	private static int cycle(int curr, int max, boolean neg) {

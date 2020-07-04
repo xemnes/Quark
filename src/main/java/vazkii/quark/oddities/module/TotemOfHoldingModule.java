@@ -1,5 +1,10 @@
 package vazkii.quark.oddities.module;
 
+import java.util.Collection;
+import java.util.Objects;
+
+import com.mojang.datafixers.util.Pair;
+
 import net.minecraft.client.renderer.model.ModelResourceLocation;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
@@ -25,12 +30,8 @@ import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
 import vazkii.quark.oddities.entity.TotemOfHoldingEntity;
-import vazkii.quark.oddities.item.BackpackItem;
 import vazkii.quark.oddities.item.SoulCompassItem;
 import vazkii.quark.oddities.render.TotemOfHoldingRenderer;
-
-import java.util.Collection;
-import java.util.Objects;
 
 /**
  * @author WireSegal
@@ -129,7 +130,7 @@ public class TotemOfHoldingModule extends Module {
             BlockPos pos = player.func_233580_cy_(); // getPosition
             persistent.putInt(TAG_DEATH_X, pos.getX());
             persistent.putInt(TAG_DEATH_Z, pos.getZ());
-            persistent.putInt(TAG_DEATH_DIM, player.world.getDimension().getType().getId());
+            persistent.putString(TAG_DEATH_DIM, player.world.func_230315_m_().field_241504_y_.toString()); // getDimensionType().resourceLocation
 
             if(!data.contains(PlayerEntity.PERSISTED_NBT_TAG))
                 data.put(PlayerEntity.PERSISTED_NBT_TAG, persistent);
@@ -144,17 +145,17 @@ public class TotemOfHoldingModule extends Module {
         return "";
     }
 
-    public static BlockPos getPlayerDeathPosition(Entity e) {
+    public static Pair<BlockPos, String> getPlayerDeathPosition(Entity e) {
         if(e instanceof PlayerEntity) {
             CompoundNBT cmp = e.getPersistentData().getCompound(PlayerEntity.PERSISTED_NBT_TAG);
             if(cmp.contains(TAG_LAST_TOTEM)) {
                 int x = cmp.getInt(TAG_DEATH_X);
                 int z = cmp.getInt(TAG_DEATH_Z);
-                int dim = cmp.getInt(TAG_DEATH_DIM);
-                return new BlockPos(x, dim, z);
+                String dim = cmp.getString(TAG_DEATH_DIM);
+                return Pair.of(new BlockPos(x, -1, z), dim);
             }
         }
 
-        return new BlockPos(0, -1, 0);
+        return null;
     }
 }

@@ -1,5 +1,7 @@
 package vazkii.quark.tweaks.client.item;
 
+import java.util.Optional;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -9,8 +11,12 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ItemFrameEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.CompassItem;
 import net.minecraft.item.IItemPropertyGetter;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.NBTUtil;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
@@ -36,7 +42,7 @@ public class CompassAngleGetter implements IItemPropertyGetter {
 	
 	public static void tickCompass(PlayerEntity player, ItemStack stack) {
 		boolean calculated = isCalculated(stack);
-		boolean nether = player.world.dimension.getType() == DimensionType.THE_NETHER; 
+		boolean nether = player.world.func_230315_m_().field_241504_y_ == Dimension.field_236054_c_.func_240901_a_(); // getDimensionType().resourceLocation, THE_NETHER_KEY.resourceLocation()
 		if(calculated) {
 			boolean wasInNether = ItemNBTHelper.getBoolean(stack, TAG_WAS_IN_NETHER, false);
 			BlockPos pos = player.func_233580_cy_(); // getPosition
@@ -83,13 +89,18 @@ public class CompassAngleGetter implements IItemPropertyGetter {
 		boolean calculate = false;
 		BlockPos target = new BlockPos(0, 0, 0);
 		
-		Dimension dimension = worldIn.dimension;
-		if(dimension.isSurfaceWorld()) {
+		DimensionType dimension = worldIn.func_230315_m_();
+        BlockPos lodestonePos = CompassItem.func_234670_d_(stack) ? this.getLodestonePosition(worldIn, stack.getOrCreateTag()) : null;
+		
+        if(lodestonePos == null)
+        	calculate = true;
+        	target = lodestonePos;
+		if(dimension.func_236043_f_()) { // isSurfaceWorld
 			calculate = true;
-			target = worldIn.getSpawnPoint();
-		} else if(dimension.getType() == DimensionType.THE_END && CompassesWorkEverywhereModule.enableEnd)
+			target = getWorldSpawn(worldIn);
+		} else if(dimension.field_241504_y_ == Dimension.field_236055_d_.func_240901_a_() && CompassesWorkEverywhereModule.enableEnd) // resourceLocation, THE_END_KEY.getResourceLocation()
 			calculate = true;
-		else if(dimension.getType() == DimensionType.THE_NETHER && isCalculated(stack) && CompassesWorkEverywhereModule.enableNether) {
+		else if(dimension.field_241504_y_ == Dimension.field_236054_c_.func_240901_a_() && isCalculated(stack) && CompassesWorkEverywhereModule.enableNether) { // resourceLocation, THE_END_KEY.getResourceLocation()
 			boolean set = ItemNBTHelper.getBoolean(stack, TAG_POSITION_SET, false);
 			if(set) {
 				int x = ItemNBTHelper.getInt(stack, TAG_NETHER_TARGET_X, 0);
@@ -135,4 +146,25 @@ public class CompassAngleGetter implements IItemPropertyGetter {
 		return Math.atan2(blockpos.getZ() - pos.z, blockpos.getX() - pos.x);
 	}
 
+	// vanilla copy from here on out
+	
+    @Nullable 
+    private BlockPos getLodestonePosition(World p_239442_1_, CompoundNBT p_239442_2_) {
+       boolean flag = p_239442_2_.contains("LodestonePos");
+       boolean flag1 = p_239442_2_.contains("LodestoneDimension");
+       if (flag && flag1) {
+          Optional<RegistryKey<World>> optional = CompassItem.func_234667_a_(p_239442_2_);
+          if (optional.isPresent() && p_239442_1_.func_234923_W_() == optional.get()) {
+             return NBTUtil.readBlockPos(p_239442_2_.getCompound("LodestonePos"));
+          }
+       }
+
+       return null;
+    }
+    
+    @Nullable
+    private BlockPos getWorldSpawn(ClientWorld p_239444_1_) {
+       return p_239444_1_.func_230315_m_().func_236043_f_() ? p_239444_1_.func_239140_u_() : null;
+    }
+	
 }
