@@ -22,6 +22,7 @@ import net.minecraft.world.biome.provider.BiomeProvider;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationStage.Decoration;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
+import net.minecraft.world.gen.feature.StructureFeature;
 import net.minecraft.world.gen.feature.jigsaw.JigsawManager;
 import net.minecraft.world.gen.feature.jigsaw.JigsawPattern.PlacementBehaviour;
 import net.minecraft.world.gen.feature.jigsaw.JigsawPiece;
@@ -132,14 +133,10 @@ public class BigDungeonStructure extends Structure<NoFeatureConfig> {
 			rand.nextInt();
 			return rand.nextDouble() < BigDungeonModule.spawnChance;
 		}
+		
 		return false;
 	}
-
-	//	@Override TODO
-	//	protected int getSeedModifier() {
-	//		return 79234823;
-	//	}
-
+	
 	@Override
 	public IStartFactory<NoFeatureConfig> getStartFactory() {
 		return Start::new;
@@ -149,7 +146,7 @@ public class BigDungeonStructure extends Structure<NoFeatureConfig> {
 	public String getStructureName() {
 		return getRegistryName().toString();
 	}
-
+	
 	//	@Override
 	//	public int getSize() {
 	//		return (int) Math.ceil((double) BigDungeonModule.maxRooms / 1.5);
@@ -164,7 +161,7 @@ public class BigDungeonStructure extends Structure<NoFeatureConfig> {
 		@Override // init
 		public void func_230364_a_(ChunkGenerator generator, TemplateManager templateManagerIn, int chunkX, int chunkZ, Biome biomeIn, NoFeatureConfig config) {
 			BlockPos blockpos = new BlockPos(chunkX * 16, 40, chunkZ * 16);
-			JigsawManager.func_236823_a_(START_POOL, BigDungeonModule.maxRooms, Piece::new, generator, templateManagerIn, blockpos, components, this.rand, false, false); // TODO what are these bools?
+			JigsawManager.func_236823_a_(START_POOL, BigDungeonModule.maxRooms, Piece::new, generator, templateManagerIn, blockpos, components, this.rand, false, true); // TODO what are these bools?
 			recalculateStructureSize();
 
 			int maxTop = 60;

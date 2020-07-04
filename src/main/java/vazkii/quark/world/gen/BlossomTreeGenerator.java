@@ -10,6 +10,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.biome.DefaultBiomeFeatures;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.Heightmap.Type;
+import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.structure.StructureManager;
 import net.minecraft.world.gen.WorldGenRegion;
 import vazkii.quark.base.world.generator.Generator;
@@ -35,7 +36,7 @@ public class BlossomTreeGenerator extends Generator {
 
 			BlockState state = worldIn.getBlockState(placePos);
 			if(state.getBlock().canSustainPlant(state, worldIn, pos, Direction.UP, (SaplingBlock) Blocks.OAK_SAPLING))
-				tree.feature.func_230362_a_(worldIn, structureManager, generator, rand, placePos.up(), tree.config); // place
+				Feature.field_236291_c_.func_230362_a_(worldIn, structureManager, generator, rand, placePos.up(), tree.config); // tree.place
 		}
 	}
 

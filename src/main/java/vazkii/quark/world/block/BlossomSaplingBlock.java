@@ -8,17 +8,15 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.SaplingBlock;
-import net.minecraft.block.trees.OakTree;
 import net.minecraft.block.trees.Tree;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
-import net.minecraft.world.biome.DefaultBiomeFeatures;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
 import net.minecraft.world.gen.feature.BaseTreeFeatureConfig;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.TreeFeature;
+import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.TwoLayerFeature;
 import net.minecraft.world.gen.foliageplacer.FancyFoliagePlacer;
 import net.minecraft.world.gen.trunkplacer.FancyTrunkPlacer;
@@ -73,7 +71,6 @@ public class BlossomSaplingBlock extends SaplingBlock implements IQuarkBlock {
 		public final BaseTreeFeatureConfig config;
 		public final BlockState leaf;
 		public BlossomSaplingBlock sapling;
-		public TreeFeature feature;
 
 		public BlossomTree(Block leafBlock) {
 			config = (new BaseTreeFeatureConfig.Builder(
@@ -85,12 +82,12 @@ public class BlossomSaplingBlock extends SaplingBlock implements IQuarkBlock {
 					.func_236700_a_().func_236702_a_(Heightmap.Type.MOTION_BLOCKING)
 					.build();
 			
-			leaf = leafBlock.getDefaultState(); 
+			leaf = leafBlock.getDefaultState();
 		}
 
 		@Override
 		protected ConfiguredFeature<BaseTreeFeatureConfig, ?> getTreeFeature(Random rand, boolean hjskfsd) {
-			return feature.withConfiguration(config);
+			return Feature.field_236291_c_.withConfiguration(config); // tree
 		}
 		
 	}
