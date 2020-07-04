@@ -187,16 +187,15 @@ public class AttributeTooltips {
 			for (int i = 0; i < slots.length; i++) {
 				EquipmentSlotType slot = slots[slots.length - (i + 1)];
 				if (attributeTooltips.containsKey(slot)) {
-					int len = mc.fontRenderer.getStringWidth(attributeTooltips.get(slot).toString()) + 32;
+					int len = mc.fontRenderer.getStringWidth(attributeTooltips.get(slot).toString()) + 16;
 					if (showSlots)
 						len += 20;
 
-					float space = mc.fontRenderer.getStringWidth(" ");
-					StringBuilder spaces = new StringBuilder();
-					for (int j = 0; j < len / space; j++)
-						spaces.append(' ');
-
-					tooltipRaw.add(1, new StringTextComponent(spaces.toString()));
+					String spaceStr = "";
+					while(mc.fontRenderer.getStringWidth(spaceStr) < len)
+						spaceStr += " ";
+					
+					tooltipRaw.add(1, new StringTextComponent(spaceStr));
 					if (allAreSame)
 						break;
 				}

@@ -43,7 +43,7 @@ public class QButtonHandler {
 					
 			List<Widget> widgets = event.getWidgetList();
 			for(Widget b : widgets)
-				if(targets.contains(b.getMessage())) {
+				if(targets.contains(b.getMessage().getString())) {
 					Button qButton = new QButton(b.x + (GeneralConfig.qButtonOnRight ? 103 : -24), b.y);
 					event.addWidget(qButton);
 					return;

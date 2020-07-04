@@ -13,6 +13,7 @@ import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.EffectType;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -48,7 +49,7 @@ public class FoodTooltips {
 				}
 
 				ITextComponent spaces = new StringTextComponent(s.toString());
-				ITextComponent saturationText = new TranslationTextComponent("quark.misc.saturation" + saturationSimplified); // TODO make this gray
+				ITextComponent saturationText = new TranslationTextComponent("quark.misc.saturation" + saturationSimplified).func_240701_a_(TextFormatting.GRAY);
 				List<ITextComponent> tooltip = event.getToolTip();
 
 				if (tooltip.isEmpty()) {
