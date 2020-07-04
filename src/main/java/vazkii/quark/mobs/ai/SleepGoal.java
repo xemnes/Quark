@@ -43,16 +43,14 @@ public class SleepGoal extends Goal {
 	@Override
 	public void startExecuting() {
 		this.foxhound.getNavigator().clearPath();
-		wasSitting = foxhound.isSitting();
-		this.foxhound.getAISit().setSitting(true);
-		this.foxhound.setSitting(true);
+		wasSitting = foxhound.func_233684_eK_();
+		this.foxhound.func_233686_v_(true);
 		this.foxhound.setSleeping(true);
 	}
 
 	@Override
 	public void resetTask() {
-		this.foxhound.getAISit().setSitting(wasSitting);
-		this.foxhound.setSitting(wasSitting);
+		this.foxhound.func_233686_v_(wasSitting);
 		this.foxhound.setSleeping(false);
 	}
 

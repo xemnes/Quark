@@ -10,22 +10,16 @@
  */
 package vazkii.quark.management.module;
 
-import java.util.List;
-
-import org.lwjgl.opengl.GL11;
-
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
-
 import net.minecraft.block.Blocks;
 import net.minecraft.client.GameSettings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ChatLine;
 import net.minecraft.client.gui.IngameGui;
 import net.minecraft.client.gui.NewChatGui;
-import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.model.IBakedModel;
@@ -36,16 +30,10 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.network.play.ServerPlayNetHandler;
 import net.minecraft.server.management.PlayerList;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.Style;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.util.text.*;
 import net.minecraft.util.text.event.HoverEvent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -55,13 +43,12 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import vazkii.quark.base.module.Config;
-import vazkii.quark.base.module.LoadModule;
-import vazkii.quark.base.module.Module;
-import vazkii.quark.base.module.ModuleCategory;
-import vazkii.quark.base.module.ModuleLoader;
+import org.lwjgl.opengl.GL11;
+import vazkii.quark.base.module.*;
 import vazkii.quark.base.network.QuarkNetwork;
 import vazkii.quark.base.network.message.LinkItemMessage;
+
+import java.util.List;
 
 @LoadModule(category = ModuleCategory.MANAGEMENT, hasSubscriptions = true, subscribeOn = Dist.CLIENT)
 public class ItemSharingModule extends Module {
@@ -102,7 +89,7 @@ public class ItemSharingModule extends Module {
 
 			ServerChatEvent event = new ServerChatEvent((ServerPlayerEntity) player, comp.getString(), fullComp);
 			if (!MinecraftForge.EVENT_BUS.post(event)) {
-				players.sendMessage(fullComp, false);
+				players.func_232641_a_(fullComp, ChatType.CHAT, player.getUniqueID());
 
 				ServerPlayNetHandler handler = ((ServerPlayerEntity) player).connection;
 				int threshold = handler.chatSpamThresholdCount;
@@ -119,21 +106,21 @@ public class ItemSharingModule extends Module {
 
 	private static int chatX, chatY;
 
-	public static ITextComponent createStackComponent(ItemStack stack, ITextComponent component) {
+	public static ITextComponent createStackComponent(ItemStack stack, IFormattableTextComponent component) {
 		if (!ModuleLoader.INSTANCE.isModuleEnabled(ItemSharingModule.class) || !renderItemsInChat)
 			return component;
 		Style style = component.getStyle();
 		if (stack.getCount() > 64) {
 			ItemStack copyStack = stack.copy();
 			copyStack.setCount(64);
-			CompoundNBT nbt = copyStack.write(new CompoundNBT());
-			style.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_ITEM,
-					new StringTextComponent(nbt.toString())));
+			style = style.func_240716_a_(new HoverEvent(HoverEvent.Action.field_230551_b_,
+					new HoverEvent.ItemHover(copyStack)));
+			component.func_230530_a_(style);
 		}
 
-		ITextComponent out = new StringTextComponent("   ");
-		out.setStyle(style.createDeepCopy());
-		return out.appendSibling(component);
+		IFormattableTextComponent out = new StringTextComponent("   ");
+		out.func_230530_a_(style);
+		return out.func_230529_a_(component);
 	}
 
 	@OnlyIn(Dist.CLIENT)
@@ -163,16 +150,22 @@ public class ItemSharingModule extends Module {
 				ChatLine line = lines.get(idx);
 				String before = "";
 
-				String currentText = TextFormatting.getTextWithoutFormattingCodes(line.getChatComponent().getUnformattedComponentText());
-				if (currentText != null && currentText.startsWith("   "))
-					render(mc, chatGui, updateCounter, before, line, idx - shift, line.getChatComponent());
-				before += currentText;
+				ITextProperties lineProperties = line.func_238169_a_();
 
-				for (ITextComponent sibling : line.getChatComponent().getSiblings()) {
-					currentText = TextFormatting.getTextWithoutFormattingCodes(sibling.getUnformattedComponentText());
+				if (lineProperties instanceof ITextComponent) {
+					ITextComponent lineComponent = (ITextComponent) lineProperties;
+
+					String currentText = TextFormatting.getTextWithoutFormattingCodes(lineComponent.getUnformattedComponentText());
 					if (currentText != null && currentText.startsWith("   "))
-						render(mc, chatGui, updateCounter, before, line, idx - shift, sibling);
+						render(mc, chatGui, updateCounter, before, line, idx - shift, lineComponent);
 					before += currentText;
+
+					for (ITextComponent sibling : lineComponent.getSiblings()) {
+						currentText = TextFormatting.getTextWithoutFormattingCodes(sibling.getUnformattedComponentText());
+						if (currentText != null && currentText.startsWith("   "))
+							render(mc, chatGui, updateCounter, before, line, idx - shift, sibling);
+						before += currentText;
+					}
 				}
 
 				idx++;
@@ -184,15 +177,10 @@ public class ItemSharingModule extends Module {
 	private static void render(Minecraft mc, NewChatGui chatGui, int updateCounter, String before, ChatLine line, int lineHeight, ITextComponent component) {
 		Style style = component.getStyle();
 		HoverEvent hoverEvent = style.getHoverEvent();
-		if (hoverEvent != null && hoverEvent.getAction() == HoverEvent.Action.SHOW_ITEM) {
-			ItemStack stack = ItemStack.EMPTY;
+		if (hoverEvent != null && hoverEvent.getAction() == HoverEvent.Action.field_230551_b_) {
+			HoverEvent.ItemHover contents = hoverEvent.func_240662_a_(HoverEvent.Action.field_230551_b_);
 
-			try {
-				CompoundNBT textValue = JsonToNBT.getTagFromJson(hoverEvent.getValue().getString());
-				stack = ItemStack.read(textValue);
-			} catch (CommandSyntaxException ignored) {
-				// NO-OP
-			}
+			ItemStack stack = contents != null ? contents.func_240689_a_() : ItemStack.EMPTY;
 
 			if (stack.isEmpty())
 				stack = new ItemStack(Blocks.BARRIER); // for invalid icon
