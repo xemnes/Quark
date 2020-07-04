@@ -106,7 +106,7 @@ public class ItemSharingModule extends Module {
 
 	private static int chatX, chatY;
 
-	public static ITextComponent createStackComponent(ItemStack stack, IFormattableTextComponent component) {
+	public static IFormattableTextComponent createStackComponent(ItemStack stack, IFormattableTextComponent component) {
 		if (!ModuleLoader.INSTANCE.isModuleEnabled(ItemSharingModule.class) || !renderItemsInChat)
 			return component;
 		Style style = component.getStyle();

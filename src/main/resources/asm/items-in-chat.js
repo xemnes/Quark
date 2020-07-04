@@ -44,7 +44,7 @@ function initializeCoreMod() {
                     newInstructions.add(ASM.buildMethodCall(
                         "vazkii/quark/base/handler/AsmHooks",
                         "createStackComponent",
-                        "(Lnet/minecraft/util/text/ITextComponent;Lnet/minecraft/item/ItemStack;)Lnet/minecraft/util/text/ITextComponent;",
+                        "(Lnet/minecraft/util/text/IFormattableTextComponent;Lnet/minecraft/item/ItemStack;)Lnet/minecraft/util/text/IFormattableTextComponent;",
                         ASM.MethodType.STATIC
                     ));
                     method.instructions.insertBefore(target, newInstructions);
