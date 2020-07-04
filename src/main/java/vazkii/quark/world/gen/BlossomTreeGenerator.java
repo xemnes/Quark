@@ -10,6 +10,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.biome.DefaultBiomeFeatures;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.Heightmap.Type;
+import net.minecraft.world.gen.feature.structure.StructureManager;
 import net.minecraft.world.gen.WorldGenRegion;
 import vazkii.quark.base.world.generator.Generator;
 import vazkii.quark.world.block.BlossomSaplingBlock.BlossomTree;
@@ -27,14 +28,14 @@ public class BlossomTreeGenerator extends Generator {
 	}
 
 	@Override
-	public void generateChunk(WorldGenRegion worldIn, ChunkGenerator generator, Random rand, BlockPos pos) {
+	public void generateChunk(WorldGenRegion worldIn, ChunkGenerator generator, StructureManager structureManager, Random rand, BlockPos pos) {
 		BlockPos placePos = pos.add(rand.nextInt(16), 0, rand.nextInt(16));
 		if(config.biomeTypes.canSpawn(getBiome(worldIn, placePos)) && rand.nextInt(config.rarity) == 0) {
 			placePos = worldIn.getHeight(Type.MOTION_BLOCKING, placePos).down();
 
 			BlockState state = worldIn.getBlockState(placePos);
 			if(state.getBlock().canSustainPlant(state, worldIn, pos, Direction.UP, (SaplingBlock) Blocks.OAK_SAPLING))
-				tree.feature.place(worldIn, generator, rand, placePos.up(), DefaultBiomeFeatures.FANCY_TREE_CONFIG);
+				tree.feature.func_230362_a_(worldIn, structureManager, generator, rand, placePos.up(), tree.config); // place
 		}
 	}
 

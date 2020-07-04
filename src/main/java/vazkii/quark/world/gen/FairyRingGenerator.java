@@ -12,6 +12,7 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.WorldGenRegion;
+import net.minecraft.world.gen.feature.structure.StructureManager;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.Tags;
 import vazkii.quark.base.world.config.DimensionConfig;
@@ -25,7 +26,7 @@ public class FairyRingGenerator extends Generator {
 	}
 	
 	@Override
-	public void generateChunk(WorldGenRegion worldIn, ChunkGenerator generator, Random rand, BlockPos corner) {
+	public void generateChunk(WorldGenRegion worldIn, ChunkGenerator generator, StructureManager structureManager, Random rand, BlockPos corner) {
 		int x = corner.getX() + rand.nextInt(16);
 		int z = corner.getZ() + rand.nextInt(16);
 		BlockPos center = new BlockPos(x, 128, z);

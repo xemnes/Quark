@@ -87,8 +87,8 @@ repositories {
     }
     maven {
         // for Mappings
-        name "tterrag"
-        url "http://maven.tterrag.com/"
+        name "gigaherz"
+        url 'http://www.dogforce-games.com/maven/'
     }
 }
 

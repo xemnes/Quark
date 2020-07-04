@@ -8,6 +8,7 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.WorldGenRegion;
+import net.minecraft.world.gen.feature.structure.StructureManager;
 
 /**
  * @author WireSegal
@@ -22,10 +23,10 @@ public class CombinedGenerator implements IGenerator {
     }
 
     @Override
-    public int generate(int seedIncrement, long seed, GenerationStage.Decoration stage, WorldGenRegion worldIn, ChunkGenerator generator, SharedSeedRandom rand, BlockPos pos) {
+    public int generate(int seedIncrement, long seed, GenerationStage.Decoration stage, WorldGenRegion worldIn, ChunkGenerator generator, StructureManager structureManager, SharedSeedRandom rand, BlockPos pos) {
         for (IGenerator child : children) {
             if (child.canGenerate(worldIn))
-                seedIncrement = child.generate(seedIncrement, seed, stage, worldIn, generator, rand, pos);
+                seedIncrement = child.generate(seedIncrement, seed, stage, worldIn, generator, structureManager, rand, pos);
         }
         return seedIncrement;
     }

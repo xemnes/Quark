@@ -23,6 +23,7 @@ import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.DecoratedFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.IFeatureConfig;
+import net.minecraft.world.gen.feature.structure.StructureManager;
 import net.minecraft.world.gen.placement.NoPlacementConfig;
 import net.minecraftforge.registries.ForgeRegistries;
 import vazkii.quark.base.handler.GeneralConfig;
@@ -75,7 +76,7 @@ public class WorldGenHandler {
 		});
 	}
 
-	public static void generateChunk(ISeedReader seedReader, ChunkGenerator generator, BlockPos pos, GenerationStage.Decoration stage) {
+	public static void generateChunk(ISeedReader seedReader, StructureManager structureManager, ChunkGenerator generator, BlockPos pos, GenerationStage.Decoration stage) {
 		if(!(seedReader instanceof WorldGenRegion))
 			return;
 
@@ -93,8 +94,8 @@ public class WorldGenHandler {
 				if(wgen.module.enabled && gen.canGenerate(region)) {
 					if(GeneralConfig.enableWorldgenWatchdog) {
 						final int finalStageNum = stageNum;
-						stageNum = watchdogRun(gen, () -> gen.generate(finalStageNum, seed, stage, region, generator, random, pos), 1, TimeUnit.MINUTES);
-					} else stageNum = gen.generate(stageNum, seed, stage, region, generator, random, pos);
+						stageNum = watchdogRun(gen, () -> gen.generate(finalStageNum, seed, stage, region, generator, structureManager, random, pos), 1, TimeUnit.MINUTES);
+					} else stageNum = gen.generate(stageNum, seed, stage, region, generator, structureManager, random, pos);
 				}
 			}
 		}

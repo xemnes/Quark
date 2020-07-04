@@ -21,7 +21,7 @@ public class DeferedFeature extends Feature<NoFeatureConfig> {
 
 	@Override // place
 	public boolean func_230362_a_(ISeedReader seedReader, StructureManager structureManager, ChunkGenerator generator, Random rand, BlockPos pos, NoFeatureConfig config) {
-		WorldGenHandler.generateChunk(seedReader, generator, pos, stage);
+		WorldGenHandler.generateChunk(seedReader, structureManager, generator, pos, stage);
 		return true;
 	}
 

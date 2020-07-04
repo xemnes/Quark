@@ -7,6 +7,7 @@ import java.util.function.Consumer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.WorldGenRegion;
+import net.minecraft.world.gen.feature.structure.StructureManager;
 import vazkii.quark.base.world.config.DimensionConfig;
 import vazkii.quark.base.world.generator.Generator;
 
@@ -20,7 +21,7 @@ public abstract class MultiChunkFeatureGenerator extends Generator {
 	}
 
 	@Override
-	public final void generateChunk(WorldGenRegion world, ChunkGenerator generator, Random rand, BlockPos pos) {
+	public final void generateChunk(WorldGenRegion world, ChunkGenerator generator, StructureManager structureManager, Random rand, BlockPos pos) {
 		int radius = getFeatureRadius();
 		if(radius <= 0)
 			return;
