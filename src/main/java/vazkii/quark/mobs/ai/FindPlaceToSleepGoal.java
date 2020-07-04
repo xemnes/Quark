@@ -10,8 +10,6 @@
  */
 package vazkii.quark.mobs.ai;
 
-import javax.annotation.Nonnull;
-
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.ai.goal.MoveToBlockGoal;
 import net.minecraft.tileentity.FurnaceTileEntity;
@@ -20,6 +18,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IWorldReader;
 import vazkii.quark.mobs.entity.FoxhoundEntity;
+
+import javax.annotation.Nonnull;
 
 public class FindPlaceToSleepGoal extends MoveToBlockGoal {
 	private final FoxhoundEntity foxhound;
@@ -36,7 +36,7 @@ public class FindPlaceToSleepGoal extends MoveToBlockGoal {
 
 	@Override
 	public boolean shouldExecute() {
-		return this.foxhound.isTamed() && !this.foxhound.isSitting() && super.shouldExecute();
+		return this.foxhound.isTamed() && !this.foxhound.func_233684_eK_() && super.shouldExecute();
 	}
 
 	@Override
@@ -48,9 +48,8 @@ public class FindPlaceToSleepGoal extends MoveToBlockGoal {
 	public void startExecuting() {
 		super.startExecuting();
 		hadSlept = false;
-		this.foxhound.getAISit().setSitting(false);
+		this.foxhound.func_233686_v_(false);
 		this.foxhound.getSleepGoal().setSleeping(false);
-		this.foxhound.setSitting(false);
 		this.foxhound.setSleeping(false);
 	}
 
@@ -58,9 +57,8 @@ public class FindPlaceToSleepGoal extends MoveToBlockGoal {
 	public void resetTask() {
 		super.resetTask();
 		hadSlept = false;
-		this.foxhound.getAISit().setSitting(false);
+		this.foxhound.func_233686_v_(false);
 		this.foxhound.getSleepGoal().setSleeping(false);
-		this.foxhound.setSitting(false);
 		this.foxhound.setSleeping(false);
 	}
 
@@ -71,14 +69,12 @@ public class FindPlaceToSleepGoal extends MoveToBlockGoal {
 		Vector3d motion = foxhound.getMotion();
 
 		if (!this.getIsAboveDestination() || motion.x > 0 || motion.z > 0) {
-			this.foxhound.getAISit().setSitting(false);
+			this.foxhound.func_233686_v_(false);
 			this.foxhound.getSleepGoal().setSleeping(false);
-			this.foxhound.setSitting(false);
 			this.foxhound.setSleeping(false);
-		} else if (!this.foxhound.isSitting()) {
-			this.foxhound.getAISit().setSitting(true);
+		} else if (!this.foxhound.func_233684_eK_()) {
+			this.foxhound.func_233686_v_(true);
 			this.foxhound.getSleepGoal().setSleeping(true);
-			this.foxhound.setSitting(true);
 			this.foxhound.setSleeping(true);
 			hadSlept = true;
 		}
