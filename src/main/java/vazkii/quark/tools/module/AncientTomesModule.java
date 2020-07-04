@@ -1,12 +1,6 @@
 package vazkii.quark.tools.module;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import com.google.common.collect.Maps;
-
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -16,26 +10,33 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.loot.ItemLootEntry;
-import net.minecraft.loot.LootContext;
 import net.minecraft.loot.LootEntry;
 import net.minecraft.loot.LootFunctionType;
 import net.minecraft.loot.LootTables;
-import net.minecraft.loot.functions.ILootFunction;
+import net.minecraft.loot.conditions.ILootCondition;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.event.AnvilUpdateEvent;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.ForgeRegistries;
+import vazkii.quark.base.Quark;
 import vazkii.quark.base.handler.MiscUtil;
 import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
 import vazkii.quark.tools.item.AncientTomeItem;
+import vazkii.quark.tools.loot.EnchantTome;
 import vazkii.quark.world.module.MonsterBoxModule;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 @LoadModule(category = ModuleCategory.TOOLS, hasSubscriptions = true)
 public class AncientTomesModule extends Module {
@@ -47,6 +48,8 @@ public class AncientTomesModule extends Module {
 	@Config public static int itemQuality = 2;
 	@Config public static int mergeCost = 35;
 	@Config public static int applyCost = 35;
+
+	public static LootFunctionType tomeEnchantType;
 
 	@Config(name = "Valid Enchantments")
 	public static List<String> enchantNames = generateDefaultEnchantmentList();
@@ -69,11 +72,7 @@ public class AncientTomesModule extends Module {
 			LootEntry entry = ItemLootEntry.builder(ancient_tome)
 					.weight(weight)
 					.quality(itemQuality)
-					.acceptFunction(() -> (s, c) -> {
-						Enchantment enchantment = validEnchants.get(c.getRandom().nextInt(validEnchants.size()));
-						EnchantedBookItem.addEnchantment(s, new EnchantmentData(enchantment, enchantment.getMaxLevel()));
-						return s;
-					})
+					.acceptFunction(() -> new EnchantTome(new ILootCondition[0]))
 					.build();
 			
 			MiscUtil.addToLootTable(event.getTable(), entry);
@@ -83,6 +82,10 @@ public class AncientTomesModule extends Module {
 	@Override
 	public void construct() {
 		ancient_tome = new AncientTomeItem(this);
+
+		tomeEnchantType = new LootFunctionType(new EnchantTome.Serializer());
+		Registry.register(Registry.field_239694_aZ_, new ResourceLocation(Quark.MOD_ID, "tome_enchant"), tomeEnchantType);
+
 	}
 
 	@Override
