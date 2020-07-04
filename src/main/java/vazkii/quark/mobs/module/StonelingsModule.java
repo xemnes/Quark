@@ -21,6 +21,7 @@ import vazkii.quark.base.world.config.BiomeTypeConfig;
 import vazkii.quark.base.world.config.DimensionConfig;
 import vazkii.quark.base.world.config.EntitySpawnConfig;
 import vazkii.quark.mobs.client.render.StonelingRenderer;
+import vazkii.quark.mobs.entity.CrabEntity;
 import vazkii.quark.mobs.entity.StonelingEntity;
 import vazkii.quark.mobs.item.DiamondHeartItem;
 
@@ -56,10 +57,14 @@ public class StonelingsModule extends Module {
 				.setCustomClientFactory((spawnEntity, world) -> new StonelingEntity(stonelingType, world))
 				.build("stoneling");
 		RegistryHelper.register(stonelingType, "stoneling");
-		GlobalEntityTypeAttributes.put(stonelingType, StonelingEntity.prepareAttributes().func_233813_a_());
 
 		EntitySpawnHandler.registerSpawn(this, stonelingType, EntityClassification.MONSTER, PlacementType.ON_GROUND, Type.MOTION_BLOCKING_NO_LEAVES, StonelingEntity::spawnPredicate, spawnConfig);
 		EntitySpawnHandler.addEgg(stonelingType, 0xA1A1A1, 0x505050, spawnConfig);
+	}
+	
+	@Override
+	public void setup() {
+		GlobalEntityTypeAttributes.put(stonelingType, StonelingEntity.prepareAttributes().func_233813_a_());
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import re
 
 copy([
 	('block_model_wall_side.json', 'assets/{modid}/models/block/{name}_wall_side.json'),
+	('block_model_wall_side_tall.json', 'assets/{modid}/models/block/{name}_wall_side_tall.json'),
 	('block_model_wall_post.json', 'assets/{modid}/models/block/{name}_wall_post.json'),
 	('block_model_wall_inventory.json', 'assets/{modid}/models/block/{name}_wall_inventory.json'),
 	('block_item_wall.json', 'assets/{modid}/models/item/{name}_wall.json'),

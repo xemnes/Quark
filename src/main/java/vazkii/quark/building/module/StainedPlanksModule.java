@@ -16,7 +16,7 @@ public class StainedPlanksModule extends Module {
 	@Override
 	public void construct() {
 		for(DyeColor dye : DyeColor.values())
-			VariantHandler.addSlabAndStairs(new QuarkBlock(dye.func_176610_l() + "_stained_planks", this, ItemGroup.BUILDING_BLOCKS, Block.Properties.from(Blocks.OAK_PLANKS)));
+			VariantHandler.addSlabAndStairs(new QuarkBlock(dye.getTranslationKey() + "_stained_planks", this, ItemGroup.BUILDING_BLOCKS, Block.Properties.from(Blocks.OAK_PLANKS)));
 	}
 	
 }

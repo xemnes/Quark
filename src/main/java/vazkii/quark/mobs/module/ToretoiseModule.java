@@ -50,10 +50,14 @@ public class ToretoiseModule extends Module {
 				.build("toretoise");
 
 		RegistryHelper.register(toretoiseType, "toretoise");
-		GlobalEntityTypeAttributes.put(toretoiseType, ToretoiseEntity.prepareAttributes().func_233813_a_());
 		
 		EntitySpawnHandler.registerSpawn(this, toretoiseType, EntityClassification.MONSTER, PlacementType.ON_GROUND, Type.MOTION_BLOCKING_NO_LEAVES, ToretoiseEntity::spawnPredicate, spawnConfig);
 		EntitySpawnHandler.addEgg(toretoiseType, 0x55413b, 0x383237, spawnConfig);
+	}
+	
+	@Override
+	public void setup() {
+		GlobalEntityTypeAttributes.put(toretoiseType, ToretoiseEntity.prepareAttributes().func_233813_a_());
 	}
 	
 	@Override

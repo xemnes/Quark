@@ -81,15 +81,11 @@ public class CrabEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 	private static final DataParameter<Float> SIZE_MODIFIER = EntityDataManager.createKey(CrabEntity.class, DataSerializers.FLOAT);
 	private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(CrabEntity.class, DataSerializers.VARINT);
 
-	private static final Ingredient TEMPTATION_ITEMS = Ingredient.merge(Lists.newArrayList(
-			Ingredient.fromItems(Items.WHEAT, Items.CHICKEN),
-			Ingredient.fromTag(ItemTags.FISHES)
-	));
-
 	private static int lightningCooldown;
+	private Ingredient temptationItems;
 
 	private boolean crabRave;
-    private BlockPos jukeboxPosition;
+	private BlockPos jukeboxPosition;
 
 	public CrabEntity(EntityType<? extends CrabEntity> type, World worldIn) {
 		this(type, worldIn, 1);
@@ -111,7 +107,7 @@ public class CrabEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 			crab.party(pos, raving);
 	}
 
-    @Override
+	@Override
 	public float getBlockPathWeight(BlockPos pos, IWorldReader world) {
 		return world.getBlockState(pos.down()).getBlock() == Blocks.SAND ? 10.0F : world.getBrightness(pos) - 0.5F;
 	}
@@ -167,22 +163,22 @@ public class CrabEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 		this.goalSelector.addGoal(1, new PanicGoal(this, 1.25D));
 		this.goalSelector.addGoal(2, new RaveGoal(this));
 		this.goalSelector.addGoal(3, new BreedGoal(this, 1.0D));
-		this.goalSelector.addGoal(4, new TemptGoal(this, 1.2D, false, TEMPTATION_ITEMS));
+		this.goalSelector.addGoal(4, new TemptGoal(this, 1.2D, false, getTemptationItems()));
 		this.goalSelector.addGoal(5, new FollowParentGoal(this, 1.1D));
 		this.goalSelector.addGoal(6, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
 		this.goalSelector.addGoal(7, new LookAtGoal(this, PlayerEntity.class, 6.0F));
 		this.goalSelector.addGoal(8, new LookRandomlyGoal(this));
 	}
 
-    public static AttributeModifierMap.MutableAttribute prepareAttributes() {
-        return MobEntity.func_233666_p_()
-                .func_233815_a_(Attributes.field_233818_a_, 20.0D) // MAX_HEALTH
-                .func_233815_a_(Attributes.field_233821_d_, 0.25D) // MOEVMENT_SPEED
-                .func_233815_a_(Attributes.field_233826_i_, 3.0D) // ARMOR
-                .func_233815_a_(Attributes.field_233827_j_, 2.0D) // ARMOR_TOUGHNESS
-                .func_233815_a_(Attributes.field_233820_c_, 0.5D); // KNOCKBACK_RESISTANCE
-    }
-	
+	public static AttributeModifierMap.MutableAttribute prepareAttributes() {
+		return MobEntity.func_233666_p_()
+				.func_233815_a_(Attributes.field_233818_a_, 20.0D) // MAX_HEALTH
+				.func_233815_a_(Attributes.field_233821_d_, 0.25D) // MOEVMENT_SPEED
+				.func_233815_a_(Attributes.field_233826_i_, 3.0D) // ARMOR
+				.func_233815_a_(Attributes.field_233827_j_, 2.0D) // ARMOR_TOUGHNESS
+				.func_233815_a_(Attributes.field_233820_c_, 0.5D); // KNOCKBACK_RESISTANCE
+	}
+
 	@Override
 	public boolean isEntityInsideOpaqueBlock() {
 		return MiscUtil.isEntityInsideOpaqueBlock(this);
@@ -191,13 +187,13 @@ public class CrabEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 	@Override
 	public void tick() {
 		super.tick();
-		
+
 		if(!world.isRemote && dataManager.get(VARIANT) == -1) {
 			int variant = 0;
 			if(rand.nextBoolean()) {
 				variant += rand.nextInt(2) + 1;
 			}
-			
+
 			dataManager.set(VARIANT, variant);
 		}
 
@@ -212,9 +208,9 @@ public class CrabEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 		}
 
 		Vector3d pos = getPositionVec();
-        if(isRaving() && (jukeboxPosition == null || jukeboxPosition.distanceSq(pos.x, pos.y, pos.z, true) > 24.0D || world.getBlockState(jukeboxPosition).getBlock() != Blocks.JUKEBOX))
-        	party(null, false);
-		
+		if(isRaving() && (jukeboxPosition == null || jukeboxPosition.distanceSq(pos.x, pos.y, pos.z, true) > 24.0D || world.getBlockState(jukeboxPosition).getBlock() != Blocks.JUKEBOX))
+			party(null, false);
+
 		if(isRaving() && world.isRemote && ticksExisted % 10 == 0) {
 			BlockPos below = func_233580_cy_().down(); // getPosition
 			BlockState belowState = world.getBlockState(below);
@@ -253,12 +249,12 @@ public class CrabEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 
 		float sizeMod = getSizeModifier();
 		if (sizeMod <= 15) {
-			
+
 			// func_233767_b_ = applyModifier
 			this.getAttribute(Attributes.field_233818_a_).func_233767_b_(new AttributeModifier("Lightning Bonus", 0.5, Operation.ADDITION)); // MAX_HEALTH
 			this.getAttribute(Attributes.field_233821_d_).func_233767_b_(new AttributeModifier("Lightning Debuff", -0.05, Operation.ADDITION)); // MOVEMENT_SPEED
 			this.getAttribute(Attributes.field_233826_i_).func_233767_b_(new AttributeModifier("Lightning Bonus", 0.125, Operation.ADDITION)); // ARMOR
-			
+
 			float sizeModifier = Math.min(sizeMod + 1, 16);
 			this.dataManager.set(SIZE_MODIFIER, sizeModifier);
 			recalculateSize();
@@ -284,7 +280,17 @@ public class CrabEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 
 	@Override
 	public boolean isBreedingItem(ItemStack stack) {
-		return !stack.isEmpty() && TEMPTATION_ITEMS.test(stack);
+		return !stack.isEmpty() && getTemptationItems().test(stack);
+	}
+
+	private Ingredient getTemptationItems() {
+		if(temptationItems == null)
+			temptationItems =  Ingredient.merge(Lists.newArrayList(
+					Ingredient.fromItems(Items.WHEAT, Items.CHICKEN),
+					Ingredient.fromTag(ItemTags.FISHES)
+					));
+		
+		return temptationItems;
 	}
 
 	@Nullable
@@ -302,7 +308,7 @@ public class CrabEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 	public int getVariant() {
 		return Math.max(0, dataManager.get(VARIANT));
 	}
-	
+
 	public void party(BlockPos pos, boolean isPartying) {
 		// A separate method, due to setPartying being side-only.
 		jukeboxPosition = pos;
@@ -311,13 +317,13 @@ public class CrabEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-    public void setPartying(BlockPos pos, boolean isPartying) {
+	public void setPartying(BlockPos pos, boolean isPartying) {
 		party(pos, isPartying);
-    }
+	}
 
 	public boolean isRaving() {
-        return crabRave;
-    }
+		return crabRave;
+	}
 
 	@Override
 	public void notifyDataManagerChange(@Nonnull DataParameter<?> parameter) {
@@ -330,7 +336,7 @@ public class CrabEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 	@Nonnull
 	@Override
 	public IPacket<?> createSpawnPacket() {
-		 return NetworkHooks.getEntitySpawningPacket(this);
+		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	@Override
@@ -353,7 +359,7 @@ public class CrabEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 			float sizeModifier = compound.getFloat("EnemyCrabRating");
 			dataManager.set(SIZE_MODIFIER, sizeModifier);
 		}
-		
+
 		if(compound.contains("Variant"))
 			dataManager.set(VARIANT, compound.getInt("Variant"));
 	}
@@ -365,5 +371,5 @@ public class CrabEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 		compound.putInt("LightningCooldown", lightningCooldown);
 		compound.putInt("Variant", dataManager.get(VARIANT));
 	}
-	
+
 }

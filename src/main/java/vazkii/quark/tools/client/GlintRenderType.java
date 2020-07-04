@@ -18,13 +18,13 @@ import vazkii.quark.base.Quark;
 public class GlintRenderType {
     public static Map<Integer, RenderType> glintColorMap = new HashMap<Integer, RenderType>() {{
         for (DyeColor color : DyeColor.values())
-            put(color.getId(), buildGlintRenderType(color.name()));
+            put(color.getId(), buildGlintRenderType(color.getTranslationKey()));
         put(16, buildGlintRenderType("rainbow"));
     }};
 
     public static Map<Integer, RenderType> entityGlintColorMap = new HashMap<Integer, RenderType>() {{
         for (DyeColor color : DyeColor.values())
-            put(color.getId(), buildEntityGlintRenderType(color.name()));
+            put(color.getId(), buildEntityGlintRenderType(color.getTranslationKey()));
         put(16, buildEntityGlintRenderType("rainbow"));
     }};
 

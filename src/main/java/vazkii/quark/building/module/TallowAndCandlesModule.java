@@ -53,7 +53,7 @@ public class TallowAndCandlesModule extends Module {
 		tallow = new QuarkItem("tallow", this, new Item.Properties().group(ItemGroup.MATERIALS));
 
 		for(DyeColor dye : DyeColor.values())
-			new CandleBlock(dye.func_176610_l() + "_candle", this, dye);
+			new CandleBlock(dye.getTranslationKey() + "_candle", this, dye);
 		
 		tallow_block = new QuarkBlock("tallow_block", this, ItemGroup.BUILDING_BLOCKS, Block.Properties.from(Blocks.YELLOW_TERRACOTTA).sound(SoundType.CLOTH));
 	}

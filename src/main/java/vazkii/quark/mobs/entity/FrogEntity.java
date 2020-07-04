@@ -75,20 +75,13 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 	private static final DataParameter<Float> SIZE_MODIFIER = EntityDataManager.createKey(FrogEntity.class, DataSerializers.FLOAT);
 	private static final DataParameter<Boolean> HAS_SWEATER = EntityDataManager.createKey(FrogEntity.class, DataSerializers.BOOLEAN);
 
-	private static final Ingredient TEMPTATION_ITEMS = Ingredient.merge(Lists.newArrayList(
-			Ingredient.fromItems(Items.SPIDER_EYE),
-			Ingredient.fromTag(ItemTags.FISHES)
-	));
-	private static final Ingredient TEMPTATION_ITEMS_BUT_NICE = Ingredient.merge(Lists.newArrayList(
-			Ingredient.fromItems(Items.SPIDER_EYE, Items.CLOCK),
-			Ingredient.fromTag(ItemTags.FISHES)
-	));
-	
 	public int spawnCd = -1;
 	public int spawnChain = 30;
 
 	public boolean isDuplicate = false;
 	private boolean sweatered = false;
+	
+	private Ingredient[] temptationItems ;
 
 	public FrogEntity(EntityType<? extends FrogEntity> type, World worldIn) {
 		this(type, worldIn, 1);
@@ -119,7 +112,7 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 		goalSelector.addGoal(1, new SwimGoal(this));
 		goalSelector.addGoal(2, new FrogPanicGoal(1.25));
 		goalSelector.addGoal(3, new BreedGoal(this, 1.0));
-		goalSelector.addGoal(4, new TemptGoalButNice(this, 1.2, false, TEMPTATION_ITEMS, TEMPTATION_ITEMS_BUT_NICE));
+		goalSelector.addGoal(4, new TemptGoalButNice(this, 1.2, false, getTemptationItems(false), getTemptationItems(true)));
 		goalSelector.addGoal(5, new FollowParentGoal(this, 1.1));
 		goalSelector.addGoal(6, new FavorBlockGoal(this, 1, Blocks.LILY_PAD));
 		goalSelector.addGoal(7, new WaterAvoidingRandomWalkingGoal(this, 1, 0.5F));
@@ -334,7 +327,23 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 		LocalDate date = LocalDate.now();
 		return !stack.isEmpty() &&
 				(FrogsModule.enableBigFunny && DayOfWeek.from(date) == DayOfWeek.WEDNESDAY ?
-						TEMPTATION_ITEMS_BUT_NICE : TEMPTATION_ITEMS).test(stack);
+						getTemptationItems(true) : getTemptationItems(false)).test(stack);
+	}
+	
+	private Ingredient getTemptationItems(boolean nice) {
+		if(temptationItems == null)
+			temptationItems =  new Ingredient[] {
+					Ingredient.merge(Lists.newArrayList(
+							Ingredient.fromItems(Items.SPIDER_EYE),
+							Ingredient.fromTag(ItemTags.FISHES)
+					)),
+					Ingredient.merge(Lists.newArrayList(
+							Ingredient.fromItems(Items.SPIDER_EYE, Items.CLOCK),
+							Ingredient.fromTag(ItemTags.FISHES)
+					))
+			};
+		
+		return temptationItems[nice ? 1 : 0];
 	}
 
 	@Override

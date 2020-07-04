@@ -51,10 +51,14 @@ public class FoxhoundModule extends Module {
 				.setCustomClientFactory((spawnEntity, world) -> new FoxhoundEntity(foxhoundType, world))
 				.build("foxhound");
 		RegistryHelper.register(foxhoundType, "foxhound");
-		GlobalEntityTypeAttributes.put(foxhoundType, WolfEntity.func_234233_eS_().func_233813_a_());
 
 		EntitySpawnHandler.registerSpawn(this, foxhoundType, EntityClassification.MONSTER, PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, FoxhoundEntity::spawnPredicate, spawnConfig);
 		EntitySpawnHandler.addEgg(foxhoundType, 0x890d0d, 0xf2af4b, spawnConfig);
+	}
+
+	@Override
+	public void setup() {
+		GlobalEntityTypeAttributes.put(foxhoundType, WolfEntity.func_234233_eS_().func_233813_a_());
 	}
 
 	@Override

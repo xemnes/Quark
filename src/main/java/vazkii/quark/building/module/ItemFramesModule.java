@@ -68,7 +68,7 @@ public class ItemFramesModule extends Module {
                 new Item.Properties().group(ItemGroup.DECORATIONS));
 
         for(DyeColor color : DyeColor.values())
-            coloredFrames.put(color, new QuarkItemFrameItem(color.func_176610_l() + "_item_frame", this, // name
+            coloredFrames.put(color, new QuarkItemFrameItem(color.getTranslationKey() + "_item_frame", this, // name
                     (world, pos, dir) -> new ColoredItemFrameEntity(world, pos, dir, color.getId()),
                     new Item.Properties().group(ItemGroup.DECORATIONS)));
     }

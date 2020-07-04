@@ -80,10 +80,14 @@ public class FrogsModule extends Module {
 				.setCustomClientFactory((spawnEntity, world) -> new FrogEntity(frogType, world))
 				.build("frog");
 		RegistryHelper.register(frogType, "frog");
-		GlobalEntityTypeAttributes.put(frogType, FrogEntity.prepareAttributes().func_233813_a_());
 		
 		EntitySpawnHandler.registerSpawn(this, frogType, EntityClassification.CREATURE, PlacementType.ON_GROUND, Type.MOTION_BLOCKING_NO_LEAVES, AnimalEntity::canAnimalSpawn, spawnConfig);
 		EntitySpawnHandler.addEgg(frogType, 0xbc9869, 0xffe6ad, spawnConfig);
+	}
+	
+	@Override
+	public void setup() {
+		GlobalEntityTypeAttributes.put(frogType, FrogEntity.prepareAttributes().func_233813_a_());
 	}
 	
 	@Override

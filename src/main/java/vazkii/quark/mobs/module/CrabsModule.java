@@ -38,7 +38,7 @@ import vazkii.quark.mobs.entity.CrabEntity;
  */
 @LoadModule(category = ModuleCategory.MOBS, hasSubscriptions = true)
 public class CrabsModule extends Module {
-	
+
 	public static EntityType<CrabEntity> crabType;
 
 	public static EntitySpawnConfig spawnConfig = new EntitySpawnConfig(5, 1, 3, new BiomeTypeConfig(false, BiomeDictionary.Type.BEACH));
@@ -81,10 +81,14 @@ public class CrabsModule extends Module {
 				.setCustomClientFactory((spawnEntity, world) -> new CrabEntity(crabType, world))
 				.build("crab");
 		RegistryHelper.register(crabType, "crab");
-		GlobalEntityTypeAttributes.put(crabType, CrabEntity.prepareAttributes().func_233813_a_());
-		
+
 		EntitySpawnHandler.registerSpawn(this, crabType, EntityClassification.CREATURE, PlacementType.ON_GROUND, Type.MOTION_BLOCKING_NO_LEAVES, CrabEntity::spawnPredicate, spawnConfig);
 		EntitySpawnHandler.addEgg(crabType, 0x893c22, 0x916548, spawnConfig);
+	}
+
+	@Override
+	public void setup() {
+		GlobalEntityTypeAttributes.put(crabType, CrabEntity.prepareAttributes().func_233813_a_());
 	}
 
 	@Override
