@@ -28,6 +28,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.handler.BiomeLocator;
+import vazkii.quark.base.handler.MiscUtil;
 import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.IConfigType;
 import vazkii.quark.base.module.LoadModule;
@@ -144,11 +145,13 @@ public class PathfinderMapsModule extends Module {
 	}
 
 	public static ItemStack createMap(World world, BlockPos pos, TradeInfo info) {
-		BlockPos biomePos = BiomeLocator.spiralOutwardsLookingForBiome(world, info.biome, pos.getX(), pos.getZ());
-
-		if(biomePos == null || !(world instanceof ServerWorld))
+		if(!(world instanceof ServerWorld))
 			return ItemStack.EMPTY;
 
+		BlockPos biomePos = MiscUtil.locateBiome((ServerWorld) world, info.biome, pos);
+		if(biomePos == null)
+			return ItemStack.EMPTY;
+			
 		ItemStack stack = FilledMapItem.setupNewMap(world, biomePos.getX(), biomePos.getZ(), (byte) 2, true, true);
 		// fillExplorationMap
 		FilledMapItem.func_226642_a_((ServerWorld) world, stack);

@@ -12,6 +12,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.INameable;
+import net.minecraft.util.JSONUtils;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -56,7 +57,7 @@ public abstract class BaseEnchantingTableTile extends TileSimpleInventory implem
 		super.func_230337_a_(p_230337_1_, compound);
 
 		if(compound.contains("CustomName", 8))
-			customName = ITextComponent.Serializer.fromJson(compound.getString("CustomName"));
+			customName = ITextComponent.Serializer.func_240643_a_(compound.getString("CustomName")); // TODO is this right?
 	}
 
 	@Override

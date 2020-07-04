@@ -34,7 +34,8 @@ public class TotemOfHoldingRenderer extends EntityRenderer<TotemOfHoldingEntity>
         super(manager);
     }
 
-    @Override
+    @SuppressWarnings("deprecation")
+	@Override
     public void render(TotemOfHoldingEntity entity, float entityYaw, float partialTicks, @Nonnull MatrixStack matrixStackIn, @Nonnull IRenderTypeBuffer bufferIn, int packedLightIn) {
         int deathTicks = entity.getDeathTicks();
         boolean dying = entity.isDying();
@@ -61,10 +62,10 @@ public class TotemOfHoldingRenderer extends EntityRenderer<TotemOfHoldingEntity>
         super.render(entity, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
     }
 
-    @Override
-    protected int getBlockLight(TotemOfHoldingEntity entity, float partialTicks) {
-        return 15;
-    }
+//    @Override TODO
+//    protected int getBlockLight(TotemOfHoldingEntity entity, float partialTicks) {
+//        return 15;
+//    }
 
     @Override
     protected boolean canRenderName(TotemOfHoldingEntity entity) {

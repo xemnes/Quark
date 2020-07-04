@@ -245,7 +245,7 @@ public class MagnetizedBlockTileEntity extends TileEntity implements ITickableTi
             tileData.putInt("x", this.pos.getX());
             tileData.putInt("y", this.pos.getY());
             tileData.putInt("z", this.pos.getZ());
-            return TileEntity.create(subTile);
+            return TileEntity.func_235657_b_(magnetState, subTile); // create
         }
         
         return null;

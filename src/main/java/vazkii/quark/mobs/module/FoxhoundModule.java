@@ -2,7 +2,9 @@ package vazkii.quark.mobs.module;
 
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntitySpawnPlacementRegistry.PlacementType;
+import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
 import net.minecraft.entity.passive.IronGolemEntity;
+import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraftforge.api.distmarker.Dist;
@@ -20,6 +22,7 @@ import vazkii.quark.base.world.EntitySpawnHandler;
 import vazkii.quark.base.world.config.BiomeTypeConfig;
 import vazkii.quark.base.world.config.EntitySpawnConfig;
 import vazkii.quark.mobs.client.render.FoxhoundRenderer;
+import vazkii.quark.mobs.entity.CrabEntity;
 import vazkii.quark.mobs.entity.FoxhoundEntity;
 
 /**
@@ -48,6 +51,7 @@ public class FoxhoundModule extends Module {
 				.setCustomClientFactory((spawnEntity, world) -> new FoxhoundEntity(foxhoundType, world))
 				.build("foxhound");
 		RegistryHelper.register(foxhoundType, "foxhound");
+		GlobalEntityTypeAttributes.put(foxhoundType, WolfEntity.func_234233_eS_().func_233813_a_());
 
 		EntitySpawnHandler.registerSpawn(this, foxhoundType, EntityClassification.MONSTER, PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, FoxhoundEntity::spawnPredicate, spawnConfig);
 		EntitySpawnHandler.addEgg(foxhoundType, 0x890d0d, 0xf2af4b, spawnConfig);

@@ -18,8 +18,10 @@ import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemModelsProperties;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Rarity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -80,6 +82,9 @@ public class BackpackModule extends Module {
 	@Override
 	public void clientSetup() {
 		ScreenManager.registerFactory(container, BackpackInventoryScreen::new);
+		
+		ItemModelsProperties.func_239418_a_(backpack, new ResourceLocation("has_items"), 
+				(stack, world, entity) -> (!BackpackModule.superOpMode && BackpackItem.doesBackpackHaveItems(stack)) ? 1 : 0);
 	}
 	
 	@SubscribeEvent

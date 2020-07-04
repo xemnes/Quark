@@ -7,6 +7,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemModelsProperties;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -24,6 +25,7 @@ import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
 import vazkii.quark.oddities.entity.TotemOfHoldingEntity;
+import vazkii.quark.oddities.item.BackpackItem;
 import vazkii.quark.oddities.item.SoulCompassItem;
 import vazkii.quark.oddities.render.TotemOfHoldingRenderer;
 
@@ -83,6 +85,8 @@ public class TotemOfHoldingModule extends Module {
     @OnlyIn(Dist.CLIENT)
     public void clientSetup() {
         RenderingRegistry.registerEntityRenderingHandler(totemType, TotemOfHoldingRenderer::new);
+        
+		ItemModelsProperties.func_239418_a_(soulCompass, new ResourceLocation("angle"), SoulCompassItem::angle);
     }
 
     @Override

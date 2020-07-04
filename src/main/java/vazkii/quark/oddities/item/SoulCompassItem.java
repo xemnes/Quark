@@ -1,11 +1,12 @@
 package vazkii.quark.oddities.item;
 
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ItemFrameEntity;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -34,38 +35,39 @@ public class SoulCompassItem extends QuarkItem {
 
     public SoulCompassItem(Module module) {
         super("soul_compass", module, new Properties().group(ItemGroup.TOOLS).maxStackSize(1));
+    }
+    
+    @OnlyIn(Dist.CLIENT)
+    public static float angle(ItemStack stack, ClientWorld world, LivingEntity entityIn) {
+        if(entityIn == null && !stack.isOnItemFrame())
+            return 0;
 
-        addPropertyOverride(new ResourceLocation("angle"), (stack, world, entityIn) -> {
-            if(entityIn == null && !stack.isOnItemFrame())
+        else {
+            boolean hasEntity = entityIn != null;
+            Entity entity = (hasEntity ? entityIn : stack.getItemFrame());
+
+            if (entity == null)
                 return 0;
 
-            else {
-                boolean hasEntity = entityIn != null;
-                Entity entity = (hasEntity ? entityIn : stack.getItemFrame());
+            if(world == null && entity != null && entity.world instanceof ClientWorld)
+                world = (ClientWorld) entity.world;
 
-                if (entity == null)
-                    return 0;
+            double angle;
+            BlockPos pos = getPos(stack);
 
-                if(world == null)
-                    world = entity.world;
-
-                double angle;
-                BlockPos pos = getPos(stack);
-
-                if(pos.getY() == world.getDimension().getType().getId()) {
-                    double yaw = hasEntity ? entity.rotationYaw : getFrameRotation((ItemFrameEntity) entity);
-                    yaw = MathHelper.positiveModulo(yaw / 360.0, 1.0);
-                    double relAngle = getDeathToAngle(entity, pos) / (Math.PI * 2);
-                    angle = 0.5 - (yaw - 0.25 - relAngle);
-                }
-                else angle = Math.random();
-
-                if (hasEntity)
-                    angle = wobble(world, angle);
-
-                return MathHelper.positiveModulo((float) angle, 1.0F);
+            if(pos.getY() == world.getDimension().getType().getId()) {
+                double yaw = hasEntity ? entity.rotationYaw : getFrameRotation((ItemFrameEntity) entity);
+                yaw = MathHelper.positiveModulo(yaw / 360.0, 1.0);
+                double relAngle = getDeathToAngle(entity, pos) / (Math.PI * 2);
+                angle = 0.5 - (yaw - 0.25 - relAngle);
             }
-        });
+            else angle = Math.random();
+
+            if (hasEntity)
+                angle = wobble(world, angle);
+
+            return MathHelper.positiveModulo((float) angle, 1.0F);
+        }
     }
 
     @Override
@@ -78,7 +80,7 @@ public class SoulCompassItem extends QuarkItem {
         }
     }
 
-    private BlockPos getPos(ItemStack stack) {
+    private static BlockPos getPos(ItemStack stack) {
         if(stack.hasTag()) {
             int x = ItemNBTHelper.getInt(stack, TAG_POS_X, 0);
             int y = ItemNBTHelper.getInt(stack, TAG_POS_Y, -1);
@@ -91,7 +93,7 @@ public class SoulCompassItem extends QuarkItem {
     }
 
     @OnlyIn(Dist.CLIENT)
-    private double wobble(World worldIn, double angle) {
+    private static double wobble(World worldIn, double angle) {
         if(worldIn.getGameTime() != lastUpdateTick) {
             lastUpdateTick = worldIn.getGameTime();
             double relAngle = angle - rotation;
@@ -105,13 +107,13 @@ public class SoulCompassItem extends QuarkItem {
     }
 
     @OnlyIn(Dist.CLIENT)
-    private double getFrameRotation(ItemFrameEntity frame) {
+    private static double getFrameRotation(ItemFrameEntity frame) {
         Direction facing = frame.getHorizontalFacing();
         return MathHelper.wrapDegrees(180 + facing.getHorizontalAngle());
     }
 
     @OnlyIn(Dist.CLIENT)
-    private double getDeathToAngle(Entity entity, BlockPos blockpos) {
+    private static double getDeathToAngle(Entity entity, BlockPos blockpos) {
         return Math.atan2(blockpos.getZ() - entity.getPosZ(), blockpos.getX() - entity.getPosX());
     }
 

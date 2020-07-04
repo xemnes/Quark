@@ -16,15 +16,16 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.item.ExperienceOrbEntity;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.entity.projectile.ProjectileHelper;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
@@ -55,7 +56,7 @@ import vazkii.quark.base.handler.QuarkSounds;
 import vazkii.quark.mobs.entity.ToretoiseEntity;
 import vazkii.quark.tools.module.PickarangModule;
 
-public class PickarangEntity extends Entity implements IProjectile {
+public class PickarangEntity extends ProjectileEntity {
 
 	private static final DataParameter<ItemStack> STACK = EntityDataManager.createKey(PickarangEntity.class, DataSerializers.ITEMSTACK);
 	private static final DataParameter<Boolean> RETURNING = EntityDataManager.createKey(PickarangEntity.class, DataSerializers.BOOLEAN);
@@ -147,7 +148,7 @@ public class PickarangEntity extends Entity implements IProjectile {
 			return;
 
 		Vector3d motion = getMotion();
-		Vector3d position = getPositionVector();
+		Vector3d position = getPositionVec();
 		Vector3d rayEnd = position.add(motion);
 
 		boolean doEntities = true;
@@ -224,7 +225,7 @@ public class PickarangEntity extends Entity implements IProjectile {
 					clank();
 				} else {
 					ItemStack pickarang = getStack();
-					Multimap<String, AttributeModifier> modifiers = pickarang.getAttributeModifiers(EquipmentSlotType.MAINHAND);
+					Multimap<Attribute, AttributeModifier> modifiers = pickarang.getAttributeModifiers(EquipmentSlotType.MAINHAND);
 
 					if (owner != null) {
 						ItemStack prev = owner.getHeldItemMainhand();
@@ -232,7 +233,7 @@ public class PickarangEntity extends Entity implements IProjectile {
 						owner.getAttributes().applyAttributeModifiers(modifiers);
 
 						int ticksSinceLastSwing = owner.ticksSinceLastSwing;
-						owner.ticksSinceLastSwing = (int) (1.0 / owner.getAttribute(SharedMonsterAttributes.ATTACK_SPEED).getValue() * 20.0) + 1;
+						owner.ticksSinceLastSwing = (int) (1.0 / owner.getAttribute(Attributes.field_233825_h_).getValue() * 20.0) + 1; // ATTACK_SPEED
 
 						float prevHealth = hit instanceof LivingEntity ? ((LivingEntity) hit).getHealth() : 0;
 
@@ -269,7 +270,7 @@ public class PickarangEntity extends Entity implements IProjectile {
 						owner.getAttributes().removeAttributeModifiers(modifiers);
 					} else {
 						AttributeMap map = new AttributeMap();
-						IAttributeInstance attack = map.registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
+						IAttributeInstance attack = map.registerAttribute(Attributes.field_233823_f_); // ATTACK_DAMAGE
 						attack.setBaseValue(1);
 						map.applyAttributeModifiers(modifiers);
 						ItemStack stack = getStack();
@@ -373,7 +374,7 @@ public class PickarangEntity extends Entity implements IProjectile {
 		if(!returning) {
 			if(liveTime > PickarangModule.timeout)
 				setReturning();
-			if (!world.getWorldBorder().contains(getPosition()))
+			if (!world.getWorldBorder().contains(getBoundingBox()))
 				spark();
 		} else {
 			noClip = true;
@@ -384,7 +385,7 @@ public class PickarangEntity extends Entity implements IProjectile {
 			List<ItemEntity> items = world.getEntitiesWithinAABB(ItemEntity.class, getBoundingBox().grow(2));
 			List<ExperienceOrbEntity> xp = world.getEntitiesWithinAABB(ExperienceOrbEntity.class, getBoundingBox().grow(2));
 
-			Vector3d ourPos = getPositionVector();
+			Vector3d ourPos = getPositionVec();
 			for(ItemEntity item : items) {
 				if (item.isPassenger())
 					continue;
@@ -412,7 +413,7 @@ public class PickarangEntity extends Entity implements IProjectile {
 				return;
 			}
 
-			Vector3d ownerPos = owner.getPositionVector().add(0, 1, 0);
+			Vector3d ownerPos = owner.getPositionVec().add(0, 1, 0);
 			Vector3d motion = ownerPos.subtract(ourPos);
 			double motionMag = 3.25 + eff * 0.25;
 

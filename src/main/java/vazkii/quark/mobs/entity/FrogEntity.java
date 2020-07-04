@@ -15,9 +15,10 @@ import net.minecraft.block.SoundType;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.EntitySize;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.IShearable;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.Pose;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.controller.JumpController;
 import net.minecraft.entity.ai.controller.MovementController;
 import net.minecraft.entity.ai.goal.BreedGoal;
@@ -41,6 +42,7 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.Path;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
@@ -50,11 +52,10 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.IForgeShearable;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.network.NetworkHooks;
 import vazkii.quark.base.handler.MiscUtil;
@@ -66,7 +67,7 @@ import vazkii.quark.mobs.ai.TemptGoalButNice;
 import vazkii.quark.mobs.module.FrogsModule;
 
 @SuppressWarnings("deprecation")
-public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnData, IShearable {
+public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnData, IForgeShearable {
 
 	public static final ResourceLocation FROG_LOOT_TABLE = new ResourceLocation("quark", "entities/frog");
 
@@ -126,13 +127,12 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 		goalSelector.addGoal(9, new LookRandomlyGoal(this));
 	}
 
-	@Override
-	protected void registerAttributes() {
-		super.registerAttributes();
-		this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(10);
-		this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.25);
-	}
-
+	public static AttributeModifierMap.MutableAttribute prepareAttributes() {
+        return MobEntity.func_233666_p_()
+                .func_233815_a_(Attributes.field_233818_a_, 10.0D) // MAX_HEALTH
+                .func_233815_a_(Attributes.field_233821_d_, 0.25D); // MOEVMENT_SPEED
+    }
+	
 	@Nonnull
 	@Override
 	public MovementController getMoveHelper() {
@@ -256,10 +256,11 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 		return super.entityDropItem(stack, offsetY);
 	}
 
-	@Override
-	public boolean processInteract(PlayerEntity player, @Nonnull Hand hand) {
-		if (super.processInteract(player, hand))
-			return true;
+	@Override // processInteract
+	public ActionResultType func_230254_b_(PlayerEntity player, @Nonnull Hand hand) {
+		ActionResultType parent = super.func_230254_b_(player, hand);
+		if(parent == ActionResultType.SUCCESS)
+			return parent;
 
 		ItemStack stack = player.getHeldItem(hand);
 		
@@ -271,37 +272,37 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 					dataManager.set(TALK_TIME, 80);
 				}
 					
-				Vector3d pos = getPositionVector();
+				Vector3d pos = getPositionVec();
 				world.playSound(null, pos.x, pos.y, pos.z, QuarkSounds.ENTITY_FROG_WEDNESDAY, SoundCategory.NEUTRAL, 1F, 1F);
 			}
 
-			return true;
+			return ActionResultType.SUCCESS;
 		}
 		
 		if(stack.getItem().isIn(ItemTags.WOOL) && !hasSweater()) {
 			if(!world.isRemote) {
 				setSweater(true);
-				Vector3d pos = getPositionVector();
+				Vector3d pos = getPositionVec();
 				world.playSound(null, pos.x, pos.y, pos.z, SoundType.CLOTH.getPlaceSound(), SoundCategory.PLAYERS, 1F, 1F);
 				stack.shrink(1);
 			}
 			
 			player.swingArm(hand);
-			return true;
+			return ActionResultType.SUCCESS;
 		}
 
-		return false;
+		return ActionResultType.PASS;
 	}
 	
 	@Override
-	public boolean isShearable(ItemStack item, IWorldReader world, BlockPos pos) {
+	public boolean isShearable(ItemStack item, World world, BlockPos pos) {
 		return hasSweater();
 	}
 	
 	@Override
-	public List<ItemStack> onSheared(ItemStack item, IWorld iworld, BlockPos pos, int fortune) {
+	public List<ItemStack> onSheared(PlayerEntity player, ItemStack item, World iworld, BlockPos pos, int fortune) {
 		setSweater(false);
-		Vector3d epos = getPositionVector();
+		Vector3d epos = getPositionVec();
 		world.playSound(null, epos.x, epos.y, epos.z, SoundEvents.ENTITY_SHEEP_SHEAR, SoundCategory.PLAYERS, 1F, 1F);
 		
 		return Lists.newArrayList();
@@ -428,10 +429,10 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 		this.wasOnGround = this.onGround;
 	}
 
-	@Override
-	public void spawnRunningParticles() {
-		// NO-OP
-	}
+//	@Override TODO
+//	public void spawnRunningParticles() {
+//		// NO-OP
+//	}
 
 	private void calculateRotationYaw(double x, double z) {
 		Vector3d pos = getPositionVec();
@@ -505,7 +506,7 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 	@OnlyIn(Dist.CLIENT)
 	public void handleStatusUpdate(byte id) {
 		if (id == 1) {
-			this.createRunningParticles();
+//			this.createRunningParticles();
 			this.jumpDuration = 10;
 			this.jumpTicks = 0;
 		} else
@@ -528,18 +529,6 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 		dataManager.set(SIZE_MODIFIER, buffer.readFloat());
 	}
 	
-
-	// something idk
-	@Override
-	public void func_230263_a_(SoundCategory p_230263_1_) {
-	}
-
-	// isShearable
-	@Override
-	public boolean func_230262_K__() {
-		return false;
-	}
-
 	public class FrogJumpController extends JumpController {
 		private boolean canJump;
 

@@ -17,8 +17,10 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ILivingEntityData;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.PrioritizedGoal;
 import net.minecraft.entity.ai.goal.TemptGoal;
 import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
@@ -100,7 +102,7 @@ public class StonelingEntity extends CreatureEntity {
 	@Override
 	protected void registerGoals() {
 		goalSelector.addGoal(5, new WaterAvoidingRandomWalkingGoal(this, 0.2, 0.98F));
-		goalSelector.addGoal(4, new FavorBlockGoal(this, 0.2, Tags.Blocks.ORES_DIAMOND));
+		goalSelector.addGoal(4, new FavorBlockGoal(this, 0.2, s -> s.getBlock().isIn(Tags.Blocks.ORES_DIAMOND)));
 		goalSelector.addGoal(3, new IfFlagGoal(new TemptGoal(this, 0.6, Ingredient.fromTag(Tags.Items.GEMS_DIAMOND), false), () -> StonelingsModule.enableDiamondHeart && !StonelingsModule.tamableStonelings));
 		goalSelector.addGoal(2, new RunAndPoofGoal<>(this, PlayerEntity.class, 4, 0.5, 0.5));
 		goalSelector.addGoal(1, waryGoal = new ActWaryGoal(this, 0.1, 6, () -> StonelingsModule.cautiousStonelings));
@@ -108,14 +110,11 @@ public class StonelingEntity extends CreatureEntity {
 
 	}
 
-
-	@Override
-	protected void registerAttributes() {
-		super.registerAttributes();
-		getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(8);
-		getAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(1);
-	}
-
+	public static AttributeModifierMap.MutableAttribute prepareAttributes() {
+        return MobEntity.func_233666_p_()
+                .func_233815_a_(Attributes.field_233818_a_, 8.0D) // MAX_HEALTH
+                .func_233815_a_(Attributes.field_233820_c_, 1D); // KNOCKBACK_RESISTANCE
+    }
 
 	@Override
 	public void tick() {
@@ -159,15 +158,14 @@ public class StonelingEntity extends CreatureEntity {
 					passenger.remove();
 	}
 
-	@Override
-	protected boolean processInteract(PlayerEntity player, Hand hand) {
+	@Override // processInteract
+	public ActionResultType func_230254_b_(PlayerEntity player, @Nonnull Hand hand) {
 		ItemStack stack = player.getHeldItem(hand);
 
-		if(!stack.isEmpty() && stack.getItem() == Items.NAME_TAG) {
-			stack.interactWithEntity(player, this, hand);
-			return true;
-		} else
-			return super.processInteract(player, hand);
+		if(!stack.isEmpty() && stack.getItem() == Items.NAME_TAG)
+			return stack.getItem().itemInteractionForEntity(stack, player, this, hand);
+		else
+			return super.func_230254_b_(player, hand);
 	}
 
 	@Nonnull
