@@ -22,7 +22,6 @@ import net.minecraft.world.biome.provider.BiomeProvider;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationStage.Decoration;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
-import net.minecraft.world.gen.feature.StructureFeature;
 import net.minecraft.world.gen.feature.jigsaw.JigsawManager;
 import net.minecraft.world.gen.feature.jigsaw.JigsawPattern.PlacementBehaviour;
 import net.minecraft.world.gen.feature.jigsaw.JigsawPiece;
@@ -30,6 +29,7 @@ import net.minecraft.world.gen.feature.structure.AbstractVillagePiece;
 import net.minecraft.world.gen.feature.structure.IStructurePieceType;
 import net.minecraft.world.gen.feature.structure.MarginedStructureStart;
 import net.minecraft.world.gen.feature.structure.Structure;
+import net.minecraft.world.gen.feature.template.IStructureProcessorType;
 import net.minecraft.world.gen.feature.template.TemplateManager;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.world.JigsawRegistryHelper;
@@ -76,17 +76,23 @@ public class BigDungeonStructure extends Structure<NoFeatureConfig> {
 
 	private static final ResourceLocation START_POOL = new ResourceLocation(Quark.MOD_ID, NAMESPACE + "/" + STARTS_DIR);
 
+	private static final BigDungeonChestProcessor CHEST_PROCESSOR = new BigDungeonChestProcessor();
+	private static final BigDungeonSpawnerProcessor SPAWN_PROCESSOR = new BigDungeonSpawnerProcessor();
+	
+	private static Codec<BigDungeonChestProcessor> CHEST_CODEC = Codec.unit(CHEST_PROCESSOR);
+	private static Codec<BigDungeonSpawnerProcessor> SPAWN_CODEC = Codec.unit(SPAWN_PROCESSOR);
+	
+	public static IStructureProcessorType<BigDungeonChestProcessor> CHEST_PROCESSOR_TYPE = () -> CHEST_CODEC;
+	public static IStructureProcessorType<BigDungeonSpawnerProcessor> SPAWN_PROCESSOR_TYPE = () -> SPAWN_CODEC;
+	
 	static {
-		BigDungeonChestProcessor chest = new BigDungeonChestProcessor();
-		BigDungeonSpawnerProcessor spawn = new BigDungeonSpawnerProcessor();
-
 		JigsawRegistryHelper.pool(NAMESPACE, STARTS_DIR)
-		.processor(chest, spawn)
+		.processor(CHEST_PROCESSOR)
 		.addMult(STARTS_DIR, STARTS, 1)
 		.register(PlacementBehaviour.RIGID);
 
 		JigsawRegistryHelper.pool(NAMESPACE, ROOMS_DIR)
-		.processor(chest, spawn)
+		.processor(CHEST_PROCESSOR, SPAWN_PROCESSOR)
 		.addMult(ROOMS_DIR, ROOMS, 1)
 		.register(PlacementBehaviour.RIGID);
 
@@ -99,7 +105,7 @@ public class BigDungeonStructure extends Structure<NoFeatureConfig> {
 		final double endpointWeightMult = 1.2;
 
 		JigsawRegistryHelper.pool(NAMESPACE, "rooms_or_endpoint")
-		.processor(chest, spawn)
+		.processor(CHEST_PROCESSOR, SPAWN_PROCESSOR)
 		.addMult(ROOMS_DIR, ROOMS, roomWeight)
 		.addMult(CORRIDORS_DIR, CORRIDORS, corridorWeight)
 		.add(ENDPOINT, (int) ((ROOMS.size() * roomWeight + CORRIDORS.size() * corridorWeight) * endpointWeightMult))
@@ -109,6 +115,11 @@ public class BigDungeonStructure extends Structure<NoFeatureConfig> {
 	public BigDungeonStructure(Codec<NoFeatureConfig> codec) {
 		super(codec);
 		setRegistryName(Quark.MOD_ID, NAMESPACE);
+	}
+	
+	public void setup() {
+		Registry.register(Registry.STRUCTURE_PROCESSOR, Quark.MOD_ID + ":big_dungeon_chest", CHEST_PROCESSOR_TYPE);
+		Registry.register(Registry.STRUCTURE_PROCESSOR, Quark.MOD_ID + ":big_dungeon_spawner", SPAWN_PROCESSOR_TYPE);
 	}
 
 	@Override
@@ -120,9 +131,6 @@ public class BigDungeonStructure extends Structure<NoFeatureConfig> {
 	public Decoration func_236396_f_() {
 		return Decoration.UNDERGROUND_STRUCTURES;
 	}
-
-	// TODO whatever this is now
-	//	public boolean hasStartAt(ChunkGenerator chunkGen, Random rand, int chunkPosX, int chunkPosZ) {
 	
 	@Override // hasStartAt
 	protected boolean func_230363_a_(ChunkGenerator chunkGen, BiomeProvider biomeProvider, long seed, SharedSeedRandom rand, int chunkPosX, int chunkPosZ, Biome biome, ChunkPos chunkpos, NoFeatureConfig config) { 

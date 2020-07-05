@@ -204,7 +204,7 @@ public class MiscUtil {
 	}
 	
 	public static BlockPos locateBiome(ServerWorld world, Biome biomeToFind, BlockPos start) {
-		return world.func_241116_a_(biomeToFind, start, 0, 0); // TODO find out what the values are
+		return world.func_241116_a_(biomeToFind, start, 6400, 8); // magic numbers from LocateBiomeCommand
 	}
 
 	private static int progress;

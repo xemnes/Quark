@@ -99,7 +99,7 @@ public class SlimeInABucketItem extends QuarkItem {
 		if(stack.hasTag()) {
 			CompoundNBT cmp = ItemNBTHelper.getCompound(stack, TAG_ENTITY_DATA, false);
 			if(cmp != null && cmp.contains("CustomName")) {
-				ITextComponent custom = ITextComponent.Serializer.func_240643_a_(cmp.getString("CustomName")); // TODO is this right?
+				ITextComponent custom = ITextComponent.Serializer.func_240643_a_(cmp.getString("CustomName"));
 				return new TranslationTextComponent("item.quark.slime_in_a_bucket.named", custom);
 			}
 		}

@@ -25,14 +25,23 @@ import net.minecraft.world.gen.feature.template.PlacementSettings;
 import net.minecraft.world.gen.feature.template.StructureProcessor;
 import net.minecraft.world.gen.feature.template.Template;
 import net.minecraft.world.gen.feature.template.Template.BlockInfo;
+import net.minecraftforge.registries.ForgeRegistries;
+import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.base.Quark;
 
 public class JigsawRegistryHelper {
 	
 	public static final FakeAirProcessor FAKE_AIR = new FakeAirProcessor();
 	
+	private static Codec<FakeAirProcessor> fakeAirCodec = Codec.unit(FAKE_AIR);
+	private static IStructureProcessorType<FakeAirProcessor> fakeAirType = () -> fakeAirCodec;
+	
 	public static PoolBuilder pool(String namespace, String name) {
 		return new PoolBuilder(namespace, name);
+	}
+	
+	public static void setup() {
+		Registry.register(Registry.STRUCTURE_PROCESSOR, Quark.MOD_ID + ":fake_air", fakeAirType);
 	}
 	
 	public static class PoolBuilder {
@@ -103,9 +112,6 @@ public class JigsawRegistryHelper {
 
 	private static class FakeAirProcessor extends StructureProcessor {
 
-//		private static final Codec<FakeAirProcessor> CODEC = Codec.unit(FakeAirProcessor::new);
-//	    private static final IStructureProcessorType<FakeAirProcessor> TYPE = Registry.register(Registry.STRUCTURE_PROCESSOR, Quark.MOD_ID + ":fake_air", CODEC);
-	    
 	    public FakeAirProcessor() { 
 	    	// NO-OP
 	    }
@@ -123,7 +129,7 @@ public class JigsawRegistryHelper {
 
 		@Override
 		protected IStructureProcessorType<?> getType() {
-			return null; // TODO is this a bad idea probably 
+			return fakeAirType;
 		}
 	    
 	}

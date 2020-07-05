@@ -47,8 +47,8 @@ public class MoreBrickTypesModule extends Module {
 	private void add(String name, MaterialColor color, Material material, BooleanSupplier cond) {
 		VariantHandler.addSlabStairsWall(new QuarkBlock(name + "_bricks", this, ItemGroup.BUILDING_BLOCKS, 
 				Block.Properties.create(material, color)
-				.hardnessAndResistance(2F, 6F))
-//				.harvestTool(ToolType.PICKAXE)) TODO
+				.hardnessAndResistance(2F, 6F)
+				.harvestTool(ToolType.PICKAXE)) 
 				.setCondition(cond));
 	}
 	

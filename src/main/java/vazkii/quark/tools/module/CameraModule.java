@@ -176,7 +176,7 @@ public class CameraModule extends Module {
 				screenshotting = true;
 
 			MatrixStack stack = new MatrixStack();
-			renderCameraHUD(mc, stack); // TODO can you do this?
+			renderCameraHUD(mc, stack);
 
 			if(queueScreenshot) {
 				queueScreenshot = false;

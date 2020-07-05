@@ -34,6 +34,7 @@ import net.minecraft.util.math.RayTraceResult.Type;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.KeybindTextComponent;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
@@ -229,8 +230,7 @@ public class LockRotationModule extends Module {
 		else {
 			boolean locked = player.getPersistentData().getBoolean(TAG_LOCKED_ONCE);
 			if(!locked) {
-				ITextComponent keybind = new KeybindTextComponent("quark.keybind.lock_rotation");
-//				keybind.getStyle().setColor(TextFormatting.AQUA); TODO
+				ITextComponent keybind = new KeybindTextComponent("quark.keybind.lock_rotation").func_240701_a_(TextFormatting.AQUA);
 				ITextComponent text = new TranslationTextComponent("quark.misc.rotation_lock", keybind);
 				player.sendMessage(text, UUID.randomUUID());
 

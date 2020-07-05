@@ -3,7 +3,6 @@ package vazkii.quark.world.module;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.gen.feature.StructureFeature;
-import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.registries.ForgeRegistries;
 import vazkii.arl.util.RegistryHelper;
@@ -32,22 +31,23 @@ public class BigDungeonModule extends Module {
 	@Config
 	public static BiomeTypeConfig biomeTypes = new BiomeTypeConfig(true, Type.OCEAN, Type.BEACH, Type.NETHER, Type.END);
 
-	public static final Structure<NoFeatureConfig> STRUCTURE_TYPE = new BigDungeonStructure(NoFeatureConfig.field_236558_a_);
+	public static final BigDungeonStructure STRUCTURE = new BigDungeonStructure(NoFeatureConfig.field_236558_a_);
 	
 	@Override
 	public void construct() {
 		//		new FloodFillItem(this);
-		RegistryHelper.register(STRUCTURE_TYPE);
+		RegistryHelper.register(STRUCTURE);
 	}
 
 	@Override
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings({ "rawtypes" })
 	public void setup() {
+		STRUCTURE.setup();	
+		
 		if(enabled)
 			for(Biome b : ForgeRegistries.BIOMES.getValues()) { 
-				StructureFeature structure = STRUCTURE_TYPE.func_236391_a_(NoFeatureConfig.NO_FEATURE_CONFIG);
+				StructureFeature structure = STRUCTURE.func_236391_a_(NoFeatureConfig.NO_FEATURE_CONFIG);
 
-//				b.addFeature(Decoration.UNDERGROUND_STRUCTURES, configured); TODO ?
 				if(biomeTypes.canSpawn(b))
 					b.func_235063_a_(structure);
 			}

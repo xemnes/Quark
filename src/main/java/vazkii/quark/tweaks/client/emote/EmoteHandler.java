@@ -188,7 +188,7 @@ public final class EmoteHandler {
 				PlayerModel<AbstractClientPlayerEntity>>> list = render.layerRenderers;
 		for(LayerRenderer<?, ?> r : list) {
 			if(r instanceof BipedArmorLayer)	
-				return ((BipedArmorLayer<?, ?, ?>) r).func_241736_a_(slot); // getModelFromSlot TODO AT
+				return ((BipedArmorLayer<?, ?, ?>) r).func_241736_a_(slot);
 		}
 		
 		return null;

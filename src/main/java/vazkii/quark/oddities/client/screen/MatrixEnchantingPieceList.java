@@ -104,10 +104,10 @@ public class MatrixEnchantingPieceList extends ExtendedList<MatrixEnchantingPiec
 		}
 	}
 
-//	@Override TODO
-//	protected void renderBackground() {
-//		// NO-OP
-//	}
+	@Override
+	protected void renderBackground(MatrixStack stack) {
+		// NO-OP
+	}
 
 	protected class PieceEntry extends ExtendedList.AbstractListEntry<PieceEntry> {
 

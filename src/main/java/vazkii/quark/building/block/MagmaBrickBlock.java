@@ -18,7 +18,8 @@ public class MagmaBrickBlock extends QuarkBlock {
 	public MagmaBrickBlock(Module module) {
 		super("magma_bricks", module, ItemGroup.BUILDING_BLOCKS, 
 				Block.Properties.from(Blocks.MAGMA_BLOCK)
-				.hardnessAndResistance(1.5F, 10F));
+				.hardnessAndResistance(1.5F, 10F)
+				.func_235856_e_((s, r, p) -> true)); // emissive rendering
 	}
 	
 	@Override
@@ -26,14 +27,10 @@ public class MagmaBrickBlock extends QuarkBlock {
 		return true;
 	}
 	
-//	@Override TODO
-//	public boolean isEmissiveRendering(BlockState p_225543_1_) {
-//		return true;
-//	}
-	
 	@Override
 	public boolean canCreatureSpawn(BlockState state, IBlockReader world, BlockPos pos, PlacementType type, EntityType<?> entityType) {
 		return entityType.isImmuneToFire();
 	}
 
 }
+ 

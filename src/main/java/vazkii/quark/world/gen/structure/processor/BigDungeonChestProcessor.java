@@ -16,11 +16,10 @@ import net.minecraft.world.gen.feature.template.PlacementSettings;
 import net.minecraft.world.gen.feature.template.StructureProcessor;
 import net.minecraft.world.gen.feature.template.Template;
 import net.minecraft.world.gen.feature.template.Template.BlockInfo;
+import vazkii.quark.world.gen.structure.BigDungeonStructure;
 import vazkii.quark.world.module.BigDungeonModule;
 
 public class BigDungeonChestProcessor extends StructureProcessor {
-
-//    private static final IStructureProcessorType TYPE = Registry.register(Registry.STRUCTURE_PROCESSOR, Quark.MOD_ID + ":big_dungeon_chest", BigDungeonChestProcessor::new);
 	
     public BigDungeonChestProcessor() { 
     	// NO-OP
@@ -52,7 +51,7 @@ public class BigDungeonChestProcessor extends StructureProcessor {
     
 	@Override
 	protected IStructureProcessorType<?> getType() {
-		return null; // TODO is this safe?
+		return BigDungeonStructure.CHEST_PROCESSOR_TYPE;
 	}
 
 }

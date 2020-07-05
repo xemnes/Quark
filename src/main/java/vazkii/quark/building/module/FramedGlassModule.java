@@ -20,9 +20,9 @@ public class FramedGlassModule extends Module {
 		IQuarkBlock framedGlass = new FramedGlassBlock("framed_glass", this, ItemGroup.BUILDING_BLOCKS,
 				Block.Properties.create(Material.GLASS)
 						.hardnessAndResistance(3F, 10F)
-						.sound(SoundType.GLASS)); // TODO
-//						.harvestLevel(1)
-//						.harvestTool(ToolType.PICKAXE));
+						.sound(SoundType.GLASS)
+						.harvestLevel(1)
+						.harvestTool(ToolType.PICKAXE));
 		new QuarkInheritedPaneBlock(framedGlass);
 	}
 

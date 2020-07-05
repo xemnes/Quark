@@ -15,10 +15,9 @@ import net.minecraft.world.gen.feature.template.StructureProcessor;
 import net.minecraft.world.gen.feature.template.Template;
 import net.minecraft.world.gen.feature.template.Template.BlockInfo;
 import net.minecraft.world.spawner.AbstractSpawner;
+import vazkii.quark.world.gen.structure.BigDungeonStructure;
 
 public class BigDungeonSpawnerProcessor extends StructureProcessor {
-
-//    private static final IStructureProcessorType TYPE = Registry.register(Registry.STRUCTURE_PROCESSOR, Quark.MOD_ID + ":big_dungeon_spawner", BigDungeonSpawnerProcessor::new);
 	
     public BigDungeonSpawnerProcessor() { 
     	// NO-OP
@@ -52,7 +51,7 @@ public class BigDungeonSpawnerProcessor extends StructureProcessor {
     
 	@Override
 	protected IStructureProcessorType<?> getType() {
-		return null; // TODO is this safe
+		return BigDungeonStructure.SPAWN_PROCESSOR_TYPE;
 	}
 
 }
