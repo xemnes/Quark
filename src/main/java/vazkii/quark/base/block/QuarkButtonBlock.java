@@ -35,9 +35,9 @@ public abstract class QuarkButtonBlock extends AbstractButtonBlock implements IQ
     @Override
     protected abstract SoundEvent getSoundEvent(boolean powered);
 
-    // TODO this isn't the right method
-    public abstract int tickRate(IWorldReader worldIn);
-
+    @Override // tickRate
+    public abstract int func_235471_c_();
+    
     @Override
     public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
         if(isEnabled() || group == ItemGroup.SEARCH)
