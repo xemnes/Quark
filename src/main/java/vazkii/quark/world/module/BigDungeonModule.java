@@ -44,13 +44,13 @@ public class BigDungeonModule extends Module {
 	public void setup() {
 		STRUCTURE.setup();	
 		
-		if(enabled)
-			for(Biome b : ForgeRegistries.BIOMES.getValues()) { 
-				StructureFeature structure = STRUCTURE.func_236391_a_(NoFeatureConfig.NO_FEATURE_CONFIG);
-
-				if(biomeTypes.canSpawn(b))
-					b.func_235063_a_(structure);
-			}
+//		if(enabled) TODO re-enable after I figure out StructureSeparationSettings
+//			for(Biome b : ForgeRegistries.BIOMES.getValues()) { 
+//				StructureFeature structure = STRUCTURE.func_236391_a_(NoFeatureConfig.NO_FEATURE_CONFIG);
+//
+//				if(biomeTypes.canSpawn(b))
+//					b.func_235063_a_(structure);
+//			}
 	}
 
 }

@@ -72,7 +72,7 @@ public class ClusterShape {
 		
 		public Provider(ClusterSizeConfig config, long seed) {
 			this.config = config;
-			noiseGenerator = new PerlinNoiseGenerator(new SharedSeedRandom(seed), IntStream.rangeClosed(4, 4)); // TODO what is this stream change
+			noiseGenerator = new PerlinNoiseGenerator(new SharedSeedRandom(seed), IntStream.rangeClosed(-4, 4));
 		}
 		
 		public ClusterShape around(BlockPos src) {
