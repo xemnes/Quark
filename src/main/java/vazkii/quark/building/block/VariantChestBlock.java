@@ -11,9 +11,9 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ChestBlock;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.model.ItemCameraTransforms.TransformType;
 import net.minecraft.client.renderer.tileentity.ItemStackTileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -25,7 +25,6 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.ModList;
@@ -94,8 +93,8 @@ public class VariantChestBlock extends ChestBlock implements IBlockItemProvider,
 	public static void setISTER(Item.Properties props, Block block) {
 		props.setISTER(() -> () -> new ItemStackTileEntityRenderer() {
 			private final TileEntity tile = new VariantChestTileEntity();
-			
-			public void render(ItemStack stack, MatrixStack matrix, IRenderTypeBuffer buffer, int x, int y) {
+			//render
+			public void func_239207_a_(ItemStack stack, TransformType transformType, MatrixStack matrix, IRenderTypeBuffer buffer, int x, int y) {
 				VariantChestTileEntityRenderer.invBlock = block;
 	            TileEntityRendererDispatcher.instance.renderItem(tile, matrix, buffer, x, y);
 	            VariantChestTileEntityRenderer.invBlock = null;
