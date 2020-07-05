@@ -1,9 +1,6 @@
 package vazkii.quark.oddities.render;
 
-import javax.annotation.Nonnull;
-
 import com.mojang.blaze3d.matrix.MatrixStack;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Atlases;
 import net.minecraft.client.renderer.BlockRendererDispatcher;
@@ -14,6 +11,7 @@ import net.minecraft.client.renderer.model.ModelManager;
 import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.vector.Vector3f;
@@ -22,6 +20,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.arl.util.ClientTicker;
 import vazkii.quark.oddities.entity.TotemOfHoldingEntity;
 import vazkii.quark.oddities.module.TotemOfHoldingModule;
+
+import javax.annotation.Nonnull;
 
 /**
  * @author WireSegal
@@ -62,10 +62,10 @@ public class TotemOfHoldingRenderer extends EntityRenderer<TotemOfHoldingEntity>
         super.render(entity, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
     }
 
-//    @Override TODO
-//    protected int getBlockLight(TotemOfHoldingEntity entity, float partialTicks) {
-//        return 15;
-//    }
+    @Override
+    protected int getBlockLight(TotemOfHoldingEntity entityIn, BlockPos position) {
+        return 15;
+    }
 
     @Override
     protected boolean canRenderName(TotemOfHoldingEntity entity) {

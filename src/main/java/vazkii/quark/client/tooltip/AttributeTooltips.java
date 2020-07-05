@@ -1,20 +1,11 @@
 package vazkii.quark.client.tooltip;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
-import javax.annotation.Nullable;
-
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.screen.Screen;
@@ -43,6 +34,9 @@ import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import vazkii.arl.util.ItemNBTHelper;
 import vazkii.quark.base.handler.MiscUtil;
+
+import javax.annotation.Nullable;
+import java.util.*;
 
 /**
  * @author WireSegal
@@ -289,7 +283,7 @@ public class AttributeTooltips {
 
 	@OnlyIn(Dist.CLIENT)
 	private static boolean isAttributeLine(ITextComponent lineRaw, Attribute attr) {
-		String attNamePattern = "attribute.name." + attr.getRegistryName().getPath(); // TODO is this right?
+		String attNamePattern = attr.func_233754_c_();
 
 		for (String att : ATTRIBUTE_FORMATS) {
 			for (int mod = 0; mod < 3; mod++) {

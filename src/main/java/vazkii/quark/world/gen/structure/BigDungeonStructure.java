@@ -1,12 +1,8 @@
 package vazkii.quark.world.gen.structure;
 
-import java.util.List;
-import java.util.Set;
-
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.mojang.serialization.Codec;
-
 import net.minecraft.entity.EntityType;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
@@ -36,6 +32,9 @@ import vazkii.quark.base.world.JigsawRegistryHelper;
 import vazkii.quark.world.gen.structure.processor.BigDungeonChestProcessor;
 import vazkii.quark.world.gen.structure.processor.BigDungeonSpawnerProcessor;
 import vazkii.quark.world.module.BigDungeonModule;
+
+import java.util.List;
+import java.util.Set;
 
 public class BigDungeonStructure extends Structure<NoFeatureConfig> {
 
@@ -169,7 +168,9 @@ public class BigDungeonStructure extends Structure<NoFeatureConfig> {
 		@Override // init
 		public void func_230364_a_(ChunkGenerator generator, TemplateManager templateManagerIn, int chunkX, int chunkZ, Biome biomeIn, NoFeatureConfig config) {
 			BlockPos blockpos = new BlockPos(chunkX * 16, 40, chunkZ * 16);
-			JigsawManager.func_236823_a_(START_POOL, BigDungeonModule.maxRooms, Piece::new, generator, templateManagerIn, blockpos, components, this.rand, false, true); // TODO what are these bools?
+			// First bool appears to be related to some sort of shifting upwards
+			// Second bool appears to shift objects with heightmaps
+			JigsawManager.func_236823_a_(START_POOL, BigDungeonModule.maxRooms, Piece::new, generator, templateManagerIn, blockpos, components, this.rand, false, true);
 			recalculateStructureSize();
 
 			int maxTop = 60;

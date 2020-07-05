@@ -1,9 +1,5 @@
 package vazkii.quark.base.proxy;
 
-import java.time.LocalDateTime;
-import java.time.Month;
-import java.util.UUID;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.client.event.ModelRegistryEvent;
@@ -13,6 +9,10 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import vazkii.quark.base.handler.ContributorRewardHandler;
 import vazkii.quark.base.handler.RenderLayerHandler;
 import vazkii.quark.base.module.ModuleLoader;
+
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.util.UUID;
 
 public class ClientProxy extends CommonProxy {
 

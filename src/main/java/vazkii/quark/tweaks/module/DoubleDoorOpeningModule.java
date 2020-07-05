@@ -51,7 +51,7 @@ public class DoubleDoorOpeningModule extends Module {
 		BlockState other = world.getBlockState(doorPos);
 
 		if(state.getMaterial() != Material.IRON && other.getBlock() == state.getBlock() && other.get(DoorBlock.FACING) == direction && other.get(DoorBlock.OPEN) == isOpen && other.get(DoorBlock.HINGE) != isMirrored) {
-			BlockState newState = other.func_235896_a_(DoorBlock.OPEN); // cycle ? TODO test
+			BlockState newState = other.func_235896_a_(DoorBlock.OPEN); // cycle
 			world.setBlockState(doorPos, newState);
 		}
 	}
