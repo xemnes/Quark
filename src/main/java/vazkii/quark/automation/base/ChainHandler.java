@@ -17,6 +17,7 @@ import net.minecraft.entity.item.BoatEntity;
 import net.minecraft.entity.item.minecart.AbstractMinecartEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.GameRules;
@@ -143,7 +144,7 @@ public class ChainHandler {
 		setLink(cart, null, true);
 
 		if (!cart.world.isRemote && cart.world.getGameRules().getBoolean(GameRules.DO_ENTITY_DROPS))
-			cart.entityDropItem(new ItemStack(ChainLinkageModule.chain), 0f);
+			cart.entityDropItem(new ItemStack(Items.CHAIN), 0f);
 	}
 
 	public static void setLink(Entity entity, UUID uuid, boolean sync) {

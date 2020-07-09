@@ -16,11 +16,11 @@ import java.util.UUID;
 
 import io.netty.util.collection.IntObjectHashMap;
 import io.netty.util.collection.IntObjectMap;
-import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.util.ActionResultType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -31,7 +31,6 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
 import vazkii.quark.automation.base.ChainHandler;
-import vazkii.quark.automation.block.IronChainBlock;
 import vazkii.quark.automation.client.render.ChainRenderer;
 import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
@@ -45,13 +44,6 @@ public class ChainLinkageModule extends Module {
 
     @Config(description = "Can vehicle-linking chains be used for crafting chain armor?", flag = "chain_craft_armor")
     public static boolean craftsArmor = true;
-
-    public static Block chain;
-
-    @Override
-    public void construct() {
-        chain = new IronChainBlock(this);
-    }
 
     private static final IntObjectMap<UUID> AWAIT_MAP = new IntObjectHashMap<>();
 
@@ -67,7 +59,7 @@ public class ChainLinkageModule extends Module {
 
     public static void drop(Entity vehicle) {
         if (ChainHandler.getLinked(vehicle) != null)
-            vehicle.entityDropItem(new ItemStack(chain), 0f);
+            vehicle.entityDropItem(new ItemStack(Items.CHAIN), 0f);
     }
 
     @SubscribeEvent
@@ -88,7 +80,7 @@ public class ChainLinkageModule extends Module {
                 linkedToPlayer.add(linkCandidate);
         }
 
-        if (ChainHandler.canBeLinked(entity) && linkedToPlayer.isEmpty() && !stack.isEmpty() && stack.getItem() == chain.asItem() && link == null) {
+        if (ChainHandler.canBeLinked(entity) && linkedToPlayer.isEmpty() && !stack.isEmpty() && stack.getItem() == Items.CHAIN && link == null) {
             if (!entity.world.isRemote) {
                 ChainHandler.setLink(entity, player.getUniqueID(), true);
                 if (!player.isCreative())
@@ -117,7 +109,7 @@ public class ChainLinkageModule extends Module {
         } else if (link != null && sneaking) {
             if (!entity.world.isRemote) {
                 if (!player.isCreative())
-                    entity.entityDropItem(new ItemStack(chain), 0f);
+                    entity.entityDropItem(new ItemStack(Items.CHAIN), 0f);
                 ChainHandler.setLink(entity, null, true);
             }
 
