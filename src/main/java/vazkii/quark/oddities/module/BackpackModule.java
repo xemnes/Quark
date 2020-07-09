@@ -80,6 +80,7 @@ public class BackpackModule extends Module {
 	}
 	
 	@Override
+	@OnlyIn(Dist.CLIENT)
 	public void clientSetup() {
 		ScreenManager.registerFactory(container, BackpackInventoryScreen::new);
 		

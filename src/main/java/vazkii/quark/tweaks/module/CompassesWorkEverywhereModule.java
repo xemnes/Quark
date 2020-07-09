@@ -4,6 +4,8 @@ import net.minecraft.item.ItemModelsProperties;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -24,6 +26,7 @@ public class CompassesWorkEverywhereModule extends Module {
 	@Config public static boolean enableEnd =  true;
 	
 	@Override
+	@OnlyIn(Dist.CLIENT)
 	public void clientSetup() {
 		// func_239418_a_ = addPropertyOverride
 		if(enabled && (enableCompassNerf || enableNether || enableEnd))

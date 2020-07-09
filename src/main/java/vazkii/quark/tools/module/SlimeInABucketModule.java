@@ -10,6 +10,8 @@ import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import vazkii.arl.util.ItemNBTHelper;
@@ -29,6 +31,7 @@ public class SlimeInABucketModule extends Module {
 	}
 	
 	@Override
+	@OnlyIn(Dist.CLIENT)
 	public void clientSetup() {
 		ItemModelsProperties.func_239418_a_(slime_in_a_bucket, new ResourceLocation("excited"), 
 				(stack, world, e) -> ItemNBTHelper.getBoolean(stack, SlimeInABucketItem.TAG_EXCITED, false) ? 1 : 0);
