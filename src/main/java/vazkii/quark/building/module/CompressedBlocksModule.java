@@ -92,7 +92,7 @@ public class CompressedBlocksModule extends Module {
 		crate("beetroot", MaterialColor.RED, true, () -> enableBeetrootCrate);
 
 		sack("cocoa_beans", MaterialColor.BROWN, true, () -> enableCocoaBeanSack);
-		sack("nether_wart", MaterialColor.RED, false, () -> enableNetherWartSack);
+		sack("nether_wart", MaterialColor.RED, true, () -> enableNetherWartSack);
 		sack("gunpowder", MaterialColor.GRAY, false, () -> enableGunpowderSack);
 		sack("berry", MaterialColor.RED, true, () -> enableBerrySack);
 
