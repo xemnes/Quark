@@ -130,7 +130,7 @@ public class TotemOfHoldingModule extends Module {
             BlockPos pos = player.func_233580_cy_(); // getPosition
             persistent.putInt(TAG_DEATH_X, pos.getX());
             persistent.putInt(TAG_DEATH_Z, pos.getZ());
-            persistent.putString(TAG_DEATH_DIM, player.world.func_230315_m_().field_241504_y_.toString()); // getDimensionType().resourceLocation
+            persistent.putString(TAG_DEATH_DIM, player.world.func_234922_V_().func_240901_a_().toString()); // getDimensionType().resourceLocation
 
             if(!data.contains(PlayerEntity.PERSISTED_NBT_TAG))
                 data.put(PlayerEntity.PERSISTED_NBT_TAG, persistent);

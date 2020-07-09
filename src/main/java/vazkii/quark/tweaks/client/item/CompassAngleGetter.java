@@ -17,11 +17,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.util.RegistryKey;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.Dimension;
-import net.minecraft.world.DimensionType;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -36,17 +36,18 @@ public class CompassAngleGetter implements IItemPropertyGetter {
 	private static final String TAG_NETHER_TARGET_X = "quark:nether_x";
 	private static final String TAG_NETHER_TARGET_Z = "quark:nether_z";
 
-	private double rotation;
-	private double rota;
-	private long lastUpdateTick;
-	
+	private final Angle normalAngle = new Angle();
+	private final Angle unknownAngle = new Angle();
+
 	public static void tickCompass(PlayerEntity player, ItemStack stack) {
 		boolean calculated = isCalculated(stack);
-		boolean nether = player.world.func_230315_m_().field_241504_y_ == Dimension.field_236054_c_.func_240901_a_(); // getDimensionType().resourceLocation, THE_NETHER_KEY.resourceLocation()
+		boolean nether = player.world.func_234922_V_().func_240901_a_().equals(Dimension.field_236054_c_.func_240901_a_()); // getDimensionType().resourceLocation, THE_NETHER_KEY.resourceLocation()
+		
 		if(calculated) {
 			boolean wasInNether = ItemNBTHelper.getBoolean(stack, TAG_WAS_IN_NETHER, false);
 			BlockPos pos = player.func_233580_cy_(); // getPosition
 			boolean isInPortal = player.world.getBlockState(pos).getBlock() == Blocks.NETHER_PORTAL;
+			
 			if(nether && !wasInNether && isInPortal) {
 				ItemNBTHelper.setInt(stack, TAG_NETHER_TARGET_X, pos.getX());
 				ItemNBTHelper.setInt(stack, TAG_NETHER_TARGET_Z, pos.getZ());
@@ -61,7 +62,7 @@ public class CompassAngleGetter implements IItemPropertyGetter {
 			ItemNBTHelper.setBoolean(stack, TAG_WAS_IN_NETHER, nether);
 		}
 	}
-	
+
 	static boolean isCalculated(ItemStack stack) {
 		return stack.hasTag() && ItemNBTHelper.getBoolean(stack, TAG_CALCULATED, false);
 	}
@@ -71,7 +72,7 @@ public class CompassAngleGetter implements IItemPropertyGetter {
 	public float call(@Nonnull ItemStack stack, @Nullable ClientWorld worldIn, @Nullable LivingEntity entityIn) {
 		if(entityIn == null && !stack.isOnItemFrame())
 			return 0F;
-		
+
 		if(CompassesWorkEverywhereModule.enableCompassNerf && (!stack.hasTag() || !ItemNBTHelper.getBoolean(stack, TAG_CALCULATED, false)))
 			return 0F;
 
@@ -88,19 +89,16 @@ public class CompassAngleGetter implements IItemPropertyGetter {
 
 		boolean calculate = false;
 		BlockPos target = new BlockPos(0, 0, 0);
+
+		ResourceLocation dimension = worldIn.func_234922_V_().func_240901_a_();
+		BlockPos lodestonePos = CompassItem.func_234670_d_(stack) ? this.getLodestonePosition(worldIn, stack.getOrCreateTag()) : null;
 		
-		DimensionType dimension = worldIn.func_230315_m_();
-        BlockPos lodestonePos = CompassItem.func_234670_d_(stack) ? this.getLodestonePosition(worldIn, stack.getOrCreateTag()) : null;
-		
-        if(lodestonePos == null)
-        	calculate = true;
-        	target = lodestonePos;
-		if(dimension.func_236043_f_()) { // isSurfaceWorld
+		if(lodestonePos != null) {
 			calculate = true;
-			target = getWorldSpawn(worldIn);
-		} else if(dimension.field_241504_y_ == Dimension.field_236055_d_.func_240901_a_() && CompassesWorkEverywhereModule.enableEnd) // resourceLocation, THE_END_KEY.getResourceLocation()
+			target = lodestonePos;
+		} else if(dimension.equals(Dimension.field_236055_d_.func_240901_a_()) && CompassesWorkEverywhereModule.enableEnd) // resourceLocation, THE_END_KEY.getResourceLocation()
 			calculate = true;
-		else if(dimension.field_241504_y_ == Dimension.field_236054_c_.func_240901_a_() && isCalculated(stack) && CompassesWorkEverywhereModule.enableNether) { // resourceLocation, THE_END_KEY.getResourceLocation()
+		else if(dimension.equals(Dimension.field_236054_c_.func_240901_a_()) && isCalculated(stack) && CompassesWorkEverywhereModule.enableNether) { // resourceLocation, THE_END_KEY.getResourceLocation()
 			boolean set = ItemNBTHelper.getBoolean(stack, TAG_POSITION_SET, false);
 			if(set) {
 				int x = ItemNBTHelper.getInt(stack, TAG_NETHER_TARGET_X, 0);
@@ -108,33 +106,30 @@ public class CompassAngleGetter implements IItemPropertyGetter {
 				calculate = true;
 				target = new BlockPos(x, 0, z);
 			}
+		} else if(worldIn.func_230315_m_().func_236043_f_()) { // isSurfaceWorld
+			calculate = true;
+			target = getWorldSpawn(worldIn);
 		}
-		
-		if(calculate) {
+
+		long gameTime = worldIn.getGameTime();
+		if(calculate && target != null) {
 			double d1 = carried ? entity.rotationYaw : getFrameRotation((ItemFrameEntity)entity);
 			d1 = MathHelper.positiveModulo(d1 / 360.0D, 1.0D);
 			double d2 = getAngleToPosition(entity, target) / (Math.PI * 2D);
-			angle = 0.5D - (d1 - 0.25D - d2);
-		} else angle = Math.random();
 
-		if (carried)
-			angle = wobble(worldIn, angle);
-
-		return MathHelper.positiveModulo((float) angle, 1.0F);
-	}
-
-	private double wobble(World worldIn, double angle) {
-		long gameTime = worldIn.getGameTime();
-		if(gameTime != lastUpdateTick) {
-			lastUpdateTick = gameTime;
-			double d0 = angle - rotation;
-			d0 = MathHelper.positiveModulo(d0 + 0.5D, 1.0D) - 0.5D;
-			rota += d0 * 0.1D;
-			rota *= 0.8D;
-			rotation = MathHelper.positiveModulo(rotation + rota, 1.0D);
+			if(carried) {
+				if(normalAngle.needsUpdate(gameTime))
+					normalAngle.wobble(gameTime, 0.5D - (d1 - 0.25D));
+					angle = d2 + normalAngle.rotation;
+			} else angle = 0.5D - (d1 - 0.25D - d2);
+		} else {
+			if(unknownAngle.needsUpdate(gameTime));
+				unknownAngle.wobble(gameTime, Math.random());
+				
+			angle = unknownAngle.rotation + ((double) worldIn.hashCode() / Math.PI);
 		}
-
-		return rotation;
+		
+		return MathHelper.positiveModulo((float) angle, 1.0F);
 	}
 
 	private double getFrameRotation(ItemFrameEntity frame) {
@@ -147,24 +142,45 @@ public class CompassAngleGetter implements IItemPropertyGetter {
 	}
 
 	// vanilla copy from here on out
-	
-    @Nullable 
-    private BlockPos getLodestonePosition(World p_239442_1_, CompoundNBT p_239442_2_) {
-       boolean flag = p_239442_2_.contains("LodestonePos");
-       boolean flag1 = p_239442_2_.contains("LodestoneDimension");
-       if (flag && flag1) {
-          Optional<RegistryKey<World>> optional = CompassItem.func_234667_a_(p_239442_2_);
-          if (optional.isPresent() && p_239442_1_.func_234923_W_() == optional.get()) {
-             return NBTUtil.readBlockPos(p_239442_2_.getCompound("LodestonePos"));
-          }
-       }
 
-       return null;
-    }
-    
-    @Nullable
-    private BlockPos getWorldSpawn(ClientWorld p_239444_1_) {
-       return p_239444_1_.func_230315_m_().func_236043_f_() ? p_239444_1_.func_239140_u_() : null;
-    }
-	
+	@Nullable 
+	private BlockPos getLodestonePosition(World p_239442_1_, CompoundNBT p_239442_2_) {
+		boolean flag = p_239442_2_.contains("LodestonePos");
+		boolean flag1 = p_239442_2_.contains("LodestoneDimension");
+		if (flag && flag1) {
+			Optional<RegistryKey<World>> optional = CompassItem.func_234667_a_(p_239442_2_);
+			if (optional.isPresent() && p_239442_1_.func_234923_W_() == optional.get()) {
+				return NBTUtil.readBlockPos(p_239442_2_.getCompound("LodestonePos"));
+			}
+		}
+
+		return null;
+	}
+
+	@Nullable
+	private BlockPos getWorldSpawn(ClientWorld p_239444_1_) {
+		return p_239444_1_.func_230315_m_().func_236043_f_() ? p_239444_1_.func_239140_u_() : null;
+	}
+
+	@OnlyIn(Dist.CLIENT)
+	static class Angle {
+		private double rotation;
+		private double rota;
+		private long lastUpdateTick;
+
+		private boolean needsUpdate(long p_239448_1_) {
+			return lastUpdateTick != p_239448_1_;
+		}
+
+		private void wobble(long gameTime, double angle) {
+			lastUpdateTick = gameTime;
+			double d0 = angle - rotation;
+			d0 = MathHelper.positiveModulo(d0 + 0.5D, 1.0D) - 0.5D;
+			rota += d0 * 0.1D;
+			rota *= 0.8D;
+			rotation = MathHelper.positiveModulo(rotation + rota, 1.0D);
+		}
+	}
+
+
 }
