@@ -1,9 +1,13 @@
 package vazkii.quark.world.module;
 
-import net.minecraft.world.gen.feature.IFeatureConfig;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.gen.DimensionSettings;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
+import net.minecraft.world.gen.feature.StructureFeature;
 import net.minecraft.world.gen.feature.structure.Structure;
+import net.minecraft.world.gen.settings.StructureSeparationSettings;
 import net.minecraftforge.common.BiomeDictionary.Type;
+import net.minecraftforge.registries.ForgeRegistries;
 import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.module.Config;
@@ -46,13 +50,16 @@ public class BigDungeonModule extends Module {
 	public void setup() {
 		STRUCTURE.setup();	
 		
-//		if(enabled) TODO re-enable after I figure out StructureSeparationSettings
-//			for(Biome b : ForgeRegistries.BIOMES.getValues()) { 
-//				StructureFeature structure = STRUCTURE.func_236391_a_(NoFeatureConfig.NO_FEATURE_CONFIG);
-//
-//				if(biomeTypes.canSpawn(b))
-//					b.func_235063_a_(structure);
-//			}
+		// Register separation settings for big dungeon in the overworld settings preset
+		DimensionSettings.Preset.field_236122_b_.func_236137_b_().func_236108_a_().func_236195_a_().put(STRUCTURE, new StructureSeparationSettings(20, 11, 79234823));
+		
+		if(enabled) 
+			for(Biome b : ForgeRegistries.BIOMES.getValues()) { 
+				StructureFeature structure = STRUCTURE.func_236391_a_(NoFeatureConfig.NO_FEATURE_CONFIG);
+
+				if(biomeTypes.canSpawn(b))
+					b.func_235063_a_(structure);
+			}
 	}
 
 }
