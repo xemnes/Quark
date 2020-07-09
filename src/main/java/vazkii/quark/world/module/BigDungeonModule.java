@@ -1,11 +1,11 @@
 package vazkii.quark.world.module;
 
-import net.minecraft.world.biome.Biome;
+import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
-import net.minecraft.world.gen.feature.StructureFeature;
+import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraftforge.common.BiomeDictionary.Type;
-import net.minecraftforge.registries.ForgeRegistries;
 import vazkii.arl.util.RegistryHelper;
+import vazkii.quark.base.Quark;
 import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
@@ -37,6 +37,8 @@ public class BigDungeonModule extends Module {
 	public void construct() {
 		//		new FloodFillItem(this);
 		RegistryHelper.register(STRUCTURE);
+		
+		Structure.field_236365_a_.put(Quark.MOD_ID + ":big_dungeon", STRUCTURE);
 	}
 
 	@Override
