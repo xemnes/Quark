@@ -155,13 +155,13 @@ public class ItemSharingModule extends Module {
 				if (lineProperties instanceof ITextComponent) {
 					ITextComponent lineComponent = (ITextComponent) lineProperties;
 
-					String currentText = TextFormatting.getTextWithoutFormattingCodes(lineComponent.getUnformattedComponentText());
+					String currentText = TextFormatting.getTextWithoutFormattingCodes(lineComponent.getString());
 					if (currentText != null && currentText.startsWith("   "))
 						render(mc, chatGui, updateCounter, before, line, idx - shift, lineComponent);
 					before += currentText;
 
 					for (ITextComponent sibling : lineComponent.getSiblings()) {
-						currentText = TextFormatting.getTextWithoutFormattingCodes(sibling.getUnformattedComponentText());
+						currentText = TextFormatting.getTextWithoutFormattingCodes(sibling.getString());
 						if (currentText != null && currentText.startsWith("   "))
 							render(mc, chatGui, updateCounter, before, line, idx - shift, sibling);
 						before += currentText;

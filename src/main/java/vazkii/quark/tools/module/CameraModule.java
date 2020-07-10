@@ -60,7 +60,6 @@ public class CameraModule extends Module {
 
 			new ResourceLocation("shaders/post/bumpy.json"),
 			new ResourceLocation("shaders/post/notch.json"),
-			new ResourceLocation(Quark.MOD_ID, "shaders/post/mirror.json"),
 			new ResourceLocation("shaders/post/creeper.json"),
 			new ResourceLocation(Quark.MOD_ID, "shaders/post/enderman.json"),
 
@@ -356,7 +355,7 @@ public class CameraModule extends Module {
 			text = TextFormatting.AQUA + I18n.format("quark.camera.header");
 			mc.fontRenderer.drawStringWithShadow(matrix, text, twidth / 2 - mc.fontRenderer.getStringWidth(text) / 2, 6, 0xFFFFFF);
 			
-			text = I18n.format("quark.camera.info", new KeybindTextComponent("quark.keybind.camera_mode").getUnformattedComponentText());
+			text = I18n.format("quark.camera.info", new KeybindTextComponent("quark.keybind.camera_mode").getString());
 			mc.fontRenderer.drawStringWithShadow(matrix, text, twidth / 2 - mc.fontRenderer.getStringWidth(text) / 2, 16, 0xFFFFFF);
 			
 			ResourceLocation CAMERA_TEXTURE = new ResourceLocation(Quark.MOD_ID, "textures/misc/camera.png");

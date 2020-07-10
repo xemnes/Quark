@@ -240,7 +240,7 @@ public class ChestSearchingModule extends Module {
 			}
 		}
 
-		String name = stack.getDisplayName().getUnformattedComponentText();
+		String name = stack.getDisplayName().getString();
 		name = TextFormatting.getTextWithoutFormattingCodes(name.trim().toLowerCase(Locale.ROOT));
 
 		StringMatcher matcher = String::contains;

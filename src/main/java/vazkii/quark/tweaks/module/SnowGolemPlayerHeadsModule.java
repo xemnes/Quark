@@ -25,7 +25,7 @@ public class SnowGolemPlayerHeadsModule extends Module {
 			SnowGolemEntity snowman = (SnowGolemEntity) e;
 			if(snowman.isPumpkinEquipped()) { 
 				ItemStack stack = new ItemStack(Items.PLAYER_HEAD);
-				ItemNBTHelper.setString(stack, "SkullOwner", e.getCustomName().getUnformattedComponentText());
+				ItemNBTHelper.setString(stack, "SkullOwner", e.getCustomName().getString());
 				Vector3d pos = e.getPositionVec();
 				event.getDrops().add(new ItemEntity(e.getEntityWorld(), pos.x, pos.y, pos.z, stack));
 			}

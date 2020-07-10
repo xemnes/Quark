@@ -27,7 +27,7 @@ public class VariantBeeRenderer extends BeeRenderer {
 	@Override
 	public ResourceLocation getEntityTexture(BeeEntity entity) {
 		if(entity.hasCustomName() || VariantAnimalTexturesModule.everyBeeIsLGBT) {
-			String custName = entity.hasCustomName() ? entity.getCustomName().getUnformattedComponentText().trim() : "";
+			String custName = entity.hasCustomName() ? entity.getCustomName().getString().trim() : "";
 			String name = custName.toLowerCase(Locale.ROOT);
 			
 			if(VariantAnimalTexturesModule.everyBeeIsLGBT) {

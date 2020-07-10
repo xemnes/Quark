@@ -125,8 +125,8 @@ public class MatrixEnchantingScreen extends ContainerScreen<MatrixEnchantingCont
 
 	@Override // drawContainerStrings 
 	protected void func_230451_b_(MatrixStack matrix, int mouseX, int mouseY) {
-		font.drawString(matrix, enchanter.getDisplayName().getUnformattedComponentText(), 12, 5, 4210752);
-		font.drawString(matrix, playerInv.getDisplayName().getUnformattedComponentText(), 8, ySize - 96 + 2, 4210752);
+		font.drawString(matrix, enchanter.getDisplayName().getString(), 12, 5, 4210752);
+		font.drawString(matrix, playerInv.getDisplayName().getString(), 8, ySize - 96 + 2, 4210752);
 
 		if(enchanter.matrix != null) {
 			boolean needsRefresh = listPieces == null;
