@@ -11,13 +11,13 @@ public class BigStoneClusterConfig extends ClusterSizeConfig {
 	@Config
 	public boolean enabled = true;
 
-	public BigStoneClusterConfig(boolean nether, BiomeDictionary.Type... types) {
-		this(nether, 14, 9, 4, 20, 80, types);
+	public BigStoneClusterConfig(BiomeDictionary.Type... types) {
+		this(DimensionConfig.overworld(false), 14, 9, 4, 20, 80, types);
 	}
 
-	public BigStoneClusterConfig(boolean nether, int clusterSize, int sizeVariation, int rarity, int minYLevel, int maxYLevel, BiomeDictionary.Type... types) {
+	public BigStoneClusterConfig(DimensionConfig dimensions, int clusterSize, int sizeVariation, int rarity, int minYLevel, int maxYLevel, BiomeDictionary.Type... types) {
 		super(rarity, clusterSize, clusterSize, sizeVariation, sizeVariation, false, types);
-		dimensions = nether ? DimensionConfig.nether(false) : DimensionConfig.overworld(false);
+		this.dimensions = dimensions;
 		biomes = new BiomeTypeConfig(false, types);
 		
 		this.minYLevel = minYLevel;

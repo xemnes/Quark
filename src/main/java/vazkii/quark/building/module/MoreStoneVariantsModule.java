@@ -36,7 +36,7 @@ public class MoreStoneVariantsModule extends Module {
 		add("limestone", MaterialColor.STONE, () -> ModuleLoader.INSTANCE.isModuleEnabled(NewStoneTypesModule.class) && NewStoneTypesModule.enableLimestone);
 		add("jasper", MaterialColor.RED_TERRACOTTA, () -> ModuleLoader.INSTANCE.isModuleEnabled(NewStoneTypesModule.class) && NewStoneTypesModule.enableJasper);
 		add("slate", MaterialColor.ICE, () -> ModuleLoader.INSTANCE.isModuleEnabled(NewStoneTypesModule.class) && NewStoneTypesModule.enableSlate);
-		add("basalt", MaterialColor.BLACK, () -> ModuleLoader.INSTANCE.isModuleEnabled(NewStoneTypesModule.class) && NewStoneTypesModule.enableBasalt);
+		add("basalt", MaterialColor.BLACK, () -> ModuleLoader.INSTANCE.isModuleEnabled(NewStoneTypesModule.class) && NewStoneTypesModule.enableVoidstone);
 	}
 	
 	@Override

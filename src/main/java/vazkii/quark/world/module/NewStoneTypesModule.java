@@ -32,18 +32,18 @@ public class NewStoneTypesModule extends Module {
 	@Config(flag = "limestone") public static boolean enableLimestone = true;
 	@Config(flag = "jasper") public static boolean enableJasper = true;
 	@Config(flag = "slate") public static boolean enableSlate = true;
-	@Config(flag = "basalt") public static boolean enableBasalt = true;
+	@Config(flag = "voidstone") public static boolean enableVoidstone = true;
 	
 	@Config public static StoneTypeConfig marble = new StoneTypeConfig(false);
 	@Config public static StoneTypeConfig limestone = new StoneTypeConfig(false);
 	@Config public static StoneTypeConfig jasper = new StoneTypeConfig(false);
 	@Config public static StoneTypeConfig slate = new StoneTypeConfig(false);
-	@Config public static StoneTypeConfig basalt = new StoneTypeConfig(true);
+	@Config public static StoneTypeConfig voidstone = new StoneTypeConfig(true);
 	
 	public static Block marbleBlock, limestoneBlock, jasperBlock, slateBlock, basaltBlock;
 
 	public static Map<Block, Block> polishedBlocks = Maps.newHashMap();
-	private static ITag<Block> wgStoneTag = null;
+//	private static ITag<Block> wgStoneTag = null;
 	
 	private Queue<Runnable> defers = new ArrayDeque<>();
 	
@@ -53,7 +53,7 @@ public class NewStoneTypesModule extends Module {
 		limestoneBlock = makeStone("limestone", limestone, BigStoneClustersModule.limestone, () -> enableLimestone, MaterialColor.STONE);
 		jasperBlock = makeStone("jasper", jasper, BigStoneClustersModule.jasper, () -> enableJasper, MaterialColor.RED_TERRACOTTA);
 		slateBlock = makeStone("slate", slate, BigStoneClustersModule.slate, () -> enableSlate, MaterialColor.ICE);
-		basaltBlock = makeStone("basalt", basalt, BigStoneClustersModule.basalt, () -> enableBasalt, MaterialColor.BLACK);
+		basaltBlock = makeStone("basalt", voidstone, BigStoneClustersModule.voidstone, () -> enableVoidstone, MaterialColor.BLACK);
 	}
 	
 	private Block makeStone(String name, StoneTypeConfig config, BigStoneClusterConfig bigConfig, BooleanSupplier enabledCond, MaterialColor color) {

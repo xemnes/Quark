@@ -43,7 +43,7 @@ public class SpeleothemsModule extends Module {
 		make("limestone", NewStoneTypesModule.limestoneBlock, MaterialColor.STONE, false).setCondition(() -> NewStoneTypesModule.enableLimestone);
 		make("jasper", NewStoneTypesModule.jasperBlock, MaterialColor.RED_TERRACOTTA, false).setCondition(() -> NewStoneTypesModule.enableJasper);
 		make("slate", NewStoneTypesModule.slateBlock, MaterialColor.ICE, false).setCondition(() -> NewStoneTypesModule.enableSlate);
-		make("basalt", NewStoneTypesModule.basaltBlock, MaterialColor.BLACK, false).setCondition(() -> NewStoneTypesModule.enableBasalt);
+		make("basalt", NewStoneTypesModule.basaltBlock, MaterialColor.BLACK, false).setCondition(() -> NewStoneTypesModule.enableVoidstone);
 	}
 	
 	private SpeleothemBlock make(String name, Block parent, MaterialColor color, boolean nether) {
