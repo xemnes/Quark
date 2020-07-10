@@ -1,6 +1,7 @@
 package vazkii.quark.building.module;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.ItemGroup;
@@ -18,6 +19,8 @@ public class NetherBrickFenceGateModule extends Module {
     @Override
     public void construct() {
         new QuarkFenceGateBlock("nether_brick_fence_gate", this, ItemGroup.REDSTONE,
-                Block.Properties.create(Material.ROCK, MaterialColor.NETHERRACK).hardnessAndResistance(2.0F, 6.0F));
+                Block.Properties.create(Material.ROCK, MaterialColor.NETHERRACK)
+                .sound(SoundType.field_235590_L_)
+                .hardnessAndResistance(2.0F, 6.0F));
     }
 }
