@@ -133,7 +133,7 @@ public class BigDungeonStructure extends Structure<NoFeatureConfig> {
 	
 	@Override // hasStartAt
 	protected boolean func_230363_a_(ChunkGenerator chunkGen, BiomeProvider biomeProvider, long seed, SharedSeedRandom rand, int chunkPosX, int chunkPosZ, Biome biome, ChunkPos chunkpos, NoFeatureConfig config) { 
-		if(chunkPosX == chunkpos.x && chunkPosZ == chunkpos.z) {
+		if(chunkPosX == chunkpos.x && chunkPosZ == chunkpos.z && BigDungeonModule.biomeTypes.canSpawn(biome)) {
 			int i = chunkPosX >> 4;
 			int j = chunkPosZ >> 4;
 			rand.setSeed((long)(i ^ j << 4) ^ seed);

@@ -1,5 +1,7 @@
 package vazkii.quark.world.module;
 
+import com.google.common.collect.ImmutableSet;
+
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.DimensionSettings;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
@@ -50,13 +52,17 @@ public class BigDungeonModule extends Module {
 	public void setup() {
 		STRUCTURE.setup();	
 		
-		// Register separation settings for big dungeon in the overworld settings preset
-		DimensionSettings.Preset.field_236122_b_.func_236137_b_().func_236108_a_().func_236195_a_().put(STRUCTURE, new StructureSeparationSettings(20, 11, 79234823));
+		StructureSeparationSettings settings = new StructureSeparationSettings(20, 11, 79234823);
 		
+		// Register separation settings for big dungeon in the settings presets
+		ImmutableSet.of(DimensionSettings.Preset.field_236122_b_, DimensionSettings.Preset.field_236123_c_, DimensionSettings.Preset.field_236124_d_, 
+				DimensionSettings.Preset.field_236125_e_, DimensionSettings.Preset.field_236126_f_, DimensionSettings.Preset.field_236127_g_)
+		.forEach(p -> p.func_236137_b_().func_236108_a_().func_236195_a_().put(STRUCTURE, settings));
+
+		StructureFeature structure = STRUCTURE.func_236391_a_(NoFeatureConfig.NO_FEATURE_CONFIG);
+
 		if(enabled) 
 			for(Biome b : ForgeRegistries.BIOMES.getValues()) { 
-				StructureFeature structure = STRUCTURE.func_236391_a_(NoFeatureConfig.NO_FEATURE_CONFIG);
-
 				if(biomeTypes.canSpawn(b))
 					b.func_235063_a_(structure);
 			}
