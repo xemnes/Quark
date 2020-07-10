@@ -892,6 +892,11 @@
 	"block.quark.mossy_cobblestone_bricks_wall": "Mossy Cobblestone Brick Wall",
 	"block.quark.gold_bars": "Gold Bars",
 	"block.quark.cloud": "Cloud",
+	"block.quark.blackstone_vertical_slab": "Blackstone Vertical Slab",
+	"block.quark.polished_blackstone_vertical_slab": "Polished Blackstone Vertical Slab",
+	"block.quark.polished_blackstone_brick_vertical_slab": "Polished Blackstone Brick Vertical Slab",
+	"block.quark.crimson_vertical_slab": "Crimson Vertical Slab",
+	"block.quark.warped_vertical_slab": "Warped Vertical Slab",
 
 	"item.quark.stoneling_spawn_egg": "Stoneling Spawn Egg",
 	"item.quark.frog_spawn_egg": "Frog Spawn Egg",
