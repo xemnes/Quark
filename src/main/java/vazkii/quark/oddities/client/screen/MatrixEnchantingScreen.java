@@ -82,7 +82,7 @@ public class MatrixEnchantingScreen extends ContainerScreen<MatrixEnchantingCont
 		}
 	}
 
-	@Override // drawContainerGui TODO is this right?
+	@Override // drawContainerGui
 	protected void func_230450_a_(MatrixStack stack, float partialTicks, int mouseX, int mouseY) {
 		Minecraft mc = getMinecraft();
 		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);

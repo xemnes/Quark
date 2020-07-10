@@ -22,7 +22,6 @@ public class MatrixEnchantingPieceList extends ExtendedList<MatrixEnchantingPiec
 		super(parent.getMinecraft(), listWidth, listHeight, top, bottom, entryHeight);
 		this.listWidth = listWidth;
 		this.parent = parent;
-//		renderHeader = false; TODO ?
 	}
 
 	@Override

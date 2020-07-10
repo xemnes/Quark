@@ -146,7 +146,7 @@ public class GrateBlock extends QuarkBlock implements IWaterLoggable {
 	}
 	
 	@Override
-	public boolean isTransparent(BlockState state) { // TODO check
+	public boolean isTransparent(BlockState state) {
 		return true;
 	}
 	

@@ -60,7 +60,7 @@ public class HugeGlowshroomBlock extends HugeMushroomBlock {
 
 	@Override
 	public boolean isTransparent(BlockState state) {
-		return true; // TODO is this good?
+		return true;
 	}
 	
 //	@Override

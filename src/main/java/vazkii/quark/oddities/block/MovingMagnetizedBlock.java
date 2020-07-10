@@ -73,7 +73,7 @@ public class MovingMagnetizedBlock extends QuarkBlock {
 		}
 	}
 
-	@Override // TODO does this work
+	@Override 
 	public boolean isTransparent(BlockState state) {
 		return true;
 	}

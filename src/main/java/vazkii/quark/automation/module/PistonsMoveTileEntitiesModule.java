@@ -188,7 +188,7 @@ public class PistonsMoveTileEntitiesModule extends Module {
 		if (remove)
 			worldMovements.remove(pos);
 
-		return TileEntity.func_235657_b_(world.getBlockState(pos), ret); // create TODO: works?
+		return TileEntity.func_235657_b_(world.getBlockState(pos), ret); // create
 	}
 
 	private static TileEntity getAndClearMovement(World world, BlockPos pos) {
