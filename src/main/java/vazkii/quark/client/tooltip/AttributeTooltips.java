@@ -1,11 +1,20 @@
 package vazkii.quark.client.tooltip;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+import javax.annotation.Nullable;
+
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.screen.Screen;
@@ -35,15 +44,12 @@ import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import vazkii.arl.util.ItemNBTHelper;
 import vazkii.quark.base.handler.MiscUtil;
 
-import javax.annotation.Nullable;
-import java.util.*;
-
 /**
  * @author WireSegal
  * Created at 10:34 AM on 9/1/19.
  */
 public class AttributeTooltips {
-	
+
 	private static final Attribute MAX_HEALTH = Attributes.field_233818_a_;
 	private static final Attribute KNOCKBACK_RESISTANCE = Attributes.field_233820_c_;
 	private static final Attribute MOVEMENT_SPEED = Attributes.field_233821_d_;
@@ -53,7 +59,7 @@ public class AttributeTooltips {
 	private static final Attribute ARMOR_TOUGHNESS = Attributes.field_233827_j_;
 	private static final Attribute LUCK = Attributes.field_233828_k_;
 	private static final Attribute REACH_DISTANCE = ForgeMod.REACH_DISTANCE.get();
-	
+
 	public static final ImmutableSet<Attribute> VALID_ATTRIBUTES = ImmutableSet.of(
 			ATTACK_DAMAGE,
 			ATTACK_SPEED,
@@ -139,6 +145,7 @@ public class AttributeTooltips {
 
 			EquipmentSlotType[] slots = EquipmentSlotType.values();
 			slots = Arrays.copyOf(slots, slots.length + 1);
+			
 			for(EquipmentSlotType slot : slots) {
 				if (canStripAttributes(stack, slot)) {
 					Multimap<Attribute, AttributeModifier> slotAttributes = getModifiers(stack, slot);
@@ -147,7 +154,7 @@ public class AttributeTooltips {
 						baseCheck = slotAttributes;
 					else if (slot != null && allAreSame && !slotAttributes.equals(baseCheck))
 						allAreSame = false;
-
+					
 					if (!slotAttributes.isEmpty()) {
 						if (slot == null)
 							allAreSame = false;
@@ -188,7 +195,7 @@ public class AttributeTooltips {
 					String spaceStr = "";
 					while(mc.fontRenderer.getStringWidth(spaceStr) < len)
 						spaceStr += " ";
-					
+
 					tooltipRaw.add(1, new StringTextComponent(spaceStr));
 					if (allAreSame)
 						break;
@@ -220,6 +227,9 @@ public class AttributeTooltips {
 		}
 
 		Multimap<Attribute, AttributeModifier> out = stack.getAttributeModifiers(slot);
+		if(out.isEmpty())
+			out = HashMultimap.create();
+		else out = HashMultimap.create(out); // convert to our own map
 
 		if (slot == EquipmentSlotType.MAINHAND) {
 			if (EnchantmentHelper.getModifierForCreature(stack, CreatureAttribute.UNDEFINED) > 0)
