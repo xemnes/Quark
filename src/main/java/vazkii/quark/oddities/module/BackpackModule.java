@@ -135,7 +135,7 @@ public class BackpackModule extends Module {
 	public void removeCurseTooltip(ItemTooltipEvent event) {
 		if(!superOpMode && event.getItemStack().getItem() instanceof BackpackItem)
 			for(ITextComponent s : event.getToolTip())
-				if(s.getUnformattedComponentText().equals(Enchantments.BINDING_CURSE.getDisplayName(1).getUnformattedComponentText())) {
+				if(s.getString().equals(Enchantments.BINDING_CURSE.getDisplayName(1).getString())) {
 					event.getToolTip().remove(s);
 					return;
 				}

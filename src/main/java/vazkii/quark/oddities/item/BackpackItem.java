@@ -6,6 +6,7 @@ import java.util.function.Consumer;
 import javax.annotation.Nonnull;
 
 import com.google.common.collect.HashMultimap;
+import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 
 import net.minecraft.client.renderer.color.IItemColor;
@@ -182,7 +183,7 @@ public class BackpackItem extends DyeableArmorItem implements IItemColorProvider
 
 	@Override
 	public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlotType slot, ItemStack stack) {
-		return HashMultimap.create();
+		return ImmutableMultimap.of();
 	}
 
 	@Override
