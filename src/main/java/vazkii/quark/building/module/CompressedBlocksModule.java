@@ -12,6 +12,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemGroup;
+import net.minecraftforge.common.ToolType;
 import vazkii.quark.base.block.QuarkBlock;
 import vazkii.quark.base.block.QuarkPillarBlock;
 import vazkii.quark.base.handler.FuelHandler;
@@ -70,6 +71,8 @@ public class CompressedBlocksModule extends Module {
 	public void construct() {
 		charcoal_block = new BurnForeverBlock("charcoal_block", this, ItemGroup.BUILDING_BLOCKS,
 				Block.Properties.create(Material.ROCK, MaterialColor.BLACK)
+						.func_235861_h_() // needs tool
+		        		.harvestTool(ToolType.PICKAXE)
 						.hardnessAndResistance(5F, 10F)
 						.sound(SoundType.STONE))
 				.setCondition(() -> enableCharcoalBlock);

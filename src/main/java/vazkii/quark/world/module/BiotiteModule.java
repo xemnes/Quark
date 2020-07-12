@@ -11,6 +11,7 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.GenerationStage.Decoration;
+import net.minecraftforge.common.ToolType;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import vazkii.quark.base.block.QuarkBlock;
@@ -49,7 +50,11 @@ public class BiotiteModule extends Module {
 		oregen = new OreGenerator(dimensions, oreSettings, biotite_ore.getDefaultState(), OreGenerator.ENDSTONE_MATCHER, () -> generateNaturally);
 		WorldGenHandler.addGenerator(this, oregen, Decoration.UNDERGROUND_ORES, WorldGenWeights.BIOTITE);
 		
-		Block.Properties props = Block.Properties.create(Material.ROCK, MaterialColor.BLACK).hardnessAndResistance(0.8F);
+		Block.Properties props = Block.Properties.create(Material.ROCK, MaterialColor.BLACK)
+				.func_235861_h_() // needs tool
+        		.harvestTool(ToolType.PICKAXE)
+        		.hardnessAndResistance(0.8F);
+		
 		VariantHandler.addSlabAndStairs(new QuarkBlock("biotite_block", this, ItemGroup.BUILDING_BLOCKS, props));
 		VariantHandler.addSlabAndStairs(new QuarkBlock("smooth_biotite", this, ItemGroup.BUILDING_BLOCKS, props));
 		new QuarkBlock("chiseled_biotite_block", this, ItemGroup.BUILDING_BLOCKS, props);

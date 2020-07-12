@@ -42,6 +42,7 @@ public class CaveCrystalBlock extends QuarkGlassBlock {
 				.sound(SoundType.GLASS)
 				.func_235838_a_(b -> 11) // lightValue
 				.harvestTool(ToolType.PICKAXE)
+				.func_235861_h_() // needs tool
 				.harvestLevel(0)
 				.tickRandomly()
 				.notSolid());

@@ -43,7 +43,8 @@ public class MoreBrickTypesModule extends Module {
 		VariantHandler.addSlabStairsWall(new QuarkBlock(name + "_bricks", this, ItemGroup.BUILDING_BLOCKS, 
 				Block.Properties.from(parent)
 				.hardnessAndResistance(2F, 6F)
-				.harvestTool(ToolType.PICKAXE)) 
+				.func_235861_h_() // needs tool
+				.harvestTool(ToolType.PICKAXE))
 				.setCondition(cond));
 	}
 	
