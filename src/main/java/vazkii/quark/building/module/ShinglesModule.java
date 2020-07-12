@@ -15,6 +15,8 @@ public class ShinglesModule extends Module {
 
 	@Override
 	public void construct() {
+		VariantHandler.addSlabAndStairs(new QuarkBlock("shingles", this, ItemGroup.BUILDING_BLOCKS, Block.Properties.from(Blocks.TERRACOTTA)));
+
 		for(DyeColor dye : DyeColor.values())
 			VariantHandler.addSlabAndStairs(new QuarkBlock(dye.getTranslationKey() + "_shingles", this, ItemGroup.BUILDING_BLOCKS, Block.Properties.from(Blocks.TERRACOTTA)));
 	}
