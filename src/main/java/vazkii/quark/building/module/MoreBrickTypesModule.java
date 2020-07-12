@@ -23,6 +23,10 @@ public class MoreBrickTypesModule extends Module {
 	@Config(flag = "magma_bricks") public boolean enableMagmaBricks = true;
 	@Config(flag = "charred_nether_bricks") public boolean enableCharredNetherBricks = true;
 	
+	@Config(flag = "blue_nether_bricks",
+			description = "This also comes with a utility recipe for Red Nether Bricks") 
+	public boolean enableBlueNetherBricks = true;
+
 	@Config(flag = "sandstone_bricks",
 			description = "This also includes Red Sandstone Bricks and Soul Sandstone Bricks") 
 	public boolean enableSandstoneBricks = true;
@@ -32,6 +36,7 @@ public class MoreBrickTypesModule extends Module {
 		add("sandy", Blocks.SANDSTONE, () -> enableSandyBricks);
 		add("snow", Blocks.SNOW, () -> enableSnowBricks);
 		add("charred_nether", Blocks.NETHER_BRICKS, () -> enableCharredNetherBricks);
+		add("blue_nether", Blocks.NETHER_BRICKS, () -> enableBlueNetherBricks);
 		add("sandstone", Blocks.SANDSTONE, () -> enableSandstoneBricks);
 		add("red_sandstone", Blocks.RED_SANDSTONE, () -> enableSandstoneBricks);
 		add("soul_sandstone", Blocks.SANDSTONE, () -> enableSandstoneBricks && ModuleLoader.INSTANCE.isModuleEnabled(SoulSandstoneModule.class));

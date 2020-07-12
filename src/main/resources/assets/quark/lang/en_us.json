@@ -912,6 +912,11 @@
 	"block.quark.polished_blackstone_brick_vertical_slab": "Polished Blackstone Brick Vertical Slab",
 	"block.quark.crimson_vertical_slab": "Crimson Vertical Slab",
 	"block.quark.warped_vertical_slab": "Warped Vertical Slab",
+	"block.quark.blue_nether_bricks": "Blue Nether Bricks",
+	"block.quark.blue_nether_bricks_stairs": "Blue Nether Brick Stairs",
+	"block.quark.blue_nether_bricks_slab": "Blue Nether Brick Slab",
+	"block.quark.blue_nether_bricks_vertical_slab": "Blue Nether Brick Vertical Slab",
+	"block.quark.blue_nether_bricks_wall": "Blue Nether Brick Wall",
 
 	"item.quark.stoneling_spawn_egg": "Stoneling Spawn Egg",
 	"item.quark.frog_spawn_egg": "Frog Spawn Egg",
