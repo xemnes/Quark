@@ -3,9 +3,9 @@
 	"ambientocclusion": false,
 	"textures": {
 		"2": "quark:block/potted/sunflower",
-		"flowerpot": "minecraft:block/flower_pot",
-		"particle": "minecraft:block/flower_pot",
-		"dirt": "minecraft:block/dirt"
+		"particle": "block/flower_pot",
+		"flowerpot": "block/flower_pot",
+		"dirt": "block/dirt"
 	},
 	"elements": [
 		{
@@ -79,13 +79,20 @@
 			}
 		},
 		{
-			"from": [6, 10, 7.25],
-			"to": [10, 14, 7.25],
-			"rotation": {"angle": 45, "axis": "x", "origin": [8, 12, 7.5]},
+			"from": [8.25, 10, 5.5],
+			"to": [8.25, 14, 9.5],
+			"rotation": {"angle": 45, "axis": "z", "origin": [8, 12, 7.5]},
 			"faces": {
-				"north": {"uv": [12, 8, 16, 12], "texture": "#2"},
-				"south": {"uv": [12, 12, 16, 16], "texture": "#2"}
+				"east": {"uv": [12, 8, 16, 12], "texture": "#2"},
+				"west": {"uv": [12, 12, 16, 16], "texture": "#2"}
 			}
+		}
+	],
+	"groups": [
+		{
+			"name": "potted_sunflower",
+			"origin": [8, 8, 8],
+			"children": [0, 1, 2, 3, 4, 5, 6, 7]
 		}
 	]
 }
