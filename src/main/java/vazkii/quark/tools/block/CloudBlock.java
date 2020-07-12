@@ -17,6 +17,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
@@ -29,7 +30,7 @@ public class CloudBlock extends QuarkBlock {
 
 	public CloudBlock(Module module) {
 		super("cloud", module, null, 
-				Block.Properties.create(Material.WOOL)
+				Block.Properties.create(Material.CLAY)
 				.sound(SoundType.CLOTH)
 				.hardnessAndResistance(0)
 				.notSolid());
@@ -67,6 +68,11 @@ public class CloudBlock extends QuarkBlock {
 		}
 		
 		return ActionResultType.PASS;
+	}
+	
+	@Override
+	public ItemStack getPickBlock(BlockState state, RayTraceResult target, IBlockReader world, BlockPos pos, PlayerEntity player) {
+		return ItemStack.EMPTY;
 	}
 	
 	private void fillBottle(PlayerEntity player, int startIndex) {
