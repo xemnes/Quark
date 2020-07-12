@@ -95,7 +95,7 @@ public class PickarangItem extends QuarkItem {
         playerIn.setHeldItem(handIn, ItemStack.EMPTY);
 		int eff = EnchantmentHelper.getEnchantmentLevel(Enchantments.EFFICIENCY, itemstack);
 		Vector3d pos = playerIn.getPositionVec();
-        worldIn.playSound(null, pos.x, pos.x, pos.z, QuarkSounds.ENTITY_PICKARANG_THROW, SoundCategory.NEUTRAL, 0.5F + eff * 0.14F, 0.4F / (worldIn.rand.nextFloat() * 0.4F + 0.8F));
+        worldIn.playSound(null, pos.x, pos.y, pos.z, QuarkSounds.ENTITY_PICKARANG_THROW, SoundCategory.NEUTRAL, 0.5F + eff * 0.14F, 0.4F / (worldIn.rand.nextFloat() * 0.4F + 0.8F));
 
         if(!worldIn.isRemote)  {
         	int slot = handIn == Hand.OFF_HAND ? playerIn.inventory.getSizeInventory() - 1 : playerIn.inventory.currentItem;
