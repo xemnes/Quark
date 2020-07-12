@@ -1,9 +1,15 @@
 package vazkii.quark.tweaks.module;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Queue;
+
 import com.google.common.collect.Lists;
+
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.recipebook.IRecipeShownListener;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.inventory.CraftingScreen;
 import net.minecraft.client.gui.screen.inventory.InventoryScreen;
 import net.minecraft.client.gui.toasts.IToast;
 import net.minecraft.client.gui.toasts.RecipeToast;
@@ -25,11 +31,6 @@ import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Queue;
 
 @LoadModule(category = ModuleCategory.TWEAKS, hasSubscriptions = true)
 public class AutomaticRecipeUnlockModule extends Module {
@@ -62,7 +63,7 @@ public class AutomaticRecipeUnlockModule extends Module {
 	@OnlyIn(Dist.CLIENT)
 	public void onInitGui(InitGuiEvent.Post event) {
 		Screen gui = event.getGui();
-		if(disableRecipeBook && (gui instanceof InventoryScreen || gui instanceof CraftingScreen)) {
+		if(disableRecipeBook && gui instanceof IRecipeShownListener) {
 			Minecraft.getInstance().player.getRecipeBook().setGuiOpen(false);
 			
 			List<Widget> widgets = event.getWidgetList();
