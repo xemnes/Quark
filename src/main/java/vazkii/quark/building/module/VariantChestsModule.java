@@ -28,6 +28,7 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import vazkii.arl.util.RegistryHelper;
+import vazkii.quark.base.handler.MiscUtil;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
@@ -42,11 +43,9 @@ public class VariantChestsModule extends Module {
 
 	private static final String DONK_CHEST = "Quark:DonkChest";
 
-	private static final ImmutableSet<String> WOODS = ImmutableSet.of(
-			"oak", "spruce", "birch", "jungle", "acacia", "dark_oak");
+	private static final ImmutableSet<String> WOODS = ImmutableSet.copyOf(MiscUtil.ALL_WOOD_TYPES);
 	
-	private static final ImmutableSet<String> MOD_WOODS = ImmutableSet.of(
-			);
+	private static final ImmutableSet<String> MOD_WOODS = ImmutableSet.of();
 
 	public static TileEntityType<VariantChestTileEntity> chestTEType;
 	public static TileEntityType<VariantTrappedChestTileEntity> trappedChestTEType;

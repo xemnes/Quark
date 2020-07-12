@@ -84,7 +84,9 @@ public class MiscUtil {
 			"birch",
 			"jungle",
 			"acacia", 
-			"dark_oak"	
+			"dark_oak",
+			"warped",
+			"crimson"
 	};
 
 	public static final String[] ALL_WOOD_TYPES = new String[] {
@@ -93,7 +95,9 @@ public class MiscUtil {
 			"birch",
 			"jungle",
 			"acacia", 
-			"dark_oak"
+			"dark_oak",
+			"warped",
+			"crimson"
 	};
 
 	public static void addToLootTable(LootTable table, LootEntry entry) {
