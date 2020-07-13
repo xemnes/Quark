@@ -63,7 +63,8 @@ public class BackpackInventoryScreen extends InventoryScreen {
 	public void tick() {
 		super.tick();
 		
-		recipeButton.y = recipeButtonY;
+		if(recipeButton != null)
+			recipeButton.y = recipeButtonY;
 		
 		if(!BackpackModule.isEntityWearingBackpack(player)) {
 			ItemStack curr = player.inventory.getItemStack();
