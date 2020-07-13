@@ -81,7 +81,7 @@ public class GrateBlock extends QuarkBlock implements IWaterLoggable {
 	public VoxelShape getShape(BlockState state, IBlockReader world, BlockPos pos, ISelectionContext context) {
 		return TRUE_SHAPE;
 	}
-
+	
 	private static VoxelShape getCachedShape(float stepHeight, float height) {
 		Float2ObjectArrayMap<VoxelShape> heightMap = WALK_BLOCK_CACHE.computeIfAbsent(stepHeight, (k) -> new Float2ObjectArrayMap<>());
 		return heightMap.computeIfAbsent(height, (k) -> createNewBox(stepHeight, height));
@@ -97,10 +97,13 @@ public class GrateBlock extends QuarkBlock implements IWaterLoggable {
 			if (entity instanceof ItemEntity || entity instanceof ExperienceOrbEntity)
 				return VoxelShapes.empty();
 
-			if (entity instanceof AnimalEntity)
+			boolean animal = entity instanceof AnimalEntity;
+			boolean leashed = animal && ((AnimalEntity) entity).getLeashHolder() != null;
+			
+			if (animal && !leashed)
 				return getCachedShape(entity.stepHeight, entity.getHeight());
 
-			if (!(entity instanceof PlayerEntity))
+			if(!(entity instanceof PlayerEntity) && !leashed)
 				return SPAWN_BLOCK_SHAPE;
 
 			return TRUE_SHAPE;
