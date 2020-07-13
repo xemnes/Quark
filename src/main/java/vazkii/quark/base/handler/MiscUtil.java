@@ -79,25 +79,26 @@ public class MiscUtil {
 			Direction.EAST
 	};
 
-	public static final String[] VARIANT_WOOD_TYPES = new String[] {
+	public static final String[] OVERWORLD_VARIANT_WOOD_TYPES = new String[] {
 			"spruce",
 			"birch",
 			"jungle",
 			"acacia", 
-			"dark_oak",
-			"warped",
-			"crimson"
+			"dark_oak"
 	};
-
-	public static final String[] ALL_WOOD_TYPES = new String[] {
+	
+	public static final String[] OVERWORLD_WOOD_TYPES = new String[] {
 			"oak",
 			"spruce",
 			"birch",
 			"jungle",
 			"acacia", 
-			"dark_oak",
-			"warped",
-			"crimson"
+			"dark_oak"
+	};
+	
+	public static final String[] NETHER_WOOD_TYPES = new String[] {
+			"crimson",
+			"warped"
 	};
 
 	public static void addToLootTable(LootTable table, LootEntry entry) {

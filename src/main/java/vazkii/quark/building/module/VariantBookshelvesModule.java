@@ -16,8 +16,10 @@ public class VariantBookshelvesModule extends Module {
 
 	@Override
 	public void construct() {
-		for(String type : MiscUtil.VARIANT_WOOD_TYPES)
-			new VariantBookshelfBlock(type, this);
+		for(String type : MiscUtil.OVERWORLD_VARIANT_WOOD_TYPES)
+			new VariantBookshelfBlock(type, this, true);
+		for(String type : MiscUtil.NETHER_WOOD_TYPES)
+			new VariantBookshelfBlock(type, this, false);
 	}
 
 	@Override

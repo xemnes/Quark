@@ -22,7 +22,7 @@ public class IronLadderBlock extends VariantLadderBlock {
 		super("iron", module, Block.Properties.create(Material.MISCELLANEOUS)
 				.hardnessAndResistance(0.8F)
 				.sound(SOUND_TYPE)
-				.notSolid());
+				.notSolid(), false);
 	}
 
 	@Override

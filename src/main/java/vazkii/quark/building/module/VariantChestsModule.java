@@ -43,7 +43,8 @@ public class VariantChestsModule extends Module {
 
 	private static final String DONK_CHEST = "Quark:DonkChest";
 
-	private static final ImmutableSet<String> WOODS = ImmutableSet.copyOf(MiscUtil.ALL_WOOD_TYPES);
+	private static final ImmutableSet<String> OVERWORLD_WOODS = ImmutableSet.copyOf(MiscUtil.OVERWORLD_WOOD_TYPES);
+	private static final ImmutableSet<String> NETHER_WOODS = ImmutableSet.copyOf(MiscUtil.NETHER_WOOD_TYPES);
 	
 	private static final ImmutableSet<String> MOD_WOODS = ImmutableSet.of();
 
@@ -57,7 +58,8 @@ public class VariantChestsModule extends Module {
 
 	@Override
 	public void construct() {
-		WOODS.forEach(s -> addChest(s, Blocks.CHEST));
+		OVERWORLD_WOODS.forEach(s -> addChest(s, Blocks.CHEST));
+		NETHER_WOODS.forEach(s -> addChest(s, Blocks.CHEST));
 		MOD_WOODS.forEach(s -> addModChest(s, Blocks.CHEST));
 
 		addChest("nether_brick", Blocks.NETHER_BRICKS);
