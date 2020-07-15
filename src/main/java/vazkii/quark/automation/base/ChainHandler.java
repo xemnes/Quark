@@ -155,8 +155,7 @@ public class ChainHandler {
 			if (uuid != null && !uuid.equals(SyncChainMessage.NULL_UUID))
 				entity.getPersistentData().putUniqueId(LINKED_TO, uuid);
 			else {
-				entity.getPersistentData().remove(LINKED_TO + "Most");
-				entity.getPersistentData().remove(LINKED_TO + "Least");
+				entity.getPersistentData().remove(LINKED_TO);
 			}
 
 			if (sync) {
