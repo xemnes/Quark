@@ -20,7 +20,6 @@ import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
-import vazkii.quark.building.block.BeaconBaseBlock;
 import vazkii.quark.building.block.BurnForeverBlock;
 
 @LoadModule(category = ModuleCategory.BUILDING)
@@ -83,12 +82,7 @@ public class CompressedBlocksModule extends Module {
 		pillar("chorus_fruit", MaterialColor.PURPLE, false, () -> enableChorusFruitBlock);
 		stick_block = pillar("stick", MaterialColor.WOOD, false, () -> enableStickBlock);
 
-		new BeaconBaseBlock("golden_apple_crate", this, ItemGroup.DECORATIONS,
-				Block.Properties.create(Material.WOOD, MaterialColor.GOLD)
-						.hardnessAndResistance(1.5F)
-						.sound(SoundType.WOOD))
-				.setCondition(() -> enableGoldenAppleCrate);
-
+		crate("golden_apple", MaterialColor.GOLD, true, () -> enableGoldenAppleCrate);
 		crate("apple", MaterialColor.RED, true, () -> enableAppleCrate);
 		crate("potato", MaterialColor.ADOBE, true, () -> enablePotatoCrate);
 		crate("carrot", MaterialColor.ORANGE_TERRACOTTA, true, () -> enableCarrotCrate);
