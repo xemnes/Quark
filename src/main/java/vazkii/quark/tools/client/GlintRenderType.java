@@ -79,9 +79,9 @@ public class GlintRenderType {
 
  
     private static RenderType buildGlintDirectRenderType(String name) {
-        final ResourceLocation res = new ResourceLocation(Quark.MOD_ID, "textures/glint/enchanted_item_glint_direct_" + name + ".png");
+        final ResourceLocation res = new ResourceLocation(Quark.MOD_ID, "textures/glint/enchanted_item_glint_" + name + ".png");
 
-        return RenderType.makeType("glint_" + name, DefaultVertexFormats.POSITION_TEX, 7, 256, RenderType.State.getBuilder()
+        return RenderType.makeType("glint_direct_" + name, DefaultVertexFormats.POSITION_TEX, 7, 256, RenderType.State.getBuilder()
             .texture(new RenderState.TextureState(res, true, false))
             .writeMask(RenderState.COLOR_WRITE)
             .cull(RenderState.CULL_DISABLED)
@@ -93,9 +93,9 @@ public class GlintRenderType {
 
     
     private static RenderType buildEntityGlintDriectRenderType(String name) {
-        final ResourceLocation res = new ResourceLocation(Quark.MOD_ID, "textures/glint/enchanted_item_glint_direct_" + name + ".png");
+        final ResourceLocation res = new ResourceLocation(Quark.MOD_ID, "textures/glint/enchanted_item_glint_" + name + ".png");
 
-        return RenderType.makeType("entity_glint_" + name, DefaultVertexFormats.POSITION_TEX, 7, 256, RenderType.State.getBuilder()
+        return RenderType.makeType("entity_glint_direct_" + name, DefaultVertexFormats.POSITION_TEX, 7, 256, RenderType.State.getBuilder()
             .texture(new RenderState.TextureState(res, true, false))
             .writeMask(RenderState.COLOR_WRITE)
             .cull(RenderState.CULL_DISABLED)

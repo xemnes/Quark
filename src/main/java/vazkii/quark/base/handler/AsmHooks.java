@@ -241,7 +241,7 @@ public class AsmHooks {
 	}
 
 	public static RenderType getGlintDirect() {
-		return ColorRunesModule.getGlint();
+		return ColorRunesModule.getGlintDirect();
 	}
 
 	public static RenderType getEntityGlintDirect() {
