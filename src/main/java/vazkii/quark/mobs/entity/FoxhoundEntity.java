@@ -10,13 +10,32 @@
  */
 package vazkii.quark.mobs.entity;
 
+import java.util.List;
+import java.util.Random;
+import java.util.UUID;
+
+import javax.annotation.Nonnull;
+
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.ai.goal.BegGoal;
+import net.minecraft.entity.ai.goal.BreedGoal;
+import net.minecraft.entity.ai.goal.FollowOwnerGoal;
+import net.minecraft.entity.ai.goal.HurtByTargetGoal;
+import net.minecraft.entity.ai.goal.LeapAtTargetGoal;
+import net.minecraft.entity.ai.goal.LookAtGoal;
+import net.minecraft.entity.ai.goal.LookRandomlyGoal;
+import net.minecraft.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
+import net.minecraft.entity.ai.goal.NonTamedTargetGoal;
+import net.minecraft.entity.ai.goal.OwnerHurtTargetGoal;
+import net.minecraft.entity.ai.goal.SitGoal;
+import net.minecraft.entity.ai.goal.SwimGoal;
+import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
 import net.minecraft.entity.monster.AbstractSkeletonEntity;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.AnimalEntity;
@@ -35,24 +54,27 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.potion.Effects;
-import net.minecraft.tileentity.FurnaceTileEntity;
+import net.minecraft.tileentity.AbstractFurnaceTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.*;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.Hand;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.*;
+import net.minecraft.world.Difficulty;
+import net.minecraft.world.IWorld;
+import net.minecraft.world.IWorldReader;
+import net.minecraft.world.LightType;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 import vazkii.quark.base.handler.MiscUtil;
 import vazkii.quark.mobs.ai.FindPlaceToSleepGoal;
 import vazkii.quark.mobs.ai.SleepGoal;
 import vazkii.quark.mobs.module.FoxhoundModule;
 import vazkii.quark.tweaks.ai.WantLoveGoal;
-
-import javax.annotation.Nonnull;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
 
 public class FoxhoundEntity extends WolfEntity implements IMob {
 
@@ -133,14 +155,14 @@ public class FoxhoundEntity extends WolfEntity implements IMob {
 		if(isTamed()) {
 			BlockPos below = func_233580_cy_().down(); // getPosition
 			TileEntity tile = world.getTileEntity(below);
-			if (tile instanceof FurnaceTileEntity) {
-				FurnaceTileEntity furnace = (FurnaceTileEntity) tile;
+			if (tile instanceof AbstractFurnaceTileEntity) {
+				AbstractFurnaceTileEntity furnace = (AbstractFurnaceTileEntity) tile;
 				int cookTime = furnace.cookTime;
 				if (cookTime > 0 && cookTime % 3 == 0) {
 					List<FoxhoundEntity> foxhounds = world.getEntitiesWithinAABB(FoxhoundEntity.class, new AxisAlignedBB(func_233580_cy_()),
 							(fox) -> fox != null && fox.isTamed());
 					if(!foxhounds.isEmpty() && foxhounds.get(0) == this)
-						furnace.cookTime = Math.min(furnace.cookTimeTotal - 1, cookTime + 1);
+						furnace.cookTime = furnace.cookTime == 0 ? 2 :Math.min(furnace.cookTimeTotal - 1, cookTime + 1);
 				}
 			}
 		}
