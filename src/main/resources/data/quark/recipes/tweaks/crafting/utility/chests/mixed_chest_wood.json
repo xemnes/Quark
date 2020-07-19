@@ -8,7 +8,9 @@
     "quark:tweaks/crafting/utility/chests/birch_chest_wood",
     "quark:tweaks/crafting/utility/chests/jungle_chest_wood",
     "quark:tweaks/crafting/utility/chests/acacia_chest_wood",
-    "quark:tweaks/crafting/utility/chests/dark_oak_chest_wood"
+    "quark:tweaks/crafting/utility/chests/dark_oak_chest_wood",
+    "quark:tweaks/crafting/utility/chests/crimson_chest_wood",
+    "quark:tweaks/crafting/utility/chests/warped_chest_wood"
   ],
   "pattern": [
     "###",
