@@ -38,7 +38,7 @@ public class GlintRenderType {
     	
         for (DyeColor color : DyeColor.values())
         	list.add(func.apply(color.getTranslationKey()));
-        list.add(buildGlintRenderType("rainbow"));
+        list.add(func.apply("rainbow"));
         
         return list;
     }
