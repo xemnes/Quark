@@ -10,7 +10,6 @@ import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.recipebook.IRecipeShownListener;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.inventory.InventoryScreen;
 import net.minecraft.client.gui.toasts.IToast;
 import net.minecraft.client.gui.toasts.RecipeToast;
 import net.minecraft.client.gui.toasts.ToastGui;
@@ -51,7 +50,8 @@ public class AutomaticRecipeUnlockModule extends Module {
 			if (server != null) {
 				List<IRecipe<?>> recipes = new ArrayList<>(server.getRecipeManager().getRecipes());
 				recipes.removeIf((recipe) -> ignoredRecipes.contains(Objects.toString(recipe.getId())) || recipe.getRecipeOutput().isEmpty());
-				player.unlockRecipes(recipes);
+				
+				new Thread(() -> player.unlockRecipes(recipes)).run();
 
 				if (forceLimitedCrafting)
 					player.world.getGameRules().get(GameRules.DO_LIMITED_CRAFTING).set(true, server);
