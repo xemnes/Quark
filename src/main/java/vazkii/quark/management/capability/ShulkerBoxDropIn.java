@@ -1,11 +1,12 @@
 package vazkii.quark.management.capability;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
@@ -27,19 +28,25 @@ public class ShulkerBoxDropIn extends AbstractDropIn {
 		tryAddToShulkerBox(stack, incoming, false);
 		return stack;
 	}
-	
+
 	private boolean tryAddToShulkerBox(ItemStack shulkerBox, ItemStack stack, boolean simulate) {
 		if (!SimilarBlockTypeHandler.isShulkerBox(shulkerBox))
 			return false;
 
 		CompoundNBT cmp = ItemNBTHelper.getCompound(shulkerBox, "BlockEntityTag", false);
 		if (cmp != null) {
-			if (!cmp.contains("id", Constants.NBT.TAG_STRING)) {
-				cmp = cmp.copy();
-				cmp.putString("id", "minecraft:shulker_box");
+			TileEntity te = null;
+			cmp = cmp.copy();	
+			cmp.putString("id", "minecraft:shulker_box");				
+			if (shulkerBox.getItem() instanceof BlockItem) {
+				Block shulkerBoxBlock = Block.getBlockFromItem(shulkerBox.getItem());
+				BlockState defaultState = shulkerBoxBlock.getDefaultState();
+				if (shulkerBoxBlock.hasTileEntity(defaultState)) {
+					te = shulkerBoxBlock.createTileEntity(defaultState, null);
+					te.func_230337_a_(defaultState, cmp); // read
+				}
 			}
 
-			TileEntity te = TileEntity.func_235657_b_(((BlockItem) shulkerBox.getItem()).getBlock().getDefaultState(), cmp);
 			if (te != null) {
 				LazyOptional<IItemHandler> handlerHolder = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
 				if (handlerHolder.isPresent()) {
@@ -60,5 +67,5 @@ public class ShulkerBoxDropIn extends AbstractDropIn {
 
 		return false;
 	}
-	
+
 }
