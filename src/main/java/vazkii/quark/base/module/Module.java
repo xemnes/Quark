@@ -32,6 +32,11 @@ public class Module {
 	public void construct() {
 		// NO-OP
 	}
+	
+	@OnlyIn(Dist.CLIENT)
+	public void constructClient() {
+		// NO-OP
+	}
 
 	public void modulesStarted() {
 		// NO-OP

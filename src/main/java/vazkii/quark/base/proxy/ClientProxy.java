@@ -26,6 +26,8 @@ public class ClientProxy extends CommonProxy {
 			jingleBellsMotherfucker = true;
 		
 		super.start();
+		
+		ModuleLoader.INSTANCE.clientStart();
 	}
 
 	@Override
