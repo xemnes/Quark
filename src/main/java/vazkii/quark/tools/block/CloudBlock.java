@@ -85,6 +85,7 @@ public class CloudBlock extends QuarkBlock {
 				ItemStack give = new ItemStack(BottledCloudModule.bottled_cloud);
 				if(!player.addItemStackToInventory(give))
 					player.dropItem(give, false);
+				return;
 			}
 		}
 	}
