@@ -48,10 +48,11 @@ public class AutomaticRecipeUnlockModule extends Module {
 			ServerPlayerEntity spe = (ServerPlayerEntity) player;
 			MinecraftServer server = spe.getServer();
 			if (server != null) {
-				List<IRecipe<?>> recipes = new ArrayList<>(server.getRecipeManager().getRecipes());
-				recipes.removeIf((recipe) -> ignoredRecipes.contains(Objects.toString(recipe.getId())) || recipe.getRecipeOutput().isEmpty());
-				
-				new Thread(() -> player.unlockRecipes(recipes)).run();
+				new Thread(() -> {
+					List<IRecipe<?>> recipes = new ArrayList<>(server.getRecipeManager().getRecipes());
+					recipes.removeIf((recipe) -> ignoredRecipes.contains(Objects.toString(recipe.getId())) || recipe.getRecipeOutput().isEmpty());
+					player.unlockRecipes(recipes);
+				}).start();
 
 				if (forceLimitedCrafting)
 					player.world.getGameRules().get(GameRules.DO_LIMITED_CRAFTING).set(true, server);
