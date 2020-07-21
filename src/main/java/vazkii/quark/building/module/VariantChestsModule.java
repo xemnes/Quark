@@ -28,6 +28,7 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import vazkii.arl.util.RegistryHelper;
+import vazkii.quark.base.handler.MiscUtil;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
@@ -42,11 +43,10 @@ public class VariantChestsModule extends Module {
 
 	private static final String DONK_CHEST = "Quark:DonkChest";
 
-	private static final ImmutableSet<String> WOODS = ImmutableSet.of(
-			"oak", "spruce", "birch", "jungle", "acacia", "dark_oak");
+	private static final ImmutableSet<String> OVERWORLD_WOODS = ImmutableSet.copyOf(MiscUtil.OVERWORLD_WOOD_TYPES);
+	private static final ImmutableSet<String> NETHER_WOODS = ImmutableSet.copyOf(MiscUtil.NETHER_WOOD_TYPES);
 	
-	private static final ImmutableSet<String> MOD_WOODS = ImmutableSet.of(
-			"bambooblocks:bamboo", "upgrade_aquatic:driftwood", "endergetic:poise", "swampexpansion:willow", "bloomful:wisteria", "buzzierbees:hive", "autumnity:maple", "atmospheric:rosewood", "atmospheric:yucca");
+	private static final ImmutableSet<String> MOD_WOODS = ImmutableSet.of();
 
 	public static TileEntityType<VariantChestTileEntity> chestTEType;
 	public static TileEntityType<VariantTrappedChestTileEntity> trappedChestTEType;
@@ -58,7 +58,8 @@ public class VariantChestsModule extends Module {
 
 	@Override
 	public void construct() {
-		WOODS.forEach(s -> addChest(s, Blocks.CHEST));
+		OVERWORLD_WOODS.forEach(s -> addChest(s, Blocks.CHEST));
+		NETHER_WOODS.forEach(s -> addChest(s, Blocks.CHEST));
 		MOD_WOODS.forEach(s -> addModChest(s, Blocks.CHEST));
 
 		addChest("nether_brick", Blocks.NETHER_BRICKS);

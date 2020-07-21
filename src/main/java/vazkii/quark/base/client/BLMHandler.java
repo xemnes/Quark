@@ -3,6 +3,7 @@ package vazkii.quark.base.client;
 import java.io.File;
 import java.io.IOException;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
@@ -21,7 +22,7 @@ import vazkii.quark.base.Quark;
 
 @EventBusSubscriber(modid = Quark.MOD_ID)
 public class BLMHandler {
-	private static final long KILLSWITCH = 1594771200000L; // 15 Jul 2020
+	private static final long KILLSWITCH = 1598918400000L; // 1 Sep 2020
 	
 	private static boolean didTheThing = false;
 
@@ -71,12 +72,12 @@ public class BLMHandler {
 			super(new StringTextComponent(""));
 			this.parent = parent;
 		}
-
+		
 		@Override
-		public void render(int mx, int my, float pticks) {
-			super.render(mx, my, pticks);
+		public void render(MatrixStack mstack, int mx, int my, float pticks) {
+			super.render(mstack, mx, my, pticks);
 
-			fill(0, 0, width, height, 0xFF000000);
+			fill(mstack, 0, 0, width, height, 0xFF000000);
 			int middle = width / 2;
 
 			int timeLeft = TOTAL_TIME - ticksElapsed;
@@ -87,7 +88,7 @@ public class BLMHandler {
 			if(attemptedEsc || ticksElapsed > 500) {
 				RenderSystem.pushMatrix();
 				RenderSystem.scalef(3, 3, 3);
-				drawCenteredString(font, String.format("%dm%02ds", mins, secs), middle / 3, 10, 0xFFFFFF);
+				drawCenteredString(mstack, font, String.format("%dm%02ds", mins, secs), middle / 3, 10, 0xFFFFFF);
 				RenderSystem.popMatrix();
 			}
 			
@@ -124,7 +125,7 @@ public class BLMHandler {
 			
 			for(int i = 0; i < message.length; i++) {
 				if(attemptedEsc || (ticksElapsed - 20) > i * 70) 
-					drawCenteredString(font, message[i], middle, 70 + i * dist, 0xFFFFFF);
+					drawCenteredString(mstack, font, message[i], middle, 70 + i * dist, 0xFFFFFF);
 			}
 		}
 

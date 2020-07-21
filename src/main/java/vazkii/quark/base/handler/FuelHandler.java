@@ -34,13 +34,12 @@ public class FuelHandler {
 		else addFuel(block, 300);
 	}
 
-	@SuppressWarnings("deprecation")
 	public static void addAllWoods() {
 		ForgeRegistries.BLOCKS.getKeys()
 		.stream()
 		.filter(r -> r.getNamespace().equals(Quark.MOD_ID))
 		.map(ForgeRegistries.BLOCKS::getValue)
-		.filter(b -> b.getMaterial(b.getDefaultState()) == Material.WOOD)
+		.filter(b -> b.material == Material.WOOD)
 		.forEach(FuelHandler::addWood);
 	}
 

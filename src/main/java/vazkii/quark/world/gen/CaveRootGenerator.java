@@ -5,9 +5,9 @@ import java.util.Random;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorld;
 import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraft.world.gen.GenerationSettings;
+import net.minecraft.world.gen.WorldGenRegion;
+import net.minecraft.world.gen.feature.structure.StructureManager;
 import vazkii.quark.base.handler.MiscUtil;
 import vazkii.quark.base.world.config.DimensionConfig;
 import vazkii.quark.base.world.generator.Generator;
@@ -21,7 +21,7 @@ public class CaveRootGenerator extends Generator {
 	}
 
 	@Override
-	public void generateChunk(IWorld worldIn, ChunkGenerator<? extends GenerationSettings> generator, Random rand, BlockPos corner) {
+	public void generateChunk(WorldGenRegion worldIn, ChunkGenerator generator, StructureManager structureManager, Random rand, BlockPos corner) {
 		for(int i = 0; i < CaveRootsModule.chunkAttempts; i++) {
 			int x = rand.nextInt(12) + 2;
 			int z = rand.nextInt(12) + 2;

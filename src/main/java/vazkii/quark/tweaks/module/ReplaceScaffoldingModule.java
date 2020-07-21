@@ -15,7 +15,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -49,7 +49,7 @@ public class ReplaceScaffoldingModule extends Module {
 				if(block != Blocks.SCAFFOLDING) {
 					BlockPos last = getLastInLine(world, pos, dir);
 					
-					ItemUseContext context = new ItemUseContext(player, hand, new BlockRayTraceResult(new Vec3d(0.5F, 1F, 0.5F), dir, last, false));
+					ItemUseContext context = new ItemUseContext(player, hand, new BlockRayTraceResult(new Vector3d(0.5F, 1F, 0.5F), dir, last, false));
 					BlockItemUseContext bcontext = new BlockItemUseContext(context);
 					
 					BlockState stateToPlace = block.getStateForPlacement(bcontext);

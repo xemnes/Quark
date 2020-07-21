@@ -1,6 +1,11 @@
 package vazkii.quark.base.proxy;
 
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.util.UUID;
+
 import net.minecraft.client.Minecraft;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
@@ -9,9 +14,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import vazkii.quark.base.handler.ContributorRewardHandler;
 import vazkii.quark.base.handler.RenderLayerHandler;
 import vazkii.quark.base.module.ModuleLoader;
-
-import java.time.LocalDateTime;
-import java.time.Month;
 
 public class ClientProxy extends CommonProxy {
 
@@ -24,6 +26,8 @@ public class ClientProxy extends CommonProxy {
 			jingleBellsMotherfucker = true;
 		
 		super.start();
+		
+		ModuleLoader.INSTANCE.clientStart();
 	}
 
 	@Override
@@ -77,8 +81,7 @@ public class ClientProxy extends CommonProxy {
 
 		Minecraft mc = Minecraft.getInstance();
 		if(mc.isSingleplayer() && mc.player != null && mc.getIntegratedServer() != null) {
-			mc.player.sendMessage(new TranslationTextComponent("commands.reload.success"));
-			mc.getIntegratedServer().reload();
+			mc.player.sendMessage(new TranslationTextComponent("quark.misc.reloaded"), UUID.randomUUID());
 		}
 	}
 

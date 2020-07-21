@@ -1,16 +1,15 @@
 package vazkii.quark.automation.block;
 
+import javax.annotation.Nonnull;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
-import net.minecraft.world.IWorldReader;
 import vazkii.quark.base.block.QuarkButtonBlock;
 import vazkii.quark.base.module.Module;
-
-import javax.annotation.Nonnull;
 
 /**
  * @author WireSegal
@@ -29,8 +28,8 @@ public class MetalButtonBlock extends QuarkButtonBlock {
         this.speed = speed;
     }
 
-    @Override
-    public int tickRate(IWorldReader worldIn) {
+    @Override // tickRate
+    public int func_235471_c_() {
         return speed;
     }
 

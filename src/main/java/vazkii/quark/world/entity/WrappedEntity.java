@@ -24,7 +24,7 @@ public class WrappedEntity extends ZombieEntity {
 	public boolean attackEntityAsMob(Entity entityIn) {
 		boolean flag = super.attackEntityAsMob(entityIn);
 		if (flag && this.getHeldItemMainhand().isEmpty() && entityIn instanceof LivingEntity) {
-			float f = this.world.getDifficultyForLocation(new BlockPos(this)).getAdditionalDifficulty();
+			float f = this.world.getDifficultyForLocation(new BlockPos(getPosX(), getPosY(), getPosY())).getAdditionalDifficulty();
 			((LivingEntity)entityIn).addPotionEffect(new EffectInstance(Effects.SLOWNESS, 140 * (int)f));
 		}
 

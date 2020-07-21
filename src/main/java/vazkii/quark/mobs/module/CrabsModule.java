@@ -3,8 +3,9 @@ package vazkii.quark.mobs.module;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntitySpawnPlacementRegistry.PlacementType;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
 import net.minecraft.item.Food;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -37,7 +38,7 @@ import vazkii.quark.mobs.entity.CrabEntity;
  */
 @LoadModule(category = ModuleCategory.MOBS, hasSubscriptions = true)
 public class CrabsModule extends Module {
-	
+
 	public static EntityType<CrabEntity> crabType;
 
 	public static EntitySpawnConfig spawnConfig = new EntitySpawnConfig(5, 1, 3, new BiomeTypeConfig(false, BiomeDictionary.Type.BEACH));
@@ -67,7 +68,7 @@ public class CrabsModule extends Module {
 				.setCondition(() -> enableBrewing);
 
 		Effect resilience = new QuarkEffect("resilience", EffectType.BENEFICIAL, 0x5b1a04);
-		resilience.addAttributesModifier(SharedMonsterAttributes.KNOCKBACK_RESISTANCE, "2ddf3f0a-f386-47b6-aeb0-6bd32851f215", 0.5, AttributeModifier.Operation.ADDITION);
+		resilience.addAttributesModifier(Attributes.field_233820_c_, "2ddf3f0a-f386-47b6-aeb0-6bd32851f215", 0.5, AttributeModifier.Operation.ADDITION);
 
 		BrewingHandler.addPotionMix("crab_brewing",
 				() -> new FlagIngredient(Ingredient.fromItems(shell), "crabs"), resilience);
@@ -80,8 +81,14 @@ public class CrabsModule extends Module {
 				.setCustomClientFactory((spawnEntity, world) -> new CrabEntity(crabType, world))
 				.build("crab");
 		RegistryHelper.register(crabType, "crab");
+
 		EntitySpawnHandler.registerSpawn(this, crabType, EntityClassification.CREATURE, PlacementType.ON_GROUND, Type.MOTION_BLOCKING_NO_LEAVES, CrabEntity::spawnPredicate, spawnConfig);
 		EntitySpawnHandler.addEgg(crabType, 0x893c22, 0x916548, spawnConfig);
+	}
+
+	@Override
+	public void setup() {
+		GlobalEntityTypeAttributes.put(crabType, CrabEntity.prepareAttributes().func_233813_a_());
 	}
 
 	@Override

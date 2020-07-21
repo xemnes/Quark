@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import com.google.common.collect.ImmutableSet;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
@@ -15,9 +16,9 @@ import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.Util;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.GuiScreenEvent;
-import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.loading.FMLPaths;
@@ -42,7 +43,7 @@ public class QButtonHandler {
 					
 			List<Widget> widgets = event.getWidgetList();
 			for(Widget b : widgets)
-				if(targets.contains(b.getMessage())) {
+				if(targets.contains(b.getMessage().getString())) {
 					Button qButton = new QButton(b.x + (GeneralConfig.qButtonOnRight ? 103 : -24), b.y);
 					event.addWidget(qButton);
 					return;
@@ -60,7 +61,7 @@ public class QButtonHandler {
 		private final boolean gay;
 		
 		public QButton(int x, int y) {
-			super(x, y, 20, 20, "q", QButton::click);
+			super(x, y, 20, 20, new StringTextComponent("q"), QButton::click);
 			gay = Calendar.getInstance().get(Calendar.MONTH) + 1 == 6;
 		}
 		
@@ -70,8 +71,8 @@ public class QButtonHandler {
 		}
 		
 		@Override
-		public void renderButton(int p_renderButton_1_, int p_renderButton_2_, float p_renderButton_3_) {
-			super.renderButton(p_renderButton_1_, p_renderButton_2_, p_renderButton_3_);
+		public void renderButton(MatrixStack mstack, int p_renderButton_1_, int p_renderButton_2_, float p_renderButton_3_) {
+			super.renderButton(mstack, p_renderButton_1_, p_renderButton_2_, p_renderButton_3_);
 			
 			if(ContributorRewardHandler.localPatronTier > 0) {
 				RenderSystem.color3f(1F, 1F, 1F);
@@ -80,7 +81,7 @@ public class QButtonHandler {
 				int v = 26;
 				
 				Minecraft.getInstance().textureManager.bindTexture(MiscUtil.GENERAL_ICONS);
-				blit(x - 2, y - 2, u, v, 9, 9);
+				blit(mstack, x - 2, y - 2, u, v, 9, 9);
 			}
 		}
 		

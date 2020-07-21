@@ -1,7 +1,21 @@
 package vazkii.quark.automation.module;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.WeakHashMap;
+
+import org.apache.commons.lang3.tuple.Pair;
+
 import com.google.common.collect.Lists;
-import net.minecraft.block.*;
+
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.ChestBlock;
+import net.minecraft.block.JukeboxBlock;
+import net.minecraft.block.PistonBlockStructureHelper;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.state.properties.ChestType;
 import net.minecraft.tileentity.TileEntity;
@@ -12,12 +26,13 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.WorldTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import org.apache.commons.lang3.tuple.Pair;
 import vazkii.quark.api.IPistonCallback;
 import vazkii.quark.api.QuarkCapabilities;
-import vazkii.quark.base.module.*;
-
-import java.util.*;
+import vazkii.quark.base.module.Config;
+import vazkii.quark.base.module.LoadModule;
+import vazkii.quark.base.module.Module;
+import vazkii.quark.base.module.ModuleCategory;
+import vazkii.quark.base.module.ModuleLoader;
 
 @LoadModule(category = ModuleCategory.AUTOMATION, hasSubscriptions = true)
 public class PistonsMoveTileEntitiesModule extends Module {
@@ -42,7 +57,7 @@ public class PistonsMoveTileEntitiesModule extends Module {
 			return;
 
 		for (Pair<BlockPos, CompoundNBT> delay : delays) {
-			TileEntity tile = TileEntity.create(delay.getRight());
+			TileEntity tile = TileEntity.func_235657_b_(event.world.getBlockState(delay.getLeft()), delay.getRight()); // create
 			event.world.setTileEntity(delay.getLeft(), tile);
 			if (tile != null)
 				tile.updateContainingBlockInfo();
@@ -61,7 +76,7 @@ public class PistonsMoveTileEntitiesModule extends Module {
 
 	public static boolean shouldMoveTE(BlockState state) {
 		// Jukeboxes that are playing can't be moved so the music can be stopped
-		if (state.getProperties().contains(JukeboxBlock.HAS_RECORD) && state.get(JukeboxBlock.HAS_RECORD))
+		if (state.getValues().containsKey(JukeboxBlock.HAS_RECORD) && state.get(JukeboxBlock.HAS_RECORD))
 			return true;
 
 		if (state.getBlock() == Blocks.PISTON_HEAD)
@@ -103,7 +118,7 @@ public class PistonsMoveTileEntitiesModule extends Module {
 			return false;
 		}
 
-		if (state.getProperties().contains(ChestBlock.TYPE))
+		if (state.getValues().containsKey(ChestBlock.TYPE))
 			state = state.with(ChestBlock.TYPE, ChestType.SINGLE);
 
 		Block block = state.getBlock();
@@ -173,7 +188,7 @@ public class PistonsMoveTileEntitiesModule extends Module {
 		if (remove)
 			worldMovements.remove(pos);
 
-		return TileEntity.create(ret);
+		return TileEntity.func_235657_b_(world.getBlockState(pos), ret); // create
 	}
 
 	private static TileEntity getAndClearMovement(World world, BlockPos pos) {

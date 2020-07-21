@@ -13,5 +13,5 @@ public class FramedGlassBlock extends QuarkGlassBlock {
 		
 		RenderLayerHandler.setRenderType(this, RenderTypeSkeleton.CUTOUT);
 	}
-
+	
 }

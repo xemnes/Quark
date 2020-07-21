@@ -20,6 +20,7 @@ import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.base.network.QuarkNetwork;
 import vazkii.quark.base.recipe.ExclusionRecipe;
 import vazkii.quark.base.world.EntitySpawnHandler;
+import vazkii.quark.base.world.JigsawRegistryHelper;
 import vazkii.quark.base.world.WorldGenHandler;
 
 public class CommonProxy {
@@ -51,6 +52,7 @@ public class CommonProxy {
 		QuarkNetwork.setup();
 		BrewingHandler.setup();
 		CapabilityHandler.setup();
+		JigsawRegistryHelper.setup();
 		ModuleLoader.INSTANCE.setup();
 		initContributorRewards();
 	}

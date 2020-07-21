@@ -1,5 +1,6 @@
 package vazkii.quark.oddities.client.screen;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
@@ -62,7 +63,8 @@ public class BackpackInventoryScreen extends InventoryScreen {
 	public void tick() {
 		super.tick();
 		
-		recipeButton.y = recipeButtonY;
+		if(recipeButton != null)
+			recipeButton.y = recipeButtonY;
 		
 		if(!BackpackModule.isEntityWearingBackpack(player)) {
 			ItemStack curr = player.inventory.getItemStack();
@@ -84,13 +86,13 @@ public class BackpackInventoryScreen extends InventoryScreen {
 		super.onClose();
 	}
 	
-	@Override
-	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
+	@Override // drawContainerGui
+	protected void func_230450_a_(MatrixStack stack, float partialTicks, int mouseX, int mouseY) {
 		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 		minecraft.getTextureManager().bindTexture(BACKPACK_INVENTORY_BACKGROUND);
 		int i = guiLeft;
 		int j = guiTop;
-		blit(i, j, 0, 0, xSize, ySize);
+		blit(stack, i, j, 0, 0, xSize, ySize);
 		drawEntityOnScreen(i + 51, j + 75, 30, i + 51 - mouseX, j + 75 - 50 - mouseY, minecraft.player);
 	}
 	

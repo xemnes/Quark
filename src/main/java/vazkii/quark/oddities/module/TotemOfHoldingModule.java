@@ -1,5 +1,10 @@
 package vazkii.quark.oddities.module;
 
+import java.util.Collection;
+import java.util.Objects;
+
+import com.mojang.datafixers.util.Pair;
+
 import net.minecraft.client.renderer.model.ModelResourceLocation;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
@@ -7,6 +12,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemModelsProperties;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -26,9 +32,6 @@ import vazkii.quark.base.module.ModuleCategory;
 import vazkii.quark.oddities.entity.TotemOfHoldingEntity;
 import vazkii.quark.oddities.item.SoulCompassItem;
 import vazkii.quark.oddities.render.TotemOfHoldingRenderer;
-
-import java.util.Collection;
-import java.util.Objects;
 
 /**
  * @author WireSegal
@@ -83,6 +86,8 @@ public class TotemOfHoldingModule extends Module {
     @OnlyIn(Dist.CLIENT)
     public void clientSetup() {
         RenderingRegistry.registerEntityRenderingHandler(totemType, TotemOfHoldingRenderer::new);
+        
+		ItemModelsProperties.func_239418_a_(soulCompass, new ResourceLocation("angle"), SoulCompassItem::angle);
     }
 
     @Override
@@ -122,10 +127,10 @@ public class TotemOfHoldingModule extends Module {
                 event.setCanceled(true);
             } else persistent.putString(TAG_LAST_TOTEM, "");
 
-            BlockPos pos = player.getPosition();
+            BlockPos pos = player.func_233580_cy_(); // getPosition
             persistent.putInt(TAG_DEATH_X, pos.getX());
             persistent.putInt(TAG_DEATH_Z, pos.getZ());
-            persistent.putInt(TAG_DEATH_DIM, player.world.getDimension().getType().getId());
+            persistent.putString(TAG_DEATH_DIM, player.world.func_234922_V_().func_240901_a_().toString()); // getDimensionType().resourceLocation
 
             if(!data.contains(PlayerEntity.PERSISTED_NBT_TAG))
                 data.put(PlayerEntity.PERSISTED_NBT_TAG, persistent);
@@ -140,17 +145,17 @@ public class TotemOfHoldingModule extends Module {
         return "";
     }
 
-    public static BlockPos getPlayerDeathPosition(Entity e) {
+    public static Pair<BlockPos, String> getPlayerDeathPosition(Entity e) {
         if(e instanceof PlayerEntity) {
             CompoundNBT cmp = e.getPersistentData().getCompound(PlayerEntity.PERSISTED_NBT_TAG);
             if(cmp.contains(TAG_LAST_TOTEM)) {
                 int x = cmp.getInt(TAG_DEATH_X);
                 int z = cmp.getInt(TAG_DEATH_Z);
-                int dim = cmp.getInt(TAG_DEATH_DIM);
-                return new BlockPos(x, dim, z);
+                String dim = cmp.getString(TAG_DEATH_DIM);
+                return Pair.of(new BlockPos(x, -1, z), dim);
             }
         }
 
-        return new BlockPos(0, -1, 0);
+        return null;
     }
 }

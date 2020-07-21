@@ -6,6 +6,7 @@ import java.util.function.Consumer;
 import javax.annotation.Nonnull;
 
 import com.google.common.collect.HashMultimap;
+import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 
 import net.minecraft.client.renderer.color.IItemColor;
@@ -15,6 +16,7 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -31,7 +33,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Rarity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
@@ -73,8 +74,6 @@ public class BackpackItem extends DyeableArmorItem implements IItemColorProvider
 
 		RegistryHelper.registerItem(this, "backpack");
 		this.module = module;
-
-		addPropertyOverride(new ResourceLocation("has_items"), (stack, world, entity) -> (!BackpackModule.superOpMode && doesBackpackHaveItems(stack)) ? 1 : 0);
 	}
 	
 	public static boolean doesBackpackHaveItems(ItemStack stack) {
@@ -183,8 +182,8 @@ public class BackpackItem extends DyeableArmorItem implements IItemColorProvider
 	}
 
 	@Override
-	public Multimap<String, AttributeModifier> getAttributeModifiers(EquipmentSlotType slot, ItemStack stack) {
-		return HashMultimap.create();
+	public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlotType slot, ItemStack stack) {
+		return ImmutableMultimap.of();
 	}
 
 	@Override

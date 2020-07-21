@@ -8,6 +8,7 @@ import java.util.UUID;
 import org.lwjgl.opengl.GL11;
 
 import com.google.common.collect.ImmutableMap;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.block.Block;
@@ -20,7 +21,7 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.state.IProperty;
+import net.minecraft.state.Property;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.state.properties.Half;
 import net.minecraft.state.properties.SlabType;
@@ -30,7 +31,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.RayTraceResult.Type;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.KeybindTextComponent;
 import net.minecraft.util.text.TextFormatting;
@@ -103,7 +104,7 @@ public class LockRotationModule extends Module {
 
 	public static BlockState getRotatedState(World world, BlockPos pos, BlockState state, Direction face, int half) {
 		BlockState setState = state;
-		ImmutableMap<IProperty<?>, Comparable<?>> props = state.getValues();
+		ImmutableMap<Property<?>, Comparable<?>> props = state.getValues();
 		Block block = state.getBlock();
 
 
@@ -173,7 +174,7 @@ public class LockRotationModule extends Module {
 
 			if(result instanceof BlockRayTraceResult && result.getType() == Type.BLOCK) {
 				BlockRayTraceResult bresult = (BlockRayTraceResult) result;
-				Vec3d hitVec = bresult.getHitVec();
+				Vector3d hitVec = bresult.getHitVec();
 				Direction face = bresult.getFace();
 
 				int half = (int) ((hitVec.y - (int) hitVec.y) * 2);
@@ -183,7 +184,7 @@ public class LockRotationModule extends Module {
 				newProfile = new LockProfile(face.getOpposite(), half);
 
 			} else {
-				Vec3d look = mc.player.getLookVec();
+				Vector3d look = mc.player.getLookVec();
 				newProfile = new LockProfile(Direction.getFacingFromVector((float) look.x, (float) look.y, (float) look.z), -1);
 			}
 
@@ -199,6 +200,8 @@ public class LockRotationModule extends Module {
 	public void onHUDRender(RenderGameOverlayEvent.Post event) {
 		if(event.getType() == ElementType.ALL && clientProfile != null) {
 			Minecraft mc = Minecraft.getInstance();
+			MatrixStack matrix = event.getMatrixStack();
+			
 			RenderSystem.pushMatrix();
 			RenderSystem.enableBlend();
 			RenderSystem.enableAlphaTest();
@@ -210,10 +213,10 @@ public class LockRotationModule extends Module {
 			MainWindow window = event.getWindow();
 			int x = window.getScaledWidth() / 2 + 20;
 			int y = window.getScaledHeight() / 2 - 8;
-			Screen.blit(x, y, clientProfile.facing.ordinal() * 16, 65, 16, 16, 256, 256);
+			Screen.blit(matrix, x, y, clientProfile.facing.ordinal() * 16, 65, 16, 16, 256, 256);
 
 			if(clientProfile.half > -1)
-				Screen.blit(x + 16, y, clientProfile.half * 16, 81, 16, 16, 256, 256);
+				Screen.blit(matrix, x + 16, y, clientProfile.half * 16, 81, 16, 16, 256, 256);
 
 			RenderSystem.popMatrix();
 		}
@@ -227,10 +230,9 @@ public class LockRotationModule extends Module {
 		else {
 			boolean locked = player.getPersistentData().getBoolean(TAG_LOCKED_ONCE);
 			if(!locked) {
-				ITextComponent keybind = new KeybindTextComponent("quark.keybind.lock_rotation");
-				keybind.getStyle().setColor(TextFormatting.AQUA);
+				ITextComponent keybind = new KeybindTextComponent("quark.keybind.lock_rotation").func_240701_a_(TextFormatting.AQUA);
 				ITextComponent text = new TranslationTextComponent("quark.misc.rotation_lock", keybind);
-				player.sendMessage(text);
+				player.sendMessage(text, UUID.randomUUID());
 
 				player.getPersistentData().putBoolean(TAG_LOCKED_ONCE, true);
 			}

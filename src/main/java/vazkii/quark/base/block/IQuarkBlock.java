@@ -32,7 +32,7 @@ public interface IQuarkBlock extends IForgeBlock {
 
     @Override
     default int getFlammability(BlockState state, IBlockReader world, BlockPos pos, Direction face) {
-        if (state.has(BlockStateProperties.WATERLOGGED) && state.get(BlockStateProperties.WATERLOGGED))
+        if (state.getValues().containsKey(BlockStateProperties.WATERLOGGED) && state.get(BlockStateProperties.WATERLOGGED))
             return 0;
 
         Material material = state.getMaterial();
@@ -43,7 +43,7 @@ public interface IQuarkBlock extends IForgeBlock {
 
     @Override
     default int getFireSpreadSpeed(BlockState state, IBlockReader world, BlockPos pos, Direction face) {
-        if (state.has(BlockStateProperties.WATERLOGGED) && state.get(BlockStateProperties.WATERLOGGED))
+        if (state.getValues().containsKey(BlockStateProperties.WATERLOGGED) && state.get(BlockStateProperties.WATERLOGGED))
             return 0;
 
         Material material = state.getMaterial();

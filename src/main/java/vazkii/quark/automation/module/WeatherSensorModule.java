@@ -5,6 +5,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraftforge.common.ToolType;
 import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.automation.block.WeatherSensorBlock;
 import vazkii.quark.automation.tile.WeatherSensorTileEntity;
@@ -23,7 +24,11 @@ public class WeatherSensorModule extends Module {
     @Override
     public void construct() {
         Block weatherSensor = new WeatherSensorBlock("weather_sensor", this, ItemGroup.REDSTONE,
-                Block.Properties.create(Material.ROCK, MaterialColor.MAGENTA).hardnessAndResistance(0.2F));
+                Block.Properties.create(Material.ROCK, MaterialColor.MAGENTA)
+                .func_235861_h_() // needs tool
+        		.harvestTool(ToolType.PICKAXE)
+        		.hardnessAndResistance(0.2F));
+        
         weatherSensorTEType = TileEntityType.Builder.create(WeatherSensorTileEntity::new, weatherSensor).build(null);
         RegistryHelper.register(weatherSensorTEType, "weather_sensor");
     }

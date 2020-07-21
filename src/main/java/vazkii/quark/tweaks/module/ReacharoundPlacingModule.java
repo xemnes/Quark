@@ -6,6 +6,7 @@ import java.util.Objects;
 import org.apache.commons.lang3.tuple.Pair;
 
 import com.google.common.collect.Lists;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.block.BlockState;
@@ -25,7 +26,7 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceContext.BlockMode;
 import net.minecraft.util.math.RayTraceContext.FluidMode;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -71,6 +72,7 @@ public class ReacharoundPlacingModule extends Module {
 
 		if (player != null && currentTarget != null) {
 			MainWindow res = event.getWindow();
+			MatrixStack matrix = event.getMatrixStack();
 			String text = (currentTarget.getRight().getAxis() == Axis.Y ? display : displayHorizontal);
 
 			RenderSystem.pushMatrix();
@@ -82,7 +84,7 @@ public class ReacharoundPlacingModule extends Module {
 			
 			RenderSystem.scaled(scale, 1F, 1F);
 			RenderSystem.translatef(-mc.fontRenderer.getStringWidth(text) / 2f, 0, 0);
-			mc.fontRenderer.drawString(text, 0, 0, 0xFFFFFF | opacity);
+			mc.fontRenderer.drawString(matrix, text, 0, 0, 0xFFFFFF | opacity);
 			RenderSystem.popMatrix();
 		}
 	}
@@ -118,7 +120,7 @@ public class ReacharoundPlacingModule extends Module {
 			int count = stack.getCount();
 			Hand hand = event.getHand();
 
-			ItemUseContext context = new ItemUseContext(player, hand, new BlockRayTraceResult(new Vec3d(0.5F, 1F, 0.5F), dir, pos, false));
+			ItemUseContext context = new ItemUseContext(player, hand, new BlockRayTraceResult(new Vector3d(0.5F, 1F, 0.5F), dir, pos, false));
 			ActionResultType res = stack.getItem().onItemUse(context);
 
 			if (res != ActionResultType.PASS) {
@@ -140,10 +142,10 @@ public class ReacharoundPlacingModule extends Module {
 
 		World world = player.world;
 
-		Pair<Vec3d, Vec3d> params = RayTraceHandler.getEntityParams(player);
+		Pair<Vector3d, Vector3d> params = RayTraceHandler.getEntityParams(player);
 		double range = RayTraceHandler.getEntityRange(player);
-		Vec3d rayPos = params.getLeft();
-		Vec3d ray = params.getRight().scale(range);
+		Vector3d rayPos = params.getLeft();
+		Vector3d ray = params.getRight().scale(range);
 
 		RayTraceResult normalRes = RayTraceHandler.rayTrace(player, world, rayPos, ray, BlockMode.OUTLINE, FluidMode.NONE);
 
@@ -160,7 +162,7 @@ public class ReacharoundPlacingModule extends Module {
 		return null;
 	}
 
-	private Pair<BlockPos, Direction> getPlayerVerticalReacharoundTarget(PlayerEntity player, World world, Vec3d rayPos, Vec3d ray) {
+	private Pair<BlockPos, Direction> getPlayerVerticalReacharoundTarget(PlayerEntity player, World world, Vector3d rayPos, Vector3d ray) {
 		if(player.rotationPitch < 0)
 			return null;
 
@@ -178,7 +180,7 @@ public class ReacharoundPlacingModule extends Module {
 		return null;
 	}
 
-	private Pair<BlockPos, Direction> getPlayerHorizontalReacharoundTarget(PlayerEntity player, World world, Vec3d rayPos, Vec3d ray) {
+	private Pair<BlockPos, Direction> getPlayerHorizontalReacharoundTarget(PlayerEntity player, World world, Vector3d rayPos, Vector3d ray) {
 		Direction dir = Direction.fromAngle(player.rotationYaw);
 		rayPos = rayPos.subtract(leniency * dir.getXOffset(), 0, leniency * dir.getZOffset());
 		RayTraceResult take2Res = RayTraceHandler.rayTrace(player, world, rayPos, ray, BlockMode.OUTLINE, FluidMode.NONE);

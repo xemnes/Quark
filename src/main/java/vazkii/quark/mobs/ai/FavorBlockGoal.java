@@ -10,17 +10,17 @@
  */
 package vazkii.quark.mobs.ai;
 
+import java.util.EnumSet;
+import java.util.function.Predicate;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.CreatureEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.tags.Tag;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
-
-import java.util.EnumSet;
-import java.util.function.Predicate;
+import net.minecraft.util.math.vector.Vector3d;
 
 public class FavorBlockGoal extends Goal {
 
@@ -42,7 +42,7 @@ public class FavorBlockGoal extends Goal {
 	}
 
 	public FavorBlockGoal(CreatureEntity creature, double speed, Tag<Block> tag) {
-		this(creature, speed, (state) -> tag.contains(state.getBlock()));
+		this(creature, speed, (state) -> tag.func_230235_a_(state.getBlock())); // contains
 	}
 
 	public FavorBlockGoal(CreatureEntity creature, double speed, Block block) {
@@ -75,7 +75,7 @@ public class FavorBlockGoal extends Goal {
 
 	@Override
 	public void tick() {
-		if (creature.getDistanceSq(new Vec3d(destinationBlock).add(0.5, 1.5, 0.5)) > 1.0D) {
+		if (creature.getDistanceSq(new Vector3d(destinationBlock.getX(), destinationBlock.getY(), destinationBlock.getZ()).add(0.5, 1.5, 0.5)) > 1.0D) {
 			++timeoutCounter;
 
 			if (timeoutCounter % 40 == 0)
@@ -86,8 +86,8 @@ public class FavorBlockGoal extends Goal {
 	}
 
 	private boolean searchForDestination() {
-		double followRange = creature.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).getValue();
-		Vec3d cpos = creature.getPositionVec();
+		double followRange = creature.getAttribute(Attributes.field_233819_b_).getValue(); // FOLLOW_RANGE
+		Vector3d cpos = creature.getPositionVec();
 		double xBase = cpos.x;
 		double yBase = cpos.y;
 		double zBase = cpos.z;

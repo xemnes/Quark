@@ -26,9 +26,9 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
@@ -81,7 +81,7 @@ public class RopeBlock extends QuarkBlock implements IBlockItemProvider {
 				BlockPos bottomPos = getBottomPos(worldIn, pos);
 				BlockState stateAt = worldIn.getBlockState(bottomPos);
 				if (stateAt.getMaterial() == Material.WATER) {
-					Vec3d playerPos = player.getPositionVec();
+					Vector3d playerPos = player.getPositionVec();
 					worldIn.playSound(player, playerPos.x, playerPos.y, playerPos.z, SoundEvents.ITEM_BOTTLE_FILL, SoundCategory.NEUTRAL, 1.0F, 1.0F);
 					stack.shrink(1);
 					ItemStack bottleStack = PotionUtils.addPotionToItemStack(new ItemStack(Items.POTION), Potions.WATER);
@@ -206,7 +206,7 @@ public class RopeBlock extends QuarkBlock implements IBlockItemProvider {
 		
 		if(tile != null) {
 			tile.setPos(dstPos);
-			TileEntity target = TileEntity.create(tile.write(new CompoundNBT()));
+			TileEntity target = TileEntity.func_235657_b_(state, tile.write(new CompoundNBT())); // create
 			if (target != null) {
 				world.setTileEntity(dstPos, target);
 
@@ -215,7 +215,7 @@ public class RopeBlock extends QuarkBlock implements IBlockItemProvider {
 			}
 		}
 
-		world.notifyNeighbors(dstPos, state.getBlock());
+		world.notifyNeighborsOfStateChange(dstPos, state.getBlock());
 	}
 
 	@Override

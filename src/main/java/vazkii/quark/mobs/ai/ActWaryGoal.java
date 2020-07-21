@@ -18,7 +18,7 @@ import java.util.function.BooleanSupplier;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import vazkii.quark.mobs.entity.StonelingEntity;
 import vazkii.quark.tweaks.base.MutableVectorHolder;
 
@@ -49,7 +49,7 @@ public class ActWaryGoal extends WaterAvoidingRandomWalkingGoal {
 	}
 
 	private static void updatePos(MutableVectorHolder holder, Entity entity) {
-		Vec3d pos = entity.getPositionVec();
+		Vector3d pos = entity.getPositionVec();
 		holder.x = pos.x;
 		holder.y = pos.y;
 		holder.z = pos.z;
@@ -105,7 +105,7 @@ public class ActWaryGoal extends WaterAvoidingRandomWalkingGoal {
 				if (scaredBySuddenMovement.getAsBoolean()) {
 					MutableVectorHolder lastSpeed = lastSpeeds.computeIfAbsent(player, p -> new MutableVectorHolder());
 					MutableVectorHolder lastPos = lastPositions.computeIfAbsent(player, ActWaryGoal::initPos);
-					Vec3d pos = player.getPositionVec();
+					Vector3d pos = player.getPositionVec();
 
 					double dX = pos.x - lastPos.x;
 					double dY = pos.y - lastPos.y;

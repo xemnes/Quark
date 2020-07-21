@@ -69,11 +69,6 @@ public class QuarkSlabBlock extends SlabBlock implements IQuarkBlock, IBlockColo
 	}
 
 	@Override
-	public boolean isEmissiveRendering(BlockState p_225543_1_) {
-		return parent.getBlock().isEmissiveRendering(p_225543_1_);
-	}
-
-	@Override
 	@OnlyIn(Dist.CLIENT)
 	public IBlockColor getBlockColor() {
 		return parent instanceof IBlockColorProvider ? ((IBlockColorProvider) parent).getBlockColor() : null;

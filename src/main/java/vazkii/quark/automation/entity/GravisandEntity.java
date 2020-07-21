@@ -1,5 +1,7 @@
 package vazkii.quark.automation.entity;
 
+import javax.annotation.Nonnull;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -16,13 +18,15 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Direction;
-import net.minecraft.util.math.*;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.RayTraceContext;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 import vazkii.quark.automation.module.GravisandModule;
-
-import javax.annotation.Nonnull;
 
 public class GravisandEntity extends FallingBlockEntity {
 
@@ -40,11 +44,11 @@ public class GravisandEntity extends FallingBlockEntity {
 		this(GravisandModule.gravisandType, world);
 		this.preventEntitySpawning = true;
 		this.setPosition(x, y + (double)((1.0F - this.getHeight()) / 2.0F), z);
-		this.setMotion(Vec3d.ZERO);
+		this.setMotion(Vector3d.ZERO);
 		this.prevPosX = x;
 		this.prevPosY = y;
 		this.prevPosZ = z;
-		this.setOrigin(new BlockPos(this));
+		this.setOrigin(new BlockPos(getPositionVec()));
 		dataManager.set(DIRECTION, direction);
 	}
 
@@ -59,8 +63,8 @@ public class GravisandEntity extends FallingBlockEntity {
 	// Mostly vanilla copy but supporting directional falling
 	@Override
 	public void tick() {
-		Vec3d pos = getPositionVec();
-		if (this.fallTile.isAir(world, new BlockPos(this)) || pos.y > 300 || pos.y < -50) {
+		Vector3d pos = getPositionVec();
+		if (this.fallTile.isAir(world, new BlockPos(getPositionVec())) || pos.y > 300 || pos.y < -50) {
 			this.remove();
 		} else {
 			this.prevPosX = pos.x;
@@ -68,7 +72,7 @@ public class GravisandEntity extends FallingBlockEntity {
 			this.prevPosZ = pos.z;
 			Block block = this.fallTile.getBlock();
 			if (this.fallTime++ == 0) {
-				BlockPos blockpos = new BlockPos(this);
+				BlockPos blockpos = new BlockPos(getPositionVec());
 				if (this.world.getBlockState(blockpos).getBlock() == block) {
 					this.world.removeBlock(blockpos, false);
 				} else if (!this.world.isRemote) {
@@ -83,12 +87,12 @@ public class GravisandEntity extends FallingBlockEntity {
 
 			this.move(MoverType.SELF, this.getMotion());
 			if (!this.world.isRemote) {
-				BlockPos fallTarget = new BlockPos(this);
+				BlockPos fallTarget = new BlockPos(getPositionVec());
 				boolean flag = this.fallTile.getBlock() instanceof ConcretePowderBlock;
 				boolean flag1 = flag && this.world.getFluidState(fallTarget).isTagged(FluidTags.WATER);
 				double d0 = this.getMotion().lengthSquared();
 				if (flag && d0 > 1.0D) {
-					BlockRayTraceResult blockraytraceresult = this.world.rayTraceBlocks(new RayTraceContext(new Vec3d(this.prevPosX, this.prevPosY, this.prevPosZ), pos, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.SOURCE_ONLY, this));
+					BlockRayTraceResult blockraytraceresult = this.world.rayTraceBlocks(new RayTraceContext(new Vector3d(this.prevPosX, this.prevPosY, this.prevPosZ), pos, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.SOURCE_ONLY, this));
 					if (blockraytraceresult.getType() != RayTraceResult.Type.MISS && this.world.getFluidState(blockraytraceresult.getPos()).isTagged(FluidTags.WATER)) {
 						fallTarget = blockraytraceresult.getPos();
 						flag1 = true;

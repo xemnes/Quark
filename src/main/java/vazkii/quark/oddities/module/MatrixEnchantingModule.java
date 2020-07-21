@@ -153,7 +153,7 @@ public class MatrixEnchantingModule extends Module {
 	public void onTooltip(ItemTooltipEvent event) {
 		ItemStack stack = event.getItemStack();
 		if(showTooltip && ItemNBTHelper.verifyExistence(stack, MatrixEnchantingTableTileEntity.TAG_STACK_MATRIX))
-			event.getToolTip().add(new TranslationTextComponent("quark.gui.enchanting.pending").setStyle(new Style().setColor(TextFormatting.AQUA)));
+			event.getToolTip().add(new TranslationTextComponent("quark.gui.enchanting.pending").func_240701_a_(TextFormatting.AQUA));
 	}
 
 	@Override

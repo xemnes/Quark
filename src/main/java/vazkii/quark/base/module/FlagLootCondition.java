@@ -3,9 +3,10 @@ package vazkii.quark.base.module;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.storage.loot.LootContext;
-import net.minecraft.world.storage.loot.conditions.ILootCondition;
+import net.minecraft.loot.ILootSerializer;
+import net.minecraft.loot.LootConditionType;
+import net.minecraft.loot.LootContext;
+import net.minecraft.loot.conditions.ILootCondition;
 
 import javax.annotation.Nonnull;
 
@@ -27,24 +28,33 @@ public class FlagLootCondition implements ILootCondition {
     public boolean test(LootContext lootContext) {
         return manager.getFlag(flag);
     }
+    
 
-    public static class Serializer extends AbstractSerializer<FlagLootCondition> {
+	@Nonnull
+    @Override
+	public LootConditionType func_230419_b_() {
+		return ConfigFlagManager.flagConditionType;
+	}
+
+    
+    public static class Serializer implements ILootSerializer<FlagLootCondition> {
         private final ConfigFlagManager manager;
 
-        public Serializer(ConfigFlagManager manager, ResourceLocation location) {
-            super(location, FlagLootCondition.class);
+        public Serializer(ConfigFlagManager manager) {
             this.manager = manager;
         }
 
+
         @Override
-        public void serialize(@Nonnull JsonObject json, @Nonnull FlagLootCondition value, @Nonnull JsonSerializationContext context) {
+        public void func_230424_a_(@Nonnull JsonObject json, @Nonnull FlagLootCondition value, @Nonnull JsonSerializationContext context) {
             json.addProperty("flag", value.flag);
         }
 
         @Nonnull
         @Override
-        public FlagLootCondition deserialize(@Nonnull JsonObject json, @Nonnull JsonDeserializationContext context) {
+        public FlagLootCondition func_230423_a_(@Nonnull JsonObject json, @Nonnull JsonDeserializationContext context) {
             return new FlagLootCondition(manager, json.getAsJsonPrimitive("flag").getAsString());
         }
     }
+
 }

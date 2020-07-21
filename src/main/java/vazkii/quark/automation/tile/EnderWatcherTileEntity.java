@@ -15,7 +15,7 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceContext.BlockMode;
 import net.minecraft.util.math.RayTraceContext.FluidMode;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import vazkii.arl.block.tile.TileMod;
 import vazkii.quark.automation.block.EnderWatcherBlock;
 import vazkii.quark.automation.module.EnderWatcherModule;
@@ -47,7 +47,7 @@ public class EnderWatcherTileEntity extends TileMod implements ITickableTileEnti
 			if(result != null && result instanceof BlockRayTraceResult && ((BlockRayTraceResult) result).getPos().equals(pos)) {
 				looking = true;
 				
-				Vec3d vec = result.getHitVec();
+				Vector3d vec = result.getHitVec();
 				Direction dir = ((BlockRayTraceResult) result).getFace();
 				double x = Math.abs(vec.x - pos.getX() - 0.5) * (1 - Math.abs(dir.getXOffset()));
 				double y = Math.abs(vec.y - pos.getY() - 0.5) * (1 - Math.abs(dir.getYOffset()));

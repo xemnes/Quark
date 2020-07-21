@@ -7,9 +7,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.function.Consumer;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.MainWindow;
@@ -18,12 +20,15 @@ import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.renderer.entity.model.BipedModel;
+import net.minecraft.client.resources.ClientResourcePackInfo;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.resources.IPackFinder;
 import net.minecraft.resources.ResourcePackInfo;
 import net.minecraft.resources.ResourcePackInfo.IFactory;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.GuiScreenEvent;
@@ -97,15 +102,22 @@ public class EmotesModule extends Module {
 	@OnlyIn(Dist.CLIENT)
 	private static Map<KeyBinding, String> emoteKeybinds;
 
-	@OnlyIn(Dist.CLIENT) 
-	public static <T extends ResourcePackInfo> void addResourcePack(Map<String, T> nameToPackMap, IFactory<T> packInfoFactory) {
-		resourcePack = new CustomEmoteIconResourcePack();
-		
-		String name = "quark:emote_resources";
-		T t = ResourcePackInfo.createResourcePack(name, true, () -> resourcePack, packInfoFactory, ResourcePackInfo.Priority.TOP);
-		nameToPackMap.put(name, t);
-	}
+	@Override
+	public void constructClient() {
+		Minecraft mc = Minecraft.getInstance();
+		mc.getResourcePackList().addPackFinder(new IPackFinder() {
 
+			@Override
+			public <T2 extends ResourcePackInfo> void func_230230_a_(Consumer<T2> packConsumer, IFactory<T2> packInfoFactory) {
+				resourcePack = new CustomEmoteIconResourcePack();
+				
+				String name = "quark:emote_resources";
+				T2 t = ResourcePackInfo.createResourcePack(name, true, () -> resourcePack, packInfoFactory, ResourcePackInfo.Priority.TOP, tx->tx);
+				packConsumer.accept(t);
+			}
+		});
+	}
+	
 	@Override
 	public void clientSetup() {
 		Tween.registerAccessor(BipedModel.class, ModelAccessor.INSTANCE);
@@ -198,7 +210,8 @@ public class EmotesModule extends Module {
 					row++;
 			}
 			
-			event.addWidget(new TranslucentButton(gui.width - 1 - EMOTE_BUTTON_WIDTH * EMOTES_PER_ROW, gui.height - 40, EMOTE_BUTTON_WIDTH * EMOTES_PER_ROW, 20, I18n.format("quark.gui.button.emotes"),
+			event.addWidget(new TranslucentButton(gui.width - 1 - EMOTE_BUTTON_WIDTH * EMOTES_PER_ROW, gui.height - 40, EMOTE_BUTTON_WIDTH * EMOTES_PER_ROW, 20, 
+					new TranslationTextComponent("quark.gui.button.emotes"),
 					(b) -> {
 						for(Button bt : emoteButtons)
 							if(bt instanceof EmoteButton) {
@@ -232,6 +245,7 @@ public class EmotesModule extends Module {
 		if(event.getType() == ElementType.ALL) {
 			Minecraft mc = Minecraft.getInstance();
 			MainWindow res = event.getWindow();
+			MatrixStack matrix = event.getMatrixStack();
 			EmoteBase emote = EmoteHandler.getPlayerEmote(mc.player);
 			if(emote != null && emote.timeDone < emote.totalTime) {
 				ResourceLocation resource = emote.desc.texture;
@@ -252,11 +266,11 @@ public class EmotesModule extends Module {
 
 				RenderSystem.color4f(1F, 1F, 1F, transparency);
 				mc.getTextureManager().bindTexture(resource);
-				Screen.blit(x, y, 0, 0, 32, 32, 32, 32);
+				Screen.blit(matrix, x, y, 0, 0, 32, 32, 32, 32);
 				RenderSystem.enableBlend();
 
 				String name = I18n.format(emote.desc.getTranslationKey());
-				mc.fontRenderer.drawStringWithShadow(name, res.getScaledWidth() / 2f - mc.fontRenderer.getStringWidth(name) / 2f, y + 34, 0xFFFFFF + (((int) (transparency * 255F)) << 24));
+				mc.fontRenderer.drawStringWithShadow(matrix, name, res.getScaledWidth() / 2f - mc.fontRenderer.getStringWidth(name) / 2f, y + 34, 0xFFFFFF + (((int) (transparency * 255F)) << 24));
 				RenderSystem.popMatrix();
 			}
 		}

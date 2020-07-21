@@ -5,9 +5,9 @@ import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorld;
 import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraft.world.gen.GenerationSettings;
+import net.minecraft.world.gen.WorldGenRegion;
+import net.minecraft.world.gen.feature.structure.StructureManager;
 import vazkii.quark.base.world.config.DimensionConfig;
 import vazkii.quark.base.world.generator.Generator;
 
@@ -21,7 +21,7 @@ public abstract class MultiChunkFeatureGenerator extends Generator {
 	}
 
 	@Override
-	public final void generateChunk(IWorld world, ChunkGenerator<? extends GenerationSettings> generator, Random rand, BlockPos pos) {
+	public final void generateChunk(WorldGenRegion world, ChunkGenerator generator, StructureManager structureManager, Random rand, BlockPos pos) {
 		int radius = getFeatureRadius();
 		if(radius <= 0)
 			return;
@@ -52,21 +52,21 @@ public abstract class MultiChunkFeatureGenerator extends Generator {
 			}
 	}
 	
-	public boolean isSourceValid(IWorld world, ChunkGenerator<? extends GenerationSettings> generator, BlockPos pos) {
+	public boolean isSourceValid(WorldGenRegion world, ChunkGenerator generator, BlockPos pos) {
 		return true;
 	}
 	
 	public abstract int getFeatureRadius();
 	
-	public abstract void generateChunkPart(BlockPos src, ChunkGenerator<? extends GenerationSettings> generator, Random random, BlockPos chunkCorner, IWorld world);
+	public abstract void generateChunkPart(BlockPos src, ChunkGenerator generator, Random random, BlockPos chunkCorner, WorldGenRegion world);
 	
-	public abstract BlockPos[] getSourcesInChunk(IWorld world, Random random, ChunkGenerator<? extends GenerationSettings> generator, BlockPos chunkLeft);
+	public abstract BlockPos[] getSourcesInChunk(WorldGenRegion world, Random random, ChunkGenerator generator, BlockPos chunkLeft);
 	
 	public void forEachChunkBlock(BlockPos chunkCorner, int minY, int maxY, Consumer<BlockPos> func) {
 		minY = Math.max(1, minY);
 		maxY = Math.min(255, maxY);
 
-		BlockPos.Mutable mutable = new BlockPos.Mutable(chunkCorner);
+		BlockPos.Mutable mutable = new BlockPos.Mutable(chunkCorner.getX(), chunkCorner.getY(), chunkCorner.getZ());
 		for(int x = 0; x < 16; x++)
 			for(int y = minY; y < maxY; y++)
 				for(int z = 0; z < 16; z++) {

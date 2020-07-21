@@ -5,6 +5,7 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.ItemGroup;
+import net.minecraftforge.common.ToolType;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import vazkii.quark.base.block.QuarkBlock;
 import vazkii.quark.base.handler.VariantHandler;
@@ -34,6 +35,8 @@ public class ElderPrismarineUndergroundBiomeModule extends UndergroundBiomeModul
 	public void construct() {
 		elder_prismarine = new QuarkBlock("elder_prismarine", this, ItemGroup.BUILDING_BLOCKS, 
 				Block.Properties.create(Material.ROCK, MaterialColor.ADOBE)
+				.func_235861_h_() // needs tool
+        		.harvestTool(ToolType.PICKAXE)
 				.hardnessAndResistance(1.5F, 10F)
 				.sound(SoundType.STONE));
 		
@@ -44,7 +47,7 @@ public class ElderPrismarineUndergroundBiomeModule extends UndergroundBiomeModul
 		elder_sea_lantern = new QuarkBlock("elder_sea_lantern", this, ItemGroup.BUILDING_BLOCKS, 
 				Block.Properties.create(Material.GLASS, MaterialColor.ADOBE)
 				.hardnessAndResistance(0.3F)
-				.lightValue(15)
+				.func_235838_a_(b -> 15) // lightValue
 				.sound(SoundType.GLASS));
 		
 		super.construct();

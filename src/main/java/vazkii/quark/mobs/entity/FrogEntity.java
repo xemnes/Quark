@@ -1,31 +1,14 @@
 package vazkii.quark.mobs.entity;
 
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.util.Calendar;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import com.google.common.collect.Lists;
-
 import net.minecraft.block.Blocks;
 import net.minecraft.block.SoundType;
-import net.minecraft.entity.AgeableEntity;
-import net.minecraft.entity.EntitySize;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.Pose;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.*;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.controller.JumpController;
 import net.minecraft.entity.ai.controller.MovementController;
-import net.minecraft.entity.ai.goal.BreedGoal;
-import net.minecraft.entity.ai.goal.FollowParentGoal;
-import net.minecraft.entity.ai.goal.LookAtGoal;
-import net.minecraft.entity.ai.goal.LookRandomlyGoal;
-import net.minecraft.entity.ai.goal.PanicGoal;
-import net.minecraft.entity.ai.goal.SwimGoal;
-import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
+import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -40,21 +23,14 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.Path;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.Hand;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.IWorldReader;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.IShearable;
+import net.minecraftforge.common.IForgeShearable;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.network.NetworkHooks;
 import vazkii.quark.base.handler.MiscUtil;
@@ -65,8 +41,15 @@ import vazkii.quark.mobs.ai.PassivePassengerGoal;
 import vazkii.quark.mobs.ai.TemptGoalButNice;
 import vazkii.quark.mobs.module.FrogsModule;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.util.Calendar;
+import java.util.List;
+
 @SuppressWarnings("deprecation")
-public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnData, IShearable {
+public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnData, IForgeShearable {
 
 	public static final ResourceLocation FROG_LOOT_TABLE = new ResourceLocation("quark", "entities/frog");
 
@@ -74,20 +57,13 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 	private static final DataParameter<Float> SIZE_MODIFIER = EntityDataManager.createKey(FrogEntity.class, DataSerializers.FLOAT);
 	private static final DataParameter<Boolean> HAS_SWEATER = EntityDataManager.createKey(FrogEntity.class, DataSerializers.BOOLEAN);
 
-	private static final Ingredient TEMPTATION_ITEMS = Ingredient.merge(Lists.newArrayList(
-			Ingredient.fromItems(Items.SPIDER_EYE),
-			Ingredient.fromTag(ItemTags.FISHES)
-	));
-	private static final Ingredient TEMPTATION_ITEMS_BUT_NICE = Ingredient.merge(Lists.newArrayList(
-			Ingredient.fromItems(Items.SPIDER_EYE, Items.CLOCK),
-			Ingredient.fromTag(ItemTags.FISHES)
-	));
-	
 	public int spawnCd = -1;
 	public int spawnChain = 30;
 
 	public boolean isDuplicate = false;
 	private boolean sweatered = false;
+	
+	private Ingredient[] temptationItems ;
 
 	public FrogEntity(EntityType<? extends FrogEntity> type, World worldIn) {
 		this(type, worldIn, 1);
@@ -118,7 +94,7 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 		goalSelector.addGoal(1, new SwimGoal(this));
 		goalSelector.addGoal(2, new FrogPanicGoal(1.25));
 		goalSelector.addGoal(3, new BreedGoal(this, 1.0));
-		goalSelector.addGoal(4, new TemptGoalButNice(this, 1.2, false, TEMPTATION_ITEMS, TEMPTATION_ITEMS_BUT_NICE));
+		goalSelector.addGoal(4, new TemptGoalButNice(this, 1.2, false, getTemptationItems(false), getTemptationItems(true)));
 		goalSelector.addGoal(5, new FollowParentGoal(this, 1.1));
 		goalSelector.addGoal(6, new FavorBlockGoal(this, 1, Blocks.LILY_PAD));
 		goalSelector.addGoal(7, new WaterAvoidingRandomWalkingGoal(this, 1, 0.5F));
@@ -126,13 +102,12 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 		goalSelector.addGoal(9, new LookRandomlyGoal(this));
 	}
 
-	@Override
-	protected void registerAttributes() {
-		super.registerAttributes();
-		this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(10);
-		this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.25);
-	}
-
+	public static AttributeModifierMap.MutableAttribute prepareAttributes() {
+        return MobEntity.func_233666_p_()
+                .func_233815_a_(Attributes.field_233818_a_, 10.0D) // MAX_HEALTH
+                .func_233815_a_(Attributes.field_233821_d_, 0.25D); // MOEVMENT_SPEED
+    }
+	
 	@Nonnull
 	@Override
 	public MovementController getMoveHelper() {
@@ -198,7 +173,7 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 			if (spawnCd == 0 && !world.isRemote) {
 				float multiplier = 0.8F;
 				FrogEntity newFrog = new FrogEntity(FrogsModule.frogType, world);
-				Vec3d pos = getPositionVector();
+				Vector3d pos = getPositionVec();
 				newFrog.setPosition(pos.x, pos.y, pos.z);
 				newFrog.setMotion((Math.random() - 0.5) * multiplier, (Math.random() - 0.5) * multiplier, (Math.random() - 0.5) * multiplier);
 				newFrog.isDuplicate = true;
@@ -256,10 +231,11 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 		return super.entityDropItem(stack, offsetY);
 	}
 
-	@Override
-	public boolean processInteract(PlayerEntity player, @Nonnull Hand hand) {
-		if (super.processInteract(player, hand))
-			return true;
+	@Override // processInteract
+	public ActionResultType func_230254_b_(PlayerEntity player, @Nonnull Hand hand) {
+		ActionResultType parent = super.func_230254_b_(player, hand);
+		if(parent == ActionResultType.SUCCESS)
+			return parent;
 
 		ItemStack stack = player.getHeldItem(hand);
 		
@@ -271,37 +247,37 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 					dataManager.set(TALK_TIME, 80);
 				}
 					
-				Vec3d pos = getPositionVector();
+				Vector3d pos = getPositionVec();
 				world.playSound(null, pos.x, pos.y, pos.z, QuarkSounds.ENTITY_FROG_WEDNESDAY, SoundCategory.NEUTRAL, 1F, 1F);
 			}
 
-			return true;
+			return ActionResultType.SUCCESS;
 		}
 		
 		if(stack.getItem().isIn(ItemTags.WOOL) && !hasSweater()) {
 			if(!world.isRemote) {
 				setSweater(true);
-				Vec3d pos = getPositionVector();
+				Vector3d pos = getPositionVec();
 				world.playSound(null, pos.x, pos.y, pos.z, SoundType.CLOTH.getPlaceSound(), SoundCategory.PLAYERS, 1F, 1F);
 				stack.shrink(1);
 			}
 			
 			player.swingArm(hand);
-			return true;
+			return ActionResultType.SUCCESS;
 		}
 
-		return false;
+		return ActionResultType.PASS;
 	}
 	
 	@Override
-	public boolean isShearable(ItemStack item, IWorldReader world, BlockPos pos) {
+	public boolean isShearable(ItemStack item, World world, BlockPos pos) {
 		return hasSweater();
 	}
 	
 	@Override
-	public List<ItemStack> onSheared(ItemStack item, IWorld iworld, BlockPos pos, int fortune) {
+	public List<ItemStack> onSheared(PlayerEntity player, ItemStack item, World iworld, BlockPos pos, int fortune) {
 		setSweater(false);
-		Vec3d epos = getPositionVector();
+		Vector3d epos = getPositionVec();
 		world.playSound(null, epos.x, epos.y, epos.z, SoundEvents.ENTITY_SHEEP_SHEAR, SoundCategory.PLAYERS, 1F, 1F);
 		
 		return Lists.newArrayList();
@@ -333,7 +309,23 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 		LocalDate date = LocalDate.now();
 		return !stack.isEmpty() &&
 				(FrogsModule.enableBigFunny && DayOfWeek.from(date) == DayOfWeek.WEDNESDAY ?
-						TEMPTATION_ITEMS_BUT_NICE : TEMPTATION_ITEMS).test(stack);
+						getTemptationItems(true) : getTemptationItems(false)).test(stack);
+	}
+	
+	private Ingredient getTemptationItems(boolean nice) {
+		if(temptationItems == null)
+			temptationItems =  new Ingredient[] {
+					Ingredient.merge(Lists.newArrayList(
+							Ingredient.fromItems(Items.SPIDER_EYE),
+							Ingredient.fromTag(ItemTags.FISHES)
+					)),
+					Ingredient.merge(Lists.newArrayList(
+							Ingredient.fromItems(Items.SPIDER_EYE, Items.CLOCK),
+							Ingredient.fromTag(ItemTags.FISHES)
+					))
+			};
+		
+		return temptationItems[nice ? 1 : 0];
 	}
 
 	@Override
@@ -414,12 +406,12 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 			if (!jumpHelper.getIsJumping()) {
 				if (this.moveController.isUpdating() && this.currentMoveTypeDuration == 0) {
 					Path path = this.navigator.getPath();
-					Vec3d vec3d = new Vec3d(this.moveController.getX(), this.moveController.getY(), this.moveController.getZ());
+					Vector3d Vector3d = new Vector3d(this.moveController.getX(), this.moveController.getY(), this.moveController.getZ());
 
 					if (path != null && path.getCurrentPathIndex() < path.getCurrentPathLength())
-						vec3d = path.getPosition(this);
+						Vector3d = path.getPosition(this);
 
-					this.calculateRotationYaw(vec3d.x, vec3d.z);
+					this.calculateRotationYaw(Vector3d.x, Vector3d.z);
 					this.startJumping();
 				}
 			} else if (!jumpHelper.canJump()) this.enableJumpControl();
@@ -428,13 +420,13 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 		this.wasOnGround = this.onGround;
 	}
 
-	@Override
-	public void spawnRunningParticles() {
-		// NO-OP
+	@Override // spawnRunningParticles
+	public boolean func_230269_aK_() {
+		return false;
 	}
 
 	private void calculateRotationYaw(double x, double z) {
-		Vec3d pos = getPositionVector();
+		Vector3d pos = getPositionVec();
 		this.rotationYaw = (float) (MathHelper.atan2(z - pos.z, x - pos.x) * (180D / Math.PI)) - 90.0F;
 	}
 
@@ -472,10 +464,10 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 		double d0 = this.moveController.getSpeed();
 
 		if (d0 > 0.0D) {
-			Vec3d motion = getMotion();
+			Vector3d motion = getMotion();
 			double d1 = motion.x * motion.x + motion.z * motion.z;
 
-			if (d1 < 0.01) this.moveRelative(0.1F, new Vec3d(0.0F, 0.0F, 1.0F));
+			if (d1 < 0.01) this.moveRelative(0.1F, new Vector3d(0.0F, 0.0F, 1.0F));
 		}
 
 		if (!this.world.isRemote)
@@ -505,7 +497,7 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 	@OnlyIn(Dist.CLIENT)
 	public void handleStatusUpdate(byte id) {
 		if (id == 1) {
-			this.createRunningParticles();
+//			this.createRunningParticles();
 			this.jumpDuration = 10;
 			this.jumpTicks = 0;
 		} else
@@ -527,7 +519,7 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 	public void readSpawnData(PacketBuffer buffer) {
 		dataManager.set(SIZE_MODIFIER, buffer.readFloat());
 	}
-
+	
 	public class FrogJumpController extends JumpController {
 		private boolean canJump;
 
@@ -581,7 +573,7 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 			if (speedIn > 0.0D) this.nextJumpSpeed = speedIn;
 		}
 	}
-
+	
 	public class FrogPanicGoal extends PanicGoal {
 
 		public FrogPanicGoal(double speedIn) {
@@ -594,5 +586,6 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 			setMovementSpeed(this.speed);
 		}
 	}
+
 }
 

@@ -1,11 +1,12 @@
 package vazkii.quark.base.world.generator.multichunk;
 
 import java.util.Random;
+import java.util.stream.IntStream;
 
 import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.gen.PerlinNoiseGenerator;
 import vazkii.quark.base.handler.GeneralConfig;
 import vazkii.quark.base.world.config.BiomeTypeConfig;
@@ -14,10 +15,10 @@ import vazkii.quark.base.world.config.ClusterSizeConfig;
 public class ClusterShape {
 	
 	private final BlockPos src;
-	private final Vec3d radius;
+	private final Vector3d radius;
 	private final PerlinNoiseGenerator noiseGenerator;
 	
-	public ClusterShape(BlockPos src, Vec3d radius, PerlinNoiseGenerator noiseGenerator) {
+	public ClusterShape(BlockPos src, Vector3d radius, PerlinNoiseGenerator noiseGenerator) {
 		this.src = src;
 		this.radius = radius;
 		this.noiseGenerator = noiseGenerator;
@@ -71,7 +72,7 @@ public class ClusterShape {
 		
 		public Provider(ClusterSizeConfig config, long seed) {
 			this.config = config;
-			noiseGenerator = new PerlinNoiseGenerator(new SharedSeedRandom(seed), 4, 4);
+			noiseGenerator = new PerlinNoiseGenerator(new SharedSeedRandom(seed), IntStream.rangeClosed(-4, 4));
 		}
 		
 		public ClusterShape around(BlockPos src) {
@@ -81,7 +82,7 @@ public class ClusterShape {
 			int radiusY = config.verticalSize + rand.nextInt(config.verticalVariation);
 			int radiusZ = config.horizontalSize + rand.nextInt(config.horizontalVariation);
 					
-			return new ClusterShape(src, new Vec3d(radiusX, radiusY, radiusZ), noiseGenerator);
+			return new ClusterShape(src, new Vector3d(radiusX, radiusY, radiusZ), noiseGenerator);
 		}
 		
 		public int getRadius() {

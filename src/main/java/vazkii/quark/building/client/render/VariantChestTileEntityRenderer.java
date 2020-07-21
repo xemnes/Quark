@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.model.Material;
+import net.minecraft.client.renderer.model.RenderMaterial;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.state.properties.ChestType;
 import net.minecraft.tileentity.ChestTileEntity;
@@ -25,7 +25,7 @@ public class VariantChestTileEntityRenderer extends GenericChestTERenderer<Chest
 	}
 
 	@Override
-	public Material getMaterial(ChestTileEntity t, ChestType type) {
+	public RenderMaterial getMaterial(ChestTileEntity t, ChestType type) {
 		Block block = invBlock;
 		if(block == null)
 			block = t.getBlockState().getBlock();
@@ -67,12 +67,12 @@ public class VariantChestTileEntityRenderer extends GenericChestTERenderer<Chest
 	}
 
 	private static class ChestTextureBatch {
-		public final Material normal, left, right;
+		public final RenderMaterial normal, left, right;
 
 		public ChestTextureBatch(ResourceLocation atlas, ResourceLocation normal, ResourceLocation left, ResourceLocation right) {
-			this.normal = new Material(atlas, normal);
-			this.left = new Material(atlas, left);
-			this.right = new Material(atlas, right);
+			this.normal = new RenderMaterial(atlas, normal);
+			this.left = new RenderMaterial(atlas, left);
+			this.right = new RenderMaterial(atlas, right);
 		}
 
 	}

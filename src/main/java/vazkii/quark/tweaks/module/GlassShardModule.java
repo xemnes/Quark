@@ -1,5 +1,9 @@
 package vazkii.quark.tweaks.module;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.SoundType;
@@ -10,9 +14,8 @@ import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.Tag;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -26,10 +29,6 @@ import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
 import vazkii.quark.tweaks.block.DirtyGlassBlock;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-
 /**
  * @author WireSegal
  * Created at 12:26 PM on 8/24/19.
@@ -39,7 +38,7 @@ public class GlassShardModule extends Module {
 
     public static QuarkBlock dirtyGlass;
 
-    public static Tag<Item> shardTag;
+    public static ITag<Item> shardTag;
 
     public static Item clearShard;
     public static Item dirtyShard;
@@ -56,12 +55,12 @@ public class GlassShardModule extends Module {
         dirtyShard = new QuarkItem("dirty_shard", this, new Item.Properties().group(ItemGroup.MATERIALS));
 
         for(DyeColor color : DyeColor.values())
-            shardColors.put(color, new QuarkItem(color.getName() + "_shard", this, new Item.Properties().group(ItemGroup.MATERIALS)));
+            shardColors.put(color, new QuarkItem(color.func_176610_l() + "_shard", this, new Item.Properties().group(ItemGroup.MATERIALS)));
     }
 
     @Override
     public void setup() {
-        shardTag = new ItemTags.Wrapper(new ResourceLocation(Quark.MOD_ID, "shards"));
+        shardTag = ItemTags.makeWrapperTag(Quark.MOD_ID + ":shards");
     }
 
     @SubscribeEvent(priority = EventPriority.LOW)

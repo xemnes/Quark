@@ -30,7 +30,7 @@ public class PaperLanternBlock extends QuarkBlock {
 						.sound(SoundType.WOOD)
 						.harvestTool(ToolType.AXE)
 						.harvestLevel(0)
-						.lightValue(15)
+						.func_235838_a_(b -> 15) // light level
 						.hardnessAndResistance(1.5F));
 	}
 

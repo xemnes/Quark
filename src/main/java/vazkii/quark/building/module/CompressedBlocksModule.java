@@ -12,6 +12,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemGroup;
+import net.minecraftforge.common.ToolType;
 import vazkii.quark.base.block.QuarkBlock;
 import vazkii.quark.base.block.QuarkPillarBlock;
 import vazkii.quark.base.handler.FuelHandler;
@@ -19,7 +20,6 @@ import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
-import vazkii.quark.building.block.BeaconBaseBlock;
 import vazkii.quark.building.block.BurnForeverBlock;
 
 @LoadModule(category = ModuleCategory.BUILDING)
@@ -70,6 +70,8 @@ public class CompressedBlocksModule extends Module {
 	public void construct() {
 		charcoal_block = new BurnForeverBlock("charcoal_block", this, ItemGroup.BUILDING_BLOCKS,
 				Block.Properties.create(Material.ROCK, MaterialColor.BLACK)
+						.func_235861_h_() // needs tool
+		        		.harvestTool(ToolType.PICKAXE)
 						.hardnessAndResistance(5F, 10F)
 						.sound(SoundType.STONE))
 				.setCondition(() -> enableCharcoalBlock);
@@ -80,19 +82,14 @@ public class CompressedBlocksModule extends Module {
 		pillar("chorus_fruit", MaterialColor.PURPLE, false, () -> enableChorusFruitBlock);
 		stick_block = pillar("stick", MaterialColor.WOOD, false, () -> enableStickBlock);
 
-		new BeaconBaseBlock("golden_apple_crate", this, ItemGroup.DECORATIONS,
-				Block.Properties.create(Material.WOOD, MaterialColor.GOLD)
-						.hardnessAndResistance(1.5F)
-						.sound(SoundType.WOOD))
-				.setCondition(() -> enableGoldenAppleCrate);
-
+		crate("golden_apple", MaterialColor.GOLD, true, () -> enableGoldenAppleCrate);
 		crate("apple", MaterialColor.RED, true, () -> enableAppleCrate);
 		crate("potato", MaterialColor.ADOBE, true, () -> enablePotatoCrate);
 		crate("carrot", MaterialColor.ORANGE_TERRACOTTA, true, () -> enableCarrotCrate);
 		crate("beetroot", MaterialColor.RED, true, () -> enableBeetrootCrate);
 
 		sack("cocoa_beans", MaterialColor.BROWN, true, () -> enableCocoaBeanSack);
-		sack("nether_wart", MaterialColor.RED, false, () -> enableNetherWartSack);
+		sack("nether_wart", MaterialColor.RED, true, () -> enableNetherWartSack);
 		sack("gunpowder", MaterialColor.GRAY, false, () -> enableGunpowderSack);
 		sack("berry", MaterialColor.RED, true, () -> enableBerrySack);
 
@@ -100,7 +97,7 @@ public class CompressedBlocksModule extends Module {
 				Block.Properties.create(Material.GLASS, DyeColor.YELLOW)
 				.hardnessAndResistance(0.3F)
 				.sound(SoundType.GLASS)
-				.lightValue(15))
+				.func_235838_a_(b -> 15)) // light value
 		.setCondition(() -> enableBlazeLantern);
 		
 		new QuarkBlock("bonded_leather", this, ItemGroup.BUILDING_BLOCKS, Block.Properties.create(Material.WOOL, DyeColor.ORANGE)

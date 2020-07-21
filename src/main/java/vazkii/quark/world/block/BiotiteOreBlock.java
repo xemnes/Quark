@@ -9,6 +9,7 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IWorldReader;
+import net.minecraftforge.common.ToolType;
 import vazkii.quark.base.block.QuarkBlock;
 import vazkii.quark.base.module.Module;
 
@@ -17,6 +18,8 @@ public class BiotiteOreBlock extends QuarkBlock {
 	public BiotiteOreBlock(Module module) {
 		super("biotite_ore", module, ItemGroup.BUILDING_BLOCKS, 
 				Block.Properties.create(Material.ROCK, MaterialColor.SAND)
+				.func_235861_h_() // needs tool
+        		.harvestTool(ToolType.PICKAXE)
 				.hardnessAndResistance(3.2F, 15F)
 				.sound(SoundType.STONE));
 	}

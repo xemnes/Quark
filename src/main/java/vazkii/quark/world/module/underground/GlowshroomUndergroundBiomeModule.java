@@ -70,7 +70,7 @@ public class GlowshroomUndergroundBiomeModule extends UndergroundBiomeModule {
 		BrewingHandler.addPotionMix("glowshroom_danger_sight",
 				() -> Ingredient.fromItems(glowshroom), dangerSight, 3600, 9600, -1);
 
-		VariantHandler.addFlowerPot(glowshroom, "glowshroom", p -> p.lightValue(14));
+		VariantHandler.addFlowerPot(glowshroom, "glowshroom", p -> p.func_235838_a_(b -> 14)); // lightValue
 
 		super.construct();
 	}
@@ -92,7 +92,7 @@ public class GlowshroomUndergroundBiomeModule extends UndergroundBiomeModule {
 		if(enableDangerSight && event.phase == TickEvent.Phase.START && mc.player != null && mc.player.getActivePotionEffect(dangerSight) != null && !mc.isGamePaused()) {
 			int range = 12;
 			World world = mc.world;
-			Stream<BlockPos> positions = BlockPos.getAllInBox(mc.player.getPosition().add(-range, -range, -range), mc.player.getPosition().add(range, range, range));
+			Stream<BlockPos> positions = BlockPos.getAllInBox(mc.player.func_233580_cy_().add(-range, -range, -range), mc.player.func_233580_cy_().add(range, range, range));
 
 			positions.forEach((pos) -> {
 				if(world.rand.nextFloat() < 0.1 && canSpawnOn(EntityType.ZOMBIE, world, pos)) { 
@@ -113,7 +113,7 @@ public class GlowshroomUndergroundBiomeModule extends UndergroundBiomeModule {
 				&& worldIn.getLightFor(LightType.BLOCK, pos) <= 7
 				&& worldIn.getBlockState(testPos).canEntitySpawn(worldIn, testPos, typeIn)
 				&& WorldEntitySpawner.canSpawnAtBody(EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, worldIn, pos, EntityType.ZOMBIE)
-				&& !((World) worldIn).checkBlockCollision(EntityType.ZOMBIE.func_220328_a(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5)); // canSpawnHere
+				&& !((World) worldIn).hasNoCollisions(EntityType.ZOMBIE.func_220328_a(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5));
 	}
 
 	@Override

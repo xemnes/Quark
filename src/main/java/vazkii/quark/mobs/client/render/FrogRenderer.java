@@ -23,7 +23,7 @@ public class FrogRenderer extends MobRenderer<FrogEntity, FrogModel> {
 	@Override
 	public ResourceLocation getEntityTexture(@Nonnull FrogEntity entity) {
 		if (entity.hasCustomName()) {
-			String name = entity.getCustomName().getUnformattedComponentText().trim();
+			String name = entity.getCustomName().getString().trim();
 			if(name.equalsIgnoreCase("Alex") || name.equalsIgnoreCase("Rat") || name.equalsIgnoreCase("Funny Rat"))
 				return TEXTURE_FUNNY;
 			if(name.equalsIgnoreCase("Snake") || name.equalsIgnoreCase("SnakeBlock") || name.equalsIgnoreCase("Snake Block"))

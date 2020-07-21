@@ -10,8 +10,8 @@ import net.minecraft.block.SlabBlock;
 import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.fluid.Fluid;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
-import net.minecraft.fluid.IFluidState;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -20,17 +20,16 @@ import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.state.properties.SlabType;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Direction.Axis;
 import net.minecraft.util.Direction.AxisDirection;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraftforge.api.distmarker.Dist;
@@ -85,7 +84,7 @@ public class VerticalSlabBlock extends QuarkBlock implements IWaterLoggable, IBl
 		if(blockstate.getBlock() == this) 
 			return blockstate.with(TYPE, VerticalSlabType.DOUBLE).with(WATERLOGGED, false);
 		
-		IFluidState fluid = context.getWorld().getFluidState(blockpos);
+		FluidState fluid = context.getWorld().getFluidState(blockpos);
 		BlockState retState = getDefaultState().with(WATERLOGGED, fluid.getFluid() == Fluids.WATER);
 		Direction direction = getDirectionForPlacement(context);
 		VerticalSlabType type = VerticalSlabType.fromDirection(direction);
@@ -98,7 +97,8 @@ public class VerticalSlabBlock extends QuarkBlock implements IWaterLoggable, IBl
 		if(direction.getAxis() != Axis.Y)
 			return direction;
 		
-		Vec3d vec = context.getHitVec().subtract(new Vec3d(context.getPos())).subtract(0.5, 0, 0.5);
+		BlockPos pos = context.getPos();
+		Vector3d vec = context.getHitVec().subtract(new Vector3d(pos.getX(), pos.getY(), pos.getZ())).subtract(0.5, 0, 0.5);
 		double angle = Math.atan2(vec.x, vec.z) * -180.0 / Math.PI;
 		return Direction.fromAngle(angle).getOpposite();
 	}
@@ -115,12 +115,12 @@ public class VerticalSlabBlock extends QuarkBlock implements IWaterLoggable, IBl
 	@Nonnull
 	@Override
 	@SuppressWarnings("deprecation")
-	public IFluidState getFluidState(BlockState state) {
+	public FluidState getFluidState(BlockState state) {
 		return state.get(WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
 	}
 
 	@Override
-	public boolean receiveFluid(@Nonnull IWorld worldIn, @Nonnull BlockPos pos, BlockState state, @Nonnull IFluidState fluidStateIn) {
+	public boolean receiveFluid(@Nonnull IWorld worldIn, @Nonnull BlockPos pos, BlockState state, @Nonnull FluidState fluidStateIn) {
 		return state.get(TYPE) != VerticalSlabType.DOUBLE && IWaterLoggable.super.receiveFluid(worldIn, pos, state, fluidStateIn);
 	}
 
@@ -142,11 +142,6 @@ public class VerticalSlabBlock extends QuarkBlock implements IWaterLoggable, IBl
 	@Override
 	public boolean allowsMovement(@Nonnull BlockState state, @Nonnull IBlockReader worldIn, @Nonnull BlockPos pos, PathType type) {
 		return type == PathType.WATER && worldIn.getFluidState(pos).isTagged(FluidTags.WATER); 
-	}
-	
-	@Override
-	public boolean isEmissiveRendering(BlockState p_225543_1_) {
-		return parent.getBlock().isEmissiveRendering(p_225543_1_);
 	}
 
 	@Override
@@ -173,7 +168,7 @@ public class VerticalSlabBlock extends QuarkBlock implements IWaterLoggable, IBl
 		public final VoxelShape shape;
 
 		VerticalSlabType(Direction direction) {
-			this.name = direction == null ? "double" : direction.getName();
+			this.name = direction == null ? "double" : direction.func_176610_l(); // name()
 			this.direction = direction;
 
 			if(direction == null)
@@ -199,7 +194,7 @@ public class VerticalSlabBlock extends QuarkBlock implements IWaterLoggable, IBl
 
 		@Nonnull
 		@Override
-		public String getName() {
+		public String func_176610_l() { // getName
 			return name;
 		}
 

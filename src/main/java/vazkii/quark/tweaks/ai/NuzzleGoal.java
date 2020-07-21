@@ -47,6 +47,7 @@ public class NuzzleGoal extends Goal {
 			throw new IllegalArgumentException("Unsupported mob type for FollowOwnerGoal");
 	}
 
+	@Override
 	public boolean shouldExecute() {
 		if (!WantLoveGoal.needsPets(creature))
 			return false;
@@ -54,7 +55,7 @@ public class NuzzleGoal extends Goal {
 		LivingEntity living = this.creature.getOwner();
 
 		if (living == null || living.isSpectator() ||
-				this.creature.isSitting())
+				this.creature.func_233684_eK_())
 			return false;
 		else {
 			this.owner = living;
@@ -62,12 +63,14 @@ public class NuzzleGoal extends Goal {
 		}
 	}
 
+	@Override
 	public boolean shouldContinueExecuting() {
 		if (!WantLoveGoal.needsPets(creature))
 			return false;
-		return !this.petPathfinder.noPath() && this.creature.getDistanceSq(this.owner) > (this.maxDist * this.maxDist) && !this.creature.isSitting();
+		return !this.petPathfinder.noPath() && this.creature.getDistanceSq(this.owner) > (this.maxDist * this.maxDist) && !this.creature.func_233684_eK_();
 	}
 
+	@Override
 	public void startExecuting() {
 		this.timeUntilRebuildPath = 0;
 		this.whineCooldown = 10;
@@ -75,6 +78,7 @@ public class NuzzleGoal extends Goal {
 		this.creature.setPathPriority(PathNodeType.WATER, 0.0F);
 	}
 
+	@Override
 	public void resetTask() {
 		this.owner = null;
 		this.petPathfinder.clearPath();
@@ -85,7 +89,7 @@ public class NuzzleGoal extends Goal {
 	public void tick() {
 		this.creature.getLookController().setLookPositionWithEntity(this.owner, 10.0F, this.creature.getVerticalFaceSpeed());
 
-		if (!this.creature.isSitting()) {
+		if (!this.creature.func_233684_eK_()) {
 			if (--this.timeUntilRebuildPath <= 0) {
 				this.timeUntilRebuildPath = 10;
 

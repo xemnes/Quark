@@ -1,13 +1,6 @@
 package vazkii.quark.tools.entity;
 
-import java.util.List;
-import java.util.UUID;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import com.google.common.collect.Multimap;
-
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -15,20 +8,19 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.AttributeMap;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.ai.attributes.IAttributeInstance;
+import net.minecraft.entity.ai.attributes.*;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap.MutableAttribute;
 import net.minecraft.entity.item.ExperienceOrbEntity;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.entity.projectile.ProjectileHelper;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.network.IPacket;
 import net.minecraft.network.datasync.DataParameter;
@@ -38,14 +30,9 @@ import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.Hand;
 import net.minecraft.util.IndirectEntityDamageSource;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.RayTraceContext;
-import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.*;
 import net.minecraft.util.math.RayTraceResult.Type;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
@@ -55,7 +42,12 @@ import vazkii.quark.base.handler.QuarkSounds;
 import vazkii.quark.mobs.entity.ToretoiseEntity;
 import vazkii.quark.tools.module.PickarangModule;
 
-public class PickarangEntity extends Entity implements IProjectile {
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.List;
+import java.util.UUID;
+
+public class PickarangEntity extends ProjectileEntity {
 
 	private static final DataParameter<ItemStack> STACK = EntityDataManager.createKey(PickarangEntity.class, DataSerializers.ITEMSTACK);
 	private static final DataParameter<Boolean> RETURNING = EntityDataManager.createKey(PickarangEntity.class, DataSerializers.BOOLEAN);
@@ -81,7 +73,7 @@ public class PickarangEntity extends Entity implements IProjectile {
 
 	public PickarangEntity(World worldIn, LivingEntity throwerIn) {
 		super(PickarangModule.pickarangType, worldIn);
-		Vec3d pos = throwerIn.getPositionVec();
+		Vector3d pos = throwerIn.getPositionVec();
 		this.setPosition(pos.x, pos.y + throwerIn.getEyeHeight(), pos.z);
 		ownerId = throwerIn.getUniqueID();
 	}
@@ -101,18 +93,18 @@ public class PickarangEntity extends Entity implements IProjectile {
 		float f1 = -MathHelper.sin((rotationPitchIn + pitchOffset) * ((float)Math.PI / 180F));
 		float f2 = MathHelper.cos(rotationYawIn * ((float)Math.PI / 180F)) * MathHelper.cos(rotationPitchIn * ((float)Math.PI / 180F));
 		this.shoot(f, f1, f2, velocity, inaccuracy);
-		Vec3d vec3d = entityThrower.getMotion();
-		this.setMotion(this.getMotion().add(vec3d.x, entityThrower.onGround ? 0.0D : vec3d.y, vec3d.z));
+		Vector3d Vector3d = entityThrower.getMotion();
+		this.setMotion(this.getMotion().add(Vector3d.x, entityThrower.onGround ? 0.0D : Vector3d.y, Vector3d.z));
 	}
 
 
 	@Override
 	public void shoot(double x, double y, double z, float velocity, float inaccuracy) {
-		Vec3d vec3d = (new Vec3d(x, y, z)).normalize().add(this.rand.nextGaussian() * 0.0075F * inaccuracy, this.rand.nextGaussian() * 0.0075F * inaccuracy, this.rand.nextGaussian() * 0.0075F * inaccuracy).scale(velocity);
-		this.setMotion(vec3d);
-		float f = MathHelper.sqrt(horizontalMag(vec3d));
-		this.rotationYaw = (float)(MathHelper.atan2(vec3d.x, vec3d.z) * (180F / (float)Math.PI));
-		this.rotationPitch = (float)(MathHelper.atan2(vec3d.y, f) * (180F / (float)Math.PI));
+		Vector3d Vector3d = (new Vector3d(x, y, z)).normalize().add(this.rand.nextGaussian() * 0.0075F * inaccuracy, this.rand.nextGaussian() * 0.0075F * inaccuracy, this.rand.nextGaussian() * 0.0075F * inaccuracy).scale(velocity);
+		this.setMotion(Vector3d);
+		float f = MathHelper.sqrt(horizontalMag(Vector3d));
+		this.rotationYaw = (float)(MathHelper.atan2(Vector3d.x, Vector3d.z) * (180F / (float)Math.PI));
+		this.rotationPitch = (float)(MathHelper.atan2(Vector3d.y, f) * (180F / (float)Math.PI));
 		this.prevRotationYaw = this.rotationYaw;
 		this.prevRotationPitch = this.rotationPitch;
 	}
@@ -146,9 +138,9 @@ public class PickarangEntity extends Entity implements IProjectile {
 		if(world.isRemote)
 			return;
 
-		Vec3d motion = getMotion();
-		Vec3d position = getPositionVector();
-		Vec3d rayEnd = position.add(motion);
+		Vector3d motion = getMotion();
+		Vector3d position = getPositionVec();
+		Vector3d rayEnd = position.add(motion);
 
 		boolean doEntities = true;
 		int tries = 100;
@@ -174,7 +166,7 @@ public class PickarangEntity extends Entity implements IProjectile {
 	}
 
 	@Nullable
-	protected EntityRayTraceResult raycastEntities(Vec3d from, Vec3d to) {
+	protected EntityRayTraceResult raycastEntities(Vector3d from, Vector3d to) {
 		return ProjectileHelper.rayTraceEntities(world, this, from, to, getBoundingBox().expand(getMotion()).grow(1.0D), (entity) -> 
 		!entity.isSpectator() 
 		&& entity.isAlive() 
@@ -183,6 +175,7 @@ public class PickarangEntity extends Entity implements IProjectile {
 		&& (entitiesHit == null || !entitiesHit.contains(entity.getEntityId())));
 	}
 
+	@Override
 	protected void onImpact(@Nonnull RayTraceResult result) {
 		LivingEntity owner = getThrower();
 
@@ -224,15 +217,15 @@ public class PickarangEntity extends Entity implements IProjectile {
 					clank();
 				} else {
 					ItemStack pickarang = getStack();
-					Multimap<String, AttributeModifier> modifiers = pickarang.getAttributeModifiers(EquipmentSlotType.MAINHAND);
+					Multimap<Attribute, AttributeModifier> modifiers = pickarang.getAttributeModifiers(EquipmentSlotType.MAINHAND);
 
 					if (owner != null) {
 						ItemStack prev = owner.getHeldItemMainhand();
 						owner.setHeldItem(Hand.MAIN_HAND, pickarang);
-						owner.getAttributes().applyAttributeModifiers(modifiers);
+						owner.func_233645_dx_().func_233793_b_(modifiers);
 
 						int ticksSinceLastSwing = owner.ticksSinceLastSwing;
-						owner.ticksSinceLastSwing = (int) (1.0 / owner.getAttribute(SharedMonsterAttributes.ATTACK_SPEED).getValue() * 20.0) + 1;
+						owner.ticksSinceLastSwing = (int) (1.0 / owner.func_233637_b_(Attributes.field_233825_h_) * 20.0) + 1; // ATTACK_SPEED
 
 						float prevHealth = hit instanceof LivingEntity ? ((LivingEntity) hit).getHealth() : 0;
 
@@ -266,17 +259,18 @@ public class PickarangEntity extends Entity implements IProjectile {
 
 						setStack(owner.getHeldItemMainhand());
 						owner.setHeldItem(Hand.MAIN_HAND, prev);
-						owner.getAttributes().removeAttributeModifiers(modifiers);
+						owner.func_233645_dx_().func_233785_a_(modifiers);
 					} else {
-						AttributeMap map = new AttributeMap();
-						IAttributeInstance attack = map.registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
-						attack.setBaseValue(1);
-						map.applyAttributeModifiers(modifiers);
+						MutableAttribute mapBuilder = new MutableAttribute();
+						mapBuilder.func_233815_a_(Attributes.field_233823_f_, 1); // ATTACK_DAMAGE
+						AttributeModifierMap map = mapBuilder.func_233813_a_();
+						AttributeModifierManager manager = new AttributeModifierManager(map);
+						manager.func_233793_b_(modifiers);
 						ItemStack stack = getStack();
 						stack.attemptDamageItem(1, world.rand, null);
 						setStack(stack);
 						hit.attackEntityFrom(new IndirectEntityDamageSource("player", this, this).setProjectile(),
-								(float) attack.getValue());
+								(float) manager.func_233795_c_(Attributes.field_233825_h_));
 					}
 				}
 			}
@@ -323,7 +317,7 @@ public class PickarangEntity extends Entity implements IProjectile {
 
 	@Override
 	public void tick() {
-		Vec3d pos = getPositionVec();
+		Vector3d pos = getPositionVec();
 
 		this.lastTickPosX = pos.x;
 		this.lastTickPosY = pos.y;
@@ -333,13 +327,13 @@ public class PickarangEntity extends Entity implements IProjectile {
 		if(!dataManager.get(RETURNING))
 			checkImpact();
 
-		Vec3d vec3d = this.getMotion();
-		setPosition(pos.x + vec3d.x, pos.y + vec3d.y, pos.z + vec3d.z);
+		Vector3d Vector3d = this.getMotion();
+		setPosition(pos.x + Vector3d.x, pos.y + Vector3d.y, pos.z + Vector3d.z);
 
-		float f = MathHelper.sqrt(horizontalMag(vec3d));
-		this.rotationYaw = (float)(MathHelper.atan2(vec3d.x, vec3d.z) * (180F / (float)Math.PI));
+		float f = MathHelper.sqrt(horizontalMag(Vector3d));
+		this.rotationYaw = (float)(MathHelper.atan2(Vector3d.x, Vector3d.z) * (180F / (float)Math.PI));
 
-		this.rotationPitch = (float)(MathHelper.atan2(vec3d.y, f) * (180F / (float)Math.PI));
+		this.rotationPitch = (float)(MathHelper.atan2(Vector3d.y, f) * (180F / (float)Math.PI));
 		while (this.rotationPitch - this.prevRotationPitch < -180.0F) this.prevRotationPitch -= 360.0F;
 
 		while(this.rotationPitch - this.prevRotationPitch >= 180.0F) this.prevRotationPitch += 360.0F;
@@ -353,13 +347,13 @@ public class PickarangEntity extends Entity implements IProjectile {
 		float drag;
 		if (this.isInWater()) {
 			for(int i = 0; i < 4; ++i) {
-				this.world.addParticle(ParticleTypes.BUBBLE, pos.x - vec3d.x * 0.25D, pos.y - vec3d.y * 0.25D, pos.z - vec3d.z * 0.25D, vec3d.x, vec3d.y, vec3d.z);
+				this.world.addParticle(ParticleTypes.BUBBLE, pos.x - Vector3d.x * 0.25D, pos.y - Vector3d.y * 0.25D, pos.z - Vector3d.z * 0.25D, Vector3d.x, Vector3d.y, Vector3d.z);
 			}
 
 			drag = 0.8F;
 		} else drag = 0.99F;
 
-		this.setMotion(vec3d.scale(drag));
+		this.setMotion(Vector3d.scale(drag));
 
 		pos = getPositionVec();
 		this.setPosition(pos.x, pos.y, pos.z);
@@ -373,7 +367,7 @@ public class PickarangEntity extends Entity implements IProjectile {
 		if(!returning) {
 			if(liveTime > PickarangModule.timeout)
 				setReturning();
-			if (!world.getWorldBorder().contains(getPosition()))
+			if (!world.getWorldBorder().contains(getBoundingBox()))
 				spark();
 		} else {
 			noClip = true;
@@ -384,7 +378,7 @@ public class PickarangEntity extends Entity implements IProjectile {
 			List<ItemEntity> items = world.getEntitiesWithinAABB(ItemEntity.class, getBoundingBox().grow(2));
 			List<ExperienceOrbEntity> xp = world.getEntitiesWithinAABB(ExperienceOrbEntity.class, getBoundingBox().grow(2));
 
-			Vec3d ourPos = getPositionVector();
+			Vector3d ourPos = getPositionVec();
 			for(ItemEntity item : items) {
 				if (item.isPassenger())
 					continue;
@@ -412,8 +406,8 @@ public class PickarangEntity extends Entity implements IProjectile {
 				return;
 			}
 
-			Vec3d ownerPos = owner.getPositionVector().add(0, 1, 0);
-			Vec3d motion = ownerPos.subtract(ourPos);
+			Vector3d ownerPos = owner.getPositionVec().add(0, 1, 0);
+			Vector3d motion = ownerPos.subtract(ourPos);
 			double motionMag = 3.25 + eff * 0.25;
 
 			if(motion.lengthSquared() < motionMag) {
@@ -520,8 +514,11 @@ public class PickarangEntity extends Entity implements IProjectile {
 		else
 			setStack(new ItemStack(PickarangModule.pickarang));
 
-		if (compound.contains("owner", 10))
-			this.ownerId = NBTUtil.readUniqueId(compound.getCompound("owner"));
+		if (compound.contains("owner", 10)) {
+			INBT owner = compound.get("owner");
+			if (owner != null)
+				this.ownerId = NBTUtil.readUniqueId(owner);
+		}
 	}
 
 	@Override
@@ -533,7 +530,7 @@ public class PickarangEntity extends Entity implements IProjectile {
 
 		compound.put(TAG_ITEM_STACK, getStack().serializeNBT());
 		if (this.ownerId != null)
-			compound.put("owner", NBTUtil.writeUniqueId(this.ownerId));
+			compound.put("owner", NBTUtil.func_240626_a_(this.ownerId));
 	}
 
 	@Nonnull

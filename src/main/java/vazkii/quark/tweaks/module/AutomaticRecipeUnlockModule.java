@@ -1,10 +1,15 @@
 package vazkii.quark.tweaks.module;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Queue;
+
 import com.google.common.collect.Lists;
+
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.recipebook.IRecipeShownListener;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.inventory.CraftingScreen;
-import net.minecraft.client.gui.screen.inventory.InventoryScreen;
 import net.minecraft.client.gui.toasts.IToast;
 import net.minecraft.client.gui.toasts.RecipeToast;
 import net.minecraft.client.gui.toasts.ToastGui;
@@ -26,11 +31,6 @@ import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Queue;
-
 @LoadModule(category = ModuleCategory.TWEAKS, hasSubscriptions = true)
 public class AutomaticRecipeUnlockModule extends Module {
 
@@ -48,9 +48,11 @@ public class AutomaticRecipeUnlockModule extends Module {
 			ServerPlayerEntity spe = (ServerPlayerEntity) player;
 			MinecraftServer server = spe.getServer();
 			if (server != null) {
-				List<IRecipe<?>> recipes = new ArrayList<>(server.getRecipeManager().getRecipes());
-				recipes.removeIf((recipe) -> ignoredRecipes.contains(Objects.toString(recipe.getId())) || recipe.getRecipeOutput().isEmpty());
-				player.unlockRecipes(recipes);
+				new Thread(() -> {
+					List<IRecipe<?>> recipes = new ArrayList<>(server.getRecipeManager().getRecipes());
+					recipes.removeIf((recipe) -> ignoredRecipes.contains(Objects.toString(recipe.getId())) || recipe.getRecipeOutput().isEmpty());
+					player.unlockRecipes(recipes);
+				}).start();
 
 				if (forceLimitedCrafting)
 					player.world.getGameRules().get(GameRules.DO_LIMITED_CRAFTING).set(true, server);
@@ -62,7 +64,7 @@ public class AutomaticRecipeUnlockModule extends Module {
 	@OnlyIn(Dist.CLIENT)
 	public void onInitGui(InitGuiEvent.Post event) {
 		Screen gui = event.getGui();
-		if(disableRecipeBook && (gui instanceof InventoryScreen || gui instanceof CraftingScreen)) {
+		if(disableRecipeBook && gui instanceof IRecipeShownListener) {
 			Minecraft.getInstance().player.getRecipeBook().setGuiOpen(false);
 			
 			List<Widget> widgets = event.getWidgetList();

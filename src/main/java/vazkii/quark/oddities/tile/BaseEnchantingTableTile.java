@@ -1,9 +1,6 @@
 package vazkii.quark.oddities.tile;
 
-import java.util.Random;
-
-import javax.annotation.Nonnull;
-
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
@@ -16,6 +13,9 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import vazkii.arl.block.tile.TileSimpleInventory;
 import vazkii.quark.base.handler.MiscUtil;
+
+import javax.annotation.Nonnull;
+import java.util.Random;
 
 public abstract class BaseEnchantingTableTile extends TileSimpleInventory implements ITickableTileEntity, INameable {
 
@@ -50,12 +50,12 @@ public abstract class BaseEnchantingTableTile extends TileSimpleInventory implem
 		return compound;
 	}
 
-	@Override
-	public void read(CompoundNBT compound) {
-		super.read(compound);
+	@Override 
+	public void func_230337_a_(BlockState p_230337_1_, CompoundNBT compound) { // read
+		super.func_230337_a_(p_230337_1_, compound);
 
 		if(compound.contains("CustomName", 8))
-			customName = ITextComponent.Serializer.fromJson(compound.getString("CustomName"));
+			customName = ITextComponent.Serializer.func_240643_a_(compound.getString("CustomName"));
 	}
 
 	@Override

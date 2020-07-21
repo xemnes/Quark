@@ -22,7 +22,6 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.particles.RedstoneParticleData;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
@@ -31,10 +30,8 @@ import net.minecraft.util.Direction.Axis;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
-import net.minecraft.world.server.ServerChunkProvider;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -88,7 +85,7 @@ public class PipeTileEntity extends TileSimpleInventory implements ITickableTile
 						if(entity == null || !entity.isAlive())
 							return false;
 						
-						Vec3d motion = entity.getMotion();
+						Vector3d motion = entity.getMotion();
 						Direction dir = Direction.getFacingFromVector(motion.x, motion.y, motion.z);
 						
 						return dir == opposite;
@@ -161,8 +158,9 @@ public class PipeTileEntity extends TileSimpleInventory implements ITickableTile
 		return pipeItems.iterator(); 
 	}
 
-	public boolean passIn(ItemStack stack, Direction face, long seed, int time) {
+	public boolean passIn(ItemStack stack, Direction face, Direction backlog, long seed, int time) {
 		PipeItem item = new PipeItem(stack, face, seed);
+		item.backloggedFace = backlog;
 		if(!iterating) {
 			int currentOut = getComparatorOutput();
 			pipeItems.add(item);
@@ -175,7 +173,7 @@ public class PipeTileEntity extends TileSimpleInventory implements ITickableTile
 	}
 
 	public boolean passIn(ItemStack stack, Direction face) {
-		return passIn(stack, face, world.rand.nextLong(), 0);
+		return passIn(stack, face, null, world.rand.nextLong(), 0);
 	}
 
 	protected void passOut(PipeItem item) {
@@ -184,7 +182,7 @@ public class PipeTileEntity extends TileSimpleInventory implements ITickableTile
 		boolean did = false;
 		if(tile != null) {
 			if(tile instanceof PipeTileEntity)
-				did = ((PipeTileEntity) tile).passIn(item.stack, item.outgoingFace.getOpposite(), item.rngSeed, item.timeInWorld);
+				did = ((PipeTileEntity) tile).passIn(item.stack, item.outgoingFace.getOpposite(), null, item.rngSeed, item.timeInWorld);
 			else if (!world.isRemote) {
 				ItemStack result = putIntoInv(item.stack, tile, item.outgoingFace.getOpposite(), false);
 				if(result.getCount() != item.stack.getCount()) {
@@ -201,7 +199,7 @@ public class PipeTileEntity extends TileSimpleInventory implements ITickableTile
 
 	private void bounceBack(PipeItem item, ItemStack stack) {
 		if(!world.isRemote)
-			passIn(stack == null ? item.stack : stack, item.outgoingFace, item.rngSeed, item.timeInWorld);
+			passIn(stack == null ? item.stack : stack, item.outgoingFace, item.incomingFace, item.rngSeed, item.timeInWorld);
 	}
 
 	public void dropItem(ItemStack stack) {
@@ -349,6 +347,7 @@ public class PipeTileEntity extends TileSimpleInventory implements ITickableTile
 		private static final String TAG_TICKS = "ticksInPipe";
 		private static final String TAG_INCOMING = "incomingFace";
 		private static final String TAG_OUTGOING = "outgoingFace";
+		private static final String TAG_BACKLOGGED = "backloggedFace";
 		private static final String TAG_RNG_SEED = "rngSeed";
 		private static final String TAG_TIME_IN_WORLD = "timeInWorld";
 
@@ -358,6 +357,7 @@ public class PipeTileEntity extends TileSimpleInventory implements ITickableTile
 		public int ticksInPipe;
 		public final Direction incomingFace;
 		public Direction outgoingFace;
+		public Direction backloggedFace;
 		public long rngSeed;
 		public int timeInWorld = 0;
 		public boolean valid = true;
@@ -390,13 +390,13 @@ public class PipeTileEntity extends TileSimpleInventory implements ITickableTile
 
 		protected Direction getTargetFace(PipeTileEntity pipe) {
 			BlockPos pipePos = pipe.getPos();
-			if(incomingFace != Direction.DOWN && pipe.canFit(stack, pipePos.offset(Direction.DOWN), Direction.UP))
+			if(incomingFace != Direction.DOWN && backloggedFace != Direction.DOWN && pipe.canFit(stack, pipePos.offset(Direction.DOWN), Direction.UP))
 				return Direction.DOWN;
 
 			Direction incomingOpposite = incomingFace; // init as same so it doesn't break in the remove later
 			if(incomingFace.getAxis() != Axis.Y) {
 				incomingOpposite = incomingFace.getOpposite();
-				if(pipe.canFit(stack, pipePos.offset(incomingOpposite), incomingFace))
+				if(incomingOpposite != backloggedFace && pipe.canFit(stack, pipePos.offset(incomingOpposite), incomingFace))
 					return incomingOpposite;
 			}
 
@@ -408,13 +408,16 @@ public class PipeTileEntity extends TileSimpleInventory implements ITickableTile
 			rngSeed = rng.nextLong();
 			Collections.shuffle(sides, rng);
 			for(Direction side : sides) {
-				if(pipe.canFit(stack, pipePos.offset(side), side.getOpposite()))
+				if(side != backloggedFace && pipe.canFit(stack, pipePos.offset(side), side.getOpposite()))
 					return side;
 			}
 
-			if(incomingFace != Direction.UP && pipe.canFit(stack, pipePos.offset(Direction.UP), Direction.DOWN))
+			if(incomingFace != Direction.UP && backloggedFace != Direction.UP && pipe.canFit(stack, pipePos.offset(Direction.UP), Direction.DOWN))
 				return Direction.UP;
 
+			if(backloggedFace != null)
+				return backloggedFace;
+			
 			return null;
 		}
 
@@ -427,6 +430,7 @@ public class PipeTileEntity extends TileSimpleInventory implements ITickableTile
 			cmp.putInt(TAG_TICKS, ticksInPipe);
 			cmp.putInt(TAG_INCOMING, incomingFace.ordinal());
 			cmp.putInt(TAG_OUTGOING, outgoingFace.ordinal());
+			cmp.putInt(TAG_BACKLOGGED, backloggedFace != null ? backloggedFace.ordinal() : -1);
 			cmp.putLong(TAG_RNG_SEED, rngSeed);
 			cmp.putInt(TAG_TIME_IN_WORLD, timeInWorld);
 		}
@@ -435,14 +439,19 @@ public class PipeTileEntity extends TileSimpleInventory implements ITickableTile
 			ItemStack stack = ItemStack.read(cmp);
 			Direction inFace = Direction.values()[cmp.getInt(TAG_INCOMING)];
 			long rngSeed = cmp.getLong(TAG_RNG_SEED);
+			
 			PipeItem item = new PipeItem(stack, inFace, rngSeed);
 			item.ticksInPipe = cmp.getInt(TAG_TICKS);
 			item.outgoingFace = Direction.values()[cmp.getInt(TAG_OUTGOING)];
 			item.timeInWorld = cmp.getInt(TAG_TIME_IN_WORLD);
-
+			
+			int backloggedId = cmp.getInt(TAG_BACKLOGGED);
+			item.backloggedFace = backloggedId == -1 ? null : Direction.values()[backloggedId];
+			
 			return item;
 		}
 
 	}
 
 }
+

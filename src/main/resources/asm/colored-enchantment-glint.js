@@ -89,6 +89,65 @@ function initializeCoreMod() {
             }
         },
 
+        'get-glint-direct-color': {
+            'target': {
+                'type': 'METHOD',
+                'class': 'net.minecraft.client.renderer.ItemRenderer',
+                'methodName': 'func_239391_c_', // getBuffer (?) unmapped at time of writing
+                'methodDesc': '(Lnet/minecraft/client/renderer/IRenderTypeBuffer;Lnet/minecraft/client/renderer/RenderType;ZZ)Lcom/mojang/blaze3d/vertex/IVertexBuilder;'
+            },
+            'transformer': function(method) {
+                var ASM = Java.type('net.minecraftforge.coremod.api.ASMAPI');
+                var Opcodes = Java.type('org.objectweb.asm.Opcodes');
+                var VarInsnNode = Java.type('org.objectweb.asm.tree.VarInsnNode');
+                var InsnList = Java.type('org.objectweb.asm.tree.InsnList');
+
+                // remap the getGlintDirect() method
+                injectForEachMethod(method,
+                    ASM.MethodType.STATIC,
+                    "net/minecraft/client/renderer/RenderType",
+                    ASM.mapMethod("func_239273_n_"), // getGlintDirect
+                    "()Lnet/minecraft/client/renderer/RenderType;",
+                    function (target, index) {
+                        var newInstructions = new InsnList();
+
+                        newInstructions.add(ASM.buildMethodCall(
+                            "vazkii/quark/base/handler/AsmHooks",
+                            "getGlintDirect",
+                            "()Lnet/minecraft/client/renderer/RenderType;",
+                            ASM.MethodType.STATIC
+                        ));
+
+                        method.instructions.insert(target, newInstructions);
+                        method.instructions.remove(target);
+                        return method;
+                    });
+
+                // remap the getEntityGlintDirect() method
+                injectForEachMethod(method,
+                    ASM.MethodType.STATIC,
+                    "net/minecraft/client/renderer/RenderType",
+                    ASM.mapMethod("func_239274_p_"), // getEntityGlintDirect
+                    "()Lnet/minecraft/client/renderer/RenderType;",
+                    function (target, index) {
+                        var newInstructions = new InsnList();
+
+                        newInstructions.add(ASM.buildMethodCall(
+                            "vazkii/quark/base/handler/AsmHooks",
+                            "getEntityGlintDirect",
+                            "()Lnet/minecraft/client/renderer/RenderType;",
+                            ASM.MethodType.STATIC
+                        ));
+
+                        method.instructions.insert(target, newInstructions);
+                        method.instructions.remove(target);
+                        return method;
+                    });
+
+                return method;
+            }
+        },
+
         'add-glint-types': {
             'target': {
                 'type': 'METHOD',

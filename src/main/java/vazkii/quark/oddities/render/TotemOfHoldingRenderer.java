@@ -5,15 +5,16 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Atlases;
 import net.minecraft.client.renderer.BlockRendererDispatcher;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.model.ModelManager;
 import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.arl.util.ClientTicker;
@@ -33,7 +34,8 @@ public class TotemOfHoldingRenderer extends EntityRenderer<TotemOfHoldingEntity>
         super(manager);
     }
 
-    @Override
+    @SuppressWarnings("deprecation")
+	@Override
     public void render(TotemOfHoldingEntity entity, float entityYaw, float partialTicks, @Nonnull MatrixStack matrixStackIn, @Nonnull IRenderTypeBuffer bufferIn, int packedLightIn) {
         int deathTicks = entity.getDeathTicks();
         boolean dying = entity.isDying();
@@ -61,7 +63,7 @@ public class TotemOfHoldingRenderer extends EntityRenderer<TotemOfHoldingEntity>
     }
 
     @Override
-    protected int getBlockLight(TotemOfHoldingEntity entity, float partialTicks) {
+    protected int getBlockLight(TotemOfHoldingEntity entityIn, BlockPos position) {
         return 15;
     }
 

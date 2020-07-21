@@ -3,8 +3,7 @@ package vazkii.quark.building.module;
 import java.util.function.BooleanSupplier;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.material.MaterialColor;
+import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemGroup;
 import net.minecraftforge.common.ToolType;
 import vazkii.quark.base.block.QuarkBlock;
@@ -24,30 +23,32 @@ public class MoreBrickTypesModule extends Module {
 	@Config(flag = "magma_bricks") public boolean enableMagmaBricks = true;
 	@Config(flag = "charred_nether_bricks") public boolean enableCharredNetherBricks = true;
 	
+	@Config(flag = "blue_nether_bricks",
+			description = "This also comes with a utility recipe for Red Nether Bricks") 
+	public boolean enableBlueNetherBricks = true;
+
 	@Config(flag = "sandstone_bricks",
 			description = "This also includes Red Sandstone Bricks and Soul Sandstone Bricks") 
 	public boolean enableSandstoneBricks = true;
 	
 	@Override
 	public void construct() {
-		add("sandy", MaterialColor.SAND, () -> enableSandyBricks);
-		add("snow", MaterialColor.SNOW, Material.SNOW_BLOCK, () -> enableSnowBricks);
-		add("charred_nether", MaterialColor.BLACK, () -> enableCharredNetherBricks);
-		add("sandstone", MaterialColor.SAND, () -> enableSandstoneBricks);
-		add("red_sandstone", MaterialColor.ADOBE, () -> enableSandstoneBricks);
-		add("soul_sandstone", MaterialColor.BROWN, () -> enableSandstoneBricks && ModuleLoader.INSTANCE.isModuleEnabled(SoulSandstoneModule.class));
+		add("sandy", Blocks.SANDSTONE, () -> enableSandyBricks);
+		add("snow", Blocks.SNOW, () -> enableSnowBricks);
+		add("charred_nether", Blocks.NETHER_BRICKS, () -> enableCharredNetherBricks);
+		add("blue_nether", Blocks.NETHER_BRICKS, () -> enableBlueNetherBricks);
+		add("sandstone", Blocks.SANDSTONE, () -> enableSandstoneBricks);
+		add("red_sandstone", Blocks.RED_SANDSTONE, () -> enableSandstoneBricks);
+		add("soul_sandstone", Blocks.SANDSTONE, () -> enableSandstoneBricks && ModuleLoader.INSTANCE.isModuleEnabled(SoulSandstoneModule.class));
 		
 		VariantHandler.addSlabStairsWall(new MagmaBrickBlock(this).setCondition(() -> enableMagmaBricks));
 	}
 	
-	private void add(String name, MaterialColor color, BooleanSupplier cond) {
-		add(name, color, Material.ROCK, cond);
-	}
-	
-	private void add(String name, MaterialColor color, Material material, BooleanSupplier cond) {
+	private void add(String name, Block parent, BooleanSupplier cond) {
 		VariantHandler.addSlabStairsWall(new QuarkBlock(name + "_bricks", this, ItemGroup.BUILDING_BLOCKS, 
-				Block.Properties.create(material, color)
+				Block.Properties.from(parent)
 				.hardnessAndResistance(2F, 6F)
+				.func_235861_h_() // needs tool
 				.harvestTool(ToolType.PICKAXE))
 				.setCondition(cond));
 	}

@@ -12,12 +12,13 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.EntitySpawnPlacementRegistry.PlacementType;
 import net.minecraft.entity.item.ExperienceOrbEntity;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
-import net.minecraft.fluid.IFluidState;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.pathfinding.PathNodeType;
@@ -25,7 +26,6 @@ import net.minecraft.pathfinding.PathType;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
@@ -35,7 +35,6 @@ import vazkii.quark.base.block.QuarkBlock;
 import vazkii.quark.base.handler.RenderLayerHandler;
 import vazkii.quark.base.handler.RenderLayerHandler.RenderTypeSkeleton;
 import vazkii.quark.base.module.Module;
-import vazkii.quark.building.module.GrateModule;
 
 public class GrateBlock extends QuarkBlock implements IWaterLoggable {
 
@@ -82,7 +81,7 @@ public class GrateBlock extends QuarkBlock implements IWaterLoggable {
 	public VoxelShape getShape(BlockState state, IBlockReader world, BlockPos pos, ISelectionContext context) {
 		return TRUE_SHAPE;
 	}
-
+	
 	private static VoxelShape getCachedShape(float stepHeight, float height) {
 		Float2ObjectArrayMap<VoxelShape> heightMap = WALK_BLOCK_CACHE.computeIfAbsent(stepHeight, (k) -> new Float2ObjectArrayMap<>());
 		return heightMap.computeIfAbsent(height, (k) -> createNewBox(stepHeight, height));
@@ -98,10 +97,13 @@ public class GrateBlock extends QuarkBlock implements IWaterLoggable {
 			if (entity instanceof ItemEntity || entity instanceof ExperienceOrbEntity)
 				return VoxelShapes.empty();
 
-			if (entity instanceof AnimalEntity)
+			boolean animal = entity instanceof AnimalEntity;
+			boolean leashed = animal && ((AnimalEntity) entity).getLeashHolder() != null;
+			
+			if (animal && !leashed)
 				return getCachedShape(entity.stepHeight, entity.getHeight());
 
-			if (!(entity instanceof PlayerEntity))
+			if(!(entity instanceof PlayerEntity) && !leashed)
 				return SPAWN_BLOCK_SHAPE;
 
 			return TRUE_SHAPE;
@@ -121,7 +123,7 @@ public class GrateBlock extends QuarkBlock implements IWaterLoggable {
 	@Nonnull
 	@Override
 	@SuppressWarnings("deprecation")
-	public IFluidState getFluidState(BlockState state) {
+	public FluidState getFluidState(BlockState state) {
 		return state.get(WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
 	}
 	
@@ -142,22 +144,26 @@ public class GrateBlock extends QuarkBlock implements IWaterLoggable {
 	}
 	
 	@Override
-	@SuppressWarnings("deprecation")
-	public boolean causesSuffocation(@Nonnull BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos) {
+	public boolean canCreatureSpawn(BlockState state, IBlockReader world, BlockPos pos, PlacementType type, EntityType<?> entityType) {
 		return false;
 	}
-
+	
 	@Override
-	@SuppressWarnings("deprecation")
-	public boolean isNormalCube(BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos) {
-		return false;
+	public boolean isTransparent(BlockState state) {
+		return true;
 	}
-
-	@Override
-	@SuppressWarnings("deprecation")
-	public boolean canEntitySpawn(BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos, EntityType<?> type) {
-		return false;
-	}
+	
+//	@Override
+//	@SuppressWarnings("deprecation")
+//	public boolean causesSuffocation(@Nonnull BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos) {
+//		return false;
+//	}
+//
+//	@Override
+//	@SuppressWarnings("deprecation")
+//	public boolean isNormalCube(BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos) {
+//		return false;
+//	}
 
 	@Override
 	public boolean collisionExtendsVertically(BlockState state, IBlockReader world, BlockPos pos, Entity collidingEntity) {

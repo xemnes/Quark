@@ -6,6 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.ItemGroup;
+import net.minecraftforge.common.ToolType;
 import vazkii.quark.base.block.QuarkBlock;
 import vazkii.quark.base.block.QuarkPillarBlock;
 import vazkii.quark.base.handler.VariantHandler;
@@ -36,7 +37,7 @@ public class MoreStoneVariantsModule extends Module {
 		add("limestone", MaterialColor.STONE, () -> ModuleLoader.INSTANCE.isModuleEnabled(NewStoneTypesModule.class) && NewStoneTypesModule.enableLimestone);
 		add("jasper", MaterialColor.RED_TERRACOTTA, () -> ModuleLoader.INSTANCE.isModuleEnabled(NewStoneTypesModule.class) && NewStoneTypesModule.enableJasper);
 		add("slate", MaterialColor.ICE, () -> ModuleLoader.INSTANCE.isModuleEnabled(NewStoneTypesModule.class) && NewStoneTypesModule.enableSlate);
-		add("basalt", MaterialColor.BLACK, () -> ModuleLoader.INSTANCE.isModuleEnabled(NewStoneTypesModule.class) && NewStoneTypesModule.enableBasalt);
+		add("basalt", MaterialColor.BLACK, () -> ModuleLoader.INSTANCE.isModuleEnabled(NewStoneTypesModule.class) && NewStoneTypesModule.enableVoidstone);
 	}
 	
 	@Override
@@ -47,7 +48,10 @@ public class MoreStoneVariantsModule extends Module {
 	}
 	
 	private void add(String name, MaterialColor color, BooleanSupplier cond) {
-		Block.Properties props = Block.Properties.create(Material.ROCK, color).hardnessAndResistance(1.5F, 6.0F);
+		Block.Properties props = Block.Properties.create(Material.ROCK, color)
+				.func_235861_h_() // needs tool
+        		.harvestTool(ToolType.PICKAXE)
+        		.hardnessAndResistance(1.5F, 6.0F);
 		
 		QuarkBlock bricks = new QuarkBlock(name + "_bricks", this, ItemGroup.BUILDING_BLOCKS, props).setCondition(() -> cond.getAsBoolean() && enableBricks);
 		VariantHandler.addSlabStairsWall(bricks);

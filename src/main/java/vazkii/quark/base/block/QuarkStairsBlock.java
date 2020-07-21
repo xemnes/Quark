@@ -67,11 +67,6 @@ public class QuarkStairsBlock extends StairsBlock implements IQuarkBlock, IBlock
         return parent.getBlock().getBeaconColorMultiplier(parent.getBlock().getDefaultState(), world, pos, beaconPos);
     }
 
-	@Override
-	public boolean isEmissiveRendering(BlockState p_225543_1_) {
-		return parent.getBlock().isEmissiveRendering(p_225543_1_);
-	}
-
     @Override
     @OnlyIn(Dist.CLIENT)
     public IBlockColor getBlockColor() {

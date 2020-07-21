@@ -13,7 +13,7 @@ import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.tileentity.PistonTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import vazkii.quark.automation.module.PistonsMoveTileEntitiesModule;
 import vazkii.quark.base.Quark;
@@ -28,12 +28,12 @@ public class PistonTileEntityRenderer {
 		BlockState state = piston.getPistonState();
 		BlockPos truePos = piston.getPos();
 		TileEntity tile = PistonsMoveTileEntitiesModule.getMovement(piston.getWorld(), truePos);
-		Vec3d offset = new Vec3d(piston.getOffsetX(pTicks), piston.getOffsetY(pTicks), piston.getOffsetZ(pTicks));
+		Vector3d offset = new Vector3d(piston.getOffsetX(pTicks), piston.getOffsetY(pTicks), piston.getOffsetZ(pTicks));
 		
 		return renderTESafely(piston.getWorld(), truePos, state, tile, piston, pTicks, offset, matrix, bufferIn, combinedLightIn, combinedOverlayIn);
 	}
 	
-	public static boolean renderTESafely(World world, BlockPos truePos, BlockState state, TileEntity tile, TileEntity sourceTE, float pTicks, Vec3d offset, MatrixStack matrix, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
+	public static boolean renderTESafely(World world, BlockPos truePos, BlockState state, TileEntity tile, TileEntity sourceTE, float pTicks, Vector3d offset, MatrixStack matrix, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
 		Block block = state.getBlock();
 		String id = Objects.toString(block.getRegistryName());
 		

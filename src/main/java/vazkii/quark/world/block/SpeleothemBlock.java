@@ -10,8 +10,8 @@ import net.minecraft.block.IWaterLoggable;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
-import net.minecraft.fluid.IFluidState;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.pathfinding.PathType;
@@ -35,11 +35,10 @@ public class SpeleothemBlock extends QuarkBlock implements IWaterLoggable {
 	public static final EnumProperty<SpeleothemSize> SIZE = EnumProperty.create("size", SpeleothemSize.class);
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 	
-	public SpeleothemBlock(String name, Module module, MaterialColor color, boolean weak) {
+	public SpeleothemBlock(String name, Module module, Block parent, boolean nether) {
 		super(name + "_speleothem", module, ItemGroup.DECORATIONS, 
-				Block.Properties.create(Material.ROCK, color)
-				.hardnessAndResistance(weak ? 0.4F : 1.5F)
-				.sound(SoundType.STONE)
+				Block.Properties.from(parent)
+				.hardnessAndResistance(nether ? 0.4F : 1.5F)
 				.notSolid());
 		
 		setDefaultState(getDefaultState().with(SIZE, SpeleothemSize.BIG).with(WATERLOGGED, false));
@@ -59,7 +58,7 @@ public class SpeleothemBlock extends QuarkBlock implements IWaterLoggable {
 	@Nonnull
 	@Override
 	@SuppressWarnings("deprecation")
-	public IFluidState getFluidState(BlockState state) {
+	public FluidState getFluidState(BlockState state) {
 		return state.get(WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
 	}
 	
@@ -83,7 +82,7 @@ public class SpeleothemBlock extends QuarkBlock implements IWaterLoggable {
 		if(state.isSolid())
 			return 3;
 		
-		if(state.getProperties().contains(SIZE))
+		if(state.getValues().containsKey(SIZE))
 			return state.get(SIZE).strength;
 		
 		return 0;
@@ -121,9 +120,10 @@ public class SpeleothemBlock extends QuarkBlock implements IWaterLoggable {
 		public final VoxelShape shape;
 
 		@Override
-		public String getName() {
+		public String func_176610_l() { // getName
 			return name().toLowerCase(Locale.ROOT);
 		}
+		
 	}
 
 }

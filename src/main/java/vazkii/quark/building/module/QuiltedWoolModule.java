@@ -16,7 +16,7 @@ public class QuiltedWoolModule extends Module {
 	@Override
 	public void construct() {
 		for(DyeColor dye : DyeColor.values())
-			new QuarkBlock(dye.getName() + "_quilted_wool", this, ItemGroup.BUILDING_BLOCKS,
+			new QuarkBlock(dye.getTranslationKey() + "_quilted_wool", this, ItemGroup.BUILDING_BLOCKS,
 					Block.Properties.create(Material.WOOL, dye.getMapColor())
 					.hardnessAndResistance(0.8F)
 					.sound(SoundType.CLOTH));
