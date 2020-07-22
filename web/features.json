@@ -1,13 +1,13 @@
 {
 	"automation": [
 		{
-			"name": "Iron Chains",
+			"name": "Chain Linking",
 			"image": "iron-chains.jpg",
 			"versions": "1.14+",
 			"desc": [
-				"Iron Chains can be crafted with Iron Ingots and Nuggets.",
-				"When right clicked onto a boat or minecart, and then onto another, they'll link the two. Linked boats and minecarts will always remain at close distance, which allows you to make trains.",
-				"Additionally, Iron Chains can be used to craft chainmail armor, or placed down as a block that connects perfectly to Lanterns."
+				"When right clicking with Chains onto a boat or minecart, and then onto another, they'll link the two. Linked boats and minecarts will always remain at close distance, which allows you to make trains.",
+				"Prior to 1.16, an Iron Chain item was added by Quark. As Chains were added to the base game in 1.16, this item was removed.",
+				"Quark's Iron Chains prior to 1.16 can be used to craft chainmail armor, or placed down as a block that connects perfectly to Lanterns."
 			]
 		},
 		{
@@ -154,7 +154,8 @@
 			"versions": "1.14+",
 			"desc": [
 				"Purple looking blocks made from Purpur and Obsidian, fully featured with stair, slab and wall variants.",
-				"Also includes Duskbound Lamps, made with Duskbound Blocks and Ender Pearls."
+				"Also includes Duskbound Lamps, made with Duskbound Blocks and Ender Pearls.",
+				"1.16+ Only: Duskbound blocks and all variants are also immune to the dragon."
 			]
 		},
 		{
@@ -172,7 +173,8 @@
 			"versions": "1.14+",
 			"desc": [
 				"The Iron Grate is a cool new block with multiple uses. Animals are afraid of walking on it, and will never do it, whereas items will just fall through the gaps.",
-				"Players, monsters, and other entities will just walk through normally."
+				"Players, monsters, and other entities will just walk through normally.",
+				"1.16+ Only: Animals being held by a leash will also walk over the block just fine."
 			]
 		},
 		{
@@ -224,6 +226,7 @@
 				"*Magma Bricks can be crafted with Magma Blocks. These glow in the dark just like Magma.",
 				"*Charred Nether Bricks can be crafted with Nether Bricks and a Fire Charge.",
 				"*Sandstone Bricks (for all sandstone types) can be crafted with Cut Sandstone.",
+				"*Blue Nether Bricks (1.16+ only) can be crafted with Nether Bricks and Warped Wart Blocks. Additionally, a similar recipe is added for Red Nether Bricks.",
 				"Additionally, all of these come in Slab, Stairs, and Wall variants."
 			]
 		},
@@ -961,7 +964,7 @@
 				"*Limestone will spawn in Swamp and Ocean biomes.",
 				"*Jasper will spawn in Mesa and Desert biomes.",
 				"*Slate will spawn in cold biomes.",
-				"*Basalt will spawn in any nether biome (relevant if you have mods that add biomes to the nether).",
+				"*Voidstone will spawn in any end biome (Pre 1.16 it's Basalt, which spawns in any nether biome).",
 				"Note that the distributions are for biome types, not specific biomes. For example, Andesite will also spawn in Birch Forests, Dark Forests, etc."
 			]
 		},
@@ -989,10 +992,12 @@
 			"image": "new-stone-types.jpg",
 			"versions": "1.14+",
 			"desc": [
-				"Five new stone types are added to your world. These will generate around in the overworld, except Basaslt, which generates in the Nether.",
+				"Five new stone types are added to your world.",
 				"Pictured in the screenshot:",
-				"*Top layer: Slate, Basalt",
-				"*Bottom layer: Limestone, Marble, Jasper"
+				"*Top layer: Slate, Voidstone",
+				"*Bottom layer: Limestone, Marble, Jasper",
+				"Most of these generate in the overworld. Voidstone generates in the end and is immune to the dragon.",
+				"Note: Prior to 1.16, Voidstone was known as Basalt and spawned in the nether. The block ID in 1.16+ is still basalt, but the block was renamed to Voidstone after the update."
 			]
 		},
 		{
@@ -1227,7 +1232,7 @@
 				"!img/features/oddities/pipes/rule3.jpg",
 				"*Items will not go upwards unless that's the only possibility:",
 				"!img/features/oddities/pipes/rule4.jpg",
-				"*Items attempting to enter a full container will bounce back:",
+				"*Items attempting to enter a full container will bounce back (1.16+ only: Items bouncing back from pipes remember which direction they came into the pipe, and will avoid that direction):",
 				"!img/features/oddities/pipes/rule5.jpg",
 				"*Items will not flow into disabled (powered) pipes:",
 				"!img/features/oddities/pipes/rule6.jpg",
