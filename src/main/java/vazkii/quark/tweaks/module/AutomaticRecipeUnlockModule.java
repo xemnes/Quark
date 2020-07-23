@@ -48,11 +48,9 @@ public class AutomaticRecipeUnlockModule extends Module {
 			ServerPlayerEntity spe = (ServerPlayerEntity) player;
 			MinecraftServer server = spe.getServer();
 			if (server != null) {
-				new Thread(() -> {
-					List<IRecipe<?>> recipes = new ArrayList<>(server.getRecipeManager().getRecipes());
-					recipes.removeIf((recipe) -> ignoredRecipes.contains(Objects.toString(recipe.getId())) || recipe.getRecipeOutput().isEmpty());
-					player.unlockRecipes(recipes);
-				}).start();
+				List<IRecipe<?>> recipes = new ArrayList<>(server.getRecipeManager().getRecipes());
+				recipes.removeIf((recipe) -> ignoredRecipes.contains(Objects.toString(recipe.getId())) || recipe.getRecipeOutput().isEmpty());
+				player.unlockRecipes(recipes);
 
 				if (forceLimitedCrafting)
 					player.world.getGameRules().get(GameRules.DO_LIMITED_CRAFTING).set(true, server);
@@ -66,13 +64,13 @@ public class AutomaticRecipeUnlockModule extends Module {
 		Screen gui = event.getGui();
 		if(disableRecipeBook && gui instanceof IRecipeShownListener) {
 			Minecraft.getInstance().player.getRecipeBook().setGuiOpen(false);
-			
+
 			List<Widget> widgets = event.getWidgetList();
 			for(Widget w : widgets)
-		 		if(w instanceof ImageButton) {
-		 			event.removeWidget(w);
-		 			return;
-		 		}
+				if(w instanceof ImageButton) {
+					event.removeWidget(w);
+					return;
+				}
 		}
 	}
 
@@ -94,5 +92,5 @@ public class AutomaticRecipeUnlockModule extends Module {
 				}
 		}
 	}
-	
+
 }
