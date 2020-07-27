@@ -114,14 +114,18 @@ public class EnhancedLaddersModule extends Module {
 		if(event.phase == TickEvent.Phase.START) {
 			PlayerEntity player = event.player;
 			if(player.isOnLadder() && player.world.isRemote) {
-				boolean scaffold = player.world.getBlockState(player.func_233580_cy_()).getBlock() == Blocks.SCAFFOLDING;
+				BlockPos playerPos = player.func_233580_cy_();
+				BlockPos downPos = playerPos.down();
+				
+				boolean scaffold = player.world.getBlockState(playerPos).getBlock() == Blocks.SCAFFOLDING;
 				if(player.isCrouching() == scaffold &&
 						player.moveForward == 0 &&
 						player.moveVertical <= 0 &&
 						player.moveStrafing == 0 &&
 						player.rotationPitch > 70 &&
 						!player.isJumping &&
-						!player.world.getBlockState(player.func_233580_cy_().down()).isSolid()) {
+						!player.abilities.isFlying &&
+						player.world.getBlockState(downPos).isLadder(player.world, downPos, player)) {
 					Vector3d move = new Vector3d(0, fallSpeed, 0);
 					player.setBoundingBox(player.getBoundingBox().offset(move));						
 					player.move(MoverType.SELF, Vector3d.ZERO);
