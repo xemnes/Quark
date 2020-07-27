@@ -1,5 +1,6 @@
 package vazkii.quark.tools.module;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
@@ -49,6 +50,8 @@ public class PickarangModule extends Module {
 	
 	public static Item pickarang;
 	public static Item flamerang;
+	
+	private static boolean isEnabled;
 
 	@Override
 	public void construct() {
@@ -88,6 +91,12 @@ public class PickarangModule extends Module {
 		RenderingRegistry.registerEntityRenderingHandler(pickarangType, PickarangRenderer::new);
 	}
 	
+	@Override
+	public void configChanged() {
+		// Pass over to a static reference for easier computing the coremod hook
+		isEnabled = this.enabled;
+	}
+	
     private static final ThreadLocal<PickarangEntity> ACTIVE_PICKARANG = new ThreadLocal<>();
 
 	public static void setActivePickarang(PickarangEntity pickarang) {
@@ -102,6 +111,16 @@ public class PickarangModule extends Module {
 
 		return new IndirectEntityDamageSource("player", pickarang, player).setProjectile();
 	}
-
+	
+	public static boolean getIsFireResistant(boolean vanillaVal, Entity entity) {
+		if(!isEnabled || vanillaVal)
+			return vanillaVal;
+		
+		Entity riding = entity.getRidingEntity();
+		if(riding instanceof PickarangEntity)
+			return ((PickarangEntity) riding).netherite;
+		
+		return false;
+	}
 
 }

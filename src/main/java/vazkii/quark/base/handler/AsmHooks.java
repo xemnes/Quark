@@ -1,6 +1,10 @@
 package vazkii.quark.base.handler;
 
+import java.util.List;
+import java.util.Map;
+
 import com.mojang.blaze3d.matrix.MatrixStack;
+
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.PistonBlockStructureHelper;
@@ -47,9 +51,6 @@ import vazkii.quark.tweaks.module.HoeHarvestingModule;
 import vazkii.quark.tweaks.module.ImprovedSleepingModule;
 import vazkii.quark.tweaks.module.LockRotationModule;
 import vazkii.quark.tweaks.module.SpringySlimeModule;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author WireSegal
@@ -250,5 +251,13 @@ public class AsmHooks {
 	
 	public static void addGlintTypes(Object2ObjectLinkedOpenHashMap<RenderType, BufferBuilder> map) {
 		GlintRenderType.addGlintTypes(map);
+	}
+	
+	// ==========================================================================
+	// Flamerang
+	// ==========================================================================
+	
+	public static boolean getIsFireResistant(boolean vanillaVal, Entity entity) {
+		return PickarangModule.getIsFireResistant(vanillaVal, entity);
 	}
 }

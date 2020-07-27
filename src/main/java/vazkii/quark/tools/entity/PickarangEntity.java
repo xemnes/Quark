@@ -56,13 +56,13 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkHooks;
 import vazkii.quark.base.handler.QuarkSounds;
 import vazkii.quark.mobs.entity.ToretoiseEntity;
-import vazkii.quark.tools.item.PickarangItem;
 import vazkii.quark.tools.module.PickarangModule;
 
 public class PickarangEntity extends ProjectileEntity {
 
 	private static final DataParameter<ItemStack> STACK = EntityDataManager.createKey(PickarangEntity.class, DataSerializers.ITEMSTACK);
 	private static final DataParameter<Boolean> RETURNING = EntityDataManager.createKey(PickarangEntity.class, DataSerializers.BOOLEAN);
+	private static final DataParameter<Boolean> NETHERITE_SYNCED = EntityDataManager.createKey(PickarangEntity.class, DataSerializers.BOOLEAN);
 
 	protected LivingEntity owner;
 	private UUID ownerId;
@@ -70,6 +70,7 @@ public class PickarangEntity extends ProjectileEntity {
 	private int liveTime;
 	private int slot;
 	private int blockHitCount;
+	public boolean netherite;
 
 	private IntOpenHashSet entitiesHit;
 
@@ -78,6 +79,7 @@ public class PickarangEntity extends ProjectileEntity {
 	private static final String TAG_BLOCKS_BROKEN = "hitCount";
 	private static final String TAG_RETURN_SLOT = "returnSlot";
 	private static final String TAG_ITEM_STACK = "itemStack";
+	private static final String TAG_NETHERITE = "netherite";
 
 	public PickarangEntity(EntityType<? extends PickarangEntity> type, World worldIn) {
 		super(type, worldIn);
@@ -135,15 +137,17 @@ public class PickarangEntity extends ProjectileEntity {
 
 	}
 
-	public void setThrowData(int slot, ItemStack stack) {
+	public void setThrowData(int slot, ItemStack stack, boolean netherite) {
 		this.slot = slot;
 		setStack(stack.copy());
+		this.netherite = netherite;
 	}
 
 	@Override
 	protected void registerData() {
 		dataManager.register(STACK, new ItemStack(PickarangModule.pickarang));
 		dataManager.register(RETURNING, false);
+		dataManager.register(NETHERITE_SYNCED, false);
 	}
 
 	protected void checkImpact() {
@@ -374,9 +378,9 @@ public class PickarangEntity extends ProjectileEntity {
 			return;
 
 		ItemStack stack = getStack();
-		boolean isNetherite = stack.getItem() instanceof PickarangItem && ((PickarangItem) stack.getItem()).isNetherite;
 		
-		if(isNetherite)
+		if(dataManager.get(NETHERITE_SYNCED)) {
+			if(Math.random() < 0.4)
 				this.world.addParticle(ParticleTypes.FLAME, 
 						pos.x - ourMotion.x * 0.25D + (Math.random() - 0.5) * 0.4, 
 						pos.y - ourMotion.y * 0.25D + (Math.random() - 0.5) * 0.4, 
@@ -384,6 +388,8 @@ public class PickarangEntity extends ProjectileEntity {
 						(Math.random() - 0.5) * 0.1, 
 						(Math.random() - 0.5) * 0.1, 
 						(Math.random() - 0.5) * 0.1);
+		} else if(!world.isRemote && netherite)
+			dataManager.set(NETHERITE_SYNCED, true);
 		
 		boolean returning = dataManager.get(RETURNING);
 		liveTime++;
@@ -461,9 +467,6 @@ public class PickarangEntity extends ProjectileEntity {
 						for (Entity riding : getPassengers()) {
 							if (!riding.isAlive())
 								continue;
-							
-							if(isNetherite)
-								riding.extinguish();
 
 							if (riding instanceof ItemEntity) {
 								ItemStack drop = ((ItemEntity) riding).getItem();
@@ -545,6 +548,8 @@ public class PickarangEntity extends ProjectileEntity {
 			if (owner != null)
 				this.ownerId = NBTUtil.readUniqueId(owner);
 		}
+		
+		netherite = compound.getBoolean(TAG_NETHERITE);
 	}
 
 	@Override
@@ -557,6 +562,8 @@ public class PickarangEntity extends ProjectileEntity {
 		compound.put(TAG_ITEM_STACK, getStack().serializeNBT());
 		if (this.ownerId != null)
 			compound.put("owner", NBTUtil.func_240626_a_(this.ownerId));
+		
+		compound.putBoolean(TAG_NETHERITE, netherite);
 	}
 
 	@Nonnull

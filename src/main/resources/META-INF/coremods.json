@@ -14,5 +14,6 @@
   "quark_rotation_lock": "asm/rotation-lock.js",
   "quark_enchanted_book_tooltips": "asm/enchanted-book-tooltips.js",
   "quark_ancient_tomes": "asm/ancient-tomes.js",
-  "quark_colored_enchantment_glint": "asm/colored-enchantment-glint.js"
+  "quark_colored_enchantment_glint": "asm/colored-enchantment-glint.js",
+  "quark_flamerang_prevents_fire": "asm/flamerang-prevents-fire.js"
 }

@@ -103,7 +103,7 @@ public class PickarangItem extends QuarkItem {
         if(!worldIn.isRemote)  {
         	int slot = handIn == Hand.OFF_HAND ? playerIn.inventory.getSizeInventory() - 1 : playerIn.inventory.currentItem;
         	PickarangEntity entity = new PickarangEntity(worldIn, playerIn);
-        	entity.setThrowData(slot, itemstack);
+        	entity.setThrowData(slot, itemstack, isNetherite);
         	entity.shoot(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F + eff * 0.325F, 0F);
             worldIn.addEntity(entity);
         }
