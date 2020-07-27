@@ -59,6 +59,7 @@ public class BiotiteModule extends Module {
 		VariantHandler.addSlabAndStairs(new QuarkBlock("smooth_biotite", this, ItemGroup.BUILDING_BLOCKS, props));
 		new QuarkBlock("chiseled_biotite_block", this, ItemGroup.BUILDING_BLOCKS, props);
 		new QuarkPillarBlock("biotite_pillar", this, ItemGroup.BUILDING_BLOCKS, props);
+		new QuarkBlock("biotite_bricks", this, ItemGroup.BUILDING_BLOCKS, props);
 	}
 	
 	@SubscribeEvent
