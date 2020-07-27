@@ -1,6 +1,13 @@
 package vazkii.quark.tools.entity;
 
+import java.util.List;
+import java.util.UUID;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.google.common.collect.Multimap;
+
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -9,8 +16,12 @@ import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.attributes.*;
+import net.minecraft.entity.ai.attributes.Attribute;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.AttributeModifierManager;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap.MutableAttribute;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.item.ExperienceOrbEntity;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -30,7 +41,12 @@ import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.Hand;
 import net.minecraft.util.IndirectEntityDamageSource;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.*;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.EntityRayTraceResult;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceContext;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.RayTraceResult.Type;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
@@ -40,12 +56,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkHooks;
 import vazkii.quark.base.handler.QuarkSounds;
 import vazkii.quark.mobs.entity.ToretoiseEntity;
+import vazkii.quark.tools.item.PickarangItem;
 import vazkii.quark.tools.module.PickarangModule;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.List;
-import java.util.UUID;
 
 public class PickarangEntity extends ProjectileEntity {
 
@@ -327,13 +339,13 @@ public class PickarangEntity extends ProjectileEntity {
 		if(!dataManager.get(RETURNING))
 			checkImpact();
 
-		Vector3d Vector3d = this.getMotion();
-		setPosition(pos.x + Vector3d.x, pos.y + Vector3d.y, pos.z + Vector3d.z);
+		Vector3d ourMotion = this.getMotion();
+		setPosition(pos.x + ourMotion.x, pos.y + ourMotion.y, pos.z + ourMotion.z);
 
-		float f = MathHelper.sqrt(horizontalMag(Vector3d));
-		this.rotationYaw = (float)(MathHelper.atan2(Vector3d.x, Vector3d.z) * (180F / (float)Math.PI));
+		float f = MathHelper.sqrt(horizontalMag(ourMotion));
+		this.rotationYaw = (float)(MathHelper.atan2(ourMotion.x, ourMotion.z) * (180F / (float)Math.PI));
 
-		this.rotationPitch = (float)(MathHelper.atan2(Vector3d.y, f) * (180F / (float)Math.PI));
+		this.rotationPitch = (float)(MathHelper.atan2(ourMotion.y, f) * (180F / (float)Math.PI));
 		while (this.rotationPitch - this.prevRotationPitch < -180.0F) this.prevRotationPitch -= 360.0F;
 
 		while(this.rotationPitch - this.prevRotationPitch >= 180.0F) this.prevRotationPitch += 360.0F;
@@ -347,13 +359,13 @@ public class PickarangEntity extends ProjectileEntity {
 		float drag;
 		if (this.isInWater()) {
 			for(int i = 0; i < 4; ++i) {
-				this.world.addParticle(ParticleTypes.BUBBLE, pos.x - Vector3d.x * 0.25D, pos.y - Vector3d.y * 0.25D, pos.z - Vector3d.z * 0.25D, Vector3d.x, Vector3d.y, Vector3d.z);
+				this.world.addParticle(ParticleTypes.BUBBLE, pos.x - ourMotion.x * 0.25D, pos.y - ourMotion.y * 0.25D, pos.z - ourMotion.z * 0.25D, ourMotion.x, ourMotion.y, ourMotion.z);
 			}
 
 			drag = 0.8F;
 		} else drag = 0.99F;
 
-		this.setMotion(Vector3d.scale(drag));
+		this.setMotion(ourMotion.scale(drag));
 
 		pos = getPositionVec();
 		this.setPosition(pos.x, pos.y, pos.z);
@@ -361,6 +373,18 @@ public class PickarangEntity extends ProjectileEntity {
 		if(!isAlive())
 			return;
 
+		ItemStack stack = getStack();
+		boolean isNetherite = stack.getItem() instanceof PickarangItem && ((PickarangItem) stack.getItem()).isNetherite;
+		
+		if(isNetherite)
+				this.world.addParticle(ParticleTypes.FLAME, 
+						pos.x - ourMotion.x * 0.25D + (Math.random() - 0.5) * 0.4, 
+						pos.y - ourMotion.y * 0.25D + (Math.random() - 0.5) * 0.4, 
+						pos.z - ourMotion.z * 0.25D + (Math.random() - 0.5) * 0.4, 
+						(Math.random() - 0.5) * 0.1, 
+						(Math.random() - 0.5) * 0.1, 
+						(Math.random() - 0.5) * 0.1);
+		
 		boolean returning = dataManager.get(RETURNING);
 		liveTime++;
 
@@ -372,7 +396,6 @@ public class PickarangEntity extends ProjectileEntity {
 		} else {
 			noClip = true;
 
-			ItemStack stack = getStack();
 			int eff = getEfficiencyModifier();
 
 			List<ItemEntity> items = world.getEntitiesWithinAABB(ItemEntity.class, getBoundingBox().grow(2));
@@ -438,6 +461,9 @@ public class PickarangEntity extends ProjectileEntity {
 						for (Entity riding : getPassengers()) {
 							if (!riding.isAlive())
 								continue;
+							
+							if(isNetherite)
+								riding.extinguish();
 
 							if (riding instanceof ItemEntity) {
 								ItemStack drop = ((ItemEntity) riding).getItem();
