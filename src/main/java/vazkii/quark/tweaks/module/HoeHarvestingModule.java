@@ -37,7 +37,7 @@ public class HoeHarvestingModule extends Module {
 	public static int getRange(ItemStack hoe) {
 		if(hoe.isEmpty() || !(hoe.getItem() instanceof HoeItem))
 			return 1;
-		else if (hoe.getItem() == Items.DIAMOND_HOE)
+		else if (hoe.getItem() == Items.DIAMOND_HOE || hoe.getItem() == Items.NETHERITE_HOE)
 			return 3;
 		else
 			return 2;
