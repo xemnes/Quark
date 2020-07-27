@@ -1506,8 +1506,8 @@
 				"Voyage adds a multitude of new biomes to go alongside the vanilla ones, without adding any new blocks or items. It includes lagoons, rock fields, tall mountains, and much more."
 			],
 			"download": "https://www.curseforge.com/minecraft/mc-mods/voyage"
-    },
-    {
+		},
+    		{
 			"name": "Enhanced Mushrooms",
 			"image": "enhanced-mushrooms.jpg",
 			"versions": "Friend",
@@ -1515,6 +1515,15 @@
 				"Enhanced Mushrooms adds new wood types for both vanilla mushroom types. It also includes a transparent, glowing wood type for glowshrooms when Quark is installed, and has a couple of new mushroom-related foods."
 			],
 			"download": "https://www.curseforge.com/minecraft/mc-mods/enhanced-mushrooms"
+		},
+		{
+			"name": "Fruitful",
+			"image": "fruitful.jpg",
+			"versions": "Friend",
+			"desc": [
+				"Fruitful tweaks the way apples are obtained, allowing them to be easily farmable. Additionally it adds some new fruits and fruit-related foods."
+			],
+			"download": "https://www.curseforge.com/minecraft/mc-mods/fruitful"
 		}
 	]
 }
