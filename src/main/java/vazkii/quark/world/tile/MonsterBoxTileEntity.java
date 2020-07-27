@@ -49,7 +49,7 @@ public class MonsterBoxTileEntity extends TileMod implements ITickableTileEntity
 		
 		if(doBreak) {
 			if(breakProgress == 0) 
-				world.playSound(null, pos, QuarkSounds.BLOCK_MONSTER_BOX_GROWL, SoundCategory.BLOCKS, 1F, 1F);
+				world.playSound(null, pos, QuarkSounds.BLOCK_MONSTER_BOX_GROWL, SoundCategory.BLOCKS, 0.5F, 1F);
 			
 			breakProgress++;
 			if(breakProgress > 40) {
