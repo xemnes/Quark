@@ -244,6 +244,7 @@
 	"item.quark.ravager_hide": "Piel de devastador",
 	"item.quark.soul_compass": "Brújula de almas",
 	"item.quark.bottled_cloud": "Nube embotellada",
+	"item.quark.flamerang": "Llamarang",
 	
 	"item.minecraft.potion.effect.quark.resilience": "Poción de estabilidad",
 	"item.minecraft.splash_potion.effect.quark.resilience": "Poción arrojadiza de estabilidad",
@@ -917,6 +918,7 @@
 	"block.quark.blue_nether_bricks_slab": "Baldosa de ladrillos del Nether azules",
 	"block.quark.blue_nether_bricks_vertical_slab": "Baldosa vertical de ladrillos del Nether azules",
 	"block.quark.blue_nether_bricks_wall": "Pared de ladrillos del Nether azules",
+	"block.quark.biotite_bricks": "Ladrillos de biotita",
 	
 	"item.quark.stoneling_spawn_egg": "Generar petrícola",
 	"item.quark.frog_spawn_egg": "Generar rana",
