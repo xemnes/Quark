@@ -3,7 +3,9 @@ package vazkii.quark.base.proxy;
 import java.time.LocalDateTime;
 import java.time.Month;
 
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.config.ModConfig.ModConfigEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
@@ -45,7 +47,7 @@ public class CommonProxy {
 	public void registerListeners(IEventBus bus) {
 		bus.addListener(this::setup);
 		bus.addListener(this::loadComplete);
-		bus.addListener(this::configChanged);
+		MinecraftForge.EVENT_BUS.register(this);
 	}
 	
 	public void setup(FMLCommonSetupEvent event) {
@@ -63,6 +65,7 @@ public class CommonProxy {
 		FuelHandler.addAllWoods();
 	}
 	
+	@SubscribeEvent
 	public void configChanged(ModConfigEvent event) {
 		if(event.getConfig().getModId().equals(Quark.MOD_ID) && ClientTicker.ticksInGame - lastConfigChange > 10) { 
 			lastConfigChange = ClientTicker.ticksInGame;
@@ -74,10 +77,6 @@ public class CommonProxy {
 		ModuleLoader.INSTANCE.configChanged();
 		EntitySpawnHandler.refresh();
 	}
-	
-//	public void addResourceOverride(String type, String path, String file, BooleanSupplier isEnabled) {
-//		// NO-OP, client only
-//	}
 	
 	protected void initContributorRewards() {
 		ContributorRewardHandler.init();

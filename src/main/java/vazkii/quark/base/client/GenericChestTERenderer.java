@@ -104,15 +104,17 @@ public abstract class GenericChestTERenderer<T extends TileEntity & IChestLid> e
 			f1 = 1.0F - f1 * f1 * f1;
 			int i = icallbackwrapper.apply(new DualBrightnessCallback<>()).applyAsInt(p_225616_5_);
 			RenderMaterial material = getMaterialFinal(p_225616_1_, chesttype); // <- Changed here
-			IVertexBuilder ivertexbuilder = material.getBuffer(p_225616_4_, RenderType::getEntityCutout);
-			if (flag1) {
-				if (chesttype == ChestType.LEFT) {
-					this.func_228871_a_(p_225616_3_, ivertexbuilder, this.field_228868_h_, this.field_228870_j_, this.field_228869_i_, f1, i, p_225616_6_);
+			if(material != null) {
+				IVertexBuilder ivertexbuilder = material.getBuffer(p_225616_4_, RenderType::getEntityCutout);
+				if (flag1) {
+					if (chesttype == ChestType.LEFT) {
+						this.func_228871_a_(p_225616_3_, ivertexbuilder, this.field_228868_h_, this.field_228870_j_, this.field_228869_i_, f1, i, p_225616_6_);
+					} else {
+						this.func_228871_a_(p_225616_3_, ivertexbuilder, this.field_228865_e_, this.field_228867_g_, this.field_228866_f_, f1, i, p_225616_6_);
+					}
 				} else {
-					this.func_228871_a_(p_225616_3_, ivertexbuilder, this.field_228865_e_, this.field_228867_g_, this.field_228866_f_, f1, i, p_225616_6_);
+					this.func_228871_a_(p_225616_3_, ivertexbuilder, this.field_228862_a_, this.field_228864_d_, this.field_228863_c_, f1, i, p_225616_6_);
 				}
-			} else {
-				this.func_228871_a_(p_225616_3_, ivertexbuilder, this.field_228862_a_, this.field_228864_d_, this.field_228863_c_, f1, i, p_225616_6_);
 			}
 
 			p_225616_3_.pop();

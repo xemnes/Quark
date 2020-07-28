@@ -31,6 +31,8 @@ public class VariantChestTileEntityRenderer extends GenericChestTERenderer<Chest
 			block = t.getBlockState().getBlock();
 		
 		ChestTextureBatch batch = chestTextures.get(block);
+		if(batch == null)
+			return null;
 		
 		switch(type) {
 		case LEFT: return batch.left;
