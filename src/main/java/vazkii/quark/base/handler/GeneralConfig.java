@@ -47,7 +47,9 @@ public class GeneralConfig {
 			"com.tfar.craftingstation.client.CraftingStationScreen",
 			"com.raoulvdberge.refinedstorage.screen.grid.GridScreen",
 			"com.raoulvdberge.refinedstorage.screen.DiskManipulatorScreen",
-			"com.raoulvdberge.refinedstorage.screen.InterfaceScreen"
+			"com.raoulvdberge.refinedstorage.screen.InterfaceScreen", 
+			"appeng.client.gui.implementations.CraftingTermScreen", 
+			"appeng.client.gui.implementations.PatternTermScreen"
 			);
 
 	@Config(description = "Set to true to make the quark big worldgen features such as stone clusters or underground biomes generate as spheres rather than unique shapes. It's faster, but won't look as cool")
