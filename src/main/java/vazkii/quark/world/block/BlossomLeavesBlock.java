@@ -16,6 +16,7 @@ import net.minecraft.particles.BlockParticleData;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ToolType;
 import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.base.block.IQuarkBlock;
 import vazkii.quark.base.handler.RenderLayerHandler;
@@ -28,7 +29,12 @@ public class BlossomLeavesBlock extends LeavesBlock implements IQuarkBlock {
 	private BooleanSupplier enabledSupplier = () -> true;
 	
 	public BlossomLeavesBlock(String colorName, Module module, MaterialColor color) {
-		super(Block.Properties.create(Material.LEAVES, color).hardnessAndResistance(0.2F).tickRandomly().sound(SoundType.PLANT).notSolid());
+		super(Block.Properties.create(Material.LEAVES, color)
+				.hardnessAndResistance(0.2F)
+				.tickRandomly()
+				.sound(SoundType.PLANT)
+				.harvestTool(ToolType.HOE)
+				.notSolid());
 		
 		this.module = module;
 
