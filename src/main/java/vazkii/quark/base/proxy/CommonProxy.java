@@ -47,7 +47,7 @@ public class CommonProxy {
 	public void registerListeners(IEventBus bus) {
 		bus.addListener(this::setup);
 		bus.addListener(this::loadComplete);
-		MinecraftForge.EVENT_BUS.register(this);
+		bus.addListener(this::configChanged);
 	}
 	
 	public void setup(FMLCommonSetupEvent event) {
@@ -65,7 +65,6 @@ public class CommonProxy {
 		FuelHandler.addAllWoods();
 	}
 	
-	@SubscribeEvent
 	public void configChanged(ModConfigEvent event) {
 		if(event.getConfig().getModId().equals(Quark.MOD_ID) && ClientTicker.ticksInGame - lastConfigChange > 10) { 
 			lastConfigChange = ClientTicker.ticksInGame;

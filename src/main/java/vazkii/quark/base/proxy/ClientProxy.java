@@ -39,6 +39,9 @@ public class ClientProxy extends CommonProxy {
 		super.registerListeners(bus);
 
 		bus.addListener(this::clientSetup);
+		bus.addListener(this::modelRegistry);
+		bus.addListener(this::textureStitch);
+		bus.addListener(this::postTextureStitch);
 	}
 
 	public void clientSetup(FMLClientSetupEvent event) {
@@ -46,17 +49,14 @@ public class ClientProxy extends CommonProxy {
 		ModuleLoader.INSTANCE.clientSetup();
 	}
 
-	@SubscribeEvent
 	public void modelRegistry(ModelRegistryEvent event) {
 		ModuleLoader.INSTANCE.modelRegistry();
 	}
 	
-	@SubscribeEvent
 	public void textureStitch(TextureStitchEvent.Pre event) {
 		ModuleLoader.INSTANCE.textureStitch(event);
 	}
 
-	@SubscribeEvent
 	public void postTextureStitch(TextureStitchEvent.Post event) {
 		ModuleLoader.INSTANCE.postTextureStitch(event);
 	}
