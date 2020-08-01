@@ -95,6 +95,18 @@ public class ColorRunesModule extends Module {
         return color >= 0 && color <= 16 ? GlintRenderType.entityGlintDirectColor.get(color) : RenderType.func_239274_p_(); // getEntityGlintDirect
     }
 
+    @OnlyIn(Dist.CLIENT)
+    public static RenderType getArmorGlint() {
+        int color = changeColor();
+        return color >= 0 && color <= 16 ? GlintRenderType.armorGlintColor.get(color) : RenderType.func_239270_k_(); // getArmorGlint
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public static RenderType getArmorEntityGlint() {
+        int color = changeColor();
+        return color >= 0 && color <= 16 ? GlintRenderType.armorEntityGlintColor.get(color) : RenderType.func_239271_l_(); // getArmorEntityGlint
+    }
+    
     @Override
     public void construct() {
         for(DyeColor color : DyeColor.values())

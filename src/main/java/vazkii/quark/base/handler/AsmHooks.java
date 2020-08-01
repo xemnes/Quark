@@ -249,6 +249,14 @@ public class AsmHooks {
 		return ColorRunesModule.getEntityGlint();
 	}
 	
+	public static RenderType getArmorGlint() {
+		return ColorRunesModule.getArmorGlint();
+	}
+
+	public static RenderType getArmorEntityGlint() {
+		return ColorRunesModule.getArmorEntityGlint();
+	}
+	
 	public static void addGlintTypes(Object2ObjectLinkedOpenHashMap<RenderType, BufferBuilder> map) {
 		GlintRenderType.addGlintTypes(map);
 	}

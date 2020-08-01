@@ -9,6 +9,7 @@ import com.google.common.base.Function;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.RenderState;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -25,12 +26,17 @@ public class GlintRenderType {
     public static List<RenderType> entityGlintColor = newRenderList(GlintRenderType::buildEntityGlintRenderType);
     public static List<RenderType> glintDirectColor = newRenderList(GlintRenderType::buildGlintDirectRenderType);
     public static List<RenderType> entityGlintDirectColor = newRenderList(GlintRenderType::buildEntityGlintDriectRenderType);
+    
+    public static List<RenderType> armorGlintColor = newRenderList(GlintRenderType::buildArmorGlintRenderType);
+    public static List<RenderType> armorEntityGlintColor = newRenderList(GlintRenderType::buildArmorEntityGlintRenderType);
 
     public static void addGlintTypes(Object2ObjectLinkedOpenHashMap<RenderType, BufferBuilder> map) {
     	addGlintTypes(map, glintColor);
     	addGlintTypes(map, entityGlintColor);
     	addGlintTypes(map, glintDirectColor);
     	addGlintTypes(map, entityGlintDirectColor);
+    	addGlintTypes(map, armorGlintColor);
+    	addGlintTypes(map, armorEntityGlintColor);
     }
     
     private static List<RenderType> newRenderList(Function<String, RenderType> func) {
@@ -102,6 +108,34 @@ public class GlintRenderType {
             .depthTest(RenderState.DEPTH_EQUAL)
             .transparency(RenderState.field_239240_f_)
             .texturing(RenderState.ENTITY_GLINT_TEXTURING)
+            .build(false));
+    }
+    
+    private static RenderType buildArmorGlintRenderType(String name) {
+        final ResourceLocation res = new ResourceLocation(Quark.MOD_ID, "textures/glint/enchanted_item_glint_" + name + ".png");
+        
+        return RenderType.makeType("entity_glint_direct_" + name, DefaultVertexFormats.POSITION_TEX, 7, 256, RenderType.State.getBuilder()
+            .texture(new RenderState.TextureState(res, true, false))
+            .writeMask(RenderState.COLOR_WRITE)
+            .cull(RenderState.CULL_DISABLED)
+            .depthTest(RenderState.DEPTH_EQUAL)
+            .transparency(RenderState.field_239240_f_)
+            .texturing(RenderState.ENTITY_GLINT_TEXTURING)
+            .layer(RenderState.field_239235_M_)
+            .build(false));
+    }
+    
+    private static RenderType buildArmorEntityGlintRenderType(String name) {
+        final ResourceLocation res = new ResourceLocation(Quark.MOD_ID, "textures/glint/enchanted_item_glint_" + name + ".png");
+
+        return RenderType.makeType("entity_glint_direct_" + name, DefaultVertexFormats.POSITION_TEX, 7, 256, RenderType.State.getBuilder()
+            .texture(new RenderState.TextureState(res, true, false))
+            .writeMask(RenderState.COLOR_WRITE)
+            .cull(RenderState.CULL_DISABLED)
+            .depthTest(RenderState.DEPTH_EQUAL)
+            .transparency(RenderState.field_239240_f_)
+            .texturing(RenderState.ENTITY_GLINT_TEXTURING)
+            .layer(RenderState.field_239235_M_)
             .build(false));
     }
 }
