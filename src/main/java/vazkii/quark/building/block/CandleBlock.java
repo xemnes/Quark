@@ -46,6 +46,7 @@ public class CandleBlock extends QuarkBlock implements IWaterLoggable {
 		super(regname, module, ItemGroup.DECORATIONS, 
 				Block.Properties.create(Material.MISCELLANEOUS, color.getMapColor())
 				.hardnessAndResistance(0.2F)
+				.func_235838_a_((s) -> s.get(WATERLOGGED) ? 0 : 14)
 				.sound(SoundType.CLOTH));
 		
 		this.color = color;
@@ -84,11 +85,6 @@ public class CandleBlock extends QuarkBlock implements IWaterLoggable {
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
 		return SHAPE;
-	}
-	
-	@Override
-	public int getLightValue(BlockState state, IBlockReader world, BlockPos pos) {
-		return state.get(WATERLOGGED) ? 0 : 14;
 	}
 
 	@Override
