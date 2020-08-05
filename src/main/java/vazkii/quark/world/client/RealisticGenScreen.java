@@ -1,4 +1,6 @@
-package vazkii.quark.world.gen;
+package vazkii.quark.world.client;
+
+import vazkii.quark.world.gen.RealisticChunkGenerator;
 
 import net.minecraft.client.gui.screen.BiomeGeneratorTypeScreens;
 import net.minecraft.world.biome.provider.OverworldBiomeProvider;

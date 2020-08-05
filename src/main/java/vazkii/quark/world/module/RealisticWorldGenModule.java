@@ -11,7 +11,7 @@ import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
 import vazkii.quark.world.gen.RealisticChunkGenerator;
-import vazkii.quark.world.gen.RealisticGenScreen;
+import vazkii.quark.world.client.RealisticGenScreen;
 
 import net.minecraft.server.dedicated.DedicatedServer;
 import net.minecraft.server.dedicated.ServerProperties;
@@ -31,6 +31,7 @@ public class RealisticWorldGenModule extends Module {
 		Registry.register(Registry.field_239690_aB_, new ResourceLocation("quark", "realistic"), RealisticChunkGenerator.CODEC);
 	}
 
+	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void constructClient() {
 		new RealisticGenScreen();
@@ -50,10 +51,9 @@ public class RealisticWorldGenModule extends Module {
 			// If the world type is realistic, then replace the worldgen data
 			if (levelType.equals("realistic")) {
 				if (server.func_240793_aU_() instanceof ServerWorldInfo) {
-					ServerWorldInfo worldInfo  = (ServerWorldInfo)server.func_240793_aU_();
+					ServerWorldInfo worldInfo = (ServerWorldInfo)server.func_240793_aU_();
 					worldInfo.field_237343_c_ = createSettings(worldInfo.field_237343_c_.func_236221_b_(), worldInfo.field_237343_c_.func_236222_c_(), worldInfo.field_237343_c_.func_236223_d_());
 				}
-
 				ServerProperties properties = server.getServerProperties();
 				properties.field_241082_U_ = createSettings(properties.field_241082_U_.func_236221_b_(), properties.field_241082_U_.func_236222_c_(), properties.field_241082_U_.func_236223_d_());
 			}
