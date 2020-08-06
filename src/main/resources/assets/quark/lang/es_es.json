@@ -966,6 +966,7 @@
 	"block.quark.potted_sugar_cane": "Maceta con caña de azúcar",
 	"block.quark.potted_sunflower": "Maceta con girasol",
 	"block.quark.potted_wheat": "Maceta con trigo",
-	"block.quark.potted_yellow_blossom_sapling": "Maceta con brote florecido soleado"
-	
+	"block.quark.potted_yellow_blossom_sapling": "Maceta con brote florecido soleado",
+
+	"generator.quark.realistic": "Realista Quark"
 }
