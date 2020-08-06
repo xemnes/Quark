@@ -966,6 +966,7 @@
 	"block.quark.potted_sugar_cane": "Potted Sugar Cane",
 	"block.quark.potted_sunflower": "Potted Sunflower",
 	"block.quark.potted_wheat": "Potted Wheat",
-	"block.quark.potted_yellow_blossom_sapling": "Potted Sunny Blossom Sapling"
-	
+	"block.quark.potted_yellow_blossom_sapling": "Potted Sunny Blossom Sapling",
+
+	"generator.quark.realistic": "Quark Realistic"
 }
