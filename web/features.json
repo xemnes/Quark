@@ -1187,6 +1187,16 @@
 			"desc": [
 				"Rarely in Forests and Plains (rarer), you may find little flower circles. Should you dig in the center, you'll find some emeralds or diamonds!"
 			]
+		},
+		{
+			"name": "Realistic World Type",
+			"image": "realistic-world-type.jpg",
+			"versions": "1.16+",
+			"desc": [
+				"A new \"Quark Realistic\" world type is added at world selection, featuring somewhat realistic terrain while still feeling minecrafty. Expect rolling hills and tall mountains.",
+				"If you want to use it in a server, set your level type in the server properties to \"realistic\".",
+				"Credit where credit is due: This world type is based on Soniop's realistic preset, which you can find <a href='https://www.reddit.com/r/Minecraft/comments/4nfw3t/more_realistic_generation_preset_in_comment/'>here</a>, alongside an album of what you can expect! Additionally, the feature was re-implemented in the 1.16 system by SuperCoder79!"
+			]
 		}
 	],
 	"oddities": [
