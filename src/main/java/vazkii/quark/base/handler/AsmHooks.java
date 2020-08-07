@@ -1,10 +1,13 @@
 package vazkii.quark.base.handler;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.PistonBlockStructureHelper;
 import net.minecraft.client.gui.screen.EnchantmentScreen;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.Enchantments;
@@ -12,6 +15,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.TemptGoal;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.PistonTileEntity;
@@ -33,8 +37,10 @@ import vazkii.quark.client.tooltip.EnchantedBookTooltips;
 import vazkii.quark.management.entity.ChestPassengerEntity;
 import vazkii.quark.management.module.ItemSharingModule;
 import vazkii.quark.mobs.entity.CrabEntity;
+import vazkii.quark.tools.client.GlintRenderType;
 import vazkii.quark.tools.item.PickarangItem;
 import vazkii.quark.tools.module.AncientTomesModule;
+import vazkii.quark.tools.module.ColorRunesModule;
 import vazkii.quark.tools.module.PickarangModule;
 import vazkii.quark.tweaks.client.emote.EmoteHandler;
 import vazkii.quark.tweaks.module.HoeHarvestingModule;
@@ -212,5 +218,29 @@ public class AsmHooks {
 
 	public static Map<Enchantment, Integer> getAncientTomeEnchantments(ItemStack stack) {
 		return AncientTomesModule.getTomeEnchantments(stack);
+	}
+
+	// ==========================================================================
+	// Color Runes
+	// ==========================================================================
+
+	public static void setColorRuneTargetStack(LivingEntity living, EquipmentSlotType slot) {
+		setColorRuneTargetStack(living.getItemStackFromSlot(slot));
+	}
+
+	public static void setColorRuneTargetStack(ItemStack stack) {
+		ColorRunesModule.setTargetStack(stack);
+	}
+
+	public static RenderType getGlint() {
+		return ColorRunesModule.getGlint();
+	}
+
+	public static RenderType getEntityGlint() {
+		return ColorRunesModule.getEntityGlint();
+	}
+
+	public static void addGlintTypes(Object2ObjectLinkedOpenHashMap<RenderType, BufferBuilder> map) {
+		GlintRenderType.addGlintTypes(map);
 	}
 }

@@ -20,9 +20,13 @@ public class MorePottedPlantsModule extends Module {
 		add(Blocks.CHORUS_FLOWER, "chorus");
 		add(Blocks.COCOA, "cocoa_bean");
 		add(Blocks.GRASS, "grass");
+		add(Blocks.PEONY, "peony");
+		add(Blocks.LILAC, "lilac");
 		add(Blocks.MELON_STEM, "melon");
+		add(Blocks.NETHER_WART, "nether_wart");
 		add(Blocks.POTATOES, "potato");
 		add(Blocks.PUMPKIN_STEM, "pumpkin");
+		add(Blocks.ROSE_BUSH, "rose");
 		VariantHandler.addFlowerPot(Blocks.SEA_PICKLE, "sea_pickle", p -> p.lightValue(3));
 		add(Blocks.SUGAR_CANE, "sugar_cane");
 		add(Blocks.SUNFLOWER, "sunflower");

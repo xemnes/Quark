@@ -1,10 +1,5 @@
 package vazkii.quark.building.module;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
-import net.minecraft.item.ItemGroup;
-import net.minecraftforge.api.distmarker.Dist;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
@@ -20,8 +15,7 @@ public class GrateModule extends Module {
 
     @Override
     public void construct() {
-        new GrateBlock("grate", this, ItemGroup.DECORATIONS, Block.Properties.create(Material.IRON)
-                .hardnessAndResistance(5, 10).sound(SoundType.METAL));
+        new GrateBlock(this);
     }
     
 }

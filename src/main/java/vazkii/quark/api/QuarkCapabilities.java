@@ -16,5 +16,7 @@ public class QuarkCapabilities {
 
     @CapabilityInject(IMagnetTracker.class)
     public static final Capability<IMagnetTracker> MAGNET_TRACKER_CAPABILITY = null;
-    
+
+	@CapabilityInject(IRuneColorProvider.class)
+	public static final Capability<IRuneColorProvider> RUNE_COLOR = null;
 }

@@ -126,10 +126,10 @@ public class MatrixEnchantingTableTileEntity extends BaseEnchantingTableTile imp
 			int cost = matrix.getNewPiecePrice();
 			if(charge > 0 || creative) {
 				if (matrix.generatePiece(influences, bookshelfPower)) {
-					if (!creative)
+					if (!creative) {
 						player.addExperienceLevel(-cost);
-
-					charge = Math.max(charge - 1, 0);
+						charge = Math.max(charge - 1, 0);
+					}
 				}
 			}
 		}
