@@ -21,7 +21,7 @@
 	"quark.gui.keygroup.inv": "夸克物品欄",
 	"quark.gui.keygroup.emote": "夸克表情",
 	
-	"quark.gui.qbutton_info.title": "q Button Info (READ ME)",
+	"quark.gui.qbutton_info.title": "q按鈕資訊 (READ ME)",
 	"quark.gui.qbutton_info.open": "開啟檔案",
 	"quark.gui.qbutton_info.back": "返回",
 	"quark.gui.qbutton_info": "在新版本中的遊戲內組態設定已不可用。現在這只能在config資料夾中開啟。你需要找到quark-common.toml檔案並開啟。這是一個文字檔，所以你能用任何文字編輯器開啟它 (例如 Notepad)。在存檔後的任何改動將會即刻影響你的世界存檔。",
@@ -40,7 +40,7 @@
 	"quark.camera.filter.bluefocus": "藍色焦點",
 	"quark.camera.filter.greenfocus": "綠色焦點",
 	"quark.camera.filter.yellowfocus": "黃色焦點",
-	"quark.camera.filter.bumpy": "Bumped",
+	"quark.camera.filter.bumpy": "凹凸",
 	"quark.camera.filter.notch": "復古",
 	"quark.camera.filter.mirror": "鏡像",
 	"quark.camera.filter.creeper": "苦力怕視線",
@@ -49,7 +49,7 @@
 	"quark.camera.filter.blobs": "水彩",
 	"quark.camera.filter.pencil": "鉛筆",
 	"quark.camera.filter.watercolor": "負片",
-	"quark.camera.filter.sobel": "Sobel",
+	"quark.camera.filter.sobel": "索博算子",
 
 	"quark.camera.rulers": "標尺: ",
 	"quark.camera.rulers0": "無",
@@ -68,22 +68,17 @@
 	"quark.camera.overlay": "Overlay: ",
 	"quark.camera.overlay0": "無",
 	"quark.camera.overlay1": "日期",
-	"quark.camera.overlay2": "Postcard",
+	"quark.camera.overlay2": "明信片",
 	"quark.camera.overlay3": "浮水印",
-	"quark.camera.overlay4": "Held Item",
+	"quark.camera.overlay4": "持有物品",
 
-	"quark.camera.header": "Camera Mode",
-	"quark.camera.info": "[%s to exit, ENTER to shoot]",
-	"quark.camera.reset": "Reset Settings (Must Sneak)",
-	"quark.camera.greetings": "Greetings from %s!",
+	"quark.camera.header": "相機模式",
+	"quark.camera.info": "[按 %s 離開，按enter以拍照]",
+	"quark.camera.reset": "重設設定 (必須潛行)",
+	"quark.camera.greetings": "來自 %s 的問候!",
 
-  
-        "quark.jei.makes_copy": "Makes Copy",
-
-  
-        "quark.jei.makes_copy": "Makes Copy",
+        "quark.jei.makes_copy": "製作副本",
 	
-  
         "quark.keybind.change_hotbar": "切換快捷欄",
 	"quark.keybind.lock_rotation": "旋轉鎖定",
 	"quark.keybind.sort_container": "儲存至指定物品欄",
@@ -99,7 +94,6 @@
 	"quark.keybind.back": "返回",
 	"quark.keybind.camera_mode": "相機模式",
 
-  
   	"quark.subtitles.meep": "小石靈逃跑",
 	"quark.subtitles.give_stoneling": "小石靈撿拾物品",
 	"quark.subtitles.take_stoneling": "小石靈給予物品",
@@ -943,9 +937,9 @@
 	"block.quark.potted_sea_pickle": "海鞘盆栽",
 	"block.quark.potted_sugar_cane": "甘蔗盆栽",
 	"block.quark.potted_sunflower": "向日葵盆栽",
-	"block.quark.potted_wheat": "盆栽小麥",
-	"block.quark.potted_yellow_blossom_sapling": "盆栽晴天花樹苗"
+	"block.quark.potted_wheat": "小麥盆栽",
+	"block.quark.potted_yellow_blossom_sapling": "晴天花樹苗盆栽",
 	
-	"generator.quark.realistic": "Quark Realistic"
+	"generator.quark.realistic": "夸克真實地形"
 
 }
