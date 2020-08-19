@@ -17,6 +17,7 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tileentity.LockableLootTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
@@ -81,6 +82,9 @@ public class ShulkerBoxTooltips {
 				}
 				TileEntity te = TileEntity.func_235657_b_(((BlockItem) event.getStack().getItem()).getBlock().getDefaultState(), cmp); // create
 				if (te != null) {
+					if(te instanceof LockableLootTileEntity)
+						((LockableLootTileEntity) te).setLootTable(null, 0);
+					
 					LazyOptional<IItemHandler> handler = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
 					handler.ifPresent((capability) -> {
 						ItemStack currentBox = event.getStack();
