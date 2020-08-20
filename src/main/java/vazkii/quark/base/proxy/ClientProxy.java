@@ -68,9 +68,10 @@ public class ClientProxy extends CommonProxy {
 		ModuleLoader.INSTANCE.configChangedClient();
 
 		Minecraft mc = Minecraft.getInstance();
-		if(mc.isSingleplayer() && mc.player != null && mc.getIntegratedServer() != null) {
-			mc.player.sendMessage(new TranslationTextComponent("quark.misc.reloaded"), UUID.randomUUID());
-		}
+		mc.runAsync(() -> {
+			if(mc.isSingleplayer() && mc.player != null && mc.getIntegratedServer() != null)
+				mc.player.sendMessage(new TranslationTextComponent("quark.misc.reloaded"), null);
+		});
 	}
 	
 	@Override
