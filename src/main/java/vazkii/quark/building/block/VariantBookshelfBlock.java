@@ -16,7 +16,7 @@ public class VariantBookshelfBlock extends QuarkBlock {
 	private final boolean flammable;
 	
     public VariantBookshelfBlock(String type, Module module, boolean flammable) {
-        super(type + "_bookshelf", module, ItemGroup.DECORATIONS, Block.Properties.from(Blocks.BOOKSHELF));
+        super(type + "_bookshelf", module, ItemGroup.BUILDING_BLOCKS, Block.Properties.from(Blocks.BOOKSHELF));
         this.flammable = flammable;
     }
     
