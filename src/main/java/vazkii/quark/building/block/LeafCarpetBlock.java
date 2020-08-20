@@ -16,6 +16,7 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
+import net.minecraftforge.common.ToolType;
 import vazkii.arl.interf.IBlockColorProvider;
 import vazkii.quark.base.block.QuarkBlock;
 import vazkii.quark.base.handler.RenderLayerHandler;
@@ -34,6 +35,7 @@ public class LeafCarpetBlock extends QuarkBlock implements IBlockColorProvider {
 				Block.Properties.create(Material.CARPET)
 				.hardnessAndResistance(0.2F)
 				.sound(SoundType.PLANT)
+				.harvestTool(ToolType.HOE)
 				.notSolid());
 		
 		baseState = base.getDefaultState();
