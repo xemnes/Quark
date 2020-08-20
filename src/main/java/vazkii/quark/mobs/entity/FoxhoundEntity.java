@@ -162,7 +162,7 @@ public class FoxhoundEntity extends WolfEntity implements IMob {
 					List<FoxhoundEntity> foxhounds = world.getEntitiesWithinAABB(FoxhoundEntity.class, new AxisAlignedBB(func_233580_cy_()),
 							(fox) -> fox != null && fox.isTamed());
 					if(!foxhounds.isEmpty() && foxhounds.get(0) == this)
-						furnace.cookTime = furnace.cookTime == 0 ? 2 :Math.min(furnace.cookTimeTotal - 1, cookTime + 1);
+						furnace.cookTime = furnace.cookTime == 3 ? 5 :Math.min(furnace.cookTimeTotal - 1, cookTime + 1);
 				}
 			}
 		}
