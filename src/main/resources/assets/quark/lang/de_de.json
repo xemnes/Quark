@@ -5,7 +5,7 @@
 	"quark.gui.button.insert": "Einfügen",
 	"quark.gui.button.extract": "Herausnehmen",
 	"quark.gui.button.filter": "Filtern",
-	"quark.gui.button.emotes": "Emotionen",
+	"quark.gui.button.emotes": "Emotes",
 	"quark.gui.button.back": "Zurück",
 
 	"quark.gui.enchanting.min": "Min: %d",
@@ -18,7 +18,7 @@
 
 	"quark.gui.keygroup.misc": "Quark-Kurzbefehle",
 	"quark.gui.keygroup.inv": "Quark-Inventar",
-	"quark.gui.keygroup.emote": "Quark-Emotionen",
+	"quark.gui.keygroup.emote": "Quark-Emotes",
 	
 	"quark.gui.qbutton_info.title": "q Schaltfläche Info (LESE MICH)",
 	"quark.gui.qbutton_info.open": "Datei öffnen",
@@ -173,8 +173,8 @@
 
 	"item.quark.trowel": "Kelle",
 	"item.quark.tallow": "Talg",
-	"item.quark.slime_in_a_bucket": "Schleim im Eimer",
-	"item.quark.slime_in_a_bucket.named": "%s im Eimer",
+	"item.quark.slime_in_a_bucket": "Schleimeimer",
+	"item.quark.slime_in_a_bucket.named": "%s-Eimer",
 	"item.quark.biotite": "Enderbiotit",
 	"item.quark.black_shard": "Schwarze Glasscherbe",
 	"item.quark.blue_shard": "Blaue Glasscherbe",
@@ -236,7 +236,7 @@
 	"item.quark.golden_frog_leg": "Goldener Froschschenkel",
 	"item.quark.crab_leg": "Rohes Krabbenbein",
 	"item.quark.cooked_crab_leg": "Gebratenes Krabbenbein",
-	"item.quark.crab_shell": "Krabbenschalenfragment",
+	"item.quark.crab_shell": "Krabbenschale",
 	"item.quark.root_item": "Höhlenwurzel",
 	"item.quark.dragon_scale": "Drachenschuppe",
 	"item.quark.cactus_paste": "Kaktuspaste",
@@ -244,6 +244,7 @@
 	"item.quark.ravager_hide": "Verwüsterfell",
 	"item.quark.soul_compass": "Seelenkompass",
 	"item.quark.bottled_cloud": "Flaschenwolke",
+	"item.quark.flamerang": "Flamerang",
 
 	"item.minecraft.potion.effect.quark.resilience": "Trank der Belastbarkeit",
 	"item.minecraft.splash_potion.effect.quark.resilience": "Wurftrank der Belastbarkeit",
@@ -259,17 +260,17 @@
 	"item.minecraft.tipped_arrow.effect.quark.resistance": "Pfeil der Resistenz",
 
 	"item.quark.biome_map.snowy_tundra": "Verschneite-Tundra-Pfadfinderkarte",
-	"item.quark.biome_map.mountains": "Berge-Pfadfinderkarte",
-	"item.quark.biome_map.dark_forest": "Dichter-Wald-Pfadfinderkarte",
-	"item.quark.biome_map.desert": "Wüste-Pfadfinderkarte",
-	"item.quark.biome_map.savanna": "Savanne-Pfadfinderkarte",
-	"item.quark.biome_map.swamp": "Sumpf-Pfadfinderkarte",
+	"item.quark.biome_map.mountains": "Bergen-Pfadfinderkarte",
+	"item.quark.biome_map.dark_forest": "Dichter-Waldes-Pfadfinderkarte",
+	"item.quark.biome_map.desert": "Wüsten-Pfadfinderkarte",
+	"item.quark.biome_map.savanna": "Savannen-Pfadfinderkarte",
+	"item.quark.biome_map.swamp": "Sumpfes-Pfadfinderkarte",
 	"item.quark.biome_map.giant_tree_taiga": "Riesenbaumtaiga-Pfadfinderkarte",
-	"item.quark.biome_map.flower_forest": "Blumenwald-Pfadfinderkarte",
-	"item.quark.biome_map.jungle": "Dschungel-Pfadfinderkarte",
-	"item.quark.biome_map.bamboo_jungle": "Bambusdschungel-Pfadfinderkarte",
-	"item.quark.biome_map.badlands": "Tafelberge-Pfadfinderkarte",
-	"item.quark.biome_map.mushroom_fields": "Pilzland-Pfadfinderkarte",
+	"item.quark.biome_map.flower_forest": "Blumenwaldes-Pfadfinderkarte",
+	"item.quark.biome_map.jungle": "Dschungels-Pfadfinderkarte",
+	"item.quark.biome_map.bamboo_jungle": "Bambusdschungels-Pfadfinderkarte",
+	"item.quark.biome_map.badlands": "Tafelbergen-Pfadfinderkarte",
+	"item.quark.biome_map.mushroom_fields": "Pilzlandes-Pfadfinderkarte",
 	"item.quark.biome_map.ice_spikes": "Eiszapfentundra-Pfadfinderkarte",
 
 	"block.quark.charcoal_block": "Holzkohleblock",
@@ -616,7 +617,7 @@
 	"block.quark.nether_wart_sack": "Netherwarzensack",
 	"block.quark.potato_crate": "Kartoffelkiste",
 	"block.quark.apple_crate": "Apfelkiste",
-	"block.quark.beetroot_crate": "Rote-Bete-Kiste",
+	"block.quark.beetroot_crate": "Rote-Beten-Kiste",
 	"block.quark.carrot_crate": "Karottenkiste",
 	"block.quark.stick_block": "Stockbündel",
 	"block.quark.biotite_ore": "Enderbiotiterz",
@@ -865,13 +866,13 @@
 	"block.quark.tallow_block": "Talgblock",
 	"block.quark.bonded_leather": "Gebundenes Leder",
 	"block.quark.iron_plate": "Eisenplatte",
-	"block.quark.rusty_iron_plate": "Rosteisenplatte",
+	"block.quark.rusty_iron_plate": "Rostige Eisenplatte",
 	"block.quark.iron_plate_stairs": "Eisenplattentreppe",
-	"block.quark.rusty_iron_plate_stairs": "Rosteisenplattentreppe",
+	"block.quark.rusty_iron_plate_stairs": "Rostige Eisenplattentreppe",
 	"block.quark.iron_plate_slab": "Eisenplattenstufe",
-	"block.quark.rusty_iron_plate_slab": "Rosteisenplattenstufe",
+	"block.quark.rusty_iron_plate_slab": "Rostige Eisenplattenstufe",
 	"block.quark.iron_plate_vertical_slab": "Vertikale Eisenplattenstufe",
-	"block.quark.rusty_iron_plate_vertical_slab": "Vertikale Rosteisenplattenstufe",
+	"block.quark.rusty_iron_plate_vertical_slab": "Vertikale rostige Eisenplattenstufe",
 	"block.quark.pipe": "Rohr",
 	"block.quark.magnet": "Magnet",
 	"block.quark.bonded_rabbit_hide": "Gebundenes Kaninchenfell",
@@ -898,6 +899,7 @@
 	"block.quark.blue_nether_bricks_slab": "Blaue Netherziegelstufe",
 	"block.quark.blue_nether_bricks_vertical_slab": "Vertikale blaue Netherziegelstufe",
 	"block.quark.blue_nether_bricks_wall": "Blaue Netherziegelmauer",
+	"block.quark.biotite_bricks": "Biotitziegel",
 
 	"item.quark.stoneling_spawn_egg": "Stoneling-Spawn-Ei",
 	"item.quark.frog_spawn_egg": "Frosch-Spawn-Ei",
@@ -945,6 +947,8 @@
 	"block.quark.potted_sugar_cane": "Eingetopfter Zuckerrohr",
 	"block.quark.potted_sunflower": "Eingetopfte Sonnenblume",
 	"block.quark.potted_wheat": "Eingetopfter Weizen",
-	"block.quark.potted_yellow_blossom_sapling": "Eingetopfter sonniger Blütensetzling"
+	"block.quark.potted_yellow_blossom_sapling": "Eingetopfter sonniger Blütensetzling",
+
+	"generator.quark.realistic": "Quark-Realistisch"
 	
 } 
