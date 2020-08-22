@@ -53,7 +53,7 @@ public class MagnetTileEntity extends TileEntity implements ITickableTileEntity 
 			if(!world.isRemote && targetState.getBlock() != Blocks.MOVING_PISTON && targetState.getBlock() != MagnetsModule.magnetized_block) {
 				PushReaction reaction = MagnetSystem.getPushAction(this, targetPos, targetState, moveDir);
 				if (reaction == PushReaction.IGNORE || reaction == PushReaction.DESTROY) {
-					BlockPos frontPos = targetPos.offset(dir);
+					BlockPos frontPos = targetPos.offset(moveDir);
 					BlockState frontState = world.getBlockState(frontPos);
 					if(frontState.isAir(world, frontPos))
 						MagnetSystem.applyForce(world, targetPos, power - i + 1, dir == moveDir, moveDir, i, pos);
