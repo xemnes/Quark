@@ -1,7 +1,13 @@
 package vazkii.quark.world.module;
 
+import java.util.List;
+import java.util.function.BiPredicate;
+import java.util.function.BooleanSupplier;
+import java.util.function.Predicate;
+
 import com.google.common.base.Predicates;
 import com.google.common.collect.Lists;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.ResourceLocation;
@@ -18,25 +24,21 @@ import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
 import vazkii.quark.base.world.WorldGenHandler;
 import vazkii.quark.base.world.WorldGenWeights;
+import vazkii.quark.base.world.config.DimensionConfig;
 import vazkii.quark.world.config.BigStoneClusterConfig;
 import vazkii.quark.world.gen.BigStoneClusterGenerator;
-
-import java.util.List;
-import java.util.function.BiPredicate;
-import java.util.function.BooleanSupplier;
-import java.util.function.Predicate;
 
 @LoadModule(category = ModuleCategory.WORLD)
 public class BigStoneClustersModule extends Module {
 
-	@Config public static BigStoneClusterConfig granite = new BigStoneClusterConfig(false, Type.MOUNTAIN, Type.HILLS);
-	@Config public static BigStoneClusterConfig diorite = new BigStoneClusterConfig(false, Type.SAVANNA, Type.JUNGLE, Type.MUSHROOM);
-	@Config public static BigStoneClusterConfig andesite = new BigStoneClusterConfig(false, Type.FOREST);
-	@Config public static BigStoneClusterConfig marble = new BigStoneClusterConfig(false, Type.PLAINS);
-	@Config public static BigStoneClusterConfig limestone = new BigStoneClusterConfig(false, Type.SWAMP, Type.OCEAN);
-	@Config public static BigStoneClusterConfig jasper = new BigStoneClusterConfig(false, Type.MESA, Type.SANDY);
-	@Config public static BigStoneClusterConfig slate = new BigStoneClusterConfig(false, Type.COLD);
-	@Config public static BigStoneClusterConfig basalt = new BigStoneClusterConfig(true, 19, 6, 20, 20, 120, Type.NETHER);
+	@Config public static BigStoneClusterConfig granite = new BigStoneClusterConfig(Type.MOUNTAIN, Type.HILLS);
+	@Config public static BigStoneClusterConfig diorite = new BigStoneClusterConfig(Type.SAVANNA, Type.JUNGLE, Type.MUSHROOM);
+	@Config public static BigStoneClusterConfig andesite = new BigStoneClusterConfig(Type.FOREST);
+	@Config public static BigStoneClusterConfig marble = new BigStoneClusterConfig(Type.PLAINS);
+	@Config public static BigStoneClusterConfig limestone = new BigStoneClusterConfig(Type.SWAMP, Type.OCEAN);
+	@Config public static BigStoneClusterConfig jasper = new BigStoneClusterConfig(Type.MESA, Type.SANDY);
+	@Config public static BigStoneClusterConfig slate = new BigStoneClusterConfig(Type.COLD);
+	@Config public static BigStoneClusterConfig voidstone = new BigStoneClusterConfig(DimensionConfig.end(false), 19, 6, 20, 0, 40, Type.END);
 	
 	@Config public static List<String> blocksToReplace = Lists.newArrayList(
 			"minecraft:stone", "minecraft:andesite", "minecraft:diorite", "minecraft:granite", "minecraft:netherrack", "minecraft:end_stone",
@@ -55,7 +57,7 @@ public class BigStoneClustersModule extends Module {
 		add(limestone, NewStoneTypesModule.limestoneBlock, () -> NewStoneTypesModule.enableLimestone);
 		add(jasper, NewStoneTypesModule.jasperBlock, () -> NewStoneTypesModule.enableJasper);
 		add(slate, NewStoneTypesModule.slateBlock, () -> NewStoneTypesModule.enableSlate);
-		add(basalt, NewStoneTypesModule.basaltBlock, () -> NewStoneTypesModule.enableBasalt);
+		add(voidstone, NewStoneTypesModule.basaltBlock, () -> NewStoneTypesModule.enableVoidstone);
 		
 		conditionalize(Blocks.GRANITE, () -> (!enabled || !granite.enabled));
 		conditionalize(Blocks.DIORITE, () -> (!enabled || !diorite.enabled));

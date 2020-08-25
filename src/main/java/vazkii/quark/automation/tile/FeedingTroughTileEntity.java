@@ -1,6 +1,13 @@
 package vazkii.quark.automation.tile;
 
+import java.util.List;
+import java.util.Random;
+import java.util.UUID;
+
+import javax.annotation.Nonnull;
+
 import com.mojang.authlib.GameProfile;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.goal.TemptGoal;
@@ -18,8 +25,8 @@ import net.minecraft.tileentity.LockableLootTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.Vec2f;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector2f;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.server.ServerWorld;
@@ -27,11 +34,7 @@ import net.minecraftforge.common.util.FakePlayer;
 import vazkii.quark.automation.block.FeedingTroughBlock;
 import vazkii.quark.automation.module.FeedingTroughModule;
 import vazkii.quark.base.handler.MiscUtil;
-
-import javax.annotation.Nonnull;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
+import vazkii.quark.base.util.MovableFakePlayer;
 
 /**
  * @author WireSegal
@@ -59,7 +62,7 @@ public class FeedingTroughTileEntity extends LockableLootTileEntity implements I
 
     public FakePlayer getFoodHolder(TemptGoal goal) {
         if (foodHolder == null && world instanceof ServerWorld)
-            foodHolder = new FakePlayer((ServerWorld) world, DUMMY_PROFILE);
+            foodHolder = new MovableFakePlayer((ServerWorld) world, DUMMY_PROFILE);
 
         AnimalEntity entity = (AnimalEntity) goal.creature;
 
@@ -68,16 +71,16 @@ public class FeedingTroughTileEntity extends LockableLootTileEntity implements I
                 ItemStack stack = getStackInSlot(i);
                 if (goal.isTempting(stack) && entity.isBreedingItem(stack)) {
                     foodHolder.inventory.mainInventory.set(foodHolder.inventory.currentItem, stack);
-                    Vec3d position = new Vec3d(pos).add(0.5, 0.5, 0.5);
-                    Vec3d direction = goal.creature.getPositionVector().subtract(position).normalize();
-                    Vec2f angles = MiscUtil.getMinecraftAngles(direction);
+                    Vector3d position = new Vector3d(pos.getX(), pos.getY(), pos.getZ()).add(0.5, 0.5, 0.5);
+                    Vector3d direction = goal.creature.getPositionVec().subtract(position).normalize();
+                    Vector2f angles = MiscUtil.getMinecraftAngles(direction);
 
-                    Vec3d shift = direction.scale(-0.5 / Math.max(
+                    Vector3d shift = direction.scale(-0.5 / Math.max(
                             Math.abs(direction.x), Math.max(
                                     Math.abs(direction.y),
                                     Math.abs(direction.z))));
 
-                    Vec3d truePos = position.add(shift);
+                    Vector3d truePos = position.add(shift);
 
                     foodHolder.setLocationAndAngles(truePos.x, truePos.y, truePos.z, angles.x, angles.y);
                     return foodHolder;
@@ -138,12 +141,12 @@ public class FeedingTroughTileEntity extends LockableLootTileEntity implements I
 
     private void addItemParticles(Entity entity, ItemStack stack, int count) {
         for(int i = 0; i < count; ++i) {
-            Vec3d direction = new Vec3d((entity.world.rand.nextFloat() - 0.5D) * 0.1D, Math.random() * 0.1D + 0.1D, 0.0D);
+            Vector3d direction = new Vector3d((entity.world.rand.nextFloat() - 0.5D) * 0.1D, Math.random() * 0.1D + 0.1D, 0.0D);
             direction = direction.rotatePitch(-entity.rotationPitch * ((float)Math.PI / 180F));
             direction = direction.rotateYaw(-entity.rotationYaw * ((float)Math.PI / 180F));
             double yVelocity = (-entity.world.rand.nextFloat()) * 0.6D - 0.3D;
-            Vec3d position = new Vec3d((entity.world.rand.nextFloat() - 0.5D) * 0.3D, yVelocity, 0.6D);
-            Vec3d entityPos = entity.getPositionVec();
+            Vector3d position = new Vector3d((entity.world.rand.nextFloat() - 0.5D) * 0.3D, yVelocity, 0.6D);
+            Vector3d entityPos = entity.getPositionVec();
             position = position.rotatePitch(-entity.rotationPitch * ((float)Math.PI / 180F));
             position = position.rotateYaw(-entity.rotationYaw * ((float)Math.PI / 180F));
             position = position.add(entityPos.x, entityPos.y + entity.getEyeHeight(), entityPos.z);
@@ -183,8 +186,9 @@ public class FeedingTroughTileEntity extends LockableLootTileEntity implements I
     }
 
     @Override
-    public void read(CompoundNBT nbt) {
-        super.read(nbt);
+    public void func_230337_a_(BlockState state, CompoundNBT nbt) { // read
+    	super.func_230337_a_(state, nbt);
+    	
         this.cooldown = nbt.getInt("Cooldown");
         this.internalRng = nbt.getLong("rng");
         this.stacks = NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY);

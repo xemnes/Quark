@@ -1,13 +1,13 @@
 package vazkii.quark.base.world.config;
 
-import net.minecraft.world.IWorld;
-import vazkii.quark.base.module.Config;
-import vazkii.quark.base.module.IConfigType;
-
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
+
+import net.minecraft.world.IWorld;
+import net.minecraft.world.World;
+import vazkii.quark.base.module.Config;
+import vazkii.quark.base.module.IConfigType;
 
 public class DimensionConfig implements IConfigType {
 
@@ -40,10 +40,10 @@ public class DimensionConfig implements IConfigType {
 	}
 
 	public boolean canSpawnHere(IWorld world) {
-		if (world == null)
+		if (world == null || !(world instanceof World))
 			return false;
 
-		return dimensions.contains(Objects.toString(world.getDimension().getType().getRegistryName())) != isBlacklist;
+		return dimensions.contains(((World) world).func_234923_W_().func_240901_a_().toString()) != isBlacklist;
 	}
 
 }

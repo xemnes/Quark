@@ -1,5 +1,7 @@
 package vazkii.quark.base.handler;
 
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Collection;
@@ -10,6 +12,7 @@ import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 
 import com.google.common.base.Predicates;
+import com.google.common.base.Throwables;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
@@ -21,6 +24,9 @@ import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.loot.LootEntry;
+import net.minecraft.loot.LootPool;
+import net.minecraft.loot.LootTable;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
@@ -29,15 +35,13 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.math.Vec2f;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector2f;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.LightType;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.server.ServerChunkProvider;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraft.world.storage.loot.LootEntry;
-import net.minecraft.world.storage.loot.LootPool;
-import net.minecraft.world.storage.loot.LootTable;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.GuiScreenEvent.KeyboardKeyPressedEvent;
@@ -54,6 +58,20 @@ public class MiscUtil {
 
 	public static final ResourceLocation GENERAL_ICONS = new ResourceLocation(Quark.MOD_ID, "textures/gui/general_icons.png");
 
+	private static final MethodHandle LOOT_TABLE_POOLS, LOOT_POOL_ENTRIES;
+
+	static {
+		MethodHandles.Lookup lookup = MethodHandles.lookup();
+		Field lootTablePools = ObfuscationReflectionHelper.findField(LootTable.class, "field_186466_c");
+		Field lootPoolEntries = ObfuscationReflectionHelper.findField(LootPool.class, "field_186453_a");
+		try {
+			LOOT_TABLE_POOLS = lookup.unreflectGetter(lootTablePools);
+			LOOT_POOL_ENTRIES = lookup.unreflectGetter(lootPoolEntries);
+		} catch (IllegalAccessException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 	public static final Direction[] HORIZONTALS = new Direction[] {
 			Direction.NORTH,
 			Direction.SOUTH,
@@ -61,15 +79,15 @@ public class MiscUtil {
 			Direction.EAST
 	};
 
-	public static final String[] VARIANT_WOOD_TYPES = new String[] {
+	public static final String[] OVERWORLD_VARIANT_WOOD_TYPES = new String[] {
 			"spruce",
 			"birch",
 			"jungle",
 			"acacia", 
-			"dark_oak"	
+			"dark_oak"
 	};
-
-	public static final String[] ALL_WOOD_TYPES = new String[] {
+	
+	public static final String[] OVERWORLD_WOOD_TYPES = new String[] {
 			"oak",
 			"spruce",
 			"birch",
@@ -77,14 +95,37 @@ public class MiscUtil {
 			"acacia", 
 			"dark_oak"
 	};
+	
+	public static final String[] NETHER_WOOD_TYPES = new String[] {
+			"crimson",
+			"warped"
+	};
 
 	public static void addToLootTable(LootTable table, LootEntry entry) {
-		if(table.pools == null)
-			return;
-		LootPool pool = table.pools.get(0);
-		if (pool.lootEntries == null)
-			return;
-		pool.lootEntries.add(entry);
+		List<LootPool> pools = getPools(table);
+		if (!pools.isEmpty()) {
+			getEntries(pools.get(0)).add(entry);
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public static List<LootPool> getPools(LootTable table) {
+		try {
+			return (List<LootPool>) LOOT_TABLE_POOLS.invokeExact(table);
+		} catch (Throwable throwable) {
+			Throwables.throwIfUnchecked(throwable);
+			throw new RuntimeException(throwable);
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public static List<LootEntry> getEntries(LootPool pool) {
+		try {
+			return (List<LootEntry>) LOOT_POOL_ENTRIES.invokeExact(pool);
+		} catch (Throwable throwable) {
+			Throwables.throwIfUnchecked(throwable);
+			throw new RuntimeException(throwable);
+		}
 	}
 
 	public static void damageStack(PlayerEntity player, Hand hand, ItemStack stack, int dmg) {
@@ -120,7 +161,7 @@ public class MiscUtil {
 		}
 	}
 
-	public static Vec2f getMinecraftAngles(Vec3d direction) {
+	public static Vector2f getMinecraftAngles(Vector3d direction) {
 		// <sin(-y) * cos(p), -sin(-p), cos(-y) * cos(p)>
 
 		direction = direction.normalize();
@@ -128,11 +169,11 @@ public class MiscUtil {
 		double pitch = Math.asin(direction.y);
 		double yaw = Math.asin(direction.x / Math.cos(pitch));
 
-		return new Vec2f((float) (pitch * 180 / Math.PI), (float) (-yaw * 180 / Math.PI));
+		return new Vector2f((float) (pitch * 180 / Math.PI), (float) (-yaw * 180 / Math.PI));
 	}
 
 	public static boolean isEntityInsideOpaqueBlock(Entity entity) {
-		BlockPos pos = entity.getPosition();
+		BlockPos pos = entity.func_233580_cy_(); // getPosition
 		return !entity.noClip && entity.world.getBlockState(pos).isSuffocating(entity.world, pos);
 	}
 
@@ -165,6 +206,10 @@ public class MiscUtil {
 			.getTrackingPlayers(new ChunkPos(tile.getPos()), false)
 			.forEach(e -> e.connection.sendPacket(packet));
 		}
+	}
+	
+	public static BlockPos locateBiome(ServerWorld world, Biome biomeToFind, BlockPos start) {
+		return world.func_241116_a_(biomeToFind, start, 6400, 8); // magic numbers from LocateBiomeCommand
 	}
 
 	private static int progress;

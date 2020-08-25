@@ -1,11 +1,13 @@
 package vazkii.quark.world.module.underground;
 
+import java.util.List;
+
 import com.google.common.collect.Lists;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.Tag;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.tags.ITag;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.common.BiomeDictionary;
 import vazkii.quark.base.Quark;
@@ -16,8 +18,6 @@ import vazkii.quark.base.module.ModuleCategory;
 import vazkii.quark.world.block.CaveCrystalBlock;
 import vazkii.quark.world.config.UndergroundBiomeConfig;
 import vazkii.quark.world.gen.underground.CaveCrystalUndergroundBiome;
-
-import java.util.List;
 
 @LoadModule(category = ModuleCategory.WORLD)
 public class CaveCrystalUndergroundBiomeModule extends UndergroundBiomeModule {
@@ -37,7 +37,7 @@ public class CaveCrystalUndergroundBiomeModule extends UndergroundBiomeModule {
 	public static boolean crystalsCraftRunes = true;
 
 	public static List<CaveCrystalBlock> crystals = Lists.newArrayList();
-	public static Tag<Block> crystalTag;
+	public static ITag<Block> crystalTag;
 
 	public static Block crystal(int floorIdx) {
 		return crystals.get(MathHelper.clamp(floorIdx, 0, crystals.size() - 1));
@@ -64,7 +64,7 @@ public class CaveCrystalUndergroundBiomeModule extends UndergroundBiomeModule {
 	@Override
 	public void setup() {
 		super.setup();
-		crystalTag = new BlockTags.Wrapper(new ResourceLocation(Quark.MOD_ID, "crystal"));
+		crystalTag = BlockTags.makeWrapperTag(Quark.MOD_ID + ":crystal");
 	}
 	
 	@Override

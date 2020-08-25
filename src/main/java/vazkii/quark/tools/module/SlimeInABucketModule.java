@@ -1,14 +1,17 @@
 package vazkii.quark.tools.module;
 
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.monster.SlimeEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemModelsProperties;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Hand;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import vazkii.arl.util.ItemNBTHelper;
@@ -25,6 +28,13 @@ public class SlimeInABucketModule extends Module {
 	@Override
 	public void construct() {
 		slime_in_a_bucket = new SlimeInABucketItem(this);
+	}
+	
+	@Override
+	@OnlyIn(Dist.CLIENT)
+	public void clientSetup() {
+		ItemModelsProperties.func_239418_a_(slime_in_a_bucket, new ResourceLocation("excited"), 
+				(stack, world, e) -> ItemNBTHelper.getBoolean(stack, SlimeInABucketItem.TAG_EXCITED, false) ? 1 : 0);
 	}
 	
 	@SubscribeEvent

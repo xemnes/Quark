@@ -13,7 +13,7 @@ public enum RandomizerPowerState implements IStringSerializable {
 
 
     @Override
-    public String getName() {
+    public String func_176610_l() { // getName
         return name().toLowerCase(Locale.ROOT);
     }
 }

@@ -16,11 +16,13 @@ public class VerticalPlanksModule extends Module {
 
 	@Override
 	public void construct() {
-		for(String type : MiscUtil.ALL_WOOD_TYPES)
+		for(String type : MiscUtil.OVERWORLD_WOOD_TYPES)
 			new QuarkBlock("vertical_" + type + "_planks", this, ItemGroup.BUILDING_BLOCKS, Block.Properties.from(Blocks.OAK_PLANKS));
+		for(String type : MiscUtil.NETHER_WOOD_TYPES)
+			new QuarkBlock("vertical_" + type + "_planks", this, ItemGroup.BUILDING_BLOCKS, Block.Properties.from(Blocks.CRIMSON_PLANKS));
 
 		for(DyeColor dye : DyeColor.values())
-			new QuarkBlock("vertical_" + dye.getName() + "_stained_planks", this, ItemGroup.BUILDING_BLOCKS, Block.Properties.from(Blocks.OAK_PLANKS))
+			new QuarkBlock("vertical_" + dye.getTranslationKey() + "_stained_planks", this, ItemGroup.BUILDING_BLOCKS, Block.Properties.from(Blocks.OAK_PLANKS))
 			.setCondition(() -> ModuleLoader.INSTANCE.isModuleEnabled(StainedPlanksModule.class));
 	}
 

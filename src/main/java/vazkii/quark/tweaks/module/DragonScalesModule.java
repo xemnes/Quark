@@ -5,7 +5,7 @@ import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -33,7 +33,7 @@ public class DragonScalesModule extends Module {
 			EnderDragonEntity dragon = (EnderDragonEntity) event.getEntity();
 
 			if(dragon.getFightManager() != null && dragon.getFightManager().hasPreviouslyKilledDragon() && dragon.deathTicks == 100) {
-				Vec3d pos = dragon.getPositionVec();
+				Vector3d pos = dragon.getPositionVec();
 				ItemEntity item = new ItemEntity(dragon.world, pos.x, pos.y, pos.z, new ItemStack(dragon_scale, 1));
 				dragon.world.addEntity(item);
 			}

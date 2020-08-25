@@ -32,14 +32,15 @@ public class ImprovedTooltipsModule extends Module {
     @Config
     public static boolean enchantingTooltips = true;
 
-
-
     @Config
     public static boolean shulkerBoxUseColors = true;
     @Config
     public static boolean shulkerBoxRequireShift = false;
     @Config
     public static boolean mapRequireShift = false;
+    
+	@Config 
+	public static boolean showSaturation = true;
 
     @Config(description = "The value of each shank of food. " +
             "Tweak this when using mods like Hardcore Hunger which change that value.")

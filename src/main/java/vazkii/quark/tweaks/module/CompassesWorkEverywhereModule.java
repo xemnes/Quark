@@ -1,8 +1,11 @@
 package vazkii.quark.tweaks.module;
 
+import net.minecraft.item.ItemModelsProperties;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -23,12 +26,14 @@ public class CompassesWorkEverywhereModule extends Module {
 	@Config public static boolean enableEnd =  true;
 	
 	@Override
-	public void setup() {
+	@OnlyIn(Dist.CLIENT)
+	public void clientSetup() {
+		// func_239418_a_ = addPropertyOverride
 		if(enabled && (enableCompassNerf || enableNether || enableEnd))
-			Items.COMPASS.addPropertyOverride(new ResourceLocation("angle"), new CompassAngleGetter());
+			ItemModelsProperties.func_239418_a_(Items.COMPASS, new ResourceLocation("angle"), new CompassAngleGetter.Impl());
 		
 		if(enabled && enableClockNerf)
-			Items.CLOCK.addPropertyOverride(new ResourceLocation("time"), new ClockTimeGetter());
+			ItemModelsProperties.func_239418_a_(Items.CLOCK, new ResourceLocation("time"), new ClockTimeGetter.Impl());
 	}
 	
 	@SubscribeEvent

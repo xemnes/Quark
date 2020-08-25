@@ -13,12 +13,15 @@ import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraft.world.lighting.LightEngine;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.IPlantable;
+import net.minecraftforge.common.PlantType;
 import net.minecraftforge.common.ToolType;
 import vazkii.quark.base.block.QuarkBlock;
 import vazkii.quark.base.module.Module;
@@ -30,7 +33,7 @@ public class GlowceliumBlock extends QuarkBlock {
 				Block.Properties.create(Material.ORGANIC, MaterialColor.LIGHT_BLUE)
 						.tickRandomly()
 						.hardnessAndResistance(0.5F)
-						.lightValue(7)
+						.func_235838_a_(b -> 7)
 						.harvestTool(ToolType.SHOVEL)
 						.sound(SoundType.PLANT));
 	}
@@ -69,7 +72,12 @@ public class GlowceliumBlock extends QuarkBlock {
 		super.animateTick(stateIn, worldIn, pos, rand);
 
 		if(rand.nextInt(40) == 0)
-			worldIn.addParticle(ParticleTypes.END_ROD, pos.getX() + rand.nextFloat(), pos.getY() + 1.15F, pos.getZ() + rand.nextFloat(), 0, 0, 0);
+			worldIn.addParticle(ParticleTypes.END_ROD, pos.getX() + rand.nextDouble(), pos.getY() + 1.15, pos.getZ() + rand.nextDouble(), 0, 0, 0);
+	}
+	
+	@Override
+	public boolean canSustainPlant(BlockState state, IBlockReader world, BlockPos pos, Direction facing, IPlantable plantable) {
+		return Blocks.MYCELIUM.canSustainPlant(state, world, pos, facing, plantable);
 	}
 
 }

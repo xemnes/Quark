@@ -10,21 +10,22 @@
  */
 package vazkii.quark.automation.base;
 
+import java.util.UUID;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.BoatEntity;
 import net.minecraft.entity.item.minecart.AbstractMinecartEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.NetworkDirection;
 import vazkii.quark.automation.module.ChainLinkageModule;
 import vazkii.quark.base.network.QuarkNetwork;
 import vazkii.quark.base.network.message.SyncChainMessage;
-
-import java.util.UUID;
 
 public class ChainHandler {
 	public static final String LINKED_TO = "Quark:VehicleLink";
@@ -42,13 +43,13 @@ public class ChainHandler {
 
 		double dist = master.getDistance(follower);
 
-		Vec3d masterPosition = master.getPositionVector();
-		Vec3d followerPosition = follower.getPositionVector();
+		Vector3d masterPosition = master.getPositionVec();
+		Vector3d followerPosition = follower.getPositionVec();
 
-		Vec3d masterMotion = master.getMotion();
-		Vec3d followerMotion = follower.getMotion();
+		Vector3d masterMotion = master.getMotion();
+		Vector3d followerMotion = follower.getMotion();
 
-		Vec3d direction = followerPosition.subtract(masterPosition);
+		Vector3d direction = followerPosition.subtract(masterPosition);
 		direction = direction.subtract(0, direction.y, 0).normalize();
 
 		double base = masterMotion.length() + followerMotion.length();
@@ -70,8 +71,8 @@ public class ChainHandler {
 
 
 //			if (totalSpringSq > MIN_FORCE * MIN_FORCE) {
-//				Vec3d newMasterVelocity = new Vec3d(masterMotion.x, 0, masterMotion.z);
-//				Vec3d newFollowerVelocity = new Vec3d(followerMotion.x, 0, followerMotion.z);
+//				Vector3d newMasterVelocity = new Vector3d(masterMotion.x, 0, masterMotion.z);
+//				Vector3d newFollowerVelocity = new Vector3d(followerMotion.x, 0, followerMotion.z);
 //
 //				double deviation = newFollowerVelocity.subtract(newMasterVelocity).dotProduct(direction);
 //
@@ -143,7 +144,7 @@ public class ChainHandler {
 		setLink(cart, null, true);
 
 		if (!cart.world.isRemote && cart.world.getGameRules().getBoolean(GameRules.DO_ENTITY_DROPS))
-			cart.entityDropItem(new ItemStack(ChainLinkageModule.chain), 0f);
+			cart.entityDropItem(new ItemStack(Items.CHAIN), 0f);
 	}
 
 	public static void setLink(Entity entity, UUID uuid, boolean sync) {
@@ -154,8 +155,7 @@ public class ChainHandler {
 			if (uuid != null && !uuid.equals(SyncChainMessage.NULL_UUID))
 				entity.getPersistentData().putUniqueId(LINKED_TO, uuid);
 			else {
-				entity.getPersistentData().remove(LINKED_TO + "Most");
-				entity.getPersistentData().remove(LINKED_TO + "Least");
+				entity.getPersistentData().remove(LINKED_TO);
 			}
 
 			if (sync) {

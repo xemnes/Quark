@@ -20,6 +20,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.ITextProperties;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.api.distmarker.Dist;
@@ -87,7 +88,7 @@ public class EnchantedBookTooltips {
 				Minecraft mc = Minecraft.getInstance();
 				int tooltipIndex = 0;
 
-				String match = TextFormatting.getTextWithoutFormattingCodes(I18n.format("container.enchant.clue", enchantment.getDisplayName(level).getFormattedText()));
+				String match = TextFormatting.getTextWithoutFormattingCodes(I18n.format("container.enchant.clue", enchantment.getDisplayName(level).getString()));
 
 				for(; tooltipIndex < list.size(); tooltipIndex++) {
 					String line = TextFormatting.getTextWithoutFormattingCodes(list.get(tooltipIndex));
@@ -123,14 +124,14 @@ public class EnchantedBookTooltips {
 		RenderSystem.translatef(event.getX(), event.getY() + 12, 500);
 		RenderSystem.scalef(0.5f, 0.5f, 1.0f);
 		Minecraft mc = Minecraft.getInstance();
-		List<String> tooltip = event.getLines();
+		List<? extends ITextProperties> tooltip = event.getLines();
 
 		if (enchantment != null) {
 			clueHolder.remove();
 			clueLevelHolder.remove();
-			String match = TextFormatting.getTextWithoutFormattingCodes(I18n.format("container.enchant.clue", enchantment.getDisplayName(level).getFormattedText()));
+			String match = TextFormatting.getTextWithoutFormattingCodes(I18n.format("container.enchant.clue", enchantment.getDisplayName(level).getString()));
 			for(int tooltipIndex = 0; tooltipIndex < tooltip.size(); tooltipIndex++) {
-				String line = TextFormatting.getTextWithoutFormattingCodes(tooltip.get(tooltipIndex));
+				String line = TextFormatting.getTextWithoutFormattingCodes(tooltip.get(tooltipIndex).getString());
 				if(line != null && line.equals(match)) {
 					int drawn = 0;
 
@@ -150,7 +151,7 @@ public class EnchantedBookTooltips {
 			for(EnchantmentData ed : enchants) {
 				String match = ed.enchantment.getDisplayName(ed.enchantmentLevel).getString();
 				for(int tooltipIndex = 0; tooltipIndex < tooltip.size(); tooltipIndex++) {
-					String line = TextFormatting.getTextWithoutFormattingCodes(tooltip.get(tooltipIndex));
+					String line = TextFormatting.getTextWithoutFormattingCodes(tooltip.get(tooltipIndex).getString());
 					if(line != null && line.equals(match)) {
 						int drawn = 0;
 

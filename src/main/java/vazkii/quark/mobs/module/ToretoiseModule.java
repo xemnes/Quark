@@ -1,8 +1,9 @@
 package vazkii.quark.mobs.module;
 
 import net.minecraft.entity.EntityClassification;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EntitySpawnPlacementRegistry.PlacementType;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
 import net.minecraft.item.Items;
 import net.minecraft.world.gen.Heightmap.Type;
 import net.minecraftforge.api.distmarker.Dist;
@@ -21,7 +22,6 @@ import vazkii.quark.base.world.config.BiomeTypeConfig;
 import vazkii.quark.base.world.config.DimensionConfig;
 import vazkii.quark.base.world.config.EntitySpawnConfig;
 import vazkii.quark.mobs.client.render.ToretoiseRenderer;
-import vazkii.quark.mobs.entity.StonelingEntity;
 import vazkii.quark.mobs.entity.ToretoiseEntity;
 
 @LoadModule(category = ModuleCategory.MOBS, hasSubscriptions = true)
@@ -48,10 +48,16 @@ public class ToretoiseModule extends Module {
 				.immuneToFire()
 				.setCustomClientFactory((spawnEntity, world) -> new ToretoiseEntity(toretoiseType, world))
 				.build("toretoise");
-		
+
 		RegistryHelper.register(toretoiseType, "toretoise");
+		
 		EntitySpawnHandler.registerSpawn(this, toretoiseType, EntityClassification.MONSTER, PlacementType.ON_GROUND, Type.MOTION_BLOCKING_NO_LEAVES, ToretoiseEntity::spawnPredicate, spawnConfig);
 		EntitySpawnHandler.addEgg(toretoiseType, 0x55413b, 0x383237, spawnConfig);
+	}
+	
+	@Override
+	public void setup() {
+		GlobalEntityTypeAttributes.put(toretoiseType, ToretoiseEntity.prepareAttributes().func_233813_a_());
 	}
 	
 	@Override

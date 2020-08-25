@@ -8,10 +8,9 @@ import java.util.Random;
 
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorld;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraft.world.gen.GenerationSettings;
+import net.minecraft.world.gen.WorldGenRegion;
 import vazkii.quark.base.world.generator.multichunk.ClusterBasedGenerator;
 import vazkii.quark.world.config.UndergroundBiomeConfig;
 
@@ -30,7 +29,7 @@ public class UndergroundBiomeGenerator extends ClusterBasedGenerator {
 	}
 
 	@Override
-	public BlockPos[] getSourcesInChunk(IWorld world, Random random, ChunkGenerator<? extends GenerationSettings> generator, BlockPos chunkCorner) {
+	public BlockPos[] getSourcesInChunk(WorldGenRegion world, Random random, ChunkGenerator generator, BlockPos chunkCorner) {
 		if(info.rarity > 0 && random.nextInt(info.rarity) == 0) {
 			return new BlockPos[] {
 					chunkCorner.add(random.nextInt(16), info.minYLevel + random.nextInt(info.maxYLevel - info.minYLevel), random.nextInt(16))
@@ -41,12 +40,12 @@ public class UndergroundBiomeGenerator extends ClusterBasedGenerator {
 	}
 	
 	@Override
-	public IGenerationContext createContext(BlockPos src, ChunkGenerator<? extends GenerationSettings> generator, Random random, BlockPos chunkCorner, IWorld world) {
+	public IGenerationContext createContext(BlockPos src, ChunkGenerator generator, Random random, BlockPos chunkCorner, WorldGenRegion world) {
 		return new Context(world, src, generator, random, info);
 	}
 
 	@Override
-	public boolean isSourceValid(IWorld world, ChunkGenerator<? extends GenerationSettings> generator, BlockPos pos) {
+	public boolean isSourceValid(WorldGenRegion world, ChunkGenerator generator, BlockPos pos) {
 		Biome biome = getBiome(world, pos);
 		return info.biomes.canSpawn(biome);
 	}
@@ -58,9 +57,9 @@ public class UndergroundBiomeGenerator extends ClusterBasedGenerator {
 
 	public static class Context implements IFinishableContext {
 
-		public final IWorld world;
+		public final WorldGenRegion world;
 		public final BlockPos source;
-		public final ChunkGenerator<? extends GenerationSettings> generator;
+		public final ChunkGenerator generator;
 		public final Random random;
 		public final UndergroundBiomeConfig info;
 
@@ -70,7 +69,7 @@ public class UndergroundBiomeGenerator extends ClusterBasedGenerator {
 
 		public final Map<BlockPos, Direction> wallMap = new HashMap<>();
 		
-		public Context(IWorld world, BlockPos source, ChunkGenerator<? extends GenerationSettings> generator, Random random, UndergroundBiomeConfig info) {
+		public Context(WorldGenRegion world, BlockPos source, ChunkGenerator generator, Random random, UndergroundBiomeConfig info) {
 			this.world = world;
 			this.source = source;
 			this.generator = generator;

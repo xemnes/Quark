@@ -6,12 +6,16 @@ import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.*;
+import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.HoeItem;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUseContext;
+import net.minecraft.item.Items;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
@@ -33,7 +37,7 @@ public class HoeHarvestingModule extends Module {
 	public static int getRange(ItemStack hoe) {
 		if(hoe.isEmpty() || !(hoe.getItem() instanceof HoeItem))
 			return 1;
-		else if (hoe.getItem() == Items.DIAMOND_HOE)
+		else if (hoe.getItem() == Items.DIAMOND_HOE || hoe.getItem() == Items.NETHERITE_HOE)
 			return 3;
 		else
 			return 2;
@@ -80,11 +84,11 @@ public class HoeHarvestingModule extends Module {
 		if(block instanceof IPlantable) {
 			IPlantable plant = (IPlantable) block;
 			PlantType type = plant.getPlantType(world, pos);
-			return type != PlantType.Water && type != PlantType.Desert;
+			return type != PlantType.WATER && type != PlantType.DESERT;
 		}
 
 		return state.getMaterial() == Material.PLANTS && state.isReplaceable(new BlockItemUseContext(new ItemUseContext(player, Hand.MAIN_HAND,
-				new BlockRayTraceResult(new Vec3d(0.5, 0.5, 0.5), Direction.DOWN, pos, false))));
+				new BlockRayTraceResult(new Vector3d(0.5, 0.5, 0.5), Direction.DOWN, pos, false))));
 	}
 
 }

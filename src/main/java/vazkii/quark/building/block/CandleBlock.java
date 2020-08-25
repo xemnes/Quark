@@ -2,19 +2,30 @@ package vazkii.quark.building.block;
 
 import java.util.Random;
 
+import javax.annotation.Nonnull;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.FallingBlock;
+import net.minecraft.block.IWaterLoggable;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.item.FallingBlockEntity;
+import net.minecraft.fluid.FluidState;
+import net.minecraft.fluid.Fluids;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.particles.ParticleTypes;
+import net.minecraft.state.BooleanProperty;
+import net.minecraft.state.StateContainer;
+import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
@@ -24,20 +35,51 @@ import vazkii.quark.base.block.QuarkBlock;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.building.module.TallowAndCandlesModule;
 
-public class CandleBlock extends QuarkBlock {
+public class CandleBlock extends QuarkBlock implements IWaterLoggable {
 
 	private static final VoxelShape SHAPE = Block.makeCuboidShape(6F, 0F, 6F, 10F, 8F, 10F);
-	
+	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
+
 	public final DyeColor color;
 	
 	public CandleBlock(String regname, Module module, DyeColor color) {
 		super(regname, module, ItemGroup.DECORATIONS, 
 				Block.Properties.create(Material.MISCELLANEOUS, color.getMapColor())
 				.hardnessAndResistance(0.2F)
-				.lightValue(14)
+				.func_235838_a_((s) -> s.get(WATERLOGGED) ? 0 : 14)
 				.sound(SoundType.CLOTH));
 		
 		this.color = color;
+		
+		setDefaultState(getDefaultState().with(WATERLOGGED, false));
+	}
+	
+	@Override
+	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+		builder.add(WATERLOGGED);
+	}
+	
+	@Override
+	public BlockState getStateForPlacement(BlockItemUseContext context) {
+		return super.getStateForPlacement(context)
+				.with(WATERLOGGED, context.getWorld().getFluidState(context.getPos()).getFluid() == Fluids.WATER);
+	}
+	
+	@Nonnull
+	@Override
+	@SuppressWarnings("deprecation")
+	public FluidState getFluidState(BlockState state) {
+		return state.get(WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
+	}
+	
+	@Nonnull
+	@Override
+	@SuppressWarnings("deprecation")
+	public BlockState updatePostPlacement(@Nonnull BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
+		if(stateIn.get(WATERLOGGED))
+			worldIn.getPendingFluidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickRate(worldIn));
+
+		return super.updatePostPlacement(stateIn, facing, facingState, worldIn, currentPos, facingPos);
 	}
 	
 	@Override
@@ -47,12 +89,12 @@ public class CandleBlock extends QuarkBlock {
 
 	@Override
 	public void onBlockAdded(BlockState state, World worldIn, BlockPos pos, BlockState oldState, boolean isMoving) {
-	      worldIn.getPendingBlockTicks().scheduleTick(pos, this, this.tickRate(worldIn));
+	      worldIn.getPendingBlockTicks().scheduleTick(pos, this, 2);
 	}
 
 	@Override
 	public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving) {		
-	      worldIn.getPendingBlockTicks().scheduleTick(pos, this, this.tickRate(worldIn));
+	      worldIn.getPendingBlockTicks().scheduleTick(pos, this, 2);
 	}
 
 	@Override
@@ -77,19 +119,16 @@ public class CandleBlock extends QuarkBlock {
 	}
 
 	@Override
-	public int tickRate(IWorldReader worldIn) {
-		return 2;
-	}
-
-	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void animateTick(BlockState stateIn, World worldIn, BlockPos pos, Random rand) {
-		double d0 = pos.getX() + 0.5D;
-		double d1 = pos.getY() + 0.7D;
-		double d2 = pos.getZ() + 0.5D;
+		if(!stateIn.get(WATERLOGGED)) {
+			double d0 = pos.getX() + 0.5D;
+			double d1 = pos.getY() + 0.7D;
+			double d2 = pos.getZ() + 0.5D;
 
-		worldIn.addParticle(ParticleTypes.SMOKE, d0, d1, d2, 0.0D, 0.0D, 0.0D);
-		worldIn.addParticle(ParticleTypes.FLAME, d0, d1, d2, 0.0D, 0.0D, 0.0D);
+			worldIn.addParticle(ParticleTypes.SMOKE, d0, d1, d2, 0.0D, 0.0D, 0.0D);
+			worldIn.addParticle(ParticleTypes.FLAME, d0, d1, d2, 0.0D, 0.0D, 0.0D);
+		}
 	}
 	
 }

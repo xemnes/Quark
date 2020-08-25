@@ -3,7 +3,9 @@ package vazkii.quark.base.proxy;
 import java.time.LocalDateTime;
 import java.time.Month;
 
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.config.ModConfig.ModConfigEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
@@ -20,6 +22,7 @@ import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.base.network.QuarkNetwork;
 import vazkii.quark.base.recipe.ExclusionRecipe;
 import vazkii.quark.base.world.EntitySpawnHandler;
+import vazkii.quark.base.world.JigsawRegistryHelper;
 import vazkii.quark.base.world.WorldGenHandler;
 
 public class CommonProxy {
@@ -51,6 +54,7 @@ public class CommonProxy {
 		QuarkNetwork.setup();
 		BrewingHandler.setup();
 		CapabilityHandler.setup();
+		JigsawRegistryHelper.setup();
 		ModuleLoader.INSTANCE.setup();
 		initContributorRewards();
 	}
@@ -72,10 +76,6 @@ public class CommonProxy {
 		ModuleLoader.INSTANCE.configChanged();
 		EntitySpawnHandler.refresh();
 	}
-	
-//	public void addResourceOverride(String type, String path, String file, BooleanSupplier isEnabled) {
-//		// NO-OP, client only
-//	}
 	
 	protected void initContributorRewards() {
 		ContributorRewardHandler.init();

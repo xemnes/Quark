@@ -10,9 +10,32 @@
  */
 package vazkii.quark.mobs.entity;
 
+import java.util.List;
+import java.util.Random;
+import java.util.UUID;
+
+import javax.annotation.Nonnull;
+
 import net.minecraft.block.Blocks;
-import net.minecraft.entity.*;
-import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.AgeableEntity;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.ai.goal.BegGoal;
+import net.minecraft.entity.ai.goal.BreedGoal;
+import net.minecraft.entity.ai.goal.FollowOwnerGoal;
+import net.minecraft.entity.ai.goal.HurtByTargetGoal;
+import net.minecraft.entity.ai.goal.LeapAtTargetGoal;
+import net.minecraft.entity.ai.goal.LookAtGoal;
+import net.minecraft.entity.ai.goal.LookRandomlyGoal;
+import net.minecraft.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
+import net.minecraft.entity.ai.goal.NonTamedTargetGoal;
+import net.minecraft.entity.ai.goal.OwnerHurtTargetGoal;
+import net.minecraft.entity.ai.goal.SitGoal;
+import net.minecraft.entity.ai.goal.SwimGoal;
+import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
 import net.minecraft.entity.monster.AbstractSkeletonEntity;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.AnimalEntity;
@@ -31,27 +54,27 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.potion.Effects;
-import net.minecraft.tileentity.FurnaceTileEntity;
+import net.minecraft.tileentity.AbstractFurnaceTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.*;
+import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.Difficulty;
+import net.minecraft.world.IWorld;
+import net.minecraft.world.IWorldReader;
+import net.minecraft.world.LightType;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 import vazkii.quark.base.handler.MiscUtil;
 import vazkii.quark.mobs.ai.FindPlaceToSleepGoal;
 import vazkii.quark.mobs.ai.SleepGoal;
 import vazkii.quark.mobs.module.FoxhoundModule;
 import vazkii.quark.tweaks.ai.WantLoveGoal;
-
-import javax.annotation.Nonnull;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
 
 public class FoxhoundEntity extends WolfEntity implements IMob {
 
@@ -121,25 +144,25 @@ public class FoxhoundEntity extends WolfEntity implements IMob {
 
 		if (WantLoveGoal.needsPets(this)) {
 			Entity owner = getOwner();
-			if (owner != null && owner.getDistanceSq(this) < 1 && !owner.isInWater() && !owner.isImmuneToFire() && (!(owner instanceof PlayerEntity) || !((PlayerEntity) owner).isCreative()))
+			if (owner != null && owner.getDistanceSq(this) < 1 && !owner.isInWater() && !owner.func_230279_az_() && (!(owner instanceof PlayerEntity) || !((PlayerEntity) owner).isCreative()))
 				owner.setFire(5);
 		}
 
-		Vec3d pos = getPositionVec();
+		Vector3d pos = getPositionVec();
 		if(this.world.isRemote)
 			this.world.addParticle(isSleeping() ? ParticleTypes.SMOKE : ParticleTypes.FLAME, pos.x + (this.rand.nextDouble() - 0.5D) * this.getWidth(), pos.y + (this.rand.nextDouble() - 0.5D) * this.getHeight(), pos.z + (this.rand.nextDouble() - 0.5D) * this.getWidth(), 0.0D, 0.0D, 0.0D);
 
 		if(isTamed()) {
-			BlockPos below = getPosition().down();
+			BlockPos below = func_233580_cy_().down(); // getPosition
 			TileEntity tile = world.getTileEntity(below);
-			if (tile instanceof FurnaceTileEntity) {
-				FurnaceTileEntity furnace = (FurnaceTileEntity) tile;
+			if (tile instanceof AbstractFurnaceTileEntity) {
+				AbstractFurnaceTileEntity furnace = (AbstractFurnaceTileEntity) tile;
 				int cookTime = furnace.cookTime;
 				if (cookTime > 0 && cookTime % 3 == 0) {
-					List<FoxhoundEntity> foxhounds = world.getEntitiesWithinAABB(FoxhoundEntity.class, new AxisAlignedBB(getPosition()),
+					List<FoxhoundEntity> foxhounds = world.getEntitiesWithinAABB(FoxhoundEntity.class, new AxisAlignedBB(func_233580_cy_()),
 							(fox) -> fox != null && fox.isTamed());
 					if(!foxhounds.isEmpty() && foxhounds.get(0) == this)
-						furnace.cookTime = Math.min(furnace.cookTimeTotal - 1, cookTime + 1);
+						furnace.cookTime = furnace.cookTime == 3 ? 5 :Math.min(furnace.cookTimeTotal - 1, cookTime + 1);
 				}
 			}
 		}
@@ -160,11 +183,10 @@ public class FoxhoundEntity extends WolfEntity implements IMob {
 
 	@Override
 	protected void registerGoals() {
-		this.sitGoal = new SitGoal(this);
 		this.sleepGoal = new SleepGoal(this);
 		this.goalSelector.addGoal(1, new SwimGoal(this));
 		this.goalSelector.addGoal(2, this.sleepGoal);
-		this.goalSelector.addGoal(3, this.sitGoal);
+		this.goalSelector.addGoal(3, new SitGoal(this));
 		this.goalSelector.addGoal(4, new LeapAtTargetGoal(this, 0.4F));
 		this.goalSelector.addGoal(5, new MeleeAttackGoal(this, 1.0D, true));
 		this.goalSelector.addGoal(6, new FindPlaceToSleepGoal(this, 0.8D, true));
@@ -186,20 +208,22 @@ public class FoxhoundEntity extends WolfEntity implements IMob {
 	}
 
 	@Override
-	public boolean isAngry() {
-		return (!isTamed() && world.getDifficulty() != Difficulty.PEACEFUL) || super.isAngry();
+	public int func_230256_F__() {
+		if (!isTamed() && world.getDifficulty() != Difficulty.PEACEFUL)
+			return 0;
+		return super.func_230256_F__();
 	}
 
 	@Override
 	public boolean attackEntityAsMob(Entity entityIn) {
-		if (entityIn.isImmuneToFire()) {
+		if (entityIn.getType().isImmuneToFire()) {
 			if (entityIn instanceof PlayerEntity)
 				return false;
 			return super.attackEntityAsMob(entityIn);
 		}
 
 		boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this).setFireDamage(),
-				((int)this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getValue()));
+				((int)this.func_233637_b_(Attributes.field_233823_f_)));
 
 		if (flag) {
 			entityIn.setFire(5);
@@ -215,12 +239,13 @@ public class FoxhoundEntity extends WolfEntity implements IMob {
 		return super.attackEntityFrom(source, amount);
 	}
 
+	@Nonnull
 	@Override
-	public boolean processInteract(PlayerEntity player, @Nonnull Hand hand) {
+	public ActionResultType func_230254_b_(PlayerEntity player, @Nonnull Hand hand) {
 		ItemStack itemstack = player.getHeldItem(hand);
 
 		if(itemstack.getItem() == Items.BONE && !isTamed())
-			return false;
+			return ActionResultType.PASS;
 
 		if (!this.isTamed() && !itemstack.isEmpty()) {
 			if (itemstack.getItem() == Items.COAL && (world.getDifficulty() == Difficulty.PEACEFUL || player.isCreative() || player.getActivePotionEffect(Effects.FIRE_RESISTANCE) != null) && !world.isRemote) {
@@ -228,7 +253,7 @@ public class FoxhoundEntity extends WolfEntity implements IMob {
 					this.setTamedBy(player);
 					this.navigator.clearPath();
 					this.setAttackTarget(null);
-					this.sitGoal.setSitting(true);
+					this.func_233687_w_(true);
 					this.setHealth(20.0F);
 					this.world.setEntityState(this, (byte)7);
 				} else {
@@ -237,7 +262,7 @@ public class FoxhoundEntity extends WolfEntity implements IMob {
 
 				if (!player.isCreative())
 					itemstack.shrink(1);
-				return true;
+				return ActionResultType.SUCCESS;
 			}
 		}
 
@@ -255,7 +280,7 @@ public class FoxhoundEntity extends WolfEntity implements IMob {
 			setWoke();
 		}
 
-		return super.processInteract(player, hand);
+		return super.func_230254_b_(player, hand);
 	}
 
 	@Override

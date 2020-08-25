@@ -21,20 +21,7 @@ public class GravisandBlock extends QuarkBlock {
 	public GravisandBlock(String regname, Module module, ItemGroup creativeTab, Properties properties) {
 		super(regname, module, creativeTab, properties);
 	}
-
-//	public GravisandBlock() {
-//		super("gravisand", Material.SAND);
-//		setHardness(0.5F);
-//		setSoundType(SoundType.SAND);
-//		setCreativeTab(ItemGroup.REDSTONE);
-//	}
-
-
-	@Override
-	public int tickRate(IWorldReader world) {
-		return 2;
-	}
-
+	
 	@Override
 	@SuppressWarnings("deprecation")
 	public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean isMoving) {
@@ -51,7 +38,7 @@ public class GravisandBlock extends QuarkBlock {
         boolean powered = worldIn.isBlockPowered(pos);
 
         if(powered)
-        	worldIn.getPendingBlockTicks().scheduleTick(pos, this, tickRate(worldIn));
+        	worldIn.getPendingBlockTicks().scheduleTick(pos, this, 2);
 	}
 	
 	@Override
@@ -76,7 +63,7 @@ public class GravisandBlock extends QuarkBlock {
 					BlockState offState = worldIn.getBlockState(offPos);
 					
 					if(offState.getBlock() == this)
-			        	worldIn.getPendingBlockTicks().scheduleTick(offPos, this, tickRate(worldIn));
+			        	worldIn.getPendingBlockTicks().scheduleTick(offPos, this, 2);
 				}
 		}
 	}

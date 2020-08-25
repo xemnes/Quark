@@ -9,11 +9,14 @@ import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
+import net.minecraft.entity.monster.ZombieEntity;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.ToolType;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.eventbus.api.Event.Result;
@@ -44,6 +47,8 @@ public class SpiderNestUndergroundBiomeModule extends UndergroundBiomeModule {
 	public void construct() {
 		cobbedstone = new QuarkBlock("cobbedstone", this, ItemGroup.BUILDING_BLOCKS, 
 				Block.Properties.create(Material.ROCK, MaterialColor.GRAY)
+				.func_235861_h_() // needs tool
+        		.harvestTool(ToolType.PICKAXE)
 				.hardnessAndResistance(1.5F, 10F)
 				.sound(SoundType.STONE));
 
@@ -59,6 +64,11 @@ public class SpiderNestUndergroundBiomeModule extends UndergroundBiomeModule {
         EntitySpawnHandler.addEgg(wrappedType, 0x246565, 0x9f978b, this, () -> enabledWrapped);
 
 		super.construct();
+	}
+	
+	@Override
+	public void setup() {
+		GlobalEntityTypeAttributes.put(wrappedType, ZombieEntity.func_234342_eQ_().func_233813_a_());
 	}
 
 	@Override
@@ -89,7 +99,7 @@ public class SpiderNestUndergroundBiomeModule extends UndergroundBiomeModule {
 	}
 	
 	private static boolean changeToWrapped(Entity entity) {
-		BlockPos pos = entity.getPosition();
+		BlockPos pos = entity.func_233580_cy_(); // getPosition
 		int i = 0;
 
 		while(i < 4) {
@@ -100,7 +110,7 @@ public class SpiderNestUndergroundBiomeModule extends UndergroundBiomeModule {
 
 			if(entity.world.getBlockState(pos).getBlock() == cobbedstone) {
 				WrappedEntity wrapped = new WrappedEntity(wrappedType, entity.world);
-				Vec3d epos = entity.getPositionVec();
+				Vector3d epos = entity.getPositionVec();
 				
 				wrapped.setPositionAndRotation(epos.x, epos.y, epos.z, entity.rotationYaw, entity.rotationPitch);
 				entity.world.addEntity(wrapped);

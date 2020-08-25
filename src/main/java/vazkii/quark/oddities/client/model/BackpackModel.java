@@ -1,7 +1,6 @@
 package vazkii.quark.oddities.client.model;
 
 import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -33,12 +32,8 @@ public class BackpackModel extends BaseArmorModel {
 		base.addChild(straps);
 		base.addChild(backpack);
 		base.addChild(fitting);
-	}
-	
-	@Override
-	public void setRotationAngles(LivingEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+		
 		bipedBody = base;
-		super.setRotationAngles(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
 	}
 	
 }

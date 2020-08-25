@@ -1,5 +1,13 @@
 package vazkii.quark.integration.jei;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.VanillaRecipeCategoryUid;
@@ -24,10 +32,6 @@ import vazkii.quark.tools.module.AncientTomesModule;
 import vazkii.quark.tools.module.ColorRunesModule;
 import vazkii.quark.tools.module.PickarangModule;
 import vazkii.quark.tweaks.recipe.ElytraDuplicationRecipe;
-
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @JeiPlugin
 public class QuarkJeiPlugin implements IModPlugin {
@@ -57,6 +61,9 @@ public class QuarkJeiPlugin implements IModPlugin {
 
 		if (ModuleLoader.INSTANCE.isModuleEnabled(PickarangModule.class))
 			registerPickarangAnvilRepairs(registration, factory);
+		
+		if (ModuleLoader.INSTANCE.isModuleEnabled(ColorRunesModule.class))
+			registerRuneAnvilRecipes(registration, factory);
 	}
 
 	private void registerAncientTomeAnvilRecipes(IRecipeRegistration registration, IVanillaRecipeFactory factory) {
@@ -84,7 +91,7 @@ public class QuarkJeiPlugin implements IModPlugin {
 		}
 
 		List<Object> recipes = new ArrayList<>();
-		for (Item rune : ColorRunesModule.runesTag.getAllElements()) {
+		for (Item rune : ColorRunesModule.runesTag.func_230236_b_()) { // getAllElements
 			ItemStack runeStack = new ItemStack(rune);
 			recipes.add(factory.createAnvilRecipe(used, Collections.singletonList(runeStack),
 				used.stream().map(stack -> {

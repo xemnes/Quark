@@ -19,7 +19,7 @@ import net.minecraft.client.audio.LocatableSound;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -78,7 +78,7 @@ public class EmoteSound extends LocatableSound implements ITickableSound {
 			if (emote == null || emote.desc.template != template)
 				donePlaying = true;
 			else {
-				Vec3d pos = player.getPositionVec();
+				Vector3d pos = player.getPositionVec();
 				x = (float) pos.x;
 				y = (float) pos.y;
 				z = (float) pos.z;

@@ -1,13 +1,13 @@
 {
 	"automation": [
 		{
-			"name": "Iron Chains",
+			"name": "Chain Linking",
 			"image": "iron-chains.jpg",
 			"versions": "1.14+",
 			"desc": [
-				"Iron Chains can be crafted with Iron Ingots and Nuggets.",
-				"When right clicked onto a boat or minecart, and then onto another, they'll link the two. Linked boats and minecarts will always remain at close distance, which allows you to make trains.",
-				"Additionally, Iron Chains can be used to craft chainmail armor, or placed down as a block that connects perfectly to Lanterns."
+				"When right clicking with Chains onto a boat or minecart, and then onto another, they'll link the two. Linked boats and minecarts will always remain at close distance, which allows you to make trains.",
+				"Prior to 1.16, an Iron Chain item was added by Quark. As Chains were added to the base game in 1.16, this item was removed.",
+				"Quark's Iron Chains prior to 1.16 can be used to craft chainmail armor, or placed down as a block that connects perfectly to Lanterns."
 			]
 		},
 		{
@@ -154,7 +154,8 @@
 			"versions": "1.14+",
 			"desc": [
 				"Purple looking blocks made from Purpur and Obsidian, fully featured with stair, slab and wall variants.",
-				"Also includes Duskbound Lamps, made with Duskbound Blocks and Ender Pearls."
+				"Also includes Duskbound Lamps, made with Duskbound Blocks and Ender Pearls.",
+				"1.16+ Only: Duskbound blocks and all variants are also immune to the dragon."
 			]
 		},
 		{
@@ -172,7 +173,8 @@
 			"versions": "1.14+",
 			"desc": [
 				"The Iron Grate is a cool new block with multiple uses. Animals are afraid of walking on it, and will never do it, whereas items will just fall through the gaps.",
-				"Players, monsters, and other entities will just walk through normally."
+				"Players, monsters, and other entities will just walk through normally.",
+				"1.16+ Only: Animals being held by a leash will also walk over the block just fine."
 			]
 		},
 		{
@@ -224,6 +226,7 @@
 				"*Magma Bricks can be crafted with Magma Blocks. These glow in the dark just like Magma.",
 				"*Charred Nether Bricks can be crafted with Nether Bricks and a Fire Charge.",
 				"*Sandstone Bricks (for all sandstone types) can be crafted with Cut Sandstone.",
+				"*Blue Nether Bricks (1.16+ only) can be crafted with Nether Bricks and Warped Wart Blocks. Additionally, a similar recipe is added for Red Nether Bricks.",
 				"Additionally, all of these come in Slab, Stairs, and Wall variants."
 			]
 		},
@@ -687,6 +690,15 @@
                 "Colored Runes are a rare loot item from dungeons, temples and nether fortresses. They can be applied to enchanted items in an anvil, and doing so changes the color of the enchantment glint from purple to the color of the rune. These come in all 16 colors of the spectrum.",
                 "If you're dedicated enough, you can craft a Rainbow Rune by mixing together the runes that make the colors of the rainbow. It'll change color over time and look really cool!"
             ]
+		},
+		{
+			"name": "Bottled Cloud",
+			"image": "bottled-cloud.jpg",
+			"versions": "1.15+",
+            "desc": [
+                "Using a Glass Bottle at the cloud levels (126-132 by default) will get you a Bottled Cloud.",
+                "The Bottled Cloud can be right clicked to produce a block floating in midair in front of you. The cloud block disappears after a few seconds, but you can right click it with any other block to replace the two. The cloud will go back in the bottle when you do this."
+            ]
 		}
 	],
 	"tweaks": [
@@ -818,8 +830,9 @@
 			"image": "reacharound-placing.jpg",
 			"versions": "1.14+",
 			"desc": [
-				"Blocks can be placed in the bottom face of other blocks while you're standing on them, you can do this by looking at the bottom of the block from above, as seen in the image.",
-				"You'll know this option is available when a [ ] shows up around your crosshair."
+				"Reacharound Placing allows you to place blocks behind the block you're looking at. This can be done either vertically or horizontally, provided you wouldn't be placing a block given normal rules.",
+				"*To do it vertically, sneak on the edge of a block and look at the area directly below it This is what the image is demonstrating. A [  ] will appear around your crosshair if you do it properly.",
+				"*To do it horizontally (1.15+ only), look in front of a block, where the next block would be. A <  > will appear around your crosshair for this one."
 			]
 		},
 		{
@@ -921,6 +934,15 @@
                 "Each emote is also assigned a key binding. Pressing that key will do the emote without you having to open the chat menu. By default all emote keybinds are unset and must be set manually.",
                 "A special language is provided to allow for custom emotes to be made. Here's <a href='https://www.youtube.com/watch?v=YBUXMf2juTQ'>an example</a> and <a href='https://www.youtube.com/watch?v=ourHUkan6aQ'>a tutorial</a> on how to do it."
             ]
+		},
+		{
+			"name": "Scaffolding Substitution",
+			"image": "scaffolding-substitution.jpg",
+			"versions": "1.15+",
+            "desc": [
+                "Right clicking on a Scaffold with a block will attempt to place the block at the end of the Scaffold chain. By default it'll turn direction once, so it can build blocks horizontally if you extend scaffolds that way.",
+                "If you wish to use the default behaviour of placing blocks on the scaffold, you can still do it with shift-right click."
+            ]
 		}
 	],
 	"world": [
@@ -942,7 +964,7 @@
 				"*Limestone will spawn in Swamp and Ocean biomes.",
 				"*Jasper will spawn in Mesa and Desert biomes.",
 				"*Slate will spawn in cold biomes.",
-				"*Basalt will spawn in any nether biome (relevant if you have mods that add biomes to the nether).",
+				"*Voidstone will spawn in any end biome (Pre 1.16 it's Basalt, which spawns in any nether biome).",
 				"Note that the distributions are for biome types, not specific biomes. For example, Andesite will also spawn in Birch Forests, Dark Forests, etc."
 			]
 		},
@@ -970,10 +992,12 @@
 			"image": "new-stone-types.jpg",
 			"versions": "1.14+",
 			"desc": [
-				"Five new stone types are added to your world. These will generate around in the overworld, except Basaslt, which generates in the Nether.",
+				"Five new stone types are added to your world.",
 				"Pictured in the screenshot:",
-				"*Top layer: Slate, Basalt",
-				"*Bottom layer: Limestone, Marble, Jasper"
+				"*Top layer: Slate, Voidstone",
+				"*Bottom layer: Limestone, Marble, Jasper",
+				"Most of these generate in the overworld. Voidstone generates in the end and is immune to the dragon.",
+				"Note: Prior to 1.16, Voidstone was known as Basalt and spawned in the nether. The block ID in 1.16+ is still basalt, but the block was renamed to Voidstone after the update."
 			]
 		},
 		{
@@ -1163,6 +1187,16 @@
 			"desc": [
 				"Rarely in Forests and Plains (rarer), you may find little flower circles. Should you dig in the center, you'll find some emeralds or diamonds!"
 			]
+		},
+		{
+			"name": "Realistic World Type",
+			"image": "realistic-world-type.jpg",
+			"versions": "1.16+",
+			"desc": [
+				"A new \"Quark Realistic\" world type is added at world selection, featuring somewhat realistic terrain while still feeling minecrafty. Expect rolling hills and tall mountains.",
+				"If you want to use it in a server, set your level type in the server properties to \"realistic\".",
+				"Credit where credit is due: This world type is based on Soniop's realistic preset, which you can find <a href='https://www.reddit.com/r/Minecraft/comments/4nfw3t/more_realistic_generation_preset_in_comment/'>here</a>, alongside an album of what you can expect! Additionally, the feature was re-implemented in the 1.16 system by SuperCoder79!"
+			]
 		}
 	],
 	"oddities": [
@@ -1208,7 +1242,7 @@
 				"!img/features/oddities/pipes/rule3.jpg",
 				"*Items will not go upwards unless that's the only possibility:",
 				"!img/features/oddities/pipes/rule4.jpg",
-				"*Items attempting to enter a full container will bounce back:",
+				"*Items attempting to enter a full container will bounce back (1.16+ only: Items bouncing back from pipes remember which direction they came into the pipe, and will avoid that direction):",
 				"!img/features/oddities/pipes/rule5.jpg",
 				"*Items will not flow into disabled (powered) pipes:",
 				"!img/features/oddities/pipes/rule6.jpg",
@@ -1249,7 +1283,7 @@
 			"image": "matrix-enchanting.jpg",
 			"versions": "1.15+",
 			"desc": [
-				"Matrix Encahnting is a complete overhaul of the enchanting system. Pieces can be generated using lapis and XP. The pieces then have to be laid on the grid to enchant the item. Pieces can be rotated and upgraded into higher levels.",
+				"Matrix Enchanting is a complete overhaul of the enchanting system. Pieces can be generated using lapis and XP. The pieces then have to be laid on the grid to enchant the item. Pieces can be rotated and upgraded into higher levels.",
 				"Furthermore, the enchanting table can now hold Lapis and the item you put in. The item will even render in the world! You can enchant underwater too.",
 				"If you want to know more about how to use Matrix Enchanting, press More Info."
 			],		
@@ -1446,6 +1480,60 @@
 				"Adds tea trees to the game, the leaves of which can be crafted into drinkable tea that provides passive effects."
 			],
 			"download": "https://www.curseforge.com/minecraft/mc-mods/simply-tea"
+		},
+		{
+			"name": "Charm",
+			"image": "charm.jpg",
+			"versions": "Friend",
+			"desc": [
+				"Charm enhances the vanilla game experience without compromising its gameplay style, adding extra features with a similar feel to Quark."
+			],
+			"download": "https://www.curseforge.com/minecraft/mc-mods/charm"
+		},
+		{
+			"name": "Covalent",
+			"image": "covalent.jpg",
+			"versions": "Friend",
+			"desc": [
+				"Provides Barrels, Charm Crates and Charm Bookshelf Chests in wood types from Friends mods!"
+			],
+			"download": "https://www.curseforge.com/minecraft/mc-mods/covalent"
+		},
+		{
+			"name": "Strange",
+			"image": "strange.jpg",
+			"versions": "Friend",
+			"desc": [
+				"A Charm expansion mod that adds exploration, adventure and treasure to the game without dramatically altering the vanilla playstyle."
+			],
+			"download": "https://www.curseforge.com/minecraft/mc-mods/strange"
+		},
+		{
+			"name": "Voyage",
+			"image": "voyage.jpg",
+			"versions": "Friend",
+			"desc": [
+				"Voyage adds a multitude of new biomes to go alongside the vanilla ones, without adding any new blocks or items. It includes lagoons, rock fields, tall mountains, and much more."
+			],
+			"download": "https://www.curseforge.com/minecraft/mc-mods/voyage"
+		},
+    		{
+			"name": "Enhanced Mushrooms",
+			"image": "enhanced-mushrooms.jpg",
+			"versions": "Friend",
+			"desc": [
+				"Enhanced Mushrooms adds new wood types for both vanilla mushroom types. It also includes a transparent, glowing wood type for glowshrooms when Quark is installed, and has a couple of new mushroom-related foods."
+			],
+			"download": "https://www.curseforge.com/minecraft/mc-mods/enhanced-mushrooms"
+		},
+		{
+			"name": "Fruitful",
+			"image": "fruitful.jpg",
+			"versions": "Friend",
+			"desc": [
+				"Fruitful tweaks the way apples are obtained, allowing them to be easily farmable. Additionally it adds some new fruits and fruit-related foods."
+			],
+			"download": "https://www.curseforge.com/minecraft/mc-mods/fruitful"
 		}
 	]
 }

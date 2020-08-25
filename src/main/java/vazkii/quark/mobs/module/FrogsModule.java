@@ -3,6 +3,7 @@ package vazkii.quark.mobs.module;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EntitySpawnPlacementRegistry.PlacementType;
+import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.item.Food;
 import net.minecraft.item.Item;
@@ -24,6 +25,7 @@ import vazkii.quark.base.world.EntitySpawnHandler;
 import vazkii.quark.base.world.config.BiomeTypeConfig;
 import vazkii.quark.base.world.config.EntitySpawnConfig;
 import vazkii.quark.mobs.client.render.FrogRenderer;
+import vazkii.quark.mobs.entity.CrabEntity;
 import vazkii.quark.mobs.entity.FrogEntity;
 
 @LoadModule(category = ModuleCategory.MOBS, hasSubscriptions = true)
@@ -78,8 +80,14 @@ public class FrogsModule extends Module {
 				.setCustomClientFactory((spawnEntity, world) -> new FrogEntity(frogType, world))
 				.build("frog");
 		RegistryHelper.register(frogType, "frog");
+		
 		EntitySpawnHandler.registerSpawn(this, frogType, EntityClassification.CREATURE, PlacementType.ON_GROUND, Type.MOTION_BLOCKING_NO_LEAVES, AnimalEntity::canAnimalSpawn, spawnConfig);
 		EntitySpawnHandler.addEgg(frogType, 0xbc9869, 0xffe6ad, spawnConfig);
+	}
+	
+	@Override
+	public void setup() {
+		GlobalEntityTypeAttributes.put(frogType, FrogEntity.prepareAttributes().func_233813_a_());
 	}
 	
 	@Override

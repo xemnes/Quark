@@ -8,7 +8,7 @@ import com.google.common.collect.Multimap;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3i;
+import net.minecraft.util.math.vector.Vector3i;
 import net.minecraft.world.World;
 import vazkii.quark.api.IMagnetTracker;
 
@@ -27,8 +27,8 @@ public class MagnetTracker implements IMagnetTracker {
     }
 
     @Override
-    public Vec3i getNetForce(BlockPos pos) {
-        Vec3i net = Vec3i.NULL_VECTOR;
+    public Vector3i getNetForce(BlockPos pos) {
+        Vector3i net = Vector3i.NULL_VECTOR;
         for (Force force : forcesActing.get(pos))
             net = force.add(net);
         return net;
@@ -41,9 +41,9 @@ public class MagnetTracker implements IMagnetTracker {
 
     @Override
     public void actOnForces(BlockPos pos) {
-        Vec3i net = getNetForce(pos);
+        Vector3i net = getNetForce(pos);
 
-        if (net.equals(Vec3i.NULL_VECTOR))
+        if (net.equals(Vector3i.NULL_VECTOR))
             return;
 
         Direction target = Direction.getFacingFromVector(net.getX(), net.getY(), net.getZ());

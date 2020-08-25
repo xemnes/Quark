@@ -204,9 +204,9 @@ public class RedstoneInductorBlock extends QuarkBlock implements IBlockColorProv
     @Override
     public void animateTick(BlockState stateIn, World worldIn, BlockPos pos, Random rand) {
         if (stateIn.get(POWER) != 0) {
-            double x = (double)((float)pos.getX() + 0.5F) + (double)(rand.nextFloat() - 0.5F) * 0.2D;
-            double y = (double)((float)pos.getY() + 0.4F) + (double)(rand.nextFloat() - 0.5F) * 0.2D;
-            double z = (double)((float)pos.getZ() + 0.5F) + (double)(rand.nextFloat() - 0.5F) * 0.2D;
+            double x = (double)((double)pos.getX() + 0.5D) + (double)(rand.nextFloat() - 0.5D) * 0.2D;
+            double y = (double)((double)pos.getY() + 0.4D) + (double)(rand.nextFloat() - 0.5D) * 0.2D;
+            double z = (double)((double)pos.getZ() + 0.5D) + (double)(rand.nextFloat() - 0.5D) * 0.2D;
             float power = stateIn.get(POWER) / 15f;
 
             float r = power * 0.6F + 0.4F;
@@ -219,7 +219,7 @@ public class RedstoneInductorBlock extends QuarkBlock implements IBlockColorProv
     @Override
     @OnlyIn(Dist.CLIENT)
     public IBlockColor getBlockColor() {
-        return (state, world, pos, index) -> index == 1 ? RedstoneWireBlock.colorMultiplier(state.get(POWER)) : -1;
+        return (state, world, pos, index) -> index == 1 ? RedstoneWireBlock.func_235550_b_(state.get(POWER)) : -1; // colorMultiplier
     }
 
     @Override

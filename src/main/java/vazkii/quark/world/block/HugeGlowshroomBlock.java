@@ -30,7 +30,10 @@ public class HugeGlowshroomBlock extends HugeMushroomBlock {
 	private final Module module;
 
 	public HugeGlowshroomBlock(String name, Module module) {
-		super(Block.Properties.from(Blocks.RED_MUSHROOM_BLOCK).lightValue(14).tickRandomly().notSolid());
+		super(Block.Properties.from(Blocks.RED_MUSHROOM_BLOCK)
+				.func_235838_a_(b -> 14) // lightValue
+				.tickRandomly()
+				.notSolid());
 
 		this.module = module;
 		RegistryHelper.registerBlock(this, name);
@@ -45,7 +48,7 @@ public class HugeGlowshroomBlock extends HugeMushroomBlock {
 		super.animateTick(stateIn, worldIn, pos, rand);
 
 		if(rand.nextInt(10) == 0)
-			worldIn.addParticle(ParticleTypes.END_ROD, pos.getX() + rand.nextFloat(), pos.getY() + rand.nextFloat(), pos.getZ() + rand.nextFloat(), 0, 0, 0);
+			worldIn.addParticle(ParticleTypes.END_ROD, pos.getX() + rand.nextDouble(), pos.getY() + rand.nextDouble(), pos.getZ() + rand.nextDouble(), 0, 0, 0);
 	}
 
 	@Override
@@ -56,10 +59,15 @@ public class HugeGlowshroomBlock extends HugeMushroomBlock {
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
-	public boolean isNormalCube(BlockState state, @Nonnull IBlockReader worldIn, @Nonnull BlockPos pos) {
-		return false;
+	public boolean isTransparent(BlockState state) {
+		return true;
 	}
+	
+//	@Override
+//	@SuppressWarnings("deprecation")
+//	public boolean isNormalCube(BlockState state, @Nonnull IBlockReader worldIn, @Nonnull BlockPos pos) {
+//		return false;
+//	}
 
 	// Vanilla copy paste, touch only if you dare
 	public static boolean place(World worldIn, Random rand, BlockPos pos) {
@@ -87,7 +95,7 @@ public class HugeGlowshroomBlock extends HugeMushroomBlock {
 					for(int i1 = -l; i1 <= l; ++i1) {
 						for(int j1 = -l; j1 <= l; ++j1) {
 							BlockState blockstate = worldIn.getBlockState(blockpos$mutableblockpos.setPos(pos).move(i1, k, j1));
-							if (!blockstate.isAir(worldIn, blockpos$mutableblockpos) && !blockstate.isIn(BlockTags.LEAVES)) {
+							if (!blockstate.isAir(worldIn, blockpos$mutableblockpos) && !blockstate.isIn(BlockTags.LEAVES)) { // isIn
 								return false;
 							}
 						}

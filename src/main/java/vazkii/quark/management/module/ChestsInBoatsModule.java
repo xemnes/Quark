@@ -9,11 +9,13 @@ import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.item.BoatEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
+import net.minecraft.tags.ITag;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -24,6 +26,7 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import vazkii.arl.util.RegistryHelper;
+import vazkii.quark.base.Quark;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
@@ -34,8 +37,11 @@ import vazkii.quark.management.entity.ChestPassengerEntity;
 
 @LoadModule(category = ModuleCategory.MANAGEMENT, hasSubscriptions = true)
 public class ChestsInBoatsModule extends Module {
+
 	public static EntityType<ChestPassengerEntity> chestPassengerEntityType;
 
+	private static ITag<Item> boatableChestsTag;
+	
 	@Override
 	public void construct() {
 		chestPassengerEntityType = EntityType.Builder.<ChestPassengerEntity>create(ChestPassengerEntity::new, EntityClassification.MISC)
@@ -46,6 +52,11 @@ public class ChestsInBoatsModule extends Module {
 				.build("chest_passenger");
 		RegistryHelper.register(chestPassengerEntityType, "chest_passenger");
 	}
+	
+    @Override
+    public void setup() {
+    	boatableChestsTag = ItemTags.makeWrapperTag(Quark.MOD_ID + ":boatable_chests");
+    }
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
@@ -76,7 +87,7 @@ public class ChestsInBoatsModule extends Module {
 						stack.shrink(1);
 
 					ChestPassengerEntity passenger = new ChestPassengerEntity(world, chestStack);
-					Vec3d pos = target.getPositionVec();
+					Vector3d pos = target.getPositionVec();
 					passenger.setPosition(pos.x, pos.y, pos.z);
 					passenger.rotationYaw = target.rotationYaw;
 					passenger.startRiding(target, true);
@@ -109,9 +120,6 @@ public class ChestsInBoatsModule extends Module {
 	}
 	
 	private boolean isChest(ItemStack stack) {
-		if (stack.isEmpty())
-			return false;
-
-		return stack.getItem().isIn(Tags.Items.CHESTS) && stack.getItem() != Items.ENDER_CHEST;
+		return !stack.isEmpty() && stack.getItem().isIn(boatableChestsTag);
 	}
 }

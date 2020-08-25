@@ -33,21 +33,21 @@ public class SpeleothemsModule extends Module {
 	
 	@Override
 	public void modulesStarted() {
-		make("stone", Blocks.STONE, MaterialColor.STONE, false);
-		make("netherrack", Blocks.NETHERRACK, MaterialColor.NETHERRACK, true);
-		make("granite", Blocks.GRANITE, MaterialColor.DIRT, false);
-		make("diorite", Blocks.DIORITE, MaterialColor.QUARTZ, false);
-		make("andesite", Blocks.ANDESITE, MaterialColor.STONE, false);
+		make("stone", Blocks.STONE, false);
+		make("netherrack", Blocks.NETHERRACK, true);
+		make("granite", Blocks.GRANITE, false);
+		make("diorite", Blocks.DIORITE, false);
+		make("andesite", Blocks.ANDESITE, false);
 		
-		make("marble", NewStoneTypesModule.marbleBlock, MaterialColor.QUARTZ, false).setCondition(() -> NewStoneTypesModule.enableMarble);
-		make("limestone", NewStoneTypesModule.limestoneBlock, MaterialColor.STONE, false).setCondition(() -> NewStoneTypesModule.enableLimestone);
-		make("jasper", NewStoneTypesModule.jasperBlock, MaterialColor.RED_TERRACOTTA, false).setCondition(() -> NewStoneTypesModule.enableJasper);
-		make("slate", NewStoneTypesModule.slateBlock, MaterialColor.ICE, false).setCondition(() -> NewStoneTypesModule.enableSlate);
-		make("basalt", NewStoneTypesModule.basaltBlock, MaterialColor.BLACK, false).setCondition(() -> NewStoneTypesModule.enableBasalt);
+		make("marble", NewStoneTypesModule.marbleBlock, false).setCondition(() -> NewStoneTypesModule.enableMarble);
+		make("limestone", NewStoneTypesModule.limestoneBlock, false).setCondition(() -> NewStoneTypesModule.enableLimestone);
+		make("jasper", NewStoneTypesModule.jasperBlock, false).setCondition(() -> NewStoneTypesModule.enableJasper);
+		make("slate", NewStoneTypesModule.slateBlock, false).setCondition(() -> NewStoneTypesModule.enableSlate);
+		make("basalt", NewStoneTypesModule.basaltBlock, false).setCondition(() -> NewStoneTypesModule.enableVoidstone);
 	}
 	
-	private SpeleothemBlock make(String name, Block parent, MaterialColor color, boolean nether) {
-		SpeleothemBlock block = new SpeleothemBlock(name, this, color, nether); 
+	private SpeleothemBlock make(String name, Block parent, boolean nether) {
+		SpeleothemBlock block = new SpeleothemBlock(name, this, parent, nether); 
 		speleothemMapping.put(parent, block);
 		return block;
 	}

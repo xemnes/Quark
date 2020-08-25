@@ -13,9 +13,8 @@ import net.minecraft.block.ChestBlock;
 import net.minecraft.client.renderer.Atlases;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.Vector3f;
-import net.minecraft.client.renderer.model.Material;
 import net.minecraft.client.renderer.model.ModelRenderer;
+import net.minecraft.client.renderer.model.RenderMaterial;
 import net.minecraft.client.renderer.tileentity.DualBrightnessCallback;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
@@ -25,6 +24,7 @@ import net.minecraft.tileentity.IChestLid;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityMerger;
 import net.minecraft.util.Direction;
+import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.world.World;
 
 // A copy of ChestTileEntityRenderer from vanilla but less private
@@ -81,7 +81,7 @@ public abstract class GenericChestTERenderer<T extends TileEntity & IChestLid> e
 		World world = p_225616_1_.getWorld();
 		boolean flag = world != null;
 		BlockState blockstate = flag ? p_225616_1_.getBlockState() : Blocks.CHEST.getDefaultState().with(ChestBlock.FACING, Direction.SOUTH);
-		ChestType chesttype = blockstate.has(ChestBlock.TYPE) ? blockstate.get(ChestBlock.TYPE) : ChestType.SINGLE;
+		ChestType chesttype = blockstate.getValues().containsKey(ChestBlock.TYPE) ? blockstate.get(ChestBlock.TYPE) : ChestType.SINGLE;
 		Block block = blockstate.getBlock();
 		if (block instanceof AbstractChestBlock) {
 			AbstractChestBlock<?> abstractchestblock = (AbstractChestBlock) block;
@@ -103,30 +103,32 @@ public abstract class GenericChestTERenderer<T extends TileEntity & IChestLid> e
 			f1 = 1.0F - f1;
 			f1 = 1.0F - f1 * f1 * f1;
 			int i = icallbackwrapper.apply(new DualBrightnessCallback<>()).applyAsInt(p_225616_5_);
-			Material material = getMaterialFinal(p_225616_1_, chesttype); // <- Changed here
-			IVertexBuilder ivertexbuilder = material.getBuffer(p_225616_4_, RenderType::getEntityCutout);
-			if (flag1) {
-				if (chesttype == ChestType.LEFT) {
-					this.func_228871_a_(p_225616_3_, ivertexbuilder, this.field_228868_h_, this.field_228870_j_, this.field_228869_i_, f1, i, p_225616_6_);
+			RenderMaterial material = getMaterialFinal(p_225616_1_, chesttype); // <- Changed here
+			if(material != null) {
+				IVertexBuilder ivertexbuilder = material.getBuffer(p_225616_4_, RenderType::getEntityCutout);
+				if (flag1) {
+					if (chesttype == ChestType.LEFT) {
+						this.func_228871_a_(p_225616_3_, ivertexbuilder, this.field_228868_h_, this.field_228870_j_, this.field_228869_i_, f1, i, p_225616_6_);
+					} else {
+						this.func_228871_a_(p_225616_3_, ivertexbuilder, this.field_228865_e_, this.field_228867_g_, this.field_228866_f_, f1, i, p_225616_6_);
+					}
 				} else {
-					this.func_228871_a_(p_225616_3_, ivertexbuilder, this.field_228865_e_, this.field_228867_g_, this.field_228866_f_, f1, i, p_225616_6_);
+					this.func_228871_a_(p_225616_3_, ivertexbuilder, this.field_228862_a_, this.field_228864_d_, this.field_228863_c_, f1, i, p_225616_6_);
 				}
-			} else {
-				this.func_228871_a_(p_225616_3_, ivertexbuilder, this.field_228862_a_, this.field_228864_d_, this.field_228863_c_, f1, i, p_225616_6_);
 			}
 
 			p_225616_3_.pop();
 		}
 	}
 	
-	public final Material getMaterialFinal(T t, ChestType type) {
+	public final RenderMaterial getMaterialFinal(T t, ChestType type) {
 		if(isChristmas)
 			return Atlases.getChestMaterial(t, type, this.isChristmas);
 
 		return getMaterial(t, type);
 	}
 	
-	public abstract Material getMaterial(T t, ChestType type);
+	public abstract RenderMaterial getMaterial(T t, ChestType type);
 
 	public void func_228871_a_(MatrixStack p_228871_1_, IVertexBuilder p_228871_2_, ModelRenderer p_228871_3_, ModelRenderer p_228871_4_, ModelRenderer p_228871_5_, float p_228871_6_, int p_228871_7_, int p_228871_8_) {
 		p_228871_3_.rotateAngleX = -(p_228871_6_ * ((float)Math.PI / 2F));

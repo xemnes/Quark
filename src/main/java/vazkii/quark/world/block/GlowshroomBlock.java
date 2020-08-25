@@ -36,7 +36,9 @@ public class GlowshroomBlock extends MushroomBlock implements IQuarkBlock {
 	private BooleanSupplier enabledSupplier = () -> true;
 
 	public GlowshroomBlock(Module module) {
-		super(Block.Properties.from(Blocks.RED_MUSHROOM).lightValue(14).tickRandomly());
+		super(Block.Properties.from(Blocks.RED_MUSHROOM)
+				.func_235838_a_(b -> 14) // lightValue
+				.tickRandomly());
 		
 		this.module = module;
 		RegistryHelper.registerBlock(this, "glowshroom");
@@ -90,7 +92,7 @@ public class GlowshroomBlock extends MushroomBlock implements IQuarkBlock {
 		super.animateTick(stateIn, worldIn, pos, rand);
 
 		if(rand.nextInt(20) == 0)
-			worldIn.addParticle(ParticleTypes.END_ROD, pos.getX() + 0.2 + rand.nextFloat() * 0.6, pos.getY() + 0.3F, pos.getZ() + 0.2 + rand.nextFloat() * 0.6, 0, 0, 0);
+			worldIn.addParticle(ParticleTypes.END_ROD, pos.getX() + 0.2 + rand.nextDouble() * 0.6, pos.getY() + 0.3, pos.getZ() + 0.2 + rand.nextDouble() * 0.6, 0, 0, 0);
 	}
 
 	@Override

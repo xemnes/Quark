@@ -1,20 +1,21 @@
 package vazkii.quark.world.gen;
 
+import java.util.Random;
+import java.util.function.BooleanSupplier;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraft.world.gen.GenerationSettings;
-import vazkii.quark.base.world.generator.Generator;
+import net.minecraft.world.gen.WorldGenRegion;
+import net.minecraft.world.gen.feature.structure.StructureManager;
 import vazkii.quark.base.world.config.DimensionConfig;
+import vazkii.quark.base.world.generator.Generator;
 import vazkii.quark.world.block.SpeleothemBlock;
 import vazkii.quark.world.block.SpeleothemBlock.SpeleothemSize;
 import vazkii.quark.world.module.SpeleothemsModule;
-
-import java.util.Random;
-import java.util.function.BooleanSupplier;
 
 public class SpeleothemGenerator extends Generator {
 
@@ -23,7 +24,7 @@ public class SpeleothemGenerator extends Generator {
 	}
 
 	@Override
-	public void generateChunk(IWorld world, ChunkGenerator<? extends GenerationSettings> generator, Random rand, BlockPos pos) {
+	public void generateChunk(WorldGenRegion world, ChunkGenerator generator, StructureManager structureManager, Random rand, BlockPos pos) {
 		int spread = 10;
 		int tries = SpeleothemsModule.triesPerChunk;
 		int innerSpread = 6;
@@ -31,7 +32,7 @@ public class SpeleothemGenerator extends Generator {
 		int upperBound = SpeleothemsModule.maxYlevel;
 		int offset = 6;
 		
-		if(world.getDimension().isNether()) {
+		if(world.func_230315_m_().func_236040_e_()) { // isNether
 			upperBound = 128;
 			offset = 0;
 			tries = SpeleothemsModule.triesPerChunkInNether;
@@ -62,7 +63,7 @@ public class SpeleothemGenerator extends Generator {
 		if(!world.isAirBlock(pos))
 			return false;
 		
-		int off = world.getDimension().isNether() ? -1000 : 0;
+		int off = world.func_230315_m_().func_236040_e_() ? -1000 : 0; // isNether
 		boolean up = random.nextBoolean();
 		Direction diff = (up ? Direction.UP : Direction.DOWN);
 		

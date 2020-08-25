@@ -1,23 +1,22 @@
 package vazkii.quark.world.gen.structure;
 
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
-
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
-
+import com.mojang.serialization.Codec;
 import net.minecraft.entity.EntityType;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Rotation;
+import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biome.SpawnListEntry;
+import net.minecraft.world.biome.provider.BiomeProvider;
 import net.minecraft.world.gen.ChunkGenerator;
+import net.minecraft.world.gen.GenerationStage.Decoration;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.gen.feature.jigsaw.JigsawManager;
 import net.minecraft.world.gen.feature.jigsaw.JigsawPattern.PlacementBehaviour;
@@ -25,8 +24,8 @@ import net.minecraft.world.gen.feature.jigsaw.JigsawPiece;
 import net.minecraft.world.gen.feature.structure.AbstractVillagePiece;
 import net.minecraft.world.gen.feature.structure.IStructurePieceType;
 import net.minecraft.world.gen.feature.structure.MarginedStructureStart;
-import net.minecraft.world.gen.feature.structure.ScatteredStructure;
 import net.minecraft.world.gen.feature.structure.Structure;
+import net.minecraft.world.gen.feature.template.IStructureProcessorType;
 import net.minecraft.world.gen.feature.template.TemplateManager;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.world.JigsawRegistryHelper;
@@ -34,7 +33,10 @@ import vazkii.quark.world.gen.structure.processor.BigDungeonChestProcessor;
 import vazkii.quark.world.gen.structure.processor.BigDungeonSpawnerProcessor;
 import vazkii.quark.world.module.BigDungeonModule;
 
-public class BigDungeonStructure extends ScatteredStructure<NoFeatureConfig> {
+import java.util.List;
+import java.util.Set;
+
+public class BigDungeonStructure extends Structure<NoFeatureConfig> {
 
 	private static final List<Biome.SpawnListEntry> ENEMIES = Lists.newArrayList(
 			new Biome.SpawnListEntry(EntityType.ZOMBIE, 8, 1, 3),
@@ -73,17 +75,23 @@ public class BigDungeonStructure extends ScatteredStructure<NoFeatureConfig> {
 
 	private static final ResourceLocation START_POOL = new ResourceLocation(Quark.MOD_ID, NAMESPACE + "/" + STARTS_DIR);
 
+	private static final BigDungeonChestProcessor CHEST_PROCESSOR = new BigDungeonChestProcessor();
+	private static final BigDungeonSpawnerProcessor SPAWN_PROCESSOR = new BigDungeonSpawnerProcessor();
+	
+	private static Codec<BigDungeonChestProcessor> CHEST_CODEC = Codec.unit(CHEST_PROCESSOR);
+	private static Codec<BigDungeonSpawnerProcessor> SPAWN_CODEC = Codec.unit(SPAWN_PROCESSOR);
+	
+	public static IStructureProcessorType<BigDungeonChestProcessor> CHEST_PROCESSOR_TYPE = () -> CHEST_CODEC;
+	public static IStructureProcessorType<BigDungeonSpawnerProcessor> SPAWN_PROCESSOR_TYPE = () -> SPAWN_CODEC;
+	
 	static {
-		BigDungeonChestProcessor chest = new BigDungeonChestProcessor();
-		BigDungeonSpawnerProcessor spawn = new BigDungeonSpawnerProcessor();
-		
 		JigsawRegistryHelper.pool(NAMESPACE, STARTS_DIR)
-		.processor(chest, spawn)
+		.processor(CHEST_PROCESSOR)
 		.addMult(STARTS_DIR, STARTS, 1)
 		.register(PlacementBehaviour.RIGID);
 
 		JigsawRegistryHelper.pool(NAMESPACE, ROOMS_DIR)
-		.processor(chest, spawn)
+		.processor(CHEST_PROCESSOR, SPAWN_PROCESSOR)
 		.addMult(ROOMS_DIR, ROOMS, 1)
 		.register(PlacementBehaviour.RIGID);
 
@@ -96,16 +104,21 @@ public class BigDungeonStructure extends ScatteredStructure<NoFeatureConfig> {
 		final double endpointWeightMult = 1.2;
 
 		JigsawRegistryHelper.pool(NAMESPACE, "rooms_or_endpoint")
-		.processor(chest, spawn)
+		.processor(CHEST_PROCESSOR, SPAWN_PROCESSOR)
 		.addMult(ROOMS_DIR, ROOMS, roomWeight)
 		.addMult(CORRIDORS_DIR, CORRIDORS, corridorWeight)
 		.add(ENDPOINT, (int) ((ROOMS.size() * roomWeight + CORRIDORS.size() * corridorWeight) * endpointWeightMult))
 		.register(PlacementBehaviour.RIGID);
 	}
 
-	public BigDungeonStructure() {
-		super(fc -> NoFeatureConfig.NO_FEATURE_CONFIG);
+	public BigDungeonStructure(Codec<NoFeatureConfig> codec) {
+		super(codec);
 		setRegistryName(Quark.MOD_ID, NAMESPACE);
+	}
+	
+	public void setup() {
+		Registry.register(Registry.STRUCTURE_PROCESSOR, Quark.MOD_ID + ":big_dungeon_chest", CHEST_PROCESSOR_TYPE);
+		Registry.register(Registry.STRUCTURE_PROCESSOR, Quark.MOD_ID + ":big_dungeon_spawner", SPAWN_PROCESSOR_TYPE);
 	}
 
 	@Override
@@ -113,25 +126,26 @@ public class BigDungeonStructure extends ScatteredStructure<NoFeatureConfig> {
 		return ENEMIES;
 	}
 
-	public boolean hasStartAt(ChunkGenerator<?> chunkGen, Random rand, int chunkPosX, int chunkPosZ) {
-		ChunkPos chunkpos = this.getStartPositionForPosition(chunkGen, rand, chunkPosX, chunkPosZ, 0, 0);
-		if(chunkPosX == chunkpos.x && chunkPosZ == chunkpos.z) {
+	@Override
+	public Decoration func_236396_f_() {
+		return Decoration.UNDERGROUND_STRUCTURES;
+	}
+	
+	@Override // hasStartAt
+	protected boolean func_230363_a_(ChunkGenerator chunkGen, BiomeProvider biomeProvider, long seed, SharedSeedRandom rand, int chunkPosX, int chunkPosZ, Biome biome, ChunkPos chunkpos, NoFeatureConfig config) { 
+		if(chunkPosX == chunkpos.x && chunkPosZ == chunkpos.z && chunkGen.func_235957_b_().func_236195_a_().containsKey(this) && BigDungeonModule.biomeTypes.canSpawn(biome)) {
 			int i = chunkPosX >> 4;
 			int j = chunkPosZ >> 4;
-			rand.setSeed((long)(i ^ j << 4) ^ chunkGen.getSeed());
+			rand.setSeed((long)(i ^ j << 4) ^ seed);
 			rand.nextInt();
 			return rand.nextDouble() < BigDungeonModule.spawnChance;
 		}
+		
 		return false;
 	}
-
+	
 	@Override
-	protected int getSeedModifier() {
-		return 79234823;
-	}
-
-	@Override
-	public IStartFactory getStartFactory() {
+	public IStartFactory<NoFeatureConfig> getStartFactory() {
 		return Start::new;
 	}
 
@@ -139,22 +153,24 @@ public class BigDungeonStructure extends ScatteredStructure<NoFeatureConfig> {
 	public String getStructureName() {
 		return getRegistryName().toString();
 	}
+	
+	//	@Override
+	//	public int getSize() {
+	//		return (int) Math.ceil((double) BigDungeonModule.maxRooms / 1.5);
+	//	}
 
-	@Override
-	public int getSize() {
-		return (int) Math.ceil((double) BigDungeonModule.maxRooms / 1.5);
-	}
+	public static class Start extends MarginedStructureStart<NoFeatureConfig> {
 
-	public static class Start extends MarginedStructureStart {
-
-		public Start(Structure<?> structureIn, int chunkX, int chunkZ, MutableBoundingBox boundsIn, int referenceIn, long seed) {
+		public Start(Structure<NoFeatureConfig> structureIn, int chunkX, int chunkZ, MutableBoundingBox boundsIn, int referenceIn, long seed) {
 			super(structureIn, chunkX, chunkZ, boundsIn, referenceIn, seed);
 		}
 
-		@Override
-		public void init(ChunkGenerator<?> generator, TemplateManager templateManagerIn, int chunkX, int chunkZ, Biome biomeIn) {
+		@Override // init
+		public void func_230364_a_(ChunkGenerator generator, TemplateManager templateManagerIn, int chunkX, int chunkZ, Biome biomeIn, NoFeatureConfig config) {
 			BlockPos blockpos = new BlockPos(chunkX * 16, 40, chunkZ * 16);
-			JigsawManager.func_214889_a(START_POOL, BigDungeonModule.maxRooms, Piece::new, generator, templateManagerIn, blockpos, components, this.rand);
+			// First bool appears to be related to some sort of shifting upwards
+			// Second bool appears to shift objects with heightmaps
+			JigsawManager.func_236823_a_(START_POOL, BigDungeonModule.maxRooms, Piece::new, generator, templateManagerIn, blockpos, components, this.rand, false, true);
 			recalculateStructureSize();
 
 			int maxTop = 60;
@@ -163,14 +179,14 @@ public class BigDungeonStructure extends ScatteredStructure<NoFeatureConfig> {
 				bounds.offset(0, -shift, 0);
 				components.forEach(p -> p.offset(0, -shift, 0));
 			}
-			
+
 			if(bounds.minY < 6) {
 				int shift = 6 - bounds.minY;
 				bounds.offset(0, shift, 0);
 				components.forEach(p -> p.offset(0, shift, 0));
 			}
-			
-			components.removeIf(c -> c.getBoundingBox().maxY >= maxTop);
+
+			components.removeIf(c -> c.getBoundingBox().maxY >= maxTop);			
 		}
 
 	}

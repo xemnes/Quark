@@ -5,10 +5,9 @@ import java.util.Random;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorld;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.FlatChunkGenerator;
-import net.minecraft.world.gen.GenerationSettings;
+import net.minecraft.world.gen.WorldGenRegion;
 import vazkii.quark.base.world.config.ClusterSizeConfig;
 import vazkii.quark.base.world.config.DimensionConfig;
 import vazkii.quark.base.world.generator.multichunk.ClusterBasedGenerator;
@@ -20,7 +19,7 @@ public class UndergroundSpaceGenerator extends ClusterBasedGenerator {
 	}
 
 	@Override
-	public IGenerationContext createContext(BlockPos src, ChunkGenerator<? extends GenerationSettings> generator, Random random, BlockPos chunkCorner, IWorld world) {
+	public IGenerationContext createContext(BlockPos src, ChunkGenerator generator, Random random, BlockPos chunkCorner, WorldGenRegion world) {
 		return pos -> {
 			BlockState state = world.getBlockState(pos);
 			if(state.getBlockHardness(world, pos) > -1) {
@@ -32,7 +31,7 @@ public class UndergroundSpaceGenerator extends ClusterBasedGenerator {
 	}
 
 	@Override
-	public BlockPos[] getSourcesInChunk(IWorld world, Random random, ChunkGenerator<? extends GenerationSettings> generator, BlockPos chunkLeft) {
+	public BlockPos[] getSourcesInChunk(WorldGenRegion world, Random random, ChunkGenerator generator, BlockPos chunkLeft) {
 		if(!(generator instanceof FlatChunkGenerator)) {
 			int rarity = shapeProvider.getRarity();
 			if(rarity > 0 && random.nextInt(rarity) == 0) {

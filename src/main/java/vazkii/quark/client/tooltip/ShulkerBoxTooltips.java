@@ -3,6 +3,7 @@ package vazkii.quark.client.tooltip;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.block.ShulkerBoxBlock;
@@ -16,6 +17,7 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tileentity.LockableLootTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
@@ -46,14 +48,15 @@ public class ShulkerBoxTooltips {
 					cmp = cmp.copy();
 					cmp.putString("id", "minecraft:shulker_box");
 				}
-				TileEntity te = TileEntity.create(cmp);
+				
+				TileEntity te = TileEntity.func_235657_b_(((BlockItem) event.getItemStack().getItem()).getBlock().getDefaultState(), cmp); // create
 				if (te != null && te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).isPresent()) {
 					List<ITextComponent> tooltip = event.getToolTip();
 					List<ITextComponent> tooltipCopy = new ArrayList<>(tooltip);
 
 					for (int i = 1; i < tooltipCopy.size(); i++) {
 						ITextComponent t = tooltipCopy.get(i);
-						String s = t.getFormattedText();
+						String s = t.getString();
 						if (!s.startsWith("\u00a7") || s.startsWith("\u00a7o"))
 							tooltip.remove(t);
 					}
@@ -69,6 +72,7 @@ public class ShulkerBoxTooltips {
 	public static void renderTooltip(RenderTooltipEvent.PostText event) {
 		if(SimilarBlockTypeHandler.isShulkerBox(event.getStack()) && event.getStack().hasTag() && (!ImprovedTooltipsModule.shulkerBoxRequireShift || Screen.hasShiftDown())) {
 			Minecraft mc = Minecraft.getInstance();
+			MatrixStack matrix = event.getMatrixStack();
 
 			CompoundNBT cmp = ItemNBTHelper.getCompound(event.getStack(), "BlockEntityTag", true);
 			if (cmp != null) {
@@ -76,8 +80,11 @@ public class ShulkerBoxTooltips {
 					cmp = cmp.copy();
 					cmp.putString("id", "minecraft:shulker_box");
 				}
-				TileEntity te = TileEntity.create(cmp);
+				TileEntity te = TileEntity.func_235657_b_(((BlockItem) event.getStack().getItem()).getBlock().getDefaultState(), cmp); // create
 				if (te != null) {
+					if(te instanceof LockableLootTileEntity)
+						((LockableLootTileEntity) te).setLootTable(null, 0);
+					
 					LazyOptional<IItemHandler> handler = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
 					handler.ifPresent((capability) -> {
 						ItemStack currentBox = event.getStack();
@@ -124,7 +131,7 @@ public class ShulkerBoxTooltips {
 							}
 						}
 
-						renderTooltipBackground(mc, currentX, currentY, dims[0], dims[1], color);
+						renderTooltipBackground(mc, matrix, currentX, currentY, dims[0], dims[1], color);
 
 						ItemRenderer render = mc.getItemRenderer();
 
@@ -142,7 +149,7 @@ public class ShulkerBoxTooltips {
 
 							if (!ChestSearchingModule.namesMatch(itemstack)) {
 								RenderSystem.disableDepthTest();
-								AbstractGui.fill(xp, yp, xp + 16, yp + 16, 0xAA000000);
+								AbstractGui.fill(matrix, xp, yp, xp + 16, yp + 16, 0xAA000000);
 							}
 						}
 
@@ -171,7 +178,7 @@ public class ShulkerBoxTooltips {
 	private static final int EDGE = 18;
 
 
-	public static void renderTooltipBackground(Minecraft mc, int x, int y, int width, int height, int color) {
+	public static void renderTooltipBackground(Minecraft mc, MatrixStack matrix, int x, int y, int width, int height, int color) {
 		mc.getTextureManager().bindTexture(WIDGET_RESOURCE);
 		RenderSystem.color3f(((color & 0xFF0000) >> 16) / 255f,
 				((color & 0x00FF00) >> 8) / 255f,
@@ -179,36 +186,36 @@ public class ShulkerBoxTooltips {
 
 		RenderHelper.disableStandardItemLighting();
 
-		AbstractGui.blit(x, y,
+		AbstractGui.blit(matrix, x, y,
 				0, 0,
 				CORNER, CORNER, 256, 256);
-		AbstractGui.blit(x + CORNER + EDGE * width, y + CORNER + EDGE * height,
+		AbstractGui.blit(matrix, x + CORNER + EDGE * width, y + CORNER + EDGE * height,
 				CORNER + BUFFER + EDGE + BUFFER, CORNER + BUFFER + EDGE + BUFFER,
 				CORNER, CORNER, 256, 256);
-		AbstractGui.blit(x + CORNER + EDGE * width, y,
+		AbstractGui.blit(matrix, x + CORNER + EDGE * width, y,
 				CORNER + BUFFER + EDGE + BUFFER, 0,
 				CORNER, CORNER, 256, 256);
-		AbstractGui.blit(x, y + CORNER + EDGE * height,
+		AbstractGui.blit(matrix, x, y + CORNER + EDGE * height,
 				0, CORNER + BUFFER + EDGE + BUFFER,
 				CORNER, CORNER, 256, 256);
 		for (int row = 0; row < height; row++) {
-			AbstractGui.blit(x, y + CORNER + EDGE * row,
+			AbstractGui.blit(matrix, x, y + CORNER + EDGE * row,
 					0, CORNER + BUFFER,
 					CORNER, EDGE, 256, 256);
-			AbstractGui.blit(x + CORNER + EDGE * width, y + CORNER + EDGE * row,
+			AbstractGui.blit(matrix, x + CORNER + EDGE * width, y + CORNER + EDGE * row,
 					CORNER + BUFFER + EDGE + BUFFER, CORNER + BUFFER,
 					CORNER, EDGE, 256, 256);
 			for (int col = 0; col < width; col++) {
 				if (row == 0) {
-					AbstractGui.blit(x + CORNER + EDGE * col, y,
+					AbstractGui.blit(matrix, x + CORNER + EDGE * col, y,
 							CORNER + BUFFER, 0,
 							EDGE, CORNER, 256, 256);
-					AbstractGui.blit(x + CORNER + EDGE * col, y + CORNER + EDGE * height,
+					AbstractGui.blit(matrix, x + CORNER + EDGE * col, y + CORNER + EDGE * height,
 							CORNER + BUFFER, CORNER + BUFFER + EDGE + BUFFER,
 							EDGE, CORNER, 256, 256);
 				}
 
-				AbstractGui.blit(x + CORNER + EDGE * col, y + CORNER + EDGE * row,
+				AbstractGui.blit(matrix, x + CORNER + EDGE * col, y + CORNER + EDGE * row,
 						CORNER + BUFFER, CORNER + BUFFER,
 						EDGE, EDGE, 256, 256);
 			}

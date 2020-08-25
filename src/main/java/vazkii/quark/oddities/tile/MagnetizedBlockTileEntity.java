@@ -20,9 +20,9 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IBlockReader;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -98,7 +98,7 @@ public class MagnetizedBlockTileEntity extends TileEntity implements ITickableTi
                 for (Entity entity : entities) {
                     if (entity.getPushReaction() != PushReaction.IGNORE) {
                         if (sticky) {
-                            Vec3d motion = entity.getMotion();
+                            Vector3d motion = entity.getMotion();
                             double dX = motion.x;
                             double dY = motion.y;
                             double dZ = motion.z;
@@ -132,7 +132,7 @@ public class MagnetizedBlockTileEntity extends TileEntity implements ITickableTi
                         if (motion > 0) {
                             motion = Math.min(motion, movement) + 0.01D;
                             MOVING_ENTITY.set(direction);
-                            entity.move(MoverType.PISTON, new Vec3d(motion * direction.getXOffset(), motion * direction.getYOffset(), motion * direction.getZOffset()));
+                            entity.move(MoverType.PISTON, new Vector3d(motion * direction.getXOffset(), motion * direction.getYOffset(), motion * direction.getZOffset()));
                             MOVING_ENTITY.set(null);
                         }
                     }
@@ -245,7 +245,7 @@ public class MagnetizedBlockTileEntity extends TileEntity implements ITickableTi
             tileData.putInt("x", this.pos.getX());
             tileData.putInt("y", this.pos.getY());
             tileData.putInt("z", this.pos.getZ());
-            return TileEntity.create(subTile);
+            return TileEntity.func_235657_b_(magnetState, subTile); // create
         }
         
         return null;
@@ -286,7 +286,7 @@ public class MagnetizedBlockTileEntity extends TileEntity implements ITickableTi
                     this.world.setBlockState(this.pos, this.magnetState, 84);
                     Block.replaceBlock(this.magnetState, blockstate, this.world, this.pos, 3);
                 } else {
-                    if (blockstate.has(BlockStateProperties.WATERLOGGED) && blockstate.get(BlockStateProperties.WATERLOGGED)) {
+                    if (blockstate.getValues().containsKey(BlockStateProperties.WATERLOGGED) && blockstate.get(BlockStateProperties.WATERLOGGED)) {
                         blockstate = blockstate.with(BlockStateProperties.WATERLOGGED, Boolean.FALSE);
                     }
 
@@ -307,10 +307,12 @@ public class MagnetizedBlockTileEntity extends TileEntity implements ITickableTi
 
         }
     }
-
+    
+    
     @Override
-    public void read(CompoundNBT compound) {
-        super.read(compound);
+    public void func_230337_a_(BlockState p_230337_1_, CompoundNBT compound) { // read
+    	super.func_230337_a_(p_230337_1_, compound);
+    	
         this.magnetState = NBTUtil.readBlockState(compound.getCompound("blockState"));
         this.magnetFacing = Direction.byIndex(compound.getInt("facing"));
         this.progress = compound.getFloat("progress");

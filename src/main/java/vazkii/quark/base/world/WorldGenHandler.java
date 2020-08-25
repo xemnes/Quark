@@ -15,15 +15,15 @@ import java.util.function.BooleanSupplier;
 
 import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorld;
+import net.minecraft.world.ISeedReader;
 import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraft.world.gen.GenerationSettings;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.WorldGenRegion;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.DecoratedFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.IFeatureConfig;
+import net.minecraft.world.gen.feature.structure.StructureManager;
 import net.minecraft.world.gen.placement.NoPlacementConfig;
 import net.minecraftforge.registries.ForgeRegistries;
 import vazkii.quark.base.handler.GeneralConfig;
@@ -76,11 +76,11 @@ public class WorldGenHandler {
 		});
 	}
 
-	public static void generateChunk(IWorld worldIn, ChunkGenerator<? extends GenerationSettings> generator, BlockPos pos, GenerationStage.Decoration stage) {
-		if(!(worldIn instanceof WorldGenRegion))
+	public static void generateChunk(ISeedReader seedReader, StructureManager structureManager, ChunkGenerator generator, BlockPos pos, GenerationStage.Decoration stage) {
+		if(!(seedReader instanceof WorldGenRegion))
 			return;
 
-		WorldGenRegion region = (WorldGenRegion) worldIn;
+		WorldGenRegion region = (WorldGenRegion) seedReader;
 		SharedSeedRandom random = new SharedSeedRandom();
 		long seed = random.setDecorationSeed(region.getSeed(), region.getMainChunkX() * 16, region.getMainChunkZ() * 16);
 		int stageNum = stage.ordinal() * 10000;
@@ -91,11 +91,11 @@ public class WorldGenHandler {
 			for(WeightedGenerator wgen : set) {
 				IGenerator gen = wgen.generator;
 
-				if(wgen.module.enabled && gen.canGenerate(worldIn)) {
+				if(wgen.module.enabled && gen.canGenerate(region)) {
 					if(GeneralConfig.enableWorldgenWatchdog) {
 						final int finalStageNum = stageNum;
-						stageNum = watchdogRun(gen, () -> gen.generate(finalStageNum, seed, stage, worldIn, generator, random, pos), 1, TimeUnit.MINUTES);
-					} else stageNum = gen.generate(stageNum, seed, stage, worldIn, generator, random, pos);
+						stageNum = watchdogRun(gen, () -> gen.generate(finalStageNum, seed, stage, region, generator, structureManager, random, pos), 1, TimeUnit.MINUTES);
+					} else stageNum = gen.generate(stageNum, seed, stage, region, generator, structureManager, random, pos);
 				}
 			}
 		}

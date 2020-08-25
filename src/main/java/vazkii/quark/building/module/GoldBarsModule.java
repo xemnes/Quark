@@ -1,6 +1,6 @@
 package vazkii.quark.building.module;
 
-import net.minecraft.block.Block.Properties;
+import net.minecraft.block.AbstractBlock.Properties;
 import net.minecraft.block.Blocks;
 import vazkii.quark.base.block.QuarkPaneBlock;
 import vazkii.quark.base.handler.RenderLayerHandler.RenderTypeSkeleton;

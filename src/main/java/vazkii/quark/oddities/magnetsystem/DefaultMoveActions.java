@@ -14,7 +14,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.IPlantable;
@@ -83,7 +83,7 @@ public class DefaultMoveActions {
 							double y = pos.getY() + 0.15 + ((double) dir.getYOffset() * 0.4);
 							double z = pos.getZ() + 0.5 + ((double) dir.getZOffset() * 0.7);
 							ItemEntity entity = new ItemEntity(world, x, y, z, drop);
-							entity.setMotion(Vec3d.ZERO);
+							entity.setMotion(Vector3d.ZERO);
 							world.addEntity(entity);
 						}
 

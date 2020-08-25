@@ -2,7 +2,6 @@ package vazkii.quark.mobs.entity;
 
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 
@@ -14,8 +13,10 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.BreedGoal;
 import net.minecraft.entity.ai.goal.FollowParentGoal;
 import net.minecraft.entity.ai.goal.LookAtGoal;
@@ -38,7 +39,6 @@ import net.minecraft.tileentity.PistonTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
-import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -333,7 +333,7 @@ public class ToretoiseEntity extends AnimalEntity {
 
 	@Override
 	public boolean canSpawn(@Nonnull IWorld world, SpawnReason reason) {
-		BlockState state = world.getBlockState((new BlockPos(this)).down());
+		BlockState state = world.getBlockState((new BlockPos(getPositionVec())).down());
 		if (state.getMaterial() != Material.ROCK)
 			return false;
 
@@ -402,12 +402,12 @@ public class ToretoiseEntity extends AnimalEntity {
 		angeryTicks = compound.getInt(TAG_ANGERY_TICKS);
 	}
 
-	protected void registerAttributes() {
-		super.registerAttributes();
-		getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(60);
-		getAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(1);
-		getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.08);
-	}
+    public static AttributeModifierMap.MutableAttribute prepareAttributes() {
+        return MobEntity.func_233666_p_()
+                .func_233815_a_(Attributes.field_233818_a_, 60.0D) // MAX_HEALTH
+                .func_233815_a_(Attributes.field_233821_d_, 0.08D) // MOEVMENT_SPEED
+                .func_233815_a_(Attributes.field_233820_c_, 1.0D); // KNOCKBACK_RESISTANCE
+    }
 
 	@Override
 	public AgeableEntity createChild(AgeableEntity arg0) {

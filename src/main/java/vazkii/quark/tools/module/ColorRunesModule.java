@@ -4,12 +4,11 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.loot.LootEntry;
+import net.minecraft.loot.LootTables;
+import net.minecraft.loot.TagLootEntry;
+import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.Tag;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.storage.loot.LootEntry;
-import net.minecraft.world.storage.loot.LootTables;
-import net.minecraft.world.storage.loot.TagLootEntry;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -41,7 +40,7 @@ public class ColorRunesModule extends Module {
     public static final String TAG_RUNE_COLOR = Quark.MOD_ID + ":RuneColor";
 
     private static final ThreadLocal<ItemStack> targetStack = new ThreadLocal<>();
-    public static Tag<Item> runesTag, runesLootableTag;
+    public static ITag<Item> runesTag, runesLootableTag;
 
     @Config public static int dungeonWeight = 10;
     @Config public static int netherFortressWeight = 8;
@@ -64,7 +63,6 @@ public class ColorRunesModule extends Module {
 
         if (cap.isPresent())
             return cap.orElse((s) -> -1).getRuneColor(target);
-
         if (!ItemNBTHelper.getBoolean(target, TAG_RUNE_ATTACHED, false))
             return -1;
 
@@ -76,26 +74,50 @@ public class ColorRunesModule extends Module {
     @OnlyIn(Dist.CLIENT)
     public static RenderType getGlint() {
         int color = changeColor();
-        return color >= 0 && GlintRenderType.glintColorMap.containsKey(color) ? GlintRenderType.glintColorMap.get(color) : RenderType.getGlint();
+        return color >= 0 && color <= 16 ? GlintRenderType.glintColor.get(color) : RenderType.getGlint();
     }
 
     @OnlyIn(Dist.CLIENT)
     public static RenderType getEntityGlint() {
         int color = changeColor();
-        return color >= 0 && GlintRenderType.entityGlintColorMap.containsKey(color) ? GlintRenderType.entityGlintColorMap.get(color) : RenderType.getEntityGlint();
+        return color >= 0 && color <= 16 ? GlintRenderType.entityGlintColor.get(color) : RenderType.getEntityGlint();
+    }
+    
+    @OnlyIn(Dist.CLIENT)
+    public static RenderType getGlintDirect() {
+        int color = changeColor();
+        return color >= 0 && color <= 16 ? GlintRenderType.glintDirectColor.get(color) : RenderType.func_239273_n_(); // getGlintDirect
     }
 
+    @OnlyIn(Dist.CLIENT)
+    public static RenderType getEntityGlintDirect() {
+        int color = changeColor();
+        return color >= 0 && color <= 16 ? GlintRenderType.entityGlintDirectColor.get(color) : RenderType.func_239274_p_(); // getEntityGlintDirect
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public static RenderType getArmorGlint() {
+        int color = changeColor();
+        return color >= 0 && color <= 16 ? GlintRenderType.armorGlintColor.get(color) : RenderType.func_239270_k_(); // getArmorGlint
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public static RenderType getArmorEntityGlint() {
+        int color = changeColor();
+        return color >= 0 && color <= 16 ? GlintRenderType.armorEntityGlintColor.get(color) : RenderType.func_239271_l_(); // getArmorEntityGlint
+    }
+    
     @Override
     public void construct() {
         for(DyeColor color : DyeColor.values())
-            new RuneItem(color.getName() + "_rune", this, color.getId());
+            new RuneItem(color.func_176610_l() + "_rune", this, color.getId());
         new RuneItem("rainbow_rune", this, 16);
     }
 
     @Override
     public void setup() {
-        runesTag = new ItemTags.Wrapper(new ResourceLocation(Quark.MOD_ID, "runes"));
-        runesLootableTag = new ItemTags.Wrapper(new ResourceLocation(Quark.MOD_ID, "runes_lootable"));
+        runesTag = ItemTags.makeWrapperTag(Quark.MOD_ID + ":runes");
+        runesLootableTag = ItemTags.makeWrapperTag(Quark.MOD_ID + ":runes_lootable");
     }
 
     @SubscribeEvent

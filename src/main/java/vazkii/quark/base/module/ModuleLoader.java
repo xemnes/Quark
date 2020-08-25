@@ -26,6 +26,11 @@ public final class ModuleLoader {
 		resolveConfigSpec();
 	}
 	
+	@OnlyIn(Dist.CLIENT)
+	public void clientStart() {
+		dispatch(Module::constructClient);
+	}
+	
 	private void findModules() {
 		ModuleFinder finder = new ModuleFinder();
 		finder.findModules();

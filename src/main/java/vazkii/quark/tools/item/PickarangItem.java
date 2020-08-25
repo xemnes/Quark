@@ -1,18 +1,24 @@
 package vazkii.quark.tools.item;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
+import com.google.common.collect.Multimaps;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
@@ -23,7 +29,7 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
 import vazkii.quark.base.handler.QuarkSounds;
@@ -34,8 +40,11 @@ import vazkii.quark.tools.module.PickarangModule;
 
 public class PickarangItem extends QuarkItem {
 
-	public PickarangItem(String regname, Module module, Properties properties) {
+	public final boolean isNetherite;
+	
+	public PickarangItem(String regname, Module module, Properties properties, boolean isNetherite) {
 		super(regname, module, properties);
+		this.isNetherite = isNetherite;
 	}
 
 	@Override
@@ -46,7 +55,7 @@ public class PickarangItem extends QuarkItem {
 
 	@Override
 	public boolean canHarvestBlock(BlockState blockIn) {
-		switch (PickarangModule.harvestLevel) {
+		switch (isNetherite ? PickarangModule.netheriteHarvestLevel : PickarangModule.harvestLevel) {
 			case 0:
 				return Items.WOODEN_PICKAXE.canHarvestBlock(blockIn) ||
 						Items.WOODEN_AXE.canHarvestBlock(blockIn) ||
@@ -66,12 +75,12 @@ public class PickarangItem extends QuarkItem {
 
 	@Override
 	public int getMaxDamage(ItemStack stack) {
-		return Math.max(PickarangModule.durability, 0);
+		return Math.max(isNetherite ? PickarangModule.netheriteDurability : PickarangModule.durability, 0);
 	}
 
 	@Override
 	public int getHarvestLevel(ItemStack stack, @Nonnull ToolType type, @Nullable PlayerEntity player, @Nullable BlockState state) {
-		return PickarangModule.harvestLevel;
+		return isNetherite ? PickarangModule.netheriteHarvestLevel : PickarangModule.harvestLevel;
 	}
 
 	@Override
@@ -88,13 +97,13 @@ public class PickarangItem extends QuarkItem {
         ItemStack itemstack = playerIn.getHeldItem(handIn);
         playerIn.setHeldItem(handIn, ItemStack.EMPTY);
 		int eff = EnchantmentHelper.getEnchantmentLevel(Enchantments.EFFICIENCY, itemstack);
-		Vec3d pos = playerIn.getPositionVec();
-        worldIn.playSound(null, pos.x, pos.x, pos.z, QuarkSounds.ENTITY_PICKARANG_THROW, SoundCategory.NEUTRAL, 0.5F + eff * 0.14F, 0.4F / (worldIn.rand.nextFloat() * 0.4F + 0.8F));
+		Vector3d pos = playerIn.getPositionVec();
+        worldIn.playSound(null, pos.x, pos.y, pos.z, QuarkSounds.ENTITY_PICKARANG_THROW, SoundCategory.NEUTRAL, 0.5F + eff * 0.14F, 0.4F / (worldIn.rand.nextFloat() * 0.4F + 0.8F));
 
         if(!worldIn.isRemote)  {
         	int slot = handIn == Hand.OFF_HAND ? playerIn.inventory.getSizeInventory() - 1 : playerIn.inventory.currentItem;
         	PickarangEntity entity = new PickarangEntity(worldIn, playerIn);
-        	entity.setThrowData(slot, itemstack);
+        	entity.setThrowData(slot, itemstack, isNetherite);
         	entity.shoot(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F + eff * 0.325F, 0F);
             worldIn.addEntity(entity);
         }
@@ -111,12 +120,12 @@ public class PickarangItem extends QuarkItem {
 
 	@Nonnull
 	@Override
-	public Multimap<String, AttributeModifier> getAttributeModifiers(@Nonnull EquipmentSlotType slot, ItemStack stack) {
-		Multimap<String, AttributeModifier> multimap = super.getAttributeModifiers(slot, stack);
+	public Multimap<Attribute, AttributeModifier> getAttributeModifiers(@Nonnull EquipmentSlotType slot, ItemStack stack) {
+		Multimap<Attribute, AttributeModifier> multimap = Multimaps.newSetMultimap(new HashMap<>(), HashSet::new);
 
 		if (slot == EquipmentSlotType.MAINHAND) {
-			multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", 2, AttributeModifier.Operation.ADDITION));
-			multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", -2.8, AttributeModifier.Operation.ADDITION));
+			multimap.put(Attributes.field_233823_f_, new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", 2, AttributeModifier.Operation.ADDITION)); // ATTACK_DAMAGE
+			multimap.put(Attributes.field_233825_h_, new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", -2.8, AttributeModifier.Operation.ADDITION)); // ATTACK_SPEED
 		}
 
 		return multimap;
@@ -134,12 +143,12 @@ public class PickarangItem extends QuarkItem {
 	
 	@Override
 	public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
-		return repair.getItem() == Items.DIAMOND;
+		return repair.getItem() == (isNetherite ? Items.NETHERITE_INGOT : Items.DIAMOND);
 	}
 	
 	@Override
 	public int getItemEnchantability() {
-		return Items.DIAMOND_PICKAXE.getItemEnchantability();
+		return isNetherite ? Items.NETHERITE_PICKAXE.getItemEnchantability() : Items.DIAMOND_PICKAXE.getItemEnchantability();
 	}
 
 	@Override

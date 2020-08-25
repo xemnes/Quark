@@ -2,6 +2,8 @@ package vazkii.quark.integration.jei;
 
 import javax.annotation.Nullable;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.extensions.vanilla.crafting.ICraftingCategoryExtension;
@@ -24,8 +26,8 @@ public class ElytraDuplicationExtension implements ICraftingCategoryExtension {
 	}
 
 	@Override
-	public void drawInfo(int recipeWidth, int recipeHeight, double mouseX, double mouseY) {
-		Minecraft.getInstance().fontRenderer.drawString(I18n.format("quark.jei.makes_copy"), 60, 46, 0x555555);
+	public void drawInfo(int recipeWidth, int recipeHeight, MatrixStack matrixStack, double mouseX, double mouseY) {
+		Minecraft.getInstance().fontRenderer.drawString(matrixStack, I18n.format("quark.jei.makes_copy"), 60, 46, 0x555555);
 	}
 
 	@Nullable

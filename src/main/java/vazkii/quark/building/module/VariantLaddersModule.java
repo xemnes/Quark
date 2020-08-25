@@ -28,8 +28,10 @@ public class VariantLaddersModule extends Module {
 
 	@Override
 	public void construct() {
-		for(String type : MiscUtil.VARIANT_WOOD_TYPES)
-			variantLadders.add(new VariantLadderBlock(type, this));
+		for(String type : MiscUtil.OVERWORLD_VARIANT_WOOD_TYPES)
+			variantLadders.add(new VariantLadderBlock(type, this, true));
+		for(String type : MiscUtil.NETHER_WOOD_TYPES)
+			variantLadders.add(new VariantLadderBlock(type, this, false));
 		
 		iron_ladder = new IronLadderBlock(this);
 	}

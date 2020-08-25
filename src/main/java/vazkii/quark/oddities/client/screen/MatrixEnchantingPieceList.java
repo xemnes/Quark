@@ -2,7 +2,7 @@ package vazkii.quark.oddities.client.screen;
 
 import org.lwjgl.opengl.GL11;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.MainWindow;
@@ -22,7 +22,6 @@ public class MatrixEnchantingPieceList extends ExtendedList<MatrixEnchantingPiec
 		super(parent.getMinecraft(), listWidth, listHeight, top, bottom, entryHeight);
 		this.listWidth = listWidth;
 		this.parent = parent;
-		renderHeader = false;
 	}
 
 	@Override
@@ -47,19 +46,19 @@ public class MatrixEnchantingPieceList extends ExtendedList<MatrixEnchantingPiec
 	}
 
 	@Override
-	public void render(int p_render_1_, int p_render_2_, float p_render_3_) {
+	public void render(MatrixStack stack, int p_render_1_, int p_render_2_, float p_render_3_) {
 		int i = this.getScrollbarPosition();
 		int j = i + 6;
 		int k = this.getRowLeft();
 		int l = this.y0 + 4 - (int)this.getScrollAmount();
 		
-		fill(getLeft(), getTop(), getLeft() + getWidth() + 1, getTop() + getHeight(), 0xFF2B2B2B);
+		fill(stack, getLeft(), getTop(), getLeft() + getWidth() + 1, getTop() + getHeight(), 0xFF2B2B2B);
 		
 		MainWindow main = parent.getMinecraft().getMainWindow();
 		int res = (int) main.getGuiScaleFactor();
 		GL11.glEnable(GL11.GL_SCISSOR_TEST);
 		GL11.glScissor(getLeft() * res, (main.getScaledHeight() - getBottom()) * res, getWidth() * res, getHeight() * res);
-		renderList(k, l, p_render_1_, p_render_2_, p_render_3_);
+		renderList(stack, k, l, p_render_1_, p_render_2_, p_render_3_);
 		GL11.glDisable(GL11.GL_SCISSOR_TEST);
 		
 		renderScroll(i, j);
@@ -105,7 +104,7 @@ public class MatrixEnchantingPieceList extends ExtendedList<MatrixEnchantingPiec
 	}
 
 	@Override
-	protected void renderBackground() {
+	protected void renderBackground(MatrixStack stack) {
 		// NO-OP
 	}
 
@@ -120,7 +119,7 @@ public class MatrixEnchantingPieceList extends ExtendedList<MatrixEnchantingPiec
 		}
 
 		@Override
-		public void render(int entryIdx, int top, int left, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hover, float partialTicks) {
+		public void render(MatrixStack stack, int entryIdx, int top, int left, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hover, float partialTicks) {
 			if(hover)
 				parent.hoveredPiece = piece;
 
@@ -129,7 +128,7 @@ public class MatrixEnchantingPieceList extends ExtendedList<MatrixEnchantingPiec
 			RenderSystem.translatef(left + (listWidth - 7) / 2f, top + entryHeight / 2f, 0);
 			RenderSystem.scaled(0.5, 0.5, 0.5);
 			RenderSystem.translatef(-8, -8, 0);
-			parent.renderPiece(piece, 1F);
+			parent.renderPiece(stack, piece, 1F);
 			RenderSystem.popMatrix();
 		}
 

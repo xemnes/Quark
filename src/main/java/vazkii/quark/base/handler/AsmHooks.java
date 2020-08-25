@@ -1,6 +1,10 @@
 package vazkii.quark.base.handler;
 
+import java.util.List;
+import java.util.Map;
+
 import com.mojang.blaze3d.matrix.MatrixStack;
+
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.PistonBlockStructureHelper;
@@ -22,8 +26,8 @@ import net.minecraft.tileentity.PistonTileEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
@@ -47,9 +51,6 @@ import vazkii.quark.tweaks.module.HoeHarvestingModule;
 import vazkii.quark.tweaks.module.ImprovedSleepingModule;
 import vazkii.quark.tweaks.module.LockRotationModule;
 import vazkii.quark.tweaks.module.SpringySlimeModule;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author WireSegal
@@ -115,7 +116,7 @@ public class AsmHooks {
 	// Items In Chat
 	// ==========================================================================
 
-	public static ITextComponent createStackComponent(ITextComponent parent, ItemStack stack) {
+	public static IFormattableTextComponent createStackComponent(IFormattableTextComponent parent, ItemStack stack) {
 		return ItemSharingModule.createStackComponent(stack, parent);
 	}
 
@@ -127,7 +128,7 @@ public class AsmHooks {
 	// Springy Slime
 	// ==========================================================================
 
-	public static void applyCollisionLogic(Entity entity, Vec3d attempted, Vec3d actual) {
+	public static void applyCollisionLogic(Entity entity, Vector3d attempted, Vector3d actual) {
 		SpringySlimeModule.onEntityCollision(entity, attempted, actual);
 	}
 
@@ -240,7 +241,31 @@ public class AsmHooks {
 		return ColorRunesModule.getEntityGlint();
 	}
 
+	public static RenderType getGlintDirect() {
+		return ColorRunesModule.getGlintDirect();
+	}
+
+	public static RenderType getEntityGlintDirect() {
+		return ColorRunesModule.getEntityGlint();
+	}
+	
+	public static RenderType getArmorGlint() {
+		return ColorRunesModule.getArmorGlint();
+	}
+
+	public static RenderType getArmorEntityGlint() {
+		return ColorRunesModule.getArmorEntityGlint();
+	}
+	
 	public static void addGlintTypes(Object2ObjectLinkedOpenHashMap<RenderType, BufferBuilder> map) {
 		GlintRenderType.addGlintTypes(map);
+	}
+	
+	// ==========================================================================
+	// Flamerang
+	// ==========================================================================
+	
+	public static boolean getIsFireResistant(boolean vanillaVal, Entity entity) {
+		return PickarangModule.getIsFireResistant(vanillaVal, entity);
 	}
 }

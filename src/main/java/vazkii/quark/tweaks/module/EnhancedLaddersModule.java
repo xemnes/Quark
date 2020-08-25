@@ -10,16 +10,15 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.Tag;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.MovementInput;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
@@ -42,11 +41,11 @@ public class EnhancedLaddersModule extends Module {
 	@Config
     public double fallSpeed = -0.2;
 
-	private static Tag<Item> laddersTag;
+	private static ITag<Item> laddersTag;
 	
 	@Override
 	public void setup() {
-		laddersTag = new ItemTags.Wrapper(new ResourceLocation(Quark.MOD_ID, "ladders"));
+		laddersTag = ItemTags.makeWrapperTag(Quark.MOD_ID + ":ladders");
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -114,18 +113,22 @@ public class EnhancedLaddersModule extends Module {
 	public void onPlayerTick(TickEvent.PlayerTickEvent event) {
 		if(event.phase == TickEvent.Phase.START) {
 			PlayerEntity player = event.player;
-			if(player.isOnLadder()) {
-				boolean scaffold = player.world.getBlockState(player.getPosition()).getBlock() == Blocks.SCAFFOLDING;
-				if(player.isShiftKeyDown() == scaffold &&
+			if(player.isOnLadder() && player.world.isRemote) {
+				BlockPos playerPos = player.func_233580_cy_();
+				BlockPos downPos = playerPos.down();
+				
+				boolean scaffold = player.world.getBlockState(playerPos).getBlock() == Blocks.SCAFFOLDING;
+				if(player.isCrouching() == scaffold &&
 						player.moveForward == 0 &&
 						player.moveVertical <= 0 &&
 						player.moveStrafing == 0 &&
 						player.rotationPitch > 70 &&
 						!player.isJumping &&
-						!player.world.getBlockState(player.getPosition().down()).isSolid()) {
-					Vec3d move = new Vec3d(0, fallSpeed, 0);
+						!player.abilities.isFlying &&
+						player.world.getBlockState(downPos).isLadder(player.world, downPos, player)) {
+					Vector3d move = new Vector3d(0, fallSpeed, 0);
 					player.setBoundingBox(player.getBoundingBox().offset(move));						
-					player.move(MoverType.SELF, Vec3d.ZERO);
+					player.move(MoverType.SELF, Vector3d.ZERO);
 				}
 			}
 		}
@@ -138,7 +141,7 @@ public class EnhancedLaddersModule extends Module {
 		if(player.isOnLadder() && Minecraft.getInstance().currentScreen != null && !(player.moveForward == 0 && player.rotationPitch > 70)) {
 			MovementInput input = event.getMovementInput();
 			if(input != null)
-				input.field_228350_h_ = true; // sneaking
+				input.sneaking = true; // sneaking
 		}
 	}
 

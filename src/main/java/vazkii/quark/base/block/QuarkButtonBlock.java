@@ -31,14 +31,13 @@ public abstract class QuarkButtonBlock extends AbstractButtonBlock implements IQ
             RegistryHelper.setCreativeTab(this, creativeTab);
     }
 
-
     @Nonnull
     @Override
     protected abstract SoundEvent getSoundEvent(boolean powered);
 
-    @Override
-    public abstract int tickRate(IWorldReader worldIn);
-
+    @Override // tickRate
+    public abstract int func_235471_c_();
+    
     @Override
     public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
         if(isEnabled() || group == ItemGroup.SEARCH)
