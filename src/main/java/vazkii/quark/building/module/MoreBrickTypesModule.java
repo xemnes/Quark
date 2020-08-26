@@ -34,7 +34,7 @@ public class MoreBrickTypesModule extends Module {
 	@Override
 	public void construct() {
 		add("sandy", Blocks.SANDSTONE, () -> enableSandyBricks);
-		add("snow", Blocks.SNOW, () -> enableSnowBricks);
+		add("snow", Blocks.SNOW_BLOCK, () -> enableSnowBricks);
 		add("charred_nether", Blocks.NETHER_BRICKS, () -> enableCharredNetherBricks);
 		add("blue_nether", Blocks.NETHER_BRICKS, () -> enableBlueNetherBricks);
 		add("sandstone", Blocks.SANDSTONE, () -> enableSandstoneBricks);
