@@ -31,18 +31,10 @@ public class BigDungeonChestProcessor extends StructureProcessor {
     		Random rand = placementSettingsIn.getRandom(blockInfo.pos);
     		if(rand.nextDouble() > BigDungeonModule.chestChance)
 	            return new BlockInfo(blockInfo.pos, Blocks.CAVE_AIR.getDefaultState(), new CompoundNBT());
-    		
-    		TileEntity tile = TileEntity.func_235657_b_(blockInfo.state, blockInfo.nbt); // create
-    		if(tile instanceof ChestTileEntity) {
-    			ChestTileEntity chest = (ChestTileEntity) tile;
-    			chest.setLootTable(null, 0);
-    			for(int i = 0; i < chest.getSizeInventory(); i++)
-    				chest.setInventorySlotContents(i, ItemStack.EMPTY);
-    			
-    			chest.setLootTable(new ResourceLocation(BigDungeonModule.lootTable), rand.nextLong());
-    			CompoundNBT nbt = new CompoundNBT();
-    			chest.write(nbt);
-    			return new BlockInfo(blockInfo.pos, blockInfo.state, nbt);
+    		if (blockInfo.nbt.getString("id").equals("minecraft:chest")) {
+    			blockInfo.nbt.putString("LootTable", BigDungeonModule.lootTable);
+    			blockInfo.nbt.putLong("LootTableSeed", rand.nextLong());
+    			return new BlockInfo(blockInfo.pos, blockInfo.state, blockInfo.nbt);
     		}
     	}
     	
