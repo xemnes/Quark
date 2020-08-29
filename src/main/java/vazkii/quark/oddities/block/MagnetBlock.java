@@ -1,13 +1,13 @@
 package vazkii.quark.oddities.block;
 
-import javax.annotation.Nonnull;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.material.PushReaction;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.DirectionProperty;
@@ -18,8 +18,12 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.base.block.QuarkBlock;
 import vazkii.quark.base.module.Module;
@@ -27,6 +31,10 @@ import vazkii.quark.oddities.magnetsystem.MagnetSystem;
 import vazkii.quark.oddities.module.MagnetsModule;
 import vazkii.quark.oddities.tile.MagnetTileEntity;
 import vazkii.quark.oddities.tile.MagnetizedBlockTileEntity;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class MagnetBlock extends QuarkBlock {
 
@@ -40,13 +48,20 @@ public class MagnetBlock extends QuarkBlock {
 	}
 
 	@Override
+	@OnlyIn(Dist.CLIENT)
+	public void addInformation(@Nonnull ItemStack stack, @Nullable IBlockReader worldIn, @Nonnull List<ITextComponent> tooltip, @Nonnull ITooltipFlag flagIn) {
+		if (stack.getDisplayName().getUnformattedComponentText().equals("Q"))
+			tooltip.add(new StringTextComponent("haha yes"));
+	}
+
+	@Override
 	protected void fillStateContainer(Builder<Block, BlockState> builder) {
 		builder.add(FACING, POWERED);
 	}
 
 	@Override
 	@SuppressWarnings("deprecation")
-	public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving) {
+	public void neighborChanged(@Nonnull BlockState state, @Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull Block blockIn, @Nonnull BlockPos fromPos, boolean isMoving) {
 		super.neighborChanged(state, worldIn, pos, blockIn, fromPos, isMoving);
 		
 		boolean wasPowered = state.get(POWERED);

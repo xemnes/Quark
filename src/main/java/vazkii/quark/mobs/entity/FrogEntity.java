@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.SoundType;
 import net.minecraft.entity.*;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.controller.JumpController;
@@ -27,9 +28,11 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.IForgeShearable;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.network.NetworkHooks;
@@ -47,6 +50,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.List;
+import java.util.UUID;
 
 @SuppressWarnings("deprecation")
 public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnData, IForgeShearable {
@@ -56,14 +60,17 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 	private static final DataParameter<Integer> TALK_TIME = EntityDataManager.createKey(FrogEntity.class, DataSerializers.VARINT);
 	private static final DataParameter<Float> SIZE_MODIFIER = EntityDataManager.createKey(FrogEntity.class, DataSerializers.FLOAT);
 	private static final DataParameter<Boolean> HAS_SWEATER = EntityDataManager.createKey(FrogEntity.class, DataSerializers.BOOLEAN);
+	private static final DataParameter<Boolean> VOID = EntityDataManager.createKey(FrogEntity.class, DataSerializers.BOOLEAN);
+
+	private static final UUID VOID_MODIFIER_UUID = UUID.fromString("212dbecc-7525-4137-a74b-361cc128d24f");
 
 	public int spawnCd = -1;
 	public int spawnChain = 30;
 
 	public boolean isDuplicate = false;
 	private boolean sweatered = false;
-	
-	private Ingredient[] temptationItems ;
+
+	private Ingredient[] temptationItems;
 
 	public FrogEntity(EntityType<? extends FrogEntity> type, World worldIn) {
 		this(type, worldIn, 1);
@@ -86,6 +93,7 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 		dataManager.register(TALK_TIME, 0);
 		dataManager.register(SIZE_MODIFIER, 1f);
 		dataManager.register(HAS_SWEATER, false);
+		dataManager.register(VOID, false);
 	}
 
 	@Override
@@ -105,7 +113,8 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 	public static AttributeModifierMap.MutableAttribute prepareAttributes() {
         return MobEntity.func_233666_p_()
                 .func_233815_a_(Attributes.field_233818_a_, 10.0D) // MAX_HEALTH
-                .func_233815_a_(Attributes.field_233821_d_, 0.25D); // MOEVMENT_SPEED
+                .func_233815_a_(Attributes.field_233821_d_, 0.25D) // MOVEMENT_SPEED
+				.func_233814_a_(ForgeMod.ENTITY_GRAVITY.get());
     }
 	
 	@Nonnull
@@ -126,7 +135,7 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 	}
 
 	@Override
-	protected float getStandingEyeHeight(Pose pose, EntitySize size) {
+	protected float getStandingEyeHeight(@Nonnull Pose pose, EntitySize size) {
 		return 0.2f * size.height;
 	}
 
@@ -148,6 +157,8 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 		return calendar.get(Calendar.MONTH) + 1 == 4 && calendar.get(Calendar.DAY_OF_MONTH) == 1;
 	}
 
+
+
 	@Override
 	public void tick() {
 		if(!world.isRemote && !sweatered) {
@@ -160,6 +171,13 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 			this.jumpTicks = 0;
 			this.jumpDuration = 0;
 			this.setJumping(false);
+		}
+
+		if (!isVoid() && hasCustomName() && getPosY() <= 0) {
+			ITextComponent name = getCustomName();
+			if (name != null && name.getUnformattedComponentText().equals("Jack")) {
+				setVoid(true);
+			}
 		}
 
 		super.tick();
@@ -210,7 +228,7 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 
 	@Nullable
 	@Override
-	public ItemEntity entityDropItem(ItemStack stack, float offsetY) {
+	public ItemEntity entityDropItem(@Nonnull ItemStack stack, float offsetY) {
 		if (droppedLegs >= 0) {
 			int count = Math.max(4 - droppedLegs, 0);
 			droppedLegs += stack.getCount();
@@ -231,8 +249,9 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 		return super.entityDropItem(stack, offsetY);
 	}
 
+	@Nonnull
 	@Override // processInteract
-	public ActionResultType func_230254_b_(PlayerEntity player, @Nonnull Hand hand) {
+	public ActionResultType func_230254_b_(@Nonnull PlayerEntity player, @Nonnull Hand hand) {
 		ActionResultType parent = super.func_230254_b_(player, hand);
 		if(parent == ActionResultType.SUCCESS)
 			return parent;
@@ -270,16 +289,17 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 	}
 	
 	@Override
-	public boolean isShearable(ItemStack item, World world, BlockPos pos) {
+	public boolean isShearable(@Nonnull ItemStack item, World world, BlockPos pos) {
 		return hasSweater();
 	}
 	
+	@Nonnull
 	@Override
-	public List<ItemStack> onSheared(PlayerEntity player, ItemStack item, World iworld, BlockPos pos, int fortune) {
+	public List<ItemStack> onSheared(PlayerEntity player, @Nonnull ItemStack item, World iworld, BlockPos pos, int fortune) {
 		setSweater(false);
 		Vector3d epos = getPositionVec();
 		world.playSound(null, epos.x, epos.y, epos.z, SoundEvents.ENTITY_SHEEP_SHEAR, SoundCategory.PLAYERS, 1F, 1F);
-		
+
 		return Lists.newArrayList();
 	}
 
@@ -329,7 +349,7 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 	}
 
 	@Override
-	public void readAdditional(CompoundNBT compound) {
+	public void readAdditional(@Nonnull CompoundNBT compound) {
 		super.readAdditional(compound);
 		spawnCd = compound.getInt("Cooldown");
 		if (compound.contains("Chain"))
@@ -343,10 +363,12 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 		
 		sweatered = compound.getBoolean("SweaterComp");
 		setSweater(compound.getBoolean("Sweater"));
+
+		setVoid(compound.getBoolean("Jack"));
 	}
 
 	@Override
-	public void writeAdditional(CompoundNBT compound) {
+	public void writeAdditional(@Nonnull CompoundNBT compound) {
 		super.writeAdditional(compound);
 		compound.putFloat("FrogAmount", getSizeModifier());
 		compound.putInt("Cooldown", spawnCd);
@@ -355,6 +377,7 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 		compound.putBoolean("FakeFrog", isDuplicate);
 		compound.putBoolean("SweaterComp", sweatered);
 		compound.putBoolean("Sweater", hasSweater());
+		compound.putBoolean("Jack", isVoid());
 	}
 
 	@Override
@@ -363,7 +386,7 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 	}
 
 	@Override
-	protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+	protected SoundEvent getHurtSound(@Nonnull DamageSource damageSourceIn) {
 		return QuarkSounds.ENTITY_FROG_HURT;
 	}
 
@@ -382,6 +405,30 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 	
 	public void setSweater(boolean sweater) {
 		dataManager.set(HAS_SWEATER, sweater);
+	}
+
+	public boolean isVoid() {
+		return dataManager.get(VOID);
+	}
+
+	@Override
+	protected float getJumpUpwardsMotion() {
+		float motion = super.getJumpUpwardsMotion();
+		if (isVoid())
+			return -motion;
+		else
+			return motion;
+	}
+
+	public void setVoid(boolean jack) {
+		if (jack)
+			this.getAttribute(ForgeMod.ENTITY_GRAVITY.get())
+					.func_233769_c_(new AttributeModifier(VOID_MODIFIER_UUID, "Void gravity", -2, AttributeModifier.Operation.MULTIPLY_BASE));
+		else
+			this.getAttribute(ForgeMod.ENTITY_GRAVITY.get())
+					.func_233770_c_(VOID_MODIFIER_UUID);
+
+		dataManager.set(VOID, jack);
 	}
 
 	// Begin copypasta from EntityRabbit
@@ -467,7 +514,9 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 			Vector3d motion = getMotion();
 			double d1 = motion.x * motion.x + motion.z * motion.z;
 
-			if (d1 < 0.01) this.moveRelative(0.1F, new Vector3d(0.0F, 0.0F, 1.0F));
+			if (d1 < 0.01) {
+				this.moveRelative(0.1F, new Vector3d(0.0F, 0.0F, 1.0F));
+			}
 		}
 
 		if (!this.world.isRemote)
