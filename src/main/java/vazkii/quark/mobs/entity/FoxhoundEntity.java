@@ -10,32 +10,13 @@
  */
 package vazkii.quark.mobs.entity;
 
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
-
-import javax.annotation.Nonnull;
-
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.goal.BegGoal;
-import net.minecraft.entity.ai.goal.BreedGoal;
-import net.minecraft.entity.ai.goal.FollowOwnerGoal;
-import net.minecraft.entity.ai.goal.HurtByTargetGoal;
-import net.minecraft.entity.ai.goal.LeapAtTargetGoal;
-import net.minecraft.entity.ai.goal.LookAtGoal;
-import net.minecraft.entity.ai.goal.LookRandomlyGoal;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
-import net.minecraft.entity.ai.goal.NonTamedTargetGoal;
-import net.minecraft.entity.ai.goal.OwnerHurtTargetGoal;
-import net.minecraft.entity.ai.goal.SitGoal;
-import net.minecraft.entity.ai.goal.SwimGoal;
-import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
+import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.monster.AbstractSkeletonEntity;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.AnimalEntity;
@@ -56,25 +37,22 @@ import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.potion.Effects;
 import net.minecraft.tileentity.AbstractFurnaceTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.Hand;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
+import net.minecraft.util.*;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.Difficulty;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.IWorldReader;
-import net.minecraft.world.LightType;
-import net.minecraft.world.World;
+import net.minecraft.world.*;
 import net.minecraftforge.fml.network.NetworkHooks;
 import vazkii.quark.base.handler.MiscUtil;
 import vazkii.quark.mobs.ai.FindPlaceToSleepGoal;
 import vazkii.quark.mobs.ai.SleepGoal;
 import vazkii.quark.mobs.module.FoxhoundModule;
 import vazkii.quark.tweaks.ai.WantLoveGoal;
+
+import javax.annotation.Nonnull;
+import java.util.List;
+import java.util.Random;
+import java.util.UUID;
 
 public class FoxhoundEntity extends WolfEntity implements IMob {
 
@@ -189,10 +167,10 @@ public class FoxhoundEntity extends WolfEntity implements IMob {
 		this.goalSelector.addGoal(3, new SitGoal(this));
 		this.goalSelector.addGoal(4, new LeapAtTargetGoal(this, 0.4F));
 		this.goalSelector.addGoal(5, new MeleeAttackGoal(this, 1.0D, true));
-		this.goalSelector.addGoal(6, new FindPlaceToSleepGoal(this, 0.8D, true));
-		this.goalSelector.addGoal(7, new FindPlaceToSleepGoal(this, 0.8D, false));
-		this.goalSelector.addGoal(8, new FollowOwnerGoal(this, 1.0D, 10.0F, 2.0F, false));
-		this.goalSelector.addGoal(9, new BreedGoal(this, 1.0D));
+		this.goalSelector.addGoal(6, new FollowOwnerGoal(this, 1.0D, 10.0F, 2.0F, false));
+		this.goalSelector.addGoal(7, new BreedGoal(this, 1.0D));
+		this.goalSelector.addGoal(8, new FindPlaceToSleepGoal(this, 0.8D, true));
+		this.goalSelector.addGoal(9, new FindPlaceToSleepGoal(this, 0.8D, false));
 		this.goalSelector.addGoal(10, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
 		this.goalSelector.addGoal(11, new BegGoal(this, 8.0F));
 		this.goalSelector.addGoal(12, new LookAtGoal(this, PlayerEntity.class, 8.0F));
