@@ -421,7 +421,7 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 	}
 
 	public void setVoid(boolean jack) {
-		if (jack)
+		if (jack && this.getAttribute(ForgeMod.ENTITY_GRAVITY.get()).getModifier(VOID_MODIFIER_UUID) == null)
 			this.getAttribute(ForgeMod.ENTITY_GRAVITY.get())
 					.func_233769_c_(new AttributeModifier(VOID_MODIFIER_UUID, "Void gravity", -2, AttributeModifier.Operation.MULTIPLY_BASE));
 		else
