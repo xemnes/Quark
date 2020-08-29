@@ -202,6 +202,9 @@ public class FrogEntity extends AnimalEntity implements IEntityAdditionalSpawnDa
 			}
 		}
 
+		if (isVoid() && getPosY() > 256 + 64)
+			outOfWorld();
+
 		this.prevRotationYaw = this.prevRotationYawHead;
 		this.rotationYaw = this.rotationYawHead;
 	}
