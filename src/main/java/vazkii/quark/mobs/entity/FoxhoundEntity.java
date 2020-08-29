@@ -80,6 +80,11 @@ public class FoxhoundEntity extends WolfEntity implements IMob {
 	}
 
 	@Override
+	public int getMaxSpawnedInChunk() {
+		return 4;
+	}
+
+	@Override
 	public boolean isNoDespawnRequired() {
 		return super.isNoDespawnRequired();
 	}
