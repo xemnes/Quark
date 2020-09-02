@@ -3,6 +3,9 @@
   "ingredients": [
     {
       "item": "minecraft:redstone_lamp"
+    },
+    {
+      "item": "minecraft:redstone_torch"
     }
   ],
   "result": {
