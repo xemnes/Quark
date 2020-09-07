@@ -1543,6 +1543,15 @@
 				"Neapolitan adds Chocolate, Vanilla, and Strawberries. These all come with tons of food types and recipes, including ice cream, milkshakes, cakes, and more!"
 			],
 			"download": "https://www.curseforge.com/minecraft/mc-mods/neapolitan"
+		},
+		{
+			"name": "YUNG's Better Mineshafts",
+			"image": "yungs-better-mineshafts.jpg",
+			"versions": "Friend",
+			"desc": [
+				"YUNG's Better Mineshafts completely revamps vanilla abandoned mineshafts, changing them from boring straight lines into dynamic, varied webs of tunnels."
+			],
+			"download": "https://www.curseforge.com/minecraft/mc-mods/yungs-better-mineshafts-forge"
 		}
 	]
 }
