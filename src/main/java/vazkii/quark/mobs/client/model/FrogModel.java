@@ -1,18 +1,18 @@
 package vazkii.quark.mobs.client.model;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.util.math.MathHelper;
 import vazkii.quark.mobs.entity.FrogEntity;
 
+import javax.annotation.Nonnull;
+
 public class FrogModel extends EntityModel<FrogEntity> {
 
 	private float frogSize;
-	
+
 	public final ModelRenderer headTop;
 	public final ModelRenderer headBottom;
 	public final ModelRenderer body;
@@ -68,17 +68,24 @@ public class FrogModel extends EntityModel<FrogEntity> {
 	@Override
 	public void setRotationAngles(FrogEntity frog, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		frogSize = frog.getSizeModifier();
-		
+
 		rightArm.rotateAngleX = MathHelper.cos(limbSwing * 2 / 3) * 1F * limbSwingAmount;
 		leftArm.rotateAngleX = MathHelper.cos(limbSwing * 2 / 3) * 1F * limbSwingAmount;
 
 		headTop.rotateAngleX = headPitch * (float) Math.PI / 180;
 		rightEye.rotateAngleX = leftEye.rotateAngleX = headTop.rotateAngleX;
 		headBottom.rotateAngleX += headPitch * (float) Math.PI / 180;
+
+		if (frog.isVoid()) {
+			headTop.rotateAngleX *= -1;
+			rightEye.rotateAngleX *= -1;
+			leftEye.rotateAngleX *= -1;
+			headBottom.rotateAngleX *= -1;
+		}
 	}
 
 	@Override
-	public void render(MatrixStack matrix, IVertexBuilder vb, int p_225598_3_, int p_225598_4_, float p_225598_5_, float p_225598_6_, float p_225598_7_, float p_225598_8_) {
+	public void render(MatrixStack matrix, @Nonnull IVertexBuilder vb, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
 		matrix.push();
 		matrix.translate(0, 1.5 - frogSize * 1.5, 0);
 		matrix.scale(frogSize, frogSize, frogSize);
@@ -89,10 +96,10 @@ public class FrogModel extends EntityModel<FrogEntity> {
 			matrix.scale(0.625F, 0.625F, 0.625F);
 		}
 
-		headTop.render(matrix, vb, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
-		headBottom.render(matrix, vb, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
-		rightEye.render(matrix, vb, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
-		leftEye.render(matrix, vb, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
+		headTop.render(matrix, vb, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+		headBottom.render(matrix, vb, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+		rightEye.render(matrix, vb, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+		leftEye.render(matrix, vb, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 
 		if (isChild) {
 			matrix.pop();
@@ -100,9 +107,9 @@ public class FrogModel extends EntityModel<FrogEntity> {
 			matrix.translate(0, 1.5, 0);
 		}
 
-		rightArm.render(matrix, vb, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
-		leftArm.render(matrix, vb, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
-		body.render(matrix, vb, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
+		rightArm.render(matrix, vb, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+		leftArm.render(matrix, vb, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+		body.render(matrix, vb, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 
 		matrix.pop();
 	}
