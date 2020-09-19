@@ -171,7 +171,7 @@ public class StonelingEntity extends CreatureEntity {
 	@Nonnull
 	@Override
 	public ActionResultType applyPlayerInteraction(PlayerEntity player, Vector3d vec, Hand hand) {
-		if(hand == Hand.MAIN_HAND) {
+		if(hand == Hand.MAIN_HAND && isAlive()) {
 			ItemStack playerItem = player.getHeldItem(hand);
 			Vector3d pos = getPositionVec();
 
