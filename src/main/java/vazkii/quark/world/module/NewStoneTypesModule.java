@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.function.BooleanSupplier;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 
 import net.minecraft.block.Block;
@@ -12,8 +13,13 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.tags.ITag;
+import net.minecraft.tags.Tag;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.gen.GenerationStage.Decoration;
 import net.minecraftforge.common.ToolType;
+import net.minecraftforge.event.TagsUpdatedEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import vazkii.quark.base.block.IQuarkBlock;
 import vazkii.quark.base.block.QuarkBlock;
 import vazkii.quark.base.handler.VariantHandler;
 import vazkii.quark.base.module.Config;
@@ -29,11 +35,13 @@ import vazkii.quark.world.config.StoneTypeConfig;
 @LoadModule(category = ModuleCategory.WORLD, hasSubscriptions = true)
 public class NewStoneTypesModule extends Module {
 
-	@Config(flag = "marble") public static boolean enableMarble = true;
-	@Config(flag = "limestone") public static boolean enableLimestone = true;
-	@Config(flag = "jasper") public static boolean enableJasper = true;
-	@Config(flag = "slate") public static boolean enableSlate = true;
-	@Config(flag = "basalt") public static boolean enableVoidstone = true;
+	@Config(flag = "marble") private static boolean enableMarble = true;
+	@Config(flag = "limestone") private static boolean enableLimestone = true;
+	@Config(flag = "jasper") private static boolean enableJasper = true;
+	@Config(flag = "slate") private static boolean enableSlate = true;
+	@Config(flag = "basalt") private static boolean enableVoidstone = true;
+	
+	public static boolean enabledWithMarble, enabledWithLimestone, enabledWithJasper, enabledWithSlate, enabledWithVoidstone;
 	
 	@Config public static StoneTypeConfig marble = new StoneTypeConfig(false);
 	@Config public static StoneTypeConfig limestone = new StoneTypeConfig(false);
@@ -44,7 +52,7 @@ public class NewStoneTypesModule extends Module {
 	public static Block marbleBlock, limestoneBlock, jasperBlock, slateBlock, basaltBlock;
 
 	public static Map<Block, Block> polishedBlocks = Maps.newHashMap();
-//	private static ITag<Block> wgStoneTag = null;
+	private static ITag<Block> wgStoneTag = null;
 	
 	private Queue<Runnable> defers = new ArrayDeque<>();
 	
@@ -78,29 +86,33 @@ public class NewStoneTypesModule extends Module {
 		return normal;
 	}
 	
-// TODO Terraforged support	
-//	@SubscribeEvent
-//	public void tagsLoaded(TagsUpdatedEvent event) {
-//		wgStoneTag = event.getTagManager().getBlocks().get(new ResourceLocation("forge", "wg_stone"));
-//		setTag();
-//	}
-//	
-//	@Override
-//	public void configChanged() {
-//		setTag();
-//	}
-//	
-//	// Terraforged support
-//	private static void setTag() {
-//		if(wgStoneTag != null) {
-//			ImmutableSet.of(jasperBlock, limestoneBlock, marbleBlock, slateBlock).forEach(b -> {
-//				if(((IQuarkBlock) b).isEnabled()) {
-//					wgStoneTag.func_230236_b_().add(b);
-//					wgStoneTag.getEntries().add(new Tag.TagEntry<Block>(b.getRegistryName()));
-//				}
-//			});
-//		}
-//	}
+	@SubscribeEvent
+	public void tagsLoaded(TagsUpdatedEvent event) {
+		wgStoneTag = event.getTagManager().getBlocks().get(new ResourceLocation("forge", "wg_stone"));
+		setTag();
+	}
+	
+	@Override
+	public void configChanged() {
+		setTag();
+		
+		enabledWithMarble = enableMarble;
+		enabledWithLimestone = enableLimestone;
+		enabledWithJasper = enableJasper;
+		enabledWithSlate = enableSlate;
+		enabledWithVoidstone = enableVoidstone;
+	}
+	
+	// Terraforged support
+	private static void setTag() {
+		if(wgStoneTag != null) {
+			ImmutableSet.of(jasperBlock, limestoneBlock, marbleBlock, slateBlock).forEach(b -> {
+				if(((IQuarkBlock) b).isEnabled()) {
+					wgStoneTag.func_230236_b_().add(b); 
+				}
+			});
+		}
+	}
 	
 	@Override
 	public void setup() {

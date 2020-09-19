@@ -53,11 +53,11 @@ public class BigStoneClustersModule extends Module {
 		add(diorite, Blocks.DIORITE, alwaysTrue);
 		add(andesite, Blocks.ANDESITE, alwaysTrue);
 		
-		add(marble, NewStoneTypesModule.marbleBlock, () -> NewStoneTypesModule.enableMarble);
-		add(limestone, NewStoneTypesModule.limestoneBlock, () -> NewStoneTypesModule.enableLimestone);
-		add(jasper, NewStoneTypesModule.jasperBlock, () -> NewStoneTypesModule.enableJasper);
-		add(slate, NewStoneTypesModule.slateBlock, () -> NewStoneTypesModule.enableSlate);
-		add(voidstone, NewStoneTypesModule.basaltBlock, () -> NewStoneTypesModule.enableVoidstone);
+		add(marble, NewStoneTypesModule.marbleBlock, () -> NewStoneTypesModule.enabledWithMarble);
+		add(limestone, NewStoneTypesModule.limestoneBlock, () -> NewStoneTypesModule.enabledWithLimestone);
+		add(jasper, NewStoneTypesModule.jasperBlock, () -> NewStoneTypesModule.enabledWithJasper);
+		add(slate, NewStoneTypesModule.slateBlock, () -> NewStoneTypesModule.enabledWithSlate);
+		add(voidstone, NewStoneTypesModule.basaltBlock, () -> NewStoneTypesModule.enabledWithVoidstone);
 		
 		conditionalize(Blocks.GRANITE, () -> (!enabled || !granite.enabled));
 		conditionalize(Blocks.DIORITE, () -> (!enabled || !diorite.enabled));

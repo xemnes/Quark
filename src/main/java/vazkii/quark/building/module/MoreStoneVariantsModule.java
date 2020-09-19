@@ -33,11 +33,11 @@ public class MoreStoneVariantsModule extends Module {
 		add("diorite", MaterialColor.QUARTZ, _true);
 		add("andesite", MaterialColor.STONE, _true);
 		
-		add("marble", MaterialColor.QUARTZ, () -> ModuleLoader.INSTANCE.isModuleEnabled(NewStoneTypesModule.class) && NewStoneTypesModule.enableMarble);
-		add("limestone", MaterialColor.STONE, () -> ModuleLoader.INSTANCE.isModuleEnabled(NewStoneTypesModule.class) && NewStoneTypesModule.enableLimestone);
-		add("jasper", MaterialColor.RED_TERRACOTTA, () -> ModuleLoader.INSTANCE.isModuleEnabled(NewStoneTypesModule.class) && NewStoneTypesModule.enableJasper);
-		add("slate", MaterialColor.ICE, () -> ModuleLoader.INSTANCE.isModuleEnabled(NewStoneTypesModule.class) && NewStoneTypesModule.enableSlate);
-		add("basalt", MaterialColor.BLACK, () -> ModuleLoader.INSTANCE.isModuleEnabled(NewStoneTypesModule.class) && NewStoneTypesModule.enableVoidstone);
+		add("marble", MaterialColor.QUARTZ, () -> ModuleLoader.INSTANCE.isModuleEnabled(NewStoneTypesModule.class) && NewStoneTypesModule.enabledWithMarble);
+		add("limestone", MaterialColor.STONE, () -> ModuleLoader.INSTANCE.isModuleEnabled(NewStoneTypesModule.class) && NewStoneTypesModule.enabledWithLimestone);
+		add("jasper", MaterialColor.RED_TERRACOTTA, () -> ModuleLoader.INSTANCE.isModuleEnabled(NewStoneTypesModule.class) && NewStoneTypesModule.enabledWithJasper);
+		add("slate", MaterialColor.ICE, () -> ModuleLoader.INSTANCE.isModuleEnabled(NewStoneTypesModule.class) && NewStoneTypesModule.enabledWithSlate);
+		add("basalt", MaterialColor.BLACK, () -> ModuleLoader.INSTANCE.isModuleEnabled(NewStoneTypesModule.class) && NewStoneTypesModule.enabledWithVoidstone);
 	}
 	
 	@Override

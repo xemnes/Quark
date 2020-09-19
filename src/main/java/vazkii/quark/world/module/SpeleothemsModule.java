@@ -39,11 +39,11 @@ public class SpeleothemsModule extends Module {
 		make("diorite", Blocks.DIORITE, false);
 		make("andesite", Blocks.ANDESITE, false);
 		
-		make("marble", NewStoneTypesModule.marbleBlock, false).setCondition(() -> NewStoneTypesModule.enableMarble);
-		make("limestone", NewStoneTypesModule.limestoneBlock, false).setCondition(() -> NewStoneTypesModule.enableLimestone);
-		make("jasper", NewStoneTypesModule.jasperBlock, false).setCondition(() -> NewStoneTypesModule.enableJasper);
-		make("slate", NewStoneTypesModule.slateBlock, false).setCondition(() -> NewStoneTypesModule.enableSlate);
-		make("basalt", NewStoneTypesModule.basaltBlock, false).setCondition(() -> NewStoneTypesModule.enableVoidstone);
+		make("marble", NewStoneTypesModule.marbleBlock, false).setCondition(() -> NewStoneTypesModule.enabledWithMarble);
+		make("limestone", NewStoneTypesModule.limestoneBlock, false).setCondition(() -> NewStoneTypesModule.enabledWithLimestone);
+		make("jasper", NewStoneTypesModule.jasperBlock, false).setCondition(() -> NewStoneTypesModule.enabledWithJasper);
+		make("slate", NewStoneTypesModule.slateBlock, false).setCondition(() -> NewStoneTypesModule.enabledWithSlate);
+		make("basalt", NewStoneTypesModule.basaltBlock, false).setCondition(() -> NewStoneTypesModule.enabledWithVoidstone);
 	}
 	
 	private SpeleothemBlock make(String name, Block parent, boolean nether) {
