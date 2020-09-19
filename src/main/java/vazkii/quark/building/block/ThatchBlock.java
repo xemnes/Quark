@@ -17,7 +17,7 @@ public class ThatchBlock extends QuarkFlammableBlock {
 
 	public ThatchBlock(Module module) {
 		super("thatch", module, ItemGroup.BUILDING_BLOCKS, 300,
-				Block.Properties.create(Material.PLANTS, MaterialColor.YELLOW)
+				Block.Properties.create(Material.ORGANIC, MaterialColor.YELLOW)
 				.harvestTool(ToolType.HOE)
 				.hardnessAndResistance(0.5F)
 				.sound(SoundType.PLANT));

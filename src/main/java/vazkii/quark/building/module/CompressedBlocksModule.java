@@ -74,7 +74,7 @@ public class CompressedBlocksModule extends Module {
 						.func_235861_h_() // needs tool
 		        		.harvestTool(ToolType.PICKAXE)
 						.hardnessAndResistance(5F, 10F)
-						.sound(SoundType.STONE))
+						.sound(SoundType.STONE), true)
 				.setCondition(() -> enableCharcoalBlock);
 		
 		pillar("sugar_cane", MaterialColor.LIME, true, () -> enableSugarCaneBlock, 200);
@@ -98,7 +98,7 @@ public class CompressedBlocksModule extends Module {
 				Block.Properties.create(Material.GLASS, DyeColor.YELLOW)
 				.hardnessAndResistance(0.3F)
 				.sound(SoundType.GLASS)
-				.func_235838_a_(b -> 15)) // light value
+				.func_235838_a_(b -> 15), false) // light value
 		.setCondition(() -> enableBlazeLantern);
 		
 		new QuarkBlock("bonded_leather", this, ItemGroup.BUILDING_BLOCKS, Block.Properties.create(Material.WOOL, DyeColor.ORANGE)
