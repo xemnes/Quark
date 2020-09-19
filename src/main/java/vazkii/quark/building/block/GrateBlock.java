@@ -58,7 +58,7 @@ public class GrateBlock extends QuarkBlock implements IWaterLoggable {
 	private static VoxelShape createNewBox(double stepHeight, double height) {
 		VoxelShape shape = TRUE_SHAPE;
 
-		double steps = Math.min(1, (stepHeight + 0.0625) / height);
+		double steps = Math.max(1, (stepHeight + 0.0625) / height);
 		for (int i = 0; i < steps; i++) {
 			double plateHeight = 17 + i * 16 * height;
 			double extraComponent = stepHeight - i * height;
