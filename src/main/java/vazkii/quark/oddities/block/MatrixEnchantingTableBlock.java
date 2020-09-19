@@ -27,6 +27,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkHooks;
+import vazkii.quark.api.IEnchantmentInfluencer;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.building.block.CandleBlock;
 import vazkii.quark.oddities.module.MatrixEnchantingModule;
@@ -84,24 +85,27 @@ public class MatrixEnchantingTableBlock extends EnchantingTableBlock {
 							if(!(worldIn.isAirBlock(test) || (allowUnderwater && worldIn.getBlockState(test).getBlock() == Blocks.WATER)))
 								break;
 							
-							if(showInfluences && state.getBlock() instanceof CandleBlock) {
-								DyeColor color = ((CandleBlock) state.getBlock()).color;
-								float[] comp = color.getColorComponentValues();
+							if(showInfluences && state.getBlock() instanceof IEnchantmentInfluencer) {
+								DyeColor color = ((IEnchantmentInfluencer) state.getBlock()).getEnchantmentInfluenceColor(worldIn, blockpos, state);
 								
-								int steps = 20;
-								double dx = (double) (pos.getX() - blockpos.getX()) / steps;
-								double dy = (double) (pos.getY() - blockpos.getY()) / steps;
-								double dz = (double) (pos.getZ() - blockpos.getZ()) / steps;
+								if(color != null) {
+									float[] comp = color.getColorComponentValues();
+									
+									int steps = 20;
+									double dx = (double) (pos.getX() - blockpos.getX()) / steps;
+									double dy = (double) (pos.getY() - blockpos.getY()) / steps;
+									double dz = (double) (pos.getZ() - blockpos.getZ()) / steps;
 
-								for(int p = 0; p < steps; p++) {
-									if(rand.nextDouble() < 0.5)
-										continue;
-									
-									double px = blockpos.getX() + 0.5 + dx * p + rand.nextDouble() * 0.2 - 0.1;
-									double py = blockpos.getY() + 0.5 + dy * p + Math.sin((double) p / steps * Math.PI) * 0.5 + rand.nextDouble() * 0.2 - 0.1;
-									double pz = blockpos.getZ() + 0.5 + dz * p + rand.nextDouble() * 0.2 - 0.1;
-									
-									worldIn.addParticle(new RedstoneParticleData(comp[0], comp[1], comp[2], 1F), px, py, pz, 0, 0, 0);
+									for(int p = 0; p < steps; p++) {
+										if(rand.nextDouble() < 0.5)
+											continue;
+										
+										double px = blockpos.getX() + 0.5 + dx * p + rand.nextDouble() * 0.2 - 0.1;
+										double py = blockpos.getY() + 0.5 + dy * p + Math.sin((double) p / steps * Math.PI) * 0.5 + rand.nextDouble() * 0.2 - 0.1;
+										double pz = blockpos.getZ() + 0.5 + dz * p + rand.nextDouble() * 0.2 - 0.1;
+										
+										worldIn.addParticle(new RedstoneParticleData(comp[0], comp[1], comp[2], 1F), px, py, pz, 0, 0, 0);
+									}
 								}
 							}
 

@@ -31,16 +31,17 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import vazkii.quark.api.IEnchantmentInfluencer;
 import vazkii.quark.base.block.QuarkBlock;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.building.module.TallowAndCandlesModule;
 
-public class CandleBlock extends QuarkBlock implements IWaterLoggable {
+public class CandleBlock extends QuarkBlock implements IWaterLoggable, IEnchantmentInfluencer {
 
 	private static final VoxelShape SHAPE = Block.makeCuboidShape(6F, 0F, 6F, 10F, 8F, 10F);
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
-	public final DyeColor color;
+	private final DyeColor color;
 	
 	public CandleBlock(String regname, Module module, DyeColor color) {
 		super(regname, module, ItemGroup.DECORATIONS, 
@@ -52,6 +53,11 @@ public class CandleBlock extends QuarkBlock implements IWaterLoggable {
 		this.color = color;
 		
 		setDefaultState(getDefaultState().with(WATERLOGGED, false));
+	}
+	
+	@Override
+	public DyeColor getEnchantmentInfluenceColor(IBlockReader world, BlockPos pos, BlockState state) {
+		return state.get(WATERLOGGED) ? null : color;
 	}
 	
 	@Override
