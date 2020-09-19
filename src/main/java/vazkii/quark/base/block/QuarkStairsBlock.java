@@ -21,6 +21,7 @@ import vazkii.arl.interf.IBlockColorProvider;
 import vazkii.arl.interf.IItemColorProvider;
 import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.base.handler.RenderLayerHandler;
+import vazkii.quark.base.handler.VariantHandler;
 import vazkii.quark.base.module.Module;
 
 public class QuarkStairsBlock extends StairsBlock implements IQuarkBlock, IBlockColorProvider {
@@ -29,7 +30,7 @@ public class QuarkStairsBlock extends StairsBlock implements IQuarkBlock, IBlock
     private BooleanSupplier enabledSupplier = () -> true;
 
     public QuarkStairsBlock(IQuarkBlock parent) {
-		super(parent.getBlock()::getDefaultState, Block.Properties.from(parent.getBlock()));
+		super(parent.getBlock()::getDefaultState, VariantHandler.realStateCopy(parent));
 		
 		this.parent = parent;
 		RegistryHelper.registerBlock(this, Objects.toString(parent.getBlock().getRegistryName()) + "_stairs");

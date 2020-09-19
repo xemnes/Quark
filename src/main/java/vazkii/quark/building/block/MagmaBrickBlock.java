@@ -11,9 +11,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import vazkii.quark.base.block.QuarkBlock;
+import vazkii.quark.base.handler.VariantHandler.IVariantsShouldBeEmissive;
 import vazkii.quark.base.module.Module;
 
-public class MagmaBrickBlock extends QuarkBlock {
+public class MagmaBrickBlock extends QuarkBlock implements IVariantsShouldBeEmissive {
 
 	public MagmaBrickBlock(Module module) {
 		super("magma_bricks", module, ItemGroup.BUILDING_BLOCKS, 

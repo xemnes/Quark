@@ -6,6 +6,7 @@ import java.util.function.Function;
 
 import com.google.common.base.Functions;
 
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FlowerPotBlock;
@@ -59,5 +60,15 @@ public class VariantHandler {
 		RegistryHelper.registerBlock(potted, "potted_" + name, false);
 		((FlowerPotBlock)Blocks.FLOWER_POT).addPlant(resLoc, () -> potted);
 	}
+	
+	public static AbstractBlock.Properties realStateCopy(IQuarkBlock parent) {
+		AbstractBlock.Properties props = AbstractBlock.Properties.from(parent.getBlock());
+		if(parent instanceof IVariantsShouldBeEmissive)
+			props = props.func_235856_e_((s, r, p) -> true);
+		
+		return props;
+	}
+	
+	public static interface IVariantsShouldBeEmissive {}
 
 }

@@ -21,6 +21,7 @@ import vazkii.arl.interf.IBlockColorProvider;
 import vazkii.arl.interf.IItemColorProvider;
 import vazkii.arl.util.RegistryHelper;
 import vazkii.quark.base.handler.RenderLayerHandler;
+import vazkii.quark.base.handler.VariantHandler;
 import vazkii.quark.base.handler.RenderLayerHandler.RenderTypeSkeleton;
 import vazkii.quark.base.module.Module;
 
@@ -30,7 +31,7 @@ public class QuarkSlabBlock extends SlabBlock implements IQuarkBlock, IBlockColo
 	private BooleanSupplier enabledSupplier = () -> true;
 
 	public QuarkSlabBlock(IQuarkBlock parent) {
-		super(Block.Properties.from(parent.getBlock()));
+		super(VariantHandler.realStateCopy(parent));
 		
 		this.parent = parent;
 		RegistryHelper.registerBlock(this, Objects.toString(parent.getBlock().getRegistryName()) + "_slab");
