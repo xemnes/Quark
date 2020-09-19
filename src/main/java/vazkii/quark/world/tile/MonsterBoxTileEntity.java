@@ -34,17 +34,21 @@ public class MonsterBoxTileEntity extends TileMod implements ITickableTileEntity
 		
 		BlockPos pos = getPos();
 		
-		if(world.isRemote) {
-			int x = pos.getX();
-			int y = pos.getY();
-			int z = pos.getZ();
+		int x = pos.getX();
+		int y = pos.getY();
+		int z = pos.getZ();
+		
+		if(world.isRemote)
 			world.addParticle(breakProgress == 0 ? ParticleTypes.FLAME : ParticleTypes.LARGE_SMOKE, x + Math.random(), y + Math.random(), z + Math.random(), 0, 0, 0);
-		}
 		
 		boolean doBreak = breakProgress > 0;
 		if(!doBreak) {
-			List<PlayerEntity> players = world.getEntitiesWithinAABB(PlayerEntity.class, new AxisAlignedBB(pos).grow(2.5));
-			doBreak = players.size() > 0;
+			List<? extends PlayerEntity> players = world.getPlayers();
+			for(PlayerEntity p : players)
+				if(p.getDistanceSq(x + 0.5, y + 0.5, z + 0.5) < 6.25) {
+					doBreak = true;
+					break;
+				}
 		}
 		
 		if(doBreak) {
