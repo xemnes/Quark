@@ -113,7 +113,7 @@ public class GlowshroomUndergroundBiomeModule extends UndergroundBiomeModule {
 				&& worldIn.getLightFor(LightType.BLOCK, pos) <= 7
 				&& worldIn.getBlockState(testPos).canEntitySpawn(worldIn, testPos, typeIn)
 				&& WorldEntitySpawner.canSpawnAtBody(EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, worldIn, pos, EntityType.ZOMBIE)
-				&& !((World) worldIn).hasNoCollisions(EntityType.ZOMBIE.func_220328_a(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5));
+				&& ((World) worldIn).hasNoCollisions(EntityType.ZOMBIE.func_220328_a(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5));
 	}
 
 	@Override
