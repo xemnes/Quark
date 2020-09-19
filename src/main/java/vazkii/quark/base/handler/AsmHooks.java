@@ -29,6 +29,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.world.IWorld;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -37,6 +38,7 @@ import vazkii.quark.automation.client.render.PistonTileEntityRenderer;
 import vazkii.quark.automation.module.ChainLinkageModule;
 import vazkii.quark.automation.module.FeedingTroughModule;
 import vazkii.quark.automation.module.PistonsMoveTileEntitiesModule;
+import vazkii.quark.building.module.VariantLaddersModule;
 import vazkii.quark.client.tooltip.EnchantedBookTooltips;
 import vazkii.quark.management.entity.ChestPassengerEntity;
 import vazkii.quark.management.module.ItemSharingModule;
@@ -268,4 +270,13 @@ public class AsmHooks {
 	public static boolean getIsFireResistant(boolean vanillaVal, Entity entity) {
 		return PickarangModule.getIsFireResistant(vanillaVal, entity);
 	}
+	
+	// ==========================================================================
+	// Variant Ladders
+	// ==========================================================================
+	
+	public static boolean isTrapdoorLadder(boolean defaultValue, IWorldReader world, BlockPos pos) {
+		return VariantLaddersModule.isTrapdoorLadder(defaultValue, world, pos);
+	}
+	
 }
