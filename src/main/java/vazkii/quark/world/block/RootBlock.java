@@ -56,6 +56,16 @@ public class RootBlock extends VineBlock implements IQuarkBlock, IGrowable {
 	}
 	
 	@Override
+	public boolean isFlammable(BlockState state, IBlockReader world, BlockPos pos, Direction face) {
+		return true;
+	}
+	
+	@Override
+	public int getFlammability(BlockState state, IBlockReader world, BlockPos pos, Direction face) {
+		return 300;
+	}
+	
+	@Override
 	public void tick(BlockState state, ServerWorld worldIn, BlockPos pos, Random random) {
 		if(!worldIn.isRemote && worldIn.rand.nextInt(2) == 0)
 			grow(worldIn, random, pos, state);

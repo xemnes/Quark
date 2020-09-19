@@ -14,7 +14,8 @@ import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemGroup;
 import net.minecraftforge.common.ToolType;
 import vazkii.quark.base.block.QuarkBlock;
-import vazkii.quark.base.block.QuarkPillarBlock;
+import vazkii.quark.base.block.QuarkFlammableBlock;
+import vazkii.quark.base.block.QuarkFlammablePillarBlock;
 import vazkii.quark.base.handler.FuelHandler;
 import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
@@ -76,11 +77,11 @@ public class CompressedBlocksModule extends Module {
 						.sound(SoundType.STONE))
 				.setCondition(() -> enableCharcoalBlock);
 		
-		pillar("sugar_cane", MaterialColor.LIME, true, () -> enableSugarCaneBlock);
-		pillar("bamboo", MaterialColor.YELLOW, true, () -> enableBambooBlock);
-		pillar("cactus", MaterialColor.GREEN, true, () -> enableCactusBlock);
-		pillar("chorus_fruit", MaterialColor.PURPLE, false, () -> enableChorusFruitBlock);
-		stick_block = pillar("stick", MaterialColor.WOOD, false, () -> enableStickBlock);
+		pillar("sugar_cane", MaterialColor.LIME, true, () -> enableSugarCaneBlock, 200);
+		pillar("bamboo", MaterialColor.YELLOW, true, () -> enableBambooBlock, 200);
+		pillar("cactus", MaterialColor.GREEN, true, () -> enableCactusBlock, 50);
+		pillar("chorus_fruit", MaterialColor.PURPLE, false, () -> enableChorusFruitBlock, 10);
+		stick_block = pillar("stick", MaterialColor.WOOD, false, () -> enableStickBlock, 300);
 
 		crate("golden_apple", MaterialColor.GOLD, true, () -> enableGoldenAppleCrate);
 		crate("apple", MaterialColor.RED, true, () -> enableAppleCrate);
@@ -115,14 +116,14 @@ public class CompressedBlocksModule extends Module {
 	public void setup() {
 		for (Block block : compostable)
 			ComposterBlock.CHANCES.put(block.asItem(), 1F);
-		
+			
 		FuelHandler.addFuel(stick_block, stickBlockFuelTime);
 		FuelHandler.addFuel(charcoal_block, charcoalBlockFuelTime);
 		FuelHandler.addFuel(blaze_lantern, blazeLanternFuelTime);
 	}
 
-	private Block pillar(String name, MaterialColor color, boolean compost, BooleanSupplier cond) {
-		Block block = new QuarkPillarBlock(name + "_block", this, ItemGroup.BUILDING_BLOCKS,
+	private Block pillar(String name, MaterialColor color, boolean compost, BooleanSupplier cond, int flammability) {
+		Block block = new QuarkFlammablePillarBlock(name + "_block", this, ItemGroup.BUILDING_BLOCKS, flammability,
 				Block.Properties.create(Material.WOOD, color)
 				.hardnessAndResistance(0.5F)
 				.sound(SoundType.WOOD))
@@ -134,7 +135,7 @@ public class CompressedBlocksModule extends Module {
 	}
 	
 	private Block crate(String name, MaterialColor color, boolean compost, BooleanSupplier cond) {
-		Block block = new QuarkBlock(name + "_crate", this, ItemGroup.DECORATIONS,
+		Block block = new QuarkFlammableBlock(name + "_crate", this, ItemGroup.DECORATIONS, 150,
 				Block.Properties.create(Material.WOOD, color)
 				.hardnessAndResistance(1.5F)
 				.sound(SoundType.WOOD))
@@ -146,7 +147,7 @@ public class CompressedBlocksModule extends Module {
 	}
 
 	private Block sack(String name, MaterialColor color, boolean compost, BooleanSupplier cond) {
-		Block block = new QuarkBlock(name + "_sack", this, ItemGroup.DECORATIONS,
+		Block block = new QuarkFlammableBlock(name + "_sack", this, ItemGroup.DECORATIONS, 150,
 				Block.Properties.create(Material.WOOL, color)
 				.hardnessAndResistance(0.5F)
 				.sound(SoundType.CLOTH))
