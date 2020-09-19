@@ -15,6 +15,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -29,8 +30,10 @@ import net.minecraftforge.client.event.RenderTooltipEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.registries.GameData;
 import vazkii.quark.base.item.QuarkItem;
+import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.client.module.ImprovedTooltipsModule;
 import vazkii.quark.tools.module.AncientTomesModule;
+import vazkii.quark.tweaks.module.InfinityBucketModule;
 
 public class EnchantedBookTooltips {
 
@@ -184,6 +187,9 @@ public class EnchantedBookTooltips {
 
 		if(getAdditionalStacks().containsKey(e))
 			list.addAll(getAdditionalStacks().get(e));
+		
+		if(e == Enchantments.INFINITY && ModuleLoader.INSTANCE.isModuleEnabled(InfinityBucketModule.class))
+			list.add(new ItemStack(Items.WATER_BUCKET));
 
 		return list;
 	}
