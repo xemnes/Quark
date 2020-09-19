@@ -3,7 +3,6 @@ package vazkii.quark.world.module;
 import java.util.List;
 import java.util.function.BiPredicate;
 import java.util.function.BooleanSupplier;
-import java.util.function.Predicate;
 
 import com.google.common.base.Predicates;
 import com.google.common.collect.Lists;
@@ -11,6 +10,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.GenerationStage.Decoration;
 import net.minecraft.world.gen.feature.Feature;
@@ -40,11 +40,14 @@ public class BigStoneClustersModule extends Module {
 	@Config public static BigStoneClusterConfig slate = new BigStoneClusterConfig(Type.COLD);
 	@Config public static BigStoneClusterConfig voidstone = new BigStoneClusterConfig(DimensionConfig.end(false), 19, 6, 20, 0, 40, Type.END);
 	
-	@Config public static List<String> blocksToReplace = Lists.newArrayList(
-			"minecraft:stone", "minecraft:andesite", "minecraft:diorite", "minecraft:granite", "minecraft:netherrack", "minecraft:end_stone",
+	@Config(description = "Blocks that stone clusters can replace. If you want to make it so it only replaces in one dimension,\n"
+			+ "do \"block|dimension\", as we do for netherrack and end stone by default.") 
+	public static List<String> blocksToReplace = Lists.newArrayList(
+			"minecraft:stone", "minecraft:andesite", "minecraft:diorite", "minecraft:granite",
+			"minecraft:netherrack|minecraft:the_nether", "minecraft:end_stone|minecraft:the_end",
 			"quark:marble", "quark:limestone", "quark:jasper", "quark:slate", "quark:basalt");
 	
-	public static Predicate<Block> blockReplacePredicate = Predicates.alwaysFalse();
+	public static BiPredicate<World, Block> blockReplacePredicate = (w, b) -> false;
 	
 	@Override
 	public void setup() {
@@ -83,11 +86,35 @@ public class BigStoneClustersModule extends Module {
 	
 	@Override
 	public void configChanged() {
-		blockReplacePredicate = Predicates.alwaysFalse();
+		blockReplacePredicate = (b, w) -> false;
+		
 		for(String s : blocksToReplace) {
-			Block b = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(s));
-			if(b != null && b != Blocks.AIR)
-				blockReplacePredicate = blockReplacePredicate.or(Predicates.equalTo(b));
+			String bname = s;
+			String dimension = null;
+			
+			if(bname.contains("|")) {
+				String[] toks = bname.split("\\|");
+				bname = toks[0];
+				dimension = toks[1];
+			}
+			
+			String dimFinal = dimension;
+			Block blockObj = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(bname));
+			
+			if(blockObj != null && blockObj != Blocks.AIR) {
+				if(dimension == null)
+					blockReplacePredicate = blockReplacePredicate.or((w, b) -> blockObj == b);
+				else {
+					blockReplacePredicate = blockReplacePredicate.or((w, b) -> {
+						if(blockObj != b)
+							return false;
+						if(w == null)
+							return false;
+
+						return ((World) w).func_234923_W_().func_240901_a_().toString().equals(dimFinal);
+					});
+				}
+			}
 		}
 	}
 	

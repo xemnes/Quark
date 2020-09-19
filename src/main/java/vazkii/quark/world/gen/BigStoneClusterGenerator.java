@@ -59,7 +59,7 @@ public class BigStoneClusterGenerator extends ClusterBasedGenerator {
 	}
 	
 	private boolean canPlaceBlock(IWorld world, BlockPos pos) {
-		return BigStoneClustersModule.blockReplacePredicate.test(world.getBlockState(pos).getBlock());
+		return BigStoneClustersModule.blockReplacePredicate.test(world.getWorld(), world.getBlockState(pos).getBlock());
 	}
 	
 }
