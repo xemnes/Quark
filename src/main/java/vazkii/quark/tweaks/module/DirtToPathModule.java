@@ -27,6 +27,10 @@ public class DirtToPathModule extends Module {
 
 	@SubscribeEvent
 	public void onRightClick(PlayerInteractEvent.RightClickBlock event) {
+		doTheShovelThingHomie(event, Blocks.DIRT, Blocks.GRASS_PATH);
+	}
+	
+	public static void doTheShovelThingHomie(PlayerInteractEvent.RightClickBlock event, Block target, Block result) {
 		PlayerEntity player = event.getPlayer();
 		BlockPos pos = event.getPos();
 		Direction facing = event.getFace();
@@ -41,8 +45,8 @@ public class DirtToPathModule extends Module {
 		if(facing != null && player.canPlayerEdit(pos.offset(facing), facing, itemstack)) {
 			Block block = state.getBlock();
 
-			if(facing != Direction.DOWN && world.getBlockState(pos.up()).getMaterial() == Material.AIR && block == Blocks.DIRT) {
-				BlockState pathState = Blocks.GRASS_PATH.getDefaultState();
+			if(facing != Direction.DOWN && world.getBlockState(pos.up()).getMaterial() == Material.AIR && block == target) {
+				BlockState pathState = result.getDefaultState();
 				world.playSound(player, pos, SoundEvents.ITEM_SHOVEL_FLATTEN, SoundCategory.BLOCKS, 1.0F, 1.0F);
 
 				if(!world.isRemote) {
