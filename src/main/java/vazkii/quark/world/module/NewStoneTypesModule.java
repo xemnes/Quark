@@ -96,11 +96,11 @@ public class NewStoneTypesModule extends Module {
 	public void configChanged() {
 		setTag();
 		
-		enabledWithMarble = enableMarble;
-		enabledWithLimestone = enableLimestone;
-		enabledWithJasper = enableJasper;
-		enabledWithSlate = enableSlate;
-		enabledWithVoidstone = enableVoidstone;
+		enabledWithMarble = enableMarble && this.enabled;
+		enabledWithLimestone = enableLimestone && this.enabled;
+		enabledWithJasper = enableJasper && this.enabled;
+		enabledWithSlate = enableSlate && this.enabled;
+		enabledWithVoidstone = enableVoidstone && this.enabled;
 	}
 	
 	// Terraforged support
