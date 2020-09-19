@@ -21,6 +21,7 @@ import vazkii.quark.base.module.ModuleCategory;
 import vazkii.quark.base.world.EntitySpawnHandler;
 import vazkii.quark.base.world.config.BiomeTypeConfig;
 import vazkii.quark.base.world.config.EntitySpawnConfig;
+import vazkii.quark.base.world.config.StrictBiomeConfig;
 import vazkii.quark.mobs.client.render.FoxhoundRenderer;
 import vazkii.quark.mobs.entity.CrabEntity;
 import vazkii.quark.mobs.entity.FoxhoundEntity;
@@ -38,8 +39,8 @@ public class FoxhoundModule extends Module {
 	public static double tameChance = 0.05;
 
 	@Config
-	public static EntitySpawnConfig spawnConfig = new EntitySpawnConfig(30, 1, 2, new BiomeTypeConfig(false, Type.NETHER));
-
+	public static EntitySpawnConfig spawnConfig = new EntitySpawnConfig(30, 1, 2, new StrictBiomeConfig(false, "minecraft:nether_wastes", "minecraft:basalt_deltas"));
+	
 	@Override
 	public void construct() {
 		foxhoundType = EntityType.Builder.create(FoxhoundEntity::new, EntityClassification.CREATURE)

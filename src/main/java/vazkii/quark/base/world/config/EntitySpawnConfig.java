@@ -21,9 +21,9 @@ public class EntitySpawnConfig implements IConfigType {
 	public int maxGroupSize = 3;
 	
 	@Config
-	public BiomeTypeConfig biomes;
+	public IBiomeConfig biomes;
 
-	public EntitySpawnConfig(int spawnWeight, int minGroupSize, int maxGroupSize, BiomeTypeConfig biomes) {
+	public EntitySpawnConfig(int spawnWeight, int minGroupSize, int maxGroupSize, IBiomeConfig biomes) {
 		this.spawnWeight = spawnWeight;
 		this.minGroupSize = minGroupSize;
 		this.maxGroupSize = maxGroupSize;

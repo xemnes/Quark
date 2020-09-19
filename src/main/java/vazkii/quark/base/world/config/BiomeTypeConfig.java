@@ -11,7 +11,7 @@ import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.ConfigFlagManager;
 import vazkii.quark.base.module.IConfigType;
 
-public class BiomeTypeConfig implements IConfigType {
+public class BiomeTypeConfig implements IBiomeConfig {
 
 	@Config(name = "Biome Types")
 	@Config.Restriction({"HOT", "COLD", "SPARSE", "DENSE", "WET", "SAVANNA", "CONIFEROUS", "JUNGLE", "SPOOKY", "DEAD",
@@ -39,6 +39,7 @@ public class BiomeTypeConfig implements IConfigType {
 		typeStrings.addAll(Arrays.asList(types));
 	}
 	
+	@Override
 	public boolean canSpawn(Biome b) {
 		if (types == null)
 			updateTypes();
