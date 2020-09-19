@@ -87,20 +87,19 @@ public class GoVoteHandler {
 			return;
 		}
 
-//		new Thread(() -> {
-//			try {
-//				URL url = new URL("http://ip-api.com/json/");
-//				URLConnection conn = url.openConnection();
-//				conn.setConnectTimeout(4000);
-//				conn.setReadTimeout(4000);
-//				try (InputStreamReader reader = new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8)) {
-//					Type typeToken = new TypeToken<Map<String, String>>() {}.getType();
-//					Map<String, String> map = new Gson().fromJson(reader, typeToken);
-//					countryCode = map.get("countryCode");
-//				}
-//			} catch (IOException ignored) {}
-//		}, "Go Vote Country Check").start();
-		countryCode = "US";
+		new Thread(() -> {
+			try {
+				URL url = new URL("http://ip-api.com/json/");
+				URLConnection conn = url.openConnection();
+				conn.setConnectTimeout(4000);
+				conn.setReadTimeout(4000);
+				try (InputStreamReader reader = new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8)) {
+					Type typeToken = new TypeToken<Map<String, String>>() {}.getType();
+					Map<String, String> map = new Gson().fromJson(reader, typeToken);
+					countryCode = map.get("countryCode");
+				}
+			} catch (IOException ignored) {}
+		}, "Go Vote Country Check").start();
 	}
 
 	private static boolean isAfterElectionDay() {
