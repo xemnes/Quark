@@ -5,8 +5,11 @@ import java.util.function.BooleanSupplier;
 
 import javax.annotation.Nullable;
 
+import com.google.common.base.Predicates;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.LeavesBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -34,7 +37,10 @@ public class BlossomLeavesBlock extends LeavesBlock implements IQuarkBlock {
 				.tickRandomly()
 				.sound(SoundType.PLANT)
 				.harvestTool(ToolType.HOE)
-				.notSolid());
+				.notSolid()
+				.func_235827_a_((s, r, p, t) -> false)
+				.func_235842_b_((s, r, p) -> false)
+				.func_235847_c_((s, r, p) -> false));
 		
 		this.module = module;
 
