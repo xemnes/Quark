@@ -12,8 +12,12 @@ public class StoneTypeConfig implements IConfigType {
 	@Config
 	public OrePocketConfig oregen = new OrePocketConfig(0, 256, 33, 10);
 
-	public StoneTypeConfig(boolean nether) {
-		dimensions = nether ? DimensionConfig.nether(false) : DimensionConfig.overworld(false);
+	public StoneTypeConfig(DimensionConfig config) {
+		dimensions = config;
+	}
+	
+	public StoneTypeConfig() {
+		this(DimensionConfig.overworld(false));
 	}
 
 }

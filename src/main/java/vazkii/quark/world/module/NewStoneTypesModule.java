@@ -28,6 +28,7 @@ import vazkii.quark.base.module.Module;
 import vazkii.quark.base.module.ModuleCategory;
 import vazkii.quark.base.world.WorldGenHandler;
 import vazkii.quark.base.world.WorldGenWeights;
+import vazkii.quark.base.world.config.DimensionConfig;
 import vazkii.quark.base.world.generator.OreGenerator;
 import vazkii.quark.world.config.BigStoneClusterConfig;
 import vazkii.quark.world.config.StoneTypeConfig;
@@ -43,11 +44,11 @@ public class NewStoneTypesModule extends Module {
 	
 	public static boolean enabledWithMarble, enabledWithLimestone, enabledWithJasper, enabledWithSlate, enabledWithVoidstone;
 	
-	@Config public static StoneTypeConfig marble = new StoneTypeConfig(false);
-	@Config public static StoneTypeConfig limestone = new StoneTypeConfig(false);
-	@Config public static StoneTypeConfig jasper = new StoneTypeConfig(false);
-	@Config public static StoneTypeConfig slate = new StoneTypeConfig(false);
-	@Config public static StoneTypeConfig voidstone = new StoneTypeConfig(true);
+	@Config public static StoneTypeConfig marble = new StoneTypeConfig();
+	@Config public static StoneTypeConfig limestone = new StoneTypeConfig();
+	@Config public static StoneTypeConfig jasper = new StoneTypeConfig();
+	@Config public static StoneTypeConfig slate = new StoneTypeConfig();
+	@Config public static StoneTypeConfig voidstone = new StoneTypeConfig(DimensionConfig.end(false));
 	
 	public static Block marbleBlock, limestoneBlock, jasperBlock, slateBlock, basaltBlock;
 
