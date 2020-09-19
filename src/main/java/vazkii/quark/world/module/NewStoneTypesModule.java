@@ -52,7 +52,6 @@ public class NewStoneTypesModule extends Module {
 	public static Block marbleBlock, limestoneBlock, jasperBlock, slateBlock, basaltBlock;
 
 	public static Map<Block, Block> polishedBlocks = Maps.newHashMap();
-	private static ITag<Block> wgStoneTag = null;
 	
 	private Queue<Runnable> defers = new ArrayDeque<>();
 	
@@ -86,32 +85,13 @@ public class NewStoneTypesModule extends Module {
 		return normal;
 	}
 	
-	@SubscribeEvent
-	public void tagsLoaded(TagsUpdatedEvent event) {
-		wgStoneTag = event.getTagManager().getBlocks().get(new ResourceLocation("forge", "wg_stone"));
-		setTag();
-	}
-	
 	@Override
 	public void configChanged() {
-		setTag();
-		
 		enabledWithMarble = enableMarble && this.enabled;
 		enabledWithLimestone = enableLimestone && this.enabled;
 		enabledWithJasper = enableJasper && this.enabled;
 		enabledWithSlate = enableSlate && this.enabled;
 		enabledWithVoidstone = enableVoidstone && this.enabled;
-	}
-	
-	// Terraforged support
-	private static void setTag() {
-		if(wgStoneTag != null) {
-			ImmutableSet.of(jasperBlock, limestoneBlock, marbleBlock, slateBlock).forEach(b -> {
-				if(((IQuarkBlock) b).isEnabled()) {
-					wgStoneTag.func_230236_b_().add(b); 
-				}
-			});
-		}
 	}
 	
 	@Override
