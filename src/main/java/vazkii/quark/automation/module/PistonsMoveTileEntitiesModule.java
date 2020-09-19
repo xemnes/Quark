@@ -198,7 +198,7 @@ public class PistonsMoveTileEntitiesModule extends Module {
 			if (hasCallback(tile))
 				getCallback(tile).onPistonMovementFinished();
 
-			tile.setPos(pos);
+			tile.setWorldAndPos(world, pos);
 			tile.validate();
 		}
 
