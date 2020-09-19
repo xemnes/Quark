@@ -18,7 +18,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
-import net.minecraftforge.common.Tags;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import vazkii.quark.base.handler.MiscUtil;
@@ -56,7 +55,16 @@ public class ReplaceScaffoldingModule extends Module {
 					
 					BlockState stateToPlace = block.getStateForPlacement(bcontext);
 					if(stateToPlace != null && stateToPlace.isValidPosition(world, last)) {
+						BlockState currState = world.getBlockState(last);
 						world.setBlockState(last, stateToPlace);
+						
+						BlockPos testUp = last.up();
+						BlockState testUpState = world.getBlockState(testUp);
+						if(testUpState.getBlock() == Blocks.SCAFFOLDING && !stateToPlace.isSolidSide(world, last, Direction.UP)) {
+							world.setBlockState(last, currState);
+							return;
+						}
+						
 						world.playSound(player, last, stateToPlace.getSoundType().getPlaceSound(), SoundCategory.BLOCKS, 1F, 1F);
 						
 						if(!player.isCreative()) {
