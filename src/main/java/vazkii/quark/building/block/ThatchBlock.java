@@ -8,6 +8,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ToolType;
 import vazkii.quark.base.block.QuarkBlock;
 import vazkii.quark.base.module.Module;
 import vazkii.quark.building.module.ThatchModule;
@@ -17,6 +18,7 @@ public class ThatchBlock extends QuarkBlock {
 	public ThatchBlock(Module module) {
 		super("thatch", module, ItemGroup.BUILDING_BLOCKS, 
 				Block.Properties.create(Material.PLANTS, MaterialColor.YELLOW)
+				.harvestTool(ToolType.HOE)
 				.hardnessAndResistance(0.5F)
 				.sound(SoundType.PLANT));
 	}
