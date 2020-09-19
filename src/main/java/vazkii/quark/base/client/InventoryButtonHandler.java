@@ -48,7 +48,7 @@ public final class InventoryButtonHandler {
 			Minecraft mc = Minecraft.getInstance();
 			ContainerScreen<?> screen = (ContainerScreen<?>) event.getGui();
 
-			if(screen instanceof InventoryScreen)
+			if(screen instanceof InventoryScreen || screen.getClass().getName().contains("CuriosScreen"))
 				applyProviders(event, ButtonTargetType.PLAYER_INVENTORY, screen, s -> s.inventory == mc.player.inventory && s.getSlotIndex() == 17);
 			else {
 				if(InventoryTransferHandler.accepts(screen.getContainer(), mc.player)) { 
