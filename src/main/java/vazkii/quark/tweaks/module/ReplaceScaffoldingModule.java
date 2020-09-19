@@ -9,6 +9,7 @@ import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
 import net.minecraft.item.Items;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
@@ -17,6 +18,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import vazkii.quark.base.handler.MiscUtil;
@@ -46,7 +48,7 @@ public class ReplaceScaffoldingModule extends Module {
 				BlockItem bitem = (BlockItem) stack.getItem();
 				Block block = bitem.getBlock();
 				
-				if(block != Blocks.SCAFFOLDING) {
+				if(block != Blocks.SCAFFOLDING && !bitem.isIn(ItemTags.BEDS)) {
 					BlockPos last = getLastInLine(world, pos, dir);
 					
 					ItemUseContext context = new ItemUseContext(player, hand, new BlockRayTraceResult(new Vector3d(0.5F, 1F, 0.5F), dir, last, false));
