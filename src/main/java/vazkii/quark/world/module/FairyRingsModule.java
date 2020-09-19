@@ -19,7 +19,7 @@ import vazkii.quark.base.world.WorldGenWeights;
 import vazkii.quark.base.world.config.DimensionConfig;
 import vazkii.quark.world.gen.FairyRingGenerator;
 
-@LoadModule(category = ModuleCategory.BUILDING)
+@LoadModule(category = ModuleCategory.WORLD)
 public class FairyRingsModule extends Module {
 
 	@Config public static double forestChance = 0.00625;
