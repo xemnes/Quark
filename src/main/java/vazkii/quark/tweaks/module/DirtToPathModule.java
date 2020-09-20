@@ -27,10 +27,10 @@ public class DirtToPathModule extends Module {
 
 	@SubscribeEvent
 	public void onRightClick(PlayerInteractEvent.RightClickBlock event) {
-		doTheShovelThingHomie(event, Blocks.DIRT, Blocks.GRASS_PATH);
+		doTheShovelThingHomie(event, ToolType.SHOVEL, Blocks.DIRT, Blocks.GRASS_PATH);
 	}
 	
-	public static void doTheShovelThingHomie(PlayerInteractEvent.RightClickBlock event, Block target, Block result) {
+	public static void doTheShovelThingHomie(PlayerInteractEvent.RightClickBlock event, ToolType tool, Block target, Block result) {
 		PlayerEntity player = event.getPlayer();
 		BlockPos pos = event.getPos();
 		Direction facing = event.getFace();
@@ -39,7 +39,7 @@ public class DirtToPathModule extends Module {
 		ItemStack itemstack = player.getHeldItem(hand);
 		BlockState state = world.getBlockState(pos);
 
-		if(itemstack.getItem() instanceof PickarangItem || !itemstack.getItem().getToolTypes(itemstack).contains(ToolType.SHOVEL) && itemstack.getDestroySpeed(state) > 0)
+		if(itemstack.getItem() instanceof PickarangItem || !itemstack.getItem().getToolTypes(itemstack).contains(tool) && itemstack.getDestroySpeed(state) > 0)
 			return;
 
 		if(facing != null && player.canPlayerEdit(pos.offset(facing), facing, itemstack)) {

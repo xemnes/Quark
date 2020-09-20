@@ -2,6 +2,7 @@ package vazkii.quark.building.module;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraftforge.common.ToolType;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import vazkii.quark.base.module.LoadModule;
@@ -22,7 +23,7 @@ public class ShallowDirtModule extends Module {
 	
 	@SubscribeEvent
 	public void onRightClick(PlayerInteractEvent.RightClickBlock event) {
-		DirtToPathModule.doTheShovelThingHomie(event, Blocks.GRASS_PATH, shallow_dirt);
+		DirtToPathModule.doTheShovelThingHomie(event, ToolType.HOE, Blocks.GRASS_PATH, shallow_dirt);
 	}
 
 }
