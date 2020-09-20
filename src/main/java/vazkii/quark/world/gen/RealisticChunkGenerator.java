@@ -7,9 +7,12 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.provider.BiomeProvider;
 import net.minecraft.world.biome.provider.EndBiomeProvider;
+import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.DimensionSettings;
 import net.minecraft.world.gen.NoiseChunkGenerator;
 import net.minecraft.world.gen.settings.NoiseSettings;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class RealisticChunkGenerator extends NoiseChunkGenerator {
 	public static final Codec<RealisticChunkGenerator> CODEC = RecordCodecBuilder.create((instance) -> instance.group(
@@ -22,6 +25,17 @@ public class RealisticChunkGenerator extends NoiseChunkGenerator {
 	public RealisticChunkGenerator(BiomeProvider biomeProvider, long seed, DimensionSettings settings) {
 		super(biomeProvider, seed, settings);
 		this.seed = seed;
+	}
+
+	@Override
+	protected Codec<? extends ChunkGenerator> func_230347_a_() {
+		return CODEC;
+	}
+
+	@Override
+	@OnlyIn(Dist.CLIENT)
+	public ChunkGenerator func_230349_a_(long p_230349_1_) {
+		return new RealisticChunkGenerator(this.biomeProvider.func_230320_a_(p_230349_1_), p_230349_1_, this.field_236080_h_);
 	}
 
 	@Override
