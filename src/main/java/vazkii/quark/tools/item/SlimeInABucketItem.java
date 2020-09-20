@@ -48,7 +48,7 @@ public class SlimeInABucketItem extends QuarkItem {
 		if(world instanceof ServerWorld) {
 			Vector3d pos = entity.getPositionVec();
 			int x = MathHelper.floor(pos.x);
-			int z = MathHelper.floor(pos.x);
+			int z = MathHelper.floor(pos.z);
 			boolean slime = isSlimeChunk((ServerWorld) world, x, z);
 			boolean excited = ItemNBTHelper.getBoolean(stack, TAG_EXCITED, false);
 			if(excited != slime)
