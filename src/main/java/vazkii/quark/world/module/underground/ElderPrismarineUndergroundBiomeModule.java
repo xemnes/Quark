@@ -12,6 +12,7 @@ import vazkii.quark.base.handler.VariantHandler;
 import vazkii.quark.base.module.Config;
 import vazkii.quark.base.module.LoadModule;
 import vazkii.quark.base.module.ModuleCategory;
+import vazkii.quark.world.block.ElderPrismarineBlock;
 import vazkii.quark.world.config.UndergroundBiomeConfig;
 import vazkii.quark.world.gen.underground.ElderPrismarineUndergroundBiome;
 
@@ -33,7 +34,7 @@ public class ElderPrismarineUndergroundBiomeModule extends UndergroundBiomeModul
 
     @Override
 	public void construct() {
-		elder_prismarine = new QuarkBlock("elder_prismarine", this, ItemGroup.BUILDING_BLOCKS, 
+		elder_prismarine = new ElderPrismarineBlock("elder_prismarine", this, ItemGroup.BUILDING_BLOCKS, 
 				Block.Properties.create(Material.ROCK, MaterialColor.ADOBE)
 				.func_235861_h_() // needs tool
         		.harvestTool(ToolType.PICKAXE)
@@ -41,8 +42,8 @@ public class ElderPrismarineUndergroundBiomeModule extends UndergroundBiomeModul
 				.sound(SoundType.STONE));
 		
 		VariantHandler.addSlabStairsWall(elder_prismarine);
-		VariantHandler.addSlabAndStairs(new QuarkBlock("elder_prismarine_bricks", this, ItemGroup.BUILDING_BLOCKS, Block.Properties.from(elder_prismarine)));
-		VariantHandler.addSlabAndStairs(new QuarkBlock("dark_elder_prismarine", this, ItemGroup.BUILDING_BLOCKS, Block.Properties.from(elder_prismarine)));
+		VariantHandler.addSlabAndStairs(new ElderPrismarineBlock("elder_prismarine_bricks", this, ItemGroup.BUILDING_BLOCKS, Block.Properties.from(elder_prismarine)));
+		VariantHandler.addSlabAndStairs(new ElderPrismarineBlock("dark_elder_prismarine", this, ItemGroup.BUILDING_BLOCKS, Block.Properties.from(elder_prismarine)));
 		
 		elder_sea_lantern = new QuarkBlock("elder_sea_lantern", this, ItemGroup.BUILDING_BLOCKS, 
 				Block.Properties.create(Material.GLASS, MaterialColor.ADOBE)
