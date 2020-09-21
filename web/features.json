@@ -411,12 +411,21 @@
 			"desc": [
 				"Gold Bars are just like Iron Bars, but with gold! They look great for nether builds."
 			]
+		},
+		{
+			"name": "Shallow Dirt",
+			"image": "shallow-dirt.jpg",
+			"versions": "1.16+",
+			"desc": [
+				"Right clicking with a Hoe on a Path block creates a new Shallow Dirt block. This block has the same texture as dirt, and is 14 pixels high, as opposed to Path, which is 15 pixels high.",
+				"Additionally, and perhaps more importantly, Shallow Dirt can be waterlogged, to create a cool puddle effect, as you can see in the image."
+			]
 		}
 	],
 	"client": [
 		{
-			"name": "Chest Searching"
-,			"image": "chest-searching.jpg",
+			"name": "Chest Searching",			
+			"image": "chest-searching.jpg",
 			"versions": "1.14+",
 			"desc": [
 				"A filter button will now appear on the top right of chests you open. When you click it, a tab with a search bar will pop up, where you can type and filter items in the chest by your query. Items that don't match will be darkened.",
@@ -943,6 +952,14 @@
                 "Right clicking on a Scaffold with a block will attempt to place the block at the end of the Scaffold chain. By default it'll turn direction once, so it can build blocks horizontally if you extend scaffolds that way.",
                 "If you wish to use the default behaviour of placing blocks on the scaffold, you can still do it with shift-right click."
             ]
+		},
+		{
+			"name": "Infinity Water Bucket",
+			"image": "infinity-water-bucket.jpg",
+			"versions": "1.16+",
+            "desc": [
+                "Water Buckets can now be given Infinity through an Anvil. When enchanted like this, if they ever cease to be a water bucket (whether they catch a fish or release the water), they'll immediately revert back to a normal, full, water bucket."
+            ]
 		}
 	],
 	"world": [
@@ -1391,15 +1408,6 @@
 			],
 			"download": "https://www.curseforge.com/minecraft/mc-mods/incubation"
    		},
-		{
-			"name": "Respawnable Pets",
-			"image": "respawnable-pets.jpg",
-			"versions": "Friend",
-			"desc": [
-				"Respawnable Pets is a simple mod that allows your pets to respawn after death when you next sleep using a new item, the Etheric Gem."
-			],
-			"download": "https://www.curseforge.com/minecraft/mc-mods/respawnable-pets"
-		},
 		{
 			"name": "V-Tweaks",
 			"image": "vtweaks.jpg",
