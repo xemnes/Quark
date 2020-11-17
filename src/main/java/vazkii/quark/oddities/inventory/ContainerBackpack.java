@@ -1,5 +1,6 @@
 package vazkii.quark.oddities.inventory;
 
+import baubles.api.BaublesApi;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.*;
@@ -23,8 +24,12 @@ public class ContainerBackpack extends ContainerPlayer {
 		int left = anchor.xPos;
 		int top = anchor.yPos - 58;
 		
-		ItemStack backpack = player.inventory.armorInventory.get(2);
-		if(backpack.getItem() == Backpacks.backpack) {
+		ItemStack backpack = BaublesApi.getBaublesHandler(player).getStackInSlot(5);
+
+		if (backpack.getItem() != Backpacks.backpack)
+			backpack = null;
+
+		if(backpack != null) {
 			InventoryIIH inv = new InventoryIIH(backpack);
 			
 			for(int i = 0; i < 3; ++i)

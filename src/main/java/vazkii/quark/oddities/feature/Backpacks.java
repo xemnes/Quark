@@ -1,17 +1,15 @@
 package vazkii.quark.oddities.feature;
 
+import baubles.api.BaublesApi;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IMerchant;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Enchantments;
 import net.minecraft.init.Items;
-import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.village.MerchantRecipe;
@@ -30,6 +28,7 @@ import vazkii.arl.network.NetworkHandler;
 import vazkii.arl.recipe.RecipeHandler;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.network.message.MessageHandleBackpack;
+import vazkii.quark.oddities.RecipesBackpackDyes;
 import vazkii.quark.oddities.client.gui.GuiBackpackInventory;
 import vazkii.quark.oddities.item.ItemBackpack;
 
@@ -38,7 +37,7 @@ import java.util.Random;
 
 public class Backpacks extends Feature {
 
-	public static Item backpack;
+	public static ItemBackpack backpack;
 	
 	public static boolean superOpMode, enableTrades, enableCrafting;
 
@@ -66,6 +65,8 @@ public class Backpacks extends Feature {
 					"LLL", "LCL", "LLL",
 					'L', new ItemStack(Items.LEATHER),
 					'C', "chestWood");
+		
+		new RecipesBackpackDyes();
 	}
 	
 	@SubscribeEvent
@@ -123,20 +124,18 @@ public class Backpacks extends Feature {
 	}
 	
 	public static boolean isEntityWearingBackpack(Entity e) {
-		if(e instanceof EntityLivingBase) {
-			EntityLivingBase living = (EntityLivingBase) e;
-			ItemStack chestArmor = living.getItemStackFromSlot(EntityEquipmentSlot.CHEST);
-			return chestArmor.getItem() instanceof ItemBackpack;
+		if(e instanceof EntityPlayer) {
+			EntityPlayer player = (EntityPlayer) e;
+			return BaublesApi.isBaubleEquipped(player, backpack) == 5;
 		}
 		
 		return false;
 	}
 	
 	public static boolean isEntityWearingBackpack(Entity e, ItemStack stack) {
-		if(e instanceof EntityLivingBase) {
-			EntityLivingBase living = (EntityLivingBase) e;
-			ItemStack chestArmor = living.getItemStackFromSlot(EntityEquipmentSlot.CHEST);
-			return chestArmor == stack;
+		if(e instanceof EntityPlayer) {
+			EntityPlayer player = (EntityPlayer) e;
+			return BaublesApi.isBaubleEquipped(player, stack.getItem()) == 5;
 		}
 		
 		return false;

@@ -12,6 +12,7 @@ package vazkii.quark.management.client.gui;
 
 import com.google.common.collect.BiMap;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
@@ -84,16 +85,26 @@ public class GuiButtonChest extends GuiButton implements IParentedGui {
 					FavoriteItems.hovering = true;
 				
 				GlStateManager.pushMatrix();
-				String tooltip; 
-				if(action == Action.DROPOFF && (GuiScreen.isShiftKeyDown() != StoreToChests.invert))
+				String tooltip;
+				String hint = null;
+				if(action == Action.DROPOFF && (GuiScreen.isShiftKeyDown() != StoreToChests.invert)){
 					tooltip = I18n.format("quarkmisc.chestButton." + action.name().toLowerCase() + ".shift");
-					else tooltip = I18n.format("quarkmisc.chestButton." + action.name().toLowerCase());
-				int len = Minecraft.getMinecraft().fontRenderer.getStringWidth(tooltip);
+				} else {
+					tooltip = I18n.format("quarkmisc.chestButton." + action.name().toLowerCase());
+				}
+				if (action == Action.DROPOFF && !GuiScreen.isShiftKeyDown()) {
+					hint = I18n.format("quarkmisc.chestButton." + action.name().toLowerCase() + (
+						StoreToChests.invert ? ".shiftDepositHint" : ".shiftMergeHint"
+					));
+				}
+				FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
+				int len = Math.max(fontRenderer.getStringWidth(tooltip), hint == null ? 0 : fontRenderer.getStringWidth(hint));
 				
 				int tooltipShift = action == Action.DROPOFF ? 0 : -len - 24;
 				
 				List<String> tooltipList = new ArrayList<>();
 				tooltipList.add(tooltip);
+				if (hint != null) tooltipList.add(hint);
 				BiMap<IParentedGui, KeyBinding> map = ModKeybinds.keyboundButtons.inverse();
 				if(map.containsKey(this)) {
 					KeyBinding key = map.get(this);

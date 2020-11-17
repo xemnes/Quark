@@ -213,8 +213,16 @@ public class EntityFoxhound extends EntityWolf implements IMob {
 			return false;
 
 		if (!this.isTamed() && !itemstack.isEmpty()) {
-			if (itemstack.getItem() == Items.COAL && (world.getDifficulty() == EnumDifficulty.PEACEFUL || player.isCreative() || player.getActivePotionEffect(MobEffects.FIRE_RESISTANCE) != null) && !world.isRemote) {
-				if (rand.nextDouble() < Foxhounds.tameChance) {
+			double tameChance = tameChance(itemstack.getItem());
+			if (
+					tameChance > 0
+							&& (
+							world.getDifficulty() == EnumDifficulty.PEACEFUL
+									|| player.isCreative()
+									|| player.getActivePotionEffect(MobEffects.FIRE_RESISTANCE) != null)
+							&& !world.isRemote
+			) {
+				if (rand.nextDouble() < tameChance) {
 					this.setTamedBy(player);
 					this.navigator.clearPath();
 					this.setAttackTarget(null);
@@ -248,6 +256,16 @@ public class EntityFoxhound extends EntityWolf implements IMob {
 		}
 
 		return super.processInteract(player, hand);
+	}
+
+	private static double tameChance(Item item) {
+		for (String tameItem : Foxhounds.tameItems) {
+			int spaceIndex = tameItem.indexOf(' ');
+			if (ForgeRegistries.ITEMS.getValue(new ResourceLocation(tameItem.substring(0, spaceIndex))) == item) {
+				return Double.parseDouble(tameItem.substring(spaceIndex + 1));
+			}
+		}
+		return 0.0;
 	}
 
 	@Override

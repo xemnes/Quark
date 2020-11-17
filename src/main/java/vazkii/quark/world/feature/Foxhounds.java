@@ -28,18 +28,22 @@ import vazkii.quark.world.client.render.RenderFoxhound;
 import vazkii.quark.world.entity.EntityFoxhound;
 
 public class Foxhounds extends Feature {
-
-	public static double tameChance;
-
 	public static int weight, min, max;
+
+	public static String[] tameItems;
 	
 	@Override
 	public void setupConfig() {
 		weight = loadPropInt("Spawn Weight", "The higher, the more will spawn", 4);
 		min = loadPropInt("Smallest spawn group", "", 1);
 		max = loadPropInt("Largest spawn group", "", 2);
-		
-		tameChance = loadPropChance("Chance to Tempt", "The chance coal will tame a foxhound", 0.05);
+		tameItems = loadPropStringList("Tame items", "Items that can be used to tame foxhounds, and the respective tame chances", new String[]{
+				"minecraft:coal 0.05",
+				"minecraft:coal_block 0.2",
+				"minecraft:charcoal 0.05",
+				"quark:charcoal_block 0.2",
+				"minecraft:magma_cream 0.1"
+		});
 	}
 
 	@Override

@@ -1,21 +1,19 @@
 package vazkii.quark.oddities.item;
 
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
+import baubles.api.BaubleType;
+import baubles.api.IBauble;
+import baubles.api.render.IRenderBauble;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.init.Enchantments;
-import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.EnumRarity;
-import net.minecraft.item.ItemArmor;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
@@ -28,8 +26,8 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import vazkii.arl.interf.IItemColorProvider;
-import vazkii.arl.item.ItemModArmor;
 import vazkii.arl.util.ItemNBTHelper;
+import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.handler.ProxiedItemStackHandler;
 import vazkii.quark.base.item.IQuarkItem;
 import vazkii.quark.base.lib.LibMisc;
@@ -39,16 +37,22 @@ import vazkii.quark.oddities.feature.Backpacks;
 import javax.annotation.Nonnull;
 import java.util.Map;
 
-public class ItemBackpack extends ItemModArmor implements IQuarkItem, IItemColorProvider {
+import static vazkii.quark.oddities.feature.Backpacks.backpack;
 
+public class ItemBackpack extends Item implements IBauble, IQuarkItem, IItemColorProvider, IRenderBauble {
 	private static final String WORN_TEXTURE = LibMisc.PREFIX_MOD + "textures/misc/backpack_worn.png";
 	private static final String WORN_OVERLAY_TEXTURE = LibMisc.PREFIX_MOD + "textures/misc/backpack_worn_overlay.png";
-
+	
+	private static final ResourceLocation WORN_TEXTURE_RL = new ResourceLocation(WORN_TEXTURE);
+	private static final ResourceLocation WORN_OVERLAY_TEXTURE_RL = new ResourceLocation(WORN_OVERLAY_TEXTURE);
+	
+	public static String bareName = "backpack";
+	
 	@SideOnly(Side.CLIENT)
 	public static ModelBiped model;
 	
 	public ItemBackpack() {
-		super("backpack", ArmorMaterial.LEATHER, 0, EntityEquipmentSlot.CHEST);
+		setTranslationKey(bareName);
 		setCreativeTab(CreativeTabs.TOOLS);
 		setMaxDamage(0);
 		
@@ -57,50 +61,30 @@ public class ItemBackpack extends ItemModArmor implements IQuarkItem, IItemColor
 	
 	public static boolean doesBackpackHaveItems(ItemStack stack) {
 		IItemHandler handler = stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
-		if (handler == null)
-			return false;
-		for(int i = 0; i < handler.getSlots(); i++)
-			if(!handler.getStackInSlot(i).isEmpty())
-				return true;
+		if (handler == null) return false;
+		for (int i = 0; i < handler.getSlots(); i++)
+			if (!handler.getStackInSlot(i).isEmpty()) return true;
 		
 		return false;
 	}
 	
-	@Nonnull
-	@Override
-	public Multimap<String, AttributeModifier> getItemAttributeModifiers(@Nonnull EntityEquipmentSlot equipmentSlot) {
-		return HashMultimap.create();
-	}
+//	@Nonnull
+//	@Override
+//	public Multimap<String, AttributeModifier> getItemAttributeModifiers(@Nonnull EntityEquipmentSlot equipmentSlot) {
+//		return HashMultimap.create();
+//	}
 	
 	@Override
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-		if(worldIn.isRemote)
-			return;
+		if (worldIn.isRemote) return;
 		
 		boolean hasItems = !Backpacks.superOpMode && doesBackpackHaveItems(stack);
 		
-		Map<Enchantment, Integer> enchants = EnchantmentHelper.getEnchantments(stack);
-		boolean isCursed = enchants.containsKey(Enchantments.BINDING_CURSE);
-		boolean changedEnchants = false;
-		
-		if(hasItems) {
-			if(Backpacks.isEntityWearingBackpack(entityIn, stack)) {
-				if(!isCursed) {
-					enchants.put(Enchantments.BINDING_CURSE, 1);
-					changedEnchants = true;
-				}
-			} else {
-				ItemStack copy = stack.copy();
-				stack.setCount(0);
-				entityIn.entityDropItem(copy, 0);
-			}
-		} else if(isCursed) {
-			enchants.remove(Enchantments.BINDING_CURSE);
-			changedEnchants = true;
+		if (hasItems && !Backpacks.isEntityWearingBackpack(entityIn, stack)) {
+			ItemStack copy = stack.copy();
+			stack.setCount(0);
+			entityIn.entityDropItem(copy, 0);
 		}
-		
-		if(changedEnchants)
-			EnchantmentHelper.setEnchantments(enchants, stack);
 	}
 	
 	@Override
@@ -131,20 +115,6 @@ public class ItemBackpack extends ItemModArmor implements IQuarkItem, IItemColor
 			stack.setTagCompound(null);
 		
 		return false;
-	}
-
-	@Override
-	public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type) {
-		return type != null && type.equals("overlay") ? WORN_OVERLAY_TEXTURE : WORN_TEXTURE;
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack, EntityEquipmentSlot armorSlot, ModelBiped _default) {
-		if(model == null)
-			model = new ModelBackpack();
-
-		return model;
 	}
 	
 	@Override
@@ -185,7 +155,142 @@ public class ItemBackpack extends ItemModArmor implements IQuarkItem, IItemColor
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IItemColor getItemColor() {
-		return (stack, i) -> i == 1 ? ((ItemArmor) stack.getItem()).getColor(stack) : -1;
+		return (stack, i) -> i == 1 ? ((ItemBackpack) stack.getItem()).getColor(stack) : -1;
+	}
+	
+	@Override
+	public BaubleType getBaubleType(ItemStack itemStack) {
+		return BaubleType.BODY;
+	}
+	
+	@Override
+	public boolean canEquip(ItemStack itemstack, EntityLivingBase player) {
+		return !Backpacks.isEntityWearingBackpack(player, itemstack);
+	}
+	
+	@Override
+	public boolean canUnequip(ItemStack itemstack, EntityLivingBase player) {
+		return Backpacks.superOpMode || !doesBackpackHaveItems(itemstack);
+	}
+	
+	public boolean hasColor(@Nonnull ItemStack stack) {
+		NBTTagCompound nbttagcompound = stack.getTagCompound();
+		return (nbttagcompound != null)
+				&& nbttagcompound.hasKey("display", 10)
+				&& nbttagcompound.getCompoundTag("display").hasKey("color", 3);
+	}
+	
+	public int getColor(ItemStack stack) {
+		NBTTagCompound nbttagcompound = stack.getTagCompound();
+		
+		if (nbttagcompound != null) {
+			NBTTagCompound display = nbttagcompound.getCompoundTag("display");
+			
+			if (display.hasKey("color", 3)) {
+				return display.getInteger("color");
+			}
+		}
+		
+		return 10511680;
+	}
+	
+	public void setColor(ItemStack stack, int color) {
+		NBTTagCompound nbttagcompound = stack.getTagCompound();
+		
+		if (nbttagcompound == null) {
+			nbttagcompound = new NBTTagCompound();
+			stack.setTagCompound(nbttagcompound);
+		}
+		
+		NBTTagCompound nbttagcompound1 = nbttagcompound.getCompoundTag("display");
+		
+		if (!nbttagcompound.hasKey("display", 10)) {
+			nbttagcompound.setTag("display", nbttagcompound1);
+		}
+		
+		nbttagcompound1.setInteger("color", color);
+	}
+	
+	@Override
+	public void onPlayerBaubleRender(ItemStack itemStack, EntityPlayer player, RenderType renderType, float v) {
+		if (renderType != RenderType.BODY) return;
+
+		if (model == null) model = new ModelBackpack();
+		
+		model.setModelAttributes(new ModelPlayer(0.0F, false));
+		
+		Minecraft.getMinecraft().renderEngine.bindTexture(WORN_TEXTURE_RL);
+		
+		int i = backpack.getColor(itemStack);
+		float red = (float) (i >> 16 & 255) / 255.0F;
+		float green = (float) (i >> 8 & 255) / 255.0F;
+		float blue = (float) (i & 255) / 255.0F;
+		
+		GlStateManager.color(red, green, blue, 1);
+		
+
+		float partialTicks = Minecraft.getMinecraft().getRenderPartialTicks();
+		float f = this.interpolateRotation(player.prevRenderYawOffset, player.renderYawOffset, partialTicks);
+		float f1 = this.interpolateRotation(player.prevRotationYawHead, player.rotationYawHead, partialTicks);
+		float f2 = f1 - f;
+//		float f4 = renderer.prepareScale(player, Minecraft.getMinecraft().getRenderPartialTicks());
+		float f4 = 0.0625F;
+		float f8 = (float) player.ticksExisted + partialTicks;
+		float f5 = player.prevLimbSwingAmount + (player.limbSwingAmount - player.prevLimbSwingAmount) * partialTicks;
+		float f6 = player.limbSwing - player.limbSwingAmount * (1.0F - partialTicks);
+		float f7 = player.prevRotationPitch + (player.rotationPitch - player.prevRotationPitch) * partialTicks;
+		
+		model.setVisible(false);
+		model.bipedBody.showModel = true;
+		
+		model.render(player, f6, f5, f8, f2, f7, f4);
+		
+		Minecraft.getMinecraft().renderEngine.bindTexture(WORN_OVERLAY_TEXTURE_RL);
+		
+		GlStateManager.color(1, 1, 1, 1);
+		
+		model.render(player, 0, 0, 1000, 0, 0, 0.0625F);
+	}
+	
+	/**
+	 * Returns a rotation angle that is inbetween two other rotation angles. par1 and par2 are the angles between which
+	 * to interpolate, par3 is probably a float between 0.0 and 1.0 that tells us where "between" the two angles we are.
+	 * Example: par1 = 30, par2 = 50, par3 = 0.5, then return = 40
+	 */
+	protected float interpolateRotation(float prevYawOffset, float yawOffset, float partialTicks) {
+		float f;
+		
+		for (f = yawOffset - prevYawOffset; f < -180.0F; f += 360.0F) {
+		}
+		
+		while (f >= 180.0F) {
+			f -= 360.0F;
+		}
+		
+		return prevYawOffset + partialTicks * f;
+	}
+	
+	@Nonnull
+	@Override
+	public Item setTranslationKey(@Nonnull String name) {
+		super.setTranslationKey(name);
+		setRegistryName(new ResourceLocation(getPrefix() + name));
+		ProxyRegistry.register(this);
+		
+		return this;
+	}
+	
+	@Nonnull
+	@Override
+	public String getTranslationKey(ItemStack par1ItemStack) {
+		par1ItemStack.getItemDamage();
+		
+		return "item." + getPrefix() + bareName;
+	}
+	
+	@Override
+	public String[] getVariants() {
+		return new String[] {bareName};
 	}
 
 }

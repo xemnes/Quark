@@ -31,6 +31,12 @@ if (System.getenv().BUILD_NUMBER != null) {
 
 repositories {
     maven {
+        url= "https://oss.sonatype.org/content/repositories/public/"
+    }
+    maven {
+        url = "http://repo.spongepowered.org/maven"
+    }
+    maven {
         // for AutoRegLib
         name "blamejared"
         url "http://maven.blamejared.com/"
@@ -40,10 +46,15 @@ repositories {
         name = "promwml16"
         url "http://dvs1.progwml6.com/files/maven"
     }
+    maven {
+        name = "CurseForge"
+        url = "https://minecraft.curseforge.com/api/maven/"
+    }
 }
 
 dependencies {
     deobfCompile "vazkii.autoreglib:AutoRegLib:${config.arl_version}"
+    compile "baubles:Baubles:1.12:1.5.2"
     deobfCompile "mezz.jei:jei_${config.mc_version}:${config.jei_version}"
 }
 

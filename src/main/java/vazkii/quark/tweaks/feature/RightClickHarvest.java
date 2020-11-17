@@ -171,7 +171,7 @@ public class RightClickHarvest extends Feature {
 		if (!emptyHandHarvest && !isHoe)
 			return;
 
-		int range = HoeSickle.getRange(mainHand);
+		int range = HoeSickle.getRange(mainHand.getItem());
 
 		int harvests = 0;
 

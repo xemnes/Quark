@@ -3,7 +3,9 @@ quarkmisc.chestButton.restock=Repoblar
 quarkmisc.chestButton.deposit=Depositar 
 quarkmisc.chestButton.smart_deposit=Unir
 quarkmisc.chestButton.dropoff=Depositar a Cofres Cercanos
+quarkmisc.chestButton.dropoff.shiftDepositHint=(Shift + clic para depositar)
 quarkmisc.chestButton.dropoff.shift=Unir a Cofres Cercanos
+quarkmisc.chestButton.dropoff.shiftMergeHint=(Shift + clic para combinar)
 quarkmisc.chestButton.sort=Ordenar
 
 # BLOCK NAMES
