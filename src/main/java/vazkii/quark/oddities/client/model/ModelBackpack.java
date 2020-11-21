@@ -7,6 +7,7 @@ import vazkii.arl.item.ModelModArmor;
  * quark_backpack - wiiv
  * Created using Tabula 7.0.0
  */
+//@SideOnly(Side.CLIENT)
 public class ModelBackpack extends ModelModArmor {
 	
 	private final ModelRenderer straps;

@@ -2,10 +2,10 @@
  * This class was created by <Vazkii>. It's distributed as
  * part of the Quark Mod. Get the Source Code in github:
  * https://github.com/Vazkii/Quark
- * 
+ * <p>
  * Quark is Open Source and distributed under the
  * CC-BY-NC-SA 3.0 License: https://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_GB
- * 
+ * <p>
  * File Created @ [16/07/2016, 21:39:56 (GMT)]
  */
 package vazkii.quark.tweaks.feature;
@@ -30,8 +30,8 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.ModuleLoader;
 
-public class HoeSickle extends Feature {
 
+public class HoeSickle extends Feature {
 	public static boolean hoesCanHaveFortune;
 	public static String[] hoeRanges;
 
@@ -96,7 +96,7 @@ public class HoeSickle extends Feature {
 			stack.damageItem(1, player);
 		}
 	}
-	
+
 	private boolean canHarvest(World world, BlockPos pos, IBlockState state) {
 		Block block = state.getBlock();
 		if (block instanceof IPlantable) {
@@ -104,13 +104,13 @@ public class HoeSickle extends Feature {
 			EnumPlantType type = plant.getPlantType(world, pos);
 			return type != EnumPlantType.Water && type != EnumPlantType.Desert;
 		}
-		
+
 		return state.getMaterial() == Material.PLANTS && block.isReplaceable(world, pos);
 	}
-	
+
 	@Override
 	public boolean hasSubscriptions() {
 		return true;
 	}
-	
+
 }

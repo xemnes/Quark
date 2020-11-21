@@ -88,30 +88,26 @@ public class ItemBackpack extends Item implements IBauble, IQuarkItem, IItemColo
 	
 	@Override
 	public boolean onEntityItemUpdate(EntityItem entityItem) {
-		if(Backpacks.superOpMode || entityItem.world.isRemote)
-			return false;
+		if (Backpacks.superOpMode || entityItem.world.isRemote) return false;
 		
 		ItemStack stack = entityItem.getItem();
-
-		if (!ItemNBTHelper.detectNBT(stack))
-			return false;
+		
+		if (!ItemNBTHelper.detectNBT(stack)) return false;
 		
 		IItemHandler handler = stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
-		if (handler == null)
-			return false;
-
-		for(int i = 0; i < handler.getSlots(); i++) {
+		if (handler == null) return false;
+		
+		for (int i = 0; i < handler.getSlots(); i++) {
 			ItemStack stackAt = handler.getStackInSlot(i);
-			if(!stackAt.isEmpty()) {
+			if (!stackAt.isEmpty()) {
 				ItemStack copy = stackAt.copy();
 				InventoryHelper.spawnItemStack(entityItem.world, entityItem.posX, entityItem.posY, entityItem.posZ, copy);
 			}
 		}
-
+		
 		NBTTagCompound comp = ItemNBTHelper.getNBT(stack);
 		comp.removeTag("Inventory");
-		if (comp.getSize() == 0)
-			stack.setTagCompound(null);
+		if (comp.getSize() == 0) stack.setTagCompound(null);
 		
 		return false;
 	}
@@ -131,26 +127,26 @@ public class ItemBackpack extends Item implements IBauble, IQuarkItem, IItemColo
 	public boolean isEnchantable(@Nonnull ItemStack stack) {
 		return false;
 	}
-
+	
 	@Nonnull
 	@Override
 	public ICapabilityProvider initCapabilities(ItemStack stack, NBTTagCompound oldCapNbt) {
 		ProxiedItemStackHandler handler = new ProxiedItemStackHandler(stack, 27);
-
+		
 		if (oldCapNbt != null && oldCapNbt.hasKey("Parent")) {
 			NBTTagCompound itemData = oldCapNbt.getCompoundTag("Parent");
 			ItemStackHandler stacks = new ItemStackHandler();
 			stacks.deserializeNBT(itemData);
-
+			
 			for (int i = 0; i < stacks.getSlots(); i++)
 				handler.setStackInSlot(i, stacks.getStackInSlot(i));
-
+			
 			oldCapNbt.removeTag("Parent");
 		}
-
+		
 		return handler;
 	}
-
+	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IItemColor getItemColor() {
@@ -294,5 +290,5 @@ public class ItemBackpack extends Item implements IBauble, IQuarkItem, IItemColo
 	public String[] getVariants() {
 		return new String[] {bareName};
 	}
-
+	
 }

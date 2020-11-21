@@ -40,6 +40,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import vazkii.arl.util.ItemNBTHelper;
 import vazkii.quark.base.util.EntityOpacityHandler;
 import vazkii.quark.oddities.feature.TinyPotato;
@@ -122,10 +123,10 @@ public class EntityFoxhound extends EntityWolf implements IMob {
 				owner.setFire(5);
 		}
 
-		if(this.world.isRemote)
+		if (this.world.isRemote)
 			this.world.spawnParticle(isSleeping() ? EnumParticleTypes.SMOKE_NORMAL : EnumParticleTypes.FLAME, this.posX + (this.rand.nextDouble() - 0.5D) * this.width, this.posY + (this.rand.nextDouble() - 0.5D) * this.height, this.posZ + (this.rand.nextDouble() - 0.5D) * this.width, 0.0D, 0.0D, 0.0D);
 
-		if(isTamed()) {
+		if (isTamed()) {
 			BlockPos below = getPosition().down();
 			TileEntity tile = world.getTileEntity(below);
 			if (tile instanceof TileEntityFurnace) {
@@ -133,7 +134,7 @@ public class EntityFoxhound extends EntityWolf implements IMob {
 				if (cookTime > 0 && cookTime % 3 == 0) {
 					List<EntityFoxhound> foxhounds = world.getEntitiesWithinAABB(EntityFoxhound.class, new AxisAlignedBB(getPosition()),
 							(fox) -> fox != null && fox.isTamed());
-					if(!foxhounds.isEmpty() && foxhounds.get(0) == this)
+					if (!foxhounds.isEmpty() && foxhounds.get(0) == this)
 						((TileEntityFurnace) tile).setField(2, Math.min(199, cookTime + 1));
 				}
 			}
@@ -189,7 +190,7 @@ public class EntityFoxhound extends EntityWolf implements IMob {
 		}
 
 		boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this).setFireDamage(),
-				((int)this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue()));
+				((int) this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue()));
 
 		if (flag) {
 			entityIn.setFire(5);
@@ -209,7 +210,7 @@ public class EntityFoxhound extends EntityWolf implements IMob {
 	public boolean processInteract(EntityPlayer player, @Nonnull EnumHand hand) {
 		ItemStack itemstack = player.getHeldItem(hand);
 
-		if(itemstack.getItem() == Items.BONE && !isTamed())
+		if (itemstack.getItem() == Items.BONE && !isTamed())
 			return false;
 
 		if (!this.isTamed() && !itemstack.isEmpty()) {
@@ -229,10 +230,10 @@ public class EntityFoxhound extends EntityWolf implements IMob {
 					this.aiSit.setSitting(true);
 					this.setHealth(20.0F);
 					this.playTameEffect(true);
-					this.world.setEntityState(this, (byte)7);
+					this.world.setEntityState(this, (byte) 7);
 				} else {
 					this.playTameEffect(false);
-					this.world.setEntityState(this, (byte)6);
+					this.world.setEntityState(this, (byte) 6);
 				}
 
 				if (!player.isCreative())
@@ -313,10 +314,10 @@ public class EntityFoxhound extends EntityWolf implements IMob {
 
 	@Override
 	public boolean getCanSpawnHere() {
-        IBlockState iblockstate = world.getBlockState((new BlockPos(this)).down());
-		
-		return world.getDifficulty() != EnumDifficulty.PEACEFUL 
-				&& isValidLightLevel() 
+		IBlockState iblockstate = world.getBlockState((new BlockPos(this)).down());
+
+		return world.getDifficulty() != EnumDifficulty.PEACEFUL
+				&& isValidLightLevel()
 				&& getBlockPathWeight(new BlockPos(posX, getEntityBoundingBox().minY, posZ)) >= 0F
 				&& iblockstate.canEntitySpawn(this);
 	}
@@ -327,7 +328,7 @@ public class EntityFoxhound extends EntityWolf implements IMob {
 
 	private void setWoke() {
 		EntityAISleep sleep = getAISleep();
-		if(sleep != null) {
+		if (sleep != null) {
 			setSleeping(false);
 			sleep.setSleeping(false);
 		}

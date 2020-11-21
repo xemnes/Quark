@@ -29,7 +29,7 @@ public class MessageHandleBackpack extends NetworkMessage<MessageHandleBackpack>
 				player.openContainer = player.inventoryContainer;
 			}
 		});
-		
+
 		return null;
 	}
 	

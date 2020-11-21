@@ -19,7 +19,7 @@ public class MonsterBoxes extends Feature {
 	public static String[] pools;
 
 	public static DimensionConfig dimensions;
-	
+
 	@Override
 	public void setupConfig() {
 		minY = loadPropInt("Min Y Level", "", 3);
@@ -38,19 +38,19 @@ public class MonsterBoxes extends Feature {
 
 		dimensions = new DimensionConfig(configCategory, "0");
 	}
-	
+
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
 		monster_box = new BlockMonsterBox();
-		
+
 		registerTile(TileMonsterBox.class, "monster_box");
-		
+
 		GameRegistry.registerWorldGenerator(new MonsterBoxGenerator(), 200);
 	}
-	
+
 	@Override
 	public boolean requiresMinecraftRestartToEnable() {
 		return true;
 	}
-	
+
 }

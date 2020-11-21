@@ -21,33 +21,39 @@ import java.util.List;
 import java.util.Map;
 
 public class TileMonsterBox extends TileMod implements ITickable {
+//	public static void main(String[] args) {
+//		Pool pool = new Pool("0.5 5-8: 0.1 minecraft:witch; 0.2 minecraft:cave_spider; 0.7 minecraft:zombie");
+//		System.out.println(pool.chance);
+//		System.out.println(pool.minCount);
+//		System.out.println(pool.maxCount);
+//	}
 
 	private int breakProgress;
-	
+
 	@Override
 	public void update() {
-		if(world.getDifficulty() == EnumDifficulty.PEACEFUL)
+		if (world.getDifficulty() == EnumDifficulty.PEACEFUL)
 			return;
-		
+
 		BlockPos pos = getPos();
-		
-		if(world.isRemote) {
+
+		if (world.isRemote) {
 			int x = pos.getX();
 			int y = pos.getY();
 			int z = pos.getZ();
 			world.spawnParticle(breakProgress == 0 ? EnumParticleTypes.FLAME : EnumParticleTypes.SMOKE_LARGE, x + Math.random(), y + Math.random(), z + Math.random(), 0, 0, 0);
 		}
-		
+
 		boolean doBreak = breakProgress > 0;
-		if(!doBreak) {
-			List<EntityPlayer> players = world.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(pos).grow(2.5));
+		if (!doBreak) {
+			List<EntityPlayer> players = world.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(pos).grow(MonsterBoxes.activationRadius));
 			doBreak = players.size() > 0;
 		}
-		
-		if(doBreak) {
-			if(breakProgress == 0)
+
+		if (doBreak) {
+			if (breakProgress == 0)
 				world.playSound(null, pos, QuarkSounds.BLOCK_MONSTER_BOX_GROWL, SoundCategory.BLOCKS, 1F, 1F);
-			
+
 			breakProgress++;
 			if (breakProgress > MonsterBoxes.activationTime) {
 				world.playEvent(2001, pos, Block.getStateId(world.getBlockState(pos)));
@@ -56,11 +62,11 @@ public class TileMonsterBox extends TileMod implements ITickable {
 			}
 		}
 	}
-	
+
 	private void spawnMobs() {
-		if(world.isRemote)
+		if (world.isRemote)
 			return;
-		
+
 		BlockPos pos = getPos();
 
 		float r = world.rand.nextFloat();
@@ -107,7 +113,7 @@ public class TileMonsterBox extends TileMod implements ITickable {
 			e.motionX = (world.rand.nextFloat() - 0.5) * motionMultiplier;
 			e.motionY = (world.rand.nextFloat() - 0.5) * motionMultiplier;
 			e.motionZ = (world.rand.nextFloat() - 0.5) * motionMultiplier;
-			
+
 			world.spawnEntity(e);
 		}
 	}
