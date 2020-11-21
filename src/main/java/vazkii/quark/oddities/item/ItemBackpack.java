@@ -4,7 +4,8 @@ import baubles.api.BaubleType;
 import baubles.api.IBauble;
 import baubles.api.render.IRenderBauble;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.model.ModelPlayer;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -35,7 +36,6 @@ import vazkii.quark.oddities.client.model.ModelBackpack;
 import vazkii.quark.oddities.feature.Backpacks;
 
 import javax.annotation.Nonnull;
-import java.util.Map;
 
 import static vazkii.quark.oddities.feature.Backpacks.backpack;
 
@@ -48,8 +48,7 @@ public class ItemBackpack extends Item implements IBauble, IQuarkItem, IItemColo
 	
 	public static String bareName = "backpack";
 	
-	@SideOnly(Side.CLIENT)
-	public static ModelBiped model;
+	public static ModelBackpack model;
 	
 	public ItemBackpack() {
 		setTranslationKey(bareName);
@@ -212,7 +211,10 @@ public class ItemBackpack extends Item implements IBauble, IQuarkItem, IItemColo
 	}
 	
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void onPlayerBaubleRender(ItemStack itemStack, EntityPlayer player, RenderType renderType, float v) {
+		if (!player.world.isRemote) return;
+
 		if (renderType != RenderType.BODY) return;
 
 		if (model == null) model = new ModelBackpack();

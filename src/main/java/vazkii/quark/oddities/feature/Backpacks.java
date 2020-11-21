@@ -61,7 +61,7 @@ public class Backpacks extends Feature {
 		backpack = new ItemBackpack();
 		
 		if(enableCrafting)
-			RecipeHandler.addOreDictRecipe(new ItemStack(backpack), 
+			RecipeHandler.addOreDictRecipe(new ItemStack(backpack),
 					"LLL", "LCL", "LLL",
 					'L', new ItemStack(Items.LEATHER),
 					'C', "chestWood");
