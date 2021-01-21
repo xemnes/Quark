@@ -1,9 +1,11 @@
 package vazkii.quark.misc.feature;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -56,8 +58,8 @@ public class ReacharoundPlacing extends Feature {
 			BlockPos pos = getPlayerReacharoundTarget(player);
 			if(pos != null) {
 				ScaledResolution res = event.getResolution();
-				String s = "[  ]";
-				mc.fontRenderer.drawString(s, res.getScaledWidth() / 2 - mc.fontRenderer.getStringWidth(s) / 2 + 1, res.getScaledHeight() / 2 - 3, 0xFFFFFF);
+				String s = "[   ]";
+				mc.fontRenderer.drawString(s, res.getScaledWidth() / 2 - mc.fontRenderer.getStringWidth(s) / 2, res.getScaledHeight() / 2 - 4, 0xFFFFFF);
 			}
 		}
 	}
@@ -116,7 +118,7 @@ public class ReacharoundPlacing extends Feature {
 				BlockPos pos = take2Res.getBlockPos().down();
 				IBlockState state = world.getBlockState(pos);
 
-				if(player.posY - pos.getY() > 1 && (world.isAirBlock(pos) || state.getBlock().isReplaceable(world, pos)))
+				if(player.posY - pos.getY() > 1 && (world.isAirBlock(pos) || state.getBlock().isReplaceable(world, pos)) && !Block.isEqualTo(state.getBlock(), Blocks.LAVA))
 					return pos;
 			}
 		}
