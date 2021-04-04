@@ -25,7 +25,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import vazkii.quark.base.module.ConfigHelper;
 import vazkii.quark.base.module.Feature;
-import vazkii.quark.base.util.CommonReflectiveAccessor;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
@@ -160,7 +159,7 @@ public class DispensersPlaceSeeds extends Feature {
 			ItemStack out = vanillaBehaviour.dispense(source, stack);
 
 			if (vanillaBehaviour instanceof BehaviorDispenseOptional)
-				this.successful = CommonReflectiveAccessor.getSuccess((BehaviorDispenseOptional) vanillaBehaviour);
+				this.successful = ((BehaviorDispenseOptional) vanillaBehaviour).successful;
 
 			return out;
 		}

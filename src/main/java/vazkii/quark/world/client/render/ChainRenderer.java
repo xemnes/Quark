@@ -25,7 +25,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
-import vazkii.quark.base.client.ClientReflectiveAccessor;
 import vazkii.quark.world.base.ChainHandler;
 
 @SideOnly(Side.CLIENT)
@@ -55,8 +54,8 @@ public class ChainRenderer {
 		Tessellator.getInstance().draw();
 	}
 
-	public static void renderChain(Render render, double x, double y, double z, Entity entity, float partTicks) {
-		if (ChainHandler.canBeLinked(entity) && !ClientReflectiveAccessor.renderOutlines(render)) {
+	public static void renderChain(Render<?> render, double x, double y, double z, Entity entity, float partTicks) {
+		if (ChainHandler.canBeLinked(entity) && !render.renderOutlines) {
 			renderChain(entity, x, y, z, partTicks);
 		}
 	}

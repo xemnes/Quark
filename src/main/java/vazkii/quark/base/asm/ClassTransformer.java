@@ -12,7 +12,6 @@ package vazkii.quark.base.asm;
 
 import net.minecraft.launchwrapper.IClassTransformer;
 import net.minecraft.launchwrapper.Launch;
-import net.minecraftforge.fml.common.asm.transformers.deobf.FMLDeobfuscatingRemapper;
 import org.apache.logging.log4j.LogManager;
 import org.objectweb.asm.*;
 import org.objectweb.asm.tree.*;
@@ -936,7 +935,8 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 	}
 
 	private static byte[] transformLayerEntityOnShoulder(byte[] basicClass) {
-		MethodSignature sig = new MethodSignature("renderEntityOnShoulder", "func_192864_a", "(Lnet/minecraft/entity/player/EntityPlayer;Ljava/util/UUID;Lnet/minecraft/nbt/NBTTagCompound;Lnet/minecraft/client/renderer/entity/RenderLivingBase;Lnet/minecraft/client/model/ModelBase;Lnet/minecraft/util/ResourceLocation;Ljava/lang/Class;FFFFFFFZ)Lnet/minecraft/client/renderer/entity/layers/LayerEntityOnShoulder$DataHolder;");
+        MethodSignature sig = new MethodSignature("renderEntityOnShoulder", "func_192864_a", 
+                "(Lnet/minecraft/entity/player/EntityPlayer;Ljava/util/UUID;Lnet/minecraft/nbt/NBTTagCompound;Lnet/minecraft/client/renderer/entity/RenderLivingBase;Lnet/minecraft/client/model/ModelBase;Lnet/minecraft/util/ResourceLocation;Ljava/lang/Class;FFFFFFFZ)Lnet/minecraft/client/renderer/entity/layers/LayerEntityOnShoulder$DataHolder;");
 
 		MethodSignature target = new MethodSignature("bindTexture", "func_110776_a", "(Lnet/minecraft/util/ResourceLocation;)V");
 		return transform(basicClass, forMethod(sig, combine(
@@ -1138,11 +1138,6 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 		public boolean matches(MethodInsnNode method) {
 			return matches(method.name, method.desc);
 		}
-
-		public String mappedName(String owner) {
-			return FMLDeobfuscatingRemapper.INSTANCE.mapMethodName(owner, srgName, funcDesc);
-		}
-
 	}
 	/**
 	 * Safe class writer.

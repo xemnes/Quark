@@ -11,24 +11,23 @@
 package vazkii.quark.vanity.feature;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.entity.RenderLivingBase;
+import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.client.renderer.entity.layers.LayerElytra;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.arl.util.ItemNBTHelper;
-import vazkii.quark.base.lib.LibObfuscation;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.vanity.client.layer.LayerBetterElytra;
 import vazkii.quark.vanity.recipe.ElytraDyeingRecipe;
@@ -65,13 +64,14 @@ public class DyableElytra extends Feature {
 
 	@SideOnly(Side.CLIENT)
 	private void messWithRender(RenderPlayer render) {
-		List<LayerRenderer> list = ObfuscationReflectionHelper.getPrivateValue(RenderLivingBase.class, render, LibObfuscation.LAYER_RENDERERS);
-		LayerRenderer remove = null;
-		for(LayerRenderer layer : list)
+		List<LayerRenderer<AbstractClientPlayer>> list = render.layerRenderers;
+		LayerRenderer<? extends EntityLivingBase> remove = null;
+		for (LayerRenderer<? extends EntityLivingBase> layer : list) {
 			if(layer instanceof LayerElytra) {
 				remove = layer;
 				break;
-			}
+            }
+        }
 
 		list.remove(remove);
 		list.add(new LayerBetterElytra(render));

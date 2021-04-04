@@ -16,75 +16,77 @@ import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.registries.IRegistryDelegate;
 import vazkii.quark.base.module.Feature;
 
+import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 public class GreenerGrass extends Feature {
 
-	public static boolean affectFoliage;
-	public static boolean alphaGrass;
-	public static boolean absoluteValues;
-	public static int redShift, greenShift, blueShift;
+    public static boolean affectFoliage;
+    public static boolean alphaGrass;
+    public static boolean absoluteValues;
+    public static int redShift, greenShift, blueShift;
 
-	public static List<String> extraBlocks;
+    public static List<String> extraBlocks;
 
-	@Override
-	public void setupConfig() {
-		affectFoliage = loadPropBool("Should affect foliage", "", true);
-		alphaGrass = loadPropBool("Alpha grass", "Sets the grass color to be a \"Minecraft Alpha\" tone.\nThis will override all manual shift values.", false);
-		absoluteValues = loadPropBool("Treat shifts as absolute and ignore biome colors", "", false);
-		redShift = loadPropInt("Shift reds by", "", -30);
-		greenShift = loadPropInt("Shift greens by", "", 30);
-		blueShift = loadPropInt("Shift blues by", "", -30);
+    @Override
+    public void setupConfig() {
+        affectFoliage = loadPropBool("Should affect foliage", "", true);
+        alphaGrass = loadPropBool("Alpha grass",
+                "Sets the grass color to be a \"Minecraft Alpha\" tone.\nThis will override all manual shift values.",
+                false);
+        absoluteValues = loadPropBool("Treat shifts as absolute and ignore biome colors", "", false);
+        redShift = loadPropInt("Shift reds by", "", -30);
+        greenShift = loadPropInt("Shift greens by", "", 30);
+        blueShift = loadPropInt("Shift blues by", "", -30);
 
-		extraBlocks = Arrays.asList(loadPropStringList("Extra blocks", "", new String[] {
-				"buildingbrickscompatvanilla:grass_slab",
-				"buildingbrickscompatvanilla:grass_step",
-				"buildingbrickscompatvanilla:grass_corner",
-				"buildingbrickscompatvanilla:grass_vertical_slab",
-				"buildingbrickscompatvanilla:grass_stairs",
-				"betterwithmods:dirt_slab",
-				"biomesoplenty:plant_0",
-				"biomesoplenty:plant_1",
-				"biomesoplenty:leaves_1",
-				"biomesoplenty:leaves_2",
-				"biomesoplenty:leaves_3",
-				"biomesoplenty:leaves_4",
-				"biomesoplenty:leaves_5",
-				"biomesoplenty:grass"
-		}));
-	}
+        extraBlocks = Arrays.asList(loadPropStringList("Extra blocks", "",
+                new String[] { "buildingbrickscompatvanilla:grass_slab", "buildingbrickscompatvanilla:grass_step",
+                        "buildingbrickscompatvanilla:grass_corner", "buildingbrickscompatvanilla:grass_vertical_slab",
+                        "buildingbrickscompatvanilla:grass_stairs", "betterwithmods:dirt_slab", "biomesoplenty:plant_0",
+                        "biomesoplenty:plant_1", "biomesoplenty:leaves_1", "biomesoplenty:leaves_2",
+                        "biomesoplenty:leaves_3", "biomesoplenty:leaves_4", "biomesoplenty:leaves_5",
+                        "biomesoplenty:grass" }));
+    }
 
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void initClient() {
-		registerGreenerColor(Blocks.GRASS, Blocks.TALLGRASS, Blocks.DOUBLE_PLANT, Blocks.REEDS);
-		if(affectFoliage)
-			registerGreenerColor(Blocks.LEAVES, Blocks.LEAVES2, Blocks.VINE);
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void initClient() {
+        registerGreenerColor(Blocks.GRASS, Blocks.TALLGRASS, Blocks.DOUBLE_PLANT, Blocks.REEDS);
+        if (affectFoliage)
+            registerGreenerColor(Blocks.LEAVES, Blocks.LEAVES2, Blocks.VINE);
 
-		for(String s : extraBlocks) {
-			Block b = Block.REGISTRY.getObject(new ResourceLocation(s));
-			registerGreenerColor(b);
-		}	
-	}
+        for (String s : extraBlocks) {
+            Block b = Block.REGISTRY.getObject(new ResourceLocation(s));
+            registerGreenerColor(b);
+        }
+    }
 
-	@SideOnly(Side.CLIENT)
-	private void registerGreenerColor(Block... blocks) {
-		BlockColors colors = Minecraft.getMinecraft().getBlockColors();
-		Map<IRegistryDelegate<Block>, IBlockColor> map = ObfuscationReflectionHelper.getPrivateValue(BlockColors.class, colors, "blockColorMap"); // This is a forge field so obfuscation is meaningless
+    @SideOnly(Side.CLIENT)
+    @SuppressWarnings("unchecked")
+    private void registerGreenerColor(Block... blocks) {
+        BlockColors colors = Minecraft.getMinecraft().getBlockColors();
 
-		for(Block b : blocks) {
-			IBlockColor color = map.get(b.delegate);
-			if(color != null)
-				colors.registerBlockColorHandler(getGreenerColor(color), b);
-		}
+        try {
+            Field bcm = BlockColors.class.getDeclaredField("blockColorMap");
+            bcm.setAccessible(true);
+            Map<IRegistryDelegate<Block>, IBlockColor> map = (Map<IRegistryDelegate<Block>, IBlockColor>) bcm.get(colors);
+            
+            for(Block b : blocks) {
+                IBlockColor color = map.get(b.delegate);
+                if(color != null)
+                    colors.registerBlockColorHandler(getGreenerColor(color), b);
+            }
+        } catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException ignored) {
+        }
+
+		
 	}
 
 	@SideOnly(Side.CLIENT)

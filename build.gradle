@@ -34,9 +34,6 @@ repositories {
         url= "https://oss.sonatype.org/content/repositories/public/"
     }
     maven {
-        url = "http://repo.spongepowered.org/maven"
-    }
-    maven {
         // for AutoRegLib
         name "blamejared"
         url "http://maven.blamejared.com/"

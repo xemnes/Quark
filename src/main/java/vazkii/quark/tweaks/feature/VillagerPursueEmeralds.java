@@ -2,6 +2,7 @@ package vazkii.quark.tweaks.feature;
 
 import com.google.common.collect.Sets;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.IMerchant;
 import net.minecraft.entity.ai.EntityAITasks.EntityAITaskEntry;
 import net.minecraft.entity.ai.EntityAITempt;
 import net.minecraft.init.Blocks;

@@ -24,7 +24,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.base.sounds.QuarkSounds;
-import vazkii.quark.base.util.CommonReflectiveAccessor;
 import vazkii.quark.base.util.EntityOpacityHandler;
 import vazkii.quark.world.entity.ai.EntityAIFavorBlock;
 import vazkii.quark.world.entity.ai.EntityAIPassenger;
@@ -361,7 +360,7 @@ public class EntityFrog extends EntityAnimal {
 
 		if (this.isRiding() && this.getRidingEntity() instanceof EntityLiving) {
 			steed = (EntityLiving)this.getRidingEntity();
-			speed = CommonReflectiveAccessor.getSpeed(steed.getNavigator());
+			speed = steed.getNavigator().speed;
 			path = steed.getNavigator().getPath();
 			this.getMoveHelper().read(steed.getMoveHelper());
 		}

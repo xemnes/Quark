@@ -11,16 +11,13 @@ import net.minecraftforge.client.event.GuiScreenEvent.KeyboardInputEvent;
 import net.minecraftforge.client.event.GuiScreenEvent.MouseInputEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
-import vazkii.quark.base.lib.LibObfuscation;
 import vazkii.quark.vanity.client.emotes.EmoteDescriptor;
 import vazkii.quark.vanity.client.emotes.EmoteHandler;
 
 import java.util.HashMap;
-import java.util.List;
 
 public class ModKeybinds {
 
@@ -147,8 +144,7 @@ public class ModKeybinds {
 				if(curr == ipg.getParent()) {
 					GuiButton button = (GuiButton) ipg;
 					if(button.enabled && button.visible) {
-						List<GuiButton> buttonList = ObfuscationReflectionHelper.getPrivateValue(GuiScreen.class, curr, LibObfuscation.BUTTON_LIST);
-						GuiScreenEvent.ActionPerformedEvent.Pre postEvent = new GuiScreenEvent.ActionPerformedEvent.Pre(curr, button, buttonList);
+						GuiScreenEvent.ActionPerformedEvent.Pre postEvent = new GuiScreenEvent.ActionPerformedEvent.Pre(curr, button, curr.buttonList);
 						MinecraftForge.EVENT_BUS.post(postEvent);
 					}
 				}

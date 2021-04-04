@@ -30,7 +30,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
@@ -38,8 +37,6 @@ import vazkii.quark.base.Quark;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.tweaks.base.BlockStack;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Map;
 
 public class RightClickHarvest extends Feature {
@@ -107,8 +104,6 @@ public class RightClickHarvest extends Feature {
 		}
 	}
 
-	private static Method getSeed;
-
 	private static void replant(World world, BlockPos pos, BlockStack inWorld, EntityPlayer player) {
 		ItemStack mainHand = player.getHeldItemMainhand();
 		boolean isHoe = !mainHand.isEmpty() && mainHand.getItem() instanceof ItemHoe;
@@ -133,19 +128,8 @@ public class RightClickHarvest extends Feature {
 
 		ForgeEventFactory.fireBlockHarvesting(drops, world, pos, inWorld.getState(), fortune, 1.0F, false, player);
 
-		boolean seedNotNull = true;
-		if (inWorld.getBlock() instanceof BlockCrops) {
-			try {
-				if (getSeed == null)
-					getSeed = ObfuscationReflectionHelper.findMethod(BlockCrops.class, "func_149866_i", Item.class);
-				Item seed = (Item) getSeed.invoke(inWorld.getBlock());
-				seedNotNull = seed != null && seed != Items.AIR;
-			} catch (IllegalAccessException | InvocationTargetException e) {
-				Quark.LOG.error("Failed to reflect BlockCrops", e);
-			}
-		}
-
-		if (seedNotNull) {
+        Item seed = ((BlockCrops) inWorld.getBlock()).getSeed();
+		if (seed != null && seed != Items.AIR) {
 			if (!world.isRemote) {
 				world.playEvent(2001, pos, Block.getStateId(newBlock.getState()));
 				world.setBlockState(pos, newBlock.getState());

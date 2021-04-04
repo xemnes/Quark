@@ -24,33 +24,22 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.decoration.feature.IronLadders;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DeployLaddersDown extends Feature {
 
-	private static Method canAttachTo;
-
 	private static boolean canAttachTo(Block ladder, World world, BlockPos pos, EnumFacing facing) {
 		if (ladder == IronLadders.iron_ladder)
 			return IronLadders.iron_ladder.canBlockStay(world, pos, facing);
 		else if (ladder instanceof BlockLadder) {
-			BlockPos attachPos = pos.offset(facing, -1);
-			if (canAttachTo == null)
-				canAttachTo = ObfuscationReflectionHelper.findMethod(BlockLadder.class, "func_193392_c", Boolean.TYPE, World.class, BlockPos.class, EnumFacing.class);
-			try {
-				return (boolean) canAttachTo.invoke(ladder, world, attachPos, facing);
-			} catch (IllegalAccessException | InvocationTargetException e) {
-				// NO-OP
-			}
+            BlockPos attachPos = pos.offset(facing, -1);
+            return ((BlockLadder) ladder).canAttachTo(world, attachPos, facing);
 		}
 
 		return false;

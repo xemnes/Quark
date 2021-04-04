@@ -19,11 +19,9 @@ import net.minecraft.init.Biomes;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biome.SpawnListEntry;
 import net.minecraftforge.client.event.sound.PlaySoundEvent;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import vazkii.quark.base.lib.LibObfuscation;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.world.client.sound.GuardianSound2UnderwaterBoogaloo;
 
@@ -61,8 +59,7 @@ public class OceanGuardians extends Feature {
 		ISound sound = event.getSound();
 		if(sound instanceof GuardianSound) {
 			GuardianSound guardianSound = (GuardianSound) sound;
-			EntityGuardian guardian = ObfuscationReflectionHelper.getPrivateValue(GuardianSound.class, guardianSound, LibObfuscation.GUARDIAN);
-			event.setResultSound(new GuardianSound2UnderwaterBoogaloo(guardian));
+			event.setResultSound(new GuardianSound2UnderwaterBoogaloo(guardianSound.guardian));
 		}
 	}
 

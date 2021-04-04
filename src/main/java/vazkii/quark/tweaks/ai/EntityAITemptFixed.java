@@ -2,6 +2,8 @@ package vazkii.quark.tweaks.ai;
 
 import com.google.common.collect.Sets;
 import java.util.Set;
+
+import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.ai.EntityAITempt;
 import net.minecraft.entity.player.EntityPlayer;
@@ -45,6 +47,7 @@ public class EntityAITemptFixed extends EntityAITempt
 
     public EntityAITemptFixed(EntityLiving temptedEntityIn, double speedIn, boolean scaredByPlayerMovementIn, Set<Item> temptItemIn)
     {
+        super(temptedEntityIn instanceof EntityCreature ? (EntityCreature) temptedEntityIn : null, speedIn, scaredByPlayerMovementIn, temptItemIn);
         this.temptedEntity = temptedEntityIn;
         this.speed = speedIn;
         this.temptItem = temptItemIn;

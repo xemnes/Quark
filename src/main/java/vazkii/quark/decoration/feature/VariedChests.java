@@ -18,7 +18,6 @@ import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.AbstractChestHorse;
-import net.minecraft.entity.passive.AbstractHorse;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -34,7 +33,6 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -53,8 +51,6 @@ import vazkii.quark.decoration.client.render.RenderTileCustomChest;
 import vazkii.quark.decoration.tile.TileCustomChest;
 import vazkii.quark.oddities.client.bakery.WrapperWithParticleTexture;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -110,8 +106,6 @@ public class VariedChests extends Feature {
 	}
 
 	private static final String DONK_CHEST = "Quark:DonkChest";
-	private static Method initHorseChest;
-	private static Method playChestEquipSound;
 
 	@SubscribeEvent
 	public void onClickEntity(PlayerInteractEvent.EntityInteractSpecific event) {
@@ -136,20 +130,9 @@ public class VariedChests extends Feature {
 
 							horse.getEntityData().setTag(DONK_CHEST, copy.serializeNBT());
 
-							horse.setChested(true);
-							if (initHorseChest == null)
-								initHorseChest = ObfuscationReflectionHelper.findMethod(AbstractHorse.class,
-										"func_110226_cD", Void.TYPE);
-							if (playChestEquipSound == null)
-								playChestEquipSound = ObfuscationReflectionHelper.findMethod(AbstractChestHorse.class,
-										"func_190697_dk", Void.TYPE);
-
-							try {
-								initHorseChest.invoke(horse);
-								playChestEquipSound.invoke(horse);
-							} catch (IllegalAccessException | InvocationTargetException e) {
-								// NO-OP
-							}
+                            horse.setChested(true);
+                            horse.initHorseChest();
+                            horse.playChestEquipSound();
 						}
 
 						return;

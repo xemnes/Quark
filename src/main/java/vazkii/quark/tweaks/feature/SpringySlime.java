@@ -22,7 +22,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.EnumFacing.AxisDirection;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import vazkii.quark.automation.block.BlockColorSlime;
 import vazkii.quark.base.handler.OverrideRegistryHandler;
@@ -76,8 +75,7 @@ public class SpringySlime extends Feature {
 					break;
 			}
 
-			// inGround
-			ObfuscationReflectionHelper.setPrivateValue(EntityArrow.class, (EntityArrow) entity, false, "field_70254_i");
+            ((EntityArrow) entity).inGround = false;
 		}
 	}
 

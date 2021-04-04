@@ -10,12 +10,10 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.RenderTooltipEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import vazkii.quark.base.lib.LibObfuscation;
 import vazkii.quark.base.module.Feature;
 
 import java.util.List;
@@ -60,7 +58,7 @@ public class FoodTooltip extends Feature {
 			ItemFood food = ((ItemFood) event.getStack().getItem()); 
 			int pips = food.getHealAmount(event.getStack());
 			
-			PotionEffect eff = ObfuscationReflectionHelper.getPrivateValue(ItemFood.class, food, LibObfuscation.POTION_ID);
+			PotionEffect eff = food.potionId;
 			boolean poison = eff != null && eff.getPotion().isBadEffect();
 
 			int count = (int) Math.ceil((double) pips / divisor);

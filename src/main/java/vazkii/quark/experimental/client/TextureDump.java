@@ -11,9 +11,7 @@
 package vazkii.quark.experimental.client;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraftforge.client.event.TextureStitchEvent;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -38,10 +36,7 @@ public class TextureDump extends Feature {
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void postTextureStitch(TextureStitchEvent.Post e) {
-		String basePath = ObfuscationReflectionHelper.getPrivateValue(TextureMap.class, e.getMap(), "field_94254_c");
-		int mipMapLevel = ObfuscationReflectionHelper.getPrivateValue(TextureMap.class, e.getMap(), "field_147636_j");
-
-		saveGlTexture(basePath, e.getMap().getGlTextureId(), mipMapLevel);
+		saveGlTexture(e.getMap().basePath, e.getMap().getGlTextureId(), e.getMap().mipmapLevels);
 	}
 
 	@SideOnly(Side.CLIENT)

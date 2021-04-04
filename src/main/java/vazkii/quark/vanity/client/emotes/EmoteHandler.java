@@ -16,18 +16,15 @@ import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelPlayer;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.RenderLivingBase;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderPlayer;
-import net.minecraft.client.renderer.entity.layers.LayerArmorBase;
 import net.minecraft.client.renderer.entity.layers.LayerBipedArmor;
+import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import vazkii.quark.base.lib.LibObfuscation;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -167,10 +164,10 @@ public final class EmoteHandler {
 		if(render == null)
 			return null;
 		
-		List list = ObfuscationReflectionHelper.getPrivateValue(RenderLivingBase.class, render, LibObfuscation.LAYER_RENDERERS);
+		List<LayerRenderer<AbstractClientPlayer>> list = render.layerRenderers;
 		for (Object aList : list)
 			if (aList instanceof LayerBipedArmor)
-				return ObfuscationReflectionHelper.getPrivateValue(LayerArmorBase.class, (LayerArmorBase) aList, LibObfuscation.MODEL_ARMOR);
+				return ((LayerBipedArmor) aList).modelArmor;
 
 		return null;
 	}
@@ -180,10 +177,10 @@ public final class EmoteHandler {
 		if(render == null)
 			return null;
 		
-		List list = ObfuscationReflectionHelper.getPrivateValue(RenderLivingBase.class, render, LibObfuscation.LAYER_RENDERERS);
+		List<LayerRenderer<AbstractClientPlayer>> list = render.layerRenderers;
 		for (Object aList : list)
 			if (aList instanceof LayerBipedArmor)
-				return ObfuscationReflectionHelper.getPrivateValue(LayerArmorBase.class, (LayerArmorBase) aList, LibObfuscation.MODEL_LEGGINGS);
+				return ((LayerBipedArmor) aList).modelLeggings;
 		
 		return null;
 	}

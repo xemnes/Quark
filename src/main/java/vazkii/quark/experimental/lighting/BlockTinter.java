@@ -10,8 +10,6 @@ import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.client.model.pipeline.LightUtil;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
-import vazkii.quark.base.lib.LibObfuscation;
 import vazkii.quark.experimental.features.ColoredLights;
 
 public class BlockTinter {
@@ -85,7 +83,7 @@ public class BlockTinter {
 	
 	private static int[] getLightmapColors() {
 		if(lightmapTex == null) 
-			lightmapTex = ObfuscationReflectionHelper.getPrivateValue(EntityRenderer.class, Minecraft.getMinecraft().entityRenderer, LibObfuscation.LIGHTMAP_TEXTURE);
+			lightmapTex = Minecraft.getMinecraft().entityRenderer.lightmapTexture;
 		
 		return lightmapTex.getTextureData();
 	}

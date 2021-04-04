@@ -6,12 +6,9 @@ import net.minecraft.potion.Potion;
 import net.minecraft.tileentity.TileEntityBeacon;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
-import vazkii.quark.base.lib.LibObfuscation;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 public final class BeaconReplacementHandler {
 
@@ -40,9 +37,8 @@ public final class BeaconReplacementHandler {
 			}
 		}
 		
-		Set<Potion> validEffects = ObfuscationReflectionHelper.getPrivateValue(TileEntityBeacon.class, null, LibObfuscation.VALID_EFFECTS);
 		for(Replacer r : replacers)
-			validEffects.add(r.potion);
+			TileEntityBeacon.VALID_EFFECTS.add(r.potion);
 	}
 	
 	public static void update(TileEntityBeacon beacon) {

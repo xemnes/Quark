@@ -10,7 +10,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.world.ColorizerFoliage;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeColorHelper;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
@@ -21,8 +20,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.registries.IRegistryDelegate;
 import vazkii.arl.util.ProxyRegistry;
-import vazkii.quark.base.handler.OverrideRegistryHandler;
-import vazkii.quark.base.lib.LibObfuscation;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.world.block.BlockVariantLeaves;
 import vazkii.quark.world.block.BlockVariantSapling;
@@ -54,13 +51,7 @@ public class TreeVariants extends Feature {
 		variant_sapling = new BlockVariantSapling();
 
 		if(enableSwamp) 
-			try {
-				Field f = ObfuscationReflectionHelper.findField(Biome.class, LibObfuscation.SWAMP_FEATURE);
-				OverrideRegistryHandler.crackFinalField(f);
-				f.set(null, new WorldGenSwampTree(true));
-			} catch(ReflectiveOperationException e) {
-				e.printStackTrace();
-			}
+			Biome.SWAMP_FEATURE = new WorldGenSwampTree(true);
 
 		if(enableSakura)
 			GameRegistry.registerWorldGenerator(new SakuraTreeGenerator(), 0);
@@ -82,14 +73,14 @@ public class TreeVariants extends Feature {
 				return ColorizerFoliage.getFoliageColorBasic();
 			};
 
-			try {
-				Map<IRegistryDelegate<Block>, IBlockColor> colorMap = (Map<IRegistryDelegate<Block>, IBlockColor>)
-						ObfuscationReflectionHelper.findField(BlockColors.class, "blockColorMap").get(colors); // Forge field
-
-				parent = colorMap.getOrDefault(Blocks.VINE.delegate, parent);
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			}
+            try {
+                Field bcm = BlockColors.class.getDeclaredField("blockColorMap");
+                bcm.setAccessible(true);
+                Map<IRegistryDelegate<Block>, IBlockColor> map = (Map<IRegistryDelegate<Block>, IBlockColor>) bcm.get(colors);
+                
+                parent = map.getOrDefault(Blocks.VINE.delegate, parent);
+            } catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException ignored) {
+            }
 
 			IBlockColor finalParent = parent;
 			colors.registerBlockColorHandler((state, worldIn, pos, i) -> {

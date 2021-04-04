@@ -26,6 +26,10 @@ Thumbs.db
 /classes
 /fileTemplates
 
+## vscode/gitpod
+/.theia
+/.vscode
+
 ## Private Stuffs
 /private.properties
 

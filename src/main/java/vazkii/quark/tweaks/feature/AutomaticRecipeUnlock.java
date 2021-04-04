@@ -14,13 +14,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.client.event.GuiScreenEvent.InitGuiEvent;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import vazkii.quark.base.lib.LibObfuscation;
 import vazkii.quark.base.module.Feature;
 
 import java.util.*;
@@ -71,11 +69,11 @@ public class AutomaticRecipeUnlock extends Feature {
 		Minecraft mc = Minecraft.getMinecraft();
 		if(mc.player != null && mc.player.ticksExisted < 20) {
 			GuiToast toasts = mc.getToastGui();
-			Queue<IToast> toastQueue = ObfuscationReflectionHelper.getPrivateValue(GuiToast.class, toasts, LibObfuscation.TOASTS_QUEUE);
+			Queue<IToast> toastQueue = toasts.toastsQueue;
 			for(IToast toast : toastQueue)
 				if(toast instanceof RecipeToast) {
 					RecipeToast recipeToast = (RecipeToast) toast;
-					List<ItemStack> stacks = ObfuscationReflectionHelper.getPrivateValue(RecipeToast.class, recipeToast, LibObfuscation.RECIPES_OUTPUTS);
+					List<ItemStack> stacks = recipeToast.recipesOutputs;
 					if(stacks.size() > 100) {
 						toastQueue.remove(toast);
 						return;

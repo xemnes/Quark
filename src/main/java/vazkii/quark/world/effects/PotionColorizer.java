@@ -24,7 +24,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.arl.network.NetworkHandler;
-import vazkii.quark.base.client.ClientReflectiveAccessor;
 import vazkii.quark.base.network.message.MessageSyncColors;
 import vazkii.quark.base.potion.PotionMod;
 import vazkii.quark.base.util.MutableVectorHolder;
@@ -103,9 +102,9 @@ public class PotionColorizer extends PotionMod {
 
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
-	public static void colorize(RenderLivingEvent.Pre event) {
+	public static void colorize(RenderLivingEvent.Pre<?> event) {
 		EntityLivingBase entity = event.getEntity();
-		if (entity.getDataManager().get(ClientReflectiveAccessor.potionEffectColor()) == 0)
+		if (entity.getDataManager().get(EntityLivingBase.POTION_EFFECTS) == 0)
 			return;
 		MutableVectorHolder holder = colors.get(event.getEntity());
 		if (holder != null)
@@ -115,7 +114,7 @@ public class PotionColorizer extends PotionMod {
 
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
-	public static void colorize(RenderLivingEvent.Post event) {
+	public static void colorize(RenderLivingEvent.Post<?> event) {
 		if (colors.containsKey(event.getEntity()))
 			GlStateManager.color(1f, 1f, 1f);
 	}

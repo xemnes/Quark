@@ -31,7 +31,6 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
-import vazkii.quark.base.client.ClientReflectiveAccessor;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.ModuleLoader;
 
@@ -75,7 +74,7 @@ public class BetterNausea extends Feature {
 		if (player != null && player.isPotionActive(MobEffects.NAUSEA)) {
 			if (event.getType() == RenderGameOverlayEvent.ElementType.ALL) {
 
-				float time = ClientReflectiveAccessor.getUpdateCount(mc.entityRenderer) + event.getPartialTicks();
+				float time = mc.entityRenderer.rendererUpdateCount + event.getPartialTicks();
 				float sinAmount = MathHelper.sin(time * 1.5f * TIME_CONST) * 0.0625f;
 
 				ScaledResolution res = event.getResolution();
@@ -125,7 +124,7 @@ public class BetterNausea extends Feature {
 			PotionEffect nausea = player.getActivePotionEffect(MobEffects.NAUSEA);
 			if (nausea != null) {
 
-				float time = ClientReflectiveAccessor.getUpdateCount(renderer) + partialTicks;
+				float time = renderer.rendererUpdateCount + partialTicks;
 				float sinAmount = MathHelper.sin(time * TIME_CONST) / 2;
 
 				float yaw = player.cameraYaw;
@@ -142,7 +141,7 @@ public class BetterNausea extends Feature {
 				player.cameraYaw += dist * sinAmount;
 				player.prevCameraYaw += dist * sinAmount;
 
-				ClientReflectiveAccessor.applyBobbing(renderer, partialTicks);
+				renderer.applyBobbing(partialTicks);
 
 				player.cameraYaw = yaw;
 				player.prevCameraYaw = prevYaw;

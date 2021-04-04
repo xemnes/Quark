@@ -18,14 +18,12 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.resource.VanillaResourceType;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.FMLClientHandler;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import vazkii.quark.base.client.ContributorRewardHandler;
 import vazkii.quark.base.client.ResourceProxy;
 import vazkii.quark.base.client.gui.config.ConfigEvents;
-import vazkii.quark.base.lib.LibObfuscation;
 import vazkii.quark.base.module.ModuleLoader;
 import vazkii.quark.vanity.client.emotes.EmoteHandler;
 import vazkii.quark.vanity.feature.EmoteSystem;
@@ -38,7 +36,7 @@ public class ClientProxy extends CommonProxy {
 
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
-		List<IResourcePack> packs = ObfuscationReflectionHelper.getPrivateValue(Minecraft.class, Minecraft.getMinecraft(), LibObfuscation.DEFAULT_RESOURCE_PACKS);
+		List<IResourcePack> packs = Minecraft.getMinecraft().defaultResourcePacks;
 		resourceProxy = new ResourceProxy(event.getSourceFile());
 		packs.add(resourceProxy);
 

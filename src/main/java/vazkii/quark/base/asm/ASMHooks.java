@@ -90,7 +90,7 @@ public final class ASMHooks {
 	// ===== BOAT SAILS & CHAIN LINKAGE ===== //
 
 	@SideOnly(Side.CLIENT)
-	public static void renderChain(Render render, double x, double y, double z, Entity entity, float partTicks) {
+	public static void renderChain(Render<?> render, double x, double y, double z, Entity entity, float partTicks) {
 		ChainRenderer.renderChain(render, x, y, z, entity, partTicks);
 	}
 	

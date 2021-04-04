@@ -8,7 +8,6 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotCrafting;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
@@ -19,7 +18,6 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Cursor;
 import org.lwjgl.input.Mouse;
 import vazkii.quark.base.lib.LibMisc;
-import vazkii.quark.base.lib.LibObfuscation;
 import vazkii.quark.base.module.Feature;
 
 import javax.imageio.ImageIO;
@@ -28,7 +26,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.util.HashMap;
-import java.util.List;
 
 public class ReactiveCursor extends Feature {
 
@@ -90,8 +87,7 @@ public class ReactiveCursor extends Feature {
 				}
 			}
 
-			List<GuiButton> buttonList = ObfuscationReflectionHelper.getPrivateValue(GuiScreen.class, gui, LibObfuscation.BUTTON_LIST);
-			for(GuiButton b : buttonList)
+			for(GuiButton b : gui.buttonList)
 				if(b.isMouseOver())
 					return CURSOR_FINGER;
 		}
@@ -133,7 +129,6 @@ public class ReactiveCursor extends Feature {
 			ByteBuffer buf = BufferUtils.createByteBuffer(colors.length * 4);
 
 			img.getRGB(0, 0, width, height, colors, 0, width);
-			int pixels = 0;
 
 			for(int i = colors.length - 1; i >= 0; i--) {
 				int color = colors[(i / height * height) + (width - (i % width) - 1)];

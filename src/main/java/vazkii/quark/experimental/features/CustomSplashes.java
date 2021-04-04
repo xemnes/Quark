@@ -3,11 +3,9 @@ package vazkii.quark.experimental.features;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
-import vazkii.quark.base.lib.LibObfuscation;
 import vazkii.quark.base.module.Feature;
 
 import java.util.Random;
@@ -31,8 +29,8 @@ public class CustomSplashes extends Feature {
 			boolean currentlyMainMenu = gui instanceof GuiMainMenu;
 			
 			if(!inMainMenu && currentlyMainMenu && splashes.length > 0) {
-				String splash = splashes[rand.nextInt(splashes.length)];
-				ObfuscationReflectionHelper.setPrivateValue(GuiMainMenu.class, ((GuiMainMenu) gui), splash, LibObfuscation.SPLASH_TEXT);
+                String splash = splashes[rand.nextInt(splashes.length)];
+                ((GuiMainMenu) gui).splashText = splash;
 			}
 			
 			inMainMenu = currentlyMainMenu;

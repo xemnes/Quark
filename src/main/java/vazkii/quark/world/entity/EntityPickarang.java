@@ -29,7 +29,6 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.RayTraceResult.Type;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import vazkii.quark.base.sounds.QuarkSounds;
 import vazkii.quark.misc.feature.Pickarang;
 
@@ -123,9 +122,9 @@ public class EntityPickarang extends EntityThrowable {
 						owner.setHeldItem(EnumHand.MAIN_HAND, pickarang);
 						owner.getAttributeMap().applyAttributeModifiers(modifiers);
 
-						int ticksSinceLastSwing = ObfuscationReflectionHelper.getPrivateValue(EntityLivingBase.class, owner, "field_184617_aD");
+						int oldLastSwing = owner.ticksSinceLastSwing;
 						int cooldownPeriod = (int) (1.0 / owner.getEntityAttribute(SharedMonsterAttributes.ATTACK_SPEED).getAttributeValue() * 20.0);
-						ObfuscationReflectionHelper.setPrivateValue(EntityLivingBase.class, owner, cooldownPeriod, "field_184617_aD");
+						owner.ticksSinceLastSwing = cooldownPeriod;
 
 						Pickarang.setActivePickarang(this);
 
@@ -136,7 +135,7 @@ public class EntityPickarang extends EntityThrowable {
 
 						Pickarang.setActivePickarang(null);
 
-						ObfuscationReflectionHelper.setPrivateValue(EntityLivingBase.class, owner, ticksSinceLastSwing, "field_184617_aD");
+						owner.ticksSinceLastSwing = oldLastSwing;
 
 						setStack(owner.getHeldItemMainhand());
 						owner.setHeldItem(EnumHand.MAIN_HAND, prev);

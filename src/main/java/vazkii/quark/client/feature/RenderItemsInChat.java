@@ -38,7 +38,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
-import vazkii.quark.base.client.ClientReflectiveAccessor;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.ModuleLoader;
 
@@ -76,8 +75,8 @@ public class RenderItemsInChat extends Feature {
 		GuiNewChat chatGui = gameGui.getChatGUI();
 		if (event.getType() == RenderGameOverlayEvent.ElementType.CHAT) {
 			int updateCounter = gameGui.getUpdateCounter();
-			List<ChatLine> lines = ClientReflectiveAccessor.getChatDrawnLines(chatGui);
-			int shift = ClientReflectiveAccessor.getScrollPos(chatGui);
+			List<ChatLine> lines = chatGui.drawnChatLines;
+			int shift = chatGui.scrollPos;
 
 			int idx = shift;
 
@@ -171,7 +170,7 @@ public class RenderItemsInChat extends Feature {
 		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		GlStateManager.translate(-4, -4, -4);
-		ClientReflectiveAccessor.setupGuiTransform(render, x, y, model.isGui3d());
+		render.setupGuiTransform(x, y, model.isGui3d());
 		GlStateManager.scale(0.65, 0.65, 0.65);
 		model = ForgeHooksClient.handleCameraTransforms(model, ItemCameraTransforms.TransformType.GUI, false);
 		render.renderItem(stack, model);

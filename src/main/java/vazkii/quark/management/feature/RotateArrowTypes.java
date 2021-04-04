@@ -20,10 +20,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.arl.network.NetworkHandler;
-import vazkii.quark.base.client.ClientReflectiveAccessor;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.network.message.MessageRotateArrows;
-import vazkii.quark.base.util.CommonReflectiveAccessor;
 import vazkii.quark.base.util.InventoryPositionHolder;
 
 public class RotateArrowTypes extends Feature {
@@ -34,7 +32,7 @@ public class RotateArrowTypes extends Feature {
 
 	private static void rotateSlot(InventoryPositionHolder holder, ItemBow bowItem, EntityPlayer player, int direction, int slot) {
 		ItemStack stack = InventoryPositionHolder.getStack(player, slot);
-		if (CommonReflectiveAccessor.isArrow(bowItem, stack)) {
+		if (bowItem.isArrow(stack)) {
 			if (direction < 1) {
 				if (holder.slot == InventoryPositionHolder.NO_SLOT)
 					holder.slot = slot;
@@ -70,7 +68,7 @@ public class RotateArrowTypes extends Feature {
 		ItemStack checkAgainst = ItemStack.EMPTY;
 		for (int slot = 0; slot < player.inventory.getSizeInventory(); slot++) {
 			ItemStack stack = player.inventory.getStackInSlot(slot);
-			if (CommonReflectiveAccessor.isArrow(bowItem, stack)) {
+			if (bowItem.isArrow(stack)) {
 				if (foundArrow && (!ItemStack.areItemsEqual(checkAgainst, stack) || !ItemStack.areItemStackTagsEqual(checkAgainst, stack))) {
 					foundSecondArrow = true;
 					break;
@@ -106,7 +104,7 @@ public class RotateArrowTypes extends Feature {
 			if (bowItem == null)
 				return;
 
-			long timeSinceUpdate = Minecraft.getSystemTime() - ClientReflectiveAccessor.lastSystemTime(mc);
+			long timeSinceUpdate = Minecraft.getSystemTime() - mc.systemTime;
 
 			if (timeSinceUpdate <= 200) {
 				int wheelChange = event.getDwheel();

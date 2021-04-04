@@ -24,11 +24,9 @@ import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.event.ClickEvent;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.client.event.ScreenshotEvent;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
-import vazkii.quark.base.lib.LibObfuscation;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.base.module.ModuleLoader;
 
@@ -36,8 +34,6 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -108,22 +104,9 @@ public class PanoramaMaker extends Feature {
 						e.printStackTrace();
 						return;
 					}
-				}
-
-				try {
-					Field field = ObfuscationReflectionHelper.findField(GuiMainMenu.class, LibObfuscation.TITLE_PANORAMA_PATHS);
-					field.setAccessible(true);
-
-					if(Modifier.isFinal(field.getModifiers())) {
-						Field modifiers = Field.class.getDeclaredField("modifiers");
-						modifiers.setAccessible(true);
-						modifiers.setInt(field, field.getModifiers() & ~Modifier.FINAL);
-					}
-
-					field.set(null, resources);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+                }
+                
+                GuiMainMenu.TITLE_PANORAMA_PATHS = resources;
 			}
 
 			overriddenOnce = true;
