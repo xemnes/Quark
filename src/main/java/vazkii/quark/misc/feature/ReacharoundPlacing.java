@@ -18,6 +18,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -118,7 +119,7 @@ public class ReacharoundPlacing extends Feature {
 				BlockPos pos = take2Res.getBlockPos().down();
 				IBlockState state = world.getBlockState(pos);
 
-				if(player.posY - pos.getY() > 1 && (world.isAirBlock(pos) || state.getBlock().isReplaceable(world, pos)) && !Block.isEqualTo(state.getBlock(), Blocks.LAVA))
+				if(player.posY - pos.getY() > 1 && (world.isAirBlock(pos) || state.getBlock().isReplaceable(world, pos)) && (Loader.isModLoaded("nolavabuild") && !Block.isEqualTo(state.getBlock(), Blocks.LAVA)))
 					return pos;
 			}
 		}
