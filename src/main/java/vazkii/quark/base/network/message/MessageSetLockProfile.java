@@ -8,7 +8,8 @@ import vazkii.quark.misc.feature.LockDirectionHotkey.LockProfile;
 
 public class MessageSetLockProfile extends NetworkMessage<MessageSetLockProfile> {
 
-	public LockProfile profile; 
+    private static final long serialVersionUID = -1842219425798868163L;
+    public LockProfile profile;
 	
 	public MessageSetLockProfile() { }
 	

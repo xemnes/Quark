@@ -9,7 +9,8 @@ import vazkii.quark.misc.feature.NoteBlockInterface;
 
 public class MessageTuneNoteBlock extends TileEntityMessage<TileEntityNote> {
 
-	public boolean next;
+    private static final long serialVersionUID = 4254943230885170038L;
+    public boolean next;
 	public byte target;
 
 	public MessageTuneNoteBlock() { }

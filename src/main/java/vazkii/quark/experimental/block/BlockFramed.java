@@ -1,7 +1,6 @@
 package vazkii.quark.experimental.block;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -24,7 +23,7 @@ import javax.annotation.Nonnull;
 
 import static vazkii.quark.experimental.features.FramedBlocks.setFrame;
 
-public class BlockFramed extends BlockModContainer implements IQuarkBlock, ITileEntityProvider {
+public class BlockFramed extends BlockModContainer implements IQuarkBlock {
 	
 	public BlockFramed() {
 		super("frame", Material.WOOD);
@@ -54,13 +53,11 @@ public class BlockFramed extends BlockModContainer implements IQuarkBlock, ITile
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public boolean isFullCube(IBlockState state) {
 		return false;
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}

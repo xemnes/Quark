@@ -14,6 +14,7 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderSkeleton;
 import net.minecraft.client.renderer.entity.layers.LayerHeldItem;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.AbstractSkeleton;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.util.ResourceLocation;
@@ -21,8 +22,7 @@ import net.minecraftforge.fml.client.registry.IRenderFactory;
 import vazkii.quark.world.client.layer.LayerAshenClothes;
 import vazkii.quark.world.client.layer.LayerAshenHeldItem;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Iterator;
 
 public class RenderAshen extends RenderSkeleton {
 
@@ -32,13 +32,13 @@ public class RenderAshen extends RenderSkeleton {
 
 	public RenderAshen(RenderManager renderManagerIn) {
 		super(renderManagerIn);
-
-		List<LayerRenderer> removals = new ArrayList<>();
-		for(LayerRenderer layer : layerRenderers)
-			if(layer instanceof LayerHeldItem)
-				removals.add(layer);
-
-		layerRenderers.removeAll(removals);
+        
+        Iterator<LayerRenderer<AbstractSkeleton>> it = layerRenderers.iterator();
+        while (it.hasNext()) {
+            LayerRenderer<? extends EntityLivingBase> layer = it.next();
+            if (layer instanceof LayerHeldItem)
+                it.remove();
+        }
 
 		addLayer(new LayerAshenHeldItem(this));
 		addLayer(new LayerAshenClothes(this));

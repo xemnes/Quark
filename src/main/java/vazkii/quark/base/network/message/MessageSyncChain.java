@@ -26,7 +26,8 @@ import java.util.UUID;
 
 public class MessageSyncChain extends NetworkMessage<MessageSyncChain> {
 
-	public int vehicle;
+    private static final long serialVersionUID = -5600426743086300348L;
+    public int vehicle;
 	public UUID other;
 
 	public MessageSyncChain() {

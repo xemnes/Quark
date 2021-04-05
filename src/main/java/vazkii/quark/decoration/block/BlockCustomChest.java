@@ -88,23 +88,22 @@ public class BlockCustomChest extends BlockChest implements IQuarkBlock {
 	}
 
 	@Override
-	public IProperty[] getIgnoredProperties() {
+	public IProperty<?>[] getIgnoredProperties() {
 		return createBlockState().getProperties().toArray(new IProperty[0]);
 	}
 
 	@Override
-	public IProperty getVariantProp() {
+	public IProperty<?> getVariantProp() {
 		return null;
 	}
 
 	@Override
-	public Class getVariantEnum() {
+	public Class<?> getVariantEnum() {
 		return null;
 	}
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
 		VariedChests.ChestType myType = getCustomType(source, pos);
 		return getCustomType(source, pos.north()) == myType ? NORTH_CHEST_AABB : getCustomType(source, pos.south()) == myType ? SOUTH_CHEST_AABB : getCustomType(source, pos.west()) == myType ? WEST_CHEST_AABB : getCustomType(source, pos.east()) == myType ? EAST_CHEST_AABB : NOT_CONNECTED_AABB;
@@ -193,7 +192,6 @@ public class BlockCustomChest extends BlockChest implements IQuarkBlock {
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public boolean canProvidePower(IBlockState state) {
 		return chestType == VariedChests.CUSTOM_TYPE_QUARK_TRAP;
 	}

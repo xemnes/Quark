@@ -55,7 +55,7 @@ public class CapabilityHandler {
 		@Override
 		public NBTBase writeNBT(Capability<T> capability, T instance, EnumFacing side) {
 			if (instance instanceof INBTSerializable)
-				return ((INBTSerializable) instance).serializeNBT();
+				return ((INBTSerializable<?>) instance).serializeNBT();
 			return null;
 		}
 
@@ -63,7 +63,7 @@ public class CapabilityHandler {
 		@SuppressWarnings("unchecked")
 		public void readNBT(Capability<T> capability, T instance, EnumFacing side, NBTBase nbt) {
 			if (nbt instanceof NBTTagCompound)
-				((INBTSerializable) instance).deserializeNBT(nbt);
+				((INBTSerializable<? super NBTTagCompound>) instance).deserializeNBT((NBTTagCompound) nbt);
 		}
 	}
 

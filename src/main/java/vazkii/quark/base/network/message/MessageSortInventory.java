@@ -7,7 +7,8 @@ import vazkii.quark.base.handler.SortingHandler;
 
 public class MessageSortInventory extends NetworkMessage<MessageSortInventory> {
 
-	public boolean forcePlayer;
+    private static final long serialVersionUID = 2341098755889680196L;
+    public boolean forcePlayer;
 	
 	public MessageSortInventory() { }
 

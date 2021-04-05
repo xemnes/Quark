@@ -1,6 +1,5 @@
 package vazkii.quark.building.feature;
 
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.oredict.OreDictionary;
@@ -40,9 +39,6 @@ public class SoulSandstone extends Feature {
 				"SS", "SS",
 				'S', ProxyRegistry.newStack(soul_sandstone, 1, 0));
 
-		IBlockState defaultState = soul_sandstone.getDefaultState();
-
-		String slabName = "_slab";
 		BlockQuarkSlab halfSlab = new BlockSoulSandstoneSlab(false);
 		BlockModSlab.initSlab(soul_sandstone, OreDictionary.WILDCARD_VALUE, halfSlab, new BlockSoulSandstoneSlab(true));
 		

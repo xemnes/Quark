@@ -60,7 +60,6 @@ import vazkii.quark.world.client.render.ChainRenderer;
 
 import javax.annotation.Nullable;
 
-@SuppressWarnings("unused")
 public final class ASMHooks {
 
 	// ===== EMOTES ===== //

@@ -16,7 +16,10 @@ import vazkii.arl.network.NetworkMessage;
 
 public class MessageDismountSeat extends NetworkMessage<MessageDismountSeat> {
 
-	public MessageDismountSeat() { }
+    private static final long serialVersionUID = 5554317819229846774L;
+
+    public MessageDismountSeat() {
+    }
 
 	@Override
 	public IMessage handleMessage(MessageContext context) {

@@ -33,7 +33,6 @@ public class BlockCrystal extends BlockMetaVariants<BlockCrystal.Variants> imple
 	}
 	
 	@Override
-	@SuppressWarnings("deprecation")
 	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}

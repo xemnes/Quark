@@ -143,7 +143,7 @@ public class GuiBetterEditSign extends GuiScreen {
 		GlStateManager.pushMatrix();
 		GlStateManager.translate((float)(width / 2) - 63, 0.0F, 50.0F);
 		float f = 93.75F;
-		GlStateManager.scale(-93.75F, -93.75F, -93.75F);
+		GlStateManager.scale(-f, -f, -f);
 		GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
 		Block block = sign.getBlockType();
 

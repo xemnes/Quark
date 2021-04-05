@@ -17,7 +17,8 @@ import vazkii.quark.management.feature.FToSwitchItems;
 
 public class MessageSwapItems extends NetworkMessage<MessageSwapItems> {
 
-	public int index;
+    private static final long serialVersionUID = 1340429380048823376L;
+    public int index;
 
 	public MessageSwapItems() { }
 

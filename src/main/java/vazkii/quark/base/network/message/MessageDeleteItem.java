@@ -7,7 +7,8 @@ import vazkii.quark.management.feature.DeleteItems;
 
 public class MessageDeleteItem extends NetworkMessage<MessageDeleteItem> {
 
-	public int slot;
+    private static final long serialVersionUID = 7726359685340809535L;
+    public int slot;
 	
 	public MessageDeleteItem() { }
 	

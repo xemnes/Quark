@@ -74,10 +74,10 @@ public class UndergroundBiomeGenerator extends MultiChunkFeatureGenerator {
 		
 		UndergroundBiomeGenerationContext context = new UndergroundBiomeGenerationContext();
 
-		forEachChunkBlock(chunkX, chunkZ, center.getY() - radiusY, center.getY() + radiusY, (pos) -> {
-			int x = pos.getX() - center.getX();
-			int y = pos.getY() - center.getY();
-			int z = pos.getZ() - center.getZ();
+		forEachChunkBlock(chunkX, chunkZ, centerY - radiusY, centerY + radiusY, (pos) -> {
+			int x = pos.getX() - centerX;
+			int y = pos.getY() - centerY;
+			int z = pos.getZ() - centerZ;
 			
 			double distX = x * x;
 			double distY = y * y;

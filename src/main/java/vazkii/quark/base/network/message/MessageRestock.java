@@ -17,7 +17,8 @@ import vazkii.quark.base.handler.DropoffHandler;
 
 public class MessageRestock extends NetworkMessage<MessageRestock> {
 
-	public boolean filtered;
+    private static final long serialVersionUID = 4048041180822486567L;
+    public boolean filtered;
 	
 	public MessageRestock() { }
 	

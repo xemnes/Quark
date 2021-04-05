@@ -19,7 +19,6 @@ import net.minecraft.item.ItemArrow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import vazkii.arl.interf.IVariantHolder;
 import vazkii.arl.item.ItemMod;
 import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.item.IQuarkItem;
@@ -27,7 +26,7 @@ import vazkii.quark.base.lib.LibMisc;
 
 import javax.annotation.Nonnull;
 
-public class ItemModArrow extends ItemArrow implements IVariantHolder, IQuarkItem {
+public class ItemModArrow extends ItemArrow implements IQuarkItem {
 
 	private final String bareName;
 	private final ArrowProvider provider; 

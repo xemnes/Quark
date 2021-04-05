@@ -24,7 +24,8 @@ import vazkii.quark.world.effects.PotionColorizer;
 
 public class MessageSyncColors extends NetworkMessage<MessageSyncColors> {
 
-	public int entityID;
+    private static final long serialVersionUID = 5518460736579877480L;
+    public int entityID;
 	public double r, g, b;
 
 	public MessageSyncColors() {

@@ -24,7 +24,8 @@ import java.nio.charset.StandardCharsets;
 
 public class MessageRequestEmote extends NetworkMessage<MessageRequestEmote> {
 
-	public String emoteName;
+    private static final long serialVersionUID = 2054715423119351345L;
+    public String emoteName;
 	
 	public MessageRequestEmote(String emoteName) {
 		this.emoteName = emoteName;

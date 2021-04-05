@@ -53,8 +53,8 @@ public class BlockQuarkPane extends BlockMod implements IQuarkBlock {
 
 	// COPYPASTA
 
-	@SuppressWarnings("deprecation")
-	@Override
+    @Override
+    @SuppressWarnings("deprecation")
 	public void addCollisionBoxToList(IBlockState state, @Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull AxisAlignedBB entityBox, @Nonnull List<AxisAlignedBB> collidingBoxes, Entity entity, boolean isActualState) {
 		if (!isActualState)
 			state = state.getActualState(worldIn, pos);
@@ -81,7 +81,6 @@ public class BlockQuarkPane extends BlockMod implements IQuarkBlock {
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
 		state = getActualState(state, source, pos);
 		return BOUNDING_BOXES[getBoundingBoxIndex(state)];
@@ -107,7 +106,6 @@ public class BlockQuarkPane extends BlockMod implements IQuarkBlock {
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public IBlockState getActualState(@Nonnull IBlockState state, IBlockAccess worldIn, BlockPos pos) {
 		return state.withProperty(NORTH, canPaneConnectTo(worldIn, pos, EnumFacing.NORTH))
 				.withProperty(SOUTH, canPaneConnectTo(worldIn, pos, EnumFacing.SOUTH))
@@ -116,13 +114,11 @@ public class BlockQuarkPane extends BlockMod implements IQuarkBlock {
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public boolean isFullCube(IBlockState state) {
 		return false;
 	}
@@ -139,8 +135,8 @@ public class BlockQuarkPane extends BlockMod implements IQuarkBlock {
 	}
 
 	@SideOnly(Side.CLIENT)
-	@Override
-	@SuppressWarnings("deprecation")
+    @Override
+    @SuppressWarnings("deprecation")
 	public boolean shouldSideBeRendered(IBlockState blockState, @Nonnull IBlockAccess blockAccess, @Nonnull BlockPos pos, EnumFacing side) {
 		return blockAccess.getBlockState(pos.offset(side)).getBlock() != this && super.shouldSideBeRendered(blockState, blockAccess, pos, side);
 	}
@@ -164,14 +160,12 @@ public class BlockQuarkPane extends BlockMod implements IQuarkBlock {
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public IBlockState withRotation(@Nonnull IBlockState state, Rotation rot) {
 		return rotate(state, rot, NORTH, SOUTH, EAST, WEST);
 	}
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public IBlockState withMirror(@Nonnull IBlockState state, Mirror mirrorIn) {
 		return mirror(state, mirrorIn, NORTH, SOUTH, EAST, WEST);
 	}
@@ -221,13 +215,12 @@ public class BlockQuarkPane extends BlockMod implements IQuarkBlock {
 	}
 
 	@Override
-	public IProperty[] getIgnoredProperties() {
+	public IProperty<?>[] getIgnoredProperties() {
 		return new IProperty[] {NORTH, EAST, WEST, SOUTH};
 	}
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos blockPos, EnumFacing face) {
 		return face != EnumFacing.UP && face != EnumFacing.DOWN ? BlockFaceShape.MIDDLE_POLE_THIN : BlockFaceShape.CENTER_SMALL;
 	}

@@ -6,7 +6,8 @@ import vazkii.aurelienribon.tweenengine.TweenAccessor;
  * @author Aurelien Ribon | http://www.aurelienribon.com/
  */
 public class MutableInteger extends Number implements TweenAccessor<MutableInteger> {
-	private int value;
+    private static final long serialVersionUID = -458404240370950698L;
+    private int value;
 
 	public MutableInteger(int value) {
 		this.value = value;

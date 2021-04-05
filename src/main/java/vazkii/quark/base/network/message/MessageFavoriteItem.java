@@ -17,7 +17,8 @@ import vazkii.quark.management.feature.FavoriteItems;
 
 public class MessageFavoriteItem extends NetworkMessage<MessageFavoriteItem> {
 
-	public int index;
+    private static final long serialVersionUID = 5444481990617722892L;
+    public int index;
 
 	public MessageFavoriteItem() { }
 

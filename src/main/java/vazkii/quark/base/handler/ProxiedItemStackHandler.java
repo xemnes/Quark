@@ -8,7 +8,6 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemHandlerHelper;
 import vazkii.arl.util.ItemNBTHelper;
@@ -20,7 +19,7 @@ import javax.annotation.Nullable;
  * @author WireSegal
  * Created at 4:27 PM on 12/15/18.
  */
-public class ProxiedItemStackHandler implements IItemHandler, IItemHandlerModifiable, ICapabilityProvider {
+public class ProxiedItemStackHandler implements IItemHandlerModifiable, ICapabilityProvider {
 	protected final ItemStack stack;
 	protected final String key;
 	protected final int size;
@@ -159,7 +158,7 @@ public class ProxiedItemStackHandler implements IItemHandler, IItemHandlerModifi
 			throw new RuntimeException("Slot " + slot + " not in valid range - [0," + size + ")");
 	}
 
-	@SuppressWarnings({"unused", "EmptyMethod"})
+	@SuppressWarnings({"EmptyMethod"})
 	protected void onContentsChanged(int slot) {
 		// NO-OP
 	}

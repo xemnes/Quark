@@ -48,13 +48,11 @@ public class BlockRainDetector extends BlockModContainer implements IQuarkBlock 
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
 		return RAIN_DETECTOR_AABB;
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public int getWeakPower(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
 		return blockState.getValue(POWER) ? 15 : 0;
 	}
@@ -88,19 +86,16 @@ public class BlockRainDetector extends BlockModContainer implements IQuarkBlock 
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public boolean isFullCube(IBlockState state) {
 		return false;
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public boolean canProvidePower(IBlockState state) {
 		return true;
 	}
@@ -123,7 +118,6 @@ public class BlockRainDetector extends BlockModContainer implements IQuarkBlock 
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public IBlockState getStateFromMeta(int meta) {
 		return getDefaultState().withProperty(POWER, (meta & 0b1) != 0).withProperty(INVERTED, (meta & 0b10) != 0);
 	}

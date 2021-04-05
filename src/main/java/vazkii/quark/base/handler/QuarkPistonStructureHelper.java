@@ -37,7 +37,6 @@ public class QuarkPistonStructureHelper extends BlockPistonStructureHelper {
 	private final BlockPos pistonPos;
 	private final BlockPos blockToMove;
 	private final EnumFacing moveDirection;
-	private final boolean extending;
 	private final List<BlockPos> toMove = Lists.<BlockPos>newArrayList();
 	private final List<BlockPos> toDestroy = Lists.<BlockPos>newArrayList();
 
@@ -54,7 +53,6 @@ public class QuarkPistonStructureHelper extends BlockPistonStructureHelper {
 			this.moveDirection = pistonFacing.getOpposite();
 			this.blockToMove = posIn.offset(pistonFacing, 2);
 		}
-		this.extending = extending;
 	}
 
 	@Override
@@ -91,7 +89,6 @@ public class QuarkPistonStructureHelper extends BlockPistonStructureHelper {
 
 		BlockPos target = origin;
 		IBlockState iblockstate = world.getBlockState(target);
-		Block block = iblockstate.getBlock();
 
 		if(iblockstate.getBlock().isAir(iblockstate, world, origin) 
 				|| !BlockPistonBase.canPush(iblockstate, world, origin, moveDirection, false, face)
@@ -123,7 +120,6 @@ public class QuarkPistonStructureHelper extends BlockPistonStructureHelper {
 					
 					target = origin.offset(moveDirection.getOpposite(), lineLen);
 					iblockstate = world.getBlockState(target);
-					block = iblockstate.getBlock();
 					
 					if(iblockstate.getBlock().isAir(iblockstate, world, target) || !BlockPistonBase.canPush(iblockstate, world, target, moveDirection, false, moveDirection.getOpposite()) || target.equals(pistonPos))
 						break;

@@ -150,13 +150,11 @@ public class BlockCustomFlowerPot extends BlockFlowerPot implements IBlockColorP
 	 */
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public boolean hasComparatorInputOverride(IBlockState state) {
 		return ColoredFlowerPots.enableComparatorLogic;
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public int getComparatorInputOverride(IBlockState blockState, World world, BlockPos pos) {
 		if(!ColoredFlowerPots.enableComparatorLogic) {
 			return 0;

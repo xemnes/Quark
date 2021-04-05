@@ -10,7 +10,8 @@ import vazkii.quark.oddities.inventory.ContainerBackpack;
 
 public class MessageHandleBackpack extends NetworkMessage<MessageHandleBackpack> {
 
-	public boolean open;
+    private static final long serialVersionUID = -8798673101274890262L;
+    public boolean open;
 	
 	public MessageHandleBackpack() { }
 	

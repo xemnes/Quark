@@ -43,7 +43,6 @@ public class BlockQuarkPillar extends BlockMod implements IQuarkBlock {
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public IBlockState withRotation(@Nonnull IBlockState state, Rotation rot) {
 		switch (rot) {
 		case COUNTERCLOCKWISE_90:
@@ -64,7 +63,6 @@ public class BlockQuarkPillar extends BlockMod implements IQuarkBlock {
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public IBlockState getStateFromMeta(int meta) {
 		EnumFacing.Axis axis = EnumFacing.Axis.Y;
 		int i = meta & 12;
@@ -98,7 +96,6 @@ public class BlockQuarkPillar extends BlockMod implements IQuarkBlock {
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
 		return getStateFromMeta(meta).withProperty(BlockRotatedPillar.AXIS, facing.getAxis());
 	}

@@ -19,7 +19,8 @@ import vazkii.quark.management.feature.RotateArrowTypes;
 
 public class MessageRotateArrows extends NetworkMessage<MessageRotateArrows> {
 
-	public int direction;
+    private static final long serialVersionUID = -5186835494497578682L;
+    public int direction;
 
 	public MessageRotateArrows() { }
 

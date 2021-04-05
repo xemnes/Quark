@@ -18,7 +18,8 @@ import vazkii.quark.base.Quark;
 
 public class MessageDoEmote extends NetworkMessage<MessageDoEmote> {
 
-	public String emoteName;
+    private static final long serialVersionUID = 366343426934849955L;
+    public String emoteName;
 	public String playerName;
 	public int playerTier;
 

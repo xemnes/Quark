@@ -18,7 +18,8 @@ import vazkii.quark.base.module.GlobalConfig;
 
 public class MessageChangeConfig extends NetworkMessage<MessageChangeConfig> {
 	
-	public String category;
+    private static final long serialVersionUID = -4875279735724498412L;
+    public String category;
 	public String key;
 	public String value;
 	public boolean saveToFile;

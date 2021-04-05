@@ -85,17 +85,17 @@ public class BlockQuarkButton extends BlockButton implements IQuarkBlock {
 	}
 
 	@Override
-	public IProperty[] getIgnoredProperties() {
+	public IProperty<?>[] getIgnoredProperties() {
 		return new IProperty[0];
 	}
 
 	@Override
-	public IProperty getVariantProp() {
+	public IProperty<?> getVariantProp() {
 		return null;
 	}
 
 	@Override
-	public Class getVariantEnum() {
+	public Class<?> getVariantEnum() {
 		return null;
 	}
 

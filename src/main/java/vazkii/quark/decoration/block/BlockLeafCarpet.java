@@ -83,19 +83,16 @@ public class BlockLeafCarpet extends BlockMetaVariants<BlockLeafCarpet.Variants>
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, @Nonnull IBlockAccess worldIn, @Nonnull BlockPos pos) {
 		return null;
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public boolean isFullCube(IBlockState state) {
 		return false;
 	}
@@ -109,14 +106,12 @@ public class BlockLeafCarpet extends BlockMetaVariants<BlockLeafCarpet.Variants>
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
 		return CARPET_AABB;
 	}
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos blockPos, EnumFacing face) {
 		return face == EnumFacing.DOWN ? BlockFaceShape.SOLID : BlockFaceShape.UNDEFINED;
 	}

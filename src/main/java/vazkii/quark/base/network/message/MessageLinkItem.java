@@ -19,7 +19,8 @@ import vazkii.quark.management.feature.LinkItems;
 
 public class MessageLinkItem  extends NetworkMessage<MessageLinkItem> {
 
-	public ItemStack stack;
+    private static final long serialVersionUID = -9138995294999379825L;
+    public ItemStack stack;
 
 	public MessageLinkItem() { }
 

@@ -63,7 +63,7 @@ public class EntityParrotEgg extends EntityThrowable {
 			double d0 = 0.08D;
 
 			for(int i = 0; i < 8; ++i)
-				this.world.spawnParticle(EnumParticleTypes.ITEM_CRACK, this.posX, this.posY, this.posZ, (this.rand.nextFloat() - 0.5D) * 0.08D, (this.rand.nextFloat() - 0.5D) * 0.08D, (this.rand.nextFloat() - 0.5D) * 0.08D, Item.getIdFromItem(Items.EGG));
+				this.world.spawnParticle(EnumParticleTypes.ITEM_CRACK, this.posX, this.posY, this.posZ, (this.rand.nextFloat() - 0.5D) * d0, (this.rand.nextFloat() - 0.5D) * d0, (this.rand.nextFloat() - 0.5D) * d0, Item.getIdFromItem(Items.EGG));
 		}
 	}
 

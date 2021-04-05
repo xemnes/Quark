@@ -108,7 +108,7 @@ public class Feature implements IFeature {
 		// NO-OP
 	}
 
-	@SuppressWarnings({"unused", "EmptyMethod"})
+	@SuppressWarnings({"EmptyMethod"})
 	public void serverStarting() {
 		// NO-OP
 	}
@@ -207,7 +207,7 @@ public class Feature implements IFeature {
 		}
 	}
 
-	public static boolean isVanilla(IForgeRegistryEntry entry) {
+	public static boolean isVanilla(IForgeRegistryEntry<?> entry) {
 		ResourceLocation loc = entry.getRegistryName();
 		return loc != null && loc.getNamespace().equals("minecraft");
 	}

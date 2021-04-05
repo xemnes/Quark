@@ -17,7 +17,9 @@ import vazkii.quark.management.feature.StoreToChests;
 
 public class MessageDisableDropoffClient extends NetworkMessage<MessageDisableDropoffClient> {
 
-	@Override
+    private static final long serialVersionUID = -3459570934596390588L;
+
+    @Override
 	public IMessage handleMessage(MessageContext context) {
 		StoreToChests.clientDisabled = true;
 		return null;

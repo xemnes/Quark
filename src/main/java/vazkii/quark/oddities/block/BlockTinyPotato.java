@@ -69,7 +69,6 @@ public class BlockTinyPotato extends BlockMod implements IQuarkBlock {
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public IBlockState getStateFromMeta(int meta) {
 		return getDefaultState().withProperty(FACING, EnumFacing.byHorizontalIndex(meta));
 	}
@@ -86,7 +85,6 @@ public class BlockTinyPotato extends BlockMod implements IQuarkBlock {
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess world, BlockPos pos) {
 		return AABB;
 	}
@@ -147,20 +145,17 @@ public class BlockTinyPotato extends BlockMod implements IQuarkBlock {
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public boolean isFullCube(IBlockState state) {
 		return false;
 	}
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public EnumBlockRenderType getRenderType(IBlockState state) {
 		return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;
 	}
@@ -178,7 +173,6 @@ public class BlockTinyPotato extends BlockMod implements IQuarkBlock {
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public BlockFaceShape getBlockFaceShape(IBlockAccess world, IBlockState state, BlockPos pos, EnumFacing side) {
 		return BlockFaceShape.UNDEFINED;
 	}

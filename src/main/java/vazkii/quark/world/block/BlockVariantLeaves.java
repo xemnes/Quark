@@ -72,7 +72,6 @@ public class BlockVariantLeaves extends BlockLeaves implements IQuarkBlock, IBlo
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
     public ItemStack getItem(World worldIn, BlockPos pos, @Nonnull IBlockState state) {
         return new ItemStack(this, 1, state.getValue(VARIANT).ordinal());
     }
@@ -85,7 +84,6 @@ public class BlockVariantLeaves extends BlockLeaves implements IQuarkBlock, IBlo
 	
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
     public IBlockState getStateFromMeta(int meta) {
         return getDefaultState().withProperty(VARIANT, Variant.values()[meta & 1]).withProperty(DECAYABLE, (meta & 4) != 0).withProperty(CHECK_DECAY, (meta & 8) > 0);
     }
@@ -153,17 +151,17 @@ public class BlockVariantLeaves extends BlockLeaves implements IQuarkBlock, IBlo
 	}
 
 	@Override
-	public IProperty[] getIgnoredProperties() {
+	public IProperty<?>[] getIgnoredProperties() {
 		return new IProperty[] { CHECK_DECAY, DECAYABLE };
 	}
 
 	@Override
-	public IProperty getVariantProp() {
+	public IProperty<?> getVariantProp() {
 		return VARIANT;
 	}
 
 	@Override
-	public Class getVariantEnum() {
+	public Class<?> getVariantEnum() {
 		return Variant.class;
 	}
 	

@@ -32,7 +32,6 @@ public class BlockMagmaBricksSlab extends BlockQuarkSlab {
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	@SuppressWarnings("deprecation")
 	public int getPackedLightmapCoords(IBlockState state, IBlockAccess source, @Nonnull BlockPos pos) {
 		return 0xf000f0;
 	}

@@ -73,7 +73,7 @@ public class VariedDungeons extends Feature {
 	}
 
 	public boolean couldDungeonGenerate(World worldIn, Random rand, BlockPos position) {
-		int i = 3;
+		// int i = 3;
 		int j = rand.nextInt(2) + 2;
 		int k = -j - 1;
 		int l = j + 1;
@@ -85,16 +85,16 @@ public class VariedDungeons extends Feature {
 		int j2 = 0;
 
 		for(int k2 = k; k2 <= l; ++k2) {
-			for(int l2 = -1; l2 <= 4; ++l2) {
+			for(int l2 = i1; l2 <= j1; ++l2) {
 				for(int i3 = l1; i3 <= i2; ++i3) {
 					BlockPos blockpos = position.add(k2, l2, i3);
 					Material material = worldIn.getBlockState(blockpos).getMaterial();
 					boolean flag = material.isSolid();
 
-					if(l2 == -1 && !flag)
+					if(l2 == i1 && !flag)
 						return false;
 
-					if(l2 == 4 && !flag)
+					if(l2 == j1 && !flag)
 						return false;
 
 					if((k2 == k || k2 == l || i3 == l1 || i3 == i2) && l2 == 0 && worldIn.isAirBlock(blockpos) && worldIn.isAirBlock(blockpos.up()))

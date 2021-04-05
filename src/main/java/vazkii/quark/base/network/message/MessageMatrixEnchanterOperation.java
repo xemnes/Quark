@@ -10,7 +10,8 @@ import vazkii.quark.oddities.tile.TileMatrixEnchanter;
 
 public class MessageMatrixEnchanterOperation extends NetworkMessage<MessageMatrixEnchanterOperation> {
 
-	public int operation;
+    private static final long serialVersionUID = 4345543657827997398L;
+    public int operation;
 	public int arg0, arg1, arg2;
 	
 	public MessageMatrixEnchanterOperation() { }

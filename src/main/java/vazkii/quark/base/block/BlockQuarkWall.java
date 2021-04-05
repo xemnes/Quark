@@ -66,7 +66,6 @@ public class BlockQuarkWall extends BlockMod implements IQuarkBlock {
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public float getBlockHardness(IBlockState blockState, World worldIn, BlockPos pos) {
 		return parent.getBlockHardness(worldIn, pos);
 	}
@@ -84,7 +83,6 @@ public class BlockQuarkWall extends BlockMod implements IQuarkBlock {
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
 		state = this.getActualState(state, source, pos);
 		return AABB_BY_INDEX[getAABBIndex(state)];
@@ -92,7 +90,6 @@ public class BlockQuarkWall extends BlockMod implements IQuarkBlock {
 
 	@Override
 	@Nullable
-	@SuppressWarnings("deprecation")
 	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, @Nonnull IBlockAccess worldIn, @Nonnull BlockPos pos) {
 		blockState = this.getActualState(blockState, worldIn, pos);
 		return CLIP_AABB_BY_INDEX[getAABBIndex(blockState)];
@@ -122,7 +119,6 @@ public class BlockQuarkWall extends BlockMod implements IQuarkBlock {
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public boolean isFullCube(IBlockState state) {
 		return false;
 	}
@@ -133,7 +129,6 @@ public class BlockQuarkWall extends BlockMod implements IQuarkBlock {
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
@@ -146,15 +141,14 @@ public class BlockQuarkWall extends BlockMod implements IQuarkBlock {
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
-	@SuppressWarnings("deprecation")
+    @SideOnly(Side.CLIENT)
+    @SuppressWarnings("deprecation")
 	public boolean shouldSideBeRendered(IBlockState blockState, @Nonnull IBlockAccess blockAccess, @Nonnull BlockPos pos, EnumFacing side) {
 		return side != EnumFacing.DOWN || super.shouldSideBeRendered(blockState, blockAccess, pos, side);
 	}
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public IBlockState getActualState(@Nonnull IBlockState state, IBlockAccess worldIn, BlockPos pos) {
 		boolean flag = canConnectTo(worldIn, pos.north());
 		boolean flag1 = canConnectTo(worldIn, pos.east());
@@ -172,13 +166,12 @@ public class BlockQuarkWall extends BlockMod implements IQuarkBlock {
 	
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
 		return face != EnumFacing.UP && face != EnumFacing.DOWN ? BlockFaceShape.MIDDLE_POLE_THICK : BlockFaceShape.CENTER_BIG;
 	}
 
 	@Override
-	public IProperty[] getIgnoredProperties() {
+	public IProperty<?>[] getIgnoredProperties() {
 		return new IProperty[] {UP, NORTH, EAST, WEST, SOUTH};
 	}
 

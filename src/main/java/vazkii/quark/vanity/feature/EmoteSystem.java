@@ -286,14 +286,14 @@ public class EmoteSystem extends Feature {
 
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	@SideOnly(Side.CLIENT)
-	public void preRenderLiving(RenderLivingEvent.Pre event) {
+	public void preRenderLiving(RenderLivingEvent.Pre<?> event) {
 		if (event.getEntity() instanceof EntityPlayer)
 			EmoteHandler.preRender((EntityPlayer) event.getEntity());
 	}
 
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	@SideOnly(Side.CLIENT)
-	public void postRenderLiving(RenderLivingEvent.Post event) {
+	public void postRenderLiving(RenderLivingEvent.Post<?> event) {
 		if (event.getEntity() instanceof EntityPlayer)
 			EmoteHandler.postRender((EntityPlayer) event.getEntity());
 	}

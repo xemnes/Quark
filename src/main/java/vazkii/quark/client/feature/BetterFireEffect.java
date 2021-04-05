@@ -41,7 +41,6 @@ public class BetterFireEffect extends Feature {
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder bufferbuilder = tessellator.getBuffer();
 		float f1 = 0.5F;
-		float f2 = 0.0F;
 		float f4 = (float)(entity.posY - entity.getEntityBoundingBox().minY);
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		float f5 = 0.0F;

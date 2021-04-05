@@ -22,7 +22,6 @@ public class BlockSturdyStone extends BlockMod implements IQuarkBlock {
 	
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public EnumPushReaction getPushReaction(IBlockState state) {
 		return EnumPushReaction.BLOCK;
 	}

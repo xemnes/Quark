@@ -45,7 +45,6 @@ public class BlockCandle extends BlockMetaVariants<BlockCandle.Variants> impleme
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
 		worldIn.scheduleUpdate(pos, this, tickRate(worldIn));
 	}
@@ -92,38 +91,32 @@ public class BlockCandle extends BlockMetaVariants<BlockCandle.Variants> impleme
 	
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
 		return AABB;
 	}
 	
 	@Override
-	@SuppressWarnings("deprecation")
 	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, @Nonnull IBlockAccess worldIn, @Nonnull BlockPos pos) {
 		return AABB;
 	}
 	
 	@Override
-	@SuppressWarnings("deprecation")
 	public boolean isFullCube(IBlockState state) {
 		return false;
 	}
 	
 	@Override
-	@SuppressWarnings("deprecation")
 	public boolean isFullBlock(IBlockState state) {
 		return false;
 	}
 	
 	@Override
-	@SuppressWarnings("deprecation")
 	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
 	
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos blockPos, EnumFacing face) {
 		return BlockFaceShape.UNDEFINED;
 	}

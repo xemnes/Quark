@@ -64,7 +64,6 @@ public class BlockCrystalPane extends BlockQuarkPane {
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public IBlockState getStateFromMeta(int meta) {
 		BlockCrystal.Variants[] variantTypes = BlockCrystal.Variants.values();
 		return getDefaultState().withProperty(VARIANT, variantTypes[meta % variantTypes.length]);

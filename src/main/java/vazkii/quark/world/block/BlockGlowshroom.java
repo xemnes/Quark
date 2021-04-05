@@ -29,7 +29,6 @@ public class BlockGlowshroom extends BlockQuarkBush implements IGrowable {
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
 		return MUSHROOM_AABB;
 	}

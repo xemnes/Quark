@@ -218,7 +218,6 @@ public abstract class BaseTween<T> {
 	 * @see TweenCallback
 	 * @see #setCallbackTriggers(int)
 	 */
-	@SuppressWarnings("unchecked")
 	public T addCallback(int flags, Consumer<BaseTween<?>> callback) {
 		this.callbackTriggers |= flags;
 

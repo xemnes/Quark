@@ -11,7 +11,6 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import vazkii.arl.block.BlockMetaVariants;
-import vazkii.arl.block.BlockMod;
 import vazkii.quark.base.block.IQuarkBlock;
 
 import java.util.Locale;
@@ -32,19 +31,16 @@ public class BlockPaperLantern extends BlockMetaVariants<BlockPaperLantern.Varia
 	
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
 		return AABB;
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public boolean isFullCube(IBlockState state) {
 		return false;
 	}
@@ -61,7 +57,6 @@ public class BlockPaperLantern extends BlockMetaVariants<BlockPaperLantern.Varia
 	
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
 		return face != EnumFacing.UP && face != EnumFacing.DOWN ? BlockFaceShape.UNDEFINED : BlockFaceShape.CENTER;
 	}

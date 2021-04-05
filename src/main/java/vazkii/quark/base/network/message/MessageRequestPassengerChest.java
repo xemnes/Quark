@@ -12,7 +12,9 @@ import vazkii.quark.management.entity.EntityChestPassenger;
 
 public class MessageRequestPassengerChest extends NetworkMessage<MessageRequestPassengerChest> {
 
-	@Override
+    private static final long serialVersionUID = 365967021703885393L;
+
+    @Override
 	public IMessage handleMessage(MessageContext context) {
 		EntityPlayer player = context.getServerHandler().player;
 

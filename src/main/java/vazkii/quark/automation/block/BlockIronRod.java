@@ -56,20 +56,17 @@ public class BlockIronRod extends BlockMod implements IQuarkBlock, ICollateralMo
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public boolean isFullCube(IBlockState state) {
 		return false;
 	}
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
 		switch(state.getValue(FACING).getAxis()) {
 		case X:
@@ -83,7 +80,6 @@ public class BlockIronRod extends BlockMod implements IQuarkBlock, ICollateralMo
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
 		IBlockState iblockstate = worldIn.getBlockState(pos.offset(facing.getOpposite()));
 
@@ -106,14 +102,12 @@ public class BlockIronRod extends BlockMod implements IQuarkBlock, ICollateralMo
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public IBlockState withRotation(@Nonnull IBlockState state, Rotation rot) {
 		return state.withProperty(FACING, rot.rotate(state.getValue(FACING)));
 	}
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public IBlockState withMirror(@Nonnull IBlockState state, Mirror mirrorIn) {
 		return state.withProperty(FACING, mirrorIn.mirror(state.getValue(FACING)));
 	}
@@ -125,7 +119,6 @@ public class BlockIronRod extends BlockMod implements IQuarkBlock, ICollateralMo
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public IBlockState getStateFromMeta(int meta) {
 		IBlockState iblockstate = getDefaultState();
 		iblockstate = iblockstate.withProperty(FACING, EnumFacing.byIndex(meta));
@@ -140,7 +133,6 @@ public class BlockIronRod extends BlockMod implements IQuarkBlock, ICollateralMo
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public IBlockState getActualState(@Nonnull IBlockState state, IBlockAccess worldIn, BlockPos pos) {
 		EnumFacing facing = state.getValue(FACING);
 		IBlockState otherState = worldIn.getBlockState(pos.offset(facing.getOpposite()));
@@ -154,7 +146,6 @@ public class BlockIronRod extends BlockMod implements IQuarkBlock, ICollateralMo
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
 		return BlockFaceShape.UNDEFINED;
 	}

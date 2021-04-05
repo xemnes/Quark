@@ -97,7 +97,6 @@ public class BlockRedstoneRandomizer extends BlockMod implements IQuarkBlock {
 	
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public IBlockState getStateFromMeta(int meta) {
 		EnumFacing face = EnumFacing.VALUES[(meta & 0b0011) + 2];
 		boolean powered = (meta & 0b0100) != 0;
@@ -111,13 +110,11 @@ public class BlockRedstoneRandomizer extends BlockMod implements IQuarkBlock {
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
 		return REDSTONE_DIODE_AABB;
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public boolean isFullCube(IBlockState state) {
 		return false;
 	}
@@ -133,7 +130,6 @@ public class BlockRedstoneRandomizer extends BlockMod implements IQuarkBlock {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	@SuppressWarnings("deprecation")
 	public boolean shouldSideBeRendered(IBlockState blockState, @Nonnull IBlockAccess blockAccess, @Nonnull BlockPos pos, EnumFacing side) {
 		return side.getAxis() != EnumFacing.Axis.Y;
 	}
@@ -143,13 +139,11 @@ public class BlockRedstoneRandomizer extends BlockMod implements IQuarkBlock {
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public int getStrongPower(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
 		return blockState.getWeakPower(blockAccess, pos, side);
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public int getWeakPower(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
 		if(!isPowered(blockState))
 			return 0;
@@ -158,7 +152,6 @@ public class BlockRedstoneRandomizer extends BlockMod implements IQuarkBlock {
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
 		if(canBlockStay(worldIn, pos))
 			updateState(worldIn, pos, state);
@@ -189,14 +182,12 @@ public class BlockRedstoneRandomizer extends BlockMod implements IQuarkBlock {
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public boolean canProvidePower(IBlockState state) {
 		return true;
 	}
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
 		return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite());
 	}
@@ -236,7 +227,6 @@ public class BlockRedstoneRandomizer extends BlockMod implements IQuarkBlock {
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
@@ -257,7 +247,6 @@ public class BlockRedstoneRandomizer extends BlockMod implements IQuarkBlock {
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
 		return face == EnumFacing.DOWN ? BlockFaceShape.SOLID : BlockFaceShape.UNDEFINED;
 	}

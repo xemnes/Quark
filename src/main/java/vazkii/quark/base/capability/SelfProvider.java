@@ -35,14 +35,12 @@ public class SelfProvider<V> implements ICapabilityProvider {
 		return new SelfProvider<>(capability, (V) self);
 	}
 
-	@SuppressWarnings("unchecked")
 	public static <V> void attachItem(ResourceLocation location,
 									  Capability<V> capability,
 									  AttachCapabilitiesEvent<ItemStack> event) {
 		event.addCapability(location, provide(capability, event.getObject().getItem()));
 	}
 
-	@SuppressWarnings("unchecked")
 	public static <V, C extends ICapabilityProvider> void attach(ResourceLocation location,
 																 Capability<V> capability,
 																 AttachCapabilitiesEvent<C> event) {

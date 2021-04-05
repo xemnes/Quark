@@ -27,7 +27,6 @@ public class BlockMagmaBricksStairs extends BlockQuarkStairs {
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	@SuppressWarnings("deprecation")
 	public int getPackedLightmapCoords(IBlockState state, @Nonnull IBlockAccess source, @Nonnull BlockPos pos) {
 		return 0xf000f0;
 	}

@@ -65,7 +65,7 @@ public class GuiButtonTrash extends GuiButton implements IParentedGui {
 			
 			GlStateManager.pushMatrix();
 			String tooltip = I18n.format(open ? "quarkmisc.trashButtonOpen" : "quarkmisc.trashButtonShift");
-			int len = Minecraft.getMinecraft().fontRenderer.getStringWidth(tooltip);
+			// int len = Minecraft.getMinecraft().fontRenderer.getStringWidth(tooltip);
 			int tooltipShift = 2;
 			List<String> tooltipList = Collections.singletonList(tooltip);
 

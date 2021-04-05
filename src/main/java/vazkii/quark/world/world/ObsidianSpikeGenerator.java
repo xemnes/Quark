@@ -16,7 +16,6 @@ import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraftforge.fml.common.IWorldGenerator;
 import vazkii.quark.decoration.feature.BlazeLantern;
 import vazkii.quark.world.feature.NetherObsidianSpikes;
-import vazkii.quark.world.feature.NetherSmoker;
 
 public class ObsidianSpikeGenerator implements IWorldGenerator {
 

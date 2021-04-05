@@ -44,7 +44,6 @@ public class BlockGrate extends BlockMod implements IQuarkBlock {
 	
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
 		return AABB;
 	}
@@ -77,26 +76,22 @@ public class BlockGrate extends BlockMod implements IQuarkBlock {
 	}
 	
 	@Override
-	@SuppressWarnings("deprecation")
 	public boolean isFullCube(IBlockState state) {
 		return false;
 	}
 	
 	@Override
-	@SuppressWarnings("deprecation")
 	public boolean isFullBlock(IBlockState state) {
 		return false;
 	}
 	
 	@Override
-	@SuppressWarnings("deprecation")
 	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
 	
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos blockPos, EnumFacing face) {
 		return BlockFaceShape.UNDEFINED;
 	}

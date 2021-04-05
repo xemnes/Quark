@@ -5,13 +5,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
-import vazkii.quark.base.item.IQuarkItem;
 import vazkii.quark.base.item.ItemQuarkFood;
 import vazkii.quark.world.feature.CaveRoots;
 
 import javax.annotation.Nonnull;
 
-public class ItemRootFlower extends ItemQuarkFood implements IQuarkItem {
+public class ItemRootFlower extends ItemQuarkFood {
 
 	private static final String[] VARIANTS = {
 			"root_blue_flower",

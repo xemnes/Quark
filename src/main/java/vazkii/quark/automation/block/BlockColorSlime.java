@@ -85,7 +85,6 @@ public class BlockColorSlime extends BlockMetaVariants<BlockColorSlime.Variants>
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}

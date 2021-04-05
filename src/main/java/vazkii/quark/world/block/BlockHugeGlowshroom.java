@@ -68,7 +68,6 @@ public class BlockHugeGlowshroom extends BlockMod implements IQuarkBlock {
 	}
 	
 	@Override
-	@SuppressWarnings("deprecation")
 	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
@@ -182,7 +181,6 @@ public class BlockHugeGlowshroom extends BlockMod implements IQuarkBlock {
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public MapColor getMapColor(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
 		switch (state.getValue(VARIANT)) {
 		case ALL_STEM:
@@ -204,21 +202,18 @@ public class BlockHugeGlowshroom extends BlockMod implements IQuarkBlock {
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public ItemStack getItem(World worldIn, BlockPos pos, @Nonnull IBlockState state) {
 		return new ItemStack(UndergroundBiomes.glowshroom);
 	}
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
 		return this.getDefaultState();
 	}
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public IBlockState getStateFromMeta(int meta) {
 		return this.getDefaultState().withProperty(VARIANT, BlockHugeMushroom.EnumType.byMetadata(meta));
 	}
@@ -230,7 +225,6 @@ public class BlockHugeGlowshroom extends BlockMod implements IQuarkBlock {
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public IBlockState withRotation(@Nonnull IBlockState state, Rotation rot) {
 		switch (rot) {
 			case CLOCKWISE_180:
@@ -252,7 +246,8 @@ public class BlockHugeGlowshroom extends BlockMod implements IQuarkBlock {
 					case SOUTH:
 						return state.withProperty(VARIANT, BlockHugeMushroom.EnumType.NORTH);
 					case SOUTH_EAST:
-						return state.withProperty(VARIANT, BlockHugeMushroom.EnumType.NORTH_WEST);
+                        return state.withProperty(VARIANT, BlockHugeMushroom.EnumType.NORTH_WEST);
+                    default: break;
 				}
 
 			case COUNTERCLOCKWISE_90:
@@ -274,7 +269,8 @@ public class BlockHugeGlowshroom extends BlockMod implements IQuarkBlock {
 					case SOUTH:
 						return state.withProperty(VARIANT, BlockHugeMushroom.EnumType.EAST);
 					case SOUTH_EAST:
-						return state.withProperty(VARIANT, BlockHugeMushroom.EnumType.NORTH_EAST);
+                        return state.withProperty(VARIANT, BlockHugeMushroom.EnumType.NORTH_EAST);
+                    default: break;
 				}
 
 			case CLOCKWISE_90:
@@ -296,8 +292,10 @@ public class BlockHugeGlowshroom extends BlockMod implements IQuarkBlock {
 					case SOUTH:
 						return state.withProperty(VARIANT, BlockHugeMushroom.EnumType.WEST);
 					case SOUTH_EAST:
-						return state.withProperty(VARIANT, BlockHugeMushroom.EnumType.SOUTH_WEST);
-				}
+                        return state.withProperty(VARIANT, BlockHugeMushroom.EnumType.SOUTH_WEST);
+                    default: break;
+                }
+            default: break;
 		}
 
 		return state;
@@ -305,7 +303,6 @@ public class BlockHugeGlowshroom extends BlockMod implements IQuarkBlock {
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public IBlockState withMirror(@Nonnull IBlockState state, Mirror mirrorIn) {
 		BlockHugeMushroom.EnumType mushroomType = state.getValue(VARIANT);
 
@@ -324,8 +321,7 @@ public class BlockHugeGlowshroom extends BlockMod implements IQuarkBlock {
 						return state.withProperty(VARIANT, BlockHugeMushroom.EnumType.NORTH);
 					case SOUTH_EAST:
 						return state.withProperty(VARIANT, BlockHugeMushroom.EnumType.NORTH_EAST);
-					default:
-						return state;
+					default: break;
 				}
 
 			case FRONT_BACK:
@@ -341,8 +337,10 @@ public class BlockHugeGlowshroom extends BlockMod implements IQuarkBlock {
 					case SOUTH_WEST:
 						return state.withProperty(VARIANT, BlockHugeMushroom.EnumType.SOUTH_EAST);
 					case SOUTH_EAST:
-						return state.withProperty(VARIANT, BlockHugeMushroom.EnumType.SOUTH_WEST);
-				}
+                        return state.withProperty(VARIANT, BlockHugeMushroom.EnumType.SOUTH_WEST);
+                    default: break;
+                }
+            default: break;
 		}
 
 		return state;
@@ -355,7 +353,6 @@ public class BlockHugeGlowshroom extends BlockMod implements IQuarkBlock {
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public boolean rotateBlock(World world, @Nonnull BlockPos pos, @Nonnull EnumFacing axis) {
 		IBlockState state = world.getBlockState(pos);
 		world.setBlockState(pos, state.cycleProperty(VARIANT));

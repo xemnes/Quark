@@ -35,7 +35,6 @@ public class BlockGravisand extends BlockMod implements IQuarkBlock {
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
 		checkRedstone(worldIn, pos);
 	}
@@ -48,13 +47,11 @@ public class BlockGravisand extends BlockMod implements IQuarkBlock {
 	}
 	
 	@Override
-	@SuppressWarnings("deprecation")
 	public boolean hasComparatorInputOverride(IBlockState state) {
 		return true;
 	}
 	
 	@Override
-	@SuppressWarnings("deprecation")
 	public int getComparatorInputOverride(IBlockState blockState, World worldIn, BlockPos pos) {
 		return 15;
 	}

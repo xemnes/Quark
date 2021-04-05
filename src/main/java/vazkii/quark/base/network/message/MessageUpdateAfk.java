@@ -7,7 +7,8 @@ import vazkii.quark.tweaks.feature.ImprovedSleeping;
 
 public class MessageUpdateAfk extends NetworkMessage<MessageUpdateAfk> {
 
-	public boolean afk;
+    private static final long serialVersionUID = -4636645868721235497L;
+    public boolean afk;
 	
 	public MessageUpdateAfk() { }
 

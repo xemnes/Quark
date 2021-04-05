@@ -228,7 +228,6 @@ public class BlockRope extends BlockMod implements IQuarkBlock {
 	}
 	
 	@Override
-	@SuppressWarnings("deprecation")
 	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
 		if(!canPlaceBlockAt(worldIn, pos)) {
 			worldIn.playEvent(2001, pos, Block.getStateId(worldIn.getBlockState(pos)));
@@ -245,19 +244,16 @@ public class BlockRope extends BlockMod implements IQuarkBlock {
 	
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
 		return AABB;
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public boolean isFullCube(IBlockState state) {
 		return false;
 	}
@@ -274,7 +270,6 @@ public class BlockRope extends BlockMod implements IQuarkBlock {
 	
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
 		return face != EnumFacing.UP && face != EnumFacing.DOWN ? BlockFaceShape.UNDEFINED : BlockFaceShape.CENTER;
 	}

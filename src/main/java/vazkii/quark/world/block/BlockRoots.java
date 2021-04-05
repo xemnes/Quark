@@ -159,14 +159,12 @@ public class BlockRoots extends BlockMod implements IQuarkBlock, IShearable, IGr
 
 	@Override
 	@Nullable
-	@SuppressWarnings("deprecation")
 	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, @Nonnull IBlockAccess worldIn, @Nonnull BlockPos pos) {
 		return NULL_AABB;
 	}
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
 		state = state.getActualState(source, pos);
 		int i = 0;
@@ -197,20 +195,17 @@ public class BlockRoots extends BlockMod implements IQuarkBlock, IShearable, IGr
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public IBlockState getActualState(@Nonnull IBlockState state, IBlockAccess worldIn, BlockPos pos) {
 		BlockPos blockpos = pos.up();
 		return state.withProperty(UP, worldIn.getBlockState(blockpos).getBlockFaceShape(worldIn, blockpos, EnumFacing.DOWN) == BlockFaceShape.SOLID);
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public boolean isFullCube(IBlockState state) {
 		return false;
 	}
@@ -260,7 +255,6 @@ public class BlockRoots extends BlockMod implements IQuarkBlock, IShearable, IGr
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
 		if(!worldIn.isRemote && !recheckGrownSides(worldIn, pos, state)) {
 			dropBlockAsItem(worldIn, pos, state, 0);
@@ -270,7 +264,6 @@ public class BlockRoots extends BlockMod implements IQuarkBlock, IShearable, IGr
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
 		IBlockState iblockstate = getDefaultState().withProperty(UP, false).withProperty(NORTH, false).withProperty(EAST, false).withProperty(SOUTH, false).withProperty(WEST, false);
 		return facing.getAxis().isHorizontal() ? iblockstate.withProperty(getPropertyFor(facing.getOpposite()), true) : iblockstate;
@@ -278,7 +271,6 @@ public class BlockRoots extends BlockMod implements IQuarkBlock, IShearable, IGr
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public List<ItemStack> getDrops(@Nonnull IBlockAccess world, @Nonnull BlockPos pos, @Nonnull IBlockState state, int fortune) {
 		if(rng.nextFloat() < getDropChance())
 			return NonNullList.withSize(1, getRootDrop());
@@ -297,7 +289,6 @@ public class BlockRoots extends BlockMod implements IQuarkBlock, IShearable, IGr
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public IBlockState getStateFromMeta(int meta) {
 		return this.getDefaultState()
 				.withProperty(SOUTH, (meta & 1) != 0)
@@ -337,14 +328,12 @@ public class BlockRoots extends BlockMod implements IQuarkBlock, IShearable, IGr
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public IBlockState withRotation(@Nonnull IBlockState state, Rotation rot) {
 		return rotate(state, rot, NORTH, SOUTH, EAST, WEST);
 	}
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public IBlockState withMirror(@Nonnull IBlockState state, Mirror mirrorIn) {
 		return mirror(state, mirrorIn, NORTH, SOUTH, EAST, WEST);
 	}
@@ -390,7 +379,6 @@ public class BlockRoots extends BlockMod implements IQuarkBlock, IShearable, IGr
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
 		return BlockFaceShape.UNDEFINED;
 	}

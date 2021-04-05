@@ -17,7 +17,8 @@ import vazkii.quark.base.handler.DropoffHandler;
 
 public class MessageDropoff extends NetworkMessage<MessageDropoff> {
 
-	public boolean smart;
+    private static final long serialVersionUID = -1156333486504407405L;
+    public boolean smart;
 	public boolean useContainer;
 
 	public MessageDropoff() { }

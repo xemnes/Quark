@@ -29,10 +29,10 @@ public class CaveRootGenerator implements IWorldGenerator {
 			if(world.isAirBlock(pos)) {
 				for(EnumFacing facing : EnumFacing.HORIZONTALS) {
 					BlockPos target = pos.offset(facing);
-					if(CaveRoots.roots.canPlaceBlockOnSide(world, pos, facing) && world.isBlockLoaded(pos)) {
+					if(CaveRoots.roots.canPlaceBlockOnSide(world, pos, facing) && world.isBlockLoaded(target)) {
 						IBlockState state = CaveRoots.roots.getDefaultState().withProperty(BlockRoots.getPropertyFor(facing.getOpposite()), true);
-						world.setBlockState(pos, state);
-						BlockRoots.growMany(world, pos, state, 0.4F, true);
+						world.setBlockState(target, state);
+						BlockRoots.growMany(world, target, state, 0.4F, true);
 					}
 				}
 			}

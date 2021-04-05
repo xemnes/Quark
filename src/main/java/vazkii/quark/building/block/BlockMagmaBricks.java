@@ -34,13 +34,11 @@ public class BlockMagmaBricks extends BlockMod implements IQuarkBlock {
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	@SuppressWarnings("deprecation")
 	public int getPackedLightmapCoords(IBlockState state, IBlockAccess source, @Nonnull BlockPos pos) {
 		return 0xf000f0;
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public boolean canEntitySpawn(IBlockState state, Entity entityIn) {
 		return entityIn.isImmuneToFire();
 	}

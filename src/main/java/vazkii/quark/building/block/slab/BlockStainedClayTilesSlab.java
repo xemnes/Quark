@@ -35,7 +35,6 @@ public class BlockStainedClayTilesSlab extends BlockQuarkSlab implements IRecipe
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public MapColor getMapColor(IBlockState state, IBlockAccess world, BlockPos pos) {
 		return MapColor.ADOBE;
 	}

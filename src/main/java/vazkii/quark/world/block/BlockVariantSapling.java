@@ -107,14 +107,12 @@ public class BlockVariantSapling extends BlockQuarkBush implements IGrowable {
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
 		return SAPLING_AABB;
 	}
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public IBlockState getStateFromMeta(int meta) {
 		return getDefaultState().withProperty(VARIANT, Variant.values()[meta & 1]).withProperty(STAGE, (meta & 8) >> 3);
 	}
@@ -144,17 +142,17 @@ public class BlockVariantSapling extends BlockQuarkBush implements IGrowable {
 	}
 
 	@Override
-	public IProperty getVariantProp() {
+	public IProperty<?> getVariantProp() {
 		return VARIANT;
 	}
 
 	@Override
-	public Class getVariantEnum() {
+	public Class<?> getVariantEnum() {
 		return Variant.class;
 	}
 
 	@Override
-	public IProperty[] getIgnoredProperties() {
+	public IProperty<?>[] getIgnoredProperties() {
 		return new IProperty[] { STAGE };
 	}
 	

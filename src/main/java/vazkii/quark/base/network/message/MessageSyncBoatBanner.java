@@ -24,7 +24,8 @@ import vazkii.quark.vanity.feature.BoatSails;
 
 public class MessageSyncBoatBanner extends NetworkMessage<MessageSyncBoatBanner> {
 
-	public int boat;
+    private static final long serialVersionUID = -3106995336764771357L;
+    public int boat;
 	public ItemStack banner;
 
 	public MessageSyncBoatBanner() {

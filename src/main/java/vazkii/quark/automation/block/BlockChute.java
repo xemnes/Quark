@@ -47,7 +47,6 @@ public class BlockChute extends BlockModContainer implements IQuarkBlock {
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
 		boolean flag = !worldIn.isBlockPowered(pos);
 
@@ -61,13 +60,11 @@ public class BlockChute extends BlockModContainer implements IQuarkBlock {
 	}
 	
 	@Override
-	@SuppressWarnings("deprecation")
 	public boolean isFullCube(IBlockState state) {
 		return false;
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
@@ -79,7 +76,7 @@ public class BlockChute extends BlockModContainer implements IQuarkBlock {
 	}
 	
 	@Override
-	public IProperty[] getIgnoredProperties() {
+	public IProperty<?>[] getIgnoredProperties() {
 		return new IProperty[] { ENABLED };
 	}
 	
@@ -90,14 +87,12 @@ public class BlockChute extends BlockModContainer implements IQuarkBlock {
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public IBlockState getStateFromMeta(int meta) {
 		return getDefaultState().withProperty(ENABLED, (meta & 0b1) != 1);
 	}
 	
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
 		return face == EnumFacing.UP ? BlockFaceShape.SOLID : BlockFaceShape.UNDEFINED;
 	}
@@ -111,13 +106,11 @@ public class BlockChute extends BlockModContainer implements IQuarkBlock {
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	@SuppressWarnings("deprecation")
 	public boolean shouldSideBeRendered(IBlockState blockState, @Nonnull IBlockAccess blockAccess, @Nonnull BlockPos pos, EnumFacing side) {
 		return true;
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public boolean isTopSolid(IBlockState state) {
 		return true;
 	}

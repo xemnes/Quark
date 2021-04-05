@@ -24,7 +24,8 @@ import vazkii.quark.client.feature.ItemsFlashBeforeExpiring;
 
 public class MessageItemUpdate extends NetworkMessage<MessageItemUpdate> {
 
-	public int id;
+    private static final long serialVersionUID = -8617338229706165607L;
+    public int id;
 	public int age;
 	public int lifespan;
 

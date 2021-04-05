@@ -54,7 +54,6 @@ public class BlockSpeleothem extends BlockMod implements IQuarkBlock {
 	}
 	
 	@Override
-	@SuppressWarnings("deprecation")
 	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
 		int size = state.getValue(SIZE).strength;
 		if(getBearing(worldIn, pos) < size + 1) {
@@ -96,38 +95,32 @@ public class BlockSpeleothem extends BlockMod implements IQuarkBlock {
 	
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
 		return state.getValue(SIZE).aabb;
 	}
 	
 	@Override
-	@SuppressWarnings("deprecation")
 	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, @Nonnull IBlockAccess worldIn, @Nonnull BlockPos pos) {
 		return getBoundingBox(blockState, worldIn, pos);
 	}
 	
 	@Override
-	@SuppressWarnings("deprecation")
 	public boolean isFullCube(IBlockState state) {
 		return false;
 	}
 	
 	@Override
-	@SuppressWarnings("deprecation")
 	public boolean isFullBlock(IBlockState state) {
 		return false;
 	}
 	
 	@Override
-	@SuppressWarnings("deprecation")
 	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
 	
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos blockPos, EnumFacing face) {
 		return BlockFaceShape.UNDEFINED;
 	}
@@ -150,7 +143,6 @@ public class BlockSpeleothem extends BlockMod implements IQuarkBlock {
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public IBlockState getStateFromMeta(int meta) {
 		return getDefaultState().withProperty(SIZE, EnumSize.values()[Math.min(EnumSize.values().length - 1, meta)]);
 	}

@@ -20,8 +20,6 @@ public abstract class MultiChunkFeatureGenerator {
 		long xSeed = worldRandom.nextLong() >> 2 + 1;
 		long zSeed = worldRandom.nextLong() >> 2 + 1;
 
-		long ourChunkSeed = (xSeed * chunkX + zSeed * chunkZ) ^ worldSeed;
-
 		for(int x = chunkX - chunkRadius; x <= chunkX + chunkRadius; x++)
 			for(int z = chunkZ - chunkRadius; z <= chunkZ + chunkRadius; z++) {
 				long chunkSeed = (xSeed * x + zSeed * z) ^ worldSeed;

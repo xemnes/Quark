@@ -72,7 +72,7 @@ public class BlockRedstoneInductor extends BlockMod implements IQuarkBlock, IBlo
 	}
 
 	@Override
-	public IProperty[] getIgnoredProperties() {
+	public IProperty<?>[] getIgnoredProperties() {
 		return new IProperty[] { POWER };
 	}
 
@@ -94,7 +94,6 @@ public class BlockRedstoneInductor extends BlockMod implements IQuarkBlock, IBlo
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public IBlockState getActualState(@Nonnull IBlockState state, IBlockAccess worldIn, BlockPos pos) {
 		return state.withProperty(POWER, getActiveSignal(worldIn, pos));
 	}
@@ -183,7 +182,6 @@ public class BlockRedstoneInductor extends BlockMod implements IQuarkBlock, IBlo
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public IBlockState getStateFromMeta(int meta) {
 		EnumFacing face = EnumFacing.byHorizontalIndex(meta & 0b0011);
 		boolean powered = (meta & 0b0100) != 0;
@@ -193,13 +191,11 @@ public class BlockRedstoneInductor extends BlockMod implements IQuarkBlock, IBlo
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
 		return REDSTONE_DIODE_AABB;
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public boolean isFullCube(IBlockState state) {
 		return false;
 	}
@@ -222,13 +218,11 @@ public class BlockRedstoneInductor extends BlockMod implements IQuarkBlock, IBlo
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public int getStrongPower(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
 		return blockState.getWeakPower(blockAccess, pos, side);
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public int getWeakPower(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
 		if(!isPowered(blockState))
 			return 0;
@@ -243,7 +237,6 @@ public class BlockRedstoneInductor extends BlockMod implements IQuarkBlock, IBlo
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
 		if(canBlockStay(worldIn, pos))
 			updateState(worldIn, pos);
@@ -283,14 +276,12 @@ public class BlockRedstoneInductor extends BlockMod implements IQuarkBlock, IBlo
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public boolean canProvidePower(IBlockState state) {
 		return true;
 	}
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
 		return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite());
 	}
@@ -313,7 +304,6 @@ public class BlockRedstoneInductor extends BlockMod implements IQuarkBlock, IBlo
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
@@ -333,7 +323,6 @@ public class BlockRedstoneInductor extends BlockMod implements IQuarkBlock, IBlo
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
 		return face == EnumFacing.DOWN ? BlockFaceShape.SOLID : BlockFaceShape.UNDEFINED;
 	}

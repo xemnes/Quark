@@ -24,7 +24,8 @@ import vazkii.arl.util.ClientTicker;
 
 public class MessageSpamlessChat extends NetworkMessage<MessageSpamlessChat> {
 
-	public ITextComponent message;
+    private static final long serialVersionUID = -3407856580234152390L;
+    public ITextComponent message;
 	public int id;
 
 	public MessageSpamlessChat() { }

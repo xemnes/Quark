@@ -83,7 +83,8 @@ public class FramedBlockModel extends BakedModelWrapper<IBakedModel> {
 		
 		return bakedModel.getQuads(state, side, rand);
 	}
-	
+    
+    @SuppressWarnings("unused")
 	private static class FramedBlockColor implements IBlockColor {
 
 		@Override
@@ -98,7 +99,7 @@ public class FramedBlockModel extends BakedModelWrapper<IBakedModel> {
 			return 0;
 		}
 		
-	}
+    }
 
 	private static class RetextureData {
 
@@ -118,6 +119,7 @@ public class FramedBlockModel extends BakedModelWrapper<IBakedModel> {
 			return sprites[Math.min(sprites.length - 1, side)];
 		}
 
+        @SuppressWarnings("unused")
 		private int getTint(int side) {
 			return tintIndices[Math.min(tintIndices.length - 1, side)];
 		}

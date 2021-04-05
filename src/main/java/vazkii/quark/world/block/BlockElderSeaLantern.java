@@ -44,13 +44,11 @@ public class BlockElderSeaLantern extends BlockMod implements IQuarkBlock {
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public MapColor getMapColor(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
 		return MapColor.QUARTZ;
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	protected boolean canSilkHarvest() {
 		return true;
 	}

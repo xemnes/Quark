@@ -57,7 +57,7 @@ public class CollateralPistonMovement extends Feature {
 				case "above_below": action = (world6, pos6, state6, facing6, extending6, list6) -> moveAllAboveBelow(world6, pos6, state6, list6); break;
 				
 				case "above_edge": action = (world5, pos5, state5, facing5, extending5, list5) -> moveAllAboveAndEdge(world5, pos5, state5, list5); break;
-				case "below_edge": action = (world5, pos5, state5, facing5, extending5, list5) -> moveAllAboveAndEdge(world5, pos5, state5, list5); break;
+				case "below_edge": action = (world5, pos5, state5, facing5, extending5, list5) -> moveAllBelowAndEdge(world5, pos5, state5, list5); break;
 				case "above_below_edge": action = (world4, pos4, state4, facing4, extending4, list4) -> moveAllAboveBelowAndEdge(world4, pos4, state4, list4); break;
 				
 				case "directional": action = (world3, pos3, state3, facing3, extending3, list3) -> moveNextDirectional(world3, pos3, state3, facing3, list3); break;
@@ -190,10 +190,9 @@ public class CollateralPistonMovement extends Feature {
 		return !block.isAir(state, world, pos) && state.getPushReaction() == EnumPushReaction.NORMAL && (!block.hasTileEntity() || !PistonsMoveTEs.shouldMoveTE(true, state));
 	}
 
-	@SuppressWarnings("unchecked")
 	private static EnumFacing getStateFacing(IBlockState state) {
 		Collection<IProperty<?>> props = state.getPropertyKeys();
-		for(IProperty prop : props)
+		for(IProperty<?> prop : props)
 			if(prop.getName().equals("facing")) {
 				Object obj = state.getValue(prop);
 				if(obj instanceof EnumFacing)

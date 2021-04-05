@@ -6,7 +6,8 @@ import vazkii.aurelienribon.tweenengine.TweenAccessor;
  * @author Aurelien Ribon | http://www.aurelienribon.com/
  */
 public class MutableFloat extends Number implements TweenAccessor<MutableFloat> {
-	private float value;
+    private static final long serialVersionUID = -7261726733926939190L;
+    private float value;
 
 	public MutableFloat(float value) {
 		this.value = value;

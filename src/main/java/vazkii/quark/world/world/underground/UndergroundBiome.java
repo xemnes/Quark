@@ -71,7 +71,7 @@ public abstract class UndergroundBiome {
 		// NO-OP
 	}
 
-	@SuppressWarnings({"unused", "EmptyMethod"})
+	@SuppressWarnings({"EmptyMethod"})
 	public void finalInsidePass(World world, BlockPos pos) {
 		// NO-OP
 	}

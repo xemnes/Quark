@@ -114,7 +114,8 @@ public class RevampStoneGen extends Feature {
 		if(outputCSV)
 			BiomeTypeConfigHandler.debugStoneGeneration(generators);
 	}
-	
+    
+    @SuppressWarnings("deprecation") // For Red Hat users who have to use Java 11+
 	private BlockMod makeStone(Class<? extends BlockMod> clazz, String name, StoneInfo info, boolean enable) {
 		if(!enable)
 			return null;

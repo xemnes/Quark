@@ -133,8 +133,8 @@ public class UsageTicker extends Feature {
 				float x = res.getScaledWidth() / 2f;
 				float y = res.getScaledHeight() - anim;
 				
-				int armorWidth = 80;
-				int heldWidth = 40;
+				// int armorWidth = 80;
+				// int heldWidth = 40;
 				int barWidth = 190;
 				boolean armor = slot.getSlotType() == Type.ARMOR;
 				

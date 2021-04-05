@@ -34,7 +34,6 @@ public class BlockHardenedClayTiles extends BlockMod implements IQuarkBlock {
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public MapColor getMapColor(IBlockState state, IBlockAccess world, BlockPos pos) {
 		return MapColor.ADOBE;
 	}

@@ -9,7 +9,8 @@ import vazkii.arl.network.NetworkMessage;
 
 public class MessageChangeHotbar extends NetworkMessage<MessageChangeHotbar> {
 
-	public int bar;
+    private static final long serialVersionUID = 282652590044469182L;
+    public int bar;
 	
 	public MessageChangeHotbar() { }
 	

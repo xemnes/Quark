@@ -12,15 +12,14 @@ public class TileFramed extends TileSimpleInventory {
 
 	private static final IBlockState AIR = Blocks.AIR.getDefaultState();
 	
-	// TODO: unsafe, temporary
 	@SuppressWarnings("deprecation")
 	public IBlockState getState() {
 		ItemStack stack = getStackInSlot(0);
 		if(stack.isEmpty() || !(stack.getItem() instanceof ItemBlock))
 			return AIR;
 		
-		ItemBlock block = (ItemBlock) stack.getItem();
-		return block.getBlock().getStateFromMeta(stack.getItemDamage()); // <--- bad
+        ItemBlock block = (ItemBlock) stack.getItem();
+		return block.getBlock().getStateFromMeta(stack.getMetadata());
 	}
 	
 	@Override

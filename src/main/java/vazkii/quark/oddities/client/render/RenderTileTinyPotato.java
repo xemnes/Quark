@@ -283,6 +283,7 @@ public class RenderTileTinyPotato extends TileEntitySpecialRenderer<TileTinyPota
 		Minecraft.getMinecraft().getRenderItem().renderItem(stack, ItemCameraTransforms.TransformType.HEAD);
 	}
 
+    @SuppressWarnings("unused")
 	private void renderBlock(Block block) {
 		Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 		Minecraft.getMinecraft().getBlockRendererDispatcher().renderBlockBrightness(block.getDefaultState(), 1.0F);

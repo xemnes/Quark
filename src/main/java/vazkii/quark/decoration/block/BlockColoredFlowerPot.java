@@ -19,7 +19,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import vazkii.arl.interf.IBlockColorProvider;
 import vazkii.arl.interf.IRecipeGrouped;
 import vazkii.quark.base.block.IQuarkBlock;
 import vazkii.quark.decoration.client.state.ColoredFlowerPotStateMapper;
@@ -27,7 +26,7 @@ import vazkii.quark.decoration.client.state.ColoredFlowerPotStateMapper;
 import javax.annotation.Nonnull;
 import java.util.Random;
 
-public class BlockColoredFlowerPot extends BlockCustomFlowerPot implements IQuarkBlock, IBlockColorProvider, IRecipeGrouped {
+public class BlockColoredFlowerPot extends BlockCustomFlowerPot implements IQuarkBlock, IRecipeGrouped {
 
 	private final String[] variants;
 	private final String bareName;
@@ -95,7 +94,7 @@ public class BlockColoredFlowerPot extends BlockCustomFlowerPot implements IQuar
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public IProperty[] getIgnoredProperties() {
+	public IProperty<?>[] getIgnoredProperties() {
 		return null;
 	}
 
@@ -106,12 +105,12 @@ public class BlockColoredFlowerPot extends BlockCustomFlowerPot implements IQuar
 	}
 
 	@Override
-	public IProperty getVariantProp() {
+	public IProperty<?> getVariantProp() {
 		return null;
 	}
 
 	@Override
-	public Class getVariantEnum() {
+	public Class<?> getVariantEnum() {
 		return null;
 	}
 

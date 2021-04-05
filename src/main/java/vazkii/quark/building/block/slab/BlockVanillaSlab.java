@@ -42,7 +42,6 @@ public class BlockVanillaSlab extends BlockQuarkSlab {
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public float getBlockHardness(IBlockState blockState, World worldIn, BlockPos pos) {
 		return parent.getBlockHardness(worldIn, pos);
 	}
