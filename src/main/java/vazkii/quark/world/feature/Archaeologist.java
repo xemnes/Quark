@@ -12,6 +12,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
@@ -40,6 +41,7 @@ import java.util.List;
 public class Archaeologist extends Feature {
 
 	public static final ResourceLocation HOUSE_STRUCTURE = new ResourceLocation("quark", "archaeologist_house");
+	public static final ResourceLocation ARCHAEOLOGIST_LOOT_TABLE = new ResourceLocation("quark", "chests/archaeologist");
 
 	public static double chance;
 	public static int maxY, minY;
@@ -73,6 +75,7 @@ public class Archaeologist extends Feature {
 		EntityRegistry.registerModEntity(new ResourceLocation(archaeologistName), EntityArchaeologist.class, archaeologistName, LibEntityIDs.ARCHAEOLOGIST, Quark.instance, 80, 3, true, 0xb5966e, 0xb37b62);
 
 		GameRegistry.registerWorldGenerator(new ArchaeologistHouseGenerator(), 3000);
+		LootTableList.register(ARCHAEOLOGIST_LOOT_TABLE);
 	}
 
 
