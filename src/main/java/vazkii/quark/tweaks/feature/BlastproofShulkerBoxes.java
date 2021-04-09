@@ -2,6 +2,7 @@ package vazkii.quark.tweaks.feature;
 
 import net.minecraft.block.Block;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.management.feature.RightClickAddToShulkerBox;
 
@@ -27,7 +28,7 @@ public class BlastproofShulkerBoxes extends Feature {
 
 	@Override
 	public void init() {
-		for (Block block : Block.REGISTRY) {
+		for (Block block : ForgeRegistries.BLOCKS) {
 			if (RightClickAddToShulkerBox.isShulkerBox(block, shulkerBoxes, dropoffAnyShulkerBox))
 				block.setResistance(2000);
 		}

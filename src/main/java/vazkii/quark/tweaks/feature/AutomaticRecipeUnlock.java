@@ -1,6 +1,5 @@
 package vazkii.quark.tweaks.feature;
 
-import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButtonImage;
 import net.minecraft.client.gui.GuiScreen;
@@ -11,12 +10,12 @@ import net.minecraft.client.gui.toasts.IToast;
 import net.minecraft.client.gui.toasts.RecipeToast;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.client.event.GuiScreenEvent.InitGuiEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.quark.base.module.Feature;
@@ -44,7 +43,7 @@ public class AutomaticRecipeUnlock extends Feature {
 	@SubscribeEvent 
 	public void onPlayerLoggedIn(PlayerLoggedInEvent event) {
 		if(event.player instanceof EntityPlayerMP) {
-			ArrayList<IRecipe> recipes = Lists.newArrayList(CraftingManager.REGISTRY);
+			ArrayList<IRecipe> recipes = new ArrayList<IRecipe>(ForgeRegistries.RECIPES.getValuesCollection());
 			recipes.removeIf((recipe) -> ignored.contains(Objects.toString(recipe.getRegistryName())) || recipe.getRecipeOutput().isEmpty());
 			event.player.unlockRecipes(recipes);
 

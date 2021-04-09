@@ -13,6 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import vazkii.quark.base.module.Feature;
 
 import javax.annotation.Nonnull;
@@ -22,7 +23,7 @@ public class DispenserRecords extends Feature {
 	@Override
 	public void postInit() {
 		BehaviourRecord behaviour = new BehaviourRecord();
-		Item.REGISTRY.forEach(i -> {
+		ForgeRegistries.ITEMS.forEach(i -> {
 			if(i instanceof ItemRecord)
 				BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(i, behaviour);
 		});

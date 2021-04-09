@@ -20,6 +20,7 @@ import net.minecraft.world.biome.Biome.SpawnListEntry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.lib.LibEntityIDs;
 import vazkii.quark.base.module.Feature;
@@ -81,7 +82,7 @@ public class DepthMobs extends Feature {
 
 	public static Biome[] getBiomesWithMob(Class<? extends Entity> clazz) {
 		List<Biome> biomes = new ArrayList<>();
-		for (Biome b : Biome.REGISTRY) {
+		for (Biome b : ForgeRegistries.BIOMES) {
 			List<SpawnListEntry> spawnList = b.getSpawnableList(EnumCreatureType.MONSTER);
 			for (SpawnListEntry e : spawnList)
 				if (e.entityClass == clazz) {

@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.WeightedRandom;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import vazkii.quark.oddities.feature.MatrixEnchanting;
 
 import java.awt.*;
@@ -123,7 +124,7 @@ public class EnchantmentMatrix {
 		List<Piece> marked = pieces.values().stream().filter(p -> p.marked).collect(Collectors.toList());
 		
 		List<EnchantmentDataWrapper> validEnchants = new ArrayList<>();
-		for(Enchantment enchantment : Enchantment.REGISTRY) {
+		for(Enchantment enchantment : ForgeRegistries.ENCHANTMENTS) {
 			if ((!enchantment.isTreasureEnchantment() || MatrixEnchanting.allowTreasures)
 					&& !MatrixEnchanting.disallowedEnchantments.contains(Objects.toString(enchantment.getRegistryName()))
 					&& (enchantment.canApplyAtEnchantingTable(target) || (book && enchantment.isAllowedOnBooks()))) {

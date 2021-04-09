@@ -17,6 +17,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import vazkii.quark.base.module.Feature;
 
 import java.util.regex.Pattern;
@@ -71,7 +72,7 @@ public class StackableItems extends Feature {
 				ResourceLocation loc = new ResourceLocation(split[0]);
 				int size = Math.min(64, Math.max(0, Integer.parseInt(split[1])));
 
-				for (Item item : Item.REGISTRY) {
+				for (Item item : ForgeRegistries.ITEMS) {
 					if (loc.equals(item.getRegistryName())) {
 						item.setMaxStackSize(size);
 					}

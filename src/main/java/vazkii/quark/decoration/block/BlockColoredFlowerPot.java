@@ -16,6 +16,7 @@ import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.translation.LanguageMap;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -66,9 +67,8 @@ public class BlockColoredFlowerPot extends BlockCustomFlowerPot implements IQuar
 
 	@Nonnull
 	@Override
-	@SuppressWarnings("deprecation")
 	public String getLocalizedName() {
-		return net.minecraft.util.text.translation.I18n.translateToLocal(getTranslationKey() + ".name");
+		return LanguageMap.getInstance().translateKey(getTranslationKey() + ".name");
 	}
 	
 	@Override

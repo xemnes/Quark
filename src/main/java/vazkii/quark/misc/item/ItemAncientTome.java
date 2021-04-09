@@ -24,6 +24,7 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IRarity;
 import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.arl.item.ItemMod;
@@ -80,7 +81,7 @@ public class ItemAncientTome extends ItemMod implements IQuarkItem {
 	@Override
 	public void getSubItems(@Nonnull CreativeTabs tab, @Nonnull NonNullList<ItemStack> subItems) {
 		if (tab.getRelevantEnchantmentTypes().length != 0 || tab == CreativeTabs.SEARCH) {
-			for (Enchantment ench : Enchantment.REGISTRY) {
+			for (Enchantment ench : ForgeRegistries.ENCHANTMENTS) {
 				if (AncientTomes.validEnchants.contains(ench) &&
 						(tab == CreativeTabs.SEARCH ? ench.type != null : tab.hasRelevantEnchantmentType(ench.type)))
 					subItems.add(getEnchantedItemStack(new EnchantmentData(ench, ench.getMaxLevel())));
