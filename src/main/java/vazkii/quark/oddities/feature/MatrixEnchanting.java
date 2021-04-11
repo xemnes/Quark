@@ -29,7 +29,7 @@ public class MatrixEnchanting extends Feature {
 	public static int maxBookshelves, piecePriceScale, bookEnchantability, baseMaxPieceCount, baseMaxPieceCountBook,
 			minLevelCutoff, chargePerLapis;
 	public static float minLevelScaleFactor, minLevelScaleFactorBook, dupeMultiplier, incompatibleMultiplier;
-	public static boolean allowBooks, allowTreasures, showTooltip, normalizeRarity;
+	public static boolean allowBooks, allowTreasures, showTooltip, normalizeRarity, useLevels;
 
 	public static List<String> disallowedEnchantments;
 	private static String[] influencesArr;
@@ -44,7 +44,7 @@ public class MatrixEnchanting extends Feature {
 		maxBookshelves = loadPropInt("Max Bookshelves", "The maximum enchanting power the matrix enchanter can accept",
 				15);
 		piecePriceScale = loadPropInt("Piece Price Scale",
-				"Should this be X, the price of a piece increase by 1 every X pieces you generate", 9);
+				"If this is X, the price of a piece increases by 1 for every X pieces you generate", 9);
 		bookEnchantability = loadPropInt("Book Enchantability",
 				"The higher this is, the better enchantments you'll get on books", 12);
 		baseMaxPieceCount = loadPropInt("Base Max Piece Count",
@@ -75,6 +75,9 @@ public class MatrixEnchanting extends Feature {
 				1.4);
 		incompatibleMultiplier = (float) loadPropDouble("Incompatible Multiplier",
 				"How much to multiply the frequency of pieces where incompatible pieces have been generated", 0);
+		useLevels = loadPropBool("Use Levels", 
+				"Whether to use player levels instead of raw experience points when consuming xp. Vanilla uses levels, so by default this is true.", 
+				true);
 
 		String[] enchArr = loadPropStringList("Disallowed Enchantments",
 				"A list of enchantment IDs you don't want the enchantment table to be able to create", new String[0]);
@@ -87,7 +90,7 @@ public class MatrixEnchanting extends Feature {
 		influencePower = (float) loadPropDouble("Influencing Power",
 				"How much each candle influences an enchantment. This works as a multiplier to its weight", 0.125);
 
-		influencesArr = loadPropStringList("Influences", "An array of influences each candle should ",
+		influencesArr = loadPropStringList("Influences", "An array of influences each candle should affect. The array must have a length of 16.",
 				new String[] { "minecraft:unbreaking", "minecraft:fire_protection",
 						"minecraft:knockback,minecraft:punch", "minecraft:feather_falling",
 						"minecraft:looting,minecraft:fortune,minecraft:luck_of_the_sea", "minecraft:blast_protection",

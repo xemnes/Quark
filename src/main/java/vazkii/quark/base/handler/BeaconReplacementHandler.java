@@ -5,10 +5,12 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.potion.Potion;
 import net.minecraft.tileentity.TileEntityBeacon;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
-import java.util.LinkedList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public final class BeaconReplacementHandler {
 
@@ -16,13 +18,10 @@ public final class BeaconReplacementHandler {
 	private static List<Replacer> replacers;
 	
 	public static void parse(String[] lines) {
-		replacers = new LinkedList<>();
-
-		for(String s : lines) {
-			Replacer r = Replacer.fromString(s);
-			if(r != null)
-				replacers.add(r);
-		}
+		replacers = Arrays.stream(lines)
+				.map(Replacer::fromString)
+				.filter(r -> r != null)
+				.collect(Collectors.toList());
 		
 		commit();
 	}
@@ -80,24 +79,27 @@ public final class BeaconReplacementHandler {
 			if(tokens.length != 5)
 				return null;
 			
-			try {
-				Block block = Block.getBlockFromName(tokens[0]);
-				int meta = Integer.parseInt(tokens[1]);
-				int layer = Integer.parseInt(tokens[2]);
-				int effect = Integer.parseInt(tokens[3]);
-				Potion potion = Potion.getPotionFromResourceLocation(tokens[4]);
-				
-				if(potion == null || effect < 0 || effect > 1 || layer < 0 || layer > 3)
-					return null;
-				
-				return new Replacer(block, meta, layer, effect, potion);
-			} catch(NumberFormatException e) {
+			Block block = Block.getBlockFromName(tokens[0]);
+			int meta = MathHelper.getInt(tokens[1], -1);
+			int layer = MathHelper.getInt(tokens[2], -1);
+			int effect = MathHelper.getInt(tokens[3], layer == 2 || layer == 3 ? 0 : -1);
+			Potion potion = Potion.getPotionFromResourceLocation(tokens[4]);
+			
+			if(potion == null || effect < 0 || effect > 1 || layer < 0 || layer > 3)
 				return null;
-			}
+			
+			return new Replacer(block, meta, layer, effect, potion);
 		}
 		
 		public void replace(IBlockState stateAt) {
-			if(block == null || (stateAt.getBlock() == block && (meta == -1 || block.getMetaFromState(stateAt) == meta)))
+			if((block == null 
+					|| (stateAt.getBlock() == block 
+							&& (meta == -1 
+									|| block.getMetaFromState(stateAt) == meta
+							)
+					)
+				) && layer < TileEntityBeacon.EFFECTS_LIST.length
+				&& effect < TileEntityBeacon.EFFECTS_LIST[layer].length)
 				TileEntityBeacon.EFFECTS_LIST[layer][effect] = potion;
 		}
 		

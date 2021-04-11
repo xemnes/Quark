@@ -17,6 +17,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 import vazkii.arl.util.ItemNBTHelper;
+import vazkii.quark.base.util.ExperienceHelper;
 import vazkii.quark.decoration.feature.TallowAndCandles;
 import vazkii.quark.oddities.feature.MatrixEnchanting;
 import vazkii.quark.oddities.inventory.ContainerMatrixEnchanting;
@@ -116,8 +117,12 @@ public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 			int cost = matrix.getNewPiecePrice();
 			if(charge > 0 || creative) {
 				if (matrix.generatePiece(influences, bookshelfPower)) {
-					if (!creative)
-						player.addExperienceLevel(-cost);
+					if (!creative) {
+						if (MatrixEnchanting.useLevels)
+							player.addExperienceLevel(-cost);
+						else
+							ExperienceHelper.addPlayerXP(player, -ExperienceHelper.getExperienceForLevel(cost));
+					}
 
 					charge = Math.max(charge - 1, 0);
 				}

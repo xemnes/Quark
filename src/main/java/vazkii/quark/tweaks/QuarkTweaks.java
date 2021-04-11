@@ -42,7 +42,7 @@ public class QuarkTweaks extends Module {
 		registerFeature(new DeployLaddersDown());
 		registerFeature(new DoubleDoors(), "Double doors open together");
 		registerFeature(new TorchesBurnInFurnaces());
-		registerFeature(new VillagerPursueEmeralds(), "Villagers chase players holding Emerald Blocks");
+		registerFeature(new AddTemptItems(), "Entities chase players holding certain items");
 		registerFeature(new SpongeDriesInNether(), "Wet sponge will dry in the nether");
 		registerFeature(new QuickArmorSwapping());
 		registerFeature(new AutomaticRecipeUnlock());

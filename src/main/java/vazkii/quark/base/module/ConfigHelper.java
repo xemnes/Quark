@@ -19,8 +19,7 @@ public class ConfigHelper {
 	public static Property lastProp;
 	
 	public static int loadPropInt(String propName, String category, String desc, int default_) {
-		Property prop = ModuleLoader.config.get(category, propName, default_);
-		prop.setComment(desc);
+		Property prop = ModuleLoader.config.get(category, propName, default_, desc);
 		setNeedsRestart(prop);
 		
 		lastProp = prop;
@@ -36,8 +35,7 @@ public class ConfigHelper {
 	}
 
 	public static double loadPropDouble(String propName, String category, String desc, double default_) {
-		Property prop = ModuleLoader.config.get(category, propName, default_);
-		prop.setComment(desc);
+		Property prop = ModuleLoader.config.get(category, propName, default_, desc);
 		setNeedsRestart(prop);
 		
 		lastProp = prop;
@@ -45,8 +43,7 @@ public class ConfigHelper {
 	}
 
 	public static boolean loadPropBool(String propName, String category, String desc, boolean default_) {
-		Property prop = ModuleLoader.config.get(category, propName, default_);
-		prop.setComment(desc);
+		Property prop = ModuleLoader.config.get(category, propName, default_, desc);
 		setNeedsRestart(prop);
 		
 		lastProp = prop;
@@ -54,8 +51,7 @@ public class ConfigHelper {
 	}
 
 	public static String loadPropString(String propName, String category, String desc, String default_) {
-		Property prop = ModuleLoader.config.get(category, propName, default_);
-		prop.setComment(desc);
+		Property prop = ModuleLoader.config.get(category, propName, default_, desc);
 		setNeedsRestart(prop);
 		
 		lastProp = prop;
@@ -63,8 +59,7 @@ public class ConfigHelper {
 	}
 
 	public static String[] loadPropStringList(String propName, String category, String desc, String[] default_) {
-		Property prop = ModuleLoader.config.get(category, propName, default_);
-		prop.setComment(desc);
+		Property prop = ModuleLoader.config.get(category, propName, default_, desc);
 		setNeedsRestart(prop);
 		
 		lastProp = prop;

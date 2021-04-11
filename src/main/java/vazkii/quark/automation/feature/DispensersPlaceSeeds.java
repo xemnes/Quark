@@ -22,6 +22,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import vazkii.quark.base.module.ConfigHelper;
 import vazkii.quark.base.module.Feature;
@@ -38,7 +39,7 @@ public class DispensersPlaceSeeds extends Feature {
 	@Override
 	public void setupConfig() {
 		ConfigHelper.needsRestart = true;
-		customSeedsArr = loadPropStringList("Custom Seeds", "Add seeds from other mods here, in the following format: mod:seed=mod:block:meta. Set meta to -1 to just place the default.", new String[0]);
+		customSeedsArr = loadPropStringList("Custom Seeds", "Add seeds from other mods here, in the following format: mod:seed=mod:block[:meta].", new String[0]);
 	}
 	
 	@Override
@@ -68,17 +69,18 @@ public class DispensersPlaceSeeds extends Feature {
 				Item item = Item.getByNameOrId(key);
 				if(item != null) {
 					tokens = value.split(":");
+					int meta = -1;
 					if(tokens.length == 3)
-						try {
-							value = tokens[0] + ":" + tokens[1];
-							int meta = Integer.parseInt(tokens[2]);
-							Block block = Block.getBlockFromName(value);
-							if(block != null) {
-								if(meta == -1)
-									customSeeds.put(item, block.getDefaultState());
-								else customSeeds.put(item, block.getStateFromMeta(meta));
-							}
-						} catch(NumberFormatException ignored) { }
+						meta = MathHelper.getInt(tokens[2], -1);
+					
+					value = tokens[0] + ":" + tokens[1];
+					Block block = Block.getBlockFromName(value);
+					if (block != null) {
+						if (meta == -1)
+							customSeeds.put(item, block.getDefaultState());
+						else
+							customSeeds.put(item, block.getStateFromMeta(meta));
+					}
 				}
 			}
 		}

@@ -6,23 +6,21 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.client.model.IModel;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import org.apache.commons.lang3.tuple.Pair;
 import vazkii.arl.client.RetexturedModel;
 import vazkii.arl.recipe.RecipeHandler;
@@ -30,6 +28,7 @@ import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.base.module.Feature;
+import vazkii.quark.base.util.ItemMetaHelper;
 import vazkii.quark.decoration.block.BlockColoredFlowerPot;
 
 import javax.annotation.Nullable;
@@ -37,6 +36,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class ColoredFlowerPots extends Feature {
 
@@ -100,53 +100,19 @@ public class ColoredFlowerPots extends Feature {
 				continue;
 			}
 
-			String[] itemData = split[0].split(":");
-			if(itemData.length < 2 || itemData.length > 3) {
-				Quark.LOG.error("Invalid Quark flower pot override, expected format 'modid:name[:meta]->power'");
-				continue;
-			}
-
 			// parse comparator power
-			int power;
-			try {
-				power = Integer.parseInt(split[1]);
-			} catch(NumberFormatException e) {
-				power = -1;
-			}
+			int power = MathHelper.getInt(split[1], -1);
 			if(power < 0 || power > 15) {
 				Quark.LOG.error("Invalid Quark flower pot override, power must be a valid number from 0 to 15");
 				continue;
 			}
 
-			// find item
-			ResourceLocation location = new ResourceLocation(itemData[0], itemData[1]);
-			Item item = GameRegistry.findRegistry(Item.class).getValue(location);
-			if(item == null || item == Items.AIR) {
-				Quark.LOG.debug("Unable to find item {} for Quark flower override", location.toString());
-				continue;
-			}
-
-			// if length is 3, we have meta
-			if(itemData.length == 3) {
-				int meta;
-				try {
-					meta = Integer.parseInt(itemData[2]);
-				} catch(NumberFormatException e) {
-					meta = -1;
-				}
-				if(meta < 0) {
-					Quark.LOG.error("Invalid Quark flower pot override, meta must be a valid positive number");
-					continue;
-				}
-				registerFlower(new ItemStack(item, 1, meta), power);
-			} else {
-				// if no meta, assume wildcard
-				NonNullList<ItemStack> subItems = NonNullList.create();
-				item.getSubItems(CreativeTabs.SEARCH, subItems);
-				for(ItemStack stack : subItems) {
-					registerFlower(stack, power);
-				}
-			}
+			Set<ItemStack> items = ItemMetaHelper.getFromString("Quark flower pot override", split[0]).stream()
+					.filter(i -> !i.isEmpty())
+					.collect(Collectors.toSet());
+			
+			for (ItemStack i : items)
+				registerFlower(i, power);
 		}
 	}
 

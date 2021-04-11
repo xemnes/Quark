@@ -2,6 +2,7 @@ package vazkii.quark.tweaks.ai;
 
 import com.google.common.collect.Sets;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLiving;
@@ -14,6 +15,8 @@ import net.minecraft.pathfinding.PathNavigateGround;
 // Dunno why EntityAITempt has EntityCreature instead of EntityLiving
 public class EntityAITemptFixed extends EntityAITempt
 {
+    /** The tick delay before the task resets after being interrupted */
+    public static int tickDelay;
     /** The entity using this AI that is tempted by the player. */
     private final EntityLiving temptedEntity;
     private final double speed;
@@ -36,18 +39,26 @@ public class EntityAITemptFixed extends EntityAITempt
     private int delayTemptCounter;
     /** True if this EntityAITempt task is running */
     private boolean isRunning;
-    private final Set<Item> temptItem;
+    private final Set<ItemStack> temptItem;
     /** Whether the entity using this AI will be scared by the tempter's sudden movement. */
     private final boolean scaredByPlayerMovement;
 
     public EntityAITemptFixed(EntityLiving temptedEntityIn, double speedIn, Item temptItemIn, boolean scaredByPlayerMovementIn)
     {
+        this(temptedEntityIn, speedIn, scaredByPlayerMovementIn, new ItemStack(temptItemIn));
+    }
+
+    public EntityAITemptFixed(EntityLiving temptedEntityIn, double speedIn, Set<Item> temptItemIn, boolean scaredByPlayerMovementIn) {
+        this(temptedEntityIn, speedIn, scaredByPlayerMovementIn, temptItemIn.stream().map(ItemStack::new).collect(Collectors.toSet()));
+    }
+
+    public EntityAITemptFixed(EntityLiving temptedEntityIn, double speedIn, boolean scaredByPlayerMovementIn, ItemStack temptItemIn) {
         this(temptedEntityIn, speedIn, scaredByPlayerMovementIn, Sets.newHashSet(temptItemIn));
     }
 
-    public EntityAITemptFixed(EntityLiving temptedEntityIn, double speedIn, boolean scaredByPlayerMovementIn, Set<Item> temptItemIn)
+    public EntityAITemptFixed(EntityLiving temptedEntityIn, double speedIn, boolean scaredByPlayerMovementIn, Set<ItemStack> temptItemIn)
     {
-        super(temptedEntityIn instanceof EntityCreature ? (EntityCreature) temptedEntityIn : null, speedIn, scaredByPlayerMovementIn, temptItemIn);
+        super(temptedEntityIn instanceof EntityCreature ? (EntityCreature) temptedEntityIn : null, speedIn, scaredByPlayerMovementIn, null);
         this.temptedEntity = temptedEntityIn;
         this.speed = speedIn;
         this.temptItem = temptItemIn;
@@ -89,7 +100,9 @@ public class EntityAITemptFixed extends EntityAITempt
     @Override
     protected boolean isTempting(ItemStack stack)
     {
-        return this.temptItem.contains(stack.getItem());
+        return this.temptItem.stream()
+                .filter(s -> s.getItem() == stack.getItem() && s.getMetadata() == stack.getMetadata())
+                .findAny().isPresent();
     }
 
     /**
@@ -146,7 +159,7 @@ public class EntityAITemptFixed extends EntityAITempt
     {
         this.temptingPlayer = null;
         this.temptedEntity.getNavigator().clearPath();
-        this.delayTemptCounter = 100;
+        this.delayTemptCounter = tickDelay;
         this.isRunning = false;
     }
 

@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.aurelienribon.tweenengine.*;
@@ -393,15 +394,11 @@ public class EmoteTemplate {
 			float volume = 1f;
 			float pitch = 1f;
 
-			try {
-				if (tokens.length >= 5)
-					volume = Math.min(Float.parseFloat(tokens[4]), 1.5f);
+			if (tokens.length >= 5)
+				volume = (float) MathHelper.getDouble(tokens[4], 1f);
 
-				if (tokens.length >= 6)
-					pitch = Float.parseFloat(tokens[5]);
-			} catch (NumberFormatException ex) {
-				throw new IllegalArgumentException("Illegal number in function sound", ex);
-			}
+			if (tokens.length >= 6)
+				pitch = (float) MathHelper.getDouble(tokens[5], 1D);
 
 			ResourceLocation soundEvent = new ResourceLocation(type);
 
