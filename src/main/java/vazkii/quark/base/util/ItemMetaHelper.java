@@ -23,7 +23,7 @@ public class ItemMetaHelper {
     public static Set<ItemStack> getFromString(String debugString, String s) {
         String[] itemData = s.split(":");
         if (itemData.length < 2 || itemData.length > 3) {
-            LOG.warn("Invalid tempt item '{}'", s);
+            LOG.warn("Invalid {} '{}'", debugString, s);
             return Sets.newHashSet(ItemStack.EMPTY);
         }
         ResourceLocation r = new ResourceLocation(itemData[0], itemData[1]);
@@ -34,7 +34,7 @@ public class ItemMetaHelper {
         if (itemData.length == 3) {
             int meta = MathHelper.getInt(itemData[2], -1);
             if (meta < 0) {
-                LOG.warn("Invalid meta '{}' for tempt item '{}'", meta, s);
+                LOG.warn("Invalid meta '{}' for {} '{}'", meta, debugString, s);
                 return Sets.newHashSet(ItemStack.EMPTY);
             }
             return Sets.newHashSet(new ItemStack(item, 1, meta));
