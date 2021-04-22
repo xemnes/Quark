@@ -26,6 +26,7 @@ import vazkii.quark.base.Quark;
 import vazkii.quark.base.lib.LibEntityIDs;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.base.module.Feature;
+import vazkii.quark.base.util.ItemMetaHelper;
 import vazkii.quark.oddities.client.render.RenderTotemOfHolding;
 import vazkii.quark.oddities.entity.EntityTotemOfHolding;
 import vazkii.quark.oddities.item.ItemSoulCompass;
@@ -33,6 +34,10 @@ import vazkii.quark.world.feature.Wraiths;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.apache.commons.lang3.tuple.Pair;
 
 public class TotemOfHolding extends Feature {
 	
@@ -47,7 +52,10 @@ public class TotemOfHolding extends Feature {
 	
 	public static Item soul_compass;
 	
-	public static boolean darkSoulsMode, enableOnPK, destroyItems, anyoneCollect, enableSoulCompass;
+	public static boolean darkSoulsMode, enableOnPK, destroyItems, anyoneCollect, enableSoulCompass, shouldBlacklistBeWhitelist;
+
+	private static String[] tempBlacklist;
+	public static Set<Pair<Item, Integer>> holdingBlacklist;
 	
 	@Override
 	public void setupConfig() {
@@ -56,6 +64,11 @@ public class TotemOfHolding extends Feature {
 		destroyItems = loadPropBool("Destroy Lost Items", "Set this to true to make it so that if a totem is destroyed, the items it holds are destroyed alongside it rather than dropped", false);
 		anyoneCollect = loadPropBool("Allow Anyone to Collect", "Set this to false to only allow the owner of a totem to collect its items rather than any player", true);
 		enableSoulCompass = loadPropBool("Enable Soul Compass", "", true);
+		shouldBlacklistBeWhitelist = loadPropBool("Should Holding Blacklist Be Whitelist", "", false);
+		tempBlacklist = loadPropStringList("Holding Blacklist", 
+				"Items that should be prevented from being saved by the totem\n" + 
+				"Format is modid:item[:meta]", 
+				new String[0]);
 	}
 	
 	@Override
@@ -73,6 +86,11 @@ public class TotemOfHolding extends Feature {
 			RecipeHandler.addShapelessOreDictRecipe(new ItemStack(soul_compass), 
 					(Wraiths.soul_bead == null ? new ItemStack(Blocks.SOUL_SAND) : new ItemStack(Wraiths.soul_bead)), 
 					new ItemStack(Items.COMPASS));
+		
+		holdingBlacklist = ItemMetaHelper.getFromStringArray("totem holding blacklist item", tempBlacklist).stream()
+				.filter(i -> !i.isEmpty())
+				.map(s -> Pair.of(s.getItem(), s.getMetadata()))
+				.collect(Collectors.toSet());
 	}
 	
 	@Override
@@ -100,17 +118,21 @@ public class TotemOfHolding extends Feature {
 				totem.setPosition(player.posX, Math.max(3, player.posY + 1), player.posZ);
 				totem.setOwner(player);
 				totem.setCustomNameTag(player.getDisplayNameString());
-				drops.stream()
+				List<EntityItem> saving = drops.stream()
 						.filter(Objects::nonNull)
+						.map(e -> Pair.of(e.getItem(), e))
+						.filter(p -> !p.getLeft().isEmpty() && !holdingBlacklist.contains(Pair.of(p.getLeft().getItem(), p.getLeft().getMetadata())))
+						.map(p -> p.getRight())
+						.collect(Collectors.toList());
+				saving.stream()
 						.map(EntityItem::getItem)
-						.filter(stack -> !stack.isEmpty())
 						.forEach(totem::addItem);
 				if (!player.world.isRemote)
 					player.world.spawnEntity(totem);
 				
 				persistent.setString(TAG_LAST_TOTEM, totem.getUniqueID().toString());
 				
-				event.setCanceled(true);
+				drops.removeAll(saving);
 			} else persistent.setString(TAG_LAST_TOTEM, "");
 			
 			BlockPos pos = player.getPosition();
