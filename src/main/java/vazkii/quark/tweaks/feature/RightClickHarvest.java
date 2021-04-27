@@ -10,7 +10,10 @@
  */
 package vazkii.quark.tweaks.feature;
 
+import java.util.Map;
+
 import com.google.common.collect.Maps;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCrops;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -36,8 +39,6 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.tweaks.base.BlockStack;
-
-import java.util.Map;
 
 public class RightClickHarvest extends Feature {
 
@@ -128,8 +129,12 @@ public class RightClickHarvest extends Feature {
 
 		ForgeEventFactory.fireBlockHarvesting(drops, world, pos, inWorld.getState(), fortune, 1.0F, false, player);
 
-        Item seed = ((BlockCrops) inWorld.getBlock()).getSeed();
-		if (seed != null && seed != Items.AIR) {
+		boolean seedNotNull = true;
+		if (inWorld.getBlock() instanceof BlockCrops) {
+			Item seed = ((BlockCrops) inWorld.getBlock()).getSeed();
+			seedNotNull = seed != null && seed != Items.AIR;
+		}
+		if (seedNotNull) {
 			if (!world.isRemote) {
 				world.playEvent(2001, pos, Block.getStateId(newBlock.getState()));
 				world.setBlockState(pos, newBlock.getState());
