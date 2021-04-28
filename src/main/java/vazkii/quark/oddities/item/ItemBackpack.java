@@ -1,5 +1,9 @@
 package vazkii.quark.oddities.item;
 
+import static vazkii.quark.oddities.feature.Backpacks.backpack;
+
+import javax.annotation.Nonnull;
+
 import baubles.api.BaubleType;
 import baubles.api.BaublesApi;
 import baubles.api.IBauble;
@@ -39,10 +43,6 @@ import vazkii.quark.base.item.IQuarkItem;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.oddities.client.model.ModelBackpack;
 import vazkii.quark.oddities.feature.Backpacks;
-
-import javax.annotation.Nonnull;
-
-import static vazkii.quark.oddities.feature.Backpacks.backpack;
 
 public class ItemBackpack extends Item implements IBauble, IQuarkItem, IItemColorProvider, IRenderBauble {
 	private static final String WORN_TEXTURE = LibMisc.PREFIX_MOD + "textures/misc/backpack_worn.png";

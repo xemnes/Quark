@@ -22,6 +22,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.arl.client.AtlasSpriteHelper;
 import vazkii.arl.recipe.RecipeHandler;
+import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.Quark;
 import vazkii.quark.base.lib.LibEntityIDs;
 import vazkii.quark.base.lib.LibMisc;
@@ -30,8 +31,10 @@ import vazkii.quark.base.util.ItemMetaHelper;
 import vazkii.quark.oddities.client.render.RenderTotemOfHolding;
 import vazkii.quark.oddities.entity.EntityTotemOfHolding;
 import vazkii.quark.oddities.item.ItemSoulCompass;
+import vazkii.quark.oddities.item.ItemTotemOfHolding;
 import vazkii.quark.world.feature.Wraiths;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -42,7 +45,7 @@ import org.apache.commons.lang3.tuple.Pair;
 public class TotemOfHolding extends Feature {
 	
 	private static final String TAG_LAST_TOTEM = "quark:lastTotemOfHolding";
-	
+
 	private static final String TAG_DEATH_X = "quark:deathX";
 	private static final String TAG_DEATH_Z = "quark:deathZ";
 	private static final String TAG_DEATH_DIM = "quark:deathDim";
@@ -50,12 +53,15 @@ public class TotemOfHolding extends Feature {
 	@SideOnly(Side.CLIENT)
 	public static TextureAtlasSprite totemSprite;
 	
-	public static Item soul_compass;
+	public static Item soul_compass, totem_item;
 	
-	public static boolean darkSoulsMode, enableOnPK, destroyItems, anyoneCollect, enableSoulCompass, shouldBlacklistBeWhitelist;
+	public static boolean darkSoulsMode, enableOnPK, destroyItems, anyoneCollect, enableSoulCompass, shouldBlacklistBeWhitelist, enableTotemItem;
 
 	private static String[] tempBlacklist;
 	public static Set<Pair<Item, Integer>> holdingBlacklist;
+
+	private static String tempSavingItem;
+	public static Pair<Item, Integer> savingItem;
 	
 	@Override
 	public void setupConfig() {
@@ -69,6 +75,8 @@ public class TotemOfHolding extends Feature {
 				"Items that should be prevented from being saved by the totem\n" + 
 				"Format is modid:item[:meta]", 
 				new String[0]);
+		tempSavingItem = loadPropString("Saving Item", "An item that must be in the player inventory for the totem to work. Set to 'none' to disable", "quark:totem_of_holding");
+		enableTotemItem = loadPropBool("Enable Totem of Holding Item", "", true);
 	}
 	
 	@Override
@@ -78,6 +86,9 @@ public class TotemOfHolding extends Feature {
 
 		String totemName = "quark:totem_of_holding";
 		EntityRegistry.registerModEntity(new ResourceLocation(totemName), EntityTotemOfHolding.class, totemName, LibEntityIDs.TOTEM_OF_HOLDING, Quark.instance, 64, 128, false);
+		
+		if (enableTotemItem)
+			totem_item = new ItemTotemOfHolding("totem_of_holding");
 	}
 	
 	@Override
@@ -87,10 +98,23 @@ public class TotemOfHolding extends Feature {
 					(Wraiths.soul_bead == null ? new ItemStack(Blocks.SOUL_SAND) : new ItemStack(Wraiths.soul_bead)), 
 					new ItemStack(Items.COMPASS));
 		
+		if (enableTotemItem)
+			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(totem_item), 
+					" P ",
+					"SCS",
+					" A ",
+					'P', "enderpearl",
+					'C', "chestWood",
+					'S', "stone",
+					'A', Items.ARMOR_STAND);
+		
 		holdingBlacklist = ItemMetaHelper.getFromStringArray("totem holding blacklist item", tempBlacklist).stream()
 				.filter(i -> !i.isEmpty())
 				.map(s -> Pair.of(s.getItem(), s.getMetadata()))
 				.collect(Collectors.toSet());
+		
+		ItemStack item = (tempSavingItem.equals("none") ? ItemStack.EMPTY : new ArrayList<>(ItemMetaHelper.getFromString("totem holding saving item", tempSavingItem, false)).get(0));
+		savingItem = !item.isEmpty() ? Pair.of(item.getItem(), item.getMetadata()) : Pair.of(Items.AIR, 0);
 	}
 	
 	@Override
@@ -124,9 +148,31 @@ public class TotemOfHolding extends Feature {
 						.filter(p -> !p.getLeft().isEmpty() && !holdingBlacklist.contains(Pair.of(p.getLeft().getItem(), p.getLeft().getMetadata())))
 						.map(p -> p.getRight())
 						.collect(Collectors.toList());
+
+				// Consume save item (if it exists) from drop list
+				if (savingItem.getLeft() != Items.AIR) {
+					boolean saved = false;
+					for (EntityItem e : saving) {
+						if (!e.getItem().isEmpty() && ItemMetaHelper.itemEqualsPair(e.getItem(), savingItem)) {
+							ItemStack copy = e.getItem().copy();
+							copy.shrink(1);
+							e.setItem(copy);
+
+							saved = true;
+							break;
+						}
+					}
+
+					if (!saved) return;
+
+					// Prune saving list
+					saving.removeIf(e -> e.getItem().isEmpty());
+				}
+				
 				saving.stream()
 						.map(EntityItem::getItem)
 						.forEach(totem::addItem);
+				
 				if (!player.world.isRemote)
 					player.world.spawnEntity(totem);
 				

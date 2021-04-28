@@ -1,5 +1,9 @@
 package vazkii.quark.oddities.feature;
 
+import java.util.Random;
+
+import javax.annotation.Nonnull;
+
 import baubles.api.BaublesApi;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
@@ -32,9 +36,6 @@ import vazkii.quark.oddities.RecipesBackpackDyes;
 import vazkii.quark.oddities.client.gui.GuiBackpackInventory;
 import vazkii.quark.oddities.item.ItemBackpack;
 
-import javax.annotation.Nonnull;
-import java.util.Random;
-
 public class Backpacks extends Feature {
 
 	public static ItemBackpack backpack;
@@ -62,8 +63,10 @@ public class Backpacks extends Feature {
 		
 		if(enableCrafting)
 			RecipeHandler.addOreDictRecipe(new ItemStack(backpack),
-					"LLL", "LCL", "LLL",
-					'L', new ItemStack(Items.LEATHER),
+					"LLL", 
+					"LCL", 
+					"LLL",
+					'L', Items.LEATHER,
 					'C', "chestWood");
 		
 		new RecipesBackpackDyes();

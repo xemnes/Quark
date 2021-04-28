@@ -41,7 +41,8 @@ public class HorseWhistle extends Feature {
 		horse_whistle = new ItemHorseWhistle("horse_whistle");
 
 		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(horse_whistle),
-				"PPP", "NSP",
+				"PPP", 
+				"NSP",
 				'P', "plankWood",
 				'N', "nuggetIron",
 				'S', "stickWood");
