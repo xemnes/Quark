@@ -85,7 +85,6 @@ public final class ModuleLoader {
 		registerModule(QuarkExperimental.class);
 	}
     
-    @SuppressWarnings("deprecation") // Suppress if using Red Hat's required Java 11
 	public static void preInit(FMLPreInitializationEvent event) {
 		setupModuleClasses();
 		moduleClasses.forEach(clazz -> {
