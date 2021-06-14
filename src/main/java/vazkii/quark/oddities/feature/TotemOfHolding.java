@@ -88,7 +88,7 @@ public class TotemOfHolding extends Feature {
 		EntityRegistry.registerModEntity(new ResourceLocation(totemName), EntityTotemOfHolding.class, totemName, LibEntityIDs.TOTEM_OF_HOLDING, Quark.instance, 64, 128, false);
 		
 		if (enableTotemItem)
-			totem_item = new ItemTotemOfHolding("totem_of_holding");
+			totem_item = new ItemTotemOfHolding("holding_totem");
 	}
 	
 	@Override
