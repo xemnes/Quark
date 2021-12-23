@@ -30,13 +30,14 @@ public class RenderTotemOfHolding extends Render<EntityTotemOfHolding> {
 		boolean dying = entity.isDying();
 		float time = ClientTicker.ticksInGame + partialTicks;
 		float scale = !dying ? 1F : (Math.max(0, EntityTotemOfHolding.DEATH_TIME - (deathTicks + partialTicks)) / EntityTotemOfHolding.DEATH_TIME);
+		scale *= TotemOfHolding.entityScale;
 		float rotation = time + (!dying ? 0 : (deathTicks + partialTicks) * 5);
 		double translation = !dying ? (Math.sin(time * 0.03) * 0.1) : ((deathTicks + partialTicks) / EntityTotemOfHolding.DEATH_TIME * 5);
 		
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(x, y, z);
 		GlStateManager.rotate(rotation, 0F, 1F, 0F);
-		GlStateManager.translate(-0.5, translation, 0);
+		GlStateManager.translate(-0.5 * TotemOfHolding.entityScale, translation * TotemOfHolding.entityScale, 0);
 		GlStateManager.scale(scale, scale, scale);
 		renderTotemIcon();
 		GlStateManager.popMatrix();

@@ -57,7 +57,7 @@ dependencies {
 
 minecraft {
     version = "${config.mc_version}-${config.forge_version}"
-    runDir = "eclipse/assets"
+    runDir = "run"
 
     coreMod = "vazkii.quark.base.asm.LoadingPlugin"
 

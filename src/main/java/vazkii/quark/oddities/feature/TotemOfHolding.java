@@ -56,6 +56,7 @@ public class TotemOfHolding extends Feature {
 	public static Item soul_compass, totem_item;
 	
 	public static boolean darkSoulsMode, enableOnPK, destroyItems, anyoneCollect, enableSoulCompass, shouldBlacklistBeWhitelist, enableTotemItem;
+	public static float entityScale;
 
 	private static String[] tempBlacklist;
 	public static Set<Pair<Item, Integer>> holdingBlacklist;
@@ -77,6 +78,7 @@ public class TotemOfHolding extends Feature {
 				new String[0]);
 		tempSavingItem = loadPropString("Saving Item", "An item that must be in the player inventory for the totem to work. Set to 'none' to disable", "quark:totem_of_holding");
 		enableTotemItem = loadPropBool("Enable Totem of Holding Item", "", true);
+		entityScale = (float) loadPropDouble("Totem of Holding Entity Scale", "Displayed scale of the totem of holding entity", 1.0D);
 	}
 	
 	@Override
