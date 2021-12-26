@@ -21,15 +21,15 @@ public class CaveRootGenerator implements IWorldGenerator {
 			return;
 		
 		for(int i = 0; i < CaveRoots.chunkAttempts; i++) {
-			int x = chunkX * 16 + 8 + random.nextInt(16);
-			int z = chunkZ * 16 + 8 + random.nextInt(16);
+			int x = chunkX * 16 + random.nextInt(12) + 2;
+			int z = chunkZ * 16 + random.nextInt(12) + 2;
 			int y = random.nextInt(CaveRoots.maxY - CaveRoots.minY) + CaveRoots.minY;
 			
 			BlockPos pos = new BlockPos(x, y, z);
 			if(world.isAirBlock(pos)) {
 				for(EnumFacing facing : EnumFacing.HORIZONTALS) {
 					BlockPos target = pos.offset(facing);
-					if(CaveRoots.roots.canPlaceBlockOnSide(world, pos, facing) && world.isBlockLoaded(target)) {
+					if(CaveRoots.roots.canPlaceBlockOnSide(world, pos, facing)) {
 						IBlockState state = CaveRoots.roots.getDefaultState().withProperty(BlockRoots.getPropertyFor(facing.getOpposite()), true);
 						world.setBlockState(target, state);
 						BlockRoots.growMany(world, target, state, 0.4F, true);
