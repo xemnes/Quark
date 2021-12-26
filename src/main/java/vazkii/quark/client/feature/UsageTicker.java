@@ -25,7 +25,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.commons.lang3.text.WordUtils;
 
-import vazkii.quark.base.Quark;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.building.item.ItemTrowel;
 
