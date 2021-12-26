@@ -1,6 +1,7 @@
 package vazkii.quark.client.feature;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
@@ -23,6 +24,8 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.commons.lang3.text.WordUtils;
+
+import vazkii.quark.base.Quark;
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.building.item.ItemTrowel;
 
@@ -156,12 +159,24 @@ public class UsageTicker extends Feature {
 				} else x += shiftRight;
 					
 				ItemStack stack = getRenderedStack(player);
+
+				FontRenderer fontRenderer = stack.getItem().getFontRenderer(stack);
+				if (fontRenderer == null) {
+					fontRenderer = Minecraft.getMinecraft().fontRenderer;
+				}
 				
 				GlStateManager.pushMatrix();
 				GlStateManager.translate(x, y, 0);
 				RenderHelper.enableGUIStandardItemLighting();
+				GlStateManager.disableLighting();
+				GlStateManager.enableRescaleNormal();
+				GlStateManager.enableColorMaterial();
+				GlStateManager.enableDepth();
+				GlStateManager.enableLighting();
 				mc.getRenderItem().renderItemAndEffectIntoGUI(stack, 0, 0);
-				mc.getRenderItem().renderItemOverlays(Minecraft.getMinecraft().fontRenderer, stack, 0, 0);
+				mc.getRenderItem().renderItemOverlays(fontRenderer, stack, 0, 0);
+				// Quark.LOG.info("Stack " + stack.getDisplayName() + " (" + stack.getCount() + ") should show durability? " + stack.getItem().showDurabilityBar(stack));
+				// Quark.LOG.info("x = " + x + " & y = " + y);
 				RenderHelper.disableStandardItemLighting();
 				GlStateManager.popMatrix();
 			}

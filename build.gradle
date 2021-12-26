@@ -23,7 +23,7 @@ ext.config = parseConfig(configFile)
 
 version = "${config.version}-${config.build_number}"
 group = "vazkii.quark" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = config.mod_name
+archivesBaseName = config.mod_jar_name
 
 if (System.getenv().BUILD_NUMBER != null) {
     version += ".${System.getenv().BUILD_NUMBER}"
@@ -64,6 +64,7 @@ minecraft {
     mappings = config.mc_mappings
     replace 'GRADLE:BUILD', config.build_number
     replace 'GRADLE:VERSION', config.version
+    replace 'GRADLE:MOD_NAME', config.mod_str_name
     replace '" + DEV_ENV_HACK + "', ''
 
     // Scala: not even once
@@ -149,7 +150,7 @@ task sortArtifacts(type: Copy) {
     //Put each jar with a classifier in a subfolder with the classifier as its name
     eachFile {
         //This matcher is used to get the classifier of the jar
-        def matcher = Pattern.compile(Pattern.quote("$config.mod_name-$version") + "-(?<classifier>\\w+)\\.jar").matcher(it.name)
+        def matcher = Pattern.compile(Pattern.quote("$config.mod_jar_name-$version") + "-(?<classifier>\\w+)\\.jar").matcher(it.name)
         //Only change the destination for full matches, i.e jars with classifiers
         if (matcher.matches())
         {
