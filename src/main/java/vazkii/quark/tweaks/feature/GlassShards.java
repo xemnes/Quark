@@ -35,7 +35,7 @@ public class GlassShards extends Feature {
 				"SS", "SS",
 				'S', ProxyRegistry.newStack(glass_shard, 1, 0));
 
-		for(int i = 0; i < 16; i++)
+		for (int i = 0; i < 16; i++)
 			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(Blocks.STAINED_GLASS, 1, i),
 					"SS", "SS",
 					'S', ProxyRegistry.newStack(glass_shard, 1, i + 1));
@@ -46,9 +46,9 @@ public class GlassShards extends Feature {
 	@SubscribeEvent(priority = EventPriority.LOW)
 	public void onDrops(HarvestDropsEvent event) {
 		Block block = event.getState().getBlock();
-		if(event.getDrops() != null && event.getDrops().isEmpty() && (block == Blocks.GLASS || block == Blocks.STAINED_GLASS) && !event.isSilkTouching()) {
+		if (event.getDrops() != null && event.getDrops().isEmpty() && (block == Blocks.GLASS || block == Blocks.STAINED_GLASS) && !event.isSilkTouching()) {
 			int meta = 0;
-			if(block == Blocks.STAINED_GLASS)
+			if (block == Blocks.STAINED_GLASS)
 				meta = block.getMetaFromState(event.getState()) + 1;
 
 			int quantity = MathHelper.clamp(2 + event.getWorld().rand.nextInt(3) + event.getWorld().rand.nextInt(event.getFortuneLevel() + 1), 1, 4);

@@ -45,34 +45,34 @@ public class AutomaticToolRestock extends Feature {
 		ItemStack stack = event.getOriginal();
 		Item item = stack.getItem();
 
-		if(player != null && player.world != null && !player.world.isRemote && !stack.isEmpty() && !(item instanceof ItemArmor) && (!unstackablesOnly || !stack.isStackable())) {
+		if (player != null && player.world != null && !player.world.isRemote && !stack.isEmpty() && !(item instanceof ItemArmor) && (!unstackablesOnly || !stack.isStackable())) {
 			int currSlot = player.inventory.currentItem;
-			if(event.getHand() == EnumHand.OFF_HAND)
+			if (event.getHand() == EnumHand.OFF_HAND)
 				currSlot = player.inventory.getSizeInventory() - 1;
 
 			List<Enchantment> enchantmentsOnStack = getImportantEnchantments(stack);
 			Predicate<ItemStack> itemPredicate = (other) -> other.getItem() == item;
-			if(!stack.isItemStackDamageable())
+			if (!stack.isItemStackDamageable())
 				itemPredicate = itemPredicate.and((other) -> other.getItemDamage() == stack.getItemDamage());
 
 			Predicate<ItemStack> enchantmentPredicate = (other) -> !(new ArrayList<>(enchantmentsOnStack)).retainAll(getImportantEnchantments(other));
 
-			if(enableEnchantMatching && findReplacement(player, currSlot, itemPredicate.and(enchantmentPredicate)))
+			if (enableEnchantMatching && findReplacement(player, currSlot, itemPredicate.and(enchantmentPredicate)))
 				return;
 
-			if(findReplacement(player, currSlot, itemPredicate))
+			if (findReplacement(player, currSlot, itemPredicate))
 				return;
 
-			if(enableLooseMatching) {
+			if (enableLooseMatching) {
 				Set<String> classes = getItemClasses(stack);
 
-				if(!classes.isEmpty()) {
+				if (!classes.isEmpty()) {
 					Predicate<ItemStack> toolPredicate = (other) -> {
 						Set<String> otherClasses = getItemClasses(other);
 						return !otherClasses.isEmpty() && !otherClasses.retainAll(classes);
 					};
 
-					if(enableEnchantMatching && !enchantmentsOnStack.isEmpty() && findReplacement(player, currSlot, toolPredicate.and(enchantmentPredicate)))
+					if (enableEnchantMatching && !enchantmentsOnStack.isEmpty() && findReplacement(player, currSlot, toolPredicate.and(enchantmentPredicate)))
 						return;
 
 					findReplacement(player, currSlot, toolPredicate);
@@ -83,10 +83,10 @@ public class AutomaticToolRestock extends Feature {
 
 	@SubscribeEvent
 	public void onPlayerTick(PlayerTickEvent event) {
-		if(event.phase == Phase.END && replacements.containsKey(event.player)) {
+		if (event.phase == Phase.END && replacements.containsKey(event.player)) {
 			Stack<Pair<Integer, Integer>> replacementStack = replacements.get(event.player);
 			synchronized(this) {
-				while(!replacementStack.isEmpty()) {
+				while (!replacementStack.isEmpty()) {
 					Pair<Integer, Integer> pair = replacementStack.pop();
 					switchItems(event.player, pair.getLeft(), pair.getRight());
 				}
@@ -96,25 +96,25 @@ public class AutomaticToolRestock extends Feature {
 
 	private HashSet<String> getItemClasses(ItemStack stack) {
 		Item item = stack.getItem();
-		if(item instanceof ItemTool)
+		if (item instanceof ItemTool)
 			return new HashSet<>(item.getToolClasses(stack));
-		else if(item instanceof ItemSword)
+		else if (item instanceof ItemSword)
 			return new HashSet<>(Collections.singletonList("sword"));
-		else if(item instanceof ItemBow)
+		else if (item instanceof ItemBow)
 			return new HashSet<>(Collections.singletonList("bow"));
-		else if(item instanceof ItemFishingRod)
+		else if (item instanceof ItemFishingRod)
 			return new HashSet<>(Collections.singletonList("fishing_rod"));
 
 		return new HashSet<>();
 	}
 
 	private boolean findReplacement(EntityPlayer player, int currSlot, Predicate<ItemStack> match) {
-		for(int i = 0; i < player.inventory.mainInventory.size(); i++) {
-			if(i == currSlot)
+		for (int i = 0; i < player.inventory.mainInventory.size(); i++) {
+			if (i == currSlot)
 				continue;
 
 			ItemStack stackAt = player.inventory.getStackInSlot(i);
-			if(!stackAt.isEmpty() && match.test(stackAt)) {
+			if (!stackAt.isEmpty() && match.test(stackAt)) {
 				pushReplace(player, i, currSlot);
 				return true;
 			}
@@ -125,7 +125,7 @@ public class AutomaticToolRestock extends Feature {
 
 	private void pushReplace(EntityPlayer player, int slot1, int slot2) {
 		synchronized(this) {
-			if(!replacements.containsKey(player))
+			if (!replacements.containsKey(player))
 				replacements.put(player, new Stack<>());
 			replacements.get(player).push(Pair.of(slot1, slot2));
 		}
@@ -133,7 +133,7 @@ public class AutomaticToolRestock extends Feature {
 
 	private void switchItems(EntityPlayer player, int slot1, int slot2) {
 		int size = player.inventory.mainInventory.size();
-		if(slot1 >= size || slot2 >= size)
+		if (slot1 >= size || slot2 >= size)
 			return;
 
 		ItemStack stackAtSlot1 = player.inventory.getStackInSlot(slot1);
@@ -145,8 +145,8 @@ public class AutomaticToolRestock extends Feature {
 
 	private List<Enchantment> getImportantEnchantments(ItemStack stack) {
 		List<Enchantment> enchantsOnStack = new ArrayList<>();
-		for(Enchantment ench : importantEnchants)
-			if(EnchantmentHelper.getEnchantmentLevel(ench, stack) > 0)
+		for (Enchantment ench : importantEnchants)
+			if (EnchantmentHelper.getEnchantmentLevel(ench, stack) > 0)
 				enchantsOnStack.add(ench);
 
 		return enchantsOnStack;
@@ -172,8 +172,8 @@ public class AutomaticToolRestock extends Feature {
 		};
 
 		List<String> strings = new ArrayList<>();
-		for(Enchantment e : enchants)
-			if(e != null && e.getRegistryName() != null)
+		for (Enchantment e : enchants)
+			if (e != null && e.getRegistryName() != null)
 				strings.add(e.getRegistryName().toString());
 
 		return strings.toArray(new String[0]);

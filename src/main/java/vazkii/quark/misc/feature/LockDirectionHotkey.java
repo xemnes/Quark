@@ -62,7 +62,7 @@ public class LockDirectionHotkey extends Feature {
 	@SubscribeEvent
 	@SuppressWarnings("deprecation")
 	public void onBlockPlaced(BlockEvent.PlaceEvent event) {
-		if(event.isCanceled() || event.getResult() == Result.DENY)
+		if (event.isCanceled() || event.getResult() == Result.DENY)
 			return;
 		
 		fixBlockRotation(event.getWorld(), event.getPlayer(), event.getPos());
@@ -72,7 +72,7 @@ public class LockDirectionHotkey extends Feature {
 		IBlockState state = world.getBlockState(pos);
 		
 		String name = player.getName();
-		if(lockProfiles.containsKey(name)) {
+		if (lockProfiles.containsKey(name)) {
 			LockProfile profile = lockProfiles.get(name);
 			setBlockRotated(world, state, pos, profile.facing.getOpposite(), true, profile.half);
 		}
@@ -88,7 +88,7 @@ public class LockDirectionHotkey extends Feature {
 		Block block = state.getBlock();
 		
 		// API hook
-		if(block instanceof IRotationLockHandler)
+		if (block instanceof IRotationLockHandler)
 			setState = ((IRotationLockHandler) block).setRotation(world, pos, setState, face, half != -1, half == 1);
 
 		// Bed Special Case
@@ -107,43 +107,43 @@ public class LockDirectionHotkey extends Feature {
 		}
 
 		// General Facing
-		else if(props.containsKey(BlockDirectional.FACING))
+		else if (props.containsKey(BlockDirectional.FACING))
 			setState = state.withProperty(BlockDirectional.FACING, face);
 		
 		// Horizontal Facing
-		else if(props.containsKey(BlockHorizontal.FACING) && face.getAxis() != Axis.Y) {
-			if(block instanceof BlockStairs)
+		else if (props.containsKey(BlockHorizontal.FACING) && face.getAxis() != Axis.Y) {
+			if (block instanceof BlockStairs)
 				setState = state.withProperty(BlockHorizontal.FACING, face.getOpposite());
 			else setState = state.withProperty(BlockHorizontal.FACING, face);
 		} 
 		
 		// Pillar Axis
-		else if(props.containsKey(BlockRotatedPillar.AXIS))
+		else if (props.containsKey(BlockRotatedPillar.AXIS))
 			setState = state.withProperty(BlockRotatedPillar.AXIS, face.getAxis());
 		
 		// Log Axis
-		else if(props.containsKey(BlockLog.LOG_AXIS))
+		else if (props.containsKey(BlockLog.LOG_AXIS))
 			setState = state.withProperty(BlockLog.LOG_AXIS, BlockLog.EnumAxis.fromFacingAxis(face.getAxis()));
 		
 		// Quartz Variant/Axis
-		else if(props.containsKey(BlockQuartz.VARIANT)) {
+		else if (props.containsKey(BlockQuartz.VARIANT)) {
 			BlockQuartz.EnumType type = state.getValue(BlockQuartz.VARIANT);
-			if(ImmutableSet.of(BlockQuartz.EnumType.LINES_X, BlockQuartz.EnumType.LINES_Y, BlockQuartz.EnumType.LINES_Z).contains(type))
+			if (ImmutableSet.of(BlockQuartz.EnumType.LINES_X, BlockQuartz.EnumType.LINES_Y, BlockQuartz.EnumType.LINES_Z).contains(type))
 				setState = state.withProperty(BlockQuartz.VARIANT, BlockQuartz.VARIANT.parseValue("lines_" + face.getAxis().getName()).or(BlockQuartz.EnumType.LINES_Y));
 		}
 		
 		// Hopper Facing
-		else if(props.containsKey(BlockHopper.FACING))
+		else if (props.containsKey(BlockHopper.FACING))
 			setState = state.withProperty(BlockHopper.FACING, face == EnumFacing.DOWN ? face : face.getOpposite());
 			
-		if(half != -1) {
-			if(props.containsKey(BlockStairs.HALF))
+		if (half != -1) {
+			if (props.containsKey(BlockStairs.HALF))
 				setState = setState.withProperty(BlockStairs.HALF, half == 1 ? BlockStairs.EnumHalf.TOP : BlockStairs.EnumHalf.BOTTOM);
-			else if(props.containsKey(BlockSlab.HALF))
+			else if (props.containsKey(BlockSlab.HALF))
 				setState = setState.withProperty(BlockSlab.HALF, half == 1 ? BlockSlab.EnumBlockHalf.TOP : BlockSlab.EnumBlockHalf.BOTTOM);
 		}
 
-		if(!stateCheck || setState != state) {
+		if (!stateCheck || setState != state) {
 			world.setBlockState(pos, setState);
 			world.neighborChanged(pos, setState.getBlock(), pos);
 		}
@@ -159,13 +159,13 @@ public class LockDirectionHotkey extends Feature {
 	public void onKeyInput(KeyInputEvent event) {
 		Minecraft mc = Minecraft.getMinecraft();
 		boolean down = ModKeybinds.lockKey.isKeyDown();
-		if(mc.inGameHasFocus && down) {
+		if (mc.inGameHasFocus && down) {
 			LockProfile newProfile;
 			RayTraceResult result = mc.objectMouseOver;
 			
-			if(result != null && result.typeOfHit == Type.BLOCK) {
+			if (result != null && result.typeOfHit == Type.BLOCK) {
 				int half = (int) ((result.hitVec.y - (int) result.hitVec.y) * 2);
-				if(result.sideHit.getAxis() == Axis.Y)
+				if (result.sideHit.getAxis() == Axis.Y)
 					half = -1;
 				
 				newProfile = new LockProfile(result.sideHit.getOpposite(), half);
@@ -175,7 +175,7 @@ public class LockDirectionHotkey extends Feature {
 				newProfile = new LockProfile(EnumFacing.getFacingFromVector((float) look.x, (float) look.y, (float) look.z), -1);
 			}
 			
-			if(clientProfile != null && clientProfile.equals(newProfile))
+			if (clientProfile != null && clientProfile.equals(newProfile))
 				clientProfile = null;
 			else clientProfile = newProfile;
 			NetworkHandler.INSTANCE.sendToServer(new MessageSetLockProfile(clientProfile));
@@ -185,7 +185,7 @@ public class LockDirectionHotkey extends Feature {
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void onHUDRender(RenderGameOverlayEvent.Post event) {
-		if(event.getType() == ElementType.ALL && clientProfile != null) {
+		if (event.getType() == ElementType.ALL && clientProfile != null) {
 			Minecraft mc = Minecraft.getMinecraft();
 			GlStateManager.pushMatrix();
 			GlStateManager.enableBlend();
@@ -199,7 +199,7 @@ public class LockDirectionHotkey extends Feature {
 			int y = event.getResolution().getScaledHeight() / 2 - 8;
 			GuiScreen.drawModalRectWithCustomSizedTexture(x, y, clientProfile.facing.ordinal() * 16, 32, 16, 16, 256, 256);
 			
-			if(clientProfile.half > -1)
+			if (clientProfile.half > -1)
 				GuiScreen.drawModalRectWithCustomSizedTexture(x + 16, y, clientProfile.half * 16, 48, 16, 16, 256, 256);
 			
 			GlStateManager.popMatrix();
@@ -209,11 +209,11 @@ public class LockDirectionHotkey extends Feature {
 	public static void setProfile(EntityPlayer player, LockProfile profile) {
 		String name = player.getName();
 		
-		if(profile == null)
+		if (profile == null)
 			lockProfiles.remove(name);
 		else {
 			boolean locked = player.getEntityData().getBoolean(TAG_LOCKED_ONCE);
-			if(!locked) {
+			if (!locked) {
 				ITextComponent text = new TextComponentTranslation("quarkmisc.rotationLockBefore");
 				ITextComponent keybind = new TextComponentKeybind("quark.keybind.lockBuilding");
 				keybind.getStyle().setColor(TextFormatting.AQUA);
@@ -250,7 +250,7 @@ public class LockDirectionHotkey extends Feature {
 		
 		public static LockProfile readProfile(ByteBuf buf) {
 			boolean valid = buf.readBoolean();
-			if(!valid)
+			if (!valid)
 				return null;
 			
 			int face = buf.readInt();
@@ -259,7 +259,7 @@ public class LockDirectionHotkey extends Feature {
 		}
 
 		public static void writeProfile(LockProfile p, ByteBuf buf) {
-			if(p == null)
+			if (p == null)
 				buf.writeBoolean(false);
 			else {
 				buf.writeBoolean(true);
@@ -270,9 +270,9 @@ public class LockDirectionHotkey extends Feature {
 		
 		@Override
 		public boolean equals(Object other) {
-			if(other == this)
+			if (other == this)
 				return true;
-			if(!(other instanceof LockProfile))
+			if (!(other instanceof LockProfile))
 				return false;
 				
 			LockProfile otherProfile = (LockProfile) other;

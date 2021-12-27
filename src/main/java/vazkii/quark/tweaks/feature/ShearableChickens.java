@@ -34,13 +34,13 @@ public class ShearableChickens extends Feature {
 	@SubscribeEvent
 	public void onEntityInteract(EntityInteract event) {
 		Entity target = event.getTarget();
-		if(target instanceof EntityChicken && !target.isDead && ((EntityChicken) target).hurtTime == 0) {
+		if (target instanceof EntityChicken && !target.isDead && ((EntityChicken) target).hurtTime == 0) {
 			ItemStack stack = event.getEntityPlayer().getHeldItemMainhand();
-			if(stack.isEmpty() || !(stack.getItem() instanceof ItemShears))
+			if (stack.isEmpty() || !(stack.getItem() instanceof ItemShears))
 				stack = event.getEntityPlayer().getHeldItemOffhand();
 
-			if(!stack.isEmpty() && stack.getItem() instanceof ItemShears) {
-				if(!event.getWorld().isRemote) {
+			if (!stack.isEmpty() && stack.getItem() instanceof ItemShears) {
+				if (!event.getWorld().isRemote) {
 					EntityItem item = new EntityItem(event.getEntity().getEntityWorld(), target.posX, target.posY, target.posZ, new ItemStack(Items.FEATHER, 1));
 					event.getWorld().spawnEntity(item);
 				}
@@ -55,7 +55,7 @@ public class ShearableChickens extends Feature {
 
 	@SubscribeEvent
 	public void onEntityDrops(LivingDropsEvent event) {
-		if(event.getEntity().getEntityData().getBoolean(TAG_SHEARED))
+		if (event.getEntity().getEntityData().getBoolean(TAG_SHEARED))
 			event.getDrops().removeIf((EntityItem e) -> e.getItem().getItem() == Items.FEATHER);
 	}
 

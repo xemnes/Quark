@@ -22,8 +22,8 @@ public class MessageChangeHotbar extends NetworkMessage<MessageChangeHotbar> {
 	public IMessage handleMessage(MessageContext context) {
 		EntityPlayer player = context.getServerHandler().player;
 		
-		if(bar > 0 && bar <= 3)
-			for(int i = 0; i < 9; i++)
+		if (bar > 0 && bar <= 3)
+			for (int i = 0; i < 9; i++)
 				swap(player.inventory, i, i + bar * 9);
 		
 		return null;

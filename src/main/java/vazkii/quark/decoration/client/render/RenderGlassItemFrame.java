@@ -36,7 +36,7 @@ public class RenderGlassItemFrame extends RenderFlatItemFrame {
 		BlockRendererDispatcher blockrendererdispatcher = mc.getBlockRendererDispatcher();
 		ModelManager modelmanager = blockrendererdispatcher.getBlockModelShapes().getModelManager();
 
-		if(entity.getDisplayedItem().isEmpty()) {
+		if (entity.getDisplayedItem().isEmpty()) {
 			IBakedModel ibakedmodel = modelmanager.getModel(ModelHandler.resourceLocations.get("glass_item_frame_world"));
 			blockrendererdispatcher.getBlockModelRenderer().renderModelBrightnessColor(ibakedmodel, 1.0F, 1.0F, 1.0F, 1.0F);
 		}
@@ -44,7 +44,7 @@ public class RenderGlassItemFrame extends RenderFlatItemFrame {
 	
 	@Override
 	protected void renderItemStack(EntityItemFrame itemFrame, ItemStack stack) {
-		if(stack.getItem() instanceof ItemBanner) {
+		if (stack.getItem() instanceof ItemBanner) {
 			banner.setItemValues(stack, false);
 			ResourceLocation res = BannerTextures.BANNER_DESIGNS.getResourceLocation(banner.getPatternResourceLocation(), banner.getPatternList(), banner.getColorList());
 			if (res != null) {
@@ -76,7 +76,7 @@ public class RenderGlassItemFrame extends RenderFlatItemFrame {
 	@Override
 	protected void transformItem(EntityItemFrame frame, ItemStack stack) {
 		float s = 1.5F;
-		if(stack.getItem() instanceof ItemShield) {
+		if (stack.getItem() instanceof ItemShield) {
 			s = 4F;
 			GlStateManager.translate(-0.25F, 0F, 0.2F);
 			GlStateManager.scale(s, s, s);

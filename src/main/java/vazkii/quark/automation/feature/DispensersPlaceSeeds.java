@@ -61,16 +61,16 @@ public class DispensersPlaceSeeds extends Feature {
 	@SuppressWarnings("deprecation")
 	public void setupCustomSeeds() {
 		customSeeds = new HashMap<>();
-		for(String s : customSeedsArr) {
+		for (String s : customSeedsArr) {
 			String[] tokens = s.split("=");
-			if(tokens.length == 2) {
+			if (tokens.length == 2) {
 				String key = tokens[0];
 				String value = tokens[1];
 				Item item = Item.getByNameOrId(key);
-				if(item != null) {
+				if (item != null) {
 					tokens = value.split(":");
 					int meta = -1;
-					if(tokens.length == 3)
+					if (tokens.length == 3)
 						meta = MathHelper.getInt(tokens[2], -1);
 					
 					value = tokens[0] + ":" + tokens[1];
@@ -85,7 +85,7 @@ public class DispensersPlaceSeeds extends Feature {
 			}
 		}
 		
-		for(Item i : customSeeds.keySet())
+		for (Item i : customSeeds.keySet())
 			BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(i, new BehaviourSeeds(customSeeds.get(i)));
 	}
 	
@@ -119,7 +119,7 @@ public class DispensersPlaceSeeds extends Feature {
 			World world = source.getWorld();
 			this.successful = false;
 
-			if(world.isAirBlock(pos) && placeState.getBlock().canPlaceBlockAt(world, pos)) {
+			if (world.isAirBlock(pos) && placeState.getBlock().canPlaceBlockAt(world, pos)) {
 				world.setBlockState(pos, placeState);
 				stack.shrink(1);
 				this.successful = true;
@@ -142,7 +142,7 @@ public class DispensersPlaceSeeds extends Feature {
 		@Override
 		public ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
 			this.successful = false;
-			if(stack.getItemDamage() == EnumDyeColor.BROWN.getDyeDamage()) {
+			if (stack.getItemDamage() == EnumDyeColor.BROWN.getDyeDamage()) {
 				Block block = Blocks.COCOA;
 				EnumFacing facing = source.getBlockState().getValue(BlockDispenser.FACING);
 				BlockPos pos = source.getBlockPos().offset(facing);
@@ -150,7 +150,7 @@ public class DispensersPlaceSeeds extends Feature {
 
 				BlockPos logPos = pos.offset(facing);
 				IBlockState logState = world.getBlockState(logPos);
-				if(logState.getBlock() == Blocks.LOG && logState.getValue(BlockOldLog.VARIANT) == BlockPlanks.EnumType.JUNGLE && world.isAirBlock(pos) && block.canPlaceBlockAt(world, pos)) {
+				if (logState.getBlock() == Blocks.LOG && logState.getValue(BlockOldLog.VARIANT) == BlockPlanks.EnumType.JUNGLE && world.isAirBlock(pos) && block.canPlaceBlockAt(world, pos)) {
 					world.setBlockState(pos, block.getDefaultState().withProperty(BlockHorizontal.FACING, facing));
 					stack.shrink(1);
 					this.successful = true;

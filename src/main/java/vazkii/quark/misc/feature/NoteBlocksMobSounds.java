@@ -37,15 +37,15 @@ public class NoteBlocksMobSounds extends Feature {
 	@SubscribeEvent
 	public void noteBlockPlayed(NoteBlockEvent.Play event) {
 		BlockPos pos = event.getPos();
-		if(event.getWorld().getBlockState(pos).getBlock() != Blocks.NOTEBLOCK)
+		if (event.getWorld().getBlockState(pos).getBlock() != Blocks.NOTEBLOCK)
 			return;
 
 		int type = getSkullType(event.getWorld(), pos);
-		if(type != -1 && type != 3) {
+		if (type != -1 && type != 3) {
 			event.setCanceled(true);
 
 			SoundEvent sound = null;
-			switch(type) {
+			switch (type) {
 			case 0:
 				sound = SoundEvents.ENTITY_SKELETON_AMBIENT;
 				break;
@@ -63,7 +63,7 @@ public class NoteBlocksMobSounds extends Feature {
 				break;
 			}
 
-			if(sound != null) {
+			if (sound != null) {
 				float pitch = (float) Math.pow(2.0, (event.getVanillaNoteId() - 12) / 12.0);
 				event.getWorld().playSound(null, pos.getX() + 0.5, pos.getY() + 1.5, pos.getZ() + 0.5, sound, SoundCategory.BLOCKS, 1F, pitch);
 			}
@@ -73,19 +73,19 @@ public class NoteBlocksMobSounds extends Feature {
 	public static int getSkullType(World world, BlockPos pos) {
 		TileEntity tile = null;
 		boolean can = false;
-		for(EnumFacing face : SKULL_SEARCH_FACINGS) {
+		for (EnumFacing face : SKULL_SEARCH_FACINGS) {
 			BlockPos offsetPos = pos.offset(face);
 			tile = world.getTileEntity(offsetPos);
-			if(tile instanceof TileEntitySkull) {
+			if (tile instanceof TileEntitySkull) {
 				IBlockState state = world.getBlockState(offsetPos);
-				if(state.getValue(BlockSkull.FACING) == face) {
+				if (state.getValue(BlockSkull.FACING) == face) {
 					can = true;
 					break;
 				}
 			}
 		}
 
-		if(can) return ((TileEntitySkull) tile).getSkullType();
+		if (can) return ((TileEntitySkull) tile).getSkullType();
 
 		return -1;
 	}

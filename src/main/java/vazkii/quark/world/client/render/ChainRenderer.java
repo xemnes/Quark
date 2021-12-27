@@ -87,7 +87,7 @@ public class ChainRenderer {
 		if (entity != null) {
 			boolean player = entity instanceof EntityPlayer;
 			
-			if(player)
+			if (player)
 				y -= 1.3;
 			else y += 0.1;
 			

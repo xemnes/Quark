@@ -54,13 +54,13 @@ public class MoreSandstone extends Feature {
 				"SS", "SS",
 				'S', ProxyRegistry.newStack(sandstone_new, 1, 2));
 
-		if(enableStairsAndSlabs) {
+		if (enableStairsAndSlabs) {
 			boolean soulSandstone = ModuleLoader.isFeatureEnabled(SoulSandstone.class);
 			
-			for(BlockNewSandstone.Variants variant : BlockNewSandstone.Variants.values()) {
-				if(!variant.stairs)
+			for (BlockNewSandstone.Variants variant : BlockNewSandstone.Variants.values()) {
+				if (!variant.stairs)
 					continue;
-				if(variant.ordinal() > 3 && !soulSandstone)
+				if (variant.ordinal() > 3 && !soulSandstone)
 					break;
 
 				IBlockState state = sandstone_new.getDefaultState().withProperty(sandstone_new.getVariantProp(), variant);
@@ -68,10 +68,10 @@ public class MoreSandstone extends Feature {
 				BlockModStairs.initStairs(sandstone_new, variant.ordinal(), new BlockVanillaStairs(name, state));
 			}
 
-			for(BlockNewSandstone.Variants variant : BlockNewSandstone.Variants.values()) {
-				if(!variant.slabs)
+			for (BlockNewSandstone.Variants variant : BlockNewSandstone.Variants.values()) {
+				if (!variant.slabs)
 					continue;
-				if(variant.ordinal() > 3 && !soulSandstone)
+				if (variant.ordinal() > 3 && !soulSandstone)
 					break;
 
 				IBlockState state = sandstone_new.getDefaultState().withProperty(sandstone_new.getVariantProp(), variant);
@@ -83,7 +83,7 @@ public class MoreSandstone extends Feature {
 	
 	@Override
 	public void postPreInit() {
-		if(ModuleLoader.isFeatureEnabled(SoulSandstone.class)) {
+		if (ModuleLoader.isFeatureEnabled(SoulSandstone.class)) {
 			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(sandstone_new, 8, 4),
 					"SSS", "S S", "SSS",
 					'S', ProxyRegistry.newStack(SoulSandstone.soul_sandstone));

@@ -41,7 +41,7 @@ public class FramedBlockModel extends BakedModelWrapper<IBakedModel> {
 	@Override
 	public List<BakedQuad> getQuads(IBlockState state, EnumFacing side, long rand) {
 		IBakedModel bakedModel = this.originalModel;
-		if(state instanceof IExtendedBlockState) {
+		if (state instanceof IExtendedBlockState) {
 			IExtendedBlockState extendedState = (IExtendedBlockState) state;
 			IBlockState texState = extendedState.getValue(FramedBlockCommons.STATE);
 			String cacheId = (texState == null ? "null" : texState.toString()) + "_" + state.toString() + "_" + (side == null ? "null" : side.toString()) + 
@@ -49,19 +49,19 @@ public class FramedBlockModel extends BakedModelWrapper<IBakedModel> {
 
 			RetextureData data;
 
-			if(!cache.containsKey(cacheId)) {
+			if (!cache.containsKey(cacheId)) {
 				TextureAtlasSprite[] sprites = new TextureAtlasSprite[] { getParticleTexture() };
 				int[] tintIndices = new int[] { 0 };
-				if(texState != null && texState.getBlock() != Blocks.AIR) {
+				if (texState != null && texState.getBlock() != Blocks.AIR) {
 					IBakedModel model = Minecraft.getMinecraft().getBlockRendererDispatcher().getModelForState(texState);
 					sprites[0] = model.getParticleTexture();
 
 					List<BakedQuad> texQuads = model.getQuads(texState, side, rand);
-					if(texQuads.size() > 0) {
+					if (texQuads.size() > 0) {
 						sprites = new TextureAtlasSprite[texQuads.size()];
 						tintIndices = new int[texQuads.size()];
-						for(int i = 0; i < texQuads.size(); i++) {
-							if(texQuads.get(i).hasTintIndex())
+						for (int i = 0; i < texQuads.size(); i++) {
+							if (texQuads.get(i).hasTintIndex())
 								tintIndices[i] = texQuads.get(i).getTintIndex();
 							else
 								tintIndices[i] = -1;
@@ -75,7 +75,7 @@ public class FramedBlockModel extends BakedModelWrapper<IBakedModel> {
 				cache.put(cacheId, data);
 			} else data = cache.get(cacheId);
 
-			if(data != null) {
+			if (data != null) {
 				IModel retextured = data.retextureModel(model);
 				bakedModel = retextured.bake(retextured.getDefaultState(), DefaultVertexFormats.BLOCK, ModelLoader.defaultTextureGetter());
 			}
@@ -89,7 +89,7 @@ public class FramedBlockModel extends BakedModelWrapper<IBakedModel> {
 
 		@Override
 		public int colorMultiplier(@Nonnull IBlockState state, IBlockAccess worldIn, BlockPos pos, int tintIndex) {
-			if(state instanceof IExtendedBlockState) {
+			if (state instanceof IExtendedBlockState) {
 				IExtendedBlockState extendedState = (IExtendedBlockState) state;
 				IBlockState texState = extendedState.getValue(FramedBlockCommons.STATE);
 
@@ -126,7 +126,7 @@ public class FramedBlockModel extends BakedModelWrapper<IBakedModel> {
 
 		private IModel retextureModel(IModel model) {
 			Map<String, String> retextureMap = new HashMap<>();
-			for(int i = 0; i < SIDES.length; i++)
+			for (int i = 0; i < SIDES.length; i++)
 				retextureMap.put(SIDES[i], getSprite(i).getIconName());
 
 			return model.retexture(ImmutableMap.copyOf(retextureMap));

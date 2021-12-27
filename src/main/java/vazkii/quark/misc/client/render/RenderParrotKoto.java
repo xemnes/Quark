@@ -17,7 +17,7 @@ public class RenderParrotKoto extends RenderParrot {
 	@Override
 	protected ResourceLocation getEntityTexture(EntityParrot entity) {
 		int color = entity.getVariant();
-		if(color == 4 && entity.getUniqueID().getLeastSignificantBits() % 20 == 0)
+		if (color == 4 && entity.getUniqueID().getLeastSignificantBits() % 20 == 0)
 			return TEXTURE;
 		
 		return super.getEntityTexture(entity);

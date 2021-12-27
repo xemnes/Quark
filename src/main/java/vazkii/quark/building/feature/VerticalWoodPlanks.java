@@ -27,7 +27,7 @@ public class VerticalWoodPlanks extends Feature {
 	public void preInit(FMLPreInitializationEvent event) {
 		vertical_planks = new BlockVerticalPlanks();
 
-		for(int i = 0; i < 6; i++) {
+		for (int i = 0; i < 6; i++) {
 			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(vertical_planks, 3, i),
 					"W", "W", "W",
 					'W', ProxyRegistry.newStack(Blocks.PLANKS, 1, i));
@@ -36,7 +36,7 @@ public class VerticalWoodPlanks extends Feature {
 					'W', ProxyRegistry.newStack(vertical_planks, 1, i));		
 		}
 
-		if(ModuleLoader.isFeatureEnabled(StainedPlanks.class) && enableVerticalStained)
+		if (ModuleLoader.isFeatureEnabled(StainedPlanks.class) && enableVerticalStained)
 			vertical_stained_planks = new BlockVerticalStainedPlanks();
 		
 		addOreDict();
@@ -44,8 +44,8 @@ public class VerticalWoodPlanks extends Feature {
 
 	@Override
 	public void postPreInit() {
-		if(ModuleLoader.isFeatureEnabled(StainedPlanks.class) && enableVerticalStained)
-			for(int i = 0; i < 16; i++) {
+		if (ModuleLoader.isFeatureEnabled(StainedPlanks.class) && enableVerticalStained)
+			for (int i = 0; i < 16; i++) {
 				RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(vertical_stained_planks, 3, i),
 						"W", "W", "W",
 						'W', ProxyRegistry.newStack(StainedPlanks.stained_planks, 1, i));
@@ -58,7 +58,7 @@ public class VerticalWoodPlanks extends Feature {
 	private void addOreDict() {
 		addOreDict("plankWood", ProxyRegistry.newStack(vertical_planks, 1, OreDictionary.WILDCARD_VALUE));
 
-		if(ModuleLoader.isFeatureEnabled(StainedPlanks.class) && enableVerticalStained) {
+		if (ModuleLoader.isFeatureEnabled(StainedPlanks.class) && enableVerticalStained) {
 			addOreDict("plankWood", ProxyRegistry.newStack(vertical_stained_planks, 1, OreDictionary.WILDCARD_VALUE));
 			addOreDict("plankStained", ProxyRegistry.newStack(vertical_stained_planks, 1, OreDictionary.WILDCARD_VALUE));
 		}

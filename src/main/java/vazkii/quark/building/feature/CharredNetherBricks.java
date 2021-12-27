@@ -41,7 +41,7 @@ public class CharredNetherBricks extends Feature {
 
 		RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(charred_nether_bricks, 3), ProxyRegistry.newStack(Blocks.NETHER_BRICK), ProxyRegistry.newStack(Blocks.NETHER_BRICK), ProxyRegistry.newStack(Blocks.NETHER_BRICK), ProxyRegistry.newStack(Items.FIRE_CHARGE));
 
-		if(enableStairsAndSlabs) {
+		if (enableStairsAndSlabs) {
 			BlockModStairs.initStairs(charred_nether_bricks, 0, new BlockCharredNetherBrickStairs());
 			BlockModSlab.initSlab(charred_nether_bricks, 0, new BlockCharredNetherBrickSlab(false), new BlockCharredNetherBrickSlab(true));
 		}

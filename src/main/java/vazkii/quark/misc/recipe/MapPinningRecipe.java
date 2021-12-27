@@ -24,23 +24,23 @@ public class MapPinningRecipe extends ModRecipe {
 		boolean foundTarget = false;
 		int blackDye = OreDictionary.getOreID("dyeBlack");
 		
-		for(int i = 0; i < var1.getSizeInventory(); i++) {
+		for (int i = 0; i < var1.getSizeInventory(); i++) {
 			ItemStack stack = var1.getStackInSlot(i);
-			if(!stack.isEmpty()) {
+			if (!stack.isEmpty()) {
 				boolean isBlackDye = false;
 				int[] ores = OreDictionary.getOreIDs(stack);
-				for(int o : ores)
-					if(o == blackDye) {
+				for (int o : ores)
+					if (o == blackDye) {
 						isBlackDye = true;
 						break;
 					}
 				
-				if(stack.getItem() == Items.FILLED_MAP) {
-					if(foundTarget)
+				if (stack.getItem() == Items.FILLED_MAP) {
+					if (foundTarget)
 						return false;
 					foundTarget = true;
-				} else if(isBlackDye) {
-					if(!foundDye)
+				} else if (isBlackDye) {
+					if (!foundDye)
 						foundDye = true;
 					else return false;
 				}
@@ -53,9 +53,9 @@ public class MapPinningRecipe extends ModRecipe {
 	@Nonnull
 	@Override
 	public ItemStack getCraftingResult(@Nonnull InventoryCrafting inv) {
-		for(int i = 0; i < inv.getSizeInventory(); i++) {
+		for (int i = 0; i < inv.getSizeInventory(); i++) {
 			ItemStack stack = inv.getStackInSlot(i);
-			if(stack.getItem() == Items.FILLED_MAP) {
+			if (stack.getItem() == Items.FILLED_MAP) {
 				ItemStack retStack = stack.copy();
 				ItemNBTHelper.setBoolean(retStack, MapMarkers.TAG_ADD_PIN, true);
 				return retStack;

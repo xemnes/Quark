@@ -22,7 +22,7 @@ public class ImprovedSignEdit extends Feature {
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void onOpenGUI(GuiOpenEvent event) {
-		if(event.getGui() instanceof GuiEditSign) {
+		if (event.getGui() instanceof GuiEditSign) {
 			event.setGui(new GuiBetterEditSign(((GuiEditSign) event.getGui()).tileSign));
 		}
 	}

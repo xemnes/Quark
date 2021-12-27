@@ -27,7 +27,7 @@ public class BetterFireEffect extends Feature {
 	}
 
 	public static boolean renderFire(Entity entity, double x, double y, double z) {
-		if(!ModuleLoader.isFeatureEnabled(BetterFireEffect.class) || !enableDifferentRender)
+		if (!ModuleLoader.isFeatureEnabled(BetterFireEffect.class) || !enableDifferentRender)
 			return false;
 
 		GlStateManager.disableLighting();
@@ -53,7 +53,7 @@ public class BetterFireEffect extends Feature {
 
 		int iterations = 8;
 		float rot = (360F / iterations);
-		for(int i = 0; i < iterations; i++) {
+		for (int i = 0; i < iterations; i++) {
 			bufferbuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
 			bufferbuilder.pos((f1 - 0.0F), (0.0F - f4), f5).tex(f8, f9).endVertex();
 			bufferbuilder.pos((-f1 - 0.0F), (0.0F - f4), f5).tex(f6, f9).endVertex();
@@ -71,18 +71,18 @@ public class BetterFireEffect extends Feature {
 
 	@SubscribeEvent
 	public void onTick(ClientTickEvent event) {
-		if(!enableParticles)
+		if (!enableParticles)
 			return;
 
 		final int count = 2;
 
 		Minecraft mc = Minecraft.getMinecraft();
-		if(event.phase == Phase.END && mc.world != null && (mc.currentScreen == null || !mc.currentScreen.doesGuiPauseGame())) {
-			for(Entity e : mc.world.loadedEntityList)
-				if(e.canRenderOnFire()) {
+		if (event.phase == Phase.END && mc.world != null && (mc.currentScreen == null || !mc.currentScreen.doesGuiPauseGame())) {
+			for (Entity e : mc.world.loadedEntityList)
+				if (e.canRenderOnFire()) {
 					double w = e.width;
 					double h = e.height;
-					for(int i = 0; i < count; i++) {
+					for (int i = 0; i < count; i++) {
 						double x = e.posX + Math.random() * w * 1.2 - w / 2;
 						double y = e.posY + Math.random() * h;
 						double z = e.posZ + Math.random() * w * 1.2 - w / 2;

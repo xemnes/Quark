@@ -44,13 +44,13 @@ public class GuiButtonTrash extends GuiButton implements IParentedGui {
 		boolean canDelete = false;
 		boolean open = false;
 		
-		if(parent instanceof GuiContainer) {
+		if (parent instanceof GuiContainer) {
 			EntityPlayer player = par1Minecraft.player;
 			ItemStack hovered = player.inventory.getItemStack();
 			canDelete = DeleteItems.canItemBeDeleted(hovered);
 			open = canDelete && (!needsShift || GuiScreen.isShiftKeyDown());
 			
-			if(open)
+			if (open)
 				u += 16;
 		}
 		
@@ -59,8 +59,8 @@ public class GuiButtonTrash extends GuiButton implements IParentedGui {
 		drawIcon(u, v);
 		
 		ready = false;
-		if(k == 2 && canDelete) {
-			if(open)
+		if (k == 2 && canDelete) {
+			if (open)
 				ready = true;
 			
 			GlStateManager.pushMatrix();

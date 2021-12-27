@@ -17,15 +17,15 @@ public class UndergroundBiomeGlowshroom extends BasicUndergroundBiome {
 	
 	@Override
 	public void fillFloor(World world, BlockPos pos, IBlockState state) {
-		if(UndergroundBiomes.glowceliumEnabled) {
+		if (UndergroundBiomes.glowceliumEnabled) {
 			world.setBlockState(pos, UndergroundBiomes.glowcelium.getDefaultState());
 			
-			if(world.rand.nextDouble() < mushroomChance)
+			if (world.rand.nextDouble() < mushroomChance)
 				world.setBlockState(pos.up(), UndergroundBiomes.glowshroom.getDefaultState());
 		} else { 
 			super.fillFloor(world, pos, state);
 			
-			if(world.rand.nextDouble() < mushroomChance)
+			if (world.rand.nextDouble() < mushroomChance)
 				world.setBlockState(pos.up(), (world.rand.nextBoolean() ? Blocks.BROWN_MUSHROOM : Blocks.RED_MUSHROOM).getDefaultState());
 		}
 	}

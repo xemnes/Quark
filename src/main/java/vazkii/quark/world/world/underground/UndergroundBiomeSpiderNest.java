@@ -30,7 +30,7 @@ public class UndergroundBiomeSpiderNest extends BasicUndergroundBiome {
 	}
 	
 	private void placeCobweb(World world, BlockPos pos, EnumFacing off, double chance) {
-		if(world.rand.nextDouble() < chance) {
+		if (world.rand.nextDouble() < chance) {
 			BlockPos placePos = off == null ? pos : pos.offset(off);
 			world.setBlockState(placePos, Blocks.WEB.getDefaultState());
 		}
@@ -38,14 +38,14 @@ public class UndergroundBiomeSpiderNest extends BasicUndergroundBiome {
 	
 	@Override
 	public void fillWall(World world, BlockPos pos, IBlockState state) {
-		if(UndergroundBiomes.cobbedstoneEnabled && world.rand.nextDouble() < cobbedstoneChance)
+		if (UndergroundBiomes.cobbedstoneEnabled && world.rand.nextDouble() < cobbedstoneChance)
 			world.setBlockState(pos, UndergroundBiomes.cobbedstoneState, 2);
 		else super.fillWall(world, pos, state);
 	}
 	
 	@Override
 	public void fillFloor(World world, BlockPos pos, IBlockState state) {
-		if(UndergroundBiomes.cobbedstoneEnabled && world.rand.nextDouble() < cobbedstoneChance)
+		if (UndergroundBiomes.cobbedstoneEnabled && world.rand.nextDouble() < cobbedstoneChance)
 			world.setBlockState(pos, UndergroundBiomes.cobbedstoneState, 2);
 		else super.fillFloor(world, pos, state);
 		
@@ -63,19 +63,19 @@ public class UndergroundBiomeSpiderNest extends BasicUndergroundBiome {
 		world.setBlockState(spawnerPos, Blocks.MOB_SPAWNER.getDefaultState());
 		
 		Class<? extends Entity> e = EntitySpider.class;
-		if(world.rand.nextDouble() < caveSpiderSpawnerChance)
+		if (world.rand.nextDouble() < caveSpiderSpawnerChance)
 			e = EntityCaveSpider.class;
 		TileEntityMobSpawner spawner = (TileEntityMobSpawner) world.getTileEntity(spawnerPos);
 		if (spawner != null)
 		spawner.getSpawnerBaseLogic().setEntityId(EntityList.getKey(e));
 		
 		int range = 3;
-		for(int x = -range; x < range + 1; x++)
-			for(int y = -range; y < range + 1; y++)
-				for(int z = -range; z < range + 1; z++) {
+		for (int x = -range; x < range + 1; x++)
+			for (int y = -range; y < range + 1; y++)
+				for (int z = -range; z < range + 1; z++) {
 					BlockPos cobwebPos = spawnerPos.add(x, y, z);
 					IBlockState stateAt = world.getBlockState(cobwebPos);
-					if(stateAt.getBlock().isAir(stateAt, world, cobwebPos) || stateAt.getBlock().isReplaceable(world, cobwebPos))
+					if (stateAt.getBlock().isAir(stateAt, world, cobwebPos) || stateAt.getBlock().isReplaceable(world, cobwebPos))
 						placeCobweb(world, cobwebPos, null, nestCobwebChance);
 				}
 	}

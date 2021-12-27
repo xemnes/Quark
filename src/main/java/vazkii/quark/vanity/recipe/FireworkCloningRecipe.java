@@ -37,17 +37,17 @@ public class FireworkCloningRecipe extends ModRecipe {
 		ItemStack source = ItemStack.EMPTY;
 		ItemStack target = ItemStack.EMPTY;
 
-		for(int i = 0; i < var1.getSizeInventory(); i++) {
+		for (int i = 0; i < var1.getSizeInventory(); i++) {
 			ItemStack stack = var1.getStackInSlot(i);
-			if(!stack.isEmpty()) {
-				if(stack.getItem() instanceof ItemFirework) {
-					if(stack.getTagCompound() != null && hasExplosions(stack)) {
-						if(foundSource)
+			if (!stack.isEmpty()) {
+				if (stack.getItem() instanceof ItemFirework) {
+					if (stack.getTagCompound() != null && hasExplosions(stack)) {
+						if (foundSource)
 							return false;
 						source = stack;
 						foundSource = true;
 					} else {
-						if(foundTarget)
+						if (foundTarget)
 							return false;
 						
 						target = stack;
@@ -66,16 +66,16 @@ public class FireworkCloningRecipe extends ModRecipe {
 		ItemStack source = ItemStack.EMPTY;
 		ItemStack target = ItemStack.EMPTY;
 
-		for(int i = 0; i < var1.getSizeInventory(); i++) {
+		for (int i = 0; i < var1.getSizeInventory(); i++) {
 			ItemStack stack = var1.getStackInSlot(i);
-			if(!stack.isEmpty()) {
-				if(hasExplosions(stack))
+			if (!stack.isEmpty()) {
+				if (hasExplosions(stack))
 					source = stack;
 				else target = stack;
 			}
 		}
 		
-		if(!source.isEmpty() && !target.isEmpty()) {
+		if (!source.isEmpty() && !target.isEmpty()) {
 			ItemStack copy = target.copy();
 			NBTTagCompound cmp = new NBTTagCompound();
 			cmp.setTag("Fireworks", ItemNBTHelper.getCompound(source, "Fireworks", false));
@@ -103,9 +103,9 @@ public class FireworkCloningRecipe extends ModRecipe {
 	@Override
 	public NonNullList<ItemStack> getRemainingItems(InventoryCrafting inv) {
 		NonNullList<ItemStack> remaining = NonNullList.withSize(inv.getSizeInventory(), ItemStack.EMPTY);
-		for(int i = 0; i < inv.getSizeInventory(); i++) {
+		for (int i = 0; i < inv.getSizeInventory(); i++) {
 			ItemStack stack = inv.getStackInSlot(i);
-			if(!stack.isEmpty() && hasExplosions(stack)) {
+			if (!stack.isEmpty() && hasExplosions(stack)) {
 				ItemStack copy = stack.copy();
 				copy.setCount(1);
 				remaining.set(i, copy);
@@ -117,7 +117,7 @@ public class FireworkCloningRecipe extends ModRecipe {
 	
 
 	private byte getFlight(ItemStack stack) {
-		if(!stack.hasTagCompound())
+		if (!stack.hasTagCompound())
 			return 0;
 		
 		return ItemNBTHelper.getCompound(stack, "Fireworks", false).getByte("Flight");

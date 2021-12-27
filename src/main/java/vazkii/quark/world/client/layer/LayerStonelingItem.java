@@ -32,7 +32,7 @@ public class LayerStonelingItem implements LayerRenderer<EntityStoneling> {
 			
 			GlStateManager.pushMatrix();
 			GlStateManager.translate(0F, 0.5F, 0F);
-			if(!isBlock) {
+			if (!isBlock) {
 				GlStateManager.rotate(stoneling.getItemAngle() + 180, 0F, 1F, 0F);
 				GlStateManager.rotate(90F, 1F, 0F, 0F);
 			} else GlStateManager.rotate(180F, 1F, 0F, 0F);

@@ -49,14 +49,14 @@ public class PistonsMoveTEs extends Feature {
 	
 	@SubscribeEvent
 	public void onWorldTick(WorldTickEvent event) {
-		if(!delayedUpdates.containsKey(event.world) || event.phase == Phase.START)
+		if (!delayedUpdates.containsKey(event.world) || event.phase == Phase.START)
 			return;
 		
 		List<Pair<BlockPos, NBTTagCompound>> delays = delayedUpdates.get(event.world);
-		if(delays.isEmpty())
+		if (delays.isEmpty())
 			return;
 		
-		for(Pair<BlockPos, NBTTagCompound> delay : delays) {
+		for (Pair<BlockPos, NBTTagCompound> delay : delays) {
 			TileEntity tile = TileEntity.create(event.world, delay.getRight());
 			event.world.setTileEntity(delay.getLeft(), tile);
 			if (tile != null)
@@ -68,7 +68,7 @@ public class PistonsMoveTEs extends Feature {
 	
 	// This is called from injected code and subsequently flipped, so to make it move, we return false
 	public static boolean shouldMoveTE(boolean te, IBlockState state) {
-		if(!ModuleLoader.isFeatureEnabled(PistonsMoveTEs.class))
+		if (!ModuleLoader.isFeatureEnabled(PistonsMoveTEs.class))
 			return te;
 		
 		return shouldMoveTE(state);
@@ -76,7 +76,7 @@ public class PistonsMoveTEs extends Feature {
 	
 	public static boolean shouldMoveTE(IBlockState state) {
 		// Jukeboxes that are playing can't be moved so the music can be stopped
-		if(state.getPropertyKeys().contains(BlockJukebox.HAS_RECORD) && state.getValue(BlockJukebox.HAS_RECORD))
+		if (state.getPropertyKeys().contains(BlockJukebox.HAS_RECORD) && state.getValue(BlockJukebox.HAS_RECORD))
 			return true;
 
 		if (state.getBlock() == Blocks.ENDER_CHEST) // They're obsidian!
@@ -87,7 +87,7 @@ public class PistonsMoveTEs extends Feature {
 	}
 	
 	public static void detachTileEntities(World world, BlockPistonStructureHelper helper, EnumFacing facing, boolean extending) {
-		if(!ModuleLoader.isFeatureEnabled(PistonsMoveTEs.class))
+		if (!ModuleLoader.isFeatureEnabled(PistonsMoveTEs.class))
 			return;
 
 		if (!extending)
@@ -95,9 +95,9 @@ public class PistonsMoveTEs extends Feature {
 
 		List<BlockPos> moveList = helper.getBlocksToMove();
 		
-		for(BlockPos pos : moveList) {
+		for (BlockPos pos : moveList) {
 			IBlockState state = world.getBlockState(pos);
-			if(state.getBlock().hasTileEntity(state)) {
+			if (state.getBlock().hasTileEntity(state)) {
 				TileEntity tile = world.getTileEntity(pos);
 				if (tile != null) {
 					if (IPistonCallback.hasCallback(tile))
@@ -112,7 +112,7 @@ public class PistonsMoveTEs extends Feature {
 	}
 	
 	public static boolean setPistonBlock(World world, BlockPos pos, IBlockState state, int flags) {
-		if(!ModuleLoader.isFeatureEnabled(PistonsMoveTEs.class)) {
+		if (!ModuleLoader.isFeatureEnabled(PistonsMoveTEs.class)) {
 			world.setBlockState(pos, state, flags);
 			return false;
 		}
@@ -121,12 +121,12 @@ public class PistonsMoveTEs extends Feature {
 		TileEntity tile = getAndClearMovement(world, pos);
 		boolean destroyed = false;
 		
-		if(tile != null) {
+		if (tile != null) {
 			IBlockState currState = world.getBlockState(pos);
 			TileEntity currTile = world.getTileEntity(pos);
 			
 			world.setBlockToAir(pos);
-			if(!block.canPlaceBlockAt(world, pos)) {
+			if (!block.canPlaceBlockAt(world, pos)) {
 				world.setBlockState(pos, state, flags);
 				world.setTileEntity(pos, tile);
 				block.dropBlockAsItem(world, pos, state, 0);
@@ -134,25 +134,25 @@ public class PistonsMoveTEs extends Feature {
 				destroyed = true;
 			}
 			
-			if(!destroyed) {
+			if (!destroyed) {
 				world.setBlockState(pos, currState);
 				world.setTileEntity(pos, currTile);
 			}
 		}
 		
-		if(!destroyed) {
+		if (!destroyed) {
 			world.setBlockState(pos, state, flags);
-			if(world.getTileEntity(pos) != null)
+			if (world.getTileEntity(pos) != null)
 				world.setBlockState(pos, state, 0);
 			
-			if(tile != null && !world.isRemote) {
-				if(delayedUpdateList.contains(Block.REGISTRY.getNameForObject(block).toString()))
+			if (tile != null && !world.isRemote) {
+				if (delayedUpdateList.contains(Block.REGISTRY.getNameForObject(block).toString()))
 					registerDelayedUpdate(world, pos, tile);
 				else {
 					world.setTileEntity(pos, tile);
 					tile.updateContainingBlockInfo();
 
-					if(block instanceof BlockChest)
+					if (block instanceof BlockChest)
 						((BlockChest) block).checkForSurroundingChests(world, pos, state);
 					
 				}
@@ -164,7 +164,7 @@ public class PistonsMoveTEs extends Feature {
 	}
 	
 	private static void registerMovement(World world, BlockPos pos, TileEntity tile) {
-		if(!movements.containsKey(world))
+		if (!movements.containsKey(world))
 			movements.put(world, new HashMap<>());
 		
 		movements.get(world).put(pos, tile.serializeNBT());
@@ -175,15 +175,15 @@ public class PistonsMoveTEs extends Feature {
 	}
 	
 	private static TileEntity getMovement(World world, BlockPos pos, boolean remove) {
-		if(!movements.containsKey(world))
+		if (!movements.containsKey(world))
 			return null;
 		
 		Map<BlockPos, NBTTagCompound> worldMovements = movements.get(world);
-		if(!worldMovements.containsKey(pos))
+		if (!worldMovements.containsKey(pos))
 			return null;
 		
 		NBTTagCompound ret = worldMovements.get(pos);
-		if(remove)
+		if (remove)
 			worldMovements.remove(pos);
 
 		return TileEntity.create(world, ret);
@@ -192,7 +192,7 @@ public class PistonsMoveTEs extends Feature {
 	private static TileEntity getAndClearMovement(World world, BlockPos pos) {
 		TileEntity tile = getMovement(world, pos, true);
 
-		if(tile != null) {
+		if (tile != null) {
 			if (IPistonCallback.hasCallback(tile))
 				IPistonCallback.getCallback(tile).onPistonMovementFinished();
 
@@ -200,7 +200,7 @@ public class PistonsMoveTEs extends Feature {
 
 			tile.validate();
 			
-			if(tile instanceof TileEntityChest)
+			if (tile instanceof TileEntityChest)
 				((TileEntityChest) tile).numPlayersUsing = 0;
 		}
 
@@ -208,7 +208,7 @@ public class PistonsMoveTEs extends Feature {
 	}
 	
 	private static void registerDelayedUpdate(World world, BlockPos pos, TileEntity tile) {
-		if(!delayedUpdates.containsKey(world))
+		if (!delayedUpdates.containsKey(world))
 			delayedUpdates.put(world, new ArrayList<>());
 		
 		delayedUpdates.get(world).add(Pair.of(pos, tile.serializeNBT()));

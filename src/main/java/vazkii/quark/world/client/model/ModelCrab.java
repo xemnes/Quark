@@ -226,7 +226,7 @@ public class ModelCrab extends ModelBase {
 		rightLeg3.rotateAngleZ = -0.5236F + (1 + MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI)) * 0.7F * limbSwingAmount;
 		rightLeg4.rotateAngleZ = -0.2618F + (1 + MathHelper.cos(limbSwing * 0.6662F)) * 0.7F * limbSwingAmount;
 		
-		if(entityIn instanceof EntityCrab && ((EntityCrab) entityIn).isRaving()) {
+		if (entityIn instanceof EntityCrab && ((EntityCrab) entityIn).isRaving()) {
 			float crabRaveBPM = 125F / 4;
 			float freq = (20F / crabRaveBPM);
 			float tick = ageInTicks * freq;
@@ -260,7 +260,7 @@ public class ModelCrab extends ModelBase {
 		GlStateManager.pushMatrix();
 		float sizeModifier = crab.getSizeModifier();
 
-		if(isChild) 
+		if (isChild) 
 			sizeModifier /= 2;
 
 		GlStateManager.translate(0, 1.5 - sizeModifier * 1.5, 0);

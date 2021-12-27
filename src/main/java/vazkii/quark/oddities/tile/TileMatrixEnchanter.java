@@ -56,36 +56,36 @@ public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 		super.update();
 
 		ItemStack item = getStackInSlot(0);
-		if(item.isEmpty()) {
+		if (item.isEmpty()) {
 			matrix = null;
 			matrixDirty = true;
 		} else {
 			loadMatrix(item);
 
-			if(world.getTotalWorldTime() % 20 == 0 || matrixDirty)
+			if (world.getTotalWorldTime() % 20 == 0 || matrixDirty)
 				updateEnchantPower();
 		}
 		
-		if(charge <= 0 && !world.isRemote) {
+		if (charge <= 0 && !world.isRemote) {
 			ItemStack lapis = getStackInSlot(1);
-			if(!lapis.isEmpty()) {
+			if (!lapis.isEmpty()) {
 				lapis.shrink(1);
 				charge += MatrixEnchanting.chargePerLapis;
 				sync();
 			}
 		}
 
-		if(matrixDirty) {
+		if (matrixDirty) {
 			makeOutput();
 			matrixDirty = false;
 		}
 	}
 
 	public void onOperation(EntityPlayer player, int operation, int arg0, int arg1, int arg2) {
-		if(matrix == null)
+		if (matrix == null)
 			return;
 
-		switch(operation) {
+		switch (operation) {
 		case OPER_ADD:
 			apply(m -> generateAndPay(m, player));
 			break;
@@ -105,17 +105,17 @@ public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 	}
 
 	private void apply(Predicate<EnchantmentMatrix> oper) {
-		if(oper.test(matrix)) {
+		if (oper.test(matrix)) {
 			ItemStack item = getStackInSlot(0);
 			commitMatrix(item);
 		}
 	}
 
 	private boolean generateAndPay(EnchantmentMatrix matrix, EntityPlayer player) {
-		if(matrix.canGeneratePiece(bookshelfPower, enchantability) && matrix.validateXp(player, bookshelfPower)) {
+		if (matrix.canGeneratePiece(bookshelfPower, enchantability) && matrix.validateXp(player, bookshelfPower)) {
 			boolean creative = player.isCreative();
 			int cost = matrix.getNewPiecePrice();
-			if(charge > 0 || creative) {
+			if (charge > 0 || creative) {
 				if (matrix.generatePiece(influences, bookshelfPower)) {
 					if (!creative) {
 						if (MatrixEnchanting.useLevels)
@@ -133,22 +133,22 @@ public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 	}
 
 	private void makeOutput() {
-		if(world.isRemote)
+		if (world.isRemote)
 			return;
 
 		setInventorySlotContents(2, ItemStack.EMPTY);
 		ItemStack in = getStackInSlot(0);
-		if(!in.isEmpty() && matrix != null && !matrix.placedPieces.isEmpty()) {
+		if (!in.isEmpty() && matrix != null && !matrix.placedPieces.isEmpty()) {
 			ItemStack out = in.copy();
 			boolean book = false;
-			if(out.getItem() == Items.BOOK) {
+			if (out.getItem() == Items.BOOK) {
 				out = new ItemStack(Items.ENCHANTED_BOOK);
 				book = true;
 			}
 
 			Map<Enchantment, Integer> enchantments = new HashMap<>();
 
-			for(int i : matrix.placedPieces) {
+			for (int i : matrix.placedPieces) {
 				Piece p = matrix.pieces.get(i);
 
 				if (p != null && p.enchant != null) {
@@ -160,8 +160,8 @@ public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 				}
 			}
 
-			if(book) 
-				for(Entry<Enchantment, Integer> e : enchantments.entrySet())
+			if (book) 
+				for (Entry<Enchantment, Integer> e : enchantments.entrySet())
 					ItemEnchantedBook.addEnchantment(out, new EnchantmentData(e.getKey(), e.getValue()));
 			else {
 				EnchantmentHelper.setEnchantments(enchantments, out);
@@ -173,19 +173,19 @@ public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 	}
 
 	private void loadMatrix(ItemStack stack) {
-		if(matrix == null || matrix.target != stack) {
-			if(matrix != null)
+		if (matrix == null || matrix.target != stack) {
+			if (matrix != null)
 				matrixDirty = true;
 			matrix = null;
 			
-			if(stack.isItemEnchantable()) {
+			if (stack.isItemEnchantable()) {
 				matrix = new EnchantmentMatrix(stack, world.rand);
 				matrixDirty = true;
 				makeUUID();
 
-				if(ItemNBTHelper.verifyExistence(stack, TAG_STACK_MATRIX)) {
+				if (ItemNBTHelper.verifyExistence(stack, TAG_STACK_MATRIX)) {
 					NBTTagCompound cmp = ItemNBTHelper.getCompound(stack, TAG_STACK_MATRIX, true);
-					if(cmp != null)
+					if (cmp != null)
 						matrix.readFromNBT(cmp);
 				}
 			}
@@ -193,7 +193,7 @@ public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 	}
 
 	private void commitMatrix(ItemStack stack) {
-		if(world.isRemote)
+		if (world.isRemote)
 			return;
 
 		NBTTagCompound cmp = new NBTTagCompound();
@@ -206,14 +206,14 @@ public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 	}
 
 	private void makeUUID() {
-		if(!world.isRemote)
+		if (!world.isRemote)
 			matrixId = UUID.randomUUID();
 	}
 
 	private void updateEnchantPower() {
 		ItemStack item = getStackInSlot(0);
 		influences.clear();
-		if(item.isEmpty())
+		if (item.isEmpty())
 			return;
 
 		enchantability = item.getItem().getItemEnchantability(item);
@@ -238,16 +238,16 @@ public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 	}
 	
 	private float getEnchantPowerAt(World world, BlockPos pos) {
-		if(MatrixEnchanting.allowInfluencing) {
+		if (MatrixEnchanting.allowInfluencing) {
 			IBlockState state = world.getBlockState(pos);
 			Block block = state.getBlock();
-			if(block == TallowAndCandles.candle) {
+			if (block == TallowAndCandles.candle) {
 				EnumDyeColor ord = state.getValue(TallowAndCandles.candle.variantProp).color;
 				
 				List<Enchantment> influencedEnchants = MatrixEnchanting.candleInfluences.get(ord);
-				for(Enchantment e : influencedEnchants) {
+				for (Enchantment e : influencedEnchants) {
 					int curr = influences.getOrDefault(e, 0);
-					if(curr < MatrixEnchanting.influenceMax)
+					if (curr < MatrixEnchanting.influenceMax)
 						influences.put(e, curr + 1);
 				}
 			}
@@ -261,11 +261,11 @@ public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 		super.writeSharedNBT(cmp);
 
 		NBTTagCompound matrixCmp = new NBTTagCompound();
-		if(matrix != null) {
+		if (matrix != null) {
 			matrix.writeToNBT(matrixCmp);
 
 			cmp.setTag(TAG_MATRIX, matrixCmp);
-			if(matrixId != null) {
+			if (matrixId != null) {
 				cmp.setLong(TAG_MATRIX_UUID_LESS, matrixId.getLeastSignificantBits());
 				cmp.setLong(TAG_MATRIX_UUID_MOST, matrixId.getMostSignificantBits());
 			}
@@ -277,12 +277,12 @@ public class TileMatrixEnchanter extends TileMatrixEnchanterBase {
 	public void readSharedNBT(NBTTagCompound cmp) {
 		super.readSharedNBT(cmp);
 
-		if(cmp.hasKey(TAG_MATRIX)) {
+		if (cmp.hasKey(TAG_MATRIX)) {
 			long least = cmp.getLong(TAG_MATRIX_UUID_LESS);
 			long most = cmp.getLong(TAG_MATRIX_UUID_MOST);
 			UUID newId = new UUID(most, least);
 
-			if(!newId.equals(matrixId)) {
+			if (!newId.equals(matrixId)) {
 				NBTTagCompound matrixCmp = cmp.getCompoundTag(TAG_MATRIX);
 				matrixId = newId;
 				matrix = new EnchantmentMatrix(getStackInSlot(0), new Random());

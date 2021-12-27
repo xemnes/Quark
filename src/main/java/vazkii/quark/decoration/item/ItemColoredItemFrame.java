@@ -73,7 +73,7 @@ public class ItemColoredItemFrame extends ItemMod implements IItemColorProvider,
 		ItemStack stack = playerIn.getHeldItem(hand);
 		BlockPos blockpos = pos.offset(facing);
 
-		if((ModuleLoader.isFeatureEnabled(FlatItemFrames.class) || facing.getAxis() != EnumFacing.Axis.Y) && playerIn.canPlayerEdit(blockpos, facing, stack)) {
+		if ((ModuleLoader.isFeatureEnabled(FlatItemFrames.class) || facing.getAxis() != EnumFacing.Axis.Y) && playerIn.canPlayerEdit(blockpos, facing, stack)) {
 			EntityHanging entityhanging = createEntity(worldIn, blockpos, facing, stack.getItemDamage());
 
 			placeHangingEntity(worldIn, stack, entityhanging);
@@ -85,8 +85,8 @@ public class ItemColoredItemFrame extends ItemMod implements IItemColorProvider,
 	}
 
 	public static void placeHangingEntity(World worldIn, ItemStack stack, EntityHanging entityhanging) {
-		if(entityhanging.onValidSurface()) {
-			if(!worldIn.isRemote) {
+		if (entityhanging.onValidSurface()) {
+			if (!worldIn.isRemote) {
 				entityhanging.playPlaceSound();
 				worldIn.spawnEntity(entityhanging);
 			}

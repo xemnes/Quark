@@ -22,11 +22,11 @@ public class NoteBlockInterface extends Feature {
 
 	@SubscribeEvent
 	public void onInteract(PlayerInteractEvent.RightClickBlock event) {
-		if(event.getUseBlock() == Result.DENY)
+		if (event.getUseBlock() == Result.DENY)
 			return;
 		
 		TileEntity tile = event.getWorld().getTileEntity(event.getPos());
-		if(tile instanceof TileEntityNote && (!emptyHand || event.getEntityPlayer().getHeldItemMainhand().isEmpty()) && event.getEntityPlayer().capabilities.allowEdit && !event.getEntity().isSneaking()) {
+		if (tile instanceof TileEntityNote && (!emptyHand || event.getEntityPlayer().getHeldItemMainhand().isEmpty()) && event.getEntityPlayer().capabilities.allowEdit && !event.getEntity().isSneaking()) {
 			event.getEntityPlayer().openGui(Quark.instance, LibGuiIDs.NOTE_BLOCK, event.getWorld(), event.getPos().getX(), event.getPos().getY(), event.getPos().getZ());
 			event.setCanceled(true);
 		}

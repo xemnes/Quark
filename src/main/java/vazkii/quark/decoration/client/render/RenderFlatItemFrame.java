@@ -70,7 +70,7 @@ public class RenderFlatItemFrame extends RenderItemFrame {
 		double d1 = blockpos.getY() - entity.posY + y;
 		double d2 = blockpos.getZ() - entity.posZ + z;
 		GlStateManager.translate(d0 + 0.5D, d1 + 0.5D, d2 + 0.5D);
-		if(entityFlat.realFacingDirection.getAxis() == EnumFacing.Axis.Y) {
+		if (entityFlat.realFacingDirection.getAxis() == EnumFacing.Axis.Y) {
 			GlStateManager.rotate(entityFlat.realFacingDirection == EnumFacing.DOWN ? -90.0F : 90.0F, 1.0F, 0.0F, 0.0F);
 			GlStateManager.rotate(entityFlat.realFacingDirection == EnumFacing.UP ? 180.0F : 0.0F, 0.0F, 0.0F, 1.0F);
 		} else 
@@ -80,14 +80,14 @@ public class RenderFlatItemFrame extends RenderItemFrame {
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(-0.5F, -0.5F, -0.5F);
 
-		if(renderOutlines) {
+		if (renderOutlines) {
 			GlStateManager.enableColorMaterial();
 			GlStateManager.enableOutlineMode(getTeamColor(entity));
 		}
 
 		renderModel(entityFlat, mc);
 
-		if(renderOutlines) {
+		if (renderOutlines) {
 			GlStateManager.disableOutlineMode();
 			GlStateManager.disableColorMaterial();
 		}
@@ -109,7 +109,7 @@ public class RenderFlatItemFrame extends RenderItemFrame {
 		ModelManager modelmanager = blockrendererdispatcher.getBlockModelShapes().getModelManager();
 		ItemStack displayStack = entity.getDisplayedItem();
 
-		if(!displayStack.isEmpty() && displayStack.getItem() instanceof ItemMap && Items.FILLED_MAP.getMapData(displayStack, mc.world) != null) {
+		if (!displayStack.isEmpty() && displayStack.getItem() instanceof ItemMap && Items.FILLED_MAP.getMapData(displayStack, mc.world) != null) {
 			ibakedmodel = modelmanager.getModel(mapModel);
 		} else {
 			ibakedmodel = modelmanager.getModel(itemFrameModel);
@@ -126,7 +126,7 @@ public class RenderFlatItemFrame extends RenderItemFrame {
 	private void renderItem(EntityItemFrame itemFrame) {
 		ItemStack itemstack = itemFrame.getDisplayedItem();
 
-		if(!itemstack.isEmpty()) {
+		if (!itemstack.isEmpty()) {
 			EntityItem entityitem = new EntityItem(itemFrame.getEntityWorld(), 0.0D, 0.0D, 0.0D, itemstack);
 			Item item = entityitem.getItem().getItem();
 			entityitem.getItem().setCount(1);
@@ -135,14 +135,14 @@ public class RenderFlatItemFrame extends RenderItemFrame {
 			GlStateManager.disableLighting();
 			int i = itemFrame.getRotation();
 
-			if(item instanceof ItemMap)
+			if (item instanceof ItemMap)
 				i = i % 4 * 2;
 
 			GlStateManager.rotate(i * 360.0F / 8.0F, 0.0F, 0.0F, 1.0F);
 
 			RenderItemInFrameEvent event = new RenderItemInFrameEvent(itemFrame, this);
 			if (!MinecraftForge.EVENT_BUS.post(event)) {
-				if(item instanceof ItemMap) {
+				if (item instanceof ItemMap) {
 					renderManager.renderEngine.bindTexture(MAP_BACKGROUND_TEXTURES);
 					GlStateManager.rotate(180.0F, 0.0F, 0.0F, 1.0F);
 					float f = 0.0078125F;
@@ -151,7 +151,7 @@ public class RenderFlatItemFrame extends RenderItemFrame {
 					MapData mapdata = Items.FILLED_MAP.getMapData(entityitem.getItem(), itemFrame.getEntityWorld());
 					GlStateManager.translate(0.0F, 0.0F, -1.0F);
 
-					if(mapdata != null)
+					if (mapdata != null)
 						mc.entityRenderer.getMapItemRenderer().renderMap(mapdata, true);
 				} else {
 					ItemStack stack = entityitem.getItem();
@@ -175,18 +175,18 @@ public class RenderFlatItemFrame extends RenderItemFrame {
 	}
 	
 	protected void transformItem(EntityItemFrame frame, ItemStack stack) {
-		if(stack.getItem() instanceof ItemBlock && ((EntityFlatItemFrame) frame).realFacingDirection.getAxis().equals(Axis.Y))
+		if (stack.getItem() instanceof ItemBlock && ((EntityFlatItemFrame) frame).realFacingDirection.getAxis().equals(Axis.Y))
 			GlStateManager.rotate(-90F, 1F, 0F, 0F);
 		GlStateManager.scale(0.5F, 0.5F, 0.5F);
 	}
 
 	@Override
 	protected void renderName(@Nonnull EntityItemFrame entity, double x, double y, double z) {
-		if(Minecraft.isGuiEnabled() && !entity.getDisplayedItem().isEmpty() && entity.getDisplayedItem().hasDisplayName() && renderManager.pointedEntity == entity) {
+		if (Minecraft.isGuiEnabled() && !entity.getDisplayedItem().isEmpty() && entity.getDisplayedItem().hasDisplayName() && renderManager.pointedEntity == entity) {
 			double d0 = entity.getDistanceSq(renderManager.renderViewEntity);
 			float f = entity.isSneaking() ? 32.0F : 64.0F;
 
-			if(d0 < f * f) {
+			if (d0 < f * f) {
 				String s = entity.getDisplayedItem().getDisplayName();
 				renderLivingLabel(entity, s, x, y, z, 64);
 			}

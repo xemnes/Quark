@@ -25,7 +25,7 @@ public class ArchaeologistHouseGenerator implements IWorldGenerator {
 
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
-		if(!(chunkGenerator instanceof ChunkGeneratorFlat) && Archaeologist.dims.canSpawnHere(world) && random.nextDouble() < Archaeologist.chance) {
+		if (!(chunkGenerator instanceof ChunkGeneratorFlat) && Archaeologist.dims.canSpawnHere(world) && random.nextDouble() < Archaeologist.chance) {
 			int x = chunkX * 16 + 8 + random.nextInt(16);
 			int z = chunkZ * 16 + 8 + random.nextInt(16);
 			int y = random.nextInt(Archaeologist.maxY - Archaeologist.minY) + Archaeologist.minY;
@@ -36,9 +36,9 @@ public class ArchaeologistHouseGenerator implements IWorldGenerator {
 	}
 	
 	private void setHouseAt(Random random, World world, BlockPos pos) {
-		if(world.isAirBlock(pos) && world instanceof WorldServer) {
+		if (world.isAirBlock(pos) && world instanceof WorldServer) {
 			BlockPos down = pos.down();
-			while(world.isAirBlock(down)) {
+			while (world.isAirBlock(down)) {
 				down = down.down();
 				if (world.isOutsideBuildHeight(down))
 					return;
@@ -46,15 +46,15 @@ public class ArchaeologistHouseGenerator implements IWorldGenerator {
 			
 			EnumFacing facing = EnumFacing.HORIZONTALS[random.nextInt(EnumFacing.HORIZONTALS.length)];
 			BlockPos placePos = down.up();
-			while(world.isAirBlock(placePos)) {
+			while (world.isAirBlock(placePos)) {
 				placePos = placePos.offset(facing);
 				
-				if(world.isOutsideBuildHeight(placePos) || !world.isBlockLoaded(placePos))
+				if (world.isOutsideBuildHeight(placePos) || !world.isBlockLoaded(placePos))
 					return;
 			}
 			
 			IBlockState placeState = world.getBlockState(placePos);
-			if(placeState.getMaterial() == Material.ROCK && placeState.isFullBlock()) {
+			if (placeState.getMaterial() == Material.ROCK && placeState.isFullBlock()) {
 				generateHouse((WorldServer) world, placePos, facing);
 			}
 		}
@@ -71,9 +71,9 @@ public class ArchaeologistHouseGenerator implements IWorldGenerator {
 		template.addBlocksToWorld(world, placePos, settings);
 
 		Map<BlockPos, String> dataBlocks = template.getDataBlocks(placePos, settings);
-		for(Entry<BlockPos, String> entry : dataBlocks.entrySet()) {
+		for (Entry<BlockPos, String> entry : dataBlocks.entrySet()) {
 			String s = entry.getValue();
-			if(s.equals("villager")) {
+			if (s.equals("villager")) {
 				BlockPos villagerPos = entry.getKey();
 				world.setBlockToAir(villagerPos);
 				

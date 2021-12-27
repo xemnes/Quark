@@ -14,13 +14,13 @@ public class ImprovedMountHUD extends Feature {
 
 	@SubscribeEvent
 	public void onRenderHUD(RenderGameOverlayEvent.Pre event) {
-		if(event.getType() == ElementType.ALL) {
+		if (event.getType() == ElementType.ALL) {
 			Minecraft mc = Minecraft.getMinecraft();
 			Entity riding = mc.player.getRidingEntity();
 			
-			if(riding != null) {
+			if (riding != null) {
 				GuiIngameForge.renderFood = true;
-				if(riding instanceof AbstractHorse)
+				if (riding instanceof AbstractHorse)
 					GuiIngameForge.renderJumpBar = GameSettings.isKeyDown(mc.gameSettings.keyBindJump) && mc.currentScreen == null;
 			}
 		}

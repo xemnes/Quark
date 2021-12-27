@@ -53,14 +53,14 @@ public class DeployLaddersDown extends Feature {
 
 		List<Item> items = new ArrayList<>();
 		items.add(Item.getItemFromBlock(Blocks.LADDER));
-		if(ModuleLoader.isFeatureEnabled(IronLadders.class))
+		if (ModuleLoader.isFeatureEnabled(IronLadders.class))
 			items.add(Item.getItemFromBlock(IronLadders.iron_ladder));
 		
-		if(!stack.isEmpty() && items.contains(stack.getItem())) {
+		if (!stack.isEmpty() && items.contains(stack.getItem())) {
 			Block block = Block.getBlockFromItem(stack.getItem());
 			World world = event.getWorld();
 			BlockPos pos = event.getPos();
-			while(world.getBlockState(pos).getBlock() == block) {
+			while (world.getBlockState(pos).getBlock() == block) {
 				event.setCanceled(true);
 				BlockPos posDown = pos.down();
 
@@ -69,24 +69,24 @@ public class DeployLaddersDown extends Feature {
 
 				IBlockState stateDown = world.getBlockState(posDown);
 
-				if(stateDown.getBlock() == block)
+				if (stateDown.getBlock() == block)
 					pos = posDown;
 				else {
-					if(stateDown.getBlock().isAir(stateDown, world, posDown)) {
+					if (stateDown.getBlock().isAir(stateDown, world, posDown)) {
 						IBlockState copyState = world.getBlockState(pos);
 
 						EnumFacing facing = copyState.getValue(BlockLadder.FACING);
-						if(canAttachTo(block, world, posDown, facing)) {
+						if (canAttachTo(block, world, posDown, facing)) {
 							world.setBlockState(posDown, copyState);
 							world.playSound(null, posDown.getX(), posDown.getY(), posDown.getZ(), SoundEvents.BLOCK_LADDER_PLACE, SoundCategory.BLOCKS, 1F, 1F);
 							
-							if(world.isRemote)
+							if (world.isRemote)
 								player.swingArm(hand);
 							
-							if(!player.capabilities.isCreativeMode) {
+							if (!player.capabilities.isCreativeMode) {
 								stack.shrink(1);
 								
-								if(stack.getCount() <= 0)
+								if (stack.getCount() <= 0)
 									player.setHeldItem(hand, ItemStack.EMPTY);
 							}
 						}

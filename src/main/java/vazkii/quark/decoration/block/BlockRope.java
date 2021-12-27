@@ -63,11 +63,11 @@ public class BlockRope extends BlockMod implements IQuarkBlock {
 	@Override
 	@SuppressWarnings("ConstantConditions")
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if(hand == EnumHand.MAIN_HAND) {
+		if (hand == EnumHand.MAIN_HAND) {
 			ItemStack stack = playerIn.getHeldItem(hand);
-			if(stack.getItem() == Item.getItemFromBlock(this) && !playerIn.isSneaking()) {
-				if(pullDown(worldIn, pos)) {
-					if(!playerIn.isCreative())
+			if (stack.getItem() == Item.getItemFromBlock(this) && !playerIn.isSneaking()) {
+				if (pullDown(worldIn, pos)) {
+					if (!playerIn.isCreative())
 						stack.shrink(1);
 					
 					worldIn.playSound(null, pos, blockSoundType.getPlaceSound(), SoundCategory.BLOCKS, 0.5F, 1F);
@@ -95,9 +95,9 @@ public class BlockRope extends BlockMod implements IQuarkBlock {
 
 				return false;
 			} else {
-				if(pullUp(worldIn, pos)) {
-					if(!playerIn.isCreative()) {
-						if(!playerIn.addItemStackToInventory(new ItemStack(this)))
+				if (pullUp(worldIn, pos)) {
+					if (!playerIn.isCreative()) {
+						if (!playerIn.addItemStackToInventory(new ItemStack(this)))
 							playerIn.dropItem(new ItemStack(this), false);
 					}
 					
@@ -113,15 +113,15 @@ public class BlockRope extends BlockMod implements IQuarkBlock {
 	public boolean pullUp(World world, BlockPos pos) {
 		BlockPos basePos = pos;
 		
-		while(true) {
+		while (true) {
 			pos = pos.down();
 			IBlockState state = world.getBlockState(pos);
-			if(state.getBlock() != this)
+			if (state.getBlock() != this)
 				break;
 		}
 		
 		BlockPos ropePos = pos.up();
-		if(ropePos.equals(basePos))
+		if (ropePos.equals(basePos))
 			return false;
 
 		world.setBlockToAir(ropePos);
@@ -140,26 +140,26 @@ public class BlockRope extends BlockMod implements IQuarkBlock {
 			IBlockState state = world.getBlockState(pos);
 			Block block = state.getBlock();
 			
-			if(block == this)
+			if (block == this)
 				continue;
 			
-			if(endRope) {
+			if (endRope) {
 				can = wasAirAtEnd || world.isAirBlock(pos) || block.isReplaceable(world, pos);
 				break;
 			}
 			
 			endRope = true;
 			wasAirAtEnd = world.isAirBlock(pos);
-		} while(true);
+		} while (true);
 		
-		if(can) {
+		if (can) {
 			BlockPos ropePos = pos.up();
 			moveBlock(world, ropePos, pos);
 			
 			IBlockState ropePosState = world.getBlockState(ropePos);
 			Block ropePosBlock = ropePosState.getBlock();
 			
-			if(world.isAirBlock(ropePos) || ropePosBlock.isReplaceable(world, ropePos)) {
+			if (world.isAirBlock(ropePos) || ropePosBlock.isReplaceable(world, ropePos)) {
 				world.setBlockState(ropePos, getDefaultState());
 				return true;
 			}
@@ -184,13 +184,13 @@ public class BlockRope extends BlockMod implements IQuarkBlock {
 		IBlockState state = world.getBlockState(srcPos);
 		Block block = state.getBlock();
 		
-		if(state.getBlockHardness(world, srcPos) == -1 || !block.canPlaceBlockAt(world, dstPos) || block.isAir(state, world, srcPos) ||
+		if (state.getBlockHardness(world, srcPos) == -1 || !block.canPlaceBlockAt(world, dstPos) || block.isAir(state, world, srcPos) ||
 				state.getPushReaction() != EnumPushReaction.NORMAL || block == Blocks.OBSIDIAN)
 			return;
 		
 		TileEntity tile = world.getTileEntity(srcPos);
-		if(tile != null) {
-			if(Rope.forceEnableMoveTEs ? PistonsMoveTEs.shouldMoveTE(state) : PistonsMoveTEs.shouldMoveTE(true, state))
+		if (tile != null) {
+			if (Rope.forceEnableMoveTEs ? PistonsMoveTEs.shouldMoveTE(state) : PistonsMoveTEs.shouldMoveTE(true, state))
 				return;
 
 			tile.invalidate();
@@ -199,7 +199,7 @@ public class BlockRope extends BlockMod implements IQuarkBlock {
 		world.setBlockToAir(srcPos);
 		world.setBlockState(dstPos, state);
 		
-		if(tile != null) {
+		if (tile != null) {
 			tile.setPos(dstPos);
 			TileEntity target = TileEntity.create(world, tile.writeToNBT(new NBTTagCompound()));
 			if (target != null) {
@@ -229,7 +229,7 @@ public class BlockRope extends BlockMod implements IQuarkBlock {
 	
 	@Override
 	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
-		if(!canPlaceBlockAt(worldIn, pos)) {
+		if (!canPlaceBlockAt(worldIn, pos)) {
 			worldIn.playEvent(2001, pos, Block.getStateId(worldIn.getBlockState(pos)));
 			dropBlockAsItem(worldIn, pos, state, 0);
 			worldIn.setBlockToAir(pos);

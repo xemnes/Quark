@@ -55,12 +55,12 @@ public class ChangeHotbarKeybind extends Feature {
 		boolean down = ModKeybinds.changeHotbarKey.isKeyDown();
 		boolean wasDown = keyDown;
 		keyDown = down;
-		if(mc.inGameHasFocus) {
-			if(down && !wasDown)
+		if (mc.inGameHasFocus) {
+			if (down && !wasDown)
 				hotbarChangeOpen = !hotbarChangeOpen;
-			else if(hotbarChangeOpen)
-				for(int i = 0; i < BAR_KEYS.length; i++)
-					if(Keyboard.isKeyDown(BAR_KEYS[i])) {
+			else if (hotbarChangeOpen)
+				for (int i = 0; i < BAR_KEYS.length; i++)
+					if (Keyboard.isKeyDown(BAR_KEYS[i])) {
 						NetworkHandler.INSTANCE.sendToServer(new MessageChangeHotbar(i + 1));
 						hotbarChangeOpen = false;
 						currentHeldItem = mc.player.inventory.currentItem;
@@ -74,11 +74,11 @@ public class ChangeHotbarKeybind extends Feature {
 	@SideOnly(Side.CLIENT)
 	public void hudPre(RenderGameOverlayEvent.Pre event) {
 		float shift = -getRealHeight(event.getPartialTicks()) + 22;
-		if(shift < 0)
-			if(event.getType() == ElementType.HEALTH) {
+		if (shift < 0)
+			if (event.getType() == ElementType.HEALTH) {
 				GlStateManager.translate(0, shift, 0);
 				shifting = true;
-			} else if(shifting && (event.getType() == ElementType.DEBUG || event.getType() == ElementType.POTION_ICONS)) {
+			} else if (shifting && (event.getType() == ElementType.DEBUG || event.getType() == ElementType.POTION_ICONS)) {
 				GlStateManager.translate(0, -shift, 0);
 				shifting = false;
 			}
@@ -87,13 +87,13 @@ public class ChangeHotbarKeybind extends Feature {
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void hudPost(RenderGameOverlayEvent.Post event) {
-		if(height <= 0)
+		if (height <= 0)
 			return;
 
 		Minecraft mc = Minecraft.getMinecraft();
 		EntityPlayer player = mc.player;
 
-		if(event.getType() == ElementType.HOTBAR) {
+		if (event.getType() == ElementType.HOTBAR) {
 			ScaledResolution res = event.getResolution();
 			float realHeight = getRealHeight(event.getPartialTicks());
 			float xStart = res.getScaledWidth() / 2f - 91;
@@ -106,18 +106,18 @@ public class ChangeHotbarKeybind extends Feature {
 			GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 			
 			mc.renderEngine.bindTexture(WIDGETS);
-			for(int i = 0; i < 3; i++) {
+			for (int i = 0; i < 3; i++) {
 				GlStateManager.color(1F, 1F, 1F, 0.75F);
 				mc.ingameGUI.drawTexturedModalRect(xStart, yStart + i * 21, 0, 0, 182, 22);
 			}
 
-			for(int i = 0; i < 3; i++)
+			for (int i = 0; i < 3; i++)
 				mc.fontRenderer.drawStringWithShadow(TextFormatting.BOLD + Integer.toString(i + 1), xStart - 9, yStart + i * 21 + 7, 0xFFFFFF);
 
 			RenderHelper.enableGUIStandardItemLighting();
 
 			GlStateManager.translate(xStart, yStart, 0);
-			for(int i = 0; i < 27; i++) {
+			for (int i = 0; i < 27; i++) {
 				ItemStack invStack = player.inventory.getStackInSlot(i + 9);
 				int x = (i % 9) * 20 + 3;
 				int y = (i / 9) * 21 + 3;
@@ -134,25 +134,25 @@ public class ChangeHotbarKeybind extends Feature {
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void onTick(ClientTickEvent event) {
-		if(event.phase == Phase.END) {
+		if (event.phase == Phase.END) {
 			EntityPlayer player = Minecraft.getMinecraft().player;
-			if(player != null && currentHeldItem != -1 && player.inventory.currentItem != currentHeldItem) {
+			if (player != null && currentHeldItem != -1 && player.inventory.currentItem != currentHeldItem) {
 				player.inventory.currentItem = currentHeldItem;
 				currentHeldItem = -1;
 			}
 		} 
 		
-		if(hotbarChangeOpen && height < MAX_HEIGHT) {
+		if (hotbarChangeOpen && height < MAX_HEIGHT) {
 			height += ANIM_PER_TICK;
 			animating = true;
-		} else if(!hotbarChangeOpen && height > 0) {
+		} else if (!hotbarChangeOpen && height > 0) {
 			height -= ANIM_PER_TICK;
 			animating = true;
 		} else animating = false;
 	}
 
 	private float getRealHeight(float part) {
-		if(!animating)
+		if (!animating)
 			return height;
 		return height + part * ANIM_PER_TICK * (hotbarChangeOpen ? 1 : -1);
 	}

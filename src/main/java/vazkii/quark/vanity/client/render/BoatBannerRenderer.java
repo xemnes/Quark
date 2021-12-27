@@ -24,11 +24,11 @@ public class BoatBannerRenderer {
 
 	// Called from ASM. See ClassTransformer
 	public static void renderBanner(EntityBoat boat, float partialTicks) {
-		if(!ModuleLoader.isFeatureEnabled(BoatSails.class))
+		if (!ModuleLoader.isFeatureEnabled(BoatSails.class))
 			return;
 
 		ItemStack banner = BoatSails.getBanner(boat);
-		if(!banner.isEmpty()) {
+		if (!banner.isEmpty()) {
 			BANNER_TE.setItemValues(banner, false);
 			GlStateManager.pushMatrix();
 			GlStateManager.rotate(180F, 1F, 0F, 0F);

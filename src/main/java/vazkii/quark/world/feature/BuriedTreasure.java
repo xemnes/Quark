@@ -72,8 +72,8 @@ public class BuriedTreasure extends Feature {
 	@SubscribeEvent
 	public void onLootTableLoad(LootTableLoadEvent event) {
 		ResourceLocation res = event.getName();
-		if(tablesToEdit.contains(res)) {
-			if(customPools.containsKey(res))
+		if (tablesToEdit.contains(res)) {
+			if (customPools.containsKey(res))
 				customPools.get(res);
 
 			event.getTable().getPool("main").addEntry(new LootEntryItem(Items.FILLED_MAP, rarity, quality, new LootFunction[] { new SetAsTreasureFunction() }, new LootCondition[0], "quark:treasure_map"));
@@ -82,12 +82,12 @@ public class BuriedTreasure extends Feature {
 
 	@SubscribeEvent
 	public void onUpdate(LivingUpdateEvent event) {
-		if(event.getEntity() instanceof EntityPlayer) {
+		if (event.getEntity() instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) event.getEntity();
-			for(int i = 0; i < player.inventory.getSizeInventory(); i++) {
+			for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
 				ItemStack stack = player.inventory.getStackInSlot(i);
-				if(!stack.isEmpty() && stack.hasTagCompound()) {
-					if(ItemNBTHelper.getBoolean(stack, TAG_TREASURE_MAP_DELEGATE, false))
+				if (!stack.isEmpty() && stack.hasTagCompound()) {
+					if (ItemNBTHelper.getBoolean(stack, TAG_TREASURE_MAP_DELEGATE, false))
 						makeMap(stack, player.getEntityWorld(), player.getPosition());
 				}
 			}
@@ -102,7 +102,7 @@ public class BuriedTreasure extends Feature {
 		int tries = 0;
 
 		do {
-			if(tries > 100)
+			if (tries > 100)
 				return null;
 
 			int distance = 400 + r.nextInt(200);
@@ -111,10 +111,10 @@ public class BuriedTreasure extends Feature {
 			int z = (int) (sourcePos.getZ() + Math.sin(angle) * distance);
 			treasurePos = world.getTopSolidOrLiquidBlock(new BlockPos(x, 255, z)).add(0, -4, 0);
 			IBlockState state = world.getBlockState(treasurePos);
-			if(state.getBlock() == Blocks.DIRT)
+			if (state.getBlock() == Blocks.DIRT)
 				validPos = true;
 			tries++;
-		} while(!validPos);
+		} while (!validPos);
 
 		String s = "map_" + itemstack.getMetadata();
 		MapData mapdata = new MapData(s);

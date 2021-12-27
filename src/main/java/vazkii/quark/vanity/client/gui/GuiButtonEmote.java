@@ -33,7 +33,7 @@ public class GuiButtonEmote extends GuiButtonTranslucent {
 	public void drawButton(@Nonnull Minecraft mc, int mouseX, int mouseY, float partial) {
 		super.drawButton(mc, mouseX, mouseY, partial);
 
-		if(visible) {
+		if (visible) {
 			mc.getTextureManager().bindTexture(desc.texture);
 			GlStateManager.color(1F, 1F, 1F);
 			drawModalRectWithCustomSizedTexture(x + 4, y + 4, 0, 0, 16, 16, 16, 16);
@@ -45,7 +45,7 @@ public class GuiButtonEmote extends GuiButtonTranslucent {
 			}
 			
 			boolean hovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
-			if(hovered) {
+			if (hovered) {
 				String name = desc.getLocalizedName();
 				
 				mc.getTextureManager().bindTexture(LibMisc.GENERAL_ICONS_RESOURCE);
@@ -57,7 +57,7 @@ public class GuiButtonEmote extends GuiButtonTranslucent {
 				GlStateManager.color(1F, 1F, 1F);
 				GlStateManager.translate(0, 0, 100);
 				drawActualTexturedModalRect(left, top, 242, 9, 5, 17);
-				for(int i = 0; i < w; i++)
+				for (int i = 0; i < w; i++)
 					drawActualTexturedModalRect(left + i + 5, top, 248, 9, 1, 17);
 				drawActualTexturedModalRect(left + w + 5, top, 250, 9, 6, 17);
 

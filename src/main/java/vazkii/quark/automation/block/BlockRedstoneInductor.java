@@ -224,7 +224,7 @@ public class BlockRedstoneInductor extends BlockMod implements IQuarkBlock, IBlo
 
 	@Override
 	public int getWeakPower(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
-		if(!isPowered(blockState))
+		if (!isPowered(blockState))
 			return 0;
 		else
 			return blockState.getValue(FACING) == side ? getActiveSignal(blockAccess, pos) : 0;
@@ -238,13 +238,13 @@ public class BlockRedstoneInductor extends BlockMod implements IQuarkBlock, IBlo
 
 	@Override
 	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
-		if(canBlockStay(worldIn, pos))
+		if (canBlockStay(worldIn, pos))
 			updateState(worldIn, pos);
 		else {
 			dropBlockAsItem(worldIn, pos, state, 0);
 			worldIn.setBlockToAir(pos);
 
-			for(EnumFacing enumfacing : EnumFacing.values())
+			for (EnumFacing enumfacing : EnumFacing.values())
 				worldIn.notifyNeighborsOfStateChange(pos.offset(enumfacing), this, false);
 		}
 	}
@@ -265,7 +265,7 @@ public class BlockRedstoneInductor extends BlockMod implements IQuarkBlock, IBlo
 
 		int i = worldIn.getRedstonePower(blockpos, side);
 
-		if(i >= 15)
+		if (i >= 15)
 			return i;
 		else
 			return Math.max(i, state.getBlock() == Blocks.REDSTONE_WIRE ? state.getValue(BlockRedstoneWire.POWER) : 0);
@@ -288,7 +288,7 @@ public class BlockRedstoneInductor extends BlockMod implements IQuarkBlock, IBlo
 
 	@Override
 	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
-		if(shouldBePowered(worldIn, pos, state))
+		if (shouldBePowered(worldIn, pos, state))
 			worldIn.scheduleUpdate(pos, this, 1);
 	}
 
@@ -310,7 +310,7 @@ public class BlockRedstoneInductor extends BlockMod implements IQuarkBlock, IBlo
 
 	@Override
 	public boolean rotateBlock(World world, @Nonnull BlockPos pos, @Nonnull EnumFacing axis) {
-		if(super.rotateBlock(world, pos, axis)) {
+		if (super.rotateBlock(world, pos, axis)) {
 			IBlockState state = world.getBlockState(pos);
 			state = state.withProperty(POWERED, false);
 			world.setBlockState(pos, state);

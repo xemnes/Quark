@@ -51,19 +51,19 @@ public class ItemSlimeBucket extends ItemMod implements IQuarkItem {
 
 	@Override
 	public void getSubItems(@Nonnull CreativeTabs tab, @Nonnull NonNullList<ItemStack> subItems) {
-		if(isInCreativeTab(tab))
+		if (isInCreativeTab(tab))
 			subItems.add(new ItemStack(this));
 	}
 
 	@Override
 	public void onUpdate(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected) {
-		if(!world.isRemote) {
+		if (!world.isRemote) {
 			int x = MathHelper.floor(entity.posX);
 			int z = MathHelper.floor(entity.posZ);
 			boolean slime = isSlimeChunk(world, x, z);
 			int meta = stack.getItemDamage();
 			int newMeta = slime ? 1 : 0;
-			if(meta != newMeta)
+			if (meta != newMeta)
 				stack.setItemDamage(newMeta);
 		}
 	}
@@ -75,11 +75,11 @@ public class ItemSlimeBucket extends ItemMod implements IQuarkItem {
 		double y = pos.getY() + 0.5 + facing.getYOffset();
 		double z = pos.getZ() + 0.5 + facing.getZOffset();
 
-		if(!worldIn.isRemote) {
+		if (!worldIn.isRemote) {
 			EntitySlime slime = new EntitySlime(worldIn);
 			
 			NBTTagCompound data = ItemNBTHelper.getCompound(playerIn.getHeldItem(hand), TAG_ENTITY_DATA, true);
-			if(data != null)
+			if (data != null)
 				slime.readFromNBT(data);
 			else {
 				slime.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(1.0);
@@ -101,9 +101,9 @@ public class ItemSlimeBucket extends ItemMod implements IQuarkItem {
 	@Nonnull
 	@Override
 	public String getItemStackDisplayName(@Nonnull ItemStack stack) {
-		if(stack.hasTagCompound()) {
+		if (stack.hasTagCompound()) {
 			NBTTagCompound cmp = ItemNBTHelper.getCompound(stack, TAG_ENTITY_DATA, false);
-			if(cmp != null && cmp.hasKey("CustomName")) 
+			if (cmp != null && cmp.hasKey("CustomName")) 
 				return I18n.format("item.quark:slime_bucket_named.name", cmp.getString("CustomName")); 
 		}
 		

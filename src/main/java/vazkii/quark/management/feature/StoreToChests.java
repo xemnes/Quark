@@ -76,20 +76,20 @@ public class StoreToChests extends Feature {
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void initGui(GuiScreenEvent.InitGuiEvent.Post event) {
-		if(Minecraft.getMinecraft().world == null)
+		if (Minecraft.getMinecraft().world == null)
 			clientDisabled = false;
 
-		if(event.getGui() instanceof GuiInventory || event.getGui() instanceof GuiContainerCreative
+		if (event.getGui() instanceof GuiInventory || event.getGui() instanceof GuiContainerCreative
 				|| classnames.contains(event.getGui().getClass().getName())) {
-			if(clientDisabled)
+			if (clientDisabled)
 				return;
 
 			GuiContainer guiInv = (GuiContainer) event.getGui();
 			GuiContainerCreative creativeInv = null;
-			if(guiInv instanceof GuiContainerCreative)
+			if (guiInv instanceof GuiContainerCreative)
 				creativeInv = (GuiContainerCreative) guiInv;
 
-			if(creativeInv == null && Minecraft.getMinecraft().player.capabilities.isCreativeMode)
+			if (creativeInv == null && Minecraft.getMinecraft().player.capabilities.isCreativeMode)
 				return;
 
 			if (ChestButtons.chestButtons == null)
@@ -97,12 +97,12 @@ public class StoreToChests extends Feature {
 			ChestButtons.chestButtons.clear();
 
 			Container container = guiInv.inventorySlots;
-			for(Slot s : container.inventorySlots)
-				if(creativeInv != null || s instanceof SlotCrafting) {
-					if(creativeInv == null)
+			for (Slot s : container.inventorySlots)
+				if (creativeInv != null || s instanceof SlotCrafting) {
+					if (creativeInv == null)
 						ChestButtons.addButtonAndKeybind(event, Action.DROPOFF, guiInv, 13211, s.xPos + xPos, s.yPos + yPos, ModKeybinds.dropoffKey);
 					else {
-						if(s.getSlotIndex() != 15)
+						if (s.getSlotIndex() != 15)
 							continue;
 						
 						ChestButtons.addButtonAndKeybind(event, Action.DROPOFF, guiInv, 13211, s.xPos + xPosC, s.yPos + yPosC, ModKeybinds.dropoffKey,
@@ -117,7 +117,7 @@ public class StoreToChests extends Feature {
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void performAction(GuiScreenEvent.ActionPerformedEvent.Pre event) {
-		if(event.getButton() instanceof GuiButtonChest && ((GuiButtonChest) event.getButton()).action == Action.DROPOFF) {
+		if (event.getButton() instanceof GuiButtonChest && ((GuiButtonChest) event.getButton()).action == Action.DROPOFF) {
 			boolean smart = GuiScreen.isShiftKeyDown() != StoreToChests.invert;
 			NetworkHandler.INSTANCE.sendToServer(new MessageDropoff(smart, false));
 			event.setCanceled(true);
@@ -128,11 +128,11 @@ public class StoreToChests extends Feature {
 	@SideOnly(Side.CLIENT)
 	public void update(ClientTickEvent event) {
 		GuiScreen gui = Minecraft.getMinecraft().currentScreen;
-		if(gui instanceof GuiInventory) {
+		if (gui instanceof GuiInventory) {
 			GuiInventory inv = (GuiInventory) gui;
 			if (ChestButtons.chestButtons == null)
 				ChestButtons.chestButtons = new ArrayList<>();
-			for(GuiButtonChest b : ChestButtons.chestButtons) {
+			for (GuiButtonChest b : ChestButtons.chestButtons) {
 				b.x = inv.getGuiLeft() + b.shiftX;
 				b.y = inv.getGuiTop() + b.shiftY;
 			}

@@ -58,16 +58,16 @@ public class NaturalBlazesInNether extends Feature {
 	
 	@SubscribeEvent
 	public void onSpawn(LivingSpawnEvent.CheckSpawn event) {
-		if(restrictToNetherrack && !event.isSpawner() && event.getEntityLiving() instanceof EntityBlaze && event.getResult() != Result.DENY && event.getEntityLiving().world instanceof WorldServer) {
+		if (restrictToNetherrack && !event.isSpawner() && event.getEntityLiving() instanceof EntityBlaze && event.getResult() != Result.DENY && event.getEntityLiving().world instanceof WorldServer) {
 			EntityBlaze blaze = (EntityBlaze) event.getEntityLiving();
 			WorldServer world = (WorldServer) blaze.world;
 			BlockPos pos = blaze.getPosition();
 			Block block = world.getBlockState(pos.down()).getBlock();
 			ResourceLocation res = block.getRegistryName();
-			if(res != null) {
+			if (res != null) {
 				boolean allowedBlock = allowedBlocks.contains(res.toString());
 				boolean fortress = world.getChunkProvider().isInsideStructure(world, "Fortress", pos);
-				if(!fortress && !allowedBlock)
+				if (!fortress && !allowedBlock)
 					event.setResult(Result.DENY);	
 			}
 		}

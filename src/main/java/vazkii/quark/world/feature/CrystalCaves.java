@@ -46,7 +46,7 @@ public class CrystalCaves extends Feature {
 	
 	@Override
 	public void postPreInit() {
-		if(ModuleLoader.isFeatureEnabled(ColorRunes.class)) {
+		if (ModuleLoader.isFeatureEnabled(ColorRunes.class)) {
 			addRuneRecipe(0, 0);
 			addRuneRecipe(1, 14);
 			addRuneRecipe(2, 1);

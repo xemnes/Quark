@@ -52,23 +52,23 @@ public class InventorySorting extends Feature {
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void initGui(GuiScreenEvent.InitGuiEvent.Post event) {
-		if(enablePlayerButton && event.getGui() instanceof GuiInventory || event.getGui() instanceof GuiContainerCreative
+		if (enablePlayerButton && event.getGui() instanceof GuiInventory || event.getGui() instanceof GuiContainerCreative
 				|| classnames.contains(event.getGui().getClass().getName())) {
 			GuiContainer guiInv = (GuiContainer) event.getGui();
 			GuiContainerCreative creativeInv = null;
-			if(guiInv instanceof GuiContainerCreative)
+			if (guiInv instanceof GuiContainerCreative)
 				creativeInv = (GuiContainerCreative) guiInv;
 			
-			if(creativeInv == null && Minecraft.getMinecraft().player.capabilities.isCreativeMode)
+			if (creativeInv == null && Minecraft.getMinecraft().player.capabilities.isCreativeMode)
 				return;
 
 			Container container = guiInv.inventorySlots;
-			for(Slot s : container.inventorySlots)
-				if(creativeInv != null || s instanceof SlotCrafting) {
-					if(creativeInv == null)
+			for (Slot s : container.inventorySlots)
+				if (creativeInv != null || s instanceof SlotCrafting) {
+					if (creativeInv == null)
 						ChestButtons.addButtonAndKeybind(event, Action.SORT, guiInv, 13212, s.xPos + xPos, s.yPos + yPos, ModKeybinds.playerSortKey);
 					else {
-						if(s.getSlotIndex() != 15)
+						if (s.getSlotIndex() != 15)
 							continue;
 
 						ChestButtons.addButtonAndKeybind(event, Action.SORT, guiInv, 132112, s.xPos + xPosC, s.yPos + yPosC, ModKeybinds.playerSortKey,
@@ -83,9 +83,9 @@ public class InventorySorting extends Feature {
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void performAction(GuiScreenEvent.ActionPerformedEvent.Pre event) {
-		if(event.getButton() instanceof GuiButtonChest) {
+		if (event.getButton() instanceof GuiButtonChest) {
 			Action a = ((GuiButtonChest) event.getButton()).action;
-			if(a.isSortAction()) {
+			if (a.isSortAction()) {
 				boolean forcePlayer = a == Action.SORT_PLAYER;
 				NetworkHandler.INSTANCE.sendToServer(new MessageSortInventory(forcePlayer));
 				SortingHandler.sortInventory(Minecraft.getMinecraft().player, forcePlayer);

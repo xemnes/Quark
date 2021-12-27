@@ -35,9 +35,9 @@ public class EntityDragonBreathBottle extends EntityThrowable {
 
 	@Override
 	protected void onImpact(@Nonnull RayTraceResult pos) {
-		if(!world.isRemote) {
+		if (!world.isRemote) {
 			List<BlockPos> coordsList = getCoordsToPut(new BlockPos(pos.hitVec));
-			for(BlockPos coords : coordsList) {
+			for (BlockPos coords : coordsList) {
 				world.playEvent(2001, coords, Block.getStateId(world.getBlockState(coords)));
 				world.setBlockState(coords, Blocks.END_STONE.getDefaultState());
 			}
@@ -55,7 +55,7 @@ public class EntityDragonBreathBottle extends EntityThrowable {
 		for (BlockPos bPos : BlockPos.getAllInBox(pos.add(-range, -rangeY, -range), pos.add(range, rangeY, range))) {
 			IBlockState state = world.getBlockState(bPos);
 			Block block = state.getBlock();
-			if(block.isReplaceableOreGen(state, world, bPos, BlockStateMatcher.forBlock(Blocks.STONE)))
+			if (block.isReplaceableOreGen(state, world, bPos, BlockStateMatcher.forBlock(Blocks.STONE)))
 				possibleCoords.add(bPos);
 		}
 

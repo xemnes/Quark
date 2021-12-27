@@ -31,10 +31,10 @@ public class QuickArmorSwapping extends Feature {
 	public void onEntityInteractSpecific(PlayerInteractEvent.EntityInteractSpecific event) {
 		EntityPlayer player = event.getEntityPlayer();
 
-		if(event.getTarget().world.isRemote || player.isSpectator() || player.isCreative() || !(event.getTarget() instanceof EntityArmorStand))
+		if (event.getTarget().world.isRemote || player.isSpectator() || player.isCreative() || !(event.getTarget() instanceof EntityArmorStand))
 			return;
 
-		if(player.isSneaking()) {
+		if (player.isSneaking()) {
 			event.setCanceled(true);
 			EntityArmorStand armorStand = (EntityArmorStand) event.getTarget();
 
@@ -42,7 +42,7 @@ public class QuickArmorSwapping extends Feature {
 			swapSlot(player, armorStand, EntityEquipmentSlot.CHEST);
 			swapSlot(player, armorStand, EntityEquipmentSlot.LEGS);
 			swapSlot(player, armorStand, EntityEquipmentSlot.FEET);
-			if(offhandSwapping)
+			if (offhandSwapping)
 				swapSlot(player, armorStand, EntityEquipmentSlot.OFFHAND);
 		}
 	}

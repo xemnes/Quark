@@ -36,7 +36,7 @@ public class FairyRings extends Feature {
 			Objects.toString(Blocks.EMERALD_ORE.getRegistryName()),
 				Objects.toString(Blocks.DIAMOND_ORE.getRegistryName())
 		});
-		if(initialized)
+		if (initialized)
 			loadOres();
 	}
 	
@@ -53,16 +53,16 @@ public class FairyRings extends Feature {
 	@SuppressWarnings("deprecation")
 	private void loadOres() {
 		ores = new ArrayList<>(oresArr.length);
-		for(String s : oresArr) {
+		for (String s : oresArr) {
 			int meta = 0;
 			Matcher m = BLOCKSTATE_PARSER.matcher(s);
-			if(m.matches()) {
+			if (m.matches()) {
 				s = m.group(1);
 				meta = Integer.parseInt(m.group(2));
 			}
 			
 			Block b = Block.getBlockFromName(s);
-			if(b == null)
+			if (b == null)
 				new IllegalArgumentException("Block " + s + " does not exist!").printStackTrace();
 			else ores.add(b.getStateFromMeta(meta));
 		}

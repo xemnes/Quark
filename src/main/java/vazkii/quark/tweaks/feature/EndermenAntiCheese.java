@@ -48,24 +48,24 @@ public class EndermenAntiCheese extends Feature {
 
 	@SubscribeEvent
 	public void onUpdate(LivingUpdateEvent event) {
-		if(event.getEntityLiving() instanceof EntityEnderman && event.getEntityLiving().getEntityWorld().getDifficulty().getId() >= minimumDifficulty) {
+		if (event.getEntityLiving() instanceof EntityEnderman && event.getEntityLiving().getEntityWorld().getDifficulty().getId() >= minimumDifficulty) {
 			EntityEnderman entity = (EntityEnderman) event.getEntityLiving();
 			
-			if(entity.getHealth() < lowerBound)
+			if (entity.getHealth() < lowerBound)
 				return;
 
 			BlockPos ourPos = entity.getPosition().up(2);
 			IBlockState ourState = entity.getEntityWorld().getBlockState(ourPos);
-			if(ourState.getCollisionBoundingBox(entity.getEntityWorld(), ourPos) != null)
+			if (ourState.getCollisionBoundingBox(entity.getEntityWorld(), ourPos) != null)
 				return;
 
 			EntityLivingBase target = entity.getAttackTarget();
-			if(target instanceof EntityPlayer && target.onGround) {
+			if (target instanceof EntityPlayer && target.onGround) {
 				BlockPos pos = target.getPosition().up(2);
-				if(pos.getDistance(ourPos.getX(), ourPos.getY(), ourPos.getZ()) > 5)
+				if (pos.getDistance(ourPos.getX(), ourPos.getY(), ourPos.getZ()) > 5)
 					return;
 
-				if(oldBehaviour)
+				if (oldBehaviour)
 					teleportPlayer(entity, target, pos);
 				else pickupDefense(entity, target, ourPos);
 			}
@@ -75,9 +75,9 @@ public class EndermenAntiCheese extends Feature {
 	private void teleportPlayer(EntityEnderman entity, EntityLivingBase target, BlockPos pos) {
 		IBlockState state = entity.getEntityWorld().getBlockState(pos);
 
-		if(state.getCollisionBoundingBox(entity.getEntityWorld(), pos) != null) {
-			for(int i = 0; i < 16; i++)
-				if(target.attemptTeleport(entity.posX + (Math.random() - 0.5) * 2, entity.posY + 0.5, entity.posZ + (Math.random() - 0.5) * 2))
+		if (state.getCollisionBoundingBox(entity.getEntityWorld(), pos) != null) {
+			for (int i = 0; i < 16; i++)
+				if (target.attemptTeleport(entity.posX + (Math.random() - 0.5) * 2, entity.posY + 0.5, entity.posZ + (Math.random() - 0.5) * 2))
 					break;
 
 			target.addPotionEffect(new PotionEffect(MobEffects.BLINDNESS, 30, 0));
@@ -87,7 +87,7 @@ public class EndermenAntiCheese extends Feature {
 	}
 	
 	private void pickupDefense(EntityEnderman entity, EntityLivingBase target, BlockPos pos) {
-		if(entity.ticksExisted % delay != 0 && (ignoreMobGriefing || !entity.world.getGameRules().getBoolean("mobGriefing")))
+		if (entity.ticksExisted % delay != 0 && (ignoreMobGriefing || !entity.world.getGameRules().getBoolean("mobGriefing")))
 			return;
 
 		Vec3d look = entity.getLookVec();
@@ -97,14 +97,14 @@ public class EndermenAntiCheese extends Feature {
 		IBlockState state = entity.world.getBlockState(pos);
 		Block block = state.getBlock();
 		boolean unbreakable = state.getBlockHardness(entity.world, pos) == -1 || !block.canEntityDestroy(state, entity.world, pos, entity);
-		if(!unbreakable && state.getCollisionBoundingBox(entity.getEntityWorld(), pos) != null) {
+		if (!unbreakable && state.getCollisionBoundingBox(entity.getEntityWorld(), pos) != null) {
 			NonNullList<ItemStack> drops = NonNullList.create();
 			block.getDrops(drops, entity.world, pos, state, 0);
 			entity.world.setBlockToAir(pos);
 			entity.world.playEvent(2001, pos, Block.getStateId(state));
 			
-			if(!target.world.isRemote)
-				for(ItemStack drop : drops)
+			if (!target.world.isRemote)
+				for (ItemStack drop : drops)
 					entity.world.spawnEntity(new EntityItem(entity.world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, drop));
 		}
 	}

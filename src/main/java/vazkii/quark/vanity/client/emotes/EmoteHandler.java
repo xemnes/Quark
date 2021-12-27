@@ -58,14 +58,14 @@ public final class EmoteHandler {
 	}
 	
 	public static void putEmote(AbstractClientPlayer player, String emoteName, int tier) {
-		if(emoteMap.containsKey(emoteName)) {
+		if (emoteMap.containsKey(emoteName)) {
 			putEmote(player, emoteMap.get(emoteName), tier);
 		}
 	}
 	
 	public static void putEmote(AbstractClientPlayer player, EmoteDescriptor desc, int tier) {
 		String name = player.getName();
-		if(desc == null)
+		if (desc == null)
 			return;
 
 		if (desc.getTier() > tier)
@@ -75,7 +75,7 @@ public final class EmoteHandler {
 		ModelBiped armorModel = getPlayerArmorModel(player);
 		ModelBiped armorLegModel = getPlayerArmorLegModel(player);
 
-		if(model != null && armorModel != null && armorLegModel != null) {
+		if (model != null && armorModel != null && armorLegModel != null) {
 			resetPlayer(player);
 			EmoteBase emote = desc.instantiate(player, model, armorModel, armorLegModel);
 			emote.startAllTimelines();
@@ -84,17 +84,17 @@ public final class EmoteHandler {
 	}
 
 	public static void updateEmotes(Entity e) {
-		if(e instanceof AbstractClientPlayer) {
+		if (e instanceof AbstractClientPlayer) {
 			AbstractClientPlayer player = (AbstractClientPlayer) e;
 			String name = player.getName();
 			
 			resetPlayer(player);
 			
-			if(playerEmotes.containsKey(name)) {
+			if (playerEmotes.containsKey(name)) {
 				EmoteBase emote = playerEmotes.get(name);
 				boolean done = emote.isDone();
 
-				if(!done)
+				if (!done)
 					emote.update();
 			}
 		}
@@ -117,22 +117,22 @@ public final class EmoteHandler {
 	
 	public static void onRenderTick(Minecraft mc) {
 		World world = mc.world;
-		if(world == null)
+		if (world == null)
 			return;
 		
-		for(EntityPlayer player : world.playerEntities)
+		for (EntityPlayer player : world.playerEntities)
 			updatePlayerStatus(player);
 	}
 	
 	private static void updatePlayerStatus(EntityPlayer e) {
-		if(e instanceof AbstractClientPlayer) {
+		if (e instanceof AbstractClientPlayer) {
 			AbstractClientPlayer player = (AbstractClientPlayer) e;
 			String name = player.getName();
 
-			if(playerEmotes.containsKey(name)) {
+			if (playerEmotes.containsKey(name)) {
 				EmoteBase emote = playerEmotes.get(name);
 				boolean done = emote.isDone();
-				if(done) {
+				if (done) {
 					playerEmotes.remove(name);
 					resetPlayer(player);
 				} else
@@ -153,7 +153,7 @@ public final class EmoteHandler {
 
 	private static ModelBiped getPlayerModel(AbstractClientPlayer player) {
 		RenderPlayer render = getRenderPlayer(player);
-		if(render != null)
+		if (render != null)
 			return render.getMainModel();
 		
 		return null;
@@ -161,7 +161,7 @@ public final class EmoteHandler {
 
 	private static ModelBiped getPlayerArmorModel(AbstractClientPlayer player) {
 		RenderPlayer render = getRenderPlayer(player);
-		if(render == null)
+		if (render == null)
 			return null;
 		
 		List<LayerRenderer<AbstractClientPlayer>> list = render.layerRenderers;
@@ -174,7 +174,7 @@ public final class EmoteHandler {
 
 	private static ModelBiped getPlayerArmorLegModel(AbstractClientPlayer player) {
 		RenderPlayer render = getRenderPlayer(player);
-		if(render == null)
+		if (render == null)
 			return null;
 		
 		List<LayerRenderer<AbstractClientPlayer>> list = render.layerRenderers;
@@ -215,7 +215,7 @@ public final class EmoteHandler {
 	}
 	
 	private static void resetPart(ModelRenderer part) {
-		if(part != null)
+		if (part != null)
 			part.rotateAngleZ = part.offsetX = part.offsetY = part.offsetZ = 0F;
 	}
 

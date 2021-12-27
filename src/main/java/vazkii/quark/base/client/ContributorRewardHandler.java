@@ -64,9 +64,9 @@ public class ContributorRewardHandler {
 	public static void onRenderPlayer(RenderPlayerEvent.Post event) {
 		EntityPlayer player = event.getEntityPlayer();
 		String uuid = EntityPlayer.getUUID(player.getGameProfile()).toString();
-		if(player instanceof AbstractClientPlayer && DEV_UUID.contains(uuid) && !done.contains(uuid)) {
+		if (player instanceof AbstractClientPlayer && DEV_UUID.contains(uuid) && !done.contains(uuid)) {
 			AbstractClientPlayer clientPlayer = (AbstractClientPlayer) player;
-			if(clientPlayer.hasPlayerInfo()) {
+			if (clientPlayer.hasPlayerInfo()) {
 				Map<Type, ResourceLocation> textures = clientPlayer.playerInfo.playerTextures;
 				ResourceLocation loc = new ResourceLocation("quark", "textures/misc/dev_cape.png");
 				textures.put(Type.CAPE, loc);
@@ -90,15 +90,15 @@ public class ContributorRewardHandler {
 			String value = (String) v;
 			
 			int tier = Integer.parseInt(value);
-			if(tier < 10)
+			if (tier < 10)
 				allPatrons.add(key);
 			tiers.put(key.toLowerCase(Locale.ROOT), tier);
 			
-			if(name != null && key.toLowerCase(Locale.ROOT).equals(name))
+			if (name != null && key.toLowerCase(Locale.ROOT).equals(name))
 				localPatronTier = tier;
 		});
 		
-		if(!allPatrons.isEmpty())
+		if (!allPatrons.isEmpty())
 			featuredPatron = allPatrons.get((int) (Math.random() * allPatrons.size()));
 	}
 

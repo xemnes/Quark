@@ -32,18 +32,18 @@ public class ShowInvalidSlots extends Feature {
 		if (!ModuleLoader.isFeatureEnabled(ShowInvalidSlots.class))
 			return;
 
-		if(!requiresShift || GuiScreen.isShiftKeyDown()) {
+		if (!requiresShift || GuiScreen.isShiftKeyDown()) {
 			Minecraft mc = Minecraft.getMinecraft();
 
 			ItemStack stack = mc.player.inventory.getItemStack();
 			Slot slotUnder = gui.getSlotUnderMouse();
 
-			if(stack.isEmpty()) {
-				if(slotUnder != null)
+			if (stack.isEmpty()) {
+				if (slotUnder != null)
 					stack = slotUnder.getStack();
 			}
 
-			if(stack.isEmpty())
+			if (stack.isEmpty())
 				return;
 
 			GlStateManager.disableLighting();

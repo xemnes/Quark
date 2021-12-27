@@ -24,11 +24,11 @@ public class CustomSplashes extends Feature {
 	
 	@SubscribeEvent
 	public void onTick(ClientTickEvent event) {
-		if(event.phase == Phase.END) {
+		if (event.phase == Phase.END) {
 			GuiScreen gui = Minecraft.getMinecraft().currentScreen;
 			boolean currentlyMainMenu = gui instanceof GuiMainMenu;
 			
-			if(!inMainMenu && currentlyMainMenu && splashes.length > 0) {
+			if (!inMainMenu && currentlyMainMenu && splashes.length > 0) {
                 String splash = splashes[rand.nextInt(splashes.length)];
                 ((GuiMainMenu) gui).splashText = splash;
 			}

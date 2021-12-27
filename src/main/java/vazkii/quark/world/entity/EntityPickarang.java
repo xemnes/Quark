@@ -74,15 +74,15 @@ public class EntityPickarang extends EntityThrowable {
 
 	@Override
 	protected void onImpact(@Nonnull RayTraceResult result) {
-		if(dataManager.get(RETURNING) || world.isRemote)
+		if (dataManager.get(RETURNING) || world.isRemote)
 			return;
 		
 		EntityLivingBase owner = getThrower();
 
-		if(result.typeOfHit == Type.BLOCK) {
+		if (result.typeOfHit == Type.BLOCK) {
 			dataManager.set(RETURNING, true);
 			
-			if(!(owner instanceof EntityPlayerMP))
+			if (!(owner instanceof EntityPlayerMP))
 				return;
 			
 			EntityPlayerMP player = (EntityPlayerMP) owner;
@@ -105,9 +105,9 @@ public class EntityPickarang extends EntityThrowable {
 			} else
 				playSound(QuarkSounds.ENTITY_PICKARANG_CLANK, 1, 1);
 
-		} else if(result.typeOfHit == Type.ENTITY) {
+		} else if (result.typeOfHit == Type.ENTITY) {
 			Entity hit = result.entityHit;
-			if(hit != owner) {
+			if (hit != owner) {
 				setReturning();
 				if (hit instanceof EntityPickarang) {
 					((EntityPickarang) hit).setReturning();
@@ -176,14 +176,14 @@ public class EntityPickarang extends EntityThrowable {
 		super.onUpdate();
 		IS_PICKARANG_UPDATING.set(false);
 		
-		if(isDead)
+		if (isDead)
 			return;
 		
 		boolean returning = dataManager.get(RETURNING);
 		liveTime++;
 		
-		if(!returning) {
-			if(liveTime > Pickarang.timeout)
+		if (!returning) {
+			if (liveTime > Pickarang.timeout)
 				setReturning();
 		} else {
 			noClip = true;
@@ -195,14 +195,14 @@ public class EntityPickarang extends EntityThrowable {
 			List<EntityXPOrb> xp = world.getEntitiesWithinAABB(EntityXPOrb.class, getEntityBoundingBox().grow(2));
 
 			Vec3d ourPos = getPositionVector();
-			for(EntityItem item : items) {
+			for (EntityItem item : items) {
 				if (item.isRiding())
 					continue;
 				item.startRiding(this);
 				
 				item.setPickupDelay(2);
 			}
-			for(EntityXPOrb xpOrb : xp) {
+			for (EntityXPOrb xpOrb : xp) {
 				if (xpOrb.isRiding())
 					continue;
 				xpOrb.startRiding(this);
@@ -212,8 +212,8 @@ public class EntityPickarang extends EntityThrowable {
 
 
 			EntityLivingBase owner = getThrower();
-			if(owner == null || owner.isDead || !(owner instanceof EntityPlayer)) {
-				if(!world.isRemote) {
+			if (owner == null || owner.isDead || !(owner instanceof EntityPlayer)) {
+				if (!world.isRemote) {
 					entityDropItem(stack, 0);
 					setDead();
 				}
@@ -225,17 +225,17 @@ public class EntityPickarang extends EntityThrowable {
 			Vec3d motion = ownerPos.subtract(ourPos);
 			double motionMag = 3.25 + eff * 0.25;
 
-			if(motion.lengthSquared() < motionMag) {
+			if (motion.lengthSquared() < motionMag) {
 				EntityPlayer player = (EntityPlayer) owner;
 				ItemStack stackInSlot = player.inventory.getStackInSlot(slot);
 				
-		        if(!world.isRemote) {
+		        if (!world.isRemote) {
 		        	playSound(QuarkSounds.ENTITY_PICKARANG_PICKUP, 1, 1);
 
-			        if(!stack.isEmpty()) {
-						if(!player.isDead && stackInSlot.isEmpty())
+			        if (!stack.isEmpty()) {
+						if (!player.isDead && stackInSlot.isEmpty())
 							player.inventory.setInventorySlotContents(slot, stack);
-						else if(player.isDead || !player.inventory.addItemStackToInventory(stack))
+						else if (player.isDead || !player.inventory.addItemStackToInventory(stack))
 							player.dropItem(stack, false);
 			        }
 

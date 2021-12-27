@@ -28,7 +28,7 @@ public class MessageMatrixEnchanterOperation extends NetworkMessage<MessageMatri
 		EntityPlayerMP player = context.getServerHandler().player;
 		player.server.addScheduledTask(() -> {
 			Container container = player.openContainer;
-			if(container instanceof ContainerMatrixEnchanting) {
+			if (container instanceof ContainerMatrixEnchanting) {
 				TileMatrixEnchanter enchanter = ((ContainerMatrixEnchanting) container).enchanter;
 				enchanter.onOperation(player, operation, arg0, arg1, arg2);
 			}

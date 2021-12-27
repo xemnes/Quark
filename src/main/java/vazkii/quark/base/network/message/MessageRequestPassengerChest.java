@@ -18,12 +18,12 @@ public class MessageRequestPassengerChest extends NetworkMessage<MessageRequestP
 	public IMessage handleMessage(MessageContext context) {
 		EntityPlayer player = context.getServerHandler().player;
 
-		if(player.isRiding() && player.openContainer == player.inventoryContainer) {
+		if (player.isRiding() && player.openContainer == player.inventoryContainer) {
 			Entity riding = player.getRidingEntity();
-			if(riding instanceof EntityBoat) {
+			if (riding instanceof EntityBoat) {
 				List<Entity> passengers = riding.getPassengers();
-				for(Entity passenger : passengers)
-					if(passenger instanceof EntityChestPassenger)
+				for (Entity passenger : passengers)
+					if (passenger instanceof EntityChestPassenger)
 						player.displayGUIChest((EntityChestPassenger) passenger);
 			}
 		}

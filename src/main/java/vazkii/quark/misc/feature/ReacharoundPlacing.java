@@ -49,15 +49,15 @@ public class ReacharoundPlacing extends Feature {
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void onRender(RenderGameOverlayEvent.Post event) {
-		if(event.getType() != RenderGameOverlayEvent.ElementType.CROSSHAIRS)
+		if (event.getType() != RenderGameOverlayEvent.ElementType.CROSSHAIRS)
 			return;
 		
 		Minecraft mc = Minecraft.getMinecraft();
 		EntityPlayer player = mc.player;
 		
-		if(player != null) {
+		if (player != null) {
 			BlockPos pos = getPlayerReacharoundTarget(player);
-			if(pos != null) {
+			if (pos != null) {
 				ScaledResolution res = event.getResolution();
 				String s = "[   ]";
 				mc.fontRenderer.drawString(s, res.getScaledWidth() / 2 - mc.fontRenderer.getStringWidth(s) / 2, res.getScaledHeight() / 2 - 4, 0xFFFFFF);
@@ -72,32 +72,32 @@ public class ReacharoundPlacing extends Feature {
 		EntityPlayer player = event.getEntityPlayer();
 		BlockPos pos = getPlayerReacharoundTarget(player);
 		
-		if(pos != null) {
+		if (pos != null) {
 			int count = stack.getCount();
 			EnumHand hand = event.getHand();
 			
 			IBlockState currState = player.world.getBlockState(pos);
 			EnumActionResult res = stack.getItem().onItemUse(player, player.getEntityWorld(), pos, hand, EnumFacing.DOWN, 0.5F, 1F, 0.5F);
 			
-			if(res != EnumActionResult.PASS) {
+			if (res != EnumActionResult.PASS) {
 				event.setCanceled(true);
 				event.setCancellationResult(res);
 				
-				if(res == EnumActionResult.SUCCESS) {
-					if(!player.world.getBlockState(pos).equals(currState))
+				if (res == EnumActionResult.SUCCESS) {
+					if (!player.world.getBlockState(pos).equals(currState))
 						LockDirectionHotkey.fixBlockRotation(player.world, player, pos);
 						
 					player.swingArm(hand);
 				}
 
-				if(player.isCreative() && stack.getCount() < count)
+				if (player.isCreative() && stack.getCount() < count)
 					stack.setCount(count);
 			}
 		}
 	}
 	
 	private BlockPos getPlayerReacharoundTarget(EntityPlayer player) {
-		if(player.rotationPitch < 0 || !(validateReacharoundStack(player.getHeldItemMainhand()) || validateReacharoundStack(player.getHeldItemOffhand())))
+		if (player.rotationPitch < 0 || !(validateReacharoundStack(player.getHeldItemMainhand()) || validateReacharoundStack(player.getHeldItemOffhand())))
 			return null;
 		
 		World world = player.world;
@@ -109,17 +109,17 @@ public class ReacharoundPlacing extends Feature {
 
 		RayTraceResult normalRes = RayTraceHandler.rayTrace(world, rayPos, ray, false);
 		
-		if(normalRes == null || normalRes.typeOfHit == RayTraceResult.Type.MISS) {
+		if (normalRes == null || normalRes.typeOfHit == RayTraceResult.Type.MISS) {
 			float leniency = 0.5F;
 			
 			rayPos = rayPos.add(0, leniency, 0);
 			RayTraceResult take2Res = RayTraceHandler.rayTrace(world, rayPos, ray, false);
 			
-			if(take2Res != null && take2Res.typeOfHit == RayTraceResult.Type.BLOCK) {
+			if (take2Res != null && take2Res.typeOfHit == RayTraceResult.Type.BLOCK) {
 				BlockPos pos = take2Res.getBlockPos().down();
 				IBlockState state = world.getBlockState(pos);
 
-				if(player.posY - pos.getY() > 1 && (world.isAirBlock(pos) || state.getBlock().isReplaceable(world, pos)) && (Loader.isModLoaded("nolavabuild") && !Block.isEqualTo(state.getBlock(), Blocks.LAVA)))
+				if (player.posY - pos.getY() > 1 && (world.isAirBlock(pos) || state.getBlock().isReplaceable(world, pos)) && (Loader.isModLoaded("nolavabuild") && !Block.isEqualTo(state.getBlock(), Blocks.LAVA)))
 					return pos;
 			}
 		}

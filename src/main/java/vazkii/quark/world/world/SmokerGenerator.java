@@ -16,19 +16,19 @@ public class SmokerGenerator implements IWorldGenerator {
 
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
-		if(world.provider.isNether() && random.nextFloat() < NetherSmoker.chunkChance)
-			for(int i = 0; i < NetherSmoker.triesPerChunk; i++) {
+		if (world.provider.isNether() && random.nextFloat() < NetherSmoker.chunkChance)
+			for (int i = 0; i < NetherSmoker.triesPerChunk; i++) {
 				int x = chunkX * 16 + random.nextInt(16) + 8;
 				int z = chunkZ * 16 + random.nextInt(16) + 8;
 
 				BlockPos pos = new BlockPos(x, 50, z);
 				
-				while(pos.getY() > 10) {
+				while (pos.getY() > 10) {
 					IBlockState state = world.getBlockState(pos);
-					if(state.getBlock() == Blocks.LAVA) {
-						if(world.getBlockState(pos.down()).getBlock() == Blocks.NETHERRACK)
-							for(EnumFacing face : EnumFacing.HORIZONTALS)
-								if(world.getBlockState(pos.offset(face)).getBlock() == Blocks.NETHERRACK) {
+					if (state.getBlock() == Blocks.LAVA) {
+						if (world.getBlockState(pos.down()).getBlock() == Blocks.NETHERRACK)
+							for (EnumFacing face : EnumFacing.HORIZONTALS)
+								if (world.getBlockState(pos.offset(face)).getBlock() == Blocks.NETHERRACK) {
 									world.setBlockState(pos.down(), NetherSmoker.smoker.getDefaultState());
 									break;
 								}

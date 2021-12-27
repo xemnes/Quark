@@ -37,17 +37,17 @@ public class TileTinyPotato extends TileSimpleInventory implements ITickable {
 
 	public void interact(EntityPlayer player, EnumHand hand, ItemStack stack, EnumFacing side) {
 		int index = side.getIndex();
-		if(index >= 0) {
+		if (index >= 0) {
 			ItemStack stackAt = getStackInSlot(index);
-			if(!stackAt.isEmpty() && stack.isEmpty()) {
+			if (!stackAt.isEmpty() && stack.isEmpty()) {
 				player.setHeldItem(hand, stackAt);
 				setInventorySlotContents(index, ItemStack.EMPTY);
-			} else if(!stack.isEmpty()) {
+			} else if (!stack.isEmpty()) {
 				ItemStack copy = stack.splitStack(1);
 
-				if(stack.isEmpty())
+				if (stack.isEmpty())
 					player.setHeldItem(hand, stackAt);
-				else if(!stackAt.isEmpty()) {
+				else if (!stackAt.isEmpty()) {
 					ItemHandlerHelper.giveItemToPlayer(player, stackAt);
 				}
 
@@ -57,15 +57,15 @@ public class TileTinyPotato extends TileSimpleInventory implements ITickable {
 
 		jump();
 
-		if(!world.isRemote) {
-			if(name.toLowerCase().trim().endsWith("shia labeouf") && nextDoIt == 0) {
+		if (!world.isRemote) {
+			if (name.toLowerCase().trim().endsWith("shia labeouf") && nextDoIt == 0) {
 				nextDoIt = 40;
 				world.playSound(null, pos, QuarkSounds.BLOCK_TINY_POTATO_SHIA_LABEOUF, SoundCategory.BLOCKS, 1F, 1F);
 			}
 
-			for(int i = 0; i < getSizeInventory(); i++) {
+			for (int i = 0; i < getSizeInventory(); i++) {
 				ItemStack stackAt = getStackInSlot(i);
-				if(!stackAt.isEmpty() && stackAt.getItem() == Item.getItemFromBlock(TinyPotato.tiny_potato)) {
+				if (!stackAt.isEmpty() && stackAt.getItem() == Item.getItemFromBlock(TinyPotato.tiny_potato)) {
 					MessageSpamlessChat.sendToPlayer(player, TINY_POTATO_CHAT, new TextComponentTranslation("quarkmisc.me_or_my_son"));
 					return;
 				}
@@ -74,18 +74,18 @@ public class TileTinyPotato extends TileSimpleInventory implements ITickable {
 	}
 
 	public void jump() {
-		if(jumpTicks == 0)
+		if (jumpTicks == 0)
 			jumpTicks = 20;
 	}
 
 	@Override
 	public void update() {
-		if(world.rand.nextInt(100) == 0)
+		if (world.rand.nextInt(100) == 0)
 			jump();
 
-		if(jumpTicks > 0)
+		if (jumpTicks > 0)
 			jumpTicks--;
-		if(nextDoIt > 0)
+		if (nextDoIt > 0)
 			nextDoIt--;
 	}
 

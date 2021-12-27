@@ -23,7 +23,7 @@ $(function() {
 			});
 		};
 
-		if(enabled) {
+		if (enabled) {
 			elm.removeClass('feature-button-enabled');
 			elm.addClass('feature-button-disabled');
 			setIcon('clear');
@@ -41,7 +41,7 @@ $(function() {
 		};
 
 		var count = disabled.length;
-		if(count > 0) {
+		if (count > 0) {
 			$('#import-string-container').animate({ 'margin-top': '0px' }, 200);
 			callback();
 		} else $('#import-string-container').animate({ 'margin-top': '100px' }, 200, callback);
@@ -65,11 +65,11 @@ $('#import-string-button').click(function() {
 
 function loadFeatures(obj) {
 	loadTemplate('module', function(data) {
-		for(module in obj) {
+		for (module in obj) {
 			var moduleData = obj[module];
 			moduleData.module_key = module;
 
-			for(i in moduleData.features) {
+			for (i in moduleData.features) {
 				var feature = moduleData.features[i];
 
 				var versionData = [];
@@ -83,10 +83,10 @@ function loadFeatures(obj) {
 				feature.anchor = encodeURIComponent(module + '-' + feature.id);
 				feature.disable_counter = feature.disable_counter || feature.is_in_vanilla || moduleData.disable_counter;
 
-				if(last != null)
+				if (last != null)
 					feature.implement_version = "Minecraft 1." + last;
 
-				for(j in versions) {
+				for (j in versions) {
 					var ver = versions[j];
 					versionData.push({
 						'name': '1.' + ver,
@@ -138,7 +138,7 @@ function scrollToHash() {
 
 function scrollTo(element, off) {
 	var top = 0;
-	if(element != null)
+	if (element != null)
 		top = element.position().top + off;
 
 	scrollToPos(top);

@@ -53,7 +53,7 @@ public class BlockColoredFlowerPot extends BlockCustomFlowerPot implements IQuar
 	@Override
 	public ItemStack getItem(World worldIn, @Nonnull BlockPos pos, IBlockState state) {
 		ItemStack stack = super.getItem(worldIn, pos, state);
-		if(stack.getItem() == Items.FLOWER_POT)
+		if (stack.getItem() == Items.FLOWER_POT)
 			stack = new ItemStack(Item.getItemFromBlock(this));
 
 		return stack;

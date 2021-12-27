@@ -19,7 +19,7 @@ public class UndergroundBiomeIcy extends BasicUndergroundBiome {
 	
 	@Override
 	public void fillCeiling(World world, BlockPos pos, IBlockState state) {
-		if(UndergroundBiomes.icystoneEnabled)
+		if (UndergroundBiomes.icystoneEnabled)
 			world.setBlockState(pos, UndergroundBiomes.icystoneState, 2);
 	}
 	
@@ -31,19 +31,19 @@ public class UndergroundBiomeIcy extends BasicUndergroundBiome {
 	@Override
 	public void fillFloor(World world, BlockPos pos, IBlockState state) {
 		IBlockState placeState = floorState;
-		if(usePackedIce)
+		if (usePackedIce)
 			placeState = Blocks.PACKED_ICE.getDefaultState();
 		
 		BlockPos placePos = pos;
 		world.setBlockState(pos, placeState, 2);
 		
-		if(stalagmiteChance > 0 && world.rand.nextDouble() < stalagmiteChance) {
+		if (stalagmiteChance > 0 && world.rand.nextDouble() < stalagmiteChance) {
 			int height = 3 + world.rand.nextInt(3);
-			for(int i = 0; i < height; i++) {
+			for (int i = 0; i < height; i++) {
 				placePos = placePos.up();
 				IBlockState stateAt = world.getBlockState(placePos);
 				
-				if(world.getBlockState(placePos).getBlock().isAir(stateAt, world, placePos))
+				if (world.getBlockState(placePos).getBlock().isAir(stateAt, world, placePos))
 					world.setBlockState(placePos, placeState, 2);
 				else break;
 			}

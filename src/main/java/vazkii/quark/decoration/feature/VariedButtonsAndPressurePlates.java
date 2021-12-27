@@ -30,7 +30,7 @@ public class VariedButtonsAndPressurePlates extends Feature {
 
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
-		if(enablePressurePlates) {
+		if (enablePressurePlates) {
 	 		spruce_pressure_plate = new BlockCustomPressurePlate("spruce");
 			birch_pressure_plate = new BlockCustomPressurePlate("birch");
 			jungle_pressure_plate = new BlockCustomPressurePlate("jungle");
@@ -38,7 +38,7 @@ public class VariedButtonsAndPressurePlates extends Feature {
 			dark_oak_pressure_plate = new BlockCustomPressurePlate("dark_oak");
 		}
 		
-		if(enableButtons) {
+		if (enableButtons) {
 	 		spruce_button = new BlockCustomButton("spruce");
 			birch_button = new BlockCustomButton("birch");
 			jungle_button = new BlockCustomButton("jungle");
@@ -51,7 +51,7 @@ public class VariedButtonsAndPressurePlates extends Feature {
 
 	@Override
 	public void postPreInit() {
-		if(enablePressurePlates) {
+		if (enablePressurePlates) {
 	 		RecipeProcessor.addWoodReplacements(1, Blocks.WOODEN_PRESSURE_PLATE);
 			
 			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(spruce_pressure_plate, 1),
@@ -65,11 +65,11 @@ public class VariedButtonsAndPressurePlates extends Feature {
 			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(dark_oak_pressure_plate, 1),
 					"WW", 'W', ProxyRegistry.newStack(Blocks.PLANKS, 1, 5));
 
-			if(renameVanillaBlocks)
+			if (renameVanillaBlocks)
 				Blocks.WOODEN_PRESSURE_PLATE.setTranslationKey("oak_pressure_plate");
 		}
 		
-		if(enableButtons) {
+		if (enableButtons) {
 	 		RecipeProcessor.addWoodReplacements(1, Blocks.WOODEN_BUTTON);
 			
 			RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(spruce_button, 1), ProxyRegistry.newStack(Blocks.PLANKS, 1, 1));
@@ -78,13 +78,13 @@ public class VariedButtonsAndPressurePlates extends Feature {
 			RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(acacia_button, 1), ProxyRegistry.newStack(Blocks.PLANKS, 1, 4));
 			RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(dark_oak_button, 1), ProxyRegistry.newStack(Blocks.PLANKS, 1, 5));
 
-			if(renameVanillaBlocks)
+			if (renameVanillaBlocks)
 				Blocks.WOODEN_BUTTON.setTranslationKey("oak_button");
 		}
 	}
 	
 	private void addOreDict() {
-		if(enablePressurePlates) {
+		if (enablePressurePlates) {
 			addOreDict("pressurePlateWood", Blocks.WOODEN_PRESSURE_PLATE);
 			addOreDict("pressurePlateWood", spruce_pressure_plate);
 			addOreDict("pressurePlateWood", birch_pressure_plate);
@@ -93,7 +93,7 @@ public class VariedButtonsAndPressurePlates extends Feature {
 			addOreDict("pressurePlateWood", dark_oak_pressure_plate);
 		}
 
-		if(enableButtons) {
+		if (enableButtons) {
 			addOreDict("buttonWood", Blocks.WOODEN_BUTTON);
 			addOreDict("buttonWood", spruce_button);
 			addOreDict("buttonWood", birch_button);

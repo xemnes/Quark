@@ -38,20 +38,20 @@ public class JumpBoostStepAssist extends Feature {
 
 	@SubscribeEvent
 	public void updatePlayerStepStatus(LivingUpdateEvent event) {
-		if(event.getEntityLiving() instanceof EntityPlayer) {
+		if (event.getEntityLiving() instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) event.getEntityLiving();
 			String s = playerStr(player);
 
-			if(playersWithStepup.contains(s)) {
-				if(shouldPlayerHaveStepup(player)) {
-					if(canToggleWithSneak && player.isSneaking())
+			if (playersWithStepup.contains(s)) {
+				if (shouldPlayerHaveStepup(player)) {
+					if (canToggleWithSneak && player.isSneaking())
 						player.stepHeight = 0.50001F; // Not 0.5F because that is the default
 					else player.stepHeight = 1.25F;
 				} else {
 					player.stepHeight = 0.5F;
 					playersWithStepup.remove(s);
 				}
-			} else if(shouldPlayerHaveStepup(player)) {
+			} else if (shouldPlayerHaveStepup(player)) {
 				playersWithStepup.add(s);
 				player.stepHeight = 1.25F;
 			}

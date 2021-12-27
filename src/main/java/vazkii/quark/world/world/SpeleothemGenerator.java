@@ -22,7 +22,7 @@ public class SpeleothemGenerator implements IWorldGenerator {
 
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
-		if(!Speleothems.dimensionConfig.canSpawnHere(world))
+		if (!Speleothems.dimensionConfig.canSpawnHere(world))
 			return;
 		
 		int x = chunkX * 16 + 8;
@@ -35,26 +35,26 @@ public class SpeleothemGenerator implements IWorldGenerator {
 		int upperBound = Speleothems.maxHeight;
 		int offset = 6;
 		
-		if(world.provider.isNether()) {
+		if (world.provider.isNether()) {
 			upperBound = 128;
 			offset = 0;
 			tries = Speleothems.netherTries;
 			innerTries = Speleothems.netherClusterCount;
 		}
 		
-		if(upperBound > 0)
-			for(int i = 0; i < tries; i++) {
+		if (upperBound > 0)
+			for (int i = 0; i < tries; i++) {
 				BlockPos target = new BlockPos(x + random.nextInt(spread), random.nextInt(upperBound) + offset, z + random.nextInt(spread));
-				if(placeSpeleothemCluster(random, world, target, innerSpread, innerTries))
+				if (placeSpeleothemCluster(random, world, target, innerSpread, innerTries))
 					i++;
 			}
 	}
 	
 	private boolean placeSpeleothemCluster(Random random, World world, BlockPos pos, int spread, int tries) {
-		if(!findAndPlaceSpeleothem(random, world, pos))
+		if (!findAndPlaceSpeleothem(random, world, pos))
 			return false;
 		
-		for(int i = 0; i < tries; i++) {
+		for (int i = 0; i < tries; i++) {
 			BlockPos target = pos.add(random.nextInt(spread * 2 + 1) - spread, random.nextInt(spread + 1) - spread, random.nextInt(spread * 2 + 1) - spread);
 			findAndPlaceSpeleothem(random, world, target);
 		}
@@ -63,14 +63,14 @@ public class SpeleothemGenerator implements IWorldGenerator {
 	}
 	
 	private boolean findAndPlaceSpeleothem(Random random, World world, BlockPos pos) {
-		if(!world.isAirBlock(pos))
+		if (!world.isAirBlock(pos))
 			return false;
 		
 		int off = world.provider.isNether() ? -1000 : 0;
 		boolean up = random.nextBoolean();
 		EnumFacing diff = (up ? EnumFacing.UP : EnumFacing.DOWN);
 		
-		if(!up && world.canBlockSeeSky(pos))
+		if (!up && world.canBlockSeeSky(pos))
  			return false;
 		
 		IBlockState stateAt;
@@ -78,7 +78,7 @@ public class SpeleothemGenerator implements IWorldGenerator {
 			pos = pos.offset(diff);
 			stateAt = world.getBlockState(pos);
 			off++;
-		} while(pos.getY() > 4 && pos.getY() < 200 && !stateAt.isFullBlock() && off < 10);
+		} while (pos.getY() > 4 && pos.getY() < 200 && !stateAt.isFullBlock() && off < 10);
 		
 		Block type = getSpeleothemType(stateAt);
 		placeSpeleothem(random, world, pos, type, !up);
@@ -87,17 +87,17 @@ public class SpeleothemGenerator implements IWorldGenerator {
 	}
 		
 	private void placeSpeleothem(Random random, World world, BlockPos pos, Block type, boolean up) {
-		if(type == null)
+		if (type == null)
 			return;
 		
 		EnumFacing diff = up ? EnumFacing.UP : EnumFacing.DOWN;
 		int size = random.nextInt(3) == 0 ? 2 : 3;
-		if(!up && random.nextInt(20) == 0)
+		if (!up && random.nextInt(20) == 0)
 			size = 1;
 		
-		for(int i = 0; i < size; i++) {
+		for (int i = 0; i < size; i++) {
 			pos = pos.offset(diff);
-			if(!world.isAirBlock(pos))
+			if (!world.isAirBlock(pos))
 				return;
 			
 			EnumSize sizeType = EnumSize.values()[size - i - 1];
@@ -110,10 +110,10 @@ public class SpeleothemGenerator implements IWorldGenerator {
 	private Block getSpeleothemType(IBlockState state) {
 		Block block = state.getBlock();
 
-		if(block == Blocks.NETHERRACK)
+		if (block == Blocks.NETHERRACK)
 			return Speleothems.netherrack_speleothem;
-		else if(block == Blocks.STONE) {
-			switch(state.getValue(BlockStone.VARIANT)) {
+		else if (block == Blocks.STONE) {
+			switch (state.getValue(BlockStone.VARIANT)) {
 			case STONE: 
 				return Speleothems.stone_speleothem;
 			case ANDESITE: 
@@ -123,15 +123,15 @@ public class SpeleothemGenerator implements IWorldGenerator {
 			case DIORITE:
 				return Speleothems.diorite_speleothem;
 			}
-		} else if(block == Basalt.basalt)
+		} else if (block == Basalt.basalt)
 			return Speleothems.basalt_speleothem;
-		else if(block == RevampStoneGen.marble)
+		else if (block == RevampStoneGen.marble)
 			return Speleothems.marble_speleothem;
-		else if(block == RevampStoneGen.limestone)
+		else if (block == RevampStoneGen.limestone)
 			return Speleothems.limestone_speleothem;
-		else if(block == RevampStoneGen.jasper)
+		else if (block == RevampStoneGen.jasper)
 			return Speleothems.jasper_speleothem;
-		else if(block == RevampStoneGen.slate)
+		else if (block == RevampStoneGen.slate)
 			return Speleothems.slate_speleothem;
 		
 		return null;

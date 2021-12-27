@@ -24,7 +24,7 @@ public class DispenserRecords extends Feature {
 	public void postInit() {
 		BehaviourRecord behaviour = new BehaviourRecord();
 		ForgeRegistries.ITEMS.forEach(i -> {
-			if(i instanceof ItemRecord)
+			if (i instanceof ItemRecord)
 				BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(i, behaviour);
 		});
 	}
@@ -44,7 +44,7 @@ public class DispenserRecords extends Feature {
 			World world = source.getWorld();
 			IBlockState state = world.getBlockState(pos);
 			
-			if(state.getBlock() == Blocks.JUKEBOX) {
+			if (state.getBlock() == Blocks.JUKEBOX) {
 				TileEntityJukebox jukebox = (TileEntityJukebox) world.getTileEntity(pos);
 				if (jukebox != null) {
 					ItemStack currentRecord = jukebox.getRecord();

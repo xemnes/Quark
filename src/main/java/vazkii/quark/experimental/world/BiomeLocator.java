@@ -25,7 +25,7 @@ public class BiomeLocator {
 	}
 
 	private static BlockPos spiralOutwardsLookingForBiome(World world, Biome biomeToFind, double startX, double startZ, int maxDist, int sampleSpace) {
-		if(maxDist <= 0 || sampleSpace <= 0) 
+		if (maxDist <= 0 || sampleSpace <= 0) 
 			throw new IllegalArgumentException("maxDist and sampleSpace must be positive");
 
 		if (world.isRemote)

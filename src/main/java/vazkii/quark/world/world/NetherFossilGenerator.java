@@ -34,7 +34,7 @@ public class NetherFossilGenerator implements IWorldGenerator {
 
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
-		if(world.provider.isNether() && random.nextInt(NetherFossils.chance) == 0) {
+		if (world.provider.isNether() && random.nextInt(NetherFossils.chance) == 0) {
 			int x = chunkX * 16 + random.nextInt(16) + 8;
 			int z = chunkZ * 16 + random.nextInt(16) + 8;
 			int y = 40;
@@ -43,9 +43,9 @@ public class NetherFossilGenerator implements IWorldGenerator {
 			do {
 				stateAt = world.getBlockState(pos);
 				pos = pos.down();
-			} while(stateAt.getBlock().isAir(stateAt, world, pos) && pos.getY() > 0);
+			} while (stateAt.getBlock().isAir(stateAt, world, pos) && pos.getY() > 0);
 			
-			if(stateAt.getBlock() == Blocks.LAVA)
+			if (stateAt.getBlock() == Blocks.LAVA)
 				generateFossil(world, random, pos.up(random.nextInt(2)));
 		}
 	}

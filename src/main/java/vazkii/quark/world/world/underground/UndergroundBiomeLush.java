@@ -24,29 +24,29 @@ public class UndergroundBiomeLush extends BasicUndergroundBiome {
 
 	@Override
 	public void finalFloorPass(World world, BlockPos pos) {
-		if(world.rand.nextDouble() < grassChance)
+		if (world.rand.nextDouble() < grassChance)
 			ItemDye.applyBonemeal(new ItemStack(Items.DYE, 1, 14), world, pos);
 
-		if(world.rand.nextDouble() < shrubChance)
+		if (world.rand.nextDouble() < shrubChance)
 			shrubGen.generate(world, world.rand, pos.up());
 	}
 
 	@Override
 	public void finalWallPass(World world, BlockPos pos) {
-		for(EnumFacing facing : EnumFacing.HORIZONTALS) {
+		for (EnumFacing facing : EnumFacing.HORIZONTALS) {
 			BlockPos off = pos.offset(facing);
 			BlockPos up = off.up();
-			if(isCeiling(world, up, world.getBlockState(up)) && world.rand.nextDouble() < vineChance) {
+			if (isCeiling(world, up, world.getBlockState(up)) && world.rand.nextDouble() < vineChance) {
 				IBlockState stateAt = world.getBlockState(off); 
 				boolean did = false;
-				while(stateAt.getBlock().isAir(stateAt, world, off) && off.getY() > 0) {
+				while (stateAt.getBlock().isAir(stateAt, world, off) && off.getY() > 0) {
 					world.setBlockState(off, Blocks.VINE.getDefaultState().withProperty(BlockVine.getPropertyFor(facing.getOpposite()), true), 2);
 					off = off.down();
 					stateAt = world.getBlockState(off);
 					did = true;
 				}
 
-				if(did)
+				if (did)
 					return;
 			}
 		}

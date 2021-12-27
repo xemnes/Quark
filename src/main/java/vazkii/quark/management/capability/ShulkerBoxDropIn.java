@@ -25,7 +25,7 @@ public class ShulkerBoxDropIn extends AbstractDropIn {
 	}
 	
 	private boolean tryAddToShulkerBox(EntityPlayer player, ItemStack shulkerBox, ItemStack stack, boolean simulate) {
-		if(stack.getItem() instanceof ItemShulkerBox || shulkerBox.getCount() > 1)
+		if (stack.getItem() instanceof ItemShulkerBox || shulkerBox.getCount() > 1)
 			return false;
 		
 		TileEntityShulkerBox tile = new TileEntityShulkerBox();
@@ -33,7 +33,7 @@ public class ShulkerBoxDropIn extends AbstractDropIn {
 		NBTTagCompound stackCmp = shulkerBox.getTagCompound();
 		NBTTagCompound blockCmp;
 		
-		if(stackCmp == null || !stackCmp.hasKey("BlockEntityTag"))
+		if (stackCmp == null || !stackCmp.hasKey("BlockEntityTag"))
 			blockCmp = new NBTTagCompound();
 		else blockCmp = stackCmp.getCompoundTag("BlockEntityTag");
 		
@@ -42,7 +42,7 @@ public class ShulkerBoxDropIn extends AbstractDropIn {
 		ItemStack result = ItemHandlerHelper.insertItem(handler, stack, simulate);
 		boolean did = result.isEmpty();
 		
-		if(!simulate && did) {
+		if (!simulate && did) {
 			tile.writeToNBT(blockCmp);
 			ItemNBTHelper.setCompound(shulkerBox, "BlockEntityTag", blockCmp);
 		}

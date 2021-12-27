@@ -26,7 +26,7 @@ public class GuiButtonModule extends GuiButton {
 	public void drawButton(@Nonnull Minecraft mc, int mouseX, int mouseY, float partialTicks) {
 		super.drawButton(mc, mouseX, mouseY, partialTicks);
 		
-		if(visible && !projectRedCrashing) {
+		if (visible && !projectRedCrashing) {
 			ItemStack stack = module.getIconStack();
 			RenderHelper.enableGUIStandardItemLighting();
 			GlStateManager.enableDepth();

@@ -46,18 +46,18 @@ public class OceanGuardians extends Feature {
 	public void init() {
 		Set<Biome> set = deepOceanOnly ? ImmutableSet.of(Biomes.DEEP_OCEAN) : ImmutableSet.of(Biomes.OCEAN, Biomes.DEEP_OCEAN);
 
-		for(Biome b : set)
+		for (Biome b : set)
 			b.getSpawnableList(EnumCreatureType.MONSTER).add(new SpawnListEntry(EntityGuardian.class, weight, min, max));
 	}
 
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void onSound(PlaySoundEvent event) {
-		if(!tweakSound)
+		if (!tweakSound)
 			return;
 
 		ISound sound = event.getSound();
-		if(sound instanceof GuardianSound) {
+		if (sound instanceof GuardianSound) {
 			GuardianSound guardianSound = (GuardianSound) sound;
 			event.setResultSound(new GuardianSound2UnderwaterBoogaloo(guardianSound.guardian));
 		}

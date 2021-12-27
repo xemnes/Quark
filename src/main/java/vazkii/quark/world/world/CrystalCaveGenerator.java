@@ -28,18 +28,18 @@ public class CrystalCaveGenerator implements IWorldGenerator {
 	
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
-		if(random.nextDouble() > CrystalCaves.crystalCaveRarity || !dims.canSpawnHere(world))
+		if (random.nextDouble() > CrystalCaves.crystalCaveRarity || !dims.canSpawnHere(world))
 			return;
 
 		int x = chunkX * 16 + random.nextInt(16);
 		int z = chunkZ * 16 + random.nextInt(16);
 
-		for(int i = 15; i < 50; i++) {
+		for (int i = 15; i < 50; i++) {
 			BlockPos pos = new BlockPos(x, i, z);
 			BlockPos belowPos = pos.down();
 			IBlockState state = world.getBlockState(pos);
 			IBlockState stateBelow = world.getBlockState(belowPos);
-			if(state.getBlock().isAir(state, world, pos) && stateBelow.getBlock() == Blocks.STONE) {
+			if (state.getBlock().isAir(state, world, pos) && stateBelow.getBlock() == Blocks.STONE) {
 				makeCrystalCaveAt(world, pos, random);
 				return;
 			}
@@ -66,20 +66,20 @@ public class CrystalCaveGenerator implements IWorldGenerator {
 		int color2;
 		do {
 			color2 = rand.nextInt(BlockCrystal.Variants.values().length);
-		} while(color2 == color1);
+		} while (color2 == color1);
 
 		IBlockState crystal1 = CrystalCaves.crystal.getStateFromMeta(color1);
 		IBlockState crystal2 = CrystalCaves.crystal.getStateFromMeta(color2);
 
 		int length = 12 + rand.nextInt(10);
 		int size = 4 + rand.nextInt(3);
-		for(int i = 0; i < length; i++) {
+		for (int i = 0; i < length; i++) {
 			hollowOut(world, hollowingCenter, rand, size, crystal1, crystal2);
 			
 			BlockPos currentCenter = hollowingCenter;
 			hollowingCenter = currentCenter.add(expansion.x * size * 0.5, expansion.y * size * 0.5, expansion.z * size * 0.5);
 			
-			if(hollowingCenter.getY() < 10) {
+			if (hollowingCenter.getY() < 10) {
 				expansion = new Vec3d(expansion.x, -expansion.y, expansion.z);
 				curvature = new Vec3d(curvature.x, -curvature.y, curvature.z);
 			}
@@ -92,33 +92,33 @@ public class CrystalCaveGenerator implements IWorldGenerator {
 		List<BlockPos> crystals = new ArrayList<>();
 		
 		int max = width * width;
-		for(int i = -width; i <= width; i++)
-			for(int j = -width; j <= width; j++)
-				for(int k = -width; k <= width; k++) {
+		for (int i = -width; i <= width; i++)
+			for (int j = -width; j <= width; j++)
+				for (int k = -width; k <= width; k++) {
 					BlockPos pos = source.add(i, j, k);
 					int dist = i * i + j * j + k * k;
 
-					if(dist < max) {
+					if (dist < max) {
 						IBlockState state = world.getBlockState(pos);
 
-						if(state.getBlockHardness(world, pos) != -1)
+						if (state.getBlockHardness(world, pos) != -1)
 							world.setBlockToAir(pos);
-					} else if(dist - 1 < max)
+					} else if (dist - 1 < max)
 						crystals.add(pos);
 				}
 		
-		for(BlockPos pos : crystals) {
-			if(rand.nextDouble() < CrystalCaves.crystalRate)
+		for (BlockPos pos : crystals) {
+			if (rand.nextDouble() < CrystalCaves.crystalRate)
 				makeCrystal(world, pos, rand, rand.nextBoolean() ? crystal1 : crystal2);
-			else if(rand.nextDouble() < CrystalCaves.oreChance) {
+			else if (rand.nextDouble() < CrystalCaves.oreChance) {
 				IBlockState stateAt = world.getBlockState(pos);
 				Block blockAt = stateAt.getBlock();
-				if(blockAt.isAir(stateAt, world, pos) || blockAt == CrystalCaves.crystal || stateAt.getBlockHardness(world, pos) == -1)
+				if (blockAt.isAir(stateAt, world, pos) || blockAt == CrystalCaves.crystal || stateAt.getBlockHardness(world, pos) == -1)
 					continue;
 				
 				IBlockState oreState = Blocks.GOLD_ORE.getDefaultState();
-				if(rand.nextInt(3) == 0) {
-					if(rand.nextInt(3) == 0)
+				if (rand.nextInt(3) == 0) {
+					if (rand.nextInt(3) == 0)
 						oreState = Blocks.DIAMOND_ORE.getDefaultState();
 					else oreState = Blocks.EMERALD_ORE.getDefaultState();
 				}
@@ -135,26 +135,26 @@ public class CrystalCaveGenerator implements IWorldGenerator {
 		
 		BlockPos startPos = source;
 		IBlockState state = world.getBlockState(startPos);
-		if(state.getBlock() == CrystalCaves.crystal)
+		if (state.getBlock() == CrystalCaves.crystal)
 			return;
 		
 		int tests = 0;
 		
-		while(state.getBlock().isAir(state, world, startPos)) {
+		while (state.getBlock().isAir(state, world, startPos)) {
 			startPos = startPos.offset(shift.getOpposite());
 			state = world.getBlockState(startPos);
 
 			tests++;
-			if(tests >= 10)
+			if (tests >= 10)
 				return;
 		}
 
 		int size = 3 + rand.nextInt(4);
 		
 		BlockPos pos = startPos;
-		for(int i = 0; i < size; i++) {
+		for (int i = 0; i < size; i++) {
 			IBlockState stateAt = world.getBlockState(pos);
-			if(stateAt.getBlockHardness(world, pos) == -1)
+			if (stateAt.getBlockHardness(world, pos) == -1)
 				break;
 			
 			world.setBlockState(pos, crystal);

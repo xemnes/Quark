@@ -20,7 +20,7 @@ public class LayerArchaeologistHat implements LayerRenderer<EntityArchaeologist>
 	public void doRenderLayer(@Nonnull EntityArchaeologist archaeologist, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
 		render.bindTexture(ItemArchaeologistHat.TEXTURE);
 		
-		if(ItemArchaeologistHat.headModel == null)
+		if (ItemArchaeologistHat.headModel == null)
 			ItemArchaeologistHat.headModel = new ModelArchaeologistHat();
 		ItemArchaeologistHat.headModel.render(archaeologist, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
 	}

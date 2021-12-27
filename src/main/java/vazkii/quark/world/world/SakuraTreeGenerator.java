@@ -26,28 +26,28 @@ public class SakuraTreeGenerator implements IWorldGenerator {
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
 		double chance = TreeVariants.sakuraChance;
 		
-		while(random.nextDouble() < chance) {
+		while (random.nextDouble() < chance) {
 			int x = chunkX * 16 + random.nextInt(16) + 8;
 			int z = chunkZ * 16 + random.nextInt(16) + 8;
 			BlockPos xzPos = new BlockPos(x, 0 , z);
 			
 			Biome biome = world.getBiome(xzPos);
 			Set<BiomeDictionary.Type> types = BiomeDictionary.getTypes(biome);
-			if(types.contains(BiomeDictionary.Type.MOUNTAIN) && !types.contains(BiomeDictionary.Type.FOREST)) {
+			if (types.contains(BiomeDictionary.Type.MOUNTAIN) && !types.contains(BiomeDictionary.Type.FOREST)) {
 				BlockPos pos = world.getTopSolidOrLiquidBlock(xzPos).down();
 				IBlockState state = world.getBlockState(pos);
 				Block block = state.getBlock();
 				boolean snow = (block == Blocks.SNOW_LAYER);
 				
-				if(snow) {
+				if (snow) {
 					pos = pos.down();
 					state = world.getBlockState(pos);
 					block = state.getBlock();
 				}
 				
-				if(block.canSustainPlant(state, world, pos, EnumFacing.UP, ((BlockVariantSapling) TreeVariants.variant_sapling))) {
+				if (block.canSustainPlant(state, world, pos, EnumFacing.UP, ((BlockVariantSapling) TreeVariants.variant_sapling))) {
 					BlockPos placePos = pos.up();
-					if(snow)
+					if (snow)
 						world.setBlockToAir(placePos);
 					
 					treeGen.generate(world, random, placePos);

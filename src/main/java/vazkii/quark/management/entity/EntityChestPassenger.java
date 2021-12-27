@@ -45,11 +45,11 @@ public class EntityChestPassenger extends Entity implements IInventory {
 	public void onUpdate() {
 		super.onUpdate();
 		
-		if(isDead)
+		if (isDead)
 			return;
 		
-		if(!isRiding()) {
-			if(!world.isRemote)
+		if (!isRiding()) {
+			if (!world.isRemote)
 				setDead();
 			
 			return;
@@ -68,8 +68,8 @@ public class EntityChestPassenger extends Entity implements IInventory {
 
 	@Override
 	public boolean isEmpty() {
-		for(ItemStack itemstack : items)
-			if(!itemstack.isEmpty())
+		for (ItemStack itemstack : items)
+			if (!itemstack.isEmpty())
 				return false;
 
 		return true;
@@ -92,7 +92,7 @@ public class EntityChestPassenger extends Entity implements IInventory {
 	public ItemStack removeStackFromSlot(int index) {
 		ItemStack itemstack = items.get(index);
 
-		if(itemstack.isEmpty())
+		if (itemstack.isEmpty())
 			return ItemStack.EMPTY;
 		else {
 			items.set(index, ItemStack.EMPTY);
@@ -164,7 +164,7 @@ public class EntityChestPassenger extends Entity implements IInventory {
 
 	@Override
 	public void setDead() {
-		if(!world.isRemote && !itemsCanceled) {
+		if (!world.isRemote && !itemsCanceled) {
 			InventoryHelper.dropInventoryItems(world, this, this);
 			InventoryHelper.spawnItemStack(world, posX, posY, posZ, getChestType());
 		}
@@ -187,7 +187,7 @@ public class EntityChestPassenger extends Entity implements IInventory {
 		
 		NBTTagCompound itemCmp = compound.getCompoundTag(TAG_CHEST_TYPE);
 		ItemStack stack = new ItemStack(itemCmp);
-		if(!stack.isEmpty())
+		if (!stack.isEmpty())
 			dataManager.set(CHEST_TYPE, stack);
 	}
 	

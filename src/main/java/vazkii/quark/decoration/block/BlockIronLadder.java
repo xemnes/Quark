@@ -67,11 +67,11 @@ public class BlockIronLadder extends BlockMod implements IQuarkBlock {
 	@Nonnull
 	@Override
 	public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
-		if(facing.getAxis() != Axis.Y)
+		if (facing.getAxis() != Axis.Y)
 			return getDefaultState().withProperty(FACING, facing);
 		
 		IBlockState stateUp = worldIn.getBlockState(pos.up());
-		if(stateUp.getBlock() == this)
+		if (stateUp.getBlock() == this)
 			return getDefaultState().withProperty(FACING, stateUp.getValue(FACING));
 		
 		return getDefaultState();
@@ -79,7 +79,7 @@ public class BlockIronLadder extends BlockMod implements IQuarkBlock {
 	
 	@Override
 	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
-		if(!canBlockStay(worldIn, pos)) {
+		if (!canBlockStay(worldIn, pos)) {
 			dropBlockAsItem(worldIn, pos, state, 0);
 			worldIn.setBlockToAir(pos);
 		}
@@ -101,7 +101,7 @@ public class BlockIronLadder extends BlockMod implements IQuarkBlock {
 	public IBlockState getStateFromMeta(int meta) {
 		EnumFacing enumfacing = EnumFacing.byIndex(meta);
 
-		if(enumfacing.getAxis() == EnumFacing.Axis.Y)
+		if (enumfacing.getAxis() == EnumFacing.Axis.Y)
 			enumfacing = EnumFacing.NORTH;
 
 		return getDefaultState().withProperty(FACING, enumfacing);

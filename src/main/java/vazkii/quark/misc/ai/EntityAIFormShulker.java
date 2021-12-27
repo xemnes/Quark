@@ -26,21 +26,21 @@ public class EntityAIFormShulker extends EntityAIWander
 	
 	@Override
 	public boolean shouldExecute() {
-		if(!endermite.getEntityWorld().getGameRules().getBoolean("mobGriefing"))
+		if (!endermite.getEntityWorld().getGameRules().getBoolean("mobGriefing"))
 			return false;
-		else if(endermite.getAttackTarget() != null)
+		else if (endermite.getAttackTarget() != null)
 			return false;
-		else if(!endermite.getNavigator().noPath())
+		else if (!endermite.getNavigator().noPath())
 			return false;
 		else {
 			Random random = endermite.getRNG();
 
-			if(random.nextDouble() < EndermitesIntoShulkers.chance) {
+			if (random.nextDouble() < EndermitesIntoShulkers.chance) {
 				facing = EnumFacing.random(random);
 				BlockPos blockpos = (new BlockPos(endermite.posX, endermite.posY + 0.5D, endermite.posZ)).offset(facing);
 				IBlockState iblockstate = endermite.getEntityWorld().getBlockState(blockpos);
 
-				if(iblockstate.getBlock() == Blocks.PURPUR_BLOCK) {
+				if (iblockstate.getBlock() == Blocks.PURPUR_BLOCK) {
 					doMerge = true;
 					return true;
 				}
@@ -58,14 +58,14 @@ public class EntityAIFormShulker extends EntityAIWander
 	
 	@Override
 	public void startExecuting() {
-		if(!doMerge)
+		if (!doMerge)
 			super.startExecuting();
 		else {
 			World world = endermite.getEntityWorld();
 			BlockPos blockpos = (new BlockPos(endermite.posX, endermite.posY + 0.5D, endermite.posZ)).offset(facing);
 			IBlockState iblockstate = world.getBlockState(blockpos);
 
-			if(iblockstate.getBlock() == Blocks.PURPUR_BLOCK) {
+			if (iblockstate.getBlock() == Blocks.PURPUR_BLOCK) {
 				world.setBlockToAir(blockpos);
 				endermite.spawnExplosionParticle();
 				endermite.setDead();

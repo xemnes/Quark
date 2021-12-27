@@ -32,7 +32,7 @@ public class GuiConfigFirstLoad extends GuiConfigBase {
 	protected void actionPerformed(GuiButton button) throws IOException {
 		super.actionPerformed(button);
 
-		switch(button.id) {
+		switch (button.id) {
 		case 1: // Configure
 			mc.displayGuiScreen(new GuiConfigRoot(parent));
 			break;
@@ -48,15 +48,15 @@ public class GuiConfigFirstLoad extends GuiConfigBase {
 		
 		int x = width / 2;
 		int y = height / 6;
-		for(int i = 0; i < 10; i++) {
+		for (int i = 0; i < 10; i++) {
 			String s = I18n.format("quark.config.firstloadinfo" + i);
-			if(i == 5)
+			if (i == 5)
 				s = (TextFormatting.RED.toString() + TextFormatting.UNDERLINE.toString() + s);
 			
 			drawCenteredString(fontRenderer, s, x, y, 0xFFFFFF);
 			
 			y += 10;
-			if(i == 2 || i == 4)
+			if (i == 2 || i == 4)
 				y += 8;
 		}
 	}

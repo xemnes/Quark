@@ -48,11 +48,11 @@ public class LayerBetterElytra implements LayerRenderer<AbstractClientPlayer> {
 	public void doRenderLayer(@Nonnull AbstractClientPlayer living, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
 		ItemStack itemstack = living.getItemStackFromSlot(EntityEquipmentSlot.CHEST);
 
-		if(!itemstack.isEmpty() && itemstack.getItem() == Items.ELYTRA) {
+		if (!itemstack.isEmpty() && itemstack.getItem() == Items.ELYTRA) {
 			int colorIndex = ItemNBTHelper.getInt(itemstack, DyableElytra.TAG_ELYTRA_DYE, -1);
 			boolean dyed = colorIndex != -1 && colorIndex != 15; 
 
-			if(!dyed)
+			if (!dyed)
 				GlStateManager.color(1F, 1F, 1F);
 			else {
 				Color color = new Color(ItemDye.DYE_COLORS[colorIndex]);
@@ -62,11 +62,11 @@ public class LayerBetterElytra implements LayerRenderer<AbstractClientPlayer> {
 				GlStateManager.color(r, g, b);
 			}
 
-			if(living.isPlayerInfoSet() && living.getLocationElytra() != null)
+			if (living.isPlayerInfoSet() && living.getLocationElytra() != null)
 				renderPlayer.bindTexture(living.getLocationElytra());
-			else if(living.hasPlayerInfo() && living.getLocationCape() != null && living.isWearing(EnumPlayerModelParts.CAPE))
+			else if (living.hasPlayerInfo() && living.getLocationCape() != null && living.isWearing(EnumPlayerModelParts.CAPE))
 				renderPlayer.bindTexture(living.getLocationCape());
-			else if(dyed)
+			else if (dyed)
 				renderPlayer.bindTexture(TEXTURE_ELYTRA_DYED);
 			else renderPlayer.bindTexture(TEXTURE_ELYTRA);
 
@@ -75,7 +75,7 @@ public class LayerBetterElytra implements LayerRenderer<AbstractClientPlayer> {
 			modelElytra.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale, living);
 			modelElytra.render(living, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
 
-			if(itemstack.isItemEnchanted()) {
+			if (itemstack.isItemEnchanted()) {
 				ColorRunes.setTargetStack(itemstack);
 				LayerArmorBase.renderEnchantedGlint(renderPlayer, living, modelElytra, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch, scale);
 			}

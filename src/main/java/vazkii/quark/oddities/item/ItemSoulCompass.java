@@ -41,7 +41,7 @@ public class ItemSoulCompass extends ItemMod implements IQuarkItem, IItemPropert
 	
 	@Override
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-		if(!worldIn.isRemote) {
+		if (!worldIn.isRemote) {
 			BlockPos pos = TotemOfHolding.getPlayerDeathPosition(entityIn);
 			ItemNBTHelper.setInt(stack, TAG_POS_X, pos.getX());
 			ItemNBTHelper.setInt(stack, TAG_POS_Y, pos.getY());
@@ -50,7 +50,7 @@ public class ItemSoulCompass extends ItemMod implements IQuarkItem, IItemPropert
 	}
 	
 	private BlockPos getPos(ItemStack stack) {
-		if(stack.hasTagCompound()) {
+		if (stack.hasTagCompound()) {
 			int x = ItemNBTHelper.getInt(stack, TAG_POS_X, 0);
 			int y = ItemNBTHelper.getInt(stack, TAG_POS_Y, -1);
 			int z = ItemNBTHelper.getInt(stack, TAG_POS_Z, 0);
@@ -64,7 +64,7 @@ public class ItemSoulCompass extends ItemMod implements IQuarkItem, IItemPropert
 	@Override
 	@SideOnly(Side.CLIENT)
 	public float apply(@Nonnull ItemStack stack, World world, EntityLivingBase entityIn) {
-		if(entityIn == null && !stack.isOnItemFrame())
+		if (entityIn == null && !stack.isOnItemFrame())
 			return 0;
 
 		else {
@@ -74,13 +74,13 @@ public class ItemSoulCompass extends ItemMod implements IQuarkItem, IItemPropert
 			if (entity == null)
 				return 0;
 
-			if(world == null)
+			if (world == null)
 				world = entity.world;
 
 			double angle;
 			BlockPos pos = getPos(stack);
 
-			if(pos.getY() == world.provider.getDimension()) {
+			if (pos.getY() == world.provider.getDimension()) {
 				double yaw = hasEntity ? entity.rotationYaw : getFrameRotation((EntityItemFrame) entity);
 				yaw = MathHelper.positiveModulo(yaw / 360.0, 1.0);
 				double relAngle = getDeathToAngle(entity, pos) / (Math.PI * 2);
@@ -96,7 +96,7 @@ public class ItemSoulCompass extends ItemMod implements IQuarkItem, IItemPropert
 	}
 	@SideOnly(Side.CLIENT)
 	private double wobble(World worldIn, double angle) {
-		if(worldIn.getTotalWorldTime() != lastUpdateTick) {
+		if (worldIn.getTotalWorldTime() != lastUpdateTick) {
 			lastUpdateTick = worldIn.getTotalWorldTime();
 			double relAngle = angle - rotation;
 			relAngle = MathHelper.positiveModulo(relAngle + 0.5, 1.0) - 0.5;

@@ -42,7 +42,7 @@ public class ModKeybinds {
 	private static final String EMOTE_GROUP = "quark.gui.keygroupEmote";
 
 	public static void initEmoteKeybinds() {
-		for(String emoteName : EmoteHandler.emoteMap.keySet()) {
+		for (String emoteName : EmoteHandler.emoteMap.keySet()) {
 			EmoteDescriptor desc = EmoteHandler.emoteMap.get(emoteName);
 			KeyBinding key = init(desc.getTranslationKey(), 0, EMOTE_GROUP, false);
 			emoteKeys.put(key, emoteName);
@@ -78,7 +78,7 @@ public class ModKeybinds {
 	}
 
 	public static void keybindButton(KeyBinding key, IParentedGui ipg) {
-		if(key != null)
+		if (key != null)
 			keyboundButtons.put(key, ipg);
 	}
 
@@ -100,10 +100,10 @@ public class ModKeybinds {
 	
 	public static boolean isKeyDown(KeyBinding keybind) {
 		int key = keybind.getKeyCode();
-		if(key == 0)
+		if (key == 0)
 			return false;
 		
-		if(key < 0) {
+		if (key < 0) {
 			int button = 100 + key;
 			return Mouse.isButtonDown(button);
 		}
@@ -138,12 +138,12 @@ public class ModKeybinds {
 			boolean wasDown = down;
 			down = isKeyDown(ref);
 
-			if(!wasDown && down && keyboundButtons.containsKey(ref)) {
+			if (!wasDown && down && keyboundButtons.containsKey(ref)) {
 				IParentedGui ipg = keyboundButtons.get(ref);
 				GuiScreen curr = Minecraft.getMinecraft().currentScreen;
-				if(curr == ipg.getParent()) {
+				if (curr == ipg.getParent()) {
 					GuiButton button = (GuiButton) ipg;
-					if(button.enabled && button.visible) {
+					if (button.enabled && button.visible) {
 						GuiScreenEvent.ActionPerformedEvent.Pre postEvent = new GuiScreenEvent.ActionPerformedEvent.Pre(curr, button, curr.buttonList);
 						MinecraftForge.EVENT_BUS.post(postEvent);
 					}

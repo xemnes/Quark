@@ -34,8 +34,8 @@ public class MapTooltip extends Feature {
 
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void makeTooltip(ItemTooltipEvent event) {
-		if(!event.getItemStack().isEmpty() && event.getItemStack().getItem() instanceof ItemMap) {
-			if(requireShift && !GuiScreen.isShiftKeyDown())
+		if (!event.getItemStack().isEmpty() && event.getItemStack().getItem() instanceof ItemMap) {
+			if (requireShift && !GuiScreen.isShiftKeyDown())
 				event.getToolTip().add(1, I18n.format("quarkmisc.mapShift"));
 		}
 	}
@@ -43,11 +43,11 @@ public class MapTooltip extends Feature {
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void renderTooltip(RenderTooltipEvent.PostText event) {
-		if(!event.getStack().isEmpty() && event.getStack().getItem() instanceof ItemMap && (!requireShift || GuiScreen.isShiftKeyDown())) {
+		if (!event.getStack().isEmpty() && event.getStack().getItem() instanceof ItemMap && (!requireShift || GuiScreen.isShiftKeyDown())) {
 			Minecraft mc = Minecraft.getMinecraft();
 			
 			MapData mapdata = Items.FILLED_MAP.getMapData(event.getStack(), mc.world);
-			if(mapdata == null)
+			if (mapdata == null)
 				return;
 			
 			GlStateManager.pushMatrix();

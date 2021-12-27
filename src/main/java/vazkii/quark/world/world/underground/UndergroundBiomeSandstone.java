@@ -44,7 +44,7 @@ public class UndergroundBiomeSandstone extends BasicUndergroundBiome {
 	
 	@Override
 	public void fillCeiling(World world, BlockPos pos, IBlockState state) {
-		if(world.rand.nextDouble() < stalactiteChance)
+		if (world.rand.nextDouble() < stalactiteChance)
 			world.setBlockState(pos.down(), ceilingState, 2);
 		
 		super.fillCeiling(world, pos, state);
@@ -52,16 +52,16 @@ public class UndergroundBiomeSandstone extends BasicUndergroundBiome {
 	
 	@Override
 	public void fillFloor(World world, BlockPos pos, IBlockState state) {
-		if(enableSand && world.rand.nextBoolean()) {
+		if (enableSand && world.rand.nextBoolean()) {
 			world.setBlockState(pos, Blocks.SAND.getDefaultState(), 2);
-			if(world.rand.nextDouble() < deadBushChance)
+			if (world.rand.nextDouble() < deadBushChance)
 				world.setBlockState(pos.up(), Blocks.DEADBUSH.getDefaultState(), 2);
 		} else super.fillFloor(world, pos, state);
 	}
 	
 	@Override
 	public void fillWall(World world, BlockPos pos, IBlockState state) {
-		if(world.rand.nextDouble() < chiseledSandstoneChance)
+		if (world.rand.nextDouble() < chiseledSandstoneChance)
 			world.setBlockState(pos, wallState.withProperty(BlockSandStone.TYPE, BlockSandStone.EnumType.CHISELED), 2);
 		else super.fillWall(world, pos, state);
 	}
@@ -73,10 +73,10 @@ public class UndergroundBiomeSandstone extends BasicUndergroundBiome {
 	
 	@Override
 	public void spawnDungeon(WorldServer world, BlockPos pos, EnumFacing side) {
-		if(side == null)
+		if (side == null)
 			side = EnumFacing.NORTH;
 		
-		switch(side) {
+		switch (side) {
 		case NORTH:
 			pos = pos.add(3, -7, 6);
 			break;
@@ -100,14 +100,14 @@ public class UndergroundBiomeSandstone extends BasicUndergroundBiome {
 		template.addBlocksToWorld(world, pos, settings);
 
 		Map<BlockPos, String> dataBlocks = template.getDataBlocks(pos, settings);
-		for(Entry<BlockPos, String> entry : dataBlocks.entrySet()) {
+		for (Entry<BlockPos, String> entry : dataBlocks.entrySet()) {
 			BlockPos dataPos = entry.getKey();
-			switch(entry.getValue()) {
+			switch (entry.getValue()) {
 			case "spawner":
 				world.setBlockState(dataPos, Blocks.MOB_SPAWNER.getDefaultState(), 2);
 				TileEntity spawner = world.getTileEntity(dataPos);
 
-				if(spawner instanceof TileEntityMobSpawner)
+				if (spawner instanceof TileEntityMobSpawner)
 					((TileEntityMobSpawner) spawner).getSpawnerBaseLogic().setEntityId(EntityList.getKey(EntityZombie.class));
 				break;
 			case "chest":
@@ -115,7 +115,7 @@ public class UndergroundBiomeSandstone extends BasicUndergroundBiome {
 				world.setBlockState(dataPos, chestState);
 
 				TileEntity chest = world.getTileEntity(dataPos);
-				if(chest instanceof TileEntityLockableLoot)
+				if (chest instanceof TileEntityLockableLoot)
 					((TileEntityLockableLoot) chest).setLootTable(LootTableList.CHESTS_DESERT_PYRAMID, world.rand.nextLong());
 				break;
 			}

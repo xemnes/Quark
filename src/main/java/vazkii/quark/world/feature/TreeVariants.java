@@ -50,10 +50,10 @@ public class TreeVariants extends Feature {
 		variant_leaves = new BlockVariantLeaves();
 		variant_sapling = new BlockVariantSapling();
 
-		if(enableSwamp) 
+		if (enableSwamp) 
 			Biome.SWAMP_FEATURE = new WorldGenSwampTree(true);
 
-		if(enableSakura)
+		if (enableSakura)
 			GameRegistry.registerWorldGenerator(new SakuraTreeGenerator(), 0);
 
 		addOreDict("treeLeaves", ProxyRegistry.newStack(variant_leaves, 1, OreDictionary.WILDCARD_VALUE));
@@ -98,7 +98,7 @@ public class TreeVariants extends Feature {
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void renderEvent(RenderTickEvent event) {
-		if(event.phase == Phase.START)
+		if (event.phase == Phase.START)
 			((BlockLeaves) variant_leaves).setGraphicsLevel(Minecraft.getMinecraft().gameSettings.fancyGraphics);
 	}
 

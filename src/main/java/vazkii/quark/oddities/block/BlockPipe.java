@@ -130,7 +130,7 @@ public class BlockPipe extends BlockModContainer implements IQuarkBlock {
 	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
 		boolean flag = !worldIn.isBlockPowered(pos);
 
-		if(flag != state.getValue(ENABLED))
+		if (flag != state.getValue(ENABLED))
 			worldIn.setBlockState(pos, state.withProperty(ENABLED, flag), 2 | 4);
 	}
 
@@ -154,17 +154,17 @@ public class BlockPipe extends BlockModContainer implements IQuarkBlock {
 		boolean westFlared = isFlared(state, EnumFacing.WEST);
 		boolean eastFlared = isFlared(state, EnumFacing.EAST);
 
-		if(downFlared || upFlared || northFlared || southFlared) {
+		if (downFlared || upFlared || northFlared || southFlared) {
 			maxX = Math.max(maxX, 0.75);
 			minX = Math.min(minX, 0.25);
 		}
 
-		if(northFlared || southFlared || westFlared || eastFlared) {
+		if (northFlared || southFlared || westFlared || eastFlared) {
 			maxY = Math.max(maxY, 0.75);
 			minY = Math.min(minY, 0.25);
 		}
 
-		if(downFlared || upFlared || westFlared || eastFlared) {
+		if (downFlared || upFlared || westFlared || eastFlared) {
 			maxZ = Math.max(maxZ, 0.75);
 			minZ = Math.min(minZ, 0.25);
 		}
@@ -194,11 +194,11 @@ public class BlockPipe extends BlockModContainer implements IQuarkBlock {
 	@Override
 	@SuppressWarnings("deprecation")
 	public void addCollisionBoxToList(IBlockState state, @Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull AxisAlignedBB entityBox, @Nonnull List<AxisAlignedBB> collidingBoxes, Entity entityIn, boolean isActualState) {
-		if(!isActualState)
+		if (!isActualState)
 			state = state.getActualState(worldIn, pos);
 
 		addCollisionBoxToList(pos, entityBox, collidingBoxes, CENTER_AABB);
-		for(EnumFacing side : EnumFacing.VALUES) {
+		for (EnumFacing side : EnumFacing.VALUES) {
 			ConnectionType type = getType(state, side);
 
 			if (type != null && type.isSolid)
@@ -264,7 +264,7 @@ public class BlockPipe extends BlockModContainer implements IQuarkBlock {
 	public IBlockState getActualState(@Nonnull IBlockState state, IBlockAccess worldIn, BlockPos pos) {
 		IBlockState actualState = state;
 
-		for(EnumFacing facing : EnumFacing.VALUES) {
+		for (EnumFacing facing : EnumFacing.VALUES) {
 			PropertyEnum<ConnectionType> prop = CONNECTIONS[facing.ordinal()];
 			ConnectionType type = getConnectionTo(worldIn, pos, facing);
 
@@ -282,7 +282,7 @@ public class BlockPipe extends BlockModContainer implements IQuarkBlock {
 	@Override
 	public int getComparatorInputOverride(IBlockState blockState, World worldIn, BlockPos pos) {
 		TileEntity tile = worldIn.getTileEntity(pos);
-		if(tile instanceof TilePipe)
+		if (tile instanceof TilePipe)
 			return ((TilePipe) tile).getComparatorOutput();
 		return 0;
 	}
@@ -291,7 +291,7 @@ public class BlockPipe extends BlockModContainer implements IQuarkBlock {
 	public void breakBlock(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
 		TileEntity tileentity = worldIn.getTileEntity(pos);
 
-		if(tileentity instanceof TilePipe)
+		if (tileentity instanceof TilePipe)
 			((TilePipe) tileentity).dropAllItems();
 
 			super.breakBlock(worldIn, pos, state);
@@ -321,17 +321,17 @@ public class BlockPipe extends BlockModContainer implements IQuarkBlock {
 	private ConnectionType getConnectionTo(IBlockAccess world, BlockPos pos, EnumFacing face) {
 		pos = pos.offset(face);
 		TileEntity tile = world instanceof ChunkCache ? ((ChunkCache)world).getTileEntity(pos, Chunk.EnumCreateEntityType.CHECK) : world.getTileEntity(pos);
-		if(tile != null) {
-			if(tile instanceof TilePipe)
+		if (tile != null) {
+			if (tile instanceof TilePipe)
 				return ConnectionType.PIPE;
-			else if(tile instanceof IInventory || (tile.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, face.getOpposite()) 
+			else if (tile instanceof IInventory || (tile.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, face.getOpposite()) 
 					&& tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, face.getOpposite()) != null))
 				return ConnectionType.TERMINAL;
 		}
 
 		IBlockState stateAt = world.getBlockState(pos);
 		Block blockAt = stateAt.getBlock();
-		if((face.getAxis() == Axis.Y && (blockAt instanceof BlockWall || blockAt instanceof BlockQuarkWall))
+		if ((face.getAxis() == Axis.Y && (blockAt instanceof BlockWall || blockAt instanceof BlockQuarkWall))
 				|| ((blockAt instanceof BlockPistonBase || blockAt instanceof BlockPistonExtension) && stateAt.getValue(BlockDirectional.FACING) == face.getOpposite()))
 				return ConnectionType.PROP;
 

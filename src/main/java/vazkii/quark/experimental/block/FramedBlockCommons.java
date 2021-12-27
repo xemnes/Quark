@@ -26,7 +26,7 @@ public class FramedBlockCommons {
 	public static IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos) {
 		IBlockState actualState = state.getActualState(world, pos);
 		TileEntity tile = world instanceof ChunkCache ? ((ChunkCache)world).getTileEntity(pos, Chunk.EnumCreateEntityType.CHECK) : world.getTileEntity(pos);
-		if(tile instanceof TileFramed && actualState instanceof IExtendedBlockState) {
+		if (tile instanceof TileFramed && actualState instanceof IExtendedBlockState) {
 			TileFramed frame = (TileFramed) tile;
 			IExtendedBlockState extend = (IExtendedBlockState) actualState;
 			return extend.withProperty(STATE, frame.getState());

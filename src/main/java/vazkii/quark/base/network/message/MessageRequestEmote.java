@@ -40,13 +40,13 @@ public class MessageRequestEmote extends NetworkMessage<MessageRequestEmote> {
 		if (server != null) server.addScheduledTask(() -> {
 			NetworkHandler.INSTANCE.sendToAll(new MessageDoEmote(emoteName, player.getName(), ContributorRewardHandler.getTier(player)));
 
-			if(EmoteSystem.emoteCommands) {
+			if (EmoteSystem.emoteCommands) {
 				String filename = emoteName + ".mcfunction";
-				if(filename.startsWith("custom:"))
+				if (filename.startsWith("custom:"))
 					filename = filename.substring("custom:".length());
 				File file = new File(EmoteSystem.emotesDir, filename);
 
-				if(file.exists())
+				if (file.exists())
 					try {
 						FunctionObject func = FunctionObject.create(server.getFunctionManager(),
 								IOUtils.readLines(new FileInputStream(file), StandardCharsets.UTF_8));

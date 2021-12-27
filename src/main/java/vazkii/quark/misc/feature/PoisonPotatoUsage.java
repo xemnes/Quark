@@ -27,11 +27,11 @@ public class PoisonPotatoUsage extends Feature {
 	
 	@SubscribeEvent
 	public void onInteract(EntityInteract event) {
-		if(event.getTarget() instanceof EntityAnimal && event.getItemStack().getItem() == Items.POISONOUS_POTATO) {
+		if (event.getTarget() instanceof EntityAnimal && event.getItemStack().getItem() == Items.POISONOUS_POTATO) {
 			EntityAnimal animal = (EntityAnimal) event.getTarget();
-			if(animal.isChild() && !isEntityPoisoned(animal)) {
-				if(!event.getWorld().isRemote) {
-					if(animal.world.rand.nextDouble() < chance) {
+			if (animal.isChild() && !isEntityPoisoned(animal)) {
+				if (!event.getWorld().isRemote) {
+					if (animal.world.rand.nextDouble() < chance) {
 						animal.playSound(SoundEvents.ENTITY_GENERIC_EAT, 0.5f, 0.25f);
 						animal.world.spawnParticle(EnumParticleTypes.SPELL_MOB, animal.posX, animal.posY, animal.posZ, 0.2, 0.8, 0);
 						poisonEntity(animal);
@@ -53,9 +53,9 @@ public class PoisonPotatoUsage extends Feature {
 	
 	@SubscribeEvent
 	public void onEntityUpdate(LivingUpdateEvent event) {
-		if(event.getEntity() instanceof EntityAnimal) {
+		if (event.getEntity() instanceof EntityAnimal) {
 			EntityAnimal animal = (EntityAnimal) event.getEntity();
-			if(animal.isChild() && isEntityPoisoned(animal))
+			if (animal.isChild() && isEntityPoisoned(animal))
 				animal.setGrowingAge(-24000);
 		}
 	}

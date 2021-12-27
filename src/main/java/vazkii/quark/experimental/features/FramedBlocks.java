@@ -35,7 +35,7 @@ public class FramedBlocks extends Feature {
 		TileFramed tile = (TileFramed) worldIn.getTileEntity(pos);
 
 		ItemStack stack = playerIn.getHeldItem(hand);
-		if(stack.getItem() instanceof ItemBlock && tile != null)
+		if (stack.getItem() instanceof ItemBlock && tile != null)
 			tile.setInventorySlotContents(0, stack.copy());
 
 		worldIn.markBlockRangeForRenderUpdate(pos, pos);

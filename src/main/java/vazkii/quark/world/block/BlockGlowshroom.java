@@ -40,28 +40,28 @@ public class BlockGlowshroom extends BlockQuarkBush implements IGrowable {
 	
 	@Override
 	public void updateTick(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull IBlockState state, Random rand) {
-		if(rand.nextInt(UndergroundBiomes.glowshroomGrowthRate) == 0) {
+		if (rand.nextInt(UndergroundBiomes.glowshroomGrowthRate) == 0) {
 			int i = 5;
 
-			for(BlockPos targetPos : BlockPos.getAllInBoxMutable(pos.add(-4, -1, -4), pos.add(4, 1, 4))) {
-				if(worldIn.getBlockState(targetPos).getBlock() == this) {
+			for (BlockPos targetPos : BlockPos.getAllInBoxMutable(pos.add(-4, -1, -4), pos.add(4, 1, 4))) {
+				if (worldIn.getBlockState(targetPos).getBlock() == this) {
 					--i;
 
-					if(i <= 0)
+					if (i <= 0)
 						return;
 				}
 			}
 
 			BlockPos shiftedPos = pos.add(rand.nextInt(3) - 1, rand.nextInt(2) - rand.nextInt(2), rand.nextInt(3) - 1);
 
-			for(int k = 0; k < 4; ++k) {
+			for (int k = 0; k < 4; ++k) {
 				if (worldIn.isAirBlock(shiftedPos) && canBlockStay(worldIn, shiftedPos, getDefaultState()))
 					pos = shiftedPos;
 
 				shiftedPos = pos.add(rand.nextInt(3) - 1, rand.nextInt(2) - rand.nextInt(2), rand.nextInt(3) - 1);
 			}
 
-			if(worldIn.isAirBlock(shiftedPos) && canBlockStay(worldIn, shiftedPos, getDefaultState()))
+			if (worldIn.isAirBlock(shiftedPos) && canBlockStay(worldIn, shiftedPos, getDefaultState()))
 				worldIn.setBlockState(shiftedPos, getDefaultState(), 2);
 		}
 	}
@@ -71,7 +71,7 @@ public class BlockGlowshroom extends BlockQuarkBush implements IGrowable {
 	public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand) {
 		super.randomDisplayTick(stateIn, worldIn, pos, rand);
 
-		if(rand.nextInt(20) == 0)
+		if (rand.nextInt(20) == 0)
 			worldIn.spawnParticle(EnumParticleTypes.END_ROD, pos.getX() + 0.2 + rand.nextFloat() * 0.6, pos.getY() + 0.3F, pos.getZ() + 0.2 + rand.nextFloat() * 0.6, 0, 0, 0);
 	}
 
@@ -87,9 +87,9 @@ public class BlockGlowshroom extends BlockQuarkBush implements IGrowable {
 
 	@Override
 	public void grow(@Nonnull World worldIn, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
-		if(UndergroundBiomes.bigGlowshroomsEnabled) {
+		if (UndergroundBiomes.bigGlowshroomsEnabled) {
 			worldIn.setBlockToAir(pos);
-			if(!BlockHugeGlowshroom.setInPosition(worldIn, rand, pos, true))
+			if (!BlockHugeGlowshroom.setInPosition(worldIn, rand, pos, true))
 				worldIn.setBlockState(pos, getDefaultState());
 		}
 	}

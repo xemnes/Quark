@@ -17,7 +17,7 @@ public class CustomEmoteTemplate extends EmoteTemplate {
 	public CustomEmoteTemplate(String file) {
 		super(file + ".emote");
 		
-		if(name == null)
+		if (name == null)
 			name = file;
 	}
 	
@@ -29,7 +29,7 @@ public class CustomEmoteTemplate extends EmoteTemplate {
 	@Override
 	void setName(String[] tokens) {
 		StringBuilder builder = new StringBuilder();
-		for(int i = 1; i < tokens.length; i++) {
+		for (int i = 1; i < tokens.length; i++) {
 			builder.append(tokens[i]);
 			builder.append(" ");
 		}

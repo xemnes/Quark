@@ -30,7 +30,7 @@ public class ImprovedStoneToolCrafting extends Feature {
 		String[][] patterns = new String[][] {{"XXX", " # ", " # "}, {"X", "#", "#"}, {"XX", "X#", " #"}, {"XX", " #", " #"}, {"X", "X", "#"}};
 		Item[] items = new Item[] { Items.STONE_PICKAXE, Items.STONE_SHOVEL, Items.STONE_AXE, Items.STONE_HOE, Items.STONE_SWORD };
 
-		for(int i = 0; i < patterns.length; i++)
+		for (int i = 0; i < patterns.length; i++)
 			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(items[i]),
 					patterns[i][0], patterns[i][1], patterns[i][2],
 					'X', mat,
@@ -47,9 +47,9 @@ public class ImprovedStoneToolCrafting extends Feature {
 		addOreDict(mat, ProxyRegistry.newStack(Blocks.STONE, 1, 5));
 		addOreDict(mat, ProxyRegistry.newStack(Blocks.COBBLESTONE));
 		
-		if(RevampStoneGen.limestone != null)
+		if (RevampStoneGen.limestone != null)
 			addOreDict(mat, ProxyRegistry.newStack(RevampStoneGen.limestone));
-		if(RevampStoneGen.marble != null)
+		if (RevampStoneGen.marble != null)
 			addOreDict(mat, ProxyRegistry.newStack(RevampStoneGen.marble));
 	}
 

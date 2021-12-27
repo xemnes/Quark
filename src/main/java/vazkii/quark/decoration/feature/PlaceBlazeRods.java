@@ -33,11 +33,11 @@ public class PlaceBlazeRods extends Feature {
 		EnumHand hand = event.getHand();
 		ItemStack stack = event.getItemStack();
 		RayTraceResult res = RayTraceHandler.rayTrace(world, player, false, player.getEntityAttribute(EntityPlayer.REACH_DISTANCE).getAttributeValue());
-		if(res != null) {
+		if (res != null) {
 			BlockPos pos = res.getBlockPos();
 			EnumFacing face = res.sideHit;
 
-			if(stack.getItem() == Items.BLAZE_ROD) {
+			if (stack.getItem() == Items.BLAZE_ROD) {
 				PlaceVanillaDusts.setBlock(event, player, stack, world, pos, hand, face, blaze_rod, res);
 			}
 		}

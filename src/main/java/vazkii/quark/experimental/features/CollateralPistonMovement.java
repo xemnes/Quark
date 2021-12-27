@@ -44,14 +44,14 @@ public class CollateralPistonMovement extends Feature {
 				"quark:chain=below_edge"
 		});
 		
-		for(String s : actionArr) {
+		for (String s : actionArr) {
 			String[] tokens = s.split("=");
-			if(tokens.length == 2) {
+			if (tokens.length == 2) {
 				String res = tokens[0];
 				String actionStr = tokens[1];
 				
 				MoveAction action = null;
-				switch(actionStr) {
+				switch (actionStr) {
 				case "above": action = (world8, pos8, state8, facing8, extending8, list8) -> moveAllAbove(world8, pos8, state8, list8); break;
 				case "below": action = (world7, pos7, state7, facing7, extending7, list7) -> moveAllBelow(world7, pos7, state7, list7); break;
 				case "above_below": action = (world6, pos6, state6, facing6, extending6, list6) -> moveAllAboveBelow(world6, pos6, state6, list6); break;
@@ -66,36 +66,36 @@ public class CollateralPistonMovement extends Feature {
 				case "verticals": action = (world, pos, state, facing, extending, list) -> moveVerticals(world, pos, facing, list); break;
 				}
 				
-				if(action != null)
+				if (action != null)
 					blockActions.put(new ResourceLocation(res), action);
 			}
 		}
 	}
 	
 	public static void applyCollateralMovements(World world, BlockPistonStructureHelper helper, EnumFacing facing, boolean extending) {
-		if(!ModuleLoader.isFeatureEnabled(CollateralPistonMovement.class))
+		if (!ModuleLoader.isFeatureEnabled(CollateralPistonMovement.class))
 			return;
 
 		List<BlockPos> moveList = helper.getBlocksToMove();
 		List<BlockPos> additions = new LinkedList<>();
 		
-		for(BlockPos move : moveList) {
+		for (BlockPos move : moveList) {
 			IBlockState moveState = world.getBlockState(move);
 			Block moveBlock = moveState.getBlock();
 			MoveAction action = blockActions.get(moveBlock.getRegistryName());
-			if(action == null)
+			if (action == null)
 				continue;
 			
 			action.add(world, move, moveState, facing, extending, additions);
 		}
 		
-		for(BlockPos add : additions) {
+		for (BlockPos add : additions) {
 			BlockPos check = add.offset(facing);
-			if(moveList.contains(check) || additions.contains(check))
+			if (moveList.contains(check) || additions.contains(check))
 				continue;
 			
 			IBlockState checkState = world.getBlockState(check);
-			if(checkState.getBlock().isAir(checkState, world, check) || checkState.getBlock().isReplaceable(world, check))
+			if (checkState.getBlock().isAir(checkState, world, check) || checkState.getBlock().isReplaceable(world, check))
 				continue;
 			
 			return;
@@ -108,8 +108,8 @@ public class CollateralPistonMovement extends Feature {
 		BlockPos curr = pos.offset(side);
 		IBlockState stateAt = world.getBlockState(curr);
 		
-		while(stateAt.equals(state)) {
-			if(!canMove(stateAt, world, curr))
+		while (stateAt.equals(state)) {
+			if (!canMove(stateAt, world, curr))
 				return curr;
 			
 			list.add(curr);
@@ -123,7 +123,7 @@ public class CollateralPistonMovement extends Feature {
 	private static void moveAllEqualSideAndOneMore(World world, BlockPos pos, IBlockState state, EnumFacing side, List<BlockPos> list) {
 		BlockPos edge = moveAllEqualSide(world, pos, state, side, list);
 		IBlockState edgeState = world.getBlockState(edge);
-		if(canMove(edgeState, world, edge))
+		if (canMove(edgeState, world, edge))
 			list.add(edge);
 	}
 	
@@ -155,7 +155,7 @@ public class CollateralPistonMovement extends Feature {
 	
 	private static void moveNextDirectional(World world, BlockPos pos, IBlockState state, EnumFacing facing, List<BlockPos> list) {
 		EnumFacing direction = getStateFacing(state);
-		if(direction != null)
+		if (direction != null)
 			moveSideIterable(world, pos, facing, list, new EnumFacing[] { direction });
 	}
 	
@@ -172,11 +172,11 @@ public class CollateralPistonMovement extends Feature {
 	}
 	
 	private static void moveSideIterable(World world, BlockPos pos, EnumFacing facing, List<BlockPos> list, EnumFacing[] directions) {
-		for(EnumFacing direction : directions)
-			if(direction != facing.getOpposite()) {
+		for (EnumFacing direction : directions)
+			if (direction != facing.getOpposite()) {
 				BlockPos nextPos = pos.offset(direction);
 				IBlockState nextState = world.getBlockState(nextPos);
-				if(canMove(nextState, world, nextPos))
+				if (canMove(nextState, world, nextPos))
 					list.add(nextPos);
 			}
 	}
@@ -184,7 +184,7 @@ public class CollateralPistonMovement extends Feature {
 	@SuppressWarnings("deprecation")
 	private static boolean canMove(IBlockState state, World world, BlockPos pos) { // TODO change to isAir
 		Block block = state.getBlock();
-		if(block == Blocks.PISTON || block == Blocks.STICKY_PISTON)
+		if (block == Blocks.PISTON || block == Blocks.STICKY_PISTON)
 			return !state.getValue(BlockPistonBase.EXTENDED);
 			
 		return !block.isAir(state, world, pos) && state.getPushReaction() == EnumPushReaction.NORMAL && (!block.hasTileEntity() || !PistonsMoveTEs.shouldMoveTE(true, state));
@@ -192,10 +192,10 @@ public class CollateralPistonMovement extends Feature {
 
 	private static EnumFacing getStateFacing(IBlockState state) {
 		Collection<IProperty<?>> props = state.getPropertyKeys();
-		for(IProperty<?> prop : props)
-			if(prop.getName().equals("facing")) {
+		for (IProperty<?> prop : props)
+			if (prop.getName().equals("facing")) {
 				Object obj = state.getValue(prop);
-				if(obj instanceof EnumFacing)
+				if (obj instanceof EnumFacing)
 					return (EnumFacing) obj;
 			}
 		

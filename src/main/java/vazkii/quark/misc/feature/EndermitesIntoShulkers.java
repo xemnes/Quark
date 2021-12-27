@@ -20,10 +20,10 @@ public class EndermitesIntoShulkers extends Feature {
 	
 	@SubscribeEvent
 	public void onEnterChunk(EnteringChunk event) {
-		if(event.getEntity() instanceof EntityEndermite) {
+		if (event.getEntity() instanceof EntityEndermite) {
 			EntityEndermite endermite = (EntityEndermite) event.getEntity();
-			for(EntityAITaskEntry task : endermite.tasks.taskEntries)
-				if(task.action instanceof EntityAIFormShulker)
+			for (EntityAITaskEntry task : endermite.tasks.taskEntries)
+				if (task.action instanceof EntityAIFormShulker)
 					return;
 			
 			endermite.tasks.addTask(2, new EntityAIFormShulker(endermite));

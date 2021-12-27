@@ -27,31 +27,31 @@ public final class BeaconReplacementHandler {
 	}
 	
 	private static void commit() {
-		if(defaultEffectsList == null) {
+		if (defaultEffectsList == null) {
 			defaultEffectsList = new Potion[TileEntityBeacon.EFFECTS_LIST.length][2];
-			for(int i = 0; i < TileEntityBeacon.EFFECTS_LIST.length; i++) {
+			for (int i = 0; i < TileEntityBeacon.EFFECTS_LIST.length; i++) {
 				Potion[] a = TileEntityBeacon.EFFECTS_LIST[i];
-				for(int j = 0; j < a.length && j < defaultEffectsList[i].length; j++)
+				for (int j = 0; j < a.length && j < defaultEffectsList[i].length; j++)
 					defaultEffectsList[i][j] = a[j];
 			}
 		}
 		
-		for(Replacer r : replacers)
+		for (Replacer r : replacers)
 			TileEntityBeacon.VALID_EFFECTS.add(r.potion);
 	}
 	
 	public static void update(TileEntityBeacon beacon) {
-		for(int i = 0; i < TileEntityBeacon.EFFECTS_LIST.length; i++) {
+		for (int i = 0; i < TileEntityBeacon.EFFECTS_LIST.length; i++) {
 			Potion[] a = TileEntityBeacon.EFFECTS_LIST[i];
-			for(int j = 0; j < a.length && j < defaultEffectsList[i].length; j++)
+			for (int j = 0; j < a.length && j < defaultEffectsList[i].length; j++)
 				a[j] = defaultEffectsList[i][j];
 		}
 		
 		BlockPos pos = beacon.getPos();
 		World world = beacon.getWorld();
-		for(int i = -1; i < 2; i++)
-			for(int j = -1; j < 2; j++) {
-				if(i == 0 && j == 0)
+		for (int i = -1; i < 2; i++)
+			for (int j = -1; j < 2; j++) {
+				if (i == 0 && j == 0)
 					continue;
 				
 				BlockPos targetPos = pos.add(i, 0, j);
@@ -76,7 +76,7 @@ public final class BeaconReplacementHandler {
 		
 		private static Replacer fromString(String s) {
 			String[] tokens = s.split(",");
-			if(tokens.length != 5)
+			if (tokens.length != 5)
 				return null;
 			
 			Block block = Block.getBlockFromName(tokens[0]);
@@ -85,14 +85,14 @@ public final class BeaconReplacementHandler {
 			int effect = MathHelper.getInt(tokens[3], layer == 2 || layer == 3 ? 0 : -1);
 			Potion potion = Potion.getPotionFromResourceLocation(tokens[4]);
 			
-			if(potion == null || effect < 0 || effect > 1 || layer < 0 || layer > 3)
+			if (potion == null || effect < 0 || effect > 1 || layer < 0 || layer > 3)
 				return null;
 			
 			return new Replacer(block, meta, layer, effect, potion);
 		}
 		
 		public void replace(IBlockState stateAt) {
-			if((block == null 
+			if ((block == null 
 					|| (stateAt.getBlock() == block 
 							&& (meta == -1 
 									|| block.getMetaFromState(stateAt) == meta

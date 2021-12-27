@@ -25,7 +25,7 @@ public class DimensionConfig {
 		
 		String[] dimensionValues = ModuleLoader.config.getStringList("Dimensions", category, defaultValues, "");
 		dims = new ArrayList<>();
-		for(String s : dimensionValues)
+		for (String s : dimensionValues)
 			try {
 				dims.add(Integer.parseInt(s));
 			} catch(NumberFormatException ignored) {}

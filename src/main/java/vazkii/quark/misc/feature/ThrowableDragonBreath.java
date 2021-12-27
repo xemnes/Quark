@@ -75,15 +75,15 @@ public class ThrowableDragonBreath extends Feature {
 		EntityPlayer player = event.getEntityPlayer();
 		World world = player.world;
 		ItemStack stack = event.getItemStack();
-		if(stack.getItem() != Items.DRAGON_BREATH)
+		if (stack.getItem() != Items.DRAGON_BREATH)
 			return;
 		
-		if(!player.capabilities.isCreativeMode)
+		if (!player.capabilities.isCreativeMode)
 			stack.shrink(1);
 
 		world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_SPLASH_POTION_THROW, SoundCategory.PLAYERS, 0.5F, 0.4F / (world.rand.nextFloat() * 0.4F + 0.8F));
 
-		if(!world.isRemote) {
+		if (!world.isRemote) {
 			EntityDragonBreathBottle b = new EntityDragonBreathBottle(world, player);
 			b.shoot(player, player.rotationPitch, player.rotationYaw, 0F, 1.5F, 1F);
 			world.spawnEntity(b);

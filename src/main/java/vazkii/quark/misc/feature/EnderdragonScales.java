@@ -35,10 +35,10 @@ public class EnderdragonScales extends Feature {
 	
 	@SubscribeEvent
 	public void onEntityTick(LivingUpdateEvent event) {
-		if(event.getEntityLiving() instanceof EntityDragon && !event.getEntity().getEntityWorld().isRemote) {
+		if (event.getEntityLiving() instanceof EntityDragon && !event.getEntity().getEntityWorld().isRemote) {
 			EntityDragon dragon = (EntityDragon) event.getEntity();
 
-			if(dragon.getFightManager() != null && dragon.getFightManager().hasPreviouslyKilledDragon() && dragon.deathTicks == 100) {
+			if (dragon.getFightManager() != null && dragon.getFightManager().hasPreviouslyKilledDragon() && dragon.deathTicks == 100) {
 				EntityItem item = new EntityItem(dragon.world, dragon.posX, dragon.posY, dragon.posZ, new ItemStack(enderdragonScale, dropped));
 				dragon.world.spawnEntity(item);
 			}

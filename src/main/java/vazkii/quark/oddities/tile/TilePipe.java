@@ -50,7 +50,7 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 
 	@Override
 	public void update() {
-		if(!isPipeEnabled() && world.getTotalWorldTime() % 10 == 0 && world instanceof WorldServer) 
+		if (!isPipeEnabled() && world.getTotalWorldTime() % 10 == 0 && world instanceof WorldServer) 
 			((WorldServer) world).spawnParticle(EnumParticleTypes.REDSTONE, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 3, 0.2, 0.2, 0.2, 0);
 
 		IBlockState blockAt = world.getBlockState(pos);
@@ -95,8 +95,8 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 
 		int currentOut = getComparatorOutput();
 
-		if(!pipeItems.isEmpty()) {
-			if(Pipes.maxPipeItems > 0 && pipeItems.size() > Pipes.maxPipeItems && !world.isRemote) {
+		if (!pipeItems.isEmpty()) {
+			if (Pipes.maxPipeItems > 0 && pipeItems.size() > Pipes.maxPipeItems && !world.isRemote) {
 				world.playEvent(2001, pos, Block.getStateId(world.getBlockState(pos)));
 				dropItem(new ItemStack(getBlockType()));
 				world.setBlockToAir(getPos());
@@ -105,10 +105,10 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 			ListIterator<PipeItem> itemItr = pipeItems.listIterator();
 			iterating = true;
 			needsSync = false;
-			while(itemItr.hasNext()) {
+			while (itemItr.hasNext()) {
 				PipeItem item = itemItr.next();
 				EnumFacing lastFacing = item.outgoingFace;
-				if(item.tick(this)) {
+				if (item.tick(this)) {
 					needsSync = true;
 					itemItr.remove();
 
@@ -122,13 +122,13 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 			iterating = false;
 
 			pipeItems.addAll(queuedItems);
-			if(needsSync || !queuedItems.isEmpty())
+			if (needsSync || !queuedItems.isEmpty())
 				sync();
 			needsSync = false;
 			queuedItems.clear();
 		}
 
-		if(getComparatorOutput() != currentOut)
+		if (getComparatorOutput() != currentOut)
 			world.updateComparatorOutputLevel(getPos(), getBlockType());
 	}
 
@@ -142,11 +142,11 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 
 	public boolean passIn(ItemStack stack, EnumFacing face, long seed, int time) {
 		PipeItem item = new PipeItem(stack, face, seed);
-		if(!iterating) {
+		if (!iterating) {
 			int currentOut = getComparatorOutput();
 			pipeItems.add(item);
 			item.timeInWorld = time;
-			if(getComparatorOutput() != currentOut)
+			if (getComparatorOutput() != currentOut)
 				world.updateComparatorOutputLevel(getPos(), getBlockType());
 		} else queuedItems.add(item);
 
@@ -161,25 +161,25 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 		BlockPos targetPos = getPos().offset(item.outgoingFace);
 		TileEntity tile = world.getTileEntity(targetPos);
 		boolean did = false;
-		if(tile != null) {
-			if(tile instanceof TilePipe)
+		if (tile != null) {
+			if (tile instanceof TilePipe)
 				did = ((TilePipe) tile).passIn(item.stack, item.outgoingFace.getOpposite(), item.rngSeed, item.timeInWorld);
 			else if (!world.isRemote) {
 				ItemStack result = putIntoInv(item.stack, tile, item.outgoingFace.getOpposite(), false);
-				if(result.getCount() != item.stack.getCount()) {
+				if (result.getCount() != item.stack.getCount()) {
 					did = true;
-					if(!result.isEmpty())
+					if (!result.isEmpty())
 						bounceBack(item, result);
 				}
 			}
 		}
 
-		if(!did)
+		if (!did)
 			bounceBack(item, null);
 	}
 
 	private void bounceBack(PipeItem item, ItemStack stack) {
-		if(!world.isRemote)
+		if (!world.isRemote)
 			passIn(stack == null ? item.stack : stack, item.outgoingFace, item.rngSeed, item.timeInWorld);
 	}
 
@@ -188,7 +188,7 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 	}
 
 	public void dropItem(ItemStack stack, EnumFacing facing, boolean playSound) {
-		if(!world.isRemote) {
+		if (!world.isRemote) {
 			double posX = pos.getX() + 0.5;
 			double posY = pos.getY() + 0.25;
 			double posZ = pos.getZ() + 0.5;
@@ -229,7 +229,7 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 	}
 
 	public void dropAllItems() {
-		for(PipeItem item : pipeItems)
+		for (PipeItem item : pipeItems)
 			dropItem(item.stack);
 		pipeItems.clear();
 	}
@@ -251,7 +251,7 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 		super.writeSharedNBT(cmp);
 
 		NBTTagList pipeItemList = new NBTTagList();
-		for(PipeItem item : pipeItems) {
+		for (PipeItem item : pipeItems) {
 			NBTTagCompound listCmp = new NBTTagCompound();
 			item.writeToNBT(listCmp);
 			pipeItemList.appendTag(listCmp);
@@ -261,10 +261,10 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 
 	protected boolean canFit(ItemStack stack, BlockPos pos, EnumFacing face) {
 		TileEntity tile = world.getTileEntity(pos);
-		if(tile == null)
+		if (tile == null)
 			return false;
 
-		if(tile instanceof TilePipe)
+		if (tile instanceof TilePipe)
 			return ((TilePipe) tile).isPipeEnabled();
 		else {
 			ItemStack result = putIntoInv(stack, tile, face, true);
@@ -279,14 +279,14 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 
 	protected ItemStack putIntoInv(ItemStack stack, TileEntity tile, EnumFacing face, boolean simulate) {
 		IItemHandler handler = null;
-		if(tile.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, face))
+		if (tile.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, face))
 			handler = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, face);
-		else if(tile instanceof ISidedInventory)
+		else if (tile instanceof ISidedInventory)
 			handler = new SidedInvWrapper((ISidedInventory) tile, face);
-		else if(tile instanceof IInventory)
+		else if (tile instanceof IInventory)
 			handler = new InvWrapper((IInventory) tile);
 
-		if(handler != null)
+		if (handler != null)
 			return ItemHandlerHelper.insertItem(handler, stack, simulate);
 		return stack;
 	}
@@ -298,7 +298,7 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 
 	@Override
 	public void setInventorySlotContents(int i, @Nonnull ItemStack itemstack) {
-		if(!itemstack.isEmpty()) {
+		if (!itemstack.isEmpty()) {
 			EnumFacing side = EnumFacing.VALUES[i];
 			passIn(itemstack, side);
 			sync();
@@ -344,14 +344,14 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 			ticksInPipe++;
 			timeInWorld++;
 
-			if(!pipe.world.isRemote && ticksInPipe == Pipes.pipeSpeed / 2 - 1) {
+			if (!pipe.world.isRemote && ticksInPipe == Pipes.pipeSpeed / 2 - 1) {
 				EnumFacing target = getTargetFace(pipe);
 				if (outgoingFace != target)
 					pipe.needsSync = true;
 				outgoingFace = target;
 			}
 
-			if(outgoingFace == null) {
+			if (outgoingFace == null) {
 				valid = false;
 				return true;
 			}
@@ -361,13 +361,13 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 
 		protected EnumFacing getTargetFace(TilePipe pipe) {
 			BlockPos pipePos = pipe.getPos();
-			if(incomingFace != EnumFacing.DOWN && pipe.canFit(stack, pipePos.offset(EnumFacing.DOWN), EnumFacing.UP))
+			if (incomingFace != EnumFacing.DOWN && pipe.canFit(stack, pipePos.offset(EnumFacing.DOWN), EnumFacing.UP))
 				return EnumFacing.DOWN;
 
 			EnumFacing incomingOpposite = incomingFace; // init as same so it doesn't break in the remove later
-			if(incomingFace.getAxis() != Axis.Y) {
+			if (incomingFace.getAxis() != Axis.Y) {
 				incomingOpposite = incomingFace.getOpposite();
-				if(pipe.canFit(stack, pipePos.offset(incomingOpposite), incomingFace))
+				if (pipe.canFit(stack, pipePos.offset(incomingOpposite), incomingFace))
 					return incomingOpposite;
 			}
 
@@ -378,12 +378,12 @@ public class TilePipe extends TileSimpleInventory implements ITickable {
 			Random rng = new Random(rngSeed);
 			rngSeed = rng.nextLong();
 			Collections.shuffle(sides, rng);
-			for(EnumFacing side : sides) {
-				if(pipe.canFit(stack, pipePos.offset(side), side.getOpposite()))
+			for (EnumFacing side : sides) {
+				if (pipe.canFit(stack, pipePos.offset(side), side.getOpposite()))
 					return side;
 			}
 
-			if(incomingFace != EnumFacing.UP && pipe.canFit(stack, pipePos.offset(EnumFacing.UP), EnumFacing.DOWN))
+			if (incomingFace != EnumFacing.UP && pipe.canFit(stack, pipePos.offset(EnumFacing.UP), EnumFacing.DOWN))
 				return EnumFacing.UP;
 
 			return null;

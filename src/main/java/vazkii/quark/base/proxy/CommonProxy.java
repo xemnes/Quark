@@ -55,7 +55,7 @@ public class CommonProxy {
 	public void serverStarting(FMLServerStartingEvent event) {
 		ModuleLoader.serverStarting(event);
 		
-		if(GlobalConfig.enableConfigCommand)
+		if (GlobalConfig.enableConfigCommand)
 			event.registerServerCommand(new CommandConfig());
 	}
 

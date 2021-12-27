@@ -14,7 +14,7 @@ public class CustomEmoteDescriptor extends EmoteDescriptor {
 	
 	public static ResourceLocation getSprite(String name) {
 		ResourceLocation customRes = new ResourceLocation(EmoteHandler.CUSTOM_EMOTE_NAMESPACE, name);
-		if(EmoteSystem.resourcePack.hasResourceName(customRes.toString()))
+		if (EmoteSystem.resourcePack.hasResourceName(customRes.toString()))
 			return customRes;
 		
 		return new ResourceLocation("quark", "textures/emotes/custom.png");

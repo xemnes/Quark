@@ -26,7 +26,7 @@ public final class ColoredLightSystem {
 		mc.gameSettings.ambientOcclusion = 0;
 
 		World world = mc.world;
-		if(world == null) {
+		if (world == null) {
 			lightSources.clear();
 			currentSources.clear();
 		}
@@ -42,15 +42,15 @@ public final class ColoredLightSystem {
 		addR = addG = addB = 0;
 		
 		int time = ClientTicker.ticksInGame;
-		if(time != lastFrame)
+		if (time != lastFrame)
 			prepareFrame();
 		lastFrame = time;
 		
-		for(LightSource src : currentSources) {
+		for (LightSource src : currentSources) {
 			BlockPos srcPos = src.pos;
 			IBlockState srcState = world.getBlockState(srcPos);
 			Block srcBlock = srcState.getBlock();
-			if(!(srcBlock instanceof IColoredLightSource))
+			if (!(srcBlock instanceof IColoredLightSource))
 				continue;
 			
 			int srcLight = srcState.getLightValue(world, srcPos);
@@ -58,12 +58,12 @@ public final class ColoredLightSystem {
 
 			int incidence = src.getIncidence(pos);
 			
-			if(incidence > 0) {
+			if (incidence > 0) {
 				float incidenceF = incidence / 15F;
 				float localBrightness = brightness * incidenceF;
 				
 				float[] colors = ((IColoredLightSource) srcBlock).getColoredLight(world, srcPos);
-				if(colors.length != 3)
+				if (colors.length != 3)
 					colors = new float[] { 1F, 1F, 1F };
 				
 				maxBrightness = Math.max(maxBrightness, localBrightness);
@@ -76,7 +76,7 @@ public final class ColoredLightSystem {
 		
 		float strongestColor = Math.max(addR, Math.max(addG, addB));
 		
-		if(maxBrightness > 0 && strongestColor > 0) {
+		if (maxBrightness > 0 && strongestColor > 0) {
 			float lower = 1F - maxBrightness;
 			addR /= strongestColor;
 			addG /= strongestColor;
@@ -93,20 +93,20 @@ public final class ColoredLightSystem {
 	}
 	
 	private static void prepareFrame() {
-		for(LightSource src : currentSources)
+		for (LightSource src : currentSources)
 			src.newFrame();
 	}
 	
 	public static void addLightSource(IBlockAccess access, BlockPos pos, IBlockState state) {
-		if(!(access instanceof World))
+		if (!(access instanceof World))
 			return;
 		
 		World world = (World) access;
 		ListIterator<LightSource> iterator = lightSources.listIterator();
-		while(iterator.hasNext()) {
+		while (iterator.hasNext()) {
 			LightSource src = iterator.next();
-			if(src.pos.equals(pos)) {
-				if(!src.isValid(world))
+			if (src.pos.equals(pos)) {
+				if (!src.isValid(world))
 					iterator.remove();
 				else return;
 			}

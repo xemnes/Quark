@@ -28,16 +28,16 @@ public class ItemBlackAshBlock extends ItemModBlock implements IQuarkItem {
 		IBlockState state = worldIn.getBlockState(pos);
 		Block block = state.getBlock();
 
-		if(!block.isReplaceable(worldIn, pos))
+		if (!block.isReplaceable(worldIn, pos))
 			pos = pos.offset(facing);
 
 		ItemStack itemstack = player.getHeldItem(hand);
 
-		if(!itemstack.isEmpty() && player.canPlayerEdit(pos, facing, itemstack) && worldIn.mayPlace(this.block, pos, false, facing, null)) {
+		if (!itemstack.isEmpty() && player.canPlayerEdit(pos, facing, itemstack) && worldIn.mayPlace(this.block, pos, false, facing, null)) {
 			int i = this.getMetadata(itemstack.getMetadata());
 			IBlockState placeState = this.block.getStateForPlacement(worldIn, pos, facing, hitX, hitY, hitZ, i, player, hand);
 
-			if(placeBlockAt(itemstack, player, worldIn, pos, facing, hitX, hitY, hitZ, placeState))
+			if (placeBlockAt(itemstack, player, worldIn, pos, facing, hitX, hitY, hitZ, placeState))
 				itemstack.shrink(1);
 
 			return EnumActionResult.SUCCESS;

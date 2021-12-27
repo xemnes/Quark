@@ -51,9 +51,9 @@ public class StairsMakeMore extends Feature {
 	
 	@Override
 	public void postPreInit() {
-		if(enableSlabToStair)
+		if (enableSlabToStair)
 			slabMultiRecipe = new MultiRecipe(new ResourceLocation("quark", "slabs_to_stairs"));
-		if(reversionRecipe)
+		if (reversionRecipe)
 			returnMultiRecipe = new MultiRecipe(new ResourceLocation("quark", "stairs_to_blocks"));
 	}
 
@@ -61,17 +61,17 @@ public class StairsMakeMore extends Feature {
 		ItemStack outStack = ItemStack.EMPTY;
 		int inputItems = 0;
 
-		for(Ingredient ingredient : ingredients) {
+		for (Ingredient ingredient : ingredients) {
 			ItemStack recipeItem = ItemStack.EMPTY;
 			ItemStack[] matches = ingredient.getMatchingStacks();
-			if(matches.length > 0)
+			if (matches.length > 0)
 				recipeItem = matches[0];
 
-			if(recipeItem != null && !recipeItem.isEmpty()) {
-				if(outStack.isEmpty())
+			if (recipeItem != null && !recipeItem.isEmpty()) {
+				if (outStack.isEmpty())
 					outStack = recipeItem;
 
-				if(ItemStack.areItemsEqual(outStack, recipeItem))
+				if (ItemStack.areItemsEqual(outStack, recipeItem))
 					inputItems++;
 				else {
 					outStack = ItemStack.EMPTY;
@@ -90,37 +90,37 @@ public class StairsMakeMore extends Feature {
 	@SuppressWarnings("deprecation")
 	public void postInit() {
 		List<ResourceLocation> recipeList = new ArrayList<>(CraftingManager.REGISTRY.getKeys());
-		for(ResourceLocation res : recipeList) {
+		for (ResourceLocation res : recipeList) {
 			IRecipe recipe = Objects.requireNonNull(CraftingManager.REGISTRY.getObject(res));
 			ItemStack output = recipe.getRecipeOutput();
-			if(!output.isEmpty() && output.getCount() == originalSize) {
+			if (!output.isEmpty() && output.getCount() == originalSize) {
 				Item outputItem = output.getItem();
 				Block outputBlock = Block.getBlockFromItem(outputItem);
-				if(outputBlock instanceof BlockStairs) {
+				if (outputBlock instanceof BlockStairs) {
 					output.setCount(targetSize);
 
-					if(recipe instanceof ShapedRecipes || recipe instanceof ShapedOreRecipe) {
+					if (recipe instanceof ShapedRecipes || recipe instanceof ShapedOreRecipe) {
 						NonNullList<Ingredient> recipeItems;
-						if(recipe instanceof ShapedRecipes)
+						if (recipe instanceof ShapedRecipes)
 							recipeItems = ((ShapedRecipes) recipe).recipeItems;
 						else recipeItems = recipe.getIngredients();
 
 						ItemStack outStack = findResult(recipeItems, 6);
 
-						if(!outStack.isEmpty()) {
+						if (!outStack.isEmpty()) {
 							ItemStack outCopy = outStack.copy();
-							if(outCopy.getItemDamage() == OreDictionary.WILDCARD_VALUE)
+							if (outCopy.getItemDamage() == OreDictionary.WILDCARD_VALUE)
 								outCopy.setItemDamage(0);
 
 							outCopy.setCount(24 / targetSize);
 							ItemStack in = output.copy();
 							in.setCount(1);
-							if(in.getItem() instanceof ItemBlock && outCopy.getItem() instanceof ItemBlock) {
+							if (in.getItem() instanceof ItemBlock && outCopy.getItem() instanceof ItemBlock) {
 								Block block = Block.getBlockFromItem(outCopy.getItem());
 								stairs.put(block.getStateFromMeta(outCopy.getItemDamage()), in);
 							}
 							
-							if(reversionRecipe)
+							if (reversionRecipe)
 								RecipeHandler.addShapelessOreDictRecipe(returnMultiRecipe, outCopy, in, in, in, in);
 						}
 					}
@@ -131,11 +131,11 @@ public class StairsMakeMore extends Feature {
 	
 	@Override
 	public void finalInit() {
-		if(enableSlabToStair && !stairs.isEmpty() && !SlabsToBlocks.slabs.isEmpty())
-			for(IBlockState state : stairs.keySet()) 			
-				if(SlabsToBlocks.slabs.containsKey(state)) {
+		if (enableSlabToStair && !stairs.isEmpty() && !SlabsToBlocks.slabs.isEmpty())
+			for (IBlockState state : stairs.keySet()) 			
+				if (SlabsToBlocks.slabs.containsKey(state)) {
 					ItemStack stair = stairs.get(state).copy();
-					if(!stair.isEmpty()) {
+					if (!stair.isEmpty()) {
 						stair.setCount(targetSize / 2);
 						ItemStack slab = SlabsToBlocks.slabs.get(state);
 						

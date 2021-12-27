@@ -45,7 +45,7 @@ public class RenderTotemOfHolding extends Render<EntityTotemOfHolding> {
 	
 	@Override
 	protected boolean canRenderName(EntityTotemOfHolding entity) {
-		if(entity.hasCustomName()) {
+		if (entity.hasCustomName()) {
 			Minecraft mc = Minecraft.getMinecraft();
 			return !mc.gameSettings.hideGUI && mc.objectMouseOver != null && mc.objectMouseOver.typeOfHit == Type.ENTITY && mc.objectMouseOver.entityHit == entity;
 		}

@@ -39,9 +39,9 @@ public class QuarkJeiPlugin implements IModPlugin {
 		@Override
 		@Nonnull
 		public Collection<Rectangle> getGuiExtraAreas() {
-			if(ModuleLoader.isFeatureEnabled(DeleteItems.class)) {
+			if (ModuleLoader.isFeatureEnabled(DeleteItems.class)) {
 				GuiButtonTrash trash = DeleteItems.getTrash();
-				if(trash != null) {
+				if (trash != null) {
 					Rectangle trashArea = new Rectangle(trash.x, trash.y, trash.width, trash.height);
 					return Collections.singleton(trashArea);
 				}

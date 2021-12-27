@@ -38,14 +38,14 @@ public class ColoredLights extends Feature {
 	}
 	
 	public static void putColorsFlat(IBlockAccess world, IBlockState state, BlockPos pos, BufferBuilder buffer, BakedQuad quad, int lightColor) {
-		if(!enabled)
+		if (!enabled)
 			return;
 		
 		BlockTinter.tintBlockFlat(world, state, pos, buffer, quad, lightColor);
 	}
 	
 	public static void addLightSource(IBlockAccess access, BlockPos pos, IBlockState state) {
-		if(enabled)
+		if (enabled)
 			ColoredLightSystem.addLightSource(access, pos, state);
 	}
 
@@ -62,7 +62,7 @@ public class ColoredLights extends Feature {
 	@SubscribeEvent
 	public void preRenderTick(RenderTickEvent event) {
 		Minecraft mc = Minecraft.getMinecraft();
-		if(event.phase != Phase.START)
+		if (event.phase != Phase.START)
 			return;
 		
 		ColoredLightSystem.tick(mc);

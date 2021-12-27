@@ -47,7 +47,7 @@ public class EnchantedBooksShowItems extends Feature {
 
 		testItemLocations.clear();
 		testItems.clear();
-		for(String s : testItemsArr) {
+		for (String s : testItemsArr) {
 			Matcher match = RL_MATCHER.matcher(s);
 			if (match.matches()) {
 				String metaGroup = match.group(2);
@@ -69,26 +69,26 @@ public class EnchantedBooksShowItems extends Feature {
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void makeTooltip(ItemTooltipEvent event) {
-		if(Minecraft.getMinecraft().player == null)
+		if (Minecraft.getMinecraft().player == null)
 			return;
 
 		ItemStack stack = event.getItemStack();
-		if(stack.getItem() == Items.ENCHANTED_BOOK || stack.getItem() == AncientTomes.ancient_tome) {
+		if (stack.getItem() == Items.ENCHANTED_BOOK || stack.getItem() == AncientTomes.ancient_tome) {
 			Minecraft mc = Minecraft.getMinecraft();
 			List<String> tooltip = event.getToolTip();
 			int tooltipIndex = 0;
 
 			List<EnchantmentData> enchants = getEnchantedBookEnchantments(stack);
-			for(EnchantmentData ed : enchants) {
+			for (EnchantmentData ed : enchants) {
 				String match = ed.enchantment.getTranslatedName(ed.enchantmentLevel);
 
-				for(; tooltipIndex < tooltip.size(); tooltipIndex++)
-					if(tooltip.get(tooltipIndex).equals(match)) {
+				for (; tooltipIndex < tooltip.size(); tooltipIndex++)
+					if (tooltip.get(tooltipIndex).equals(match)) {
 						List<ItemStack> items = getItemsForEnchantment(ed.enchantment);
-						if(!items.isEmpty()) {
+						if (!items.isEmpty()) {
 							int len = 3 + items.size() * 9;
 							String spaces = "";
-							while(mc.fontRenderer.getStringWidth(spaces) < len)
+							while (mc.fontRenderer.getStringWidth(spaces) < len)
 								spaces += " ";
 
 							tooltip.add(tooltipIndex + 1, spaces);
@@ -105,7 +105,7 @@ public class EnchantedBooksShowItems extends Feature {
 	public void renderTooltip(RenderTooltipEvent.PostText event) {
 		ItemStack stack = event.getStack();
 
-		if(stack.getItem() == Items.ENCHANTED_BOOK || stack.getItem() == AncientTomes.ancient_tome) {
+		if (stack.getItem() == Items.ENCHANTED_BOOK || stack.getItem() == AncientTomes.ancient_tome) {
 			Minecraft mc = Minecraft.getMinecraft();
 			List<String> tooltip = event.getLines();
 
@@ -114,15 +114,15 @@ public class EnchantedBooksShowItems extends Feature {
 			GlStateManager.scale(0.5, 0.5, 1.0);
 
 			List<EnchantmentData> enchants = getEnchantedBookEnchantments(stack);
-			for(EnchantmentData ed : enchants) {
+			for (EnchantmentData ed : enchants) {
 				String match = TextFormatting.getTextWithoutFormattingCodes(ed.enchantment.getTranslatedName(ed.enchantmentLevel));
-				for(int tooltipIndex = 0; tooltipIndex < tooltip.size(); tooltipIndex++) {
+				for (int tooltipIndex = 0; tooltipIndex < tooltip.size(); tooltipIndex++) {
 					String line = TextFormatting.getTextWithoutFormattingCodes(tooltip.get(tooltipIndex));
-					if(line != null && line.equals(match)) {
+					if (line != null && line.equals(match)) {
 						int drawn = 0;
 
 						List<ItemStack> items = getItemsForEnchantment(ed.enchantment);
-						for(ItemStack testStack : items) {
+						for (ItemStack testStack : items) {
 							mc.getRenderItem().renderItemIntoGUI(testStack, 6 + drawn * 18, tooltipIndex * 20 - 2);
 							drawn++;
 						}
@@ -150,12 +150,12 @@ public class EnchantedBooksShowItems extends Feature {
 			}
 		}
 
-		for(ItemStack stack : testItems) {
+		for (ItemStack stack : testItems) {
 			if (e.canApply(stack))
 				list.add(stack);
 		}
 
-		if(getAdditionalStacks().containsKey(e))
+		if (getAdditionalStacks().containsKey(e))
 			list.addAll(getAdditionalStacks().get(e));
 
 		return list;
@@ -166,7 +166,7 @@ public class EnchantedBooksShowItems extends Feature {
 
 		List<EnchantmentData> retList = new ArrayList<>(enchantments.size());
 
-		for(Enchantment enchantment : enchantments.keySet()) {
+		for (Enchantment enchantment : enchantments.keySet()) {
 			if (enchantment != null) {
 				int level = enchantments.get(enchantment);
 				retList.add(new EnchantmentData(enchantment, level));
@@ -185,8 +185,8 @@ public class EnchantedBooksShowItems extends Feature {
 	private static void computeAdditionalStacks() {
 		additionalStacks = HashMultimap.create();
 
-		for(String s : additionalStacksArr) {
-			if(!s.contains("="))
+		for (String s : additionalStacksArr) {
+			if (!s.contains("="))
 				continue;
 
 			String[] tokens = s.split("=");
@@ -194,12 +194,12 @@ public class EnchantedBooksShowItems extends Feature {
 			String right = tokens[1];
 
 			Enchantment ench = Enchantment.REGISTRY.getObject(new ResourceLocation(left));
-			if(ench != null) {
+			if (ench != null) {
 				tokens = right.split(",");
 
-				for(String itemId : tokens) {
+				for (String itemId : tokens) {
 					Item item = Item.REGISTRY.getObject(new ResourceLocation(itemId));
-					if(item != null)
+					if (item != null)
 						additionalStacks.put(ench, new ItemStack(item));
 				}
 			}

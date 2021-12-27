@@ -38,15 +38,15 @@ public class ElytraDyeingRecipe extends ModRecipe {
 		boolean foundSource = false;
 		boolean foundTarget = false;
 
-		for(int i = 0; i < inv.getSizeInventory(); i++) {
+		for (int i = 0; i < inv.getSizeInventory(); i++) {
 			ItemStack stack = inv.getStackInSlot(i);
-			if(!stack.isEmpty()) {
-				if(stack.getItem() instanceof ItemElytra) {
-					if(foundTarget)
+			if (!stack.isEmpty()) {
+				if (stack.getItem() instanceof ItemElytra) {
+					if (foundTarget)
 						return false;
 					foundTarget = true;
-				} else if(getDye(stack) != -1) {
-					if(foundSource)
+				} else if (getDye(stack) != -1) {
+					if (foundSource)
 						return false;
 					foundSource = true;
 				} else return false;
@@ -62,17 +62,17 @@ public class ElytraDyeingRecipe extends ModRecipe {
 		int source = -1;
 		ItemStack target = ItemStack.EMPTY;
 
-		for(int i = 0; i < inv.getSizeInventory(); i++) {
+		for (int i = 0; i < inv.getSizeInventory(); i++) {
 			ItemStack stack = inv.getStackInSlot(i);
-			if(!stack.isEmpty()) {
+			if (!stack.isEmpty()) {
 				int dye = getDye(stack);
-				if(dye != -1)
+				if (dye != -1)
 					source = dye;
 				else target = stack;
 			}
 		}
 
-		if(!target.isEmpty()) {
+		if (!target.isEmpty()) {
 			ItemStack copy = target.copy();
 			ItemNBTHelper.setInt(copy, DyableElytra.TAG_ELYTRA_DYE, source);
 			return copy;
@@ -82,7 +82,7 @@ public class ElytraDyeingRecipe extends ModRecipe {
 	}
 	
 	private int getDye(ItemStack stack) {
-		if(stack.getItem() instanceof ItemDye)
+		if (stack.getItem() instanceof ItemDye)
 			return stack.getItemDamage();
 		
 		int[] ids = OreDictionary.getOreIDs(stack);
@@ -119,7 +119,7 @@ public class ElytraDyeingRecipe extends ModRecipe {
 		list.set(0, Ingredient.fromStacks(new ItemStack(Items.ELYTRA)));
 		
 		ItemStack[] stacks = new ItemStack[16];
-		for(int i = 0; i < 16; i++)
+		for (int i = 0; i < 16; i++)
 			stacks[i] = new ItemStack(Items.DYE, 1, i);
 		list.set(1, Ingredient.fromStacks(stacks));
 		return list;

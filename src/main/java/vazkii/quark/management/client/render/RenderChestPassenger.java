@@ -25,7 +25,7 @@ public class RenderChestPassenger extends Render<EntityChestPassenger> {
 	public void doRender(@Nonnull EntityChestPassenger entity, double x, double y, double z, float entityYaw, float partialTicks) {
 		super.doRender(entity, x, y, z, entityYaw, partialTicks);
 
-		if(!entity.isRiding())
+		if (!entity.isRiding())
 			return;
 
 		Entity riding = entity.getRidingEntity();
@@ -51,7 +51,7 @@ public class RenderChestPassenger extends Render<EntityChestPassenger> {
 			GlStateManager.rotate(MathHelper.sin(timeSinceHit) * timeSinceHit * damageTaken / 10.0F * boat.getForwardDirection(), 1.0F, 0.0F, 0.0F);
 
 		GlStateManager.translate(0F, 0.7F - 0.375F, -0.15F);
-		if(boat.getPassengers().size() == 1)
+		if (boat.getPassengers().size() == 1)
 			GlStateManager.translate(0F, 0F, 0.6F);	
 		
 		GlStateManager.scale(1.75F, 1.75F, 1.75F);

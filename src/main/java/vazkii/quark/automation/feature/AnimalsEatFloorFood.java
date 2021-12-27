@@ -26,9 +26,9 @@ public class AnimalsEatFloorFood extends Feature {
 
 	@SubscribeEvent
 	public void onEntityTick(LivingEvent.LivingUpdateEvent event) {
-		if(event.getEntityLiving() instanceof EntityAnimal && event.getEntityLiving().world instanceof WorldServer) {
+		if (event.getEntityLiving() instanceof EntityAnimal && event.getEntityLiving().world instanceof WorldServer) {
 			EntityAnimal animal = (EntityAnimal) event.getEntityLiving();
-			if(animal.getGrowingAge() == 0 && animal.ticksExisted % 20 == 0 && !animal.isInLove() && !animal.isDead) {
+			if (animal.getGrowingAge() == 0 && animal.ticksExisted % 20 == 0 && !animal.isInLove() && !animal.isDead) {
 				double range = 2;
 
 
@@ -52,7 +52,7 @@ public class AnimalsEatFloorFood extends Feature {
 				List<EntityItem> nearbyFood = animal.getEntityWorld().getEntitiesWithinAABB(EntityItem.class, animal.getEntityBoundingBox().expand(range, 0, range),
 						(EntityItem i) -> i != null && !i.getItem().isEmpty() && !i.isDead && animal.isBreedingItem(i.getItem()) && i.getItem().getItem() != Items.ROTTEN_FLESH);
 				
-				if(!nearbyFood.isEmpty()) {
+				if (!nearbyFood.isEmpty()) {
 					nearbyFood.sort(Comparator.comparingDouble(ent -> ent.getDistanceSq(animal)));
 					EntityItem e = nearbyFood.get(0);
 					
@@ -60,7 +60,7 @@ public class AnimalsEatFloorFood extends Feature {
 					ItemStack original = stack.copy();
 					stack.shrink(1);
 					e.setItem(stack);
-					if(stack.isEmpty())
+					if (stack.isEmpty())
 						e.setDead();
 
 					if (animal instanceof EntityWolf &&

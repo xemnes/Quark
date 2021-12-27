@@ -48,7 +48,7 @@ public class Pipes extends Feature {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void preInitClient() {
-		if(enableRender)
+		if (enableRender)
 			ClientRegistry.bindTileEntitySpecialRenderer(TilePipe.class, new RenderTilePipe());
 	}
 	

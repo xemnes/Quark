@@ -19,9 +19,9 @@ public class ArmedArmorStands extends Feature {
 
 	@SubscribeEvent
 	public void entityConstruct(EntityEvent.EntityConstructing event) {
-		if(event.getEntity() instanceof EntityArmorStand) {
+		if (event.getEntity() instanceof EntityArmorStand) {
 			EntityArmorStand stand = (EntityArmorStand) event.getEntity();
-			if(!stand.getShowArms())
+			if (!stand.getShowArms())
 				setShowArms(stand, true);
 		}
 	}

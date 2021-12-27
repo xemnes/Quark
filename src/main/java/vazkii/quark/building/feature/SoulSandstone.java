@@ -46,7 +46,7 @@ public class SoulSandstone extends Feature {
 				"S", "S",
 				'S', ProxyRegistry.newStack(halfSlab, 1, 0));
 		
-		if(enableStairs)
+		if (enableStairs)
 			BlockModStairs.initStairs(soul_sandstone, 0, new BlockSoulSandstoneStairs());
 		
 		VanillaWalls.add("soul_sandstone", soul_sandstone, 0, enableWalls);

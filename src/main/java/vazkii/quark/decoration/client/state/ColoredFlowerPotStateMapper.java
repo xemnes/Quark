@@ -23,7 +23,7 @@ public class ColoredFlowerPotStateMapper extends StateMapperBase {
 
 		assert loc != null;
 
-		if(state.getValue(BlockCustomFlowerPot.CUSTOM))
+		if (state.getValue(BlockCustomFlowerPot.CUSTOM))
 			return new ModelResourceLocation(loc, "contents=custom");
 
 		LinkedHashMap<IProperty<?>, Comparable<?>> map = Maps.newLinkedHashMap(state.getProperties());

@@ -111,18 +111,18 @@ public class RevampStoneGen extends Feature {
 		jasper = makeStone(BlockJasper.class, "jasper", jasperInfo, enableJasper);
 		slate = makeStone(BlockSlate.class, "slate", slateInfo, enableSlate);
 		
-		if(outputCSV)
+		if (outputCSV)
 			BiomeTypeConfigHandler.debugStoneGeneration(generators);
 	}
     
 	private BlockMod makeStone(Class<? extends BlockMod> clazz, String name, StoneInfo info, boolean enable) {
-		if(!enable)
+		if (!enable)
 			return null;
 		
 		try {
 			BlockMod block = clazz.newInstance();
 			
-			if(enableStairsAndSlabs) {
+			if (enableStairsAndSlabs) {
 				BlockBasicStoneSlab.initSlab(block, 0, "stone_" + name + "_slab");
 				BlockModStairs.initStairs(block, 0, new BlockQuarkStairs("stone_" + name + "_stairs", block.getDefaultState()));
 			}
@@ -152,23 +152,23 @@ public class RevampStoneGen extends Feature {
 
 	@Override
 	public void init() {
-		while(!deferedInit.isEmpty())
+		while (!deferedInit.isEmpty())
 			deferedInit.poll().run();
 	}
 
 	@SubscribeEvent
 	public void onOreGenerate(OreGenEvent.GenerateMinable event) {
-		switch(event.getType()) {
+		switch (event.getType()) {
 		case GRANITE:
-			if(graniteInfo.enabled)
+			if (graniteInfo.enabled)
 				event.setResult(Result.DENY);
 			break;
 		case DIORITE:
-			if(dioriteInfo.enabled)
+			if (dioriteInfo.enabled)
 				event.setResult(Result.DENY);
 			break;
 		case ANDESITE:
-			if(andesiteInfo.enabled)
+			if (andesiteInfo.enabled)
 				event.setResult(Result.DENY);
 			break;
 		case DIRT:
@@ -183,7 +183,7 @@ public class RevampStoneGen extends Feature {
 		BlockPos pos = event.getPos();
 		Chunk chunk = world.getChunk(pos);
 		
-		for(StoneInfoBasedGenerator gen : generators)
+		for (StoneInfoBasedGenerator gen : generators)
 			gen.generate(chunk.x, chunk.z, world);
 	}
 	

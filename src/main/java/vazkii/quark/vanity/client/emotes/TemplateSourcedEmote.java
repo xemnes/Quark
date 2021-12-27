@@ -14,7 +14,7 @@ public class TemplateSourcedEmote extends EmoteBase {
 	public TemplateSourcedEmote(EmoteDescriptor desc, EntityPlayer player, ModelBiped model, ModelBiped armorModel, ModelBiped armorLegsModel) {
 		super(desc, player, model, armorModel, armorLegsModel);
 
-		if(shouldLoadTimelineOnLaunch()) {
+		if (shouldLoadTimelineOnLaunch()) {
 			Quark.LOG.debug("Loading emote " + desc.getTranslationKey());
 			desc.template.readAndMakeTimeline(desc, player, model);
 		}

@@ -44,12 +44,12 @@ public class BlackAsh extends Feature {
 	public void onDrops(LivingDropsEvent event) {
 		Entity e = event.getEntity();
 
-		if(e instanceof EntityWitherSkeleton) {
-			if(removeCoalDrops)
+		if (e instanceof EntityWitherSkeleton) {
+			if (removeCoalDrops)
 				event.getDrops().removeIf((ei) -> ei.getItem().getItem() == Items.COAL);
 			
 			addDrop(event.getDrops(), e, witherSkeletonMin, witherSkeletonMax);
-		} else if(e instanceof EntityWither)
+		} else if (e instanceof EntityWither)
 			addDrop(event.getDrops(), e, witherMin, witherMax);
 	}
 	
@@ -59,13 +59,13 @@ public class BlackAsh extends Feature {
 		World world = event.getWorld();
 		BlockPos pos = e.getPosition();
 		
-		if(world.getBlockState(pos).getBlock() == black_ash || world.getBlockState(pos.down(2)).getBlock() == black_ash)
+		if (world.getBlockState(pos).getBlock() == black_ash || world.getBlockState(pos.down(2)).getBlock() == black_ash)
 			event.setResult(Result.DENY);
 	}
 	
 	private void addDrop(List<EntityItem> drops, Entity e, int min, int max) {
 		int amount = e.world.rand.nextInt(Math.abs(max - min) + 1) + Math.min(min, max);
-		if(amount > 0) 
+		if (amount > 0) 
 			drops.add(new EntityItem(e.world, e.posX, e.posY, e.posZ, new ItemStack(black_ash, amount)));
 	}
 	

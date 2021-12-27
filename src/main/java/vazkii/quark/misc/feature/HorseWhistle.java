@@ -50,10 +50,10 @@ public class HorseWhistle extends Feature {
 
 	@SubscribeEvent
 	public void onEntityTick(LivingEvent.LivingUpdateEvent event) {
-		if(event.getEntity() instanceof AbstractHorse) {
+		if (event.getEntity() instanceof AbstractHorse) {
 			AbstractHorse horse = (AbstractHorse) event.getEntity();
-			for(EntityAITasks.EntityAITaskEntry task : horse.tasks.taskEntries)
-				if(task.action instanceof EntityAIHorseFollow)
+			for (EntityAITasks.EntityAITaskEntry task : horse.tasks.taskEntries)
+				if (task.action instanceof EntityAIHorseFollow)
 					return;
 
 			horse.tasks.addTask(1, new EntityAIHorseFollow(horse, 2.0));

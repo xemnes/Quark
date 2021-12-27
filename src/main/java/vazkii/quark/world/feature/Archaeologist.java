@@ -68,7 +68,7 @@ public class Archaeologist extends Feature {
 
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
-		if(enableHat)
+		if (enableHat)
 			archaeologist_hat = new ItemArchaeologistHat();
 		
 		String archaeologistName = "quark:archaeologist";
@@ -101,17 +101,17 @@ public class Archaeologist extends Feature {
 	
 	@SubscribeEvent
 	public void onDrops(HarvestDropsEvent event) {
-		if(enableHat && hatIncreasesOreYield) {
+		if (enableHat && hatIncreasesOreYield) {
 			EntityPlayer player = event.getHarvester();
-			if(player == null)
+			if (player == null)
 				return;
 			
 			ItemStack hat = player.getItemStackFromSlot(EntityEquipmentSlot.HEAD);
-			if(hat.getItem() == archaeologist_hat) {
+			if (hat.getItem() == archaeologist_hat) {
 				List<ItemStack> drops = event.getDrops();
-				if(drops.size() == 1) {
+				if (drops.size() == 1) {
 					ItemStack drop = drops.get(0);
-					if(!drop.isEmpty() && !(drop.getItem() instanceof ItemBlock) && drop.getCount() < drop.getMaxStackSize()) {
+					if (!drop.isEmpty() && !(drop.getItem() instanceof ItemBlock) && drop.getCount() < drop.getMaxStackSize()) {
 						IBlockState state = event.getState();
 						Block block = state.getBlock();
 						ItemStack stack = new ItemStack(block);

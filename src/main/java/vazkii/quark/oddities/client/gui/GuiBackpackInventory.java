@@ -34,8 +34,8 @@ public class GuiBackpackInventory extends GuiInventory {
 		ySize = 224;
 		super.initGui();
 		
-		for(GuiButton button : buttonList)
-			if(button.id == 10) {
+		for (GuiButton button : buttonList)
+			if (button.id == 10) {
 				button.y -= 29;
 				
 				recipeButton = button;
@@ -49,7 +49,7 @@ public class GuiBackpackInventory extends GuiInventory {
 		
 		recipeButton.y = recipeButtonY;
 		
-		if(!Backpacks.isEntityWearingBackpack(player)) {
+		if (!Backpacks.isEntityWearingBackpack(player)) {
 			ItemStack curr = player.inventory.getItemStack();
 			ContainerBackpack.saveCraftingInventory(player);
 			closeHack = true;
@@ -61,7 +61,7 @@ public class GuiBackpackInventory extends GuiInventory {
 	
 	@Override
 	public void onGuiClosed() {
-		if(closeHack) {
+		if (closeHack) {
 			closeHack = false;
 			return;
 		}

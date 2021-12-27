@@ -9,11 +9,13 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IMerchant;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Enchantments;
 import net.minecraft.init.Items;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.village.MerchantRecipe;
@@ -21,6 +23,7 @@ import net.minecraft.village.MerchantRecipeList;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
@@ -61,7 +64,7 @@ public class Backpacks extends Feature {
 	public void preInit(FMLPreInitializationEvent event) {
 		backpack = new ItemBackpack();
 		
-		if(enableCrafting)
+		if (enableCrafting)
 			RecipeHandler.addOreDictRecipe(new ItemStack(backpack),
 					"LLL", 
 					"LCL", 
@@ -74,7 +77,7 @@ public class Backpacks extends Feature {
 	
 	@SubscribeEvent
 	public void onRegisterVillagers(RegistryEvent.Register<VillagerProfession> event) {
-		if(!enableTrades)
+		if (!enableTrades)
 			return;
 		
 		VillagerProfession butcher = event.getRegistry().getValue(new ResourceLocation("minecraft:butcher"));
@@ -89,7 +92,7 @@ public class Backpacks extends Feature {
 	@SideOnly(Side.CLIENT)
 	public void onOpenGUI(GuiOpenEvent event) {
 		EntityPlayer player = Minecraft.getMinecraft().player;
-		if(player != null && isInventoryGUI(event.getGui()) && !player.isCreative() && isEntityWearingBackpack(player)) {
+		if (player != null && isInventoryGUI(event.getGui()) && !player.isCreative() && isEntityWearingBackpack(player)) {
 			requestBackpack();
 			event.setCanceled(true);
 		}
@@ -99,10 +102,10 @@ public class Backpacks extends Feature {
 	@SideOnly(Side.CLIENT)
 	public void clientTick(ClientTickEvent event) {
 		Minecraft mc = Minecraft.getMinecraft();
-		if(isInventoryGUI(mc.currentScreen) && !backpackRequested && isEntityWearingBackpack(mc.player)) {
+		if (isInventoryGUI(mc.currentScreen) && !backpackRequested && isEntityWearingBackpack(mc.player)) {
 			requestBackpack();
 			backpackRequested = true;
-		} else if(mc.currentScreen instanceof GuiBackpackInventory)
+		} else if (mc.currentScreen instanceof GuiBackpackInventory)
 			backpackRequested = false;
 	}
 	
@@ -113,9 +116,9 @@ public class Backpacks extends Feature {
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void removeCurseTooltip(ItemTooltipEvent event) {
-		if(!superOpMode && event.getItemStack().getItem() instanceof ItemBackpack)
-			for(String s : event.getToolTip())
-				if(s.equals(Enchantments.BINDING_CURSE.getTranslatedName(1))) {
+		if (!superOpMode && event.getItemStack().getItem() instanceof ItemBackpack)
+			for (String s : event.getToolTip())
+				if (s.equals(Enchantments.BINDING_CURSE.getTranslatedName(1))) {
 					event.getToolTip().remove(s);
 					return;
 				}
@@ -127,18 +130,34 @@ public class Backpacks extends Feature {
 	}
 	
 	public static boolean isEntityWearingBackpack(Entity e) {
-		if(e instanceof EntityPlayer) {
-			EntityPlayer player = (EntityPlayer) e;
-			return BaublesApi.isBaubleEquipped(player, backpack) == 5;
+		if (Loader.isModLoaded("baubles")) {
+			if (e instanceof EntityPlayer) {
+				EntityPlayer player = (EntityPlayer) e;
+				return BaublesApi.isBaubleEquipped(player, backpack) == 5;
+			}
+		} else {
+			if (e instanceof EntityLivingBase) {
+				EntityLivingBase living = (EntityLivingBase) e;
+				ItemStack chestArmor = living.getItemStackFromSlot(EntityEquipmentSlot.CHEST);
+				return chestArmor.getItem() instanceof ItemBackpack;
+			}
 		}
 		
 		return false;
 	}
 	
 	public static boolean isEntityWearingBackpack(Entity e, ItemStack stack) {
-		if(e instanceof EntityPlayer) {
-			EntityPlayer player = (EntityPlayer) e;
-			return BaublesApi.isBaubleEquipped(player, stack.getItem()) == 5;
+		if (Loader.isModLoaded("baubles")) {
+			if (e instanceof EntityPlayer) {
+				EntityPlayer player = (EntityPlayer) e;
+				return BaublesApi.isBaubleEquipped(player, stack.getItem()) == 5;
+			}
+		} else {
+			if (e instanceof EntityLivingBase) {
+				EntityLivingBase living = (EntityLivingBase) e;
+				ItemStack chestArmor = living.getItemStackFromSlot(EntityEquipmentSlot.CHEST);
+				return chestArmor == stack;
+			}
 		}
 		
 		return false;

@@ -63,7 +63,7 @@ public class RightClickAddToShulkerBox extends Feature {
 	
 	@SubscribeEvent
 	public void onAttachCapability(AttachCapabilitiesEvent<ItemStack> event) {
-		if(isShulkerBox(event.getObject(), shulkerBoxes, dropoffAnyShulkerBox))
+		if (isShulkerBox(event.getObject(), shulkerBoxes, dropoffAnyShulkerBox))
 			event.addCapability(SHULKER_BOX_CAP, new ShulkerBoxDropIn());
 	}
 	

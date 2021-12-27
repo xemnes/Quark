@@ -21,9 +21,9 @@ public abstract class UndergroundBiome {
 	public double dungeonChance;
 	
 	public static final Predicate<IBlockState> STONE_PREDICATE = state -> {
-		if(state != null) {
+		if (state != null) {
 			Block block = state.getBlock();
-			if(block == Blocks.STONE) {
+			if (block == Blocks.STONE) {
 				BlockStone.EnumType type = state.getValue(BlockStone.VARIANT);
 				return type.isNatural();
 			}
@@ -36,19 +36,19 @@ public abstract class UndergroundBiome {
 
 	public void fill(World world, BlockPos pos, UndergroundBiomeGenerationContext context) {
 		IBlockState state = world.getBlockState(pos);
-		if(state.getBlockHardness(world, pos) == -1 || world.canBlockSeeSky(pos))
+		if (state.getBlockHardness(world, pos) == -1 || world.canBlockSeeSky(pos))
 			return;
 
-		if(isFloor(world, pos, state)) {
+		if (isFloor(world, pos, state)) {
 			context.floorList.add(pos);
 			fillFloor(world, pos, state);
-		} else if(isCeiling(world, pos, state)) {
+		} else if (isCeiling(world, pos, state)) {
 			context.ceilingList.add(pos);
 			fillCeiling(world, pos, state);
-		} else if(isWall(world, pos, state)) {
+		} else if (isWall(world, pos, state)) {
 			context.wallMap.put(pos, getBorderSide(world, pos));
 			fillWall(world, pos, state);
-		} else if(isInside(state)) {
+		} else if (isInside(state)) {
 			context.insideList.add(pos);
 			fillInside(world, pos, state);
 		}
@@ -77,7 +77,7 @@ public abstract class UndergroundBiome {
 	}
 	
 	public final void setupBaseConfig(String category) {
-		if(hasDungeon())
+		if (hasDungeon())
 			dungeonChance = ConfigHelper.loadLegacyPropChance("Dungeon Spawn Percentage Chance", category,
 					"Dungeon Spawn Chance",
 					"The chance that dungeons will spawn any given chunk of the biome. The lower the value, the fewer dungeons will spawn.",
@@ -107,7 +107,7 @@ public abstract class UndergroundBiome {
 	}
 
 	public boolean isFloor(World world, BlockPos pos, IBlockState state) {
-		if(!state.isFullBlock() || !state.isOpaqueCube())
+		if (!state.isFullBlock() || !state.isOpaqueCube())
 			return false;
 
 		BlockPos upPos = pos.up();
@@ -115,7 +115,7 @@ public abstract class UndergroundBiome {
 	}
 
 	public boolean isCeiling(World world, BlockPos pos, IBlockState state) {
-		if(!state.isFullBlock() || !state.isOpaqueCube())
+		if (!state.isFullBlock() || !state.isOpaqueCube())
 			return false;
 
 		BlockPos downPos = pos.down();
@@ -123,7 +123,7 @@ public abstract class UndergroundBiome {
 	}
 
 	public boolean isWall(World world, BlockPos pos, IBlockState state) {
-		if(!state.isFullBlock() || !state.isOpaqueCube() || !STONE_PREDICATE.test(state))
+		if (!state.isFullBlock() || !state.isOpaqueCube() || !STONE_PREDICATE.test(state))
 			return false;
 
 		return isBorder(world, pos);
@@ -131,11 +131,11 @@ public abstract class UndergroundBiome {
 
 	public EnumFacing getBorderSide(World world, BlockPos pos) {
 		IBlockState state = world.getBlockState(pos);
-		for(EnumFacing facing : EnumFacing.HORIZONTALS) {
+		for (EnumFacing facing : EnumFacing.HORIZONTALS) {
 			BlockPos offsetPos = pos.offset(facing);
 			IBlockState stateAt = world.getBlockState(offsetPos);
 			
-			if(state != stateAt && world.isAirBlock(offsetPos) || stateAt.getBlock().isReplaceable(world, offsetPos))
+			if (state != stateAt && world.isAirBlock(offsetPos) || stateAt.getBlock().isReplaceable(world, offsetPos))
 				return facing;
 		}
 
@@ -151,7 +151,7 @@ public abstract class UndergroundBiome {
 	}
 	
 	public static Rotation rotationFromFacing(EnumFacing facing) {
-		switch(facing) {
+		switch (facing) {
 		case SOUTH:
 			return Rotation.CLOCKWISE_180;
 		case WEST:

@@ -78,7 +78,7 @@ public class ExtraPotions extends Feature {
 				+ ",-1,1,0,minecraft:levitation -> Always replace Resistance with Levitation";
 		replacements = loadPropStringList("Beacon Replacements", comment, new String[0]);
 		
-		if(started)
+		if (started)
 			BeaconReplacementHandler.parse(replacements);
 		
 		started = true;
@@ -86,13 +86,13 @@ public class ExtraPotions extends Feature {
 
 	@Override
 	public void postPreInit() {
-		if(enableHaste)
+		if (enableHaste)
 			addStandardBlend(MobEffects.HASTE, Items.PRISMARINE_CRYSTALS, MobEffects.MINING_FATIGUE);
 
-		if(enableResistance)
+		if (enableResistance)
 			addStandardBlend(MobEffects.RESISTANCE, (Biotite.biotite == null || forceQuartzForResistance) ? Items.QUARTZ : Biotite.biotite);
 
-		if(enableDangerSight) {
+		if (enableDangerSight) {
 			dangerSight = new PotionMod("danger_sight", false, 0x08C8E3, LibPotionIndices.DANGER_SIGHT).setBeneficial();
 
 			addStandardBlend(dangerSight, (UndergroundBiomes.glowshroom == null || forceClownfishForDangerSight) ? 
@@ -109,13 +109,13 @@ public class ExtraPotions extends Feature {
 	@SideOnly(Side.CLIENT)
 	public void clientTick(ClientTickEvent event) {
 		Minecraft mc = Minecraft.getMinecraft();
-		if(enableDangerSight && event.phase == Phase.START && mc.player != null && mc.player.getActivePotionEffect(dangerSight) != null && !mc.isGamePaused()) {
+		if (enableDangerSight && event.phase == Phase.START && mc.player != null && mc.player.getActivePotionEffect(dangerSight) != null && !mc.isGamePaused()) {
 			int range = 12;
 			World world = mc.world;
 			Iterable<BlockPos> positions = BlockPos.getAllInBox(mc.player.getPosition().add(-range, -range, -range), mc.player.getPosition().add(range, range, range));
 			
-			for(BlockPos pos : positions)
-				if(world.rand.nextFloat() < 0.1 && canMobsSpawnInPos(world, pos)) {
+			for (BlockPos pos : positions)
+				if (world.rand.nextFloat() < 0.1 && canMobsSpawnInPos(world, pos)) {
 					float x = pos.getX() + 0.3F + world.rand.nextFloat() * 0.4F;
 					float y = pos.getY();
 					float z = pos.getZ() + 0.3F + world.rand.nextFloat() * 0.4F;
@@ -127,11 +127,11 @@ public class ExtraPotions extends Feature {
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void onGuiOpen(GuiOpenEvent event) {
-		if(event.getGui() instanceof GuiBeacon) {
+		if (event.getGui() instanceof GuiBeacon) {
 			Minecraft mc = Minecraft.getMinecraft();
 			TileEntity lookTe = mc.world.getTileEntity(mc.objectMouseOver.getBlockPos());
 			
-			if(lookTe instanceof TileEntityBeacon)
+			if (lookTe instanceof TileEntityBeacon)
 				BeaconReplacementHandler.update((TileEntityBeacon) lookTe);
 		}
 	}
@@ -139,11 +139,11 @@ public class ExtraPotions extends Feature {
 	// Shamelessly stolen from BetterWithMods
 	// https://github.com/BetterWithMods/BetterWithMods/blob/bf630aa1fade156ce8fae0d769ad745a4161b0ba/src/main/java/betterwithmods/event/PotionEventHandler.java
 	private boolean canMobsSpawnInPos(World world, BlockPos pos) {
-		if(world.isSideSolid(pos.down(), EnumFacing.UP) && !world.isBlockNormalCube(pos, false)
+		if (world.isSideSolid(pos.down(), EnumFacing.UP) && !world.isBlockNormalCube(pos, false)
 				&& !world.isBlockNormalCube(pos.up(), false) && !world.getBlockState(pos).getMaterial().isLiquid()) {
 			IBlockState state = world.getBlockState(pos);
 			
-			if(ModuleLoader.isFeatureEnabled(BlackAsh.class) && state.getBlock() == BlackAsh.black_ash || world.getBlockState(pos.down(2)).getBlock() == BlackAsh.black_ash)
+			if (ModuleLoader.isFeatureEnabled(BlackAsh.class) && state.getBlock() == BlackAsh.black_ash || world.getBlockState(pos.down(2)).getBlock() == BlackAsh.black_ash)
 				return false;
 			
 			int lightLevel = world.getLightFor(EnumSkyBlock.BLOCK, pos);

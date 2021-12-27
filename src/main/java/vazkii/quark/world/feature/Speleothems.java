@@ -39,20 +39,20 @@ public class Speleothems extends Feature {
 		andesite_speleothem = new BlockSpeleothem("andesite");
 		netherrack_speleothem = new BlockSpeleothem("netherrack").setNetherrack();
 
-		if(ModuleLoader.isFeatureEnabled(Basalt.class))
+		if (ModuleLoader.isFeatureEnabled(Basalt.class))
 			basalt_speleothem = new BlockSpeleothem("basalt");
 
-		if(ModuleLoader.isFeatureEnabled(RevampStoneGen.class)) {
-			if(RevampStoneGen.enableMarble)
+		if (ModuleLoader.isFeatureEnabled(RevampStoneGen.class)) {
+			if (RevampStoneGen.enableMarble)
 				marble_speleothem = new BlockSpeleothem("marble");
 
-			if(RevampStoneGen.enableLimestone)
+			if (RevampStoneGen.enableLimestone)
 				limestone_speleothem = new BlockSpeleothem("limestone");
 			
-			if(RevampStoneGen.enableJasper)
+			if (RevampStoneGen.enableJasper)
 				jasper_speleothem = new BlockSpeleothem("jasper");
 			
-			if(RevampStoneGen.enableSlate)
+			if (RevampStoneGen.enableSlate)
 				slate_speleothem = new BlockSpeleothem("slate");
 		}
 
@@ -72,23 +72,23 @@ public class Speleothems extends Feature {
 		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(netherrack_speleothem, 6), 
 				"S", "S", "S", 'S', "netherrack");
 
-		if(basalt_speleothem != null)
+		if (basalt_speleothem != null)
 			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(basalt_speleothem, 6), 
 					"S", "S", "S", 'S', "stoneBasalt");
 
-		if(marble_speleothem != null)
+		if (marble_speleothem != null)
 			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(marble_speleothem, 6), 
 					"S", "S", "S", 'S', "stoneMarble");
 
-		if(limestone_speleothem != null)
+		if (limestone_speleothem != null)
 			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(limestone_speleothem, 6), 
 					"S", "S", "S", 'S', "stoneLimestone");
 		
-		if(jasper_speleothem != null)
+		if (jasper_speleothem != null)
 			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(jasper_speleothem, 6), 
 					"S", "S", "S", 'S', "stoneJasper");
 		
-		if(slate_speleothem != null)
+		if (slate_speleothem != null)
 			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(slate_speleothem, 6), 
 					"S", "S", "S", 'S', "stoneSlate");
 	}

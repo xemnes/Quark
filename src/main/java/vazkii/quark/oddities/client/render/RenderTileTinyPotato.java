@@ -62,7 +62,7 @@ public class RenderTileTinyPotato extends TileEntitySpecialRenderer<TileTinyPota
 
 	@Override
 	public void render(@Nonnull TileTinyPotato potato, double x, double y, double z, float partialTicks, int destroyStage, float unused) {
-		if(!potato.getWorld().isBlockLoaded(potato.getPos(), false) || potato.getWorld().getBlockState(potato.getPos()).getBlock() != TinyPotato.tiny_potato)
+		if (!potato.getWorld().isBlockLoaded(potato.getPos(), false) || potato.getWorld().getBlockState(potato.getPos()).getBlock() != TinyPotato.tiny_potato)
 			return;
 
 		IBlockState potatoState = potato.getWorld().getBlockState(potato.getPos());
@@ -121,7 +121,7 @@ public class RenderTileTinyPotato extends TileEntitySpecialRenderer<TileTinyPota
 		GlStateManager.popMatrix();
 
 		int patronTier = ContributorRewardHandler.getTier(name);
-		if(patronTier > 0) {
+		if (patronTier > 0) {
 			GlStateManager.pushMatrix();
 			float s = 1F / 35F;
 			GlStateManager.scale(s, s, s);
@@ -143,14 +143,14 @@ public class RenderTileTinyPotato extends TileEntitySpecialRenderer<TileTinyPota
 
 		EnumFacing potatoFacing = potato.getWorld().getBlockState(potato.getPos()).getValue(BlockTinyPotato.FACING);
 
-		for(int i = 0; i < potato.getSizeInventory(); i++) {
+		for (int i = 0; i < potato.getSizeInventory(); i++) {
 			ItemStack stack = potato.getStackInSlot(i);
-			if(stack.isEmpty())
+			if (stack.isEmpty())
 				continue;
 
 			GlStateManager.pushMatrix();
 			EnumFacing side = EnumFacing.class.getEnumConstants()[i];
-			if(side.getAxis() != Axis.Y) {
+			if (side.getAxis() != Axis.Y) {
 				float sideAngle = side.getHorizontalAngle() - potatoFacing.getHorizontalAngle();
 				side = EnumFacing.fromAngle(sideAngle);
 			}
@@ -158,47 +158,47 @@ public class RenderTileTinyPotato extends TileEntitySpecialRenderer<TileTinyPota
 			boolean block = stack.getItem() instanceof ItemBlock;
 			boolean mySon = stack.getItem() instanceof ItemBlockTinyPotato;
 
-			switch(side) {
+			switch (side) {
 				case UP:
-					if(mySon)
+					if (mySon)
 						GlStateManager.translate(0F, 0.6F, 0.5F);
-					else if(block)
+					else if (block)
 						GlStateManager.translate(0F, 0.3F, 0.5F);
 					GlStateManager.translate(0F, -0.5F, -0.4F);
 					break;
 				case DOWN:
 					GlStateManager.translate(0, -2.3, -0.88);
-					if(mySon)
+					if (mySon)
 						GlStateManager.translate(0, .65, 0.6);
-					else if(block)
+					else if (block)
 						GlStateManager.translate(0, 1, 0.6);
 					break;
 				case NORTH:
 					GlStateManager.translate(0, -1.9, 0.02);
-					if(mySon)
+					if (mySon)
 						GlStateManager.translate(0, 1, 0.6);
-					else if(block)
+					else if (block)
 						GlStateManager.translate(0, 1, 0.6);
 					break;
 				case SOUTH:
 					GlStateManager.translate(0, -1.6, -0.89);
-					if(mySon)
+					if (mySon)
 						GlStateManager.translate(0, 1.4, 0.5);
-					else if(block)
+					else if (block)
 						GlStateManager.translate(0, 1.0, 0.5);
 					break;
 				case EAST:
-					if(mySon)
+					if (mySon)
 						GlStateManager.translate(-0.4F, 0.65F, 0F);
-					else if(block)
+					else if (block)
 						GlStateManager.translate(-0.4F, 0.8F, 0F);
 					else GlStateManager.rotate(-90F, 0F, 1F, 0F);
 					GlStateManager.translate(-0.3F, -1.9F, 0.04F);
 					break;
 				case WEST:
-					if(mySon)
+					if (mySon)
 						GlStateManager.translate(1F, 0.65F, 1F);
-					else if(block)
+					else if (block)
 						GlStateManager.translate(1F, 0.8F, 1F);
 					else GlStateManager.rotate(-90F, 0F, 1F, 0F);
 					GlStateManager.translate(-0.3F, -1.9F, -0.92F);
@@ -207,7 +207,7 @@ public class RenderTileTinyPotato extends TileEntitySpecialRenderer<TileTinyPota
 
 			if (mySon)
 				GlStateManager.scale(1.1, 1.1, 1.1);
-			else if(block)
+			else if (block)
 				GlStateManager.scale(0.5, 0.5, 0.5);
 
 			if (block && side == EnumFacing.NORTH)

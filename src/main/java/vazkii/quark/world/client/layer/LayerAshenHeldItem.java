@@ -37,10 +37,10 @@ public class LayerAshenHeldItem implements LayerRenderer<EntitySkeleton> {
 		ItemStack leftHand = flag ? ItemStack.EMPTY : living.getHeldItemMainhand();
 		ItemStack rightHand = flag ? living.getHeldItemMainhand() : ItemStack.EMPTY;
 
-		if(!leftHand.isEmpty() || !rightHand.isEmpty()) {
+		if (!leftHand.isEmpty() || !rightHand.isEmpty()) {
 			GlStateManager.pushMatrix();
 
-			if(livingEntityRenderer.getMainModel().isChild) {
+			if (livingEntityRenderer.getMainModel().isChild) {
 				GlStateManager.translate(0.0F, 0.625F, 0.0F);
 				GlStateManager.rotate(-20.0F, -1.0F, 0.0F, 0.0F);
 				GlStateManager.scale(0.5F, 0.5F, 0.5F);
@@ -53,10 +53,10 @@ public class LayerAshenHeldItem implements LayerRenderer<EntitySkeleton> {
 	}
 
 	private void renderHeldItem(EntityLivingBase entity, ItemStack stack, ItemCameraTransforms.TransformType transform, EnumHandSide handSide) {
-		if(!stack.isEmpty()) {
+		if (!stack.isEmpty()) {
 			GlStateManager.pushMatrix();
 
-			if(entity.isSneaking())
+			if (entity.isSneaking())
 				GlStateManager.translate(0.0F, 0.2F, 0.0F);
 
 			// Forge: moved this call down, fixes incorrect offset while sneaking.

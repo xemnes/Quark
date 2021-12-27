@@ -32,7 +32,7 @@ public class BlockEnchantingTableReplacement extends BlockEnchantmentTable {
 
 	@Override
 	public boolean onBlockActivated(World worldIn, @Nonnull BlockPos pos, IBlockState state, @Nonnull EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if(worldIn.getTileEntity(pos) instanceof TileEntityEnchantmentTable)
+		if (worldIn.getTileEntity(pos) instanceof TileEntityEnchantmentTable)
 			worldIn.setTileEntity(pos, createNewTileEntity(worldIn, 0));
 		
 		playerIn.openGui(Quark.instance, LibGuiIDs.MATRIX_ENCHANTING, worldIn, pos.getX(), pos.getY(), pos.getZ());
@@ -43,10 +43,10 @@ public class BlockEnchantingTableReplacement extends BlockEnchantmentTable {
 	public void onBlockPlacedBy(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull IBlockState state, @Nonnull EntityLivingBase placer, ItemStack stack) {
 		super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
 
-		if(stack.hasDisplayName()) {
+		if (stack.hasDisplayName()) {
 			TileEntity tileentity = worldIn.getTileEntity(pos);
 
-			if(tileentity instanceof TileMatrixEnchanterBase)
+			if (tileentity instanceof TileMatrixEnchanterBase)
 				((TileMatrixEnchanterBase) tileentity).setCustomName(stack.getDisplayName());
 		}
 	}
@@ -55,7 +55,7 @@ public class BlockEnchantingTableReplacement extends BlockEnchantmentTable {
 	public void breakBlock(World worldIn, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
 		TileEntity tileentity = worldIn.getTileEntity(pos);
 
-		if(tileentity instanceof TileMatrixEnchanterBase) {
+		if (tileentity instanceof TileMatrixEnchanterBase) {
 			TileMatrixEnchanterBase enchanter = (TileMatrixEnchanterBase) tileentity;
 			enchanter.dropItem(0);
 			enchanter.dropItem(1);

@@ -27,15 +27,15 @@ public class ElytraDuplicationRecipe extends ModRecipe {
 		int sources = 0;
 		boolean foundTarget = false;
 
-		for(int i = 0; i < var1.getSizeInventory(); i++) {
+		for (int i = 0; i < var1.getSizeInventory(); i++) {
 			ItemStack stack = var1.getStackInSlot(i);
-			if(!stack.isEmpty()) {
-				if(stack.getItem() instanceof ItemElytra) {
-					if(foundTarget)
+			if (!stack.isEmpty()) {
+				if (stack.getItem() instanceof ItemElytra) {
+					if (foundTarget)
 						return false;
 					foundTarget = true;
-				} else if(stack.getItem() == EnderdragonScales.enderdragonScale) {
-					if(sources >= EnderdragonScales.required)
+				} else if (stack.getItem() == EnderdragonScales.enderdragonScale) {
+					if (sources >= EnderdragonScales.required)
 						return false;
 					sources++;
 				} else return false;
@@ -55,7 +55,7 @@ public class ElytraDuplicationRecipe extends ModRecipe {
 	@Override
 	public ItemStack getRecipeOutput() {
 		ItemStack stack = new ItemStack(Items.ELYTRA);
-		if(EnderdragonScales.dyeBlack && ModuleLoader.isFeatureEnabled(DyableElytra.class))
+		if (EnderdragonScales.dyeBlack && ModuleLoader.isFeatureEnabled(DyableElytra.class))
 			ItemNBTHelper.setInt(stack, DyableElytra.TAG_ELYTRA_DYE, 0);
 		
 		return stack;
@@ -66,9 +66,9 @@ public class ElytraDuplicationRecipe extends ModRecipe {
 	public NonNullList<ItemStack> getRemainingItems(InventoryCrafting inv) {
 		NonNullList<ItemStack> ret = NonNullList.withSize(inv.getSizeInventory(), ItemStack.EMPTY);
 		
-		for(int i = 0; i < inv.getSizeInventory(); i++) {
+		for (int i = 0; i < inv.getSizeInventory(); i++) {
 			ItemStack stack = inv.getStackInSlot(i);
-			if(stack.getItem() == Items.ELYTRA)
+			if (stack.getItem() == Items.ELYTRA)
 				ret.set(i, stack.copy());
 		}
 		
@@ -90,7 +90,7 @@ public class ElytraDuplicationRecipe extends ModRecipe {
 	public NonNullList<Ingredient> getIngredients() {
 		NonNullList<Ingredient> list = NonNullList.withSize(1 + EnderdragonScales.required, Ingredient.EMPTY);
 		list.set(0, Ingredient.fromStacks(new ItemStack(Items.ELYTRA)));
-		for(int i = 1; i < EnderdragonScales.required + 1; i++)
+		for (int i = 1; i < EnderdragonScales.required + 1; i++)
 			list.set(i, Ingredient.fromStacks(new ItemStack(EnderdragonScales.enderdragonScale)));
 		return list;
 	}

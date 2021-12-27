@@ -63,7 +63,7 @@ public class PanoramaMaker extends Feature {
 
 	@SubscribeEvent
 	public void loadMainMenu(GuiOpenEvent event) {
-		if(overrideMainMenu && !overriddenOnce && event.getGui() instanceof GuiMainMenu) {
+		if (overrideMainMenu && !overriddenOnce && event.getGui() instanceof GuiMainMenu) {
 			File mcDir = ModuleLoader.configFile.getParentFile().getParentFile();
 			File panoramasDir = new File(mcDir, "/screenshots/panoramas");
 			
@@ -71,28 +71,28 @@ public class PanoramaMaker extends Feature {
 
 			ImmutableSet<String> set = ImmutableSet.of("panorama_0.png", "panorama_1.png", "panorama_2.png", "panorama_3.png", "panorama_4.png", "panorama_5.png");
 
-			if(panoramasDir.exists()) {
+			if (panoramasDir.exists()) {
 				File[] subDirs;
 
 				File mainMenu = new File(panoramasDir, "main_menu");
-				if(mainMenu.exists())
+				if (mainMenu.exists())
 					subDirs = new File[] { mainMenu };
 				else subDirs = panoramasDir.listFiles((File f) -> f.isDirectory() && !f.getName().endsWith("fullres"));
 
 				if (subDirs != null)
-					for(File f : subDirs)
-						if(set.stream().allMatch((String s) -> new File(f, s).exists()))
+					for (File f : subDirs)
+						if (set.stream().allMatch((String s) -> new File(f, s).exists()))
 							validFiles.add(f.listFiles((File f1) -> set.contains(f1.getName())));
 			}
 
-			if(!validFiles.isEmpty()) {
+			if (!validFiles.isEmpty()) {
 				File[] files = validFiles.get(new Random().nextInt(validFiles.size()));
 				Arrays.sort(files);
 
 				Minecraft mc = Minecraft.getMinecraft();
 				ResourceLocation[] resources = new ResourceLocation[6];
 
-				for(int i = 0; i < resources.length; i++) {
+				for (int i = 0; i < resources.length; i++) {
 					File f = files[i];
 					try {
 						BufferedImage img = ImageIO.read(f);
@@ -115,27 +115,27 @@ public class PanoramaMaker extends Feature {
 
 	@SubscribeEvent
 	public void takeScreenshot(ScreenshotEvent event) {
-		if(takingPanorama)
+		if (takingPanorama)
 			return;
 
-		if(GuiScreen.isCtrlKeyDown() && GuiScreen.isShiftKeyDown() && Minecraft.getMinecraft().currentScreen == null) {
+		if (GuiScreen.isCtrlKeyDown() && GuiScreen.isShiftKeyDown() && Minecraft.getMinecraft().currentScreen == null) {
 			takingPanorama = true;
 			panoramaStep = 0;
 
-			if(panoramaDir == null)
+			if (panoramaDir == null)
 				panoramaDir = new File(event.getScreenshotFile().getParentFile(), "panoramas");
-			if(!panoramaDir.exists())
+			if (!panoramaDir.exists())
 				if (!panoramaDir.mkdirs())
 					return;
 
 			String ts = getTimestamp();
 			do {
-				if(fullscreen) {
+				if (fullscreen) {
 					currentDir = new File(panoramaDir + "_fullres", ts);
 				} else {
 					currentDir = new File(panoramaDir, ts);
 				}
-			} while(currentDir.exists());
+			} while (currentDir.exists());
 
 			if (!currentDir.mkdirs())
 				return;
@@ -152,20 +152,20 @@ public class PanoramaMaker extends Feature {
 	public void renderTick(RenderTickEvent event) {
 		Minecraft mc = Minecraft.getMinecraft();
 
-		if(takingPanorama) {
-			if(event.phase == Phase.START) {
-				if(panoramaStep == 0) {
+		if (takingPanorama) {
+			if (event.phase == Phase.START) {
+				if (panoramaStep == 0) {
 					mc.gameSettings.hideGUI = true;
 					currentWidth = mc.displayWidth;
 					currentHeight = mc.displayHeight;
 					rotationYaw = mc.player.rotationYaw;
 					rotationPitch = mc.player.rotationPitch;
 					
-					if(!fullscreen)
+					if (!fullscreen)
 						mc.resize(panoramaSize, panoramaSize);
 				}
 
-				switch(panoramaStep) {
+				switch (panoramaStep) {
 				case 1:
 					mc.player.rotationYaw = 180;
 					mc.player.rotationPitch = 0;
@@ -194,10 +194,10 @@ public class PanoramaMaker extends Feature {
 				mc.player.prevRotationYaw = mc.player.rotationYaw;
 				mc.player.prevRotationPitch = mc.player.rotationPitch;
 			} else {
-				if(panoramaStep > 0)
+				if (panoramaStep > 0)
 					saveScreenshot(currentDir, "panorama_" + (panoramaStep - 1) + ".png", mc.displayWidth, mc.displayHeight, mc.getFramebuffer());
 				panoramaStep++;
-				if(panoramaStep == 7) {
+				if (panoramaStep == 7) {
 					mc.gameSettings.hideGUI = false;
 					takingPanorama = false;
 

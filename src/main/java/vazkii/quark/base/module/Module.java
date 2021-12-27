@@ -60,7 +60,7 @@ public class Module implements IModule {
 
 	public void registerFeature(Feature feature, String name, boolean enabledByDefault) {
 		Class<? extends Feature> clazz = feature.getClass();
-		if(ModuleLoader.featureInstances.containsKey(clazz))
+		if (ModuleLoader.featureInstances.containsKey(clazz))
 			throw new IllegalArgumentException("Feature " + clazz + " is already registered!");
 
 		feature.enabledByDefault = enabledByDefault;
@@ -78,7 +78,7 @@ public class Module implements IModule {
 	}
 
 	public void setupConfig() {
-		if(features.isEmpty())
+		if (features.isEmpty())
 			addFeatures();
 		
 		forEachFeature(feature -> {
@@ -88,51 +88,51 @@ public class Module implements IModule {
 			
 			feature.setupConstantConfig();
 			
-			if(!feature.forceLoad && GlobalConfig.enableAntiOverlap) {
+			if (!feature.forceLoad && GlobalConfig.enableAntiOverlap) {
 				String[] incompatibilities = feature.getIncompatibleMods();
-				if(incompatibilities != null) {
+				if (incompatibilities != null) {
 					List<String> failures = new ArrayList<>();
 
-					for(String s : incompatibilities)
-						if(Loader.isModLoaded(s)) {
+					for (String s : incompatibilities)
+						if (Loader.isModLoaded(s)) {
 							feature.enabled = false;
 							failures.add(s);
 						}
 					
-					if(!failures.isEmpty())
+					if (!failures.isEmpty())
 						Quark.LOG.info("'" + feature.configName + "' is forcefully disabled as it's incompatible with the following loaded mods: " + failures);
 				}
 			}
 			
-			if(!feature.loadtimeDone) {
+			if (!feature.loadtimeDone) {
 				feature.enabledAtLoadtime = feature.enabled;
 				feature.loadtimeDone = true;
 			}
 			
-			if(feature.enabled && !enabledFeatures.contains(feature))
+			if (feature.enabled && !enabledFeatures.contains(feature))
 				enabledFeatures.add(feature);
-			else if(!feature.enabled)
+			else if (!feature.enabled)
 				enabledFeatures.remove(feature);
 			
 			feature.setupConfig();
 			
-			if(!feature.enabled && feature.prevEnabled) {
+			if (!feature.enabled && feature.prevEnabled) {
 				MinecraftForge.EVENT_BUS.post(new FeatureEvent.Disabled(feature));
-				if(feature.hasSubscriptions())
+				if (feature.hasSubscriptions())
 					MinecraftForge.EVENT_BUS.unregister(feature);
-				if(feature.hasTerrainSubscriptions())
+				if (feature.hasTerrainSubscriptions())
 					MinecraftForge.TERRAIN_GEN_BUS.unregister(feature);
-				if(feature.hasOreGenSubscriptions())
+				if (feature.hasOreGenSubscriptions())
 					MinecraftForge.ORE_GEN_BUS.unregister(feature);
 				feature.onDisabled();
 				MinecraftForge.EVENT_BUS.post(new FeatureEvent.PostDisable(feature));
-			} else if(feature.enabled && (feature.enabledAtLoadtime || !feature.requiresMinecraftRestartToEnable()) && !feature.prevEnabled) {
+			} else if (feature.enabled && (feature.enabledAtLoadtime || !feature.requiresMinecraftRestartToEnable()) && !feature.prevEnabled) {
 				MinecraftForge.EVENT_BUS.post(new FeatureEvent.Enabled(feature));
-				if(feature.hasSubscriptions())
+				if (feature.hasSubscriptions())
 					MinecraftForge.EVENT_BUS.register(feature);
-				if(feature.hasTerrainSubscriptions())
+				if (feature.hasTerrainSubscriptions())
 					MinecraftForge.TERRAIN_GEN_BUS.register(feature);
-				if(feature.hasOreGenSubscriptions())
+				if (feature.hasOreGenSubscriptions())
 					MinecraftForge.ORE_GEN_BUS.register(feature);
 				feature.onEnabled();
 				MinecraftForge.EVENT_BUS.post(new FeatureEvent.PostEnable(feature));

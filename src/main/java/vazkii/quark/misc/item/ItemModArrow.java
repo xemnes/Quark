@@ -42,7 +42,7 @@ public class ItemModArrow extends ItemArrow implements IQuarkItem {
 	@Nonnull
 	@Override
 	public EntityArrow createArrow(@Nonnull World worldIn, @Nonnull ItemStack stack, EntityLivingBase shooter) {
-		if(provider == null)
+		if (provider == null)
 			return super.createArrow(worldIn, stack, shooter);
 		
 		return provider.provide(worldIn, stack, shooter);
@@ -70,7 +70,7 @@ public class ItemModArrow extends ItemArrow implements IQuarkItem {
 		String[] variants = getVariants();
 
 		String name;
-		if(dmg >= variants.length)
+		if (dmg >= variants.length)
 			name = bareName;
 		else name = variants[dmg];
 

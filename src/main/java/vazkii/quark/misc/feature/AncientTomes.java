@@ -84,9 +84,9 @@ public class AncientTomes extends Feature {
 
 	@SubscribeEvent
 	public void onLootTableLoad(LootTableLoadEvent event) {
-		if(event.getName().equals(LootTableList.CHESTS_STRONGHOLD_LIBRARY))
+		if (event.getName().equals(LootTableList.CHESTS_STRONGHOLD_LIBRARY))
 			event.getTable().getPool("main").addEntry(new LootEntryItem(ancient_tome, libraryWeight, itemQuality, new LootFunction[] { new EnchantTomeFunction() }, new LootCondition[0], "quark:ancient_tome"));
-		else if(event.getName().equals(LootTableList.CHESTS_SIMPLE_DUNGEON))
+		else if (event.getName().equals(LootTableList.CHESTS_SIMPLE_DUNGEON))
 			event.getTable().getPool("main").addEntry(new LootEntryItem(ancient_tome, dungeonWeight, itemQuality, new LootFunction[] { new EnchantTomeFunction() }, new LootCondition[0], "quark:ancient_tome"));
 	}
 
@@ -95,20 +95,20 @@ public class AncientTomes extends Feature {
 		ItemStack left = event.getLeft();
 		ItemStack right = event.getRight();
 
-		if(!left.isEmpty() && !right.isEmpty()) {
-			if(left.getItem() == Items.ENCHANTED_BOOK && right.getItem() == ancient_tome)
+		if (!left.isEmpty() && !right.isEmpty()) {
+			if (left.getItem() == Items.ENCHANTED_BOOK && right.getItem() == ancient_tome)
 				handleTome(left, right, event);
-			else if(right.getItem() == Items.ENCHANTED_BOOK && left.getItem() == ancient_tome)
+			else if (right.getItem() == Items.ENCHANTED_BOOK && left.getItem() == ancient_tome)
 				handleTome(right, left, event);
 
-			else if(right.getItem() == Items.ENCHANTED_BOOK) {
+			else if (right.getItem() == Items.ENCHANTED_BOOK) {
 				Map<Enchantment, Integer> enchants = EnchantmentHelper.getEnchantments(right);
 				Map<Enchantment, Integer> currentEnchants = EnchantmentHelper.getEnchantments(left);
 				boolean hasOverLevel = false;
 				boolean hasMatching = false;
 				for (Map.Entry<Enchantment, Integer> entry : enchants.entrySet()) {
 					Enchantment enchantment = entry.getKey();
-					if(enchantment == null)
+					if (enchantment == null)
 						continue;
 					
 					int level = entry.getValue();
@@ -151,7 +151,7 @@ public class AncientTomes extends Feature {
 						EnchantmentHelper.setEnchantments(currentEnchants, out);
 						String name = event.getName();
 						int cost = applyTomeCost;
-						if(name != null && !name.isEmpty()){
+						if (name != null && !name.isEmpty()){
 							out.setStackDisplayName(name);
 							cost++;
 						}
@@ -169,7 +169,7 @@ public class AncientTomes extends Feature {
 		Map<Enchantment, Integer> enchantsBook = EnchantmentHelper.getEnchantments(book);
 		Map<Enchantment, Integer> enchantsTome = EnchantmentHelper.getEnchantments(tome);
 		for (Map.Entry<Enchantment, Integer> entry : enchantsTome.entrySet()) {
-			if(enchantsBook.getOrDefault(entry.getKey(), 0).equals(entry.getValue())){
+			if (enchantsBook.getOrDefault(entry.getKey(), 0).equals(entry.getValue())){
 				enchantsBook.put(entry.getKey(), Math.min(entry.getValue(), entry.getKey().getMaxLevel()) + 1);
 			} else {
 				return;
@@ -204,8 +204,8 @@ public class AncientTomes extends Feature {
 		};
 
 		List<String> strings = new ArrayList<>();
-		for(Enchantment e : enchants)
-			if(e != null && e.getRegistryName() != null)
+		for (Enchantment e : enchants)
+			if (e != null && e.getRegistryName() != null)
 				strings.add(e.getRegistryName().toString());
 
 		return strings.toArray(new String[0]);

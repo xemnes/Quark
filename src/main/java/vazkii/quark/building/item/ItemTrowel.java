@@ -40,14 +40,14 @@ public class ItemTrowel extends ItemMod implements IQuarkItem {
 	@Override
 	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		List<ItemStack> targets = new ArrayList<>();
-		for(int i = 0; i < InventoryPlayer.getHotbarSize(); i++) {
+		for (int i = 0; i < InventoryPlayer.getHotbarSize(); i++) {
 			ItemStack stack = player.inventory.getStackInSlot(i);
-			if(!stack.isEmpty() && stack.getItem() instanceof ItemBlock)
+			if (!stack.isEmpty() && stack.getItem() instanceof ItemBlock)
 				targets.add(stack);
 		}
 		
 		ItemStack ourStack = player.getHeldItem(hand);
-		if(targets.isEmpty())
+		if (targets.isEmpty())
 			return EnumActionResult.PASS;
 		
 		long seed = ItemNBTHelper.getLong(ourStack, TAG_PLACING_SEED, 0);
@@ -56,11 +56,11 @@ public class ItemTrowel extends ItemMod implements IQuarkItem {
 		
 		ItemStack target = targets.get(rand.nextInt(targets.size()));
 		EnumActionResult result = placeBlock(target, player, pos, facing, worldIn, hand, hitX, hitY, hitZ);
-		if(result == EnumActionResult.SUCCESS) {
+		if (result == EnumActionResult.SUCCESS) {
 			NBTTagCompound cmp = target.serializeNBT();
 			ItemNBTHelper.setCompound(ourStack, TAG_LAST_STACK, cmp);
 			
-			if(ourStack.isItemStackDamageable())
+			if (ourStack.isItemStackDamageable())
 				ourStack.damageItem(1, player);
 		}
 		
@@ -69,21 +69,21 @@ public class ItemTrowel extends ItemMod implements IQuarkItem {
 	
 	private EnumActionResult placeBlock(ItemStack itemstack, EntityPlayer player, BlockPos pos, EnumFacing facing, World worldIn, EnumHand hand, float hitX, float hitY, float hitZ) {
 		IBlockState stateAt = worldIn.getBlockState(pos);
-		if(!stateAt.getBlock().isReplaceable(worldIn, pos))
+		if (!stateAt.getBlock().isReplaceable(worldIn, pos))
 			pos = pos.offset(facing);
 		
-		if(itemstack.getItem() instanceof ItemBlock) {
+		if (itemstack.getItem() instanceof ItemBlock) {
 			ItemBlock item = (ItemBlock) itemstack.getItem();
 			Block block = item.getBlock();
-			if(player.canPlayerEdit(pos, facing, itemstack) && worldIn.mayPlace(block, pos, false, facing, null)) {
+			if (player.canPlayerEdit(pos, facing, itemstack) && worldIn.mayPlace(block, pos, false, facing, null)) {
 				int i = item.getMetadata(itemstack.getMetadata());
 				IBlockState state = block.getStateForPlacement(worldIn, pos, facing, hitX, hitY, hitZ, i, player, hand);
 
-				if(item.placeBlockAt(itemstack, player, worldIn, pos, facing, hitX, hitY, hitZ, state)) {
+				if (item.placeBlockAt(itemstack, player, worldIn, pos, facing, hitX, hitY, hitZ, state)) {
 					state = worldIn.getBlockState(pos);
 					SoundType soundtype = state.getBlock().getSoundType(state, worldIn, pos, player);
 					worldIn.playSound(player, pos, soundtype.getPlaceSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
-					if(!player.capabilities.isCreativeMode)
+					if (!player.capabilities.isCreativeMode)
 						shrinkInventory(itemstack, player);
 				}
 
@@ -95,18 +95,18 @@ public class ItemTrowel extends ItemMod implements IQuarkItem {
 	}
 	
 	private void shrinkInventory(ItemStack stack, EntityPlayer player) {
-		for(int i = InventoryPlayer.getHotbarSize(); i < player.inventory.mainInventory.size(); i++)
-			if(shrinkItem(stack, player, i))
+		for (int i = InventoryPlayer.getHotbarSize(); i < player.inventory.mainInventory.size(); i++)
+			if (shrinkItem(stack, player, i))
 				return;
 			
-		for(int i = 0; i < InventoryPlayer.getHotbarSize(); i++)
-			if(shrinkItem(stack, player, i))
+		for (int i = 0; i < InventoryPlayer.getHotbarSize(); i++)
+			if (shrinkItem(stack, player, i))
 				return;
 	}
 	
 	private boolean shrinkItem(ItemStack stack, EntityPlayer player, int slot) {
 		ItemStack stackAt = player.inventory.getStackInSlot(slot);
-		if(stack.isItemEqual(stackAt) && ItemStack.areItemStackTagsEqual(stack, stackAt)) {
+		if (stack.isItemEqual(stackAt) && ItemStack.areItemStackTagsEqual(stack, stackAt)) {
 			stackAt.shrink(1);
 			return true;
 		}

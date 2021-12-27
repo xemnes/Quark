@@ -30,29 +30,29 @@ public class EmoteState {
 
 	public void save(ModelBiped model) {
 		float[] values = new float[1];
-		for(int i = 0; i < ModelAccessor.STATE_COUNT; i++) {
+		for (int i = 0; i < ModelAccessor.STATE_COUNT; i++) {
 			ModelAccessor.INSTANCE.getValues(model, i, values);
 			states[i] = values[0];
 		}
 	}
 
 	public void load(ModelBiped model) {
-		if(states.length == 0) {
+		if (states.length == 0) {
 			states = new float[ModelAccessor.STATE_COUNT];
 		} else {
 			float[] values = new float[1];
-			for(int i = 0; i < ModelAccessor.STATE_COUNT; i++) {
+			for (int i = 0; i < ModelAccessor.STATE_COUNT; i++) {
 				values[0] = states[i];
 
 				int part = (i / ModelAccessor.MODEL_PROPS) * ModelAccessor.MODEL_PROPS;
-				if(emote.usesBodyPart(part))
+				if (emote.usesBodyPart(part))
 					ModelAccessor.INSTANCE.setValues(model, i, values);
 			}
 		}
 	}
 
 	public void rotateAndOffset(EntityPlayer player) {
-		if(states.length == 0)
+		if (states.length == 0)
 			return;
 
 		float offsetX = states[ModelAccessor.MODEL_OFF_X];

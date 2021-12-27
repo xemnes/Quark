@@ -61,16 +61,16 @@ public class BlockQuarkPane extends BlockMod implements IQuarkBlock {
 
 		addCollisionBoxToList(pos, entityBox, collidingBoxes, BOUNDING_BOXES[0]);
 
-		if(state.getValue(NORTH))
+		if (state.getValue(NORTH))
 			addCollisionBoxToList(pos, entityBox, collidingBoxes, BOUNDING_BOXES[getBoundingBoxIndex(EnumFacing.NORTH)]);
 
-		if(state.getValue(SOUTH))
+		if (state.getValue(SOUTH))
 			addCollisionBoxToList(pos, entityBox, collidingBoxes, BOUNDING_BOXES[getBoundingBoxIndex(EnumFacing.SOUTH)]);
 
-		if(state.getValue(EAST))
+		if (state.getValue(EAST))
 			addCollisionBoxToList(pos, entityBox, collidingBoxes, BOUNDING_BOXES[getBoundingBoxIndex(EnumFacing.EAST)]);
 
-		if(state.getValue(WEST))
+		if (state.getValue(WEST))
 			addCollisionBoxToList(pos, entityBox, collidingBoxes, BOUNDING_BOXES[getBoundingBoxIndex(EnumFacing.WEST)]);
 	}
 
@@ -89,16 +89,16 @@ public class BlockQuarkPane extends BlockMod implements IQuarkBlock {
 	private static int getBoundingBoxIndex(IBlockState state) {
 		int i = 0;
 
-		if(state.getValue(NORTH))
+		if (state.getValue(NORTH))
 			i |= getBoundingBoxIndex(EnumFacing.NORTH);
 
-		if(state.getValue(EAST))
+		if (state.getValue(EAST))
 			i |= getBoundingBoxIndex(EnumFacing.EAST);
 
-		if(state.getValue(SOUTH))
+		if (state.getValue(SOUTH))
 			i |= getBoundingBoxIndex(EnumFacing.SOUTH);
 
-		if(state.getValue(WEST))
+		if (state.getValue(WEST))
 			i |= getBoundingBoxIndex(EnumFacing.WEST);
 
 		return i;

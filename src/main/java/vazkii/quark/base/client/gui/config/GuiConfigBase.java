@@ -48,7 +48,7 @@ public class GuiConfigBase extends GuiScreen {
 
 	@Override 
 	protected void keyTyped(char typedChar, int keyCode) throws IOException {
-		if(keyCode == 1) // Esc
+		if (keyCode == 1) // Esc
 			returnToParent();
 	}
 
@@ -56,14 +56,14 @@ public class GuiConfigBase extends GuiScreen {
 	protected void actionPerformed(GuiButton button) throws IOException {
 		super.actionPerformed(button);
 
-		if(backButton != null && button == backButton)
+		if (backButton != null && button == backButton)
 			returnToParent();
 
-		if(button instanceof GuiButtonConfigSetting) {
+		if (button instanceof GuiButtonConfigSetting) {
 			GuiButtonConfigSetting configButton = (GuiButtonConfigSetting) button;
 			configButton.prop.set(!configButton.prop.getBoolean());
-			if(configButton.prop.requiresMcRestart()) {
-				if(restartRequiringProperties.contains(configButton.prop))
+			if (configButton.prop.requiresMcRestart()) {
+				if (restartRequiringProperties.contains(configButton.prop))
 					restartRequiringProperties.remove(configButton.prop);
 				else restartRequiringProperties.add(configButton.prop);
 						
@@ -76,7 +76,7 @@ public class GuiConfigBase extends GuiScreen {
 	void returnToParent() {
 		mc.displayGuiScreen(parent);
 
-		if(mc.currentScreen == null)
+		if (mc.currentScreen == null)
 			mc.setIngameFocus();
 	}
 
@@ -88,7 +88,7 @@ public class GuiConfigBase extends GuiScreen {
 	
 	@Override
 	public void confirmClicked(boolean result, int id) {
-		if(id == 0) {
+		if (id == 0) {
 			try {
 				if (result)
 					openWebLink(new URI(targetUrl));

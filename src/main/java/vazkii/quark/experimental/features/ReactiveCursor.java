@@ -53,13 +53,13 @@ public class ReactiveCursor extends Feature {
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void onTick(RenderTickEvent event) {
-		if(event.phase == Phase.END) {
+		if (event.phase == Phase.END) {
 			String cursorName = getCursor();
 
-			if(!currentCursor.equals(cursorName)) {
+			if (!currentCursor.equals(cursorName)) {
 				Cursor cursor = CURSORS.get(cursorName);
 				try {
-					if(cursor != null)
+					if (cursor != null)
 						Mouse.setNativeCursor(cursor);
 				} catch (LWJGLException e) {
 					e.printStackTrace();
@@ -73,22 +73,22 @@ public class ReactiveCursor extends Feature {
 	private String getCursor() {
 		Minecraft mc = Minecraft.getMinecraft();
 		GuiScreen gui = mc.currentScreen;
-		if(gui != null) {
-			if(gui instanceof GuiContainer) {
+		if (gui != null) {
+			if (gui instanceof GuiContainer) {
 				GuiContainer container = (GuiContainer) gui;
-				if(!mc.player.inventory.getItemStack().isEmpty())
+				if (!mc.player.inventory.getItemStack().isEmpty())
 					return CURSOR_CLOSED_HAND;
 
 				Slot hovered = container.getSlotUnderMouse();
-				if(hovered != null && !hovered.getStack().isEmpty()) {
-					if(hovered instanceof SlotCrafting)
+				if (hovered != null && !hovered.getStack().isEmpty()) {
+					if (hovered instanceof SlotCrafting)
 						return CURSOR_SAW;
 					return CURSOR_OPEN_HAND;
 				}
 			}
 
-			for(GuiButton b : gui.buttonList)
-				if(b.isMouseOver())
+			for (GuiButton b : gui.buttonList)
+				if (b.isMouseOver())
 					return CURSOR_FINGER;
 		}
 
@@ -122,7 +122,7 @@ public class ReactiveCursor extends Feature {
 			int width = img.getWidth();
 			int height = img.getHeight();
 
-			if(width == 0 || height == 0)
+			if (width == 0 || height == 0)
 				throw new IOException("Invalid image " + res + " (Img: " + img + ", Stream: " + stream + ")");
 
 			int[] colors = new int[width * height];
@@ -130,7 +130,7 @@ public class ReactiveCursor extends Feature {
 
 			img.getRGB(0, 0, width, height, colors, 0, width);
 
-			for(int i = colors.length - 1; i >= 0; i--) {
+			for (int i = colors.length - 1; i >= 0; i--) {
 				int color = colors[(i / height * height) + (width - (i % width) - 1)];
 				int a = (color >> 24) & 0xFF;
 				int r = (color >> 16) & 0xFF;

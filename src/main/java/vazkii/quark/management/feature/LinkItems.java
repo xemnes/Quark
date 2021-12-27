@@ -39,24 +39,24 @@ public class LinkItems extends Feature {
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void keyboardEvent(GuiScreenEvent.KeyboardInputEvent.Post event) {
-		if(GameSettings.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindChat) && event.getGui() instanceof GuiContainer && GuiScreen.isShiftKeyDown()) {
+		if (GameSettings.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindChat) && event.getGui() instanceof GuiContainer && GuiScreen.isShiftKeyDown()) {
 			GuiContainer gui = (GuiContainer) event.getGui();
 
 			Slot slot = gui.getSlotUnderMouse();
-			if(slot != null && slot.inventory != null && !"tmp".equals(slot.inventory.getName())) { // "tmp" checks for a creative inventory
+			if (slot != null && slot.inventory != null && !"tmp".equals(slot.inventory.getName())) { // "tmp" checks for a creative inventory
 				ItemStack stack = slot.getStack();
 
-				if(!stack.isEmpty() && !MinecraftForge.EVENT_BUS.post(new ClientChatEvent(stack.getTextComponent().getUnformattedText())))
+				if (!stack.isEmpty() && !MinecraftForge.EVENT_BUS.post(new ClientChatEvent(stack.getTextComponent().getUnformattedText())))
 					NetworkHandler.INSTANCE.sendToServer(new MessageLinkItem(stack));
 			}
 		}
 	}
 
 	public static void linkItem(EntityPlayer player, ItemStack item) {
-		if(!ModuleLoader.isFeatureEnabled(LinkItems.class))
+		if (!ModuleLoader.isFeatureEnabled(LinkItems.class))
 			return;
 
-		if(!item.isEmpty() && player instanceof EntityPlayerMP) {
+		if (!item.isEmpty() && player instanceof EntityPlayerMP) {
 			ITextComponent comp = item.getTextComponent();
 			ITextComponent fullComp = new TextComponentTranslation("chat.type.text", player.getDisplayName(), comp);
 

@@ -33,13 +33,13 @@ public class RightClickSignEdit extends Feature {
 
 	@SubscribeEvent
 	public void onInteract(PlayerInteractEvent.RightClickBlock event) {
-		if(event.getUseBlock() == Result.DENY)
+		if (event.getUseBlock() == Result.DENY)
 			return;	
 
 		TileEntity tile = event.getWorld().getTileEntity(event.getPos());
-		if(tile instanceof TileEntitySign && (!emptyHand || event.getEntityPlayer().getHeldItemMainhand().isEmpty()) && event.getEntityPlayer().capabilities.allowEdit && !event.getEntity().isSneaking()) {
+		if (tile instanceof TileEntitySign && (!emptyHand || event.getEntityPlayer().getHeldItemMainhand().isEmpty()) && event.getEntityPlayer().capabilities.allowEdit && !event.getEntity().isSneaking()) {
 			IBlockState state = event.getWorld().getBlockState(event.getPos());
-			if(Objects.toString(state.getBlock().getRegistryName()).contains("tcguideposts"))
+			if (Objects.toString(state.getBlock().getRegistryName()).contains("tcguideposts"))
 				return;
 			
 			TileEntitySign sign = (TileEntitySign) tile;

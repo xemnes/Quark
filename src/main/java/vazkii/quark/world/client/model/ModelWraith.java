@@ -48,8 +48,8 @@ public class ModelWraith extends ModelBase {
 		float g = 1F;
 		float b = 1F;
 		float mute = 0.5F;
-		if(rng.nextInt(80) == 0)
-			switch(rng.nextInt(6)) {
+		if (rng.nextInt(80) == 0)
+			switch (rng.nextInt(6)) {
 			case 0:
 				g = mute;
 				b = mute;

@@ -107,7 +107,7 @@ public class EmoteSystem extends Feature {
 				+ "Command output from emote functions is enabled only if both \"Custom Emote Dev Mode\" and the \"commandBlockOutput\" gamerule are enabled. ", false);
 
 		emotesDir = new File(ModuleLoader.configFile.getParent(), "quark_emotes");
-		if(!emotesDir.exists())
+		if (!emotesDir.exists())
 			if (!emotesDir.mkdir())
 				customEmotes = new String[0];
 	}
@@ -122,17 +122,17 @@ public class EmoteSystem extends Feature {
 	public void preInitClient() {
 		Tween.registerAccessor(ModelBiped.class, ModelAccessor.INSTANCE);
 
-		for(String s : enabledEmotes)
-			if(EMOTE_NAME_LIST.contains(s))
+		for (String s : enabledEmotes)
+			if (EMOTE_NAME_LIST.contains(s))
 				EmoteHandler.addEmote(s);
 
-		for(String s : PATREON_EMOTES)
+		for (String s : PATREON_EMOTES)
 			EmoteHandler.addEmote(s);
 		
-		for(String s : customEmotes)
+		for (String s : customEmotes)
 			EmoteHandler.addCustomEmote(s);
 
-		if(enableKeybinds)
+		if (enableKeybinds)
 			ModKeybinds.initEmoteKeybinds();
 	}
 
@@ -140,7 +140,7 @@ public class EmoteSystem extends Feature {
 	@SideOnly(Side.CLIENT)
 	public void initGui(GuiScreenEvent.InitGuiEvent.Post event) {
 		GuiScreen gui = event.getGui();
-		if(gui instanceof GuiChat) {
+		if (gui instanceof GuiChat) {
 			List<GuiButton> list = event.getButtonList();
 			list.add(new GuiButtonTranslucent(EMOTE_BUTTON_START, gui.width - 1 - EMOTE_BUTTON_WIDTH * EMOTES_PER_ROW, gui.height - 40, EMOTE_BUTTON_WIDTH * EMOTES_PER_ROW, 20, I18n.format("quark.gui.emotes")));
 
@@ -211,18 +211,18 @@ public class EmoteSystem extends Feature {
 	public void performAction(GuiScreenEvent.ActionPerformedEvent.Pre event) {
 		GuiButton button = event.getButton();
 
-		if(button.id == EMOTE_BUTTON_START) {
+		if (button.id == EMOTE_BUTTON_START) {
 			event.getGui();
 			List<GuiButton> list = event.getButtonList();
 
-			for(GuiButton b : list)
-				if(b instanceof GuiButtonEmote) {
+			for (GuiButton b : list)
+				if (b instanceof GuiButtonEmote) {
 					b.visible = !b.visible;
 					b.enabled = !b.enabled;
 				}
 
 			emotesVisible = !emotesVisible;
-		} else if(button instanceof GuiButtonEmote) {
+		} else if (button instanceof GuiButtonEmote) {
 			String name = ((GuiButtonEmote) button).desc.getRegistryName();
 			NetworkHandler.INSTANCE.sendToServer(new MessageRequestEmote(name));
 		}
@@ -232,9 +232,9 @@ public class EmoteSystem extends Feature {
 	@SideOnly(Side.CLIENT)
 	public void onKeyInput(KeyInputEvent event) {
 		Minecraft mc = Minecraft.getMinecraft();
-		if(mc.inGameHasFocus && enableKeybinds) {
-			for(KeyBinding key : ModKeybinds.emoteKeys.keySet())
-				if(key.isKeyDown()) {
+		if (mc.inGameHasFocus && enableKeybinds) {
+			for (KeyBinding key : ModKeybinds.emoteKeys.keySet())
+				if (key.isKeyDown()) {
 					String emote = ModKeybinds.emoteKeys.get(key);
 					NetworkHandler.INSTANCE.sendToServer(new MessageRequestEmote(emote));
 					return;
@@ -245,20 +245,20 @@ public class EmoteSystem extends Feature {
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void drawHUD(RenderGameOverlayEvent.Post event) {
-		if(event.getType() == ElementType.ALL) {
+		if (event.getType() == ElementType.ALL) {
 			Minecraft mc = Minecraft.getMinecraft();
 			ScaledResolution res = event.getResolution();
 			EmoteBase emote = EmoteHandler.getPlayerEmote(mc.player);
-			if(emote != null && emote.timeDone < emote.totalTime) {
+			if (emote != null && emote.timeDone < emote.totalTime) {
 				ResourceLocation resource = emote.desc.texture;
 				int x = res.getScaledWidth() / 2 - 16;
 				int y = res.getScaledHeight() / 2 - 60;
 				float transparency = 1F;
 				float tween = 5F;
 
-				if(emote.timeDone < tween)
+				if (emote.timeDone < tween)
 					transparency = emote.timeDone / tween;
-				else if(emote.timeDone > emote.totalTime - tween)
+				else if (emote.timeDone > emote.totalTime - tween)
 					transparency = (emote.totalTime - emote.timeDone) / tween;
 
 				GlStateManager.pushMatrix();

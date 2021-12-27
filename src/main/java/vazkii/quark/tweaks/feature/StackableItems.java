@@ -83,11 +83,11 @@ public class StackableItems extends Feature {
 
 	@SubscribeEvent
 	public void finishEvent(LivingEntityUseItemEvent.Finish event) {
-		if(event.getEntity() instanceof EntityPlayer) {
+		if (event.getEntity() instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) event.getEntity();
 			ItemStack original = event.getItem();
 			ItemStack result = event.getResultStack();
-			if(original.getCount() > 1 && (result.getItem() == Items.BOWL || result.getItem() == Items.BUCKET)) {
+			if (original.getCount() > 1 && (result.getItem() == Items.BOWL || result.getItem() == Items.BUCKET)) {
 				ItemStack newResult = original.copy();
 				newResult.setCount(original.getCount() - 1);
 				event.setResultStack(newResult);

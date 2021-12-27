@@ -91,24 +91,24 @@ public class TileCustomChest extends TileEntityChest {
 
 	@SuppressWarnings("incomplete-switch")
 	private void setNeighbor(TileEntityChest chestTe, EnumFacing side) {
-		if( chestTe.isInvalid() ) {
+		if ( chestTe.isInvalid() ) {
 			adjacentChestChecked = false;
-		} else if( adjacentChestChecked ) {
-			switch(side) {
+		} else if ( adjacentChestChecked ) {
+			switch (side) {
 			case NORTH:
-				if(adjacentChestZNeg != chestTe)
+				if (adjacentChestZNeg != chestTe)
 					adjacentChestChecked = false;
 				break;
 			case SOUTH:
-				if(adjacentChestZPos != chestTe)
+				if (adjacentChestZPos != chestTe)
 					adjacentChestChecked = false;
 				break;
 			case EAST:
-				if(adjacentChestXPos != chestTe)
+				if (adjacentChestXPos != chestTe)
 					adjacentChestChecked = false;
 				break;
 			case WEST:
-				if(adjacentChestXNeg != chestTe)
+				if (adjacentChestXNeg != chestTe)
 					adjacentChestChecked = false;
 			}
 		}
@@ -119,10 +119,10 @@ public class TileCustomChest extends TileEntityChest {
 	protected TileEntityChest getAdjacentChest(@Nonnull EnumFacing side) {
 		BlockPos blockpos = pos.offset(side);
 
-		if(isChestAt(blockpos)) {
+		if (isChestAt(blockpos)) {
 			TileEntity tileentity = getWorld().getTileEntity(blockpos);
 
-			if(tileentity instanceof TileCustomChest) {
+			if (tileentity instanceof TileCustomChest) {
 				TileCustomChest chest = (TileCustomChest)tileentity;
 				chest.setNeighbor(this, side.getOpposite());
 				return chest;
@@ -142,7 +142,7 @@ public class TileCustomChest extends TileEntityChest {
 	public void openInventory(EntityPlayer player) {
 		super.openInventory(player);
 		
-		if(!player.isSpectator() && getChestType() == VariedChests.CUSTOM_TYPE_QUARK_TRAP)
+		if (!player.isSpectator() && getChestType() == VariedChests.CUSTOM_TYPE_QUARK_TRAP)
 			world.notifyNeighborsOfStateChange(pos.down(), getBlockType(), false);
 	}
 
@@ -150,7 +150,7 @@ public class TileCustomChest extends TileEntityChest {
 	public void closeInventory(EntityPlayer player) {
 		super.closeInventory(player);
 		
-		if(!player.isSpectator() && getBlockType() instanceof BlockChest && getChestType() == VariedChests.CUSTOM_TYPE_QUARK_TRAP)
+		if (!player.isSpectator() && getBlockType() instanceof BlockChest && getChestType() == VariedChests.CUSTOM_TYPE_QUARK_TRAP)
 			world.notifyNeighborsOfStateChange(pos.down(), getBlockType(), false);
 	}
 
@@ -162,10 +162,10 @@ public class TileCustomChest extends TileEntityChest {
 
 	@Override
 	public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
-		if(capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-			if(doubleChestHandler == null || doubleChestHandler.needsRefresh())
+		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+			if (doubleChestHandler == null || doubleChestHandler.needsRefresh())
 				doubleChestHandler = getDoubleChestHandler(this);
-			if(doubleChestHandler != null && doubleChestHandler != VanillaDoubleChestItemHandler.NO_ADJACENT_CHESTS_INSTANCE)
+			if (doubleChestHandler != null && doubleChestHandler != VanillaDoubleChestItemHandler.NO_ADJACENT_CHESTS_INSTANCE)
 				return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(doubleChestHandler);
 		}
 		return super.getCapability(capability, facing);
@@ -177,13 +177,13 @@ public class TileCustomChest extends TileEntityChest {
 	public static VanillaDoubleChestItemHandler getDoubleChestHandler(TileCustomChest chest) {
 		World world = chest.getWorld();
 		BlockPos pos = chest.getPos();
-		if(!world.isBlockLoaded(pos))
+		if (!world.isBlockLoaded(pos))
 			return null; // Still loading
 
 		Block blockType = chest.getBlockType();
 
 		EnumFacing[] horizontals = EnumFacing.HORIZONTALS;
-		for(int i = horizontals.length - 1; i >= 0; i--) { // Use reverse order so we can return early
+		for (int i = horizontals.length - 1; i >= 0; i--) { // Use reverse order so we can return early
 			EnumFacing enumfacing = horizontals[i];
 			BlockPos blockpos = pos.offset(enumfacing);
 			Block block = world.getBlockState(blockpos).getBlock();
@@ -191,9 +191,9 @@ public class TileCustomChest extends TileEntityChest {
 			if (block == blockType) {
 				TileEntity otherTE = world.getTileEntity(blockpos);
 
-				if(otherTE instanceof TileCustomChest) {
+				if (otherTE instanceof TileCustomChest) {
 					TileCustomChest otherChest = (TileCustomChest) otherTE;
-					if(otherChest.chestType.equals(chest.chestType))
+					if (otherChest.chestType.equals(chest.chestType))
 						return new VanillaDoubleChestItemHandler(chest, otherChest, enumfacing != EnumFacing.WEST && enumfacing != EnumFacing.NORTH);
 				}
 			}

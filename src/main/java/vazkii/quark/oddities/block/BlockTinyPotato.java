@@ -92,7 +92,7 @@ public class BlockTinyPotato extends BlockMod implements IQuarkBlock {
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing par6, float par7, float par8, float par9) {
 		TileEntity tile = world.getTileEntity(pos);
-		if(tile instanceof TileTinyPotato) {
+		if (tile instanceof TileTinyPotato) {
 			((TileTinyPotato) tile).interact(player, hand, player.getHeldItem(hand), par6);
 			world.spawnParticle(EnumParticleTypes.HEART, pos.getX() + AABB.minX + Math.random() * (AABB.maxX - AABB.minX), pos.getY() + AABB.maxY, pos.getZ() + AABB.minZ + Math.random() * (AABB.maxZ - AABB.minZ), 0, 0 ,0);
 		}
@@ -133,10 +133,10 @@ public class BlockTinyPotato extends BlockMod implements IQuarkBlock {
 	public void getDrops(@Nonnull NonNullList<ItemStack> list, IBlockAccess world, BlockPos pos, @Nonnull IBlockState state, int fortune) {
 		TileEntity tile = world.getTileEntity(pos);
 
-		if(tile != null) {
+		if (tile != null) {
 			ItemStack stack = new ItemStack(this);
 			String name = ((TileTinyPotato) tile).name;
-			if(!name.isEmpty())
+			if (!name.isEmpty())
 				stack.setStackDisplayName(name);
 			if (((TileTinyPotato) tile).angery)
 				ItemNBTHelper.setBoolean(stack, "angery", true);

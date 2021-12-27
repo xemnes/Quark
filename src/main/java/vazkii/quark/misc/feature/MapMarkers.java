@@ -27,23 +27,23 @@ public class MapMarkers extends Feature {
 	
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
-		if(!useRightClick)
+		if (!useRightClick)
 			new MapPinningRecipe();
 	}
 	
 	@SubscribeEvent
 	public void rightClick(RightClickItem event) {
-		if(useRightClick)
+		if (useRightClick)
 			addMarker(event.getItemStack(), event.getEntityPlayer());
 	}
 	
 	@SubscribeEvent
 	public void tick(PlayerTickEvent event) {
-		if(!useRightClick && event.phase == Phase.END) {
+		if (!useRightClick && event.phase == Phase.END) {
 			EntityPlayer player = event.player;
-			for(int i = 0; i < player.inventory.getSizeInventory(); i++) {
+			for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
 				ItemStack stack = player.inventory.getStackInSlot(i);
-				if(stack.hasTagCompound() && ItemNBTHelper.getBoolean(stack, TAG_ADD_PIN, false)) {
+				if (stack.hasTagCompound() && ItemNBTHelper.getBoolean(stack, TAG_ADD_PIN, false)) {
 					addMarker(stack, player);
 					ItemNBTHelper.setBoolean(stack, TAG_ADD_PIN, false);
 				}
@@ -62,10 +62,10 @@ public class MapMarkers extends Feature {
 	}
 	
 	public static void addMarker(ItemStack stack, EntityPlayer player) {
-		if(stack.getItem() == Items.FILLED_MAP) {
+		if (stack.getItem() == Items.FILLED_MAP) {
 			MapData data = Items.FILLED_MAP.getMapData(stack, player.world);
 			
-			if(data != null)
+			if (data != null)
 				MapData.addTargetDecoration(stack, player.getPosition(), "Pin" + player.getPosition().hashCode(), Type.TARGET_X);
 		}
 	}

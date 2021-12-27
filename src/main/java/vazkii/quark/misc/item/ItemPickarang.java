@@ -39,7 +39,7 @@ public class ItemPickarang extends ItemMod implements IQuarkItem {
 		setHarvestLevel("axe", Pickarang.harvestLevel);
 		setHarvestLevel("shovel", Pickarang.harvestLevel);
 		
-		if(Pickarang.durability > 0)
+		if (Pickarang.durability > 0)
 			setMaxDamage(Pickarang.durability);
 	}
 
@@ -86,7 +86,7 @@ public class ItemPickarang extends ItemMod implements IQuarkItem {
         worldIn.playSound(null, playerIn.posX, playerIn.posY, playerIn.posZ, QuarkSounds.ENTITY_PICKARANG_THROW, SoundCategory.NEUTRAL, 0.5F + eff * 0.14F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 
 
-        if(!worldIn.isRemote)  {
+        if (!worldIn.isRemote)  {
         	int slot = handIn == EnumHand.OFF_HAND ? playerIn.inventory.getSizeInventory() - 1 : playerIn.inventory.currentItem;
         	EntityPickarang entity = new EntityPickarang(worldIn, playerIn);
         	entity.setThrowData(slot, itemstack);
@@ -94,7 +94,7 @@ public class ItemPickarang extends ItemMod implements IQuarkItem {
             worldIn.spawnEntity(entity);
         }
 
-        if(!playerIn.capabilities.isCreativeMode && !Pickarang.noCooldown) {
+        if (!playerIn.capabilities.isCreativeMode && !Pickarang.noCooldown) {
         	int cooldown = 10 - eff;
         	if (cooldown > 0)
 				playerIn.getCooldownTracker().setCooldown(this, cooldown);

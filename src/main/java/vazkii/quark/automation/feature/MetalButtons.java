@@ -22,13 +22,13 @@ public class MetalButtons extends Feature {
 	
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
-		if(enableIron) {
+		if (enableIron) {
 			iron_button = new BlockMetalButton("iron", 100);
 			RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(iron_button, 1), ProxyRegistry.newStack(Blocks.WOODEN_BUTTON), "ingotIron");
 			RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(iron_button, 1), "buttonWood", "ingotIron");
 		}
 		
-		if(enableIron) {
+		if (enableIron) {
 			gold_button = new BlockMetalButton("gold", 4);
 			RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(gold_button, 1), ProxyRegistry.newStack(Blocks.WOODEN_BUTTON), "ingotGold");
 			RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(gold_button, 1), "buttonWood", "ingotGold");

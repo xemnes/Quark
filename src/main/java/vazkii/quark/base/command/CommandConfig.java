@@ -95,7 +95,7 @@ public class CommandConfig extends CommandBase {
 
 	@Override
 	public void execute(@Nonnull MinecraftServer server, @Nonnull ICommandSender sender, @Nonnull String[] args) throws CommandException {
-		if(args.length < 3)
+		if (args.length < 3)
 			 throw new WrongUsageException(getUsage(sender));
 		
 		boolean save = args.length >= 5 && args[4].equals("save");

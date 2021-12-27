@@ -34,7 +34,7 @@ public class DuskboundBlocks extends Feature {
 		duskbound_block = new BlockDuskbound();
 		duskbound_lantern = new BlockDuskboundLantern();
 
-		if(enableStairsAndSlabs) {
+		if (enableStairsAndSlabs) {
 			BlockModStairs.initStairs(duskbound_block, 0, new BlockDuskboundStairs());
 			BlockModSlab.initSlab(duskbound_block, 0, new BlockDuskboundSlab(false), new BlockDuskboundSlab(true));
 		}

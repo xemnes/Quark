@@ -43,7 +43,7 @@ public class GuiConfigImport extends GuiConfigBase {
 		textField.setCanLoseFocus(false);
 		textField.setMaxStringLength(Integer.MAX_VALUE);
 		
-		if(mc.world != null)
+		if (mc.world != null)
 			importButton.enabled = false;
 	}
 	
@@ -51,15 +51,15 @@ public class GuiConfigImport extends GuiConfigBase {
 	protected void actionPerformed(GuiButton button) throws IOException {
 		super.actionPerformed(button);
 		
-		switch(button.id) {
+		switch (button.id) {
 		case 1: // Import/Quit
-			if(!needsRestart) {
+			if (!needsRestart) {
 				doImport();
 				
-				if(needsRestart) {
+				if (needsRestart) {
 					button.displayString = I18n.format("quark.config.close");
-					for(GuiButton b : buttonList)
-						if(b != button)
+					for (GuiButton b : buttonList)
+						if (b != button)
 							b.enabled = false;
 				}
 			} else FMLCommonHandler.instance().exitJava(0, false);
@@ -75,7 +75,7 @@ public class GuiConfigImport extends GuiConfigBase {
 	
 	@Override
 	protected void keyTyped(char typedChar, int keyCode) throws IOException {
-		if(!needsRestart) {
+		if (!needsRestart) {
 			super.keyTyped(typedChar, keyCode);
 			textField.textboxKeyTyped(typedChar, keyCode);
 		}
@@ -95,11 +95,11 @@ public class GuiConfigImport extends GuiConfigBase {
 		textField.drawTextBox();
 		
 		int x = width / 2;
-		for(int i = 0; i < 4; i++) {
+		for (int i = 0; i < 4; i++) {
 			int y = 50 + i * 10;
 			String key = "quark.config.importinfo" + i;
-			if(i == 3) {
-				if(Minecraft.IS_RUNNING_ON_MAC)
+			if (i == 3) {
+				if (Minecraft.IS_RUNNING_ON_MAC)
 					key += "m";
 				
 				y += 5;
@@ -108,16 +108,16 @@ public class GuiConfigImport extends GuiConfigBase {
 			drawCenteredString(mc.fontRenderer, I18n.format(key), x, y, 0xFFFFFF);
 		}
 		
-		if(needsRestart) {
+		if (needsRestart) {
 			String s;
-			if(disabledFeatures == 1)
+			if (disabledFeatures == 1)
 				s = I18n.format("quark.config.disabledcount1");
 			else s = I18n.format("quark.config.disabledcount", disabledFeatures);
 			
 			drawCenteredString(mc.fontRenderer, s, x, textField.y + 26, 0x00FF00);
 		}
 		
-		if(mc.world != null)
+		if (mc.world != null)
 			drawCenteredString(mc.fontRenderer, I18n.format("quark.config.cantimport"), x, textField.y + 26, 0xFF0000);
 	}
 
@@ -126,25 +126,25 @@ public class GuiConfigImport extends GuiConfigBase {
 		disabledFeatures = 0;
 		
 		String[] disables = textField.getText().trim().split(",");
-		if(disables.length > 0) {
+		if (disables.length > 0) {
 			Set<String> disabledSet = ImmutableSet.copyOf(disables);
 			
-			for(String name : ModuleLoader.featureClassnames.keySet()) {
+			for (String name : ModuleLoader.featureClassnames.keySet()) {
 				Feature f = ModuleLoader.featureClassnames.get(name);
 				boolean enabled = disabledSet.contains(name) != f.enabledByDefault;
-				if(f.prop.getBoolean() != enabled)
+				if (f.prop.getBoolean() != enabled)
 					f.prop.set(enabled);
 				
-				if(f.prop.hasChanged()) {
+				if (f.prop.hasChanged()) {
 					changed = true;
-					if(!enabled)
+					if (!enabled)
 						disabledFeatures++;
 				}
 			}
 		}
 		 
 		needsRestart = false;
-		if(changed) {
+		if (changed) {
 			ModuleLoader.loadConfig();
 			needsRestart = true;
 		}

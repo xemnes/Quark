@@ -60,7 +60,7 @@ public class ShulkerBoxTooltip extends Feature {
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void makeTooltip(ItemTooltipEvent event) {
-		if(RightClickAddToShulkerBox.isShulkerBox(event.getItemStack(), shulkerBoxes, dropoffAnyShulkerBox) && event.getItemStack().hasTagCompound()) {
+		if (RightClickAddToShulkerBox.isShulkerBox(event.getItemStack(), shulkerBoxes, dropoffAnyShulkerBox) && event.getItemStack().hasTagCompound()) {
 			Minecraft mc = Minecraft.getMinecraft();
 
 			NBTTagCompound cmp = ItemNBTHelper.getCompound(event.getItemStack(), "BlockEntityTag", true);
@@ -90,7 +90,7 @@ public class ShulkerBoxTooltip extends Feature {
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public void renderTooltip(RenderTooltipEvent.PostText event) {
-		if(RightClickAddToShulkerBox.isShulkerBox(event.getStack(), shulkerBoxes, dropoffAnyShulkerBox) && event.getStack().hasTagCompound() && (!requireShift || GuiScreen.isShiftKeyDown())) {
+		if (RightClickAddToShulkerBox.isShulkerBox(event.getStack(), shulkerBoxes, dropoffAnyShulkerBox) && event.getStack().hasTagCompound() && (!requireShift || GuiScreen.isShiftKeyDown())) {
 			Minecraft mc = Minecraft.getMinecraft();
 
 			NBTTagCompound cmp = ItemNBTHelper.getCompound(event.getStack(), "BlockEntityTag", true);

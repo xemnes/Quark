@@ -164,7 +164,7 @@ public class RightClickHarvest extends Feature {
 
 		int harvests = 0;
 
-		for(int x = 1 - range; x < range; x++) {
+		for (int x = 1 - range; x < range; x++) {
 			for (int z = 1 - range; z < range; z++) {
 				BlockPos pos = event.getPos().add(x, 0, z);
 

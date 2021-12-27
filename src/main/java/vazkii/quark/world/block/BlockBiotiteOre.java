@@ -51,10 +51,10 @@ public class BlockBiotiteOre extends BlockMod implements IQuarkBlock  {
 
 	@Override
 	public int quantityDroppedWithBonus(int fortune, @Nonnull Random random) {
-		if(fortune > 0) {
+		if (fortune > 0) {
 			int i = random.nextInt(fortune + 2) - 1;
 
-			if(i < 0)
+			if (i < 0)
 				i = 0;
 
 			return this.quantityDropped(random) * (i + 1);

@@ -35,16 +35,16 @@ public class CompassAngleGetter implements IItemPropertyGetter {
 	public static void tickCompass(EntityPlayer player, ItemStack stack) {
 		boolean calculated = isCalculated(stack);
 		boolean nether = player.world.provider.getDimensionType() == DimensionType.NETHER; 
-		if(calculated) {
+		if (calculated) {
 			boolean wasInNether = ItemNBTHelper.getBoolean(stack, TAG_WAS_IN_NETHER, false);
 			BlockPos pos = player.getPosition();
 			boolean isInPortal = player.world.getBlockState(pos).getBlock() == Blocks.PORTAL;
-			if(nether && !wasInNether && isInPortal) {
+			if (nether && !wasInNether && isInPortal) {
 				ItemNBTHelper.setInt(stack, TAG_NETHER_TARGET_X, pos.getX());
 				ItemNBTHelper.setInt(stack, TAG_NETHER_TARGET_Z, pos.getZ());
 				ItemNBTHelper.setBoolean(stack, TAG_WAS_IN_NETHER, true);
 				ItemNBTHelper.setBoolean(stack, TAG_POSITION_SET, true);
-			} else if(!nether && wasInNether) {
+			} else if (!nether && wasInNether) {
 				ItemNBTHelper.setBoolean(stack, TAG_WAS_IN_NETHER, false);
 				ItemNBTHelper.setBoolean(stack, TAG_POSITION_SET, false);
 			}
@@ -61,10 +61,10 @@ public class CompassAngleGetter implements IItemPropertyGetter {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public float apply(@Nonnull ItemStack stack, @Nullable World worldIn, @Nullable EntityLivingBase entityIn) {
-		if(entityIn == null && !stack.isOnItemFrame())
+		if (entityIn == null && !stack.isOnItemFrame())
 			return 0F;
 		
-		if(CompassesWorkEverywhere.enableCompassNerf && (!stack.hasTagCompound() || !ItemNBTHelper.getBoolean(stack, TAG_CALCULATED, false)))
+		if (CompassesWorkEverywhere.enableCompassNerf && (!stack.hasTagCompound() || !ItemNBTHelper.getBoolean(stack, TAG_CALCULATED, false)))
 			return 0F;
 
 		boolean carried = entityIn != null;
@@ -73,7 +73,7 @@ public class CompassAngleGetter implements IItemPropertyGetter {
 		if (entity == null)
 			return 0;
 
-		if(worldIn == null)
+		if (worldIn == null)
 			worldIn = entity.world;
 
 		double angle;
@@ -81,14 +81,14 @@ public class CompassAngleGetter implements IItemPropertyGetter {
 		boolean calculate = false;
 		BlockPos target = new BlockPos(0, 0, 0);
 		
-		if(worldIn.provider.isSurfaceWorld()) {
+		if (worldIn.provider.isSurfaceWorld()) {
 			calculate = true;
 			target = worldIn.getSpawnPoint();
-		} else if(worldIn.provider.getDimensionType() == DimensionType.THE_END && CompassesWorkEverywhere.enableEnd)
+		} else if (worldIn.provider.getDimensionType() == DimensionType.THE_END && CompassesWorkEverywhere.enableEnd)
 			calculate = true;
-		else if(worldIn.provider.getDimensionType() == DimensionType.NETHER && isCalculated(stack) && CompassesWorkEverywhere.enableNether) {
+		else if (worldIn.provider.getDimensionType() == DimensionType.NETHER && isCalculated(stack) && CompassesWorkEverywhere.enableNether) {
 			boolean set = ItemNBTHelper.getBoolean(stack, TAG_POSITION_SET, false);
-			if(set) {
+			if (set) {
 				int x = ItemNBTHelper.getInt(stack, TAG_NETHER_TARGET_X, 0);
 				int z = ItemNBTHelper.getInt(stack, TAG_NETHER_TARGET_Z, 0);
 				calculate = true;
@@ -96,7 +96,7 @@ public class CompassAngleGetter implements IItemPropertyGetter {
 			}
 		}
 		
-		if(calculate) {
+		if (calculate) {
 			double d1 = carried ? entity.rotationYaw : getFrameRotation((EntityItemFrame)entity);
 			d1 = MathHelper.positiveModulo(d1 / 360.0D, 1.0D);
 			double d2 = getAngleToPosition(entity, target) / (Math.PI * 2D);
@@ -110,7 +110,7 @@ public class CompassAngleGetter implements IItemPropertyGetter {
 	}
 
 	private double wobble(World worldIn, double angle) {
-		if(worldIn.getTotalWorldTime() != lastUpdateTick) {
+		if (worldIn.getTotalWorldTime() != lastUpdateTick) {
 			lastUpdateTick = worldIn.getTotalWorldTime();
 			double d0 = angle - rotation;
 			d0 = MathHelper.positiveModulo(d0 + 0.5D, 1.0D) - 0.5D;

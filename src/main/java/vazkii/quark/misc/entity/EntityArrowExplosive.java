@@ -48,13 +48,13 @@ public class EntityArrowExplosive extends EntityArrow {
 	public void onUpdate() {
 		super.onUpdate();
 
-		if(getEntityWorld().isRemote)
+		if (getEntityWorld().isRemote)
 			spawnPotionParticles(4);
 	}
 
 	public void spawnPotionParticles(int particleCount) {
-		if(particleCount > 0)
-			for(int i = 0; i < particleCount; i++)
+		if (particleCount > 0)
+			for (int i = 0; i < particleCount; i++)
 				getEntityWorld().spawnParticle(EnumParticleTypes.SMOKE_NORMAL, posX + (rand.nextDouble() - 0.5D) * width, posY + rand.nextDouble() * height, posZ + (rand.nextDouble() - 0.5D) * width, 0.0D, 0.0D, 0.0D);
 	}
 
@@ -62,7 +62,7 @@ public class EntityArrowExplosive extends EntityArrow {
 	protected void onHit(RayTraceResult rayTrace) {
 		super.onHit(rayTrace);
 
-		if(!world.isRemote) {
+		if (!world.isRemote) {
 			Explosion explosion = new Explosion(world, this, rayTrace.hitVec.x, rayTrace.hitVec.y, rayTrace.hitVec.z,
 					(float) ExtraArrows.explosiveArrowPower, false, ExtraArrows.explosiveArrowDestroysBlocks) {
 				@Nullable

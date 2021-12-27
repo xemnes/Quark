@@ -48,7 +48,7 @@ public class ItemQuarkFood extends ItemFood implements IQuarkItem {
 		String[] variants = getVariants();
 
 		String name;
-		if(dmg >= variants.length)
+		if (dmg >= variants.length)
 			name = bareName;
 		else name = variants[dmg];
 
@@ -57,8 +57,8 @@ public class ItemQuarkFood extends ItemFood implements IQuarkItem {
 
 	@Override
 	public void getSubItems(@Nonnull CreativeTabs tab, @Nonnull NonNullList<ItemStack> subItems) {
-		if(isInCreativeTab(tab))
-			for(int i = 0; i < getVariants().length; i++)
+		if (isInCreativeTab(tab))
+			for (int i = 0; i < getVariants().length; i++)
 				subItems.add(new ItemStack(this, 1, i));
 	}
 

@@ -15,7 +15,7 @@ public class TileFramed extends TileSimpleInventory {
 	@SuppressWarnings("deprecation")
 	public IBlockState getState() {
 		ItemStack stack = getStackInSlot(0);
-		if(stack.isEmpty() || !(stack.getItem() instanceof ItemBlock))
+		if (stack.isEmpty() || !(stack.getItem() instanceof ItemBlock))
 			return AIR;
 		
         ItemBlock block = (ItemBlock) stack.getItem();

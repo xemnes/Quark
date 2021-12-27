@@ -22,11 +22,11 @@ public class DyeAnyWool extends Feature {
 
 	@Override
 	public void postPreInit() {
-		for(int i = 0; i < 16; i++) {
+		for (int i = 0; i < 16; i++) {
 			String dye = LibMisc.OREDICT_DYES.get(15 - i);
 
 			addRecipe(Blocks.WOOL, i, dye);
-			if(ModuleLoader.isFeatureEnabled(QuiltedWool.class))
+			if (ModuleLoader.isFeatureEnabled(QuiltedWool.class))
 				addRecipe(QuiltedWool.quilted_wool, i, dye);
 		}
 	}
@@ -35,7 +35,7 @@ public class DyeAnyWool extends Feature {
 		ItemStack in = ProxyRegistry.newStack(block, 1, OreDictionary.WILDCARD_VALUE);
 		RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(block, 1, meta), in, dye);
 
-		if(add8WoolRecipe)
+		if (add8WoolRecipe)
 			RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(block, 8, meta), 
 					dye, in, in, in, in, in, in, in, in);
 	}
