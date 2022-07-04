@@ -137,7 +137,7 @@ public class ExtraPotions extends Feature {
 	}
 	
 	// Shamelessly stolen from BetterWithMods
-	// https://github.com/BetterWithMods/BetterWithMods/blob/bf630aa1fade156ce8fae0d769ad745a4161b0ba/src/main/java/betterwithmods/event/PotionEventHandler.java
+	// https://gitlab.com/BetterWithMods/1.12/BetterWithMods/-/blob/bf630aa1fade156ce8fae0d769ad745a4161b0ba/src/main/java/betterwithmods/event/PotionEventHandler.java#L34-52
 	private boolean canMobsSpawnInPos(World world, BlockPos pos) {
 		if (world.isSideSolid(pos.down(), EnumFacing.UP) && !world.isBlockNormalCube(pos, false)
 				&& !world.isBlockNormalCube(pos.up(), false) && !world.getBlockState(pos).getMaterial().isLiquid()) {

@@ -111,7 +111,7 @@ public class ContainerBackpack extends ContainerPlayer {
 
 	// Shamelessly stolen from CoFHCore because KL is awesome
 	// and was like yeah just take whatever you want lol
-	// https://github.com/CoFH/CoFHCore/blob/d4a79b078d257e88414f5eed598d57490ec8e97f/src/main/java/cofh/core/util/helpers/InventoryHelper.java
+	// https://github.com/CoFH/CoFHCore-1.12-Legacy/blob/d4a79b078d257e88414f5eed598d57490ec8e97f/src/main/java/cofh/core/util/helpers/InventoryHelper.java#L98-L165
 	@Override
 	public boolean mergeItemStack(ItemStack stack, int start, int length, boolean r) {
 		boolean successful = false;

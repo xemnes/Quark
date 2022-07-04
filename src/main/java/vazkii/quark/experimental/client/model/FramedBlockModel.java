@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 // referenced from BlockCraftery BakedModelEditable
-// https://github.com/EpicSquid/Blockcraftery/blob/master/src/main/java/epicsquid/blockcraftery/model/BakedModelEditable.java
+// https://github.com/MysticMods/Blockcraftery/blob/00dbcecc08b5593114ee89bcb7962b9ac95fc046/src/main/java/epicsquid/blockcraftery/model/BakedModelEditable.java
 public class FramedBlockModel extends BakedModelWrapper<IBakedModel> {
 
 	public static final Map<String, RetextureData> cache = new HashMap<>();
