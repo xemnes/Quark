@@ -75,8 +75,8 @@ public class RightClickHarvest extends Feature {
 						"minecraft:cocoa:9,minecraft:cocoa:1",
 						"minecraft:cocoa:8,minecraft:cocoa:0"
 				});
-		unharvestableBlocks = loadPropStringList("Unharvestable Crops", "(does nothing right now) Which crops can *not* be harvested?\n" +
-				"Format is: \"harvestState\", e.g. \"minecraft:wheat:7\" or \"minecraft:cocoa:11\"",
+		unharvestableBlocks = loadPropStringList("Unharvestable Crops", "Which crops can *not* be harvested?\n" +
+				"Format is: \"harvestState\", e.g. \"minecraft:wheat:7\" or \"minecraft:cocoa:11\"; omit the meta for a wildcard blacklist",
 				new String[] { });
 
 		if (hasInit)
