@@ -29,15 +29,20 @@ public class BlockStack {
     private final int meta;
     private final IBlockState state;
 
+    private final boolean isWildcard;
+
     @SuppressWarnings("deprecation")
     public BlockStack(Block block, int meta) {
         this.block = block;
         this.meta = meta;
         this.state = block.getStateFromMeta(meta);
+
+        this.isWildcard = (meta < 0);
+        if (meta < 0) meta = 0;
     }
 
     public BlockStack(Block block) {
-        this(block, 0);
+        this(block, -1);
     }
 
     private static final Pattern BLOCK_STACK_PATTERN = Pattern.compile("(?:(\\w+):)?(\\w+)(?::(\\d+))?");
@@ -52,7 +57,7 @@ public class BlockStack {
         String block = match.group(2);
         String metaString = match.group(3);
 
-        int meta = metaString == null ? 0 : Integer.parseInt(metaString);
+        int meta = metaString == null ? -1 : Integer.parseInt(metaString);
 
         ResourceLocation loc = new ResourceLocation(modid, block);
         Block blockInstance = Block.REGISTRY.getObject(loc);
@@ -81,6 +86,13 @@ public class BlockStack {
 
     public IBlockState getState() {
         return state;
+    }
+
+    public boolean matches(BlockStack o) {
+        if (o == null) return false;
+        if (!Block.isEqualTo(this.getBlock(), o.getBlock())) return false;
+        if (this.isWildcard) return true;
+        return this.getMeta() == o.getMeta();
     }
 
     @Override

@@ -110,7 +110,10 @@ public class RightClickHarvest extends Feature {
 			crops.put(initial, result);
 		}
 
-		// implement unharvestable blocks here
+		for (String harvestKey : unharvestableBlocks) {
+			BlockStack blockStack = BlockStack.fromString(harvestKey);
+			crops.keySet().removeIf(blockStack::matches);
+		}
 	}
 
 	private static void replant(World world, BlockPos pos, BlockStack inWorld, EntityPlayer player) {
