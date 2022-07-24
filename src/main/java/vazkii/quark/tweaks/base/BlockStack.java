@@ -35,10 +35,11 @@ public class BlockStack {
     public BlockStack(Block block, int meta) {
         this.block = block;
         this.meta = meta;
-        this.state = block.getStateFromMeta(meta);
 
         this.isWildcard = (meta < 0);
         if (meta < 0) meta = 0;
+
+        this.state = block.getStateFromMeta(meta);
     }
 
     public BlockStack(Block block) {
@@ -105,7 +106,7 @@ public class BlockStack {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BlockStack that = (BlockStack) o;
-        return Objects.equals(state, that.state);
+        return Objects.equals(state, that.state) && this.isWildcard == that.isWildcard;
     }
 
     @Override
