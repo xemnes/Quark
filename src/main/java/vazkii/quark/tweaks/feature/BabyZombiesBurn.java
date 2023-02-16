@@ -24,22 +24,22 @@ public class BabyZombiesBurn extends Feature {
 
 	@SubscribeEvent
 	public void entityUpdate(LivingUpdateEvent event) {
-		if(event.getEntity() instanceof EntityZombie && !(event.getEntity() instanceof EntityHusk)) {
+		if (event.getEntity() instanceof EntityZombie && !(event.getEntity() instanceof EntityHusk)) {
 			EntityZombie zombie = (EntityZombie) event.getEntity();
 
-			if(zombie.getEntityWorld().isDaytime() && !zombie.getEntityWorld().isRemote && zombie.isChild()) {
+			if (zombie.getEntityWorld().isDaytime() && !zombie.getEntityWorld().isRemote && zombie.isChild()) {
 				float f = zombie.getBrightness();
 				BlockPos blockpos = zombie.getRidingEntity() instanceof EntityBoat ? new BlockPos(zombie.posX, Math.round(zombie.posY), zombie.posZ).up() : new BlockPos(zombie.posX, Math.round(zombie.posY), zombie.posZ);
 
-				if(f > 0.5F && zombie.getEntityWorld().rand.nextFloat() * 30.0F < (f - 0.4F) * 2.0F && zombie.getEntityWorld().canSeeSky(blockpos)) {
+				if (f > 0.5F && zombie.getEntityWorld().rand.nextFloat() * 30.0F < (f - 0.4F) * 2.0F && zombie.getEntityWorld().canSeeSky(blockpos)) {
 					boolean flag = true;
 					ItemStack itemstack = zombie.getItemStackFromSlot(EntityEquipmentSlot.HEAD);
 
-					if(!itemstack.isEmpty()) {
-						if(itemstack.isItemStackDamageable()) {
+					if (!itemstack.isEmpty()) {
+						if (itemstack.isItemStackDamageable()) {
 							itemstack.setItemDamage(itemstack.getItemDamage() + zombie.getEntityWorld().rand.nextInt(2));
 
-							if(itemstack.getItemDamage() >= itemstack.getMaxDamage()) {
+							if (itemstack.getItemDamage() >= itemstack.getMaxDamage()) {
 								zombie.renderBrokenItemStack(itemstack);
 								zombie.setItemStackToSlot(EntityEquipmentSlot.HEAD, ItemStack.EMPTY);
 							}
@@ -48,7 +48,7 @@ public class BabyZombiesBurn extends Feature {
 						flag = false;
 					}
 
-					if(flag)
+					if (flag)
 						zombie.setFire(8);
 				}
 			}

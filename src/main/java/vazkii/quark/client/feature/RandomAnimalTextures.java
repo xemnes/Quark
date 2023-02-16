@@ -66,12 +66,12 @@ public class RandomAnimalTextures extends Feature {
 	@SideOnly(Side.CLIENT)
 	public static ResourceLocation getRandomTexture(Entity e, RandomTextureType type, boolean choose) {
 		List<ResourceLocation> styles = textures.get(type);
-		if(!choose)
+		if (!choose)
 			return styles.get(styles.size() - 1);
 		
 		UUID id = e.getUniqueID();
 		long most = id.getMostSignificantBits();
-		if(shinyAnimalChance > 0 && (most % shinyAnimalChance) == 0)
+		if (shinyAnimalChance > 0 && (most % shinyAnimalChance) == 0)
 			return shinyTextures.get(type);
 		
 		int choice = Math.abs((int) (most % styles.size()));
@@ -81,10 +81,10 @@ public class RandomAnimalTextures extends Feature {
 	@SideOnly(Side.CLIENT)
 	private static void registerTextures(RandomTextureType type, int count, ResourceLocation vanilla) {
 		String name = type.name().toLowerCase();
-		for(int i = 1; i < count + 1; i++)
+		for (int i = 1; i < count + 1; i++)
 			textures.put(type, new ResourceLocation(LibMisc.MOD_ID, String.format("textures/entity/random/%s%d.png", name, i)));
 		
-		if(vanilla != null)
+		if (vanilla != null)
 			textures.put(type, vanilla);
 		
 		shinyTextures.put(type, new ResourceLocation(LibMisc.MOD_ID, String.format("textures/entity/random/%s_shiny.png", name)));
@@ -92,7 +92,7 @@ public class RandomAnimalTextures extends Feature {
 
 	@SideOnly(Side.CLIENT)
 	private static <T extends Entity>void registerOverride(Class<T> clazz, IRenderFactory<? super T> factory, boolean enabled) {
-		if(enabled)
+		if (enabled)
 			RenderingRegistry.registerEntityRenderingHandler(clazz, factory);
 	}
 	

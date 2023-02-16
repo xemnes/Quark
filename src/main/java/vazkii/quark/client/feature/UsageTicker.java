@@ -1,6 +1,7 @@
 package vazkii.quark.client.feature;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
@@ -23,6 +24,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.commons.lang3.text.WordUtils;
+
 import vazkii.quark.base.module.Feature;
 import vazkii.quark.building.item.ItemTrowel;
 
@@ -40,9 +42,9 @@ public class UsageTicker extends Feature {
 	public void setupConfig() {
 		elements = new ArrayList<>();
 		
-		for(EntityEquipmentSlot slot : EntityEquipmentSlot.values()) {
+		for (EntityEquipmentSlot slot : EntityEquipmentSlot.values()) {
 			String config = "Enable " + WordUtils.capitalize(slot.getName());
-			if(loadPropBool(config, "", true))
+			if (loadPropBool(config, "", true))
 				elements.add(new TickerElement(slot));
 		}
 		
@@ -54,9 +56,9 @@ public class UsageTicker extends Feature {
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void clientTick(ClientTickEvent event) {
-		if(event.phase == Phase.START) {
+		if (event.phase == Phase.START) {
 			Minecraft mc = Minecraft.getMinecraft();
-			if(mc.player != null)
+			if (mc.player != null)
 				elements.forEach((ticker) -> ticker.tick(mc.player));
 		}
 	}
@@ -64,7 +66,7 @@ public class UsageTicker extends Feature {
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void renderHUD(RenderGameOverlayEvent.Post event) {
-		if(event.getType() == ElementType.HOTBAR) {
+		if (event.getType() == ElementType.HOTBAR) {
 			ScaledResolution res = event.getResolution();
 			EntityPlayer player = Minecraft.getMinecraft().player;
 			float partial = event.getPartialTicks();
@@ -99,20 +101,20 @@ public class UsageTicker extends Feature {
 
 			heldStack = getDisplayedStack(heldStack, count);
 
-			if(heldStack.isEmpty())
+			if (heldStack.isEmpty())
 				liveTicks = 0;
-			else if(shouldChange(heldStack, currStack, count, currCount)) {
+			else if (shouldChange(heldStack, currStack, count, currCount)) {
 				boolean done = liveTicks == 0;
 				boolean animatingIn = liveTicks > MAX_TIME - ANIM_TIME;
 				boolean animatingOut = liveTicks < ANIM_TIME && !done;
-				if(animatingOut)
+				if (animatingOut)
 					liveTicks = MAX_TIME - liveTicks;
-				else if(!animatingIn) {
-					if(!done)
+				else if (!animatingIn) {
+					if (!done)
 						liveTicks = MAX_TIME - ANIM_TIME;
 					else liveTicks = MAX_TIME;
 				}
-			} else if(liveTicks > 0)
+			} else if (liveTicks > 0)
 				liveTicks--;
 				
 			currCount = count;
@@ -121,10 +123,10 @@ public class UsageTicker extends Feature {
 		
 		@SideOnly(Side.CLIENT)
 		public void render(ScaledResolution res, EntityPlayer player, boolean invert, float partialTicks) {
-			if(liveTicks > 0) {
+			if (liveTicks > 0) {
 				float animProgress; 
 				
-				if(liveTicks < ANIM_TIME)
+				if (liveTicks < ANIM_TIME)
 					animProgress = Math.max(0, liveTicks - partialTicks) / ANIM_TIME;
 				else animProgress = Math.min(ANIM_TIME, (MAX_TIME - liveTicks) + partialTicks) / ANIM_TIME;
 				
@@ -145,23 +147,35 @@ public class UsageTicker extends Feature {
 				int index = slots - slot.getIndex() - 1;
 				float mul = ourSide == EnumHandSide.LEFT ? -1 : 1;
 
-				if(ourSide != primary && !player.getHeldItem(EnumHand.OFF_HAND).isEmpty())
+				if (ourSide != primary && !player.getHeldItem(EnumHand.OFF_HAND).isEmpty())
 					barWidth += 58;
 				
 				Minecraft mc = Minecraft.getMinecraft();
 				x += (barWidth / 2f) * mul + index * 20;
-				if(ourSide == EnumHandSide.LEFT) {
+				if (ourSide == EnumHandSide.LEFT) {
 					x -= slots * 20;
 					x += shiftLeft;
 				} else x += shiftRight;
 					
 				ItemStack stack = getRenderedStack(player);
+
+				FontRenderer fontRenderer = stack.getItem().getFontRenderer(stack);
+				if (fontRenderer == null) {
+					fontRenderer = Minecraft.getMinecraft().fontRenderer;
+				}
 				
 				GlStateManager.pushMatrix();
 				GlStateManager.translate(x, y, 0);
 				RenderHelper.enableGUIStandardItemLighting();
+				GlStateManager.disableLighting();
+				GlStateManager.enableRescaleNormal();
+				GlStateManager.enableColorMaterial();
+				GlStateManager.enableDepth();
+				GlStateManager.enableLighting();
 				mc.getRenderItem().renderItemAndEffectIntoGUI(stack, 0, 0);
-				mc.getRenderItem().renderItemOverlays(Minecraft.getMinecraft().fontRenderer, stack, 0, 0);
+				mc.getRenderItem().renderItemOverlays(fontRenderer, stack, 0, 0);
+				// Quark.LOG.info("Stack " + stack.getDisplayName() + " (" + stack.getCount() + ") should show durability? " + stack.getItem().showDurabilityBar(stack));
+				// Quark.LOG.info("x = " + x + " & y = " + y);
 				RenderHelper.disableStandardItemLighting();
 				GlStateManager.popMatrix();
 			}
@@ -180,20 +194,20 @@ public class UsageTicker extends Feature {
 		@SideOnly(Side.CLIENT)
 		public ItemStack getDisplayedStack(ItemStack stack, int count) {
 			boolean verifySize = true;
-			if(stack.getItem() instanceof ItemBow && EnchantmentHelper.getEnchantmentLevel(Enchantments.INFINITY, stack) == 0) {
+			if (stack.getItem() instanceof ItemBow && EnchantmentHelper.getEnchantmentLevel(Enchantments.INFINITY, stack) == 0) {
 				stack = new ItemStack(Items.ARROW);
 				verifySize = false;
 			}
 			
-			if(stack.getItem() instanceof ItemTrowel) {
+			if (stack.getItem() instanceof ItemTrowel) {
 				stack = ItemTrowel.getLastStack(stack);
 				verifySize = false;
 			}
 			
-			if(!stack.isStackable() && slot.getSlotType() == Type.HAND)
+			if (!stack.isStackable() && slot.getSlotType() == Type.HAND)
 				return ItemStack.EMPTY;
 			
-			if(verifySize && stack.isStackable() && count == stack.getCount())
+			if (verifySize && stack.isStackable() && count == stack.getCount())
 				return ItemStack.EMPTY;
 			
 			return stack;
@@ -204,7 +218,7 @@ public class UsageTicker extends Feature {
 			ItemStack stack = getStack(player);
 			int count = getStackCount(player, stack);
 			ItemStack displayStack = getDisplayedStack(stack, count).copy();
-			if(displayStack != stack)
+			if (displayStack != stack)
 				count = getStackCount(player,  displayStack);
 			displayStack.setCount(count);
 			
@@ -213,18 +227,18 @@ public class UsageTicker extends Feature {
 		
 		@SideOnly(Side.CLIENT)
 		public int getStackCount(EntityPlayer player, ItemStack stack) {
-			if(!stack.isStackable())
+			if (!stack.isStackable())
 				return 1;
 			
 			Predicate<ItemStack> predicate = (stackAt) -> ItemStack.areItemsEqual(stackAt, stack) && ItemStack.areItemStackTagsEqual(stackAt, stack);
 			
-			if(stack.getItem() == Items.ARROW)
+			if (stack.getItem() == Items.ARROW)
 				predicate = (stackAt) -> stackAt.getItem() instanceof ItemArrow;
 			
 			int total = 0;
-			for(int i = 0; i < player.inventory.getSizeInventory(); i++) {
+			for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
 				ItemStack stackAt = player.inventory.getStackInSlot(i);
-				if(predicate.test(stackAt))
+				if (predicate.test(stackAt))
 					total += stackAt.getCount();
 			}
 			

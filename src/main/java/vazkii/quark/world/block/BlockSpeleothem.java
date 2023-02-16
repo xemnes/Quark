@@ -56,7 +56,7 @@ public class BlockSpeleothem extends BlockMod implements IQuarkBlock {
 	@Override
 	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
 		int size = state.getValue(SIZE).strength;
-		if(getBearing(worldIn, pos) < size + 1) {
+		if (getBearing(worldIn, pos) < size + 1) {
 			worldIn.playEvent(2001, pos, Block.getStateId(worldIn.getBlockState(pos)));
 			dropBlockAsItem(worldIn, pos, state, 0);
 			worldIn.setBlockToAir(pos);
@@ -84,10 +84,10 @@ public class BlockSpeleothem extends BlockMod implements IQuarkBlock {
 	
 	private int getStrength(IBlockAccess world, BlockPos pos) {
 		IBlockState state = world.getBlockState(pos);
-		if(state.isFullBlock())
+		if (state.isFullBlock())
 			return 3;
 		
-		if(state.getPropertyKeys().contains(SIZE))
+		if (state.getPropertyKeys().contains(SIZE))
 			return state.getValue(SIZE).strength;
 		
 		return 0;

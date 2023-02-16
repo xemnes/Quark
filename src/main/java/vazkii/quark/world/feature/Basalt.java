@@ -51,7 +51,7 @@ public class Basalt extends Feature {
 	public void preInit(FMLPreInitializationEvent event) {
 		basalt = new BlockBasalt();
 
-		if(enableStairsAndSlabs) {
+		if (enableStairsAndSlabs) {
 			BlockBasicStoneSlab.initSlab(basalt, 0, "stone_basalt_slab");
 			BlockModStairs.initStairs(basalt, 0, new BlockQuarkStairs("stone_basalt_stairs", basalt.getDefaultState()));
 		}
@@ -66,7 +66,7 @@ public class Basalt extends Feature {
 	@Override
 	public void postPreInit() {
 		Object blackItem = ProxyRegistry.newStack(Items.COAL);
-		if(ModuleLoader.isFeatureEnabled(Biotite.class))
+		if (ModuleLoader.isFeatureEnabled(Biotite.class))
 			blackItem = "gemBiotite";
 
 		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(basalt, 4, 0),

@@ -35,7 +35,7 @@ public class EntityArchaeologist extends EntityCreature implements IMerchant {
 		super(worldIn);
 		setSize(0.6F, 1.95F);
 		
-		if(Archaeologist.enableHat && Archaeologist.dropHat)
+		if (Archaeologist.enableHat && Archaeologist.dropHat)
 			setItemStackToSlot(EntityEquipmentSlot.HEAD, new ItemStack(Archaeologist.archaeologist_hat));
 	}
 	
@@ -45,27 +45,27 @@ public class EntityArchaeologist extends EntityCreature implements IMerchant {
 	}
 	
 	private void populateBuyingList() {
-		if(buyingList == null)
+		if (buyingList == null)
 			buyingList = new MerchantRecipeList();
 
 		Random r = world.rand;
 
 		buyingList.add(new MerchantRecipe(new ItemStack(Items.EMERALD, 2 + rand.nextInt(3)), new ItemStack(Items.BONE, 3 + rand.nextInt(3))));
-		if(r.nextBoolean())
+		if (r.nextBoolean())
 			buyingList.add(new MerchantRecipe(new ItemStack(Items.BONE, 10 + rand.nextInt(5)), new ItemStack(Items.EMERALD, 1)));
 		else buyingList.add(new MerchantRecipe(new ItemStack(Items.GUNPOWDER, 7 + rand.nextInt(10)), new ItemStack(Items.EMERALD, 1)));
 
-		if(r.nextBoolean())
+		if (r.nextBoolean())
 			buyingList.add(new MerchantRecipe(new ItemStack(Items.COAL, 16 + rand.nextInt(10)), new ItemStack(Items.EMERALD, 1)));
-		if(r.nextBoolean())
+		if (r.nextBoolean())
 			buyingList.add(new MerchantRecipe(new ItemStack(Items.EMERALD, 12 + rand.nextInt(10)), new ItemStack(Items.DIAMOND, 1)));
-		if(r.nextBoolean()) {
-			if(r.nextBoolean())
+		if (r.nextBoolean()) {
+			if (r.nextBoolean())
 				buyingList.add(new MerchantRecipe(new ItemStack(Items.EMERALD, 8 + rand.nextInt(5)), new ItemStack(Items.IRON_PICKAXE, 1)));
 			else buyingList.add(new MerchantRecipe(new ItemStack(Items.EMERALD, 6 + rand.nextInt(4)), new ItemStack(Items.IRON_SHOVEL, 1)));
 		}
 
-		if(Archaeologist.enableHat && Archaeologist.sellHat)
+		if (Archaeologist.enableHat && Archaeologist.sellHat)
 			buyingList.add(new MerchantRecipe(new ItemStack(Items.EMERALD, 6 + rand.nextInt(4)), ItemStack.EMPTY, new ItemStack(Archaeologist.archaeologist_hat, 1), 0, 1));
 	}
 
@@ -78,15 +78,15 @@ public class EntityArchaeologist extends EntityCreature implements IMerchant {
 
 	@Override
 	protected void updateAITasks() {
-		if(--randomTickDivider <= 0) {
+		if (--randomTickDivider <= 0) {
 			randomTickDivider = 70 + rand.nextInt(50);
 
-			if(!isTrading() && timeUntilReset > 0) {
+			if (!isTrading() && timeUntilReset > 0) {
 				--timeUntilReset;
 
-				if(timeUntilReset <= 0)
-					for(MerchantRecipe merchantrecipe : buyingList)
-						if(merchantrecipe.isRecipeDisabled())
+				if (timeUntilReset <= 0)
+					for (MerchantRecipe merchantrecipe : buyingList)
+						if (merchantrecipe.isRecipeDisabled())
 							merchantrecipe.increaseMaxTradeUses(rand.nextInt(6) + rand.nextInt(6) + 2);
 			}
 		}
@@ -97,18 +97,18 @@ public class EntityArchaeologist extends EntityCreature implements IMerchant {
 		ItemStack itemstack = player.getHeldItem(hand);
 		boolean flag = itemstack.getItem() == Items.NAME_TAG;
 
-		if(flag) {
+		if (flag) {
 			itemstack.interactWithEntity(player, this, hand);
 			return true;
 		}
-		else if(isEntityAlive() && !isTrading() && !player.isSneaking()) {
-			if(buyingList == null)
+		else if (isEntityAlive() && !isTrading() && !player.isSneaking()) {
+			if (buyingList == null)
 				populateBuyingList();
 
-			if(hand == EnumHand.MAIN_HAND)
+			if (hand == EnumHand.MAIN_HAND)
 				player.addStat(StatList.TALKED_TO_VILLAGER);
 
-			if(!world.isRemote && !buyingList.isEmpty()) {
+			if (!world.isRemote && !buyingList.isEmpty()) {
 				boolean any = false;
 				for (MerchantRecipe recipe : buyingList) {
 					if (!recipe.isRecipeDisabled()) {
@@ -124,7 +124,7 @@ public class EntityArchaeologist extends EntityCreature implements IMerchant {
 
 				setCustomer(player);
 				player.displayVillagerTradeGui(this);
-			} else if(buyingList.isEmpty())
+			} else if (buyingList.isEmpty())
 				return super.processInteract(player, hand);
 
 			return true;
@@ -161,13 +161,13 @@ public class EntityArchaeologist extends EntityCreature implements IMerchant {
 	public void useRecipe(@Nonnull MerchantRecipe recipe) {
 		recipe.incrementToolUses();
 
-		if(recipe.getToolUses() == 1 || rand.nextInt(5) == 0)
+		if (recipe.getToolUses() == 1 || rand.nextInt(5) == 0)
 			timeUntilReset = 40;
 	}
 
 	@Override
 	public void verifySellingItem(@Nonnull ItemStack stack) {
-		if(!world.isRemote && livingSoundTime > -getTalkInterval() + 20) {
+		if (!world.isRemote && livingSoundTime > -getTalkInterval() + 20) {
 			livingSoundTime = -getTalkInterval();
 			playSound(stack.isEmpty() ? SoundEvents.ENTITY_VILLAGER_NO : SoundEvents.ENTITY_VILLAGER_YES, getSoundVolume(), getSoundPitch());
 		}
@@ -193,7 +193,7 @@ public class EntityArchaeologist extends EntityCreature implements IMerchant {
 	public void writeEntityToNBT(NBTTagCompound compound) {
 		super.writeEntityToNBT(compound);
 
-		if(buyingList != null)
+		if (buyingList != null)
 			compound.setTag("Offers", buyingList.getRecipiesAsTags());
 	}
 
@@ -201,7 +201,7 @@ public class EntityArchaeologist extends EntityCreature implements IMerchant {
 	public void readEntityFromNBT(NBTTagCompound compound) {
 		super.readEntityFromNBT(compound);
 
-		if(compound.hasKey("Offers", 10)) {
+		if (compound.hasKey("Offers", 10)) {
 			NBTTagCompound nbttagcompound = compound.getCompoundTag("Offers");
 			buyingList = new MerchantRecipeList(nbttagcompound);
 		}

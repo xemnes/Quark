@@ -78,9 +78,9 @@ public class GreenerGrass extends Feature {
             bcm.setAccessible(true);
             Map<IRegistryDelegate<Block>, IBlockColor> map = (Map<IRegistryDelegate<Block>, IBlockColor>) bcm.get(colors);
             
-            for(Block b : blocks) {
+            for (Block b : blocks) {
                 IBlockColor color = map.get(b.delegate);
-                if(color != null)
+                if (color != null)
                     colors.registerBlockColorHandler(getGreenerColor(color), b);
             }
         } catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException ignored) {
@@ -102,7 +102,7 @@ public class GreenerGrass extends Feature {
 			int shiftGreen = alphaGrass ? 120 : greenShift;
 			int shiftBlue = alphaGrass ? 30 : blueShift;
 
-			if(absoluteValues)
+			if (absoluteValues)
 				return (Math.max(0, Math.min(0xFF, redShift)) << 16) + Math.max(0, Math.min(0xFF, greenShift) << 8) + Math.max(0, Math.min(0xFF, blueShift));
 			return (Math.max(0, Math.min(0xFF, r + shiftRed)) << 16) + Math.max(0, Math.min(0xFF, g + shiftGreen) << 8) + Math.max(0, Math.min(0xFF, b + shiftBlue));
 		};

@@ -50,21 +50,21 @@ public class ChestsInBoats extends Feature {
 		Entity target = event.getTarget();
 		EntityPlayer player = event.getEntityPlayer();
 
-		if(target instanceof EntityBoat && target.getPassengers().isEmpty()) {
+		if (target instanceof EntityBoat && target.getPassengers().isEmpty()) {
 			EnumHand hand = EnumHand.MAIN_HAND;
 			ItemStack stack = player.getHeldItemMainhand();
-			if(!isChest(stack)) {
+			if (!isChest(stack)) {
 				stack = player.getHeldItemOffhand();
 				hand = EnumHand.OFF_HAND;
 			}
 
-			if(isChest(stack)) {
+			if (isChest(stack)) {
 				World world = event.getWorld();
 				EntityChestPassenger passenger = new EntityChestPassenger(world, stack);
 				passenger.setPosition(target.posX, target.posY, target.posZ);
 				passenger.rotationYaw = target.rotationYaw;
 				
-				if(!event.getWorld().isRemote) {
+				if (!event.getWorld().isRemote) {
 					if (!player.isCreative())
 						stack.shrink(1);
 					world.spawnEntity(passenger);
@@ -82,12 +82,12 @@ public class ChestsInBoats extends Feature {
 	@SideOnly(Side.CLIENT)
 	public void onOpenGUI(GuiOpenEvent event) {
 		EntityPlayer player = Minecraft.getMinecraft().player;
-		if(player != null && event.getGui() instanceof GuiInventory && player.isRiding()) {
+		if (player != null && event.getGui() instanceof GuiInventory && player.isRiding()) {
 			Entity riding = player.getRidingEntity();
-			if(riding instanceof EntityBoat) {
+			if (riding instanceof EntityBoat) {
 				List<Entity> passengers = riding.getPassengers();
-				for(Entity passenger : passengers)
-					if(passenger instanceof EntityChestPassenger) {
+				for (Entity passenger : passengers)
+					if (passenger instanceof EntityChestPassenger) {
 						NetworkHandler.INSTANCE.sendToServer(new MessageRequestPassengerChest());
 						event.setCanceled(true);
 						return;

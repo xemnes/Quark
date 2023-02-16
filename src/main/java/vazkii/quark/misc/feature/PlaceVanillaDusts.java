@@ -45,10 +45,10 @@ public class PlaceVanillaDusts extends Feature {
 
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
-		if(enableGlowstone)
+		if (enableGlowstone)
 			glowstone_dust_block = new BlockGlowstoneDust();
 
-		if(enableGunpowder)
+		if (enableGunpowder)
 			gunpowder_block = new BlockGunpowder();
 	}
 
@@ -59,13 +59,13 @@ public class PlaceVanillaDusts extends Feature {
 		EnumHand hand = event.getHand();
 		ItemStack stack = event.getItemStack();
 		RayTraceResult res = RayTraceHandler.rayTrace(world, player, false);
-		if(res != null) {
+		if (res != null) {
 			BlockPos pos = res.getBlockPos();
 			EnumFacing face = res.sideHit;
 
-			if(enableGlowstone && stack.getItem() == Items.GLOWSTONE_DUST)
+			if (enableGlowstone && stack.getItem() == Items.GLOWSTONE_DUST)
 				setBlock(event, player, stack, world, pos, hand, face, glowstone_dust_block, res);
-			else if(enableGunpowder && stack.getItem() == Items.GUNPOWDER)
+			else if (enableGunpowder && stack.getItem() == Items.GUNPOWDER)
 				setBlock(event, player, stack, world, pos, hand, face, gunpowder_block, res);
 		}
 	}
@@ -85,7 +85,7 @@ public class PlaceVanillaDusts extends Feature {
 		BlockPos blockpos = flag ? pos : pos.offset(facing);
 		ItemStack itemstack = player.getHeldItem(hand);
 
-		if(player.canPlayerEdit(blockpos, facing, itemstack) && worldIn.mayPlace(worldIn.getBlockState(blockpos).getBlock(), blockpos, false, facing, null) && block.canPlaceBlockAt(worldIn, blockpos)) {
+		if (player.canPlayerEdit(blockpos, facing, itemstack) && worldIn.mayPlace(worldIn.getBlockState(blockpos).getBlock(), blockpos, false, facing, null) && block.canPlaceBlockAt(worldIn, blockpos)) {
 	        float hx = (float) (res.hitVec.x - blockpos.getX());
 	        float hy = (float) (res.hitVec.y - blockpos.getY());
 	        float hz = (float) (res.hitVec.z - blockpos.getZ());
@@ -95,10 +95,10 @@ public class PlaceVanillaDusts extends Feature {
 			SoundType soundtype = state.getBlock().getSoundType(state, worldIn, pos, player);
 			worldIn.playSound(player, pos, soundtype.getPlaceSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
 
-			if(player instanceof EntityPlayerMP)
+			if (player instanceof EntityPlayerMP)
 				CriteriaTriggers.PLACED_BLOCK.trigger((EntityPlayerMP) player, blockpos, itemstack);
 
-			if(!player.capabilities.isCreativeMode)
+			if (!player.capabilities.isCreativeMode)
 				itemstack.shrink(1);
 			player.swingArm(hand);
 		}

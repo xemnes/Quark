@@ -23,7 +23,7 @@ public class MessageHandleBackpack extends NetworkMessage<MessageHandleBackpack>
 	public IMessage handleMessage(MessageContext context) {
 		EntityPlayerMP player = context.getServerHandler().player;
 		player.server.addScheduledTask(() -> {
-			if(open)
+			if (open)
 				player.openGui(Quark.instance, LibGuiIDs.BACKPACK, player.world, 0, 0, 0);
 			else {
 				ContainerBackpack.saveCraftingInventory(player);

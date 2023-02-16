@@ -42,12 +42,12 @@ public class AutomaticRecipeUnlock extends Feature {
 
 	@SubscribeEvent 
 	public void onPlayerLoggedIn(PlayerLoggedInEvent event) {
-		if(event.player instanceof EntityPlayerMP) {
+		if (event.player instanceof EntityPlayerMP) {
 			ArrayList<IRecipe> recipes = new ArrayList<IRecipe>(ForgeRegistries.RECIPES.getValuesCollection());
 			recipes.removeIf((recipe) -> ignored.contains(Objects.toString(recipe.getRegistryName())) || recipe.getRecipeOutput().isEmpty());
 			event.player.unlockRecipes(recipes);
 
-			if(forceLimitedCrafting)
+			if (forceLimitedCrafting)
 				event.player.world.getGameRules().setOrCreateGameRule("doLimitedCrafting", "true");
 		}
 	}
@@ -56,7 +56,7 @@ public class AutomaticRecipeUnlock extends Feature {
 	@SideOnly(Side.CLIENT)
 	public void onInitGui(InitGuiEvent.Post event) {
 		GuiScreen gui = event.getGui();
-		if(disableRecipeBook && (gui instanceof GuiInventory || gui instanceof GuiCrafting)) {
+		if (disableRecipeBook && (gui instanceof GuiInventory || gui instanceof GuiCrafting)) {
 			Minecraft.getMinecraft().player.getRecipeBook().setGuiOpen(false);
 			event.getButtonList().removeIf((b) -> b instanceof GuiButtonImage && b.id == 10);
 		}
@@ -66,14 +66,14 @@ public class AutomaticRecipeUnlock extends Feature {
 	@SideOnly(Side.CLIENT)
 	public void clientTick(ClientTickEvent event) {
 		Minecraft mc = Minecraft.getMinecraft();
-		if(mc.player != null && mc.player.ticksExisted < 20) {
+		if (mc.player != null && mc.player.ticksExisted < 20) {
 			GuiToast toasts = mc.getToastGui();
 			Queue<IToast> toastQueue = toasts.toastsQueue;
-			for(IToast toast : toastQueue)
-				if(toast instanceof RecipeToast) {
+			for (IToast toast : toastQueue)
+				if (toast instanceof RecipeToast) {
 					RecipeToast recipeToast = (RecipeToast) toast;
 					List<ItemStack> stacks = recipeToast.recipesOutputs;
-					if(stacks.size() > 100) {
+					if (stacks.size() > 100) {
 						toastQueue.remove(toast);
 						return;
 					}

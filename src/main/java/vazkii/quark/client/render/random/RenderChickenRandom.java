@@ -16,7 +16,7 @@ public class RenderChickenRandom extends RenderChicken {
 	
 	@Override
 	protected ResourceLocation getEntityTexture(EntityChicken entity) {
-		if(RandomAnimalTextures.enableChick && entity.isChild())
+		if (RandomAnimalTextures.enableChick && entity.isChild())
 			return RandomAnimalTextures.getRandomTexture(entity, RandomTextureType.CHICK);
 		
 		return RandomAnimalTextures.getRandomTexture(entity, RandomTextureType.CHICKEN, RandomAnimalTextures.enableChicken);

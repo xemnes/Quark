@@ -43,7 +43,7 @@ public class BiggerCaves extends Feature {
 
 	@SubscribeEvent
 	public void getCaveGenerator(InitMapGenEvent event) {
-		if(event.getType() == EventType.CAVE)
+		if (event.getType() == EventType.CAVE)
 			event.setNewGen(new BigCaveGenerator());
 	}
 

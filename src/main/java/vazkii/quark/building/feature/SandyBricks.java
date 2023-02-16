@@ -40,7 +40,7 @@ public class SandyBricks extends Feature {
 	public void preInit(FMLPreInitializationEvent event) {
 		sandy_bricks = new BlockSandyBricks();
 
-		if(enableStairsAndSlabs) {
+		if (enableStairsAndSlabs) {
 			BlockModStairs.initStairs(sandy_bricks, 0, new BlockSandyBricksStairs());
 			BlockModSlab.initSlab(sandy_bricks, 0, new BlockSandyBricksSlab(false), new BlockSandyBricksSlab(true));
 		}

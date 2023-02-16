@@ -67,7 +67,7 @@ public class EntityPirate extends EntitySkeleton {
 	
 	@Override
 	public void updatePassenger(@Nonnull Entity passenger) {
-		if(isPassenger(passenger) && passenger instanceof EntityParrot) {
+		if (isPassenger(passenger) && passenger instanceof EntityParrot) {
 			EntityParrot parrot = (EntityParrot) passenger;
 			parrot.flap = -1;
 			parrot.rotationPitch = 0;
@@ -85,7 +85,7 @@ public class EntityPirate extends EntitySkeleton {
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
 
-		if(captain)
+		if (captain)
 			getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(60);
 	}
 	

@@ -33,7 +33,7 @@ public class TileEnderWatcher extends TileMod implements ITickable {
 
 	@Override
 	public void update() {
-		if(getWorld().isRemote)
+		if (getWorld().isRemote)
 			return;
 
 		boolean wasLooking = getWorld().getBlockState(getPos()).getValue(BlockEnderWatcher.WATCHED);
@@ -41,22 +41,22 @@ public class TileEnderWatcher extends TileMod implements ITickable {
 		List<EntityPlayer> players = getWorld().getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(pos.add(-range, -range, -range), pos.add(range, range, range)));
 
 		boolean looking = false;
-		for(EntityPlayer player : players) {
+		for (EntityPlayer player : players) {
 			ItemStack helm = player.getItemStackFromSlot(EntityEquipmentSlot.HEAD);
-			if(!helm.isEmpty() && helm.getItem() == Item.getItemFromBlock(Blocks.PUMPKIN))
+			if (!helm.isEmpty() && helm.getItem() == Item.getItemFromBlock(Blocks.PUMPKIN))
 				continue;
 
 			RayTraceResult pos = raytraceFromEntity(getWorld(), player, true, 64);
-			if(pos != null && pos.getBlockPos().equals(getPos())) {
+			if (pos != null && pos.getBlockPos().equals(getPos())) {
 				looking = true;
 				break;
 			}
 		}
 
-		if(looking != wasLooking && !getWorld().isRemote)
+		if (looking != wasLooking && !getWorld().isRemote)
 			getWorld().setBlockState(getPos(), getWorld().getBlockState(getPos()).withProperty(BlockEnderWatcher.WATCHED, looking), 1 | 2);
 
-		if(looking) {
+		if (looking) {
 			double x = getPos().getX() - 0.1 + Math.random() * 1.2;
 			double y = getPos().getY() - 0.1 + Math.random() * 1.2;
 			double z = getPos().getZ() - 0.1 + Math.random() * 1.2;
@@ -71,7 +71,7 @@ public class TileEnderWatcher extends TileMod implements ITickable {
 		float f2 = player.prevRotationYaw + (player.rotationYaw - player.prevRotationYaw) * f;
 		double d0 = player.prevPosX + (player.posX - player.prevPosX) * f;
 		double d1 = player.prevPosY + (player.posY - player.prevPosY) * f;
-		if(player instanceof EntityPlayer)
+		if (player instanceof EntityPlayer)
 			d1 += ((EntityPlayer) player).eyeHeight;
 		double d2 = player.prevPosZ + (player.posZ - player.prevPosZ) * f;
 		Vec3d vec3 = new Vec3d(d0, d1, d2);

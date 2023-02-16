@@ -26,7 +26,7 @@ public class CarvedWood extends Feature {
 	public void preInit(FMLPreInitializationEvent event) {
 		carvedWood = new BlockCarvedWood();
 
-		for(int i = 0; i < 6; i++)
+		for (int i = 0; i < 6; i++)
 			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(carvedWood, 2, i),
 					"WW", "WW",
 					'W', ProxyRegistry.newStack(Blocks.WOODEN_SLAB, 1, i));

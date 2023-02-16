@@ -32,8 +32,8 @@ public class BlockQuarkPillar extends BlockMod implements IQuarkBlock {
 	@Override
 	public boolean rotateBlock(net.minecraft.world.World world, @Nonnull BlockPos pos, @Nonnull EnumFacing axis) {
 		net.minecraft.block.state.IBlockState state = world.getBlockState(pos);
-		for(net.minecraft.block.properties.IProperty<?> prop : state.getProperties().keySet()) {
-			if(prop == BlockRotatedPillar.AXIS) {
+		for (net.minecraft.block.properties.IProperty<?> prop : state.getProperties().keySet()) {
+			if (prop == BlockRotatedPillar.AXIS) {
 				world.setBlockState(pos, state.cycleProperty(prop));
 				return true;
 			}
@@ -80,9 +80,9 @@ public class BlockQuarkPillar extends BlockMod implements IQuarkBlock {
 		int i = 0;
 		EnumFacing.Axis axis = state.getValue(BlockRotatedPillar.AXIS);
 
-		if(axis == EnumFacing.Axis.X)
+		if (axis == EnumFacing.Axis.X)
 			i |= 4;
-		else if(axis == EnumFacing.Axis.Z)
+		else if (axis == EnumFacing.Axis.Z)
 			i |= 8;
 
 		return i;

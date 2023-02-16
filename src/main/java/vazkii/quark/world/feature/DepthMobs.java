@@ -54,13 +54,13 @@ public class DepthMobs extends Feature {
 
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
-		if(enableDweller) {
+		if (enableDweller) {
 			String dwellerName = "quark:dweller";
 			EntityRegistry.registerModEntity(new ResourceLocation(dwellerName), EntityDweller.class, dwellerName, LibEntityIDs.DWELLER, Quark.instance, 80, 3, true, 0x4a5944, 0x3f2020);
 			EntityRegistry.addSpawn(EntityDweller.class, dwellerWeight, dwellerMinPack, dwellerMaxPack, EnumCreatureType.MONSTER, getBiomesWithMob(EntityZombie.class));
 		}
 
-		if(enableAshen) {
+		if (enableAshen) {
 			String ashenName = "quark:ashen";
 			EntityRegistry.registerModEntity(new ResourceLocation(ashenName), EntityAshen.class, ashenName, LibEntityIDs.ASHEN, Quark.instance, 80, 3, true, 0x838376, 0x533d3c);
 			EntityRegistry.addSpawn(EntityAshen.class, ashenWeight, ashenMinPack, ashenMaxPack, EnumCreatureType.MONSTER, getBiomesWithMob(EntitySkeleton.class));
@@ -69,9 +69,9 @@ public class DepthMobs extends Feature {
 
 	@Override
 	public void preInitClient() {
-		if(enableDweller)
+		if (enableDweller)
 			RenderingRegistry.registerEntityRenderingHandler(EntityDweller.class, RenderDweller.FACTORY);
-		if(enableAshen)
+		if (enableAshen)
 			RenderingRegistry.registerEntityRenderingHandler(EntityAshen.class, RenderAshen.FACTORY);
 	}
 	

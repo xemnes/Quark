@@ -25,7 +25,7 @@ public class WorldGenSakuraTree extends WorldGenBigTree {
 
 	@Override
 	protected void setBlockAndNotifyAdequately(World worldIn, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
-		if(state.getBlock() == Blocks.LEAVES)
+		if (state.getBlock() == Blocks.LEAVES)
 			state = leaf;
 		else if (state.getBlock() == Blocks.LOG)
 			state = state.withProperty(BlockOldLog.VARIANT, BlockPlanks.EnumType.SPRUCE);

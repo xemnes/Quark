@@ -69,10 +69,10 @@ public class ItemBlockTinyPotato extends ItemModBlock {
 
 	@Override
 	public void onUpdate(ItemStack stack, World world, Entity holder, int itemSlot, boolean isSelected) {
-		if(!world.isRemote && holder instanceof EntityPlayer && holder.ticksExisted % 30 == 0 && TYPOS.contains(stack.getDisplayName().toLowerCase())) {
+		if (!world.isRemote && holder instanceof EntityPlayer && holder.ticksExisted % 30 == 0 && TYPOS.contains(stack.getDisplayName().toLowerCase())) {
 			EntityPlayer player = (EntityPlayer) holder;
 			int ticks = ItemNBTHelper.getInt(stack, TAG_TICKS, 0);
-			if(ticks < NOT_MY_NAME) {
+			if (ticks < NOT_MY_NAME) {
 				player.sendMessage(new TextComponentTranslation("quarkmisc.you_came_to_the_wrong_neighborhood." + ticks).setStyle(new Style().setColor(TextFormatting.RED)));
 				ItemNBTHelper.setInt(stack, TAG_TICKS, ticks + 1);
 			}

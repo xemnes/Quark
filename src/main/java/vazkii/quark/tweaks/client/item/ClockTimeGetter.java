@@ -23,7 +23,7 @@ public class ClockTimeGetter implements IItemPropertyGetter {
 	
 	public static void tickClock(ItemStack stack) {
 		boolean calculated = isCalculated(stack);
-		if(!calculated)
+		if (!calculated)
 			ItemNBTHelper.setBoolean(stack, TAG_CALCULATED, true);
 	}
 
@@ -34,16 +34,16 @@ public class ClockTimeGetter implements IItemPropertyGetter {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public float apply(@Nonnull ItemStack stack, @Nullable World worldIn, @Nullable EntityLivingBase entityIn) {
-		if(!isCalculated(stack))
+		if (!isCalculated(stack))
 			return 0F;
 		
 		boolean carried = entityIn != null;
 		Entity entity = carried ? entityIn : stack.getItemFrame();
 
-		if(worldIn == null && entity != null)
+		if (worldIn == null && entity != null)
 			worldIn = entity.world;
 
-		if(worldIn == null)
+		if (worldIn == null)
 			return 0F;
 		else {
 			double angle;
@@ -59,7 +59,7 @@ public class ClockTimeGetter implements IItemPropertyGetter {
 	}
 
 	private double wobble(World world, double time) {
-		if(world.getTotalWorldTime() != lastUpdateTick) {
+		if (world.getTotalWorldTime() != lastUpdateTick) {
 			lastUpdateTick = world.getTotalWorldTime();
 			double d0 = time - rotation;
 			d0 = MathHelper.positiveModulo(d0 + 0.5D, 1.0D) - 0.5D;

@@ -135,17 +135,17 @@ public class EntityCrab extends EntityAnimal {
 		if (lightningCooldown > 0)
 			lightningCooldown--;
 		
-        if(isRaving() && (jukeboxPosition == null || jukeboxPosition.distanceSq(posX, posY, posZ) > 24.0D || world.getBlockState(jukeboxPosition).getBlock() != Blocks.JUKEBOX))
+        if (isRaving() && (jukeboxPosition == null || jukeboxPosition.distanceSq(posX, posY, posZ) > 24.0D || world.getBlockState(jukeboxPosition).getBlock() != Blocks.JUKEBOX))
         	party(null, false);
 
 		float sizeModifier = getSizeModifier();
 		if (height != sizeModifier * 0.5f)
 			setSize(0.9f * sizeModifier, 0.5f * sizeModifier);
 		
-		if(isRaving() && world.isRemote && ticksExisted % 10 == 0) {
+		if (isRaving() && world.isRemote && ticksExisted % 10 == 0) {
 			BlockPos below = getPosition().down();
 			IBlockState belowState = world.getBlockState(below);
-			if(belowState.getMaterial() == Material.SAND)
+			if (belowState.getMaterial() == Material.SAND)
 				world.playEvent(2001, below, Block.getStateId(belowState));
 		}
 	}

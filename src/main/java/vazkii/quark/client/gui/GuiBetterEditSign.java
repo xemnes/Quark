@@ -39,7 +39,7 @@ public class GuiBetterEditSign extends GuiScreen {
 
 		textFields = new LinkedList<>();
 		defaultStrings = new String[4];
-		for(int i = 0; i < 4; i++) {
+		for (int i = 0; i < 4; i++) {
 			GuiTextField field = new GuiTextField(i, fontRenderer, width / 2 + 4, 75 + i * 24, 120, 20);
 			field.setValidator(this::validateText);
 			field.setMaxStringLength(100);
@@ -53,14 +53,14 @@ public class GuiBetterEditSign extends GuiScreen {
 		}
 		textFields.get(focusedField).setFocused(true);
 		
-		if(ImprovedSignEdit.enableCancel) {
+		if (ImprovedSignEdit.enableCancel) {
 			addButton(new GuiButton(4, width / 2 + 5, height / 4 + 120, 120, 20, I18n.format("gui.done")));
 			addButton(new GuiButton(5, width / 2 - 125, height / 4 + 120, 120, 20, I18n.format("gui.cancel")));
 		} else addButton(new GuiButton(4, width / 2 - 100, height / 4 + 120, I18n.format("gui.done")));
 		
-		if(ImprovedSignEdit.enableShift)
+		if (ImprovedSignEdit.enableShift)
 			addButton(new GuiButton(6, width / 2 - 41, 147, 40, 20, I18n.format("quarkmisc.signShift")));
-		if(ImprovedSignEdit.enableClear)
+		if (ImprovedSignEdit.enableClear)
 			addButton(new GuiButton(7, width / 2 - 41, (ImprovedSignEdit.enableShift ? 123 : 147), 40, 20, I18n.format("quarkmisc.signClear")));
 
 		sign.setEditable(false);
@@ -74,13 +74,13 @@ public class GuiBetterEditSign extends GuiScreen {
 		textFields.forEach((field) -> field.mouseClicked(mouseX, mouseY, mouseButton));
 		updateFocusField();
 
-		if(focusedField == currentFocus && !textFields.get(focusedField).isFocused())
+		if (focusedField == currentFocus && !textFields.get(focusedField).isFocused())
 			textFields.get(focusedField).setFocused(true);
 	}
 	
 	@Override
 	protected void keyTyped(char typedChar, int keyCode) {
-		switch(keyCode) {
+		switch (keyCode) {
 		case 1: // Escape
 			exit();
 			break;
@@ -103,16 +103,16 @@ public class GuiBetterEditSign extends GuiScreen {
 	protected void actionPerformed(GuiButton button) throws IOException {
 		super.actionPerformed(button);
 		
-		switch(button.id) {
+		switch (button.id) {
 		case 5: // Cancel
-			for(int i = 0; i < 4; i++)
+			for (int i = 0; i < 4; i++)
 				sign.signText[i] = new TextComponentString(defaultStrings[i]);
 		case 4: // Done
 			exit();
 			break;
 		case 6: // Shift
 			String[] replacements = new String[4];
-			for(int i = 0; i < 4; i++) {
+			for (int i = 0; i < 4; i++) {
 				int change = isShiftKeyDown() ? 1 : -1;
 				int target = wrapLine(i + change);
 				replacements[i] = sign.signText[target].getUnformattedText();
@@ -147,7 +147,7 @@ public class GuiBetterEditSign extends GuiScreen {
 		GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
 		Block block = sign.getBlockType();
 
-		if(block == Blocks.STANDING_SIGN) {
+		if (block == Blocks.STANDING_SIGN) {
 			float f1 = (sign.getBlockMetadata() * 360) / 16.0F;
 			GlStateManager.rotate(f1, 0.0F, 1.0F, 0.0F);
 			GlStateManager.translate(0.0F, -1.0625F, 0.0F);
@@ -156,13 +156,13 @@ public class GuiBetterEditSign extends GuiScreen {
 			int i = sign.getBlockMetadata();
 			float f2 = 0.0F;
 
-			if(i == 2)
+			if (i == 2)
 				f2 = 180.0F;
 
-			if(i == 4)
+			if (i == 4)
 				f2 = 90.0F;
 
-			if(i == 5)
+			if (i == 5)
 				f2 = -90.0F;
 
 			GlStateManager.rotate(f2, 0.0F, 1.0F, 0.0F);
@@ -180,7 +180,7 @@ public class GuiBetterEditSign extends GuiScreen {
 	
 	void updateFocusField() {
 		textFields.forEach((field) -> {
-			if(field.isFocused())
+			if (field.isFocused())
 				focusedField = field.getId();
 		});
 	}
@@ -195,7 +195,7 @@ public class GuiBetterEditSign extends GuiScreen {
 		Keyboard.enableRepeatEvents(false);
 		NetHandlerPlayClient nethandlerplayclient = this.mc.getConnection();
 
-		if(nethandlerplayclient != null)
+		if (nethandlerplayclient != null)
 			nethandlerplayclient.sendPacket(new CPacketUpdateSign(sign.getPos(), sign.signText));
 
 		sign.setEditable(true);
@@ -208,20 +208,20 @@ public class GuiBetterEditSign extends GuiScreen {
 	}
 	
 	int wrapLine(int line) {
-		if(line > 3)
+		if (line > 3)
 			return 0;
-		if(line < 0)
+		if (line < 0)
 			return 3;
 		return line;
 	}
 	
 	boolean validateText(String s) {
-		if(fontRenderer.getStringWidth(s) > 90)
+		if (fontRenderer.getStringWidth(s) > 90)
 			return false;
 		
 		char[] arr = s.toCharArray();
-		for(char c : arr)
-			if(!ChatAllowedCharacters.isAllowedCharacter(c))
+		for (char c : arr)
+			if (!ChatAllowedCharacters.isAllowedCharacter(c))
 				return false;
 		
 		return true;

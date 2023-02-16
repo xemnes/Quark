@@ -41,7 +41,7 @@ public class SnowBricks extends Feature {
 	public void preInit(FMLPreInitializationEvent event) {
 		snow_bricks = new BlockSnowBricks();
 
-		if(enableStairsAndSlabs) {
+		if (enableStairsAndSlabs) {
 			BlockModStairs.initStairs(snow_bricks, 0, new BlockSnowBricksStairs());
 			BlockModSlab.initSlab(snow_bricks, 0, new BlockSnowBricksSlab(false), new BlockSnowBricksSlab(true));
 		}

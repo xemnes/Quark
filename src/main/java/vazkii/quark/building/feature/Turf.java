@@ -42,7 +42,7 @@ public class Turf extends Feature {
 				"GG", "GG",
 				'G', ProxyRegistry.newStack(Blocks.TALLGRASS, 1, 1));
 		
-		if(enableStairsAndSlabs) {
+		if (enableStairsAndSlabs) {
 			BlockModStairs.initStairs(turf, 0, new BlockTurfStairs());
 			BlockModSlab.initSlab(turf, 0, new BlockTurfSlab(false), new BlockTurfSlab( true));
 		}

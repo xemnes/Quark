@@ -51,7 +51,7 @@ public class BlockCandle extends BlockMetaVariants<BlockCandle.Variants> impleme
 	
 	@Override
 	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
-		if(!worldIn.isRemote && TallowAndCandles.candlesFall)
+		if (!worldIn.isRemote && TallowAndCandles.candlesFall)
 			checkFallable(worldIn, pos);
 	}
 	
@@ -62,10 +62,10 @@ public class BlockCandle extends BlockMetaVariants<BlockCandle.Variants> impleme
 	
 	// Copypasta from BlockFalling
 	private void checkFallable(World worldIn, BlockPos pos) {
-		if((worldIn.isAirBlock(pos.down()) || BlockFalling.canFallThrough(worldIn.getBlockState(pos.down()))) && pos.getY() >= 0) {
+		if ((worldIn.isAirBlock(pos.down()) || BlockFalling.canFallThrough(worldIn.getBlockState(pos.down()))) && pos.getY() >= 0) {
 
-			if(!BlockFalling.fallInstantly && worldIn.isAreaLoaded(pos.add(-32, -32, -32), pos.add(32, 32, 32))) {
-				if(!worldIn.isRemote) {
+			if (!BlockFalling.fallInstantly && worldIn.isAreaLoaded(pos.add(-32, -32, -32), pos.add(32, 32, 32))) {
+				if (!worldIn.isRemote) {
 					EntityFallingBlock entityfallingblock = new EntityFallingBlock(worldIn, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, worldIn.getBlockState(pos));
 					worldIn.spawnEntity(entityfallingblock);
 				}
@@ -77,7 +77,7 @@ public class BlockCandle extends BlockMetaVariants<BlockCandle.Variants> impleme
 				while ((worldIn.isAirBlock(blockpos) || BlockFalling.canFallThrough(worldIn.getBlockState(blockpos))) && blockpos.getY() > 0)
 					blockpos = blockpos.down();
 
-				if(blockpos.getY() > 0)
+				if (blockpos.getY() > 0)
 					worldIn.setBlockState(blockpos.up(), state);
 			}
 		}

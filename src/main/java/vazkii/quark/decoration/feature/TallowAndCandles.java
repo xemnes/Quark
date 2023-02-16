@@ -43,7 +43,7 @@ public class TallowAndCandles extends Feature {
 	public void preInit(FMLPreInitializationEvent event) {
 		candle = new BlockCandle();
 		
-		if(enableTallow) {
+		if (enableTallow) {
 			tallow = new ItemTallow();
 			
 			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(candle, candlesCrafted), 
@@ -53,7 +53,7 @@ public class TallowAndCandles extends Feature {
 		}
 		
 		ItemStack baseCandle = ProxyRegistry.newStack(candle);
-		for(int i = 0; i < 16; i++) {
+		for (int i = 0; i < 16; i++) {
 			String dye = LibMisc.OREDICT_DYES.get(15 - i);
 			RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(candle, 1, i), baseCandle, dye);
 			RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(candle, 8, i), 
@@ -67,16 +67,16 @@ public class TallowAndCandles extends Feature {
 	@SubscribeEvent
 	public void onDrops(LivingDropsEvent event) {
 		EntityLivingBase e = event.getEntityLiving();
-		if(enableTallow && e instanceof EntityPig && maxDrop > 0) {
+		if (enableTallow && e instanceof EntityPig && maxDrop > 0) {
 			int drops = minDrop + e.world.rand.nextInt(maxDrop - minDrop + 1);
-			if(drops > 0)
+			if (drops > 0)
 				event.getDrops().add(new EntityItem(e.world, e.posX, e.posY, e.posZ, new ItemStack(tallow, drops)));
 		}
 	}
 	
 	@SubscribeEvent
 	public void onFurnaceTimeCheck(FurnaceFuelBurnTimeEvent event) {
-		if(event.getItemStack().getItem() == tallow && tallowBurnTime > 0)
+		if (event.getItemStack().getItem() == tallow && tallowBurnTime > 0)
 			event.setBurnTime(tallowBurnTime);
 	}
 	

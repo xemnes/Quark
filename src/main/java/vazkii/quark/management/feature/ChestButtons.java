@@ -131,32 +131,32 @@ public class ChestButtons extends Feature {
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void initGui(GuiScreenEvent.InitGuiEvent.Post event) {
-		if(event.getGui() instanceof GuiContainer) {
+		if (event.getGui() instanceof GuiContainer) {
 			GuiContainer guiInv = (GuiContainer) event.getGui();
 			Container container = guiInv.inventorySlots;
 			EntityPlayer player = Minecraft.getMinecraft().player;
 
-			if(debugClassnames)
+			if (debugClassnames)
 				Quark.LOG.info("Opening GUI " + guiInv.getClass().getName());
 			
 			boolean accept = guiInv instanceof IChestButtonCallback || guiInv instanceof GuiChest || guiInv instanceof GuiShulkerBox 
 					|| classnames.contains(guiInv.getClass().getName());
 			
-			if(!accept)
-				for(Slot s : container.inventorySlots) {
+			if (!accept)
+				for (Slot s : container.inventorySlots) {
 					if (s instanceof SlotItemHandler && DropoffHandler.isValidChest(player, ((SlotItemHandler) s).getItemHandler())) {
 						accept = true;
 						break;
 					}
 
 					IInventory inv = s.inventory;
-					if(inv != null && DropoffHandler.isValidChest(player, inv)) {
+					if (inv != null && DropoffHandler.isValidChest(player, inv)) {
 						accept = true;
 						break;
 					}
 				}
 
-			if(!accept)
+			if (!accept)
 				return;
 
 
@@ -164,14 +164,14 @@ public class ChestButtons extends Feature {
 				chestButtons = new ArrayList<>();
 			chestButtons.clear();
 
-			for(Slot s : container.inventorySlots)
-				if(s.inventory == player.inventory && s.getSlotIndex() == 9) {
+			for (Slot s : container.inventorySlots)
+				if (s.inventory == player.inventory && s.getSlotIndex() == 9) {
 					addButtonAndKeybind(event, extract, Action.EXTRACT, guiInv, 13210, s, ModKeybinds.chestExtractKey);
 					addButtonAndKeybind(event, restock, Action.RESTOCK, guiInv, 13211, s, ModKeybinds.chestRestockKey);
 					addButtonAndKeybind(event, deposit, Action.DEPOSIT, guiInv, 13212, s, ModKeybinds.chestDropoffKey);
 					addButtonAndKeybind(event, smartDeposit, Action.SMART_DEPOSIT, guiInv, 13213, s, ModKeybinds.chestMergeKey);
 					
-					if(ModuleLoader.isFeatureEnabled(InventorySorting.class)) {
+					if (ModuleLoader.isFeatureEnabled(InventorySorting.class)) {
 						addButtonAndKeybind(event, sort, Action.SORT, guiInv, 13214, s, ModKeybinds.chestSortKey);
 						addButtonAndKeybind(event, sortPlayer, Action.SORT_PLAYER, guiInv, 13215, s, ModKeybinds.playerSortKey);
 					}
@@ -183,7 +183,7 @@ public class ChestButtons extends Feature {
 	
 	@SideOnly(Side.CLIENT)
 	public static void addButtonAndKeybind(GuiScreenEvent.InitGuiEvent.Post event, ButtonInfo info, Action action, GuiContainer guiInv, int index, Slot s, KeyBinding kb) {
-		if(info.enabled)
+		if (info.enabled)
 			addButtonAndKeybind(event, action, guiInv, index, info.xShift, s.yPos + info.yShift, kb);
 	}
 
@@ -198,17 +198,17 @@ public class ChestButtons extends Feature {
 		int top = guiInv.getGuiTop();
 		
 		GuiButtonChest button;
-		if(guiInv instanceof GuiShulkerBox)
+		if (guiInv instanceof GuiShulkerBox)
 			button = new GuiButtonShulker((GuiShulkerBox) guiInv, action, index, x, y, left, top);
 		else button = new GuiButtonChest(guiInv, action, index, x, y, left, top, predicate);
 		
-		if(guiInv instanceof IChestButtonCallback && !((IChestButtonCallback) guiInv).onAddChestButton(button, action.ordinal()))
+		if (guiInv instanceof IChestButtonCallback && !((IChestButtonCallback) guiInv).onAddChestButton(button, action.ordinal()))
 			return;
 		
-		if(guiInv.inventorySlots instanceof ContainerChest) {
+		if (guiInv.inventorySlots instanceof ContainerChest) {
 			ContainerChest chest = (ContainerChest) guiInv.inventorySlots;
 			IInventory chestInv = chest.getLowerChestInventory();
-			if(chestInv.getName().equals(Blocks.ENDER_CHEST.getLocalizedName()))
+			if (chestInv.getName().equals(Blocks.ENDER_CHEST.getLocalizedName()))
 				button.setEnder(true);
 		}
 
@@ -216,7 +216,7 @@ public class ChestButtons extends Feature {
 			chestButtons = new ArrayList<>();
 		chestButtons.add(button);
 		event.getButtonList().add(button);
-		if(kb != null)
+		if (kb != null)
 			ModKeybinds.keybindButton(kb, button);
 	}
 	
@@ -224,11 +224,11 @@ public class ChestButtons extends Feature {
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void performAction(GuiScreenEvent.ActionPerformedEvent.Pre event) {
-		if(event.getButton() instanceof GuiButtonChest) {
+		if (event.getButton() instanceof GuiButtonChest) {
 			GuiButtonChest buttonChest = (GuiButtonChest) event.getButton();
 			Action action = buttonChest.action;
 
-			switch(action) {
+			switch (action) {
 			case SMART_DEPOSIT:
 				NetworkHandler.INSTANCE.sendToServer(new MessageDropoff(true, true));
 				event.setCanceled(true);

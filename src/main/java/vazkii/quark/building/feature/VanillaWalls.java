@@ -43,7 +43,7 @@ public class VanillaWalls extends Feature {
 
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
-		if(!GlobalConfig.enableVariants)
+		if (!GlobalConfig.enableVariants)
 			return;
 		
 		add("stone", Blocks.STONE, 0, stone);
@@ -69,7 +69,7 @@ public class VanillaWalls extends Feature {
 
 	@SuppressWarnings("deprecation")
 	public static void add(String name, Block block, int meta, boolean doit, WallSupplier supplier) {
-		if(!doit)
+		if (!doit)
 			return;
 
 		IBlockState state = block.getStateFromMeta(meta);

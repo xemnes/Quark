@@ -39,11 +39,11 @@ public class CustomEmoteIconResourcePack extends AbstractResourcePack {
 	@Nonnull
 	@Override
 	protected InputStream getInputStreamByName(@Nonnull String name) throws IOException {
-		if(name.equals("pack.mcmeta"))
+		if (name.equals("pack.mcmeta"))
 			return Quark.class.getResourceAsStream("/proxypack.mcmeta");
 		
 		File file = getFile(name);
-		if(!file.exists())
+		if (!file.exists())
 			throw new FileNotFoundException(name);
 		
 		return new FileInputStream(file);
@@ -56,9 +56,9 @@ public class CustomEmoteIconResourcePack extends AbstractResourcePack {
 	
 	@Override
 	protected boolean hasResourceName(@Nonnull String name) {
-		if(!verifiedNames.contains(name)) {
+		if (!verifiedNames.contains(name)) {
 			File file = getFile(name);
-			if(file.exists())
+			if (file.exists())
 				existingNames.add(name);
 			verifiedNames.add(name);
 		}

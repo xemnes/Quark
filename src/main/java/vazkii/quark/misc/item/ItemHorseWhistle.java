@@ -41,8 +41,8 @@ public class ItemHorseWhistle extends ItemMod implements IQuarkItem {
 		for (AbstractHorse horse : player.world.getEntitiesWithinAABB(AbstractHorse.class,
 				player.getEntityBoundingBox().grow(HorseWhistle.horseSummonRange))) {
 			if (horse.getDistanceSq(player) <= HorseWhistle.horseSummonRange * HorseWhistle.horseSummonRange) {
-				for(EntityAITasks.EntityAITaskEntry task : horse.tasks.taskEntries)
-					if(task.action instanceof EntityAIHorseFollow)
+				for (EntityAITasks.EntityAITaskEntry task : horse.tasks.taskEntries)
+					if (task.action instanceof EntityAIHorseFollow)
 						((EntityAIHorseFollow) task.action).setOwner(player);
 			}
 		}

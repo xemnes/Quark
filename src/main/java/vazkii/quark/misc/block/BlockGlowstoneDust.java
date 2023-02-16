@@ -35,7 +35,7 @@ public class BlockGlowstoneDust extends BlockQuarkDust {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand) {
-		if(rand.nextFloat() < 0.1) {
+		if (rand.nextFloat() < 0.1) {
 			float x = pos.getX() + 0.3F + rand.nextFloat() * 0.4F;
 			float y = pos.getY() + 0.2F;
 			float z = pos.getZ() + 0.3F + rand.nextFloat() * 0.4F;

@@ -35,7 +35,7 @@ public class GuiConfigRoot extends GuiConfigBase {
 
 		Set<Module> modules = new TreeSet<>(ModuleLoader.moduleInstances.values());
 
-		for(Module module : modules) {
+		for (Module module : modules) {
 			x = startX + i % 2 * 180;
 			y = startY + i / 2 * 22;
 
@@ -63,16 +63,16 @@ public class GuiConfigRoot extends GuiConfigBase {
 		super.drawScreen(mouseX, mouseY, partialTicks);
 		
 		String s = null;
-		if(mayRequireRestart)
+		if (mayRequireRestart)
 			s = I18n.format("quark.config.needrestart");
-		else if(qEnabled && !GlobalConfig.enableQButton)
+		else if (qEnabled && !GlobalConfig.enableQButton)
 			s = I18n.format("quark.config.qdisabled");
 		
-		if(s != null)
+		if (s != null)
 			drawCenteredString(mc.fontRenderer, s, width / 2, backButton.y + 22, 0xFFFF00);
 		
-		if(ContributorRewardHandler.localPatronTier == 0) {
-			if(ContributorRewardHandler.featuredPatron.isEmpty())
+		if (ContributorRewardHandler.localPatronTier == 0) {
+			if (ContributorRewardHandler.featuredPatron.isEmpty())
 				s = I18n.format("quarkmisc.patronPlugNone");
 			else s = I18n.format("quarkmisc.patronPlug", ContributorRewardHandler.featuredPatron);
 		} else s = "\u2665 " + I18n.format("quarkmisc.supportMessage", mc.getSession().getUsername()) + " \u2665";
@@ -84,11 +84,11 @@ public class GuiConfigRoot extends GuiConfigBase {
 	protected void actionPerformed(GuiButton button) throws IOException {
 		super.actionPerformed(button);
 
-		if(button instanceof GuiButtonModule) {
+		if (button instanceof GuiButtonModule) {
 			GuiButtonModule moduleButton = (GuiButtonModule) button;
 			mc.displayGuiScreen(new GuiConfigModule(this, moduleButton.module));
 		} 
-		else switch(button.id) {
+		else switch (button.id) {
 		case 1: // General Settings
 			mc.displayGuiScreen(new GuiConfigCategory(this, "_global"));
 			break;

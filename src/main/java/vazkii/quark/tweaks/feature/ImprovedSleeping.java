@@ -51,11 +51,11 @@ public class ImprovedSleeping extends Feature {
 	}
 
 	public static void updateAfk(EntityPlayer player, boolean afk) {
-		if(!ModuleLoader.isFeatureEnabled(ImprovedSleeping.class) || !enableAfk)
+		if (!ModuleLoader.isFeatureEnabled(ImprovedSleeping.class) || !enableAfk)
 			return;
 
-		if(player.world.playerEntities.size() != 1) {
-			if(afk) {
+		if (player.world.playerEntities.size() != 1) {
+			if (afk) {
 				player.getEntityData().setBoolean(TAG_AFK, true);
 				TextComponentTranslation text = new TextComponentTranslation("quarkmisc.nowAfk");
 				text.getStyle().setColor(TextFormatting.AQUA);
@@ -70,7 +70,7 @@ public class ImprovedSleeping extends Feature {
 	}
 
 	public static int isEveryoneAsleep(World world) {
-		if(!ModuleLoader.isFeatureEnabled(ImprovedSleeping.class))
+		if (!ModuleLoader.isFeatureEnabled(ImprovedSleeping.class))
 			return 0;
 
 		Pair<Integer, Integer> counts = getPlayerCounts(world);
@@ -99,10 +99,10 @@ public class ImprovedSleeping extends Feature {
 		List<String> sleepingPlayers = new ArrayList<>();
 		List<String> nonSleepingPlayers = new ArrayList<>();
 
-		for(EntityPlayer player : world.playerEntities)
-			if(doesPlayerCountForSleeping(player)) {
+		for (EntityPlayer player : world.playerEntities)
+			if (doesPlayerCountForSleeping(player)) {
 				String name = player.getName();
-				if(isPlayerSleeping(player)) {
+				if (isPlayerSleeping(player)) {
 					sleepingPlayers.add(name);
 					player.getEntityData().setBoolean(TAG_JUST_SLEPT, true);
 				}
@@ -111,9 +111,9 @@ public class ImprovedSleeping extends Feature {
 
 		ITextComponent sleepingList = new TextComponentString("");
 
-		for(String s : sleepingPlayers)
+		for (String s : sleepingPlayers)
 			sleepingList.appendSibling(new TextComponentString("\n\u2714 " + s).setStyle(new Style().setColor(TextFormatting.GREEN)));
-		for(String s : nonSleepingPlayers)
+		for (String s : nonSleepingPlayers)
 			sleepingList.appendSibling(new TextComponentString("\n\u2718 " + s).setStyle(new Style().setColor(TextFormatting.RED)));
 
 		ITextComponent hoverText = new TextComponentTranslation(isDay ? "quarkmisc.nappingListHeader" : "quarkmisc.sleepingListHeader", sleepingList);
@@ -141,11 +141,11 @@ public class ImprovedSleeping extends Feature {
 	private static Pair<Integer, Integer> getPlayerCounts(World world) {
 		int legitPlayers = 0;
 		int sleepingPlayers = 0;
-		for(EntityPlayer player : world.playerEntities)
-			if(doesPlayerCountForSleeping(player)) {
+		for (EntityPlayer player : world.playerEntities)
+			if (doesPlayerCountForSleeping(player)) {
 				legitPlayers++;
 
-				if(isPlayerSleeping(player))
+				if (isPlayerSleeping(player))
 					sleepingPlayers++;
 			}
 
@@ -157,7 +157,7 @@ public class ImprovedSleeping extends Feature {
 		World world = event.world;
 		MinecraftServer server = world.getMinecraftServer();
 
-		if(event.side == Side.CLIENT ||
+		if (event.side == Side.CLIENT ||
 				world.provider.getDimension() != 0 ||
 				event.phase != Phase.END ||
 				server == null)
@@ -169,7 +169,7 @@ public class ImprovedSleeping extends Feature {
 		List<String> nonSleepingPlayers = new ArrayList<>();
 		int legitPlayers = 0;
 
-		for(EntityPlayer player : world.playerEntities) {
+		for (EntityPlayer player : world.playerEntities) {
 			if (doesPlayerCountForSleeping(player)) {
 				String name = player.getName();
 				if (isPlayerSleeping(player)) {
@@ -190,7 +190,7 @@ public class ImprovedSleeping extends Feature {
 
 		ImprovedSleeping.sleepingPlayers = sleepingPlayers;
 
-		if((!newSleepingPlayers.isEmpty() || !wasSleepingPlayers.isEmpty()) && world.playerEntities.size() != 1) {
+		if ((!newSleepingPlayers.isEmpty() || !wasSleepingPlayers.isEmpty()) && world.playerEntities.size() != 1) {
 			boolean isDay = world.getCelestialAngle(0F) < 0.5;
 
 			int requiredPlayers = Math.max((int) Math.ceil((legitPlayers * percentReq / 100F)), 0);
@@ -199,9 +199,9 @@ public class ImprovedSleeping extends Feature {
 
 			ITextComponent sleepingList = new TextComponentString("");
 
-			for(String s : sleepingPlayers)
+			for (String s : sleepingPlayers)
 				sleepingList.appendSibling(new TextComponentString("\n\u2714 " + s).setStyle(new Style().setColor(TextFormatting.GREEN)));
-			for(String s : nonSleepingPlayers)
+			for (String s : nonSleepingPlayers)
 				sleepingList.appendSibling(new TextComponentString("\n\u2718 " + s).setStyle(new Style().setColor(TextFormatting.RED)));
 
 			ITextComponent hoverText = new TextComponentTranslation("quarkmisc.sleepingListHeader", sleepingList);
@@ -230,9 +230,9 @@ public class ImprovedSleeping extends Feature {
 	public void onPlayerLogout(PlayerLoggedOutEvent event) {
 		World logoutWorld = event.player.world;
 		List<EntityPlayer> players = logoutWorld.playerEntities;
-		if(players.size() == 1) {
+		if (players.size() == 1) {
 			EntityPlayer lastPlayer = players.get(0);
-			if(lastPlayer.getEntityData().getBoolean(TAG_AFK)) {
+			if (lastPlayer.getEntityData().getBoolean(TAG_AFK)) {
 				lastPlayer.getEntityData().setBoolean(TAG_AFK, false);
 				TextComponentTranslation text = new TextComponentTranslation("quarkmisc.leftAfk");
 				text.getStyle().setColor(TextFormatting.AQUA);
@@ -246,10 +246,10 @@ public class ImprovedSleeping extends Feature {
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void onClientTick(ClientTickEvent event) {
-		if(event.phase == Phase.END) {
+		if (event.phase == Phase.END) {
 			timeSinceKeystroke++;
 
-			if(timeSinceKeystroke == afkTime)
+			if (timeSinceKeystroke == afkTime)
 				NetworkHandler.INSTANCE.sendToServer(new MessageUpdateAfk(true));
 		}
 	}
@@ -279,7 +279,7 @@ public class ImprovedSleeping extends Feature {
 	}
 
 	private void registerPress() {
-		if(timeSinceKeystroke >= afkTime)
+		if (timeSinceKeystroke >= afkTime)
 			NetworkHandler.INSTANCE.sendToServer(new MessageUpdateAfk(false));
 		timeSinceKeystroke = 0;
 	}

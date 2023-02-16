@@ -70,7 +70,7 @@ public class ParrotEggs extends Feature {
 		item = Items.BEETROOT_SEEDS;
 		String itemName = loadPropString("Feed Item", "", Objects.toString(item.getRegistryName()));
 		Item targetItem = Item.REGISTRY.getObject(new ResourceLocation(itemName));
-		if(targetItem != null)
+		if (targetItem != null)
 			item = targetItem;
 
 		chance = loadLegacyPropChance("Success Percentage Chance", "Success Chance",
@@ -92,37 +92,37 @@ public class ParrotEggs extends Feature {
 	public void preInitClient() {
 		RenderingRegistry.registerEntityRenderingHandler(EntityParrotEgg.class, RenderParrotEgg.factory());
 		
-		if(enableKotobirb)
+		if (enableKotobirb)
 			RenderingRegistry.registerEntityRenderingHandler(EntityParrot.class, RenderParrotKoto.factory());
 	}
 
 	@SubscribeEvent
 	public void entityInteract(PlayerInteractEvent.EntityInteract event) {
-		if(event.getTarget() != null) {
+		if (event.getTarget() != null) {
 			Entity e = event.getTarget();
-			if(e instanceof EntityParrot && e.getEntityData().getInteger(TAG_EGG_TIMER) == 0) {
+			if (e instanceof EntityParrot && e.getEntityData().getInteger(TAG_EGG_TIMER) == 0) {
 				EntityParrot parrot = (EntityParrot) e;
-				if(!parrot.isTamed())
+				if (!parrot.isTamed())
 					return;
 				
 				EntityPlayer player = event.getEntityPlayer();
 				ItemStack stack = player.getHeldItemMainhand();
-				if(stack.isEmpty() || stack.getItem() != item) {
+				if (stack.isEmpty() || stack.getItem() != item) {
 					stack = player.getHeldItemOffhand();
 				}
 
-				if(!stack.isEmpty() && stack.getItem() == item) {
+				if (!stack.isEmpty() && stack.getItem() == item) {
 					event.setCanceled(true);
-					if(e.world.isRemote || event.getHand() == EnumHand.OFF_HAND)
+					if (e.world.isRemote || event.getHand() == EnumHand.OFF_HAND)
 						return;
 					
-					if(!player.isCreative())
+					if (!player.isCreative())
 						stack.shrink(1);
 					
 					WorldServer ws = (WorldServer) e.world;
 					ws.playSound(null, e.posX, e.posY, e.posZ, SoundEvents.ENTITY_PARROT_EAT, SoundCategory.NEUTRAL, 1.0F, 1.0F + (ws.rand.nextFloat() - ws.rand.nextFloat()) * 0.2F);
 
-					if(e.world.rand.nextDouble() < chance) {
+					if (e.world.rand.nextDouble() < chance) {
 						e.getEntityData().setInteger(TAG_EGG_TIMER, eggTime);
 						ws.spawnParticle(EnumParticleTypes.VILLAGER_HAPPY, e.posX, e.posY, e.posZ, 10, e.width, e.height, e.width, 0);
 					} else ws.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, e.posX, e.posY, e.posZ, 10, e.width, e.height, e.width, 0);
@@ -134,10 +134,10 @@ public class ParrotEggs extends Feature {
 	@SubscribeEvent
 	public void entityUpdate(LivingUpdateEvent event) {
 		Entity e = event.getEntity();
-		if(e instanceof EntityParrot) {
+		if (e instanceof EntityParrot) {
 			int time = e.getEntityData().getInteger(TAG_EGG_TIMER);
-			if(time > 0) {
-				if(time == 1) {
+			if (time > 0) {
+				if (time == 1) {
 					e.playSound(SoundEvents.ENTITY_CHICKEN_EGG, 1.0F, (e.world.rand.nextFloat() - e.world.rand.nextFloat()) * 0.2F + 1.0F);
 					e.entityDropItem(new ItemStack(parrot_egg, 1, getResultingEggColor((EntityParrot) e)), 0);
 				}
@@ -149,7 +149,7 @@ public class ParrotEggs extends Feature {
 	private int getResultingEggColor(EntityParrot parrot) {
 		int color = parrot.getVariant();
 		Random rand = parrot.world.rand;
-		if(rand.nextBoolean())
+		if (rand.nextBoolean())
 			return color;
 		return rand.nextInt(5);
 	}

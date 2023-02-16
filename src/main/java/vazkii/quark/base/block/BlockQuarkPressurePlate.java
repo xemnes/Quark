@@ -36,9 +36,9 @@ public abstract class BlockQuarkPressurePlate extends BlockPressurePlate impleme
 		AxisAlignedBB axisalignedbb = PRESSURE_AABB.offset(pos);
 		List<? extends Entity> list = getValidEntities(worldIn, axisalignedbb);
 
-		if(!list.isEmpty())
-			for(Entity entity : list)
-				if(!entity.doesEntityNotTriggerPressurePlate())
+		if (!list.isEmpty())
+			for (Entity entity : list)
+				if (!entity.doesEntityNotTriggerPressurePlate())
 					return 15;
 
 		return 0;

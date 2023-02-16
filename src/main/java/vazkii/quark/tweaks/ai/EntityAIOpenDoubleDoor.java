@@ -38,7 +38,7 @@ public class EntityAIOpenDoubleDoor extends EntityAIDoorInteract {
 		closingDoorTime = 20;
 
 		IBlockState state = entity.world.getBlockState(doorPosition).getActualState(entity.world, doorPosition);
-		if(state.getBlock() != doorBlock)
+		if (state.getBlock() != doorBlock)
 			return;
 
 		EnumFacing direction = state.getValue(BlockDoor.FACING);
@@ -49,7 +49,7 @@ public class EntityAIOpenDoubleDoor extends EntityAIDoorInteract {
 		BlockPos doorPos = state.getValue(BlockDoor.HALF) == BlockDoor.EnumDoorHalf.LOWER ? mirrorPos : mirrorPos.down();
 		IBlockState other = entity.world.getBlockState(doorPos).getActualState(entity.world, doorPos);
 
-		if(state.getMaterial() != Material.IRON && other.getBlock() == doorBlock && other.getValue(BlockDoor.FACING) == direction && other.getValue(BlockDoor.OPEN) == isOpen && other.getValue(BlockDoor.HINGE) != isMirrored) {
+		if (state.getMaterial() != Material.IRON && other.getBlock() == doorBlock && other.getValue(BlockDoor.FACING) == direction && other.getValue(BlockDoor.OPEN) == isOpen && other.getValue(BlockDoor.HINGE) != isMirrored) {
 			IBlockState newState = other.cycleProperty(BlockDoor.OPEN);
 			entity.world.setBlockState(doorPos, newState, 10);
 		}
@@ -59,9 +59,9 @@ public class EntityAIOpenDoubleDoor extends EntityAIDoorInteract {
 
 	@Override
 	public void resetTask() {
-		if(closeDoor) {
+		if (closeDoor) {
 			IBlockState state = entity.world.getBlockState(doorPosition).getActualState(entity.world, doorPosition);
-			if(!state.getPropertyKeys().contains(BlockDoor.OPEN))
+			if (!state.getPropertyKeys().contains(BlockDoor.OPEN))
 				return;
 
 			EnumFacing direction = state.getValue(BlockDoor.FACING);
@@ -72,7 +72,7 @@ public class EntityAIOpenDoubleDoor extends EntityAIDoorInteract {
 			BlockPos doorPos = state.getValue(BlockDoor.HALF) == BlockDoor.EnumDoorHalf.LOWER ? mirrorPos : mirrorPos.down();
 			IBlockState other = entity.world.getBlockState(doorPos).getActualState(entity.world, doorPos);
 
-			if(state.getMaterial() != Material.IRON && other.getBlock() == doorBlock && other.getValue(BlockDoor.FACING) == direction && other.getValue(BlockDoor.OPEN) == isOpen && other.getValue(BlockDoor.HINGE) != isMirrored) {
+			if (state.getMaterial() != Material.IRON && other.getBlock() == doorBlock && other.getValue(BlockDoor.FACING) == direction && other.getValue(BlockDoor.OPEN) == isOpen && other.getValue(BlockDoor.HINGE) != isMirrored) {
 				IBlockState newState = other.cycleProperty(BlockDoor.OPEN);
 				entity.world.setBlockState(doorPos, newState, 10);
 			}

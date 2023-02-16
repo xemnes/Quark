@@ -22,7 +22,7 @@ public class WorldStonePavement extends Feature {
 	
 	@Override
 	public void postPreInit() {
-		for(int i = 0; i < 3; i++)
+		for (int i = 0; i < 3; i++)
 			addRecipe(BlockWorldStonePavement.Variants.values()[i], ProxyRegistry.newStack(Blocks.STONE, 1, i * 2 + 1));
 
 		addRecipe(BlockWorldStonePavement.Variants.STONE_BASALT_PAVEMENT, ProxyRegistry.newStack(Basalt.basalt, 1, 0));
@@ -33,7 +33,7 @@ public class WorldStonePavement extends Feature {
 	}
 	
 	private void addRecipe(BlockWorldStonePavement.Variants variant, ItemStack baseStack) {
-		if(!variant.isEnabled())
+		if (!variant.isEnabled())
 			return;
 		
 		int meta = variant.ordinal();

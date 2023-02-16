@@ -60,16 +60,16 @@ public class ContainerMatrixEnchanting extends Container {
 		});
 
 		// Player Inv
-		for(int i = 0; i < 3; ++i)
-			for(int j = 0; j < 9; ++j)
+		for (int i = 0; i < 3; ++i)
+			for (int j = 0; j < 9; ++j)
 				addSlotToContainer(new Slot(playerInv, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
-		for(int k = 0; k < 9; ++k)
+		for (int k = 0; k < 9; ++k)
 			addSlotToContainer(new Slot(playerInv, k, 8 + k * 18, 142));
 	}
 
 	private boolean isLapis(ItemStack stack) {
-		for(ItemStack ore : lapisTypes)
-			if(OreDictionary.itemMatches(ore, stack, false)) 
+		for (ItemStack ore : lapisTypes)
+			if (OreDictionary.itemMatches(ore, stack, false)) 
 				return true;
 
 		return false;
@@ -80,7 +80,7 @@ public class ContainerMatrixEnchanting extends Container {
 
 		player.addStat(StatList.ITEM_ENCHANTED);
 
-		if(player instanceof EntityPlayerMP)
+		if (player instanceof EntityPlayerMP)
 			CriteriaTriggers.ENCHANTED_ITEM.trigger((EntityPlayerMP) player, stack, 1);
 
 		player.world.playSound(null, enchanter.getPos(), SoundEvents.BLOCK_ENCHANTMENT_TABLE_USE, SoundCategory.BLOCKS, 1.0F,  player.world.rand.nextFloat() * 0.1F + 0.9F);
@@ -90,7 +90,7 @@ public class ContainerMatrixEnchanting extends Container {
 	public boolean canInteractWith(@Nonnull EntityPlayer playerIn) {
 		World world = enchanter.getWorld();
 		BlockPos pos = enchanter.getPos();
-		if(world.getBlockState(pos).getBlock() != Blocks.ENCHANTING_TABLE)
+		if (world.getBlockState(pos).getBlock() != Blocks.ENCHANTING_TABLE)
 			return false;
 		else
 			return playerIn.getDistanceSq(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D) <= 64.0D;
@@ -106,32 +106,32 @@ public class ContainerMatrixEnchanting extends Container {
 			ItemStack stackInSlot = slot.getStack();
 			originalStack = stackInSlot.copy();
 
-			if(index < 3) {
+			if (index < 3) {
 				if (!mergeItemStack(stackInSlot, 3, 39, true))
 					return ItemStack.EMPTY;
 			}
-			else if(isLapis(stackInSlot)) {
-				if(!mergeItemStack(stackInSlot, 1, 2, true))
+			else if (isLapis(stackInSlot)) {
+				if (!mergeItemStack(stackInSlot, 1, 2, true))
 					return ItemStack.EMPTY;
 			}
 			else {
-				if(inventorySlots.get(0).getHasStack() || !inventorySlots.get(0).isItemValid(stackInSlot))
+				if (inventorySlots.get(0).getHasStack() || !inventorySlots.get(0).isItemValid(stackInSlot))
 					return ItemStack.EMPTY;
 
-				if(stackInSlot.hasTagCompound()) // Forge: Fix MC-17431
+				if (stackInSlot.hasTagCompound()) // Forge: Fix MC-17431
 					inventorySlots.get(0).putStack(stackInSlot.splitStack(1));
 
-				else if(!stackInSlot.isEmpty()) {
+				else if (!stackInSlot.isEmpty()) {
 					inventorySlots.get(0).putStack(new ItemStack(stackInSlot.getItem(), 1, stackInSlot.getMetadata()));
 					stackInSlot.shrink(1);
 				}
 			}
 
-			if(stackInSlot.isEmpty())
+			if (stackInSlot.isEmpty())
 				slot.putStack(ItemStack.EMPTY);
 			else slot.onSlotChanged();
 
-			if(stackInSlot.getCount() == originalStack.getCount())
+			if (stackInSlot.getCount() == originalStack.getCount())
 				return ItemStack.EMPTY;
 
 			slot.onTake(playerIn, stackInSlot);

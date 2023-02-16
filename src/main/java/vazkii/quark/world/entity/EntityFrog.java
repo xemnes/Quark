@@ -5,6 +5,8 @@ import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
@@ -46,6 +48,8 @@ public class EntityFrog extends EntityAnimal {
 
 	public int spawnCd = -1;
 	public int spawnChain = 30;
+
+	private static int lightningCooldown;
 
 	public boolean isDuplicate;
 
@@ -129,6 +133,9 @@ public class EntityFrog extends EntityAnimal {
 		if (talkTime > 0)
 			dataManager.set(TALK_TIME, talkTime - 1);
 
+		if (lightningCooldown > 0)
+			lightningCooldown--;
+
 		if (Frogs.frogsDoTheFunny && spawnCd > 0 && spawnChain > 0) {
 			spawnCd--;
 			if (spawnCd == 0 && !world.isRemote) {
@@ -148,6 +155,24 @@ public class EntityFrog extends EntityAnimal {
 
 		this.prevRotationYaw = this.prevRotationYawHead;
 		this.rotationYaw = this.rotationYawHead;
+	}
+
+	@Override
+	public void onStruckByLightning(EntityLightningBolt lightningBolt) {
+		if (lightningCooldown > 0)
+			return;
+
+		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH)
+				.applyModifier(new AttributeModifier("Lightning Bonus", 0.5, 1));
+		this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED)
+				.applyModifier(new AttributeModifier("Lightning Bonus", 0.375, 1));
+		this.getEntityAttribute(SharedMonsterAttributes.ARMOR)
+				.applyModifier(new AttributeModifier("Lightning Bonus", 1, 1));
+		float sizeModifier = Math.min(getSizeModifier() * 2, 16);
+		this.dataManager.set(SIZE_MODIFIER, sizeModifier);
+		setSize(0.9f * sizeModifier, 0.5f * sizeModifier);
+
+		lightningCooldown = 100;
 	}
 
 	@Override
@@ -256,6 +281,9 @@ public class EntityFrog extends EntityAnimal {
 		setSize(0.65f * sizeModifier, 0.5f * sizeModifier);
 
 		isDuplicate = compound.getBoolean("FakeFrog");
+
+		if (compound.hasKey("LightningCooldown"))
+			lightningCooldown = compound.getInteger("LightningCooldown");
 	}
 
 	@Override
@@ -266,6 +294,7 @@ public class EntityFrog extends EntityAnimal {
 		compound.setInteger("Chain", spawnChain);
 		compound.setInteger("DudeAmount", getTalkTime());
 		compound.setBoolean("FakeFrog", isDuplicate);
+		compound.setInteger("LightningCooldown", lightningCooldown);
 	}
 
 	@Override

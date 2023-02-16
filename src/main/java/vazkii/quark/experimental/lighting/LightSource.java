@@ -29,11 +29,11 @@ public class LightSource {
 
 	public int getIncidence(BlockPos checkPos) {
 		int dist = manhattanDistance(checkPos); 
-		if(dist >= brightness)
+		if (dist >= brightness)
 			return 0;
 		
-		if(ColoredLights.simulateTravel) {
-			if(incidences == null)
+		if (ColoredLights.simulateTravel) {
+			if (incidences == null)
 				computeIncidences();
 			
 			int[] coords = posToIndex(checkPos);
@@ -60,7 +60,7 @@ public class LightSource {
 
 		edges[0] = new Edge(pos, brightness);
 
-		while(edges[0] != null) {
+		while (edges[0] != null) {
 			int newIndex = 0;
 
 			for (Edge edge : edges) {
@@ -125,11 +125,11 @@ public class LightSource {
 		public Edge next(IBlockAccess world, EnumFacing face) {
 			BlockPos nextPos = pos.offset(face);
 			byte opacity = (byte) world.getBlockState(nextPos).getLightOpacity(world, nextPos);
-			if(opacity < 0)
+			if (opacity < 0)
 				return null;
 
 			byte nextLight = (byte) (light - opacity - 1);
-			if(nextLight <= 0)
+			if (nextLight <= 0)
 				return null;
 
 			return new Edge(nextPos, nextLight);

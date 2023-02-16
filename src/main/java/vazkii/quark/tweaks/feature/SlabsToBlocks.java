@@ -63,16 +63,16 @@ public class SlabsToBlocks extends Feature {
 	@SuppressWarnings("deprecation")
 	public void postInit() {
 		List<ResourceLocation> recipeList = new ArrayList<>(CraftingManager.REGISTRY.getKeys());
-		recipeLoop: for(ResourceLocation res : recipeList) {
+		recipeLoop: for (ResourceLocation res : recipeList) {
 			IRecipe recipe = CraftingManager.REGISTRY.getObject(res);
-			if(recipe instanceof ShapedRecipes || recipe instanceof ShapedOreRecipe) {
+			if (recipe instanceof ShapedRecipes || recipe instanceof ShapedOreRecipe) {
 				NonNullList<Ingredient> recipeItems;
-				if(recipe instanceof ShapedRecipes)
+				if (recipe instanceof ShapedRecipes)
 					recipeItems = ((ShapedRecipes) recipe).recipeItems;
 				else recipeItems = recipe.getIngredients();
 
 				ItemStack output = recipe.getRecipeOutput();
-				if(!output.isEmpty() && output.getCount() == originalSize) {
+				if (!output.isEmpty() && output.getCount() == originalSize) {
 					ItemStack singleOut = output.copy();
 					singleOut.setCount(1);
 
@@ -85,17 +85,17 @@ public class SlabsToBlocks extends Feature {
 
 					Item outputItem = output.getItem();
 					Block outputBlock = Block.getBlockFromItem(outputItem);
-					if(outputBlock instanceof BlockSlab) {
+					if (outputBlock instanceof BlockSlab) {
 						ItemStack outStack = findResult(recipeItems, 3);
 
-						if(!outStack.isEmpty()) {
+						if (!outStack.isEmpty()) {
 							ItemStack outCopy = outStack.copy();
-							if(outCopy.getItemDamage() == OreDictionary.WILDCARD_VALUE)
+							if (outCopy.getItemDamage() == OreDictionary.WILDCARD_VALUE)
 								outCopy.setItemDamage(0);
 
 							ItemStack in = output.copy();
 							in.setCount(1);
-							if(in.getItem() instanceof ItemBlock && outCopy.getItem() instanceof ItemBlock) {
+							if (in.getItem() instanceof ItemBlock && outCopy.getItem() instanceof ItemBlock) {
 								Block block = Block.getBlockFromItem(outCopy.getItem());
 								slabs.put(block.getStateFromMeta(outCopy.getItemDamage()), in);
 							}

@@ -84,16 +84,21 @@ public class RenderItemsInChat extends Feature {
 				ChatLine line = lines.get(idx);
 				String before = "";
 
-				String currentText = TextFormatting.getTextWithoutFormattingCodes(line.getChatComponent().getUnformattedComponentText());
-				if (currentText != null && currentText.startsWith("   "))
-					render(mc, chatGui, updateCounter, before, line, idx - shift, line.getChatComponent());
-				before += currentText;
+				if (line != null) {
+					ITextComponent component = line.getChatComponent();
+					if (component != null) {
+						String currentText = TextFormatting.getTextWithoutFormattingCodes(component.getUnformattedComponentText());
+						if (currentText != null && currentText.startsWith("   "))
+							render(mc, chatGui, updateCounter, before, line, idx - shift, component);
+						before += currentText;
 
-				for (ITextComponent sibling : line.getChatComponent().getSiblings()) {
-					currentText = TextFormatting.getTextWithoutFormattingCodes(sibling.getUnformattedComponentText());
-					if (currentText != null && currentText.startsWith("   "))
-						render(mc, chatGui, updateCounter, before, line, idx - shift, sibling);
-					before += currentText;
+						for (ITextComponent sibling : component.getSiblings()) {
+							currentText = TextFormatting.getTextWithoutFormattingCodes(sibling.getUnformattedComponentText());
+							if (currentText != null && currentText.startsWith("   "))
+								render(mc, chatGui, updateCounter, before, line, idx - shift, sibling);
+							before += currentText;
+						}
+					}
 				}
 
 				idx++;

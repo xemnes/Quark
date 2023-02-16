@@ -31,15 +31,15 @@ public class BlockGlowcelium extends BlockMod implements IQuarkBlock {
 
 	@Override
 	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
-		if(!worldIn.isRemote) {
-			if(worldIn.getBlockState(pos.up()).getLightOpacity(worldIn, pos.up()) > 2)
+		if (!worldIn.isRemote) {
+			if (worldIn.getBlockState(pos.up()).getLightOpacity(worldIn, pos.up()) > 2)
 				worldIn.setBlockState(pos, Blocks.DIRT.getDefaultState().withProperty(BlockDirt.VARIANT, BlockDirt.DirtType.DIRT));
-			else for(int i = 0; i < 4; ++i) {
+			else for (int i = 0; i < 4; ++i) {
 					BlockPos blockpos = pos.add(rand.nextInt(3) - 1, rand.nextInt(5) - 3, rand.nextInt(3) - 1);
 					IBlockState stateAt = worldIn.getBlockState(blockpos);
 					IBlockState stateAbove = worldIn.getBlockState(blockpos.up());
 
-					if(stateAt.getBlock() == Blocks.DIRT && stateAt.getValue(BlockDirt.VARIANT) == BlockDirt.DirtType.DIRT && stateAbove.getLightOpacity(worldIn, blockpos.up()) <= 2)
+					if (stateAt.getBlock() == Blocks.DIRT && stateAt.getValue(BlockDirt.VARIANT) == BlockDirt.DirtType.DIRT && stateAbove.getLightOpacity(worldIn, blockpos.up()) <= 2)
 						worldIn.setBlockState(blockpos, getDefaultState());
 				}
 		}
@@ -50,7 +50,7 @@ public class BlockGlowcelium extends BlockMod implements IQuarkBlock {
 	public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand) {
 		super.randomDisplayTick(stateIn, worldIn, pos, rand);
 
-		if(rand.nextInt(40) == 0)
+		if (rand.nextInt(40) == 0)
 			worldIn.spawnParticle(EnumParticleTypes.END_ROD, pos.getX() + rand.nextFloat(), pos.getY() + 1.15F, pos.getZ() + rand.nextFloat(), 0, 0, 0);
 	}
 	

@@ -51,10 +51,10 @@ public class FavoriteItems extends Feature {
 		ItemStack copy = stack.copy();
 		ItemNBTHelper.setBoolean(copy, TAG_FAVORITE_ITEM, true);
 		
-		if(stack.isStackable()) {
-			for(ItemStack other : event.getEntityPlayer().inventory.mainInventory) {
-				if(ItemStack.areItemsEqual(copy, other) && ItemStack.areItemStackTagsEqual(copy, other)) {
-					if(!ItemStack.areItemStackTagsEqual(stack, copy)) {
+		if (stack.isStackable()) {
+			for (ItemStack other : event.getEntityPlayer().inventory.mainInventory) {
+				if (ItemStack.areItemsEqual(copy, other) && ItemStack.areItemStackTagsEqual(copy, other)) {
+					if (!ItemStack.areItemStackTagsEqual(stack, copy)) {
 						event.getItem().setItem(copy);
 						event.setCanceled(true);
 					}
@@ -71,18 +71,18 @@ public class FavoriteItems extends Feature {
 		mouseDown = Mouse.isButtonDown(1);
 		boolean click = mouseDown && !wasMouseDown;
 
-		if(GuiScreen.isAltKeyDown() && click && event.getGui() instanceof GuiContainer) {
+		if (GuiScreen.isAltKeyDown() && click && event.getGui() instanceof GuiContainer) {
 			GuiContainer gui = (GuiContainer) event.getGui();
 			Slot slot = gui.getSlotUnderMouse();
-			if(slot != null) {
+			if (slot != null) {
 				IInventory inv = slot.inventory;
-				if(inv instanceof InventoryPlayer) {
+				if (inv instanceof InventoryPlayer) {
 					int index = slot.getSlotIndex();
 
-					if(Minecraft.getMinecraft().player.capabilities.isCreativeMode && index >= 36)
+					if (Minecraft.getMinecraft().player.capabilities.isCreativeMode && index >= 36)
 						index -= 36; // Creative mode messes with the indexes for some reason
 
-					if(index < ((InventoryPlayer) inv).mainInventory.size()) {
+					if (index < ((InventoryPlayer) inv).mainInventory.size()) {
 						NetworkHandler.INSTANCE.sendToServer(new MessageFavoriteItem(index));
 						event.setCanceled(true);
 					}
@@ -94,7 +94,7 @@ public class FavoriteItems extends Feature {
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void drawEvent(GuiScreenEvent.DrawScreenEvent.Post event) {
-		if(hovering && event.getGui() instanceof GuiContainer) {
+		if (hovering && event.getGui() instanceof GuiContainer) {
 			GuiContainer guiInv = (GuiContainer) event.getGui();
 			Container container = guiInv.inventorySlots;
 
@@ -105,9 +105,9 @@ public class FavoriteItems extends Feature {
 			GlStateManager.pushMatrix();
 			GlStateManager.disableDepth();
 			GlStateManager.disableLighting();
-			for(Slot s : container.inventorySlots) {
+			for (Slot s : container.inventorySlots) {
 				ItemStack stack = s.getStack();
-				if(isItemFavorited(stack)) {
+				if (isItemFavorited(stack)) {
 					Minecraft.getMinecraft().renderEngine.bindTexture(LibMisc.GENERAL_ICONS_RESOURCE);
 					guiInv.drawTexturedModalRect(guiLeft + s.xPos, guiTop + s.yPos, 96, 0, 16, 16);
 				}
@@ -121,14 +121,14 @@ public class FavoriteItems extends Feature {
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void makeTooltip(ItemTooltipEvent event) {
-		if(isItemFavorited(event.getItemStack()))
+		if (isItemFavorited(event.getItemStack()))
 			event.getToolTip().set(0, "   " + event.getToolTip().get(0));
 	}
 
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void renderTooltip(RenderTooltipEvent.PostText event) {
-		if(isItemFavorited(event.getStack())) {
+		if (isItemFavorited(event.getStack())) {
 			GlStateManager.pushMatrix();
 			GlStateManager.color(1F, 1F, 1F);
 			Minecraft mc = Minecraft.getMinecraft();
@@ -144,12 +144,12 @@ public class FavoriteItems extends Feature {
 	}
 	
 	public static void favoriteItem(EntityPlayer player, int slot) {
-		if(!ModuleLoader.isFeatureEnabled(FavoriteItems.class) || slot >= player.inventory.getSizeInventory())
+		if (!ModuleLoader.isFeatureEnabled(FavoriteItems.class) || slot >= player.inventory.getSizeInventory())
 			return;
 
 		ItemStack stack = player.inventory.getStackInSlot(slot);
-		if(!stack.isEmpty()) {
-			if(isItemFavorited(stack)) {
+		if (!stack.isEmpty()) {
+			if (isItemFavorited(stack)) {
 				NBTTagCompound cmp = stack.getTagCompound();
 				if (cmp != null) {
 					cmp.removeTag(TAG_FAVORITE_ITEM);
@@ -161,7 +161,7 @@ public class FavoriteItems extends Feature {
 	}
 
 	public static boolean isItemFavorited(ItemStack stack) {
-		if(stack == null || stack.isEmpty() || !stack.hasTagCompound() || !ModuleLoader.isFeatureEnabled(FavoriteItems.class))
+		if (stack == null || stack.isEmpty() || !stack.hasTagCompound() || !ModuleLoader.isFeatureEnabled(FavoriteItems.class))
 			return false;
 
 		return ItemNBTHelper.getBoolean(stack, TAG_FAVORITE_ITEM, false);

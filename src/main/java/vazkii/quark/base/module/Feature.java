@@ -50,9 +50,9 @@ public class Feature implements IFeature {
 	
 	public final void setupConstantConfig() {
 		String[] incompat = getIncompatibleMods();
-		if(incompat != null && incompat.length > 0) {
+		if (incompat != null && incompat.length > 0) {
 			StringBuilder desc = new StringBuilder("This feature disables itself if any of the following mods are loaded: \n");
-			for(String s : incompat)
+			for (String s : incompat)
 				desc.append(" - ").append(s).append("\n");
 			desc.append("This is done to prevent content overlap.\nYou can turn this on to force the feature to be loaded even if the above mods are also loaded.");
 				
@@ -199,10 +199,10 @@ public class Feature implements IFeature {
 
 	public final void initializeEnchantmentList(String[] enchantNames, List<Enchantment> enchants) {
 		enchants.clear();
-		for(String s : enchantNames) {
+		for (String s : enchantNames) {
 			ResourceLocation r = new ResourceLocation(s);
 			Enchantment e = Enchantment.REGISTRY.getObject(r);
-			if(e != null)
+			if (e != null)
 				enchants.add(e);
 		}
 	}

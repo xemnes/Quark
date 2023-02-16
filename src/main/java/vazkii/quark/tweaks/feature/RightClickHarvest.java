@@ -46,8 +46,10 @@ public class RightClickHarvest extends Feature {
 	public static boolean emptyHandHarvest;
 	public static boolean harvestingCostsDurability;
 	public static boolean doHarvestingSearch;
+	public static boolean harvestRequiresSeed;
 
 	public static String[] harvestableBlocks;
+	public static String[] unharvestableBlocks;
 
 	public static final Map<BlockStack, BlockStack> crops = Maps.newHashMap();
 
@@ -59,8 +61,9 @@ public class RightClickHarvest extends Feature {
 		emptyHandHarvest = loadPropBool("Empty Hand Harvest", "Can players harvest crops with empty hand clicks?", true);
 		harvestingCostsDurability = loadPropBool("Harvesting Costs Durability", "Does harvesting crops with a hoe cost durability?", false);
 		doHarvestingSearch = loadPropBool("Add Harvestable Crops", "Should Quark look for (nonvanilla) crops, and handle them?", true);
+		harvestRequiresSeed = loadPropBool("Require Crop Seeds", "Should Quark require crops to have seeds to harvest the crops?", false);
 		harvestableBlocks = loadPropStringList("Harvestable Crops", "Which crops can be harvested?\n" +
-						"Format is: \"harvestState[,afterHarvest]\", i.e. \"minecraft:wheat:7\" or \"minecraft:cocoa:11,minecraft:cocoa:3\"",
+						"Format is: \"harvestState[,afterHarvest]\", e.g. \"minecraft:wheat:7\" or \"minecraft:cocoa:11,minecraft:cocoa:3\"",
 				new String[] {
 						"minecraft:wheat:7",
 						"minecraft:carrots:7",
@@ -72,6 +75,9 @@ public class RightClickHarvest extends Feature {
 						"minecraft:cocoa:9,minecraft:cocoa:1",
 						"minecraft:cocoa:8,minecraft:cocoa:0"
 				});
+		unharvestableBlocks = loadPropStringList("Unharvestable Crops", "Which crops can *not* be harvested?\n" +
+				"Format is: \"harvestState\", e.g. \"minecraft:wheat:7\" or \"minecraft:cocoa:11\"; omit the meta for a wildcard blacklist",
+				new String[] { });
 
 		if (hasInit)
 			fillCropList();
@@ -103,6 +109,11 @@ public class RightClickHarvest extends Feature {
 
 			crops.put(initial, result);
 		}
+
+		for (String harvestKey : unharvestableBlocks) {
+			BlockStack blockStack = BlockStack.fromString(harvestKey);
+			crops.keySet().removeIf(blockStack::matches);
+		}
 	}
 
 	private static void replant(World world, BlockPos pos, BlockStack inWorld, EntityPlayer player) {
@@ -114,6 +125,15 @@ public class RightClickHarvest extends Feature {
 		int fortune = HoeSickle.canFortuneApply(Enchantments.FORTUNE, mainHand) && isHoe ?
 				EnchantmentHelper.getEnchantmentLevel(Enchantments.FORTUNE, mainHand) : 0;
 
+		boolean seedNotNull = true;
+		if (inWorld.getBlock() instanceof BlockCrops) {
+			Item seed = ((BlockCrops) inWorld.getBlock()).getSeed();
+			seedNotNull = seed != null && seed != Items.AIR;
+		}
+		if (harvestRequiresSeed && !seedNotNull) {
+			Quark.LOG.info("Crop definition {},{} has no seed, not harvesting.", inWorld, newBlock);
+			return;
+		}
 
 		inWorld.getBlock().getDrops(drops, world, pos, inWorld.getState(), fortune);
 
@@ -129,11 +149,6 @@ public class RightClickHarvest extends Feature {
 
 		ForgeEventFactory.fireBlockHarvesting(drops, world, pos, inWorld.getState(), fortune, 1.0F, false, player);
 
-		boolean seedNotNull = true;
-		if (inWorld.getBlock() instanceof BlockCrops) {
-			Item seed = ((BlockCrops) inWorld.getBlock()).getSeed();
-			seedNotNull = seed != null && seed != Items.AIR;
-		}
 		if (seedNotNull) {
 			if (!world.isRemote) {
 				world.playEvent(2001, pos, Block.getStateId(newBlock.getState()));
@@ -164,7 +179,7 @@ public class RightClickHarvest extends Feature {
 
 		int harvests = 0;
 
-		for(int x = 1 - range; x < range; x++) {
+		for (int x = 1 - range; x < range; x++) {
 			for (int z = 1 - range; z < range; z++) {
 				BlockPos pos = event.getPos().add(x, 0, z);
 

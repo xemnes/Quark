@@ -117,8 +117,8 @@ public class EntityWraith extends EntityZombie {
 	@Override
 	public boolean attackEntityAsMob(Entity entityIn) {
 		boolean did = super.attackEntityAsMob(entityIn);
-		if(did) {
-			if(entityIn instanceof EntityLivingBase)
+		if (did) {
+			if (entityIn instanceof EntityLivingBase)
 				((EntityLivingBase) entityIn).addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 60, 1));
 
 			double dx = posX - entityIn.posX;

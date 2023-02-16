@@ -34,7 +34,7 @@ public class ItemDiamondHeart extends ItemMod implements IQuarkItem {
 		IBlockState stateAt = worldIn.getBlockState(pos);
 		ItemStack stack = player.getHeldItem(hand);
 		
-		if(player.canPlayerEdit(pos, facing, stack) && stateAt.getBlockHardness(worldIn, pos) != -1) {
+		if (player.canPlayerEdit(pos, facing, stack) && stateAt.getBlockHardness(worldIn, pos) != -1) {
 
 			EnumStonelingVariant variant = null;
 			for (EnumStonelingVariant possibleVariant : EnumStonelingVariant.values()) {

@@ -110,7 +110,7 @@ public class VisualStatDisplay extends Feature {
 		Minecraft mc = Minecraft.getMinecraft();
 		ItemStack stack = event.getItemStack();
 
-		if(!GuiScreen.isShiftKeyDown() && canStripAttributes(stack)) {
+		if (!GuiScreen.isShiftKeyDown() && canStripAttributes(stack)) {
 			List<String> tooltip = event.getToolTip();
 			Map<EntityEquipmentSlot, StringBuilder> attributeTooltips = Maps.newHashMap();
 
@@ -120,7 +120,7 @@ public class VisualStatDisplay extends Feature {
 
 			EntityEquipmentSlot[] slots = EntityEquipmentSlot.values();
 			slots = Arrays.copyOf(slots, slots.length + 1);
-			for(EntityEquipmentSlot slot : slots) {
+			for (EntityEquipmentSlot slot : slots) {
 				Multimap<String, AttributeModifier> slotAttributes = getModifiers(stack, slot);
 
 				if (baseCheck == null)
@@ -128,10 +128,10 @@ public class VisualStatDisplay extends Feature {
 				else if (allAreSame && !slotAttributes.equals(baseCheck))
 					allAreSame = false;
 
-				if(!slotAttributes.isEmpty()) {
+				if (!slotAttributes.isEmpty()) {
 					String slotDesc = I18n.format(slot == null ? TextFormatting.DARK_PURPLE + I18n.format("potion.whenDrank") : "item.modifiers." + slot.getName());
 					int index = tooltip.indexOf(slotDesc) - 1;
-					if(index < 0)
+					if (index < 0)
 						continue;
 					
 					tooltip.remove(index); // Remove blank space
@@ -206,8 +206,8 @@ public class VisualStatDisplay extends Feature {
 
 	public boolean extractAttributeValues(ItemTooltipEvent event, ItemStack stack, List<String> tooltip, Map<EntityEquipmentSlot, StringBuilder> attributeTooltips, boolean onlyInvalid, EntityEquipmentSlot slot, Multimap<String, AttributeModifier> slotAttributes) {
 		boolean anyInvalid = false;
-		for(String s : slotAttributes.keys()) {
-			if(VALID_ATTRIBUTES.contains(s)) {
+		for (String s : slotAttributes.keys()) {
+			if (VALID_ATTRIBUTES.contains(s)) {
 				onlyInvalid = false;
 				double attributeValue = getAttribute(event.getEntityPlayer(), slot, stack, slotAttributes, s);
 				if (attributeValue != 0) {
@@ -281,7 +281,7 @@ public class VisualStatDisplay extends Feature {
 	@SideOnly(Side.CLIENT)
 	public void renderTooltip(RenderTooltipEvent.PostText event) {
 		ItemStack stack = event.getStack();
-		if(!GuiScreen.isShiftKeyDown() && canStripAttributes(stack)) {
+		if (!GuiScreen.isShiftKeyDown() && canStripAttributes(stack)) {
 			GlStateManager.pushMatrix();
 			GlStateManager.color(1F, 1F, 1F);
 			Minecraft mc = Minecraft.getMinecraft();
@@ -331,7 +331,7 @@ public class VisualStatDisplay extends Feature {
 				Multimap<String, AttributeModifier> slotAttributes = getModifiers(stack, slot);
 
 				boolean anyToRender = false;
-				for(String s : slotAttributes.keys()) {
+				for (String s : slotAttributes.keys()) {
 					double value = getAttribute(mc.player, slot, stack, slotAttributes, s);
 					if (value != 0) {
 						anyToRender = true;
@@ -378,11 +378,11 @@ public class VisualStatDisplay extends Feature {
 	}
 
 	private double getAttribute(EntityPlayer player, EntityEquipmentSlot slot, ItemStack stack, Multimap<String, AttributeModifier> map, String key) {
-		if(player == null) // apparently this can happen
+		if (player == null) // apparently this can happen
 			return 0;
 		
 		Collection<AttributeModifier> collection = map.get(key);
-		if(collection.isEmpty())
+		if (collection.isEmpty())
 			return 0;
 
 		double value = 0;

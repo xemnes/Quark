@@ -29,14 +29,14 @@ public class StainedPlanks extends Feature {
 	public void preInit(FMLPreInitializationEvent event) {
 		stained_planks = new BlockStainedPlanks();
 
-		if(enableStairsAndSlabs) {
-			for(BlockStainedPlanks.Variants variant : BlockStainedPlanks.Variants.values())
+		if (enableStairsAndSlabs) {
+			for (BlockStainedPlanks.Variants variant : BlockStainedPlanks.Variants.values())
 				BlockModStairs.initStairs(stained_planks, variant.ordinal(), new BlockStainedPlanksStairs(variant));
-			for(BlockStainedPlanks.Variants variant : BlockStainedPlanks.Variants.values())
+			for (BlockStainedPlanks.Variants variant : BlockStainedPlanks.Variants.values())
 				BlockModSlab.initSlab(stained_planks, variant.ordinal(), new BlockStainedPlanksSlab(variant, false), new BlockStainedPlanksSlab(variant, true));
 		}
 		
-		for(int i = 0; i < 16; i++) {
+		for (int i = 0; i < 16; i++) {
 			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(stained_planks, 8, i),
 					"BBB", "BDB", "BBB",
 					'B', "plankWood",

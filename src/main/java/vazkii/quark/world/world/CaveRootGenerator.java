@@ -17,19 +17,19 @@ public class CaveRootGenerator implements IWorldGenerator {
 
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
-		if(!CaveRoots.dimensions.canSpawnHere(world) || chunkGenerator instanceof ChunkGeneratorFlat)
+		if (!CaveRoots.dimensions.canSpawnHere(world) || chunkGenerator instanceof ChunkGeneratorFlat)
 			return;
 		
-		for(int i = 0; i < CaveRoots.chunkAttempts; i++) {
-			int x = chunkX * 16 + 8 + random.nextInt(16);
-			int z = chunkZ * 16 + 8 + random.nextInt(16);
+		for (int i = 0; i < CaveRoots.chunkAttempts; i++) {
+			int x = chunkX * 16 + random.nextInt(12) + 2;
+			int z = chunkZ * 16 + random.nextInt(12) + 2;
 			int y = random.nextInt(CaveRoots.maxY - CaveRoots.minY) + CaveRoots.minY;
 			
 			BlockPos pos = new BlockPos(x, y, z);
-			if(world.isAirBlock(pos)) {
-				for(EnumFacing facing : EnumFacing.HORIZONTALS) {
+			if (world.isAirBlock(pos)) {
+				for (EnumFacing facing : EnumFacing.HORIZONTALS) {
 					BlockPos target = pos.offset(facing);
-					if(CaveRoots.roots.canPlaceBlockOnSide(world, pos, facing) && world.isBlockLoaded(target)) {
+					if (CaveRoots.roots.canPlaceBlockOnSide(world, pos, facing)) {
 						IBlockState state = CaveRoots.roots.getDefaultState().withProperty(BlockRoots.getPropertyFor(facing.getOpposite()), true);
 						world.setBlockState(target, state);
 						BlockRoots.growMany(world, target, state, 0.4F, true);

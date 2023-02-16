@@ -27,33 +27,33 @@ public class PistonsPushPullItems extends Feature {
 	}
 
 	public static void onPistonUpdate(TileEntityPiston piston) {
-		if(!ModuleLoader.isFeatureEnabled(PistonsPushPullItems.class) || piston.getWorld().isRemote)
+		if (!ModuleLoader.isFeatureEnabled(PistonsPushPullItems.class) || piston.getWorld().isRemote)
 			return;
 
 		IBlockState state = piston.getPistonState();
 		boolean pulling = state.getBlock() != Blocks.PISTON_HEAD;
 		boolean sticky = state.getBlock() == Blocks.STICKY_PISTON || (state.getPropertyKeys().contains(BlockPistonExtension.TYPE) && state.getValue(BlockPistonExtension.TYPE) == EnumPistonType.STICKY); 
 
-		if(pulling != sticky)
+		if (pulling != sticky)
 			return;
 		
 		EnumFacing face = piston.getFacing();
 		AxisAlignedBB aabb = new AxisAlignedBB(piston.getPos().offset(face, pulling ? 2 : 1));
 		List<EntityItem> items = piston.getWorld().getEntitiesWithinAABB(EntityItem.class, aabb);
 
-		for(EntityItem entity : items)
+		for (EntityItem entity : items)
 			onEntityHandled(entity, face, sticky);
 	}
 
 	private static void onEntityHandled(EntityItem entity, EnumFacing face, boolean sticky) {
-		if(sticky)
+		if (sticky)
 			face = face.getOpposite();
 		
 		World world = entity.getEntityWorld();
-		if(sticky) {
+		if (sticky) {
 			BlockPos offsetPos = entity.getPosition().offset(face);
 			boolean closeToEdge = new BlockPos(entity.posX + face.getXOffset() * .5, entity.posY + face.getYOffset() * .5, entity.posZ + face.getZOffset() * .5).equals(offsetPos);
-			if(closeToEdge)
+			if (closeToEdge)
 				nudgeItem(world, entity, face, false);
 		} else nudgeItem(world, entity, face, true);
 	}
@@ -69,7 +69,7 @@ public class PistonsPushPullItems extends Feature {
 				entity.posY + 0.5 * whichWay.getYOffset(),
 				entity.posZ + 0.5 * whichWay.getZOffset());
 		entity.addVelocity(x, y, z);
-		if(showParticles && world instanceof WorldServer)
+		if (showParticles && world instanceof WorldServer)
 			((WorldServer) world).spawnParticle(EnumParticleTypes.CRIT, entity.posX, entity.posY, entity.posZ, 12, px, py, pz, 0);
 	}
 

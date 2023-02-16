@@ -54,7 +54,7 @@ public class EntitySoulPowder extends Entity {
 		int particles = 20;
 		double trigArg = liveTicks * 0.32;
 		
-		if((maxLiveTime - liveTicks) < particles)
+		if ((maxLiveTime - liveTicks) < particles)
 			particles = (maxLiveTime - liveTicks);
 		
 		Vec3d vec = new Vec3d((double) dataManager.get(TARGET_X), posY, (double) dataManager.get(TARGET_Z)).subtract(posX, posY, posZ).normalize().scale(scale);
@@ -62,20 +62,20 @@ public class EntitySoulPowder extends Entity {
 		double bpy = posY + vec.y * liveTicks + liveTicks * rise;
 		double bpz = posZ + vec.z * liveTicks + Math.sin(trigArg) * rotateSpread;
 		
-		for(int i = 0; i < particles; i++) {
+		for (int i = 0; i < particles; i++) {
 			double px = bpx + (Math.random() - 0.5) * posSpread;
 			double py = bpy + (Math.random() - 0.5) * posSpread;
 			double pz = bpz + (Math.random() - 0.5) * posSpread;
 			world.spawnParticle(EnumParticleTypes.REDSTONE, px, py, pz, 0.2, 0.12, 0.1);
-			if(Math.random() < 0.05)
+			if (Math.random() < 0.05)
 				world.spawnParticle(EnumParticleTypes.FALLING_DUST, px, py, pz, 0, 0, 0, Block.getStateId(Blocks.SOUL_SAND.getDefaultState()));
 		}
 		
-		if(Math.random() < 0.1)
+		if (Math.random() < 0.1)
 			world.playSound(null, bpx, bpy, bpz, SoundEvents.ENTITY_GHAST_AMBIENT, SoundCategory.PLAYERS, 0.2F, 1F);
 
 		liveTicks++;
-		if(liveTicks > maxLiveTime || world.getBlockState(new BlockPos(bpx, bpy, bpz)).isBlockNormalCube())
+		if (liveTicks > maxLiveTime || world.getBlockState(new BlockPos(bpx, bpy, bpz)).isBlockNormalCube())
 			setDead();
 	}
 

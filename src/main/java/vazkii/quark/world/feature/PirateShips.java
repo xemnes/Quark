@@ -48,7 +48,7 @@ public class PirateShips extends Feature {
 	public void preInit(FMLPreInitializationEvent event) {
 		pirate_hat = new ItemPirateHat();
 
-		if(onlyHat)
+		if (onlyHat)
 			return;
 		
 		String pirateName = "quark:pirate";
@@ -60,7 +60,7 @@ public class PirateShips extends Feature {
 
 	@Override
 	public void preInitClient() {
-		if(!onlyHat)
+		if (!onlyHat)
 			RenderingRegistry.registerEntityRenderingHandler(EntityPirate.class, RenderPirate.FACTORY);
 	}
 	

@@ -25,17 +25,17 @@ public class BlockSugar extends BlockModFalling implements IQuarkBlock {
 	protected boolean tryTouchWater(World worldIn, BlockPos pos) {
 		boolean flag = false;
 
-		for(EnumFacing enumfacing : EnumFacing.values())
+		for (EnumFacing enumfacing : EnumFacing.values())
 			if (enumfacing != EnumFacing.DOWN) {
 				BlockPos blockpos = pos.offset(enumfacing);
 
-				if(worldIn.getBlockState(blockpos).getMaterial() == Material.WATER) {
+				if (worldIn.getBlockState(blockpos).getMaterial() == Material.WATER) {
 					flag = true;
 					break;
 				}
 			}
 
-		if(flag) {
+		if (flag) {
 			worldIn.playEvent(2001, pos, Block.getStateId(worldIn.getBlockState(pos)));
 			worldIn.setBlockToAir(pos);
 		}
@@ -45,13 +45,13 @@ public class BlockSugar extends BlockModFalling implements IQuarkBlock {
 
 	@Override
 	public void neighborChanged(IBlockState state, World worldIn, @Nonnull BlockPos pos, Block blockIn, BlockPos fromPos) {
-		if(!tryTouchWater(worldIn, pos))
+		if (!tryTouchWater(worldIn, pos))
 			super.neighborChanged(state, worldIn, pos, blockIn, fromPos);
 	}
 
 	@Override
 	public void onBlockAdded(World worldIn, @Nonnull BlockPos pos, IBlockState state) {
-		if(!tryTouchWater(worldIn, pos))
+		if (!tryTouchWater(worldIn, pos))
 			super.onBlockAdded(worldIn, pos, state);
 	}
 

@@ -48,7 +48,7 @@ public class MinecartInteraction extends Feature {
 		inserters.put(Item.getItemFromBlock(Blocks.FURNACE), (EntityMinecartEmpty e) -> getMinecart(new ResourceLocation("minecraft", "furnace_minecart"), e.getEntityWorld(), e.posX, e.posY, e.posZ));
 		inserters.put(Item.getItemFromBlock(Blocks.HOPPER), (EntityMinecartEmpty e) -> getMinecart(new ResourceLocation("minecraft", "hopper_minecart"), e.getEntityWorld(), e.posX, e.posY, e.posZ));
 
-		if(enableCommandAndSpawner) {
+		if (enableCommandAndSpawner) {
 			inserters.put(Item.getItemFromBlock(Blocks.COMMAND_BLOCK), (EntityMinecartEmpty e) -> getMinecart(new ResourceLocation("minecraft", "commandblock_minecart"), e.getEntityWorld(), e.posX, e.posY, e.posZ));
 			inserters.put(Item.getItemFromBlock(Blocks.MOB_SPAWNER), (EntityMinecartEmpty e) -> getMinecart(new ResourceLocation("minecraft", "spawner_minecart"), e.getEntityWorld(), e.posX, e.posY, e.posZ));
 		}
@@ -70,30 +70,30 @@ public class MinecartInteraction extends Feature {
 	@SubscribeEvent
 	public void onEntityInteract(EntityInteract event) {
 		Entity target = event.getTarget();
-		if(target instanceof EntityMinecartEmpty && target.getPassengers().isEmpty()) {
+		if (target instanceof EntityMinecartEmpty && target.getPassengers().isEmpty()) {
 			EntityPlayer player = event.getEntityPlayer();
 			EnumHand hand = EnumHand.MAIN_HAND;
 			ItemStack stack = player.getHeldItemMainhand();
-			if(stack.isEmpty() || !inserters.containsKey(stack.getItem())) {
+			if (stack.isEmpty() || !inserters.containsKey(stack.getItem())) {
 				stack = player.getHeldItemOffhand();
 				hand = EnumHand.OFF_HAND;
 			}
 
-			if(!stack.isEmpty() && inserters.containsKey(stack.getItem())) {
+			if (!stack.isEmpty() && inserters.containsKey(stack.getItem())) {
 				player.swingArm(hand);
 
-				if(!event.getWorld().isRemote) {
+				if (!event.getWorld().isRemote) {
 					EntityMinecart minecart = inserters.get(stack.getItem()).apply((EntityMinecartEmpty) target);
-					if(minecart != null) {
+					if (minecart != null) {
 						target.setDead();
 						event.getWorld().spawnEntity(minecart);
 	
 	
 						event.setCanceled(true);
-						if(!player.capabilities.isCreativeMode) {
+						if (!player.capabilities.isCreativeMode) {
 							stack.shrink(1);
 	
-							if(stack.getCount() <= 0)
+							if (stack.getCount() <= 0)
 								player.setHeldItem(hand, ItemStack.EMPTY);
 						}
 					}

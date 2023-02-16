@@ -40,7 +40,7 @@ public class Thatch extends Feature {
 	public void preInit(FMLPreInitializationEvent event) {
 		thatch = new BlockThatch();
 
-		if(enableStairsAndSlabs) {
+		if (enableStairsAndSlabs) {
 			BlockModStairs.initStairs(thatch, 0, new BlockThatchStairs());
 			BlockModSlab.initSlab(thatch, 0, new BlockThatchSlab(false), new BlockThatchSlab(true));
 		}

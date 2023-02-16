@@ -59,7 +59,7 @@ public class SitInStairs extends Feature {
 	public void onInteract(PlayerInteractEvent.RightClickBlock event) {
 
 		EntityPlayer player = event.getEntityPlayer();
-		if(player.isSneaking() || player.getRidingEntity() != null)
+		if (player.isSneaking() || player.getRidingEntity() != null)
 			return;
 		
 		World world = event.getWorld();
@@ -71,20 +71,20 @@ public class SitInStairs extends Feature {
 		
 		Vec3d vec = new Vec3d(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
 		double maxDist = 2;
-		if((vec.x - player.posX) * (vec.x - player.posX) + (vec.y - player.posY) * (vec.y - player.posY) + (vec.z - player.posZ) * (vec.z - player.posZ) > maxDist * maxDist)
+		if ((vec.x - player.posX) * (vec.x - player.posX) + (vec.y - player.posY) * (vec.y - player.posY) + (vec.z - player.posZ) * (vec.z - player.posZ) > maxDist * maxDist)
 			return;
 		
 		IBlockState state = world.getBlockState(pos);
 
 		ItemStack stack1 = player.getHeldItemMainhand();
 		ItemStack stack2 = player.getHeldItemOffhand();
-		if(!stack1.isEmpty() || !stack2.isEmpty())
+		if (!stack1.isEmpty() || !stack2.isEmpty())
 			return;
 
-		if(state.getBlock() instanceof BlockStairs && state.getValue(BlockStairs.HALF) == EnumHalf.BOTTOM && !state.isSideSolid(world, pos, Objects.requireNonNull(event.getFace())) && canBeAbove(world, pos)) {
+		if (state.getBlock() instanceof BlockStairs && state.getValue(BlockStairs.HALF) == EnumHalf.BOTTOM && !state.isSideSolid(world, pos, Objects.requireNonNull(event.getFace())) && canBeAbove(world, pos)) {
 			List<Seat> seats = world.getEntitiesWithinAABB(Seat.class, new AxisAlignedBB(pos, pos.add(1, 1, 1)));
 
-			if(seats.isEmpty()) {
+			if (seats.isEmpty()) {
 				Seat seat = new Seat(world, pos);
 				world.spawnEntity(seat);
 				if (event.getEntityPlayer().startRiding(seat))
@@ -140,15 +140,15 @@ public class SitInStairs extends Feature {
 			super.onUpdate();
 
 			BlockPos pos = getPosition();
-			if(!(getEntityWorld().getBlockState(pos).getBlock() instanceof BlockStairs) || !canBeAbove(getEntityWorld(), pos)) {
+			if (!(getEntityWorld().getBlockState(pos).getBlock() instanceof BlockStairs) || !canBeAbove(getEntityWorld(), pos)) {
 				setDead();
 				return;
 			}
 
 			List<Entity> passengers = getPassengers();
-			if(passengers.isEmpty())
+			if (passengers.isEmpty())
 				setDead();
-			for(Entity e : passengers)
+			for (Entity e : passengers)
 				if (e.isSneaking() || e.getDistanceSq(this) >= 1.0) {
 					setDead();
 				}

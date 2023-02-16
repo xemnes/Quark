@@ -98,7 +98,7 @@ public class Wraiths extends Feature {
 	public void preInit(FMLPreInitializationEvent event) {
 		soul_bead = new ItemSoulBead();
 
-		if(enableCurse)
+		if (enableCurse)
 			curse = new PotionMod("curse", true, 0x000000, LibPotionIndices.CURSE);
 
 		String wraithName = "quark:wraith";
@@ -118,11 +118,11 @@ public class Wraiths extends Feature {
 
 	@SubscribeEvent
 	public void onSpawn(LivingSpawnEvent.CheckSpawn event) {
-		if(event.getResult() != Result.ALLOW && event.getEntityLiving() instanceof IMob && event.getWorld() instanceof WorldServer) {
+		if (event.getResult() != Result.ALLOW && event.getEntityLiving() instanceof IMob && event.getWorld() instanceof WorldServer) {
 			List<EntityPlayer> players = ((WorldServer) event.getWorld()).playerEntities;
-			for(EntityPlayer player : players)
-				if(!player.isSpectator() && player.getActivePotionEffect(curse) != null && player.getDistanceSq(event.getEntity()) < curseRange * curseRange) {
-					if(event.getEntityLiving().getCreatureAttribute() == EnumCreatureAttribute.UNDEAD)
+			for (EntityPlayer player : players)
+				if (!player.isSpectator() && player.getActivePotionEffect(curse) != null && player.getDistanceSq(event.getEntity()) < curseRange * curseRange) {
+					if (event.getEntityLiving().getCreatureAttribute() == EnumCreatureAttribute.UNDEAD)
 						event.getEntityLiving().addPotionEffect(new PotionEffect(MobEffects.FIRE_RESISTANCE, Integer.MAX_VALUE, 0, false, false));
 					event.setResult(Result.ALLOW);
 					return;

@@ -59,20 +59,20 @@ public class EntityParrotEgg extends EntityThrowable {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void handleStatusUpdate(byte id) {
-		if(id == 3) {
+		if (id == 3) {
 			double d0 = 0.08D;
 
-			for(int i = 0; i < 8; ++i)
+			for (int i = 0; i < 8; ++i)
 				this.world.spawnParticle(EnumParticleTypes.ITEM_CRACK, this.posX, this.posY, this.posZ, (this.rand.nextFloat() - 0.5D) * d0, (this.rand.nextFloat() - 0.5D) * d0, (this.rand.nextFloat() - 0.5D) * d0, Item.getIdFromItem(Items.EGG));
 		}
 	}
 
 	@Override
 	protected void onImpact(@Nonnull RayTraceResult result) {
-		if(result.entityHit != null)
+		if (result.entityHit != null)
 			result.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, getThrower()), 0.0F);
 
-		if(!world.isRemote) {
+		if (!world.isRemote) {
 			EntityParrot parrot = new EntityParrot(world);
 			parrot.setVariant(getColor());
 			parrot.setGrowingAge(-24000);

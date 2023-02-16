@@ -51,7 +51,7 @@ public class AutoJumpHotkey extends Feature {
 	public void onKeyInput(KeyInputEvent event) {
 		Minecraft mc = Minecraft.getMinecraft();
 		boolean down = ModKeybinds.autoJumpKey.isKeyDown();
-		if(mc.inGameHasFocus && down) {
+		if (mc.inGameHasFocus && down) {
 			boolean b = mc.gameSettings.getOptionOrdinalValue(Options.AUTO_JUMP);
 			int i = b ? 1 : 0;
 			mc.gameSettings.setOptionValue(Options.AUTO_JUMP, ~i & 1);
@@ -62,14 +62,14 @@ public class AutoJumpHotkey extends Feature {
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void onClientTick(ClientTickEvent event) {
-		if(event.phase == Phase.END && hudTime > 0)
+		if (event.phase == Phase.END && hudTime > 0)
 			hudTime--;
 	}
 
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void onRenderOverlay(RenderGameOverlayEvent.Post event) {
-		if(event.getType() != ElementType.ALL || hudTime == 0)
+		if (event.getType() != ElementType.ALL || hudTime == 0)
 			return;
 
 		Minecraft mc = Minecraft.getMinecraft();

@@ -21,7 +21,7 @@ public class RenderItemFlashing extends RenderEntityItem {
 		if (lifespan == 6000 && !item.isEmpty())
 			lifespan = item.getItem().getEntityLifespan(item, entity.world);
 		int timeLeft = lifespan - entity.getAge();
-		if(timeLeft < ItemsFlashBeforeExpiring.minTime && timeLeft % 20 < 8 && entity.ticksExisted > 1)
+		if (timeLeft < ItemsFlashBeforeExpiring.minTime && timeLeft % 20 < 8 && entity.ticksExisted > 1)
 			return;
 		
 		super.doRender(entity, x, y, z, entityYaw, partialTicks);

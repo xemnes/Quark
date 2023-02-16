@@ -40,7 +40,7 @@ public class ReedBlock extends Feature {
 	public void preInit(FMLPreInitializationEvent event) {
 		reed_block = new BlockReed();
 
-		if(enableStairsAndSlabs) {
+		if (enableStairsAndSlabs) {
 			BlockModStairs.initStairs(reed_block, 0, new BlockReedStairs());
 			BlockModSlab.initSlab(reed_block, 0, new BlockReedSlab(false), new BlockReedSlab(true));
 		}

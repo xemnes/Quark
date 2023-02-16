@@ -42,14 +42,14 @@ public class DispensersPlaceBlocks extends Feature {
 	
 	@Override
 	public void postInit() {
-		for(ResourceLocation r : Block.REGISTRY.getKeys()) {
+		for (ResourceLocation r : Block.REGISTRY.getKeys()) {
 			Block block = Block.REGISTRY.getObject(r);
 			Item item = Item.getItemFromBlock(block);
 
-			if(!(item instanceof ItemBlock) || blacklist.contains(r.toString()))
+			if (!(item instanceof ItemBlock) || blacklist.contains(r.toString()))
 				continue;
 
-			if(!BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.containsKey(item))
+			if (!BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.containsKey(item))
 				BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(item, new BehaviourBlock((ItemBlock) item, block));
 		}
 	}
@@ -85,10 +85,10 @@ public class DispensersPlaceBlocks extends Feature {
 			BlockPos pos = source.getBlockPos().offset(facing);
 			World world = source.getWorld();
 
-			if(world.isAirBlock(pos) && block.canPlaceBlockAt(world, pos)) {
+			if (world.isAirBlock(pos) && block.canPlaceBlockAt(world, pos)) {
 				int meta = item.getMetadata(stack.getItemDamage());
 				IBlockState state;
-				if(!(block instanceof BlockPistonBase))
+				if (!(block instanceof BlockPistonBase))
 					state = block.getStateFromMeta(meta);
 				else state = block.getDefaultState();
 

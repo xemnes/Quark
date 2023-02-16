@@ -18,10 +18,10 @@ public class TileRainDetector extends TileMod implements ITickable {
 
 	@Override
 	public void update() {
-		if(!getWorld().isRemote && getWorld().getTotalWorldTime() % 20L == 0L) {
+		if (!getWorld().isRemote && getWorld().getTotalWorldTime() % 20L == 0L) {
 			blockType = getBlockType();
 
-			if(blockType instanceof BlockRainDetector)
+			if (blockType instanceof BlockRainDetector)
 				((BlockRainDetector) blockType).updatePower(getWorld(), pos);
 		}
 	}

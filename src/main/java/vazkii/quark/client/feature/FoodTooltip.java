@@ -25,23 +25,23 @@ public class FoodTooltip extends Feature {
 	@SubscribeEvent
 	@Optional.Method(modid = "betterwithmods")
 	public void bwmFeatureEnabled(FeatureEnabledEvent event) {
-		if(event.getFeature().equals("hchunger") && event.isEnabled())
+		if (event.getFeature().equals("hchunger") && event.isEnabled())
 			divisor = 12;
 	}
 
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void makeTooltip(ItemTooltipEvent event) {
-		if(!event.getItemStack().isEmpty() && event.getItemStack().getItem() instanceof ItemFood) {
+		if (!event.getItemStack().isEmpty() && event.getItemStack().getItem() instanceof ItemFood) {
 			int pips = ((ItemFood) event.getItemStack().getItem()).getHealAmount(event.getItemStack());
 			int len = (int) Math.ceil((double) pips / divisor);
 			
 			StringBuilder s = new StringBuilder(" ");
-			for(int i = 0; i < len; i++)
+			for (int i = 0; i < len; i++)
 				s.append("  ");
 			
 			List<String> tooltip = event.getToolTip();
-			if(tooltip.isEmpty())
+			if (tooltip.isEmpty())
 				tooltip.add(s.toString());
 			else tooltip.add(1, s.toString());
 		}
@@ -50,7 +50,7 @@ public class FoodTooltip extends Feature {
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void renderTooltip(RenderTooltipEvent.PostText event) {
-		if(!event.getStack().isEmpty() && event.getStack().getItem() instanceof ItemFood) {
+		if (!event.getStack().isEmpty() && event.getStack().getItem() instanceof ItemFood) {
 			GlStateManager.pushMatrix();
 			GlStateManager.color(1F, 1F, 1F);
 			Minecraft mc = Minecraft.getMinecraft();
@@ -64,20 +64,20 @@ public class FoodTooltip extends Feature {
 			int count = (int) Math.ceil((double) pips / divisor);
 			int y = shiftTextByLines(event.getLines(), event.getY() + 10);
 
-			for(int i = 0; i < count; i++) {
+			for (int i = 0; i < count; i++) {
 				int x = event.getX() + i * 9 - 2;
 
 				int u = 16;
-				if(poison)
+				if (poison)
 					u += 117;
 				int v = 27;
 				
 				Gui.drawModalRectWithCustomSizedTexture(x, y, u, v, 9, 9, 256, 256);
 				
 				u = 52;
-				if(pips % 2 != 0 && i == 0)
+				if (pips % 2 != 0 && i == 0)
 					u += 9;
-				if(poison)
+				if (poison)
 					u += 36;
 				
 				Gui.drawModalRectWithCustomSizedTexture(x, y, u, v, 9, 9, 256, 256);
@@ -88,10 +88,10 @@ public class FoodTooltip extends Feature {
 	}
 
 	public static int shiftTextByLines(List<String> lines, int y) {
-		for(int i = 1; i < lines.size(); i++) {
+		for (int i = 1; i < lines.size(); i++) {
 			String s = lines.get(i);
 			s = TextFormatting.getTextWithoutFormattingCodes(s);
-			if(s != null && s.trim().isEmpty()) {
+			if (s != null && s.trim().isEmpty()) {
 				y += 10 * (i - 1) + 1;
 				break;
 			}

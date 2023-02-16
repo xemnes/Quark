@@ -14,14 +14,14 @@ public class GuiConfigLink extends GuiConfirmOpenLink {
 	
 	@Override 
 	protected void keyTyped(char typedChar, int keyCode) {
-		if(keyCode == 1) // Esc
+		if (keyCode == 1) // Esc
 			returnToParent();
 	}
 	
 	void returnToParent() {
 		mc.displayGuiScreen(parent);
 
-		if(mc.currentScreen == null)
+		if (mc.currentScreen == null)
 			mc.setIngameFocus();
 	}
 

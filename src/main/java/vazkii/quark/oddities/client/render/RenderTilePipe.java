@@ -26,7 +26,7 @@ public class RenderTilePipe extends TileEntitySpecialRenderer<TilePipe> {
 		RenderItem render = Minecraft.getMinecraft().getRenderItem();
 		Iterator<PipeItem> items = te.getItemIterator();
 
-		while(items.hasNext())
+		while (items.hasNext())
 			renderItem(items.next(), render, partialTicks);
 		GlStateManager.popMatrix();
 	}
@@ -40,7 +40,7 @@ public class RenderTilePipe extends TileEntitySpecialRenderer<TilePipe> {
 		float fract = item.getTimeFract(partial);
 		float shiftFract = fract - 0.5F;
 		EnumFacing face = item.outgoingFace;
-		if(fract < 0.5)
+		if (fract < 0.5)
 			face = item.incomingFace.getOpposite();
 
 		float offX = (face.getXOffset() * 1F);
@@ -57,9 +57,9 @@ public class RenderTilePipe extends TileEntitySpecialRenderer<TilePipe> {
         random.setSeed(seed);
 		
 		int count = getModelCount(item.stack);
-		for(int i = 0; i < count; i++) {
+		for (int i = 0; i < count; i++) {
 			GlStateManager.pushMatrix();
-			if(i > 0) {
+			if (i > 0) {
 				float spread = 0.15F;
                 float x = (this.random.nextFloat() * 2.0F - 1.0F) * spread;
                 float y = (this.random.nextFloat() * 2.0F - 1.0F) * spread;
@@ -78,13 +78,13 @@ public class RenderTilePipe extends TileEntitySpecialRenderer<TilePipe> {
 
 	// RenderEntityItem copy
 	protected int getModelCount(ItemStack stack) {
-		if(stack.getCount() > 48)
+		if (stack.getCount() > 48)
 			return 5;
 		
-		if(stack.getCount() > 32)
+		if (stack.getCount() > 32)
 			return 4;
 		
-		if(stack.getCount() > 16)
+		if (stack.getCount() > 16)
 			return 3;
 		
 		if (stack.getCount() > 1)

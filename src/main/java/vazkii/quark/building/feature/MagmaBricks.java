@@ -28,7 +28,7 @@ public class MagmaBricks extends Feature {
 	public void preInit(FMLPreInitializationEvent event) {
 		magma_bricks = new BlockMagmaBricks();
 		
-		if(enableStairsAndSlabs) {
+		if (enableStairsAndSlabs) {
 			BlockModStairs.initStairs(magma_bricks, 0, new BlockMagmaBricksStairs());
 			BlockModSlab.initSlab(magma_bricks, 0, new BlockMagmaBricksSlab(false), new BlockMagmaBricksSlab(true));
 		}

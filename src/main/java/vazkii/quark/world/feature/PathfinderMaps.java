@@ -113,27 +113,27 @@ public class PathfinderMaps extends Feature {
 	
 	private void loadTradeInfo(Biome biome, boolean enabled, int level, int minPrice, int maxPrice, int color, String overrideCategory, String overrideName) {
 		String category = configCategory + ".";
-		if(!overrideCategory.isEmpty())
+		if (!overrideCategory.isEmpty())
 			category += overrideCategory;
 		else
 			category += getBiomeDescriptor(biome);
 		
 		TradeInfo info;
-		if(overrideName.isEmpty())
+		if (overrideName.isEmpty())
 			info = new TradeInfo(category, biome, enabled, level, minPrice, maxPrice, color);
 		else info = new TradeInfo(category, biome, enabled, level, minPrice, maxPrice, color, overrideName);
 		
-		if(info.enabled)
+		if (info.enabled)
 			trades.put(info.level, info);
 	}
 	
 	private void loadTradeInfo(String line) throws IllegalArgumentException {
 		String[] tokens = line.split(",");
-		if(tokens.length != 6)
+		if (tokens.length != 6)
 			throw new IllegalArgumentException("Wrong number of parameters " + tokens.length + " (expected 6)");
 		
 		ResourceLocation biomeName = new ResourceLocation(tokens[0]);
-		if(!Biome.REGISTRY.containsKey(biomeName))
+		if (!Biome.REGISTRY.containsKey(biomeName))
 			throw new IllegalArgumentException("No biome exists with name " + biomeName);
 		
 		Biome biome = Biome.REGISTRY.getObject(biomeName);
@@ -147,7 +147,7 @@ public class PathfinderMaps extends Feature {
 	}
 	
 	private void loadCustomMaps(String[] lines) {
-		for(String s : lines)
+		for (String s : lines)
 			try {
 				loadTradeInfo(s);
 			} catch(IllegalArgumentException e) {
@@ -169,7 +169,7 @@ public class PathfinderMaps extends Feature {
 	public static ItemStack createMap(World world, BlockPos pos, TradeInfo info) {
 		BlockPos biomePos = BiomeLocator.spiralOutwardsLookingForBiome(world, info.biome, pos.getX(), pos.getZ());
 
-		if(biomePos == null)
+		if (biomePos == null)
 			return ItemStack.EMPTY;
 		
 		int id = world.getUniqueDataId("map");
@@ -206,16 +206,16 @@ public class PathfinderMaps extends Feature {
 		@Override
 		public void addMerchantRecipe(@Nonnull IMerchant merchant, @Nonnull MerchantRecipeList recipeList, @Nonnull Random random) {
 			List<TradeInfo> tradeInfo = new ArrayList<>(trades.get(level));
-			if(tradeInfo.isEmpty())
+			if (tradeInfo.isEmpty())
 				return;
 			
-			if(unlockAllAtOnce)
-				for(TradeInfo info : tradeInfo)
+			if (unlockAllAtOnce)
+				for (TradeInfo info : tradeInfo)
 					unlock(merchant, recipeList, random, info);
 			else {
 				int amount = (level == 2 && multipleAtFirstUnlock) ? Math.min(tradeInfo.size(), 2 + random.nextInt(2)) : 1;
 				
-				for(int i = 0; i < amount; i++) {
+				for (int i = 0; i < amount; i++) {
 					TradeInfo info = tradeInfo.get(random.nextInt(tradeInfo.size()));
 					unlock(merchant, recipeList, random, info);
 					tradeInfo.remove(info);
@@ -227,7 +227,7 @@ public class PathfinderMaps extends Feature {
 			int i = random.nextInt(info.maxPrice - info.minPrice + 1) + info.minPrice;
 
 			ItemStack itemstack = createMap(merchant.getWorld(), merchant.getPos(), info); 
-			if(itemstack.isEmpty())
+			if (itemstack.isEmpty())
 				return;
 			
 			MerchantRecipe recipe = new MerchantRecipe(new ItemStack(Items.EMERALD, i), new ItemStack(Items.COMPASS), itemstack, 0, 1);

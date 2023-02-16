@@ -39,7 +39,7 @@ public class ColoredItemFrames extends Feature {
 		String coloredItemFrameName = "quark:colored_item_frame";
 		EntityRegistry.registerModEntity(new ResourceLocation(coloredItemFrameName), EntityColoredItemFrame.class, coloredItemFrameName, LibEntityIDs.COLORED_ITEM_FRAME, Quark.instance, 256, 64, false);
 
-		for(int i = 0; i < 16; i++)
+		for (int i = 0; i < 16; i++)
 			RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(colored_item_frame, 1, i), ProxyRegistry.newStack(Items.ITEM_FRAME), LibMisc.OREDICT_DYES.get(15 - i));
 	}
 

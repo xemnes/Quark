@@ -57,7 +57,7 @@ public class StoneInfoBasedGenerator extends MultiChunkFeatureGenerator {
 	public void generateChunkPart(BlockPos src, Random random, int chunkX, int chunkZ, World world) {
 		StoneInfo info = infoSupplier.get();
 		forEachChunkBlock(chunkX, chunkZ, info.lowerBound - info.clusterSize, info.upperBound + info.clusterSize, (pos) -> {
-			if(canPlaceBlock(world, pos) && pos.distanceSq(src) < (info.clusterSize * info.clusterSize))
+			if (canPlaceBlock(world, pos) && pos.distanceSq(src) < (info.clusterSize * info.clusterSize))
 				world.setBlockState(pos, state, 0);
 		});
 	}
@@ -72,18 +72,18 @@ public class StoneInfoBasedGenerator extends MultiChunkFeatureGenerator {
 		int chance = info.clusterRarity;
 		int amount = 1;
 
-		if(info.clustersRarityPerChunk) {
+		if (info.clustersRarityPerChunk) {
 			chance = 1;
 			amount = info.clusterRarity;
 		}
 		
 		BlockPos[] sources;
-		if(chance > 0 && random.nextInt(chance) == 0) {
+		if (chance > 0 && random.nextInt(chance) == 0) {
 			sources = new BlockPos[amount];
 			int lower = Math.abs(info.lowerBound);
 			int range = Math.abs(info.upperBound - info.lowerBound);
 			
-			for(int i = 0; i < amount && range > 0; i++) {
+			for (int i = 0; i < amount && range > 0; i++) {
 				int x = chunkX * 16 + random.nextInt(16) + 8;
 				int y = random.nextInt(range) + lower;
 				int z = chunkZ * 16 + random.nextInt(16) + 8;

@@ -49,7 +49,7 @@ public class ItemRune extends ItemMod implements IItemColorProvider, ICustomEnch
 
 	public ItemRune(boolean stack) {
 		super("rune", VARIANTS);
-		if(!stack)
+		if (!stack)
 			setMaxStackSize(1);
 		setCreativeTab(CreativeTabs.MISC);
 	}
@@ -70,7 +70,7 @@ public class ItemRune extends ItemMod implements IItemColorProvider, ICustomEnch
 	}
 	
 	public static int getColor(int meta) {
-		if(meta > 15) 
+		if (meta > 15) 
 			return Color.HSBtoRGB(ClientTicker.total * 0.005F, 1F, 0.6F);
 		
 		else return ItemDye.DYE_COLORS[15 - meta];

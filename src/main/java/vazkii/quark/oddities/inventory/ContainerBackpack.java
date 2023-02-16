@@ -5,6 +5,7 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.*;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.Loader;
 import vazkii.arl.util.InventoryIIH;
 import vazkii.quark.oddities.feature.Backpacks;
 
@@ -15,7 +16,7 @@ public class ContainerBackpack extends ContainerPlayer {
 	public ContainerBackpack(EntityPlayer player) {
 		super(player.inventory, !player.world.isRemote, player);
 		
-		for(Slot slot : inventorySlots) {
+		for (Slot slot : inventorySlots) {
 			if (slot.inventory == player.inventory && slot.getSlotIndex() < player.inventory.getSizeInventory() - 5)
 				slot.yPos += 58;
 		}
@@ -24,19 +25,24 @@ public class ContainerBackpack extends ContainerPlayer {
 		int left = anchor.xPos;
 		int top = anchor.yPos - 58;
 		
-		ItemStack backpack = BaublesApi.getBaublesHandler(player).getStackInSlot(5);
+		ItemStack backpack;
+		if (Loader.isModLoaded("baubles"))
+			backpack = BaublesApi.getBaublesHandler(player).getStackInSlot(5);
+		else
+			backpack = player.inventory.armorInventory.get(2);
 
-		if (backpack.getItem() != Backpacks.backpack)
+		if (backpack != null && backpack.getItem() != Backpacks.backpack)
 			backpack = null;
 
-		if(backpack != null) {
+		if (backpack != null) {
 			InventoryIIH inv = new InventoryIIH(backpack);
 			
-			for(int i = 0; i < 3; ++i)
-				for(int j = 0; j < 9; ++j) {
+			for (int i = 0; i < 3; ++i) {
+				for (int j = 0; j < 9; ++j) {
 					int k = j + i * 9;
 					addSlotToContainer(new SlotCachingItemHandler(inv, k, left + j * 18, top + i * 18));
 				}
+			}
 		}
 	}
 	
@@ -45,7 +51,7 @@ public class ContainerBackpack extends ContainerPlayer {
 	public ItemStack transferStackInSlot(@Nonnull EntityPlayer playerIn, int index) {
 //		Slot slot = inventorySlots.get(index);
 //
-//		if(index >= 9 && index < 36 && slot != null && slot.getHasStack()) {
+//		if (index >= 9 && index < 36 && slot != null && slot.getHasStack()) {
 //			ItemStack stack = slot.getStack();
 //			ItemStack origStack = stack.copy();
 //			if (!mergeItemStack(stack, 46, 73, false))
@@ -105,7 +111,7 @@ public class ContainerBackpack extends ContainerPlayer {
 
 	// Shamelessly stolen from CoFHCore because KL is awesome
 	// and was like yeah just take whatever you want lol
-	// https://github.com/CoFH/CoFHCore/blob/d4a79b078d257e88414f5eed598d57490ec8e97f/src/main/java/cofh/core/util/helpers/InventoryHelper.java
+	// https://github.com/CoFH/CoFHCore-1.12-Legacy/blob/d4a79b078d257e88414f5eed598d57490ec8e97f/src/main/java/cofh/core/util/helpers/InventoryHelper.java#L98-L165
 	@Override
 	public boolean mergeItemStack(ItemStack stack, int start, int length, boolean r) {
 		boolean successful = false;
@@ -115,7 +121,7 @@ public class ContainerBackpack extends ContainerPlayer {
 		Slot slot;
 		ItemStack existingStack;
 
-		if(stack.isStackable()) while (stack.getCount() > 0 && (!r && i < length || r && i >= start)) {
+		if (stack.isStackable()) while (stack.getCount() > 0 && (!r && i < length || r && i >= start)) {
 			slot = inventorySlots.get(i);
 
 			existingStack = slot.getStack();
@@ -142,17 +148,17 @@ public class ContainerBackpack extends ContainerPlayer {
 			}
 			i += iterOrder;
 		}
-		if(stack.getCount() > 0) {
+		if (stack.getCount() > 0) {
 			i = !r ? start : length - 1;
-			while(stack.getCount() > 0 && (!r && i < length || r && i >= start)) {
+			while (stack.getCount() > 0 && (!r && i < length || r && i >= start)) {
 				slot = inventorySlots.get(i);
 				existingStack = slot.getStack();
 
-				if(existingStack.isEmpty()) {
+				if (existingStack.isEmpty()) {
 					int maxStack = Math.min(stack.getMaxStackSize(), slot.getSlotStackLimit());
 					int rmv = Math.min(maxStack, stack.getCount());
 
-					if(slot.isItemValid(cloneStack(stack, rmv))) {
+					if (slot.isItemValid(cloneStack(stack, rmv))) {
 						existingStack = stack.splitStack(rmv);
 						slot.putStack(existingStack);
 						successful = true;
@@ -174,7 +180,7 @@ public class ContainerBackpack extends ContainerPlayer {
 	}
 
 	private static ItemStack cloneStack(ItemStack stack, int size) {
-		if(stack.isEmpty())
+		if (stack.isEmpty())
 			return ItemStack.EMPTY;
 
 		ItemStack copy = stack.copy();
@@ -184,9 +190,9 @@ public class ContainerBackpack extends ContainerPlayer {
 	
 	public static void saveCraftingInventory(EntityPlayer player) {
 		InventoryCrafting crafting = ((ContainerPlayer) player.openContainer).craftMatrix;
-		for(int i = 0; i < crafting.getSizeInventory(); i++) {
+		for (int i = 0; i < crafting.getSizeInventory(); i++) {
 			ItemStack stack = crafting.getStackInSlot(i);
-			if(!stack.isEmpty() && !player.addItemStackToInventory(stack))
+			if (!stack.isEmpty() && !player.addItemStackToInventory(stack))
 				player.dropItem(stack, false);
 		}
 	}

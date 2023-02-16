@@ -34,7 +34,7 @@ public class ClayGenerator implements IWorldGenerator {
 
 	@Override
 	public void generate(Random rand, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
-		for(int i = 0; i < clusterCount; i++) {
+		for (int i = 0; i < clusterCount; i++) {
 			int x = chunkX * 16 + rand.nextInt(16);
 			int y = ClayGeneration.minHeight + rand.nextInt(ClayGeneration.maxHeight - ClayGeneration.minHeight);
 			int z = chunkZ * 16 + rand.nextInt(16);

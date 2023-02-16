@@ -37,7 +37,7 @@ public class RenderTileMatrixEnchanter extends TileEntitySpecialRenderer<TileMat
 		renderBook(te, time, rot, partialTicks);
 		
 		ItemStack item = te.getStackInSlot(0);
-		if(!item.isEmpty())
+		if (!item.isEmpty())
 			renderItem(item, time, bookOpen, rot);
 
 		GlStateManager.popMatrix();

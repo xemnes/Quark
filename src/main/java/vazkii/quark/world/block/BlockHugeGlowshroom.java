@@ -43,7 +43,7 @@ public class BlockHugeGlowshroom extends BlockMod implements IQuarkBlock {
 	public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand) {
 		super.randomDisplayTick(stateIn, worldIn, pos, rand);
 
-		if(rand.nextInt(10) == 0)
+		if (rand.nextInt(10) == 0)
 			worldIn.spawnParticle(EnumParticleTypes.END_ROD, pos.getX() + rand.nextFloat(), pos.getY() + rand.nextFloat(), pos.getZ() + rand.nextFloat(), 0, 0, 0);
 	}
 
@@ -61,7 +61,7 @@ public class BlockHugeGlowshroom extends BlockMod implements IQuarkBlock {
 		IBlockState iblockstate = blockAccess.getBlockState(pos.offset(side));
 		Block block = iblockstate.getBlock();
 
-		if(block == blockState.getBlock())
+		if (block == blockState.getBlock())
 			return false;
 
 		return super.shouldSideBeRendered(blockState, blockAccess, pos, side);
@@ -77,24 +77,24 @@ public class BlockHugeGlowshroom extends BlockMod implements IQuarkBlock {
 
 		int i = rand.nextInt(3) + 4;
 
-		if(rand.nextInt(12) == 0)
+		if (rand.nextInt(12) == 0)
 			i *= 2;
 
 		boolean canPlace = true;
 		int flags = update ? 3 : 0;
 
-		if(position.getY() >= 1 && position.getY() + i + 1 < 256) {
-			for(int j = position.getY(); j <= position.getY() + 1 + i; ++j) {
+		if (position.getY() >= 1 && position.getY() + i + 1 < 256) {
+			for (int j = position.getY(); j <= position.getY() + 1 + i; ++j) {
 				int k = 3;
 
-				if(j <= position.getY() + 3)
+				if (j <= position.getY() + 3)
 					k = 0;
 
 				BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
 
-				for(int l = position.getX() - k; l <= position.getX() + k && canPlace; ++l)
-					for(int i1 = position.getZ() - k; i1 <= position.getZ() + k && canPlace; ++i1) {
-						if(j >= 0 && j < 256) {
+				for (int l = position.getX() - k; l <= position.getX() + k && canPlace; ++l)
+					for (int i1 = position.getZ() - k; i1 <= position.getZ() + k && canPlace; ++i1) {
+						if (j >= 0 && j < 256) {
 							IBlockState state = worldIn.getBlockState(pos.setPos(l, j, i1));
 
 							if (!state.getBlock().isAir(state, worldIn, pos) && !state.getBlock().isLeaves(state, worldIn, pos)) 
@@ -115,10 +115,10 @@ public class BlockHugeGlowshroom extends BlockMod implements IQuarkBlock {
 				else {
 					int k2 = position.getY() + i - 3;
 
-					for(int l2 = k2; l2 <= position.getY() + i; ++l2) {
+					for (int l2 = k2; l2 <= position.getY() + i; ++l2) {
 						int j3 = 1;
 
-						if(l2 < position.getY() + i)
+						if (l2 < position.getY() + i)
 							++j3;
 
 						int k3 = position.getX() - j3;
@@ -126,8 +126,8 @@ public class BlockHugeGlowshroom extends BlockMod implements IQuarkBlock {
 						int j1 = position.getZ() - j3;
 						int k1 = position.getZ() + j3;
 
-						for(int l1 = k3; l1 <= l3; ++l1) {
-							for(int i2 = j1; i2 <= k1; ++i2) {
+						for (int l1 = k3; l1 <= l3; ++l1) {
+							for (int i2 = j1; i2 <= k1; ++i2) {
 								int j2 = 5;
 
 								if (l1 == k3)
@@ -142,7 +142,7 @@ public class BlockHugeGlowshroom extends BlockMod implements IQuarkBlock {
 
 								BlockHugeMushroom.EnumType type = BlockHugeMushroom.EnumType.byMetadata(j2);
 
-								if(type == BlockHugeMushroom.EnumType.CENTER && l2 < position.getY() + i)
+								if (type == BlockHugeMushroom.EnumType.CENTER && l2 < position.getY() + i)
 									type = BlockHugeMushroom.EnumType.ALL_INSIDE;
 
 								if (position.getY() >= position.getY() + i - 1 || type != BlockHugeMushroom.EnumType.ALL_INSIDE) {
@@ -159,7 +159,7 @@ public class BlockHugeGlowshroom extends BlockMod implements IQuarkBlock {
 					for (int i3 = 0; i3 < i; ++i3) {
 						IBlockState iblockstate = worldIn.getBlockState(position.up(i3));
 
-						if(iblockstate.getBlock().canBeReplacedByLeaves(iblockstate, worldIn, position.up(i3)))
+						if (iblockstate.getBlock().canBeReplacedByLeaves(iblockstate, worldIn, position.up(i3)))
 							worldIn.setBlockState(position.up(i3), block.getDefaultState().withProperty(BlockHugeMushroom.VARIANT, BlockHugeMushroom.EnumType.STEM), flags);
 					}
 

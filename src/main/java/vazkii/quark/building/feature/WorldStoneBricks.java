@@ -56,9 +56,9 @@ public class WorldStoneBricks extends Feature {
 		world_stone_bricks = new BlockWorldStoneBricks();
 		world_stone_chiseled = new BlockWorldStoneCarved();
 
-		if(enableStairsAndSlabs) {
-			for(BlockWorldStoneBricks.Variants variant : BlockWorldStoneBricks.Variants.values()) {
-				if(!variant.isEnabled())
+		if (enableStairsAndSlabs) {
+			for (BlockWorldStoneBricks.Variants variant : BlockWorldStoneBricks.Variants.values()) {
+				if (!variant.isEnabled())
 					continue;
 
 				IBlockState state = world_stone_bricks.getDefaultState().withProperty(world_stone_bricks.getVariantProp(), variant);
@@ -68,7 +68,7 @@ public class WorldStoneBricks extends Feature {
 			}
 		}
 
-		if(enableWalls) {
+		if (enableWalls) {
 			for (BlockWorldStoneBricks.Variants variant : BlockWorldStoneBricks.Variants.values()) {
 				if (!variant.isEnabled())
 					continue;
@@ -82,7 +82,7 @@ public class WorldStoneBricks extends Feature {
 
 	@Override
 	public void postPreInit() {
-		for(int i = 0; i < 3; i++)
+		for (int i = 0; i < 3; i++)
 			addRecipes(BlockWorldStoneBricks.Variants.values()[i], ProxyRegistry.newStack(Blocks.STONE, 1, i * 2 + 2));
 
 		addRecipes(BlockWorldStoneBricks.Variants.STONE_BASALT_BRICKS, ProxyRegistry.newStack(Basalt.basalt, 1, 1));
@@ -93,7 +93,7 @@ public class WorldStoneBricks extends Feature {
 	}
 	
 	private void addRecipes(BlockWorldStoneBricks.Variants variant, ItemStack baseStack) {
-		if(!variant.isEnabled())
+		if (!variant.isEnabled())
 			return;
 		
 		int meta = variant.ordinal();
@@ -116,7 +116,7 @@ public class WorldStoneBricks extends Feature {
 
 	@Override
 	public void init() {
-		while(!deferedInit.isEmpty())
+		while (!deferedInit.isEmpty())
 			deferedInit.poll().run();
 	}
 	

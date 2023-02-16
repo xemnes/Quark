@@ -117,10 +117,10 @@ public class ModelAccessor implements TweenAccessor<ModelBiped> {
 		}
 
 		ModelRenderer model = getBodyPart(target, bodyPart);
-		if(model == null)
+		if (model == null)
 			return 0;
 
-		switch(axis) {
+		switch (axis) {
 			case ROT_X:
 				returnValues[0] = model.rotateAngleX; break;
 			case ROT_Y:
@@ -139,7 +139,7 @@ public class ModelAccessor implements TweenAccessor<ModelBiped> {
 	}
 
 	private ModelRenderer getBodyPart(ModelBiped model, int part) {
-		switch(part) {
+		switch (part) {
 			case HEAD : return model.bipedHead;
 			case BODY : return model.bipedBody;
 			case RIGHT_ARM : return model.bipedRightArm;
@@ -172,31 +172,31 @@ public class ModelAccessor implements TweenAccessor<ModelBiped> {
 	private void messWithModel(ModelBiped biped, ModelRenderer part, int axis, float val) {
 		setPartAxis(part, axis, val);
 		
-		if(biped instanceof ModelPlayer)
+		if (biped instanceof ModelPlayer)
 			messWithPlayerModel((ModelPlayer) biped, part, axis, val);
 	}
 
 	private void messWithPlayerModel(ModelPlayer biped, ModelRenderer part, int axis, float val) {
-		if(part == biped.bipedHead) {
+		if (part == biped.bipedHead) {
 			setPartAxis(biped.bipedHeadwear, axis, val);
 			setPartOffset(getEarsModel(biped), axis, val);
-		} else if(part == biped.bipedLeftArm)
+		} else if (part == biped.bipedLeftArm)
 			setPartAxis(biped.bipedLeftArmwear, axis, val);
-		else if(part == biped.bipedRightArm)
+		else if (part == biped.bipedRightArm)
 			setPartAxis(biped.bipedRightArmwear, axis, val);
-		else if(part == biped.bipedLeftLeg)
+		else if (part == biped.bipedLeftLeg)
 			setPartAxis(biped.bipedLeftLegwear, axis, val);
-		else if(part == biped.bipedRightLeg)
+		else if (part == biped.bipedRightLeg)
 			setPartAxis(biped.bipedRightLegwear, axis, val);
-		else if(part == biped.bipedBody)
+		else if (part == biped.bipedBody)
 			setPartAxis(biped.bipedBodyWear, axis, val);
 	}
 
 	private void setPartOffset(ModelRenderer part, int axis, float val) {
-		if(part == null)
+		if (part == null)
 			return;
 
-		switch(axis) {
+		switch (axis) {
 			case OFF_X:
 				part.offsetX = val; break;
 			case OFF_Y:
@@ -207,10 +207,10 @@ public class ModelAccessor implements TweenAccessor<ModelBiped> {
 	}
 
 	private void setPartAxis(ModelRenderer part, int axis, float val) {
-		if(part == null)
+		if (part == null)
 			return;
 		
-		switch(axis) {
+		switch (axis) {
 			case ROT_X:
 				part.rotateAngleX = val; break;
 			case ROT_Y:

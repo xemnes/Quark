@@ -45,7 +45,7 @@ public class HardenedClayTiles extends Feature {
 	public void preInit(FMLPreInitializationEvent event) {
 		hardened_clay_tiles = new BlockHardenedClayTiles();
 
-		if(enableStairsAndSlabs) {
+		if (enableStairsAndSlabs) {
 			BlockModStairs.initStairs(hardened_clay_tiles, 0, new BlockHardenedClayTilesStairs());
 			BlockModSlab.initSlab(hardened_clay_tiles, 0, new BlockHardenedClayTilesSlab(false), new BlockHardenedClayTilesSlab(true));
 		}
@@ -54,17 +54,17 @@ public class HardenedClayTiles extends Feature {
 				"BB", "BB",
 				'B', ProxyRegistry.newStack(Blocks.HARDENED_CLAY));
 
-		if(enableStainedClay) {
+		if (enableStainedClay) {
 			stained_clay_tiles = new BlockStainedClayTiles();
 
-			if(enableStairsAndSlabs) {
-				for(BlockStainedClayTiles.Variants variant : BlockStainedClayTiles.Variants.values())
+			if (enableStairsAndSlabs) {
+				for (BlockStainedClayTiles.Variants variant : BlockStainedClayTiles.Variants.values())
 					BlockModStairs.initStairs(stained_clay_tiles, variant.ordinal(), new BlockStainedClayTilesStairs(variant));
-				for(BlockStainedClayTiles.Variants variant : BlockStainedClayTiles.Variants.values())
+				for (BlockStainedClayTiles.Variants variant : BlockStainedClayTiles.Variants.values())
 					BlockModSlab.initSlab(stained_clay_tiles, variant.ordinal(), new BlockStainedClayTilesSlab(variant, false), new BlockStainedClayTilesSlab(variant, true));
 			}
 
-			for(int i = 0; i < 16; i++) {
+			for (int i = 0; i < 16; i++) {
 				RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(stained_clay_tiles, 4, i),
 						"BB", "BB",
 						'B', ProxyRegistry.newStack(Blocks.STAINED_HARDENED_CLAY, 1, i));

@@ -33,7 +33,7 @@ public class RenderTileCustomChest extends TileEntitySpecialRenderer<TileCustomC
 	private boolean xmas;
 	
 	public RenderTileCustomChest() {
-		if(GlobalConfig.enableSeasonalFeatures) {
+		if (GlobalConfig.enableSeasonalFeatures) {
 			Calendar calendar = Calendar.getInstance();
 			xmas = calendar.get(Calendar.MONTH) + 1 == 12 && calendar.get(Calendar.DAY_OF_MONTH) >= 24 && calendar.get(Calendar.DAY_OF_MONTH) <= 26;
 		}
@@ -46,26 +46,26 @@ public class RenderTileCustomChest extends TileEntitySpecialRenderer<TileCustomC
 		GlStateManager.depthMask(true);
 		int meta;
 
-		if(te.hasWorld()) {
+		if (te.hasWorld()) {
 			meta = te.getBlockMetadata();
 			te.checkForAdjacentChests();
 		} else
 			meta = 3;
 
-		if(te.adjacentChestZNeg == null && te.adjacentChestXNeg == null) {
+		if (te.adjacentChestZNeg == null && te.adjacentChestXNeg == null) {
 			ModelChest model;
 
-			if(te.adjacentChestXPos == null && te.adjacentChestZPos == null) {
+			if (te.adjacentChestXPos == null && te.adjacentChestZPos == null) {
 				model = simpleChest;
 
-				if(destroyStage >= 0) {
+				if (destroyStage >= 0) {
 					bindTexture(DESTROY_STAGES[destroyStage]);
 					GlStateManager.matrixMode(GL11.GL_TEXTURE);
 					GlStateManager.pushMatrix();
 					GlStateManager.scale(4.0F, 4.0F, 1.0F);
 					GlStateManager.translate(0.0625F, 0.0625F, 0.0625F);
 					GlStateManager.matrixMode(GL11.GL_MODELVIEW);
-				} else if(xmas)
+				} else if (xmas)
 					bindTexture(TEXTURE_CHRISTMAS);
 				else {
 					if (te.getChestType() == VariedChests.CUSTOM_TYPE_QUARK_TRAP)
@@ -76,14 +76,14 @@ public class RenderTileCustomChest extends TileEntitySpecialRenderer<TileCustomC
 			} else {
 				model = largeChest;
 
-				if(destroyStage >= 0) {
+				if (destroyStage >= 0) {
 					bindTexture(DESTROY_STAGES[destroyStage]);
 					GlStateManager.matrixMode(GL11.GL_TEXTURE);
 					GlStateManager.pushMatrix();
 					GlStateManager.scale(8.0F, 4.0F, 1.0F);
 					GlStateManager.translate(0.0625F, 0.0625F, 0.0625F);
 					GlStateManager.matrixMode(GL11.GL_MODELVIEW);
-				} else if(xmas)
+				} else if (xmas)
 					bindTexture(TEXTURE_CHRISTMAS_DOUBLE);
 				else {
 					if (te.getChestType() == VariedChests.CUSTOM_TYPE_QUARK_TRAP)
@@ -96,7 +96,7 @@ public class RenderTileCustomChest extends TileEntitySpecialRenderer<TileCustomC
 			GlStateManager.pushMatrix();
 			GlStateManager.enableRescaleNormal();
 
-			if(destroyStage < 0)
+			if (destroyStage < 0)
 				GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
 			GlStateManager.translate(x, y + 1.0F, z + 1.0F);
@@ -104,20 +104,20 @@ public class RenderTileCustomChest extends TileEntitySpecialRenderer<TileCustomC
 			GlStateManager.translate(0.5F, 0.5F, 0.5F);
 			int angle;
 
-			if(meta == 2)
+			if (meta == 2)
 				angle = 180;
-			else if(meta == 3)
+			else if (meta == 3)
 				angle = 0;
-			else if(meta == 4)
+			else if (meta == 4)
 				angle = 90;
 			else
 				angle = -90;
 
-			if(meta == 2 && te.adjacentChestXPos != null) {
+			if (meta == 2 && te.adjacentChestXPos != null) {
 				GlStateManager.translate(1.0F, 0.0F, 0.0F);
 			}
 
-			if(meta == 5 && te.adjacentChestZPos != null) {
+			if (meta == 5 && te.adjacentChestZPos != null) {
 				GlStateManager.translate(0.0F, 0.0F, -1.0F);
 			}
 
@@ -125,17 +125,17 @@ public class RenderTileCustomChest extends TileEntitySpecialRenderer<TileCustomC
 			GlStateManager.translate(-0.5F, -0.5F, -0.5F);
 			float lidAngle = te.prevLidAngle + (te.lidAngle - te.prevLidAngle) * partialTicks;
 
-			if(te.adjacentChestZNeg != null) {
+			if (te.adjacentChestZNeg != null) {
 				float adjLidAngle = te.adjacentChestZNeg.prevLidAngle + (te.adjacentChestZNeg.lidAngle - te.adjacentChestZNeg.prevLidAngle) * partialTicks;
 
-				if(adjLidAngle > lidAngle)
+				if (adjLidAngle > lidAngle)
 					lidAngle = adjLidAngle;
 			}
 
-			if(te.adjacentChestXNeg != null) {
+			if (te.adjacentChestXNeg != null) {
 				float adjLidAngle = te.adjacentChestXNeg.prevLidAngle + (te.adjacentChestXNeg.lidAngle - te.adjacentChestXNeg.prevLidAngle) * partialTicks;
 
-				if(adjLidAngle > lidAngle)
+				if (adjLidAngle > lidAngle)
 					lidAngle = adjLidAngle;
 			}
 
@@ -148,7 +148,7 @@ public class RenderTileCustomChest extends TileEntitySpecialRenderer<TileCustomC
 			GlStateManager.popMatrix();
 			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
-			if(destroyStage >= 0) {
+			if (destroyStage >= 0) {
 				GlStateManager.matrixMode(GL11.GL_TEXTURE);
 				GlStateManager.popMatrix();
 				GlStateManager.matrixMode(GL11.GL_MODELVIEW);

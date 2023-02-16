@@ -26,6 +26,8 @@ import vazkii.quark.world.feature.RevampStoneGen;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
+import javax.annotation.Nullable;
+
 public enum EnumStonelingVariant implements IEntityLivingData {
 	STONE("stoneling", "stone", stoneState(EnumType.STONE),
 			isBlock(Blocks.STONE)
@@ -112,6 +114,7 @@ public enum EnumStonelingVariant implements IEntityLivingData {
 		return oreKey;
 	}
 
+	@Nullable
 	public IBlockState getDisplayState() {
 		if (state == null)
 			state = stateSupplier.get();

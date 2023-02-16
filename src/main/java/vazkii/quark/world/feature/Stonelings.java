@@ -41,7 +41,7 @@ public class Stonelings extends Feature {
 
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
-		if(enableDiamondHeart)
+		if (enableDiamondHeart)
 			diamond_heart = new ItemDiamondHeart();
 
 		String stonelingName = "quark:stoneling";

@@ -20,7 +20,7 @@ public class FlowerPotStateMapper extends StateMapperBase {
 	@Nonnull
 	@Override
 	protected ModelResourceLocation getModelResourceLocation(@Nonnull IBlockState state) {
-		if(state.getValue(BlockCustomFlowerPot.CUSTOM))
+		if (state.getValue(BlockCustomFlowerPot.CUSTOM))
 			return LOCATION;
 
 		LinkedHashMap<IProperty<?>, Comparable<?>> map = Maps.newLinkedHashMap(state.getProperties());

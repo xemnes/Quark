@@ -45,7 +45,7 @@ public class GuiConfigModule extends GuiConfigBase {
 		
 		buttonList.add(backButton = new GuiButton(0, x, y, 200, 20, I18n.format("gui.done")));
 
-		if(totalPages > 1) {
+		if (totalPages > 1) {
 			x = width / 2;
 			y = height / 6 - 12;
 			buttonList.add(left = new GuiButton(0, x - 40, y, 20, 20, "<"));
@@ -62,7 +62,7 @@ public class GuiConfigModule extends GuiConfigBase {
 		buttonList.removeIf((b) -> b instanceof GuiButtonConfigSetting || b instanceof GuiButtonFeatureSettings);
 
 		int start = page * FEATURES_PER_PAGE;
-		for(int i = start; i < Math.min(start + FEATURES_PER_PAGE, features.size()); i++) {
+		for (int i = start; i < Math.min(start + FEATURES_PER_PAGE, features.size()); i++) {
 			int j = i - start;
 			int x = startX + j % 2 * 200;
 			int y = startY + j / 2 * 22;
@@ -71,11 +71,11 @@ public class GuiConfigModule extends GuiConfigBase {
 			
 			buttonList.add(new GuiButtonConfigSetting(x + 150, y, feature.prop, true, feature.getFeatureIngameConfigName()));
 			
-			if(ModuleLoader.config.hasCategory(feature.configCategory))
+			if (ModuleLoader.config.hasCategory(feature.configCategory))
 				buttonList.add(new GuiButtonFeatureSettings(x + 170, y, feature.configCategory));
 		}
 		
-		if(left != null) {
+		if (left != null) {
 			left.enabled = (page > 0);
 			right.enabled = (page < totalPages - 1);
 		}
@@ -85,11 +85,11 @@ public class GuiConfigModule extends GuiConfigBase {
 	protected void actionPerformed(GuiButton button) throws IOException {
 		super.actionPerformed(button);
 		
-		if(button instanceof GuiButtonFeatureSettings) {
+		if (button instanceof GuiButtonFeatureSettings) {
 			GuiButtonFeatureSettings featureButton = (GuiButtonFeatureSettings) button;
 			mc.displayGuiScreen(new GuiConfigCategory(this, featureButton.category));
-		} else if(button == left || button == right) {
-			if(button == left)
+		} else if (button == left || button == right) {
+			if (button == left)
 				page = Math.max(page - 1, 0);
 			else page = Math.min(page + 1, totalPages - 1);
 
@@ -101,13 +101,13 @@ public class GuiConfigModule extends GuiConfigBase {
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		super.drawScreen(mouseX, mouseY, partialTicks);
 		
-		if(totalPages > 1) {
+		if (totalPages > 1) {
 			int x = width / 2;
 			int y = height / 6 - 7;
 			drawCenteredString(mc.fontRenderer, (page + 1) + "/" + totalPages, x, y, 0xFFFFFF);
 		}
 		
-		if(mayRequireRestart) {
+		if (mayRequireRestart) {
 			String s = I18n.format("quark.config.needrestart");
 			drawCenteredString(mc.fontRenderer, s, width / 2, backButton.y + 22, 0xFFFF00);
 		}

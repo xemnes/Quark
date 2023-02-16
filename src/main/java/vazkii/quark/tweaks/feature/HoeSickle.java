@@ -55,9 +55,10 @@ public class HoeSickle extends Feature {
 			return 1;
 
 		for (String hoeType : hoeRanges) {
-			int spaceIndex = hoeType.indexOf(' ');
-			if (ForgeRegistries.ITEMS.getValue(new ResourceLocation(hoeType.substring(0, spaceIndex))) == item) {
-				return Integer.parseInt(hoeType.substring(spaceIndex + 1));
+			String[] parts = hoeType.split(" ");
+			if (ForgeRegistries.ITEMS.containsKey(new ResourceLocation(parts[0])) &&
+					(ForgeRegistries.ITEMS.getValue(new ResourceLocation(parts[0])) == item)) {
+				return Integer.parseInt(parts[1]);
 			}
 		}
 		return 1;

@@ -50,11 +50,11 @@ public class EnchantmentMatrix {
 	}
 
 	public boolean canGeneratePiece(int bookshelfPower, int enchantability) {
-		if(enchantability == 0)
+		if (enchantability == 0)
 			return false;
 		
-		if(book) {
-			if(!MatrixEnchanting.allowBooks)
+		if (book) {
+			if (!MatrixEnchanting.allowBooks)
 				return false;
 			
 			int bookshelfCount = Math.max(0, Math.min(bookshelfPower - 1, MatrixEnchanting.maxBookshelves)) / 7;
@@ -76,7 +76,7 @@ public class EnchantmentMatrix {
 		float scale = MatrixEnchanting.minLevelScaleFactor;
 		int cutoff = MatrixEnchanting.minLevelCutoff;
 		
-		if(book)
+		if (book)
 			return (int) (Math.min(bookshelfPower, MatrixEnchanting.maxBookshelves) * MatrixEnchanting.minLevelScaleFactorBook);
 		else 
 			return count > cutoff ? ((int) (cutoff * scale) - cutoff + count) : (int) (count * scale);
@@ -92,11 +92,11 @@ public class EnchantmentMatrix {
 			return false;
 		
 		int type = -1;
-		for(Piece p : pieces.values())
-			if(p.enchant == data.enchantment)
+		for (Piece p : pieces.values())
+			if (p.enchant == data.enchantment)
 				type = p.type;
 		
-		if(type == -1) {
+		if (type == -1) {
 			type = typeCount % PIECE_VARIANTS;
 			typeCount++;
 		}
@@ -109,7 +109,7 @@ public class EnchantmentMatrix {
 		benchedPieces.add(count);
 		count++;
 		
-		if(book && count == 1) {
+		if (book && count == 1) {
 			for (int i = 0; i < 2; i++)
 				if (rng.nextBoolean())
 					count++;
@@ -124,7 +124,7 @@ public class EnchantmentMatrix {
 		List<Piece> marked = pieces.values().stream().filter(p -> p.marked).collect(Collectors.toList());
 		
 		List<EnchantmentDataWrapper> validEnchants = new ArrayList<>();
-		for(Enchantment enchantment : ForgeRegistries.ENCHANTMENTS) {
+		for (Enchantment enchantment : ForgeRegistries.ENCHANTMENTS) {
 			if ((!enchantment.isTreasureEnchantment() || MatrixEnchanting.allowTreasures)
 					&& !MatrixEnchanting.disallowedEnchantments.contains(Objects.toString(enchantment.getRegistryName()))
 					&& (enchantment.canApplyAtEnchantingTable(target) || (book && enchantment.isAllowedOnBooks()))) {
@@ -170,7 +170,7 @@ public class EnchantmentMatrix {
 	
 	public boolean place(int id, int x, int y) {
 		Piece p = pieces.get(id);
-		if(p != null && benchedPieces.contains(id) && canPlace(p, x, y)) {
+		if (p != null && benchedPieces.contains(id) && canPlace(p, x, y)) {
 			p.x = x;
 			p.y = y;
 			
@@ -186,7 +186,7 @@ public class EnchantmentMatrix {
 	
 	public boolean remove(int id) {
 		Piece p = pieces.get(id);
-		if(p != null && placedPieces.contains(id)) {
+		if (p != null && placedPieces.contains(id)) {
 			placedPieces.remove((Integer) id);
 			benchedPieces.add(id);
 			
@@ -199,7 +199,7 @@ public class EnchantmentMatrix {
 	
 	public boolean rotate(int id) {
 		Piece p = pieces.get(id);
-		if(p != null && benchedPieces.contains(id)) {
+		if (p != null && benchedPieces.contains(id)) {
 			p.rotate();
 			return true;
 		}
@@ -210,14 +210,14 @@ public class EnchantmentMatrix {
 	public boolean merge(int placed, int hover) {
 		Piece placedPiece = pieces.get(placed);
 		Piece hoveredPiece = pieces.get(hover);
-		if(placedPiece != null && hoveredPiece != null && placedPieces.contains(placed) && benchedPieces.contains(hover)) {
+		if (placedPiece != null && hoveredPiece != null && placedPieces.contains(placed) && benchedPieces.contains(hover)) {
 			Enchantment enchant = placedPiece.enchant;
-			if(hoveredPiece.enchant == enchant && placedPiece.level < enchant.getMaxLevel()) {
+			if (hoveredPiece.enchant == enchant && placedPiece.level < enchant.getMaxLevel()) {
 				placedPiece.xp += hoveredPiece.getValue();
 
 				int max = placedPiece.getMaxXP();
-				while(placedPiece.xp >= max) {
-					if(placedPiece.level >= enchant.getMaxLevel())
+				while (placedPiece.xp >= max) {
+					if (placedPiece.level >= enchant.getMaxLevel())
 						break;
 					
 					placedPiece.level++;
@@ -225,7 +225,7 @@ public class EnchantmentMatrix {
 					max = placedPiece.getMaxXP();
 				}
 
-				if(hoveredPiece.marked)
+				if (hoveredPiece.marked)
 					placedPiece.marked = true;
 				
 				benchedPieces.remove((Integer) hover);
@@ -239,7 +239,7 @@ public class EnchantmentMatrix {
 	
 	public void writeToNBT(NBTTagCompound cmp) {
 		NBTTagList list = new NBTTagList();
-		for(Integer i : pieces.keySet()) {
+		for (Integer i : pieces.keySet()) {
 			NBTTagCompound pieceTag = new NBTTagCompound();
 			
 			pieceTag.setInteger(TAG_PIECE_ID, i);
@@ -260,7 +260,7 @@ public class EnchantmentMatrix {
 		pieces.clear();
 		totalValue.clear();
 		NBTTagList plist = cmp.getTagList(TAG_PIECES, cmp.getId());
-		for(int i = 0; i < plist.tagCount(); i++) {
+		for (int i = 0; i < plist.tagCount(); i++) {
 			NBTTagCompound pieceTag = plist.getCompoundTagAt(i);
 			
 			int id = pieceTag.getInteger(TAG_PIECE_ID);
@@ -281,25 +281,25 @@ public class EnchantmentMatrix {
 	private void computeMatrix() {
 		matrix = new int[MATRIX_WIDTH][MATRIX_HEIGHT];
 		
-		for(int i = 0; i < MATRIX_WIDTH; i++)
-			for(int j = 0; j < MATRIX_HEIGHT; j++)
+		for (int i = 0; i < MATRIX_WIDTH; i++)
+			for (int j = 0; j < MATRIX_HEIGHT; j++)
 				matrix[i][j] = -1;
 		
-		for(Integer i : placedPieces) {
+		for (Integer i : placedPieces) {
 			Piece p = pieces.get(i);
-			for(int[] b : p.blocks)
+			for (int[] b : p.blocks)
 				matrix[p.x + b[0]][p.y + b[1]] = i;
 		}
 	}
 	
 	public boolean canPlace(Piece p, int x, int y) {
-		for(int[] b : p.blocks) {
+		for (int[] b : p.blocks) {
 			int bx = b[0] + x;
 			int by = b[1] + y;
-			if(bx < 0 || by < 0 || bx >= MATRIX_WIDTH || by >= MATRIX_HEIGHT)
+			if (bx < 0 || by < 0 || bx >= MATRIX_WIDTH || by >= MATRIX_HEIGHT)
 				return false;
 			
-			if(matrix[bx][by] != -1)
+			if (matrix[bx][by] != -1)
 				return false;
 		}
 		
@@ -308,7 +308,7 @@ public class EnchantmentMatrix {
 	
 	private int[] packList(List<Integer> list) {
 		int[] arr = new int[list.size()];
-		for(int i = 0; i < arr.length; i++)
+		for (int i = 0; i < arr.length; i++)
 			arr[i] = list.get(i);
 		return arr;
 	}
@@ -321,10 +321,10 @@ public class EnchantmentMatrix {
 	}
 
 	public static int getMaxXP(Enchantment enchantment, int level) {
-		if(level >= enchantment.getMaxLevel())
+		if (level >= enchantment.getMaxLevel())
 			return 0;
 
-		switch(enchantment.getRarity()) {
+		switch (enchantment.getRarity()) {
 			case COMMON:
 				return level;
 			case UNCOMMON:
@@ -397,13 +397,13 @@ public class EnchantmentMatrix {
 			int[][] copyPieces = PIECE_TYPES[type];
 			blocks = new int[copyPieces.length][2];
 			
-			for(int i = 0; i < blocks.length; i++) {
+			for (int i = 0; i < blocks.length; i++) {
 				blocks[i][0] = copyPieces[i][0]; 
 				blocks[i][1] = copyPieces[i][1];
 			}
 			
 			int rotations = (int) (Math.random() * 4);
-			for(int i = 0; i < rotations; i++)
+			for (int i = 0; i < rotations; i++)
 				rotate();
 		}
 		
@@ -437,7 +437,7 @@ public class EnchantmentMatrix {
 			cmp.setInteger(TAG_INFLUENCE, influence);
 
 			cmp.setInteger(TAG_BLOCK_COUNT, blocks.length);
-			for(int i = 0; i < blocks.length; i++)
+			for (int i = 0; i < blocks.length; i++)
 				cmp.setIntArray(TAG_BLOCK + i, blocks[i]);
 		}
 		
@@ -453,7 +453,7 @@ public class EnchantmentMatrix {
 			influence = cmp.getInteger(TAG_INFLUENCE);
 			
 			blocks = new int[cmp.getInteger(TAG_BLOCK_COUNT)][2];
-			for(int i = 0; i < blocks.length; i++)
+			for (int i = 0; i < blocks.length; i++)
 				blocks[i] = cmp.getIntArray(TAG_BLOCK + i);
 		}
 	}
@@ -468,9 +468,9 @@ public class EnchantmentMatrix {
 		}
 		
 		public void normalizeRarity(Map<Enchantment, Integer> influences, List<Piece> markedEnchants) {
-			if(MatrixEnchanting.normalizeRarity) {
+			if (MatrixEnchanting.normalizeRarity) {
 				itemWeight *= 10000;
-				switch(enchantment.getRarity()) {
+				switch (enchantment.getRarity()) {
 				case COMMON:
 					itemWeight = 80000;
 					break;
@@ -492,19 +492,19 @@ public class EnchantmentMatrix {
 				
 				boolean mark = true;
 				
-				for(Piece other : markedEnchants) {
-					if(other.enchant == enchantment) {
+				for (Piece other : markedEnchants) {
+					if (other.enchant == enchantment) {
 						itemWeight *= MatrixEnchanting.dupeMultiplier;
 						mark = false;
 						break;
-					} else if(!other.enchant.isCompatibleWith(enchantment) || !enchantment.isCompatibleWith(other.enchant)) {
+					} else if (!other.enchant.isCompatibleWith(enchantment) || !enchantment.isCompatibleWith(other.enchant)) {
 						itemWeight *= MatrixEnchanting.incompatibleMultiplier;
 						mark = false;
 						break;
 					}
 				}
 				
-				if(mark)
+				if (mark)
 					marked = true;
 			}
 		}

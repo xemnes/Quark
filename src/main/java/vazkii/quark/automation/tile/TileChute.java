@@ -14,7 +14,7 @@ public class TileChute extends TileSimpleInventory {
 
 	@Override
 	public void setInventorySlotContents(int i, @Nonnull ItemStack itemstack) {
-		if(!itemstack.isEmpty()) {
+		if (!itemstack.isEmpty()) {
 			EntityItem entity = new EntityItem(world, pos.getX() + 0.5, pos.getY() - 0.5, pos.getZ() + 0.5, itemstack);
 			entity.motionX = entity.motionY = entity.motionZ = 0;
 			world.spawnEntity(entity);
@@ -33,7 +33,7 @@ public class TileChute extends TileSimpleInventory {
 	
 	@Override
 	public boolean isAutomationEnabled() {
-		if(world.getBlockState(pos).getValue(BlockChute.ENABLED)) {
+		if (world.getBlockState(pos).getValue(BlockChute.ENABLED)) {
 			BlockPos below = pos.down();
 			IBlockState state = world.getBlockState(below);
 			Block block = state.getBlock();

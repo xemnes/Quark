@@ -19,12 +19,12 @@ public class BetterVanillaTextures extends Feature {
 	
 	@Override
 	public void setupConfig() {
-		if(overrides == null) {
+		if (overrides == null) {
 			InputStreamReader reader = new InputStreamReader(Quark.class.getResourceAsStream(OVERRIDES_JSON_FILE));
 			overrides = GSON.fromJson(reader, OverrideHolder.class);
 		}
 		
-		for(OverrideEntry e : overrides.overrides)
+		for (OverrideEntry e : overrides.overrides)
 			e.configVal = loadPropBool("Enable " + e.name, "", !e.disabled);
 	}
 	
@@ -54,8 +54,8 @@ public class BetterVanillaTextures extends Feature {
 		public boolean configVal;
 		
 		void apply() {
-			if(configVal) 
-				for(String file : files) {
+			if (configVal) 
+				for (String file : files) {
 					String[] tokens = file.split("//");
 					Quark.proxy.addResourceOverride(tokens[0], tokens[1]);
 				}

@@ -29,7 +29,7 @@ public class GuiHandler implements IGuiHandler {
 
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		switch(ID) {
+		switch (ID) {
 		case LibGuiIDs.BACKPACK: return new ContainerBackpack(player);
 		case LibGuiIDs.MATRIX_ENCHANTING: return new ContainerMatrixEnchanting(player.inventory, (TileMatrixEnchanter) world.getTileEntity(new BlockPos(x, y, z)));
 		}
@@ -39,7 +39,7 @@ public class GuiHandler implements IGuiHandler {
 
 	@Override
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		switch(ID) {
+		switch (ID) {
 			case LibGuiIDs.SIGN:
 				TileEntitySign sign = (TileEntitySign) world.getTileEntity(new BlockPos(x, y, z));
 				if (sign != null)

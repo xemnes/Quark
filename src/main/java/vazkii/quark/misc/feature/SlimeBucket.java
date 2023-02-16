@@ -48,29 +48,29 @@ public class SlimeBucket extends Feature {
 	
 	@SubscribeEvent
 	public void entityInteract(PlayerInteractEvent.EntityInteract event) {
-		if(event.getTarget() != null && !event.getWorld().isRemote) {
+		if (event.getTarget() != null && !event.getWorld().isRemote) {
 			String name = EntityList.getEntityString(event.getTarget());
-			if(name != null && name.equals("Slime") && ((EntitySlime) event.getTarget()).getSlimeSize() == 1 && ((EntityLiving) event.getTarget()).getHealth() > 0) {
+			if (name != null && name.equals("Slime") && ((EntitySlime) event.getTarget()).getSlimeSize() == 1 && ((EntityLiving) event.getTarget()).getHealth() > 0) {
 				EntityPlayer player = event.getEntityPlayer();
 				EnumHand hand = EnumHand.MAIN_HAND;
 				ItemStack stack = player.getHeldItemMainhand();
-				if(stack.isEmpty() || stack.getItem() != Items.BUCKET) {
+				if (stack.isEmpty() || stack.getItem() != Items.BUCKET) {
 					stack = player.getHeldItemOffhand();
 					hand = EnumHand.OFF_HAND;
 				}
 
-				if(!stack.isEmpty() && stack.getItem() == Items.BUCKET) {
+				if (!stack.isEmpty() && stack.getItem() == Items.BUCKET) {
 					ItemStack outStack = ProxyRegistry.newStack(slime_bucket);
 					NBTTagCompound cmp = event.getTarget().serializeNBT();
 					ItemNBTHelper.setCompound(outStack, ItemSlimeBucket.TAG_ENTITY_DATA, cmp);
 					
-					if(stack.getCount() == 1)
+					if (stack.getCount() == 1)
 						player.setHeldItem(hand, outStack);
 					else {
 						stack.shrink(1);
-						if(stack.getCount() == 0)
+						if (stack.getCount() == 0)
 							player.setHeldItem(hand, outStack);
-						else if(!player.inventory.addItemStackToInventory(outStack))
+						else if (!player.inventory.addItemStackToInventory(outStack))
 							player.dropItem(outStack, false);
 					}
 

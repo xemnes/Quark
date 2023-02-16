@@ -70,8 +70,8 @@ public class BlockCustomFlowerPot extends BlockFlowerPot implements IBlockColorP
 		TileEntityFlowerPot flowerPot = (TileEntityFlowerPot) te;
 		ItemStack flower = flowerPot.getFlowerItemStack();
 
-		if(flower.isEmpty()) {
-			if(!ColoredFlowerPots.isFlower(stack)) {
+		if (flower.isEmpty()) {
+			if (!ColoredFlowerPots.isFlower(stack)) {
 				return false;
 			}
 
@@ -79,7 +79,7 @@ public class BlockCustomFlowerPot extends BlockFlowerPot implements IBlockColorP
 			flowerPot.getTileData().removeTag(TAG_TEXTURE_PATH);
 			player.addStat(StatList.FLOWER_POTTED);
 
-			if(!player.capabilities.isCreativeMode) {
+			if (!player.capabilities.isCreativeMode) {
 				stack.shrink(1);
 			}
 		} else {
@@ -97,10 +97,10 @@ public class BlockCustomFlowerPot extends BlockFlowerPot implements IBlockColorP
 	public IBlockState getActualState(IBlockState state, IBlockAccess world, @Nonnull BlockPos pos) {
 		state = super.getActualState(state, world, pos);
 		// if the flower pot type is empty, but we have a flower, set the extra flag
-		if(state.getValue(CONTENTS) == EnumFlowerType.EMPTY) {
+		if (state.getValue(CONTENTS) == EnumFlowerType.EMPTY) {
 			TileEntity te = world instanceof ChunkCache ? ((ChunkCache)world).getTileEntity(pos, Chunk.EnumCreateEntityType.CHECK) : world.getTileEntity(pos);
-			if(te instanceof TileEntityFlowerPot) {
-				if(!((TileEntityFlowerPot)te).getFlowerItemStack().isEmpty()) {
+			if (te instanceof TileEntityFlowerPot) {
+				if (!((TileEntityFlowerPot)te).getFlowerItemStack().isEmpty()) {
 					state = state.withProperty(CUSTOM, true);
 				}
 			}
@@ -113,22 +113,22 @@ public class BlockCustomFlowerPot extends BlockFlowerPot implements IBlockColorP
 	@Nonnull
 	@Override
 	public IBlockState getExtendedState(@Nonnull IBlockState state, IBlockAccess world, BlockPos pos) {
-		if(!state.getValue(CUSTOM)) {
+		if (!state.getValue(CUSTOM)) {
 			return state;
 		}
 
 		TileEntity te = world.getTileEntity(pos);
-		if(te instanceof TileEntityFlowerPot) {
+		if (te instanceof TileEntityFlowerPot) {
 			TileEntityFlowerPot flowerPot = (TileEntityFlowerPot) te;
 
 			// try loading the texture from the client TE
 			String texture = flowerPot.getTileData().getString(TAG_TEXTURE_PATH);
-			if(texture.isEmpty()) {
+			if (texture.isEmpty()) {
 				// if missing load it from stored block
 				ItemStack stack = flowerPot.getFlowerItemStack();
-				if(!stack.isEmpty()) {
+				if (!stack.isEmpty()) {
 					Block block = Block.getBlockFromItem(stack.getItem());
-					if(block != Blocks.AIR) {
+					if (block != Blocks.AIR) {
 						// logic to obtain texture string
 						IBlockState blockState = block.getStateFromMeta(stack.getItem().getMetadata(stack));
 						texture = Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes().getTexture(blockState).getIconName();
@@ -136,7 +136,7 @@ public class BlockCustomFlowerPot extends BlockFlowerPot implements IBlockColorP
 					}
 				}
 			}
-			if(!texture.isEmpty()) {
+			if (!texture.isEmpty()) {
 				state = ((IExtendedBlockState)state).withProperty(TEXTURE, texture);
 			}
 		}
@@ -156,11 +156,11 @@ public class BlockCustomFlowerPot extends BlockFlowerPot implements IBlockColorP
 
 	@Override
 	public int getComparatorInputOverride(IBlockState blockState, World world, BlockPos pos) {
-		if(!ColoredFlowerPots.enableComparatorLogic) {
+		if (!ColoredFlowerPots.enableComparatorLogic) {
 			return 0;
 		}
 		TileEntity te = world.getTileEntity(pos);
-		if(te instanceof TileEntityFlowerPot) {
+		if (te instanceof TileEntityFlowerPot) {
 			return getComparatorSignal(((TileEntityFlowerPot) te).getFlowerItemStack());
 		}
 
@@ -168,7 +168,7 @@ public class BlockCustomFlowerPot extends BlockFlowerPot implements IBlockColorP
 	}
 
 	private int getComparatorSignal(ItemStack stack) {
-		if(stack.isEmpty()) {
+		if (stack.isEmpty()) {
 			return 0;
 		}
 

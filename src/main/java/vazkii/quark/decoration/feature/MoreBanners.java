@@ -38,7 +38,7 @@ public class MoreBanners extends Feature {
 	}
 
 	public static void addPattern(boolean doit, String name, String id, ItemStack craftingItem) {
-		if(!doit)
+		if (!doit)
 			return;
 
 		name = "quark_" + name;

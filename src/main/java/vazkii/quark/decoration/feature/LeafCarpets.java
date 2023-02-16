@@ -30,9 +30,9 @@ public class LeafCarpets extends Feature {
 	@Override
 	public void postPreInit() {
 		BlockLeafCarpet.Variants[] variants = BlockLeafCarpet.Variants.values();
-		for(int i = 0; i < variants.length; i++) {
+		for (int i = 0; i < variants.length; i++) {
 			ItemStack stack = variants[i].getBaseStack();
-			if(!stack.isEmpty())
+			if (!stack.isEmpty())
 				RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(leaf_carpet, 3, i),
 						"LL",
 						'L', stack.copy());

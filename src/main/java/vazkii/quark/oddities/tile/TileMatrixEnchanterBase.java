@@ -39,7 +39,7 @@ public abstract class TileMatrixEnchanterBase extends TileSimpleInventory implem
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
 
-		if(hasCustomName())
+		if (hasCustomName())
 			compound.setString("CustomName", customName);
 
 		return compound;
@@ -49,7 +49,7 @@ public abstract class TileMatrixEnchanterBase extends TileSimpleInventory implem
 	public void readFromNBT(NBTTagCompound compound) {
 		super.readFromNBT(compound);
 
-		if(compound.hasKey("CustomName", 8))
+		if (compound.hasKey("CustomName", 8))
 			customName = compound.getString("CustomName");
 	}
 
@@ -125,7 +125,7 @@ public abstract class TileMatrixEnchanterBase extends TileSimpleInventory implem
 
 	public void dropItem(int i) {
 		ItemStack stack = getStackInSlot(i);
-		if(!stack.isEmpty())
+		if (!stack.isEmpty())
 			InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), stack);
 	}
 

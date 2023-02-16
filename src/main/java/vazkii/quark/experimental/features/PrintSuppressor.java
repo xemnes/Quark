@@ -31,9 +31,9 @@ public class PrintSuppressor extends Feature {
 	public void postInit() {
 		Quark.LOG.warn("Quark print suppression is enabled. Important info might be missing. Suppressing STDOUT=%b, STDERR=%b", suppressOut, suppressErr);
 
-		if(suppressOut)
+		if (suppressOut)
 			oppressFreedomOfSpeech(System::setOut);
-		if(suppressErr)
+		if (suppressErr)
 			oppressFreedomOfSpeech(System::setErr);
 	}
 

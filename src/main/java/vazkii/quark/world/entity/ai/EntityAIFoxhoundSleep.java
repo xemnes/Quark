@@ -89,7 +89,7 @@ public class EntityAIFoxhoundSleep extends EntityAIMoveToBlock {
 			IBlockState state = world.getBlockState(pos);
 			TileEntity tileentity = world.getTileEntity(pos);
 
-			if(furnaceOnly)
+			if (furnaceOnly)
 				return tileentity instanceof TileEntityFurnace;
 
 			return state.getLightValue(world, pos) > 2;

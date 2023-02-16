@@ -106,7 +106,7 @@ public class GuiNoteBlock extends GuiScreen {
 
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-		if(noteBlock == null || noteBlock.getWorld().getTileEntity(noteBlock.getPos()) != noteBlock) {
+		if (noteBlock == null || noteBlock.getWorld().getTileEntity(noteBlock.getPos()) != noteBlock) {
 			mc.displayGuiScreen(null);
 			return;
 		}
@@ -130,16 +130,16 @@ public class GuiNoteBlock extends GuiScreen {
 		hoveredKey = null;
 		hoversNoteBlock = coords.mouseX >= 9 && coords.mouseX < 40 && coords.mouseY >= 9 && coords.mouseY < 40;
 		
-		for(Key k : blackKeys) {
+		for (Key k : blackKeys) {
 			mc.renderEngine.bindTexture(noteblockResource);
-			if(k.renderKey(mc, true, coords))
+			if (k.renderKey(mc, true, coords))
 				hoveredKey = k;
 		}
 
 		coords.baseX += 7;
-		for(Key k : whiteKeys) {
+		for (Key k : whiteKeys) {
 			mc.renderEngine.bindTexture(noteblockResource);
-			if(k.renderKey(mc, hoveredKey == null, coords))
+			if (k.renderKey(mc, hoveredKey == null, coords))
 				hoveredKey = k;
 		}
 
@@ -148,7 +148,7 @@ public class GuiNoteBlock extends GuiScreen {
 		GlStateManager.scale(scale, scale, scale);
 		
 		ItemStack head = getHead();
-		if(!head.isEmpty()) {
+		if (!head.isEmpty()) {
 			RenderHelper.enableGUIStandardItemLighting();
 			mc.getRenderItem().renderItemAndEffectIntoGUI(head, 4, 30);
 		} else drawModalRectWithCustomSizedTexture(4, 30, getNote() * 16, panelHeight, 16, 16, TEXTURE_WIDTH, TEXTURE_HEIGHT);
@@ -163,17 +163,17 @@ public class GuiNoteBlock extends GuiScreen {
 
 		GlStateManager.popMatrix();
 
-		if(hoversNoteBlock)
+		if (hoversNoteBlock)
 			vazkii.arl.util.RenderHelper.renderTooltip(mouseX, mouseY, Collections.singletonList(I18n.format("quarkmisc.incrementNote")));
 	}
 
 	@Override
 	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
 		super.mouseClicked(mouseX, mouseY, mouseButton);
-		if(mouseButton == 0)
-			if(hoveredKey != null)
+		if (mouseButton == 0)
+			if (hoveredKey != null)
 				NetworkHandler.INSTANCE.sendToServer(new MessageTuneNoteBlock(noteBlock, false, hoveredKey.clicks));
-			else if(hoversNoteBlock)
+			else if (hoversNoteBlock)
 				NetworkHandler.INSTANCE.sendToServer(new MessageTuneNoteBlock(noteBlock, true, (byte) 0));
 	}
 	
@@ -181,15 +181,15 @@ public class GuiNoteBlock extends GuiScreen {
 	protected void keyTyped(char typedChar, int keyCode) throws IOException {
 		super.keyTyped(typedChar, keyCode);
 		
-		for(Key k : whiteKeys)
+		for (Key k : whiteKeys)
 			play(k, keyCode);
-		for(Key k : blackKeys)
+		for (Key k : blackKeys)
 			play(k, keyCode);
 	}
 	
 	private void play(Key k, int code) {
 		int expected = getKey(k.clicks);
-		if(expected == code)
+		if (expected == code)
 			NetworkHandler.INSTANCE.sendToServer(new MessageTuneNoteBlock(noteBlock, false, k.clicks));
 	}
 
@@ -200,34 +200,34 @@ public class GuiNoteBlock extends GuiScreen {
 
 		int note = 0;
 		
-		if(material == Material.ROCK)
+		if (material == Material.ROCK)
 			note = 1;
-		else if(material == Material.SAND)
+		else if (material == Material.SAND)
 			note = 2;
-		else if(material == Material.GLASS)
+		else if (material == Material.GLASS)
 			note = 3;
-		else if(material == Material.WOOD)
+		else if (material == Material.WOOD)
 			note = 4;
 
-		if(block == Blocks.CLAY)
+		if (block == Blocks.CLAY)
 			note = 5;
-		else if(block == Blocks.GOLD_BLOCK)
+		else if (block == Blocks.GOLD_BLOCK)
 			note = 6;
-		else if(block == Blocks.WOOL)
+		else if (block == Blocks.WOOL)
 			note = 7;
-		else if(block == Blocks.PACKED_ICE)
+		else if (block == Blocks.PACKED_ICE)
 			note = 8;
-		else if(block == Blocks.BONE_BLOCK)
+		else if (block == Blocks.BONE_BLOCK)
 			note = 9;
 		
 		return note;
 	}
 	private ItemStack getHead() {
-		if(!ModuleLoader.isFeatureEnabled(NoteBlocksMobSounds.class))
+		if (!ModuleLoader.isFeatureEnabled(NoteBlocksMobSounds.class))
 			return ItemStack.EMPTY;
 		
 		int type = NoteBlocksMobSounds.getSkullType(noteBlock.getWorld(), noteBlock.getPos());
-		if(type != -1 && type != 3) {
+		if (type != -1 && type != 3) {
 			return new ItemStack(Items.SKULL, 1, type);
 		}
 		
@@ -236,9 +236,9 @@ public class GuiNoteBlock extends GuiScreen {
 	
 	private static int getKey(int index) {
 		int[] keys = KEY_BINDS_QWERTY;
-		if(NoteBlockInterface.keyboardLayout.equalsIgnoreCase("azerty"))
+		if (NoteBlockInterface.keyboardLayout.equalsIgnoreCase("azerty"))
 			keys = KEY_BINDS_AZERTY;
-		else if(NoteBlockInterface.keyboardLayout.equalsIgnoreCase("dvorak"))
+		else if (NoteBlockInterface.keyboardLayout.equalsIgnoreCase("dvorak"))
 			keys = KEY_BINDS_DVORAK;
 		
 		return keys[index];
@@ -304,7 +304,7 @@ public class GuiNoteBlock extends GuiScreen {
 			int v = hovered ? h : 0;
 			drawModalRectWithCustomSizedTexture(c.baseX + x, c.baseY + y, u, v, w, h, TEXTURE_WIDTH, TEXTURE_HEIGHT);
 
-			if(hovered)
+			if (hovered)
 				renderNote(mc, c);
 
 			return hovered;
@@ -325,7 +325,7 @@ public class GuiNoteBlock extends GuiScreen {
 			int v = hovered ? h : 0;
 			drawModalRectWithCustomSizedTexture(c.baseX + x, c.baseY + y, u, v, w, h, TEXTURE_WIDTH, TEXTURE_HEIGHT);
 
-			if(hovered)
+			if (hovered)
 				renderNote(mc, c);
 
 			return hovered;

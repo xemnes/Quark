@@ -26,8 +26,8 @@ public final class BiomeTypeConfigHandler {
 	public static boolean biomeTypeIntersectCheck(Iterable<BiomeDictionary.Type> biomeItr, Biome b) {
 		Set<BiomeDictionary.Type> currentTypes = BiomeDictionary.getTypes(b);
 
-			for(BiomeDictionary.Type type : biomeItr)
-				if(currentTypes.contains(type))
+			for (BiomeDictionary.Type type : biomeItr)
+				if (currentTypes.contains(type))
 					return true;
 
 			return false;
@@ -36,11 +36,11 @@ public final class BiomeTypeConfigHandler {
 	public static void debugStoneGeneration(Iterable<StoneInfoBasedGenerator> generators) {
 		System.out.println("### OUTPUTTING BIOME CSV DATA ###");
 		System.out.print("sep=;\nBiome");
-		for(StoneInfoBasedGenerator gen : generators)
+		for (StoneInfoBasedGenerator gen : generators)
 			System.out.print(";" + WordUtils.capitalize(gen.name));
 		System.out.print(";Biome Type");
 		System.out.println();
-		for(ResourceLocation r : Biome.REGISTRY.getKeys()) {
+		for (ResourceLocation r : Biome.REGISTRY.getKeys()) {
 			Biome b = Biome.REGISTRY.getObject(r);
 			if (b != null) {
 				System.out.print(b.getBiomeName());

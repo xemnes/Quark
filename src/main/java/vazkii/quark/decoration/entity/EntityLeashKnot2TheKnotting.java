@@ -37,13 +37,13 @@ public class EntityLeashKnot2TheKnotting extends EntityLiving {
 		super.onUpdate();
 		
 		IBlockState state = world.getBlockState(new BlockPos(posX, posY, posZ));
-		if(!(state.getBlock() instanceof BlockFence)) {
+		if (!(state.getBlock() instanceof BlockFence)) {
 			dismantle(true);
 		} else {
 			Entity holder = getHolder();
-			if(holder == null || holder.isDead)
+			if (holder == null || holder.isDead)
 				dismantle(true);
-			else if(holder.posY < posY && holder instanceof EntityLeashKnot) {
+			else if (holder.posY < posY && holder instanceof EntityLeashKnot) {
 				double targetX = holder.posX;
 				double targetY = holder.posY;
 				double targetZ = holder.posZ;
@@ -61,7 +61,7 @@ public class EntityLeashKnot2TheKnotting extends EntityLiving {
 	
 	@Override
 	protected boolean processInteract(EntityPlayer player, EnumHand hand) {
-		if(!world.isRemote) {
+		if (!world.isRemote) {
 			Entity holder = getLeashHolder();
 			holder.setDead();
 			dismantle(!player.isCreative());
@@ -72,7 +72,7 @@ public class EntityLeashKnot2TheKnotting extends EntityLiving {
 	
 	private void dismantle(boolean drop) {
 		world.playSound(null, getPosition(), SoundEvents.ENTITY_LEASHKNOT_BREAK, SoundCategory.BLOCKS, 1F, 1F);
-		if(!isDead && getHolder() != null && drop && !world.isRemote)
+		if (!isDead && getHolder() != null && drop && !world.isRemote)
 			dropItem(Items.LEAD, 1);
 		setDead();
 		Entity holder = getHolder();

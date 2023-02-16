@@ -50,7 +50,7 @@ public class EntityDweller extends EntityZombie {
 
 	@Override
 	public boolean attackEntityFrom(@Nonnull DamageSource source, float amount) {
-		if(amount > 0)
+		if (amount > 0)
 			removePotionEffect(MobEffects.INVISIBILITY);
 		return super.attackEntityFrom(source, amount);
 	}

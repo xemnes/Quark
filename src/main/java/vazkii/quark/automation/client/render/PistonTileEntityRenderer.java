@@ -28,14 +28,14 @@ public class PistonTileEntityRenderer {
 
 		try {
 			TileEntity tile = PistonsMoveTEs.getMovement(piston.getWorld(), piston.getPos());
-			if(tile == null || PistonsMoveTEs.renderBlacklist.contains(id))
+			if (tile == null || PistonsMoveTEs.renderBlacklist.contains(id))
 				return false;
 
 			GlStateManager.pushMatrix();
 			tile.setWorld(piston.getWorld());
 			tile.validate();
 
-			if(tile instanceof TileEntityChest) {
+			if (tile instanceof TileEntityChest) {
 				TileEntityChest chest = (TileEntityChest) tile;
 				chest.adjacentChestXPos = null;
 				chest.adjacentChestXNeg = null;
@@ -45,16 +45,16 @@ public class PistonTileEntityRenderer {
 
 			EnumFacing facing = null;
 
-			if(state.getPropertyKeys().contains(BlockHorizontal.FACING))
+			if (state.getPropertyKeys().contains(BlockHorizontal.FACING))
 				facing = state.getValue(BlockHorizontal.FACING);
-			else if(state.getPropertyKeys().contains(BlockDirectional.FACING))
+			else if (state.getPropertyKeys().contains(BlockDirectional.FACING))
 				facing = state.getValue(BlockDirectional.FACING);
 
 			GlStateManager.translate(x + piston.getOffsetX(pTicks), y + piston.getOffsetY(pTicks), z + piston.getOffsetZ(pTicks));
 
-			if(facing != null) {
+			if (facing != null) {
 				float rotation = 0;
-				switch(facing) {
+				switch (facing) {
 					case NORTH:
 						rotation = 180F;
 						break;

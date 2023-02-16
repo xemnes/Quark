@@ -32,9 +32,9 @@ public class LookDownLadders extends Feature {
 
 	@SubscribeEvent
 	public void onPlayerTick(LivingUpdateEvent event) {
-		if(event.getEntityLiving() instanceof EntityPlayer) {
+		if (event.getEntityLiving() instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) event.getEntityLiving();
-			if(player.isOnLadder() && !player.isSneaking() && player.moveForward == 0 && player.rotationPitch > 70)
+			if (player.isOnLadder() && !player.isSneaking() && player.moveForward == 0 && player.rotationPitch > 70)
 				player.move(MoverType.SELF, 0, -0.2, 0);
 		}
 	}

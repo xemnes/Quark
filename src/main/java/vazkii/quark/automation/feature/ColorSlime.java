@@ -27,7 +27,7 @@ public class ColorSlime extends Feature {
 	
 	@Override
 	public void postPreInit() {
-		if(renameVanillaSlime)
+		if (renameVanillaSlime)
 			Blocks.SLIME_BLOCK.setTranslationKey("green_slime_block");
 		addOreDict("blockSlime", ProxyRegistry.newStack(color_slime, 1, OreDictionary.WILDCARD_VALUE));
 		addOreDict("blockSlimeGreen", ProxyRegistry.newStack(Blocks.SLIME_BLOCK));

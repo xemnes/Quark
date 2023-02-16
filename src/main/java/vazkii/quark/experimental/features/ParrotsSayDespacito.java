@@ -12,7 +12,7 @@ public class ParrotsSayDespacito extends Feature {
 
 	@SubscribeEvent
 	public void onInteract(EntityInteract event) {
-		if(event.getTarget() instanceof EntityParrot && event.getWorld().isRemote && event.getHand() == EnumHand.MAIN_HAND) {
+		if (event.getTarget() instanceof EntityParrot && event.getWorld().isRemote && event.getHand() == EnumHand.MAIN_HAND) {
 			Narrator narrator = Narrator.getNarrator();
 			narrator.say("Deh Spa See Tow");
 		}

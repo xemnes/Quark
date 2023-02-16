@@ -195,7 +195,7 @@ public class VariedChests extends Feature {
 
 	@Override
 	public void postPreInit() {
-		if(renameVanillaChests) {
+		if (renameVanillaChests) {
 			Blocks.CHEST.setTranslationKey("oak_chest");
 			Blocks.TRAPPED_CHEST.setTranslationKey("oak_chest_trap");
 		}
@@ -203,13 +203,13 @@ public class VariedChests extends Feature {
 		RecipeProcessor.addWoodReplacements(Blocks.CHEST);
 		RecipeProcessor.addConsumer(VariedChests::fixTrappedChestRecipe);
 
-		if(addLogRecipe)
+		if (addLogRecipe)
 			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(Blocks.CHEST, 4),
 					"WWW", "W W", "WWW",
 					'W', ProxyRegistry.newStack(Blocks.LOG));
 
 		int i = 1;
-		for(ChestType type : ChestType.VALID_TYPES) {
+		for (ChestType type : ChestType.VALID_TYPES) {
 			ItemStack out = ProxyRegistry.newStack(custom_chest);
 			custom_chest.setCustomType(out, type);
 
@@ -217,7 +217,7 @@ public class VariedChests extends Feature {
 					"WWW", "W W", "WWW",
 					'W', ProxyRegistry.newStack(Blocks.PLANKS, 1, i));
 
-			if(addLogRecipe) {
+			if (addLogRecipe) {
 				ItemStack outFour = out.copy();
 				outFour.setCount(4);
 				RecipeHandler.addOreDictRecipe(outFour,
@@ -251,7 +251,7 @@ public class VariedChests extends Feature {
 				'C', "chest");
 		
 		// Reversion Recipe
-		if(reversionRecipe) {
+		if (reversionRecipe) {
 			RecipeHandler.addShapelessOreDictRecipe(new ItemStack(Blocks.CHEST), "chestWood");
 			RecipeHandler.addShapelessOreDictRecipe(new ItemStack(Blocks.TRAPPED_CHEST), "chestTrapped");
 		}
@@ -272,14 +272,14 @@ public class VariedChests extends Feature {
 	
 	private static boolean fixedTrappedChest = false;
 	private static void fixTrappedChestRecipe(IRecipe recipe) {
-		if(fixedTrappedChest)
+		if (fixedTrappedChest)
 			return;
 		
-		if(Objects.toString(recipe.getRegistryName()).equals("minecraft:trapped_chest")) {
+		if (Objects.toString(recipe.getRegistryName()).equals("minecraft:trapped_chest")) {
 			List<Ingredient> ingredients = recipe.getIngredients();
-			for(int i = 0; i < ingredients.size(); i++) {
+			for (int i = 0; i < ingredients.size(); i++) {
 				Ingredient ingredient = ingredients.get(i);
-				if(ingredient instanceof OreIngredient) {
+				if (ingredient instanceof OreIngredient) {
 					Ingredient chest = new BlacklistOreIngredient("chestWood", (stack) -> stack.getItem() == Item.getItemFromBlock(custom_chest));
 					ingredients.set(i, chest);
 					break;
@@ -332,7 +332,7 @@ public class VariedChests extends Feature {
 		static {
 			VALID_TYPES = new ChestType[] { SPRUCE, BIRCH, JUNGLE, ACACIA, DARK_OAK };
 			NAME_TO_TYPE = new HashMap<>();
-			for( ChestType type : VALID_TYPES )
+			for ( ChestType type : VALID_TYPES )
 				NAME_TO_TYPE.put(type.name, type);
 		}
 	}

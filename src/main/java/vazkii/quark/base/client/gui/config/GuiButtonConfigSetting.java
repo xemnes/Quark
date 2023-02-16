@@ -23,13 +23,13 @@ public class GuiButtonConfigSetting extends GuiButton {
 		this.prop = prop;
 		this.labeled = labeled;
 		
-		if(prop.getType() != Type.BOOLEAN)
+		if (prop.getType() != Type.BOOLEAN)
 			throw new IllegalArgumentException("Property type must be BOOLEAN");
 	}
 	
 	@Override
 	public void drawCenteredString(FontRenderer fontRendererIn, @Nonnull String text, int x, int y, int color) {
-		if(labeled) {
+		if (labeled) {
 			int width = fontRendererIn.getStringWidth(text);
 			fontRendererIn.drawStringWithShadow(text, this.x - width - 5, y, color);
 		}
@@ -37,7 +37,7 @@ public class GuiButtonConfigSetting extends GuiButton {
 		Minecraft mc = Minecraft.getMinecraft();
 		mc.getTextureManager().bindTexture(LibMisc.GENERAL_ICONS_RESOURCE);
 		int u = 16;
-		if(prop.getBoolean())
+		if (prop.getBoolean())
 			u = 0;
 		
 		drawTexturedModalRect(this.x + 2, this.y + 2, u, 228, 16, 16);

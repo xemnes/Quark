@@ -70,7 +70,7 @@ public class VariedTrapdoors extends Feature {
 				"WWW", "WWW",
 				'W', ProxyRegistry.newStack(Blocks.PLANKS, 1, 5));
 
-		if(renameVanillaTrapdoor)
+		if (renameVanillaTrapdoor)
 			Blocks.TRAPDOOR.setTranslationKey("oak_trapdoor");
 
 		// Low priority ore dictionary recipe

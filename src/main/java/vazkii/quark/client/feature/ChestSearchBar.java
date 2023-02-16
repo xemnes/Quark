@@ -73,11 +73,11 @@ public class ChestSearchBar extends Feature {
 	@SubscribeEvent
 	public void initGui(GuiScreenEvent.InitGuiEvent.Post event) {
 		GuiScreen gui = event.getGui();
-		if(gui instanceof IItemSearchBar || classnames.contains(gui.getClass().getName()) ||
+		if (gui instanceof IItemSearchBar || classnames.contains(gui.getClass().getName()) ||
 				gui instanceof GuiChest || gui instanceof GuiShulkerBox) {
 			GuiContainer chest = (GuiContainer) gui;
 			searchBar = new GuiTextField(12831, gui.mc.fontRenderer, chest.getGuiLeft() + 81, chest.getGuiTop() + 6, 88, 10);
-			if(moveToCenterBar)
+			if (moveToCenterBar)
 				searchBar.y = chest.getGuiTop() + chest.getYSize() - 95;
 			
 			searchBar.setText(text);
@@ -85,14 +85,14 @@ public class ChestSearchBar extends Feature {
 			searchBar.setMaxStringLength(32);
 			searchBar.setEnableBackgroundDrawing(false);
 			
-			if(gui instanceof IItemSearchBar)
+			if (gui instanceof IItemSearchBar)
 				((IItemSearchBar) gui).onSearchBarAdded(searchBar);
 		} else searchBar = null;
 	}
 	
 	@SubscribeEvent
 	public void onKeypress(GuiScreenEvent.KeyboardInputEvent.Pre event) {
-		if(searchBar != null && searchBar.isFocused() && Keyboard.getEventKeyState()) {
+		if (searchBar != null && searchBar.isFocused() && Keyboard.getEventKeyState()) {
 			char eventChar = Keyboard.getEventCharacter();
 			int eventCode = Keyboard.getEventKey();
 
@@ -105,7 +105,7 @@ public class ChestSearchBar extends Feature {
 	
 	@SubscribeEvent
 	public void onClick(GuiScreenEvent.MouseInputEvent.Pre event) {
-		if(searchBar != null && Mouse.getEventButtonState()) {
+		if (searchBar != null && Mouse.getEventButtonState()) {
 			Minecraft mc = Minecraft.getMinecraft();
 			GuiScreen gui = event.getGui();
 			
@@ -117,7 +117,7 @@ public class ChestSearchBar extends Feature {
 			
 			long time = System.currentTimeMillis();
 			long delta = time - lastClick;
-			if(delta < 200 && searchBar.isFocused()) {
+			if (delta < 200 && searchBar.isFocused()) {
 				searchBar.setText("");
 				text = "";
 			}
@@ -128,14 +128,14 @@ public class ChestSearchBar extends Feature {
 	
 	@SubscribeEvent
 	public void onRender(GuiScreenEvent.DrawScreenEvent.Post event) {
-		if(searchBar != null && !skip)
+		if (searchBar != null && !skip)
 			renderElements(event.getGui());
 		skip = false;
 	}
 	
 	@SubscribeEvent
 	public void drawTooltipEvent(RenderTooltipEvent.Pre event) {
-		if(searchBar != null) {
+		if (searchBar != null) {
 			renderElements(Minecraft.getMinecraft().currentScreen);
 			skip = true;
 		}
@@ -144,8 +144,8 @@ public class ChestSearchBar extends Feature {
 	private void renderElements(GuiScreen gui) {
 		drawBackground(gui, searchBar.x - 2, searchBar.y - 2);
 		
-		if(!text.isEmpty()) {
-			if(gui instanceof GuiContainer) {
+		if (!text.isEmpty()) {
+			if (gui instanceof GuiContainer) {
 				GuiContainer guiContainer = (GuiContainer) gui;
 				Container container = guiContainer.inventorySlots;
 				
@@ -153,9 +153,9 @@ public class ChestSearchBar extends Feature {
 				int guiTop = guiContainer.getGuiTop();
 				
 				matched = 0;
-				for(Slot s : container.inventorySlots) {
+				for (Slot s : container.inventorySlots) {
 					ItemStack stack = s.getStack();
-					if(!namesMatch(stack, text)) {
+					if (!namesMatch(stack, text)) {
 						int x = guiLeft + s.xPos;
 						int y = guiTop + s.yPos;
 						
@@ -166,14 +166,14 @@ public class ChestSearchBar extends Feature {
 			}
 		}
 		
-		if(matched == 0 && !text.isEmpty())
+		if (matched == 0 && !text.isEmpty())
 			searchBar.setTextColor(0xFF5555);
 		else searchBar.setTextColor(0xFFFFFF);
 		searchBar.drawTextBox();
 	}
 	
 	private void drawBackground(GuiScreen gui, int x, int y) {
-		if(gui instanceof IItemSearchBar && ((IItemSearchBar) gui).renderBackground(x, y) || gui == null)
+		if (gui instanceof IItemSearchBar && ((IItemSearchBar) gui).renderBackground(x, y) || gui == null)
 			return;
 		
 		GlStateManager.color(1F, 1F, 1F, 1F);
@@ -184,21 +184,21 @@ public class ChestSearchBar extends Feature {
 	
 	public static boolean namesMatch(ItemStack stack, String search) {
 		search = TextFormatting.getTextWithoutFormattingCodes(search.trim().toLowerCase());
-		if(search == null || search.isEmpty())
+		if (search == null || search.isEmpty())
 			return true;
 		
-		if(stack.isEmpty())
+		if (stack.isEmpty())
 			return false;
 		
 		Item item = stack.getItem();
-		if(item instanceof ItemShulkerBox) {
+		if (item instanceof ItemShulkerBox) {
 			NBTTagCompound cmp = ItemNBTHelper.getCompound(stack, "BlockEntityTag", true);
-			if(cmp != null && cmp.hasKey("Items", 9)) {
+			if (cmp != null && cmp.hasKey("Items", 9)) {
 				NonNullList<ItemStack> itemList = NonNullList.withSize(27, ItemStack.EMPTY);
 				ItemStackHelper.loadAllItems(cmp, itemList);
 				
-				for(ItemStack innerStack : itemList)
-					if(namesMatch(innerStack, search))
+				for (ItemStack innerStack : itemList)
+					if (namesMatch(innerStack, search))
 						return true;
 			}
 		}
@@ -208,54 +208,54 @@ public class ChestSearchBar extends Feature {
 		
 		StringMatcher matcher = String::contains;
 		
-		if(search.length() >= 3 && search.startsWith("\"") && search.endsWith("\"")) {
+		if (search.length() >= 3 && search.startsWith("\"") && search.endsWith("\"")) {
 			search = search.substring(1, search.length() - 1);
 			matcher = String::equals;
 		}
 		
-		if(search.length() >= 3 && search.startsWith("/") && search.endsWith("/")) {
+		if (search.length() >= 3 && search.startsWith("/") && search.endsWith("/")) {
 			search = search.substring(1, search.length() - 1);
 			matcher = (s1, s2) -> Pattern.compile(s2).matcher(s1).find();
 		}
 
-		if(stack.isItemEnchanted()) {
+		if (stack.isItemEnchanted()) {
 			Map<Enchantment, Integer> enchants = EnchantmentHelper.getEnchantments(stack);
-			for(Enchantment e : enchants.keySet())
-				if(e != null && matcher.matches(e.getTranslatedName(enchants.get(e)).toLowerCase(), search))
+			for (Enchantment e : enchants.keySet())
+				if (e != null && matcher.matches(e.getTranslatedName(enchants.get(e)).toLowerCase(), search))
 					return true;
 		}
 		
 		List<String> potionNames = new ArrayList<>();
 		PotionUtils.addPotionTooltip(stack, potionNames, 1F);
-		for(String s : potionNames)
-			if(matcher.matches(TextFormatting.getTextWithoutFormattingCodes(s.trim().toLowerCase()), search))
+		for (String s : potionNames)
+			if (matcher.matches(TextFormatting.getTextWithoutFormattingCodes(s.trim().toLowerCase()), search))
 				return true;
 		
-		if(stack.getItem() == Items.ENCHANTED_BOOK) {
+		if (stack.getItem() == Items.ENCHANTED_BOOK) {
 			NBTTagList enchants = ItemEnchantedBook.getEnchantments(stack);
-			for(int i = 0; i < enchants.tagCount(); i++) {
+			for (int i = 0; i < enchants.tagCount(); i++) {
 				NBTTagCompound cmp = enchants.getCompoundTagAt(i);
 				int id = cmp.getInteger("id");
 				int lvl = cmp.getInteger("lvl");
 				Enchantment e = Enchantment.getEnchantmentByID(id);
-				if(e != null && matcher.matches(e.getTranslatedName(lvl).toLowerCase(), search))
+				if (e != null && matcher.matches(e.getTranslatedName(lvl).toLowerCase(), search))
 					return true;
 			}
 		}
 		
 		CreativeTabs tab = item.getCreativeTab();
-		if(tab != null && matcher.matches(I18n.format(tab.getTranslationKey()).toLowerCase(), search))
+		if (tab != null && matcher.matches(I18n.format(tab.getTranslationKey()).toLowerCase(), search))
 			return true;
 		
-		if(search.matches("favou?rites?") && FavoriteItems.isItemFavorited(stack))
+		if (search.matches("favou?rites?") && FavoriteItems.isItemFavorited(stack))
 			return true;
 		
 		ResourceLocation itemName = Item.REGISTRY.getNameForObject(item);
 		ModContainer mod = Loader.instance().getIndexedModList().get(Objects.requireNonNull(itemName).getNamespace());
-		if(matcher.matches(mod.getName().toLowerCase(), search))
+		if (matcher.matches(mod.getName().toLowerCase(), search))
 			return true;
 		
-		if(matcher.matches(name, search))
+		if (matcher.matches(name, search))
 			return true;
 		
 		return ISearchHandler.hasHandler(stack) && ISearchHandler.getHandler(stack).stackMatchesSearchQuery(search, matcher, ChestSearchBar::namesMatch);

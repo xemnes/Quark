@@ -64,7 +64,7 @@ public class GuiMatrixEnchanting extends GuiContainer {
 		super.updateScreen();
 		updateButtonStatus();
 		
-		if(enchanter.matrix == null)
+		if (enchanter.matrix == null)
 			selectedPiece = -1;
 	}
 
@@ -76,13 +76,13 @@ public class GuiMatrixEnchanting extends GuiContainer {
 		int j = guiTop;
 		drawTexturedModalRect(i, j, 0, 0, xSize, ySize);
 
-		if(enchanter.charge > 0 && MatrixEnchanting.chargePerLapis > 0) {
+		if (enchanter.charge > 0 && MatrixEnchanting.chargePerLapis > 0) {
 			int maxHeight = 18;
 			int barHeight = (int) (((float) enchanter.charge / MatrixEnchanting.chargePerLapis) * maxHeight);
 			drawTexturedModalRect(i + 7, j + 32 + maxHeight - barHeight, 50, 176 + maxHeight - barHeight, 4, barHeight);
 		}
 
-		if(enchanter.matrix != null && enchanter.matrix.canGeneratePiece(enchanter.bookshelfPower, enchanter.enchantability)) {
+		if (enchanter.matrix != null && enchanter.matrix.canGeneratePiece(enchanter.bookshelfPower, enchanter.enchantability)) {
 			int x = i + 74;
 			int y = j + 58;
 			int xpCost = enchanter.matrix.getNewPiecePrice();
@@ -91,7 +91,7 @@ public class GuiMatrixEnchanting extends GuiContainer {
 			drawTexturedModalRect(x, y, 0, ySize, 10, 10);
 			String text = String.valueOf(xpCost);
 
-			if(!has && mc.player.experienceLevel < xpMin) {
+			if (!has && mc.player.experienceLevel < xpMin) {
 				fontRenderer.drawStringWithShadow("!", x + 6, y + 3, 0xFF0000);
 				text = I18n.format("quarkmisc.matrixMin", xpMin);
 			}
@@ -111,7 +111,7 @@ public class GuiMatrixEnchanting extends GuiContainer {
 		fontRenderer.drawString(enchanter.getDisplayName().getUnformattedText(), 12, 5, 4210752);
 		fontRenderer.drawString(playerInv.getDisplayName().getUnformattedText(), 8, ySize - 96 + 2, 4210752);
 		
-		if(enchanter.matrix != null) {
+		if (enchanter.matrix != null) {
 			listPieces = enchanter.matrix.benchedPieces;
 			renderMatrixGrid(enchanter.matrix);
 		}
@@ -122,29 +122,29 @@ public class GuiMatrixEnchanting extends GuiContainer {
 		drawDefaultBackground();
 		super.drawScreen(mouseX, mouseY, partialTicks);
 
-		if(enchanter.matrix != null) {
+		if (enchanter.matrix != null) {
 			RenderHelper.disableStandardItemLighting();
 			pieceList.drawScreen(mouseX, mouseY, ClientTicker.partialTicks);
 		}
 
-		if(hoveredPiece != null) {
+		if (hoveredPiece != null) {
 			List<String> tooltip = new LinkedList<>();
 			tooltip.add(hoveredPiece.enchant.getTranslatedName(hoveredPiece.level));
 
-			if(hoveredPiece.influence > 0)
+			if (hoveredPiece.influence > 0)
 				tooltip.add(TextFormatting.GRAY + I18n.format("quarkmisc.matrixInfluence", (int) (hoveredPiece.influence * MatrixEnchanting.influencePower * 100)));
 
 			int max = hoveredPiece.getMaxXP();
-			if(max > 0)
+			if (max > 0)
 				tooltip.add(TextFormatting.GRAY + I18n.format("quarkmisc.matrixUpgrade", hoveredPiece.xp, max));
 			
-			if(gridHoverX == -1) {
+			if (gridHoverX == -1) {
 				tooltip.add("");
 				tooltip.add(TextFormatting.GRAY + I18n.format("quarkmisc.matrixLeftClick"));
 				tooltip.add(TextFormatting.GRAY + I18n.format("quarkmisc.matrixRightClick"));
-			} else if(selectedPiece != -1) {
+			} else if (selectedPiece != -1) {
 				Piece p = getPiece(selectedPiece);
-				if(p != null && p.enchant == hoveredPiece.enchant && hoveredPiece.level < hoveredPiece.enchant.getMaxLevel()) {
+				if (p != null && p.enchant == hoveredPiece.enchant && hoveredPiece.level < hoveredPiece.enchant.getMaxLevel()) {
 					tooltip.add("");
 					tooltip.add(TextFormatting.GRAY + I18n.format("quarkmisc.matrixMerge"));
 				}
@@ -158,7 +158,7 @@ public class GuiMatrixEnchanting extends GuiContainer {
 		int mouseX = Mouse.getEventX() * width / mc.displayWidth;
 		int mouseY = height - Mouse.getEventY() * height / mc.displayHeight - 1;
 		
-		if(enchanter.matrix != null)
+		if (enchanter.matrix != null)
 			pieceList.handleMouseInput(mouseX, mouseY);
 		
 		int gridMouseX = mouseX - guiLeft - 86;
@@ -166,11 +166,11 @@ public class GuiMatrixEnchanting extends GuiContainer {
 		
 		gridHoverX = gridMouseX < 0 ? -1 : gridMouseX / 10;
 		gridHoverY = gridMouseY < 0 ? -1 : gridMouseY / 10;
-		if(gridHoverX < 0 || gridHoverX > 4 || gridHoverY < 0 || gridHoverY > 4) {
+		if (gridHoverX < 0 || gridHoverX > 4 || gridHoverY < 0 || gridHoverY > 4) {
 			gridHoverX = -1;
 			gridHoverY = -1;
 			hoveredPiece = null;
-		} else if(enchanter.matrix != null) {
+		} else if (enchanter.matrix != null) {
 			int hover = enchanter.matrix.matrix[gridHoverX][gridHoverY];
 			hoveredPiece = getPiece(hover);
 		}
@@ -182,22 +182,22 @@ public class GuiMatrixEnchanting extends GuiContainer {
 	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
 		super.mouseClicked(mouseX, mouseY, mouseButton);
 		
-		if(enchanter.matrix == null)
+		if (enchanter.matrix == null)
 			return;
 		
-		if(mouseButton == 0 && gridHoverX != -1) { // left click
+		if (mouseButton == 0 && gridHoverX != -1) { // left click
 			int hover = enchanter.matrix.matrix[gridHoverX][gridHoverY];
 
-			if(selectedPiece != -1) {
-				if(hover == -1)
+			if (selectedPiece != -1) {
+				if (hover == -1)
 					place(selectedPiece, gridHoverX, gridHoverY);
 				else merge(selectedPiece);
 			} else {
 				remove(hover);
-				if(!isShiftKeyDown())
+				if (!isShiftKeyDown())
 					selectedPiece = hover;
 			}
-		} else if(mouseButton == 1 && selectedPiece != -1)
+		} else if (mouseButton == 1 && selectedPiece != -1)
 			rotate(selectedPiece);
 	}
 	
@@ -206,7 +206,7 @@ public class GuiMatrixEnchanting extends GuiContainer {
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(86, 11, 0);
 		
-		for(int i : matrix.placedPieces) {
+		for (int i : matrix.placedPieces) {
 			Piece piece = getPiece(i);
 			if (piece != null) {
 				GlStateManager.pushMatrix();
@@ -216,14 +216,14 @@ public class GuiMatrixEnchanting extends GuiContainer {
 			}
 		}
 		
-		if(selectedPiece != -1 && gridHoverX != -1) {
+		if (selectedPiece != -1 && gridHoverX != -1) {
 			Piece piece = getPiece(selectedPiece);
-			if(piece != null && !(hoveredPiece != null && piece.enchant == hoveredPiece.enchant && hoveredPiece.level < hoveredPiece.enchant.getMaxLevel())) {
+			if (piece != null && !(hoveredPiece != null && piece.enchant == hoveredPiece.enchant && hoveredPiece.level < hoveredPiece.enchant.getMaxLevel())) {
 				GlStateManager.pushMatrix();
 				GlStateManager.translate(gridHoverX * 10, gridHoverY * 10, 0);
 				
 				float a = 0.2F;
-				if(matrix.canPlace(piece, gridHoverX, gridHoverY))
+				if (matrix.canPlace(piece, gridHoverX, gridHoverY))
 					a = (float) ((Math.sin(ClientTicker.total * 0.2) + 1) * 0.4 + 0.4);
 				
 				renderPiece(piece, a);
@@ -231,7 +231,7 @@ public class GuiMatrixEnchanting extends GuiContainer {
 			}
 		}
 		
-		if(hoveredPiece == null && gridHoverX != -1)
+		if (hoveredPiece == null && gridHoverX != -1)
 			renderHover(gridHoverX, gridHoverY);
 			
 		GlStateManager.popMatrix();
@@ -244,7 +244,7 @@ public class GuiMatrixEnchanting extends GuiContainer {
 		
 		boolean hovered = hoveredPiece == piece;
 		
-		for(int[] block : piece.blocks)
+		for (int[] block : piece.blocks)
 			renderBlock(block[0], block[1], piece.type, r, g, b, a, hovered);
 		
 		GlStateManager.color(1F, 1F, 1F);
@@ -253,7 +253,7 @@ public class GuiMatrixEnchanting extends GuiContainer {
 	private void renderBlock(int x, int y, int type, float r, float g, float b, float a, boolean hovered) {
 		GlStateManager.color(r, g, b, a);
 		drawTexturedModalRect(x * 10, y * 10, 11 + type * 10, ySize, 10, 10);
-		if(hovered)
+		if (hovered)
 			renderHover(x, y);
 	}
 	
@@ -263,7 +263,7 @@ public class GuiMatrixEnchanting extends GuiContainer {
 	
 	@Override
 	protected void actionPerformed(GuiButton button) {
-		if(button == plusButton)
+		if (button == plusButton)
 			add();
 	}
 	
@@ -289,7 +289,7 @@ public class GuiMatrixEnchanting extends GuiContainer {
 		int hover = enchanter.matrix.matrix[gridHoverX][gridHoverY];
 		Piece p = getPiece(hover);
 		Piece p1 = getPiece(selectedPiece);
-		if(p != null && p1 != null && p.enchant == p1.enchant && p.level < p.enchant.getMaxLevel()) {
+		if (p != null && p1 != null && p.enchant == p1.enchant && p.level < p.enchant.getMaxLevel()) {
 			send(TileMatrixEnchanter.OPER_MERGE, hover, id, 0);
 			selectedPiece = -1;
 			click();
@@ -314,7 +314,7 @@ public class GuiMatrixEnchanting extends GuiContainer {
 	
 	private Piece getPiece(int id) {
 		EnchantmentMatrix matrix = enchanter.matrix;
-		if(matrix != null)
+		if (matrix != null)
 			return matrix.pieces.get(id);
 		
 		return null;
@@ -338,7 +338,7 @@ public class GuiMatrixEnchanting extends GuiContainer {
 		@Override
 		protected void elementClicked(int index, boolean doubleClick) {
 			int id = parent.listPieces.get(index);
-			if(parent.selectedPiece == id)
+			if (parent.selectedPiece == id)
 				parent.selectedPiece = -1;
 			else parent.selectedPiece = id;
 		}
@@ -366,8 +366,8 @@ public class GuiMatrixEnchanting extends GuiContainer {
 			int id = parent.listPieces.get(slotIdx);
 			
 			Piece piece = parent.getPiece(id);
-			if(piece != null) {
-				if(mouseX >= left && mouseX < left + listWidth - 7 && mouseY >= slotTop && mouseY <= slotTop + slotHeight && mouseY < bottom)
+			if (piece != null) {
+				if (mouseX >= left && mouseX < left + listWidth - 7 && mouseY >= slotTop && mouseY <= slotTop + slotHeight && mouseY < bottom)
 					parent.hoveredPiece = piece;
 				
 				parent.mc.getTextureManager().bindTexture(BACKGROUND);

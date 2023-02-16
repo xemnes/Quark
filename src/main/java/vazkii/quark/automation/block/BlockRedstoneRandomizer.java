@@ -54,10 +54,10 @@ public class BlockRedstoneRandomizer extends BlockMod implements IQuarkBlock {
 	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
 		boolean isPowered = isPowered(state);
 		boolean willBePowered = shouldBePowered(worldIn, pos, state);
-		if(isPowered != willBePowered) {
+		if (isPowered != willBePowered) {
 			IBlockState target = state.withProperty(POWERED, willBePowered);
 			
-			if(willBePowered)
+			if (willBePowered)
 				target = target.withProperty(POWER_LEFT, worldIn.rand.nextBoolean());
 			
 			worldIn.setBlockState(pos, target);
@@ -71,7 +71,7 @@ public class BlockRedstoneRandomizer extends BlockMod implements IQuarkBlock {
 	protected void updateState(World world, BlockPos pos, IBlockState currState) {
 		boolean isPowered = isPowered(currState);
 		boolean willBePowered = shouldBePowered(world, pos, currState);
-		if(isPowered != willBePowered)
+		if (isPowered != willBePowered)
 			world.updateBlockTick(pos, this, 2, -1);
 	}
 
@@ -145,7 +145,7 @@ public class BlockRedstoneRandomizer extends BlockMod implements IQuarkBlock {
 
 	@Override
 	public int getWeakPower(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
-		if(!isPowered(blockState))
+		if (!isPowered(blockState))
 			return 0;
 		else
 			return getActiveSignal(blockState, side);
@@ -153,13 +153,13 @@ public class BlockRedstoneRandomizer extends BlockMod implements IQuarkBlock {
 
 	@Override
 	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
-		if(canBlockStay(worldIn, pos))
+		if (canBlockStay(worldIn, pos))
 			updateState(worldIn, pos, state);
 		else {
 			dropBlockAsItem(worldIn, pos, state, 0);
 			worldIn.setBlockToAir(pos);
 
-			for(EnumFacing enumfacing : EnumFacing.values())
+			for (EnumFacing enumfacing : EnumFacing.values())
 				worldIn.notifyNeighborsOfStateChange(pos.offset(enumfacing), this, false);
 		}
 	}
@@ -169,7 +169,7 @@ public class BlockRedstoneRandomizer extends BlockMod implements IQuarkBlock {
 		BlockPos blockpos = pos.offset(enumfacing);
 		int i = worldIn.getRedstonePower(blockpos, enumfacing);
 
-		if(i >= 15)
+		if (i >= 15)
 			return i;
 		else {
 			IBlockState iblockstate = worldIn.getBlockState(blockpos);
@@ -194,7 +194,7 @@ public class BlockRedstoneRandomizer extends BlockMod implements IQuarkBlock {
 
 	@Override
 	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
-		if(shouldBePowered(worldIn, pos, state))
+		if (shouldBePowered(worldIn, pos, state))
 			worldIn.scheduleUpdate(pos, this, 1);
 	}
 
@@ -210,7 +210,7 @@ public class BlockRedstoneRandomizer extends BlockMod implements IQuarkBlock {
 	public static void notify(Block block, World worldIn, BlockPos pos, IBlockState state) {
 		EnumFacing enumfacing = state.getValue(FACING);
 		BlockPos blockpos = pos.offset(enumfacing.getOpposite());
-		if(ForgeEventFactory.onNeighborNotify(worldIn, pos, worldIn.getBlockState(pos), EnumSet.of(enumfacing.getOpposite()), false).isCanceled())
+		if (ForgeEventFactory.onNeighborNotify(worldIn, pos, worldIn.getBlockState(pos), EnumSet.of(enumfacing.getOpposite()), false).isCanceled())
 			return;
 
 		worldIn.neighborChanged(blockpos, block, pos);
@@ -219,8 +219,8 @@ public class BlockRedstoneRandomizer extends BlockMod implements IQuarkBlock {
 
 	@Override
 	public void breakBlock(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
-		if(isPowered(state))
-			for(EnumFacing enumfacing : EnumFacing.values())
+		if (isPowered(state))
+			for (EnumFacing enumfacing : EnumFacing.values())
 				worldIn.notifyNeighborsOfStateChange(pos.offset(enumfacing), this, false);
 
 		super.breakBlock(worldIn, pos, state);
@@ -233,12 +233,12 @@ public class BlockRedstoneRandomizer extends BlockMod implements IQuarkBlock {
 
 	@Override
 	public boolean rotateBlock(World world, @Nonnull BlockPos pos, @Nonnull EnumFacing axis) {
-		if(super.rotateBlock(world, pos, axis)) {
+		if (super.rotateBlock(world, pos, axis)) {
 			IBlockState state = world.getBlockState(pos);
 			state = state.withProperty(POWERED, false);
 			world.setBlockState(pos, state);
 
-			if(shouldBePowered(world, pos, state))
+			if (shouldBePowered(world, pos, state))
 				world.scheduleUpdate(pos, this, 1);
 			return true;
 		}

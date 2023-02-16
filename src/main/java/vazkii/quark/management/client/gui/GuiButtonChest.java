@@ -57,37 +57,37 @@ public class GuiButtonChest extends GuiButton implements IParentedGui {
 
 	@Override
 	public void drawButton(@Nonnull Minecraft par1Minecraft, int par2, int par3, float partial) {
-		if(par1Minecraft.player.isSpectator())
+		if (par1Minecraft.player.isSpectator())
 			enabled = false;
 		
-		if(enabledPredicate != null)
+		if (enabledPredicate != null)
 			enabled = enabledPredicate.test(parent);
 
-		if(enabled) {
+		if (enabled) {
 			hovered = par2 >= x && par3 >= y && par2 < x + width && par3 < y + height;
 			int k = getHoverState(hovered);
 
 			int u = action.u;
 			int v = action.v;
 
-			if(action == Action.DROPOFF && GuiScreen.isShiftKeyDown() != StoreToChests.invert)
+			if (action == Action.DROPOFF && GuiScreen.isShiftKeyDown() != StoreToChests.invert)
 				u = 32;
 
-			if(k == 2)
+			if (k == 2)
 				u += 16;
 			
 			par1Minecraft.renderEngine.bindTexture(LibMisc.GENERAL_ICONS_RESOURCE);
 			GlStateManager.color(1F, 1F, 1F, 1F);
 			draw(u, v);
 			
-			if(k == 2) {
-				if(action != Action.RESTOCK && !action.isSortAction())
+			if (k == 2) {
+				if (action != Action.RESTOCK && !action.isSortAction())
 					FavoriteItems.hovering = true;
 				
 				GlStateManager.pushMatrix();
 				String tooltip;
 				String hint = null;
-				if(action == Action.DROPOFF && (GuiScreen.isShiftKeyDown() != StoreToChests.invert)){
+				if (action == Action.DROPOFF && (GuiScreen.isShiftKeyDown() != StoreToChests.invert)){
 					tooltip = I18n.format("quarkmisc.chestButton." + action.name().toLowerCase() + ".shift");
 				} else {
 					tooltip = I18n.format("quarkmisc.chestButton." + action.name().toLowerCase());
@@ -106,15 +106,15 @@ public class GuiButtonChest extends GuiButton implements IParentedGui {
 				tooltipList.add(tooltip);
 				if (hint != null) tooltipList.add(hint);
 				BiMap<IParentedGui, KeyBinding> map = ModKeybinds.keyboundButtons.inverse();
-				if(map.containsKey(this)) {
+				if (map.containsKey(this)) {
 					KeyBinding key = map.get(this);
-					if(key.getKeyCode() != 0) {
+					if (key.getKeyCode() != 0) {
 						String press = I18n.format("quarkmisc.keyboundButton", TextFormatting.GRAY, GameSettings.getKeyDisplayString(key.getKeyCode()));
 						tooltipList.add(press);
 						
-						if(action != Action.DROPOFF) {
+						if (action != Action.DROPOFF) {
 							int len2 = par1Minecraft.fontRenderer.getStringWidth(press);
-							if(len2 > len)
+							if (len2 > len)
 								tooltipShift = -len2 - 24;
 						}
 					}

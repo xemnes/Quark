@@ -48,13 +48,13 @@ public class DeleteItems extends Feature {
 	@SideOnly(Side.CLIENT)
 	public void initGui(GuiScreenEvent.InitGuiEvent.Post event) {
 		trash = null;
-		if(event.getGui() instanceof GuiContainer && trashButton) {
+		if (event.getGui() instanceof GuiContainer && trashButton) {
 			GuiContainer guiInv = (GuiContainer) event.getGui();
 			EntityPlayer player = Minecraft.getMinecraft().player;
 
 			boolean isPlayerInv = guiInv instanceof GuiInventory;
 			boolean creative = player.isCreative();
-			if(creative || (!isPlayerInv && playerInvOnly))
+			if (creative || (!isPlayerInv && playerInvOnly))
 				return;
 			
 			int guiWidth = guiInv.getXSize();
@@ -74,8 +74,8 @@ public class DeleteItems extends Feature {
 
 		Minecraft mc = Minecraft.getMinecraft();
 		GuiScreen current = Minecraft.getMinecraft().currentScreen;
-		if(mouseDown != oldMouseDown && current instanceof GuiContainer) {
-			if(trash != null && trash.ready) {
+		if (mouseDown != oldMouseDown && current instanceof GuiContainer) {
+			if (trash != null && trash.ready) {
 				NetworkHandler.INSTANCE.sendToServer(new MessageDeleteItem(-1));
 				event.setCanceled(true);
 				mc.player.inventory.setItemStack(ItemStack.EMPTY);
@@ -87,18 +87,18 @@ public class DeleteItems extends Feature {
 	@SideOnly(Side.CLIENT)
 	public void keyboardEvent(GuiScreenEvent.KeyboardInputEvent.Post event) {
 		boolean down = Keyboard.isKeyDown(Keyboard.KEY_DELETE);
-		if(GuiScreen.isCtrlKeyDown() && down && !keyboardDown && event.getGui() instanceof GuiContainer) {
+		if (GuiScreen.isCtrlKeyDown() && down && !keyboardDown && event.getGui() instanceof GuiContainer) {
 			GuiContainer gui = (GuiContainer) event.getGui();
 			Slot slot = gui.getSlotUnderMouse();
-			if(slot != null) {
+			if (slot != null) {
 				IInventory inv = slot.inventory;
-				if(inv instanceof InventoryPlayer) {
+				if (inv instanceof InventoryPlayer) {
 					int index = slot.getSlotIndex();
 
-					if(Minecraft.getMinecraft().player.capabilities.isCreativeMode && index >= 36)
+					if (Minecraft.getMinecraft().player.capabilities.isCreativeMode && index >= 36)
 						index -= 36; // Creative mode messes with the indexes for some reason
 
-					if(index < ((InventoryPlayer) inv).mainInventory.size())
+					if (index < ((InventoryPlayer) inv).mainInventory.size())
 						NetworkHandler.INSTANCE.sendToServer(new MessageDeleteItem(index));
 				}
 			}
@@ -111,7 +111,7 @@ public class DeleteItems extends Feature {
 	@SideOnly(Side.CLIENT)
 	public void update(ClientTickEvent event) {
 		GuiScreen gui = Minecraft.getMinecraft().currentScreen;
-		if(gui instanceof GuiContainer && trash != null) {
+		if (gui instanceof GuiContainer && trash != null) {
 			GuiContainer inv = (GuiContainer) gui;
 			updateTrashPos(inv);
 		}
@@ -119,21 +119,21 @@ public class DeleteItems extends Feature {
 
 	@SideOnly(Side.CLIENT)
 	private void updateTrashPos(GuiContainer inv) {
-		if(trash != null) {
+		if (trash != null) {
 			trash.x = inv.getGuiLeft() + trash.shiftX;
 			trash.y = inv.getGuiTop() + trash.shiftY;
 		}
 	}
 
 	public static void deleteItem(EntityPlayer player, int slot) {
-		if(slot > player.inventory.mainInventory.size())
+		if (slot > player.inventory.mainInventory.size())
 			return;
 
 		ItemStack stack = slot == -1 ? player.inventory.getItemStack() : player.inventory.getStackInSlot(slot);
-		if(!canItemBeDeleted(stack))
+		if (!canItemBeDeleted(stack))
 			return;
 
-		if(slot == -1)
+		if (slot == -1)
 			player.inventory.setItemStack(ItemStack.EMPTY);
 		else 
 			player.inventory.setInventorySlotContents(slot, ItemStack.EMPTY);

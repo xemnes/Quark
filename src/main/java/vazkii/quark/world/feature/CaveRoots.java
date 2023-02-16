@@ -51,7 +51,7 @@ public class CaveRoots extends Feature {
 
 		MinecraftForge.EVENT_BUS.register(PotionColorizer.class);
 		
-		if(enableFlowers) {
+		if (enableFlowers) {
 			blue_effect = new PotionColorizer("blue", 0x0000FF, LibPotionIndices.BLUE);
 			black_effect = new PotionColorizer("black", 0x303030, LibPotionIndices.BLACK);
 			white_effect = new PotionColorizer("white", 0xCCCCCC, LibPotionIndices.WHITE);
@@ -63,7 +63,7 @@ public class CaveRoots extends Feature {
 			root_flower = new ItemRootFlower();
 			root_dye = new ItemRootDye();
 			
-			for(int i = 0; i < 3; i++)
+			for (int i = 0; i < 3; i++)
 				RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(root_dye, 1, i), ProxyRegistry.newStack(root_flower, 1, i));
 			
 			addOreDict("dyeBlue", ProxyRegistry.newStack(root_dye, 1, 0));

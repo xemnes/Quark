@@ -76,7 +76,7 @@ public class EntityStoneling extends EntityCreature {
 		tasks.addTask(5, new EntityAIWanderAvoidWater(this, 0.2, 0.98F));
 		tasks.addTask(4, new EntityAIFavorBlock(this, 0.2, Blocks.DIAMOND_ORE));
 
-		if(Stonelings.enableDiamondHeart || Stonelings.tamableStonelings) {
+		if (Stonelings.enableDiamondHeart || Stonelings.tamableStonelings) {
 			int priority = Stonelings.tamableStonelings ? 0 : 3;
 			tasks.addTask(priority, new EntityAITempt(this, 0.6, Items.DIAMOND, false));
 		}
@@ -138,7 +138,7 @@ public class EntityStoneling extends EntityCreature {
 	protected boolean processInteract(EntityPlayer player, EnumHand hand) {
 		ItemStack stack = player.getHeldItem(hand);
 
-		if(!stack.isEmpty() && stack.getItem() == Items.NAME_TAG) {
+		if (!stack.isEmpty() && stack.getItem() == Items.NAME_TAG) {
 			stack.interactWithEntity(player, this, hand);
 			return true;
 		} else
@@ -148,10 +148,10 @@ public class EntityStoneling extends EntityCreature {
 	@Nonnull
 	@Override
 	public EnumActionResult applyPlayerInteraction(EntityPlayer player, Vec3d vec, EnumHand hand) {
-		if(hand == EnumHand.MAIN_HAND) {
+		if (hand == EnumHand.MAIN_HAND) {
 			ItemStack playerItem = player.getHeldItem(hand);
 
-			if(!world.isRemote) {
+			if (!world.isRemote) {
 				if (isPlayerMade()) {
 					if (!player.isSneaking() && !playerItem.isEmpty()) {
 
@@ -165,7 +165,7 @@ public class EntityStoneling extends EntityCreature {
 						if (targetVariant != null) {
 							if (world instanceof WorldServer) {
 								((WorldServer) world).spawnParticle(EnumParticleTypes.HEART, posX, posY + height, posZ, 1, 0.1, 0.1, 0.1, 0.1);
-								if (targetVariant != currentVariant)
+								if (targetVariant != currentVariant && targetVariant.getDisplayState() != null)
 									((WorldServer) world).spawnParticle(EnumParticleTypes.BLOCK_CRACK, posX, posY + height / 2, posZ, 16, 0.1, 0.1, 0.1, 0.25,
 											Block.getStateId(targetVariant.getDisplayState()));
 							}
@@ -231,7 +231,7 @@ public class EntityStoneling extends EntityCreature {
 		dataManager.set(VARIANT, variant);
 		dataManager.set(HOLD_ANGLE, world.rand.nextFloat() * 90 - 45);
 
-		if(!isTame && !world.isRemote) {
+		if (!isTame && !world.isRemote) {
 			if (ModuleLoader.isFeatureEnabled(Frogs.class) && rand.nextDouble() < 0.01) {
 				EntityFrog frog = new EntityFrog(world, 0.25f);
 				frog.setPosition(posX, posY, posZ);
@@ -286,7 +286,7 @@ public class EntityStoneling extends EntityCreature {
 	protected void damageEntity(@Nonnull DamageSource damageSrc, float damageAmount) {
 		super.damageEntity(damageSrc, damageAmount);
 
-		if(!isPlayerMade() && damageSrc.getTrueSource() instanceof EntityPlayer) {
+		if (!isPlayerMade() && damageSrc.getTrueSource() instanceof EntityPlayer) {
 			startle();
 			for (Entity entity : world.getEntitiesWithinAABBExcludingEntity(this,
 					getEntityBoundingBox().grow(16))) {
@@ -314,7 +314,7 @@ public class EntityStoneling extends EntityCreature {
 		super.dropEquipment(wasRecentlyHit, lootingModifier);
 
 		ItemStack stack = getCarryingItem();
-		if(!stack.isEmpty())
+		if (!stack.isEmpty())
 			entityDropItem(stack, 0F);
 	}
 
@@ -347,7 +347,7 @@ public class EntityStoneling extends EntityCreature {
 	public void readEntityFromNBT(NBTTagCompound compound) {
 		super.readEntityFromNBT(compound);
 
-		if(compound.hasKey(TAG_CARRYING_ITEM, 10)) {
+		if (compound.hasKey(TAG_CARRYING_ITEM, 10)) {
 			NBTTagCompound itemCmp = compound.getCompoundTag(TAG_CARRYING_ITEM);
 			ItemStack stack = new ItemStack(itemCmp);
 			dataManager.set(CARRYING_ITEM, stack);
@@ -438,7 +438,7 @@ public class EntityStoneling extends EntityCreature {
 	protected boolean isValidLightLevel() {
 		BlockPos blockpos = new BlockPos(posX, getEntityBoundingBox().minY, posZ);
 
-		if(world.getLightFor(EnumSkyBlock.SKY, blockpos) != 0)
+		if (world.getLightFor(EnumSkyBlock.SKY, blockpos) != 0)
 			return false;
 		else {
 			int i = world.getLightFromNeighbors(blockpos);

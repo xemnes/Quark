@@ -69,7 +69,7 @@ public class BlockRoots extends BlockMod implements IQuarkBlock, IShearable, IGr
 	
 	@Override
 	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
-		if(!worldIn.isRemote && worldIn.rand.nextInt(2) == 0)
+		if (!worldIn.isRemote && worldIn.rand.nextInt(2) == 0)
 			grow(worldIn, rand, pos, state);
 	}
 	
@@ -78,18 +78,18 @@ public class BlockRoots extends BlockMod implements IQuarkBlock, IShearable, IGr
 		
 		do {
 			next = growAndReturnLastPos(world, next, state, avoidCascade);
-		} while(next != null && world.rand.nextFloat() >= stopChance);
+		} while (next != null && world.rand.nextFloat() >= stopChance);
 	}
 
 	public static BlockPos growAndReturnLastPos(World world, BlockPos pos, IBlockState state, boolean avoidCascade) {
 		BlockPos down = pos.down();
 		
-		for(EnumFacing facing : EnumFacing.HORIZONTALS) {
+		for (EnumFacing facing : EnumFacing.HORIZONTALS) {
 			PropertyBool prop = getPropertyFor(facing);
-			if(state.getValue(prop)) {
+			if (state.getValue(prop)) {
 				BlockPos ret = growInFacing(world, down, facing);
-				if(ret != null) {
-					if(!avoidCascade || world.isBlockLoaded(ret)) {
+				if (ret != null) {
+					if (!avoidCascade || world.isBlockLoaded(ret)) {
 						IBlockState setState = nextState(world.rand).withProperty(prop, true);
 						world.setBlockState(ret, setState);
 						return ret;
@@ -103,19 +103,19 @@ public class BlockRoots extends BlockMod implements IQuarkBlock, IShearable, IGr
 	}
 	
 	public static BlockPos growInFacing(World world, BlockPos pos, EnumFacing facing) {
-		if(!world.isAirBlock(pos))
+		if (!world.isAirBlock(pos))
 			return null;
 		
 		BlockPos check = pos.offset(facing);
-		if(isAcceptableNeighbor(world, check, facing.getOpposite()))
+		if (isAcceptableNeighbor(world, check, facing.getOpposite()))
 			return pos;
 		
 		pos = check;
-		if(!world.isAirBlock(check))
+		if (!world.isAirBlock(check))
 			return null;
 		
 		check = pos.offset(facing);
-		if(isAcceptableNeighbor(world, check, facing.getOpposite()))
+		if (isAcceptableNeighbor(world, check, facing.getOpposite()))
 			return pos;
 		
 		return null;
@@ -137,10 +137,10 @@ public class BlockRoots extends BlockMod implements IQuarkBlock, IShearable, IGr
 	}
 	
 	private static IBlockState nextState(Random rand) {
-		if(!CaveRoots.enableFlowers || rand.nextFloat() > CaveRoots.flowerChance)
+		if (!CaveRoots.enableFlowers || rand.nextFloat() > CaveRoots.flowerChance)
 			return CaveRoots.roots.getDefaultState();
 
-		switch(rand.nextInt(3)) {
+		switch (rand.nextInt(3)) {
 		case 0:  return CaveRoots.roots_blue_flower.getDefaultState();
 		case 1:  return CaveRoots.roots_black_flower.getDefaultState();
 		default: return CaveRoots.roots_white_flower.getDefaultState();
@@ -170,22 +170,22 @@ public class BlockRoots extends BlockMod implements IQuarkBlock, IShearable, IGr
 		int i = 0;
 		AxisAlignedBB axisalignedbb = FULL_BLOCK_AABB;
 
-		if(state.getValue(NORTH)) {
+		if (state.getValue(NORTH)) {
 			axisalignedbb = NORTH_AABB;
 			++i;
 		}
 
-		if(state.getValue(EAST)) {
+		if (state.getValue(EAST)) {
 			axisalignedbb = EAST_AABB;
 			++i;
 		}
 
-		if(state.getValue(SOUTH)) {
+		if (state.getValue(SOUTH)) {
 			axisalignedbb = SOUTH_AABB;
 			++i;
 		}
 
-		if(state.getValue(WEST)) {
+		if (state.getValue(WEST)) {
 			axisalignedbb = WEST_AABB;
 			++i;
 		}
@@ -233,21 +233,21 @@ public class BlockRoots extends BlockMod implements IQuarkBlock, IShearable, IGr
 	private boolean recheckGrownSides(World worldIn, BlockPos pos, IBlockState state) {
 		IBlockState originalState = state;
 
-		for(EnumFacing enumfacing : EnumFacing.Plane.HORIZONTAL) {
+		for (EnumFacing enumfacing : EnumFacing.Plane.HORIZONTAL) {
 			PropertyBool propertybool = getPropertyFor(enumfacing);
 
-			if(state.getValue(propertybool) && !canAttachTo(worldIn, pos, enumfacing.getOpposite())) {
+			if (state.getValue(propertybool) && !canAttachTo(worldIn, pos, enumfacing.getOpposite())) {
 				IBlockState stateAt = worldIn.getBlockState(pos.up());
 
-				if(stateAt.getBlock() != this || !stateAt.getValue(propertybool))
+				if (stateAt.getBlock() != this || !stateAt.getValue(propertybool))
 					state = state.withProperty(propertybool, Boolean.FALSE);
 			}
 		}
 
-		if(getNumGrownFaces(state) == 0)
+		if (getNumGrownFaces(state) == 0)
 			return false;
 		else {
-			if(originalState != state)
+			if (originalState != state)
 				worldIn.setBlockState(pos, state, 2);
 
 			return true;
@@ -256,7 +256,7 @@ public class BlockRoots extends BlockMod implements IQuarkBlock, IShearable, IGr
 
 	@Override
 	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
-		if(!worldIn.isRemote && !recheckGrownSides(worldIn, pos, state)) {
+		if (!worldIn.isRemote && !recheckGrownSides(worldIn, pos, state)) {
 			dropBlockAsItem(worldIn, pos, state, 0);
 			worldIn.setBlockToAir(pos);
 		}
@@ -272,7 +272,7 @@ public class BlockRoots extends BlockMod implements IQuarkBlock, IShearable, IGr
 	@Nonnull
 	@Override
 	public List<ItemStack> getDrops(@Nonnull IBlockAccess world, @Nonnull BlockPos pos, @Nonnull IBlockState state, int fortune) {
-		if(rng.nextFloat() < getDropChance())
+		if (rng.nextFloat() < getDropChance())
 			return NonNullList.withSize(1, getRootDrop());
 		return NonNullList.withSize(0, ItemStack.EMPTY);
 	}
@@ -280,7 +280,7 @@ public class BlockRoots extends BlockMod implements IQuarkBlock, IShearable, IGr
 	@Override
 	@SuppressWarnings("ConstantConditions")
 	public void harvestBlock(@Nonnull World worldIn, EntityPlayer player, @Nonnull BlockPos pos, @Nonnull IBlockState state, @Nullable TileEntity te, ItemStack stack) {
-		if(!worldIn.isRemote && stack.getItem() == Items.SHEARS) {
+		if (!worldIn.isRemote && stack.getItem() == Items.SHEARS) {
 			player.addStat(StatList.getBlockStats(this));
 			spawnAsEntity(worldIn, pos, new ItemStack(this, 1, 0));
 		}
@@ -359,7 +359,7 @@ public class BlockRoots extends BlockMod implements IQuarkBlock, IShearable, IGr
 	public static int getNumGrownFaces(IBlockState state) {
 		int i = 0;
 
-		for(PropertyBool propertybool : ALL_FACES)
+		for (PropertyBool propertybool : ALL_FACES)
 			if (state.getValue(propertybool))
 				++i;
 

@@ -33,17 +33,17 @@ public class DefaultWorldOptions extends Feature {
 		StringBuilder config = new StringBuilder();
 		config.append('{');
 
-		for(String s : intProps.keySet()) {
+		for (String s : intProps.keySet()) {
 			int i = loadPropInt(s, "", intProps.get(s));
 			config.append('"').append(s).append("\":").append(i).append(',');
 		}
 
-		for(String s : doubleProps.keySet()) {
+		for (String s : doubleProps.keySet()) {
 			double d = loadPropDouble(s, "", doubleProps.get(s));
 			config.append('"').append(s).append("\":").append(d).append(',');
 		}
 
-		for(String s : boolProps.keySet()) {
+		for (String s : boolProps.keySet()) {
 			boolean b = loadPropBool(s, "", boolProps.get(s));
 			config.append('"').append(s).append("\":").append(b).append(',');
 		}
@@ -54,9 +54,9 @@ public class DefaultWorldOptions extends Feature {
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void guiOpenEvent(InitGuiEvent.Post event) {
-		if(event.getGui() instanceof GuiCreateWorld) {
+		if (event.getGui() instanceof GuiCreateWorld) {
 			GuiCreateWorld create = (GuiCreateWorld) event.getGui();
-			if(create.chunkProviderSettingsJson == null || create.chunkProviderSettingsJson.isEmpty())
+			if (create.chunkProviderSettingsJson == null || create.chunkProviderSettingsJson.isEmpty())
 				create.chunkProviderSettingsJson = config;
 		}
 	}

@@ -42,7 +42,7 @@ public class BlockGravisand extends BlockMod implements IQuarkBlock {
 	private void checkRedstone(World worldIn, BlockPos pos) {
         boolean powered = worldIn.isBlockPowered(pos);
 
-        if(powered)
+        if (powered)
         	worldIn.scheduleUpdate(pos, this, tickRate(worldIn));
 	}
 	
@@ -58,21 +58,21 @@ public class BlockGravisand extends BlockMod implements IQuarkBlock {
 
 	@Override
 	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
-		if(!worldIn.isRemote) {
-			if(checkFallable(worldIn, pos))
-				for(EnumFacing face : EnumFacing.VALUES) {
+		if (!worldIn.isRemote) {
+			if (checkFallable(worldIn, pos))
+				for (EnumFacing face : EnumFacing.VALUES) {
 					BlockPos offPos = pos.offset(face);
 					IBlockState offState = worldIn.getBlockState(offPos);
 					
-					if(offState.getBlock() == this)
+					if (offState.getBlock() == this)
 			        	worldIn.scheduleUpdate(offPos, this, tickRate(worldIn));
 				}
 		}
 	}
 
 	private boolean checkFallable(World worldIn, BlockPos pos) {
-		if(!worldIn.isRemote) {
-			if(tryFall(worldIn, pos, EnumFacing.DOWN))
+		if (!worldIn.isRemote) {
+			if (tryFall(worldIn, pos, EnumFacing.DOWN))
 				return true;
 			else return tryFall(worldIn, pos, EnumFacing.UP);
 		}
@@ -82,7 +82,7 @@ public class BlockGravisand extends BlockMod implements IQuarkBlock {
 	
 	private boolean tryFall(World worldIn, BlockPos pos, EnumFacing facing) {
 		BlockPos target = pos.offset(facing);
-		if((worldIn.isAirBlock(target) || canFallThrough(worldIn.getBlockState(target))) && pos.getY() >= 0) {
+		if ((worldIn.isAirBlock(target) || canFallThrough(worldIn.getBlockState(target))) && pos.getY() >= 0) {
 			EntityGravisand entity = new EntityGravisand(worldIn, pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, worldIn.getBlockState(pos), facing.getYOffset());
 			worldIn.spawnEntity(entity);
 			return true;

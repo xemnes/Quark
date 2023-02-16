@@ -31,10 +31,10 @@ public class ItemSoulPowder extends ItemMod implements IQuarkItem {
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, @Nonnull EnumHand handIn) {
 		ItemStack itemstack = playerIn.getHeldItem(handIn);
 
-		if(!worldIn.isRemote) {
+		if (!worldIn.isRemote) {
 			BlockPos blockpos = playerIn.getEntityWorld().findNearestStructure("Fortress", playerIn.getPosition(), false);
 
-			if(blockpos != null) {
+			if (blockpos != null) {
 				itemstack.shrink(1);
 				EntitySoulPowder entity = new EntitySoulPowder(worldIn, blockpos.getX(), blockpos.getZ());
 				Vec3d look = playerIn.getLookVec();

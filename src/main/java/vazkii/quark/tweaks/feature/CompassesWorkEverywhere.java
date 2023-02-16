@@ -25,21 +25,21 @@ public class CompassesWorkEverywhere extends Feature {
 	
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
-		if(enableCompassNerf || enableNether || enableEnd)
+		if (enableCompassNerf || enableNether || enableEnd)
 			Items.COMPASS.addPropertyOverride(new ResourceLocation("angle"), new CompassAngleGetter());
 		
-		if(enableClockNerf)
+		if (enableClockNerf)
 			Items.CLOCK.addPropertyOverride(new ResourceLocation("time"), new ClockTimeGetter());
 	}
 	
 	@SubscribeEvent
 	public void onUpdate(PlayerTickEvent event) {
-		if(event.phase == Phase.START) {
-			for(int i = 0; i < event.player.inventory.getSizeInventory(); i++) {
+		if (event.phase == Phase.START) {
+			for (int i = 0; i < event.player.inventory.getSizeInventory(); i++) {
 				ItemStack stack = event.player.inventory.getStackInSlot(i);
-				if(stack.getItem() == Items.COMPASS)
+				if (stack.getItem() == Items.COMPASS)
 					CompassAngleGetter.tickCompass(event.player, stack);
-				else if(stack.getItem() == Items.CLOCK)
+				else if (stack.getItem() == Items.CLOCK)
 					ClockTimeGetter.tickClock(stack);
 			}
 		}

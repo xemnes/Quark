@@ -21,16 +21,16 @@ public class ObsidianSpikeGenerator implements IWorldGenerator {
 
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
-		if(world.provider.isNether() && random.nextFloat() < NetherObsidianSpikes.chunkChance) {
-			for(int i = 0; i < NetherObsidianSpikes.triesPerChunk; i++) {
+		if (world.provider.isNether() && random.nextFloat() < NetherObsidianSpikes.chunkChance) {
+			for (int i = 0; i < NetherObsidianSpikes.triesPerChunk; i++) {
 				int x = chunkX * 16 + random.nextInt(16) + 8;
 				int z = chunkZ * 16 + random.nextInt(16) + 8;
 
 				BlockPos pos = new BlockPos(x, 50, z);
 				
-				while(pos.getY() > 10) {
+				while (pos.getY() > 10) {
 					IBlockState state = world.getBlockState(pos);
-					if(state.getBlock() == Blocks.LAVA) {
+					if (state.getBlock() == Blocks.LAVA) {
 						placeSpikeAt(world, pos);
 						break;
 					}
@@ -47,7 +47,7 @@ public class ObsidianSpikeGenerator implements IWorldGenerator {
 		int heightTop = 2 + world.rand.nextInt(3);
 		
 		boolean addSpawner = false;
-		if(world.rand.nextFloat() < NetherObsidianSpikes.bigSpikeChance) {
+		if (world.rand.nextFloat() < NetherObsidianSpikes.bigSpikeChance) {
 			heightBottom += 7;
 			heightMiddle += 8;
 			heightTop += 4;
@@ -55,38 +55,38 @@ public class ObsidianSpikeGenerator implements IWorldGenerator {
 		}
 		
 		int checkHeight = heightBottom + heightMiddle + heightTop + 2;
-		for(int i = 0; i < 5; i++)
-			for(int j = 0; j < 5; j++)
-				for(int k = 0; k < checkHeight; k++) {
+		for (int i = 0; i < 5; i++)
+			for (int j = 0; j < 5; j++)
+				for (int k = 0; k < checkHeight; k++) {
 					BlockPos checkPos = pos.add(i - 2, k, j - 2);
-					if(!(world.isAirBlock(checkPos) || world.getBlockState(checkPos).getMaterial() == Material.LAVA))
+					if (!(world.isAirBlock(checkPos) || world.getBlockState(checkPos).getMaterial() == Material.LAVA))
 						return;
 				}
 		
 		IBlockState obsidian = Blocks.OBSIDIAN.getDefaultState();
 		
-		for(int i = 0; i < 3; i++)
-			for(int j = 0; j < 3; j++)
-				for(int k = 0; k < heightBottom + heightBelow; k++) {
+		for (int i = 0; i < 3; i++)
+			for (int j = 0; j < 3; j++)
+				for (int k = 0; k < heightBottom + heightBelow; k++) {
 					BlockPos placePos = pos.add(i - 1, k - heightBelow, j - 1);
 
-					if(world.getBlockState(placePos).getBlockHardness(world, placePos) != -1)
+					if (world.getBlockState(placePos).getBlockHardness(world, placePos) != -1)
 						world.setBlockState(placePos, obsidian);
 				}
 		
-		for(int i = 0; i < heightMiddle; i++) {
+		for (int i = 0; i < heightMiddle; i++) {
 			BlockPos placePos = pos.add(0, heightBottom + i, 0);
 			
 			world.setBlockState(placePos, obsidian);
-			for(EnumFacing face : EnumFacing.HORIZONTALS)
+			for (EnumFacing face : EnumFacing.HORIZONTALS)
 				world.setBlockState(placePos.offset(face), obsidian);
 		}
 		
-		for(int i = 0; i < heightTop; i++) {
+		for (int i = 0; i < heightTop; i++) {
 			BlockPos placePos = pos.add(0, heightBottom + heightMiddle + i, 0);
 			world.setBlockState(placePos, obsidian);
 			
-			if(addSpawner && i == 0) {
+			if (addSpawner && i == 0) {
 				world.setBlockState(placePos, BlazeLantern.blaze_lantern == null ? Blocks.GLOWSTONE.getDefaultState() : BlazeLantern.blaze_lantern.getDefaultState());
 				
 				placePos = placePos.down();

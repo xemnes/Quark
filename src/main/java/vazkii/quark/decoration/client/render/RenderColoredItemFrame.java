@@ -40,7 +40,7 @@ public class RenderColoredItemFrame extends RenderFlatItemFrame {
 		ModelManager modelmanager = blockrendererdispatcher.getBlockModelShapes().getModelManager();
 		IBakedModel woodModel, coloredModel;
 
-		if(!entity.getDisplayedItem().isEmpty() && entity.getDisplayedItem().getItem() == Items.FILLED_MAP) {
+		if (!entity.getDisplayedItem().isEmpty() && entity.getDisplayedItem().getItem() == Items.FILLED_MAP) {
 			woodModel = modelmanager.getModel(ModelHandler.resourceLocations.get("colored_item_frame_map_wood"));
 			coloredModel = modelmanager.getModel(ModelHandler.resourceLocations.get("colored_item_frame_map"));
 		} else {

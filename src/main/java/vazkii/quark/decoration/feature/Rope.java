@@ -46,7 +46,7 @@ public class Rope extends Feature {
 	
 	@Override
 	public void init() {
-		if(enableDispenser)		
+		if (enableDispenser)		
 			BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(Item.getItemFromBlock(rope), new BehaviourRope());
 	}
 	
@@ -66,13 +66,13 @@ public class Rope extends Feature {
 			this.successful = false;
 			
 			IBlockState state = world.getBlockState(pos);
-			if(state.getBlock() == rope) {
-				if(((BlockRope) rope).pullDown(world, pos)) {
+			if (state.getBlock() == rope) {
+				if (((BlockRope) rope).pullDown(world, pos)) {
 					this.successful = true;
 					stack.shrink(1);
 					return stack;
 				}
-			} else if(world.isAirBlock(pos) && rope.canPlaceBlockAt(world, pos)) {
+			} else if (world.isAirBlock(pos) && rope.canPlaceBlockAt(world, pos)) {
 				SoundType soundtype = rope.getSoundType(state, world, pos, null);
 				world.setBlockState(pos, rope.getDefaultState());
 				world.playSound(null, pos, soundtype.getPlaceSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);

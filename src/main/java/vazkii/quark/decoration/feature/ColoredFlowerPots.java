@@ -49,7 +49,7 @@ public class ColoredFlowerPots extends Feature {
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
 		pots = new BlockColoredFlowerPot[EnumDyeColor.values().length];
-		for(int i = 0; i < pots.length; i++) {
+		for (int i = 0; i < pots.length; i++) {
 			pots[i] = new BlockColoredFlowerPot(EnumDyeColor.byMetadata(i));
 			RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(pots[i]), ProxyRegistry.newStack(Items.FLOWER_POT), LibMisc.OREDICT_DYES.get(15 - i));
 		}
@@ -83,7 +83,7 @@ public class ColoredFlowerPots extends Feature {
 
 	public static void loadFlowersFromConfig() {
 		// prevent loading twice as this method is called by both flower pot types
-		if(loadedConfig) {
+		if (loadedConfig) {
 			return;
 		}
 		loadedConfig = true;
@@ -93,16 +93,16 @@ public class ColoredFlowerPots extends Feature {
 		registerFlower(new ItemStack(Blocks.TALLGRASS, 1, BlockTallGrass.EnumType.FERN.getMeta()), 4);
 
 		// parse config
-		for(String line : overrides) {
+		for (String line : overrides) {
 			String[] split = line.split("->");
-			if(split.length != 2) {
+			if (split.length != 2) {
 				Quark.LOG.error("Invalid Quark flower pot override, expected format 'modid:name[:meta]->power'");
 				continue;
 			}
 
 			// parse comparator power
 			int power = MathHelper.getInt(split[1], -1);
-			if(power < 0 || power > 15) {
+			if (power < 0 || power > 15) {
 				Quark.LOG.error("Invalid Quark flower pot override, power must be a valid number from 0 to 15");
 				continue;
 			}
@@ -131,7 +131,7 @@ public class ColoredFlowerPots extends Feature {
 
 			// not a flower means 0 override
 			// this handles vanilla logic excluding cacti and ferns, which are registered directly above
-			if(!(block instanceof BlockBush)
+			if (!(block instanceof BlockBush)
 					|| block instanceof BlockDoublePlant
 					|| block instanceof BlockTallGrass
 					|| block instanceof BlockCrops
@@ -140,14 +140,14 @@ public class ColoredFlowerPots extends Feature {
 			}
 
 			// cactus: 15
-			if(block instanceof BlockSapling) {
+			if (block instanceof BlockSapling) {
 				return 12;
 			}
-			if(block instanceof BlockDeadBush) {
+			if (block instanceof BlockDeadBush) {
 				return 10;
 			}
 			// fern: 4
-			if(block instanceof BlockMushroom) {
+			if (block instanceof BlockMushroom) {
 				return 1;
 			}
 
@@ -176,13 +176,13 @@ public class ColoredFlowerPots extends Feature {
 	 * @return  color, or -1 for undefined
 	 */
 	public static int getStackBlockColorsSafe(ItemStack stack, @Nullable IBlockAccess world, @Nullable BlockPos pos, int index) {
-		if(stack.isEmpty()) {
+		if (stack.isEmpty()) {
 			return -1;
 		}
 
 		// do not try if it failed before
 		Item item = stack.getItem();
-		if(!unsafeBlockColors.contains(item)) {
+		if (!unsafeBlockColors.contains(item)) {
 			try {
 				return getStackBlockColors(stack, world, pos, index);
 			} catch (Exception e) {
@@ -206,7 +206,7 @@ public class ColoredFlowerPots extends Feature {
 	 */
 	@SuppressWarnings("deprecation")
 	public static int getStackBlockColors(ItemStack stack, @Nullable IBlockAccess world, @Nullable BlockPos pos, int index) {
-		if(stack.isEmpty() || !(stack.getItem() instanceof ItemBlock)) {
+		if (stack.isEmpty() || !(stack.getItem() instanceof ItemBlock)) {
 			return -1;
 		}
 		ItemBlock item = (ItemBlock) stack.getItem();
@@ -224,7 +224,7 @@ public class ColoredFlowerPots extends Feature {
 
 	@SubscribeEvent
 	public void onModelBake(ModelBakeEvent event) {
-		for(EnumDyeColor color : EnumDyeColor.values()) {
+		for (EnumDyeColor color : EnumDyeColor.values()) {
 			ResourceLocation loc = pots[color.getMetadata()].getRegistryName();
 			if (loc != null) {
 				ModelResourceLocation location = new ModelResourceLocation(loc, "contents=custom");

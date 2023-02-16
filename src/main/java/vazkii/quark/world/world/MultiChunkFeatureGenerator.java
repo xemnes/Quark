@@ -9,7 +9,7 @@ import net.minecraft.world.World;
 public abstract class MultiChunkFeatureGenerator {
 
 	public void generate(int chunkX, int chunkZ, World world) {
-		if(!canGenerate(world))
+		if (!canGenerate(world))
 			return;
 		
 		int radius = getFeatureRadius();
@@ -20,14 +20,14 @@ public abstract class MultiChunkFeatureGenerator {
 		long xSeed = worldRandom.nextLong() >> 2 + 1;
 		long zSeed = worldRandom.nextLong() >> 2 + 1;
 
-		for(int x = chunkX - chunkRadius; x <= chunkX + chunkRadius; x++)
-			for(int z = chunkZ - chunkRadius; z <= chunkZ + chunkRadius; z++) {
+		for (int x = chunkX - chunkRadius; x <= chunkX + chunkRadius; x++)
+			for (int z = chunkZ - chunkRadius; z <= chunkZ + chunkRadius; z++) {
 				long chunkSeed = (xSeed * x + zSeed * z) ^ worldSeed;
 				Random chunkRandom = new Random(chunkSeed);
 
 				BlockPos[] sources = getSourcesInChunk(chunkRandom, x, z);
-				for(BlockPos source : sources)
-					if(source != null && isSourceValid(world, source))
+				for (BlockPos source : sources)
+					if (source != null && isSourceValid(world, source))
 						generateChunkPart(source, chunkRandom, chunkX, chunkZ, world);
 			}
 	}
@@ -59,12 +59,12 @@ public abstract class MultiChunkFeatureGenerator {
 		minY = Math.max(1, minY);
 		maxY = Math.min(255, maxY);
 
-		if(shouldOffset())
+		if (shouldOffset())
 			first = first.add(8, 0, 8);
 		
-		for(int x = 0; x < 16; x++)
-			for(int y = minY; y < maxY; y++)
-				for(int z = 0; z < 16; z++)
+		for (int x = 0; x < 16; x++)
+			for (int y = minY; y < maxY; y++)
+				for (int z = 0; z < 16; z++)
 					func.accept(first.add(x, y, z));
 	}
 	

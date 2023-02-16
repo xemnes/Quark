@@ -24,25 +24,25 @@ public class MessageTuneNoteBlock extends TileEntityMessage<TileEntityNote> {
 	@Override
 	public Runnable getAction() {
 		return () -> {
-			if(!ModuleLoader.isFeatureEnabled(NoteBlockInterface.class))
+			if (!ModuleLoader.isFeatureEnabled(NoteBlockInterface.class))
 				return;
 			
 			EntityPlayer player = context.getServerHandler().player;
 			byte old = tile.note;
 			boolean tuned = false;
 			
-			if(next)
+			if (next)
 				tile.changePitch();
 			else {
 				tile.note = target;
-				if(net.minecraftforge.common.ForgeHooks.onNoteChange(tile, old)) {
+				if (net.minecraftforge.common.ForgeHooks.onNoteChange(tile, old)) {
 					tile.markDirty();
 					player.addStat(StatList.NOTEBLOCK_TUNED);
 					tuned = true;
 				}
 			}
 
-			if(!tuned)
+			if (!tuned)
 				player.addStat(StatList.NOTEBLOCK_PLAYED);
 			
 			tile.triggerNote(tile.getWorld(), pos);

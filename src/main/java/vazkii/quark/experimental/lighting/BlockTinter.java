@@ -17,37 +17,37 @@ public class BlockTinter {
 	private static DynamicTexture lightmapTex;
 
 	public static void tintBlockFlat(IBlockAccess world, IBlockState state, BlockPos pos, BufferBuilder buffer, BakedQuad quad, int lightColor) {
-		if((lightColor & 0xF0) == 0)
+		if ((lightColor & 0xF0) == 0)
 			return;
 		
 		float[] colors = ColoredLightSystem.getLightColor(world, pos.offset(quad.getFace()));
 		
-		if(ColoredLights.cullToLightmap)
+		if (ColoredLights.cullToLightmap)
 			colors = cullColorsToLightmap(colors, lightColor);
 		
-		if(colors.length > 0) {
+		if (colors.length > 0) {
 			float[] quadTint = tintQuad(quad, state, world, pos);
-			if(quadTint != null)
-				for(int i = 0; i < 3; i++)
+			if (quadTint != null)
+				for (int i = 0; i < 3; i++)
 					colors[i] *= quadTint[i];
 			
-			for(int i = 1; i < 5; i++)
+			for (int i = 1; i < 5; i++)
 				buffer.putColorMultiplier(colors[0], colors[1], colors[2], i);
 		}
 	}
 	
 	// Copied from vanilla BlockModelRenderer
 	private static float[] tintQuad(BakedQuad bakedquad, IBlockState stateIn, IBlockAccess blockAccessIn, BlockPos posIn) {
-		if(bakedquad.hasTintIndex()) {
+		if (bakedquad.hasTintIndex()) {
 			int k = Minecraft.getMinecraft().getBlockColors().colorMultiplier(stateIn, blockAccessIn, posIn, bakedquad.getTintIndex());
 
-			if(EntityRenderer.anaglyphEnable)
+			if (EntityRenderer.anaglyphEnable)
 				k = TextureUtil.anaglyphColor(k);
 
 			float f = (k >> 16 & 255) / 255.0F;
 			float f1 = (k >> 8 & 255) / 255.0F;
 			float f2 = (k & 255) / 255.0F;
-			if(bakedquad.shouldApplyDiffuseLighting()) {
+			if (bakedquad.shouldApplyDiffuseLighting()) {
 				float diffuse = LightUtil.diffuseLight(bakedquad.getFace());
 				f *= diffuse;
 				f1 *= diffuse;
@@ -56,7 +56,7 @@ public class BlockTinter {
 
 			return new float[] { f, f1, f2 };
 		}
-		else if(bakedquad.shouldApplyDiffuseLighting()) {
+		else if (bakedquad.shouldApplyDiffuseLighting()) {
 			float diffuse = LightUtil.diffuseLight(bakedquad.getFace());
 			return new float[] { diffuse, diffuse, diffuse };
 		}
@@ -65,7 +65,7 @@ public class BlockTinter {
 	}
 	
 	private static float[] cullColorsToLightmap(float[] colors, int lightmapPos) {
-		if(colors.length < 3)
+		if (colors.length < 3)
 			return colors;
 		
 		int sunlight = (lightmapPos & 0xF00000) >> 20;
@@ -82,7 +82,7 @@ public class BlockTinter {
 	}
 	
 	private static int[] getLightmapColors() {
-		if(lightmapTex == null) 
+		if (lightmapTex == null) 
 			lightmapTex = Minecraft.getMinecraft().entityRenderer.lightmapTexture;
 		
 		return lightmapTex.getTextureData();

@@ -43,10 +43,10 @@ import java.util.function.Supplier;
 public final class DropoffHandler {
 
 	public static void dropoff(EntityPlayer player, boolean smart, boolean useContainer) {
-		if(!ModuleLoader.isFeatureEnabled(useContainer ? ChestButtons.class : StoreToChests.class) || player.isSpectator())
+		if (!ModuleLoader.isFeatureEnabled(useContainer ? ChestButtons.class : StoreToChests.class) || player.isSpectator())
 			return;
 
-		if(!useContainer && !player.getEntityWorld().getWorldInfo().getGameRulesInstance().getBoolean(StoreToChests.GAME_RULE)) {
+		if (!useContainer && !player.getEntityWorld().getWorldInfo().getGameRulesInstance().getBoolean(StoreToChests.GAME_RULE)) {
 			disableClientDropoff(player);
 			return;
 		}
@@ -55,34 +55,34 @@ public final class DropoffHandler {
 	}
 
 	public static void restock(EntityPlayer player, boolean filtered) {
-		if(!ModuleLoader.isFeatureEnabled(ChestButtons.class) || player.isSpectator())
+		if (!ModuleLoader.isFeatureEnabled(ChestButtons.class) || player.isSpectator())
 			return;
 
 		new Restock(player, filtered).execute();
 	}
 
 	public static void disableClientDropoff(EntityPlayer player) {
-		if(player instanceof EntityPlayerMP)
+		if (player instanceof EntityPlayerMP)
 			NetworkHandler.INSTANCE.sendTo(new MessageDisableDropoffClient(), (EntityPlayerMP) player);
 	}
 
 	public static IItemHandler getInventory(EntityPlayer player, World world, BlockPos pos) {
 		TileEntity te = world.getTileEntity(pos);
 
-		if(te == null)
+		if (te == null)
 			return null;
 		
 		boolean accept = isValidChest(player, te);
-		if(accept) {
+		if (accept) {
 			Supplier<IItemHandler> supplier = () -> {
 				IItemHandler innerRet = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
-				if(innerRet == null && te instanceof IInventory)
+				if (innerRet == null && te instanceof IInventory)
 					innerRet = new InvWrapper((IInventory) te);
 				
 				return innerRet;
 			};
 			
-			if(IDropoffManager.hasProvider(te))
+			if (IDropoffManager.hasProvider(te))
 				return IDropoffManager.getProvider(te).getDropoffItemHandler(supplier);
 			else return supplier.get();
 		}
@@ -108,9 +108,9 @@ public final class DropoffHandler {
 
 	public static boolean isValidChest(EntityPlayer player, TileEntity te) {
 		boolean accept = accepts(te, player);
-		if(!accept) accept = ChestButtons.overriddenDropoff(te);
+		if (!accept) accept = ChestButtons.overriddenDropoff(te);
 
-		if(te instanceof IInventory)
+		if (te instanceof IInventory)
 			accept = accept && ((IInventory) te).isUsableByPlayer(player);
 
 
@@ -145,34 +145,34 @@ public final class DropoffHandler {
 		public void execute() {
 			locateItemHandlers();
 
-			if(itemHandlers.isEmpty())
+			if (itemHandlers.isEmpty())
 				return;
 
-			if(smart)
+			if (smart)
 				smartDropoff();
 			else roughDropoff();
 
 			player.inventoryContainer.detectAndSendChanges();
-			if(useContainer)
+			if (useContainer)
 				player.openContainer.detectAndSendChanges();
 		}
 
 		public void smartDropoff() {
 			dropoff((stack, handler) -> {
 				int slots = handler.getSlots();
-				for(int i = 0; i < slots; i++) {
+				for (int i = 0; i < slots; i++) {
 					ItemStack stackAt = handler.getStackInSlot(i);
-					if(stackAt.isEmpty())
+					if (stackAt.isEmpty())
 						continue;
 
 					boolean itemEqual = stack.getItem() == stackAt.getItem();
 					boolean damageEqual = stack.getItemDamage() == stackAt.getItemDamage();
 					boolean nbtEqual = ItemStack.areItemStackTagsEqual(stackAt, stack);
 
-					if(itemEqual && damageEqual && nbtEqual)
+					if (itemEqual && damageEqual && nbtEqual)
 						return true;
 
-					if(!stack.getHasSubtypes() && stack.isItemStackDamageable() && stack.getMaxStackSize() == 1 && itemEqual && nbtEqual)
+					if (!stack.getHasSubtypes() && stack.isItemStackDamageable() && stack.getMaxStackSize() == 1 && itemEqual && nbtEqual)
 						return true;
 				}
 
@@ -185,11 +185,11 @@ public final class DropoffHandler {
 		}
 
 		public void locateItemHandlers() {
-			if(useContainer) {
+			if (useContainer) {
 				Container c = player.openContainer;
-				for(Slot s : c.inventorySlots) {
+				for (Slot s : c.inventorySlots) {
 					IInventory inv = s.inventory;
-					if(inv != player.inventory) {
+					if (inv != player.inventory) {
 						itemHandlers.add(Pair.of(ContainerWrapper.provideWrapper(s, c), 0.0));
 						break;
 					}
@@ -198,9 +198,9 @@ public final class DropoffHandler {
 				BlockPos playerPos = player.getPosition();
 				int range = 6;
 
-				for(int i = -range; i < range * 2 + 1; i++)
-					for(int j = -range; j < range * 2 + 1; j++)
-						for(int k = -range; k < range * 2 + 1; k++) {
+				for (int i = -range; i < range * 2 + 1; i++)
+					for (int j = -range; j < range * 2 + 1; j++)
+						for (int k = -range; k < range * 2 + 1; k++) {
 							BlockPos pos = playerPos.add(i, j, k);
 							findHandler(pos);
 						}
@@ -211,19 +211,19 @@ public final class DropoffHandler {
 
 		public void findHandler(BlockPos pos) {
 			IItemHandler handler = getInventory(player, player.getEntityWorld(), pos);
-			if(handler != null)
+			if (handler != null)
 				itemHandlers.add(Pair.of(handler, player.getDistanceSq(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5)));
 		}
 
 		public void dropoff(DropoffPredicate predicate) {
 			InventoryPlayer inv = player.inventory;
 
-			for(int i = InventoryPlayer.getHotbarSize(); i < inv.mainInventory.size(); i++) {
+			for (int i = InventoryPlayer.getHotbarSize(); i < inv.mainInventory.size(); i++) {
 				ItemStack stackAt = inv.getStackInSlot(i);
 
-				if(!stackAt.isEmpty() && !FavoriteItems.isItemFavorited(stackAt)) {
+				if (!stackAt.isEmpty() && !FavoriteItems.isItemFavorited(stackAt)) {
 					ItemStack ret = insert(stackAt, predicate);
-					if(!ItemStack.areItemStacksEqual(stackAt, ret))
+					if (!ItemStack.areItemStacksEqual(stackAt, ret))
 						inv.setInventorySlotContents(i, ret);
 				}
 			}
@@ -231,10 +231,10 @@ public final class DropoffHandler {
 
 		public ItemStack insert(ItemStack stack, DropoffPredicate predicate) {
 			ItemStack ret = stack.copy();
-			for(Pair<IItemHandler, Double> pair : itemHandlers) {
+			for (Pair<IItemHandler, Double> pair : itemHandlers) {
 				IItemHandler handler = pair.getLeft();
 				ret = insertInHandler(handler, ret, predicate);
-				if(ret.isEmpty())
+				if (ret.isEmpty())
 					return ItemStack.EMPTY;
 			}
 
@@ -242,9 +242,9 @@ public final class DropoffHandler {
 		}
 
 		public ItemStack insertInHandler(IItemHandler handler, final ItemStack stack, DropoffPredicate predicate) {
-			if(predicate.apply(stack, handler)) {
+			if (predicate.apply(stack, handler)) {
 				ItemStack retStack = ItemHandlerHelper.insertItemStacked(handler, stack, false);
-				if(!retStack.isEmpty())
+				if (!retStack.isEmpty())
 					retStack = retStack.copy();
 				else 
 					return retStack;
@@ -268,16 +268,16 @@ public final class DropoffHandler {
 			IItemHandler inv = itemHandlers.get(0).getLeft();
 			IItemHandler playerInv = new PlayerInvWrapper(player.inventory);
 
-			for(int i = inv.getSlots() - 1; i >= 0; i--) {
+			for (int i = inv.getSlots() - 1; i >= 0; i--) {
 				ItemStack stackAt = inv.getStackInSlot(i);
 
-				if(!stackAt.isEmpty()) {
+				if (!stackAt.isEmpty()) {
 					ItemStack copy = stackAt.copy();
 					ItemStack ret = insertInHandler(playerInv, copy, predicate);
 					
-					if(!ItemStack.areItemStacksEqual(stackAt, ret)) {
+					if (!ItemStack.areItemStacksEqual(stackAt, ret)) {
 						inv.extractItem(i, stackAt.getMaxStackSize(), false);
-						if(!ret.isEmpty())
+						if (!ret.isEmpty())
 							inv.insertItem(i, ret, false);
 					}
 				}
@@ -294,7 +294,7 @@ public final class DropoffHandler {
 		@Nonnull
 		@Override
 		public ItemStack insertItem(int slot, @Nonnull ItemStack stack, boolean simulate) {
-			if(stack.isEmpty())
+			if (stack.isEmpty())
 				stack = stack.copy();
 
 			return super.insertItem(slot, stack, simulate);
@@ -325,7 +325,7 @@ public final class DropoffHandler {
 		}
 
 		public static IItemHandler provideWrapper(IInventory inv, Container container) {
-			if(hasProvider(inv))
+			if (hasProvider(inv))
 				return getProvider(inv).getDropoffItemHandler(() -> new ContainerWrapper(inv, container));
 			return new ContainerWrapper(inv, container);
 		}
@@ -339,7 +339,7 @@ public final class DropoffHandler {
 		@Override
 		public ItemStack insertItem(int slot, @Nonnull ItemStack stack, boolean simulate) {
 			Slot containerSlot = getSlot(slot);
-			if(containerSlot == null || !containerSlot.isItemValid(stack))
+			if (containerSlot == null || !containerSlot.isItemValid(stack))
 				return stack;
 			
 			return super.insertItem(slot, stack, simulate);

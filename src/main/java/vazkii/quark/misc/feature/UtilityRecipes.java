@@ -22,21 +22,21 @@ public class UtilityRecipes extends Feature {
 	
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
-		if(enableDispenser)
+		if (enableDispenser)
 			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(Blocks.DISPENSER), 
 					"ST ", "SDT", "ST ",
 					'S', "string",
 					'D', ProxyRegistry.newStack(Blocks.DROPPER),
 					'T', "stickWood");
 		
-		if(enableRepeater)
+		if (enableRepeater)
 			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(Items.REPEATER), 
 					"R R", "TRT", "SSS",
 					'S', "stone",
 					'T', "stickWood",
 					'R', "dustRedstone");
 		
-		if(enableMinecarts) {
+		if (enableMinecarts) {
 			addMinecartBlock(Blocks.CHEST, Items.CHEST_MINECART);
 			addMinecartBlock(Blocks.FURNACE, Items.FURNACE_MINECART);
 			addMinecartBlock(Blocks.HOPPER, Items.HOPPER_MINECART);

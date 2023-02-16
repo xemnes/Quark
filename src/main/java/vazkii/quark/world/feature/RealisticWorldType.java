@@ -47,10 +47,10 @@ public class RealisticWorldType extends Feature {
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void openGUI(InitGuiEvent.Pre event) {
-		if(makeRealisticDefault && event.getGui() instanceof GuiCreateWorld) {
+		if (makeRealisticDefault && event.getGui() instanceof GuiCreateWorld) {
 			GuiCreateWorld create = (GuiCreateWorld) event.getGui();
 			int index = create.selectedIndex;
-			if(index == WorldType.DEFAULT.getId())
+			if (index == WorldType.DEFAULT.getId())
 				create.selectedIndex = realistic.getId();
 		}
 	}

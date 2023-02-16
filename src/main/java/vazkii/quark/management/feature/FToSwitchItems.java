@@ -29,18 +29,18 @@ public class FToSwitchItems extends Feature {
 
 	@SubscribeEvent
 	public void keyboardEvent(GuiScreenEvent.KeyboardInputEvent.Post event) {
-		if(GameSettings.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindSwapHands) && event.getGui() instanceof GuiContainer) {
+		if (GameSettings.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindSwapHands) && event.getGui() instanceof GuiContainer) {
 			GuiContainer gui = (GuiContainer) event.getGui();
 			Slot slot = gui.getSlotUnderMouse();
-			if(slot != null) {
+			if (slot != null) {
 				IInventory inv = slot.inventory;
-				if(inv instanceof InventoryPlayer) {
+				if (inv instanceof InventoryPlayer) {
 					int index = slot.getSlotIndex();
 
-					if(Minecraft.getMinecraft().player.capabilities.isCreativeMode && index >= 36)
+					if (Minecraft.getMinecraft().player.capabilities.isCreativeMode && index >= 36)
 						index -= 36; // Creative mode messes with the indexes for some reason
 
-					if(index < ((InventoryPlayer) inv).mainInventory.size())
+					if (index < ((InventoryPlayer) inv).mainInventory.size())
 						NetworkHandler.INSTANCE.sendToServer(new MessageSwapItems(index));
 				}
 			}
@@ -48,7 +48,7 @@ public class FToSwitchItems extends Feature {
 	}
 
 	public static void switchItems(EntityPlayer player, int slot) {
-		if(!ModuleLoader.isFeatureEnabled(FToSwitchItems.class) || slot >= player.inventory.mainInventory.size())
+		if (!ModuleLoader.isFeatureEnabled(FToSwitchItems.class) || slot >= player.inventory.mainInventory.size())
 			return;
 
 		int offHandSlot = player.inventory.getSizeInventory() - 1;

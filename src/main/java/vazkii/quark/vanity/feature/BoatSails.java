@@ -103,34 +103,34 @@ public class BoatSails extends Feature {
 		Entity target = event.getTarget();
 		EntityPlayer player = event.getEntityPlayer();
 
-		if(canHaveBanner(target) && !target.getPassengers().contains(player)) {
+		if (canHaveBanner(target) && !target.getPassengers().contains(player)) {
 			ItemStack banner = getBanner(target);
-			if(!banner.isEmpty())
+			if (!banner.isEmpty())
 				return;
 
 			EnumHand hand = EnumHand.MAIN_HAND;
 			ItemStack stack = player.getHeldItemMainhand();
-			if(stack.isEmpty() || !(stack.getItem() instanceof ItemBanner)) {
+			if (stack.isEmpty() || !(stack.getItem() instanceof ItemBanner)) {
 				stack = player.getHeldItemOffhand();
 				hand = EnumHand.OFF_HAND;
 			}
 
-			if(!stack.isEmpty() && stack.getItem() instanceof ItemBanner) {
+			if (!stack.isEmpty() && stack.getItem() instanceof ItemBanner) {
 				ItemStack copyStack = stack.copy();
 				player.swingArm(hand);
 
 				setBanner(target, copyStack, !event.getWorld().isRemote);
 
-				if(!event.getWorld().isRemote) {
+				if (!event.getWorld().isRemote) {
 					event.getWorld().playSound(null, target.posX, target.posY, target.posZ, QuarkSounds.ENTITY_BOAT_ADD_ITEM, SoundCategory.PLAYERS, 1f, 1f);
 
 					event.setCanceled(true);
 					event.setCancellationResult(EnumActionResult.SUCCESS);
 
-					if(!player.capabilities.isCreativeMode) {
+					if (!player.capabilities.isCreativeMode) {
 						stack.shrink(1);
 
-						if(stack.getCount() <= 0)
+						if (stack.getCount() <= 0)
 							player.setHeldItem(hand, ItemStack.EMPTY);
 					}
 				}
@@ -155,11 +155,11 @@ public class BoatSails extends Feature {
 	}
 
 	public static void dropBoatBanner(EntityBoat boat) {
-		if(!ModuleLoader.isFeatureEnabled(BoatSails.class))
+		if (!ModuleLoader.isFeatureEnabled(BoatSails.class))
 			return;
 
 		ItemStack banner = getBanner(boat);
-		if(!banner.isEmpty()) {
+		if (!banner.isEmpty()) {
 			banner.setCount(1);
 			boat.entityDropItem(banner, 0F);
 		}

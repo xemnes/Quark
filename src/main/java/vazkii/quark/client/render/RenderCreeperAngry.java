@@ -39,7 +39,7 @@ public class RenderCreeperAngry extends RenderCreeper {
 
 	@Override
 	protected ResourceLocation getEntityTexture(EntityCreeper entity) {
-		if(entity.getCreeperState() == 1) {
+		if (entity.getCreeperState() == 1) {
 			float inverseRed = 1F - (entity.getCreeperFlashIntensity(0F) / 1.17F + 0.1F);
 			GL11.glColor3f(1F, inverseRed, inverseRed);
 		}

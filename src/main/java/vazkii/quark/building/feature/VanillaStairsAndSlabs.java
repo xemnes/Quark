@@ -42,7 +42,7 @@ public class VanillaStairsAndSlabs extends Feature {
 
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
-		if(!GlobalConfig.enableVariants)
+		if (!GlobalConfig.enableVariants)
 			return;
 		
 		add("stone", Blocks.STONE, 0, false, true, stone);
@@ -64,16 +64,16 @@ public class VanillaStairsAndSlabs extends Feature {
 
 	@SuppressWarnings("deprecation")
 	public void add(String name, Block block, int meta, boolean slab, boolean stairs, boolean doit) {
-		if(!doit)
+		if (!doit)
 			return;
 
 		IBlockState state = block.getStateFromMeta(meta);
 		String stairsName = name + "_stairs";
 		String slabName = name + "_slab";
 
-		if(stairs)
+		if (stairs)
 			BlockModStairs.initStairs(block, meta, new BlockQuarkStairs(stairsName, state));
-		if(slab)
+		if (slab)
 			BlockModSlab.initSlab(block, meta, new BlockVanillaSlab(slabName, state, false), new BlockVanillaSlab(slabName, state, true));
 	}
 

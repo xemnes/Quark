@@ -56,6 +56,7 @@ public class TotemOfHolding extends Feature {
 	public static Item soul_compass, totem_item;
 	
 	public static boolean darkSoulsMode, enableOnPK, destroyItems, anyoneCollect, enableSoulCompass, shouldBlacklistBeWhitelist, enableTotemItem;
+	public static float entityScale;
 
 	private static String[] tempBlacklist;
 	public static Set<Pair<Item, Integer>> holdingBlacklist;
@@ -77,11 +78,12 @@ public class TotemOfHolding extends Feature {
 				new String[0]);
 		tempSavingItem = loadPropString("Saving Item", "An item that must be in the player inventory for the totem to work. Set to 'none' to disable", "quark:totem_of_holding");
 		enableTotemItem = loadPropBool("Enable Totem of Holding Item", "", true);
+		entityScale = (float) loadPropDouble("Totem of Holding Entity Scale", "Displayed scale of the totem of holding entity", 1.0D);
 	}
 	
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
-		if(enableSoulCompass)
+		if (enableSoulCompass)
 			soul_compass = new ItemSoulCompass();
 
 		String totemName = "quark:totem_of_holding";
@@ -93,7 +95,7 @@ public class TotemOfHolding extends Feature {
 	
 	@Override
 	public void postPreInit() {
-		if(enableSoulCompass)
+		if (enableSoulCompass)
 			RecipeHandler.addShapelessOreDictRecipe(new ItemStack(soul_compass), 
 					(Wraiths.soul_bead == null ? new ItemStack(Blocks.SOUL_SAND) : new ItemStack(Wraiths.soul_bead)), 
 					new ItemStack(Items.COMPASS));
@@ -132,12 +134,12 @@ public class TotemOfHolding extends Feature {
 	public void onPlayerDrops(PlayerDropsEvent event) {
 		List<EntityItem> drops = event.getDrops();
 		
-		if(!event.isCanceled() && (enableOnPK || !(event.getSource().getTrueSource() instanceof EntityPlayer))) {
+		if (!event.isCanceled() && (enableOnPK || !(event.getSource().getTrueSource() instanceof EntityPlayer))) {
 			EntityPlayer player = event.getEntityPlayer();
 			NBTTagCompound data = player.getEntityData();
 			NBTTagCompound persistent = data.getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG);
 			
-			if(!drops.isEmpty()) {
+			if (!drops.isEmpty()) {
 				EntityTotemOfHolding totem = new EntityTotemOfHolding(player.world);
 				totem.setPosition(player.posX, Math.max(3, player.posY + 1), player.posZ);
 				totem.setOwner(player);
@@ -186,23 +188,23 @@ public class TotemOfHolding extends Feature {
 			persistent.setInteger(TAG_DEATH_Z, pos.getZ());
 			persistent.setInteger(TAG_DEATH_DIM, player.world.provider.getDimension());
 			
-			if(!data.hasKey(EntityPlayer.PERSISTED_NBT_TAG))
+			if (!data.hasKey(EntityPlayer.PERSISTED_NBT_TAG))
 				data.setTag(EntityPlayer.PERSISTED_NBT_TAG, persistent);
 		}
 	}
 	
 	public static String getTotemUUID(EntityPlayer player) {
 		NBTTagCompound cmp = player.getEntityData().getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG);
-		if(cmp.hasKey(TAG_LAST_TOTEM))
+		if (cmp.hasKey(TAG_LAST_TOTEM))
 			return cmp.getString(TAG_LAST_TOTEM);
 		
 		return "";
 	}
 	
 	public static BlockPos getPlayerDeathPosition(Entity e) {
-		if(e instanceof EntityPlayer) {
+		if (e instanceof EntityPlayer) {
 			NBTTagCompound cmp = e.getEntityData().getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG);
-			if(cmp.hasKey(TAG_LAST_TOTEM)) {
+			if (cmp.hasKey(TAG_LAST_TOTEM)) {
 				int x = cmp.getInteger(TAG_DEATH_X);
 				int z = cmp.getInteger(TAG_DEATH_Z);
 				int dim = cmp.getInteger(TAG_DEATH_DIM);

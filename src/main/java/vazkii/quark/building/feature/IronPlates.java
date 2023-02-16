@@ -38,7 +38,7 @@ public class IronPlates extends Feature {
 	public void preInit(FMLPreInitializationEvent event) {
 		iron_plate = new BlockIronPlate();
 
-		if(enableStairsAndSlabs) {
+		if (enableStairsAndSlabs) {
 			BlockModStairs.initStairs(iron_plate, 0, new BlockIronPlateStairs());
 			BlockModSlab.initSlab(iron_plate, 0, new BlockIronPlateSlab(false), new BlockIronPlateSlab(true));
 		}

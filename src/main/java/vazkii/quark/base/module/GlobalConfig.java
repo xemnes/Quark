@@ -66,14 +66,14 @@ public final class GlobalConfig {
 	}
 	
 	public static void changeConfig(String category, String key, String value, Property.Type type, boolean saveToFile) {
-		if(!enableConfigCommand)
+		if (!enableConfigCommand)
 			return;
 		
 		Configuration config = ModuleLoader.config;
 		
-		if(config.hasKey(category, key)) {
+		if (config.hasKey(category, key)) {
 			try {
-				switch(type) {
+				switch (type) {
 					case BOOLEAN:
 						boolean b = Boolean.parseBoolean(value);
 						config.get(category, key, false).setValue(b);
@@ -88,10 +88,10 @@ public final class GlobalConfig {
 				}
 			} catch(IllegalArgumentException ignored) {}
 			
-			if(config.hasChanged()) {
+			if (config.hasChanged()) {
 				ModuleLoader.forEachModule(Module::setupConfig);
 				
-				if(saveToFile)
+				if (saveToFile)
 					config.save();
 			}
 		}

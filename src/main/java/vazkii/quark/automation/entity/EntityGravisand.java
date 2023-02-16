@@ -49,7 +49,7 @@ public class EntityGravisand extends EntityFallingBlock {
 	public void onUpdate() {
 		Block block = fallTile.getBlock();
 
-		if(fallTile.getMaterial() == Material.AIR || posY > 300 || posY < -50) {
+		if (fallTile.getMaterial() == Material.AIR || posY > 300 || posY < -50) {
 			setDead();
 			return;
 		}
@@ -58,12 +58,12 @@ public class EntityGravisand extends EntityFallingBlock {
 		prevPosY = posY;
 		prevPosZ = posZ;
 
-		if(fallTime++ == 0) {
+		if (fallTime++ == 0) {
 			BlockPos blockpos = new BlockPos(this);
 
 			if (world.getBlockState(blockpos).getBlock() == block)
 				world.setBlockToAir(blockpos);
-			else if(!world.isRemote) {
+			else if (!world.isRemote) {
 				setDead();
 				return;
 			}
@@ -75,12 +75,12 @@ public class EntityGravisand extends EntityFallingBlock {
 
 		move(MoverType.SELF, motionX, motionY, motionZ);
 
-		if(!world.isRemote) {
+		if (!world.isRemote) {
 			float off = fallDirection < 0 ?  + 0.5F : 0F;
 			BlockPos fallTarget = new BlockPos(posX, posY + fallDirection + off, posZ);
 
 			
-			if(collidedVertically) {
+			if (collidedVertically) {
 				BlockPos pos = new BlockPos(this);
 				IBlockState iblockstate = world.getBlockState(pos);
 
@@ -88,7 +88,7 @@ public class EntityGravisand extends EntityFallingBlock {
 				motionZ *= 0.7;
 				motionY *= -0.5;
 
-				if(iblockstate.getBlock() != Blocks.PISTON_EXTENSION) {
+				if (iblockstate.getBlock() != Blocks.PISTON_EXTENSION) {
 					setDead();
 
 					// This is correct, the if has no block

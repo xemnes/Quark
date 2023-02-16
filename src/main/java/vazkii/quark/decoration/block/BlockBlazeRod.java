@@ -88,7 +88,7 @@ public class BlockBlazeRod extends BlockMod implements IQuarkBlock {
 	@Nonnull
 	@Override
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-		switch(state.getValue(FACING).getAxis()) {
+		switch (state.getValue(FACING).getAxis()) {
 		case X:
 			return BLAZE_ROD_EW_AABB;
 		case Z:
@@ -103,10 +103,10 @@ public class BlockBlazeRod extends BlockMod implements IQuarkBlock {
 	public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
 		IBlockState iblockstate = worldIn.getBlockState(pos.offset(facing.getOpposite()));
 
-		if(iblockstate.getBlock() == Blocks.END_ROD) {
+		if (iblockstate.getBlock() == Blocks.END_ROD) {
 			EnumFacing enumfacing = iblockstate.getValue(FACING);
 
-			if(enumfacing == facing)
+			if (enumfacing == facing)
 				return getDefaultState().withProperty(FACING, facing.getOpposite());
 		}
 

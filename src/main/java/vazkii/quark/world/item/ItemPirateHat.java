@@ -38,7 +38,7 @@ public class ItemPirateHat extends ItemModArmor implements IQuarkItem {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack, EntityEquipmentSlot armorSlot, ModelBiped _default) {
-		if(headModel == null)
+		if (headModel == null)
 			headModel = new ModelPirateHat();
 
 		return headModel;

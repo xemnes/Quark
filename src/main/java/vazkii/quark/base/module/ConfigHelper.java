@@ -92,7 +92,7 @@ public class ConfigHelper {
 	}
 
 	private static void setNeedsRestart(Property prop) {
-		if(needsRestart)
+		if (needsRestart)
 			prop.setRequiresMcRestart(true);
 		needsRestart = allNeedRestart;
 	}

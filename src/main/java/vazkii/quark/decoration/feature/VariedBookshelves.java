@@ -37,14 +37,14 @@ public class VariedBookshelves extends Feature {
 	
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
-		if(renameVanillaBookshelves)
+		if (renameVanillaBookshelves)
 			Blocks.BOOKSHELF.setTranslationKey("oak_bookshelf");
 		
 		custom_bookshelf = new BlockCustomBookshelf();
 		
 		RecipeProcessor.addWoodReplacements(Blocks.BOOKSHELF);
 		
-		for(int i = 0; i < 5; i++)
+		for (int i = 0; i < 5; i++)
 			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(custom_bookshelf, 1, i),
 					"WWW", "BBB", "WWW",
 					'W', ProxyRegistry.newStack(Blocks.PLANKS, 1, i + 1),

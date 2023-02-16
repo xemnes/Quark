@@ -73,18 +73,18 @@ public class ItemChestBlock extends ItemModBlock implements IExtraVariantHolder 
 		BlockCustomChest cChest = (BlockCustomChest) getBlock();
 		VariedChests.ChestType myType = cChest.getCustomType(stack);
 
-		if(world.getBlockState(posN).getBlock() == block && cChest.getCustomType(world, posN) == myType)
+		if (world.getBlockState(posN).getBlock() == block && cChest.getCustomType(world, posN) == myType)
 			typeCnt += cChest.isDoubleChest(world, posN, myType) ? 2 : 1;
-		if(world.getBlockState(posS).getBlock() == block && cChest.getCustomType(world, posS) == myType)
+		if (world.getBlockState(posS).getBlock() == block && cChest.getCustomType(world, posS) == myType)
 			typeCnt += cChest.isDoubleChest(world, posS, myType) ? 2 : 1;
-		if(world.getBlockState(posW).getBlock() == block && cChest.getCustomType(world, posW) == myType)
+		if (world.getBlockState(posW).getBlock() == block && cChest.getCustomType(world, posW) == myType)
 			typeCnt += cChest.isDoubleChest(world, posW, myType) ? 2 : 1;
-		if(world.getBlockState(posE).getBlock() == block && cChest.getCustomType(world, posE) == myType)
+		if (world.getBlockState(posE).getBlock() == block && cChest.getCustomType(world, posE) == myType)
 			typeCnt += cChest.isDoubleChest(world, posE, myType) ? 2 : 1;
 
-		if(typeCnt <= 1 && super.placeBlockAt(stack, player, world, pos, side, hitX, hitY, hitZ, newState)) {
+		if (typeCnt <= 1 && super.placeBlockAt(stack, player, world, pos, side, hitX, hitY, hitZ, newState)) {
 			TileEntity te = world.getTileEntity(pos);
-			if(te instanceof TileCustomChest) {
+			if (te instanceof TileCustomChest) {
 				((TileCustomChest) te).chestType = myType;
 				return true;
 			}
@@ -96,8 +96,8 @@ public class ItemChestBlock extends ItemModBlock implements IExtraVariantHolder 
 	@Override
 	public void getSubItems(@Nonnull CreativeTabs tab, @Nonnull NonNullList<ItemStack> subItems) {
 		BlockCustomChest chest = (BlockCustomChest) Block.getBlockFromItem(this);
-		if(isInCreativeTab(tab))
-			for(ChestType type : VariedChests.ChestType.VALID_TYPES)
+		if (isInCreativeTab(tab))
+			for (ChestType type : VariedChests.ChestType.VALID_TYPES)
 				subItems.add(chest.setCustomType(new ItemStack(this, 1), type));
 	}
 

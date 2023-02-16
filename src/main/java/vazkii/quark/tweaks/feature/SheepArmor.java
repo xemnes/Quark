@@ -32,7 +32,7 @@ public class SheepArmor extends Feature {
 
 	@SubscribeEvent
 	public void onUpdate(LivingUpdateEvent event) {
-		if(event.getEntityLiving() instanceof EntitySheep) {
+		if (event.getEntityLiving() instanceof EntitySheep) {
 			EntitySheep entity = (EntitySheep) event.getEntityLiving();
 			ModifiableAttributeInstance armorAttribute = (ModifiableAttributeInstance) entity.getEntityAttribute(SharedMonsterAttributes.ARMOR);
 			boolean hasModifier = armorAttribute.hasModifier(sheepArmor);

@@ -28,7 +28,7 @@ public class ItemRootFlower extends ItemQuarkFood {
 		if (worldIn.isRemote)
 			return;
 
-		switch(stack.getItemDamage()) {
+		switch (stack.getItemDamage()) {
 			case 0:
 				player.addPotionEffect(new PotionEffect(CaveRoots.blue_effect, 3600));
 				break;

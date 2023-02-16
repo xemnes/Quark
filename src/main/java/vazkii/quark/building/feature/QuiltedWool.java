@@ -17,7 +17,7 @@ public class QuiltedWool extends Feature {
 	public void preInit(FMLPreInitializationEvent event) {
 		quilted_wool = new BlockQuiltedWool();
 		
-		for(int i = 0; i < 16; i++)
+		for (int i = 0; i < 16; i++)
 			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(quilted_wool, 3, i), 
 					" S ", "WWW", " S ",
 					'S', ProxyRegistry.newStack(Items.STRING),

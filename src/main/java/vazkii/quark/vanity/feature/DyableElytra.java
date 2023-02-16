@@ -50,12 +50,12 @@ public class DyableElytra extends Feature {
 		Minecraft mc = Minecraft.getMinecraft();
 		RenderManager manager = mc.getRenderManager();
 		Map<String, RenderPlayer> renders = manager.getSkinMap();
-		for(RenderPlayer render : renders.values())
+		for (RenderPlayer render : renders.values())
 			messWithRender(render);
 
 		mc.getItemColors().registerItemColorHandler((stack, tintIndex) -> {
 			int color = ItemNBTHelper.getInt(stack, TAG_ELYTRA_DYE, -1);
-			if(color == -1 || color == 15)
+			if (color == -1 || color == 15)
 				return -1;
 
 			return ItemDye.DYE_COLORS[color];
@@ -67,7 +67,7 @@ public class DyableElytra extends Feature {
 		List<LayerRenderer<AbstractClientPlayer>> list = render.layerRenderers;
 		LayerRenderer<? extends EntityLivingBase> remove = null;
 		for (LayerRenderer<? extends EntityLivingBase> layer : list) {
-			if(layer instanceof LayerElytra) {
+			if (layer instanceof LayerElytra) {
 				remove = layer;
 				break;
             }
@@ -81,10 +81,10 @@ public class DyableElytra extends Feature {
 	@SideOnly(Side.CLIENT)
 	public void onTooltip(ItemTooltipEvent event) {
 		ItemStack stack = event.getItemStack();
-		if(!stack.isEmpty() && stack.getItem() == Items.ELYTRA) {
+		if (!stack.isEmpty() && stack.getItem() == Items.ELYTRA) {
 			int color = ItemNBTHelper.getInt(stack, TAG_ELYTRA_DYE, 15);
 			EnumDyeColor dye = EnumDyeColor.byDyeDamage(color);
-			if(dye != EnumDyeColor.WHITE)
+			if (dye != EnumDyeColor.WHITE)
 				event.getToolTip().add(I18n.format("quark.dyedElytra", I18n.format("quark.dye." + dye.getTranslationKey())));
 		}
 	}

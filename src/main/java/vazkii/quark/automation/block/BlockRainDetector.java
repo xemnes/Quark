@@ -63,18 +63,18 @@ public class BlockRainDetector extends BlockModContainer implements IQuarkBlock 
 			boolean raining = worldIn.isRaining();
 			worldIn.getCelestialAngleRadians(1.0F);
 
-			if(iblockstate.getValue(INVERTED))
+			if (iblockstate.getValue(INVERTED))
 				raining = !raining;
 
-			if(iblockstate.getValue(POWER) != raining)
+			if (iblockstate.getValue(POWER) != raining)
 				worldIn.setBlockState(pos, iblockstate.withProperty(POWER, raining), 3);
 		}
 	}
 
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-		if(playerIn.isAllowEdit()) {
-			if(worldIn.isRemote)
+		if (playerIn.isAllowEdit()) {
+			if (worldIn.isRemote)
 				return true;
 			else {
 				worldIn.setBlockState(pos, state.withProperty(INVERTED, !state.getValue(INVERTED)), 4);

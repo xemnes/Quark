@@ -29,7 +29,7 @@ public class RemoveSnowLayers extends Feature {
 
 	@SubscribeEvent
 	public void onPlayerRightClick(PlayerInteractEvent.RightClickBlock event) {
-		if(event.getFace() != EnumFacing.UP)
+		if (event.getFace() != EnumFacing.UP)
 			return;
 
 		World world = event.getWorld();
@@ -37,17 +37,17 @@ public class RemoveSnowLayers extends Feature {
 		EntityPlayer player = event.getEntityPlayer();
 
 		IBlockState state = world.getBlockState(pos);
-		if(state.getBlock() != Blocks.SNOW_LAYER && state.getBlock() != Blocks.SNOW)
+		if (state.getBlock() != Blocks.SNOW_LAYER && state.getBlock() != Blocks.SNOW)
 			return;
 
 		ItemStack stack = event.getEntityPlayer().getHeldItem(event.getHand());
 
-		if(!stack.isEmpty() && stack.getItem() instanceof ItemSpade) {
-			if(state.getBlock() == Blocks.SNOW)
+		if (!stack.isEmpty() && stack.getItem() instanceof ItemSpade) {
+			if (state.getBlock() == Blocks.SNOW)
 				world.setBlockState(pos, Blocks.SNOW_LAYER.getDefaultState().withProperty(BlockSnow.LAYERS, 7));
 			else {
 				int layers = state.getValue(BlockSnow.LAYERS);
-				if(layers == 1)
+				if (layers == 1)
 					world.setBlockToAir(pos);
 				else world.setBlockState(pos, state.withProperty(BlockSnow.LAYERS, layers - 1));
 			}

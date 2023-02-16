@@ -69,7 +69,7 @@ public class Pickarang extends Feature {
 	
 	@Override
 	public void postPreInit() {
-		if(Stonelings.diamond_heart != null && !neverUseHeartOfDiamond)
+		if (Stonelings.diamond_heart != null && !neverUseHeartOfDiamond)
 			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(pickarang), 
 					"DWC", "  W", "  D",
 					'D', "gemDiamond",

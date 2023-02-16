@@ -64,7 +64,7 @@ public class ColorRunes extends Feature {
 	public void preInit(FMLPreInitializationEvent event) {		
 		rune = new ItemRune(stackable);
 		
-		if(enableRainbowRuneCrafting) {
+		if (enableRainbowRuneCrafting) {
 			RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(rune, 7, 16), 
 					"345", "2G6", "1W7",
 					'G', ProxyRegistry.newStack(Blocks.GLASS),
@@ -83,13 +83,13 @@ public class ColorRunes extends Feature {
 	public void onLootTableLoad(LootTableLoadEvent event) {
 		LootFunction[] funcs = new LootFunction[] { new SetMetadata(new LootCondition[0], new RandomValueRange(0, enableRainbowRuneChests ? 16 : 15)) };
 
-		if(event.getName().equals(LootTableList.CHESTS_SIMPLE_DUNGEON))
+		if (event.getName().equals(LootTableList.CHESTS_SIMPLE_DUNGEON))
 			event.getTable().getPool("main").addEntry(new LootEntryItem(rune, dungeonWeight, itemQuality, funcs, new LootCondition[0], "quark:rune"));
-		else if(event.getName().equals(LootTableList.CHESTS_NETHER_BRIDGE))
+		else if (event.getName().equals(LootTableList.CHESTS_NETHER_BRIDGE))
 			event.getTable().getPool("main").addEntry(new LootEntryItem(rune, netherFortressWeight, itemQuality, funcs, new LootCondition[0], "quark:rune"));
-		else if(event.getName().equals(LootTableList.CHESTS_JUNGLE_TEMPLE))
+		else if (event.getName().equals(LootTableList.CHESTS_JUNGLE_TEMPLE))
 			event.getTable().getPool("main").addEntry(new LootEntryItem(rune, jungleTempleWeight, itemQuality, funcs, new LootCondition[0], "quark:rune"));
-		else if(event.getName().equals(LootTableList.CHESTS_DESERT_PYRAMID))
+		else if (event.getName().equals(LootTableList.CHESTS_DESERT_PYRAMID))
 			event.getTable().getPool("main").addEntry(new LootEntryItem(rune, desertTempleWeight, itemQuality, funcs, new LootCondition[0], "quark:rune"));
 	}
 
@@ -98,7 +98,7 @@ public class ColorRunes extends Feature {
 		ItemStack left = event.getLeft();
 		ItemStack right = event.getRight();
 
-		if(!left.isEmpty() && !right.isEmpty() && left.isItemEnchanted() && right.getItem() == rune) {
+		if (!left.isEmpty() && !right.isEmpty() && left.isItemEnchanted() && right.getItem() == rune) {
 			ItemStack out = left.copy();
 			ItemNBTHelper.setBoolean(out, TAG_RUNE_ATTACHED, true);
 			ItemNBTHelper.setInt(out, TAG_RUNE_COLOR, right.getItemDamage());
@@ -127,14 +127,14 @@ public class ColorRunes extends Feature {
 	}
 
 	public static int getColor(int original) {
-		if(!ModuleLoader.isFeatureEnabled(ColorRunes.class) || !doesStackHaveRune(targetStack) && !targetStack.isEmpty() && !(targetStack.getItem() instanceof ICustomEnchantColor))
+		if (!ModuleLoader.isFeatureEnabled(ColorRunes.class) || !doesStackHaveRune(targetStack) && !targetStack.isEmpty() && !(targetStack.getItem() instanceof ICustomEnchantColor))
 			return original;
 
 		return getColorFromStack(targetStack);
 	}
 
 	public static void applyColor() {
-		if(!ModuleLoader.isFeatureEnabled(ColorRunes.class) || !doesStackHaveRune(targetStack)) {
+		if (!ModuleLoader.isFeatureEnabled(ColorRunes.class) || !doesStackHaveRune(targetStack)) {
 			return;
 		}
 
@@ -147,7 +147,7 @@ public class ColorRunes extends Feature {
 	}
 
 	public static int getColorFromStack(ItemStack stack) {
-		if(stack.isEmpty())
+		if (stack.isEmpty())
 			return 0xFFFFFF;
 
 		int retColor = 0xFFFFFF;
@@ -163,7 +163,7 @@ public class ColorRunes extends Feature {
 			retColor = 0xFF000000 | color;
 		}
 
-		if(truncate) {
+		if (truncate) {
 			int r = retColor >> 16 & 0xFF;
 			int g = retColor >> 8 & 0xFF;
 			int b = retColor & 0xFF;

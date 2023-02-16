@@ -98,15 +98,15 @@ public class Biotite extends Feature {
 
 	@SubscribeEvent
 	public void onEntityTick(LivingUpdateEvent event) {
-		if(generateByDragon && event.getEntityLiving() instanceof EntityDragon && !event.getEntity().getEntityWorld().isRemote) {
+		if (generateByDragon && event.getEntityLiving() instanceof EntityDragon && !event.getEntity().getEntityWorld().isRemote) {
 			EntityDragon dragon = (EntityDragon) event.getEntity();
 
-			if(dragon.deathTicks > 0 && dragon.deathTicks % generationDelay == 0) {
+			if (dragon.deathTicks > 0 && dragon.deathTicks % generationDelay == 0) {
 				Random rand = dragon.getEntityWorld().rand;
 				BlockPos basePos = dragon.getPosition();
 				basePos = new BlockPos(basePos.getX() - 128, 0, basePos.getZ() -128);
 
-				for(int i = 0; i < clustersPerTick; i++) {
+				for (int i = 0; i < clustersPerTick; i++) {
 					BlockPos pos = basePos.add(rand.nextInt(256), rand.nextInt(64), rand.nextInt(256));
 					BiotiteGenerator.generator.generate(dragon.getEntityWorld(), rand, pos);
 				}

@@ -46,7 +46,7 @@ public class VariedDungeons extends Feature {
 
 	@SubscribeEvent
 	public void onDungeonSpawn(PopulateChunkEvent.Populate event) {
-		if(event.getType() != EventType.DUNGEON)
+		if (event.getType() != EventType.DUNGEON)
 			return;
 
 		if (!dimConfig.canSpawnHere(event.getWorld()))
@@ -59,13 +59,13 @@ public class VariedDungeons extends Feature {
 		World world = event.getWorld();
 		Random rand = event.getRand();
 
-		if(world instanceof WorldServer)
-			for(int k = 0; k < tries; k++) {
+		if (world instanceof WorldServer)
+			for (int k = 0; k < tries; k++) {
 				int x = rand.nextInt(16) + 8;
 				int y = rand.nextInt(256);
 				int z = rand.nextInt(16) + 8;
 				BlockPos generatePos = blockpos.add(x, y, z);
-				if(couldDungeonGenerate(world, rand, generatePos)) {
+				if (couldDungeonGenerate(world, rand, generatePos)) {
 					placeDungeonAt((WorldServer) world, rand, generatePos);
 					break;
 				}
@@ -84,20 +84,20 @@ public class VariedDungeons extends Feature {
 		int i2 = k1 + 1;
 		int j2 = 0;
 
-		for(int k2 = k; k2 <= l; ++k2) {
-			for(int l2 = i1; l2 <= j1; ++l2) {
-				for(int i3 = l1; i3 <= i2; ++i3) {
+		for (int k2 = k; k2 <= l; ++k2) {
+			for (int l2 = i1; l2 <= j1; ++l2) {
+				for (int i3 = l1; i3 <= i2; ++i3) {
 					BlockPos blockpos = position.add(k2, l2, i3);
 					Material material = worldIn.getBlockState(blockpos).getMaterial();
 					boolean flag = material.isSolid();
 
-					if(l2 == i1 && !flag)
+					if (l2 == i1 && !flag)
 						return false;
 
-					if(l2 == j1 && !flag)
+					if (l2 == j1 && !flag)
 						return false;
 
-					if((k2 == k || k2 == l || i3 == l1 || i3 == i2) && l2 == 0 && worldIn.isAirBlock(blockpos) && worldIn.isAirBlock(blockpos.up()))
+					if ((k2 == k || k2 == l || i3 == l1 || i3 == i2) && l2 == 0 && worldIn.isAirBlock(blockpos) && worldIn.isAirBlock(blockpos.up()))
 						++j2;
 				}
 			}
@@ -115,12 +115,12 @@ public class VariedDungeons extends Feature {
 		settings.setRotation(Rotation.values()[rand.nextInt(Rotation.values().length)]);
 
 		BlockPos size = template.getSize();
-		for(int x = 0; x < size.getX(); x++)
-			for(int y = 0; y < size.getY(); y++)
-				for(int z = 0; z < size.getZ(); z++) {
+		for (int x = 0; x < size.getX(); x++)
+			for (int y = 0; y < size.getY(); y++)
+				for (int z = 0; z < size.getZ(); z++) {
 					BlockPos checkPos = position.add(Template.transformedBlockPos(settings, new BlockPos(x, y, z)));
 					IBlockState checkState = world.getBlockState(checkPos);
-					if(checkState.getBlockHardness(world, checkPos) == -1 || world.canBlockSeeSky(checkPos))
+					if (checkState.getBlockHardness(world, checkPos) == -1 || world.canBlockSeeSky(checkPos))
 						return; // Obstructed or exposed, can't generate here
 				}
 
@@ -130,19 +130,19 @@ public class VariedDungeons extends Feature {
 		List<BlockPos> chests = new ArrayList<>();
 		Map<BlockPos, String> dataBlocks = template.getDataBlocks(position, settings);
 
-		for(Entry<BlockPos, String> entry : dataBlocks.entrySet()) {
+		for (Entry<BlockPos, String> entry : dataBlocks.entrySet()) {
 			BlockPos pos = entry.getKey();
 			String data = entry.getValue();
 
-			if(data.equals("spawner")) 
+			if (data.equals("spawner")) 
 			{
 				spawners++;
 				world.setBlockState(pos, Blocks.MOB_SPAWNER.getDefaultState(), 2);
 				TileEntity tile = world.getTileEntity(pos);
 
-				if(tile instanceof TileEntityMobSpawner) 
+				if (tile instanceof TileEntityMobSpawner) 
 				{
-					if(DungeonTweaksCompat.isLoaded) 
+					if (DungeonTweaksCompat.isLoaded) 
 					{
 						DungeonTweaksCompat.fireDungeonSpawn(tile, world, rand);
 					}
@@ -152,24 +152,24 @@ public class VariedDungeons extends Feature {
 					}
 				}
 			}
-			else if(data.equals("chest"))
+			else if (data.equals("chest"))
 				chests.add(pos);
 		}
 
 		int maxChests = spawners * 2 + rand.nextInt(spawners + 2);
-		while(chests.size() > maxChests) {
+		while (chests.size() > maxChests) {
 			int i = rand.nextInt(chests.size());
 			BlockPos chestPos = chests.get(i);
 			chests.remove(i);
 			world.setBlockToAir(chestPos);
 		}
 
-		for(BlockPos pos : chests) {
+		for (BlockPos pos : chests) {
 			world.setBlockState(pos, Blocks.CHEST.correctFacing(world, pos, Blocks.CHEST.getDefaultState()), 2);
 			TileEntity tile = world.getTileEntity(pos);
 
-			if(tile instanceof TileEntityChest) {
-				if(lootTable == null)
+			if (tile instanceof TileEntityChest) {
+				if (lootTable == null)
 					((TileEntityChest) tile).setLootTable(LootTableList.CHESTS_SIMPLE_DUNGEON, rand.nextLong());
 				else ((TileEntityChest) tile).setLootTable(lootTable, rand.nextLong());
 			}

@@ -36,7 +36,7 @@ public class TieFences extends Feature {
 	@SubscribeEvent
 	public void onRightClick(RightClickBlock event) {
 		World world = event.getWorld();
-		if(world.isRemote)
+		if (world.isRemote)
 			return;
 		
 		EntityPlayer player = event.getEntityPlayer();
@@ -44,9 +44,9 @@ public class TieFences extends Feature {
 		BlockPos pos = event.getPos();
 		IBlockState state = world.getBlockState(pos);
 		
-		if(stack.getItem() == Items.LEAD && state.getBlock() instanceof BlockFence) {
-			for(EntityLiving entityliving : world.getEntitiesWithinAABB(EntityLiving.class, new AxisAlignedBB(player.posX - 7, player.posY - 7, player.posZ - 7, player.posX + 7, player.posY + 7, player.posZ + 7))) {
-				if(entityliving.getLeashHolder() == player)
+		if (stack.getItem() == Items.LEAD && state.getBlock() instanceof BlockFence) {
+			for (EntityLiving entityliving : world.getEntitiesWithinAABB(EntityLiving.class, new AxisAlignedBB(player.posX - 7, player.posY - 7, player.posZ - 7, player.posX + 7, player.posY + 7, player.posZ + 7))) {
+				if (entityliving.getLeashHolder() == player)
 					return;
 			}
 
@@ -55,7 +55,7 @@ public class TieFences extends Feature {
 			world.spawnEntity(knot);
 			knot.setLeashHolder(player, true);
 
-			if(!player.isCreative())
+			if (!player.isCreative())
 				stack.shrink(1);
 			world.playSound(null, pos, SoundEvents.ENTITY_LEASHKNOT_PLACE, SoundCategory.BLOCKS, 1F, 1F);
 			event.setCanceled(true);

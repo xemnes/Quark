@@ -52,18 +52,18 @@ public class EntityFlatItemFrame extends EntityItemFrame implements IEntityAddit
 
 	@Override
 	public void dropItemOrSelf(Entity entityIn, boolean creative) {
-		if(!creative) {
+		if (!creative) {
 			super.dropItemOrSelf(entityIn, false);
 			return;
 		}
 
-		if(getEntityWorld().getGameRules().getBoolean("doEntityDrops")) {
+		if (getEntityWorld().getGameRules().getBoolean("doEntityDrops")) {
 			ItemStack itemstack = getDisplayedItem();
 
-			if(entityIn instanceof EntityPlayer) {
+			if (entityIn instanceof EntityPlayer) {
 				EntityPlayer entityplayer = (EntityPlayer)entityIn;
 
-				if(entityplayer.capabilities.isCreativeMode) {
+				if (entityplayer.capabilities.isCreativeMode) {
 					removeFrameFromMap(itemstack);
 					return;
 				}
@@ -71,7 +71,7 @@ public class EntityFlatItemFrame extends EntityItemFrame implements IEntityAddit
 
 			dropFrame();
 
-			if(!itemstack.isEmpty() && rand.nextFloat() < itemDropChance) {
+			if (!itemstack.isEmpty() && rand.nextFloat() < itemDropChance) {
 				itemstack = itemstack.copy();
 				removeFrameFromMap(itemstack);
 				entityDropItem(itemstack, 0.0F);
@@ -96,14 +96,14 @@ public class EntityFlatItemFrame extends EntityItemFrame implements IEntityAddit
 
 	@Override
 	public boolean onValidSurface() {
-		if(this.realFacingDirection.getAxis() == EnumFacing.Axis.Y) {
-			if(!this.world.getCollisionBoxes(this, this.getEntityBoundingBox()).isEmpty()) {
+		if (this.realFacingDirection.getAxis() == EnumFacing.Axis.Y) {
+			if (!this.world.getCollisionBoxes(this, this.getEntityBoundingBox()).isEmpty()) {
 				return false;
 			} else {
 				BlockPos blockpos = this.hangingPosition.offset(this.realFacingDirection.getOpposite());
 				IBlockState iblockstate = this.world.getBlockState(blockpos);
-				if(!iblockstate.isSideSolid(this.world, blockpos, this.realFacingDirection))
-					if(!iblockstate.getMaterial().isSolid() && !BlockRedstoneDiode.isDiode(iblockstate))
+				if (!iblockstate.isSideSolid(this.world, blockpos, this.realFacingDirection))
+					if (!iblockstate.getMaterial().isSolid() && !BlockRedstoneDiode.isDiode(iblockstate))
 						return false;
 
 				return this.world.getEntitiesInAABBexcluding(this, this.getEntityBoundingBox(), IS_HANGING_ENTITY::test).isEmpty();
@@ -125,10 +125,10 @@ public class EntityFlatItemFrame extends EntityItemFrame implements IEntityAddit
 
 	@Override
 	protected void updateBoundingBox() {
-		if(this.realFacingDirection == null)
+		if (this.realFacingDirection == null)
 			return;
 		
-		if(this.realFacingDirection.getAxis() == EnumFacing.Axis.Y) {
+		if (this.realFacingDirection.getAxis() == EnumFacing.Axis.Y) {
 			double d0 = this.hangingPosition.getX() + 0.5D;
 			double d1 = this.hangingPosition.getY() + 0.5D;
 			double d2 = this.hangingPosition.getZ() + 0.5D;
@@ -153,8 +153,8 @@ public class EntityFlatItemFrame extends EntityItemFrame implements IEntityAddit
 
 	@SuppressWarnings("ConstantConditions")
 	private void removeFrameFromMap(ItemStack stack) {
-		if(!stack.isEmpty()) {
-			if(stack.getItem() instanceof ItemMap) {
+		if (!stack.isEmpty()) {
+			if (stack.getItem() instanceof ItemMap) {
 				MapData mapdata = ((ItemMap) stack.getItem()).getMapData(stack, getEntityWorld());
 				if (mapdata != null)
 					mapdata.mapDecorations.remove("frame-" + getEntityId());
@@ -172,7 +172,7 @@ public class EntityFlatItemFrame extends EntityItemFrame implements IEntityAddit
 
 	@Override
 	public void readEntityFromNBT(NBTTagCompound compound) {
-		if(compound.hasKey(TAG_ITEM_DROP_CHANCE, 99)) {
+		if (compound.hasKey(TAG_ITEM_DROP_CHANCE, 99)) {
 			itemDropChance = compound.getFloat(TAG_ITEM_DROP_CHANCE);
 		}
 

@@ -24,7 +24,7 @@ public class BrokenPortalGenerator implements IWorldGenerator {
 	
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
-		if(!dims.canSpawnHere(world) || random.nextDouble() > BrokenNetherPortals.chance)
+		if (!dims.canSpawnHere(world) || random.nextDouble() > BrokenNetherPortals.chance)
 			return;
 		
 		int x = chunkX * 16 + 8 + random.nextInt(16);
@@ -32,13 +32,13 @@ public class BrokenPortalGenerator implements IWorldGenerator {
 		int y = random.nextInt(100) + 20;
 		
 		BlockPos pos = new BlockPos(x, y, z);
-		while(world.isAirBlock(pos)) {
+		while (world.isAirBlock(pos)) {
 			pos = pos.down();
 			
-			if(pos.getY() < 10)
+			if (pos.getY() < 10)
 				return;
 			
-			if(world.isBlockFullCube(pos)) {
+			if (world.isBlockFullCube(pos)) {
 				makeBrokenPortal(world, pos.up());
 				break;
 			}
@@ -48,19 +48,19 @@ public class BrokenPortalGenerator implements IWorldGenerator {
 	public static void makeBrokenPortal(World world, BlockPos pos) {
 		Rotation rot = Rotation.values()[world.rand.nextInt(Rotation.values().length)];
 		
-		for(int i = 0; i < 4; i++)
-			for(int j = 0; j < 5; j++) {
+		for (int i = 0; i < 4; i++)
+			for (int j = 0; j < 5; j++) {
 				int[] xz = RotationHandler.applyRotation(rot, i, 0);
 				BlockPos testPos = pos.add(xz[0], j, xz[1]);
 				
-				if(!world.isAirBlock(testPos))
+				if (!world.isAirBlock(testPos))
 					return;
 			}
 		
 		IBlockState obsidian = Blocks.OBSIDIAN.getDefaultState();
 		
 		// Place base
-		for(int i = 0; i < 4; i++) {
+		for (int i = 0; i < 4; i++) {
 			int[] xz = RotationHandler.applyRotation(rot, i, 0);
 			BlockPos placePos = pos.add(xz[0], 0, xz[1]);
 
@@ -71,7 +71,7 @@ public class BrokenPortalGenerator implements IWorldGenerator {
 		int count = 2 + world.rand.nextInt(3);
 		int placed = 4 + count;
 		
-		for(int i = 0; i < count; i++) {
+		for (int i = 0; i < count; i++) {
 			BlockPos placePos = pos.add(0, i + 1, 0);
 			
 			world.setBlockState(placePos, obsidian);
@@ -82,7 +82,7 @@ public class BrokenPortalGenerator implements IWorldGenerator {
 		placed += count;
 		
 		int[] xz = RotationHandler.applyRotation(rot, 3, 0);
-		for(int i = 0; i < count; i++) {
+		for (int i = 0; i < count; i++) {
 			BlockPos placePos = pos.add(xz[0], i + 1, xz[1]);
 			
 			world.setBlockState(placePos, obsidian);
@@ -93,13 +93,13 @@ public class BrokenPortalGenerator implements IWorldGenerator {
 		
 		int spread = 3;
 		xz = RotationHandler.applyRotation(rot, 1, 0);
-		for(int i = 0; i < missing; i++) {
-			for(int tries = 0; tries < 20; tries++) tryPlace: {
+		for (int i = 0; i < missing; i++) {
+			for (int tries = 0; tries < 20; tries++) tryPlace: {
 				BlockPos tryPos = pos.add(xz[0] + world.rand.nextInt(spread * 2) - spread, 3, xz[1] + world.rand.nextInt(spread * 2) - spread);
-				if(world.isAirBlock(tryPos)) {
-					while(world.isAirBlock(tryPos)) {
+				if (world.isAirBlock(tryPos)) {
+					while (world.isAirBlock(tryPos)) {
 						tryPos = tryPos.down();
-						if(tryPos.getY() < 2)
+						if (tryPos.getY() < 2)
 							break tryPlace;
 					}
 					

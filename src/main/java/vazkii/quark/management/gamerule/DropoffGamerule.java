@@ -23,13 +23,13 @@ public class DropoffGamerule {
 	@SubscribeEvent
 	public void worldLoad(WorldEvent.Load event) {
 		GameRules rules = event.getWorld().getGameRules();
-		if(!rules.hasRule(StoreToChests.GAME_RULE))
+		if (!rules.hasRule(StoreToChests.GAME_RULE))
 			rules.addGameRule(StoreToChests.GAME_RULE, "true", ValueType.BOOLEAN_VALUE);
 	}
 
 	@SubscribeEvent
 	public void login(PlayerLoggedInEvent event) {
-		if(!event.player.getEntityWorld().getGameRules().getBoolean(StoreToChests.GAME_RULE))
+		if (!event.player.getEntityWorld().getGameRules().getBoolean(StoreToChests.GAME_RULE))
 			DropoffHandler.disableClientDropoff(event.player);
 	}
 

@@ -30,7 +30,7 @@ public class PolishedNetherrack extends Feature {
 	public void preInit(FMLPreInitializationEvent event) {
 		polished_netherrack = new BlockPolishedNetherrack();
 
-		if(enableStairsAndSlabs) {
+		if (enableStairsAndSlabs) {
 			BlockModStairs.initStairs(polished_netherrack, 1, new BlockQuarkStairs("polished_netherrack_bricks_stairs",
 					PolishedNetherrack.polished_netherrack.getDefaultState().withProperty(PolishedNetherrack.polished_netherrack.getVariantProp(), BlockPolishedNetherrack.Variants.POLISHED_NETHERRACK_BRICKS)));
 			BlockBasicStoneSlab.initSlab(polished_netherrack, 1, "polished_netherrack_bricks_slab");

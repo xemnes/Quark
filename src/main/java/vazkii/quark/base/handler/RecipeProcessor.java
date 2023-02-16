@@ -35,7 +35,7 @@ public class RecipeProcessor {
 	}
 	
 	public static void addWoodReplacements(int size, Block... blocks) {
-		for(Block b : blocks)
+		for (Block b : blocks)
 			addReplacementFunction(stack -> stack.getItem() == Item.getItemFromBlock(b) ? size : 0);
 	}
 	
@@ -49,23 +49,23 @@ public class RecipeProcessor {
 	
 	public static void runConsumers() {
 		List<ResourceLocation> recipeList = new ArrayList<>(CraftingManager.REGISTRY.getKeys());
-		for(ResourceLocation res : recipeList) {
+		for (ResourceLocation res : recipeList) {
 			IRecipe recipe = CraftingManager.REGISTRY.getObject(res);
-			for(Consumer<IRecipe> consumer : recipeConsumers)
+			for (Consumer<IRecipe> consumer : recipeConsumers)
 				consumer.accept(recipe);
 		}
 	}
 	
 	private static void executeWoodReplacementsOverRecipe(IRecipe recipe) {
 		ItemStack out = recipe.getRecipeOutput();
-		if(recipe instanceof ShapedRecipes && !out.isEmpty()) {
+		if (recipe instanceof ShapedRecipes && !out.isEmpty()) {
 			int finalSize = compositeFunction.apply(out);
-			if(finalSize > 0) {
+			if (finalSize > 0) {
 				ShapedRecipes shaped = (ShapedRecipes) recipe;
 				NonNullList<Ingredient> ingredients = shaped.recipeItems;
-				for(int i = 0; i < ingredients.size(); i++) {
+				for (int i = 0; i < ingredients.size(); i++) {
 					Ingredient ingredient = ingredients.get(i);
-					if(ingredient.apply(ProxyRegistry.newStack(Blocks.PLANKS)))
+					if (ingredient.apply(ProxyRegistry.newStack(Blocks.PLANKS)))
 						ingredients.set(i, Ingredient.fromStacks(ProxyRegistry.newStack(Blocks.PLANKS, 1, 0)));
 				}
 				out.setCount(finalSize);

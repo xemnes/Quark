@@ -79,7 +79,7 @@ public final class ModuleLoader {
 		registerModule(QuarkClient.class);
 		registerModule(QuarkMisc.class);
 
-		if(Loader.isModLoaded("quarkoddities"))
+		if (Loader.isModLoaded("quarkoddities"))
 			registerModule(QuarkOddities.class);
 		
 		registerModule(QuarkExperimental.class);
@@ -140,7 +140,7 @@ public final class ModuleLoader {
 
 	public static void setupConfig(FMLPreInitializationEvent event) {
 		configFile = event.getSuggestedConfigurationFile();
-		if(!configFile.exists())
+		if (!configFile.exists())
 			firstLoad = true;
 		
 		config = new Configuration(configFile);
@@ -154,7 +154,7 @@ public final class ModuleLoader {
 
 		forEachModule(module -> {
 			module.enabled = true;
-			if(module.canBeDisabled()) {
+			if (module.canBeDisabled()) {
 				ConfigHelper.needsRestart = true;
 				module.enabled = ConfigHelper.loadPropBool(module.name, "_modules", module.getModuleDescription(), module.isEnabledByDefault());
 				module.prop = ConfigHelper.lastProp;
@@ -167,7 +167,7 @@ public final class ModuleLoader {
 
 		loadModuleConfigs();
 		
-		if(config.hasChanged())
+		if (config.hasChanged())
 			config.save();
 	}
 
@@ -194,7 +194,7 @@ public final class ModuleLoader {
 	}
 
 	private static void registerModule(Class<? extends Module> clazz) {
-		if(!moduleClasses.contains(clazz))
+		if (!moduleClasses.contains(clazz))
 			moduleClasses.add(clazz);
 	}
 
@@ -203,7 +203,7 @@ public final class ModuleLoader {
 
 		@SubscribeEvent
 		public static void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent eventArgs) {
-			if(eventArgs.getModID().equals(LibMisc.MOD_ID))
+			if (eventArgs.getModID().equals(LibMisc.MOD_ID))
 				loadConfig();
 		}
 		

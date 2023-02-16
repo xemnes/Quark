@@ -42,10 +42,10 @@ public class BarkBlocks extends Feature {
 	public void preInit(FMLPreInitializationEvent event) {
 		bark = new BlockBark();
 
-		for(int i = 0; i < 6; i++) {
+		for (int i = 0; i < 6; i++) {
 			ItemStack log = ProxyRegistry.newStack(i > 3 ? Blocks.LOG2 : Blocks.LOG, 1, i % 4);
 
-			if(!use2x2)
+			if (!use2x2)
 				RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(bark, 9, i),
 						"WWW", "WWW", "WWW",
 						'W', log);
@@ -55,12 +55,12 @@ public class BarkBlocks extends Feature {
 			RecipeHandler.addShapelessOreDictRecipe(log, ProxyRegistry.newStack(bark, 1, i));
 		}
 
-		for(BlockBark.Variants variant : BlockBark.Variants.values()) {
+		for (BlockBark.Variants variant : BlockBark.Variants.values()) {
 			bark.getDefaultState().withProperty(bark.getVariantProp(), variant);
 			String name = variant.getName();
 			VanillaWalls.add(name, bark, variant.ordinal(), enableWalls);
 			
-			if(enableStairsAndSlabs) {
+			if (enableStairsAndSlabs) {
 				BlockModStairs.initStairs(bark, variant.ordinal(), new BlockBarkStairs(variant));
 				BlockModSlab.initSlab(bark, variant.ordinal(), new BlockBarkSlab(variant, false), new BlockBarkSlab(variant, true));
 			}

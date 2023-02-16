@@ -18,17 +18,17 @@ public class UndergroundBiomeOvergrown extends BasicUndergroundBiome {
 
 	@Override
 	public void finalCeilingPass(World world, BlockPos pos) {
-		if(world.rand.nextDouble() < rootChance) {
+		if (world.rand.nextDouble() < rootChance) {
 			int count = 0;
-			for(int i = 0; i < 20; i++) {
+			for (int i = 0; i < 20; i++) {
 				BlockPos checkPos = pos.add(0, -i, 0);
-				if(isFloor(world, checkPos, world.getBlockState(checkPos))) {
+				if (isFloor(world, checkPos, world.getBlockState(checkPos))) {
 					count = i;
 					break;
 				}
 			}
 			
-			for(int i = 0; i <= count; i++) {
+			for (int i = 0; i <= count; i++) {
 				BlockPos placePos = pos.add(0, -i, 0);
 				world.setBlockState(placePos, Blocks.LOG.getDefaultState());
 			}
@@ -38,7 +38,7 @@ public class UndergroundBiomeOvergrown extends BasicUndergroundBiome {
 	
 	@Override
 	public void fillFloor(World world, BlockPos pos, IBlockState state) {
-		if(world.rand.nextDouble() < dirtChance)
+		if (world.rand.nextDouble() < dirtChance)
 			world.setBlockState(pos, Blocks.DIRT.getDefaultState().withProperty(BlockDirt.VARIANT, BlockDirt.DirtType.COARSE_DIRT));
 		else super.fillFloor(world, pos, state);
 	}

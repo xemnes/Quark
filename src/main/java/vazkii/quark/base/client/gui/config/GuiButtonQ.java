@@ -18,7 +18,7 @@ public class GuiButtonQ extends GuiButtonColor {
 	public void drawButton(@Nonnull Minecraft mc, int mouseX, int mouseY, float partialTicks) {
 		super.drawButton(mc, mouseX, mouseY, partialTicks);
 		
-		if(ContributorRewardHandler.localPatronTier > 0) {
+		if (ContributorRewardHandler.localPatronTier > 0) {
 			GlStateManager.color(1F, 1F, 1F);
 			int tier = Math.min(4, ContributorRewardHandler.localPatronTier);
 			int u = 256 - tier * 9;

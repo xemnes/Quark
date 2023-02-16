@@ -17,25 +17,25 @@ public class UndergroundBiomeLava extends BasicUndergroundBiome {
 	
 	@Override
 	public void fillCeiling(World world, BlockPos pos, IBlockState state) {
-		if(UndergroundBiomes.firestoneEnabled && world.rand.nextBoolean())
+		if (UndergroundBiomes.firestoneEnabled && world.rand.nextBoolean())
 			world.setBlockState(pos, UndergroundBiomes.firestoneState, 2);
 		else super.fillCeiling(world, pos, state);
 	}
 	
 	@Override
 	public void fillWall(World world, BlockPos pos, IBlockState state) {
-		if(UndergroundBiomes.firestoneEnabled)
+		if (UndergroundBiomes.firestoneEnabled)
 			world.setBlockState(pos, UndergroundBiomes.firestoneState, 2);
 		else super.fillWall(world, pos, state);
 	}
 	
 	@Override
 	public void fillFloor(World world, BlockPos pos, IBlockState state) {
-		if(!isBorder(world, pos) && world.rand.nextDouble() < lavaChance)
+		if (!isBorder(world, pos) && world.rand.nextDouble() < lavaChance)
 			world.setBlockState(pos, Blocks.LAVA.getDefaultState());
-		else if(world.rand.nextDouble() < obsidianChance)
+		else if (world.rand.nextDouble() < obsidianChance)
 			world.setBlockState(pos, Blocks.OBSIDIAN.getDefaultState(), 2);
-		else if(UndergroundBiomes.firestoneEnabled)
+		else if (UndergroundBiomes.firestoneEnabled)
 			world.setBlockState(pos, UndergroundBiomes.firestoneState, 2);
 		else super.fillFloor(world, pos, state);
 	}

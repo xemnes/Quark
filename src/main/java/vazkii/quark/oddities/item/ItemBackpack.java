@@ -2,65 +2,145 @@ package vazkii.quark.oddities.item;
 
 import static vazkii.quark.oddities.feature.Backpacks.backpack;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Nonnull;
+
+import com.google.common.base.Predicates;
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 
 import baubles.api.BaubleType;
 import baubles.api.BaublesApi;
 import baubles.api.IBauble;
 import baubles.api.cap.IBaublesItemHandler;
 import baubles.api.render.IRenderBauble;
+import net.minecraft.block.BlockDispenser;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelPlayer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.dispenser.BehaviorDefaultDispenseItem;
+import net.minecraft.dispenser.IBehaviorDispenseItem;
+import net.minecraft.dispenser.IBlockSource;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Enchantments;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.EnumRarity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.EntitySelectors;
 import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IRarity;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import vazkii.arl.interf.IItemColorProvider;
+import vazkii.arl.item.ItemModArmor;
 import vazkii.arl.util.ItemNBTHelper;
-import vazkii.arl.util.ProxyRegistry;
 import vazkii.quark.base.handler.ProxiedItemStackHandler;
 import vazkii.quark.base.item.IQuarkItem;
 import vazkii.quark.base.lib.LibMisc;
 import vazkii.quark.oddities.client.model.ModelBackpack;
 import vazkii.quark.oddities.feature.Backpacks;
 
-public class ItemBackpack extends Item implements IBauble, IQuarkItem, IItemColorProvider, IRenderBauble {
+@Optional.InterfaceList(value = {
+	@Optional.Interface(iface = "baubles.api.IBauble", modid = "baubles", striprefs = true),
+	@Optional.Interface(iface = "baubles.api.render.IRenderBauble", modid = "baubles", striprefs = true)
+})
+public class ItemBackpack extends ItemModArmor implements IBauble, IQuarkItem, IItemColorProvider, IRenderBauble {
 	private static final String WORN_TEXTURE = LibMisc.PREFIX_MOD + "textures/misc/backpack_worn.png";
 	private static final String WORN_OVERLAY_TEXTURE = LibMisc.PREFIX_MOD + "textures/misc/backpack_worn_overlay.png";
 	
 	private static final ResourceLocation WORN_TEXTURE_RL = new ResourceLocation(WORN_TEXTURE);
 	private static final ResourceLocation WORN_OVERLAY_TEXTURE_RL = new ResourceLocation(WORN_OVERLAY_TEXTURE);
-	
-	public static String bareName = "backpack";
+
+	public static final IBehaviorDispenseItem DISPENSER_BEHAVIOR = new BehaviorDefaultDispenseItem() {
+		/**
+		 * Dispense the specified stack, play the dispense sound and spawn particles.
+		 */
+		protected ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
+			ItemStack itemstack = ItemBackpack.dispenseBackpack(source, stack);
+			return itemstack.isEmpty() ? super.dispenseStack(source, stack) : itemstack;
+		}
+	};
 	
 	public static ModelBackpack model;
 	
 	public ItemBackpack() {
-		setTranslationKey(bareName);
+		super("backpack", ArmorMaterial.LEATHER, 0, EntityEquipmentSlot.CHEST);
 		setCreativeTab(CreativeTabs.TOOLS);
 		setMaxDamage(0);
 		
 		addPropertyOverride(new ResourceLocation("has_items"), (stack, world, entity) -> (!Backpacks.superOpMode && doesBackpackHaveItems(stack)) ? 1 : 0);
+		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(this, DISPENSER_BEHAVIOR);
+	}
+
+	public static ItemStack dispenseBackpack(IBlockSource blockSource, ItemStack stack) {
+		BlockPos blockpos = blockSource.getBlockPos()
+				.offset((EnumFacing) blockSource.getBlockState().getValue(BlockDispenser.FACING));
+		List<EntityLivingBase> list = blockSource.getWorld().<EntityLivingBase>getEntitiesWithinAABB(
+				EntityLivingBase.class, new AxisAlignedBB(blockpos),
+				Predicates.and(EntitySelectors.NOT_SPECTATING, new EntitySelectors.ArmoredMob(stack)));
+
+		if (list.isEmpty()) {
+			return ItemStack.EMPTY;
+		} else {
+			EntityLivingBase entitylivingbase = list.get(0);
+
+			if (entitylivingbase instanceof EntityPlayer && Loader.isModLoaded("baubles")) {
+				EntityPlayer player = (EntityPlayer) entitylivingbase;
+				IBaublesItemHandler baubles = BaublesApi.getBaublesHandler(player);
+				for (int i = 0; i < baubles.getSlots(); i++) {
+					if ((baubles.getStackInSlot(i) == null || baubles.getStackInSlot(i).isEmpty())
+							&& baubles.isItemValidForSlot(i, stack, player)) {
+						ItemStack splitstack = stack.splitStack(1);
+						baubles.setStackInSlot(i, splitstack);
+						if (splitstack.getItem() instanceof IBauble)
+							((IBauble) splitstack.getItem()).onEquipped(splitstack, player);
+						return stack;
+					} else if (baubles.getStackInSlot(i) != null) {
+						// If we are already wearing a backpack, don't put on another
+						if (baubles.getStackInSlot(i).getItem() instanceof ItemBackpack) {
+							return stack;
+						}
+					}
+				}
+			}
+
+			EntityEquipmentSlot entityequipmentslot = EntityLiving.getSlotForItemStack(stack);
+			ItemStack itemstack = stack.splitStack(1);
+			entitylivingbase.setItemStackToSlot(entityequipmentslot, itemstack);
+
+			if (entitylivingbase instanceof EntityLiving) {
+				((EntityLiving) entitylivingbase).setDropChance(entityequipmentslot, 2.0F);
+			}
+
+			return stack;
+		}
 	}
 	
 	public static boolean doesBackpackHaveItems(ItemStack stack) {
@@ -72,28 +152,45 @@ public class ItemBackpack extends Item implements IBauble, IQuarkItem, IItemColo
 		return false;
 	}
 	
-//	@Nonnull
-//	@Override
-//	public Multimap<String, AttributeModifier> getItemAttributeModifiers(@Nonnull EntityEquipmentSlot equipmentSlot) {
-//		return HashMultimap.create();
-//	}
+	@Nonnull
+	@Override
+	public Multimap<String, AttributeModifier> getItemAttributeModifiers(@Nonnull EntityEquipmentSlot equipmentSlot) {
+		return HashMultimap.create();
+	}
 
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+		ItemStack stack = player.getHeldItem(hand);
 		if (!world.isRemote) {
-			IBaublesItemHandler baubles = BaublesApi.getBaublesHandler(player);
-			for (int i = 0; i < baubles.getSlots(); i++)
-				if ((baubles.getStackInSlot(i) == null || baubles.getStackInSlot(i).isEmpty())
-						&& baubles.isItemValidForSlot(i, player.getHeldItem(hand), player)) {
-					baubles.setStackInSlot(i, player.getHeldItem(hand).copy());
-					if (!player.capabilities.isCreativeMode) {
-						player.inventory.setInventorySlotContents(player.inventory.currentItem, ItemStack.EMPTY);
+			if (Loader.isModLoaded("baubles")) {
+				IBaublesItemHandler baubles = BaublesApi.getBaublesHandler(player);
+				for (int i = 0; i < baubles.getSlots(); i++) {
+					if ((baubles.getStackInSlot(i) == null || baubles.getStackInSlot(i).isEmpty())
+							&& baubles.isItemValidForSlot(i, stack, player)) {
+						baubles.setStackInSlot(i, stack.copy());
+						if (!player.capabilities.isCreativeMode) {
+							player.inventory.setInventorySlotContents(player.inventory.currentItem, ItemStack.EMPTY);
+						}
+						onEquipped(stack, player);
+						
+						return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, stack);
 					}
-					onEquipped(player.getHeldItem(hand), player);
-					break;
 				}
+				return new ActionResult<ItemStack>(EnumActionResult.FAIL, stack);
+			} else {
+				EntityEquipmentSlot entityequipmentslot = EntityLiving.getSlotForItemStack(stack);
+				ItemStack stackInSlot = player.getItemStackFromSlot(entityequipmentslot);
+
+				if (stackInSlot.isEmpty()) {
+					player.setItemStackToSlot(entityequipmentslot, stack.copy());
+					stack.setCount(stack.getCount()-1);
+					return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, stack);
+				} else {
+					return new ActionResult<ItemStack>(EnumActionResult.FAIL, stack);
+				}
+			}
 		}
-		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, player.getHeldItem(hand));
+		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, stack);
 	}
 	
 	@Override
@@ -102,11 +199,28 @@ public class ItemBackpack extends Item implements IBauble, IQuarkItem, IItemColo
 		
 		boolean hasItems = !Backpacks.superOpMode && doesBackpackHaveItems(stack);
 		
-		if (hasItems && !Backpacks.isEntityWearingBackpack(entityIn, stack)) {
-			ItemStack copy = stack.copy();
-			stack.setCount(0);
-			entityIn.entityDropItem(copy, 0);
+		Map<Enchantment, Integer> enchants = EnchantmentHelper.getEnchantments(stack);
+		boolean isCursed = enchants.containsKey(Enchantments.BINDING_CURSE);
+		boolean changedEnchants = false;
+
+		if (hasItems) {
+			if (Backpacks.isEntityWearingBackpack(entityIn, stack)) {
+				if (!isCursed) {
+					enchants.put(Enchantments.BINDING_CURSE, 1);
+					changedEnchants = true;
+				}
+			} else {
+				ItemStack copy = stack.copy();
+				stack.setCount(0);
+				entityIn.entityDropItem(copy, 0);
+			}
+		} else if (isCursed) {
+			enchants.remove(Enchantments.BINDING_CURSE);
+			changedEnchants = true;
 		}
+
+		if (changedEnchants)
+			EnchantmentHelper.setEnchantments(enchants, stack);
 	}
 	
 	@Override
@@ -133,6 +247,21 @@ public class ItemBackpack extends Item implements IBauble, IQuarkItem, IItemColo
 		if (comp.getSize() == 0) stack.setTagCompound(null);
 		
 		return false;
+	}
+
+	@Override
+	public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type) {
+		return (type != null && type.equals("overlay")) ? WORN_OVERLAY_TEXTURE : WORN_TEXTURE;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack, 
+			EntityEquipmentSlot armorSlot, ModelBiped _default) {
+		if (model == null)
+			model = new ModelBackpack();
+
+		return model;
 	}
 	
 	@Override
@@ -177,16 +306,19 @@ public class ItemBackpack extends Item implements IBauble, IQuarkItem, IItemColo
 	}
 	
 	@Override
+	@Optional.Method(modid = "baubles")
 	public BaubleType getBaubleType(ItemStack itemStack) {
 		return BaubleType.BODY;
 	}
 	
 	@Override
+	@Optional.Method(modid = "baubles")
 	public boolean canEquip(ItemStack itemstack, EntityLivingBase player) {
 		return !Backpacks.isEntityWearingBackpack(player, itemstack);
 	}
 	
 	@Override
+	@Optional.Method(modid = "baubles")
 	public boolean canUnequip(ItemStack itemstack, EntityLivingBase player) {
 		return Backpacks.superOpMode || !doesBackpackHaveItems(itemstack);
 	}
@@ -231,6 +363,7 @@ public class ItemBackpack extends Item implements IBauble, IQuarkItem, IItemColo
 	
 	@Override
 	@SideOnly(Side.CLIENT)
+	@Optional.Method(modid = "baubles")
 	public void onPlayerBaubleRender(ItemStack itemStack, EntityPlayer player, RenderType renderType, float v) {
 		if (!player.world.isRemote) return;
 
@@ -290,28 +423,18 @@ public class ItemBackpack extends Item implements IBauble, IQuarkItem, IItemColo
 		
 		return prevYawOffset + partialTicks * f;
 	}
-	
-	@Nonnull
+
 	@Override
-	public Item setTranslationKey(@Nonnull String name) {
-		super.setTranslationKey(name);
-		setRegistryName(new ResourceLocation(getPrefix() + name));
-		ProxyRegistry.register(this);
-		
-		return this;
+	public EntityEquipmentSlot getEquipmentSlot() {
+		return Loader.isModLoaded("baubles") ? null : EntityEquipmentSlot.CHEST;
 	}
-	
-	@Nonnull
+
 	@Override
-	public String getTranslationKey(ItemStack par1ItemStack) {
-		par1ItemStack.getItemDamage();
-		
-		return "item." + getPrefix() + bareName;
+	public boolean isValidArmor(ItemStack stack, EntityEquipmentSlot armorType, Entity entity) {
+		if (stack.getItem() instanceof ItemBackpack && entity instanceof EntityPlayer) {
+			if (Loader.isModLoaded("baubles"))
+				return false;
+		}
+		return super.isValidArmor(stack, armorType, entity);
 	}
-	
-	@Override
-	public String[] getVariants() {
-		return new String[] {bareName};
-	}
-	
 }

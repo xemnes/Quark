@@ -64,7 +64,7 @@ public class ModelStoneling extends ModelBase {
 		
 		EntityStoneling stoneling = (EntityStoneling) entityIn;
 		ItemStack carry = stoneling.getCarryingItem();
-		if(carry.isEmpty() && !stoneling.isBeingRidden()) {
+		if (carry.isEmpty() && !stoneling.isBeingRidden()) {
 			arm_right.rotateAngleX = 0F;
 			arm_left.rotateAngleX = 0F;
 		} else {

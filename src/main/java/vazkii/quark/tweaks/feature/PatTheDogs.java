@@ -46,13 +46,13 @@ public class PatTheDogs extends Feature {
 
 	@SubscribeEvent
 	public void onInteract(PlayerInteractEvent.EntityInteract event) {
-		if(event.getTarget() instanceof EntityWolf) {
+		if (event.getTarget() instanceof EntityWolf) {
 			EntityWolf wolf = (EntityWolf) event.getTarget();
 			EntityPlayer player = event.getEntityPlayer();
 			
-			if(player.isSneaking() && player.getHeldItemMainhand().isEmpty() && wolf.isTamed()) {
-				if(event.getHand() == EnumHand.MAIN_HAND) {
-					if(player.world instanceof WorldServer) {
+			if (player.isSneaking() && player.getHeldItemMainhand().isEmpty() && wolf.isTamed()) {
+				if (event.getHand() == EnumHand.MAIN_HAND) {
+					if (player.world instanceof WorldServer) {
 						((WorldServer) player.world).spawnParticle(EnumParticleTypes.HEART, wolf.posX, wolf.posY + 0.5, wolf.posZ, 1, 0, 0, 0, 0.1);
 						wolf.playSound(SoundEvents.ENTITY_WOLF_WHINE, 1F, 0.5F + (float) Math.random() * 0.5F);
 					} else player.swingArm(EnumHand.MAIN_HAND);
@@ -70,7 +70,7 @@ public class PatTheDogs extends Feature {
 
 	@SubscribeEvent
 	public void onTame(AnimalTameEvent event) {
-		if(event.getAnimal() instanceof EntityWolf) {
+		if (event.getAnimal() instanceof EntityWolf) {
 			EntityWolf wolf = (EntityWolf) event.getAnimal();
 			EntityAIWantLove.setPetTime(wolf);
 		}

@@ -22,25 +22,25 @@ public class BasicUndergroundBiome extends UndergroundBiome {
 	
 	@Override
 	public void fillFloor(World world, BlockPos pos, IBlockState state) {
-		if(floorState != null)
+		if (floorState != null)
 			world.setBlockState(pos, floorState, 2);
 	}
 
 	@Override
 	public void fillCeiling(World world, BlockPos pos, IBlockState state) {	
-		if(ceilingState != null)
+		if (ceilingState != null)
 			world.setBlockState(pos, ceilingState, 2);
 	}
 
 	@Override
 	public void fillWall(World world, BlockPos pos, IBlockState state) {
-		if(wallState != null)
+		if (wallState != null)
 			world.setBlockState(pos, wallState, 2);
 	}
 
 	@Override
 	public void fillInside(World world, BlockPos pos, IBlockState state) {
-		if(mimicInside)
+		if (mimicInside)
 			fillWall(world, pos, state);
 	}
 

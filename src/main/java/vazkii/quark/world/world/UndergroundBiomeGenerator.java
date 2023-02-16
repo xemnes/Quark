@@ -43,7 +43,7 @@ public class UndergroundBiomeGenerator extends MultiChunkFeatureGenerator {
 
 	@Override
 	public BlockPos[] getSourcesInChunk(Random random, int chunkX, int chunkZ) {
-		if(info.rarity > 0 && random.nextInt(info.rarity) == 0) {
+		if (info.rarity > 0 && random.nextInt(info.rarity) == 0) {
 			return new BlockPos[] {
 				new BlockPos(chunkX * 16 + random.nextInt(16), info.minY + random.nextInt(info.maxY - info.minY), chunkZ * 16 + random.nextInt(16))
 			};
@@ -84,7 +84,7 @@ public class UndergroundBiomeGenerator extends MultiChunkFeatureGenerator {
 			double distZ = z * z;
 			boolean inside = distX / radiusX2 + distY / radiusY2 + distZ / radiusZ2 <= 1;
 			
-			if(inside)
+			if (inside)
 				info.biome.fill(world, center.add(x, y, z), context);
 		});
 
@@ -93,7 +93,7 @@ public class UndergroundBiomeGenerator extends MultiChunkFeatureGenerator {
 		context.wallMap.keySet().forEach(pos -> info.biome.finalWallPass(world, pos));
 		context.insideList.forEach(pos -> info.biome.finalInsidePass(world, pos));
 		
-		if(info.biome.hasDungeon() && world instanceof WorldServer && random.nextDouble() < info.biome.dungeonChance) {
+		if (info.biome.hasDungeon() && world instanceof WorldServer && random.nextDouble() < info.biome.dungeonChance) {
 			List<BlockPos> candidates = new ArrayList<>(context.wallMap.keySet());
 			candidates.removeIf(pos -> {
 				BlockPos down = pos.down();
@@ -101,11 +101,11 @@ public class UndergroundBiomeGenerator extends MultiChunkFeatureGenerator {
 				return info.biome.isWall(world, down, state) || state.getBlock().isAir(state, world, down);
 			});
 			
-			if(!candidates.isEmpty()) {
+			if (!candidates.isEmpty()) {
 				BlockPos pos = candidates.get(world.rand.nextInt(candidates.size()));
 				
 				EnumFacing border = context.wallMap.get(pos);
-				if(border != null)
+				if (border != null)
 					info.biome.spawnDungeon((WorldServer) world, pos, border);
 			}
 		}

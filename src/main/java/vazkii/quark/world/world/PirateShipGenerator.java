@@ -54,7 +54,7 @@ public class PirateShipGenerator implements IWorldGenerator {
 	
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
-		if(!(world instanceof WorldServer) || !dims.canSpawnHere(world))
+		if (!(world instanceof WorldServer) || !dims.canSpawnHere(world))
 			return;
 		WorldServer sWorld = (WorldServer) world;
 
@@ -63,11 +63,11 @@ public class PirateShipGenerator implements IWorldGenerator {
 
 		BlockPos xzPos = new BlockPos(x, 1, z);
 		Biome biome = world.getBiomeForCoordsBody(xzPos);
-		if(biome == Biomes.OCEAN || biome == Biomes.DEEP_OCEAN) {
-			if(random.nextInt(PirateShips.rarity) == 0) {
+		if (biome == Biomes.OCEAN || biome == Biomes.DEEP_OCEAN) {
+			if (random.nextInt(PirateShips.rarity) == 0) {
 				BlockPos pos = getTopLiquidBlock(world, new BlockPos(x, 0, z));
 				IBlockState state = world.getBlockState(pos.down());
-				if(state.getBlock() != Blocks.WATER)
+				if (state.getBlock() != Blocks.WATER)
 					return;
 				
 				pos = new BlockPos(pos.getX(), pos.getY() - 3, pos.getZ());
@@ -83,27 +83,27 @@ public class PirateShipGenerator implements IWorldGenerator {
 		settings.setRotation(Rotation.values()[random.nextInt(Rotation.values().length)]);
 		
 		BlockPos size = template.getSize();
-		for(int x = 0; x < size.getX(); x++)
-			for(int y = 0; y < size.getY(); y++)
-				for(int z = 0; z < size.getZ(); z++) {
+		for (int x = 0; x < size.getX(); x++)
+			for (int y = 0; y < size.getY(); y++)
+				for (int z = 0; z < size.getZ(); z++) {
 					BlockPos checkPos = pos.add(Template.transformedBlockPos(settings, new BlockPos(x, y, z)));
 					IBlockState checkState = world.getBlockState(checkPos);
-					if(!checkState.getBlock().isAir(checkState, world, checkPos) && checkState.getBlock() != Blocks.WATER)
+					if (!checkState.getBlock().isAir(checkState, world, checkPos) && checkState.getBlock() != Blocks.WATER)
 						return; // Obstructed, can't generate here
 				}
 		
 		template.addBlocksToWorld(world, pos, settings);
 
 		Map<BlockPos, String> dataBlocks = template.getDataBlocks(pos, settings);
-		for(Entry<BlockPos, String> entry : dataBlocks.entrySet()) {
+		for (Entry<BlockPos, String> entry : dataBlocks.entrySet()) {
 			String[] tokens = entry.getValue().split(" ");
-			if(tokens.length == 0)
+			if (tokens.length == 0)
 				return;
 
 			BlockPos dataPos = entry.getKey();
 			EntityPirate pirate;
 
-			switch(tokens[0]) {
+			switch (tokens[0]) {
 			case "captain_pirate":
 				pirate = new EntityPirate(world);
 				pirate.setPosition(dataPos.getX() + 0.5, dataPos.getY(), dataPos.getZ() + 0.5);
@@ -140,7 +140,7 @@ public class PirateShipGenerator implements IWorldGenerator {
 			case "booty":
 				float chance = tokens.length == 3 ? 1F : 0.75F;
 
-				if(random.nextFloat() > chance) {
+				if (random.nextFloat() > chance) {
 					world.setBlockState(dataPos, Blocks.AIR.getDefaultState());
 					break;
 				}
@@ -154,7 +154,7 @@ public class PirateShipGenerator implements IWorldGenerator {
 				world.setBlockState(dataPos, chestState);
 
 				TileEntity tile = world.getTileEntity(dataPos);
-				if(tile instanceof TileEntityLockableLoot)
+				if (tile instanceof TileEntityLockableLoot)
 					((TileEntityLockableLoot) tile).setLootTable(PirateShips.PIRATE_CHEST_LOOT_TABLE, random.nextLong());
 				break;
 			case "cannon":
@@ -167,7 +167,7 @@ public class PirateShipGenerator implements IWorldGenerator {
 				world.setBlockState(dataPos, dispenserState);
 
 				TileEntityDispenser dispenser = (TileEntityDispenser) world.getTileEntity(dataPos);
-				if(dispenser != null)
+				if (dispenser != null)
 					dispenser.setInventorySlotContents(random.nextInt(9), new ItemStack(Items.FIRE_CHARGE, 2 + random.nextInt(4)));
 				break;
 			}
@@ -179,11 +179,11 @@ public class PirateShipGenerator implements IWorldGenerator {
 		BlockPos checkPos;
 		BlockPos nextPos;
 
-		for(checkPos = new BlockPos(pos.getX(), chunk.getTopFilledSegment() + 16, pos.getZ()); checkPos.getY() >= 0; checkPos = nextPos) {
+		for (checkPos = new BlockPos(pos.getX(), chunk.getTopFilledSegment() + 16, pos.getZ()); checkPos.getY() >= 0; checkPos = nextPos) {
 			nextPos = checkPos.down();
 			IBlockState state = chunk.getBlockState(nextPos);
 
-			if(state.getBlock() instanceof BlockLiquid)
+			if (state.getBlock() instanceof BlockLiquid)
 				break;
 		}
 

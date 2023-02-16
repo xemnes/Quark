@@ -53,15 +53,15 @@ public class WitchHat extends Feature {
 
 	@SubscribeEvent
 	public void onDrops(LivingDropsEvent event) {
-		if(event.getEntityLiving() instanceof EntityWitch && (!verifyTruePlayer || event.getSource().getTrueSource() instanceof EntityPlayer) && Math.random() < dropRate + lootingBoost * event.getLootingLevel())
+		if (event.getEntityLiving() instanceof EntityWitch && (!verifyTruePlayer || event.getSource().getTrueSource() instanceof EntityPlayer) && Math.random() < dropRate + lootingBoost * event.getLootingLevel())
 			event.getDrops().add(new EntityItem(event.getEntity().getEntityWorld(), event.getEntity().posX, event.getEntity().posY, event.getEntity().posZ, new ItemStack(witch_hat)));
 	}
 
 	@SubscribeEvent
 	public void onDamage(LivingHurtEvent event) {
-		if(halveDamage && event.getSource().getTrueSource() != null && event.getSource().getTrueSource() instanceof EntityWitch) {
+		if (halveDamage && event.getSource().getTrueSource() != null && event.getSource().getTrueSource() instanceof EntityWitch) {
 			ItemStack hat = event.getEntityLiving().getItemStackFromSlot(EntityEquipmentSlot.HEAD);
-			if(!hat.isEmpty() && hat.getItem() == witch_hat)
+			if (!hat.isEmpty() && hat.getItem() == witch_hat)
 				event.setAmount(event.getAmount() / 2);
 		}
 	}

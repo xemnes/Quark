@@ -43,7 +43,7 @@ public class BlockColorSlime extends BlockMetaVariants<BlockColorSlime.Variants>
 
 	@Override
 	public void onFallenUpon(World worldIn, BlockPos pos, Entity entityIn, float fallDistance) {
-		if(entityIn.isSneaking())
+		if (entityIn.isSneaking())
 			super.onFallenUpon(worldIn, pos, entityIn, fallDistance);
 		else
 			entityIn.fall(fallDistance, 0.0F);
@@ -75,7 +75,7 @@ public class BlockColorSlime extends BlockMetaVariants<BlockColorSlime.Variants>
 
 	@Override
 	public void onEntityWalk(World worldIn, BlockPos pos, Entity entityIn) {
-		if(Math.abs(entityIn.motionY) < 0.1D && !entityIn.isSneaking()) {
+		if (Math.abs(entityIn.motionY) < 0.1D && !entityIn.isSneaking()) {
 			double d0 = 0.4D + Math.abs(entityIn.motionY) * 0.2D;
 			entityIn.motionX *= d0;
 			entityIn.motionZ *= d0;
@@ -109,13 +109,13 @@ public class BlockColorSlime extends BlockMetaVariants<BlockColorSlime.Variants>
 		Variants ourVariant = state.getValue(variantProp);
 		Block block = slimeState.getBlock();
 		
-		if(block == this) {
+		if (block == this) {
 			Variants otherVariant = slimeState.getValue(variantProp);
-			if(!ourVariant.sticksTo(otherVariant) && ourVariant != otherVariant)
+			if (!ourVariant.sticksTo(otherVariant) && ourVariant != otherVariant)
 				return false;
 		}
 		
-		if(block == Blocks.SLIME_BLOCK)
+		if (block == Blocks.SLIME_BLOCK)
 			return ourVariant.sticksToGreen;
 
 		return true;
@@ -139,8 +139,8 @@ public class BlockColorSlime extends BlockMetaVariants<BlockColorSlime.Variants>
 
 		boolean sticksTo(Variants otherVariant) {
 			int ord = otherVariant.ordinal();
-			for(int i : sticksTo)
-				if(i == ord)
+			for (int i : sticksTo)
+				if (i == ord)
 					return true;
 
 			return false;

@@ -21,7 +21,7 @@ public class UndergroundBiomeSlime extends BasicUndergroundBiome {
 	@Override
 	public void fillCeiling(World world, BlockPos pos, IBlockState state) {
 		IBlockState setState = Blocks.STAINED_HARDENED_CLAY.getDefaultState();
-		switch(world.rand.nextInt(7)) {
+		switch (world.rand.nextInt(7)) {
 		case 0: case 1: case 2:
 			setState = setState.withProperty(BlockColored.COLOR, EnumDyeColor.GREEN);
 			break;
@@ -42,11 +42,11 @@ public class UndergroundBiomeSlime extends BasicUndergroundBiome {
 
 	@Override
 	public void fillFloor(World world, BlockPos pos, IBlockState state) {
-		if(waterFloor)
+		if (waterFloor)
 			world.setBlockState(pos, floorState, 3);
 		else fillCeiling(world, pos, state);
 		
-		if(world.rand.nextDouble() < slimeBlockChance)
+		if (world.rand.nextDouble() < slimeBlockChance)
 			world.setBlockState(pos, Blocks.SLIME_BLOCK.getDefaultState());
 	}
 	

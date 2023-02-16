@@ -92,10 +92,10 @@ public class BlockVariantLeaves extends BlockLeaves implements IQuarkBlock, IBlo
     public int getMetaFromState(IBlockState state) {
         int i = state.getValue(VARIANT).ordinal() & 1;
 
-        if(state.getValue(DECAYABLE))
+        if (state.getValue(DECAYABLE))
             i |= 4;
 
-        if(state.getValue(CHECK_DECAY))
+        if (state.getValue(CHECK_DECAY))
             i |= 8;
 
         return i;
@@ -116,7 +116,7 @@ public class BlockVariantLeaves extends BlockLeaves implements IQuarkBlock, IBlo
 	@Override
 	@SuppressWarnings("ConstantConditions")
     public void harvestBlock(@Nonnull World worldIn, EntityPlayer player, @Nonnull BlockPos pos, @Nonnull IBlockState state, @Nullable TileEntity te, ItemStack stack) {
-        if(!worldIn.isRemote && stack.getItem() == Items.SHEARS) {
+        if (!worldIn.isRemote && stack.getItem() == Items.SHEARS) {
             player.addStat(StatList.getBlockStats(this));
             spawnAsEntity(worldIn, pos, getSilkTouchDrop(state));
         }

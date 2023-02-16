@@ -15,7 +15,7 @@ public class BlockQuarkBush extends BlockBush implements IQuarkBlock {
 	private final String bareName;
 
 	public BlockQuarkBush(String name, String... variants) {
-		if(variants.length == 0)
+		if (variants.length == 0)
 			variants = new String[] { name };
 		
 		this.variants = variants;

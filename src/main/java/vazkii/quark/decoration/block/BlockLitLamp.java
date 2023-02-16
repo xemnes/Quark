@@ -45,7 +45,7 @@ public class BlockLitLamp extends BlockMod implements IQuarkBlock, IColoredLight
 		
 		BlockPos down = pos.down();
 		IBlockState state = world.getBlockState(down);
-		if(state.getBlock() == Blocks.CONCRETE)
+		if (state.getBlock() == Blocks.CONCRETE)
 			index = state.getValue(BlockColored.COLOR).ordinal();
 		
 		return VANILLA_SPECTRUM_COLORS[index];

@@ -47,7 +47,7 @@ public class FlatItemFrames extends Feature {
 	
 	@SubscribeEvent
 	public void onPlayerInteract(PlayerInteractEvent.RightClickBlock event) {
-		if(event.getFace() == null)
+		if (event.getFace() == null)
 			return;
 		
 		ItemStack itemstack = event.getItemStack();
@@ -56,18 +56,18 @@ public class FlatItemFrames extends Feature {
 		World world = event.getWorld();
 		EntityPlayer player = event.getEntityPlayer();
 
-		if(!player.canPlayerEdit(blockpos, facing, itemstack) || facing.getAxis() != EnumFacing.Axis.Y || itemstack.getItem() != Items.ITEM_FRAME)
+		if (!player.canPlayerEdit(blockpos, facing, itemstack) || facing.getAxis() != EnumFacing.Axis.Y || itemstack.getItem() != Items.ITEM_FRAME)
 			return;
 
 		EntityHanging entityhanging = new EntityFlatItemFrame(world, blockpos, facing);
 
-		if(entityhanging.onValidSurface()) {
-			if(!event.getWorld().isRemote) {
+		if (entityhanging.onValidSurface()) {
+			if (!event.getWorld().isRemote) {
 				entityhanging.playPlaceSound();
 				world.spawnEntity(entityhanging);
 				event.setCanceled(true);
 
-				if(!player.capabilities.isCreativeMode)
+				if (!player.capabilities.isCreativeMode)
 					itemstack.shrink(1);
 			} else player.swingArm(event.getHand());
 		}
