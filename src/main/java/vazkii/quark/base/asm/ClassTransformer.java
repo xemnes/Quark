@@ -37,8 +37,6 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 	private static final Map<String, Transformer> transformers = new HashMap<>();
 
 	static {
-		// For Emotes
-		transformers.put("net.minecraft.client.model.ModelBiped", ClassTransformer::transformModelBiped);
 
 		// For Color Runes
 		transformers.put("net.minecraft.client.renderer.RenderItem", ClassTransformer::transformRenderItem);
@@ -121,24 +119,6 @@ public class ClassTransformer implements IClassTransformer, Opcodes {
 		}
 
 		return basicClass;
-	}
-
-	private static byte[] transformModelBiped(byte[] basicClass) {
-		MethodSignature sig = new MethodSignature("setRotationAngles", "func_78087_a", "(FFFFFFLnet/minecraft/entity/Entity;)V");
-
-		return transform(basicClass, forMethod(sig, combine(
-				(AbstractInsnNode node) -> { // Filter
-					return node.getOpcode() == RETURN;
-				},
-				(MethodNode method, AbstractInsnNode node) -> { // Action
-					InsnList newInstructions = new InsnList();
-
-					newInstructions.add(new VarInsnNode(ALOAD, 7));
-					newInstructions.add(new MethodInsnNode(INVOKESTATIC, ASM_HOOKS, "updateEmotes", "(Lnet/minecraft/entity/Entity;)V", false));
-
-					method.instructions.insertBefore(node, newInstructions);
-					return true;
-				})));
 	}
 
 	private static byte[] transformRenderItem(byte[] basicClass) {

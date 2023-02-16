@@ -795,6 +795,7 @@ item.quark:crab_leg.name=Crab Leg
 item.quark:cooked_crab_leg.name=Cooked Crab Leg
 item.quark:crab_shell.name=Crab Shell Fragment
 item.quark:chain.name=Iron Chain
+item.quark:holding_totem.name=Totem of Holding
 
 # ENTITY NAMES
 entity.quark:colored_item_frame.name=Colored Item Frame
@@ -812,6 +813,8 @@ entity.quark:frog.name=Frog
 entity.quark:pickarang.name=Pickarang
 entity.quark:foxhound.name=Foxhound
 entity.quark:crab.name=Crab
+
+death.attack.wraith=%1$s had their world rocked!
 
 # POTION NAMES
 quark.potion.curse.name=Curse
